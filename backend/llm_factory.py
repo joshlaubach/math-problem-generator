@@ -5,6 +5,7 @@ Provides factory functions that select the appropriate LLMClient
 implementation based on configuration settings and availability.
 """
 
+from typing import Optional
 from llm_interfaces import LLMClient, DummyLLMClient, SyncDummyLLMClient
 from config import USE_LLM, LLM_PROVIDER
 
@@ -61,8 +62,8 @@ def get_sync_llm_client() -> LLMClient:
 
 
 # Cached LLM client instances
-_llm_client: LLMClient | None = None
-_sync_llm_client: LLMClient | None = None
+_llm_client: Optional[LLMClient] = None
+_sync_llm_client: Optional[LLMClient] = None
 
 
 def get_cached_llm_client() -> LLMClient:

@@ -12,6 +12,7 @@ This module provides a non-breaking layer that:
 """
 
 from dataclasses import dataclass, field
+from typing import List, Optional
 
 from models import Problem, Solution, CalculatorMode
 
@@ -68,7 +69,7 @@ class WordProblemWrapper:
     def __init__(
         self,
         problem: Problem,
-        style: ProblemStyle | None = None
+        style: Optional[ProblemStyle] = None
     ):
         """
         Initialize the wrapper.
@@ -138,7 +139,7 @@ class WordProblemWrapper:
 def wrap_problem_as_word_problem(
     problem: Problem,
     reading_level: str = "grade_8",
-    context_tags: list[str] | None = None
+    context_tags: Optional[List[str]] = None
 ) -> Problem:
     """
     Convert an equation problem to a word problem.

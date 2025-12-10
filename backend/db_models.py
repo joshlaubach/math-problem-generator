@@ -6,6 +6,7 @@ with JSON serialization for complex fields.
 """
 
 from datetime import datetime
+from typing import Optional
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy import String, Integer, Boolean, Float, DateTime, Text, Index
 
@@ -63,7 +64,7 @@ class AttemptRecord(Base):
     course_id: Mapped[str] = mapped_column(String(100), index=True)
     difficulty: Mapped[int] = mapped_column(Integer, index=True)
     is_correct: Mapped[bool] = mapped_column(Boolean, index=True)
-    time_taken_seconds: Mapped[float | None] = mapped_column(Float, nullable=True)
+    time_taken_seconds: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
     timestamp: Mapped[datetime] = mapped_column(DateTime, index=True, default=datetime.utcnow)
 
     __table_args__ = (
@@ -89,8 +90,8 @@ class AssignmentRecord(Base):
 
     id: Mapped[str] = mapped_column(String(50), primary_key=True)
     name: Mapped[str] = mapped_column(String(255), index=True)
-    description: Mapped[str | None] = mapped_column(Text, nullable=True)
-    teacher_id: Mapped[str | None] = mapped_column(String(100), index=True, nullable=True)
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    teacher_id: Mapped[Optional[str]] = mapped_column(String(100), index=True, nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
     status: Mapped[str] = mapped_column(String(20), default="active", index=True)
     topic_id: Mapped[str] = mapped_column(String(100), index=True)
@@ -144,7 +145,7 @@ class UserRecord(Base):
     password_hash: Mapped[str] = mapped_column(String(255))
     role: Mapped[str] = mapped_column(String(20), index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
-    display_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
+    display_name: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
 
     def __repr__(self) -> str:

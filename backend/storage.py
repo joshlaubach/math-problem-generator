@@ -7,7 +7,7 @@ to JSONL (JSON Lines) format for easy archiving and analysis.
 
 import json
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, List, Union
 
 from models import Problem, Solution, SolutionStep, CalculatorMode
 
@@ -111,7 +111,7 @@ def dict_to_problem(data: Dict[str, Any]) -> Problem:
     )
 
 
-def save_problem(problem: Problem, path: str | Path) -> None:
+def save_problem(problem: Problem, path: Union[str, Path]) -> None:
     """
     Save a problem to a JSONL file.
 
@@ -130,7 +130,7 @@ def save_problem(problem: Problem, path: str | Path) -> None:
         f.write(json.dumps(problem_dict) + '\n')
 
 
-def load_problems(path: str | Path) -> list[Problem]:
+def load_problems(path: Union[str, Path]) -> List[Problem]:
     """
     Load problems from a JSONL file.
 
@@ -160,7 +160,7 @@ def load_problems(path: str | Path) -> list[Problem]:
     return problems
 
 
-def save_problems_batch(problems: list[Problem], path: str | Path) -> None:
+def save_problems_batch(problems: List[Problem], path: Union[str, Path]) -> None:
     """
     Save multiple problems to a JSONL file.
 
@@ -172,7 +172,7 @@ def save_problems_batch(problems: list[Problem], path: str | Path) -> None:
         save_problem(problem, path)
 
 
-def clear_problems_file(path: str | Path) -> None:
+def clear_problems_file(path: Union[str, Path]) -> None:
     """
     Clear (truncate) a problems file.
 
