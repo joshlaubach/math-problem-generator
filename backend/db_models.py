@@ -6,14 +6,165 @@ with JSON serialization for complex fields.
 """
 
 from datetime import datetime
-from typing import Optional
+from typing import Optional, Literal
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import String, Integer, Boolean, Float, DateTime, Text, Index
+from sqlalchemy import String, Integer, Boolean, Float, DateTime, Text, Index, ForeignKey
 
 
 class Base(DeclarativeBase):
     """Base class for all ORM models."""
     pass
+
+
+# ============================================================================
+# Curriculum Schema: Education Levels, Courses, Units, Topics, Concepts
+# ============================================================================
+
+EducationLevel = Literal["high_school", "college_university", "test_prep"]
+
+
+class EducationLevelRecord(Base):
+    """
+    ORM model for education levels (High School, College/University, Test Prep).
+    
+    Top-level categorization of the curriculum hierarchy.
+    """
+    __tablename__ = "education_levels"
+
+    id: Mapped[str] = mapped_column(String(50), primary_key=True)
+    name: Mapped[str] = mapped_column(String(100))
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    display_order: Mapped[int] = mapped_column(Integer, default=0, index=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<EducationLevelRecord(id={self.id}, name={self.name})>"
+
+
+class CourseRecord(Base):
+    """
+    ORM model for courses within an education level.
+    
+    Examples: Algebra 1, Calculus I, SAT Math
+    """
+    __tablename__ = "courses"
+
+    id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    name: Mapped[str] = mapped_column(String(200))
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    education_level_id: Mapped[str] = mapped_column(String(50), ForeignKey("education_levels.id"), index=True)
+    display_order: Mapped[int] = mapped_column(Integer, default=0, index=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
+    code: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)  # e.g., "ALG1", "CALC1"
+    credits: Mapped[Optional[float]] = mapped_column(Float, nullable=True)  # For college courses
+    prerequisites_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # JSON list of course IDs
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_education_level_order", "education_level_id", "display_order"),
+        Index("idx_education_level_active", "education_level_id", "is_active"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<CourseRecord(id={self.id}, name={self.name}, level={self.education_level_id})>"
+
+
+class UnitRecord(Base):
+    """
+    ORM model for units within a course.
+    
+    Examples: "Linear Equations and Inequalities", "Limits and Continuity"
+    """
+    __tablename__ = "units"
+
+    id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    name: Mapped[str] = mapped_column(String(200))
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    course_id: Mapped[str] = mapped_column(String(100), ForeignKey("courses.id"), index=True)
+    display_order: Mapped[int] = mapped_column(Integer, default=0, index=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_course_order", "course_id", "display_order"),
+        Index("idx_course_active", "course_id", "is_active"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<UnitRecord(id={self.id}, name={self.name}, course={self.course_id})>"
+
+
+class TopicRecord(Base):
+    """
+    ORM model for topics within a unit.
+    
+    Topics are the specific skills or subject areas that students practice.
+    Examples: "Solving one-variable linear equations", "Derivative rules"
+    """
+    __tablename__ = "topics"
+
+    id: Mapped[str] = mapped_column(String(100), primary_key=True)
+    name: Mapped[str] = mapped_column(String(200))
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    unit_id: Mapped[str] = mapped_column(String(100), ForeignKey("units.id"), index=True)
+    course_id: Mapped[str] = mapped_column(String(100), ForeignKey("courses.id"), index=True)
+    display_order: Mapped[int] = mapped_column(Integer, default=0, index=True)
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
+    prerequisites_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # JSON list of topic IDs
+    difficulty_min: Mapped[int] = mapped_column(Integer, default=1)  # 1-10 scale
+    difficulty_max: Mapped[int] = mapped_column(Integer, default=10)  # 1-10 scale
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_unit_order", "unit_id", "display_order"),
+        Index("idx_unit_active", "unit_id", "is_active"),
+        Index("idx_course_topic", "course_id", "id"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<TopicRecord(id={self.id}, name={self.name}, unit={self.unit_id})>"
+
+
+class ConceptRecord(Base):
+    """
+    ORM model for granular concepts within topics.
+    
+    Concepts are atomic learning objectives that form a prerequisite DAG.
+    Examples: "One-step equations with integers", "Power rule for derivatives"
+    """
+    __tablename__ = "concepts"
+
+    id: Mapped[str] = mapped_column(String(150), primary_key=True)
+    name: Mapped[str] = mapped_column(String(200))
+    description: Mapped[str] = mapped_column(Text)
+    topic_id: Mapped[str] = mapped_column(String(100), ForeignKey("topics.id"), index=True)
+    unit_id: Mapped[str] = mapped_column(String(100), ForeignKey("units.id"), index=True)
+    course_id: Mapped[str] = mapped_column(String(100), ForeignKey("courses.id"), index=True)
+    kind: Mapped[str] = mapped_column(String(50), default="skill")  # skill, definition, strategy, representation
+    difficulty_min: Mapped[int] = mapped_column(Integer, default=1)  # 1-6 scale for concepts
+    difficulty_max: Mapped[int] = mapped_column(Integer, default=6)  # 1-6 scale for concepts
+    prerequisites_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # JSON list of concept IDs
+    examples_latex_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # JSON list of LaTeX examples
+    tags_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # JSON list of searchable tags
+    is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
+    version: Mapped[str] = mapped_column(String(20), default="v1")
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_topic_concept", "topic_id", "id"),
+        Index("idx_unit_concept", "unit_id", "id"),
+        Index("idx_course_concept", "course_id", "id"),
+        Index("idx_concept_active", "is_active"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<ConceptRecord(id={self.id}, name={self.name}, topic={self.topic_id})>"
 
 
 class ProblemRecord(Base):

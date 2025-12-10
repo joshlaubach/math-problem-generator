@@ -1720,6 +1720,315 @@ def health_check():
     return {"status": "ok"}
 
 
+# ============================================================================
+# Curriculum Database Endpoints
+# ============================================================================
+
+
+class EducationLevelResponse(BaseModel):
+    """Response model for education level."""
+    id: str
+    name: str
+    description: Optional[str]
+    display_order: int
+    is_active: bool
+
+
+class CourseResponse(BaseModel):
+    """Response model for course."""
+    id: str
+    name: str
+    description: Optional[str]
+    education_level_id: str
+    display_order: int
+    is_active: bool
+    code: Optional[str]
+    credits: Optional[float]
+    prerequisites: list[str] = Field(default_factory=list)
+
+
+class UnitResponse(BaseModel):
+    """Response model for unit."""
+    id: str
+    name: str
+    description: Optional[str]
+    course_id: str
+    display_order: int
+    is_active: bool
+
+
+class TopicResponse(BaseModel):
+    """Response model for topic."""
+    id: str
+    name: str
+    description: Optional[str]
+    unit_id: str
+    course_id: str
+    display_order: int
+    is_active: bool
+    prerequisites: list[str] = Field(default_factory=list)
+    difficulty_min: int
+    difficulty_max: int
+
+
+class ConceptDbResponse(BaseModel):
+    """Response model for concept from database."""
+    id: str
+    name: str
+    description: str
+    topic_id: str
+    unit_id: str
+    course_id: str
+    kind: str
+    difficulty_min: int
+    difficulty_max: int
+    prerequisites: list[str] = Field(default_factory=list)
+    examples_latex: list[str] = Field(default_factory=list)
+    tags: list[str] = Field(default_factory=list)
+    is_active: bool
+    version: str
+
+
+@app.get("/curriculum/education-levels", response_model=list[EducationLevelResponse])
+def get_education_levels():
+    """
+    Get all education levels (High School, College/University, Test Prep).
+    
+    Returns:
+        List of education levels ordered by display_order
+    """
+    from db_models import EducationLevelRecord
+    from db_session import get_session
+    
+    with get_session() as session:
+        records = session.query(EducationLevelRecord).filter_by(is_active=True).order_by(EducationLevelRecord.display_order).all()
+        return [
+            EducationLevelResponse(
+                id=r.id,
+                name=r.name,
+                description=r.description,
+                display_order=r.display_order,
+                is_active=r.is_active,
+            )
+            for r in records
+        ]
+
+
+@app.get("/curriculum/courses", response_model=list[CourseResponse])
+def get_courses(
+    education_level_id: Optional[str] = Query(None, description="Filter by education level")
+):
+    """
+    Get all courses, optionally filtered by education level.
+    
+    Query Parameters:
+        education_level_id: Optional filter (high_school, college_university, test_prep)
+    
+    Returns:
+        List of courses ordered by education level and display order
+    """
+    import json
+    from db_models import CourseRecord
+    from db_session import get_session
+    
+    with get_session() as session:
+        query = session.query(CourseRecord).filter_by(is_active=True)
+        
+        if education_level_id:
+            query = query.filter_by(education_level_id=education_level_id)
+        
+        records = query.order_by(CourseRecord.education_level_id, CourseRecord.display_order).all()
+        
+        return [
+            CourseResponse(
+                id=r.id,
+                name=r.name,
+                description=r.description,
+                education_level_id=r.education_level_id,
+                display_order=r.display_order,
+                is_active=r.is_active,
+                code=r.code,
+                credits=r.credits,
+                prerequisites=json.loads(r.prerequisites_json) if r.prerequisites_json else [],
+            )
+            for r in records
+        ]
+
+
+@app.get("/curriculum/courses/{course_id}", response_model=CourseResponse)
+def get_course(course_id: str):
+    """
+    Get a specific course by ID.
+    
+    Path Parameters:
+        course_id: The course ID (e.g., "algebra_1", "calculus_1")
+    
+    Returns:
+        Course details
+        
+    Raises:
+        HTTPException: 404 if course not found
+    """
+    import json
+    from db_models import CourseRecord
+    from db_session import get_session
+    
+    with get_session() as session:
+        record = session.query(CourseRecord).filter_by(id=course_id).first()
+        
+        if not record:
+            raise HTTPException(status_code=404, detail=f"Course not found: {course_id}")
+        
+        return CourseResponse(
+            id=record.id,
+            name=record.name,
+            description=record.description,
+            education_level_id=record.education_level_id,
+            display_order=record.display_order,
+            is_active=record.is_active,
+            code=record.code,
+            credits=record.credits,
+            prerequisites=json.loads(record.prerequisites_json) if record.prerequisites_json else [],
+        )
+
+
+@app.get("/curriculum/units", response_model=list[UnitResponse])
+def get_units(
+    course_id: Optional[str] = Query(None, description="Filter by course ID")
+):
+    """
+    Get all units, optionally filtered by course.
+    
+    Query Parameters:
+        course_id: Optional filter by course
+    
+    Returns:
+        List of units ordered by course and display order
+    """
+    from db_models import UnitRecord
+    from db_session import get_session
+    
+    with get_session() as session:
+        query = session.query(UnitRecord).filter_by(is_active=True)
+        
+        if course_id:
+            query = query.filter_by(course_id=course_id)
+        
+        records = query.order_by(UnitRecord.course_id, UnitRecord.display_order).all()
+        
+        return [
+            UnitResponse(
+                id=r.id,
+                name=r.name,
+                description=r.description,
+                course_id=r.course_id,
+                display_order=r.display_order,
+                is_active=r.is_active,
+            )
+            for r in records
+        ]
+
+
+@app.get("/curriculum/topics", response_model=list[TopicResponse])
+def get_curriculum_topics(
+    course_id: Optional[str] = Query(None, description="Filter by course ID"),
+    unit_id: Optional[str] = Query(None, description="Filter by unit ID")
+):
+    """
+    Get all topics from database, optionally filtered by course or unit.
+    
+    Query Parameters:
+        course_id: Optional filter by course
+        unit_id: Optional filter by unit
+    
+    Returns:
+        List of topics ordered by unit and display order
+    """
+    import json
+    from db_models import TopicRecord
+    from db_session import get_session
+    
+    with get_session() as session:
+        query = session.query(TopicRecord).filter_by(is_active=True)
+        
+        if course_id:
+            query = query.filter_by(course_id=course_id)
+        if unit_id:
+            query = query.filter_by(unit_id=unit_id)
+        
+        records = query.order_by(TopicRecord.unit_id, TopicRecord.display_order).all()
+        
+        return [
+            TopicResponse(
+                id=r.id,
+                name=r.name,
+                description=r.description,
+                unit_id=r.unit_id,
+                course_id=r.course_id,
+                display_order=r.display_order,
+                is_active=r.is_active,
+                prerequisites=json.loads(r.prerequisites_json) if r.prerequisites_json else [],
+                difficulty_min=r.difficulty_min,
+                difficulty_max=r.difficulty_max,
+            )
+            for r in records
+        ]
+
+
+@app.get("/curriculum/concepts", response_model=list[ConceptDbResponse])
+def get_curriculum_concepts(
+    course_id: Optional[str] = Query(None, description="Filter by course ID"),
+    unit_id: Optional[str] = Query(None, description="Filter by unit ID"),
+    topic_id: Optional[str] = Query(None, description="Filter by topic ID")
+):
+    """
+    Get all concepts from database, optionally filtered.
+    
+    Query Parameters:
+        course_id: Optional filter by course
+        unit_id: Optional filter by unit
+        topic_id: Optional filter by topic
+    
+    Returns:
+        List of concepts
+    """
+    import json
+    from db_models import ConceptRecord
+    from db_session import get_session
+    
+    with get_session() as session:
+        query = session.query(ConceptRecord).filter_by(is_active=True)
+        
+        if course_id:
+            query = query.filter_by(course_id=course_id)
+        if unit_id:
+            query = query.filter_by(unit_id=unit_id)
+        if topic_id:
+            query = query.filter_by(topic_id=topic_id)
+        
+        records = query.all()
+        
+        return [
+            ConceptDbResponse(
+                id=r.id,
+                name=r.name,
+                description=r.description,
+                topic_id=r.topic_id,
+                unit_id=r.unit_id,
+                course_id=r.course_id,
+                kind=r.kind,
+                difficulty_min=r.difficulty_min,
+                difficulty_max=r.difficulty_max,
+                prerequisites=json.loads(r.prerequisites_json) if r.prerequisites_json else [],
+                examples_latex=json.loads(r.examples_latex_json) if r.examples_latex_json else [],
+                tags=json.loads(r.tags_json) if r.tags_json else [],
+                is_active=r.is_active,
+                version=r.version,
+            )
+            for r in records
+        ]
+
+
 if __name__ == "__main__":
     import uvicorn
 
