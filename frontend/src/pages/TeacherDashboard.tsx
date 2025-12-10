@@ -514,8 +514,6 @@ function PerTopicAnalyticsView({
     </div>
   );
 }
-}
-
 
 interface StatCardProps {
   label: string;

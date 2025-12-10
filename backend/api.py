@@ -18,6 +18,7 @@ from typing import Optional
 from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException, Query, Depends, Header, Request, status, Response
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
 from config import DEFAULT_ATTEMPT_JSONL_PATH, USE_DATABASE, TEACHER_API_KEY, ADMIN_API_KEY
@@ -577,6 +578,20 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
+# Enable CORS for frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://localhost:5174",
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:5174",
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # Default: teacher endpoints open when TEACHER_API_KEY is None; can be tightened per-client
 app.state.allow_public_teacher_endpoints = True
 
@@ -588,40 +603,23 @@ app.include_router(
 )
 
 
-@app.get("/topics", response_model=list[TopicMetadata])
-def list_topics():
-    """
-    List all available topics.
-
-    Returns:
-        A list of TopicMetadata objects with topic_id, course_id, unit_id.
-    """
-    topic_ids = list_registered_topics()
-    topics: list[TopicMetadata] = []
-
-    # Enrich with course/unit info from taxonomy
-    algebra1_course = get_algebra1_course()
-    topic_to_unit = {}
-    for unit in algebra1_course.units:
-        for topic in unit.topics:
-            topic_to_unit[topic.id] = (algebra1_course.id, unit.id, topic.name)
-
-    for topic_id in topic_ids:
-        if topic_id in topic_to_unit:
-            course_id, unit_id, readable_name = topic_to_unit[topic_id]
-        else:
-            course_id, unit_id, readable_name = "unknown", "unknown", None
-
-        topics.append(
-            TopicMetadata(
-                topic_id=topic_id,
-                course_id=course_id,
-                unit_id=unit_id,
-                human_readable_name=readable_name,
-            )
-        )
-
-    return topics
+@app.get("/topics")
+async def get_topics():
+    """Return structured topic metadata from taxonomy."""
+    from topic_registry import list_topics
+    topics = list_topics()
+    return [
+        {
+            "topic_id": t.topic_id,
+            "topic_name": t.topic_name,
+            "unit_id": t.unit_id,
+            "unit_name": t.unit_name,
+            "course_id": t.course_id,
+            "course_name": t.course_name,
+            "prerequisites": t.prerequisites,
+        }
+        for t in topics
+    ]
 
 
 @app.get("/generate", response_model=ProblemResponse)

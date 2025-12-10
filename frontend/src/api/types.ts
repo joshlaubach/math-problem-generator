@@ -7,12 +7,12 @@ export type AnswerType = "numeric" | "expression";
 
 export interface TopicMetadata {
   topic_id: string;
-  course_id: string;
   topic_name: string;
-  difficulty_range: {
-    min: number;
-    max: number;
-  };
+  unit_id: string;
+  unit_name: string;
+  course_id: string;
+  course_name: string;
+  prerequisites: string[];
 }
 
 export interface ProblemResponse {
