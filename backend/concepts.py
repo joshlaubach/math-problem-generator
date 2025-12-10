@@ -54,6 +54,7 @@ class Concept:
     difficulty_max: int = 6
     examples_latex: list[str] = field(default_factory=list)
     tags: list[str] = field(default_factory=list)
+    version: str | None = None
 
     def __post_init__(self) -> None:
         """Validate concept structure at creation."""
@@ -69,6 +70,7 @@ class Concept:
 
 # Global concept registry
 CONCEPTS: dict[str, Concept] = {}
+DEFAULT_CONCEPT_VERSION = "v1"
 
 
 def register_concept(concept: Concept) -> None:
@@ -92,6 +94,9 @@ def register_concept(concept: Concept) -> None:
     normalized_course_id = course_alias_map.get(concept.course_id, concept.course_id)
     if normalized_course_id != concept.course_id:
         concept = replace(concept, course_id=normalized_course_id)
+
+    if concept.version is None:
+        concept = replace(concept, version=DEFAULT_CONCEPT_VERSION)
 
     CONCEPTS[concept.id] = concept
 

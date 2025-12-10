@@ -17,7 +17,7 @@ from pathlib import Path
 from typing import Optional
 from uuid import uuid4
 
-from fastapi import FastAPI, HTTPException, Query, Depends, Header, Request, status
+from fastapi import FastAPI, HTTPException, Query, Depends, Header, Request, status, Response
 from pydantic import BaseModel, Field
 
 from config import DEFAULT_ATTEMPT_JSONL_PATH, USE_DATABASE, TEACHER_API_KEY, ADMIN_API_KEY
@@ -44,6 +44,12 @@ from concept_analytics import (
     get_user_concept_stats,
     get_course_concept_heatmap,
     ConceptStats,
+)
+from concepts import (
+    get_concept as get_concept_obj,
+    get_prerequisites_recursive,
+    get_dependents_recursive,
+    CONCEPTS,
 )
 
 # Phase 10: Authentication and authorization
@@ -284,6 +290,7 @@ class ConceptResponse(BaseModel):
     difficulty_max: int
     examples_latex: list[str] = Field(default_factory=list)
     tags: list[str] = Field(default_factory=list)
+    version: str | None = None
 
 
 class ConceptsListResponse(BaseModel):
@@ -438,6 +445,37 @@ class CourseConceptHeatmapResponse(BaseModel):
     total_attempts: int
 
 
+class ConceptDebugResponse(BaseModel):
+    """Debug view for a single concept and its graph neighborhood."""
+
+    concept_id: str
+    name: str
+    course_id: str
+    unit_id: str
+    topic_id: str
+    kind: str
+    version: str | None = None
+    prerequisites_direct: list[str]
+    prerequisites_all: list[str]
+    dependents: list[str]
+
+
+class ConceptListResponse(BaseModel):
+    """List wrapper for concept IDs."""
+
+    concepts: list[str]
+    total: int
+
+
+class ConceptCoverage(BaseModel):
+    """Coverage summary for concepts in an assignment or aggregation."""
+
+    concept_id: str
+    concept_name: str
+    count: int
+    percentage: float | None = None
+
+
 # ============================================================================
 # Assignment Models
 # ============================================================================
@@ -507,6 +545,7 @@ class AssignmentStatsResponse(BaseModel):
     total_attempts: int
     avg_score: float | None
     avg_time_seconds: float | None
+    concept_coverage: list[ConceptCoverage] = Field(default_factory=list)
 
 # ============================================================================
 # Lifespan Context Manager
@@ -1451,6 +1490,7 @@ def get_assignment_stats(
     """
     assignment_repo = get_assignment_repository()
     attempt_repo = get_attempt_repository()
+    problem_repo = factory_get_problem_repository()
     
     # Verify assignment exists
     assignment = assignment_repo.get_assignment(assignment_id)
@@ -1482,6 +1522,33 @@ def get_assignment_stats(
     # Calculate average time
     times = [a.time_taken_seconds for a in all_attempts if a.time_taken_seconds]
     avg_time_seconds = sum(times) / len(times) if times else None
+
+    # Concept coverage based on problems in this assignment
+    links = assignment_repo.list_assignment_problems(assignment_id)
+    concept_counts: dict[str, int] = {}
+    for link in links:
+        problem = problem_repo.get_problem(link.problem_id)
+        if not problem:
+            continue
+        # include primary concept first
+        if getattr(problem, "primary_concept_id", None):
+            cid = problem.primary_concept_id
+            concept_counts[cid] = concept_counts.get(cid, 0) + 1
+        for cid in getattr(problem, "concept_ids", []) or []:
+            concept_counts[cid] = concept_counts.get(cid, 0) + 1
+
+    total_concept_tags = sum(concept_counts.values()) or 1
+    concept_coverage = []
+    for cid, count in sorted(concept_counts.items()):
+        concept_name = CONCEPTS.get(cid).name if cid in CONCEPTS else cid
+        concept_coverage.append(
+            ConceptCoverage(
+                concept_id=cid,
+                concept_name=concept_name,
+                count=count,
+                percentage=round(count / total_concept_tags, 4),
+            )
+        )
     
     return AssignmentStatsResponse(
         assignment_id=assignment_id,
@@ -1491,6 +1558,7 @@ def get_assignment_stats(
         total_attempts=total_attempts,
         avg_score=avg_score,
         avg_time_seconds=avg_time_seconds,
+        concept_coverage=concept_coverage,
     )
 
 
@@ -1557,10 +1625,8 @@ def get_concept(concept_id: str):
     Raises:
         HTTPException: 404 if concept not found
     """
-    from concepts import get_concept
-    
     try:
-        concept = get_concept(concept_id)
+        concept = get_concept_obj(concept_id)
     except KeyError:
         raise HTTPException(status_code=404, detail=f"Concept not found: {concept_id}")
     
@@ -1577,7 +1643,77 @@ def get_concept(concept_id: str):
         difficulty_max=concept.difficulty_max,
         examples_latex=concept.examples_latex,
         tags=concept.tags,
+        version=concept.version,
     )
+
+
+@app.get("/concepts/{concept_id}/debug", response_model=ConceptDebugResponse)
+def debug_concept(concept_id: str):
+    """Debug helper: view prerequisites/descendants for a concept."""
+    try:
+        concept = get_concept_obj(concept_id)
+    except KeyError:
+        raise HTTPException(status_code=404, detail=f"Concept not found: {concept_id}")
+
+    prereqs_direct = sorted(concept.prerequisites)
+    prereqs_all = sorted(get_prerequisites_recursive(concept_id))
+    dependents = sorted(get_dependents_recursive(concept_id))
+
+    return ConceptDebugResponse(
+        concept_id=concept.id,
+        name=concept.name,
+        course_id=concept.course_id,
+        unit_id=concept.unit_id,
+        topic_id=concept.topic_id,
+        kind=concept.kind,
+        version=getattr(concept, "version", None),
+        prerequisites_direct=prereqs_direct,
+        prerequisites_all=prereqs_all,
+        dependents=dependents,
+    )
+
+
+@app.get("/concepts/debug/orphans", response_model=ConceptListResponse)
+def list_concepts_without_prereqs():
+    """List concepts with no prerequisites that are not in foundations units."""
+    orphan_ids = []
+    for c in CONCEPTS.values():
+        if c.prerequisites:
+            continue
+        if "foundations" in c.unit_id.lower():
+            continue
+        orphan_ids.append(c.id)
+    orphan_ids.sort()
+    return ConceptListResponse(concepts=orphan_ids, total=len(orphan_ids))
+
+
+@app.get("/concepts/export")
+def export_concept_graph(format: str = Query("json", pattern="^(json|dot)$")):
+    """Export the concept DAG as JSON or Graphviz DOT."""
+    if format == "json":
+        concepts_json = [
+            {
+                "id": c.id,
+                "name": c.name,
+                "course_id": c.course_id,
+                "unit_id": c.unit_id,
+                "topic_id": c.topic_id,
+                "version": getattr(c, "version", None),
+                "prerequisites": c.prerequisites,
+            }
+            for c in sorted(CONCEPTS.values(), key=lambda x: x.id)
+        ]
+        return {"concepts": concepts_json, "total": len(concepts_json)}
+
+    # DOT export
+    lines = ["digraph concepts {"]
+    for c in sorted(CONCEPTS.values(), key=lambda x: x.id):
+        lines.append(f'  "{c.id}" [label="{c.name}"];')
+        for prereq in c.prerequisites:
+            lines.append(f'  "{prereq}" -> "{c.id}";')
+    lines.append("}")
+    dot = "\n".join(lines)
+    return Response(content=dot, media_type="text/vnd.graphviz")
 
 
 @app.get("/health")
