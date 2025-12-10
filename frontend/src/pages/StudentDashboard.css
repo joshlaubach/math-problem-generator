@@ -1,0 +1,150 @@
+/* StudentDashboard styles */
+.student-dashboard {
+  padding: 2rem;
+  background: #f5f5f5;
+  min-height: calc(100vh - 100px);
+}
+
+.error-banner {
+  background: #fee;
+  color: #c33;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 6px;
+  border-left: 4px solid #c33;
+}
+
+/* Dashboard Tabs */
+.dashboard-tabs {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-bottom: 2px solid #ddd;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.tab-button {
+  padding: 0.75rem 1.5rem;
+  background: none;
+  border: none;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #666;
+  transition: all 0.2s ease;
+}
+
+.tab-button:hover {
+  color: #333;
+}
+
+.tab-button.active {
+  color: #667eea;
+  border-bottom-color: #667eea;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.sidebar {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  position: sticky;
+  top: 100px;
+}
+
+.main-content {
+  flex: 1;
+}
+
+.problem-header-info {
+  background: white;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  display: flex;
+  gap: 2rem;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.problem-header-info span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.problem-header-info strong {
+  color: #667eea;
+  font-weight: 600;
+}
+
+.next-problem-section {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  text-align: center;
+  margin-top: 2rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-success {
+  background: #22c55e;
+  color: white;
+}
+
+.btn-success:hover:not(:disabled) {
+  background: #16a34a;
+}
+
+.empty-state {
+  background: white;
+  border-radius: 8px;
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.empty-state h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.empty-state p {
+  color: #666;
+  font-size: 1.1rem;
+}
+
+.btn-large {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+@media (max-width: 768px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    position: static;
+  }
+
+  .problem-header-info {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
+

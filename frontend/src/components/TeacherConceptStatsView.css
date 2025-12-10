@@ -1,0 +1,424 @@
+/**
+ * TeacherConceptStatsView Component Styles
+ */
+
+.teacher-concept-stats {
+  padding: 2rem;
+  background: white;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+/* Header */
+.stats-header {
+  margin-bottom: 2rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 2px solid #eee;
+}
+
+.stats-header h3 {
+  font-size: 1.5rem;
+  margin: 0 0 0.5rem 0;
+  color: #333;
+}
+
+.stats-header strong {
+  color: #667eea;
+}
+
+.stats-meta {
+  color: #666;
+  font-size: 0.95rem;
+  margin: 0.5rem 0 0 0;
+}
+
+.stats-meta strong {
+  color: #333;
+  font-weight: 600;
+}
+
+/* Loading/Error/Empty States */
+.loading-state,
+.error-state,
+.empty-state {
+  padding: 2rem;
+  text-align: center;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  color: #666;
+}
+
+.error-state {
+  color: #d9534f;
+  background-color: #fff5f5;
+}
+
+/* Weak Concepts Alert */
+.weak-concepts-alert {
+  padding: 1.5rem;
+  background-color: #fffbf0;
+  border-left: 4px solid #ff9800;
+  border-radius: 4px;
+  margin-bottom: 2rem;
+}
+
+.weak-concepts-alert h4 {
+  margin: 0 0 0.5rem 0;
+  color: #cc6600;
+  font-size: 1rem;
+}
+
+.weak-concepts-alert p {
+  margin: 0;
+  color: #856404;
+  font-size: 0.95rem;
+}
+
+.weak-concepts-alert strong {
+  color: #cc6600;
+  font-weight: 600;
+}
+
+/* Weak Concepts Section */
+.weak-concepts-section {
+  margin-bottom: 3rem;
+}
+
+.weak-concepts-section h4 {
+  font-size: 1.1rem;
+  margin: 0 0 1.5rem 0;
+  color: #333;
+}
+
+.weak-concepts-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.weak-concept-card {
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  transition: all 0.2s ease;
+}
+
+.weak-concept-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.weak-concept-card.skill-excellent {
+  background-color: #d4edda;
+  border-color: #28a745;
+}
+
+.weak-concept-card.skill-good {
+  background-color: #fff3cd;
+  border-color: #ffc107;
+}
+
+.weak-concept-card.skill-fair {
+  background-color: #ffe5cc;
+  border-color: #ff9800;
+}
+
+.weak-concept-card.skill-weak {
+  background-color: #f8d7da;
+  border-color: #dc3545;
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.concept-info {
+  flex: 1;
+}
+
+.concept-name {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  line-height: 1.3;
+}
+
+.success-metrics {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  font-size: 0.85rem;
+  opacity: 0.8;
+}
+
+.metric {
+  display: block;
+}
+
+/* Success Circle */
+.success-circle {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  flex-shrink: 0;
+}
+
+.success-circle svg {
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.success-circle circle.bg {
+  fill: none;
+  stroke: rgba(0, 0, 0, 0.1);
+  stroke-width: 4;
+}
+
+.success-circle circle.progress {
+  fill: none;
+  stroke-width: 4;
+  stroke-linecap: round;
+  transition: stroke-dasharray 0.3s ease;
+}
+
+.weak-concept-card.skill-excellent circle.progress {
+  stroke: #28a745;
+}
+
+.weak-concept-card.skill-good circle.progress {
+  stroke: #ffc107;
+}
+
+.weak-concept-card.skill-fair circle.progress {
+  stroke: #ff9800;
+}
+
+.weak-concept-card.skill-weak circle.progress {
+  stroke: #dc3545;
+}
+
+.percent {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+/* Practice Button */
+.btn-practice {
+  padding: 0.75rem 1rem;
+  background-color: #667eea;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.btn-practice:hover:not(:disabled) {
+  background-color: #5568d3;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
+}
+
+.btn-practice:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* All Concepts Section */
+.all-concepts-section {
+  margin-top: 3rem;
+}
+
+.all-concepts-section h4 {
+  font-size: 1.1rem;
+  margin: 0 0 1.5rem 0;
+  color: #333;
+}
+
+.table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.concepts-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  font-size: 0.95rem;
+}
+
+.concepts-table thead {
+  background-color: #f5f5f5;
+  border-bottom: 2px solid #ddd;
+}
+
+.concepts-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #333;
+}
+
+.concepts-table tbody tr {
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s ease;
+}
+
+.concepts-table tbody tr:hover {
+  background-color: #fafafa;
+}
+
+.concepts-table td {
+  padding: 1rem;
+  color: #333;
+}
+
+.concepts-table tr.row-skill-excellent {
+  background-color: #f0f8f0;
+}
+
+.concepts-table tr.row-skill-good {
+  background-color: #fffbf0;
+}
+
+.concepts-table tr.row-skill-fair {
+  background-color: #fff9f0;
+}
+
+.concepts-table tr.row-skill-weak {
+  background-color: #fff5f5;
+}
+
+.concept-col {
+  font-weight: 500;
+}
+
+.concept-label {
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.success-col {
+  min-width: 150px;
+}
+
+.success-bar-mini {
+  width: 100px;
+  height: 20px;
+  background-color: #f0f0f0;
+  border-radius: 4px;
+  overflow: hidden;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.success-bar-mini .fill {
+  height: 100%;
+  background: linear-gradient(90deg, #28a745 0%, #20c997 100%);
+  transition: width 0.3s ease;
+}
+
+.attempts-col,
+.difficulty-col,
+.time-col {
+  text-align: center;
+  color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .teacher-concept-stats {
+    padding: 1.5rem 1rem;
+  }
+
+  .stats-header h3 {
+    font-size: 1.25rem;
+  }
+
+  .weak-concepts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-top {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .success-circle {
+    width: 60px;
+    height: 60px;
+  }
+
+  .concepts-table th,
+  .concepts-table td {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.85rem;
+  }
+
+  .success-bar-mini {
+    width: 80px;
+  }
+
+  .btn-practice {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .teacher-concept-stats {
+    padding: 1rem;
+  }
+
+  .stats-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .weak-concepts-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .card-top {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .success-circle {
+    width: 50px;
+    height: 50px;
+  }
+
+  .concepts-table {
+    font-size: 0.75rem;
+  }
+
+  .concepts-table th,
+  .concepts-table td {
+    padding: 0.5rem 0.25rem;
+  }
+
+  .success-bar-mini {
+    width: 60px;
+    height: 16px;
+  }
+
+  .btn-practice {
+    width: 100%;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+  }
+}
