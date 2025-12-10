@@ -6,7 +6,7 @@ with JSONL-based implementations. Future DB implementations can implement
 these same interfaces without changing the API layer.
 """
 
-from typing import Protocol, Sequence
+from typing import Optional, Protocol, Sequence, Union
 from pathlib import Path
 
 from models import Problem
@@ -32,7 +32,7 @@ class ProblemRepository(Protocol):
         """Save a single problem."""
         ...
 
-    def get_problem(self, problem_id: str) -> Problem | None:
+    def get_problem(self, problem_id: str) -> Optional[Problem]:
         """Retrieve a problem by ID."""
         ...
 
@@ -88,7 +88,7 @@ class JSONLProblemRepository:
     Wraps existing storage.py functionality.
     """
 
-    def __init__(self, path: str | Path = "data/problems.jsonl"):
+    def __init__(self, path: Union[str, Path] = "data/problems.jsonl"):
         """
         Initialize with path to JSONL file.
 
@@ -101,7 +101,7 @@ class JSONLProblemRepository:
         """Save a single problem to JSONL."""
         jsonl_save_problem(problem, self.path)
 
-    def get_problem(self, problem_id: str) -> Problem | None:
+    def get_problem(self, problem_id: str) -> Optional[Problem]:
         """Retrieve a problem by ID (linear search)."""
         try:
             problems = jsonl_load_problems(self.path)
@@ -137,7 +137,7 @@ class JSONLAttemptRepository:
     Wraps existing tracking.py functionality.
     """
 
-    def __init__(self, path: str | Path = "data/attempts.jsonl"):
+    def __init__(self, path: Union[str, Path] = "data/attempts.jsonl"):
         """
         Initialize with path to JSONL file.
 
@@ -239,7 +239,7 @@ class DBProblemRepository:
         finally:
             session.close()
 
-    def get_problem(self, problem_id: str) -> Problem | None:
+    def get_problem(self, problem_id: str) -> Optional[Problem]:
         """Retrieve a problem by ID from database."""
         from db_models import ProblemRecord
         

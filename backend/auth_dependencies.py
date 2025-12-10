@@ -8,7 +8,7 @@ Provides:
 - Optional bearer decoding (no implicit allow)
 """
 
-from typing import Optional
+from typing import Optional, Union
 
 from fastapi import Depends, HTTPException, Request, status
 from fastapi.security import OAuth2PasswordBearer
@@ -21,7 +21,7 @@ from db_session import get_session
 
 
 # Singleton instance for user repository (persists during tests/app lifetime)
-_user_repo_instance: Optional[DBUserRepository | InMemoryUserRepository] = None
+_user_repo_instance: Optional[Union[DBUserRepository, InMemoryUserRepository]] = None
 
 
 # OAuth2 scheme for token-based authentication
@@ -62,7 +62,7 @@ async def get_current_user(
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    user_id: str | None = payload.get("sub")
+    user_id: Optional[str] = payload.get("sub")
     if user_id is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
@@ -90,7 +90,7 @@ async def get_current_user(
 async def optional_current_user(
     request: Request,
     user_repo=Depends(get_user_repository),
-) -> User | None:
+) -> Optional[User]:
     """Return User if a valid bearer token is provided, else None.
 
     Missing header -> None
@@ -142,7 +142,7 @@ async def optional_current_user(
     return user
 
 
-async def require_student(user: User | None = Depends(optional_current_user)) -> User:
+async def require_student(user: Optional[User] = Depends(optional_current_user)) -> User:
     """Require a student (or higher) role; 403 if missing/invalid auth."""
     if user is None:
         raise HTTPException(

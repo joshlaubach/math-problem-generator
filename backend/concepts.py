@@ -15,7 +15,7 @@ This enables:
 """
 
 from dataclasses import dataclass, field, replace
-from typing import Literal
+from typing import Literal, Optional
 
 # Type definitions
 ConceptKind = Literal["skill", "definition", "strategy", "representation"]
@@ -54,7 +54,7 @@ class Concept:
     difficulty_max: int = 6
     examples_latex: list[str] = field(default_factory=list)
     tags: list[str] = field(default_factory=list)
-    version: str | None = None
+    version: Optional[str] = None
 
     def __post_init__(self) -> None:
         """Validate concept structure at creation."""

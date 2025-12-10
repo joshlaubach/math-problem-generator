@@ -6,7 +6,7 @@ by joining Attempts with Problems and their concept tags.
 """
 
 from dataclasses import dataclass, field
-from typing import Sequence
+from typing import Optional, Sequence
 
 from models import Problem
 from tracking import Attempt
@@ -32,9 +32,9 @@ class ConceptStats:
     concept_name: str
     total_attempts: int
     correct_attempts: int
-    success_rate: float | None = None
-    average_difficulty: float | None = None
-    average_time_seconds: float | None = None
+    success_rate: Optional[float] = None
+    average_difficulty: Optional[float] = None
+    average_time_seconds: Optional[float] = None
 
 
 def get_user_concept_stats(

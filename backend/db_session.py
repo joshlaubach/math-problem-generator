@@ -4,7 +4,7 @@ Database session management and initialization.
 Provides session factory, engine creation, and database initialization helpers.
 """
 
-from typing import Callable, Generator
+from typing import Callable, Generator, Optional
 from sqlalchemy import create_engine, Engine
 from sqlalchemy.orm import sessionmaker, Session
 from config import DATABASE_URL
@@ -34,7 +34,7 @@ def create_db_engine() -> Engine:
 
 
 # Lazy engine initialization
-_engine: Engine | None = None
+_engine: Optional[Engine] = None
 
 
 def get_engine() -> Engine:
@@ -45,7 +45,7 @@ def get_engine() -> Engine:
     return _engine
 
 
-def create_session_factory(engine: Engine | None = None) -> Callable[[], Session]:
+def create_session_factory(engine: Optional[Engine] = None) -> Callable[[], Session]:
     """
     Create a session factory function.
     
@@ -68,7 +68,7 @@ def create_session_factory(engine: Engine | None = None) -> Callable[[], Session
 
 
 # Default session factory
-_session_factory: Callable[[], Session] | None = None
+_session_factory: Optional[Callable[[], Session]] = None
 
 
 def get_session_factory() -> Callable[[], Session]:
@@ -111,7 +111,7 @@ def session_context() -> Generator[Session, None, None]:
         session.close()
 
 
-def init_db(engine: Engine | None = None) -> None:
+def init_db(engine: Optional[Engine] = None) -> None:
     """
     Initialize all tables in the database.
     
@@ -128,7 +128,7 @@ def init_db(engine: Engine | None = None) -> None:
     Base.metadata.create_all(bind=engine)
 
 
-def drop_all_tables(engine: Engine | None = None) -> None:
+def drop_all_tables(engine: Optional[Engine] = None) -> None:
     """
     Drop all tables from the database.
     

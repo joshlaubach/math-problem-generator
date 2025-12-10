@@ -11,7 +11,7 @@ and distribute to students via codes. Each assignment has:
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Literal
+from typing import Literal, Optional
 from uuid import uuid4
 
 AssignmentStatus = Literal["draft", "active", "closed"]
@@ -24,8 +24,8 @@ class Assignment:
 
     id: str  # short code like "ALG1-XYZ123"
     name: str
-    description: str | None = None
-    teacher_id: str | None = None
+    description: Optional[str] = None
+    teacher_id: Optional[str] = None
     created_at: datetime = field(default_factory=datetime.utcnow)
     status: AssignmentStatus = "active"
     topic_id: str = "algebra"

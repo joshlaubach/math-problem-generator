@@ -7,7 +7,7 @@ Attempts are stored in JSONL format for easy streaming and analysis.
 
 from dataclasses import dataclass, asdict, field
 from datetime import datetime
-from typing import Literal
+from typing import Literal, Optional
 import json
 from pathlib import Path
 
@@ -20,7 +20,7 @@ class User:
 
     id: str
     role: UserRole
-    name: str | None = None
+    name: Optional[str] = None
 
 
 @dataclass
@@ -34,7 +34,7 @@ class Attempt:
     difficulty: int
     is_correct: bool
     timestamp: datetime
-    time_taken_seconds: float | None = None
+    time_taken_seconds: Optional[float] = None
 
     def to_dict(self) -> dict:
         """Convert to JSON-serializable dict."""

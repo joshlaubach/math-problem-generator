@@ -11,7 +11,7 @@ All IDs are UUIDs for consistency with existing system.
 
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import Literal
+from typing import Literal, Optional
 from uuid import uuid4
 
 # User roles in the system
@@ -38,7 +38,7 @@ class User:
     password_hash: str
     role: UserRole
     created_at: datetime
-    display_name: str | None = None
+    display_name: Optional[str] = None
     is_active: bool = True
 
     @staticmethod

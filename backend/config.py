@@ -6,6 +6,7 @@ hard-coding and enable easy override for testing/deployment.
 """
 
 from pathlib import Path
+from typing import Optional
 
 # ============================================================================
 # File Paths
@@ -66,7 +67,7 @@ API_PORT = 8000
 # If None, JSONL storage is used
 # Can be set via DATABASE_URL environment variable
 import os
-DATABASE_URL: str | None = os.getenv("DATABASE_URL", None)
+DATABASE_URL: Optional[str] = os.getenv("DATABASE_URL", None)
 
 # Enable database backend (False = use JSONL, True = use database)
 USE_DATABASE = os.getenv("USE_DATABASE", "false").lower() == "true"
@@ -83,7 +84,7 @@ LLM_PROVIDER = os.getenv("LLM_PROVIDER", "dummy")
 
 # OpenAI API key (for OpenAI provider)
 # Must be set in environment if LLM_PROVIDER == "openai"
-OPENAI_API_KEY: str | None = os.getenv("OPENAI_API_KEY", None)
+OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY", None)
 
 # LLM model name
 LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "gpt-4-turbo-preview")
@@ -100,11 +101,11 @@ LLM_MAX_TOKENS = 500
 
 # Teacher API key for protecting teacher-only endpoints
 # If None, no authentication is required for teacher endpoints
-TEACHER_API_KEY: str | None = os.getenv("TEACHER_API_KEY", None)
+TEACHER_API_KEY: Optional[str] = os.getenv("TEACHER_API_KEY", None)
 
 # Admin API key for admin-only endpoints
 # If None, no authentication is required for admin endpoints
-ADMIN_API_KEY: str | None = os.getenv("ADMIN_API_KEY", None)
+ADMIN_API_KEY: Optional[str] = os.getenv("ADMIN_API_KEY", None)
 
 # ============================================================================
 # JWT Authentication Settings (Phase 9)

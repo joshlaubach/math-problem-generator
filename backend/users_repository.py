@@ -5,7 +5,7 @@ Provides Protocol-based interface and SQLAlchemy implementation
 for user CRUD operations and queries.
 """
 
-from typing import Protocol, Sequence
+from typing import Optional, Protocol, Sequence
 from sqlalchemy.orm import Session
 
 from db_models import UserRecord, LegacyUserLinkRecord, user_record_to_model, user_model_to_record
@@ -24,11 +24,11 @@ class UserRepository(Protocol):
         """Create and persist a new user account."""
         ...
 
-    def get_user_by_id(self, user_id: str) -> User | None:
+    def get_user_by_id(self, user_id: str) -> Optional[User]:
         """Retrieve user by ID, or None if not found."""
         ...
 
-    def get_user_by_email(self, email: str) -> User | None:
+    def get_user_by_email(self, email: str) -> Optional[User]:
         """Retrieve user by email address, or None if not found."""
         ...
 
@@ -40,11 +40,11 @@ class UserRepository(Protocol):
         """Create a mapping between old and new user IDs."""
         ...
 
-    def get_legacy_link(self, legacy_user_id: str) -> LegacyUserLink | None:
+    def get_legacy_link(self, legacy_user_id: str) -> Optional[LegacyUserLink]:
         """Retrieve legacy link by old user ID."""
         ...
 
-    def get_legacy_link_by_new_user(self, new_user_id: str) -> LegacyUserLink | None:
+    def get_legacy_link_by_new_user(self, new_user_id: str) -> Optional[LegacyUserLink]:
         """Retrieve legacy link by new user ID."""
         ...
 
@@ -79,7 +79,7 @@ class DBUserRepository:
         finally:
             session.close()
 
-    def get_user_by_id(self, user_id: str) -> User | None:
+    def get_user_by_id(self, user_id: str) -> Optional[User]:
         """Retrieve user by ID, or None if not found."""
         session: Session = self._get_session()
         try:
@@ -90,7 +90,7 @@ class DBUserRepository:
         finally:
             session.close()
 
-    def get_user_by_email(self, email: str) -> User | None:
+    def get_user_by_email(self, email: str) -> Optional[User]:
         """Retrieve user by email address, or None if not found."""
         session: Session = self._get_session()
         try:
@@ -132,7 +132,7 @@ class DBUserRepository:
         finally:
             session.close()
 
-    def get_legacy_link(self, legacy_user_id: str) -> LegacyUserLink | None:
+    def get_legacy_link(self, legacy_user_id: str) -> Optional[LegacyUserLink]:
         """Retrieve legacy link by old user ID."""
         session: Session = self._get_session()
         try:
@@ -151,7 +151,7 @@ class DBUserRepository:
         finally:
             session.close()
 
-    def get_legacy_link_by_new_user(self, new_user_id: str) -> LegacyUserLink | None:
+    def get_legacy_link_by_new_user(self, new_user_id: str) -> Optional[LegacyUserLink]:
         """Retrieve legacy link by new user ID."""
         session: Session = self._get_session()
         try:
@@ -190,11 +190,11 @@ class InMemoryUserRepository:
             raise ValueError(f"User with ID {user.id} already exists")
         self._users[user.id] = user
 
-    def get_user_by_id(self, user_id: str) -> User | None:
+    def get_user_by_id(self, user_id: str) -> Optional[User]:
         """Retrieve user by ID from memory."""
         return self._users.get(user_id)
 
-    def get_user_by_email(self, email: str) -> User | None:
+    def get_user_by_email(self, email: str) -> Optional[User]:
         """Retrieve user by email from memory."""
         for user in self._users.values():
             if user.email == email:
@@ -211,11 +211,11 @@ class InMemoryUserRepository:
             raise ValueError(f"Legacy link for {link.legacy_user_id} already exists")
         self._legacy_links[link.legacy_user_id] = link
 
-    def get_legacy_link(self, legacy_user_id: str) -> LegacyUserLink | None:
+    def get_legacy_link(self, legacy_user_id: str) -> Optional[LegacyUserLink]:
         """Retrieve legacy link by old user ID from memory."""
         return self._legacy_links.get(legacy_user_id)
 
-    def get_legacy_link_by_new_user(self, new_user_id: str) -> LegacyUserLink | None:
+    def get_legacy_link_by_new_user(self, new_user_id: str) -> Optional[LegacyUserLink]:
         """Retrieve legacy link by new user ID from memory."""
         for link in self._legacy_links.values():
             if link.new_user_id == new_user_id:

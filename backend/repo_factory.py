@@ -5,7 +5,7 @@ Provides factory functions that select the appropriate repository
 implementation based on configuration settings.
 """
 
-from typing import Callable
+from typing import Callable, Optional
 from repositories import (
     ProblemRepository,
     AttemptRepository,
@@ -65,8 +65,8 @@ def create_attempt_repository() -> AttemptRepository:
 
 
 # Cached repository instances to avoid recreating on each call
-_problem_repo: ProblemRepository | None = None
-_attempt_repo: AttemptRepository | None = None
+_problem_repo: Optional[ProblemRepository] = None
+_attempt_repo: Optional[AttemptRepository] = None
 
 
 def get_problem_repository() -> ProblemRepository:

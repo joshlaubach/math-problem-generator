@@ -4,7 +4,7 @@ Repository for assignment persistence.
 Handles storage and retrieval of assignments and their associated problems.
 """
 
-from typing import Protocol, Sequence
+from typing import Optional, Protocol, Sequence
 from datetime import datetime
 from sqlalchemy.orm import Session
 from db_models import AssignmentRecord, AssignmentProblemRecord
@@ -22,7 +22,7 @@ class AssignmentRepository(Protocol):
         """Create a new assignment."""
         ...
 
-    def get_assignment(self, assignment_id: str) -> Assignment | None:
+    def get_assignment(self, assignment_id: str) -> Optional[Assignment]:
         """Retrieve an assignment by ID."""
         ...
 
@@ -118,7 +118,7 @@ class DBAssignmentRepository:
         finally:
             session.close()
 
-    def get_assignment(self, assignment_id: str) -> Assignment | None:
+    def get_assignment(self, assignment_id: str) -> Optional[Assignment]:
         """Retrieve an assignment by ID."""
         session: Session = self.get_session()
         try:
@@ -194,7 +194,7 @@ class InMemoryAssignmentRepository:
     def create_assignment(self, assignment: Assignment) -> None:
         self._assignments[assignment.id] = assignment
 
-    def get_assignment(self, assignment_id: str) -> Assignment | None:
+    def get_assignment(self, assignment_id: str) -> Optional[Assignment]:
         return self._assignments.get(assignment_id)
 
     def list_assignments_for_teacher(self, teacher_id: str) -> Sequence[Assignment]:

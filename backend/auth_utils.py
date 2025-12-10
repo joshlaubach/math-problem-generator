@@ -6,7 +6,7 @@ Uses python-jose for JWT token handling.
 """
 
 from datetime import datetime, timedelta
-from typing import Any
+from typing import Any, Optional, Dict
 
 from passlib.context import CryptContext
 from jose import JWTError, jwt
@@ -43,10 +43,10 @@ def verify_password(plaintext_password: str, hashed_password: str) -> bool:
 
 
 def create_access_token(
-    data: dict[str, Any],
+    data: Dict[str, Any],
     secret_key: str,
     algorithm: str = "HS256",
-    expires_delta: timedelta | None = None,
+    expires_delta: Optional[timedelta] = None,
 ) -> str:
     """
     Create a JWT access token.
@@ -77,7 +77,7 @@ def decode_access_token(
     token: str,
     secret_key: str,
     algorithm: str = "HS256",
-) -> dict[str, Any] | None:
+) -> Optional[Dict[str, Any]]:
     """
     Decode and validate a JWT access token.
 

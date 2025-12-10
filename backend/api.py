@@ -14,7 +14,7 @@ import os
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
-from typing import Optional
+from typing import Optional, Union
 from uuid import uuid4
 
 from fastapi import FastAPI, HTTPException, Query, Depends, Header, Request, status, Response
@@ -152,9 +152,9 @@ def require_admin_api_key(x_api_key: str = Header(default="")) -> bool:
 # Phase 10: Hybrid authentication (JWT or legacy API key)
 async def require_teacher_or_api_key(
     request: Request,
-    user: AuthUser | None = Depends(optional_current_user),
-    x_api_key: str | None = Header(default=None),
-) -> AuthUser | str:
+    user: Optional[AuthUser] = Depends(optional_current_user),
+    x_api_key: Optional[str] = Header(default=None),
+) -> Union[AuthUser, str]:
     """
     Hybrid dependency allowing both JWT and legacy API key authentication.
     
@@ -256,7 +256,7 @@ class TopicMetadata(BaseModel):
     topic_id: str
     course_id: str
     unit_id: str
-    human_readable_name: str | None = None
+    human_readable_name: Optional[str] = None
 
 
 class ProblemResponse(BaseModel):
@@ -269,11 +269,11 @@ class ProblemResponse(BaseModel):
     prompt_latex: str
     answer_type: str
     final_answer: str
-    solution: dict | None = None
+    solution: Optional[dict] = None
     calculator_mode: str
-    word_problem_prompt: str | None = None
+    word_problem_prompt: Optional[str] = None
     concept_ids: list[str] = Field(default_factory=list)
-    primary_concept_id: str | None = None
+    primary_concept_id: Optional[str] = None
 
 
 class ConceptResponse(BaseModel):
@@ -291,7 +291,7 @@ class ConceptResponse(BaseModel):
     difficulty_max: int
     examples_latex: list[str] = Field(default_factory=list)
     tags: list[str] = Field(default_factory=list)
-    version: str | None = None
+    version: Optional[str] = None
 
 
 class ConceptsListResponse(BaseModel):
@@ -310,7 +310,7 @@ class AttemptRequest(BaseModel):
     course_id: str
     difficulty: int
     is_correct: bool
-    time_taken_seconds: float | None = None
+    time_taken_seconds: Optional[float] = None
 
 
 class AttemptResponse(BaseModel):
@@ -332,7 +332,7 @@ class UserStatsResponse(BaseModel):
     correct_attempts: int
     success_rate: float
     average_difficulty: float
-    average_time_seconds: float | None = None
+    average_time_seconds: Optional[float] = None
 
 
 class DifficultyRecommendationResponse(BaseModel):
@@ -350,9 +350,9 @@ class HintRequest(BaseModel):
 
     problem_id: str
     problem_latex: str
-    current_step_latex: str | None = Field(default=None, description="Current step student is on")
-    error_description: str | None = Field(default=None, description="Description of student's error")
-    context_tags: str | None = Field(default=None, description="Comma-separated context tags")
+    current_step_latex: Optional[str] = Field(default=None, description="Current step student is on")
+    error_description: Optional[str] = Field(default=None, description="Description of student's error")
+    context_tags: Optional[str] = Field(default=None, description="Comma-separated context tags")
 
 
 class HintResponse(BaseModel):
@@ -375,8 +375,8 @@ class TopicStatsResponse(BaseModel):
     total_attempts: int
     correct_attempts: int
     success_rate: float
-    average_difficulty: float | None = None
-    average_time_seconds: float | None = None
+    average_difficulty: Optional[float] = None
+    average_time_seconds: Optional[float] = None
     num_unique_students: int = 0
 
 
@@ -387,7 +387,7 @@ class UserTopicOverviewItem(BaseModel):
     total_attempts: int
     correct_attempts: int
     success_rate: float
-    average_difficulty: float | None = None
+    average_difficulty: Optional[float] = None
 
 
 class UserTopicOverview(BaseModel):
@@ -408,7 +408,7 @@ class RecentAttemptItem(BaseModel):
     difficulty: int
     is_correct: bool
     timestamp: datetime
-    time_taken_seconds: float | None = None
+    time_taken_seconds: Optional[float] = None
 
 
 class RecentAttemptsResponse(BaseModel):
@@ -431,9 +431,9 @@ class ConceptStatsResponse(BaseModel):
     concept_name: str
     total_attempts: int
     correct_attempts: int
-    success_rate: float | None = None
-    average_difficulty: float | None = None
-    average_time_seconds: float | None = None
+    success_rate: Optional[float] = None
+    average_difficulty: Optional[float] = None
+    average_time_seconds: Optional[float] = None
 
 
 class CourseConceptHeatmapResponse(BaseModel):
@@ -455,7 +455,7 @@ class ConceptDebugResponse(BaseModel):
     unit_id: str
     topic_id: str
     kind: str
-    version: str | None = None
+    version: Optional[str] = None
     prerequisites_direct: list[str]
     prerequisites_all: list[str]
     dependents: list[str]
@@ -474,7 +474,7 @@ class ConceptCoverage(BaseModel):
     concept_id: str
     concept_name: str
     count: int
-    percentage: float | None = None
+    percentage: Optional[float] = None
 
 
 # ============================================================================
@@ -491,13 +491,13 @@ class AssignmentCreateRequest(BaseModel):
     """
 
     name: str
-    description: str | None = None
-    topic_id: str | None = None  # Optional if concept_ids provided
+    description: Optional[str] = None
+    topic_id: Optional[str] = None  # Optional if concept_ids provided
     num_questions: int = 10
     min_difficulty: int = 1
     max_difficulty: int = 4
     calculator_mode: str = "none"
-    concept_ids: list[str] | None = None  # Optional: filter by concepts
+    concept_ids: Optional[list[str]] = None  # Optional: filter by concepts
 
 
 class AssignmentResponse(BaseModel):
@@ -505,14 +505,14 @@ class AssignmentResponse(BaseModel):
 
     id: str
     name: str
-    description: str | None
+    description: Optional[str]
     topic_id: str
     num_questions: int
     min_difficulty: int
     max_difficulty: int
     calculator_mode: str
     status: str
-    teacher_id: str | None = None
+    teacher_id: Optional[str] = None
     created_at: datetime
 
 
@@ -521,7 +521,7 @@ class AssignmentSummaryResponse(BaseModel):
 
     id: str
     name: str
-    description: str | None
+    description: Optional[str]
     topic_id: str
     num_questions: int
     status: str
@@ -544,8 +544,8 @@ class AssignmentStatsResponse(BaseModel):
     num_questions: int
     total_students: int
     total_attempts: int
-    avg_score: float | None
-    avg_time_seconds: float | None
+    avg_score: Optional[float]
+    avg_time_seconds: Optional[float]
     concept_coverage: list[ConceptCoverage] = Field(default_factory=list)
 
 # ============================================================================
@@ -624,8 +624,8 @@ async def get_topics():
 
 @app.get("/generate", response_model=ProblemResponse)
 def generate_problem(
-    topic_id: str | None = Query(None, description="Topic ID from /topics"),
-    topic: str | None = Query(None, description="Alias for topic_id"),
+    topic_id: Optional[str] = Query(None, description="Topic ID from /topics"),
+    topic: Optional[str] = Query(None, description="Alias for topic_id"),
     difficulty: int = Query(
         ..., ge=1, le=6, description="Difficulty level (1-6)"
     ),
@@ -635,8 +635,8 @@ def generate_problem(
         description="Calculator mode",
     ),
     word_problem: bool = Query(False, description="Wrap as word problem"),
-    reading_level: str | None = Query(None, description="Reading level (for word problems)"),
-    context_tags: str | None = Query(None, description="Comma-separated context tags"),
+    reading_level: Optional[str] = Query(None, description="Reading level (for word problems)"),
+    context_tags: Optional[str] = Query(None, description="Comma-separated context tags"),
 ):
     """
     Generate a math problem.
@@ -701,7 +701,7 @@ def generate_problem(
 @app.post("/attempt", response_model=AttemptResponse)
 async def record_attempt(
     request: AttemptRequest,
-    user: AuthUser | None = Depends(optional_current_user),
+    user: Optional[AuthUser] = Depends(optional_current_user),
 ):
     """
     Record a student attempt on a problem.
@@ -957,7 +957,7 @@ def generate_hint(request: HintRequest):
 @app.get("/teacher/topic_stats", response_model=TopicStatsResponse)
 def get_teacher_topic_stats(
     topic_id: str = Query(..., description="Topic ID"),
-    _auth: AuthUser | str = Depends(require_teacher_or_api_key)
+    _auth: Union[AuthUser, str] = Depends(require_teacher_or_api_key)
 ):
     """
     Get aggregated statistics for a topic across all users (teacher-only).
@@ -1019,7 +1019,7 @@ def get_teacher_topic_stats(
 @app.get("/teacher/user_overview", response_model=UserTopicOverview)
 def get_teacher_user_overview(
     user_id: str = Query(..., description="User ID"),
-    _auth: AuthUser | str = Depends(require_teacher_or_api_key)
+    _auth: Union[AuthUser, str] = Depends(require_teacher_or_api_key)
 ):
     """
     Get statistics for a user across all topics (teacher-only).
@@ -1085,7 +1085,7 @@ def get_teacher_user_overview(
 @app.get("/teacher/recent_attempts", response_model=RecentAttemptsResponse)
 def get_teacher_recent_attempts(
     limit: int = Query(50, ge=1, le=500, description="Maximum number of attempts to return"),
-    _auth: AuthUser | str = Depends(require_teacher_or_api_key)
+    _auth: Union[AuthUser, str] = Depends(require_teacher_or_api_key)
 ):
     """
     Get the most recent attempts across all users (teacher-only).
@@ -1192,7 +1192,7 @@ def get_student_concept_stats(
 def get_teacher_concept_stats(
     course_id: str = Query(..., description="Course ID (e.g., 'sat_math', 'ap_calculus')"),
     user_id: str = Query(..., description="Student user ID"),
-    _auth: AuthUser | str = Depends(require_teacher_or_api_key),
+    _auth: Union[AuthUser, str] = Depends(require_teacher_or_api_key),
 ):
     """
     Get concept-level statistics for a student on a course (teacher-only).
@@ -1252,7 +1252,7 @@ def get_teacher_concept_stats(
 @app.post("/teacher/assignments", response_model=AssignmentResponse)
 def create_assignment(
     request: AssignmentCreateRequest,
-    authenticated: AuthUser | str = Depends(require_teacher_or_api_key),
+    authenticated: Union[AuthUser, str] = Depends(require_teacher_or_api_key),
 ) -> AssignmentResponse:
     """
     Create a new assignment with pre-generated problems (teacher-only).
@@ -1477,7 +1477,7 @@ def get_assignment_problem(
 @app.get("/teacher/assignments/{assignment_id}/stats", response_model=AssignmentStatsResponse)
 def get_assignment_stats(
     assignment_id: str,
-    authenticated: AuthUser | str = Depends(require_teacher_or_api_key),
+    authenticated: Union[AuthUser, str] = Depends(require_teacher_or_api_key),
 ) -> AssignmentStatsResponse:
     """
     Get analytics for an assignment (teacher-only).
@@ -1562,9 +1562,9 @@ def get_assignment_stats(
 
 @app.get("/concepts", response_model=ConceptsListResponse)
 def list_concepts(
-    course_id: str | None = Query(None, description="Filter by course_id"),
-    topic_id: str | None = Query(None, description="Filter by topic_id"),
-    unit_id: str | None = Query(None, description="Filter by unit_id"),
+    course_id: Optional[str] = Query(None, description="Filter by course_id"),
+    topic_id: Optional[str] = Query(None, description="Filter by topic_id"),
+    unit_id: Optional[str] = Query(None, description="Filter by unit_id"),
 ):
     """
     List all concepts, optionally filtered by course, topic, or unit.

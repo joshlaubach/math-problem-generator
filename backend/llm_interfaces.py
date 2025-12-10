@@ -9,7 +9,7 @@ Future implementations can provide Claude, GPT, or other vendor integrations
 without changing the main codebase.
 """
 
-from typing import Protocol
+from typing import Optional, Protocol
 import random
 
 
@@ -45,8 +45,8 @@ class LLMClient(Protocol):
     async def generate_hint(
         self,
         problem_latex: str,
-        current_step_latex: str | None = None,
-        error_description: str | None = None,
+        current_step_latex: Optional[str] = None,
+        error_description: Optional[str] = None,
     ) -> str:
         """
         Generate a hint for a student stuck on a problem.
@@ -142,8 +142,8 @@ class DummyLLMClient:
     async def generate_hint(
         self,
         problem_latex: str,
-        current_step_latex: str | None = None,
-        error_description: str | None = None,
+        current_step_latex: Optional[str] = None,
+        error_description: Optional[str] = None,
     ) -> str:
         """
         Generate a simple hint based on the problem.
@@ -225,8 +225,8 @@ class SyncDummyLLMClient:
     def generate_hint(
         self,
         problem_latex: str,
-        current_step_latex: str | None = None,
-        error_description: str | None = None,
+        current_step_latex: Optional[str] = None,
+        error_description: Optional[str] = None,
     ) -> str:
         """Generate hint (sync version)."""
         import asyncio
