@@ -79,15 +79,23 @@ USE_DATABASE = os.getenv("USE_DATABASE", "false").lower() == "true"
 # Enable LLM integration (False = use DummyLLMClient, True = use real LLM)
 USE_LLM = os.getenv("USE_LLM", "false").lower() == "true"
 
-# LLM provider: "dummy", "openai", etc.
+# LLM provider: "dummy", "openai", "anthropic"
 LLM_PROVIDER = os.getenv("LLM_PROVIDER", "dummy")
 
-# OpenAI API key (for OpenAI provider)
-# Must be set in environment if LLM_PROVIDER == "openai"
+# OpenAI API key (Phase 12: deprecated; kept for emergency fallback)
 OPENAI_API_KEY: Optional[str] = os.getenv("OPENAI_API_KEY", None)
 
-# LLM model name
+# LLM model name (legacy OpenAI)
 LLM_MODEL_NAME = os.getenv("LLM_MODEL_NAME", "gpt-4-turbo-preview")
+
+# Anthropic Claude API key
+ANTHROPIC_API_KEY: Optional[str] = os.getenv("ANTHROPIC_API_KEY", None)
+
+# Claude model for all agents (see ADR-002)
+ANTHROPIC_MODEL: str = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-6")
+
+# Clerk secret key (for server-side Clerk SDK calls in Phase 4)
+CLERK_SECRET_KEY: Optional[str] = os.getenv("CLERK_SECRET_KEY", None)
 
 # LLM API timeout in seconds
 LLM_API_TIMEOUT = 30

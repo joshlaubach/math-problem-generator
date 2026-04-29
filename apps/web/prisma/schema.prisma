@@ -1,0 +1,214 @@
+// Prisma schema for the Math Learning Platform.
+// Source of truth for the database schema.
+// SQLAlchemy in apps/api/db_models.py mirrors this schema for FastAPI access.
+// Run `prisma generate` to update the Prisma client.
+// Run `prisma migrate dev` to apply migrations.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Course {
+  id          String   @id @default(cuid())
+  slug        String   @unique
+  name        String
+  description String
+  color       String   // 'purple' | 'teal' | 'amber'
+  category    String   // 'core' | 'elective' | 'test-prep'
+  calcTiers   String[] // ['none','scientific','graphing','cas']
+
+  prereqs    Course[] @relation("CoursePrereqs")
+  requiredBy Course[] @relation("CoursePrereqs")
+
+  units      Unit[]
+  classrooms Classroom[]
+
+  createdAt DateTime @default(now())
+}
+
+model Unit {
+  id       String  @id @default(cuid())
+  courseId String
+  course   Course  @relation(fields: [courseId], references: [id])
+  slug     String
+  title    String
+  order    Int
+  isHonors Boolean @default(false)
+  isSpecial Boolean @default(false)
+  mdxPath  String  @default("")
+
+  topics Topic[]
+}
+
+model Topic {
+  id     String @id @default(cuid())
+  unitId String
+  unit   Unit   @relation(fields: [unitId], references: [id])
+  title  String
+  order  Int
+
+  problems   Problem[]
+  videoLinks VideoLink[]
+  progress   Progress[]
+}
+
+model VideoLink {
+  id           String  @id @default(cuid())
+  topicId      String
+  topic        Topic   @relation(fields: [topicId], references: [id])
+  title        String
+  url          String
+  channel      String  // '3blue1brown' | 'professor-leonard' | 'other'
+  thumbnailUrl String?
+}
+
+model Problem {
+  id                String   @id @default(cuid())
+  topicId           String
+  topic             Topic    @relation(fields: [topicId], references: [id])
+  statement         String
+  answer            String
+  workedSteps       Json?    // {step: string, explanation: string}[]
+  hintLadder        Json?    // string[] (4 hints)
+  distractors       Json?    // {answer: string, mistake: string}[]
+  conceptualDiff    Int      // 1-5
+  computationalDiff Int      // 1-5
+  calcTier          String   // 'none'|'scientific'|'graphing'|'cas'
+  isFree            Boolean  @default(false)
+  isFlagged         Boolean  @default(false)
+  flagReason        String?
+  flagResolvedAt    DateTime?
+  verified          Boolean  @default(false)
+  generatedAt       DateTime @default(now())
+
+  attempts       Attempt[]
+  flaggedRecords FlaggedProblem[]
+}
+
+model User {
+  id                   String  @id // Clerk user ID
+  email                String  @unique
+  displayName          String?
+  tier                 String  @default("free") // 'free'|'student'|'honors'|'classroom-student'
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  isTeacher            Boolean @default(false)
+  ageConfirmed         Boolean @default(false)
+
+  attempts              Attempt[]
+  progress              Progress[]
+  classroomsTeaching    Classroom[]            @relation("TeacherClassrooms")
+  classroomMemberships  ClassroomMembership[]
+  assignmentSubmissions AssignmentSubmission[]
+  flaggedProblems       FlaggedProblem[]
+
+  createdAt DateTime @default(now())
+}
+
+model Attempt {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id])
+  problemId      String
+  problem        Problem  @relation(fields: [problemId], references: [id])
+  assignmentId   String?
+  studentAnswer  String
+  correct        Boolean
+  equivalentForm Boolean  @default(false)
+  hintsUsed      Int      @default(0)
+  timeSpentSecs  Int
+  attemptedAt    DateTime @default(now())
+}
+
+model Progress {
+  id                       String    @id @default(cuid())
+  userId                   String
+  user                     User      @relation(fields: [userId], references: [id])
+  topicId                  String
+  topic                    Topic     @relation(fields: [topicId], references: [id])
+  masteryScore             Float     @default(0)
+  currentConceptualDiff    Int       @default(1)
+  currentComputationalDiff Int       @default(1)
+  lastReviewedAt           DateTime?
+  nextReviewAt             DateTime?
+  streak                   Int       @default(0)
+  updatedAt                DateTime  @updatedAt
+
+  @@unique([userId, topicId])
+}
+
+model FlaggedProblem {
+  id        String   @id @default(cuid())
+  problemId String
+  problem   Problem  @relation(fields: [problemId], references: [id])
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  reason    String
+  resolved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model Classroom {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  teacherId   String
+  teacher     User      @relation("TeacherClassrooms", fields: [teacherId], references: [id])
+  joinCode    String    @unique
+  courseId    String?
+  course      Course?   @relation(fields: [courseId], references: [id])
+  archivedAt  DateTime?
+  createdAt   DateTime  @default(now())
+
+  students    ClassroomMembership[]
+  assignments Assignment[]
+}
+
+model ClassroomMembership {
+  id          String    @id @default(cuid())
+  classroomId String
+  classroom   Classroom @relation(fields: [classroomId], references: [id])
+  studentId   String
+  student     User      @relation(fields: [studentId], references: [id])
+  joinedAt    DateTime  @default(now())
+
+  @@unique([classroomId, studentId])
+}
+
+model Assignment {
+  id                String    @id @default(cuid())
+  classroomId       String
+  classroom         Classroom @relation(fields: [classroomId], references: [id])
+  title             String
+  instructions      String?
+  topicIds          String[]
+  problemIds        String[]
+  dueAt             DateTime?
+  calcTier          String?
+  conceptualDiff    Int?
+  computationalDiff Int?
+  allowHints        Boolean   @default(true)
+  maxHints          Int       @default(3)
+  createdAt         DateTime  @default(now())
+
+  submissions AssignmentSubmission[]
+}
+
+model AssignmentSubmission {
+  id           String     @id @default(cuid())
+  assignmentId String
+  assignment   Assignment @relation(fields: [assignmentId], references: [id])
+  studentId    String
+  student      User       @relation(fields: [studentId], references: [id])
+  attemptIds   String[]
+  score        Float?
+  completedAt  DateTime?
+  submittedAt  DateTime   @default(now())
+
+  @@unique([assignmentId, studentId])
+}

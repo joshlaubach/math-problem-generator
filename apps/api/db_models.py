@@ -123,7 +123,7 @@ class TopicRecord(Base):
     __table_args__ = (
         Index("idx_unit_order", "unit_id", "display_order"),
         Index("idx_unit_active", "unit_id", "is_active"),
-        Index("idx_course_topic", "course_id", "id"),
+        Index("idx_topic_course_id", "course_id", "id"),
     )
 
     def __repr__(self) -> str:
@@ -190,9 +190,25 @@ class ProblemRecord(Base):
     metadata_json: Mapped[str] = mapped_column(Text)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
+    # Spec-aligned fields (populated by agents in Phase 3+; NULL for legacy pre-generated problems)
+    statement: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    answer: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    worked_steps_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # JSON: {step, explanation}[]
+    hint_ladder_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)   # JSON: string[] (4 hints)
+    distractors_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)   # JSON: {answer, mistake}[]
+    conceptual_diff: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)   # 1-5
+    computational_diff: Mapped[Optional[int]] = mapped_column(Integer, nullable=True) # 1-5
+    calc_tier: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
+    is_free: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
+    is_flagged: Mapped[bool] = mapped_column(Boolean, default=False)
+    flag_reason: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    flag_resolved_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    verified: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
+
     __table_args__ = (
         Index("idx_topic_difficulty", "topic_id", "difficulty"),
         Index("idx_course_topic", "course_id", "topic_id"),
+        Index("idx_free_verified", "is_free", "verified"),
     )
 
     def __repr__(self) -> str:
@@ -287,20 +303,31 @@ class UserRecord(Base):
 
     Stores user accounts with email, hashed password, role, and account metadata.
     Roles: "student", "teacher", "admin".
+    Includes Clerk auth fields added in Phase 4 migration.
     """
 
     __tablename__ = "users"
 
-    id: Mapped[str] = mapped_column(String(36), primary_key=True)  # UUID
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)  # UUID (legacy) or Clerk user ID
     email: Mapped[str] = mapped_column(String(255), unique=True, index=True)
-    password_hash: Mapped[str] = mapped_column(String(255))
-    role: Mapped[str] = mapped_column(String(20), index=True)
+    password_hash: Mapped[str] = mapped_column(String(255), default="")
+    role: Mapped[str] = mapped_column(String(20), index=True, default="student")
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
     display_name: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, index=True)
 
+    # Clerk auth fields (populated in Phase 4)
+    clerk_user_id: Mapped[Optional[str]] = mapped_column(String(255), unique=True, nullable=True, index=True)
+
+    # Platform tier fields (Prisma User model alignment)
+    tier: Mapped[str] = mapped_column(String(30), default="free", index=True)  # 'free'|'student'|'honors'|'classroom-student'
+    is_teacher: Mapped[bool] = mapped_column(Boolean, default=False)
+    age_confirmed: Mapped[bool] = mapped_column(Boolean, default=False)
+    stripe_customer_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    stripe_subscription_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+
     def __repr__(self) -> str:
-        return f"<UserRecord(id={self.id}, email={self.email}, role={self.role})>"
+        return f"<UserRecord(id={self.id}, email={self.email}, role={self.role}, tier={self.tier})>"
 
 
 class LegacyUserLinkRecord(Base):
@@ -374,4 +401,158 @@ def legacy_link_model_to_record(link: LegacyUserLink) -> LegacyUserLinkRecord:
         new_user_id=link.new_user_id,
         linked_at=link.linked_at,
     )
+
+
+# ============================================================================
+# New platform models (Phase 1+) — mirror the Prisma schema in schema.prisma
+# ============================================================================
+
+class VideoLinkRecord(Base):
+    """Curated video links (3Blue1Brown, Professor Leonard) for topics."""
+
+    __tablename__ = "video_links"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    topic_id: Mapped[str] = mapped_column(String(100), index=True)
+    title: Mapped[str] = mapped_column(String(500))
+    url: Mapped[str] = mapped_column(String(2000))
+    channel: Mapped[str] = mapped_column(String(50))  # '3blue1brown'|'professor-leonard'|'other'
+    thumbnail_url: Mapped[Optional[str]] = mapped_column(String(2000), nullable=True)
+
+    def __repr__(self) -> str:
+        return f"<VideoLinkRecord(id={self.id}, topic_id={self.topic_id}, channel={self.channel})>"
+
+
+class ProgressRecord(Base):
+    """
+    Per-user, per-topic mastery tracking with spaced repetition scheduling.
+
+    nextReviewAt = lastReviewedAt + timedelta(days=masteryScore * 7)
+    """
+
+    __tablename__ = "progress"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    topic_id: Mapped[str] = mapped_column(String(100), index=True)
+    mastery_score: Mapped[float] = mapped_column(Float, default=0.0)
+    current_conceptual_diff: Mapped[int] = mapped_column(Integer, default=1)
+    current_computational_diff: Mapped[int] = mapped_column(Integer, default=1)
+    last_reviewed_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    next_review_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True, index=True)
+    streak: Mapped[int] = mapped_column(Integer, default=0)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_progress_user_topic", "user_id", "topic_id", unique=True),
+        Index("idx_progress_review", "user_id", "next_review_at"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<ProgressRecord(user_id={self.user_id}, topic_id={self.topic_id}, mastery={self.mastery_score:.2f})>"
+
+
+class FlaggedProblemRecord(Base):
+    """Student-flagged problems awaiting teacher/admin review."""
+
+    __tablename__ = "flagged_problems"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    problem_id: Mapped[str] = mapped_column(String(50), index=True)
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    reason: Mapped[str] = mapped_column(Text)
+    resolved: Mapped[bool] = mapped_column(Boolean, default=False, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<FlaggedProblemRecord(problem_id={self.problem_id}, resolved={self.resolved})>"
+
+
+class ClassroomRecord(Base):
+    """Teacher-owned classroom with 8-char join code."""
+
+    __tablename__ = "classrooms"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    name: Mapped[str] = mapped_column(String(255))
+    description: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    teacher_id: Mapped[str] = mapped_column(String(255), index=True)
+    join_code: Mapped[str] = mapped_column(String(8), unique=True, index=True)
+    course_id: Mapped[Optional[str]] = mapped_column(String(100), nullable=True, index=True)
+    archived_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<ClassroomRecord(id={self.id}, name={self.name}, join_code={self.join_code})>"
+
+
+class ClassroomMembershipRecord(Base):
+    """Student membership in a classroom."""
+
+    __tablename__ = "classroom_memberships"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    classroom_id: Mapped[str] = mapped_column(String(36), index=True)
+    student_id: Mapped[str] = mapped_column(String(255), index=True)
+    joined_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_membership_unique", "classroom_id", "student_id", unique=True),
+    )
+
+    def __repr__(self) -> str:
+        return f"<ClassroomMembershipRecord(classroom_id={self.classroom_id}, student_id={self.student_id})>"
+
+
+class NewAssignmentRecord(Base):
+    """
+    Platform assignment record aligned with Prisma Assignment model.
+
+    Replaces legacy AssignmentRecord in Phase 9+. Kept separate to avoid
+    breaking existing AssignmentRecord tests during Phase 1.
+    """
+
+    __tablename__ = "platform_assignments"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    classroom_id: Mapped[str] = mapped_column(String(36), index=True)
+    title: Mapped[str] = mapped_column(String(500))
+    instructions: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    topic_ids_json: Mapped[str] = mapped_column(Text, default="[]")   # JSON string[]
+    problem_ids_json: Mapped[str] = mapped_column(Text, default="[]") # JSON string[]
+    due_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True, index=True)
+    calc_tier: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
+    conceptual_diff: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    computational_diff: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    allow_hints: Mapped[bool] = mapped_column(Boolean, default=True)
+    max_hints: Mapped[int] = mapped_column(Integer, default=3)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_assignment_classroom", "classroom_id", "due_at"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<NewAssignmentRecord(id={self.id}, title={self.title}, classroom_id={self.classroom_id})>"
+
+
+class AssignmentSubmissionRecord(Base):
+    """Student submission for a platform assignment."""
+
+    __tablename__ = "assignment_submissions"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    assignment_id: Mapped[str] = mapped_column(String(36), index=True)
+    student_id: Mapped[str] = mapped_column(String(255), index=True)
+    attempt_ids_json: Mapped[str] = mapped_column(Text, default="[]")  # JSON string[]
+    score: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    completed_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    submitted_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_submission_unique", "assignment_id", "student_id", unique=True),
+    )
+
+    def __repr__(self) -> str:
+        return f"<AssignmentSubmissionRecord(assignment_id={self.assignment_id}, student_id={self.student_id})>"
 

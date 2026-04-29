@@ -1,31 +1,33 @@
 {
-  "name": "math-problem-generator",
-  "version": "1.0.0",
-  "description": "Full-stack math problem generator with AI-powered hints and adaptive difficulty",
+  "name": "math-learning-platform",
+  "version": "0.0.1",
+  "description": "Khan Academy-style math learning platform with AI-powered problem generation",
   "private": true,
+  "packageManager": "npm@11.6.2",
   "workspaces": [
-    "backend",
-    "frontend"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
-    "backend:dev": "cd backend && python -m uvicorn api:app --reload --port 8000",
-    "backend:test": "cd backend && pytest tests/ -v",
-    "backend:test:coverage": "cd backend && pytest tests/ -v --cov",
-    "frontend:dev": "cd frontend && npm run dev",
-    "frontend:build": "cd frontend && npm run build",
-    "frontend:preview": "cd frontend && npm run preview",
-    "dev": "concurrently \"npm run backend:dev\" \"npm run frontend:dev\"",
-    "build": "npm run backend:test && npm run frontend:build",
-    "test": "npm run backend:test"
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "api:dev": "cd apps/api && python -m uvicorn api:app --reload --port 8000",
+    "api:test": "cd apps/api && python -m pytest tests/ -v",
+    "web:dev": "cd apps/web && next dev"
+  },
+  "devDependencies": {
+    "turbo": "^2.0.0"
   },
   "keywords": [
     "math",
     "education",
     "problem-generator",
     "adaptive-learning",
-    "AI",
+    "ai",
     "fastapi",
-    "react"
+    "nextjs"
   ],
   "author": "",
   "license": "MIT"

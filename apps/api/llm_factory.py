@@ -23,6 +23,15 @@ def get_llm_client() -> LLMClient:
     if not USE_LLM:
         return DummyLLMClient()
     
+    if LLM_PROVIDER == "anthropic":
+        try:
+            from llm_anthropic_client import AnthropicLLMClient
+            return AnthropicLLMClient()
+        except Exception as e:
+            print(f"Warning: Failed to initialize Anthropic LLM client: {e}")
+            print("Falling back to DummyLLMClient")
+            return DummyLLMClient()
+
     if LLM_PROVIDER == "openai":
         try:
             from llm_openai_client import OpenAILLMClient
@@ -31,7 +40,7 @@ def get_llm_client() -> LLMClient:
             print(f"Warning: Failed to initialize OpenAI LLM client: {e}")
             print("Falling back to DummyLLMClient")
             return DummyLLMClient()
-    
+
     # Unknown provider or explicitly set to "dummy"
     return DummyLLMClient()
 
@@ -48,6 +57,15 @@ def get_sync_llm_client() -> LLMClient:
     if not USE_LLM:
         return SyncDummyLLMClient()
     
+    if LLM_PROVIDER == "anthropic":
+        try:
+            from llm_anthropic_client import SyncAnthropicLLMClient
+            return SyncAnthropicLLMClient()
+        except Exception as e:
+            print(f"Warning: Failed to initialize Anthropic LLM client: {e}")
+            print("Falling back to DummyLLMClient")
+            return SyncDummyLLMClient()
+
     if LLM_PROVIDER == "openai":
         try:
             from llm_openai_client import SyncOpenAILLMClient
@@ -56,7 +74,7 @@ def get_sync_llm_client() -> LLMClient:
             print(f"Warning: Failed to initialize OpenAI LLM client: {e}")
             print("Falling back to DummyLLMClient")
             return SyncDummyLLMClient()
-    
+
     # Unknown provider or explicitly set to "dummy"
     return SyncDummyLLMClient()
 

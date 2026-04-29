@@ -23,7 +23,8 @@ requests==2.31.0
 sympy==1.12
 
 # LLM Integration
-openai==1.3.8
+anthropic>=0.40.0  # Claude API — primary LLM provider (see ADR-002)
+openai==1.3.8      # Fallback; deprecated in Phase 12
 
 # Testing
 pytest==7.4.3
