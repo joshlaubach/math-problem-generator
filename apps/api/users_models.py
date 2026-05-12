@@ -26,11 +26,17 @@ class User:
     Attributes:
         id: Unique user identifier (UUID string)
         email: User's email address (unique)
-        password_hash: Salted + hashed password (not the plaintext password)
+        password_hash: Salted + hashed password (empty string for Clerk-provisioned users)
         role: User's role for access control (student, teacher, or admin)
         created_at: Account creation timestamp
         display_name: Optional user display name (defaults to email prefix)
         is_active: Whether account is active (defaults to True)
+        clerk_user_id: Clerk user ID (e.g. "user_2abc..."), None for legacy JWT users
+        age_confirmed: Whether the user confirmed age 13+ at onboarding
+        tier: Subscription tier ('free'|'student'|'honors'|'classroom-student')
+        is_teacher: Whether the user has teacher privileges
+        learning_goal: Student's academic target ('pass'|'b'|'a'|'mastery')
+        parent_monitor: Whether parent monitoring is opted in
     """
 
     id: str
@@ -40,6 +46,12 @@ class User:
     created_at: datetime
     display_name: Optional[str] = None
     is_active: bool = True
+    clerk_user_id: Optional[str] = None
+    age_confirmed: bool = False
+    tier: str = "free"
+    is_teacher: bool = False
+    learning_goal: Optional[str] = None
+    parent_monitor: bool = False
 
     @staticmethod
     def generate_id() -> str:

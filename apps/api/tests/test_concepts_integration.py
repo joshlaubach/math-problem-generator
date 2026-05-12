@@ -9,12 +9,33 @@ Tests validate:
 """
 
 import pytest
+from datetime import datetime
 from fastapi.testclient import TestClient
 from api import app
 from concepts import CONCEPTS
 
 
-client = TestClient(app)
+def _make_auth_client():
+    """TestClient with student auth override (required since /generate needs auth)."""
+    from users_models import User
+    from auth_dependencies import require_student
+    from abuse_guard import reset_for_testing
+    from api import limiter
+
+    def _student():
+        return User(
+            id="concepts-test-student", email="student@concepts-test.com",
+            password_hash="", role="student", created_at=datetime.utcnow(),
+            is_active=True, tier="classroom-student",
+        )
+
+    reset_for_testing()
+    limiter._storage.reset()
+    app.dependency_overrides[require_student] = _student
+    return TestClient(app)
+
+
+client = _make_auth_client()
 
 
 # ============================================================================

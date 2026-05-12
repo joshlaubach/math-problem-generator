@@ -32,6 +32,14 @@ class UserRepository(Protocol):
         """Retrieve user by email address, or None if not found."""
         ...
 
+    def get_user_by_clerk_id(self, clerk_user_id: str) -> Optional[User]:
+        """Retrieve user by Clerk user ID, or None if not found."""
+        ...
+
+    def update_user(self, user: User) -> None:
+        """Persist changes to an existing user record."""
+        ...
+
     def list_users_by_role(self, role: UserRole) -> Sequence[User]:
         """Get all users with a specific role."""
         ...
@@ -98,6 +106,46 @@ class DBUserRepository:
             if record is None:
                 return None
             return user_record_to_model(record)
+        finally:
+            session.close()
+
+    def get_user_by_clerk_id(self, clerk_user_id: str) -> Optional[User]:
+        """Retrieve user by Clerk user ID, or None if not found."""
+        session: Session = self._get_session()
+        try:
+            record = (
+                session.query(UserRecord)
+                .filter(UserRecord.clerk_user_id == clerk_user_id)
+                .first()
+            )
+            if record is None:
+                return None
+            return user_record_to_model(record)
+        finally:
+            session.close()
+
+    def update_user(self, user: User) -> None:
+        """Persist changes to an existing user record."""
+        session: Session = self._get_session()
+        try:
+            record = session.query(UserRecord).filter(UserRecord.id == user.id).first()
+            if record is None:
+                raise ValueError(f"User {user.id} not found")
+            record.email = user.email
+            record.password_hash = user.password_hash
+            record.role = user.role
+            record.display_name = user.display_name
+            record.is_active = user.is_active
+            record.clerk_user_id = user.clerk_user_id
+            record.age_confirmed = user.age_confirmed
+            record.tier = user.tier
+            record.is_teacher = user.is_teacher
+            record.learning_goal = getattr(user, "learning_goal", None)
+            record.parent_monitor = getattr(user, "parent_monitor", False)
+            session.commit()
+        except Exception:
+            session.rollback()
+            raise
         finally:
             session.close()
 
@@ -200,6 +248,19 @@ class InMemoryUserRepository:
             if user.email == email:
                 return user
         return None
+
+    def get_user_by_clerk_id(self, clerk_user_id: str) -> Optional[User]:
+        """Retrieve user by Clerk user ID from memory."""
+        for user in self._users.values():
+            if user.clerk_user_id == clerk_user_id:
+                return user
+        return None
+
+    def update_user(self, user: User) -> None:
+        """Persist changes to an existing user in memory."""
+        if user.id not in self._users:
+            raise ValueError(f"User {user.id} not found")
+        self._users[user.id] = user
 
     def list_users_by_role(self, role: UserRole) -> Sequence[User]:
         """Get all users with a specific role from memory."""

@@ -320,14 +320,41 @@ class UserRecord(Base):
     clerk_user_id: Mapped[Optional[str]] = mapped_column(String(255), unique=True, nullable=True, index=True)
 
     # Platform tier fields (Prisma User model alignment)
-    tier: Mapped[str] = mapped_column(String(30), default="free", index=True)  # 'free'|'student'|'honors'|'classroom-student'
+    tier: Mapped[str] = mapped_column(String(30), default="free", index=True)  # 'free'|'basic'|'student'|'honors'|'classroom-student'
     is_teacher: Mapped[bool] = mapped_column(Boolean, default=False)
     age_confirmed: Mapped[bool] = mapped_column(Boolean, default=False)
     stripe_customer_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     stripe_subscription_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
 
+    # Daily usage tracking
+    daily_problems_generated: Mapped[int] = mapped_column(Integer, default=0)
+    last_reset_date: Mapped[Optional[str]] = mapped_column(String(10), nullable=True)  # ISO date "YYYY-MM-DD"
+
+    # Per-user quota override (NULL = use tier default)
+    daily_limit_override: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+
+    # Tutor / learning goal fields
+    learning_goal: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)  # 'pass'|'b'|'a'|'mastery'
+    parent_monitor: Mapped[bool] = mapped_column(Boolean, default=False)
+
     def __repr__(self) -> str:
         return f"<UserRecord(id={self.id}, email={self.email}, role={self.role}, tier={self.tier})>"
+
+
+class AdminActionRecord(Base):
+    """Audit log for admin panel actions (role changes, tier overrides, deactivations, etc.)."""
+
+    __tablename__ = "admin_actions"
+
+    id: Mapped[int] = mapped_column(Integer, primary_key=True, autoincrement=True)
+    admin_id: Mapped[str] = mapped_column(String(36), index=True)
+    action_type: Mapped[str] = mapped_column(String(50), index=True)
+    target_id: Mapped[str] = mapped_column(String(255), index=True)
+    changes_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    timestamp: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+
+    def __repr__(self) -> str:
+        return f"<AdminActionRecord(admin={self.admin_id[:8]}..., action={self.action_type}, target={self.target_id[:8]}...)>"
 
 
 class LegacyUserLinkRecord(Base):
@@ -369,6 +396,12 @@ def user_record_to_model(record: UserRecord) -> User:
         created_at=record.created_at,
         display_name=record.display_name,
         is_active=record.is_active,
+        clerk_user_id=record.clerk_user_id,
+        age_confirmed=record.age_confirmed,
+        tier=record.tier,
+        is_teacher=record.is_teacher,
+        learning_goal=record.learning_goal,
+        parent_monitor=record.parent_monitor,
     )
 
 
@@ -382,6 +415,12 @@ def user_model_to_record(user: User) -> UserRecord:
         created_at=user.created_at,
         display_name=user.display_name,
         is_active=user.is_active,
+        clerk_user_id=user.clerk_user_id,
+        age_confirmed=user.age_confirmed,
+        tier=user.tier,
+        is_teacher=user.is_teacher,
+        learning_goal=getattr(user, "learning_goal", None),
+        parent_monitor=getattr(user, "parent_monitor", False),
     )
 
 
@@ -555,4 +594,106 @@ class AssignmentSubmissionRecord(Base):
 
     def __repr__(self) -> str:
         return f"<AssignmentSubmissionRecord(assignment_id={self.assignment_id}, student_id={self.student_id})>"
+
+
+# ============================================================================
+# Tutor Session Credits & Sessions (Phase: AI Tutor)
+# ============================================================================
+
+
+class SessionCreditRecord(Base):
+    """One purchasable tutor session credit. Expires after 6 months."""
+
+    __tablename__ = "session_credits"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    used_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    expires_at: Mapped[datetime] = mapped_column(DateTime, index=True)
+    purchase_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<SessionCreditRecord(id={self.id}, user_id={self.user_id}, used={self.used_at is not None})>"
+
+
+class TutorSessionRecord(Base):
+    """Persisted record of a completed or in-progress tutor session."""
+
+    __tablename__ = "tutor_sessions"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    credit_id: Mapped[Optional[str]] = mapped_column(String(36), nullable=True)
+    topic_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True, index=True)
+    topic_name: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
+    started_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    ended_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    duration_seconds: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    mode: Mapped[str] = mapped_column(String(20), default="practice")  # concept|homework|practice
+    summary_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)   # {bullets: str[]}
+    transcript_json: Mapped[Optional[str]] = mapped_column(Text, nullable=True)  # only if parent_monitor
+    parent_monitor: Mapped[bool] = mapped_column(Boolean, default=False)
+    problems_attempted: Mapped[int] = mapped_column(Integer, default=0)
+    problems_solved: Mapped[int] = mapped_column(Integer, default=0)
+    credit_restored: Mapped[bool] = mapped_column(Boolean, default=False)
+
+    def __repr__(self) -> str:
+        return f"<TutorSessionRecord(id={self.id}, user_id={self.user_id}, topic={self.topic_id})>"
+
+
+class ScrapbookEntryRecord(Base):
+    """One scratchpad entry (reasoning or expression) from a tutor session."""
+
+    __tablename__ = "scrapbook_entries"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    session_id: Mapped[str] = mapped_column(String(36), index=True)
+    box: Mapped[str] = mapped_column(String(20))  # 'reasoning'|'expression'
+    content: Mapped[str] = mapped_column(Text)
+    sympy_result: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)  # valid|invalid|unknown
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<ScrapbookEntryRecord(session_id={self.session_id}, box={self.box})>"
+
+
+class ValidationDisputeRecord(Base):
+    """Disputed SymPy validation — queued for human review when Claude and SymPy disagree."""
+
+    __tablename__ = "validation_disputes"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    session_id: Mapped[str] = mapped_column(String(36), index=True)
+    expression: Mapped[str] = mapped_column(Text)
+    expected: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+    sympy_loose: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
+    claude_verdict: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)
+    accepted: Mapped[Optional[bool]] = mapped_column(Boolean, nullable=True)
+    reviewed_by: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    reviewed_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<ValidationDisputeRecord(id={self.id}, accepted={self.accepted})>"
+
+
+class ParentLinkRecord(Base):
+    """Links a parent account to a student account for session monitoring."""
+
+    __tablename__ = "parent_links"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    parent_id: Mapped[str] = mapped_column(String(255), index=True)
+    student_id: Mapped[str] = mapped_column(String(255), index=True)
+    link_code: Mapped[str] = mapped_column(String(12), unique=True, index=True)
+    confirmed: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_parent_student_unique", "parent_id", "student_id", unique=True),
+    )
+
+    def __repr__(self) -> str:
+        return f"<ParentLinkRecord(parent_id={self.parent_id}, student_id={self.student_id})>"
 

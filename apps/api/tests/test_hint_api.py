@@ -5,18 +5,42 @@ Tests that the hint endpoint works correctly with both
 DummyLLMClient and configured LLM providers.
 """
 
+import os
 import pytest
 import asyncio
+from datetime import datetime
 from fastapi.testclient import TestClient
 from unittest.mock import patch, MagicMock
+
+os.environ.setdefault("AUTH_PROVIDER", "jwt")
 
 from api import app
 
 
+def _student_user():
+    from users_models import User
+    return User(
+        id="hint-test-student",
+        email="student@hint-test.com",
+        password_hash="",
+        role="student",
+        created_at=datetime.utcnow(),
+        is_active=True,
+    )
+
+
 @pytest.fixture
 def client():
-    """FastAPI test client."""
-    return TestClient(app)
+    """FastAPI test client with student auth override for /hint."""
+    from auth_dependencies import require_student
+    from abuse_guard import reset_for_testing
+    from api import limiter
+
+    reset_for_testing()
+    limiter._storage.reset()
+    app.dependency_overrides[require_student] = _student_user
+    yield TestClient(app)
+    app.dependency_overrides.pop(require_student, None)
 
 
 class TestHintAPI:

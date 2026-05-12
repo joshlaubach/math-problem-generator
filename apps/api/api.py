@@ -20,8 +20,11 @@ from uuid import uuid4
 from fastapi import FastAPI, HTTPException, Query, Depends, Header, Request, status, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.util import get_remote_address
 
-from config import DEFAULT_ATTEMPT_JSONL_PATH, USE_DATABASE, TEACHER_API_KEY, ADMIN_API_KEY
+from config import DEFAULT_ATTEMPT_JSONL_PATH, USE_DATABASE, TEACHER_API_KEY, ADMIN_API_KEY, FRONTEND_URL
 from generators import get_generator_for_topic, list_registered_topics
 from repositories import AttemptRepository, ProblemRepository
 from repo_factory import get_attempt_repository as factory_get_attempt_repository, get_problem_repository as factory_get_problem_repository
@@ -55,14 +58,53 @@ from concepts import (
 
 # Phase 10: Authentication and authorization
 from auth_router import router as auth_router
+from ws_router import router as ws_router
+from calc_router import router as calc_router
+from admin_router import router as admin_router
+from session_quota import (
+    check_problem_quota,
+    record_problem,
+    get_tutor_hours_used,
+    get_problems_used,
+    get_problems_used_today,
+    get_reset_date,
+    TUTOR_HOUR_LIMITS,
+    PROBLEM_MONTH_LIMITS,
+    FREE_DAILY_PROBLEM_LIMIT,
+    PAID_TIERS,
+)
 from auth_dependencies import (
     get_current_user,
+    get_unverified_clerk_user,
     optional_current_user,
     require_student,
     require_teacher,
     require_admin,
+    get_user_repository,
 )
 from users_models import User as AuthUser
+from abuse_guard import check_and_record as _abuse_check
+
+
+def _rate_key(request: Request) -> str:
+    """Rate-limit by user ID extracted from the Bearer token, falling back to IP."""
+    auth = request.headers.get("Authorization", "")
+    if auth.startswith("Bearer "):
+        try:
+            import jwt as _pyjwt
+            payload = _pyjwt.decode(
+                auth[7:],
+                options={"verify_signature": False, "verify_exp": False},
+            )
+            sub = payload.get("sub")
+            if sub:
+                return f"user:{sub}"
+        except Exception:
+            pass
+    return request.client.host if request.client else "unknown"
+
+
+limiter = Limiter(key_func=_rate_key)
 
 
 # Configuration (can be overridden with environment variables)
@@ -349,10 +391,11 @@ class HintRequest(BaseModel):
     """Request to generate a hint for a problem."""
 
     problem_id: str
-    problem_latex: str
-    current_step_latex: Optional[str] = Field(default=None, description="Current step student is on")
-    error_description: Optional[str] = Field(default=None, description="Description of student's error")
-    context_tags: Optional[str] = Field(default=None, description="Comma-separated context tags")
+    problem_latex: str = Field(..., max_length=2000)
+    hint_index: int = Field(default=0, ge=0, le=3, description="Which hint to generate (0=first, 3=fourth)")
+    current_step_latex: Optional[str] = Field(default=None, max_length=2000)
+    error_description: Optional[str] = Field(default=None, max_length=2000)
+    context_tags: Optional[str] = Field(default=None, max_length=2000)
 
 
 class HintResponse(BaseModel):
@@ -578,18 +621,32 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-# Enable CORS for frontend
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+# CORS: lock to FRONTEND_URL in production; localhost fallback for dev.
+_is_prod_origin = (
+    FRONTEND_URL
+    and not FRONTEND_URL.startswith("http://localhost")
+    and not FRONTEND_URL.startswith("http://127.0.0.1")
+)
+_cors_origins = (
+    [FRONTEND_URL]
+    if _is_prod_origin
+    else [
+        "http://localhost:3000",
+        "http://127.0.0.1:3000",
+        "http://localhost:3001",
+        "http://127.0.0.1:3001",
+    ]
+)
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://localhost:5174",
-        "http://127.0.0.1:5173",
-        "http://127.0.0.1:5174",
-    ],
+    allow_origins=_cors_origins,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Content-Type", "Authorization", "X-API-Key"],
 )
 
 # Default: teacher endpoints open when TEACHER_API_KEY is None; can be tightened per-client
@@ -601,6 +658,167 @@ app.include_router(
     prefix="",
     tags=["auth"],
 )
+
+# WebSocket tutor router
+app.include_router(ws_router)
+
+# CAS calculator router
+app.include_router(calc_router)
+
+# Admin panel router
+app.include_router(admin_router)
+
+# Session credits + Stripe checkout
+from credit_router import router as credit_router
+app.include_router(credit_router)
+
+# Tutor utilities (scratchpad validation, dispute, voice)
+from tutor_router import router as tutor_router
+app.include_router(tutor_router)
+
+# Parent monitoring
+from parent_router import router as parent_router
+app.include_router(parent_router)
+
+
+@app.get("/me/quota")
+async def get_my_quota(user: AuthUser = Depends(require_student)):
+    """Return the authenticated user's current quota usage for tutor hours and problem generation."""
+    from datetime import datetime, timezone
+    year_month = datetime.now(timezone.utc).strftime("%Y-%m")
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+
+    problems_used = get_problems_used(user.id, year_month)
+    problem_limit = PROBLEM_MONTH_LIMITS.get(user.tier, PROBLEM_MONTH_LIMITS["free"])
+    problems_today = get_problems_used_today(user.id, today) if user.tier == "free" else None
+
+    tutor_info = None
+    if user.tier in PAID_TIERS:
+        hours_used = get_tutor_hours_used(user.id, year_month)
+        hour_limit = TUTOR_HOUR_LIMITS[user.tier]
+        tutor_info = {
+            "used_hours": round(hours_used, 2),
+            "limit_hours": hour_limit,
+            "allowed": hours_used < hour_limit,
+        }
+
+    return {
+        "tier": user.tier,
+        "resets_at": get_reset_date(),
+        "tutor": tutor_info,
+        "problems": {
+            "used": problems_used,
+            "limit": problem_limit,
+            "used_today": problems_today,
+            "daily_limit": FREE_DAILY_PROBLEM_LIMIT if user.tier == "free" else None,
+            "allowed": problems_used < problem_limit and (
+                user.tier != "free" or (problems_today or 0) < FREE_DAILY_PROBLEM_LIMIT
+            ),
+        },
+    }
+
+
+@app.get("/me/progress")
+async def get_my_progress(user: AuthUser = Depends(require_student)):
+    """
+    Return goal-calibrated progress for the authenticated student.
+
+    Computes per-topic completion status against the student's learning goal.
+    Goal thresholds:
+      pass    → 65% accuracy at difficulty 2-3
+      b       → 75% accuracy at difficulty 3-4
+      a       → 85% accuracy at difficulty 4-5
+      mastery → 90%+ accuracy at difficulty 5-6
+    """
+    from tracking import load_attempts
+
+    GOAL_THRESHOLDS = {
+        "pass":    {"accuracy": 0.65, "min_difficulty": 2},
+        "b":       {"accuracy": 0.75, "min_difficulty": 3},
+        "a":       {"accuracy": 0.85, "min_difficulty": 4},
+        "mastery": {"accuracy": 0.90, "min_difficulty": 5},
+    }
+
+    goal = getattr(user, "learning_goal", None) or "b"
+    threshold = GOAL_THRESHOLDS.get(goal, GOAL_THRESHOLDS["b"])
+
+    # Load recent attempts for this user
+    try:
+        all_attempts = load_attempts()
+        user_attempts = [a for a in all_attempts if a.user_id == user.id]
+    except Exception:
+        user_attempts = []
+
+    # Group by topic_id → compute accuracy on recent 10 attempts at threshold difficulty
+    from collections import defaultdict
+    topic_stats: dict[str, dict] = defaultdict(lambda: {"correct": 0, "total": 0, "at_level": 0})
+
+    for attempt in user_attempts:
+        tid = attempt.topic_id
+        if not tid:
+            continue
+        topic_stats[tid]["total"] += 1
+        if attempt.is_correct:
+            topic_stats[tid]["correct"] += 1
+        if attempt.difficulty >= threshold["min_difficulty"]:
+            topic_stats[tid]["at_level"] += 1
+
+    # Build per-topic progress
+    topics_progress = []
+    for tid, stats in topic_stats.items():
+        total = stats["total"]
+        if total == 0:
+            continue
+        accuracy = stats["correct"] / total
+        complete = (
+            accuracy >= threshold["accuracy"]
+            and stats["at_level"] >= 2
+        )
+        needs_review = total >= 3 and accuracy < 0.60
+
+        topics_progress.append({
+            "topic_id": tid,
+            "total_attempts": total,
+            "accuracy": round(accuracy, 3),
+            "complete": complete,
+            "needs_review": needs_review,
+        })
+
+    complete_count = sum(1 for t in topics_progress if t["complete"])
+    needs_review_count = sum(1 for t in topics_progress if t["needs_review"])
+
+    return {
+        "goal": goal,
+        "threshold": threshold,
+        "summary": {
+            "topics_attempted": len(topics_progress),
+            "topics_complete": complete_count,
+            "topics_needing_review": needs_review_count,
+        },
+        "topics": topics_progress,
+        "session_credits": _get_credit_balance(user.id),
+    }
+
+
+def _get_credit_balance(user_id: str) -> dict:
+    """Return session credit balance for dashboard display."""
+    try:
+        from credit_router import _uses_database, _available_credits, _expiring_soon, _next_expiry
+        if not _uses_database():
+            return {"available": None, "expiring_soon": 0, "next_expiry": None}
+        from db_session import get_session as _get_db
+        db = _get_db()
+        try:
+            credits = _available_credits(user_id, db)
+            return {
+                "available": len(credits),
+                "expiring_soon": _expiring_soon(credits),
+                "next_expiry": _next_expiry(credits),
+            }
+        finally:
+            db.close()
+    except Exception:
+        return {"available": None, "expiring_soon": 0, "next_expiry": None}
 
 
 @app.get("/topics")
@@ -617,13 +835,17 @@ async def get_topics():
             "course_id": t.course_id,
             "course_name": t.course_name,
             "prerequisites": t.prerequisites,
+            "calculator_mode": t.calculator_mode,
+            "is_honors": t.is_honors,
         }
         for t in topics
     ]
 
 
 @app.get("/generate", response_model=ProblemResponse)
-def generate_problem(
+@limiter.limit("5/minute")
+async def generate_problem(
+    request: Request,
     topic_id: Optional[str] = Query(None, description="Topic ID from /topics"),
     topic: Optional[str] = Query(None, description="Alias for topic_id"),
     difficulty: int = Query(
@@ -631,94 +853,133 @@ def generate_problem(
     ),
     calculator_mode: str = Query(
         "none",
-        pattern="^(none|scientific|graphing)$",
+        pattern="^(none|scientific|graphing|cas)$",
         description="Calculator mode",
     ),
     word_problem: bool = Query(False, description="Wrap as word problem"),
     reading_level: Optional[str] = Query(None, description="Reading level (for word problems)"),
     context_tags: Optional[str] = Query(None, description="Comma-separated context tags"),
+    user: AuthUser = Depends(require_student),
+    user_repo=Depends(get_user_repository),
 ):
     """
-    Generate a math problem.
+    Generate a math problem. Requires authentication.
 
-    Args:
-        topic_id: The topic to generate from (e.g., "alg1_linear_solve_one_var").
-        difficulty: Difficulty level (1-6).
-        calculator_mode: "none", "scientific", or "graphing".
-        word_problem: If True, wrap the problem as a word problem.
-        reading_level: Grade level for word problems (e.g., "grade_8", "high_school").
-        context_tags: Comma-separated tags (e.g., "money,distance").
-
-    Returns:
-        A ProblemResponse with the generated problem.
-
-    Raises:
-        HTTPException: If topic_id is invalid or generation fails.
+    Uses SymPy-backed generators when available; falls back to LLM (Mode B)
+    for any topic not in the static registry. All 818 curriculum topics are
+    supported via the LLM fallback when ANTHROPIC_API_KEY is set.
     """
+    from topic_registry import TOPIC_REGISTRY
+    from agents.generator import generate as agent_generate
+    from agents.schemas import GeneratorInput
+    from uuid import uuid4
+
+    _abuse_check(user.id, user.role, user_repo)
+
+    allowed, used, limit = check_problem_quota(user.id, user.tier)
+    if not allowed:
+        raise HTTPException(
+            status_code=429,
+            detail=f"Monthly problem limit reached ({used}/{limit}). Resets on {get_reset_date()}.",
+        )
+
     effective_topic_id = topic_id or topic
     if not effective_topic_id:
         raise HTTPException(status_code=422, detail="topic_id (or topic) is required")
 
-    # Validate topic
+    # Try SymPy-backed registry first
     try:
         generator = get_generator_for_topic(effective_topic_id)
+        try:
+            problem = generator.generate(difficulty, calculator_mode)
+        except Exception as e:
+            raise HTTPException(status_code=400, detail=f"Generation failed: {str(e)}")
+
+        if word_problem:
+            tags = [t.strip() for t in context_tags.split(",")] if context_tags else []
+            problem = wrap_problem_as_word_problem(
+                problem, reading_level=reading_level or "grade_8", context_tags=tags
+            )
+
+        problem_dict = problem_to_dict(problem)
+        word_problem_prompt = problem.metadata.get("word_problem_prompt") if hasattr(problem, 'metadata') else None
+        if user is not None:
+            record_problem(user.id, problem.id, source="bank")
+        return ProblemResponse(
+            id=problem.id,
+            topic_id=problem.topic_id,
+            course_id=problem.course_id,
+            difficulty=problem.difficulty,
+            prompt_latex=problem.prompt_latex,
+            answer_type=problem.answer_type,
+            final_answer=str(problem.final_answer),
+            solution=problem_dict.get("solution", {}),
+            calculator_mode=problem.calculator_mode,
+            word_problem_prompt=word_problem_prompt,
+            concept_ids=problem.concept_ids,
+            primary_concept_id=problem.primary_concept_id,
+        )
+
     except KeyError:
+        pass  # no SymPy generator — fall through to LLM agent
+
+    # LLM fallback (Mode B): works for any topic in the curriculum registry
+    topic_meta = TOPIC_REGISTRY.get(effective_topic_id)
+    if not topic_meta:
         raise HTTPException(status_code=404, detail=f"Unknown topic: {effective_topic_id}")
 
-    # Generate problem
+    # Map difficulty 1-6 → conceptual/computational 1-5
+    diff5 = max(1, min(5, round(difficulty * 5 / 6)))
+    _calc_map = {"none": "none", "scientific": "scientific", "graphing": "graphing", "cas": "cas"}
+    calc_tier = _calc_map.get(calculator_mode, "none")
+
     try:
-        problem = generator.generate(difficulty, calculator_mode)
+        generated = await agent_generate(GeneratorInput(
+            topic=topic_meta.topic_name,
+            course=topic_meta.course_name,
+            unit=topic_meta.unit_name,
+            conceptual_diff=diff5,
+            computational_diff=diff5,
+            calc_tier=calc_tier,
+        ))
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Generation failed: {str(e)}")
 
-    # Optionally wrap as word problem
-    if word_problem:
-        tags = [t.strip() for t in context_tags.split(",")] if context_tags else []
-        problem = wrap_problem_as_word_problem(
-            problem, reading_level=reading_level or "grade_8", context_tags=tags
-        )
-
-    # Serialize
-    problem_dict = problem_to_dict(problem)
-    word_problem_prompt = problem.metadata.get("word_problem_prompt") if hasattr(problem, 'metadata') else None
-
+    problem_id = str(uuid4())
+    if user is not None:
+        record_problem(user.id, problem_id, source="live")
     return ProblemResponse(
-        id=problem.id,
-        topic_id=problem.topic_id,
-        course_id=problem.course_id,
-        difficulty=problem.difficulty,
-        prompt_latex=problem.prompt_latex,
-        answer_type=problem.answer_type,
-        final_answer=str(problem.final_answer),
-        solution=problem_dict.get("solution", {}),
-        calculator_mode=problem.calculator_mode,
-        word_problem_prompt=word_problem_prompt,
-        concept_ids=problem.concept_ids,
-        primary_concept_id=problem.primary_concept_id,
+        id=problem_id,
+        topic_id=effective_topic_id,
+        course_id=topic_meta.course_id,
+        difficulty=difficulty,
+        prompt_latex=generated.statement,
+        answer_type="expression",
+        final_answer=generated.answer,
+        solution={"steps": [{"expression_latex": s.step, "description_latex": s.explanation} for s in generated.worked_steps]},
+        calculator_mode=calculator_mode,
+        word_problem_prompt=None,
+        concept_ids=[],
+        primary_concept_id=None,
     )
 
 
 @app.post("/attempt", response_model=AttemptResponse)
 async def record_attempt(
     request: AttemptRequest,
-    user: Optional[AuthUser] = Depends(optional_current_user),
+    user: AuthUser = Depends(require_student),
 ):
     """
-    Record a student attempt on a problem.
-    
-    Supports both authenticated and anonymous users:
-    - If JWT token provided and valid, uses authenticated user_id
-    - Otherwise, uses user_id from request (legacy anonymous flow)
+    Record a student attempt on a problem. Requires authentication.
 
     Args:
-        request: AttemptRequest with user, problem, and correctness info.
-        user: Optional authenticated user from JWT
+        request: AttemptRequest with problem and correctness info.
+        user: Authenticated user from JWT.
 
     Returns:
         AttemptResponse confirming the attempt was saved.
     """
-    # Determine effective user ID (prefer authenticated user)
-    effective_user_id = user.id if user is not None else request.user_id
+    effective_user_id = user.id
     
     attempt = Attempt(
         user_id=effective_user_id,
@@ -912,39 +1173,196 @@ async def get_my_recommended_difficulty(
     )
 
 
-@app.post("/hint", response_model=HintResponse)
-def generate_hint(request: HintRequest):
+@app.post("/users/me/confirm-age", status_code=status.HTTP_200_OK)
+async def confirm_age(
+    user: AuthUser = Depends(get_unverified_clerk_user),
+    user_repo=Depends(get_user_repository),
+):
     """
-    Generate a hint for a problem using the configured LLM.
+    Mark the authenticated user as having confirmed they are 13 or older.
+
+    Called once from the /onboarding page after the user checks the age
+    confirmation checkbox. Sets age_confirmed=True on the user record.
+    Uses get_unverified_clerk_user so that users who haven't confirmed age
+    yet can still reach this endpoint without hitting a 403 loop.
+
+    Returns:
+        {"ok": true, "age_confirmed": true}
+    """
+    if not user.age_confirmed:
+        user.age_confirmed = True
+        user_repo.update_user(user)
+    return {"ok": True, "age_confirmed": True}
+
+
+class GoalRequest(BaseModel):
+    goal: str  # 'pass'|'b'|'a'|'mastery'
+
+
+@app.post("/users/me/goal", status_code=status.HTTP_200_OK)
+async def set_learning_goal(
+    body: GoalRequest,
+    user: AuthUser = Depends(require_student),
+    user_repo=Depends(get_user_repository),
+):
+    """Set the student's learning goal, used to calibrate progress thresholds."""
+    valid_goals = {"pass", "b", "a", "mastery"}
+    if body.goal not in valid_goals:
+        raise HTTPException(
+            status_code=422,
+            detail=f"Invalid goal '{body.goal}'. Must be one of {sorted(valid_goals)}.",
+        )
+    user.learning_goal = body.goal
+    user_repo.update_user(user)
+    return {"ok": True, "learning_goal": body.goal}
+
+
+# ── Honors toggle ─────────────────────────────────────────────────────────────
+
+# Courses where teacher/parent must enable honors (younger students, foundational)
+_HONORS_PERMISSION_REQUIRED_SLUGS = {"algebra-1", "geometry", "algebra-2", "algebra_1", "algebra_2"}
+
+
+@app.post("/me/honors/{topic_id}/enable", status_code=status.HTTP_200_OK)
+async def enable_honors(
+    topic_id: str,
+    request: Request,
+    user: AuthUser = Depends(require_student),
+    x_parent_token: Optional[str] = Header(default=None, alias="X-Parent-Token"),
+):
+    """
+    Enable honors mode for a specific topic.
+
+    For Algebra 1, Geometry, and Algebra 2: requires teacher role or X-Parent-Token header.
+    For all other courses (Pre-Calc and above): student can self-enable with a disclaimer.
+
+    Returns: {ok: true, honors_enabled: true, disclaimer: str|null}
+    """
+    from topic_registry import TOPIC_REGISTRY
+
+    topic_meta = TOPIC_REGISTRY.get(topic_id)
+    if not topic_meta:
+        raise HTTPException(status_code=404, detail=f"Topic {topic_id!r} not found")
+
+    course_slug = topic_meta.course_id.lower().replace(" ", "-")
+    requires_permission = any(s in course_slug for s in _HONORS_PERMISSION_REQUIRED_SLUGS)
+
+    if requires_permission:
+        # Must be teacher/admin or present a valid parent token
+        is_teacher = user.role in ("teacher", "admin")
+        has_parent_token = bool(x_parent_token)
+
+        if not is_teacher and not has_parent_token:
+            raise HTTPException(
+                status_code=403,
+                detail=(
+                    "Honors mode for this course requires parent or teacher approval. "
+                    "Ask a parent or teacher to enable it for you."
+                ),
+            )
+        disclaimer = None
+    else:
+        disclaimer = (
+            "Honors mode activates significantly harder problems. "
+            "These are designed for students aiming for advanced placement or competition math."
+        )
+
+    return {
+        "ok": True,
+        "honors_enabled": True,
+        "topic_id": topic_id,
+        "course": topic_meta.course_name,
+        "required_permission": requires_permission,
+        "disclaimer": disclaimer,
+    }
+
+
+@app.delete("/me/honors/{topic_id}", status_code=status.HTTP_200_OK)
+async def disable_honors(
+    topic_id: str,
+    user: AuthUser = Depends(require_student),
+):
+    """Disable honors mode for a topic (always allowed by the student)."""
+    return {"ok": True, "honors_enabled": False, "topic_id": topic_id}
+
+
+@app.get("/me/honors/{topic_id}", status_code=status.HTTP_200_OK)
+async def get_honors_status(
+    topic_id: str,
+    user: AuthUser = Depends(require_student),
+):
+    """Return honors gating info for a topic without enabling it."""
+    from topic_registry import TOPIC_REGISTRY
+
+    topic_meta = TOPIC_REGISTRY.get(topic_id)
+    if not topic_meta:
+        raise HTTPException(status_code=404, detail=f"Topic {topic_id!r} not found")
+
+    course_slug = topic_meta.course_id.lower().replace(" ", "-")
+    requires_permission = any(s in course_slug for s in _HONORS_PERMISSION_REQUIRED_SLUGS)
+
+    return {
+        "topic_id": topic_id,
+        "course": topic_meta.course_name,
+        "requires_permission": requires_permission,
+        "permission_reason": (
+            "This course is for younger students. A parent or teacher must enable honors mode."
+            if requires_permission else None
+        ),
+    }
+
+
+@app.post("/hint", response_model=HintResponse)
+@limiter.limit("5/minute")
+async def generate_hint(
+    request: Request,
+    body: HintRequest,
+    user: AuthUser = Depends(require_student),
+    user_repo=Depends(get_user_repository),
+):
+    """
+    Generate a hint for a problem using the configured LLM. Requires authentication.
 
     Args:
-        request: HintRequest with problem context and optional error information.
+        body: HintRequest with problem context and optional error information.
 
     Returns:
         HintResponse with the generated hint.
-        
+
     Raises:
         HTTPException: If hint generation fails.
     """
+    _abuse_check(user.id, user.role, user_repo)
+
     try:
         llm_client = get_cached_sync_llm_client()
-        
-        # Build context for hint generation
-        problem_context = f"Problem: {request.problem_latex}"
-        if request.current_step_latex:
-            problem_context += f"\nCurrent step: {request.current_step_latex}"
-        if request.error_description:
-            problem_context += f"\nError: {request.error_description}"
-        if request.context_tags:
-            problem_context += f"\nContext: {request.context_tags}"
-        
+
+        _hint_guidance = [
+            "Give a very gentle nudge — help the student identify the relevant concept or formula WITHOUT revealing the method.",
+            "Be more specific than hint 1. Point the student toward the right approach or first step, but do NOT show the calculation.",
+            "Give the key method or first calculation step. The student should still need to complete the work themselves.",
+            "Give a near-complete walkthrough of the method, stopping just before the final numerical answer.",
+        ]
+        guidance = _hint_guidance[min(body.hint_index, 3)]
+
+        problem_context = (
+            f"Hint {body.hint_index + 1} of 4 — {guidance}\n\n"
+            f"Problem: {body.problem_latex}"
+        )
+        if body.current_step_latex:
+            problem_context += f"\nStudent's current step: {body.current_step_latex}"
+        if body.error_description:
+            problem_context += f"\nDescribed error: {body.error_description}"
+
         hint = llm_client.generate_hint(problem_context)
-        
+
         return HintResponse(
-            problem_id=request.problem_id,
+            problem_id=body.problem_id,
             hint=hint,
             hint_type="educational",
         )
+    except HTTPException:
+        raise
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to generate hint: {str(e)}")
 
@@ -1718,6 +2136,132 @@ def export_concept_graph(format: str = Query("json", pattern="^(json|dot)$")):
 def health_check():
     """Simple health check endpoint."""
     return {"status": "ok"}
+
+
+@app.get("/topics/{topic_id}/lesson")
+async def get_topic_lesson(topic_id: str):
+    """
+    Return a structured JSON lesson for a topic, generating on first request.
+
+    Caches to apps/api/data/topic_lessons/{topic_id}.json.
+    Returns the 8-section schema: hook, concept, anatomy, worked_example,
+    partial_example, practice_problems, common_mistakes, untested_variants.
+    """
+    import json
+    from datetime import datetime, timezone
+    from config import DATA_DIR
+    from topic_registry import TOPIC_REGISTRY, COURSE_REGISTRY
+
+    lessons_dir = DATA_DIR / "topic_lessons"
+    lessons_dir.mkdir(parents=True, exist_ok=True)
+    cache_path = lessons_dir / f"{topic_id}.json"
+
+    if cache_path.exists():
+        try:
+            data = json.loads(cache_path.read_text())
+            # Serve cached — but flag if it was a fallback stub so client can retry
+            return data
+        except Exception:
+            pass  # Corrupt cache — regenerate
+
+    topic_meta = TOPIC_REGISTRY.get(topic_id)
+    if not topic_meta:
+        raise HTTPException(status_code=404, detail=f"Topic not found: {topic_id}")
+
+    # Resolve unit_name from COURSE_REGISTRY
+    unit_name = topic_meta.unit_name
+
+    from agents.topic_lesson_writer import write_topic_lesson
+    try:
+        lesson = await write_topic_lesson(
+            topic_id=topic_id,
+            topic_name=topic_meta.topic_name,
+            unit_name=unit_name,
+            course_name=topic_meta.course_name,
+        )
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Lesson generation failed: {exc}")
+
+    result = {
+        "topic_id": topic_id,
+        "topic_name": topic_meta.topic_name,
+        "course_name": topic_meta.course_name,
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        **lesson,
+    }
+    cache_path.write_text(json.dumps(result, indent=2))
+    return result
+
+
+@app.get("/units/{unit_id}/intro")
+async def get_unit_intro(unit_id: str):
+    """
+    Return a structured unit introduction (hook + concept + topic_roadmap).
+
+    Topics are passed to Claude in taxonomy order; Claude writes descriptions only.
+    Caches to apps/api/data/unit_intros/{unit_id}.json.
+    """
+    import json
+    from datetime import datetime, timezone
+    from config import DATA_DIR
+    from topic_registry import COURSE_REGISTRY
+
+    intros_dir = DATA_DIR / "unit_intros"
+    intros_dir.mkdir(parents=True, exist_ok=True)
+    cache_path = intros_dir / f"{unit_id}.json"
+
+    if cache_path.exists():
+        try:
+            return json.loads(cache_path.read_text())
+        except Exception:
+            pass
+
+    # Resolve unit from registry
+    unit_info = None
+    for course_data in COURSE_REGISTRY.values():
+        if unit_id in course_data["units"]:
+            unit_info = {**course_data["units"][unit_id], "course_name": course_data["course_name"]}
+            break
+
+    if not unit_info:
+        raise HTTPException(status_code=404, detail=f"Unit not found: {unit_id}")
+
+    # Topics in taxonomy order (dict preserves insertion order in Python 3.7+)
+    topics = [
+        {"topic_id": t.topic_id, "topic_name": t.topic_name}
+        for t in unit_info["topics"].values()
+    ]
+
+    from agents.unit_intro_writer import write_unit_intro
+    try:
+        intro = await write_unit_intro(
+            unit_id=unit_id,
+            unit_name=unit_info["unit_name"],
+            course_name=unit_info["course_name"],
+            topics=topics,
+        )
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Intro generation failed: {exc}")
+
+    result = {
+        "unit_id": unit_id,
+        "unit_name": unit_info["unit_name"],
+        "course_name": unit_info["course_name"],
+        "generated_at": datetime.now(timezone.utc).isoformat(),
+        **intro,
+    }
+    cache_path.write_text(json.dumps(result, indent=2))
+    return result
+
+
+# Retired: GET /units/{unit_id}/notes (replaced by /topics/{id}/lesson + /units/{id}/intro)
+# Kept as a tombstone returning 410 Gone so old clients get a clear error.
+@app.get("/units/{unit_id}/notes")
+async def unit_notes_retired(unit_id: str):
+    raise HTTPException(
+        status_code=410,
+        detail="This endpoint has been retired. Use GET /units/{unit_id}/intro and GET /topics/{topic_id}/lesson instead.",
+    )
 
 
 # ============================================================================

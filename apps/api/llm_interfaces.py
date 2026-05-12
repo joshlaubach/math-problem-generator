@@ -44,20 +44,17 @@ class LLMClient(Protocol):
 
     async def generate_hint(
         self,
-        problem_latex: str,
-        current_step_latex: Optional[str] = None,
-        error_description: Optional[str] = None,
+        problem_context: str,
     ) -> str:
         """
-        Generate a hint for a student stuck on a problem.
+        Generate a progressively specific hint.
 
         Args:
-            problem_latex: The problem statement in LaTeX
-            current_step_latex: Optional current step the student is at
-            error_description: Optional description of what went wrong
+            problem_context: Full context string built by the caller, including
+                which hint number this is and the problem statement.
 
         Returns:
-            A helpful hint to guide the student
+            A helpful hint (1-2 sentences) that guides without revealing the answer.
         """
         ...
 
@@ -141,22 +138,10 @@ class DummyLLMClient:
 
     async def generate_hint(
         self,
-        problem_latex: str,
-        current_step_latex: Optional[str] = None,
-        error_description: Optional[str] = None,
+        problem_context: str,
     ) -> str:
-        """
-        Generate a simple hint based on the problem.
-
-        Returns a template-based hint indicating where a real LLM would be used.
-        """
-        if error_description:
-            return f"[Hint for error: {error_description}]\nTry checking your arithmetic. Review the definition of the operation you're using."
-
-        if current_step_latex:
-            return f"[Hint for step: {current_step_latex}]\nYou're on the right track! What's the next operation?"
-
-        return f"[Hint for problem: {problem_latex}]\nStart by identifying what you know and what you need to find."
+        """Return a template hint (no LLM call)."""
+        return f"[Hint] Start by identifying what you know and what you need to find. {problem_context[:60]}…"
 
     async def evaluate_student_work(
         self,
@@ -224,9 +209,7 @@ class SyncDummyLLMClient:
 
     def generate_hint(
         self,
-        problem_latex: str,
-        current_step_latex: Optional[str] = None,
-        error_description: Optional[str] = None,
+        problem_context: str,
     ) -> str:
         """Generate hint (sync version)."""
         import asyncio
@@ -238,9 +221,7 @@ class SyncDummyLLMClient:
             asyncio.set_event_loop(loop)
 
         return loop.run_until_complete(
-            self._async_client.generate_hint(
-                problem_latex, current_step_latex, error_description
-            )
+            self._async_client.generate_hint(problem_context)
         )
 
     def evaluate_student_work(

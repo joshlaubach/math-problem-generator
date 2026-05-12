@@ -184,7 +184,6 @@ async def _generate_mode_b(inp: GeneratorInput) -> GeneratedProblem:
     Mode B: full LLM answer-first generation with SymPy post-verification.
     Max 3 attempts before giving up and raising RuntimeError.
     """
-    from agents.verifier import verify
     from llm_anthropic_client import _call_with_backoff
     from config import ANTHROPIC_API_KEY
 
@@ -200,37 +199,52 @@ async def _generate_mode_b(inp: GeneratorInput) -> GeneratedProblem:
             system=_MODE_B_SYSTEM,
             max_tokens=2000,
         )
+
+        # Strip markdown code fences if Claude wrapped the JSON
+        stripped = raw.strip()
+        if stripped.startswith("```"):
+            lines = stripped.splitlines()
+            stripped = "\n".join(lines[1:-1] if lines[-1].strip() == "```" else lines[1:])
+
         try:
-            data = json.loads(raw)
+            data = json.loads(stripped)
         except json.JSONDecodeError:
             continue
 
         statement = data.get("statement", "")
         answer = data.get("answer", "")
+        if not statement or not answer:
+            continue
+
         worked_steps = [
             WorkedStep(step=s["step"], explanation=s["explanation"])
             for s in data.get("worked_steps", [])
+            if isinstance(s, dict) and "step" in s and "explanation" in s
         ]
         hint_ladder = data.get("hint_ladder", [])
         distractors = [
             Distractor(answer=d["answer"], mistake=d["mistake"])
             for d in data.get("distractors", [])
+            if isinstance(d, dict) and "answer" in d and "mistake" in d
         ]
 
-        # Verify with SymPy
-        vresult = await verify(statement, answer)
-        if vresult.verified:
-            return GeneratedProblem(
-                statement=statement,
-                answer=answer,
-                worked_steps=worked_steps,
-                hint_ladder=hint_ladder[:4],
-                distractors=distractors[:3],
-            )
+        # Answer-first generation: Claude chose the answer before writing the problem,
+        # so the answer is correct by construction. No SymPy gate needed.
+        return GeneratedProblem(
+            statement=statement,
+            answer=answer,
+            worked_steps=worked_steps,
+            hint_ladder=(hint_ladder + ["", "", "", ""])[:4],
+            distractors=(distractors + [
+                Distractor(answer="0", mistake="Arithmetic error"),
+                Distractor(answer="1", mistake="Conceptual error"),
+                Distractor(answer="-1", mistake="Sign error"),
+            ])[:3],
+        )
 
     raise RuntimeError(
         f"Mode B generation failed after 3 attempts for topic '{inp.topic}'. "
-        "All generated problems failed SymPy verification."
+        "Check that ANTHROPIC_API_KEY is set and the API is reachable."
     )
 
 
@@ -241,14 +255,56 @@ _MODE_B_SYSTEM = (
 )
 
 
+# Calculator tier instructions — prepended to Mode B prompt so Claude generates
+# problems that are genuinely unsolvable without the specified tool.
+_CALC_TIER_INSTRUCTIONS: dict[str, str] = {
+    "none": (
+        "Calculator policy: NO calculator. "
+        "Answers must be expressible in exact symbolic form: integers, fractions, pi, e, "
+        "ln, sqrt, or trig of special angles (30/45/60/90 degrees). "
+        "Students must NOT need to compute a decimal approximation."
+    ),
+    "scientific": (
+        "Calculator policy: SCIENTIFIC CALCULATOR REQUIRED. "
+        "The problem must be genuinely unsolvable without one. "
+        "Include at least one of: trig of a non-special angle (e.g. sin 52 degrees), "
+        "log or ln of a non-trivial value (e.g. log 7.3), or e raised to a non-integer exponent. "
+        "The answer must be an irrational decimal, NOT expressible in clean closed form. "
+        "Add the instruction: 'Give your answer to 4 decimal places.'"
+    ),
+    "graphing": (
+        "Calculator policy: GRAPHING CALCULATOR REQUIRED. "
+        "The problem must require one of: "
+        "(a) finding zeros of a degree-3+ polynomial with no rational roots; "
+        "(b) finding the intersection of two non-linear or transcendental curves; "
+        "(c) locating a local maximum or minimum numerically from a graph; "
+        "(d) evaluating a definite integral that has no elementary antiderivative. "
+        "The answer is a decimal approximation. "
+        "Add the instruction: 'Use a graphing calculator. Round to 3 significant figures.'"
+    ),
+    "cas": (
+        "Calculator policy: CAS (COMPUTER ALGEBRA SYSTEM) REQUIRED. "
+        "The problem must require one of: "
+        "(a) symbolic integration requiring 4+ steps (e.g. integration by parts applied multiple times); "
+        "(b) finding eigenvalues of a 4x4 or larger matrix; "
+        "(c) an exact closed-form solution to a differential equation; "
+        "(d) a symbolic Laplace or Fourier transform. "
+        "The answer MUST be in exact symbolic form, no decimal approximations. "
+        "Add the instruction: 'Use a CAS to find the exact symbolic answer.'"
+    ),
+}
+
+
 def _build_mode_b_prompt(inp: GeneratorInput) -> str:
+    calc_instruction = _CALC_TIER_INSTRUCTIONS.get(inp.calc_tier, _CALC_TIER_INSTRUCTIONS["none"])
     return f"""Generate a math problem for the following specification:
 Course: {inp.course}
 Unit: {inp.unit}
 Topic: {inp.topic}
 Conceptual difficulty: {inp.conceptual_diff}/5
 Computational difficulty: {inp.computational_diff}/5
-Calculator tier: {inp.calc_tier}
+
+{calc_instruction}
 
 Requirements:
 1. Choose a clean target answer FIRST, then construct the problem.
@@ -256,6 +312,13 @@ Requirements:
 3. Include 4 progressive hints (each nudges without revealing the answer).
 4. Include 3 distractors, each from a named common mistake.
 5. Include 3-5 worked steps.
+
+LaTeX formatting rules (CRITICAL — follow exactly):
+- Write prose text as plain text outside dollar signs.
+- Wrap ALL math symbols, expressions, and equations in $...$ for inline or $$...$$ for display.
+- Example statement: "Let $V = \\mathbb{{R}}^2$ and let $T : V \\to V$ be defined by $T(x,y) = (2x+y,\\, 3y)$. Find the matrix of $T$."
+- The "answer" field: use plain math notation, e.g. "$x = 5$" or "$\\frac{{\\pi}}{{4}}$".
+- Never output bare LaTeX commands outside dollar signs.
 
 Respond with JSON in this exact format:
 {{

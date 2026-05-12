@@ -114,25 +114,18 @@ class AnthropicLLMClient:
 
     async def generate_hint(
         self,
-        problem_latex: str,
-        current_step_latex: Optional[str] = None,
-        error_description: Optional[str] = None,
+        problem_context: str,
     ) -> str:
-        context = ""
-        if current_step_latex:
-            context += f"\nStudent's current step: {current_step_latex}"
-        if error_description:
-            context += f"\nDescribed error: {error_description}"
-
+        """Generate a pedagogically graded hint. problem_context includes the
+        hint number instruction and full problem statement, built by the caller."""
         prompt = (
-            f"Give a helpful hint for this math problem WITHOUT revealing the answer:\n\n"
-            f"Problem: {problem_latex}{context}\n\n"
-            "Return ONLY the hint, one sentence."
+            f"{problem_context}\n\n"
+            "Write the hint in 1-2 sentences. Do NOT reveal the final answer."
         )
         return await _call_with_backoff(
             messages=[{"role": "user", "content": prompt}],
-            system="You are a patient math tutor providing hints without giving away answers.",
-            max_tokens=150,
+            system="You are a patient math tutor providing progressively specific hints without giving away the final answer.",
+            max_tokens=200,
         )
 
     async def evaluate_student_work(
@@ -188,8 +181,8 @@ class SyncAnthropicLLMClient:
     def generate_word_problem(self, equation_latex, solution_latex, reading_level, context_tags):
         return self._run(self._async.generate_word_problem(equation_latex, solution_latex, reading_level, context_tags))
 
-    def generate_hint(self, problem_latex, current_step_latex=None, error_description=None):
-        return self._run(self._async.generate_hint(problem_latex, current_step_latex, error_description))
+    def generate_hint(self, problem_context: str) -> str:
+        return self._run(self._async.generate_hint(problem_context))
 
     def evaluate_student_work(self, problem_latex, student_work_latex, expected_solution_latex):
         return self._run(self._async.evaluate_student_work(problem_latex, student_work_latex, expected_solution_latex))

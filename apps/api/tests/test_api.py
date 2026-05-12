@@ -31,8 +31,34 @@ def temp_attempts_file():
 
 @pytest.fixture
 def client():
-    """FastAPI test client."""
-    return TestClient(app)
+    """
+    FastAPI test client with student auth override.
+
+    Most endpoints now require authentication — this fixture injects a default
+    student user so existing tests pass without needing to provide JWT tokens.
+    """
+    from datetime import datetime
+    from users_models import User
+    from auth_dependencies import require_student
+    from abuse_guard import reset_for_testing
+    from api import limiter
+
+    def _student():
+        return User(
+            id="test-student-api",
+            email="student@test.com",
+            password_hash="",
+            role="student",
+            created_at=datetime.utcnow(),
+            is_active=True,
+            tier="classroom-student",
+        )
+
+    reset_for_testing()
+    limiter._storage.reset()
+    app.dependency_overrides[require_student] = _student
+    yield TestClient(app)
+    app.dependency_overrides.pop(require_student, None)
 
 
 class TestListTopics:
@@ -159,7 +185,8 @@ class TestRecordAttempt:
         response = client.post("/attempt", json=request_data)
         assert response.status_code == 200
         result = response.json()
-        assert result["user_id"] == "student_1"
+        # user_id comes from the authenticated user (auth override injects "test-student-api")
+        assert result["user_id"] == "test-student-api"
         assert result["problem_id"] == "prob_001"
         assert result["is_correct"] is True
 
@@ -222,10 +249,10 @@ class TestUserStats:
 
     def test_stats_after_recording_attempts(self, client):
         """Test stats after recording some attempts."""
-        # Record some attempts
+        # Attempts are now recorded under the authenticated user ("test-student-api")
         for is_correct in [True, False, True]:
             request_data = {
-                "user_id": "student_1",
+                "user_id": "test-student-api",  # auth user
                 "problem_id": f"prob_{is_correct}",
                 "topic_id": "alg1_linear_solve_one_var",
                 "course_id": "alg1",
@@ -234,9 +261,9 @@ class TestUserStats:
             }
             client.post("/attempt", json=request_data)
 
-        # Get stats
+        # Query stats using the authenticated user's ID
         response = client.get(
-            "/user/student_1/stats/alg1_linear_solve_one_var"
+            "/user/test-student-api/stats/alg1_linear_solve_one_var"
         )
         assert response.status_code == 200
         stats = response.json()
@@ -276,10 +303,10 @@ class TestDifficultyRecommendation:
 
     def test_recommend_after_successes(self, client):
         """Test that recommendation increases after successes."""
-        # Record successful attempts
+        # Attempts are recorded under authenticated user ("test-student-api")
         for i in range(5):
             request_data = {
-                "user_id": "student_1",
+                "user_id": "test-student-api",
                 "problem_id": f"prob_{i}",
                 "topic_id": "alg1_linear_solve_one_var",
                 "course_id": "alg1",
@@ -288,9 +315,9 @@ class TestDifficultyRecommendation:
             }
             client.post("/attempt", json=request_data)
 
-        # Get recommendation
+        # Get recommendation for the authenticated user
         response = client.get(
-            "/user/student_1/recommend/alg1_linear_solve_one_var"
+            "/user/test-student-api/recommend/alg1_linear_solve_one_var"
         )
         assert response.status_code == 200
         rec = response.json()

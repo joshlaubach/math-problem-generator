@@ -5,8 +5,18 @@ Centralizes paths, settings, and configuration values to avoid
 hard-coding and enable easy override for testing/deployment.
 """
 
+import os
 from pathlib import Path
 from typing import Optional
+
+# Load .env file from the same directory as this file (apps/api/.env)
+_env_path = Path(__file__).parent / ".env"
+if _env_path.exists():
+    for _line in _env_path.read_text().splitlines():
+        _line = _line.strip()
+        if _line and not _line.startswith("#") and "=" in _line:
+            _key, _, _val = _line.partition("=")
+            os.environ.setdefault(_key.strip(), _val.strip())
 
 # ============================================================================
 # File Paths
@@ -66,7 +76,6 @@ API_PORT = 8000
 # Example: "postgresql://user:password@localhost/mathgen"
 # If None, JSONL storage is used
 # Can be set via DATABASE_URL environment variable
-import os
 DATABASE_URL: Optional[str] = os.getenv("DATABASE_URL", None)
 
 # Enable database backend (False = use JSONL, True = use database)
@@ -94,8 +103,26 @@ ANTHROPIC_API_KEY: Optional[str] = os.getenv("ANTHROPIC_API_KEY", None)
 # Claude model for all agents (see ADR-002)
 ANTHROPIC_MODEL: str = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-6")
 
-# Clerk secret key (for server-side Clerk SDK calls in Phase 4)
+# Clerk secret key (for server-side Clerk API calls)
 CLERK_SECRET_KEY: Optional[str] = os.getenv("CLERK_SECRET_KEY", None)
+
+# Clerk frontend API hostname, e.g. "your-instance.clerk.accounts.dev"
+# Used to derive JWKS URL for Clerk JWT verification.
+CLERK_FRONTEND_API: str = os.getenv("CLERK_FRONTEND_API", "")
+
+# Override JWKS URL directly (takes precedence over CLERK_FRONTEND_API if set)
+CLERK_JWKS_URL: str = os.getenv("CLERK_JWKS_URL", "")
+
+# Frontend origin for CORS (Next.js dev default is localhost:3000)
+FRONTEND_URL: str = os.getenv("FRONTEND_URL", "http://localhost:3000")
+
+# ============================================================================
+# Auth Provider Selection (dual-auth window)
+# ============================================================================
+
+# "jwt"   — legacy local JWT (default, keeps existing tests green)
+# "clerk" — Clerk-issued JWTs via JWKS (set in production after migration)
+AUTH_PROVIDER: str = os.getenv("AUTH_PROVIDER", "jwt")
 
 # LLM API timeout in seconds
 LLM_API_TIMEOUT = 30
@@ -116,16 +143,44 @@ TEACHER_API_KEY: Optional[str] = os.getenv("TEACHER_API_KEY", None)
 ADMIN_API_KEY: Optional[str] = os.getenv("ADMIN_API_KEY", None)
 
 # ============================================================================
+# Admin / Super-User Settings
+# ============================================================================
+
+# Emails that automatically receive the maximum tier (classroom-student) with
+# unlimited problem generation. Used for developer accounts.
+_admin_emails_env = os.getenv("ADMIN_EMAILS", "josh.laubach1@gmail.com")
+ADMIN_EMAILS: list[str] = [e.strip() for e in _admin_emails_env.split(",") if e.strip()]
+
+# ============================================================================
+# Daily Problem Limit Settings
+# ============================================================================
+
+# Problems per day per tier (enforced by /generate endpoint)
+DAILY_PROBLEM_LIMITS: dict[str, int] = {
+    "free":               5,
+    "basic":             30,
+    "student":          100,
+    "honors":           300,
+    "classroom-student": 500,
+}
+
+# Lesson notes cache directory
+LESSON_NOTES_DIR = DATA_DIR / "lesson_notes"
+
+# ============================================================================
 # JWT Authentication Settings (Phase 9)
 # ============================================================================
 
-# Secret key for JWT token signing
-# IMPORTANT: Set this in production to a strong random value
-# Example: openssl rand -hex 32
-JWT_SECRET_KEY: str = os.getenv(
-    "JWT_SECRET_KEY",
-    "dev-secret-key-change-in-production-do-not-use-this"
-)
+# Secret key for JWT token signing — MUST be set to a strong random value.
+# Generate one with: openssl rand -hex 32
+_jwt_secret_env = os.getenv("JWT_SECRET_KEY", "")
+_INSECURE_JWT_DEFAULT = "dev-secret-key-change-in-production-do-not-use-this"
+if not _jwt_secret_env or _jwt_secret_env == _INSECURE_JWT_DEFAULT:
+    raise RuntimeError(
+        "JWT_SECRET_KEY must be set to a strong random secret. "
+        "Generate one with: openssl rand -hex 32"
+    )
+JWT_SECRET_KEY: str = _jwt_secret_env
 
 # JWT algorithm for token creation
 JWT_ALGORITHM: str = "HS256"

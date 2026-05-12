@@ -99,6 +99,8 @@ model User {
   stripeSubscriptionId String?
   isTeacher            Boolean @default(false)
   ageConfirmed         Boolean @default(false)
+  learningGoal         String? // 'pass'|'b'|'a'|'mastery'
+  parentMonitor        Boolean @default(false)
 
   attempts              Attempt[]
   progress              Progress[]
@@ -106,8 +108,81 @@ model User {
   classroomMemberships  ClassroomMembership[]
   assignmentSubmissions AssignmentSubmission[]
   flaggedProblems       FlaggedProblem[]
+  sessionCredits        SessionCredit[]
+  tutorSessions         TutorSession[]
+  parentLinks           ParentLink[]           @relation("StudentLinks")
+  parentOf              ParentLink[]           @relation("ParentLinks")
 
   createdAt DateTime @default(now())
+}
+
+model SessionCredit {
+  id         String    @id @default(cuid())
+  userId     String
+  user       User      @relation(fields: [userId], references: [id])
+  usedAt     DateTime?
+  expiresAt  DateTime
+  purchaseId String?   // Stripe checkout session ID
+  createdAt  DateTime  @default(now())
+}
+
+model TutorSession {
+  id                String    @id @default(cuid())
+  userId            String
+  user              User      @relation(fields: [userId], references: [id])
+  creditId          String?
+  topicId           String?
+  topicName         String?
+  startedAt         DateTime  @default(now())
+  endedAt           DateTime?
+  durationSeconds   Int?
+  mode              String    @default("practice") // 'concept'|'homework'|'practice'
+  summary           Json?     // {bullets: string[]}
+  transcript        Json?     // [{role, content, timestamp}] — only if parentMonitor
+  parentMonitor     Boolean   @default(false)
+  problemsAttempted Int       @default(0)
+  problemsSolved    Int       @default(0)
+  creditRestored    Boolean   @default(false)
+
+  scratchpadEntries ScrapbookEntry[]
+  disputes          ValidationDispute[]
+}
+
+model ScrapbookEntry {
+  id           String       @id @default(cuid())
+  sessionId    String
+  session      TutorSession @relation(fields: [sessionId], references: [id])
+  box          String       // 'reasoning'|'expression'
+  content      String
+  sympyResult  String?      // 'valid'|'invalid'|'unknown'
+  createdAt    DateTime     @default(now())
+}
+
+model ValidationDispute {
+  id            String       @id @default(cuid())
+  sessionId     String
+  session       TutorSession @relation(fields: [sessionId], references: [id])
+  expression    String
+  expected      String?
+  sympyLoose    String?      // result of loose equivalence check
+  claudeVerdict String?      // 'correct'|'incorrect'|'uncertain'
+  accepted      Boolean?
+  reviewedBy    String?
+  reviewedAt    DateTime?
+  createdAt     DateTime     @default(now())
+}
+
+model ParentLink {
+  id        String   @id @default(cuid())
+  parentId  String
+  parent    User     @relation("ParentLinks", fields: [parentId], references: [id])
+  studentId String
+  student   User     @relation("StudentLinks", fields: [studentId], references: [id])
+  linkCode  String   @unique
+  confirmed Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@unique([parentId, studentId])
 }
 
 model Attempt {
