@@ -19,7 +19,8 @@ const ROW_GAP = 56;
 const SVG_W = 856;
 
 const COL_LABELS = ['High School', 'Applied Math', 'Advanced'];
-const COL_COLORS = ['#3b82f6', '#8b5cf6', '#10b981'];
+// Uses CSS variables so colors adapt to light/dark mode
+const COL_COLORS = ['var(--hs-color)', 'var(--applied-color)', 'var(--adv-color)'];
 
 // Fixed course columns (col index)
 const COURSE_COL: Record<string, number> = {
@@ -85,7 +86,7 @@ export function PrerequisiteGraph({ courses }: PrerequisiteGraphProps) {
   const svgH = ROW_START_Y + maxRows * ROW_GAP + 16;
 
   return (
-    <div className="overflow-x-auto rounded-xl border border-gray-200 bg-white p-2">
+    <div className="overflow-x-auto rounded-xl p-2" style={{ border: '1px solid var(--border)', background: 'var(--surface)' }}>
       <svg
         viewBox={`0 0 ${SVG_W} ${svgH}`}
         style={{ width: '100%', minWidth: 480, height: svgH }}
@@ -93,7 +94,7 @@ export function PrerequisiteGraph({ courses }: PrerequisiteGraphProps) {
       >
         <defs>
           <marker id="arrow" markerWidth={7} markerHeight={7} refX={6} refY={3.5} orient="auto">
-            <path d="M0,0 L0,7 L7,3.5 z" fill="#9ca3af" />
+            <path d="M0,0 L0,7 L7,3.5 z" fill="var(--text-muted)" />
           </marker>
         </defs>
 
@@ -123,7 +124,7 @@ export function PrerequisiteGraph({ courses }: PrerequisiteGraphProps) {
               key={`${fromId}-${toId}`}
               d={arrowPath(from, to)}
               fill="none"
-              stroke="#d1d5db"
+              stroke="var(--border2)"
               strokeWidth={1.5}
               markerEnd="url(#arrow)"
             />
@@ -157,7 +158,7 @@ export function PrerequisiteGraph({ courses }: PrerequisiteGraphProps) {
                     y={pos.y + NODE_H / 2 + 5}
                     textAnchor="middle"
                     fontSize={11}
-                    fill="#1f2937"
+                    fill="var(--text)"
                   >
                     {label.length > 24 ? label.slice(0, 22) + '…' : label}
                   </text>

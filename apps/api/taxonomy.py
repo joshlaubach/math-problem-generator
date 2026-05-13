@@ -147,6 +147,7 @@ UNIT_CALC_DEFAULTS: dict[str, CalcMode] = {
     "prob_u05": "scientific",  # Continuous RVs — normal CDF
     "prob_u06": "cas",         # Joint Distributions — double integrals
     "prob_u07": "scientific",
+    "prob_u08": "cas",         # Calculus-Based Probability Theory — MGFs, convolutions, Markov chains
 
     # Statistics
     "stat_u01": "scientific",  # Exploring Data — σ, z-scores
@@ -1269,6 +1270,8 @@ def get_probability_course() -> Course:
             Topic(id="prob_020", name="The Geometric Distribution", description=""),
             Topic(id="prob_021", name="The Poisson Distribution (H)", description=""),
             Topic(id="prob_022", name="Moment Generating Functions for Discrete Distributions (H)", description=""),
+            Topic(id="prob_042", name="The Negative Binomial Distribution (H)", description=""),
+            Topic(id="prob_043", name="The Hypergeometric Distribution (H)", description=""),
         ]),
         Unit(id="prob_u05", name="Continuous Random Variables", topics=[
             Topic(id="prob_023", name="Introduction to Continuous Distributions", description=""),
@@ -1278,6 +1281,7 @@ def get_probability_course() -> Course:
             Topic(id="prob_027", name="The Exponential Distribution (H)", description=""),
             Topic(id="prob_028", name="Probability Density Functions and CDFs via Integration (H)", description=""),
             Topic(id="prob_029", name="The Gamma and Beta Distributions (H)", description=""),
+            Topic(id="prob_044", name="The Chi-Squared Distribution (H)", description=""),
         ]),
         Unit(id="prob_u06", name="Joint Distributions and Relationships", topics=[
             Topic(id="prob_030", name="Joint Distributions (Discrete)", description=""),
@@ -1294,6 +1298,16 @@ def get_probability_course() -> Course:
             Topic(id="prob_039", name="Probability in Everyday Decision Making", description=""),
             Topic(id="prob_040", name="Introduction to Risk and Insurance Models (H)", description=""),
             Topic(id="prob_041", name="Convergence of Random Variables (H)", description=""),
+        ]),
+        Unit(id="prob_u08", name="Calculus-Based Probability Theory (H)", topics=[
+            Topic(id="prob_045", name="Conditional Expectation E[X|Y] as a Random Variable (H)", description=""),
+            Topic(id="prob_046", name="The Law of Total Variance (H)", description=""),
+            Topic(id="prob_047", name="Moment Generating Functions for Continuous Distributions (H)", description=""),
+            Topic(id="prob_048", name="Convolutions and Sums of Independent Random Variables (H)", description=""),
+            Topic(id="prob_049", name="Order Statistics (H)", description=""),
+            Topic(id="prob_050", name="The Bivariate Normal Distribution (H)", description=""),
+            Topic(id="prob_051", name="Markov and Chebyshev Inequalities (H)", description=""),
+            Topic(id="prob_052", name="Introduction to Markov Chains (H)", description=""),
         ]),
     ])
 

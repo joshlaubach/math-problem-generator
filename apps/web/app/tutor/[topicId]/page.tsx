@@ -6,6 +6,7 @@ import { useAuth, useUser } from '@clerk/nextjs'
 import Link from 'next/link'
 import { TutorChat } from '@/components/TutorChat'
 import { DifficultySelector } from '@/components/DifficultySelector'
+import { TopicName, stripHonors } from '@/components/TopicName'
 import type { SessionType } from '@/hooks/useTutorSession'
 
 export default function TutorPage() {
@@ -32,7 +33,7 @@ export default function TutorPage() {
         <nav className="breadcrumb">
           <Link href="/dashboard">Dashboard</Link>
           <span className="sep">/</span>
-          <Link href={`/practice/${topicId}?name=${encodeURIComponent(topicName)}`}>{topicName}</Link>
+          <Link href={`/practice/${topicId}?name=${encodeURIComponent(topicName)}`}>{stripHonors(topicName)}</Link>
           <span className="sep">/</span>
           <span className="current">Tutor Session</span>
         </nav>
@@ -40,7 +41,9 @@ export default function TutorPage() {
 
       <div className="page-content" style={{ paddingBottom: 40 }}>
         <h1 className="display-heading" style={{ marginBottom: 4 }}>Tutor Session</h1>
-        <p style={{ fontSize: 14, color: 'var(--text-dim)', marginBottom: 28 }}>{topicName}</p>
+        <p style={{ fontSize: 14, color: 'var(--text-dim)', marginBottom: 28 }}>
+          <TopicName name={topicName} />
+        </p>
 
         {!started ? (
           <div

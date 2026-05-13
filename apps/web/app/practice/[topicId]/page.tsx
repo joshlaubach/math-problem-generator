@@ -12,6 +12,7 @@ import { SolutionExplainer } from '@/components/SolutionExplainer'
 import { DifficultySelector } from '@/components/DifficultySelector'
 import { BottomSheet } from '@/components/BottomSheet'
 import { CalculatorToggleButton, ResponsiveCalculator } from '@/components/CalculatorSidebar'
+import { TopicName, stripHonors } from '@/components/TopicName'
 
 type Phase = 'setup' | 'loading' | 'active' | 'reviewing'
 type RightTab = 'hints' | 'tutor'
@@ -250,7 +251,7 @@ export default function PracticePage() {
           <span className="sep">/</span>
           <Link href="/catalog">Catalog</Link>
           <span className="sep">/</span>
-          <span className="current">{topicName}</span>
+          <span className="current">{stripHonors(topicName)}</span>
         </nav>
       </div>
 
@@ -259,7 +260,9 @@ export default function PracticePage() {
         {/* Header row */}
         <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 20, marginBottom: 16 }}>
           <div>
-            <h1 className="display-heading" style={{ marginBottom: 4 }}>{topicName}</h1>
+            <h1 className="display-heading" style={{ marginBottom: 4 }}>
+              <TopicName name={topicName} badgeSize={13} />
+            </h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
               <p style={{ fontSize: 14, color: 'var(--text-dim)', margin: 0 }}>
                 {sessionStats.attempted === 0

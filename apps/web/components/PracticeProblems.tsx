@@ -43,7 +43,7 @@ export function PracticeProblems({
                 {i + 1}
               </span>
               <div style={{ overflowX: 'auto', minWidth: 0 }}>
-                <MathText latex={prob.prompt_latex} />
+                <MathText latex={prob.prompt_latex} prose />
               </div>
             </div>
 
@@ -96,7 +96,7 @@ export function PracticeProblems({
           <ul style={{ margin: '0 0 14px', padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 5 }}>
             {untestedVariants.map((v, i) => (
               <li key={i} style={{ fontSize: 13, color: 'var(--text-dim)', lineHeight: 1.5 }}>
-                {v}
+                <MathText latex={v} prose />
               </li>
             ))}
           </ul>

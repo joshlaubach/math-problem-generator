@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { MathText } from './MathText'
+import { TopicName } from './TopicName'
 import type { UnitIntro as UnitIntroType } from '@/lib/api-client'
 
 interface UnitIntroProps {
@@ -72,11 +73,11 @@ export function UnitIntro({ intro, courseId, unitId }: UnitIntroProps) {
                   fontFamily: 'var(--font-fraunces), Georgia, serif',
                   fontSize: 14, fontWeight: 600, color: 'var(--text)', marginBottom: 3,
                 }}>
-                  {item.topic_name}
+                  <TopicName name={item.topic_name} />
                 </div>
-                <p style={{ fontSize: 13, color: 'var(--text-dim)', margin: 0, lineHeight: 1.5 }}>
-                  {item.description}
-                </p>
+                <div style={{ fontSize: 13, color: 'var(--text-dim)', margin: 0 }}>
+                  <MathText latex={item.description} prose />
+                </div>
               </div>
 
               <span style={{ fontSize: 16, color: 'var(--text-muted)', flexShrink: 0, marginTop: 2 }}>

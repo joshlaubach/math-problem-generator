@@ -1,10 +1,11 @@
 import { api, LegacyTopicMetadata, TopicLesson } from '@/lib/api-client'
 import { TopicLesson as TopicLessonComponent } from '@/components/TopicLesson'
+import { TopicName, stripHonors } from '@/components/TopicName'
 import { GeneratingState } from './GeneratingState'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 interface Props {
   params: Promise<{ courseId: string; unitId: string; topicId: string }>
@@ -13,10 +14,18 @@ interface Props {
 export default async function TopicLessonPage({ params }: Props) {
   const { courseId, unitId, topicId } = await params
 
-  const allTopics = await api.getTopicsLegacy().catch(() => [] as LegacyTopicMetadata[])
+  let allTopics: LegacyTopicMetadata[] = []
+  let apiAvailable = false
+  try {
+    allTopics = await api.getTopicsLegacy()
+    apiAvailable = true
+  } catch {
+    // API unreachable — render gracefully rather than 404
+  }
   const topic = allTopics.find(t => t.topic_id === topicId)
 
-  if (allTopics.length > 0 && !topic) notFound()
+  // Only 404 when the API responded successfully but this topic genuinely doesn't exist
+  if (apiAvailable && !topic) notFound()
 
   const courseName = topic?.course_name ?? courseId
   const unitName   = topic?.unit_name   ?? unitId
@@ -46,14 +55,16 @@ export default async function TopicLessonPage({ params }: Props) {
           <span className="sep">/</span>
           <Link href={`/catalog/${courseId}/${unitId}`}>{unitName.replace(' (H)', '')}</Link>
           <span className="sep">/</span>
-          <span className="current">{topicName}</span>
+          <span className="current">{stripHonors(topicName)}</span>
         </nav>
       </div>
 
       <div className="page-content">
         {/* Header */}
         <div style={{ marginBottom: 32 }}>
-          <h1 className="display-heading" style={{ marginBottom: 6 }}>{topicName}</h1>
+          <h1 className="display-heading" style={{ marginBottom: 6 }}>
+            <TopicName name={topicName} badgeSize={13} />
+          </h1>
           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
             <p className="page-subtitle" style={{ margin: 0 }}>{unitName.replace(' (H)', '')}</p>
             <Link

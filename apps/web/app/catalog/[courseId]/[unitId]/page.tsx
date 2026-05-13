@@ -1,18 +1,27 @@
 import { api, LegacyTopicMetadata, UnitIntro } from '@/lib/api-client'
 import { UnitIntro as UnitIntroComponent } from '@/components/UnitIntro'
+import { TopicName } from '@/components/TopicName'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
-export const revalidate = 3600
+export const dynamic = 'force-dynamic'
 
 interface Props { params: Promise<{ courseId: string; unitId: string }> }
 
 export default async function UnitPage({ params }: Props) {
   const { courseId, unitId } = await params
-  const allTopics = await api.getTopicsLegacy().catch(() => [] as LegacyTopicMetadata[])
+  let allTopics: LegacyTopicMetadata[] = []
+  let apiAvailable = false
+  try {
+    allTopics = await api.getTopicsLegacy()
+    apiAvailable = true
+  } catch {
+    // API unreachable — render gracefully rather than 404
+  }
   const unitTopics = allTopics.filter(t => t.course_id === courseId && t.unit_id === unitId)
 
-  if (allTopics.length > 0 && unitTopics.length === 0) notFound()
+  // Only 404 when the API responded successfully but this unit genuinely doesn't exist
+  if (apiAvailable && unitTopics.length === 0) notFound()
 
   const courseName = unitTopics[0]?.course_name ?? courseId
   const unitName   = unitTopics[0]?.unit_name   ?? unitId
@@ -86,7 +95,7 @@ export default async function UnitPage({ params }: Props) {
                     fontFamily: 'var(--font-fraunces), Georgia, serif',
                     fontSize: 14, fontWeight: 600, color: 'var(--text)',
                   }}>
-                    {topic.topic_name}
+                    <TopicName name={topic.topic_name} />
                   </div>
                   <span style={{ fontSize: 16, color: 'var(--text-muted)' }}>→</span>
                 </Link>

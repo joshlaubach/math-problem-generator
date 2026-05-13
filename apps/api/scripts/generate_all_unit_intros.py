@@ -1,20 +1,20 @@
 """
-Batch generate structured JSON lessons for all 818 topics.
+Batch generate structured JSON unit introductions for all 129 units.
 
 Run from apps/api/:
-    python scripts/generate_all_topic_lessons.py
+    python scripts/generate_all_unit_intros.py
 
 Options:
     --workers N    Concurrent Claude calls (default: 8)
     --force        Regenerate even if cached (default: skip cached)
-    --fallbacks    Only regenerate lessons that previously hit the fallback
+    --fallbacks    Only regenerate intros that previously hit the fallback
 
-Generates to: data/topic_lessons/{topic_id}.json
+Generates to: data/unit_intros/{unit_id}.json
 
 Reports:
-    - Progress bar (topics completed / total)
+    - Progress bar (units completed / total)
     - Final summary: succeeded / fallbacks / errors
-    - List of any fallback or error topic IDs
+    - List of any fallback or error unit IDs
 """
 from __future__ import annotations
 
@@ -29,23 +29,20 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from config import DATA_DIR
-from topic_registry import TOPIC_REGISTRY
-from agents.topic_lesson_writer import write_topic_lesson
+from topic_registry import COURSE_REGISTRY  # auto-initializes on import
+from agents.unit_intro_writer import write_unit_intro
 
 
-LESSONS_DIR = DATA_DIR / "topic_lessons"
-REQUIRED_FIELDS = {
-    "hook", "concept", "anatomy", "worked_example",
-    "partial_example", "practice_problems", "common_mistakes", "untested_variants",
-}
+INTROS_DIR = DATA_DIR / "unit_intros"
+REQUIRED_FIELDS = {"hook", "concept", "topic_roadmap"}
 
 
-def _is_cached(topic_id: str) -> bool:
-    return (LESSONS_DIR / f"{topic_id}.json").exists()
+def _is_cached(unit_id: str) -> bool:
+    return (INTROS_DIR / f"{unit_id}.json").exists()
 
 
-def _is_fallback(topic_id: str) -> bool:
-    path = LESSONS_DIR / f"{topic_id}.json"
+def _is_fallback(unit_id: str) -> bool:
+    path = INTROS_DIR / f"{unit_id}.json"
     if not path.exists():
         return False
     try:
@@ -55,54 +52,47 @@ def _is_fallback(topic_id: str) -> bool:
         return True  # Corrupt = treat as fallback
 
 
-def _validate_fields(data: dict) -> list[str]:
-    """Return list of missing required fields."""
-    return [f for f in REQUIRED_FIELDS if f not in data or not data[f]]
-
-
 async def generate_one(
-    topic_id: str,
-    topic_name: str,
+    unit_id: str,
     unit_name: str,
     course_name: str,
+    topics: list[dict],
     semaphore: asyncio.Semaphore,
     results: dict,
     counter: list,
     total: int,
 ) -> None:
-    """Generate and cache a single topic lesson, respecting the semaphore."""
     async with semaphore:
-        # Small jitter to spread API calls and reduce rate-limit spikes
         await asyncio.sleep(0.5)
         try:
-            lesson = await write_topic_lesson(
-                topic_id=topic_id,
-                topic_name=topic_name,
+            intro = await write_unit_intro(
+                unit_id=unit_id,
                 unit_name=unit_name,
                 course_name=course_name,
+                topics=topics,
             )
 
-            missing = _validate_fields(lesson)
-            is_fallback = bool(lesson.get("_fallback")) or bool(missing)
+            missing = [f for f in REQUIRED_FIELDS if f not in intro or not intro[f]]
+            is_fallback = bool(intro.get("_fallback")) or bool(missing)
 
             result = {
-                "topic_id": topic_id,
-                "topic_name": topic_name,
-                "generated_at": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
+                "unit_id": unit_id,
+                "unit_name": unit_name,
                 "course_name": course_name,
-                **lesson,
+                "generated_at": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
+                **intro,
             }
 
-            LESSONS_DIR.mkdir(parents=True, exist_ok=True)
-            (LESSONS_DIR / f"{topic_id}.json").write_text(json.dumps(result, indent=2))
+            INTROS_DIR.mkdir(parents=True, exist_ok=True)
+            (INTROS_DIR / f"{unit_id}.json").write_text(json.dumps(result, indent=2))
 
             if is_fallback:
-                results["fallbacks"].append({"topic_id": topic_id, "topic_name": topic_name, "missing": missing})
+                results["fallbacks"].append({"unit_id": unit_id, "unit_name": unit_name, "missing": missing})
             else:
                 results["succeeded"] += 1
 
         except Exception as exc:
-            results["errors"].append({"topic_id": topic_id, "topic_name": topic_name, "error": str(exc)[:300]})
+            results["errors"].append({"unit_id": unit_id, "unit_name": unit_name, "error": str(exc)[:300]})
 
         counter[0] += 1
         done = counter[0]
@@ -120,32 +110,47 @@ async def generate_one(
             f"fallback={len(results['fallbacks'])} "
             f"err={len(results['errors'])} "
             f"~{remaining/60:.1f}m left   ",
-            end="", flush=True
+            end="", flush=True,
         )
 
 
 async def main(workers: int, force: bool, fallbacks_only: bool) -> None:
-    LESSONS_DIR.mkdir(parents=True, exist_ok=True)
+    INTROS_DIR.mkdir(parents=True, exist_ok=True)
 
-    all_topics = list(TOPIC_REGISTRY.items())
-    print(f"Total topics in registry: {len(all_topics)}")
+    # Collect all units from COURSE_REGISTRY
+    all_units = []
+    for course_data in COURSE_REGISTRY.values():
+        course_name = course_data["course_name"]
+        for unit_id, unit_data in course_data["units"].items():
+            topics = [
+                {"topic_id": tid, "topic_name": meta.topic_name}
+                for tid, meta in unit_data["topics"].items()
+            ]
+            all_units.append({
+                "unit_id": unit_id,
+                "unit_name": unit_data["unit_name"],
+                "course_name": course_name,
+                "topics": topics,
+            })
 
-    # Determine which to generate
+    print(f"Total units in registry: {len(all_units)}")
+
     to_generate = []
     skipped = 0
-    for topic_id, meta in all_topics:
+    for unit in all_units:
+        uid = unit["unit_id"]
         if fallbacks_only:
-            if _is_fallback(topic_id):
-                to_generate.append((topic_id, meta))
+            if _is_fallback(uid):
+                to_generate.append(unit)
             else:
                 skipped += 1
         elif force:
-            to_generate.append((topic_id, meta))
+            to_generate.append(unit)
         else:
-            if _is_cached(topic_id) and not _is_fallback(topic_id):
+            if _is_cached(uid) and not _is_fallback(uid):
                 skipped += 1
             else:
-                to_generate.append((topic_id, meta))
+                to_generate.append(unit)
 
     print(f"Already cached (good): {skipped}")
     print(f"To generate: {len(to_generate)}")
@@ -168,16 +173,16 @@ async def main(workers: int, force: bool, fallbacks_only: bool) -> None:
 
     tasks = [
         generate_one(
-            topic_id=topic_id,
-            topic_name=meta.topic_name,
-            unit_name=meta.unit_name,
-            course_name=meta.course_name,
+            unit_id=u["unit_id"],
+            unit_name=u["unit_name"],
+            course_name=u["course_name"],
+            topics=u["topics"],
             semaphore=semaphore,
             results=results,
             counter=counter,
             total=total,
         )
-        for topic_id, meta in to_generate
+        for u in to_generate
     ]
 
     await asyncio.gather(*tasks)
@@ -191,21 +196,20 @@ async def main(workers: int, force: bool, fallbacks_only: bool) -> None:
     print(f"  XX  Errors:     {len(results['errors'])}")
 
     if results["fallbacks"]:
-        print(f"\nFallback topics (JSON parse failed — lesson is stub):")
+        print(f"\nFallback units (JSON parse failed — intro is stub):")
         for f in results["fallbacks"]:
             missing_str = f", missing: {f['missing']}" if f["missing"] else ""
-            print(f"  [{f['topic_id']}] {f['topic_name']}{missing_str}")
+            print(f"  [{f['unit_id']}] {f['unit_name']}{missing_str}")
 
     if results["errors"]:
-        print(f"\nError topics (API call failed):")
+        print(f"\nError units (API call failed):")
         for e in results["errors"]:
-            print(f"  [{e['topic_id']}] {e['topic_name']}: {e['error']}")
+            print(f"  [{e['unit_id']}] {e['unit_name']}: {e['error']}")
 
-    # Write report
-    report_path = LESSONS_DIR / "_generation_report.json"
+    report_path = INTROS_DIR / "_generation_report.json"
     report = {
         "generated_at": __import__("datetime").datetime.now(__import__("datetime").timezone.utc).isoformat(),
-        "total_topics": len(all_topics),
+        "total_units": len(all_units),
         "generated": total,
         "skipped_cached": skipped,
         "succeeded": results["succeeded"],
@@ -218,16 +222,15 @@ async def main(workers: int, force: bool, fallbacks_only: bool) -> None:
     report_path.write_text(json.dumps(report, indent=2))
     print(f"\nReport saved to {report_path}")
 
-    # Exit with error code if any failures
     if results["fallbacks"] or results["errors"]:
         sys.exit(1)
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Batch generate topic lessons")
+    parser = argparse.ArgumentParser(description="Batch generate unit introductions")
     parser.add_argument("--workers", type=int, default=8, help="Concurrent Claude calls")
     parser.add_argument("--force", action="store_true", help="Regenerate all, even cached")
-    parser.add_argument("--fallbacks", action="store_true", help="Only retry fallback lessons")
+    parser.add_argument("--fallbacks", action="store_true", help="Only retry fallback intros")
     args = parser.parse_args()
 
     asyncio.run(main(workers=args.workers, force=args.force, fallbacks_only=args.fallbacks))

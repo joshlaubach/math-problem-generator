@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { Fraunces, Instrument_Sans } from 'next/font/google'
+import { Fraunces, DM_Sans } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Sidebar } from '@/components/Sidebar'
 import { BottomNav } from '@/components/BottomNav'
@@ -13,10 +13,11 @@ const fraunces = Fraunces({
   axes: ['opsz'],
 })
 
-const instrumentSans = Instrument_Sans({
+const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-instrument',
   display: 'swap',
+  axes: ['opsz'],
 })
 
 export const metadata: Metadata = {
@@ -35,7 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className={`${fraunces.variable} ${instrumentSans.variable} font-body antialiased`}>
+      <body className={`${fraunces.variable} ${dmSans.variable} font-body antialiased`}>
         <ClerkProvider>
           {/* Fixed decorative background — blobs + floating symbols */}
           <MathBackground />

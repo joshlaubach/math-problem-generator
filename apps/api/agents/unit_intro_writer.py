@@ -86,23 +86,65 @@ async def write_unit_intro(
     return _parse_and_validate(raw, unit_id, unit_name, topics)
 
 
+_VALID_JSON_ESCAPE_CHARS = set('"\\/bfnrtu')
+
+
+def _fix_latex_backslashes(text: str) -> str:
+    """Double lone backslashes that aren't part of a valid JSON escape sequence.
+
+    Claude sometimes outputs LaTeX like \\circ or \\sqrt as a single backslash
+    in JSON strings, producing invalid escape sequences like \\c or \\s.
+    """
+    result: list[str] = []
+    i = 0
+    while i < len(text):
+        ch = text[i]
+        if ch == "\\":
+            if i + 1 < len(text):
+                nxt = text[i + 1]
+                if nxt in _VALID_JSON_ESCAPE_CHARS:
+                    result.append(ch)
+                    result.append(nxt)
+                    i += 2
+                else:
+                    result.append("\\")
+                    result.append("\\")
+                    i += 1
+            else:
+                result.append(ch)
+                i += 1
+        else:
+            result.append(ch)
+            i += 1
+    return "".join(result)
+
+
+def _try_parse(text: str) -> dict | None:
+    """Try parsing text as JSON, with backslash fixing as a fallback."""
+    for candidate in (text, _fix_latex_backslashes(text)):
+        try:
+            return json.loads(candidate)
+        except json.JSONDecodeError:
+            pass
+        # Also try trimming to first { ... }
+        start, end = candidate.find("{"), candidate.rfind("}") + 1
+        if start != -1 and end > start:
+            try:
+                return json.loads(candidate[start:end])
+            except json.JSONDecodeError:
+                pass
+    return None
+
+
 def _parse_and_validate(raw: str, unit_id: str, unit_name: str, topics: list[dict]) -> dict:
     text = raw.strip()
     if text.startswith("```"):
         lines = text.split("\n")
         text = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
 
-    try:
-        data = json.loads(text)
-    except json.JSONDecodeError:
-        start, end = text.find("{"), text.rfind("}") + 1
-        if start != -1 and end > start:
-            try:
-                data = json.loads(text[start:end])
-            except json.JSONDecodeError:
-                return _fallback_stub(unit_id, unit_name, topics)
-        else:
-            return _fallback_stub(unit_id, unit_name, topics)
+    data = _try_parse(text)
+    if data is None:
+        return _fallback_stub(unit_id, unit_name, topics)
 
     if not all(f in data for f in ["hook", "concept", "topic_roadmap"]):
         return _fallback_stub(unit_id, unit_name, topics)

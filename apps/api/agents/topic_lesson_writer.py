@@ -122,11 +122,56 @@ async def write_topic_lesson(
     raw = await _call_with_backoff(
         messages=[{"role": "user", "content": prompt}],
         system=_SYSTEM,
-        max_tokens=4000,
+        max_tokens=8000,
         retries=5,
     )
 
     return _parse_and_validate(raw, topic_id, topic_name, course_name)
+
+
+_VALID_JSON_ESCAPE_CHARS = set('"\\/bfnrtu')
+
+
+def _fix_latex_backslashes(text: str) -> str:
+    """Double lone backslashes that aren't part of a valid JSON escape sequence."""
+    result: list[str] = []
+    i = 0
+    while i < len(text):
+        ch = text[i]
+        if ch == "\\":
+            if i + 1 < len(text):
+                nxt = text[i + 1]
+                if nxt in _VALID_JSON_ESCAPE_CHARS:
+                    result.append(ch)
+                    result.append(nxt)
+                    i += 2
+                else:
+                    result.append("\\")
+                    result.append("\\")
+                    i += 1
+            else:
+                result.append(ch)
+                i += 1
+        else:
+            result.append(ch)
+            i += 1
+    return "".join(result)
+
+
+def _try_parse(text: str) -> dict | None:
+    """Try parsing text as JSON, with backslash fixing as a fallback."""
+    for candidate in (text, _fix_latex_backslashes(text)):
+        try:
+            return json.loads(candidate)
+        except json.JSONDecodeError:
+            pass
+        start, end = candidate.find("{"), candidate.rfind("}") + 1
+        if start != -1 and end > start:
+            try:
+                return json.loads(candidate[start:end])
+            except json.JSONDecodeError:
+                pass
+    return None
 
 
 def _parse_and_validate(raw: str, topic_id: str, topic_name: str, course_name: str) -> dict:
@@ -134,25 +179,14 @@ def _parse_and_validate(raw: str, topic_id: str, topic_name: str, course_name: s
     Parse Claude's response and validate the schema.
     Returns a valid lesson dict — falls back to a minimal stub on parse failure.
     """
-    # Strip markdown fences if Claude wrapped the JSON
     text = raw.strip()
     if text.startswith("```"):
         lines = text.split("\n")
         text = "\n".join(lines[1:-1]) if lines[-1].strip() == "```" else "\n".join(lines[1:])
 
-    try:
-        data = json.loads(text)
-    except json.JSONDecodeError:
-        # Find the first { and last } and try again
-        start = text.find("{")
-        end = text.rfind("}") + 1
-        if start != -1 and end > start:
-            try:
-                data = json.loads(text[start:end])
-            except json.JSONDecodeError:
-                return _fallback_stub(topic_id, topic_name, course_name)
-        else:
-            return _fallback_stub(topic_id, topic_name, course_name)
+    data = _try_parse(text)
+    if data is None:
+        return _fallback_stub(topic_id, topic_name, course_name)
 
     required_fields = [
         "hook", "concept", "anatomy", "worked_example",
