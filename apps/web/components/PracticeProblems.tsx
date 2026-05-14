@@ -43,7 +43,7 @@ export function PracticeProblems({
                 {i + 1}
               </span>
               <div style={{ overflowX: 'auto', minWidth: 0 }}>
-                <MathText latex={prob.prompt_latex} prose />
+                <MathText latex={prob.prompt_latex} />
               </div>
             </div>
 

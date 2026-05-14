@@ -911,6 +911,61 @@ body {
 }
 
 /* ─────────────────────────────────────────
+   Tiptap Math Scratchpad
+───────────────────────────────────────── */
+.math-scratchpad-wrapper {
+  position: relative;
+  min-height: 80px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface2);
+  cursor: text;
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.65;
+}
+.math-scratchpad-placeholder {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  pointer-events: none;
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.math-scratchpad-content {
+  outline: none;
+}
+.math-scratchpad-content p {
+  margin: 0;
+}
+.math-scratchpad-content p + p {
+  margin-top: 5px;
+}
+/* Raw LaTeX shown when cursor is inside a math expression */
+.math-scratchpad-content .tiptap-mathematics-editor {
+  background: rgba(196, 151, 106, 0.15);
+  border-radius: 3px;
+  padding: 0 2px;
+  font-family: monospace;
+  font-size: 13px;
+  color: var(--caramel);
+}
+/* Rendered KaTeX expression */
+.math-scratchpad-content .tiptap-mathematics-render {
+  cursor: pointer;
+  border-radius: 3px;
+  transition: background 0.1s;
+  color: var(--text);
+}
+.math-scratchpad-content .tiptap-mathematics-render .katex {
+  color: var(--text);
+}
+.math-scratchpad-content .tiptap-mathematics-render:hover {
+  background: rgba(196, 151, 106, 0.1);
+}
+
+/* ─────────────────────────────────────────
    Utility
 ───────────────────────────────────────── */
 @layer utilities {

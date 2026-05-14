@@ -112,6 +112,61 @@ def _persist_scratchpad_entry(session_id: str, box: str, content: str, sympy_res
 
 
 # ---------------------------------------------------------------------------
+# Scratchpad AI LaTeX conversion
+# ---------------------------------------------------------------------------
+
+class ConvertRequest(BaseModel):
+    text: str = Field(..., max_length=4000)
+
+
+class ConvertResponse(BaseModel):
+    converted: str
+
+
+@router.post("/convert", response_model=ConvertResponse)
+async def convert_to_latex(
+    body: ConvertRequest,
+    user: User = Depends(require_student),
+):
+    """
+    Use Claude Haiku to inject $...$ LaTeX delimiters around math in plain text.
+    Falls back to the original text if conversion fails.
+    """
+    from config import ANTHROPIC_API_KEY
+    if not ANTHROPIC_API_KEY or not body.text.strip():
+        return ConvertResponse(converted=body.text)
+
+    prompt = (
+        "You are a LaTeX formatter for a math scratchpad.\n"
+        "Wrap mathematical expressions in $...$ so they render with KaTeX.\n"
+        "Rules:\n"
+        "- Wrap variables, equations, and formulas in $...$\n"
+        "- Keep English prose words outside the delimiters\n"
+        "- Use proper LaTeX: \\sin, \\cos, \\frac{a}{b}, \\cdot, \\sqrt{}, \\prime, etc.\n"
+        "- Preserve line breaks exactly\n"
+        "- Return ONLY the converted text — no explanation, no markdown fences\n\n"
+        "Examples:\n"
+        "Input: outer function f(u) = sin(u), so f'(u) = cos(u)\n"
+        "Output: outer function $f(u) = \\sin(u)$, so $f'(u) = \\cos(u)$\n\n"
+        "Input: h'(x) = f'(g(x)) * g'(x) = cos(5x^3) * 15x^2\n"
+        "Output: $h'(x) = f'(g(x)) \\cdot g'(x) = \\cos(5x^3) \\cdot 15x^2$\n\n"
+        f"Input:\n{body.text}\n\nOutput:"
+    )
+
+    try:
+        from anthropic import AsyncAnthropic
+        client = AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
+        resp = await client.messages.create(
+            model="claude-haiku-4-5-20251001",
+            max_tokens=2000,
+            messages=[{"role": "user", "content": prompt}],
+        )
+        return ConvertResponse(converted=resp.content[0].text.strip())
+    except Exception:
+        return ConvertResponse(converted=body.text)
+
+
+# ---------------------------------------------------------------------------
 # Validation dispute
 # ---------------------------------------------------------------------------
 

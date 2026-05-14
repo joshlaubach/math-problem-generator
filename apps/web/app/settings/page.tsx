@@ -4,8 +4,55 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '@clerk/nextjs'
 import Link from 'next/link'
 
+type Goal = 'pass' | 'b' | 'a' | 'mastery'
+
+const GOALS = [
+  {
+    id: 'pass' as Goal,
+    label: 'Just Pass',
+    subtitle: 'C / D → C',
+    description: 'Focused, practical practice at foundational difficulty levels.',
+    threshold: '65% accuracy · Difficulty 2–3',
+    color: 'var(--text-dim)',
+  },
+  {
+    id: 'b' as Goal,
+    label: 'Solid B',
+    subtitle: 'B− / C → B',
+    description: 'Understand the material well enough to do well on most assessments.',
+    threshold: '75% accuracy · Difficulty 3–4',
+    color: 'var(--caramel)',
+  },
+  {
+    id: 'a' as Goal,
+    label: 'Strong A',
+    subtitle: 'B+ → A',
+    description: 'Excel with harder problems and tighter accuracy requirements.',
+    threshold: '85% accuracy · Difficulty 4–5',
+    color: 'var(--forest)',
+  },
+  {
+    id: 'mastery' as Goal,
+    label: 'Mastery',
+    subtitle: 'A → A+',
+    description: 'Truly master every concept. Full difficulty range, highest accuracy bar.',
+    threshold: '90%+ accuracy · Difficulty 5–6',
+    color: 'var(--terracotta)',
+  },
+]
+
 export default function SettingsPage() {
   const { getToken } = useAuth()
+  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000'
+
+  // ── Goal state ────────────────────────────────────────────────────────────
+  const [currentGoal, setCurrentGoal] = useState<Goal | null>(null)
+  const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null)
+  const [goalLoading, setGoalLoading] = useState(false)
+  const [goalSaved, setGoalSaved] = useState(false)
+  const [goalError, setGoalError] = useState<string | null>(null)
+
+  // ── Parent linking state ──────────────────────────────────────────────────
   const [linkCode, setLinkCode] = useState<string | null>(null)
   const [linkLoading, setLinkLoading] = useState(false)
   const [linkError, setLinkError] = useState<string | null>(null)
@@ -15,7 +62,48 @@ export default function SettingsPage() {
   const [redeemError, setRedeemError] = useState<string | null>(null)
   const [linkedStudents, setLinkedStudents] = useState<{student_id: string; linked_at: string}[]>([])
 
-  const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000'
+  // Load current goal from progress endpoint
+  useEffect(() => {
+    getToken().then(async token => {
+      if (!token) return
+      try {
+        const r = await fetch(`${apiBase}/me/progress`, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        const d = await r.json()
+        if (d.goal) {
+          setCurrentGoal(d.goal as Goal)
+          setSelectedGoal(d.goal as Goal)
+        }
+      } catch {}
+    })
+  }, [getToken, apiBase])
+
+  async function saveGoal() {
+    if (!selectedGoal || selectedGoal === currentGoal) return
+    setGoalLoading(true)
+    setGoalError(null)
+    setGoalSaved(false)
+    try {
+      const token = await getToken()
+      const r = await fetch(`${apiBase}/users/me/goal`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ goal: selectedGoal }),
+      })
+      if (!r.ok) {
+        const d = await r.json().catch(() => ({}))
+        throw new Error((d as { detail?: string }).detail ?? 'Failed to save')
+      }
+      setCurrentGoal(selectedGoal)
+      setGoalSaved(true)
+      setTimeout(() => setGoalSaved(false), 3000)
+    } catch (err: unknown) {
+      setGoalError(err instanceof Error ? err.message : 'Something went wrong')
+    } finally {
+      setGoalLoading(false)
+    }
+  }
 
   // Load linked students (for parents)
   useEffect(() => {
@@ -89,6 +177,93 @@ export default function SettingsPage() {
         <p className="page-subtitle" style={{ marginBottom: 40 }}>
           Manage your account preferences and parent monitoring.
         </p>
+
+        {/* ── Learning Goal ── */}
+        <section style={{ marginBottom: 48 }}>
+          <h2 style={{
+            fontFamily: 'var(--font-fraunces), Georgia, serif',
+            fontSize: 16, fontWeight: 600, color: 'var(--text)', marginBottom: 6,
+          }}>
+            Learning Goal
+          </h2>
+          <p style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 20, lineHeight: 1.6 }}>
+            Sets your accuracy and difficulty targets for tracking topic completion.
+          </p>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 16 }}>
+            {GOALS.map(g => {
+              const active = selectedGoal === g.id
+              const isCurrent = currentGoal === g.id
+              return (
+                <button
+                  key={g.id}
+                  onClick={() => { setSelectedGoal(g.id); setGoalSaved(false) }}
+                  style={{
+                    display: 'flex', alignItems: 'flex-start', gap: 12,
+                    padding: '12px 14px', borderRadius: 10, textAlign: 'left', width: '100%',
+                    border: `1.5px solid ${active ? g.color : 'var(--border)'}`,
+                    background: active ? 'var(--surface2)' : 'var(--surface)',
+                    cursor: 'pointer', transition: 'all 0.15s',
+                    boxShadow: active ? `0 0 0 3px ${g.color}22` : 'none',
+                  }}
+                >
+                  <div style={{
+                    width: 16, height: 16, borderRadius: '50%', flexShrink: 0, marginTop: 2,
+                    border: `2px solid ${active ? g.color : 'var(--border2)'}`,
+                    background: active ? g.color : 'transparent',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                    transition: 'all 0.15s',
+                  }}>
+                    {active && <div style={{ width: 5, height: 5, borderRadius: '50%', background: '#fff' }} />}
+                  </div>
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 7, marginBottom: 2 }}>
+                      <span style={{ fontSize: 14, fontWeight: 600, color: active ? g.color : 'var(--text)' }}>
+                        {g.label}
+                      </span>
+                      <span style={{
+                        fontSize: 11, fontWeight: 500, padding: '1px 6px', borderRadius: 4,
+                        color: active ? g.color : 'var(--text-muted)',
+                        background: active ? `${g.color}18` : 'var(--surface2)',
+                      }}>
+                        {g.subtitle}
+                      </span>
+                      {isCurrent && !active && (
+                        <span style={{ fontSize: 10, color: 'var(--text-muted)' }}>current</span>
+                      )}
+                    </div>
+                    <p style={{ fontSize: 12, color: 'var(--text-dim)', margin: '0 0 3px', lineHeight: 1.5 }}>
+                      {g.description}
+                    </p>
+                    <p style={{ fontSize: 11, color: 'var(--text-muted)', margin: 0 }}>
+                      {g.threshold}
+                    </p>
+                  </div>
+                </button>
+              )
+            })}
+          </div>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <button
+              onClick={saveGoal}
+              disabled={!selectedGoal || selectedGoal === currentGoal || goalLoading}
+              className="btn-caramel"
+              style={{
+                padding: '9px 20px', fontSize: 13,
+                opacity: (!selectedGoal || selectedGoal === currentGoal) ? 0.45 : 1,
+              }}
+            >
+              {goalLoading ? 'Saving…' : 'Save Goal'}
+            </button>
+            {goalSaved && (
+              <span style={{ fontSize: 13, color: 'var(--forest)' }}>✓ Goal updated</span>
+            )}
+            {goalError && (
+              <span style={{ fontSize: 13, color: 'var(--terracotta)' }}>{goalError}</span>
+            )}
+          </div>
+        </section>
 
         {/* Parent monitoring — student side */}
         <section style={{ marginBottom: 48 }}>
