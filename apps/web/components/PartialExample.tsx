@@ -10,6 +10,14 @@ interface PartialExampleProps {
   topicId: string
 }
 
+// Extract "Differentiate h(x) = sin(5x³)" from "We want to differentiate h(x) = sin(5x³). Begin by..."
+function extractQuestion(description: string): string {
+  // Take only the first sentence
+  const firstSentence = description.split(/\.\s+[A-Z]/)[0].replace(/\.$/, '').trim()
+  // "We want to differentiate X" → "Differentiate X"
+  return firstSentence.replace(/^We want to\s+(\w)/i, (_, c: string) => c.toUpperCase())
+}
+
 export function PartialExample({ steps, topicId: _ }: PartialExampleProps) {
   const [revealed, setRevealed] = useState<Record<number, boolean>>({})
   const [scratchpadOpen, setScratchpadOpen] = useState(false)
@@ -38,14 +46,12 @@ export function PartialExample({ steps, topicId: _ }: PartialExampleProps) {
           }}>
             Problem
           </div>
-          {problemStep.expression_latex && (
-            <div style={{ marginBottom: problemStep.description_latex ? 10 : 0 }}>
-              <MathText latex={problemStep.expression_latex} />
-            </div>
-          )}
           {problemStep.description_latex && (
-            <div style={{ fontSize: 13, color: 'var(--text-dim)', lineHeight: 1.6 }}>
-              <MathText latex={problemStep.description_latex} prose />
+            <div style={{
+              fontSize: 15, fontWeight: 600, color: 'var(--text)', lineHeight: 1.6,
+              fontFamily: 'var(--font-fraunces), Georgia, serif',
+            }}>
+              <MathText latex={extractQuestion(problemStep.description_latex)} prose />
             </div>
           )}
         </div>
