@@ -4,6 +4,7 @@ import { useUser, useAuth } from '@clerk/nextjs'
 import Link from 'next/link'
 import { useEffect, useState, useRef } from 'react'
 import { api, LegacyTopicMetadata } from '@/lib/api-client'
+import { courseIcon } from '@/lib/course-icons'
 
 const GOAL_LABELS: Record<string, string> = {
   pass: 'Passing',
@@ -28,16 +29,12 @@ interface QuotaData {
 
 // ── Course config ─────────────────────────────────────────────────────────────
 const LEVELS = [
-  { label: 'High School',    ids: ['prealgebra', 'algebra_1', 'geometry', 'algebra_2', 'precalculus'] },
-  { label: 'Applied Math',   ids: ['probability', 'statistics', 'calculus_1', 'calculus_2', 'calculus_3'] },
-  { label: 'Advanced',       ids: ['linear_algebra', 'differential_equations', 'discrete_math', 'proofs', 'contest_math'] },
+  { label: 'Algebra',          ids: ['prealgebra', 'algebra_1', 'geometry', 'algebra_2', 'precalculus'] },
+  { label: 'Calculus',         ids: ['calculus_1', 'calculus_2', 'calculus_3', 'differential_equations'] },
+  { label: 'Statistics',       ids: ['intro_prob_stats', 'probability', 'mathematical_statistics'] },
+  { label: 'Pure Mathematics', ids: ['linear_algebra', 'discrete_math', 'proofs', 'contest_math'] },
 ]
 
-const COURSE_EMOJIS: Record<string, string> = {
-  prealgebra: '➕', algebra_1: '📐', geometry: '📏', algebra_2: '🔢', precalculus: '📈',
-  probability: '🎲', statistics: '📊', calculus_1: '∫', calculus_2: '∂', calculus_3: '∇',
-  linear_algebra: '⬡', differential_equations: '~', discrete_math: '⊕', proofs: '∴', contest_math: '🏆',
-}
 
 function deriveCourses(topics: LegacyTopicMetadata[]) {
   const map = new Map<string, { id: string; name: string; topicCount: number }>()
@@ -328,9 +325,12 @@ export default function DashboardPage() {
                       animation: `cardIn 0.5s ${0.05 + i * 0.07}s both cubic-bezier(0.16,1,0.3,1)`,
                     }}
                   >
-                    <span className="course-emoji">{COURSE_EMOJIS[c.id] ?? '📘'}</span>
+                    <div
+                      className="course-emoji"
+                      dangerouslySetInnerHTML={{ __html: courseIcon(c.id) }}
+                    />
                     <span className="course-tag">
-                      {label === 'High School' ? 'HS' : label === 'Applied Math' ? 'Applied' : 'Advanced'}
+                      {label === 'Algebra' ? 'ALG' : label === 'Calculus' ? 'CALC' : label === 'Statistics' ? 'STATS' : 'PURE'}
                     </span>
                     <div style={{ fontFamily: 'var(--font-fraunces), Georgia, serif', fontSize: 16, fontWeight: 600, color: 'var(--text)', marginTop: 6, marginBottom: 4 }}>
                       {c.name}

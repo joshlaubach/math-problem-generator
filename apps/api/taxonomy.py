@@ -140,24 +140,47 @@ UNIT_CALC_DEFAULTS: dict[str, CalcMode] = {
     "cm_u05": "none", "cm_u06": "none", "cm_u07": "none", "cm_u08": "none",
 
     # Probability
-    "prob_u01": "none",
-    "prob_u02": "scientific",  # Counting — large factorials
-    "prob_u03": "none",
-    "prob_u04": "scientific",  # Discrete RVs — binomial/Poisson
-    "prob_u05": "scientific",  # Continuous RVs — normal CDF
-    "prob_u06": "cas",         # Joint Distributions — double integrals
-    "prob_u07": "scientific",
-    "prob_u08": "cas",         # Calculus-Based Probability Theory — MGFs, convolutions, Markov chains
+    # Intro Probability and Statistics (AP Stats level, no calculus)
+    "ips_u01": "scientific",  # Exploring Data — σ, z-scores
+    "ips_u02": "graphing",    # Bivariate Data — scatterplots, regression
+    "ips_u03": "none",        # Study Design — conceptual
+    "ips_u04": "none",        # Intro Probability — exact calculations
+    "ips_u05": "scientific",  # Counting — large factorials
+    "ips_u06": "none",        # Conditional Probability — exact
+    "ips_u07": "scientific",  # Discrete RVs — binomial, geometric
+    "ips_u08": "scientific",  # Normal Distribution — z-scores, CDF
+    "ips_u09": "scientific",  # Sampling Distributions — CLT approximations
+    "ips_u10": "scientific",  # Estimation — CI calculations
+    "ips_u11": "scientific",  # Hypothesis Testing — test statistics
+    "ips_u12": "scientific",  # Categorical Data — chi-square
+    "ips_u13": "scientific",  # Regression Inference — t-statistics
+
+    # Probability Theory (STAT-134, calculus-based)
+    # prob_u04 requires Calculus III (multiple integrals)
+    # prob_u06 requires Calculus II (Taylor series for MGFs)
+    "prob_u01": "none",        # Probability Axioms — formal proofs
+    "prob_u02": "scientific",  # Discrete Distributions — Poisson, MGFs
+    "prob_u03": "scientific",  # Continuous Distributions — PDFs, CDFs
+    "prob_u04": "cas",         # Joint Distributions — double integrals (Calc III)
+    "prob_u05": "cas",         # Conditional Expectation — integration
+    "prob_u06": "cas",         # Transforms and Sums — MGFs via Taylor series (Calc II)
+    "prob_u07": "cas",         # Special Distributions — Jacobians, multivariate
+    "prob_u08": "scientific",  # Limit Theorems — convergence results
+    "prob_u09": "scientific",  # Markov Chains — matrix methods
+
+    # Mathematical Statistics (STAT-135 + Applied Econometrics)
+    "ms_u01": "scientific",   # Statistical Models and Estimation
+    "ms_u02": "scientific",   # Information Bounds — Fisher information
+    "ms_u03": "scientific",   # Bayesian Inference
+    "ms_u04": "scientific",   # Hypothesis Testing Theory
+    "ms_u05": "scientific",   # Asymptotic Theory
+    "ms_u06": "scientific",   # Nonparametric Methods
+    "ms_u07": "cas",          # Linear Models — matrix algebra
+    "ms_u08": "scientific",   # Generalized Linear Models
+    "ms_u09": "scientific",   # Applied Econometrics (H)
 
     # Statistics
-    "stat_u01": "scientific",  # Exploring Data — σ, z-scores
-    "stat_u02": "graphing",    # Relationships — scatterplots, regression
-    "stat_u03": "none",        # Collecting Data — conceptual
-    "stat_u04": "scientific",  # Probability — binomial, normal
-    "stat_u05": "scientific",  # Confidence Intervals
-    "stat_u06": "scientific",  # Hypothesis Testing
-    "stat_u07": "scientific",  # Categorical Data — chi-square
-    "stat_u08": "graphing",    # Inference for Regression
+    # (stat_u* units retired — content moved to intro_prob_stats and mathematical_statistics)
 }
 
 
@@ -1239,86 +1262,13 @@ def get_contest_math_course() -> Course:
 # Probability
 # ---------------------------------------------------------------------------
 
-def get_probability_course() -> Course:
-    return Course(id="probability", name="Probability", units=[
-        Unit(id="prob_u01", name="Introduction to Probability", topics=[
-            Topic(id="prob_001", name="Sample Spaces and Events", description=""),
-            Topic(id="prob_002", name="Basic Probability Rules", description=""),
-            Topic(id="prob_003", name="Equally Likely Outcomes", description=""),
-            Topic(id="prob_004", name="Complement, Union, and Intersection", description=""),
-            Topic(id="prob_005", name="Venn Diagrams and Probability", description=""),
-        ]),
-        Unit(id="prob_u02", name="Counting and Probability", topics=[
-            Topic(id="prob_006", name="The Multiplication Principle", description=""),
-            Topic(id="prob_007", name="Permutations and Combinations", description=""),
-            Topic(id="prob_008", name="Counting with Repetition", description=""),
-            Topic(id="prob_009", name="The Binomial Theorem and Probability", description=""),
-        ]),
-        Unit(id="prob_u03", name="Conditional Probability and Independence", topics=[
-            Topic(id="prob_010", name="Conditional Probability", description=""),
-            Topic(id="prob_011", name="The Multiplication Rule", description=""),
-            Topic(id="prob_012", name="Independent Events", description=""),
-            Topic(id="prob_013", name="Bayes' Theorem", description=""),
-            Topic(id="prob_014", name="Tree Diagrams", description=""),
-        ]),
-        Unit(id="prob_u04", name="Discrete Random Variables", topics=[
-            Topic(id="prob_015", name="Introduction to Random Variables", description=""),
-            Topic(id="prob_016", name="Probability Distributions and Histograms", description=""),
-            Topic(id="prob_017", name="Expected Value", description=""),
-            Topic(id="prob_018", name="Variance and Standard Deviation", description=""),
-            Topic(id="prob_019", name="The Binomial Distribution", description=""),
-            Topic(id="prob_020", name="The Geometric Distribution", description=""),
-            Topic(id="prob_021", name="The Poisson Distribution (H)", description=""),
-            Topic(id="prob_022", name="Moment Generating Functions for Discrete Distributions (H)", description=""),
-            Topic(id="prob_042", name="The Negative Binomial Distribution (H)", description=""),
-            Topic(id="prob_043", name="The Hypergeometric Distribution (H)", description=""),
-        ]),
-        Unit(id="prob_u05", name="Continuous Random Variables", topics=[
-            Topic(id="prob_023", name="Introduction to Continuous Distributions", description=""),
-            Topic(id="prob_024", name="The Uniform Distribution", description=""),
-            Topic(id="prob_025", name="The Normal Distribution", description=""),
-            Topic(id="prob_026", name="Standard Normal and Z-Scores", description=""),
-            Topic(id="prob_027", name="The Exponential Distribution (H)", description=""),
-            Topic(id="prob_028", name="Probability Density Functions and CDFs via Integration (H)", description=""),
-            Topic(id="prob_029", name="The Gamma and Beta Distributions (H)", description=""),
-            Topic(id="prob_044", name="The Chi-Squared Distribution (H)", description=""),
-        ]),
-        Unit(id="prob_u06", name="Joint Distributions and Relationships", topics=[
-            Topic(id="prob_030", name="Joint Distributions (Discrete)", description=""),
-            Topic(id="prob_031", name="Marginal and Conditional Distributions", description=""),
-            Topic(id="prob_032", name="Covariance and Correlation", description=""),
-            Topic(id="prob_033", name="Joint Continuous Distributions via Double Integrals (H)", description=""),
-            Topic(id="prob_034", name="The Law of Total Expectation (H)", description=""),
-            Topic(id="prob_035", name="Transformations of Random Variables (H)", description=""),
-        ]),
-        Unit(id="prob_u07", name="Applications and Limit Theorems", topics=[
-            Topic(id="prob_036", name="Simulation and the Law of Large Numbers", description=""),
-            Topic(id="prob_037", name="The Central Limit Theorem", description=""),
-            Topic(id="prob_038", name="Normal Approximation to the Binomial", description=""),
-            Topic(id="prob_039", name="Probability in Everyday Decision Making", description=""),
-            Topic(id="prob_040", name="Introduction to Risk and Insurance Models (H)", description=""),
-            Topic(id="prob_041", name="Convergence of Random Variables (H)", description=""),
-        ]),
-        Unit(id="prob_u08", name="Calculus-Based Probability Theory (H)", topics=[
-            Topic(id="prob_045", name="Conditional Expectation E[X|Y] as a Random Variable (H)", description=""),
-            Topic(id="prob_046", name="The Law of Total Variance (H)", description=""),
-            Topic(id="prob_047", name="Moment Generating Functions for Continuous Distributions (H)", description=""),
-            Topic(id="prob_048", name="Convolutions and Sums of Independent Random Variables (H)", description=""),
-            Topic(id="prob_049", name="Order Statistics (H)", description=""),
-            Topic(id="prob_050", name="The Bivariate Normal Distribution (H)", description=""),
-            Topic(id="prob_051", name="Markov and Chebyshev Inequalities (H)", description=""),
-            Topic(id="prob_052", name="Introduction to Markov Chains (H)", description=""),
-        ]),
-    ])
-
-
 # ---------------------------------------------------------------------------
-# Statistics
+# Introduction to Probability and Statistics  (AP Stats / non-calculus)
 # ---------------------------------------------------------------------------
 
-def get_statistics_course() -> Course:
-    return Course(id="statistics", name="Statistics", units=[
-        Unit(id="stat_u01", name="Exploring Data", topics=[
+def get_intro_prob_stats_course() -> Course:
+    return Course(id="intro_prob_stats", name="Intro Probability and Stats", units=[
+        Unit(id="ips_u01", name="Exploring and Visualizing Data", topics=[
             Topic(id="stat_001", name="Types of Data and Variables", description=""),
             Topic(id="stat_002", name="Frequency Distributions and Histograms", description=""),
             Topic(id="stat_003", name="Measures of Center: Mean, Median, Mode", description=""),
@@ -1326,7 +1276,7 @@ def get_statistics_course() -> Course:
             Topic(id="stat_005", name="Box Plots and Five-Number Summary", description=""),
             Topic(id="stat_006", name="Outliers and Resistant Measures", description=""),
         ]),
-        Unit(id="stat_u02", name="Displaying and Describing Relationships", topics=[
+        Unit(id="ips_u02", name="Bivariate Data and Linear Regression", topics=[
             Topic(id="stat_007", name="Scatter Plots and Association", description=""),
             Topic(id="stat_008", name="Correlation", description=""),
             Topic(id="stat_009", name="Introduction to Linear Regression", description=""),
@@ -1334,52 +1284,206 @@ def get_statistics_course() -> Course:
             Topic(id="stat_011", name="Interpreting Slope and Intercept", description=""),
             Topic(id="stat_012", name="Causation vs. Correlation", description=""),
         ]),
-        Unit(id="stat_u03", name="Collecting Data", topics=[
+        Unit(id="ips_u03", name="Study Design and Data Collection", topics=[
             Topic(id="stat_013", name="Sampling Methods and Bias", description=""),
             Topic(id="stat_014", name="Observational Studies vs. Experiments", description=""),
             Topic(id="stat_015", name="Experimental Design: Control, Randomization, Replication", description=""),
             Topic(id="stat_016", name="Confounding Variables", description=""),
             Topic(id="stat_017", name="Surveys and Questionnaire Design", description=""),
         ]),
-        Unit(id="stat_u04", name="Probability (Applied)", topics=[
-            Topic(id="stat_018", name="Basic Probability Rules", description=""),
-            Topic(id="stat_019", name="Conditional Probability and Independence", description=""),
-            Topic(id="stat_020", name="The Normal Distribution and Z-Scores", description=""),
+        Unit(id="ips_u04", name="Introduction to Probability", topics=[
+            Topic(id="prob_001", name="Sample Spaces and Events", description=""),
+            Topic(id="prob_002", name="Basic Probability Rules", description=""),
+            Topic(id="prob_003", name="Equally Likely Outcomes", description=""),
+            Topic(id="prob_004", name="Complement, Union, and Intersection", description=""),
+            Topic(id="prob_005", name="Venn Diagrams and Probability", description=""),
+        ]),
+        Unit(id="ips_u05", name="Counting Methods", topics=[
+            Topic(id="prob_006", name="The Multiplication Principle", description=""),
+            Topic(id="prob_007", name="Permutations and Combinations", description=""),
+            Topic(id="prob_008", name="Counting with Repetition", description=""),
+            Topic(id="prob_009", name="The Binomial Theorem and Probability", description=""),
+        ]),
+        Unit(id="ips_u06", name="Conditional Probability", topics=[
+            Topic(id="prob_010", name="Conditional Probability", description=""),
+            Topic(id="prob_011", name="The Multiplication Rule", description=""),
+            Topic(id="prob_012", name="Independent Events", description=""),
+            Topic(id="prob_013", name="Bayes' Theorem", description=""),
+            Topic(id="prob_014", name="Tree Diagrams", description=""),
+        ]),
+        Unit(id="ips_u07", name="Discrete Random Variables", topics=[
+            Topic(id="prob_015", name="Introduction to Random Variables", description=""),
+            Topic(id="prob_016", name="Probability Distributions and Histograms", description=""),
+            Topic(id="prob_017", name="Expected Value", description=""),
+            Topic(id="prob_018", name="Variance and Standard Deviation", description=""),
+            Topic(id="prob_019", name="The Binomial Distribution", description=""),
+            Topic(id="prob_020", name="The Geometric Distribution", description=""),
+        ]),
+        Unit(id="ips_u08", name="Continuous Distributions and the Normal", topics=[
+            Topic(id="prob_023", name="Introduction to Continuous Distributions", description=""),
+            Topic(id="prob_024", name="The Uniform Distribution", description=""),
+            Topic(id="prob_025", name="The Normal Distribution", description=""),
+            Topic(id="prob_026", name="Standard Normal and Z-Scores", description=""),
+        ]),
+        Unit(id="ips_u09", name="Sampling Distributions and the Central Limit Theorem", topics=[
             Topic(id="stat_021", name="Sampling Distributions", description=""),
             Topic(id="stat_022", name="The Central Limit Theorem", description=""),
-            Topic(id="stat_023", name="Derivation of Sampling Distributions via Integration (H)", description=""),
+            Topic(id="prob_036", name="Simulation and the Law of Large Numbers", description=""),
+            Topic(id="prob_038", name="Normal Approximation to the Binomial", description=""),
         ]),
-        Unit(id="stat_u05", name="Inference: Confidence Intervals", topics=[
+        Unit(id="ips_u10", name="Estimation and Confidence Intervals", topics=[
             Topic(id="stat_024", name="Introduction to Estimation", description=""),
             Topic(id="stat_025", name="Confidence Intervals for a Mean", description=""),
             Topic(id="stat_026", name="Confidence Intervals for a Proportion", description=""),
             Topic(id="stat_027", name="Margin of Error and Sample Size", description=""),
             Topic(id="stat_028", name="Interpreting Confidence Intervals", description=""),
-            Topic(id="stat_029", name="Confidence Intervals via the t-Distribution (H)", description=""),
-            Topic(id="stat_030", name="Bootstrap Confidence Intervals (H)", description=""),
         ]),
-        Unit(id="stat_u06", name="Inference: Hypothesis Testing", topics=[
+        Unit(id="ips_u11", name="Hypothesis Testing", topics=[
             Topic(id="stat_031", name="Introduction to Hypothesis Testing", description=""),
             Topic(id="stat_032", name="One-Sample t-Test for a Mean", description=""),
             Topic(id="stat_033", name="One-Sample z-Test for a Proportion", description=""),
             Topic(id="stat_034", name="Two-Sample Tests", description=""),
             Topic(id="stat_035", name="Type I and Type II Errors", description=""),
             Topic(id="stat_036", name="p-Values and Statistical Significance", description=""),
-            Topic(id="stat_037", name="Power of a Test and Sample Size Calculations (H)", description=""),
-            Topic(id="stat_038", name="Likelihood Ratio Tests (Introduction) (H)", description=""),
         ]),
-        Unit(id="stat_u07", name="Inference for Categorical Data", topics=[
+        Unit(id="ips_u12", name="Categorical Data Analysis", topics=[
             Topic(id="stat_039", name="Chi-Square Goodness-of-Fit Test", description=""),
             Topic(id="stat_040", name="Chi-Square Test for Independence", description=""),
             Topic(id="stat_041", name="Two-Way Tables and Expected Counts", description=""),
-            Topic(id="stat_042", name="Fisher's Exact Test (H)", description=""),
         ]),
-        Unit(id="stat_u08", name="Inference for Regression", topics=[
+        Unit(id="ips_u13", name="Inference for Regression", topics=[
             Topic(id="stat_043", name="Testing the Slope of a Regression Line", description=""),
             Topic(id="stat_044", name="Confidence Intervals for Regression", description=""),
             Topic(id="stat_045", name="Residual Analysis and Conditions for Inference", description=""),
-            Topic(id="stat_046", name="Multiple Linear Regression (H)", description=""),
-            Topic(id="stat_047", name="Logistic Regression (Introduction) (H)", description=""),
-            Topic(id="stat_048", name="Least Squares via Calculus (H)", description=""),
+            Topic(id="prob_039", name="Probability in Everyday Decision Making", description=""),
+        ]),
+    ])
+
+
+# ---------------------------------------------------------------------------
+# Probability Theory  (STAT-134, calculus-based)
+# prob_u04 requires Calculus III (multiple integrals for joint distributions)
+# prob_u06 requires Calculus II (Taylor series for moment generating functions)
+# ---------------------------------------------------------------------------
+
+def get_probability_course() -> Course:
+    return Course(id="probability", name="Probability Theory", units=[
+        Unit(id="prob_u01", name="Probability Axioms and Foundations", topics=[
+            Topic(id="pt_001", name="Probability Spaces, Sigma-Algebras, and Axioms", description=""),
+            Topic(id="pt_002", name="Combinatorial Probability and Inclusion-Exclusion", description=""),
+            Topic(id="pt_003", name="Conditional Probability and Bayes' Theorem", description=""),
+            Topic(id="pt_004", name="Independence: Definitions and Implications", description=""),
+        ]),
+        Unit(id="prob_u02", name="Discrete Distributions", topics=[
+            Topic(id="prob_021", name="The Poisson Distribution", description=""),
+            Topic(id="prob_022", name="Moment Generating Functions for Discrete Distributions", description=""),
+            Topic(id="prob_042", name="The Negative Binomial Distribution", description=""),
+            Topic(id="prob_043", name="The Hypergeometric Distribution", description=""),
+        ]),
+        Unit(id="prob_u03", name="Continuous Distributions", topics=[
+            Topic(id="prob_027", name="The Exponential Distribution", description=""),
+            Topic(id="prob_028", name="Probability Density Functions and CDFs via Integration", description=""),
+            Topic(id="prob_029", name="The Gamma and Beta Distributions", description=""),
+            Topic(id="prob_044", name="The Chi-Squared Distribution", description=""),
+        ]),
+        Unit(id="prob_u04", name="Joint Distributions", topics=[
+            Topic(id="prob_030", name="Joint Distributions (Discrete)", description=""),
+            Topic(id="prob_031", name="Marginal and Conditional Distributions", description=""),
+            Topic(id="prob_032", name="Covariance and Correlation", description=""),
+            Topic(id="prob_033", name="Joint Continuous Distributions via Double Integrals", description=""),
+        ]),
+        Unit(id="prob_u05", name="Conditional Expectation", topics=[
+            Topic(id="prob_034", name="The Law of Total Expectation", description=""),
+            Topic(id="prob_045", name="Conditional Expectation E[X|Y] as a Random Variable", description=""),
+            Topic(id="prob_046", name="The Law of Total Variance", description=""),
+        ]),
+        Unit(id="prob_u06", name="Transforms and Sums of Random Variables", topics=[
+            Topic(id="prob_047", name="Moment Generating Functions for Continuous Distributions", description=""),
+            Topic(id="prob_048", name="Convolutions and Sums of Independent Random Variables", description=""),
+            Topic(id="prob_035", name="Transformations of Random Variables", description=""),
+            Topic(id="prob_049", name="Order Statistics", description=""),
+        ]),
+        Unit(id="prob_u07", name="Special Distributions and Multivariate Theory", topics=[
+            Topic(id="prob_050", name="The Bivariate Normal Distribution", description=""),
+            Topic(id="prob_040", name="Introduction to Risk and Insurance Models", description=""),
+        ]),
+        Unit(id="prob_u08", name="Limit Theorems and Inequalities", topics=[
+            Topic(id="prob_041", name="Convergence of Random Variables", description=""),
+            Topic(id="prob_051", name="Markov and Chebyshev Inequalities", description=""),
+            Topic(id="pt_005", name="The Weak Law of Large Numbers", description=""),
+            Topic(id="pt_006", name="The Central Limit Theorem via Moment Generating Functions", description=""),
+        ]),
+        Unit(id="prob_u09", name="Markov Chains", topics=[
+            Topic(id="prob_052", name="Introduction to Markov Chains", description=""),
+            Topic(id="pt_007", name="Communication Classes and Irreducibility", description=""),
+            Topic(id="pt_008", name="Stationary Distributions and Detailed Balance", description=""),
+            Topic(id="pt_009", name="Convergence to Stationarity and Mixing Times", description=""),
+        ]),
+    ])
+
+
+# ---------------------------------------------------------------------------
+# Mathematical Statistics  (STAT-135 + Applied Econometrics)
+# ---------------------------------------------------------------------------
+
+def get_mathematical_statistics_course() -> Course:
+    return Course(id="mathematical_statistics", name="Mathematical Statistics", units=[
+        Unit(id="ms_u01", name="Statistical Models and Point Estimation", topics=[
+            Topic(id="ms_001", name="Statistical Models and Sufficient Statistics", description=""),
+            Topic(id="ms_002", name="Method of Moments", description=""),
+            Topic(id="ms_003", name="Maximum Likelihood Estimation", description=""),
+            Topic(id="ms_004", name="Properties of Estimators: Bias, Variance, and MSE", description=""),
+            Topic(id="ms_005", name="Consistency and Asymptotic Properties", description=""),
+        ]),
+        Unit(id="ms_u02", name="Information Theory and Optimal Estimation", topics=[
+            Topic(id="ms_006", name="Fisher Information and the Score Function", description=""),
+            Topic(id="ms_007", name="The Cramér-Rao Lower Bound", description=""),
+            Topic(id="ms_008", name="Complete Sufficient Statistics", description=""),
+            Topic(id="ms_009", name="The Rao-Blackwell Theorem and UMVUE", description=""),
+            Topic(id="ms_010", name="The Exponential Family of Distributions", description=""),
+        ]),
+        Unit(id="ms_u03", name="Bayesian Inference", topics=[
+            Topic(id="ms_011", name="Prior and Posterior Distributions", description=""),
+            Topic(id="ms_012", name="Conjugate Priors", description=""),
+            Topic(id="ms_013", name="Bayesian Point Estimation and Credible Intervals", description=""),
+            Topic(id="stat_030", name="Bootstrap Confidence Intervals", description=""),
+        ]),
+        Unit(id="ms_u04", name="Hypothesis Testing Theory", topics=[
+            Topic(id="ms_014", name="The Neyman-Pearson Lemma", description=""),
+            Topic(id="ms_015", name="Uniformly Most Powerful Tests", description=""),
+            Topic(id="ms_016", name="Generalized Likelihood Ratio Tests", description=""),
+            Topic(id="stat_029", name="Confidence Intervals via the t-Distribution", description=""),
+            Topic(id="stat_037", name="Power of a Test and Sample Size Calculations", description=""),
+            Topic(id="stat_038", name="Likelihood Ratio Tests", description=""),
+        ]),
+        Unit(id="ms_u05", name="Asymptotic Theory", topics=[
+            Topic(id="stat_023", name="Derivation of Sampling Distributions via Integration", description=""),
+            Topic(id="ms_017", name="Asymptotic Normality of the MLE", description=""),
+            Topic(id="ms_018", name="The Delta Method", description=""),
+            Topic(id="ms_019", name="Confidence Regions and Simultaneous Inference", description=""),
+        ]),
+        Unit(id="ms_u06", name="Nonparametric Methods", topics=[
+            Topic(id="ms_020", name="Sign and Rank Tests: Wilcoxon and Mann-Whitney", description=""),
+            Topic(id="ms_021", name="The Kolmogorov-Smirnov Goodness-of-Fit Test", description=""),
+            Topic(id="stat_042", name="Fisher's Exact Test", description=""),
+        ]),
+        Unit(id="ms_u07", name="Linear Models", topics=[
+            Topic(id="ms_022", name="The Linear Model in Matrix Form", description=""),
+            Topic(id="ms_023", name="The Gauss-Markov Theorem", description=""),
+            Topic(id="ms_024", name="Distribution Theory in Linear Regression", description=""),
+            Topic(id="stat_046", name="Multiple Linear Regression", description=""),
+            Topic(id="stat_048", name="Least Squares via Calculus", description=""),
+            Topic(id="ms_025", name="Analysis of Variance", description=""),
+        ]),
+        Unit(id="ms_u08", name="Generalized Linear Models", topics=[
+            Topic(id="stat_047", name="Logistic Regression", description=""),
+            Topic(id="ms_026", name="Generalized Linear Models and Link Functions", description=""),
+            Topic(id="ms_027", name="Poisson Regression and Count Data", description=""),
+        ]),
+        Unit(id="ms_u09", name="Applied Econometrics (H)", topics=[
+            Topic(id="ms_028", name="Instrumental Variables and Two-Stage Least Squares (H)", description=""),
+            Topic(id="ms_029", name="Heteroskedasticity and Robust Standard Errors (H)", description=""),
+            Topic(id="ms_030", name="Panel Data: Fixed and Random Effects (H)", description=""),
+            Topic(id="ms_031", name="Time Series: Stationarity, Autocorrelation, and ARIMA (H)", description=""),
         ]),
     ])

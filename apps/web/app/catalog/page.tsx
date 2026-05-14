@@ -1,12 +1,15 @@
 import { api, LegacyTopicMetadata } from '@/lib/api-client'
 import { PrerequisiteGraph } from '@/components/PrerequisiteGraph'
 import Link from 'next/link'
-import katex from 'katex'
+import { COURSE_LATEX, courseIcon } from '@/lib/course-icons'
 
 const PREREQ_NAMES: Record<string, string[]> = {
   algebra_1: ['Pre-Algebra'], geometry: ['Algebra I'], algebra_2: ['Algebra I'],
-  precalculus: ['Algebra II', 'Geometry'], probability: ['Algebra II'],
-  statistics: ['Probability'], calculus_1: ['Pre-Calculus'],
+  precalculus: ['Algebra II', 'Geometry'],
+  intro_prob_stats: ['Algebra II'],
+  probability: ['Intro Probability and Stats', 'Calculus I'],
+  mathematical_statistics: ['Probability Theory'],
+  calculus_1: ['Pre-Calculus'],
   calculus_2: ['Calculus I'], calculus_3: ['Calculus II'],
   linear_algebra: ['Calculus I'], differential_equations: ['Calculus II'],
   discrete_math: ['Algebra II'], proofs: ['Discrete Mathematics'],
@@ -14,40 +17,19 @@ const PREREQ_NAMES: Record<string, string[]> = {
 }
 
 const LEVEL_GROUPS = [
-  { label: 'High School',  level: 'hs',      ids: ['prealgebra', 'algebra_1', 'geometry', 'algebra_2', 'precalculus'] },
-  { label: 'Applied Math', level: 'applied',  ids: ['probability', 'statistics', 'calculus_1', 'calculus_2', 'calculus_3'] },
-  { label: 'Advanced',     level: 'adv',      ids: ['linear_algebra', 'differential_equations', 'discrete_math', 'proofs', 'contest_math'] },
+  { label: 'Algebra',         level: 'algebra',    ids: ['prealgebra', 'algebra_1', 'geometry', 'algebra_2', 'precalculus'] },
+  { label: 'Calculus',        level: 'calculus',   ids: ['calculus_1', 'calculus_2', 'calculus_3', 'differential_equations'] },
+  { label: 'Statistics',      level: 'statistics', ids: ['intro_prob_stats', 'probability', 'mathematical_statistics'] },
+  { label: 'Pure Mathematics', level: 'pure',      ids: ['linear_algebra', 'discrete_math', 'proofs', 'contest_math'] },
 ]
 
 const LEVEL_CSS_COLOR: Record<string, string> = {
-  hs:      'var(--hs-color)',
-  applied: 'var(--applied-color)',
-  adv:     'var(--adv-color)',
+  algebra:    'var(--algebra-color)',
+  calculus:   'var(--calculus-color)',
+  statistics: 'var(--stats-color)',
+  pure:       'var(--pure-color)',
 }
 
-const COURSE_LATEX: Record<string, string> = {
-  prealgebra:              '\\tfrac{1}{2}',
-  algebra_1:               'x',
-  geometry:                'a^2{+}b^2',
-  algebra_2:               'x^2',
-  precalculus:             '\\sin\\theta',
-  probability:             'P(A)',
-  statistics:              '\\bar{x}',
-  calculus_1:              '\\dfrac{dy}{dx}',
-  calculus_2:              '\\int_a^b\\!f\\,dx',
-  calculus_3:              '\\nabla f',
-  linear_algebra:          'A\\mathbf{x}{=}\\lambda\\mathbf{x}',
-  differential_equations:  "y''+y=0",
-  discrete_math:           'A\\cap B',
-  proofs:                  'P\\Rightarrow Q',
-  contest_math:            '\\displaystyle\\sum_{k=1}^n k',
-}
-
-function courseIcon(id: string): string {
-  const latex = COURSE_LATEX[id]
-  if (!latex) return '?'
-  return katex.renderToString(latex, { throwOnError: false, output: 'html' })
-}
 
 function deriveCatalog(topics: LegacyTopicMetadata[]) {
   const courseMap = new Map<string, { id: string; name: string; units: Set<string>; topics: number }>()
@@ -82,7 +64,7 @@ export default async function CatalogPage() {
           Course <em>Catalog</em>
         </h1>
         <p className="page-subtitle">
-          {courseMap.size > 0 ? `${courseMap.size} courses · ${topics.length} topics across three levels` : 'Fifteen courses from Pre-Algebra to graduate mathematics'}
+          {courseMap.size > 0 ? `${courseMap.size} courses · ${topics.length} topics across four tracks` : 'Sixteen courses from Pre-Algebra to graduate mathematics'}
         </p>
 
         {/* No data */}
@@ -165,7 +147,7 @@ export default async function CatalogPage() {
                       dangerouslySetInnerHTML={{ __html: courseIcon(c.id) }}
                     />
                     <div className="course-tag">
-                      {label === 'High School' ? 'HS' : label === 'Applied Math' ? 'Applied' : 'Advanced'}
+                      {label === 'Algebra' ? 'ALG' : label === 'Calculus' ? 'CALC' : label === 'Statistics' ? 'STATS' : 'PURE'}
                     </div>
                     <div style={{
                       fontFamily: 'var(--font-fraunces), Georgia, serif',

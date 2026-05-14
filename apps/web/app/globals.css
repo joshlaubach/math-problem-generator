@@ -28,15 +28,22 @@
   --sidebar-w:     240px;
 
   /* Level accent colors — light mode (ink on graph paper) */
-  --hs-color:      #b45309;
-  --hs-dim:        rgba(180, 83, 9, 0.1);
-  --hs-glow:       rgba(180, 83, 9, 0.22);
-  --applied-color: #0e7490;
-  --applied-dim:   rgba(14, 116, 144, 0.1);
-  --applied-glow:  rgba(14, 116, 144, 0.22);
-  --adv-color:     #6d28d9;
-  --adv-dim:       rgba(109, 40, 217, 0.1);
-  --adv-glow:      rgba(109, 40, 217, 0.22);
+  --algebra-color:    #b45309;
+  --algebra-dim:      rgba(180, 83, 9, 0.1);
+  --algebra-glow:     rgba(180, 83, 9, 0.22);
+  --calculus-color:   #0e7490;
+  --calculus-dim:     rgba(14, 116, 144, 0.1);
+  --calculus-glow:    rgba(14, 116, 144, 0.22);
+  --stats-color:      #059669;
+  --stats-dim:        rgba(5, 150, 105, 0.1);
+  --stats-glow:       rgba(5, 150, 105, 0.22);
+  --pure-color:       #6d28d9;
+  --pure-dim:         rgba(109, 40, 217, 0.1);
+  --pure-glow:        rgba(109, 40, 217, 0.22);
+  /* Legacy aliases for components outside the catalog */
+  --hs-color: var(--algebra-color); --hs-dim: var(--algebra-dim); --hs-glow: var(--algebra-glow);
+  --applied-color: var(--calculus-color); --applied-dim: var(--calculus-dim); --applied-glow: var(--calculus-glow);
+  --adv-color: var(--pure-color); --adv-dim: var(--pure-dim); --adv-glow: var(--pure-glow);
 }
 
 /* ─────────────────────────────────────────
@@ -59,15 +66,22 @@
   --forest-dim:    rgba(63, 185, 80, 0.1);
 
   /* Level accent colors — dark mode (glowing Manim objects) */
-  --hs-color:      #fbbf24;
-  --hs-dim:        rgba(251, 191, 36, 0.1);
-  --hs-glow:       rgba(251, 191, 36, 0.28);
-  --applied-color: #58c4dd;
-  --applied-dim:   rgba(88, 196, 221, 0.1);
-  --applied-glow:  rgba(88, 196, 221, 0.28);
-  --adv-color:     #c084fc;
-  --adv-dim:       rgba(192, 132, 252, 0.1);
-  --adv-glow:      rgba(192, 132, 252, 0.28);
+  --algebra-color:    #fbbf24;
+  --algebra-dim:      rgba(251, 191, 36, 0.1);
+  --algebra-glow:     rgba(251, 191, 36, 0.28);
+  --calculus-color:   #58c4dd;
+  --calculus-dim:     rgba(88, 196, 221, 0.1);
+  --calculus-glow:    rgba(88, 196, 221, 0.28);
+  --stats-color:      #34d399;
+  --stats-dim:        rgba(52, 211, 153, 0.1);
+  --stats-glow:       rgba(52, 211, 153, 0.28);
+  --pure-color:       #c084fc;
+  --pure-dim:         rgba(192, 132, 252, 0.1);
+  --pure-glow:        rgba(192, 132, 252, 0.28);
+  /* Legacy aliases */
+  --hs-color: var(--algebra-color); --hs-dim: var(--algebra-dim); --hs-glow: var(--algebra-glow);
+  --applied-color: var(--calculus-color); --applied-dim: var(--calculus-dim); --applied-glow: var(--calculus-glow);
+  --adv-color: var(--pure-color); --adv-dim: var(--pure-dim); --adv-glow: var(--pure-glow);
 }
 
 /* ─────────────────────────────────────────
@@ -380,9 +394,10 @@ body {
 .course-card:active { transform: translateY(-2px) scale(0.998); }
 
 /* Level-specific accent/glow custom properties */
-[data-level="hs"]      { --card-accent: var(--hs-color);      --card-glow: var(--hs-dim); }
-[data-level="applied"] { --card-accent: var(--applied-color); --card-glow: var(--applied-dim); }
-[data-level="adv"]     { --card-accent: var(--adv-color);     --card-glow: var(--adv-dim); }
+[data-level="algebra"]    { --card-accent: var(--algebra-color);  --card-glow: var(--algebra-dim); }
+[data-level="calculus"]   { --card-accent: var(--calculus-color); --card-glow: var(--calculus-dim); }
+[data-level="statistics"] { --card-accent: var(--stats-color);    --card-glow: var(--stats-dim); }
+[data-level="pure"]       { --card-accent: var(--pure-color);     --card-glow: var(--pure-dim); }
 
 /* Math icon — inherits level color, glows on hover */
 .course-emoji {

@@ -21,8 +21,9 @@ from taxonomy import (
     get_discrete_math_course,
     get_proofs_course,
     get_contest_math_course,
+    get_intro_prob_stats_course,
     get_probability_course,
-    get_statistics_course,
+    get_mathematical_statistics_course,
 )
 
 
@@ -131,8 +132,9 @@ def initialize_topic_registry() -> None:
         get_discrete_math_course,
         get_proofs_course,
         get_contest_math_course,
+        get_intro_prob_stats_course,
         get_probability_course,
-        get_statistics_course,
+        get_mathematical_statistics_course,
     ]
 
     for course_builder in course_builders:
