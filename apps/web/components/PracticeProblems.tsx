@@ -12,6 +12,11 @@ interface PracticeProblemsProps {
   topicName: string
 }
 
+// Prose mode: $...$ delimiters present, OR no LaTeX commands at all (plain text).
+// Display mode only for pure LaTeX strings like \frac{d}{dx}[...].
+const useProse = (s: string) =>
+  /(?<!\\)\$[^$]+\$/.test(s) || !/\\[a-zA-Z]/.test(s)
+
 export function PracticeProblems({
   problems,
   untestedVariants,
@@ -43,7 +48,10 @@ export function PracticeProblems({
                 {i + 1}
               </span>
               <div style={{ overflowX: 'auto', minWidth: 0 }}>
-                <MathText latex={prob.prompt_latex} />
+                <MathText
+                  latex={prob.prompt_latex}
+                  prose={useProse(prob.prompt_latex)}
+                />
               </div>
             </div>
 
@@ -70,7 +78,10 @@ export function PracticeProblems({
               display: 'flex', alignItems: 'center', gap: 8,
             }}>
               <span style={{ fontSize: 12, color: 'var(--text-muted)', fontWeight: 600 }}>Answer:</span>
-              <MathText latex={prob.answer_latex} />
+              <MathText
+                latex={prob.answer_latex}
+                prose={useProse(prob.answer_latex)}
+              />
             </div>
           )}
         </div>

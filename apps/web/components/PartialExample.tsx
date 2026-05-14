@@ -10,6 +10,9 @@ interface PartialExampleProps {
   topicId: string
 }
 
+const useProse = (s: string) =>
+  /(?<!\\)\$[^$]+\$/.test(s) || !/\\[a-zA-Z]/.test(s)
+
 // Extract "Differentiate h(x) = sin(5x³)" from "We want to differentiate h(x) = sin(5x³). Begin by..."
 function extractQuestion(description: string): string {
   // Take only the first sentence
@@ -133,7 +136,10 @@ export function PartialExample({ steps, topicId: _ }: PartialExampleProps) {
                   background: 'var(--surface2)', border: '1px solid var(--border)',
                   overflowX: 'auto',
                 }}>
-                  <MathText latex={step.expression_latex} />
+                  <MathText
+                    latex={step.expression_latex}
+                    prose={useProse(step.expression_latex)}
+                  />
                 </div>
               )}
 
@@ -146,7 +152,10 @@ export function PartialExample({ steps, topicId: _ }: PartialExampleProps) {
                       border: '1px solid rgba(100,150,100,0.25)',
                       overflowX: 'auto',
                     }}>
-                      <MathText latex={step.expression_latex} />
+                      <MathText
+                        latex={step.expression_latex}
+                        prose={useProse(step.expression_latex)}
+                      />
                     </div>
                   ) : (
                     <button

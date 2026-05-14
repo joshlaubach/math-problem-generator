@@ -7,6 +7,9 @@ interface WorkedExampleProps {
   steps: LessonStep[]
 }
 
+const useProse = (s: string) =>
+  /(?<!\\)\$[^$]+\$/.test(s) || !/\\[a-zA-Z]/.test(s)
+
 export function WorkedExample({ steps }: WorkedExampleProps) {
   if (!steps || steps.length === 0) return null
 
@@ -39,7 +42,10 @@ export function WorkedExample({ steps }: WorkedExampleProps) {
                 background: 'var(--surface2)', border: '1px solid var(--border)',
                 marginBottom: 8, overflowX: 'auto',
               }}>
-                <MathText latex={step.expression_latex} />
+                <MathText
+                  latex={step.expression_latex}
+                  prose={useProse(step.expression_latex)}
+                />
               </div>
             )}
 
