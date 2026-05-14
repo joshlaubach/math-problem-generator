@@ -7,9 +7,9 @@ import katex from 'katex'
 
 export const COURSE_LATEX: Record<string, string> = {
   prealgebra:              '\\tfrac{1}{2}',
-  algebra_1:               'x',
-  geometry:                'a^2{+}b^2',
-  algebra_2:               'x^2',
+  algebra_1:               'x^2',
+  geometry:                '\\triangle',
+  algebra_2:               '\\sqrt{x}',
   precalculus:             '\\sin\\theta',
   intro_prob_stats:        '\\bar{x}',
   probability:             'E[X{\\mid}Y]',

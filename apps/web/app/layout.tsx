@@ -1,18 +1,21 @@
 import type { Metadata } from 'next'
-import { Fraunces, DM_Sans } from 'next/font/google'
+import { STIX_Two_Text, DM_Sans } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Sidebar } from '@/components/Sidebar'
 import { BottomNav } from '@/components/BottomNav'
 import { MathBackground } from '@/components/MathBackground'
 import './globals.css'
 
-const fraunces = Fraunces({
+// Content layer — TeX's Computer Modern equivalent (headings, course names, lesson text)
+const stixTwo = STIX_Two_Text({
   subsets: ['latin'],
   variable: '--font-fraunces',
   display: 'swap',
-  axes: ['opsz'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
 })
 
+// UI layer — clean geometric sans (nav, metadata, badges, buttons, inputs)
 const dmSans = DM_Sans({
   subsets: ['latin'],
   variable: '--font-instrument',
@@ -36,7 +39,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className={`${fraunces.variable} ${dmSans.variable} font-body antialiased`}>
+      <body className={`${stixTwo.variable} ${dmSans.variable} font-body antialiased`}>
         <ClerkProvider>
           {/* Fixed decorative background — blobs + floating symbols */}
           <MathBackground />
