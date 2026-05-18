@@ -44,6 +44,16 @@ export interface TopicOption {
   course_name: string
 }
 
+export interface WhiteboardWsMessage {
+  type: 'whiteboard'
+  action: 'write' | 'plot' | 'clear'
+  latex?: string
+  fn?: string
+  domain?: [number, number]
+  x?: number
+  y?: number
+}
+
 export interface TutorSessionHook {
   state: TutorSessionState
   problem: TutorProblem | null
@@ -58,8 +68,10 @@ export interface TutorSessionHook {
   // Discovery
   pendingTopicConfirm: { topic_id: string; topic_name: string; mode: string; message: string } | null
   topicPicklist: TopicOption[] | null
+  // Whiteboard
+  whiteboardMessages: WhiteboardWsMessage[]
   // Actions
-  connect: (topicId: string | null, difficulty: number, token: string, sessionType: SessionType) => void
+  connect: (topicId: string | null, difficulty: number, token: string, sessionType: SessionType, tutorName?: string) => void
   sendText: (text: string) => void
   submitAnswer: (answer: string) => void
   requestHint: () => void
@@ -93,6 +105,7 @@ export function useTutorSession(): TutorSessionHook {
     difficulty: number
     token: string
     sessionType: SessionType
+    tutorName?: string
   } | null>(null)
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -111,6 +124,7 @@ export function useTutorSession(): TutorSessionHook {
   } | null>(null)
   const [topicPicklist, setTopicPicklist] = useState<TopicOption[] | null>(null)
   const [scratchpadHasWork, setScratchpadHasWork] = useState(false)
+  const [whiteboardMessages, setWhiteboardMessages] = useState<WhiteboardWsMessage[]>([])
 
   // ── Countdown ───────────────────────────────────────────────────────────────
 
@@ -239,6 +253,10 @@ export function useTutorSession(): TutorSessionHook {
       setState('ready')
     }
 
+    else if (type === 'whiteboard') {
+      setWhiteboardMessages(prev => [...prev, msg as unknown as WhiteboardWsMessage])
+    }
+
     else if (type === 'time_warning') {
       setMessages(prev => [
         ...prev,
@@ -269,6 +287,7 @@ export function useTutorSession(): TutorSessionHook {
     difficulty: number,
     token: string,
     sessionType: SessionType,
+    tutorName?: string,
   ) => {
     let url =
       `${API_WS_BASE}/ws/tutor/${sessionId}` +
@@ -276,6 +295,7 @@ export function useTutorSession(): TutorSessionHook {
       `&difficulty=${difficulty}` +
       `&session_type=${sessionType}`
     if (topicId) url += `&topic_id=${encodeURIComponent(topicId)}`
+    if (tutorName) url += `&tutor_name=${encodeURIComponent(tutorName)}`
 
     const ws = new WebSocket(url)
     wsRef.current = ws
@@ -292,8 +312,8 @@ export function useTutorSession(): TutorSessionHook {
         const delay = 1000 * Math.pow(2, reconnectCountRef.current - 1)
         setTimeout(() => {
           if (!connectParamsRef.current) return
-          const { topicId: t, difficulty: d, token: tk, sessionType: st } = connectParamsRef.current
-          openWs(crypto.randomUUID(), t, d, tk, st)
+          const { topicId: t, difficulty: d, token: tk, sessionType: st, tutorName: tn } = connectParamsRef.current
+          openWs(crypto.randomUUID(), t, d, tk, st, tn)
         }, delay)
       } else {
         if (state !== 'solved' && state !== 'ended' && state !== 'timeout') {
@@ -313,9 +333,10 @@ export function useTutorSession(): TutorSessionHook {
     difficulty: number,
     token: string,
     sessionType: SessionType,
+    tutorName?: string,
   ) => {
     reconnectCountRef.current = 0
-    connectParamsRef.current = { topicId, difficulty, token, sessionType }
+    connectParamsRef.current = { topicId, difficulty, token, sessionType, tutorName }
     setState('connecting')
     setMessages([])
     setProblem(null)
@@ -328,7 +349,8 @@ export function useTutorSession(): TutorSessionHook {
     setPendingTopicConfirm(null)
     setTopicPicklist(null)
     setScratchpadHasWork(false)
-    openWs(crypto.randomUUID(), topicId, difficulty, token, sessionType)
+    setWhiteboardMessages([])
+    openWs(crypto.randomUUID(), topicId, difficulty, token, sessionType, tutorName)
   }, [openWs])
 
   const sendText = useCallback((text: string) => {
@@ -391,6 +413,7 @@ export function useTutorSession(): TutorSessionHook {
   return {
     state, problem, messages, hintLevel, maxHints, secondsRemaining, inGracePeriod,
     isCorrect, summary, lastError, pendingTopicConfirm, topicPicklist,
+    whiteboardMessages,
     connect, sendText, submitAnswer, requestHint, endSession, disconnect,
     acceptTopic, rejectTopic, scratchpadHasWork, setScratchpadHasWork,
   }

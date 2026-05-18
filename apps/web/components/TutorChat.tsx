@@ -8,6 +8,7 @@ import { Scratchpad } from '@/components/Scratchpad'
 import { VoiceInput } from '@/components/VoiceInput'
 import { AudioPlayer } from '@/components/AudioPlayer'
 import { useTutorSession, type SessionType } from '@/hooks/useTutorSession'
+import { Whiteboard, type WhiteboardHandle, type WhiteboardMessage } from '@/components/Whiteboard'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -17,6 +18,8 @@ interface TutorChatProps {
   sessionType: SessionType
   getToken: () => Promise<string | null>
   userTier?: string
+  tutorName?: string
+  tutorVoiceId?: string
 }
 
 // ── Countdown display ─────────────────────────────────────────────────────────
@@ -112,7 +115,7 @@ function EndSessionConfirm({ onConfirm, onCancel }: { onConfirm: () => void; onC
 
 // ── Main component ────────────────────────────────────────────────────────────
 
-export function TutorChat({ topicId, difficulty, sessionType, getToken, userTier = 'free' }: TutorChatProps) {
+export function TutorChat({ topicId, difficulty, sessionType, getToken, userTier = 'free', tutorName = 'Josh', tutorVoiceId = 'echo' }: TutorChatProps) {
   const session = useTutorSession()
   const [inputText, setInputText] = useState('')
   const [answerText, setAnswerText] = useState('')
@@ -121,16 +124,18 @@ export function TutorChat({ topicId, difficulty, sessionType, getToken, userTier
   const [sessionId] = useState(() => crypto.randomUUID())
   const [voiceMode, setVoiceMode] = useState(false)
   const [lastTutorText, setLastTutorText] = useState<string | null>(null)
+  const [showWhiteboard, setShowWhiteboard] = useState(true)
+  const whiteboardRef = useRef<WhiteboardHandle>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   // Auto-connect on mount
   useEffect(() => {
     getToken().then(token => {
-      if (token) session.connect(topicId, difficulty, token, sessionType)
+      if (token) session.connect(topicId, difficulty, token, sessionType, tutorName)
     })
     return () => session.disconnect()
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicId, difficulty, sessionType])
+  }, [topicId, difficulty, sessionType, tutorName])
 
   // Navigation guard
   useEffect(() => {
@@ -153,6 +158,14 @@ export function TutorChat({ topicId, difficulty, sessionType, getToken, userTier
     const last = [...session.messages].reverse().find(m => m.role === 'tutor')
     if (last) setLastTutorText(last.content)
   }, [session.messages])
+
+  // Forward whiteboard messages to the Whiteboard component
+  useEffect(() => {
+    const msgs = session.whiteboardMessages
+    if (!msgs.length || !whiteboardRef.current) return
+    const latest = msgs[msgs.length - 1]
+    whiteboardRef.current.handleMessage(latest as any)
+  }, [session.whiteboardMessages])
 
   const handleSendText = useCallback(() => {
     const text = inputText.trim()
@@ -177,6 +190,15 @@ export function TutorChat({ topicId, difficulty, sessionType, getToken, userTier
   const isActive = session.state === 'ready' || session.state === 'thinking'
   const isDone = session.state === 'solved' || session.state === 'ended' || session.state === 'timeout'
 
+  if (session.state === 'idle') {
+    return (
+      <div style={{ padding: '32px 0', textAlign: 'center', color: 'var(--text-muted)', fontSize: 14 }}>
+        <div style={{ fontSize: 22, marginBottom: 10, opacity: 0.4 }}>✦</div>
+        Sign in to start your tutor session.
+      </div>
+    )
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12, position: 'relative' }}>
 
@@ -192,7 +214,7 @@ export function TutorChat({ topicId, difficulty, sessionType, getToken, userTier
       {session.problem && (
         <div className="notebook-card" style={{ flexShrink: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-            <span className="card-eyebrow">Problem</span>
+            <span className="card-eyebrow">Problem · {tutorName}</span>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
               <span style={{ fontSize: 12, color: 'var(--text-muted)' }}>
                 Hints: {session.hintLevel}/{session.maxHints}
@@ -316,7 +338,31 @@ export function TutorChat({ topicId, difficulty, sessionType, getToken, userTier
       {/* Audio playback for voice mode */}
       <AudioPlayer text={lastTutorText} voiceMode={voiceMode} />
 
-      {/* Scratchpad — shown when session has a problem */}
+      {/* Whiteboard — shown when session has a problem */}
+      {session.problem && (
+        <div style={{ borderTop: '1px solid var(--border)', paddingTop: 12 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
+            <span style={{ fontSize: 12, fontWeight: 600, color: 'var(--text-dim)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>
+              Whiteboard
+            </span>
+            <button
+              type="button"
+              onClick={() => setShowWhiteboard(v => !v)}
+              style={{ fontSize: 11, color: 'var(--text-muted)', background: 'none', border: 'none', cursor: 'pointer', padding: '2px 6px' }}
+            >
+              {showWhiteboard ? 'Hide' : 'Show'}
+            </button>
+          </div>
+          {showWhiteboard && (
+            <Whiteboard
+              ref={whiteboardRef}
+              height={300}
+            />
+          )}
+        </div>
+      )}
+
+      {/* Scratchpad — kept for typed math work below whiteboard */}
       {session.problem && isActive && (
         <div style={{ borderTop: '1px solid var(--border)', paddingTop: 12 }}>
           <Scratchpad

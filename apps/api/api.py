@@ -606,6 +606,9 @@ async def lifespan(app: FastAPI):
     except Exception:
         # Tests expect a clean slate; ignore if file missing
         pass
+    # Initialise Redis session store (no-op if REDIS_URL not set)
+    from ws_session import init_redis
+    await init_redis()
     yield
     # Shutdown: cleanup if needed
 
@@ -675,6 +678,10 @@ app.include_router(credit_router)
 # Tutor utilities (scratchpad validation, dispute, voice)
 from tutor_router import router as tutor_router
 app.include_router(tutor_router)
+
+# Email (session reports + reminders)
+from email_router import router as email_router
+app.include_router(email_router)
 
 # Parent monitoring
 from parent_router import router as parent_router

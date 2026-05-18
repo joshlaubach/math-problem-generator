@@ -207,6 +207,21 @@ async def _end_session(
         duration_hours=duration_hours,
     )
 
+    # Update cross-session misconception tracking based on wrong attempts
+    if session.attempts:
+        try:
+            from concept_taxonomy import labels_for_topic, concept_by_label
+            from misconception_service import upsert_concept_error
+            topic_labels = labels_for_topic(session.topic_id or "")
+            if topic_labels:
+                # Distribute error count evenly across relevant topic concepts
+                for label in topic_labels[:3]:
+                    c = concept_by_label(label)
+                    if c:
+                        upsert_concept_error(session.user_id, c["id"])
+        except Exception:
+            pass  # Never block session cleanup
+
     # Persist attempt record
     try:
         attempt_repo = factory_get_attempt_repository()
@@ -253,6 +268,101 @@ async def _end_session(
     msg_type = "session_timeout" if reason == "timeout" else "session_end"
     await _send(ws, type=msg_type, summary=summary)
     delete_session(session.session_id)
+
+    # Fire session report email (background, non-blocking)
+    asyncio.create_task(_send_session_report_email(
+        user_id=session.user_id,
+        topic_id=session.topic_id or "",
+        tutor_name=session.tutor_name,
+        duration_minutes=int(duration_seconds // 60),
+        ai_bullets=ai_bullets,
+        hints_used=hints_used,
+        attempts=len(session.attempts),
+        score_pct=int(round(reward * 100)),
+    ))
+
+
+# ── Email helpers ─────────────────────────────────────────────────────────────
+
+async def _send_session_report_email(
+    user_id: str,
+    topic_id: str,
+    tutor_name: str,
+    duration_minutes: int,
+    ai_bullets: list[str],
+    hints_used: int,
+    attempts: int,
+    score_pct: int,
+) -> None:
+    """Fetch user email and fire session report. Silently swallowed on error."""
+    try:
+        from email_service import send_session_report
+        user_repo = get_user_repository()
+        user = user_repo.get_user_by_id(user_id)
+        if not user or not user.email:
+            return
+        topic_name = TOPIC_REGISTRY[topic_id].topic_name if topic_id in TOPIC_REGISTRY else topic_id
+        send_session_report(
+            user_email=user.email,
+            user_name=user.email,
+            topic_name=topic_name,
+            tutor_name=tutor_name,
+            duration_minutes=duration_minutes,
+            summary_bullets=ai_bullets,
+            hints_used=hints_used,
+            attempts=attempts,
+            score_pct=score_pct,
+        )
+    except Exception:
+        pass
+
+
+# ── Context compression ───────────────────────────────────────────────────────
+
+async def _compress_conversation(session: TutorSession) -> None:
+    """
+    Background task: summarise the current problem's conversation into a bullet,
+    append to session.session_summary, then trim conversation to last 20 turns.
+    Silently swallowed on any error — must never block the session.
+    """
+    MAX_VERBATIM_TURNS = 20
+    MAX_SUMMARY_BULLETS = 10
+
+    try:
+        from agents.session_summarizer import summarize_session
+        from topic_registry import TOPIC_REGISTRY
+
+        if not session.conversation:
+            return
+
+        topic_name = (
+            TOPIC_REGISTRY[session.topic_id].topic_name
+            if session.topic_id in TOPIC_REGISTRY
+            else session.topic_id or "this topic"
+        )
+        bullets = await summarize_session(
+            topic_name=topic_name,
+            mode=session.mode,
+            conversation=session.conversation,
+            problems_attempted=len(session.attempts) + (1 if session.is_solved else 0),
+            problems_solved=1 if session.is_solved else 0,
+            hints_used=session.hint_level,
+            duration_seconds=0,  # not needed for mid-session bullet
+        )
+
+        if bullets:
+            # Prepend most recent bullet (keep newest at front)
+            session.session_summary = (bullets + session.session_summary)[:MAX_SUMMARY_BULLETS]
+
+        # Trim conversation window
+        if len(session.conversation) > MAX_VERBATIM_TURNS:
+            session.conversation = session.conversation[-MAX_VERBATIM_TURNS:]
+
+        from ws_session import update_session
+        update_session(session)
+
+    except Exception:
+        pass  # Silently ignore — compression is best-effort
 
 
 # ── Timeout background task ───────────────────────────────────────────────────
@@ -306,6 +416,7 @@ async def tutor_ws(
     difficulty: int = Query(3, ge=1, le=6),
     session_type: Literal["1hr", "2hr"] = Query("1hr"),
     calculator_mode: str = Query("none"),
+    tutor_name: str = Query("Josh"),
 ) -> None:
     await websocket.accept()
 
@@ -493,6 +604,14 @@ async def tutor_ws(
     from ws_session import SESSION_TYPES
     max_dur = SESSION_TYPES[session_type]
 
+    # Sanitise tutor_name — only allow known profile names
+    _VALID_TUTOR_NAMES = {"Josh", "James", "Isaac", "Robert", "Sarah", "Emily", "Natalie"}
+    safe_tutor_name = tutor_name if tutor_name in _VALID_TUTOR_NAMES else "Josh"
+
+    # Build cross-session history briefing (non-blocking; empty string if DB disabled)
+    from misconception_service import weak_concepts_briefing
+    history_briefing = weak_concepts_briefing(user.id)
+
     session = create_session(
         session_id=session_id,
         user_id=user.id,
@@ -502,6 +621,8 @@ async def tutor_ws(
         problem=problem,
         credit_id=credit_id,
         mode=resolved_mode,
+        tutor_name=safe_tutor_name,
+        history_briefing=history_briefing,
     )
 
     await _send(
@@ -519,6 +640,25 @@ async def tutor_ws(
         diagnostic_question=diagnostic_question,
         worked_example=worked_example,
     )
+
+    # ── 8b. Whiteboard: stream worked_example steps for Demonstrate phase ────
+    if worked_example and edge_phase == "demonstrate":
+        y_cursor = 2
+        for i, step in enumerate(worked_example[:8]):  # cap at 8 steps
+            expr = step.get("expression_latex", "")
+            desc = step.get("description_latex", "")
+            if expr or desc:
+                latex = f"{desc}: {expr}" if (desc and expr) else (desc or expr)
+                await _send(
+                    websocket,
+                    type="whiteboard",
+                    action="write",
+                    latex=latex,
+                    x=2,
+                    y=y_cursor,
+                )
+                y_cursor += 12
+                await asyncio.sleep(0.25)  # brief visual cadence
 
     # ── 9. Start timeout timer ────────────────────────────────────────────────
     timer_task = asyncio.create_task(
@@ -557,6 +697,10 @@ async def tutor_ws(
                         hint_ladder=problem.hint_ladder,
                         hint_level=session.hint_level,
                         wrong_attempts=session.attempts,
+                        tutor_name=session.tutor_name,
+                        session_summary=session.session_summary,
+                        topic_id=session.topic_id,
+                        history_briefing=session.history_briefing,
                     )
                 except Exception:
                     reply = "Let me think about that. What have you tried so far?"
@@ -593,6 +737,8 @@ async def tutor_ws(
                         difficulty=difficulty, event_type="correct",
                         payload={"answer": student_answer},
                     )
+                    # Compress conversation into session_summary (background, non-blocking)
+                    asyncio.create_task(_compress_conversation(session))
                     timer_task.cancel()
                     await _end_session(websocket, session, reason="solved")
                     break
@@ -607,6 +753,10 @@ async def tutor_ws(
                             hint_ladder=problem.hint_ladder,
                             hint_level=session.hint_level,
                             wrong_attempts=session.attempts,
+                            tutor_name=session.tutor_name,
+                            session_summary=session.session_summary,
+                            topic_id=session.topic_id,
+                            history_briefing=session.history_briefing,
                         )
                     except Exception:
                         followup = "That's not quite right. What step do you think went differently than expected?"

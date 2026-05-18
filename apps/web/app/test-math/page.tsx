@@ -1,8 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { MathText } from '@/components/MathText';
 import { MathInput } from '@/components/MathInput';
+import { Whiteboard, type WhiteboardHandle } from '@/components/Whiteboard';
 
 const EXAMPLES = [
   { label: 'Quadratic formula', latex: 'x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}' },
@@ -11,8 +12,17 @@ const EXAMPLES = [
   { label: 'Pythagorean theorem', latex: 'a^2 + b^2 = c^2' },
 ];
 
+const WB_MSGS = [
+  { label: 'Write equation', action: 'write' as const, latex: 'x^2 - 3x + 2 = 0', x: 5, y: 5 },
+  { label: 'Write solution step', action: 'write' as const, latex: '(x-1)(x-2) = 0 \\Rightarrow x=1,\\,x=2', x: 5, y: 25 },
+  { label: 'Write fraction', action: 'write' as const, latex: '\\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}', x: 5, y: 45 },
+  { label: 'Plot parabola', action: 'plot' as const, fn: 'x**2 - 3*x + 2', domain: [-1, 4] as [number, number], x: 2, y: 60 },
+  { label: 'Clear board', action: 'clear' as const },
+]
+
 export default function TestMathPage() {
   const [inputLatex, setInputLatex] = useState('\\frac{x+1}{2}');
+  const wbRef = useRef<WhiteboardHandle>(null);
 
   return (
     <main className="min-h-screen bg-gray-50 py-12 px-4">
@@ -86,6 +96,29 @@ export default function TestMathPage() {
               )}
             </div>
           </div>
+        </section>
+        {/* Whiteboard test */}
+        <section className="bg-white rounded-2xl shadow-sm p-6 space-y-4">
+          <h2 className="text-lg font-semibold text-gray-800">Whiteboard Test</h2>
+          <p className="text-sm text-gray-500">
+            Fire mock tutor messages to test KaTeX rendering, GSAP animation, and Mafs plots.
+          </p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {WB_MSGS.map((m) => (
+              <button
+                key={m.label}
+                type="button"
+                onClick={() => wbRef.current?.handleMessage(m as any)}
+                style={{
+                  padding: '6px 12px', borderRadius: 8, fontSize: 13,
+                  border: '1px solid #d1d5db', background: '#f9fafb', cursor: 'pointer',
+                }}
+              >
+                {m.label}
+              </button>
+            ))}
+          </div>
+          <Whiteboard ref={wbRef} height={380} />
         </section>
       </div>
     </main>
