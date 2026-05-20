@@ -154,6 +154,150 @@ Claude picks visualization type based on topic and section:
 | `balance_scale` | Custom `VGroup` | Equation balance, properties of equality |
 | `step_reveal` | `MathTex` + `FadeIn` sequence | Any multi-step worked example |
 | `mistake_comparison` | Side-by-side `VGroup` + ✗/✓ markers | Common mistakes clip |
+| `parameter_sweep` | `ValueTracker` + `always_redraw` | Continuously morph a shape as one parameter changes — e.g. eccentricity sweeping circle → ellipse → parabola → hyperbola; shows what each variable *does* |
+| `geometric_construction` | `DashedLine`, `Dot`, `Brace`, `DoubleArrow` | Focus, directrix, distance annotations on conics; compass-and-straightedge style constructions |
+| `conic_rotation` | `Rotate`, `ApplyMatrix`, `Axes`, `ParametricFunction` | Physically rotate a conic; show the rotation matrix alongside the transformed curve |
+| `linear_transform_plane` | `NumberPlane` + `ApplyMatrix` | Apply a 2×2 matrix to the entire coordinate plane — grid lines deform — used for conic rotation in a linear algebra context |
+| `unit_circle` | `Circle`, `Dot`, `Arc`, `DashedLine`, `DecimalNumber` | Trace a point around the unit circle; project to x/y axes to show sin/cos values updating live; label angle in degrees and radians simultaneously |
+| `trig_graph_sync` | `Axes` + `Plot` + `Dot` + `always_redraw` | Unit circle on the left, sin or cos curve drawing on the right in sync as the angle sweeps — shows where the wave shape comes from |
+| `angle_sweep` | `Arc`, `ValueTracker`, `MathTex` | Animate an angle opening from 0 to its terminal position; show reference angles, coterminal angles, quadrant labels |
+
+### Topic-to-visualization mapping (Pre-Calculus)
+
+Visualization type is determined by **topic**, not just section type. The Stage 1
+prompt includes this mapping for the Pre-Calculus course so Claude picks consistently:
+
+| Topic area | Primary visualization(s) |
+|---|---|
+| Conics — intro (ellipse, parabola, hyperbola) | `geometric_construction` + `equation_anatomy` |
+| Conics — eccentricity, focus, directrix | `parameter_sweep` + `geometric_construction` |
+| Rotation of conics | `conic_rotation` + `linear_transform_plane` |
+| Trig functions — definitions | `unit_circle` |
+| Trig functions — graphing | `trig_graph_sync` |
+| Trig identities | `equation_transform` |
+| Reference angles, coterminal | `angle_sweep` |
+| Vectors | `vector_diagram` |
+| Matrices | `matrix_transform` + `linear_transform_plane` |
+| Sequences and series | `step_reveal` + `coordinate_plane` |
+| Limits | `coordinate_plane` with labeled approaching values |
+
+### Full topic-to-visualization mapping (all 72 Pre-Calculus lessons)
+
+#### Functions and Graphs
+| Topic ID | Topic | Visualization |
+|---|---|---|
+| pc_001 | Function notation, domain/range | Arrow mapping diagram; vertical line test sweep |
+| pc_002 | Parent functions & transformations | `parameter_sweep` — ValueTracker controls h, k, a; graph redraws live |
+| pc_003 | Combining functions | Two graphs side by side; y-values stack/cancel to produce combined graph |
+| pc_004 | Composition of functions | Two "function machine" boxes in series; input transforms through each |
+| pc_005 | Inverse functions | f(x) + mirror reflected over y=x; point (a,b) swaps to (b,a) with arc |
+| pc_006 | Modeling with functions | Real-world context graph with labeled intercepts and key values |
+| pc_007 | Parametric equations | Dot traces curve as t-value increments; t shown as live counter |
+
+#### Polynomial, Power, and Rational Functions
+| Topic ID | Topic | Visualization |
+|---|---|---|
+| pc_008 | Polynomial end behavior | Coordinate plane zooms out; left/right arms labeled with arrow notation |
+| pc_009 | Polynomial division | Long division layout built step by step; remainder theorem evaluation |
+| pc_010 | Real zeros | Graph with x-intercepts highlighted; factored form reveals beside each zero |
+| pc_011 | Complex zeros | Complex plane with conjugate pairs mirrored across the real axis |
+| pc_012 | Rational function graphs | Asymptote lines draw first; curve fills in around them; holes as open circles |
+| pc_013 | Polynomial/rational inequalities | Sign chart on number line; factor signs per interval computed visually |
+| pc_014 | Power functions | Family of curves (x², x³, x⁴…) on same axes; odd vs even behavior contrasted |
+
+#### Exponential and Logarithmic Functions
+| Topic ID | Topic | Visualization |
+|---|---|---|
+| pc_015 | Exponential functions | `parameter_sweep` on base — sweeps from <1 to >1 showing decay/growth flip |
+| pc_016 | Natural exponential | Compound interest bars converging to e^x curve as compounding frequency increases |
+| pc_017 | Logarithmic functions | e^x and ln(x) drawn as reflections over y=x; point bounces between the two |
+| pc_018 | Properties of logarithms | `equation_transform` — log(ab) splits with each piece color-coded |
+| pc_019 | Solving exp/log equations | `equation_transform` — "take ln of both sides" or "exponentiate both sides" |
+| pc_020 | Modeling with exp/log | Growth/decay curve with real data points and asymptote |
+| pc_021 | Logistic functions | S-curve sweeping up; carrying capacity ceiling; inflection point marked |
+
+#### Trigonometric Functions
+| Topic ID | Topic | Visualization |
+|---|---|---|
+| pc_022 | Angles and their measure | `angle_sweep` — degree and radian labels update simultaneously; arc length s=rθ |
+| pc_023 | The unit circle | `unit_circle` — all 16 standard positions; dot traces full circle, coordinates appear at each stop |
+| pc_024 | Trig functions of any angle (SOHCAHTOA) | Right triangle with color-coded sides (hyp=gold, opp=blue, adj=green); SOHCAHTOA mnemonic reveals each ratio in turn with matching colors; `parameter_sweep` on θ shows all three ratios updating live; similar-triangles scene shows the ratio is independent of triangle size |
+| pc_025 | Graphs of sine and cosine | `trig_graph_sync` — unit circle left, wave drawing right, in sync |
+| pc_026 | Graphs of other trig functions | Asymptote lines draw first; tan, cot, sec, csc curves fill in around them |
+| pc_027 | Inverse trig functions | sin(x) with domain restricted, then reflected to get arcsin |
+| pc_028 | Harmonic motion | Spring bouncing left; its height traces sinusoidal curve on right in real time |
+
+#### Analytic Trigonometry
+| Topic ID | Topic | Visualization |
+|---|---|---|
+| pc_029 | Fundamental identities | Unit circle: point (x,y) = (cosθ, sinθ); x²+y²=1 is visually obvious |
+| pc_030 | Verifying identities | Two columns — LHS and RHS manipulated independently; meet in the middle |
+| pc_031 | Sum and difference identities | Geometric proof on unit circle: two angles, chord, derive cos(α−β) from geometry |
+| pc_032 | Double/half angle identities | Derived live from sum formulas via `equation_transform` (cos 2θ = cos(θ+θ)) |
+| pc_033 | Solving trig equations | Unit circle with solutions marked; number line for general solution + 2πk pattern |
+| pc_034 | Product-to-sum formulas | `equation_transform` with color-coded terms grouping and splitting |
+
+#### Additional Topics in Trigonometry
+| Topic ID | Topic | Visualization |
+|---|---|---|
+| pc_035 | Law of Sines | Triangle with labeled sides/angles; `parameter_sweep` showing ambiguous case (two triangles) |
+| pc_036 | Law of Cosines | Triangle construction with altitude; Pythagorean theorem generalized |
+| pc_037 | Area of a triangle | SAS triangle with height dropping down; Heron's formula with s labeled |
+| pc_038 | Vectors in the plane | `vector_diagram` with component form; tip-to-tail addition |
+| pc_039 | Dot product and projections | Projection shown as shadow; angle between vectors labeled |
+| pc_040 | Complex trig form | Complex plane; rectangular → polar re-labeling with r and θ animated |
+| pc_041 | DeMoivre's theorem | Complex plane; nth roots evenly spaced around a circle |
+
+#### Linear Systems and Matrices
+| Topic ID | Topic | Visualization |
+|---|---|---|
+| pc_042 | Solving linear systems | Two lines on coordinate plane; animated solving — intersection is the solution |
+| pc_043 | Row reduction | Matrix with rows highlighted as each operation applies; steps shown beside |
+| pc_044 | Matrix operations | Grid layout; element-wise operations with color coding |
+| pc_045 | Matrix multiplication | Row × column highlighted in sync; dot product computed piece by piece |
+| pc_046 | Inverse matrices | `linear_transform_plane` — A applied to plane, then A⁻¹ undoes it back to identity |
+| pc_047 | Determinants | 2×2 case: parallelogram formed by row vectors; area = |det| shown geometrically |
+| pc_048 | Linear programming | Feasible region shades as each constraint adds; objective function line sweeps corner points |
+
+#### Sequences, Series, and Probability
+| Topic ID | Topic | Visualization |
+|---|---|---|
+| pc_049 | Arithmetic & geometric sequences | Number line dots — arithmetic spaces evenly, geometric spaces by ratio |
+| pc_050 | Series and sigma notation | Running sum bar grows as terms add; partial sums of geometric series converging |
+| pc_051 | Binomial theorem | Pascal's triangle builds row by row; entries light up as (a+b)^n expands |
+| pc_052 | Counting principles | Tree diagram branching for permutations; combinations collapse duplicate branches |
+| pc_053 | Introduction to probability | Sample space rectangle; event regions shade in; P(A∩B) shown as overlap area |
+| pc_054 | Mathematical induction | Domino-falling metaphor: base case tips first, each subsequent one falls automatically |
+
+#### Topics in Analytic Geometry
+| Topic ID | Topic | Visualization |
+|---|---|---|
+| pc_055 | Parabolas | `geometric_construction` (focus, directrix, distance equality); `parameter_sweep` on p |
+| pc_056 | Ellipses | `parameter_sweep` on a and b; eccentricity changes shape from circle to flat ellipse |
+| pc_057 | Hyperbolas | Asymptotes animate first; branches fill in; `parameter_sweep` on eccentricity |
+| pc_058 | Rotation of conics | `conic_rotation` + `linear_transform_plane` (rotation matrix applied to coordinate plane) |
+| pc_059 | Polar coordinates | Coordinate system transformation — Cartesian grid fades, polar grid fades in |
+| pc_060 | Parametric equations and curves | Dot traces curve as t increments; x(t) and y(t) graphs shown beside the curve |
+| pc_061 | Conic sections in polar form | Polar grid with conic curve; `parameter_sweep` on eccentricity changes conic type |
+
+#### Analytic Geometry in 3 Dimensions *(ThreeDScene — more complex generation)*
+| Topic ID | Topic | Visualization |
+|---|---|---|
+| pc_062 | 3D coordinate system | Three axes rotate into perspective; point plotted with dashed projections to each plane |
+| pc_063 | Vectors in 3D | 3D arrow from origin; component breakdown with three projections |
+| pc_064 | Cross product | Two vectors in 3D; result shown perpendicular to both; right-hand rule animated |
+| pc_065 | Lines and planes in space | Plane as flat 3D slab; line piercing it; normal vector shown |
+| pc_066 | Surfaces in 3D | Parametric surface (sphere, cylinder, paraboloid) rotating slowly |
+
+#### Limits and Introduction to Calculus *(preview of Calculus I)*
+| Topic ID | Topic | Visualization |
+|---|---|---|
+| pc_067 | Introduction to limits | Point approaches from left and right; bracket showing closeness |
+| pc_068 | Evaluating limits | Table of values converging on left; graph converging on right — both meet at the limit |
+| pc_069 | Continuity | Three discontinuity types animated: removable (hole), jump, infinite |
+| pc_070 | Infinite limits | Curve shoots toward vertical asymptote; y-value counter races to ±∞ |
+| pc_071 | Introduction to derivative | Secant line between two points; `ValueTracker` slides one point toward the other → tangent emerges |
+| pc_072 | Introduction to integration | Riemann rectangles fill area under curve; as n increases they pack tighter, sum converges |
 
 ---
 
