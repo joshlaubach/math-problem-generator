@@ -1,0 +1,488 @@
+# Manim Video Pipeline — Design Spec
+
+**Date:** 2026-05-20
+**Status:** Approved
+**Scope:** Sub-project 1 of 4 — Script Generation + Render Pipeline (local batch)
+
+---
+
+## Overview
+
+Generate 865 Manim videos (one per lesson) using AI-generated code fed by the existing
+lesson JSON schema. Videos are split into per-section clips that are assembled into a
+full lesson video. Each clip is narrated by AI voiceover synced to the animation.
+The finished videos are embedded in lesson pages and served to the AI tutor on demand.
+
+**Constraints:**
+- No Manim mobjects may overlap accidentally
+- No mobjects may extend outside the safe content area
+- All 865 lessons must be processable in a resumable local batch job
+- Videos must be usable both as standalone lesson content and as AI tutor references
+
+---
+
+## Architecture — 6-Stage Pipeline
+
+Each lesson goes through six stages in sequence:
+
+```
+Lesson JSON (hook, concept, anatomy, worked_example, etc.)
+         │
+         ▼
+┌─────────────────────┐
+│ Stage 1: Plan       │  Claude reads lesson JSON → outputs a structured video plan:
+│                     │  which sections to animate, visualization type per section,
+│                     │  narration text with beat markers, timing estimates
+└────────┬────────────┘
+         ▼
+┌─────────────────────┐
+│ Stage 2: Generate   │  Claude writes full Manim Python for each section clip,
+│                     │  prompted with layout bible (safe zones, required patterns,
+│                     │  forbidden patterns) + section template skeleton
+└────────┬────────────┘
+         ▼
+┌─────────────────────┐
+│ Stage 3: Correct    │  Render preview frames (low quality, ~5 sec/clip) →
+│ (max 3 rounds)      │  automated pixel check → Claude visual review →
+│                     │  JSON patch applied → re-render → repeat up to 3×
+└────────┬────────────┘
+         ▼
+┌─────────────────────┐
+│ Stage 4: Render     │  Full 1080p render of approved Manim scripts.
+│                     │  One .mp4 per section clip.
+└────────┬────────────┘
+         ▼
+┌─────────────────────┐
+│ Stage 5: Audio      │  Beat-marker narration → OpenAI TTS (.mp3 per beat) →
+│                     │  durations injected into Manim wait() calls →
+│                     │  ffmpeg merges audio + video per clip
+└────────┬────────────┘
+         ▼
+┌─────────────────────┐
+│ Stage 6: Assemble   │  ffmpeg concatenates section clips → full lesson .mp4.
+│                     │  Upload all files to Cloudflare R2.
+│                     │  Write video manifest JSON (lesson_id → clip URLs).
+└─────────────────────┘
+```
+
+Videos that fail 3 correction rounds are written to `needs_review/` with a contact
+sheet of the last 5 frames and Claude's last review comment. The batch continues
+unblocked; failed lessons are re-run manually after fixing the underlying issue.
+
+---
+
+## Stage 1: Video Plan
+
+Claude reads the full lesson JSON and outputs a structured video plan. The plan
+determines what to animate and how before any Manim code is written.
+
+### Video plan schema
+
+```json
+{
+  "lesson_id": "a1_023",
+  "topic": "Graphing Linear Equations",
+  "clips": [
+    {
+      "type": "hook",
+      "narration_beats": [
+        { "beat": 1, "text": "What does it mean for a point to be on a line?" }
+      ],
+      "visualization": "coordinate_plane",
+      "viz_params": { "x_range": [-5, 5], "y_range": [-4, 4] }
+    },
+    {
+      "type": "concept",
+      "narration_beats": [...],
+      "visualization": "equation_anatomy",
+      "viz_params": { "equation": "y = mx + b", "label_parts": ["slope", "y-intercept"] }
+      // viz_params is always present; use {} when the visualization type needs no parameters
+    },
+    {
+      "type": "worked_example",
+      "narration_beats": [...],
+      "visualization": "coordinate_plane_with_steps",
+      "viz_params": { "plot_fn": "2*x - 1", "highlight_points": [[0, -1], [1, 1]] }
+    },
+    {
+      "type": "common_mistakes",
+      "narration_beats": [...],
+      "visualization": "mistake_comparison",
+      "viz_params": {}
+    },
+    {
+      "type": "summary",
+      "narration_beats": [...],
+      "visualization": "equation_anatomy"
+    }
+  ]
+}
+```
+
+### Narration rules
+
+Narration text must be plain English — no LaTeX. Stage 1 applies a math-to-speech
+conversion rule set before writing narration:
+
+| LaTeX | Spoken form |
+|---|---|
+| `x^2` | "x squared" |
+| `\frac{a}{b}` | "a over b" |
+| `\sqrt{x}` | "the square root of x" |
+| `\int_a^b` | "the integral from a to b" |
+| `f'(x)` | "f prime of x" |
+| `\lim_{x \to 0}` | "the limit as x approaches zero" |
+| `\vec{v}` | "the vector v" |
+| `A^{-1}` | "A inverse" |
+
+### Visualization selection guide
+
+Claude picks visualization type based on topic and section:
+
+| Visualization type | Manim primitives | When to use |
+|---|---|---|
+| `equation_transform` | `MathTex` + `TransformMatchingTex` | Algebraic manipulation, solving steps |
+| `equation_anatomy` | `MathTex` + `Brace` + `Text` labels | Defining parts of a formula |
+| `coordinate_plane` | `Axes` + `Plot` + `Dot` | Graphing functions, plotting points |
+| `number_line` | `NumberLine` + `Arrow` | Inequalities, intervals, absolute value |
+| `geometric_figure` | `Polygon`, `Circle`, `Arc`, `Angle` | Geometry proofs, angle relationships |
+| `vector_diagram` | `Arrow` + `Axes` | Vector addition, linear algebra |
+| `matrix_transform` | `Matrix` + `ApplyMatrix` | Matrix operations, transformations |
+| `bar_chart` | `BarChart` | Statistics, histograms, frequency |
+| `probability_tree` | `VGroup` of arrows + `Text` | Conditional probability, combinatorics |
+| `venn_diagram` | `Circle` overlaps + `Text` | Set theory, logic |
+| `balance_scale` | Custom `VGroup` | Equation balance, properties of equality |
+| `step_reveal` | `MathTex` + `FadeIn` sequence | Any multi-step worked example |
+| `mistake_comparison` | Side-by-side `VGroup` + ✗/✓ markers | Common mistakes clip |
+
+---
+
+## Stage 2: Manim Code Generation
+
+Claude generates one Manim Python file per section clip. The generation prompt has
+three mandatory parts.
+
+### Part A — Layout Bible (injected every call, never changes)
+
+```
+Manim coordinate system:
+  Frame:        x ∈ [-7.1, 7.1],  y ∈ [-4.0, 4.0]
+  Safe content: x ∈ [-6.5, 6.5],  y ∈ [-3.5, 3.5]
+  Title zone:   y ∈ [2.8,  3.5]   (top strip)
+  Content zone: y ∈ [-2.5, 2.5]   (main area)
+  Footer zone:  y ∈ [-3.5, -2.8]  (bottom strip)
+
+REQUIRED patterns:
+  - Always stack items with VGroup().arrange(DOWN, buff=0.4)
+  - Always call .scale_to_fit_width(max_width) before placing wide equations
+  - Always insert self.wait("BEAT_N") after every animation block
+  - Always add .to_edge(UP) for titles, .to_edge(DOWN) for footers
+
+FORBIDDEN:
+  - Never use .move_to() with hardcoded coordinates
+  - Never place two objects without grouping them first
+  - Never use font size > 36 for body text
+  - Never use raw Manim positioning math (UP*3 + LEFT*2 etc.)
+```
+
+### Part B — Lesson content
+
+The relevant JSON sections for the clip type, plus the narration beats from the video
+plan. Only the fields relevant to that clip type are included (no full lesson dump).
+
+### Part C — Section template skeleton
+
+A pre-written Manim class stub showing expected structure for that clip type.
+Claude fills in the content; it does not write structural code from scratch.
+
+Example skeleton for `worked_example`:
+
+```python
+class WorkedExample(Scene):
+    def construct(self):
+        title = Text("Worked Example", font_size=32).to_edge(UP)
+        self.play(Write(title))
+        self.wait("BEAT_1")
+
+        # Step 1 — Claude fills this in
+        step1 = MathTex(r"FILL_IN").scale_to_fit_width(12)
+        self.play(Write(step1))
+        self.wait("BEAT_2")
+
+        # Step 2 — Claude fills this in
+        step2 = MathTex(r"FILL_IN").scale_to_fit_width(12)
+        self.play(TransformMatchingTex(step1, step2))
+        self.wait("BEAT_3")
+```
+
+---
+
+## Stage 3: Self-Correction Loop
+
+```
+Generate code
+     │
+     ▼
+Render preview (manim -ql, ~5 sec/clip)
+Extract 5 key frames: t = 0%, 25%, 50%, 75%, 100%
+     │
+     ▼
+Automated pixel check (PIL):
+  - Any object within 5% of frame boundary?
+  - Blank/black frame? (Manim crash indicator)
+     │
+     ├── Pass ──► Claude visual review (lighter prompt)
+     └── Fail ──► Claude visual review (focused on flagged region)
+          │
+          ▼
+     Claude outputs:
+       APPROVED   ──────────────────────────────► Full render
+       PATCH JSON
+         { "line": 42,
+           "old": ".move_to([3.5, 0, 0])",
+           "new": ".move_to([2.8, 0, 0])" }
+          │
+          ▼
+     Apply patch → re-render preview
+     Round counter + 1
+          │
+     Round ≤ 3? ──yes──► back to review
+          │
+         no
+          ▼
+     Write to needs_review/
+     Log: lesson_id, clip type, round count, last frames
+     Continue to next clip
+```
+
+**Patch application:** Patches are strict JSON line replacements applied
+deterministically. If a patch fails to apply (line mismatch after a prior patch),
+the system requests a full rewrite of the file on that round instead.
+
+**Failure manifest:** Each `needs_review/` entry includes:
+- Lesson ID and course
+- Which clip failed
+- Contact sheet of last 5 frames (PIL montage)
+- Claude's last review comment
+- Round count and patch history
+
+---
+
+## Stage 4 & 5: Render + Audio
+
+### Full render
+
+```bash
+manim -qh --format mp4 scene.py ClipClassName
+```
+
+Runs **after Stage 5 audio sync** — not immediately after Stage 3 approval. Stage 3
+approves the layout; Stage 5 injects real beat durations into the source file and
+re-renders at full quality with correct timing baked in. There is only one
+full-quality render per clip.
+
+### Audio pipeline
+
+```
+Beat-marker narration (from Stage 1 video plan)
+         │
+         ▼
+OpenAI TTS (model: tts-1-hd, voice: onyx)
+One API call per beat segment → beat_N.mp3
+         │
+         ▼
+Inject real durations into Manim source:
+  self.wait("BEAT_1") → self.wait(2.4)
+  self.wait("BEAT_2") → self.wait(3.1)
+         │
+         ▼
+Re-render Manim with correct timing
+         │
+         ▼
+Concatenate beat audio files → narration.mp3
+         │
+         ▼
+ffmpeg merge:
+  ffmpeg -i clip.mp4 -i narration.mp3
+         -c:v copy -c:a aac -shortest
+         clip_with_audio.mp4
+```
+
+**Drift correction:** If an animation block runs longer than its narration beat,
+up to 0.5 sec of silence is appended to that beat's audio. If narration runs over
+the animation, ffmpeg `atempo` nudges playback speed by up to 5% — imperceptible
+to listeners.
+
+---
+
+## Stage 6: Assembly & Storage
+
+### Clip assembly
+
+```bash
+ffmpeg -f concat -safe 0 -i clip_list.txt -c copy lesson_full.mp4
+```
+
+`clip_list.txt` lists section clips in order: hook → concept → worked_example →
+common_mistakes → summary.
+
+### Video manifest
+
+Written to `apps/api/data/video_manifests/{lesson_id}.json`:
+
+```json
+{
+  "lesson_id": "a1_023",
+  "generated_at": "2026-05-21T03:14:00Z",
+  "full_video": "https://cdn.gradient.ai/videos/a1_023_full.mp4",
+  "clips": {
+    "hook":            { "url": "https://cdn.../a1_023_hook.mp4",     "duration_sec": 28 },
+    "concept":         { "url": "https://cdn.../a1_023_concept.mp4",  "duration_sec": 47 },
+    "worked_example":  { "url": "https://cdn.../a1_023_worked.mp4",   "duration_sec": 89 },
+    "common_mistakes": { "url": "https://cdn.../a1_023_mistakes.mp4", "duration_sec": 34 },
+    "summary":         { "url": "https://cdn.../a1_023_summary.mp4",  "duration_sec": 24 }
+  }
+}
+```
+
+### Storage
+
+**Cloudflare R2** — S3-compatible API, zero egress fees for video streaming.
+The existing FastAPI backend uses boto3-style access; R2 is a drop-in target.
+
+---
+
+## Website Integration
+
+### Lesson page (Surface A)
+
+A video player section appears above the written lesson content. The full video
+loads by default; individual clips are accessible via a chapter selector.
+
+```
+┌─────────────────────────────────────┐
+│  ▶  Graphing Linear Equations  3:42 │
+│  ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━  │
+│  Chapters:                          │
+│  0:00  Hook                         │
+│  0:28  Concept                      │
+│  1:15  Worked Example ◀ (current)   │
+│  2:44  Common Mistakes              │
+│  3:18  Summary                      │
+└─────────────────────────────────────┘
+```
+
+The lesson page reads from the video manifest via a new API endpoint:
+`GET /topics/{topic_id}/video` → returns the manifest JSON or 404 if not yet rendered.
+
+### AI tutor (Surface B)
+
+The tutor can emit a new WebSocket message type to the frontend:
+
+```json
+{ "type": "video", "clip": "worked_example", "lesson_id": "a1_023" }
+```
+
+The frontend renders this as an inline embedded player in the chat thread.
+
+The tutor's system prompt for a session includes a summary of available clips:
+
+```
+Available video clips for this lesson:
+- worked_example (1:29): shows solving x²-3x+2=0 step by step via factoring
+- common_mistakes (0:34): covers sign errors and forgetting to check both roots
+```
+
+The tutor sends a clip when a student has made 2+ attempts at the same step
+without progress (detected via existing misconception tracking).
+
+---
+
+## Batch Orchestration
+
+### State file — `pipeline/state.json`
+
+```json
+{
+  "a1_023": {
+    "status": "done",
+    "clips_done": ["hook", "concept", "worked_example", "common_mistakes", "summary"],
+    "full_video": "outputs/a1_023_full.mp4",
+    "correction_rounds": { "worked_example": 2 }
+  },
+  "a1_024": { "status": "rendering", "clips_done": ["hook", "concept"] },
+  "a1_025": { "status": "needs_review", "failed_clip": "worked_example" }
+}
+```
+
+`run.py` resumes from the last completed clip for any lesson in `rendering` state.
+Lessons in `done` state are skipped entirely.
+
+### Concurrency
+
+3 parallel workers by default (configurable via `--workers N`). Each worker owns
+one lesson at a time — completes all clips for that lesson before moving on.
+3 workers ≈ 75–85% CPU utilization without thrashing.
+
+`state.json` is protected by a file-level lock (Python `filelock`). Workers acquire
+the lock only to read or write their lesson's entry — the lock is held for
+milliseconds, never during rendering. This prevents race conditions without
+meaningfully stalling workers.
+
+### CLI
+
+```bash
+# Run everything (resumes automatically)
+python pipeline/run.py
+
+# Run a single lesson (for testing)
+python pipeline/run.py --lesson a1_023
+
+# Run one course only
+python pipeline/run.py --course algebra1
+
+# Re-run only needs_review lessons
+python pipeline/run.py --only needs_review
+
+# Show progress summary
+python pipeline/status.py
+```
+
+### Status dashboard
+
+```
+Gradient Video Pipeline — Progress
+────────────────────────────────────────
+Done          312 / 865  ████████░░░░  36%
+Rendering       3
+Needs review   14
+Pending       536
+
+Estimated remaining: ~18 hours
+Active workers: a1_089  a1_090  g1_012
+```
+
+---
+
+## Out of Scope (Future Sub-Projects)
+
+- **Sub-project 2:** Cloudflare R2 bucket setup, upload tooling, CDN configuration
+- **Sub-project 3:** Lesson page video player component + chapter selector UI
+- **Sub-project 4:** Tutor WebSocket `video` message type + inline chat player
+
+These are independent and can be designed once the pipeline is producing good output
+from a test batch of ~10 lessons.
+
+---
+
+## Cost Estimates
+
+| Item | Unit cost | × 865 lessons | Total |
+|---|---|---|---|
+| Claude (plan + generate + correct) | ~$0.08/lesson | 865 | ~$70 |
+| OpenAI TTS (tts-1-hd) | ~$0.03/1K chars | ~3M chars total | ~$90 |
+| Cloudflare R2 storage | ~$0.015/GB/mo | ~50 GB | ~$0.75/mo |
+| R2 egress | $0 | — | $0 |
+| **Total one-time** | | | **~$160** |
+
+Render time: ~1–3 days of continuous local CPU for 865 full lessons at 1080p.
