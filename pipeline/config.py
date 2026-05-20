@@ -93,3 +93,50 @@ def _find_ffprobe() -> str:
 
 FFMPEG_EXE  = _find_ffmpeg()
 FFPROBE_EXE = _find_ffprobe()
+
+# Convenience aliases used by stages
+FFMPEG_BIN  = FFMPEG_EXE
+FFPROBE_BIN = FFPROBE_EXE
+
+# ── Generated source / media directories ─────────────────────────────────────
+
+GENERATED_DIR = str(PIPELINE_ROOT / "generated")   # AI-written .py files
+MEDIA_DIR     = str(PIPELINE_ROOT.parent / "media") # Manim output & audio
+
+# ── Manim quality flags (list form for subprocess) ───────────────────────────
+
+MANIM_QL_FLAGS  = ["-ql"]   # 480p 15fps — fast preview / correction loop
+MANIM_HQ_FLAGS  = ["-qh"]   # 1080p 60fps — final render
+
+QA_FRAME_COUNT  = 5   # frames to extract per correction round
+
+# ── Approved viz library class names ─────────────────────────────────────────
+
+VIZ_TYPES: list[str] = [
+    "SOHCAHTOAScene",
+    "UnitCircleScene",
+    "TrigGraphSyncScene",
+    "ConicEccentricitySweepScene",
+    "FunctionFamilySweepScene",
+    "EquationTransformScene",
+    "AngleSweepScene",
+    "ParabolaConstructionScene",
+    "EllipseConstructionScene",
+    "LinearTransformPlaneScene",
+    "ConicRotationScene",
+    "CoordinatePlaneScene",
+    "StepRevealScene",
+    "EquationAnatomyScene",
+    "NumberLineScene",
+    "MistakeComparisonScene",
+    "VectorDiagramScene",
+    "GeometricFigureScene",
+    "MatrixTransformScene",
+    "BarChartScene",
+    "ProbabilityTreeScene",
+    "VennDiagramScene",
+    "BalanceScaleScene",
+    "ThreeDAxesScene",
+    "ThreeDVectorsScene",
+    "ThreeDSurfaceScene",
+]
