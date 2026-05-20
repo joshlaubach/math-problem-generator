@@ -1,0 +1,67 @@
+═══════════════════════════════════════════════════════════════
+MANIM LAYOUT BIBLE — READ BEFORE WRITING ANY CODE
+═══════════════════════════════════════════════════════════════
+
+COORDINATE SYSTEM
+─────────────────
+  Full frame:    x ∈ [-7.111, 7.111],  y ∈ [-4.0, 4.0]
+  Safe content:  x ∈ [-6.5,   6.5],   y ∈ [-3.5, 3.5]
+  Title zone:    y ∈ [ 2.8,   3.5]    (top strip — titles only)
+  Content zone:  y ∈ [-2.5,   2.5]    (main area — all other content)
+  Footer zone:   y ∈ [-3.5,  -2.8]    (bottom strip — labels only)
+
+REQUIRED PATTERNS
+─────────────────
+1. Stack items vertically:
+       group = VGroup(item1, item2, item3)
+       group.arrange(DOWN, buff=0.4)
+       group.move_to(ORIGIN)   # or .to_edge(UP/DOWN/LEFT/RIGHT)
+
+2. Constrain wide equations:
+       eq = MathTex(r"...").scale_to_fit_width(11)
+       # 11 Manim units ≈ full safe width with margin
+
+3. Place title:
+       title = Text("Title", font_size=36).to_edge(UP, buff=0.3)
+
+4. Timing beats — ALWAYS use string placeholders, never hardcoded floats:
+       self.wait("BEAT_1")
+       self.wait("BEAT_2")
+       # These will be replaced with real TTS durations before final render.
+
+5. Animate in sequence, wait after each:
+       self.play(Write(eq1))
+       self.wait("BEAT_1")
+       self.play(TransformMatchingTex(eq1, eq2))
+       self.wait("BEAT_2")
+
+FORBIDDEN PATTERNS
+──────────────────
+✗  .move_to([3.5, 2.0, 0])      # hardcoded coordinates
+✗  obj.shift(UP * 3 + LEFT * 2) # raw arithmetic positioning
+✗  Text("...", font_size=40)    # font > 36 for body text (titles: 36 max, body: 28-32)
+✗  placing two objects without grouping them in a VGroup first
+✗  self.wait(2.4)               # hardcoded float waits — use "BEAT_N" strings
+✗  any import not from manim    # only: from manim import *
+
+SAFE POSITIONING REFERENCE
+───────────────────────────
+  ORIGIN          = [0, 0, 0]
+  UP * 3          ≈ y=3.0  (inside safe zone)
+  UP * 3.5        = y=3.5  (top of safe zone — use only for titles)
+  DOWN * 3        ≈ y=-3.0 (inside safe zone)
+  LEFT * 5        ≈ x=-5.0 (inside safe zone)
+  RIGHT * 5       ≈ x=5.0  (inside safe zone)
+
+  Two-column layout: left=LEFT*3.2, right=RIGHT*3.2
+  Three-column layout: left=LEFT*4.5, center=ORIGIN, right=RIGHT*4.5
+
+SELF-CHECK BEFORE SUBMITTING
+──────────────────────────────
+  □ Every object is inside x ∈ [-6.5, 6.5], y ∈ [-3.5, 3.5]
+  □ No two objects occupy the same region
+  □ Every animation block is followed by self.wait("BEAT_N")
+  □ All equations use .scale_to_fit_width(11) or smaller
+  □ No hardcoded float waits
+  □ File contains exactly one Scene subclass
+  □ No markdown fences or explanatory text — Python only
