@@ -18,21 +18,19 @@ import json
 import logging
 import subprocess
 from pathlib import Path
+from typing import Any
 
 from pipeline.config import (
     OPENAI_TTS_MODEL,
     OPENAI_TTS_VOICE,
     MEDIA_DIR,
-    FFMPEG_BIN,
+    FFPROBE_BIN,
 )
 from pipeline.state import read_state, write_state
 
 logger = logging.getLogger(__name__)
 
-# Derive ffprobe path from ffmpeg path
-_FFPROBE_BIN = FFMPEG_BIN.replace("ffmpeg-win-x86_64-v7.1", "ffprobe-win-x86_64-v7.1")
-if not os.path.exists(_FFPROBE_BIN):
-    _FFPROBE_BIN = "ffprobe"
+_FFPROBE_BIN = FFPROBE_BIN   # from config (handles system PATH + imageio-ffprobe fallback)
 
 
 # ---------------------------------------------------------------------------
@@ -142,7 +140,3 @@ def _measure_duration(mp3_path: str) -> float:
         return 3.0
 
 
-# ---------------------------------------------------------------------------
-# Type hint fix for Any
-# ---------------------------------------------------------------------------
-from typing import Any

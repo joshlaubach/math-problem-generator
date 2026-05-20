@@ -27,6 +27,7 @@ from pipeline.config import (
     MAX_CORRECTION_ROUNDS,
     MANIM_QL_FLAGS,
     FFMPEG_BIN,
+    FFPROBE_BIN,
     QA_FRAME_COUNT,
 )
 from pipeline.state import read_state, write_state, mark_needs_review, mark_clip_done
@@ -130,37 +131,66 @@ def _correct_clip(client: Any, lesson_id: str, clip_type: str) -> str:
 # Render helpers
 # ---------------------------------------------------------------------------
 
+_DEFAULT_BEAT_SEC = 2.0   # used in preview renders before real TTS durations are known
+
+
 def _render_preview(lesson_id: str, clip_type: str, source_path: str) -> str | None:
-    """Render at low quality; return path to output mp4 or None on failure."""
-    # Detect scene class name from the source file
+    """Render at low quality; return path to output mp4 or None on failure.
+
+    BEAT placeholder handling: ``self.wait("BEAT_N")`` strings in the generated
+    source are replaced with a fixed float before the preview render so Manim
+    does not trip on the string argument.  The original source is never modified.
+    """
     class_name = _detect_class_name(source_path)
     if not class_name:
         logger.error("[%s/%s] Could not detect Scene class name", lesson_id, clip_type)
         return None
 
+    # Swap BEAT placeholders for a default float in a temp file
+    with open(source_path, encoding="utf-8") as f:
+        source_text = f.read()
+    preview_text = re.sub(
+        r'self\.wait\("BEAT_\d+"\)',
+        f"self.wait({_DEFAULT_BEAT_SEC})",
+        source_text,
+    )
+
+    import tempfile
+    with tempfile.NamedTemporaryFile(
+        suffix=".py", delete=False, mode="w", encoding="utf-8", dir=os.path.dirname(source_path)
+    ) as tmp:
+        tmp.write(preview_text)
+        tmp_path = tmp.name
+
     out_dir = os.path.join(MEDIA_DIR, "generated", lesson_id)
     cmd = [
         "python", "-m", "manim",
-        source_path, class_name,
+        tmp_path, class_name,
         *MANIM_QL_FLAGS,
         "--disable_caching",
         "--media_dir", out_dir,
     ]
     try:
-        result = subprocess.run(cmd, capture_output=True, text=True, timeout=180)
+        result = subprocess.run(cmd, capture_output=True, text=True, timeout=300)
         if result.returncode != 0:
-            logger.error("[%s/%s] Manim render error:\n%s", lesson_id, clip_type, result.stderr[-2000:])
+            logger.error("[%s/%s] Manim render error:\n%s", lesson_id, clip_type, result.stderr[-3000:])
             return None
     except subprocess.TimeoutExpired:
         logger.error("[%s/%s] Render timed out", lesson_id, clip_type)
         return None
+    finally:
+        try:
+            os.unlink(tmp_path)
+        except OSError:
+            pass
 
-    # Find the output mp4
-    expected = os.path.join(out_dir, "videos", os.path.basename(source_path)[:-3], "480p15", f"{class_name}.mp4")
+    # Find the output mp4 (Manim names the folder after the source file stem)
+    tmp_stem = os.path.basename(tmp_path)[:-3]
+    expected = os.path.join(out_dir, "videos", tmp_stem, "480p15", f"{class_name}.mp4")
     if os.path.exists(expected):
         return expected
 
-    # Fallback: search recursively
+    # Fallback: search recursively for any mp4 named after the class
     for root, _, files in os.walk(out_dir):
         for f in files:
             if f == f"{class_name}.mp4":
@@ -185,17 +215,19 @@ def _extract_frames(video_path: str, lesson_id: str, clip_type: str, round_num: 
     )
     os.makedirs(out_dir, exist_ok=True)
 
-    # Get video duration
-    probe = subprocess.run(
-        [FFMPEG_BIN.replace("ffmpeg", "ffprobe") if "ffmpeg" in FFMPEG_BIN else FFMPEG_BIN,
-         "-v", "quiet", "-print_format", "json", "-show_format", video_path],
-        capture_output=True, text=True
-    )
+    # Get video duration (fall back gracefully if ffprobe unavailable)
+    duration = 20.0
     try:
-        info = json.loads(probe.stdout)
-        duration = float(info["format"]["duration"])
+        probe = subprocess.run(
+            [FFPROBE_BIN,
+             "-v", "quiet", "-print_format", "json", "-show_format", video_path],
+            capture_output=True, text=True, timeout=30
+        )
+        if probe.returncode == 0:
+            info = json.loads(probe.stdout)
+            duration = float(info["format"]["duration"])
     except Exception:
-        duration = 20.0
+        pass   # use default 20s
 
     interval = max(1, duration / QA_FRAME_COUNT)
 
@@ -330,9 +362,9 @@ def _rewrite_clip(
     source_path: str,
     error: str = "",
 ) -> str:
-    """Ask the LLM to completely rewrite the clip source."""
-    logger.info("[%s/%s] Requesting full rewrite", lesson_id, clip_type)
-    from pipeline.stages.s2_generate import run as s2_run
-    # Re-run Stage 2 for this single clip only
-    new_paths = s2_run(lesson_id, [clip_type] if False else None)  # re-gen all clips for simplicity
-    return source_path   # path unchanged; file overwritten by s2_run
+    """Ask the LLM to completely rewrite ONLY this clip's source."""
+    logger.info("[%s/%s] Requesting full rewrite (error: %s)", lesson_id, clip_type, error[:200])
+    from pipeline.stages.s2_generate import regenerate_clip
+    # Regenerate only the failing clip — does not touch other clips
+    regenerate_clip(lesson_id, clip_type)
+    return source_path   # path unchanged; regenerate_clip overwrites the file in-place

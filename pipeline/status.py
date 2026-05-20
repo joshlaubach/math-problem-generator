@@ -28,29 +28,29 @@ _DIM = "\033[2m"
 _RST = "\033[0m"
 
 
-STAGE_EMOJI = {
-    "planned":      "📋",
-    "generated":    "✏️ ",
-    "corrected":    "🔍",
-    "rendered":     "🎬",
-    "audio_done":   "🔊",
-    "assembled":    "✅",
-    "needs_review": "⚠️ ",
+STAGE_ICON = {
+    "planned":      "[plan]",
+    "generated":    "[gen] ",
+    "corrected":    "[qc]  ",
+    "rendered":     "[rend]",
+    "audio_done":   "[aud] ",
+    "assembled":    "[DONE]",
+    "needs_review": "[WARN]",
 }
 
 
 def _bar(done: int, total: int, width: int = 30) -> str:
     filled = int(width * done / total) if total else 0
-    return f"[{'█' * filled}{'░' * (width - filled)}] {done}/{total}"
+    return f"[{'#' * filled}{'.' * (width - filled)}] {done}/{total}"
 
 
 def _render_lesson(lid: str, state: dict) -> str:
     stage    = state.get("stage", "pending")
     clips    = state.get("clips_done", [])
-    emoji    = STAGE_EMOJI.get(stage, "⏳")
+    icon     = STAGE_ICON.get(stage, "[ .. ]")
     review   = state.get("needs_review", False)
     color    = _R if review else (_G if stage == "assembled" else _Y if stage else _DIM)
-    return f"  {color}{lid:<10}{_RST}  {emoji} {stage:<14}  clips={len(clips)}/5"
+    return f"  {color}{lid:<10}{_RST}  {icon} {stage:<14}  clips={len(clips)}/5"
 
 
 def show(
@@ -75,16 +75,16 @@ def show(
     assembled = sum(1 for _, s in items if s.get("stage") == "assembled")
     errors    = sum(1 for _, s in items if s.get("needs_review"))
 
-    print(f"\n{_C}{'─' * 60}{_RST}")
+    print(f"\n{_C}{'-' * 60}{_RST}")
     print(f"  {_W}Manim Video Pipeline Status{_RST}  ({total} lessons tracked)")
-    print(f"  {_G}✅ assembled:{_RST} {assembled}/{total}   {_R}⚠️  needs review:{_RST} {errors}")
+    print(f"  {_G}assembled:{_RST} {assembled}/{total}   {_R}needs review:{_RST} {errors}")
     print(f"  {_bar(assembled, total)}")
-    print(f"{_C}{'─' * 60}{_RST}")
+    print(f"{_C}{'-' * 60}{_RST}")
 
     for lid, state in items:
         print(_render_lesson(lid, state))
 
-    print(f"{_C}{'─' * 60}{_RST}\n")
+    print(f"{_C}{'-' * 60}{_RST}\n")
 
 
 def main() -> None:

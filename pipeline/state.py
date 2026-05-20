@@ -10,7 +10,7 @@ from __future__ import annotations
 
 import json
 from pathlib import Path
-from typing import Any
+from typing import Any, Optional
 
 from filelock import FileLock
 
@@ -69,12 +69,13 @@ def mark_done(lesson_id: str, full_video_path: str) -> None:
     write_state(lesson_id, {"status": "done", "full_video": full_video_path})
 
 
-def mark_needs_review(lesson_id: str, failed_clip: str, round_count: int) -> None:
-    write_state(lesson_id, {
-        "status": "needs_review",
-        "failed_clip": failed_clip,
-        "correction_rounds": round_count,
-    })
+def mark_needs_review(lesson_id: str, failed_clip: str = "", round_count: int = 0) -> None:
+    update: dict[str, Any] = {"needs_review": True}
+    if failed_clip:
+        update["failed_clip"] = failed_clip
+    if round_count:
+        update["correction_rounds"] = round_count
+    write_state(lesson_id, update)
 
 
 def mark_clip_done(lesson_id: str, clip_type: str) -> None:

@@ -26,24 +26,30 @@ CHECK FOR THESE ISSUES
    Key elements from the script that don't appear in the frames
 
 ═══════════════════════════════════════════════════════════════
-OUTPUT FORMAT — STRICT
+OUTPUT FORMAT — MACHINE-PARSED, ZERO TOLERANCE FOR PROSE
 ═══════════════════════════════════════════════════════════════
 
-If NO issues found:
+YOUR ENTIRE RESPONSE must be EXACTLY one of these three forms. Nothing else.
+
+FORM 1 — no issues:
   APPROVED
 
-If issues found, output a JSON array of patches:
+FORM 2 — fixable layout issues (1-5 line changes):
   [
-    { "line": <line_number>, "old": "<exact current line content>", "new": "<replacement line>" },
-    ...
+    { "line": 42, "old": "        step1.move_to(UP * 2.8)", "new": "        step1.move_to(UP * 1.8)" },
+    { "line": 67, "old": "        step1.scale_to_fit_width(10)", "new": "        step1.scale_to_fit_width(8.0)" }
   ]
+  (raw JSON array, no markdown fences, no explanation before or after)
 
-Rules for patches:
-- "old" must be the EXACT text of that line (including indentation)
-- Provide one patch per problematic line
-- Fix only layout — do not change math content
-- If the fix requires rewriting more than 5 lines, output:
+FORM 3 — too many issues to patch (needs full regeneration):
   REWRITE
-  (one word — signals the system to request a full regeneration)
 
-Do not output anything else. No explanation. No markdown. Just APPROVED, a JSON array, or REWRITE.
+Patch rules:
+- "old" must be the EXACT text of that source line (copy it character-for-character)
+- Fix ONLY layout: positions, font sizes, widths — never change math values or LaTeX
+- Use line numbers from the source code shown in the user message
+- If you need to fix more than 5 lines, use REWRITE instead
+
+⚠️  CRITICAL: If you write ANY prose — any sentence, any explanation, any bullet list —
+the system will ignore your message entirely and mark the clip as APPROVED anyway.
+The ONLY acceptable responses are: APPROVED  |  JSON array  |  REWRITE

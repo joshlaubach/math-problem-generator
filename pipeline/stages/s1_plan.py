@@ -119,10 +119,44 @@ def _parse_plan(raw: str, lesson_id: str) -> dict:
         raise ValueError(f"Stage 1 JSON parse error for {lesson_id}: {e}") from e
 
 
+_VIZ_SLUG_TO_CLASS: dict[str, str] = {
+    "sohcahtoa":            "SOHCAHTOAScene",
+    "unit_circle":          "UnitCircleScene",
+    "trig_graph_sync":      "TrigGraphSyncScene",
+    "trig_wave":            "TrigGraphSyncScene",
+    "eccentricity":         "ConicEccentricitySweepScene",
+    "conic_sweep":          "ConicEccentricitySweepScene",
+    "equation_transform":   "EquationTransformScene",
+    "angle_sweep":          "AngleSweepScene",
+    "parabola":             "ParabolaConstructionScene",
+    "ellipse":              "EllipseConstructionScene",
+    "linear_transform":     "LinearTransformPlaneScene",
+    "coordinate_plane":     "CoordinatePlaneScene",
+    "step_reveal":          "StepRevealScene",
+    "equation_anatomy":     "EquationAnatomyScene",
+    "number_line":          "NumberLineScene",
+    "mistake_comparison":   "MistakeComparisonScene",
+    "vector_diagram":       "VectorDiagramScene",
+    "geometric_figure":     "GeometricFigureScene",
+    "matrix":               "MatrixTransformScene",
+    "bar_chart":            "BarChartScene",
+    "probability_tree":     "ProbabilityTreeScene",
+    "venn_diagram":         "VennDiagramScene",
+    "balance_scale":        "BalanceScaleScene",
+    "3d_axes":              "ThreeDAxesScene",
+    "3d_vectors":           "ThreeDVectorsScene",
+    "3d_surface":           "ThreeDSurfaceScene",
+}
+
+
 def _validate_plan(plan: dict, lesson_id: str) -> dict:
     """
-    Ensure the plan has exactly 5 clips in the right order, all required keys,
-    and approved viz types.
+    Normalise the LLM response to the canonical clip format:
+      clip_type, title, beats (flat list of strings), viz_type (class name),
+      viz_config (dict), duration_hint (int).
+
+    The LLM may use different key names (type / clip_type, narration_beats /
+    beats, visualization / viz_type, viz_params / viz_config) — we map them.
     """
     if "clips" not in plan:
         raise ValueError(f"[{lesson_id}] Plan missing 'clips' key")
@@ -133,34 +167,45 @@ def _validate_plan(plan: dict, lesson_id: str) -> dict:
             "[%s] Expected %d clips, got %d — truncating/padding",
             lesson_id, len(CLIP_ORDER), len(clips),
         )
-        # Pad or truncate to match CLIP_ORDER
         while len(clips) < len(CLIP_ORDER):
-            clips.append({
-                "clip_type": CLIP_ORDER[len(clips)],
-                "title": "Summary",
-                "beats": ["Recap the key ideas."],
-                "viz_type": "StepRevealScene",
-                "viz_config": {},
-                "duration_hint": 30,
-            })
+            clips.append({})
         clips = clips[:len(CLIP_ORDER)]
         plan["clips"] = clips
 
-    required_keys = {"clip_type", "title", "beats", "viz_type", "duration_hint"}
     for i, clip in enumerate(clips):
         # Enforce clip_type ordering
         clip["clip_type"] = CLIP_ORDER[i]
 
-        missing = required_keys - set(clip.keys())
-        if missing:
-            logger.warning("[%s] Clip %d missing keys %s", lesson_id, i, missing)
-            for k in missing:
-                clip.setdefault(k, "" if k not in ("beats", "duration_hint") else ([] if k == "beats" else 30))
+        # title normalisation
+        clip.setdefault("title", clip.get("name", clip["clip_type"].replace("_", " ").title()))
 
-        # Validate / fix viz_type
-        clip["viz_type"] = _pick_viz(clip["clip_type"], clip.get("viz_type", ""))
+        # beats normalisation — LLM may return:
+        #   [{beat: N, text: "..."}]  or  ["...", "..."]
+        raw_beats = clip.get("beats") or clip.get("narration_beats") or []
+        if raw_beats and isinstance(raw_beats[0], dict):
+            # Sort by beat number then extract text
+            raw_beats = [b.get("text", "") for b in sorted(raw_beats, key=lambda b: b.get("beat", 0))]
+        clip["beats"] = [str(b).strip() for b in raw_beats if str(b).strip()]
+        # Ensure at least one beat
+        if not clip["beats"]:
+            clip["beats"] = [f"Explain the {clip['clip_type'].replace('_', ' ')}."]
 
-        # Ensure viz_config exists
-        clip.setdefault("viz_config", {})
+        # viz_type normalisation
+        raw_viz = (
+            clip.get("viz_type")
+            or clip.get("visualization")
+            or clip.get("viz")
+            or ""
+        )
+        # If the slug isn't already a class name, try the slug map
+        if raw_viz not in VIZ_TYPES:
+            raw_viz = _VIZ_SLUG_TO_CLASS.get(raw_viz.lower().replace("-", "_"), raw_viz)
+        clip["viz_type"] = _pick_viz(clip["clip_type"], raw_viz)
+
+        # viz_config normalisation
+        clip["viz_config"] = clip.get("viz_config") or clip.get("viz_params") or {}
+
+        # duration_hint
+        clip.setdefault("duration_hint", 30)
 
     return plan

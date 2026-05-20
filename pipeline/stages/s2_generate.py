@@ -91,6 +91,41 @@ def _load_viz_source(viz_type: str) -> str:
 # Public entry point
 # ---------------------------------------------------------------------------
 
+def regenerate_clip(lesson_id: str, clip_type: str) -> str:
+    """
+    Regenerate the Manim source for ONE clip only.
+    Used by the Stage 3 correction loop when a single clip needs a full rewrite.
+    Returns the output file path.
+    """
+    try:
+        import anthropic
+    except ImportError as e:
+        raise RuntimeError("anthropic package not installed") from e
+
+    state = read_state(lesson_id)
+    plan  = state.get("plan")
+    if not plan:
+        raise ValueError(f"[{lesson_id}] No plan found")
+
+    clip = next((c for c in plan.get("clips", []) if c["clip_type"] == clip_type), None)
+    if not clip:
+        raise ValueError(f"[{lesson_id}] Clip type {clip_type!r} not in plan")
+
+    client    = anthropic.Anthropic()
+    out_path  = os.path.join(GENERATED_DIR, lesson_id, f"{clip_type}.py")
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+
+    logger.info("[%s] Regenerating %s (single-clip rewrite)", lesson_id, clip_type)
+    source = _generate_clip(client, lesson_id, clip, plan)
+    source = _post_process(source, clip_type, lesson_id)
+
+    with open(out_path, "w", encoding="utf-8") as f:
+        f.write(source)
+
+    logger.info("[%s] %s rewritten → %s", lesson_id, clip_type, out_path)
+    return out_path
+
+
 def run(lesson_id: str) -> list[str]:
     """
     Generate Manim Python source for every clip in the lesson plan.
