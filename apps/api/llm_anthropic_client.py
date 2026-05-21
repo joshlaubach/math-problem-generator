@@ -29,6 +29,66 @@ def _get_client():
         ) from e
 
 
+async def call_with_images(
+    text_prompt: str,
+    images: list[dict],
+    system: Optional[str] = None,
+    max_tokens: int = 2048,
+    retries: int = 3,
+) -> str:
+    """
+    Call Claude with image content blocks followed by a text prompt.
+
+    Args:
+        text_prompt: The instruction / question appended after the image(s).
+        images: List of {"data": base64_str, "media_type": "image/jpeg"|"image/png"|...}.
+        system: Optional system prompt.
+        max_tokens: Max tokens in the response.
+        retries: Retry attempts (exponential backoff: 1s / 2s / 4s).
+
+    Returns:
+        The text content of the first response block.
+    """
+    client = _get_client()
+    delays = [1, 2, 4]
+
+    content: list[dict] = []
+    for img in images:
+        content.append({
+            "type": "image",
+            "source": {
+                "type": "base64",
+                "media_type": img["media_type"],
+                "data": img["data"],
+            },
+        })
+    content.append({"type": "text", "text": text_prompt})
+
+    messages = [{"role": "user", "content": content}]
+    last_exc: Optional[Exception] = None
+
+    for attempt in range(retries):
+        try:
+            kwargs: dict = {
+                "model": ANTHROPIC_MODEL,
+                "max_tokens": max_tokens,
+                "messages": messages,
+            }
+            if system:
+                kwargs["system"] = system
+            response = await client.messages.create(**kwargs)
+            return response.content[0].text  # type: ignore[index]
+        except Exception as exc:
+            last_exc = exc
+            if attempt < retries - 1:
+                delay = delays[min(attempt, len(delays) - 1)]
+                await asyncio.sleep(delay)
+
+    raise RuntimeError(
+        f"Claude Vision API failed after {retries} retries. Last error: {last_exc}"
+    ) from last_exc
+
+
 async def _call_with_backoff(
     messages: list[dict],
     system: Optional[str] = None,

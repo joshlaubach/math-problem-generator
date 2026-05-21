@@ -240,34 +240,68 @@ async def _end_session(
     except Exception:
         pass  # Don't let attempt persistence block session cleanup
 
-    # Generate AI session summary (non-blocking — use fallback on error)
+    # Collect topics covered across queue + uploaded problems
+    topics_covered: list[str] = []
+    for tid in session.topic_ids:
+        meta = TOPIC_REGISTRY.get(tid)
+        if meta:
+            topics_covered.append(meta.topic_name)
+    for ft in session.freeform_topics:
+        topics_covered.append(ft)
+    if not topics_covered and session.topic_id and session.topic_id in TOPIC_REGISTRY:
+        topics_covered = [TOPIC_REGISTRY[session.topic_id].topic_name]
+
+    problems_attempted = session.current_index + (1 if session.attempts or is_correct else 0)
+    problems_solved = session.current_index + (1 if is_correct else 0)
+
+    # Generate AI session summary (extended for Phase 6)
     from agents.session_summarizer import summarize_session
     try:
-        topic_name = TOPIC_REGISTRY[session.topic_id].topic_name if session.topic_id in TOPIC_REGISTRY else session.topic_id or "this topic"
-        ai_bullets = await summarize_session(
-            topic_name=topic_name,
+        ai_result = await summarize_session(
+            topic_name=", ".join(topics_covered) or (session.topic_id or "this topic"),
             mode=session.mode,
             conversation=session.conversation,
-            problems_attempted=len(session.attempts) + (1 if is_correct else 0),
-            problems_solved=1 if is_correct else 0,
+            problems_attempted=problems_attempted,
+            problems_solved=problems_solved,
             hints_used=hints_used,
             duration_seconds=duration_seconds,
+            topics_covered=topics_covered,
+            session_summary_bullets=session.session_summary,
         )
     except Exception:
-        ai_bullets = []
+        ai_result = {}
+
+    # Support both old (list) and new (dict) return formats
+    if isinstance(ai_result, list):
+        ai_bullets = ai_result
+        performance_by_topic = {}
+        practice_problems = []
+    else:
+        ai_bullets = ai_result.get("bullets", [])
+        performance_by_topic = ai_result.get("per_topic_performance", {})
+        practice_problems = ai_result.get("practice_problems", [])
 
     summary = {
         "hints_used": hints_used,
-        "attempts": len(session.attempts),
+        "attempts": problems_attempted,
         "correct": is_correct,
         "reward": round(reward, 3),
         "duration_seconds": round(duration_seconds, 1),
         "ai_summary": ai_bullets,
+        "topics_covered": topics_covered,
+        "per_topic_performance": performance_by_topic,
+        "practice_problems": practice_problems,
+        "problems_solved": problems_solved,
+        "queue_total": _queue_length(session),
     }
 
     msg_type = "session_timeout" if reason == "timeout" else "session_end"
     await _send(ws, type=msg_type, summary=summary)
     delete_session(session.session_id)
+
+    # Clean up any uploaded files for this session (Phase 3)
+    from tutor_router import cleanup_session_uploads
+    cleanup_session_uploads(session.session_id)
 
     # Fire session report email (background, non-blocking)
     asyncio.create_task(_send_session_report_email(
@@ -405,28 +439,452 @@ async def _run_session_timer(
         pass  # Normal — cancelled when session ends cleanly
 
 
-# ── Main endpoint ─────────────────────────────────────────────────────────────
+# ── Problem-queue helpers ─────────────────────────────────────────────────────
 
-@router.websocket("/ws/tutor/{session_id}")
-async def tutor_ws(
+def _problem_from_queue_or_uploads(session) -> Optional[object]:
+    """
+    Get the current problem from the queue or uploaded problems.
+    Returns a GeneratedProblem, or a bare dict (for uploaded), or None if exhausted.
+    """
+    from agents.schemas import GeneratedProblem as GP
+    idx = session.current_index
+
+    # Uploaded problems (raw dicts) take priority over generated queue
+    if session.uploaded_problems:
+        if idx < len(session.uploaded_problems):
+            raw = session.uploaded_problems[idx]
+            # Wrap as GeneratedProblem if possible (uploaded problems are dicts)
+            try:
+                stmt = raw.get("statement_latex", raw.get("statement", ""))
+                return GP(
+                    statement=stmt,
+                    answer="(see tutor)",  # no canonical answer for uploads
+                    worked_steps=[],
+                    hint_ladder=["Think about what the problem is asking.", "Try breaking it into steps.", "What formula or technique applies here?", "Apply the method to find the answer."],
+                    distractors=[],
+                )
+            except Exception:
+                return None
+        return None  # exhausted
+
+    if session.problem_queue:
+        if idx < len(session.problem_queue):
+            item = session.problem_queue[idx]
+            if isinstance(item, GP):
+                return item
+            if isinstance(item, dict):
+                try:
+                    return GP(**item)
+                except Exception:
+                    return None
+        return None  # exhausted
+
+    # Single-problem session (legacy or no queue built yet)
+    return session.problem
+
+
+def _queue_length(session) -> int:
+    """Total number of problems in the queue (uploaded or generated)."""
+    if session.uploaded_problems:
+        return len(session.uploaded_problems)
+    if session.problem_queue:
+        return len(session.problem_queue)
+    return 1 if session.problem else 0
+
+
+async def _advance_problem(websocket: WebSocket, session, source_label: str = "solved") -> bool:
+    """
+    Advance to the next problem in the queue.
+    Sends `next_problem` or `queue_complete` WS messages.
+    Returns True if there is a next problem, False if the queue is exhausted.
+    """
+    from ws_session import update_session
+
+    # Compress current conversation to session_summary (background)
+    asyncio.create_task(_compress_conversation(session))
+
+    session.current_index += 1
+    session.hint_level = 0
+    session.attempts = []
+    session.is_solved = False
+    session.consecutive_no_progress = 0
+
+    next_problem = _problem_from_queue_or_uploads(session)
+
+    if next_problem is None:
+        # Queue exhausted
+        await _send(websocket, type="queue_complete",
+                    message="You've worked through all the problems! Let's wrap up.")
+        return False
+
+    session.problem = next_problem
+    update_session(session)
+
+    total = _queue_length(session)
+    await _send(websocket, type="wb_new_section",
+                label=f"Problem {session.current_index + 1}")
+    await _send(
+        websocket,
+        type="next_problem",
+        problem={
+            "statement": next_problem.statement,
+            "answer_type": "expression",
+            "hint_ladder_length": len(next_problem.hint_ladder),
+        },
+        index=session.current_index,
+        total=total,
+        source=source_label,
+    )
+    return True
+
+
+# ── General session ────────────────────────────────────────────────────────────
+
+async def _run_general_session(
     websocket: WebSocket,
     session_id: str,
-    token: Optional[str] = Query(None),
-    topic_id: Optional[str] = Query(None),  # Optional — omit to start in discovery mode
-    difficulty: int = Query(3, ge=1, le=6),
-    session_type: Literal["1hr", "2hr"] = Query("1hr"),
-    calculator_mode: str = Query("none"),
-    tutor_name: str = Query("Josh"),
+    session,       # TutorSession (pre-created by REST endpoint)
+    user,          # User
+    calculator_mode: str = "none",
 ) -> None:
-    await websocket.accept()
+    """
+    Phase 4 general session flow for sessions pre-created via /tutor/session/create.
+    """
+    from credit_router import consume_credit, restore_credit
+    from ws_session import update_session
 
-    # ── 1. Auth ───────────────────────────────────────────────────────────────
-    try:
-        user = await _authenticate_ws_token(token)
-    except ValueError as exc:
-        await _close_with_error(websocket, 4001, str(exc))
+    # ── 1. Tier check ──────────────────────────────────────────────────────────
+    if user.tier not in PAID_TIERS:
+        await _close_with_error(websocket, 4003, "Tutor Mode requires a paid plan")
         return
 
+    # ── 2. Credit check ────────────────────────────────────────────────────────
+    credit_id = consume_credit(user.id)
+    if credit_id is None:
+        await _close_with_error(
+            websocket, 4029,
+            "No session credits available. Purchase credits at /credits/checkout."
+        )
+        return
+    session.credit_id = credit_id
+
+    # ── 3. Quota check ─────────────────────────────────────────────────────────
+    requested_hours = 1.0 if session.session_type == "1hr" else 2.0
+    try:
+        allowed, used_hours, limit_hours = check_tutor_quota(
+            user.id, user.tier, requested_hours
+        )
+    except ValueError as exc:
+        restore_credit(credit_id)
+        await _close_with_error(websocket, 4003, str(exc))
+        return
+    if not allowed:
+        restore_credit(credit_id)
+        await _close_with_error(
+            websocket, 4029,
+            f"Monthly tutor limit reached ({used_hours:.1f}/{limit_hours} hrs used). "
+            "Limit resets on the 1st of next month."
+        )
+        return
+
+    # ── 4. Build problem queue ─────────────────────────────────────────────────
+    await _send(websocket, type="session_loading", message="Building your problem set…")
+
+    from agents.tutor_engine import (
+        build_problem_queue, get_opening_message, generate_tutor_response,
+        handle_going_too_fast, check_exam_readiness,
+        get_exam_mode_proposal, get_exam_start_message,
+    )
+
+    # Build queue (skip if uploads already set uploaded_problems)
+    if not session.uploaded_problems:
+        try:
+            queue = await build_problem_queue(session)
+            session.problem_queue = [p.dict() for p in queue] if queue else []
+        except Exception as exc:
+            session.problem_queue = []
+
+    # Attach cross-session history briefing
+    try:
+        from misconception_service import weak_concepts_briefing
+        session.history_briefing = weak_concepts_briefing(user.id)
+    except Exception:
+        pass
+
+    # Set first problem
+    first_problem = _problem_from_queue_or_uploads(session)
+    if first_problem is not None:
+        session.problem = first_problem
+        record_problem(user.id, session_id, source="live")
+    update_session(session)
+
+    max_dur = session.max_duration_seconds
+
+    # ── 5. Get topic names for opening message ─────────────────────────────────
+    topic_names: list[str] = []
+    for tid in session.topic_ids:
+        meta = TOPIC_REGISTRY.get(tid)
+        if meta:
+            topic_names.append(meta.topic_name)
+    for ft in session.freeform_topics:
+        topic_names.append(ft)
+
+    # ── 6. Send session_ready ──────────────────────────────────────────────────
+    problem_payload = None
+    if first_problem:
+        problem_payload = {
+            "statement": first_problem.statement,
+            "answer_type": "expression",
+            "hint_ladder_length": len(first_problem.hint_ladder),
+        }
+
+    total = _queue_length(session)
+    await _send(
+        websocket,
+        type="session_ready",
+        session_id=session_id,
+        problem=problem_payload,
+        session_type=session.session_type,
+        max_duration_seconds=max_dur,
+        grace_period_seconds=GRACE_PERIOD_SECONDS,
+        index=session.current_index,
+        total=total,
+        diagnostic_question="",
+    )
+
+    # ── 7. Opening message ─────────────────────────────────────────────────────
+    opening = await get_opening_message(
+        session_why=session.why,
+        uploaded_problem_count=len(session.uploaded_problems),
+        class_name=session.class_name,
+        topic_names=topic_names,
+        tutor_name=session.tutor_name,
+    )
+    session.conversation.append({"role": "tutor", "content": opening})
+    await _send(websocket, type="agent_text", text=opening)
+
+    # ── 8. Timer ───────────────────────────────────────────────────────────────
+    timer_task = asyncio.create_task(
+        _run_session_timer(session_id, websocket, max_dur)
+    )
+
+    # ── 9. Message loop ────────────────────────────────────────────────────────
+    exam_mode_proposed = False  # True when server proposed exam mode but student hasn't accepted
+
+    try:
+        while True:
+            raw = await websocket.receive_json()
+            msg_type = raw.get("type", "")
+
+            session = get_session(session_id)
+            if session is None:
+                break
+
+            problem = session.problem  # may be None briefly
+
+            # ── student_text ──────────────────────────────────────────────────
+            if msg_type == "student_text":
+                text = str(raw.get("text", "")).strip()
+                if not text:
+                    continue
+                log_event(session_id=session_id, user_id=user.id,
+                          topic_id=session.topic_id, difficulty=session.difficulty,
+                          event_type="student_question", payload={"text": text})
+                session.conversation.append({"role": "student", "content": text})
+
+                reply, entered_lesson = await generate_tutor_response(session, text)
+                session.conversation.append({"role": "tutor", "content": reply})
+                session.consecutive_no_progress += 1  # reset on correct answer
+                update_session(session)
+
+                if entered_lesson:
+                    await _send(websocket, type="lesson_start",
+                                topic=session.class_name)
+                await _send(websocket, type="agent_text", text=reply)
+                if entered_lesson:
+                    await _send(websocket, type="lesson_end")
+
+            # ── answer_submit ─────────────────────────────────────────────────
+            elif msg_type == "answer_submit":
+                student_answer = str(raw.get("answer", "")).strip()
+                if not student_answer or problem is None:
+                    continue
+
+                # In exam mode: suppress hints, but still check answer
+                result = await check_answer(student_answer, problem.answer)
+                log_event(session_id=session_id, user_id=user.id,
+                          topic_id=session.topic_id, difficulty=session.difficulty,
+                          event_type="answer_attempt",
+                          payload={"answer": student_answer, "correct": result.correct})
+
+                await _send(websocket, type="answer_result",
+                            correct=result.correct,
+                            equivalent_form=result.equivalent_form,
+                            partial_credit_reason=result.partial_credit_reason)
+
+                if result.correct:
+                    session.is_solved = True
+                    session.consecutive_no_progress = 0
+                    log_event(session_id=session_id, user_id=user.id,
+                              topic_id=session.topic_id, difficulty=session.difficulty,
+                              event_type="correct", payload={"answer": student_answer})
+
+                    # Check exam readiness (Phase 5) only when not already in exam mode
+                    if not session.exam_mode and not exam_mode_proposed \
+                            and check_exam_readiness(session):
+                        exam_mode_proposed = True
+                        proposal = await get_exam_mode_proposal(session)
+                        session.conversation.append({"role": "tutor", "content": proposal})
+                        update_session(session)
+                        await _send(websocket, type="exam_mode_propose",
+                                    message=proposal)
+                    else:
+                        # Advance to next problem
+                        has_next = await _advance_problem(websocket, session)
+                        if not has_next:
+                            timer_task.cancel()
+                            await _end_session(websocket, session, reason="solved")
+                            break
+                else:
+                    session.attempts.append(student_answer)
+                    session.consecutive_no_progress += 1
+                    # Socratic follow-up (exam mode suppresses hints, not follow-ups)
+                    try:
+                        followup, _ = await generate_tutor_response(
+                            session,
+                            f"I submitted '{student_answer}' but it was wrong.",
+                        )
+                    except Exception:
+                        followup = "That's not quite right. What step do you think went differently?"
+                    session.conversation.append({"role": "tutor", "content": followup})
+                    update_session(session)
+                    await _send(websocket, type="agent_text", text=followup)
+
+            # ── hint_request ──────────────────────────────────────────────────
+            elif msg_type == "hint_request":
+                if session.exam_mode:
+                    await _send(websocket, type="error", code=4003,
+                                message="Hints are disabled in exam mode.")
+                    continue
+                if problem is None:
+                    continue
+                next_level = session.hint_level + 1
+                hint_req = HintRequest(
+                    problem_id=session_id,
+                    hint_ladder=problem.hint_ladder,
+                    hint_level=next_level,
+                )
+                try:
+                    hint_text = await get_hint(hint_req, user_tier=user.tier)
+                    session.hint_level = next_level
+                    session.consecutive_no_progress += 1  # hints count as non-progress
+                    log_event(session_id=session_id, user_id=user.id,
+                              topic_id=session.topic_id, difficulty=session.difficulty,
+                              event_type="hint_request", payload={"level": next_level})
+                    update_session(session)
+                    await _send(websocket, type="hint", text=hint_text,
+                                level=next_level, max_level=len(problem.hint_ladder))
+                except PermissionError as exc:
+                    await _send(websocket, type="error", code=4003, message=str(exc))
+                except IndexError:
+                    await _send(websocket, type="error", code=4003,
+                                message="No more hints available for this problem.")
+
+            # ── walk_me_through ───────────────────────────────────────────────
+            elif msg_type == "walk_me_through":
+                session.conversation.append({"role": "student",
+                                             "content": "Walk me through this."})
+                reply, _ = await generate_tutor_response(session,
+                                                          "Walk me through this.",
+                                                          force_lesson=True)
+                session.conversation.append({"role": "tutor", "content": reply})
+                update_session(session)
+                await _send(websocket, type="lesson_start", topic=session.class_name)
+                await _send(websocket, type="agent_text", text=reply)
+                await _send(websocket, type="lesson_end")
+
+            # ── going_too_fast ────────────────────────────────────────────────
+            elif msg_type == "going_too_fast":
+                reply = await handle_going_too_fast(session)
+                session.conversation.append({"role": "tutor", "content": reply})
+                update_session(session)
+                await _send(websocket, type="agent_text", text=reply)
+
+            # ── next_problem (student requests to skip) ───────────────────────
+            elif msg_type == "next_problem":
+                has_next = await _advance_problem(websocket, session, source_label="skip")
+                if not has_next:
+                    timer_task.cancel()
+                    await _end_session(websocket, session, reason="student_end")
+                    break
+
+            # ── exam_mode_accept ──────────────────────────────────────────────
+            elif msg_type == "exam_mode_accept":
+                exam_mode_proposed = False
+                session.exam_mode = True
+                # Snapshot + clear whiteboard
+                await _send(websocket, type="wb_clear", snapshot=True)
+                start_msg = await get_exam_start_message(session)
+                session.conversation.append({"role": "tutor", "content": start_msg})
+                update_session(session)
+                await _send(websocket, type="exam_mode_active")
+                await _send(websocket, type="agent_text", text=start_msg)
+                # Advance to fresh problem for exam
+                has_next = await _advance_problem(websocket, session, source_label="exam_start")
+                if not has_next:
+                    timer_task.cancel()
+                    await _end_session(websocket, session, reason="student_end")
+                    break
+
+            # ── wb_student_work (student shares whiteboard work) ──────────────
+            elif msg_type == "wb_student_work":
+                # Store for Phase 5 readiness assessment (not yet used in scoring)
+                work_str = str(raw.get("latex", raw.get("strokes", "")))
+                if work_str:
+                    session.conversation.append({
+                        "role": "student_wb",
+                        "content": work_str[:500],
+                    })
+                    update_session(session)
+
+            # ── session_end ───────────────────────────────────────────────────
+            elif msg_type == "session_end":
+                timer_task.cancel()
+                await _end_session(websocket, session, reason="student_end")
+                break
+
+    except WebSocketDisconnect:
+        timer_task.cancel()
+        session = get_session(session_id)
+        if session is not None:
+            await _end_session(websocket, session, reason="disconnect")
+    except Exception:
+        timer_task.cancel()
+        session = get_session(session_id)
+        if session is not None:
+            await _end_session(websocket, session, reason="disconnect")
+        try:
+            await websocket.close(code=1011)
+        except Exception:
+            pass
+
+
+# ── Legacy session ─────────────────────────────────────────────────────────────
+
+async def _run_legacy_session(
+    websocket: WebSocket,
+    session_id: str,
+    topic_id: Optional[str],
+    difficulty: int,
+    session_type: Literal["1hr", "2hr"],
+    calculator_mode: str,
+    tutor_name: str,
+    user,
+) -> None:
+    """
+    Original discovery-based session flow (topic_id via query param).
+    Preserved for backward compatibility with old client code.
+    """
     # ── 2. Tier check ─────────────────────────────────────────────────────────
     if user.tier not in PAID_TIERS:
         await _close_with_error(websocket, 4003, "Tutor Mode requires a paid plan")
@@ -460,12 +918,11 @@ async def tutor_ws(
         )
         return
 
-    # ── 4. Discovery mode: resolve topic from conversation ────────────────────
+    # ── 4. Discovery mode ─────────────────────────────────────────────────────
     resolved_topic_id = topic_id
     resolved_mode = "practice"
 
     if not topic_id:
-        # Enter discovery mode — tutor asks what the student needs
         await _send(
             websocket,
             type="discovery_start",
@@ -474,7 +931,6 @@ async def tutor_ws(
 
         from agents.topic_detector import detect_topic, build_picklist
 
-        # Discovery loop: keep asking until topic is confirmed or student gives up
         discovery_conversation: list[dict] = []
         max_discovery_turns = 4
         turns = 0
@@ -489,67 +945,44 @@ async def tutor_ws(
             msg_type = raw.get("type", "")
 
             if msg_type == "topic_accept":
-                # Student confirmed the proposed topic
                 resolved_topic_id = raw.get("topic_id")
                 resolved_mode = raw.get("mode", "practice")
                 break
-
             if msg_type == "topic_reject":
-                # Student rejected; ask again
                 await _send(websocket, type="discovery_start",
                     prompt="No problem! Can you tell me more about what you need help with?")
                 turns += 1
                 continue
-
             if msg_type == "session_end":
                 await _end_session_early(websocket, credit_id)
                 return
-
             if msg_type == "student_text":
                 text = str(raw.get("text", "")).strip()
                 if not text:
                     continue
-
                 discovery_conversation.append({"role": "student", "content": text})
                 result = await detect_topic(text, discovery_conversation, TOPIC_REGISTRY)
                 confidence = result.get("confidence", 0.0)
-
                 if confidence >= 0.6 and result.get("topic_id"):
-                    # High confidence — propose the topic
-                    await _send(
-                        websocket,
-                        type="topic_confirm",
-                        topic_id=result["topic_id"],
-                        topic_name=result["topic_name"],
-                        mode=result["mode"],
-                        message=result["confirmation_message"],
-                    )
-                    # Add as tutor message in discovery conversation
-                    discovery_conversation.append({
-                        "role": "tutor",
-                        "content": result["confirmation_message"],
-                    })
+                    await _send(websocket, type="topic_confirm",
+                        topic_id=result["topic_id"], topic_name=result["topic_name"],
+                        mode=result["mode"], message=result["confirmation_message"])
+                    discovery_conversation.append({"role": "tutor",
+                        "content": result["confirmation_message"]})
                 else:
-                    # Low confidence — show pick-list
                     picklist = build_picklist(TOPIC_REGISTRY, text)
                     if picklist:
-                        await _send(
-                            websocket,
-                            type="topic_picklist",
+                        await _send(websocket, type="topic_picklist",
                             message="I'm not quite sure which topic. Could you pick from these?",
-                            options=picklist,
-                        )
+                            options=picklist)
                     else:
-                        await _send(
-                            websocket,
-                            type="discovery_start",
-                            prompt="I want to help, but I need a bit more info. What subject or concept is this about?",
-                        )
+                        await _send(websocket, type="discovery_start",
+                            prompt="I want to help, but I need a bit more info. What subject or concept is this about?")
                 turns += 1
 
         if not resolved_topic_id:
-            await _close_with_error(websocket, 4004, "Could not identify topic. Please try selecting from the catalog.")
-            from credit_router import restore_credit
+            await _close_with_error(websocket, 4004,
+                "Could not identify topic. Please try selecting from the catalog.")
             restore_credit(credit_id)
             return
 
@@ -557,7 +990,6 @@ async def tutor_ws(
     topic_meta = TOPIC_REGISTRY.get(resolved_topic_id)
     if topic_meta is None:
         await _close_with_error(websocket, 4004, f"Topic {resolved_topic_id!r} not found")
-        from credit_router import restore_credit
         restore_credit(credit_id)
         return
 
@@ -595,20 +1027,17 @@ async def tutor_ws(
         diagnostic_question = ""
         edge_phase = "guide"
 
-    # ── 7b. Fetch worked_example for Demonstrate phase ────────────────────────
     worked_example = None
     if edge_phase == "demonstrate" and resolved_topic_id:
         worked_example = await _fetch_worked_example(resolved_topic_id)
 
-    # ── 8. Create session + send session_ready ────────────────────────────────
+    # ── 8. Create session ─────────────────────────────────────────────────────
     from ws_session import SESSION_TYPES
     max_dur = SESSION_TYPES[session_type]
 
-    # Sanitise tutor_name — only allow known profile names
     _VALID_TUTOR_NAMES = {"Josh", "James", "Isaac", "Robert", "Sarah", "Emily", "Natalie"}
     safe_tutor_name = tutor_name if tutor_name in _VALID_TUTOR_NAMES else "Josh"
 
-    # Build cross-session history briefing (non-blocking; empty string if DB disabled)
     from misconception_service import weak_concepts_briefing
     history_briefing = weak_concepts_briefing(user.id)
 
@@ -641,31 +1070,22 @@ async def tutor_ws(
         worked_example=worked_example,
     )
 
-    # ── 8b. Whiteboard: stream worked_example steps for Demonstrate phase ────
     if worked_example and edge_phase == "demonstrate":
         y_cursor = 2
-        for i, step in enumerate(worked_example[:8]):  # cap at 8 steps
+        for i, step in enumerate(worked_example[:8]):
             expr = step.get("expression_latex", "")
             desc = step.get("description_latex", "")
             if expr or desc:
                 latex = f"{desc}: {expr}" if (desc and expr) else (desc or expr)
-                await _send(
-                    websocket,
-                    type="whiteboard",
-                    action="write",
-                    latex=latex,
-                    x=2,
-                    y=y_cursor,
-                )
+                await _send(websocket, type="whiteboard", action="write",
+                            latex=latex, x=2, y=y_cursor)
                 y_cursor += 12
-                await asyncio.sleep(0.25)  # brief visual cadence
+                await asyncio.sleep(0.25)
 
-    # ── 9. Start timeout timer ────────────────────────────────────────────────
     timer_task = asyncio.create_task(
         _run_session_timer(session_id, websocket, max_dur)
     )
 
-    # ── 8. Message loop ───────────────────────────────────────────────────────
     try:
         while True:
             raw = await websocket.receive_json()
@@ -673,26 +1093,20 @@ async def tutor_ws(
 
             session = get_session(session_id)
             if session is None:
-                break  # Session was cleaned up by timer
+                break
 
-            # ── student_text ──────────────────────────────────────────────────
             if msg_type == "student_text":
                 text = str(raw.get("text", "")).strip()
                 if not text:
                     continue
-
-                log_event(
-                    session_id=session_id, user_id=user.id, topic_id=topic_id,
-                    difficulty=difficulty, event_type="student_question",
-                    payload={"text": text},
-                )
-
+                log_event(session_id=session_id, user_id=user.id, topic_id=topic_id,
+                          difficulty=difficulty, event_type="student_question",
+                          payload={"text": text})
                 session.conversation.append({"role": "student", "content": text})
-
                 try:
                     reply = await socratic_respond(
                         problem_statement=problem.statement,
-                        conversation=session.conversation[:-1],  # exclude just-appended
+                        conversation=session.conversation[:-1],
                         student_message=text,
                         hint_ladder=problem.hint_ladder,
                         hint_level=session.hint_level,
@@ -704,47 +1118,32 @@ async def tutor_ws(
                     )
                 except Exception:
                     reply = "Let me think about that. What have you tried so far?"
-
                 session.conversation.append({"role": "tutor", "content": reply})
                 await _send(websocket, type="agent_text", text=reply)
 
-            # ── answer_submit ─────────────────────────────────────────────────
             elif msg_type == "answer_submit":
                 student_answer = str(raw.get("answer", "")).strip()
                 if not student_answer:
                     continue
-
                 result = await check_answer(student_answer, problem.answer)
-
-                log_event(
-                    session_id=session_id, user_id=user.id, topic_id=topic_id,
-                    difficulty=difficulty, event_type="answer_attempt",
-                    payload={"answer": student_answer, "correct": result.correct},
-                )
-
-                await _send(
-                    websocket,
-                    type="answer_result",
-                    correct=result.correct,
-                    equivalent_form=result.equivalent_form,
-                    partial_credit_reason=result.partial_credit_reason,
-                )
-
+                log_event(session_id=session_id, user_id=user.id, topic_id=topic_id,
+                          difficulty=difficulty, event_type="answer_attempt",
+                          payload={"answer": student_answer, "correct": result.correct})
+                await _send(websocket, type="answer_result",
+                            correct=result.correct,
+                            equivalent_form=result.equivalent_form,
+                            partial_credit_reason=result.partial_credit_reason)
                 if result.correct:
                     session.is_solved = True
-                    log_event(
-                        session_id=session_id, user_id=user.id, topic_id=topic_id,
-                        difficulty=difficulty, event_type="correct",
-                        payload={"answer": student_answer},
-                    )
-                    # Compress conversation into session_summary (background, non-blocking)
+                    log_event(session_id=session_id, user_id=user.id, topic_id=topic_id,
+                              difficulty=difficulty, event_type="correct",
+                              payload={"answer": student_answer})
                     asyncio.create_task(_compress_conversation(session))
                     timer_task.cancel()
                     await _end_session(websocket, session, reason="solved")
                     break
                 else:
                     session.attempts.append(student_answer)
-                    # Socratic follow-up for wrong answer
                     try:
                         followup = await socratic_respond(
                             problem_statement=problem.statement,
@@ -759,12 +1158,10 @@ async def tutor_ws(
                             history_briefing=session.history_briefing,
                         )
                     except Exception:
-                        followup = "That's not quite right. What step do you think went differently than expected?"
-
+                        followup = "That's not quite right. What step do you think went differently?"
                     session.conversation.append({"role": "tutor", "content": followup})
                     await _send(websocket, type="agent_text", text=followup)
 
-            # ── hint_request ──────────────────────────────────────────────────
             elif msg_type == "hint_request":
                 next_level = session.hint_level + 1
                 hint_req = HintRequest(
@@ -775,27 +1172,17 @@ async def tutor_ws(
                 try:
                     hint_text = await get_hint(hint_req, user_tier=user.tier)
                     session.hint_level = next_level
-                    log_event(
-                        session_id=session_id, user_id=user.id, topic_id=topic_id,
-                        difficulty=difficulty, event_type="hint_request",
-                        payload={"level": next_level},
-                    )
-                    await _send(
-                        websocket,
-                        type="hint",
-                        text=hint_text,
-                        level=next_level,
-                        max_level=len(problem.hint_ladder),
-                    )
+                    log_event(session_id=session_id, user_id=user.id, topic_id=topic_id,
+                              difficulty=difficulty, event_type="hint_request",
+                              payload={"level": next_level})
+                    await _send(websocket, type="hint", text=hint_text,
+                                level=next_level, max_level=len(problem.hint_ladder))
                 except PermissionError as exc:
                     await _send(websocket, type="error", code=4003, message=str(exc))
                 except IndexError:
-                    await _send(
-                        websocket, type="error", code=4003,
-                        message="No more hints available for this problem."
-                    )
+                    await _send(websocket, type="error", code=4003,
+                                message="No more hints available for this problem.")
 
-            # ── session_end ───────────────────────────────────────────────────
             elif msg_type == "session_end":
                 timer_task.cancel()
                 await _end_session(websocket, session, reason="student_end")
@@ -815,3 +1202,37 @@ async def tutor_ws(
             await websocket.close(code=1011)
         except Exception:
             pass
+
+
+# ── Main endpoint ─────────────────────────────────────────────────────────────
+
+@router.websocket("/ws/tutor/{session_id}")
+async def tutor_ws(
+    websocket: WebSocket,
+    session_id: str,
+    token: Optional[str] = Query(None),
+    topic_id: Optional[str] = Query(None),
+    difficulty: int = Query(3, ge=1, le=6),
+    session_type: Literal["1hr", "2hr"] = Query("1hr"),
+    calculator_mode: str = Query("none"),
+    tutor_name: str = Query("Josh"),
+) -> None:
+    await websocket.accept()
+
+    # Auth
+    try:
+        user = await _authenticate_ws_token(token)
+    except ValueError as exc:
+        await _close_with_error(websocket, 4001, str(exc))
+        return
+
+    # Route: if session was pre-created via /tutor/session/create, use general flow
+    existing = get_session(session_id)
+    if existing is not None and existing.user_id == user.id:
+        await _run_general_session(websocket, session_id, existing, user, calculator_mode)
+    else:
+        # Legacy flow (discovery via query param)
+        await _run_legacy_session(
+            websocket, session_id, topic_id, difficulty,
+            session_type, calculator_mode, tutor_name, user,
+        )

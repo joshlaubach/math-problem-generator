@@ -609,8 +609,31 @@ async def lifespan(app: FastAPI):
     # Initialise Redis session store (no-op if REDIS_URL not set)
     from ws_session import init_redis
     await init_redis()
+    # Sweep orphaned upload directories older than 24 h (Phase 3)
+    _sweep_orphaned_uploads()
     yield
     # Shutdown: cleanup if needed
+
+
+def _sweep_orphaned_uploads() -> None:
+    """
+    Delete session_uploads/ subdirs that are more than 24 h old.
+    This catches uploads whose sessions ended abnormally before _end_session ran.
+    Silently swallowed — never blocks startup.
+    """
+    import shutil
+    import time
+    from config import DATA_DIR
+    upload_root = DATA_DIR / "session_uploads"
+    if not upload_root.exists():
+        return
+    cutoff = time.time() - 86400  # 24 hours
+    try:
+        for child in upload_root.iterdir():
+            if child.is_dir() and child.stat().st_mtime < cutoff:
+                shutil.rmtree(child, ignore_errors=True)
+    except Exception:
+        pass
 
 
 # ============================================================================

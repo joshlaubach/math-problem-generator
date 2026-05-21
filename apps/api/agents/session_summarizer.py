@@ -1,28 +1,49 @@
 """
-Session summarizer — generates a 3-5 bullet post-session summary.
+Session summarizer — generates a post-session summary with three sections (Phase 6).
 
-Called at the end of every tutor session. Returns plain-English bullets
-the student can act on. Never mentions EDGE phases or internal mechanics.
+Section 1: Bullets (what was covered, how the student did)
+Section 2: Per-topic performance dict {topic_name: "strong"|"needs_work"|"attempted"}
+Section 3: Practice problems for weak areas (list of problem statement strings)
+
+Called at session end. Falls back gracefully if the LLM is unavailable.
+Backward-compatible: if called with old signature (no topics_covered), returns list of bullets.
 """
 from __future__ import annotations
 
 import json
+import logging
 
+logger = logging.getLogger(__name__)
 
 SUMMARIZER_SYSTEM_PROMPT = """\
-You are summarizing a math tutoring session for a student.
+You are summarizing a math tutoring session for a student. Return ONLY valid JSON — no markdown.
 
-Write exactly 3-5 bullet points that:
-1. Name the specific concept or skill covered (no generic phrases like "math concepts")
-2. Note whether the student solved it (and how quickly / how many hints if relevant)
-3. Give one specific thing to review or practice before the next session (actionable)
+Output schema:
+{
+  "bullets": ["...", "...", "..."],
+  "per_topic_performance": {"Topic Name": "strong|needs_work|attempted"},
+  "practice_problems": ["Problem statement 1", "Problem statement 2", ...]
+}
 
-Rules:
-- Plain English, no jargon, no teaching terminology
-- Do NOT mention "hints", "EDGE", "Socratic", "tutor", or "AI"
-- Each bullet is one sentence, under 20 words
-- Return ONLY valid JSON: {"bullets": ["...", "...", "..."]}
-- No markdown, no extra keys
+Bullets (3-5 items):
+1. Name the specific concept or skill covered (no generic phrases).
+2. Note whether the student solved it (how quickly / how many hints if relevant).
+3. Give one specific, actionable thing to review or practice before the next session.
+- Plain English, no jargon, no teaching terminology.
+- Do NOT mention "hints", "EDGE", "Socratic", "tutor", or "AI".
+- Each bullet is one sentence, under 20 words.
+
+per_topic_performance:
+- "strong": solved cleanly with ≤1 hint and ≤1 wrong attempt.
+- "needs_work": struggled significantly or did not solve.
+- "attempted": tried but session ended before resolving.
+- Include every topic mentioned in the session; omit internal/freeform labels.
+
+practice_problems (2-4 items):
+- Generate specific, self-contained practice problems for the WEAKEST topics.
+- Use LaTeX notation where appropriate ($...$).
+- These are new problems — never reference the uploaded file or session content.
+- Skip if all topics are "strong".
 """
 
 
@@ -34,56 +55,101 @@ async def summarize_session(
     problems_solved: int,
     hints_used: int,
     duration_seconds: float,
-) -> list[str]:
+    # Phase 6 extensions (optional — default to backward-compat list return)
+    topics_covered: list[str] | None = None,
+    session_summary_bullets: list | None = None,
+) -> dict | list:
     """
-    Generate a 3-5 bullet session summary.
-    Returns a list of bullet strings.
-    Falls back to a generic summary if LLM is unavailable.
+    Generate a session summary.
+
+    Returns:
+        If topics_covered is provided (Phase 6): dict with keys
+            bullets, per_topic_performance, practice_problems.
+        Otherwise (legacy): list of bullet strings.
     """
     from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL
 
+    legacy_mode = topics_covered is None
+
     if not ANTHROPIC_API_KEY:
-        return _fallback_summary(topic_name, problems_solved, problems_attempted, hints_used)
+        fallback = _fallback_summary(topic_name, problems_solved, problems_attempted, hints_used)
+        return fallback if legacy_mode else {
+            "bullets": fallback, "per_topic_performance": {}, "practice_problems": []
+        }
 
     conversation_excerpt = _build_excerpt(conversation)
     duration_min = round(duration_seconds / 60, 1)
+    topics_str = ", ".join(topics_covered) if topics_covered else topic_name
 
-    user_content = f"""Topic: {topic_name}
+    # Include prior bullet summaries from mid-session compression
+    prior_bullets_text = ""
+    if session_summary_bullets:
+        bullets_list = [str(b) for b in session_summary_bullets[:6]]
+        prior_bullets_text = (
+            "\n\nPrior problem bullets (from this session):\n"
+            + "\n".join(f"• {b}" for b in bullets_list)
+        )
+
+    user_content = f"""Topics covered: {topics_str}
 Mode: {mode}
 Duration: {duration_min} minutes
 Problems attempted: {problems_attempted}
 Problems solved: {problems_solved}
 Hints used: {hints_used}
+{prior_bullets_text}
 
-Conversation excerpt:
+Recent conversation excerpt:
 {conversation_excerpt}
 
-Generate the session summary."""
+Generate the session summary JSON."""
 
     try:
         from anthropic import AsyncAnthropic
         client = AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
         response = await client.messages.create(
             model=ANTHROPIC_MODEL,
-            max_tokens=300,
+            max_tokens=600,
             system=SUMMARIZER_SYSTEM_PROMPT,
             messages=[{"role": "user", "content": user_content}],
         )
-        data = json.loads(response.content[0].text.strip())
+        text = response.content[0].text.strip()
+        # Strip markdown fences if present
+        if text.startswith("```"):
+            lines = text.split("\n")
+            text = "\n".join(lines[1:-1]) if len(lines) > 2 else text
+        data = json.loads(text)
         bullets = data.get("bullets", [])
         if isinstance(bullets, list) and len(bullets) >= 2:
-            return bullets[:5]
-    except Exception:
-        pass
+            result = {
+                "bullets": bullets[:5],
+                "per_topic_performance": data.get("per_topic_performance", {}),
+                "practice_problems": data.get("practice_problems", [])[:4],
+            }
+            return result["bullets"] if legacy_mode else result
+    except Exception as exc:
+        logger.debug("Summarizer LLM call failed: %s", exc)
 
-    return _fallback_summary(topic_name, problems_solved, problems_attempted, hints_used)
+    fallback = _fallback_summary(topic_name, problems_solved, problems_attempted, hints_used)
+    return fallback if legacy_mode else {
+        "bullets": fallback,
+        "per_topic_performance": {},
+        "practice_problems": [],
+    }
 
 
-def _build_excerpt(conversation: list[dict], max_turns: int = 8) -> str:
+def _build_excerpt(conversation: list[dict], max_turns: int = 10) -> str:
     lines = []
     for msg in conversation[-max_turns:]:
-        role = "You" if msg.get("role") == "student" else "Tutor"
-        lines.append(f"{role}: {msg.get('content', '')[:150]}")
+        role_str = msg.get("role", "")
+        if role_str == "student":
+            role = "You"
+        elif role_str == "tutor":
+            role = "Tutor"
+        elif role_str == "student_wb":
+            role = "You (whiteboard)"
+        else:
+            continue
+        lines.append(f"{role}: {str(msg.get('content', ''))[:150]}")
     return "\n".join(lines) if lines else "(no conversation)"
 
 
@@ -99,6 +165,6 @@ def _fallback_summary(
     else:
         bullets.append(f"Attempted {problems_attempted} problem(s) — review the steps before next time.")
     if hints_used > 2:
-        bullets.append(f"Used {hints_used} hints — try to work further before asking for one next session.")
+        bullets.append(f"Used {hints_used} hints — try working further before asking for one next session.")
     bullets.append(f"Practice {topic_name} problems on your own to reinforce today's work.")
     return bullets[:5]

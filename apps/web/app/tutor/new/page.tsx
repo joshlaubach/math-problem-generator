@@ -159,9 +159,14 @@ export default function TutorNewPage() {
   const [freeformDesc, setFreeformDesc] = useState('')
   const [sessionType,  setSessionType]  = useState<'1hr' | '2hr'>('1hr')
 
+  // ── File upload state ────────────────────────────────────────────────────
+  const [files,          setFiles]         = useState<File[]>([])
+  const [uploadDragOver, setUploadDragOver] = useState(false)
+
   // ── Submission state ─────────────────────────────────────────────────────
-  const [submitting, setSubmitting] = useState(false)
-  const [error,      setError]      = useState<string | null>(null)
+  const [submitting,       setSubmitting]       = useState(false)
+  const [submitStage,      setSubmitStage]      = useState<'idle'|'creating'|'uploading'>('idle')
+  const [error,            setError]            = useState<string | null>(null)
 
   // ── Derived ──────────────────────────────────────────────────────────────
   const isOther       = classId === 'other'
@@ -239,6 +244,8 @@ export default function TutorNewPage() {
         session_type: sessionType,
       }
 
+      // Step 1: Create session
+      setSubmitStage('creating')
       const res = await fetch(`${API_BASE}/tutor/session/create`, {
         method: 'POST',
         headers: {
@@ -254,15 +261,30 @@ export default function TutorNewPage() {
       }
 
       const { session_id } = await res.json() as { session_id: string }
+
+      // Step 2: Upload files if any were attached
+      if (files.length > 0) {
+        setSubmitStage('uploading')
+        const form = new FormData()
+        files.forEach(f => form.append('files', f))
+        // Best-effort: don't block session start if upload fails
+        await fetch(`${API_BASE}/tutor/session/${session_id}/upload`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}` },
+          body: form,
+        }).catch(() => {/* non-blocking */})
+      }
+
       router.push(`/tutor/session/${session_id}`)
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong.')
       setSubmitting(false)
+      setSubmitStage('idle')
     }
   }, [
     classId, unitIds, topicIds, why, notes, freeformDesc,
     sessionType, isOther, selectedCourse, allUnits, allTopics,
-    getToken, router,
+    files, getToken, router,
   ])
 
   // ── Render ────────────────────────────────────────────────────────────────
@@ -411,19 +433,75 @@ export default function TutorNewPage() {
               )}
             </Section>
 
-            {/* ── File upload placeholder ───────────────────────────────── */}
+            {/* ── File upload ───────────────────────────────────────────── */}
             <Section style={{ marginBottom: 28 }}>
               <FieldLabel optional>Upload problem set or photo</FieldLabel>
-              <div style={{
-                border: '1px dashed var(--border)',
-                borderRadius: 8,
-                padding: '20px 16px',
-                textAlign: 'center',
-                color: 'var(--text-muted)',
-                fontSize: 12,
-                background: 'var(--surface)',
-              }}>
-                📎 File upload coming in Phase 3
+              {/* Drop zone */}
+              <div
+                onDragOver={e => { e.preventDefault(); setUploadDragOver(true) }}
+                onDragLeave={() => setUploadDragOver(false)}
+                onDrop={e => {
+                  e.preventDefault()
+                  setUploadDragOver(false)
+                  const dropped = Array.from(e.dataTransfer.files).slice(0, 5)
+                  setFiles(prev => [...prev, ...dropped].slice(0, 5))
+                }}
+                onClick={() => document.getElementById('file-input')?.click()}
+                style={{
+                  border: `1px dashed ${uploadDragOver ? 'var(--caramel)' : 'var(--border)'}`,
+                  borderRadius: 8, padding: '18px 16px', textAlign: 'center',
+                  color: uploadDragOver ? 'var(--caramel)' : 'var(--text-muted)',
+                  fontSize: 12, background: uploadDragOver ? 'var(--caramel-dim)' : 'var(--surface)',
+                  cursor: 'pointer', transition: 'all 0.15s',
+                }}
+              >
+                <span style={{ fontSize: 20, display: 'block', marginBottom: 4 }}>📎</span>
+                Drop a PDF or photo here, or <strong>click to browse</strong>
+                <br />
+                <span style={{ fontSize: 11, opacity: 0.7 }}>JPG, PNG, PDF · up to 10 MB each · max 5 files</span>
+              </div>
+              <input
+                id="file-input"
+                type="file"
+                accept=".jpg,.jpeg,.png,.gif,.webp,.pdf"
+                multiple
+                style={{ display: 'none' }}
+                onChange={e => {
+                  const picked = Array.from(e.target.files ?? []).slice(0, 5)
+                  setFiles(prev => [...prev, ...picked].slice(0, 5))
+                  e.target.value = ''
+                }}
+              />
+              {/* File list */}
+              {files.length > 0 && (
+                <div style={{ marginTop: 8, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  {files.map((f, i) => (
+                    <div key={i} style={{
+                      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      padding: '5px 10px', borderRadius: 6,
+                      background: 'var(--surface2)', fontSize: 12,
+                      border: '1px solid var(--border)',
+                    }}>
+                      <span style={{ overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', maxWidth: '80%' }}>
+                        {f.name}
+                      </span>
+                      <button
+                        type="button"
+                        onClick={() => setFiles(prev => prev.filter((_, j) => j !== i))}
+                        style={{
+                          background: 'none', border: 'none', cursor: 'pointer',
+                          color: 'var(--text-muted)', fontSize: 14, padding: '0 2px',
+                        }}
+                        aria-label="Remove file"
+                      >
+                        ×
+                      </button>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 6 }}>
+                Your tutor will extract the problems automatically using AI.
               </div>
             </Section>
 
@@ -466,7 +544,7 @@ export default function TutorNewPage() {
             {/* ── Submit ────────────────────────────────────────────────── */}
             <button
               type="submit"
-              disabled={submitting || !classId}
+              disabled={submitting || !classId || loading}
               className="btn-caramel"
               style={{
                 width: '100%', padding: '13px 20px',
@@ -476,7 +554,7 @@ export default function TutorNewPage() {
                 cursor: submitting || !classId ? 'not-allowed' : 'pointer',
               }}
             >
-              {submitting ? 'Creating session…' : 'Start Session →'}
+              {submitStage === 'uploading' ? 'Uploading files…' : submitStage === 'creating' ? 'Creating session…' : 'Start Session →'}
             </button>
 
           </form>

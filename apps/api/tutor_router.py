@@ -14,7 +14,8 @@ import os
 from typing import Literal, Optional
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
 from auth_dependencies import require_student, get_user_repository
@@ -127,6 +128,105 @@ async def create_tutor_session(
         raise HTTPException(status_code=409, detail=str(exc))
 
     return SessionCreateResponse(session_id=session_id)
+
+
+# ---------------------------------------------------------------------------
+# File upload + Claude Vision extraction
+# ---------------------------------------------------------------------------
+
+_ALLOWED_SUFFIXES = {".jpg", ".jpeg", ".png", ".gif", ".webp", ".pdf"}
+_MAX_FILE_BYTES = 10 * 1024 * 1024  # 10 MB per file
+_MAX_FILES_PER_CALL = 5
+
+
+class UploadResponse(BaseModel):
+    files_saved: int
+    problems_extracted: int
+    problems: list[dict]
+
+
+@router.post("/session/{session_id}/upload", response_model=UploadResponse)
+async def upload_session_files(
+    session_id: str,
+    files: list[UploadFile] = File(...),
+    user: User = Depends(require_student),
+):
+    """
+    Upload problem-set images / PDFs to a pending tutor session.
+
+    Files are saved to DATA_DIR/session_uploads/<session_id>/ and extracted
+    via Claude Vision into structured problem dicts stored on the session.
+    The upload directory is deleted when the session ends.
+
+    Limits: 5 files per call, 10 MB each. Accepted: jpg, png, gif, webp, pdf.
+    """
+    from ws_session import get_session, update_session
+    from agents.document_extractor import extract_problems
+    from config import DATA_DIR
+
+    # Auth: session must exist and belong to the calling user
+    session = get_session(session_id)
+    if session is None:
+        raise HTTPException(status_code=404, detail="Session not found")
+    if session.user_id != user.id:
+        raise HTTPException(status_code=403, detail="Access denied")
+
+    upload_dir = DATA_DIR / "session_uploads" / session_id
+    upload_dir.mkdir(parents=True, exist_ok=True)
+
+    saved_paths: list = []
+    for file in files[:_MAX_FILES_PER_CALL]:
+        filename = file.filename or f"upload_{len(saved_paths)}"
+        # Sanitize: keep alphanumeric, dot, hyphen, underscore; cap at 100 chars
+        safe_name = "".join(
+            c for c in filename if c.isalnum() or c in "._-"
+        )[:100] or f"upload_{len(saved_paths)}"
+        suffix = safe_name.rsplit(".", 1)[-1].lower() if "." in safe_name else ""
+        if f".{suffix}" not in _ALLOWED_SUFFIXES:
+            raise HTTPException(
+                status_code=415,
+                detail=f"Unsupported file type '.{suffix}'. Allowed: jpg, png, gif, webp, pdf.",
+            )
+
+        content = await file.read()
+        if len(content) > _MAX_FILE_BYTES:
+            raise HTTPException(
+                status_code=413,
+                detail=f"File '{filename}' exceeds 10 MB limit.",
+            )
+
+        dest = upload_dir / safe_name
+        dest.write_bytes(content)
+        saved_paths.append(dest)
+
+    # Extract problems via Claude Vision (async, best-effort)
+    problems = await extract_problems(saved_paths)
+
+    # Persist extracted problems on the session
+    session.uploaded_problems = session.uploaded_problems + problems
+    update_session(session)
+
+    return UploadResponse(
+        files_saved=len(saved_paths),
+        problems_extracted=len(problems),
+        problems=problems,
+    )
+
+
+def cleanup_session_uploads(session_id: str) -> None:
+    """
+    Delete session_uploads/<session_id>/ directory.
+    Called from ws_router._end_session and the startup sweep.
+    Silently swallowed — never blocks session cleanup.
+    """
+    try:
+        from config import DATA_DIR
+        import shutil
+        upload_dir = DATA_DIR / "session_uploads" / session_id
+        if upload_dir.exists():
+            shutil.rmtree(upload_dir, ignore_errors=True)
+    except Exception:
+        pass
 
 
 # ---------------------------------------------------------------------------
@@ -435,8 +535,6 @@ def _save_dispute(
 # ---------------------------------------------------------------------------
 
 import functools
-from fastapi import UploadFile, File
-from fastapi.responses import StreamingResponse
 
 # Simple in-memory TTS cache: (text, voice_id) → bytes
 @functools.lru_cache(maxsize=100)
