@@ -44,7 +44,8 @@ class TutorSession:
     difficulty: int
     session_type: Literal["1hr", "2hr"]
     max_duration_seconds: int
-    problem: GeneratedProblem
+    # `problem` is the current active problem; None for pending sessions awaiting WS connect
+    problem: Optional[GeneratedProblem] = None
     conversation: list[dict] = field(default_factory=list)  # [{role, content}]
     hint_level: int = 0
     attempts: list[str] = field(default_factory=list)
@@ -56,6 +57,18 @@ class TutorSession:
     tutor_name: str = "Josh"           # display name injected into Socratic system prompt
     session_summary: list = field(default_factory=list)  # bullet summaries from completed problems
     history_briefing: str = ""         # cross-session weak concept briefing injected at start
+    # ── Phase-2+ general-tutor fields ────────────────────────────────────────
+    class_name: str = ""
+    unit_names: list[str] = field(default_factory=list)
+    topic_ids: list[str] = field(default_factory=list)
+    freeform_topics: list[str] = field(default_factory=list)
+    why: Optional[str] = None
+    notes: str = ""
+    problem_queue: list = field(default_factory=list)   # list of GeneratedProblem dicts
+    current_index: int = 0
+    uploaded_problems: list = field(default_factory=list)  # extracted from file uploads
+    exam_mode: bool = False
+    consecutive_no_progress: int = 0
 
 
 # ---------------------------------------------------------------------------
@@ -93,10 +106,13 @@ def _session_to_dict(session: TutorSession) -> dict:
 def _session_from_dict(d: dict) -> TutorSession:
     d = dict(d)
     d["started_at"] = datetime.fromisoformat(d["started_at"])
-    # Re-hydrate GeneratedProblem
+    # Re-hydrate GeneratedProblem (may be None for pending sessions)
     from agents.schemas import GeneratedProblem as GP
     if isinstance(d.get("problem"), dict):
         d["problem"] = GP(**d["problem"])
+    # Strip unknown keys so older serialised sessions don't break
+    known = {f.name for f in TutorSession.__dataclass_fields__.values()}
+    d = {k: v for k, v in d.items() if k in known}
     return TutorSession(**d)
 
 
@@ -110,7 +126,7 @@ def create_session(
     topic_id: str,
     difficulty: int,
     session_type: Literal["1hr", "2hr"],
-    problem: GeneratedProblem,
+    problem: Optional[GeneratedProblem] = None,
     credit_id: Optional[str] = None,
     mode: str = "practice",
     tutor_name: str = "Josh",
@@ -133,6 +149,47 @@ def create_session(
     )
     _sessions[session_id] = session
     # Redis write is fire-and-forget; done via update_session
+    _sync_to_redis(session)
+    return session
+
+
+def create_pending_session(
+    session_id: str,
+    user_id: str,
+    session_type: Literal["1hr", "2hr"],
+    class_name: str = "",
+    unit_names: Optional[list] = None,
+    topic_ids: Optional[list] = None,
+    freeform_topics: Optional[list] = None,
+    why: Optional[str] = None,
+    notes: str = "",
+    mode: str = "practice",
+) -> TutorSession:
+    """Create a pre-session stub (no problem yet) from the intake form.
+
+    The WS connect (Phase 4) will build the problem queue and set session.problem.
+    """
+    if session_id in _sessions:
+        raise ValueError(f"Session {session_id!r} already exists")
+    # Use first registered topic_id as topic_id placeholder (or empty string)
+    first_topic = (topic_ids or [""])[0] if topic_ids else ""
+    session = TutorSession(
+        session_id=session_id,
+        user_id=user_id,
+        topic_id=first_topic,
+        difficulty=3,
+        session_type=session_type,
+        max_duration_seconds=SESSION_TYPES[session_type],
+        problem=None,
+        mode=mode,
+        class_name=class_name,
+        unit_names=unit_names or [],
+        topic_ids=topic_ids or [],
+        freeform_topics=freeform_topics or [],
+        why=why,
+        notes=notes,
+    )
+    _sessions[session_id] = session
     _sync_to_redis(session)
     return session
 

@@ -1,15 +1,17 @@
 """
 Tutor utility endpoints.
 
-POST /tutor/validate   — SymPy expression validation for the scratchpad
-POST /tutor/dispute    — "I think I'm right" dispute flow
-POST /tutor/transcribe — Deepgram STT (Phase 3)
-POST /tutor/synthesize — ElevenLabs TTS (Phase 3)
+GET  /tutor/taxonomy          — hierarchical course/unit/topic data for intake form
+POST /tutor/session/create    — create a pending session from intake form
+POST /tutor/validate          — SymPy expression validation for the scratchpad
+POST /tutor/dispute           — "I think I'm right" dispute flow
+POST /tutor/transcribe        — Deepgram STT (Phase 3)
+POST /tutor/synthesize        — ElevenLabs TTS (Phase 3)
 """
 from __future__ import annotations
 
 import os
-from typing import Optional
+from typing import Literal, Optional
 from uuid import uuid4
 
 from fastapi import APIRouter, Depends, HTTPException
@@ -19,6 +21,113 @@ from auth_dependencies import require_student, get_user_repository
 from users_models import User
 
 router = APIRouter(prefix="/tutor", tags=["tutor"])
+
+# ---------------------------------------------------------------------------
+# Taxonomy — public, no auth (course/unit/topic hierarchy for intake form)
+# ---------------------------------------------------------------------------
+
+@router.get("/taxonomy")
+def get_taxonomy():
+    """
+    Return the full course→unit→topic hierarchy from the in-memory topic registry.
+
+    Used by the intake form dropdowns on /tutor/new.
+    Response is ordered by curriculum sequence (matches taxonomy.py insertion order).
+    """
+    from topic_registry import COURSE_REGISTRY
+
+    courses = []
+    for course_data in COURSE_REGISTRY.values():
+        units = []
+        for unit_data in course_data["units"].values():
+            topics = [
+                {"id": tm.topic_id, "name": tm.topic_name}
+                for tm in unit_data["topics"].values()
+            ]
+            units.append({
+                "id": unit_data["unit_id"],
+                "name": unit_data["unit_name"],
+                "is_honors": unit_data["is_honors"],
+                "topics": topics,
+            })
+        courses.append({
+            "id": course_data["course_id"],
+            "name": course_data["course_name"],
+            "units": units,
+        })
+    return courses
+
+
+# ---------------------------------------------------------------------------
+# Session creation (pre-session intake form → pending session)
+# ---------------------------------------------------------------------------
+
+class SessionCreateRequest(BaseModel):
+    class_name: str = Field(..., description="Course name, e.g. 'Algebra I' or 'Other'")
+    unit_names: list[str] = Field(default_factory=list)
+    topic_ids: list[str] = Field(default_factory=list)
+    freeform_topics: list[str] = Field(default_factory=list)
+    why: Optional[str] = Field(default=None)
+    notes: str = Field(default="", max_length=2000)
+    session_type: Literal["1hr", "2hr"] = "1hr"
+
+
+class SessionCreateResponse(BaseModel):
+    session_id: str
+
+
+@router.post("/session/create", response_model=SessionCreateResponse)
+async def create_tutor_session(
+    body: SessionCreateRequest,
+    user: User = Depends(require_student),
+):
+    """
+    Create a pending tutor session from intake form data.
+
+    Tier check: session creation requires a paid tier.
+    Problem queue is built when the WebSocket connects (Phase 4).
+    """
+    from session_quota import PAID_TIERS
+    from ws_session import create_pending_session, SESSION_TYPES
+
+    if user.tier not in PAID_TIERS:
+        raise HTTPException(
+            status_code=403,
+            detail="Tutor sessions require a paid plan. Visit /pricing to upgrade.",
+        )
+
+    if body.session_type not in SESSION_TYPES:
+        raise HTTPException(status_code=422, detail="session_type must be '1hr' or '2hr'")
+
+    session_id = str(uuid4())
+
+    # Determine mode from why field
+    why_to_mode = {
+        "homework": "homework",
+        "test_prep": "practice",
+        "get_ahead": "practice",
+        "learn_concept": "concept",
+    }
+    mode = why_to_mode.get(body.why or "", "practice")
+
+    try:
+        create_pending_session(
+            session_id=session_id,
+            user_id=user.id,
+            session_type=body.session_type,
+            class_name=body.class_name,
+            unit_names=body.unit_names,
+            topic_ids=body.topic_ids,
+            freeform_topics=body.freeform_topics,
+            why=body.why,
+            notes=body.notes,
+            mode=mode,
+        )
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc))
+
+    return SessionCreateResponse(session_id=session_id)
+
 
 # ---------------------------------------------------------------------------
 # Scratchpad validation
