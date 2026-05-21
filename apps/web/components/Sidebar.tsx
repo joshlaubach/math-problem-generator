@@ -7,6 +7,7 @@ import Link from 'next/link'
 import {
   House, Books, PencilSimple, ChartLineUp,
   Users, Flag, ChartBar, Timer, Sun, Moon,
+  GraduationCap,
 } from '@phosphor-icons/react'
 
 function ThemeToggle() {
@@ -105,6 +106,12 @@ export function Sidebar() {
             <Link href="/catalog" className={`nav-item ${isActive('/catalog') ? 'active' : ''}`}>
               <span className="nav-icon"><Books size={15} weight={isActive('/catalog') ? 'fill' : 'regular'} /></span>
               Course Catalog
+            </Link>
+
+            <div className="nav-section-label" style={{ marginTop: 10 }}>Tutoring</div>
+            <Link href="/tutor/new" className={`nav-item ${pathname.startsWith('/tutor') ? 'active' : ''}`}>
+              <span className="nav-icon"><GraduationCap size={15} weight={pathname.startsWith('/tutor') ? 'fill' : 'regular'} /></span>
+              Book a Session
             </Link>
 
             <div className="nav-section-label" style={{ marginTop: 10 }}>Practice</div>

@@ -697,3 +697,23 @@ class ParentLinkRecord(Base):
     def __repr__(self) -> str:
         return f"<ParentLinkRecord(parent_id={self.parent_id}, student_id={self.student_id})>"
 
+
+
+
+class StudentConceptError(Base):
+    """Tracks how many times a student has made an error tagged with a given concept label."""
+
+    __tablename__ = "student_concept_errors"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True, default=lambda: str(__import__('uuid').uuid4()))
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    concept_id: Mapped[str] = mapped_column(String(255), index=True)
+    count: Mapped[int] = mapped_column(Integer, default=1)
+    last_seen_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_student_concept_unique", "user_id", "concept_id", unique=True),
+    )
+
+    def __repr__(self) -> str:
+        return f"<StudentConceptError(user_id={self.user_id}, concept_id={self.concept_id}, count={self.count})>"

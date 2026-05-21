@@ -137,7 +137,7 @@ function TutorLauncherPanel({
         </div>
       ) : (
         <Link
-          href={`/tutor/${topicId}?difficulty=${difficulty}&name=${encodeURIComponent(topicName)}`}
+          href={`/tutor/new?topic=${topicId}&name=${encodeURIComponent(topicName)}`}
           className="btn-caramel"
           style={{ display: 'flex', justifyContent: 'center', textDecoration: 'none' }}
         >

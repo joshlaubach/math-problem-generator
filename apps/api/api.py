@@ -606,8 +606,34 @@ async def lifespan(app: FastAPI):
     except Exception:
         # Tests expect a clean slate; ignore if file missing
         pass
+    # Initialise Redis session store (no-op if REDIS_URL not set)
+    from ws_session import init_redis
+    await init_redis()
+    # Sweep orphaned upload directories older than 24 h (Phase 3)
+    _sweep_orphaned_uploads()
     yield
     # Shutdown: cleanup if needed
+
+
+def _sweep_orphaned_uploads() -> None:
+    """
+    Delete session_uploads/ subdirs that are more than 24 h old.
+    This catches uploads whose sessions ended abnormally before _end_session ran.
+    Silently swallowed — never blocks startup.
+    """
+    import shutil
+    import time
+    from config import DATA_DIR
+    upload_root = DATA_DIR / "session_uploads"
+    if not upload_root.exists():
+        return
+    cutoff = time.time() - 86400  # 24 hours
+    try:
+        for child in upload_root.iterdir():
+            if child.is_dir() and child.stat().st_mtime < cutoff:
+                shutil.rmtree(child, ignore_errors=True)
+    except Exception:
+        pass
 
 
 # ============================================================================
@@ -675,6 +701,10 @@ app.include_router(credit_router)
 # Tutor utilities (scratchpad validation, dispute, voice)
 from tutor_router import router as tutor_router
 app.include_router(tutor_router)
+
+# Email (session reports + reminders)
+from email_router import router as email_router
+app.include_router(email_router)
 
 # Parent monitoring
 from parent_router import router as parent_router

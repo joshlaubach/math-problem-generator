@@ -9,9 +9,11 @@ export type SessionType = '1hr' | '2hr'
 export type TutorSessionState =
   | 'idle'
   | 'connecting'
-  | 'discovering'   // open-ended topic detection in progress
+  | 'loading'      // building problem queue
+  | 'discovering'  // legacy open-ended topic detection
   | 'ready'
   | 'thinking'
+  | 'in_lesson'    // tutor is narrating a lesson
   | 'solved'
   | 'ended'
   | 'timeout'
@@ -36,12 +38,30 @@ export interface SessionSummary {
   reward: number
   duration_seconds: number
   ai_summary?: string[]
+  topics_covered?: string[]
+  per_topic_performance?: Record<string, string>
+  practice_problems?: string[]
+  problems_solved?: number
+  queue_total?: number
 }
 
 export interface TopicOption {
   topic_id: string
   topic_name: string
   course_name: string
+}
+
+export interface WhiteboardWsMessage {
+  type: 'whiteboard' | 'wb_write' | 'wb_clear' | 'wb_new_section' | 'wb_zoom'
+  action?: 'write' | 'plot' | 'clear'
+  latex?: string
+  label?: string
+  fn?: string
+  domain?: [number, number]
+  region?: string
+  snapshot?: boolean
+  x?: number
+  y?: number
 }
 
 export interface TutorSessionHook {
@@ -55,16 +75,32 @@ export interface TutorSessionHook {
   isCorrect: boolean
   summary: SessionSummary | null
   lastError: string | null
-  // Discovery
+  // Progress
+  currentIndex: number
+  totalProblems: number
+  // Discovery (legacy)
   pendingTopicConfirm: { topic_id: string; topic_name: string; mode: string; message: string } | null
   topicPicklist: TopicOption[] | null
+  // Exam mode
+  examModeProposed: boolean
+  examModeActive: boolean
+  // Whiteboard
+  whiteboardMessages: WhiteboardWsMessage[]
   // Actions
-  connect: (topicId: string | null, difficulty: number, token: string, sessionType: SessionType) => void
+  /** Phase 4: connect to a pre-created session by session_id */
+  connectToSession: (sessionId: string, token: string) => void
+  /** Legacy: connect by generating a new random session_id */
+  connect: (topicId: string | null, difficulty: number, token: string, sessionType: SessionType, tutorName?: string) => void
   sendText: (text: string) => void
   submitAnswer: (answer: string) => void
   requestHint: () => void
+  walkMeThrough: () => void
+  goingTooFast: () => void
+  nextProblem: () => void
+  acceptExamMode: () => void
   endSession: () => void
   disconnect: () => void
+  // Legacy discovery
   acceptTopic: (topicId: string, mode: string) => void
   rejectTopic: () => void
   // Scratchpad
@@ -93,6 +129,9 @@ export function useTutorSession(): TutorSessionHook {
     difficulty: number
     token: string
     sessionType: SessionType
+    tutorName?: string
+    // Phase 4: pre-created session
+    preSessionId?: string
   } | null>(null)
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null)
 
@@ -106,11 +145,16 @@ export function useTutorSession(): TutorSessionHook {
   const [isCorrect, setIsCorrect] = useState(false)
   const [summary, setSummary] = useState<SessionSummary | null>(null)
   const [lastError, setLastError] = useState<string | null>(null)
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [totalProblems, setTotalProblems] = useState(0)
   const [pendingTopicConfirm, setPendingTopicConfirm] = useState<{
     topic_id: string; topic_name: string; mode: string; message: string
   } | null>(null)
   const [topicPicklist, setTopicPicklist] = useState<TopicOption[] | null>(null)
+  const [examModeProposed, setExamModeProposed] = useState(false)
+  const [examModeActive, setExamModeActive] = useState(false)
   const [scratchpadHasWork, setScratchpadHasWork] = useState(false)
+  const [whiteboardMessages, setWhiteboardMessages] = useState<WhiteboardWsMessage[]>([])
 
   // ── Countdown ───────────────────────────────────────────────────────────────
 
@@ -141,47 +185,28 @@ export function useTutorSession(): TutorSessionHook {
     try { msg = JSON.parse(raw) } catch { return }
     const type = msg.type as string
 
-    if (type === 'discovery_start') {
-      setState('discovering')
-      setMessages(prev => [
-        ...prev,
-        { role: 'tutor', content: msg.prompt as string, timestamp: Date.now() },
-      ])
+    // ── Loading ─────────────────────────────────────────────────────────────
+    if (type === 'session_loading') {
+      setState('loading')
     }
 
-    else if (type === 'topic_confirm') {
-      setPendingTopicConfirm({
-        topic_id: msg.topic_id as string,
-        topic_name: msg.topic_name as string,
-        mode: msg.mode as string,
-        message: msg.message as string,
-      })
-      setMessages(prev => [
-        ...prev,
-        { role: 'tutor', content: msg.message as string, timestamp: Date.now() },
-      ])
-    }
-
-    else if (type === 'topic_picklist') {
-      setTopicPicklist(msg.options as TopicOption[])
-      setMessages(prev => [
-        ...prev,
-        { role: 'tutor', content: msg.message as string, timestamp: Date.now() },
-      ])
-    }
-
+    // ── Session ready ────────────────────────────────────────────────────────
     else if (type === 'session_ready') {
       setPendingTopicConfirm(null)
       setTopicPicklist(null)
-      const p = msg.problem as TutorProblem
-      setProblem(p)
-      setMaxHints(p.hint_ladder_length)
+      const p = msg.problem as TutorProblem | null
+      if (p) {
+        setProblem(p)
+        setMaxHints(p.hint_ladder_length)
+      }
       setState('ready')
       const maxDur = (msg.max_duration_seconds as number) ?? 3600
       const graceDur = (msg.grace_period_seconds as number) ?? GRACE_PERIOD_SECONDS
       startCountdown(maxDur, graceDur)
+      setCurrentIndex((msg.index as number) ?? 0)
+      setTotalProblems((msg.total as number) ?? 1)
 
-      // If Demonstrate phase, narrate each worked_example step as tutor messages
+      // Legacy: narrate worked_example steps
       const workedExample = msg.worked_example as Array<{expression_latex: string; description_latex: string}> | undefined
       if (workedExample && workedExample.length > 0) {
         const narratedSteps = workedExample
@@ -198,7 +223,6 @@ export function useTutorSession(): TutorSessionHook {
         ])
       }
 
-      // Show diagnostic question as first tutor message if present
       const dq = msg.diagnostic_question as string | undefined
       if (dq) {
         setMessages(prev => [
@@ -208,14 +232,48 @@ export function useTutorSession(): TutorSessionHook {
       }
     }
 
+    // ── Next problem (queue advance) ─────────────────────────────────────────
+    else if (type === 'next_problem') {
+      const p = msg.problem as TutorProblem
+      setProblem(p)
+      setMaxHints(p.hint_ladder_length)
+      setHintLevel(0)
+      setIsCorrect(false)
+      setState('ready')
+      setCurrentIndex((msg.index as number) ?? 0)
+      setTotalProblems((msg.total as number) ?? 1)
+    }
+
+    // ── Queue complete ───────────────────────────────────────────────────────
+    else if (type === 'queue_complete') {
+      setMessages(prev => [
+        ...prev,
+        { role: 'system', content: msg.message as string, timestamp: Date.now() },
+      ])
+    }
+
+    // ── Agent text ───────────────────────────────────────────────────────────
     else if (type === 'agent_text') {
       setMessages(prev => [
         ...prev,
         { role: 'tutor', content: msg.text as string, timestamp: Date.now() },
       ])
+      setState(prev => prev === 'in_lesson' ? 'in_lesson' : 'ready')
+    }
+
+    // ── Lesson mode ──────────────────────────────────────────────────────────
+    else if (type === 'lesson_start') {
+      setState('in_lesson')
+      setMessages(prev => [
+        ...prev,
+        { role: 'system', content: '— Lesson mode —', timestamp: Date.now() },
+      ])
+    }
+    else if (type === 'lesson_end') {
       setState('ready')
     }
 
+    // ── Answer result ────────────────────────────────────────────────────────
     else if (type === 'answer_result') {
       if (msg.correct as boolean) {
         setIsCorrect(true)
@@ -226,6 +284,7 @@ export function useTutorSession(): TutorSessionHook {
       }
     }
 
+    // ── Hint ─────────────────────────────────────────────────────────────────
     else if (type === 'hint') {
       setHintLevel(msg.level as number)
       setMessages(prev => [
@@ -239,6 +298,30 @@ export function useTutorSession(): TutorSessionHook {
       setState('ready')
     }
 
+    // ── Exam mode ────────────────────────────────────────────────────────────
+    else if (type === 'exam_mode_propose') {
+      setExamModeProposed(true)
+      setMessages(prev => [
+        ...prev,
+        { role: 'tutor', content: msg.message as string, timestamp: Date.now() },
+      ])
+    }
+    else if (type === 'exam_mode_active') {
+      setExamModeProposed(false)
+      setExamModeActive(true)
+      setMessages(prev => [
+        ...prev,
+        { role: 'system', content: '— Exam mode active —', timestamp: Date.now() },
+      ])
+    }
+
+    // ── Whiteboard ───────────────────────────────────────────────────────────
+    else if (type === 'whiteboard' || type === 'wb_write' || type === 'wb_clear'
+             || type === 'wb_new_section' || type === 'wb_zoom') {
+      setWhiteboardMessages(prev => [...prev, msg as unknown as WhiteboardWsMessage])
+    }
+
+    // ── Time warning ─────────────────────────────────────────────────────────
     else if (type === 'time_warning') {
       setMessages(prev => [
         ...prev,
@@ -250,12 +333,42 @@ export function useTutorSession(): TutorSessionHook {
       ])
     }
 
+    // ── Session end ──────────────────────────────────────────────────────────
     else if (type === 'session_end' || type === 'session_timeout') {
       stopCountdown()
       setSummary(msg.summary as SessionSummary)
       setState(type === 'session_timeout' ? 'timeout' : 'ended')
     }
 
+    // ── Discovery (legacy) ───────────────────────────────────────────────────
+    else if (type === 'discovery_start') {
+      setState('discovering')
+      setMessages(prev => [
+        ...prev,
+        { role: 'tutor', content: msg.prompt as string, timestamp: Date.now() },
+      ])
+    }
+    else if (type === 'topic_confirm') {
+      setPendingTopicConfirm({
+        topic_id: msg.topic_id as string,
+        topic_name: msg.topic_name as string,
+        mode: msg.mode as string,
+        message: msg.message as string,
+      })
+      setMessages(prev => [
+        ...prev,
+        { role: 'tutor', content: msg.message as string, timestamp: Date.now() },
+      ])
+    }
+    else if (type === 'topic_picklist') {
+      setTopicPicklist(msg.options as TopicOption[])
+      setMessages(prev => [
+        ...prev,
+        { role: 'tutor', content: msg.message as string, timestamp: Date.now() },
+      ])
+    }
+
+    // ── Error ────────────────────────────────────────────────────────────────
     else if (type === 'error') {
       setLastError(msg.message as string)
     }
@@ -263,40 +376,41 @@ export function useTutorSession(): TutorSessionHook {
 
   // ── WS open ─────────────────────────────────────────────────────────────────
 
-  const openWs = useCallback((
-    sessionId: string,
-    topicId: string | null,
-    difficulty: number,
-    token: string,
-    sessionType: SessionType,
-  ) => {
-    let url =
-      `${API_WS_BASE}/ws/tutor/${sessionId}` +
-      `?token=${encodeURIComponent(token)}` +
-      `&difficulty=${difficulty}` +
-      `&session_type=${sessionType}`
-    if (topicId) url += `&topic_id=${encodeURIComponent(topicId)}`
-
+  const openWs = useCallback((url: string) => {
     const ws = new WebSocket(url)
     wsRef.current = ws
     ws.onmessage = (event) => handleMessage(event.data as string)
 
     ws.onclose = (event) => {
+      const params = connectParamsRef.current
       const shouldReconnect =
         !NO_RECONNECT_CODES.has(event.code) &&
         reconnectCountRef.current < MAX_RECONNECT_ATTEMPTS &&
-        connectParamsRef.current !== null
+        params !== null
 
       if (shouldReconnect) {
         reconnectCountRef.current++
         const delay = 1000 * Math.pow(2, reconnectCountRef.current - 1)
         setTimeout(() => {
           if (!connectParamsRef.current) return
-          const { topicId: t, difficulty: d, token: tk, sessionType: st } = connectParamsRef.current
-          openWs(crypto.randomUUID(), t, d, tk, st)
+          const p = connectParamsRef.current
+          if (p.preSessionId) {
+            // Phase 4: reconnect to known session
+            openWs(`${API_WS_BASE}/ws/tutor/${p.preSessionId}?token=${encodeURIComponent(p.token)}`)
+          } else {
+            openWs(
+              `${API_WS_BASE}/ws/tutor/${crypto.randomUUID()}` +
+              `?token=${encodeURIComponent(p.token)}` +
+              `&difficulty=${p.difficulty}` +
+              `&session_type=${p.sessionType}` +
+              (p.topicId ? `&topic_id=${encodeURIComponent(p.topicId)}` : '') +
+              (p.tutorName ? `&tutor_name=${encodeURIComponent(p.tutorName)}` : '')
+            )
+          }
         }, delay)
       } else {
-        if (state !== 'solved' && state !== 'ended' && state !== 'timeout') {
+        const s = wsRef.current ? 'idle' : state
+        if (s !== 'solved' && s !== 'ended' && s !== 'timeout') {
           setState(NO_RECONNECT_CODES.has(event.code) ? 'error' : 'ended')
         }
         stopCountdown()
@@ -304,19 +418,11 @@ export function useTutorSession(): TutorSessionHook {
     }
 
     ws.onerror = () => setLastError('Connection error. Retrying…')
-  }, [handleMessage, state, stopCountdown])
+  }, [handleMessage, state, stopCountdown]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Public API ──────────────────────────────────────────────────────────────
+  // ── Reset state ──────────────────────────────────────────────────────────────
 
-  const connect = useCallback((
-    topicId: string | null,
-    difficulty: number,
-    token: string,
-    sessionType: SessionType,
-  ) => {
-    reconnectCountRef.current = 0
-    connectParamsRef.current = { topicId, difficulty, token, sessionType }
-    setState('connecting')
+  const resetState = useCallback(() => {
     setMessages([])
     setProblem(null)
     setHintLevel(0)
@@ -328,35 +434,78 @@ export function useTutorSession(): TutorSessionHook {
     setPendingTopicConfirm(null)
     setTopicPicklist(null)
     setScratchpadHasWork(false)
-    openWs(crypto.randomUUID(), topicId, difficulty, token, sessionType)
-  }, [openWs])
+    setWhiteboardMessages([])
+    setExamModeProposed(false)
+    setExamModeActive(false)
+    setCurrentIndex(0)
+    setTotalProblems(0)
+  }, [])
+
+  // ── Public API ──────────────────────────────────────────────────────────────
+
+  /** Phase 4: connect to a pre-created session (session_id from /tutor/session/create). */
+  const connectToSession = useCallback((sessionId: string, token: string) => {
+    reconnectCountRef.current = 0
+    connectParamsRef.current = {
+      topicId: null, difficulty: 3, token,
+      sessionType: '1hr', preSessionId: sessionId,
+    }
+    setState('connecting')
+    resetState()
+    openWs(`${API_WS_BASE}/ws/tutor/${sessionId}?token=${encodeURIComponent(token)}`)
+  }, [openWs, resetState])
+
+  /** Legacy: connect without a pre-created session. */
+  const connect = useCallback((
+    topicId: string | null,
+    difficulty: number,
+    token: string,
+    sessionType: SessionType,
+    tutorName?: string,
+  ) => {
+    reconnectCountRef.current = 0
+    connectParamsRef.current = { topicId, difficulty, token, sessionType, tutorName }
+    setState('connecting')
+    resetState()
+    const url =
+      `${API_WS_BASE}/ws/tutor/${crypto.randomUUID()}` +
+      `?token=${encodeURIComponent(token)}` +
+      `&difficulty=${difficulty}` +
+      `&session_type=${sessionType}` +
+      (topicId ? `&topic_id=${encodeURIComponent(topicId)}` : '') +
+      (tutorName ? `&tutor_name=${encodeURIComponent(tutorName)}` : '')
+    openWs(url)
+  }, [openWs, resetState])
+
+  const _send = useCallback((payload: object) => {
+    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return
+    wsRef.current.send(JSON.stringify(payload))
+  }, [])
 
   const sendText = useCallback((text: string) => {
-    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return
-    wsRef.current.send(JSON.stringify({ type: 'student_text', text }))
+    _send({ type: 'student_text', text })
     setMessages(prev => [...prev, { role: 'student', content: text, timestamp: Date.now() }])
     setState(prev => prev === 'discovering' ? 'discovering' : 'thinking')
-  }, [])
+  }, [_send])
 
   const submitAnswer = useCallback((answer: string) => {
-    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return
-    wsRef.current.send(JSON.stringify({ type: 'answer_submit', answer }))
+    _send({ type: 'answer_submit', answer })
     setMessages(prev => [
       ...prev,
-      { role: 'student', content: `Submitted answer: ${answer}`, timestamp: Date.now() },
+      { role: 'student', content: `Submitted: ${answer}`, timestamp: Date.now() },
     ])
     setState('thinking')
-  }, [])
+  }, [_send])
 
-  const requestHint = useCallback(() => {
-    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return
-    wsRef.current.send(JSON.stringify({ type: 'hint_request' }))
-  }, [])
-
-  const endSession = useCallback(() => {
-    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return
-    wsRef.current.send(JSON.stringify({ type: 'session_end' }))
-  }, [])
+  const requestHint = useCallback(() => _send({ type: 'hint_request' }), [_send])
+  const walkMeThrough = useCallback(() => _send({ type: 'walk_me_through' }), [_send])
+  const goingTooFast = useCallback(() => _send({ type: 'going_too_fast' }), [_send])
+  const nextProblem = useCallback(() => _send({ type: 'next_problem' }), [_send])
+  const acceptExamMode = useCallback(() => {
+    setExamModeProposed(false)
+    _send({ type: 'exam_mode_accept' })
+  }, [_send])
+  const endSession = useCallback(() => _send({ type: 'session_end' }), [_send])
 
   const disconnect = useCallback(() => {
     reconnectCountRef.current = MAX_RECONNECT_ATTEMPTS
@@ -367,19 +516,17 @@ export function useTutorSession(): TutorSessionHook {
   }, [stopCountdown])
 
   const acceptTopic = useCallback((topicId: string, mode: string) => {
-    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return
-    wsRef.current.send(JSON.stringify({ type: 'topic_accept', topic_id: topicId, mode }))
+    _send({ type: 'topic_accept', topic_id: topicId, mode })
     setPendingTopicConfirm(null)
     setTopicPicklist(null)
-    setState('connecting') // wait for session_ready
-  }, [])
+    setState('connecting')
+  }, [_send])
 
   const rejectTopic = useCallback(() => {
-    if (!wsRef.current || wsRef.current.readyState !== WebSocket.OPEN) return
-    wsRef.current.send(JSON.stringify({ type: 'topic_reject' }))
+    _send({ type: 'topic_reject' })
     setPendingTopicConfirm(null)
     setTopicPicklist(null)
-  }, [])
+  }, [_send])
 
   useEffect(() => {
     return () => {
@@ -390,8 +537,13 @@ export function useTutorSession(): TutorSessionHook {
 
   return {
     state, problem, messages, hintLevel, maxHints, secondsRemaining, inGracePeriod,
-    isCorrect, summary, lastError, pendingTopicConfirm, topicPicklist,
-    connect, sendText, submitAnswer, requestHint, endSession, disconnect,
-    acceptTopic, rejectTopic, scratchpadHasWork, setScratchpadHasWork,
+    isCorrect, summary, lastError, currentIndex, totalProblems,
+    pendingTopicConfirm, topicPicklist,
+    examModeProposed, examModeActive,
+    whiteboardMessages,
+    connectToSession, connect, sendText, submitAnswer, requestHint,
+    walkMeThrough, goingTooFast, nextProblem, acceptExamMode,
+    endSession, disconnect, acceptTopic, rejectTopic,
+    scratchpadHasWork, setScratchpadHasWork,
   }
 }

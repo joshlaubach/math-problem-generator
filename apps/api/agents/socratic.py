@@ -15,10 +15,11 @@ Rules enforced via system prompt:
 from __future__ import annotations
 
 from llm_anthropic_client import _call_with_backoff
+from concept_taxonomy import labels_for_topic
 
-_SYSTEM_PROMPT = """\
-You are a patient, encouraging Socratic math tutor. Your job is to guide students \
-to discover the answer themselves — never to give it to them.
+_SYSTEM_PROMPT_TEMPLATE = """\
+You are {tutor_name}, a patient, encouraging Socratic math tutor. Your job is to \
+guide students to discover the answer themselves — never to give it to them.
 
 Rules you must follow without exception:
 1. NEVER state or strongly imply the final answer, even if the student begs.
@@ -31,6 +32,16 @@ to shape your question — but do NOT quote the hint text verbatim.
 6. If the student expresses frustration, acknowledge it warmly in one sentence, \
 then redirect with your guiding question.
 7. Do not repeat a question you have already asked in this conversation.
+{concept_section}\
+{history_briefing}\
+"""
+
+_CONCEPT_SECTION = """\
+
+Known misconception labels for this topic (use these exact labels when tagging errors):
+{labels}
+When a student makes an error, silently identify which label fits best. \
+Let this shape your guiding question, but never name the label aloud.
 """
 
 
@@ -41,6 +52,7 @@ def _build_messages(
     hint_ladder: list[str],
     hint_level: int,
     wrong_attempts: list[str],
+    session_summary: list[str],
 ) -> list[dict]:
     """Build the Claude messages list for one Socratic turn."""
     messages: list[dict] = []
@@ -52,6 +64,12 @@ def _build_messages(
 
     # Build the context block for this turn
     context_parts = [f"Problem: {problem_statement}"]
+
+    if session_summary:
+        context_parts.append(
+            "Prior problems in this session:\n"
+            + "\n".join(f"• {b}" for b in session_summary)
+        )
 
     if wrong_attempts:
         context_parts.append(
@@ -79,6 +97,10 @@ async def respond(
     hint_ladder: list[str],
     hint_level: int,
     wrong_attempts: list[str],
+    tutor_name: str = "Josh",
+    session_summary: list[str] | None = None,
+    topic_id: str | None = None,
+    history_briefing: str = "",
 ) -> str:
     """
     Generate a Socratic response to the student's message.
@@ -90,16 +112,30 @@ async def respond(
         hint_ladder: 4-item pre-generated hint ladder (internal context only).
         hint_level: Index of last hint served (0 = none yet).
         wrong_attempts: All incorrect answer strings submitted so far.
+        tutor_name: Tutor persona name injected into system prompt.
+        session_summary: Bullet summaries of earlier problems in this session.
 
     Returns:
         Socratic response string — always ends with a question.
     """
+    concept_labels = labels_for_topic(topic_id) if topic_id else []
+    concept_section = (
+        _CONCEPT_SECTION.format(labels="\n".join(f"• {l}" for l in concept_labels[:30]))
+        if concept_labels else ""
+    )
+    history_section = f"\n{history_briefing}" if history_briefing else ""
+    system_prompt = _SYSTEM_PROMPT_TEMPLATE.format(
+        tutor_name=tutor_name,
+        concept_section=concept_section,
+        history_briefing=history_section,
+    )
     messages = _build_messages(
         problem_statement, conversation, student_message,
         hint_ladder, hint_level, wrong_attempts,
+        session_summary or [],
     )
     return await _call_with_backoff(
         messages=messages,
-        system=_SYSTEM_PROMPT,
+        system=system_prompt,
         max_tokens=300,
     )
