@@ -11,6 +11,14 @@ export interface MathInputProps {
 
 type MathFieldElement = HTMLElement & { value: string; readOnly: boolean };
 
+// MathLive upright-letter shortcuts → KaTeX equivalents
+function normalizeMathLive(latex: string): string {
+  return latex
+    .replace(/\\differentialD/g, '\\mathrm{d}')
+    .replace(/\\imaginaryI/g, '\\mathrm{i}')
+    .replace(/\\exponentialE/g, '\\mathrm{e}')
+}
+
 export function MathInput({
   value = '',
   onChange,
@@ -43,7 +51,7 @@ export function MathInput({
       el.value = value;
 
       el.addEventListener('input', () => {
-        onChangeRef.current?.(el.value);
+        onChangeRef.current?.(normalizeMathLive(el.value));
       });
 
       container.appendChild(el);

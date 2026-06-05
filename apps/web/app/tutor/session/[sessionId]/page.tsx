@@ -254,11 +254,15 @@ export default function TutorSessionPage() {
     secondsRemaining, inGracePeriod, summary,
     lastError, currentIndex, totalProblems,
     examModeProposed, examModeActive,
-    whiteboardMessages,
+    whiteboardMessages, ragMatch,
     connectToSession, sendText, submitAnswer, requestHint,
     walkMeThrough, goingTooFast, nextProblem, acceptExamMode,
-    endSession,
+    endSession, sendCanvasSnapshot, sendRagSearch,
   } = useTutorSession()
+
+  const handleSnapshot = useCallback((imageB64: string) => {
+    sendCanvasSnapshot(imageB64)
+  }, [sendCanvasSnapshot])
 
   const [answerText, setAnswerText] = useState('')
   const [inputText, setInputText] = useState('')
@@ -414,7 +418,7 @@ export default function TutorSessionPage() {
 
         {/* Whiteboard canvas */}
         <div style={{ flex: 1, minHeight: 0 }}>
-          <Whiteboard ref={wbRef} visibleHeight={undefined} />
+          <Whiteboard ref={wbRef} visibleHeight={undefined} onSnapshot={handleSnapshot} />
         </div>
 
         {/* Answer input bar */}
@@ -487,6 +491,33 @@ export default function TutorSessionPage() {
           </div>
         )}
 
+        {/* RAG match card */}
+        {ragMatch && (
+          <div style={{
+            padding: '8px 10px', borderRadius: 8, marginBottom: 8,
+            background: 'rgba(74,158,255,0.07)',
+            border: '1px solid rgba(74,158,255,0.22)',
+          }}>
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 6,
+              fontSize: 11, fontWeight: 700, color: 'var(--link)',
+              marginBottom: 4,
+            }}>
+              <span>Looks familiar?</span>
+              <span style={{
+                marginLeft: 'auto', fontSize: 10,
+                background: 'rgba(74,158,255,0.12)',
+                padding: '1px 5px', borderRadius: 8,
+              }}>
+                {Math.round(ragMatch.similarity * 100)}% match
+              </span>
+            </div>
+            <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.4 }}>
+              <MathText latex={ragMatch.statement_latex} />
+            </div>
+          </div>
+        )}
+
         {/* Messages */}
         <div style={{
           flex: 1, overflowY: 'auto', display: 'flex',
@@ -519,6 +550,9 @@ export default function TutorSessionPage() {
           </button>
           <button onClick={goingTooFast} style={chipStyle(false)}>
             Too fast
+          </button>
+          <button onClick={sendRagSearch} style={chipStyle(false)}>
+            Search my problems
           </button>
           <button onClick={nextProblem} style={chipStyle(false)}>
             Next problem

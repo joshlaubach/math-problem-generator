@@ -22,9 +22,12 @@ Close codes used:
 from __future__ import annotations
 
 import asyncio
+import logging
 from datetime import datetime, timezone
 from typing import Literal, Optional
 from uuid import uuid4
+
+logger = logging.getLogger(__name__)
 
 from fastapi import APIRouter, Query, WebSocket, WebSocketDisconnect
 
@@ -846,6 +849,75 @@ async def _run_general_session(
                         "content": work_str[:500],
                     })
                     update_session(session)
+
+            # ── student_canvas_snapshot (drawing recognition) ─────────────────
+            elif msg_type == "student_canvas_snapshot":
+                if session.session_tier != "premium":
+                    await _send(websocket, type="error", code=4030,
+                                message="Drawing recognition requires a premium session.")
+                    continue
+                snapshot_b64 = str(raw.get("image_b64", "")).strip()
+                if not snapshot_b64:
+                    continue
+                problem_stmt = (
+                    session.problem.statement if session.problem else ""
+                )
+                from agents.drawing_recognizer import recognize_and_annotate
+                result = await recognize_and_annotate(
+                    snapshot_b64=snapshot_b64,
+                    problem_statement=problem_stmt,
+                    tutor_name=session.tutor_name,
+                )
+                await _send(websocket, type="agent_text", text=result["chat_text"])
+                if result.get("annotation"):
+                    await _send(websocket, type="wb_annotate_student",
+                                **result["annotation"])
+                session.conversation.append({
+                    "role": "tutor",
+                    "content": result["chat_text"],
+                })
+                update_session(session)
+
+            # ── image_drop (mid-session one-off Vision read) ──────────────────
+            elif msg_type == "image_drop":
+                image_b64 = str(raw.get("image_b64", "")).strip()
+                media_type = str(raw.get("media_type", "image/png"))
+                if not image_b64:
+                    continue
+                import base64, tempfile, os as _os
+                try:
+                    ext = ".png" if "png" in media_type else ".jpg"
+                    tmp = tempfile.NamedTemporaryFile(
+                        suffix=ext, delete=False
+                    )
+                    tmp.write(base64.b64decode(image_b64))
+                    tmp.close()
+                    from agents.document_extractor import extract_problems
+                    extracted = await extract_problems([tmp.name])
+                    _os.unlink(tmp.name)
+                except Exception as _exc:
+                    logger.error("image_drop extraction failed: %s", _exc)
+                    extracted = []
+                if extracted:
+                    stmt = extracted[0]["statement_latex"]
+                    reply = (
+                        f"I can see the problem: {stmt}. "
+                        "Let's work through it. What's the first thing you notice about this?"
+                    )
+                else:
+                    reply = (
+                        "I had trouble reading that image clearly. "
+                        "Can you try uploading it again or describe what the problem says?"
+                    )
+                await _send(websocket, type="agent_text", text=reply)
+                session.conversation.append({"role": "tutor", "content": reply})
+                update_session(session)
+
+            # ── rag_search (explicit similarity search — Phase 4) ─────────────
+            elif msg_type == "rag_search":
+                # Placeholder — implemented fully in Phase 4
+                await _send(websocket, type="agent_text",
+                            text="Problem library search coming soon.")
 
             # ── session_end ───────────────────────────────────────────────────
             elif msg_type == "session_end":
