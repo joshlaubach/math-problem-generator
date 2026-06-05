@@ -40,6 +40,7 @@ from auth_dependencies import get_user_repository
 from auth_utils import decode_access_token
 from config import AUTH_PROVIDER, JWT_SECRET_KEY, JWT_ALGORITHM
 from rl_logger import compute_reward, log_event
+from input_mode_heuristics import get_input_mode
 from session_quota import (
     PAID_TIERS,
     check_tutor_quota,
@@ -642,6 +643,12 @@ async def _run_general_session(
         }
 
     total = _queue_length(session)
+    _first_topic_id = session.topic_id or (session.topic_ids[0] if session.topic_ids else None)
+    _topic_meta = TOPIC_REGISTRY.get(_first_topic_id or "")
+    _default_input_mode = get_input_mode(
+        _topic_meta.course_id if _topic_meta else "",
+        _topic_meta.unit_id if _topic_meta else None,
+    )
     await _send(
         websocket,
         type="session_ready",
@@ -653,6 +660,7 @@ async def _run_general_session(
         index=session.current_index,
         total=total,
         diagnostic_question="",
+        default_input_mode=_default_input_mode,
     )
 
     # ── 7. Opening message ─────────────────────────────────────────────────────
@@ -839,16 +847,21 @@ async def _run_general_session(
                     await _end_session(websocket, session, reason="student_end")
                     break
 
-            # ── wb_student_work (student shares whiteboard work) ──────────────
+            # ── wb_student_work (student shares step-by-step work) ───────────
             elif msg_type == "wb_student_work":
-                # Store for Phase 5 readiness assessment (not yet used in scoring)
-                work_str = str(raw.get("latex", raw.get("strokes", "")))
-                if work_str:
-                    session.conversation.append({
-                        "role": "student_wb",
-                        "content": work_str[:500],
-                    })
-                    update_session(session)
+                work_str = str(raw.get("latex", raw.get("strokes", ""))).strip()
+                if not work_str:
+                    continue
+                session.conversation.append({
+                    "role": "student",
+                    "content": f"[My work]: {work_str[:500]}",
+                })
+                reply, entered_lesson = await generate_tutor_response(
+                    session, f"[My work]: {work_str[:500]}"
+                )
+                session.conversation.append({"role": "tutor", "content": reply})
+                update_session(session)
+                await _send(websocket, type="agent_text", text=reply)
 
             # ── student_canvas_snapshot (drawing recognition) ─────────────────
             elif msg_type == "student_canvas_snapshot":
@@ -1126,6 +1139,11 @@ async def _run_legacy_session(
         history_briefing=history_briefing,
     )
 
+    _legacy_meta = TOPIC_REGISTRY.get(resolved_topic_id or "")
+    _legacy_input_mode = get_input_mode(
+        _legacy_meta.course_id if _legacy_meta else "",
+        _legacy_meta.unit_id if _legacy_meta else None,
+    )
     await _send(
         websocket,
         type="session_ready",
@@ -1140,6 +1158,7 @@ async def _run_legacy_session(
         grace_period_seconds=GRACE_PERIOD_SECONDS,
         diagnostic_question=diagnostic_question,
         worked_example=worked_example,
+        default_input_mode=_legacy_input_mode,
     )
 
     if worked_example and edge_phase == "demonstrate":

@@ -4,6 +4,8 @@ import { useRef, useState } from 'react';
 import { MathText } from '@/components/MathText';
 import { MathInput } from '@/components/MathInput';
 import { Whiteboard, type WhiteboardHandle } from '@/components/Whiteboard';
+import { ShowMyWorkPanel } from '@/components/ShowMyWorkPanel';
+import { StudentToolbar, type StudentToolbarHandle } from '@/components/StudentToolbar';
 
 const EXAMPLES = [
   { label: 'Quadratic formula', latex: 'x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}' },
@@ -47,7 +49,9 @@ import { useEffect } from 'react';
 export default function TestMathPage() {
   const [inputLatex, setInputLatex] = useState('\\frac{x+1}{2}');
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const wbRef = useRef<WhiteboardHandle>(null);
+  const [lastSubmit, setLastSubmit] = useState('');
+  const wbRef  = useRef<WhiteboardHandle>(null);
+  const stbRef = useRef<StudentToolbarHandle>(null);
 
   // Mirror the global app theme (sidebar toggle → document.documentElement[data-theme])
   useEffect(() => {
@@ -209,6 +213,60 @@ export default function TestMathPage() {
           </div>
 
           <Whiteboard ref={wbRef} visibleHeight={480} theme={theme} />
+        </section>
+
+        {/* Show My Work panel test */}
+        <section style={{
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column', gap: 16,
+        }}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
+            Show My Work Panel
+          </h2>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
+            Step-by-step LaTeX entry. "Check steps" fires onSubmit with steps joined by \\rightarrow.
+          </p>
+          <ShowMyWorkPanel
+            theme={theme}
+            onSubmit={s => setLastSubmit(s)}
+          />
+          {lastSubmit && (
+            <div style={{ fontSize: 12 }}>
+              <span style={{ color: 'var(--text-muted)' }}>Last submit: </span>
+              <code style={{ color: 'var(--text)', background: 'var(--surface2)', padding: '2px 6px', borderRadius: 4 }}>
+                {lastSubmit}
+              </code>
+            </div>
+          )}
+        </section>
+
+        {/* Student toolbar test */}
+        <section style={{
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column', gap: 16,
+        }}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
+            Student Drawing Canvas
+          </h2>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
+            Fabric.js v7: pen, highlight, eraser, line, arrow, shapes, angle marker, LaTeX insert,
+            text, color palette, grid snap, image upload/paste, undo/redo, clear.
+          </p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <button onClick={() => stbRef.current?.undo()}
+              style={{ padding: '5px 11px', borderRadius: 7, fontSize: 12, border: '1px solid var(--border)', background: 'var(--surface2)', color: 'var(--text-dim)', cursor: 'pointer' }}>
+              Undo
+            </button>
+            <button onClick={() => stbRef.current?.redo()}
+              style={{ padding: '5px 11px', borderRadius: 7, fontSize: 12, border: '1px solid var(--border)', background: 'var(--surface2)', color: 'var(--text-dim)', cursor: 'pointer' }}>
+              Redo
+            </button>
+            <button onClick={() => stbRef.current?.clear()}
+              style={{ padding: '5px 11px', borderRadius: 7, fontSize: 12, border: '1px solid var(--border)', background: 'var(--surface2)', color: 'var(--text-dim)', cursor: 'pointer' }}>
+              Clear (external)
+            </button>
+          </div>
+          <StudentToolbar ref={stbRef} theme={theme} width={624} height={280} />
         </section>
 
       </div>

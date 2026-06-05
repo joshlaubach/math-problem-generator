@@ -17,8 +17,10 @@ import { useAuth } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
 import { MathText } from '@/components/MathText'
 import { MathInput } from '@/components/MathInput'
+import { ShowMyWorkPanel } from '@/components/ShowMyWorkPanel'
 import { useTutorSession } from '@/hooks/useTutorSession'
 import type { WhiteboardHandle } from '@/components/Whiteboard'
+import type { StudentToolbarHandle } from '@/components/StudentToolbar'
 
 // ── Dynamic imports ────────────────────────────────────────────────────────────
 
@@ -34,6 +36,11 @@ const Whiteboard = dynamic(() => import('@/components/Whiteboard').then(m => m.W
     </div>
   ),
 })
+
+const StudentToolbar = dynamic(
+  () => import('@/components/StudentToolbar').then(m => m.StudentToolbar),
+  { ssr: false }
+)
 
 // ── Sub-components ────────────────────────────────────────────────────────────
 
@@ -247,18 +254,46 @@ function ExamModeBanner({
 export default function TutorSessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
   const { getToken } = useAuth()
-  const wbRef = useRef<WhiteboardHandle>(null)
+  const wbRef  = useRef<WhiteboardHandle>(null)
+  const stbRef = useRef<StudentToolbarHandle>(null)
 
   const {
     state, problem, messages, hintLevel, maxHints,
     secondsRemaining, inGracePeriod, summary,
     lastError, currentIndex, totalProblems,
     examModeProposed, examModeActive,
-    whiteboardMessages, ragMatch,
+    whiteboardMessages, ragMatch, defaultInputMode,
     connectToSession, sendText, submitAnswer, requestHint,
     walkMeThrough, goingTooFast, nextProblem, acceptExamMode,
-    endSession, sendCanvasSnapshot, sendRagSearch,
+    endSession, sendCanvasSnapshot, sendRagSearch, sendStudentWork,
   } = useTutorSession()
+
+  const [inputMode, setInputMode] = useState<'latex' | 'drawing'>('latex')
+  const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const [isMobile, setIsMobile] = useState(false)
+
+  // Sync global theme
+  useEffect(() => {
+    const get = () => document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
+    setTheme(get())
+    const obs = new MutationObserver(() => setTheme(get()))
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+    return () => obs.disconnect()
+  }, [])
+
+  // Mobile detection
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  // Apply default input mode from session_ready
+  useEffect(() => {
+    if (defaultInputMode === 'drawing' && !isMobile) setInputMode('drawing')
+    else setInputMode('latex')
+  }, [defaultInputMode, isMobile])
 
   const handleSnapshot = useCallback((imageB64: string) => {
     sendCanvasSnapshot(imageB64)
@@ -419,6 +454,53 @@ export default function TutorSessionPage() {
         {/* Whiteboard canvas */}
         <div style={{ flex: 1, minHeight: 0 }}>
           <Whiteboard ref={wbRef} visibleHeight={undefined} onSnapshot={handleSnapshot} />
+        </div>
+
+        {/* ── Student work area ─────────────────────────────────────────── */}
+        <div style={{ marginTop: 8, paddingRight: 8 }}>
+          {/* Mode toggle + mobile banner */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
+            <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+              My Work
+            </span>
+            <div style={{ display: 'flex', gap: 4, marginLeft: 4 }}>
+              {(['latex', 'drawing'] as const).map(m => (
+                <button key={m}
+                  onClick={() => setInputMode(m)}
+                  disabled={m === 'drawing' && isMobile}
+                  style={{
+                    padding: '2px 9px', borderRadius: 10, fontSize: 11, cursor: m === 'drawing' && isMobile ? 'not-allowed' : 'pointer',
+                    border: `1px solid ${inputMode === m ? 'var(--caramel)' : 'var(--border)'}`,
+                    background: inputMode === m ? 'var(--caramel-dim)' : 'transparent',
+                    color: inputMode === m ? 'var(--caramel)' : 'var(--text-muted)',
+                    opacity: m === 'drawing' && isMobile ? 0.4 : 1,
+                  }}>
+                  {m === 'latex' ? 'LaTeX' : 'Draw'}
+                </button>
+              ))}
+            </div>
+            {isMobile && (
+              <span style={{ fontSize: 11, color: 'var(--text-muted)', fontStyle: 'italic' }}>
+                Switch to desktop to draw
+              </span>
+            )}
+          </div>
+
+          {inputMode === 'latex' && (
+            <ShowMyWorkPanel
+              theme={theme}
+              onSubmit={sendStudentWork}
+            />
+          )}
+
+          {inputMode === 'drawing' && !isMobile && (
+            <StudentToolbar
+              ref={stbRef}
+              theme={theme}
+              height={220}
+              onSnapshot={sendCanvasSnapshot}
+            />
+          )}
         </div>
 
         {/* Answer input bar */}

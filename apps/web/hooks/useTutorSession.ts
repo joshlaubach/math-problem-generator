@@ -98,6 +98,8 @@ export interface TutorSessionHook {
   whiteboardMessages: WhiteboardWsMessage[]
   // RAG
   ragMatch: RagMatch | null
+  // Student work
+  defaultInputMode: string   // "latex" | "drawing" | "mixed"
   // Actions
   /** Phase 4: connect to a pre-created session by session_id */
   connectToSession: (sessionId: string, token: string) => void
@@ -122,6 +124,7 @@ export interface TutorSessionHook {
   sendCanvasSnapshot: (imageB64: string) => void
   sendImageDrop: (imageB64: string, mediaType: string) => void
   sendRagSearch: () => void
+  sendStudentWork: (stepsLatex: string) => void
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -172,6 +175,7 @@ export function useTutorSession(): TutorSessionHook {
   const [scratchpadHasWork, setScratchpadHasWork] = useState(false)
   const [whiteboardMessages, setWhiteboardMessages] = useState<WhiteboardWsMessage[]>([])
   const [ragMatch, setRagMatch] = useState<RagMatch | null>(null)
+  const [defaultInputMode, setDefaultInputMode] = useState('latex')
 
   // ── Countdown ───────────────────────────────────────────────────────────────
 
@@ -216,6 +220,7 @@ export function useTutorSession(): TutorSessionHook {
         setProblem(p)
         setMaxHints(p.hint_ladder_length)
       }
+      if (msg.default_input_mode) setDefaultInputMode(msg.default_input_mode as string)
       setState('ready')
       const maxDur = (msg.max_duration_seconds as number) ?? 3600
       const graceDur = (msg.grace_period_seconds as number) ?? GRACE_PERIOD_SECONDS
@@ -466,6 +471,7 @@ export function useTutorSession(): TutorSessionHook {
     setTopicPicklist(null)
     setScratchpadHasWork(false)
     setWhiteboardMessages([])
+    setDefaultInputMode('latex')
     setExamModeProposed(false)
     setExamModeActive(false)
     setCurrentIndex(0)
@@ -571,6 +577,15 @@ export function useTutorSession(): TutorSessionHook {
     _send({ type: 'rag_search' })
   }, [_send])
 
+  const sendStudentWork = useCallback((stepsLatex: string) => {
+    _send({ type: 'wb_student_work', latex: stepsLatex })
+    setMessages(prev => [
+      ...prev,
+      { role: 'student', content: `My work: ${stepsLatex}`, timestamp: Date.now() },
+    ])
+    setState(prev => prev === 'in_lesson' ? 'in_lesson' : 'thinking')
+  }, [_send])
+
   useEffect(() => {
     return () => {
       stopCountdown()
@@ -588,6 +603,7 @@ export function useTutorSession(): TutorSessionHook {
     walkMeThrough, goingTooFast, nextProblem, acceptExamMode,
     endSession, disconnect, acceptTopic, rejectTopic,
     scratchpadHasWork, setScratchpadHasWork,
-    sendCanvasSnapshot, sendImageDrop, sendRagSearch,
+    sendCanvasSnapshot, sendImageDrop, sendRagSearch, sendStudentWork,
+    defaultInputMode,
   }
 }
