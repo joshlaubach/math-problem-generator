@@ -1,11 +1,17 @@
 'use client';
 
 import { useRef, useState } from 'react';
+import dynamic from 'next/dynamic';
 import { MathText } from '@/components/MathText';
 import { MathInput } from '@/components/MathInput';
 import { Whiteboard, type WhiteboardHandle } from '@/components/Whiteboard';
 import { ShowMyWorkPanel } from '@/components/ShowMyWorkPanel';
 import { StudentToolbar, type StudentToolbarHandle } from '@/components/StudentToolbar';
+
+const MathWhiteboardTest = dynamic(
+  () => import('@/components/MathWhiteboard').then(m => m.MathWhiteboard),
+  { ssr: false },
+);
 
 const EXAMPLES = [
   { label: 'Quadratic formula', latex: 'x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}' },
@@ -267,6 +273,23 @@ export default function TestMathPage() {
             </button>
           </div>
           <StudentToolbar ref={stbRef} theme={theme} width={624} height={280} />
+        </section>
+
+        {/* Math Whiteboard test */}
+        <section style={{
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 16, padding: 0, overflow: 'hidden', height: 640,
+          display: 'flex', flexDirection: 'column',
+        }}>
+          <div style={{ padding: '16px 24px 0', fontSize: 16, fontWeight: 600, color: 'var(--text)' }}>
+            Math Whiteboard
+          </div>
+          <p style={{ margin: '4px 24px 12px', fontSize: 13, color: 'var(--text-muted)' }}>
+            Infinite canvas, 22 custom shapes, axes with function plots, slider, pan/zoom, grid.
+          </p>
+          <div style={{ flex: 1, position: 'relative', minHeight: 0, overflow: 'hidden' }}>
+            <MathWhiteboardTest mode="full" theme={theme} userId="test-user" />
+          </div>
         </section>
 
       </div>
