@@ -4,6 +4,8 @@ import { useRef, useState } from 'react';
 import { MathText } from '@/components/MathText';
 import { MathInput } from '@/components/MathInput';
 import { Whiteboard, type WhiteboardHandle } from '@/components/Whiteboard';
+import { ShowMyWorkPanel } from '@/components/ShowMyWorkPanel';
+import { StudentToolbar, type StudentToolbarHandle } from '@/components/StudentToolbar';
 
 const EXAMPLES = [
   { label: 'Quadratic formula', latex: 'x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}' },
@@ -20,35 +22,92 @@ const WB_MSGS = [
   { label: 'Clear board', action: 'clear' as const },
 ]
 
+const WB_V2_MSGS: Array<{ label: string; msg: object | null }> = [
+  { label: 'Section divider', msg: { type: 'wb_new_section', label: 'Step 1: Factor the quadratic' } },
+  { label: 'Write (short)',   msg: { type: 'wb_write', latex: 'x = 2' } },
+  { label: 'Write (long)',    msg: { type: 'wb_write', latex: '\\int_0^\\infty e^{-x^2}\\,dx = \\frac{\\sqrt{\\pi}}{2}', display: true } },
+  { label: 'Mark incorrect',          msg: null },
+  {
+    label: 'Geometry scene',
+    msg: {
+      type: 'wb_write',
+      scene: [
+        { kind: 'polygon', points: [[0,0],[3,0],[1.5,2.6]], label: 'ABC' },
+        { kind: 'point',   x: 0,   y: 0,   label: 'A' },
+        { kind: 'point',   x: 3,   y: 0,   label: 'B' },
+        { kind: 'point',   x: 1.5, y: 2.6, label: 'C' },
+        { kind: 'segment', x1: 0, y1: 0, x2: 3, y2: 0, label: 'base = 3' },
+      ],
+    },
+  },
+  { label: 'Annotate student work',   msg: null },
+  { label: 'Spam 5 writes (overlap test)', msg: null },
+]
+
+import { useEffect } from 'react';
+
 export default function TestMathPage() {
   const [inputLatex, setInputLatex] = useState('\\frac{x+1}{2}');
-  const wbRef = useRef<WhiteboardHandle>(null);
+  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [lastSubmit, setLastSubmit] = useState('');
+  const wbRef  = useRef<WhiteboardHandle>(null);
+  const stbRef = useRef<StudentToolbarHandle>(null);
+
+  // Mirror the global app theme (sidebar toggle → document.documentElement[data-theme])
+  useEffect(() => {
+    const get = () =>
+      document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light'
+    setTheme(get())
+    const obs = new MutationObserver(() => setTheme(get()))
+    obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
+    return () => obs.disconnect()
+  }, [])
 
   return (
-    <main className="min-h-screen bg-gray-50 py-12 px-4">
-      <div className="max-w-2xl mx-auto space-y-10">
+    <div
+      style={{
+        minHeight: '100vh',
+        background: 'var(--bg)',
+        color: 'var(--text)',
+        padding: '48px 16px',
+      }}
+    >
+      <div style={{ maxWidth: 672, margin: '0 auto', display: 'flex', flexDirection: 'column', gap: 40 }}>
+
+        {/* Header */}
         <header>
-          <h1 className="text-3xl font-bold text-gray-900">Phase 5 — Math Rendering Test</h1>
-          <p className="mt-1 text-gray-500 text-sm">
-            KaTeX block/inline rendering + MathLive round-trip
+          <h1 style={{ fontSize: 28, fontWeight: 700, color: 'var(--text)', margin: 0 }}>
+            Math Rendering Test
+          </h1>
+          <p style={{ marginTop: 4, fontSize: 13, color: 'var(--text-muted)' }}>
+            KaTeX block/inline rendering + MathLive round-trip + Whiteboard
           </p>
         </header>
 
-        {/* Block rendering */}
-        <section className="bg-white rounded-2xl shadow-sm p-6 space-y-4">
-          <h2 className="text-lg font-semibold text-gray-800">Block KaTeX</h2>
-          {EXAMPLES.map((ex) => (
-            <div key={ex.label} className="border-b border-gray-100 pb-4 last:border-none last:pb-0">
-              <p className="text-xs text-gray-400 mb-1">{ex.label}</p>
+        {/* Block KaTeX */}
+        <section style={{
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 16, padding: 24,
+        }}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', marginBottom: 16 }}>Block KaTeX</h2>
+          {EXAMPLES.map((ex, i) => (
+            <div key={ex.label} style={{
+              borderBottom: i < EXAMPLES.length - 1 ? '1px solid var(--border)' : 'none',
+              paddingBottom: 16, marginBottom: 16,
+            }}>
+              <p style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4 }}>{ex.label}</p>
               <MathText latex={ex.latex} />
             </div>
           ))}
         </section>
 
-        {/* Inline rendering */}
-        <section className="bg-white rounded-2xl shadow-sm p-6 space-y-2">
-          <h2 className="text-lg font-semibold text-gray-800">Inline KaTeX</h2>
-          <p className="text-gray-700 leading-relaxed">
+        {/* Inline KaTeX */}
+        <section style={{
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 16, padding: 24,
+        }}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', marginBottom: 12 }}>Inline KaTeX</h2>
+          <p style={{ fontSize: 14, color: 'var(--text-dim)', lineHeight: 1.7 }}>
             The slope of a line is{' '}
             <MathText latex="m = \frac{\Delta y}{\Delta x}" inline />, and the
             area of a circle is{' '}
@@ -57,70 +116,160 @@ export default function TestMathPage() {
         </section>
 
         {/* MathLive round-trip */}
-        <section className="bg-white rounded-2xl shadow-sm p-6 space-y-4">
-          <h2 className="text-lg font-semibold text-gray-800">MathLive Input Round-trip</h2>
-          <p className="text-sm text-gray-500">
-            Type math in the field below. The LaTeX string is echoed live and
-            re-rendered by KaTeX.
+        <section style={{
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column', gap: 16,
+        }}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', margin: 0 }}>MathLive Input Round-trip</h2>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
+            Type math below. The LaTeX string is echoed live and re-rendered by KaTeX.
           </p>
 
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 500, color: 'var(--text-muted)', marginBottom: 4 }}>
               Input field (MathLive)
             </label>
-            <MathInput
-              value={inputLatex}
-              onChange={setInputLatex}
-              placeholder="Type math here…"
-            />
+            <MathInput value={inputLatex} onChange={setInputLatex} placeholder="Type math here…" />
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 500, color: 'var(--text-muted)', marginBottom: 4 }}>
               LaTeX string
             </label>
-            <code className="block bg-gray-100 text-gray-800 text-sm rounded px-3 py-2 font-mono break-all">
-              {inputLatex || <span className="text-gray-400 italic">empty</span>}
+            <code style={{
+              display: 'block', background: 'var(--surface2)', color: 'var(--text)',
+              fontSize: 12, borderRadius: 6, padding: '8px 12px', fontFamily: 'monospace',
+              border: '1px solid var(--border)', wordBreak: 'break-all',
+            }}>
+              {inputLatex || <span style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>empty</span>}
             </code>
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-gray-500 mb-1">
+            <label style={{ display: 'block', fontSize: 11, fontWeight: 500, color: 'var(--text-muted)', marginBottom: 4 }}>
               KaTeX render
             </label>
-            <div className="border border-gray-200 rounded-lg px-4 py-2 min-h-12">
-              {inputLatex ? (
-                <MathText latex={inputLatex} />
-              ) : (
-                <span className="text-gray-400 italic text-sm">nothing to render</span>
-              )}
+            <div style={{
+              border: '1px solid var(--border)', borderRadius: 8,
+              padding: '8px 16px', minHeight: 48, background: 'var(--surface2)',
+            }}>
+              {inputLatex
+                ? <MathText latex={inputLatex} />
+                : <span style={{ color: 'var(--text-muted)', fontStyle: 'italic', fontSize: 13 }}>nothing to render</span>
+              }
             </div>
           </div>
         </section>
+
         {/* Whiteboard test */}
-        <section className="bg-white rounded-2xl shadow-sm p-6 space-y-4">
-          <h2 className="text-lg font-semibold text-gray-800">Whiteboard Test</h2>
-          <p className="text-sm text-gray-500">
+        <section style={{
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column', gap: 16,
+        }}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', margin: 0 }}>Whiteboard Test</h2>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
             Fire mock tutor messages to test KaTeX rendering, GSAP animation, and Mafs plots.
           </p>
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            {WB_MSGS.map((m) => (
-              <button
-                key={m.label}
-                type="button"
-                onClick={() => wbRef.current?.handleMessage(m as any)}
-                style={{
-                  padding: '6px 12px', borderRadius: 8, fontSize: 13,
-                  border: '1px solid #d1d5db', background: '#f9fafb', cursor: 'pointer',
-                }}
-              >
-                {m.label}
-              </button>
-            ))}
+
+          <div>
+            <p style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 6 }}>Legacy messages (write/plot/clear):</p>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {WB_MSGS.map((m) => (
+                <button key={m.label} type="button"
+                  onClick={() => wbRef.current?.handleMessage(m as any)}
+                  style={{ padding: '5px 11px', borderRadius: 7, fontSize: 12, border: '1px solid var(--border)', background: 'var(--surface2)', color: 'var(--text-dim)', cursor: 'pointer' }}>
+                  {m.label}
+                </button>
+              ))}
+            </div>
           </div>
-          <Whiteboard ref={wbRef} height={380} />
+
+          <div>
+            <p style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 6 }}>Phase 2 — layout, geometry, annotations:</p>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {WB_V2_MSGS.map((m) => (
+                <button key={m.label} type="button"
+                  onClick={() => {
+                    if (m.label === 'Mark incorrect') {
+                      wbRef.current?.markIncorrect()
+                    } else if (m.label === 'Annotate student work') {
+                      wbRef.current?.annotateStudentWork({
+                        latex: '\\leftarrow \\text{Check the sign here}',
+                        label: 'Sign error', color: 'correction',
+                      })
+                    } else if (m.label === 'Spam 5 writes (overlap test)') {
+                      ['f(x) = x^2', "f'(x) = 2x", '\\int x^2\\,dx = \\frac{x^3}{3} + C',
+                       'x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}', 'e^{i\\pi}+1=0']
+                        .forEach((latex, i) => setTimeout(() => wbRef.current?.handleMessage({ type: 'wb_write', latex }), i * 80))
+                    } else if (m.msg) {
+                      wbRef.current?.handleMessage(m.msg as any)
+                    }
+                  }}
+                  style={{ padding: '5px 11px', borderRadius: 7, fontSize: 12, border: '1px solid var(--caramel)', background: 'var(--caramel-dim)', color: 'var(--caramel)', cursor: 'pointer' }}>
+                  {m.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <Whiteboard ref={wbRef} visibleHeight={480} theme={theme} />
         </section>
+
+        {/* Show My Work panel test */}
+        <section style={{
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column', gap: 16,
+        }}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
+            Show My Work Panel
+          </h2>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
+            Step-by-step LaTeX entry. "Check steps" fires onSubmit with steps joined by \\rightarrow.
+          </p>
+          <ShowMyWorkPanel
+            theme={theme}
+            onSubmit={s => setLastSubmit(s)}
+          />
+          {lastSubmit && (
+            <div style={{ fontSize: 12 }}>
+              <span style={{ color: 'var(--text-muted)' }}>Last submit: </span>
+              <code style={{ color: 'var(--text)', background: 'var(--surface2)', padding: '2px 6px', borderRadius: 4 }}>
+                {lastSubmit}
+              </code>
+            </div>
+          )}
+        </section>
+
+        {/* Student toolbar test */}
+        <section style={{
+          background: 'var(--surface)', border: '1px solid var(--border)',
+          borderRadius: 16, padding: 24, display: 'flex', flexDirection: 'column', gap: 16,
+        }}>
+          <h2 style={{ fontSize: 16, fontWeight: 600, color: 'var(--text)', margin: 0 }}>
+            Student Drawing Canvas
+          </h2>
+          <p style={{ fontSize: 13, color: 'var(--text-muted)', margin: 0 }}>
+            Fabric.js v7: pen, highlight, eraser, line, arrow, shapes, angle marker, LaTeX insert,
+            text, color palette, grid snap, image upload/paste, undo/redo, clear.
+          </p>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            <button onClick={() => stbRef.current?.undo()}
+              style={{ padding: '5px 11px', borderRadius: 7, fontSize: 12, border: '1px solid var(--border)', background: 'var(--surface2)', color: 'var(--text-dim)', cursor: 'pointer' }}>
+              Undo
+            </button>
+            <button onClick={() => stbRef.current?.redo()}
+              style={{ padding: '5px 11px', borderRadius: 7, fontSize: 12, border: '1px solid var(--border)', background: 'var(--surface2)', color: 'var(--text-dim)', cursor: 'pointer' }}>
+              Redo
+            </button>
+            <button onClick={() => stbRef.current?.clear()}
+              style={{ padding: '5px 11px', borderRadius: 7, fontSize: 12, border: '1px solid var(--border)', background: 'var(--surface2)', color: 'var(--text-dim)', cursor: 'pointer' }}>
+              Clear (external)
+            </button>
+          </div>
+          <StudentToolbar ref={stbRef} theme={theme} width={624} height={280} />
+        </section>
+
       </div>
-    </main>
+    </div>
   );
 }

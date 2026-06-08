@@ -69,6 +69,7 @@ class TutorSession:
     uploaded_problems: list = field(default_factory=list)  # extracted from file uploads
     exam_mode: bool = False
     consecutive_no_progress: int = 0
+    session_tier: str = "basic"          # "basic" | "premium" — gates drawing recognition + RAG
 
 
 # ---------------------------------------------------------------------------

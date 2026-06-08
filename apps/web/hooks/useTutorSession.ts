@@ -52,7 +52,7 @@ export interface TopicOption {
 }
 
 export interface WhiteboardWsMessage {
-  type: 'whiteboard' | 'wb_write' | 'wb_clear' | 'wb_new_section' | 'wb_zoom'
+  type: 'whiteboard' | 'wb_write' | 'wb_clear' | 'wb_new_section' | 'wb_zoom' | 'wb_annotate_student'
   action?: 'write' | 'plot' | 'clear'
   latex?: string
   label?: string
@@ -62,6 +62,16 @@ export interface WhiteboardWsMessage {
   snapshot?: boolean
   x?: number
   y?: number
+  // wb_annotate_student fields
+  x_hint?: 'left' | 'center' | 'right'
+  color?: 'correction' | 'confirmation' | 'neutral'
+}
+
+export interface RagMatch {
+  statement_latex: string
+  similarity: number
+  session_id: string
+  problem_number: number
 }
 
 export interface TutorSessionHook {
@@ -86,6 +96,10 @@ export interface TutorSessionHook {
   examModeActive: boolean
   // Whiteboard
   whiteboardMessages: WhiteboardWsMessage[]
+  // RAG
+  ragMatch: RagMatch | null
+  // Student work
+  defaultInputMode: string   // "latex" | "drawing" | "mixed"
   // Actions
   /** Phase 4: connect to a pre-created session by session_id */
   connectToSession: (sessionId: string, token: string) => void
@@ -106,6 +120,11 @@ export interface TutorSessionHook {
   // Scratchpad
   scratchpadHasWork: boolean
   setScratchpadHasWork: (v: boolean) => void
+  // Drawing recognition + drops
+  sendCanvasSnapshot: (imageB64: string) => void
+  sendImageDrop: (imageB64: string, mediaType: string) => void
+  sendRagSearch: () => void
+  sendStudentWork: (stepsLatex: string) => void
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -155,6 +174,8 @@ export function useTutorSession(): TutorSessionHook {
   const [examModeActive, setExamModeActive] = useState(false)
   const [scratchpadHasWork, setScratchpadHasWork] = useState(false)
   const [whiteboardMessages, setWhiteboardMessages] = useState<WhiteboardWsMessage[]>([])
+  const [ragMatch, setRagMatch] = useState<RagMatch | null>(null)
+  const [defaultInputMode, setDefaultInputMode] = useState('latex')
 
   // ── Countdown ───────────────────────────────────────────────────────────────
 
@@ -199,6 +220,7 @@ export function useTutorSession(): TutorSessionHook {
         setProblem(p)
         setMaxHints(p.hint_ladder_length)
       }
+      if (msg.default_input_mode) setDefaultInputMode(msg.default_input_mode as string)
       setState('ready')
       const maxDur = (msg.max_duration_seconds as number) ?? 3600
       const graceDur = (msg.grace_period_seconds as number) ?? GRACE_PERIOD_SECONDS
@@ -317,8 +339,22 @@ export function useTutorSession(): TutorSessionHook {
 
     // ── Whiteboard ───────────────────────────────────────────────────────────
     else if (type === 'whiteboard' || type === 'wb_write' || type === 'wb_clear'
-             || type === 'wb_new_section' || type === 'wb_zoom') {
+             || type === 'wb_new_section' || type === 'wb_zoom'
+             || type === 'wb_annotate_student') {
       setWhiteboardMessages(prev => [...prev, msg as unknown as WhiteboardWsMessage])
+    }
+
+    // ── RAG match ────────────────────────────────────────────────────────────
+    else if (type === 'rag_match') {
+      const match = (msg as any).match
+      if (match) {
+        setRagMatch({
+          statement_latex: match.statement_latex ?? '',
+          similarity: match.similarity ?? 0,
+          session_id: match.session_id ?? '',
+          problem_number: match.problem_number ?? 1,
+        })
+      }
     }
 
     // ── Time warning ─────────────────────────────────────────────────────────
@@ -435,6 +471,7 @@ export function useTutorSession(): TutorSessionHook {
     setTopicPicklist(null)
     setScratchpadHasWork(false)
     setWhiteboardMessages([])
+    setDefaultInputMode('latex')
     setExamModeProposed(false)
     setExamModeActive(false)
     setCurrentIndex(0)
@@ -528,6 +565,27 @@ export function useTutorSession(): TutorSessionHook {
     setTopicPicklist(null)
   }, [_send])
 
+  const sendCanvasSnapshot = useCallback((imageB64: string) => {
+    _send({ type: 'student_canvas_snapshot', image_b64: imageB64 })
+  }, [_send])
+
+  const sendImageDrop = useCallback((imageB64: string, mediaType: string) => {
+    _send({ type: 'image_drop', image_b64: imageB64, media_type: mediaType })
+  }, [_send])
+
+  const sendRagSearch = useCallback(() => {
+    _send({ type: 'rag_search' })
+  }, [_send])
+
+  const sendStudentWork = useCallback((stepsLatex: string) => {
+    _send({ type: 'wb_student_work', latex: stepsLatex })
+    setMessages(prev => [
+      ...prev,
+      { role: 'student', content: `My work: ${stepsLatex}`, timestamp: Date.now() },
+    ])
+    setState(prev => prev === 'in_lesson' ? 'in_lesson' : 'thinking')
+  }, [_send])
+
   useEffect(() => {
     return () => {
       stopCountdown()
@@ -540,10 +598,12 @@ export function useTutorSession(): TutorSessionHook {
     isCorrect, summary, lastError, currentIndex, totalProblems,
     pendingTopicConfirm, topicPicklist,
     examModeProposed, examModeActive,
-    whiteboardMessages,
+    whiteboardMessages, ragMatch,
     connectToSession, connect, sendText, submitAnswer, requestHint,
     walkMeThrough, goingTooFast, nextProblem, acceptExamMode,
     endSession, disconnect, acceptTopic, rejectTopic,
     scratchpadHasWork, setScratchpadHasWork,
+    sendCanvasSnapshot, sendImageDrop, sendRagSearch, sendStudentWork,
+    defaultInputMode,
   }
 }

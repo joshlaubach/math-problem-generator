@@ -17,6 +17,7 @@ class Topic:
     name: str
     description: str
     prerequisites: list[str] = field(default_factory=list)
+    default_input_mode: str = "latex"  # "latex" | "drawing" | "graphing" | "mixed"
 
 
 @dataclass

@@ -3,31 +3,22 @@
 /**
  * Whiteboard — persistent scrollable canvas for AI tutor sessions.
  *
- * Layer stack (bottom → top, both inside the scrollable doc):
+ * Layer stack (bottom → top):
  *   0. CSS dot-grid background
- *   1. Tutor layer — GSAP-animated KaTeX blocks + section dividers (z-index 5, pointer-events none)
+ *   1. Tutor layer — GSAP-animated KaTeX/geometry blocks + section dividers (z-index 5)
  *   2. Student layer — Fabric.js freehand canvas (z-index 10)
  *
- * The doc grows vertically as the tutor writes. Fabric.js canvas is resized
- * to match the doc height so student drawings work across the full area.
- *
- * Imperative API (via forwardRef → WhiteboardHandle):
- *   writeBlock(latex, opts?)   — tutor writes a math block (GSAP fade-in)
- *   newSection(label)          — horizontal divider with label
- *   zoomTo(target)             — smooth-scroll: 'top' | 'latest' | yPx
- *   clearBoard(opts?)          — clear all content (snapshot first if opts.snapshot)
- *   getSnapshot()              — async PNG composite of full board
- *
- * Backward-compat (used by TutorChat.tsx and useTutorSession.ts):
- *   handleMessage(msg)         — legacy WhiteboardMessage + new wb_* messages
- *   exportPng()                — alias for getSnapshot()
- *
- * Phase-4 WS message types handled by handleMessage:
- *   { type: 'wb_write',       latex, display? }
- *   { type: 'wb_zoom',        region }
- *   { type: 'wb_clear',       snapshot? }
- *   { type: 'wb_new_section', label }
- *   { type: 'whiteboard',     action: 'write'|'plot'|'clear', ... }  ← legacy
+ * Phase-2 constraint system (all 10):
+ *   1. Boundary enforcement  — blocks clamped to [PAD_LEFT, canvasWidth - PAD_RIGHT]
+ *   2. No self-overlap       — every write goes through WhiteboardLayoutManager.findNextSlot()
+ *   3. Margin gutters        — GAP=24px, PAD=32px
+ *   4. Step gating           — 400ms cursor pulse before block appears (sequential reveal)
+ *   5. Incorrect coloring    — markIncorrect() sets #a03535 on last latex block
+ *   6. Student layer aware   — annotateStudentWork() reads Fabric bboxes via layout manager
+ *   7. Color constants       — TUTOR_INK / STUDENT_INK / CORRECTION_INK never swapped
+ *   8. Cursor presence       — pulsing ◆ at nextY for 400ms before each write
+ *   9. Pointer-before-write  — GSAP outline flash on referenced block before annotation
+ *  10. Write speed           — GSAP duration = clamp(charCount * 0.04, 0.3, 2.0) seconds
  */
 
 import {
@@ -40,6 +31,8 @@ import {
   memo,
 } from 'react'
 import dynamic from 'next/dynamic'
+import { WhiteboardLayoutManager } from '../lib/whiteboard-layout-manager'
+import type { GeometryElement } from './WhiteboardPlot'
 
 // ── Dynamic imports (no SSR) ─────────────────────────────────────────────────
 
@@ -48,25 +41,79 @@ const MafsPlot = dynamic(() => import('./WhiteboardPlot'), {
   loading: () => <div style={{ width: '100%', height: 160, borderRadius: 8 }} />,
 })
 
+// ── Color constants (constraint 7) ───────────────────────────────────────────
+
+const TUTOR_INK      = '#e8e4dc'   // tutor block text (on dark) / tutor ink
+const STUDENT_INK    = '#4a9eff'   // student drawing color
+const CORRECTION_INK = '#c4976a'   // annotation / caramel
+const INCORRECT_INK  = '#a03535'   // incorrect answer — dark red
+
+void STUDENT_INK  // referenced by docs; Fabric brush uses it at runtime
+
+const ANNOTATION_INK: Record<string, string> = {
+  correction:   CORRECTION_INK,
+  confirmation: '#2d6a4f',
+  neutral:      '#8b949e',
+}
+
+// ── Self-contained theme colors — no CSS var inheritance ──────────────────────
+
+interface WbTC {
+  surface: string; surface2: string; border: string
+  text: string; textDim: string; textMuted: string
+  caramel: string; caramelDim: string; caramelGlow: string
+}
+
+function mkTC(theme: 'light' | 'dark'): WbTC {
+  const d = theme === 'dark'
+  return {
+    surface:     d ? '#161b22' : '#ffffff',
+    surface2:    d ? '#1c2128' : '#f0f2f8',
+    border:      d ? '#30363d' : '#dce0ee',
+    text:        d ? '#e6edf3' : '#0f1623',
+    textDim:     d ? '#8b949e' : '#4a5472',
+    textMuted:   d ? '#6e7681' : '#8a96b4',
+    caramel:     d ? '#d29922' : '#b8860b',
+    caramelDim:  d ? 'rgba(210,153,34,0.12)' : 'rgba(184,134,11,0.10)',
+    caramelGlow: d ? 'rgba(210,153,34,0.28)' : 'rgba(184,134,11,0.25)',
+  }
+}
+
+// ── Layout constants (constraints 1, 3) ──────────────────────────────────────
+
+const GAP = 24    // vertical gap between blocks (was 14)
+const PAD = 32    // left/right padding inside doc (was 12)
+
+// Generous approximate heights — layout manager handles exact overlap
+const BLOCK_H: Record<string, number> = {
+  latex:      90,
+  plot:       220,
+  divider:    52,
+  annotation: 60,
+}
+
+// ── Cursor animation style (constraint 8) ────────────────────────────────────
+
+const CURSOR_KEYFRAME = `@keyframes wb-cursor-pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.55)}}`
+
 // ── Public types ──────────────────────────────────────────────────────────────
 
-/** Legacy message type (kept for TutorChat.tsx / useTutorSession.ts compat) */
 export interface WhiteboardMessage {
   type: 'whiteboard'
   action: 'write' | 'plot' | 'clear'
   latex?: string
   fn?: string
   domain?: [number, number]
-  x?: number  // ignored in new layout (vertical auto-flow)
-  y?: number  // ignored in new layout
+  x?: number
+  y?: number
 }
 
-/** Phase-4 WS message types */
 export type WbMessage =
-  | { type: 'wb_write';       latex: string; display?: boolean }
-  | { type: 'wb_zoom';        region: 'top' | 'latest' | number }
-  | { type: 'wb_clear';       snapshot?: boolean }
-  | { type: 'wb_new_section'; label: string }
+  | { type: 'wb_write';          latex?: string; scene?: GeometryElement[]; display?: boolean }
+  | { type: 'wb_zoom';           region: 'top' | 'latest' | number }
+  | { type: 'wb_clear';          snapshot?: boolean }
+  | { type: 'wb_new_section';    label: string }
+  | { type: 'wb_annotate_student'; latex?: string; label?: string; x_hint?: 'left' | 'center' | 'right'; color?: 'correction' | 'confirmation' | 'neutral' }
 
 export interface WhiteboardHandle {
   writeBlock(latex: string, opts?: { display?: boolean }): void
@@ -74,40 +121,63 @@ export interface WhiteboardHandle {
   zoomTo(target: 'top' | 'latest' | number): void
   clearBoard(opts?: { snapshot?: boolean }): void
   getSnapshot(): Promise<string | null>
-  /** Unified handler — accepts both legacy and Phase-4 WS messages */
   handleMessage(msg: WhiteboardMessage | WbMessage): void
-  /** Alias for getSnapshot() — backward compat */
   exportPng(): Promise<string | null>
+  annotateStudentWork(annotation: {
+    latex?: string
+    label?: string
+    color?: 'correction' | 'confirmation' | 'neutral'
+  }): void
+  markIncorrect(): void
 }
 
 export interface WhiteboardProps {
   visibleHeight?: number
   theme?: 'light' | 'dark'
+  onSnapshot?: (imageB64: string) => void
 }
 
 // ── Internal block model ───────────────────────────────────────────────────────
 
-type LatexBlock   = { id: string; kind: 'latex';   latex: string; display: boolean; yOffset: number }
-type PlotBlock    = { id: string; kind: 'plot';    fn: string; domain: [number, number]; yOffset: number }
-type DividerBlock = { id: string; kind: 'divider'; label: string; yOffset: number }
-type Block = LatexBlock | PlotBlock | DividerBlock
-
-// Generous approximate heights so blocks never overlap
-const BLOCK_H: Record<Block['kind'], number> = {
-  latex:   90,
-  plot:    220,
-  divider: 52,
+type LatexBlock = {
+  id: string; kind: 'latex'
+  latex: string; display: boolean; yOffset: number; incorrect?: boolean
 }
-const GAP = 14    // vertical gap between blocks
-const PAD = 12    // left/right padding inside doc
+type PlotBlock = {
+  id: string; kind: 'plot'
+  fn?: string; domain?: [number, number]; scene?: GeometryElement[]; yOffset: number
+}
+type DividerBlock   = { id: string; kind: 'divider';    label: string; yOffset: number }
+type AnnotationBlock = {
+  id: string; kind: 'annotation'
+  latex?: string; label?: string
+  color: 'correction' | 'confirmation' | 'neutral'
+  xOffset: number   // explicit x — annotations go in student-adjacent column
+  yOffset: number
+}
 
-// ── Animated KaTeX block ──────────────────────────────────────────────────────
+type Block = LatexBlock | PlotBlock | DividerBlock | AnnotationBlock
 
-const LatexItem = memo(function LatexItem({ block }: { block: LatexBlock }) {
-  const ref  = useRef<HTMLDivElement>(null)
+// Annotations are positioned independently — not through appendBlock
+type BlockWithoutY =
+  | Omit<LatexBlock,   'yOffset'>
+  | Omit<PlotBlock,    'yOffset'>
+  | Omit<DividerBlock, 'yOffset'>
+
+// ── LatexItem — GSAP fade-in, variable speed, pointer-flash (constraints 4, 9, 10) ──
+
+const LatexItem = memo(function LatexItem({
+  block,
+  highlighted,
+  theme,
+}: {
+  block: LatexBlock
+  highlighted?: boolean
+  theme: 'light' | 'dark'
+}) {
+  const ref = useRef<HTMLDivElement>(null)
   const [html, setHtml] = useState('')
 
-  // Render KaTeX on content change
   useEffect(() => {
     if (!block.latex) { setHtml(''); return }
     try {
@@ -123,21 +193,20 @@ const LatexItem = memo(function LatexItem({ block }: { block: LatexBlock }) {
     }
   }, [block.latex, block.display])
 
-  // GSAP fade-in on mount (runs once)
+  // Constraint 10: write speed proportional to content length
   useEffect(() => {
     const el = ref.current
     if (!el) return
-    // Fallback: ensure visible even if GSAP fails to load
-    const fallback = setTimeout(() => { if (el) el.style.opacity = '1' }, 700)
+    const duration = Math.max(0.3, Math.min(2.0, block.latex.length * 0.04))
+    const fallback = setTimeout(() => { if (el) el.style.opacity = '1' }, duration * 1000 + 300)
 
     ;(async () => {
       try {
         const gsap = (await import('gsap')).default
         clearTimeout(fallback)
-        gsap.fromTo(
-          el,
-          { opacity: 0, y: 10 },
-          { opacity: 1, y: 0, duration: 0.45, ease: 'power2.out' },
+        gsap.fromTo(el,
+          { opacity: 0, y: 8 },
+          { opacity: 1, y: 0, duration, ease: 'power2.out' },
         )
       } catch {
         if (el) el.style.opacity = '1'
@@ -145,7 +214,28 @@ const LatexItem = memo(function LatexItem({ block }: { block: LatexBlock }) {
     })()
 
     return () => clearTimeout(fallback)
-  }, []) // intentionally runs only on mount
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Constraint 9: pointer-before-write — outline flash when this block is referenced
+  useEffect(() => {
+    if (!highlighted || !ref.current) return
+    const el = ref.current
+    ;(async () => {
+      try {
+        const gsap = (await import('gsap')).default
+        gsap.fromTo(el,
+          { boxShadow: '0 0 0 0px rgba(196,151,106,0)' },
+          {
+            boxShadow: '0 0 0 2px rgba(196,151,106,0.85)',
+            duration: 0.15,
+            yoyo: true,
+            repeat: 3,
+            ease: 'power1.inOut',
+          },
+        )
+      } catch { /* ok */ }
+    })()
+  }, [highlighted])
 
   return (
     <div
@@ -155,12 +245,12 @@ const LatexItem = memo(function LatexItem({ block }: { block: LatexBlock }) {
         left: PAD,
         top: block.yOffset,
         width: `calc(100% - ${PAD * 2}px)`,
-        opacity: 0,           // GSAP will reveal
+        opacity: 0,
         padding: '8px 12px',
         borderRadius: 8,
-        background: 'rgba(196,151,106,0.07)',
+        background: theme === 'dark' ? 'rgba(196,151,106,0.07)' : 'rgba(196,151,106,0.06)',
         border: '1px solid rgba(196,151,106,0.13)',
-        color: 'var(--text)',
+        color: block.incorrect ? INCORRECT_INK : theme === 'dark' ? TUTOR_INK : 'var(--text)',
         zIndex: 5,
         pointerEvents: 'none',
         minHeight: 44,
@@ -172,38 +262,83 @@ const LatexItem = memo(function LatexItem({ block }: { block: LatexBlock }) {
 
 // ── Section divider ───────────────────────────────────────────────────────────
 
-function SectionDivider({ block }: { block: DividerBlock }) {
+function SectionDivider({ block, tc }: { block: DividerBlock; tc: WbTC }) {
   return (
-    <div
-      style={{
-        position: 'absolute',
-        left: 0, right: 0,
-        top: block.yOffset,
-        height: BLOCK_H.divider,
-        display: 'flex',
-        alignItems: 'center',
-        gap: 10,
-        padding: `0 ${PAD}px`,
-        zIndex: 5,
-        pointerEvents: 'none',
-      }}
-    >
-      <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+    <div style={{
+      position: 'absolute',
+      left: 0, right: 0,
+      top: block.yOffset,
+      height: BLOCK_H.divider,
+      display: 'flex',
+      alignItems: 'center',
+      gap: 10,
+      padding: `0 ${PAD}px`,
+      zIndex: 5,
+      pointerEvents: 'none',
+    }}>
+      <div style={{ flex: 1, height: 1, background: tc.border }} />
       <span style={{
         fontSize: 11,
         fontWeight: 600,
-        color: 'var(--text-muted)',
-        textTransform: 'uppercase',
+        color: tc.textMuted,
         letterSpacing: '0.07em',
         whiteSpace: 'nowrap',
         padding: '3px 8px',
         borderRadius: 12,
-        background: 'var(--surface2)',
-        border: '1px solid var(--border)',
+        background: tc.surface2,
+        border: `1px solid ${tc.border}`,
       }}>
         {block.label}
       </span>
-      <div style={{ flex: 1, height: 1, background: 'var(--border)' }} />
+      <div style={{ flex: 1, height: 1, background: tc.border }} />
+    </div>
+  )
+}
+
+// ── Annotation block ──────────────────────────────────────────────────────────
+
+function AnnotationItem({ block, tc }: { block: AnnotationBlock; tc: WbTC }) {
+  const ink = ANNOTATION_INK[block.color] ?? ANNOTATION_INK.neutral
+  const [html, setHtml] = useState('')
+
+  useEffect(() => {
+    if (!block.latex) { setHtml(''); return }
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      const katex = require('katex')
+      setHtml(katex.renderToString(block.latex, {
+        throwOnError: false, displayMode: false, output: 'html',
+      }))
+    } catch {
+      setHtml(block.latex)
+    }
+  }, [block.latex])
+
+  return (
+    <div style={{
+      position: 'absolute',
+      left: block.xOffset,   // constraint 6: placed adjacent to student work
+      top: block.yOffset,
+      maxWidth: 220,
+      padding: '6px 10px',
+      borderRadius: 8,
+      background: `${ink}14`,
+      border: `1px solid ${ink}55`,
+      color: tc.text,
+      fontSize: 12,
+      lineHeight: 1.5,
+      zIndex: 5,
+      pointerEvents: 'none',
+    }}>
+      {block.label && (
+        <div style={{
+          fontSize: 9, fontWeight: 700, color: ink,
+          letterSpacing: '.5px', textTransform: 'uppercase', marginBottom: 4,
+        }}>
+          {block.label}
+        </div>
+      )}
+      {html && <div dangerouslySetInnerHTML={{ __html: html }} />}
     </div>
   )
 }
@@ -211,24 +346,37 @@ function SectionDivider({ block }: { block: DividerBlock }) {
 // ── Main component ────────────────────────────────────────────────────────────
 
 export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
-  function Whiteboard({ visibleHeight = 520, theme = 'light' }, ref) {
+  function Whiteboard({ visibleHeight = 520, theme = 'light', onSnapshot }, ref) {
 
     // DOM refs
-    const scrollRef      = useRef<HTMLDivElement>(null)  // scrollable viewport
-    const docRef         = useRef<HTMLDivElement>(null)  // growing doc
-    const tutorLayerRef  = useRef<HTMLDivElement>(null)  // tutor DOM layer
-    const fabricLayerRef = useRef<HTMLDivElement>(null)  // Fabric.js mounts here
-    const fabricRef      = useRef<unknown>(null)         // fabric.Canvas instance
+    const scrollRef      = useRef<HTMLDivElement>(null)
+    const docRef         = useRef<HTMLDivElement>(null)
+    const tutorLayerRef  = useRef<HTMLDivElement>(null)
+    const fabricLayerRef = useRef<HTMLDivElement>(null)
+    const fabricRef      = useRef<unknown>(null)
+
+    // Layout manager (constraint 2)
+    const layoutManagerRef = useRef(new WhiteboardLayoutManager())
 
     // State
-    const [blocks, setBlocks]       = useState<Block[]>([])
-    const [docHeight, setDocHeight] = useState(visibleHeight)
-    const [tool, setTool]           = useState<'pen' | 'eraser'>('pen')
-    const [color, setColor]         = useState('#2d6a4f')
-    const [snapshot, setSnapshot]   = useState<string | null>(null)
+    const [blocks, setBlocks]               = useState<Block[]>([])
+    const [docHeight, setDocHeight]         = useState(visibleHeight)
+    const [tool, setTool]                   = useState<'pen' | 'eraser'>('pen')
+    const [color, setColor]                 = useState('#2d6a4f')
+    const [snapshot, setSnapshot]           = useState<string | null>(null)
+    const [cursorY, setCursorY]             = useState<number | null>(null)   // constraint 8
+    const [highlightedBlockId, setHighlightedBlockId] = useState<string | null>(null)  // constraint 9
 
-    // Mutable cursor — updated synchronously in appendBlock, no re-render
+    // Mutable cursor
     const nextYRef = useRef(PAD)
+
+    // Stable ref to current blocks (for annotateStudentWork to read without deps)
+    const blocksRef = useRef<Block[]>([])
+    useEffect(() => { blocksRef.current = blocks }, [blocks])
+
+    // Keep onSnapshot in a ref so the Fabric listener captures the latest callback
+    const onSnapshotRef = useRef(onSnapshot)
+    useEffect(() => { onSnapshotRef.current = onSnapshot }, [onSnapshot])
 
     // ── Fabric.js init ──────────────────────────────────────────────────────
 
@@ -258,10 +406,25 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
           selection: false,
         })
         const brush = new fabric.PencilBrush(f)
-        brush.color = '#2d6a4f'
+        brush.color = STUDENT_INK
         brush.width = 3
         f.freeDrawingBrush = brush
         fabricRef.current = fc = f
+
+        // Snapshot-on-pause (1.5s inactivity → send PNG to backend)
+        let snapshotTimer: ReturnType<typeof setTimeout> | null = null
+        f.on('path:created', () => {
+          if (snapshotTimer) clearTimeout(snapshotTimer)
+          snapshotTimer = setTimeout(() => {
+            const cb = onSnapshotRef.current
+            if (!cb) return
+            try {
+              const dataUrl: string = f.toDataURL({ format: 'png', multiplier: 1 })
+              const b64 = dataUrl.split(',')[1]
+              if (b64) cb(b64)
+            } catch { /* ignore */ }
+          }, 1500)
+        })
       }
       init()
 
@@ -273,19 +436,18 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    // Resize Fabric canvas when doc grows (Fabric v7: use setDimensions)
+    // Resize Fabric canvas when doc grows
     useEffect(() => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const fc = fabricRef.current as any
       if (!fc) return
       const container = fabricLayerRef.current
       const w = container?.offsetWidth || 800
-      // setDimensions is the Fabric v7 API (setWidth/setHeight removed)
       fc.setDimensions({ width: w, height: docHeight })
       fc.calcOffset()
     }, [docHeight])
 
-    // Sync brush
+    // Sync brush color/size when tool changes
     useEffect(() => {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const fc = fabricRef.current as any
@@ -299,28 +461,41 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
       }
     }, [tool, color, theme])
 
-    // ── Block append ────────────────────────────────────────────────────────
+    // ── Block append (constraints 1, 2, 3, 4, 8) ────────────────────────────
 
-    const appendBlock = useCallback((raw: Omit<Block, 'yOffset'>) => {
-      const y = nextYRef.current
-      const h = BLOCK_H[raw.kind]
+    const appendBlock = useCallback((raw: BlockWithoutY) => {
+      const h = BLOCK_H[raw.kind] ?? 90
+
+      // Constraint 2: find first collision-free Y slot
+      const y = layoutManagerRef.current.findNextSlot(h, nextYRef.current)
+
+      // Advance cursor and register the slot immediately (before the 400ms delay)
+      // so rapid consecutive writes don't overlap
       nextYRef.current = y + h + GAP
+      layoutManagerRef.current.registerBlock({ x: 0, y, w: 99999, h })
 
-      // Grow doc height if content is near the bottom
+      // Constraint 3: grow doc so cursor is visible before block appears
       setDocHeight(prev => {
         const needed = nextYRef.current + visibleHeight * 0.5
         return needed > prev ? needed : prev
       })
 
-      setBlocks(prev => [...prev, { ...raw, yOffset: y } as Block])
+      // Constraint 8: show pulsing cursor at write position
+      setCursorY(y)
 
-      // Auto-scroll to show the new block
+      // Scroll to show cursor
       requestAnimationFrame(() => {
         scrollRef.current?.scrollTo({
-          top: Math.max(0, nextYRef.current - visibleHeight * 0.6),
+          top: Math.max(0, y - visibleHeight * 0.4),
           behavior: 'smooth',
         })
       })
+
+      // Constraint 4: reveal block after cursor has pulsed for 400ms
+      setTimeout(() => {
+        setBlocks(prev => [...prev, { ...raw, yOffset: y } as Block])
+        setCursorY(null)
+      }, 400)
     }, [visibleHeight])
 
     // ── Imperative API ──────────────────────────────────────────────────────
@@ -353,7 +528,6 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
       const w = docRef.current.offsetWidth
       const h = docHeight
 
-      // Render tutor DOM layer to an SVG via foreignObject
       const tutorHtml = tutorLayerRef.current?.innerHTML ?? ''
       const svgStr = [
         `<svg xmlns="http://www.w3.org/2000/svg" width="${w}" height="${h}">`,
@@ -374,9 +548,8 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
           'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svgStr),
         )
         ctx.drawImage(tutorImg, 0, 0)
-      } catch { /* SVG foreignObject might be tainted — skip tutor layer */ }
+      } catch { /* SVG foreignObject may be tainted */ }
 
-      // Overlay Fabric.js student layer
       try {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const fc = fabricRef.current as any
@@ -396,6 +569,7 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
       }
       setBlocks([])
       nextYRef.current = PAD
+      layoutManagerRef.current.clear()   // constraint 2: reset registry on clear
       setDocHeight(visibleHeight)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       ;(fabricRef.current as any)?.clear()
@@ -406,21 +580,99 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
       ;(fabricRef.current as any)?.clear()
     }, [])
 
-    // ── Unified WS message handler (legacy + Phase-4) ────────────────────
+    // ── Constraint 5: mark last latex block as incorrect ─────────────────────
+
+    const markIncorrect = useCallback(() => {
+      setBlocks(prev => {
+        const lastIdx = [...prev].reverse().findIndex(b => b.kind === 'latex')
+        if (lastIdx === -1) return prev
+        const idx = prev.length - 1 - lastIdx
+        return prev.map((b, i) =>
+          i === idx && b.kind === 'latex' ? { ...b, incorrect: true } : b
+        )
+      })
+    }, [])
+
+    // ── Constraints 6, 9: annotate student work with position awareness ───────
+
+    const annotateStudentWork = useCallback((annotation: {
+      latex?: string
+      label?: string
+      color?: 'correction' | 'confirmation' | 'neutral'
+    }) => {
+      // Constraint 9: flash the most recent latex block before placing annotation
+      const lastLatex = blocksRef.current.slice().reverse().find(b => b.kind === 'latex')
+      if (lastLatex) {
+        setHighlightedBlockId(lastLatex.id)
+        setTimeout(() => setHighlightedBlockId(null), 700)
+      }
+
+      // Constraint 6: place annotation adjacent to most recent student stroke
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const fc = fabricRef.current as any
+      const regions = layoutManagerRef.current.getStudentOccupiedRegions(fc)
+      const docWidth = docRef.current?.offsetWidth ?? 800
+
+      let xOff: number
+      let yOff: number
+
+      if (regions.length > 0) {
+        const latest = regions[regions.length - 1]
+        const slot = layoutManagerRef.current.findAdjacentSlot(latest, docWidth)
+        xOff = slot.x
+        yOff = slot.y
+      } else {
+        // No student work yet: place in right half at current tutor Y
+        xOff = Math.floor(docWidth * 0.55)
+        yOff = nextYRef.current
+      }
+
+      setBlocks(prev => [...prev, {
+        id: `ann-${Date.now()}`,
+        kind: 'annotation' as const,
+        latex: annotation.latex,
+        label: annotation.label ?? 'AI Note',
+        color: annotation.color ?? 'neutral',
+        xOffset: xOff,
+        yOffset: yOff,
+      }])
+    }, [])
+
+    // ── Unified WS message handler ────────────────────────────────────────────
 
     const handleMessage = useCallback((msg: WhiteboardMessage | WbMessage) => {
       switch (msg.type) {
-        // Phase-4 types
-        case 'wb_write':       { writeBlock(msg.latex, { display: (msg as { display?: boolean }).display }); return }
-        case 'wb_zoom':        { zoomTo((msg as { region: 'top' | 'latest' | number }).region); return }
-        case 'wb_clear':       { clearBoard({ snapshot: (msg as { snapshot?: boolean }).snapshot }); return }
-        case 'wb_new_section': { newSection((msg as { label: string }).label); return }
-
-        // Legacy whiteboard type
+        case 'wb_write': {
+          const m = msg as { type: 'wb_write'; latex?: string; scene?: GeometryElement[]; display?: boolean }
+          if (m.scene && m.scene.length > 0) {
+            appendBlock({
+              id: `plot-${Date.now()}`,
+              kind: 'plot',
+              scene: m.scene,
+            })
+          } else if (m.latex) {
+            writeBlock(m.latex, { display: m.display })
+          }
+          return
+        }
+        case 'wb_zoom':
+          zoomTo((msg as { region: 'top' | 'latest' | number }).region)
+          return
+        case 'wb_clear':
+          clearBoard({ snapshot: (msg as { snapshot?: boolean }).snapshot })
+          return
+        case 'wb_new_section':
+          newSection((msg as { label: string }).label)
+          return
+        case 'wb_annotate_student': {
+          const m = msg as { type: 'wb_annotate_student'; latex?: string; label?: string; color?: 'correction' | 'confirmation' | 'neutral' }
+          annotateStudentWork({ latex: m.latex, label: m.label, color: m.color })
+          return
+        }
         case 'whiteboard': {
           const m = msg as WhiteboardMessage
-          if (m.action === 'clear')                      { clearBoard(); return }
-          if (m.action === 'write' && m.latex)           { writeBlock(m.latex); return }
+          if (m.action === 'clear')                { clearBoard(); return }
+          if (m.action === 'write' && m.latex)     { writeBlock(m.latex); return }
           if (m.action === 'plot'  && m.fn) {
             appendBlock({
               id: `plot-${Date.now()}`,
@@ -432,7 +684,7 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
           return
         }
       }
-    }, [writeBlock, zoomTo, clearBoard, newSection, appendBlock])
+    }, [writeBlock, zoomTo, clearBoard, newSection, appendBlock, annotateStudentWork])
 
     useImperativeHandle(ref, () => ({
       writeBlock,
@@ -442,9 +694,11 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
       getSnapshot,
       handleMessage,
       exportPng: getSnapshot,
-    }), [writeBlock, newSection, zoomTo, clearBoard, getSnapshot, handleMessage])
+      annotateStudentWork,
+      markIncorrect,
+    }), [writeBlock, newSection, zoomTo, clearBoard, getSnapshot, handleMessage, annotateStudentWork, markIncorrect])
 
-    // ── Download ─────────────────────────────────────────────────────────
+    // ── Download ──────────────────────────────────────────────────────────────
 
     const handleDownload = useCallback(async () => {
       const dataUrl = snapshot ?? await getSnapshot()
@@ -458,29 +712,33 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
       setSnapshot(null)
     }, [snapshot, getSnapshot])
 
-    // ── Render ────────────────────────────────────────────────────────────
+    // ── Render ─────────────────────────────────────────────────────────────────
 
     const bgColor   = theme === 'dark' ? '#0d1117' : '#fefcf9'
     const gridColor = theme === 'dark' ? 'rgba(255,255,255,0.028)' : 'rgba(0,0,0,0.038)'
+    const tc = mkTC(theme)
 
     return (
-      // data-theme propagates CSS variables into the whiteboard so var(--text),
-      // var(--border) etc. resolve correctly in both light and dark mode.
       <div data-theme={theme} style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+
+        {/* Cursor keyframe animation (constraint 8) */}
+        <style>{CURSOR_KEYFRAME}</style>
 
         {/* ── Toolbar ── */}
         <div style={{
           display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap',
           padding: '5px 10px',
           borderRadius: '10px 10px 0 0',
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
+          background: tc.surface,
+          borderTop: `1px solid ${tc.border}`,
+          borderLeft: `1px solid ${tc.border}`,
+          borderRight: `1px solid ${tc.border}`,
           borderBottom: 'none',
           userSelect: 'none',
         }}>
           <span style={{
             fontSize: 11, fontWeight: 600,
-            color: 'var(--text-muted)',
+            color: tc.textMuted,
             textTransform: 'uppercase', letterSpacing: '0.07em',
             marginRight: 2,
           }}>
@@ -488,47 +746,42 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
           </span>
           <div style={{ flex: 1 }} />
 
-          {/* Pen / Eraser */}
           {(['pen', 'eraser'] as const).map(t => (
             <button key={t} type="button" title={t === 'pen' ? 'Pen (P)' : 'Eraser (E)'}
               onClick={() => setTool(t)}
               style={{
                 width: 28, height: 28, borderRadius: 6,
-                border: `1px solid ${tool === t ? 'var(--caramel)' : 'var(--border)'}`,
-                background: tool === t ? 'var(--caramel-dim)' : 'none',
+                border: `1px solid ${tool === t ? tc.caramel : tc.border}`,
+                background: tool === t ? tc.caramelDim : 'none',
                 cursor: 'pointer',
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontSize: 14,
-                color: tool === t ? 'var(--caramel)' : 'var(--text-dim)',
+                color: tool === t ? tc.caramel : tc.textDim,
               }}>
               {t === 'pen' ? '✏' : '⌫'}
             </button>
           ))}
 
-          {/* Color swatches */}
           {(['#2d6a4f', '#c4976a', '#4a7fb5', '#c1440e', '#1a1a1a'] as const).map(c => (
             <button key={c} type="button" title={c}
               onClick={() => { setColor(c); setTool('pen') }}
               style={{
                 width: 16, height: 16, borderRadius: '50%', background: c, flexShrink: 0,
                 border: color === c && tool === 'pen'
-                  ? '2px solid var(--text)'
+                  ? `2px solid ${tc.text}`
                   : '2px solid transparent',
                 cursor: 'pointer',
               }} />
           ))}
 
-          <div style={{ width: 1, height: 18, background: 'var(--border)', margin: '0 2px' }} />
+          <div style={{ width: 1, height: 18, background: tc.border, margin: '0 2px' }} />
 
-          {/* Clear student drawings */}
           <button type="button" title="Clear your drawings" onClick={clearStudentLayer}
-            style={toolBtnStyle}>
+            style={{ padding: '3px 8px', borderRadius: 6, border: `1px solid ${tc.border}`, background: 'none', cursor: 'pointer', fontSize: 11, color: tc.textDim }}>
             Clear
           </button>
-
-          {/* Download / Save */}
           <button type="button" title="Download whiteboard as PNG" onClick={handleDownload}
-            style={toolBtnStyle}>
+            style={{ padding: '3px 8px', borderRadius: 6, border: `1px solid ${tc.border}`, background: 'none', cursor: 'pointer', fontSize: 11, color: tc.textDim }}>
             ↓ Save
           </button>
         </div>
@@ -541,12 +794,11 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
             height: visibleHeight,
             overflowY: 'auto',
             overflowX: 'hidden',
-            border: '1px solid var(--border)',
+            border: `1px solid ${tc.border}`,
             borderRadius: snapshot ? 0 : '0 0 10px 10px',
             position: 'relative',
           }}
         >
-          {/* Growing document */}
           <div
             ref={docRef}
             data-testid="wb-doc"
@@ -554,8 +806,6 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
               position: 'relative',
               width: '100%',
               height: docHeight,
-              // Use backgroundColor (not background shorthand) to avoid React's
-              // "conflicting shorthand / longhand property" warning with backgroundImage
               backgroundColor: bgColor,
               backgroundImage: [
                 `linear-gradient(${gridColor} 1px, transparent 1px)`,
@@ -564,7 +814,7 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
               backgroundSize: '24px 24px',
             }}
           >
-            {/* Tutor layer — all React-rendered blocks */}
+            {/* Tutor layer */}
             <div
               ref={tutorLayerRef}
               data-testid="wb-tutor-layer"
@@ -572,9 +822,16 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
             >
               {blocks.map(block => {
                 if (block.kind === 'latex')
-                  return <LatexItem key={block.id} block={block} />
+                  return (
+                    <LatexItem
+                      key={block.id}
+                      block={block}
+                      highlighted={block.id === highlightedBlockId}
+                      theme={theme}
+                    />
+                  )
                 if (block.kind === 'divider')
-                  return <SectionDivider key={block.id} block={block} />
+                  return <SectionDivider key={block.id} block={block} tc={tc} />
                 if (block.kind === 'plot')
                   return (
                     <div key={block.id} style={{
@@ -583,11 +840,34 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
                       width: `calc(100% - ${PAD * 2}px)`,
                       zIndex: 5,
                     }}>
-                      <MafsPlot fn={block.fn} domain={block.domain} theme={theme} />
+                      <MafsPlot
+                        fn={block.fn}
+                        domain={block.domain}
+                        scene={block.scene}
+                        theme={theme}
+                      />
                     </div>
                   )
+                if (block.kind === 'annotation')
+                  return <AnnotationItem key={block.id} block={block} tc={tc} />
                 return null
               })}
+
+              {/* Constraint 8: pulsing cursor at next write position */}
+              {cursorY !== null && (
+                <div style={{
+                  position: 'absolute',
+                  left: PAD,
+                  top: cursorY + 4,
+                  width: 10,
+                  height: 10,
+                  borderRadius: '50%',
+                  background: CORRECTION_INK,
+                  animation: 'wb-cursor-pulse 1.1s infinite ease-in-out',
+                  zIndex: 6,
+                  pointerEvents: 'none',
+                }} />
+              )}
             </div>
 
             {/* Student layer — Fabric.js canvas mounted imperatively */}
@@ -602,13 +882,13 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
             />
 
             {/* Empty state */}
-            {blocks.length === 0 && (
+            {blocks.length === 0 && cursorY === null && (
               <div style={{
                 position: 'absolute', inset: 0,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 pointerEvents: 'none', zIndex: 4,
               }}>
-                <div style={{ textAlign: 'center', color: 'var(--text-muted)', opacity: 0.4 }}>
+                <div style={{ textAlign: 'center', color: tc.textMuted, opacity: 0.4 }}>
                   <div style={{ fontSize: 26, marginBottom: 8 }}>✦</div>
                   <div style={{ fontSize: 13 }}>Your tutor will write here.</div>
                   <div style={{ fontSize: 12, marginTop: 4 }}>Draw anywhere on the canvas.</div>
@@ -618,25 +898,25 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
           </div>
         </div>
 
-        {/* ── Pre-clear snapshot banner ── */}
+        {/* Pre-clear snapshot banner */}
         {snapshot && (
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8,
             padding: '7px 12px',
             fontSize: 12,
-            background: 'var(--caramel-dim)',
-            border: '1px solid var(--caramel-glow)',
+            background: tc.caramelDim,
+            border: `1px solid ${tc.caramelGlow}`,
             borderTop: 'none',
             borderRadius: '0 0 10px 10px',
           }}>
-            <span style={{ color: 'var(--caramel)', fontWeight: 600, fontSize: 14 }}>⬇</span>
-            <span style={{ flex: 1, color: 'var(--text-dim)' }}>
-              Board cleared for exam mode — your notes are saved.
+            <span style={{ color: tc.caramel, fontWeight: 600, fontSize: 14 }}>⬇</span>
+            <span style={{ flex: 1, color: tc.textDim }}>
+              Board cleared for exam mode. Your notes are saved.
             </span>
             <button type="button" onClick={handleDownload}
               style={{
                 padding: '4px 12px', borderRadius: 6,
-                background: 'var(--caramel)', color: '#fff',
+                background: tc.caramel, color: '#fff',
                 border: 'none', cursor: 'pointer',
                 fontSize: 12, fontWeight: 600,
               }}>
@@ -650,18 +930,6 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
 )
 
 Whiteboard.displayName = 'Whiteboard'
-
-// ── Shared button style ───────────────────────────────────────────────────────
-
-const toolBtnStyle: React.CSSProperties = {
-  padding: '3px 8px',
-  borderRadius: 6,
-  border: '1px solid var(--border)',
-  background: 'none',
-  cursor: 'pointer',
-  fontSize: 11,
-  color: 'var(--text-dim)',
-}
 
 // ── Utility ───────────────────────────────────────────────────────────────────
 
