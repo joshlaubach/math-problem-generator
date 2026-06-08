@@ -1,368 +1,81 @@
-# Math Problem Generator - Full Stack Application
+# Josh's AI Math Tutor
 
-A comprehensive web application for generating, solving, and tracking mathematics problems using AI-powered problem generation and adaptive difficulty management.
+A live AI tutoring platform for math students from pre-algebra through university level. Students work through problem sets with an AI tutor that watches what they draw, responds to their work, and guides them toward answers without giving them away.
 
-## 📁 Project Structure
+## What it does
 
-```
-Math Problem Generator/
-├── backend/                 # FastAPI Python backend
-│   ├── api.py             # Main API endpoints
-│   ├── generators/        # Problem generation engines
-│   ├── tests/             # Backend test suite (264 tests)
-│   ├── models.py          # Data models
-│   ├── db_models.py       # Database models
-│   ├── db_session.py      # Database connection
-│   ├── config.py          # Configuration management
-│   ├── llm_*.py           # LLM integration
-│   ├── repositories.py    # Data access layer
-│   ├── requirements.txt   # Python dependencies
-│   └── README.md          # Backend documentation
-│
-├── frontend/                # React + TypeScript frontend
-│   ├── src/
-│   │   ├── components/    # React components
-│   │   ├── pages/         # Page components
-│   │   ├── hooks/         # Custom hooks
-│   │   ├── api/           # API client layer
-│   │   ├── App.tsx        # Main app component
-│   │   ├── main.tsx       # Entry point
-│   │   └── config.ts      # Configuration
-│   ├── package.json       # npm dependencies
-│   ├── vite.config.ts     # Vite configuration
-│   ├── tsconfig.json      # TypeScript configuration
-│   ├── index.html         # HTML entry point
-│   ├── README.md          # Frontend documentation
-│   └── QUICKSTART.md      # Quick start guide
-│
-├── ARCHITECTURE_DIAGRAMS.md
-├── COMPLETE_SYSTEM_OVERVIEW.md
-├── PHASE6_FRONTEND_SUMMARY.md
-├── PHASE6_IMPLEMENTATION_CHECKLIST.md
-└── README.md              # This file
-```
+When a student starts a session, they upload a problem set or pick a topic from the curriculum. The tutor presents problems one at a time and engages Socratically — asking guiding questions, offering hints when the student is stuck, and evaluating their work when they submit an answer.
 
-## 🚀 Quick Start
+The tutor can see what the student draws on the shared whiteboard. If a student writes a wrong setup for a related rates problem, the tutor notices and places a correction annotation right next to the mistake. If they write a correct first step, the tutor confirms it and asks what comes next. This is the core interaction the platform is built around.
 
-### Backend Setup (Python 3.9+)
+Students who prefer to work symbolically can type their steps as LaTeX in the Show My Work panel instead of drawing. The tutor evaluates each step and responds in chat.
 
-```bash
-cd backend
+Sessions run for one or two hours. At the end, the student gets a summary of what they covered, which topics need more work, and a set of practice problems to review before the next session.
 
-# Create virtual environment
-python -m venv .venv
-.venv\Scripts\activate  # Windows
-source .venv/bin/activate  # macOS/Linux
+## What's built
 
-# Install dependencies
-pip install -r requirements.txt
+**Problem Generator** — Students and teachers can browse a full curriculum (pre-algebra through multivariable calculus, linear algebra, differential equations, statistics) and generate practice problems on any topic. This is the entry-level product; students access it with a subscription.
 
-# Run tests
-pytest tests/ -v
+**AI Tutor Sessions** — Live sessions purchased as credits. The tutor is powered by Claude (Anthropic), runs over WebSockets for real-time interaction, and has a persistent whiteboard where it writes KaTeX-rendered math with GSAP animations. All tutor sessions include drawing recognition.
 
-# Start API server
-python -m uvicorn api:app --reload --port 8000
-```
+**Teacher tools** — Teachers can create classrooms, assign problem sets, and view student performance analytics per topic.
 
-The backend API will be available at `http://localhost:8000`
+## Who it's for
 
-### Frontend Setup (Node 16+)
-
-```bash
-cd frontend
-
-# Install dependencies
-npm install
-
-# Start development server
-npm run dev
-```
-
-The frontend will be available at `http://localhost:5173`
-
-## 🎯 Features
-
-### Student Interface
-- **Topic Selection**: Browse available math topics (linear equations, inequalities, etc.)
-- **Problem Generation**: AI-powered problem generation with difficulty selection
-- **Problem Solving**: Interactive problem-solving with answer submission
-- **Hints & Solutions**: Request AI-generated hints and view complete solutions
-- **Progress Tracking**: View submission history and performance metrics
-- **Adaptive Difficulty**: System recommends difficulty based on performance
-
-### Teacher Interface
-- **Student Analytics**: View individual student performance by topic
-- **Difficulty Recommendations**: See AI-generated recommendations for student improvement
-- **Performance Metrics**:
-  - Total attempts
-  - Correct answers count
-  - Success rate percentage
-  - Average difficulty level
-  - Average time spent
-
-### Backend Capabilities
-- **264 Unit Tests** - Comprehensive test coverage across all phases
-- **Problem Generators** - Multiple domain generators:
-  - Linear equations solver
-  - Inequalities solver
-  - Parametric word problem generator
-- **LLM Integration** - OpenAI API for hints and solutions
-- **Database Persistence** - SQLAlchemy ORM with PostgreSQL support
-- **Role-Based Access** - Student and teacher authentication
-- **Adaptive Recommendations** - ML-based difficulty suggestions
-
-## 🔧 Technology Stack
-
-### Backend
-- **Framework**: FastAPI 0.104+
-- **Database**: PostgreSQL with SQLAlchemy ORM
-- **LLM**: OpenAI API (gpt-4-turbo-preview)
-- **Testing**: pytest with 264 passing tests
-- **Language**: Python 3.9+
-
-### Frontend
-- **Framework**: React 18.2
-- **Language**: TypeScript 5.3
-- **Build Tool**: Vite 5.0
-- **HTTP Client**: Axios 1.6
-- **Styling**: Plain CSS with design tokens
-
-## 📊 Project Status
-
-| Phase | Component | Status | Tests |
-|-------|-----------|--------|-------|
-| 1-2 | Problem Generators | ✅ Complete | 82 passing |
-| 3 | API Backend | ✅ Complete | 154 passing |
-| 4 | Database Layer | ✅ Complete | 28 passing |
-| 5 | LLM Integration | ✅ Complete | 28 passing |
-| 6 | React Frontend | ✅ Complete | N/A (Phase 7) |
-
-**Total Backend Tests**: 264 ✅  
-**Total Code**: 3000+ lines (backend) + 1400+ lines (frontend)  
-**Production Ready**: Yes ✅
-
-## 📖 Documentation
-
-- **[ARCHITECTURE_DIAGRAMS.md](./ARCHITECTURE_DIAGRAMS.md)** - System architecture with 8 detailed diagrams
-- **[COMPLETE_SYSTEM_OVERVIEW.md](./COMPLETE_SYSTEM_OVERVIEW.md)** - Full project overview and deployment guide
-- **[PHASE6_FRONTEND_SUMMARY.md](./PHASE6_FRONTEND_SUMMARY.md)** - Frontend implementation details
-- **[PHASE6_IMPLEMENTATION_CHECKLIST.md](./PHASE6_IMPLEMENTATION_CHECKLIST.md)** - Complete feature checklist
-- **[backend/README.md](./backend/README.md)** - Backend documentation
-- **[backend/DESIGN.md](./backend/DESIGN.md)** - System design details
-- **[frontend/README.md](./frontend/README.md)** - Frontend documentation
-- **[frontend/QUICKSTART.md](./frontend/QUICKSTART.md)** - Frontend quick start guide
-
-## 🔌 API Endpoints
-
-Base URL: `http://localhost:8000`
-
-### Public Endpoints
-- `GET /topics` - List all available topics
-- `POST /generate` - Generate a problem
-- `POST /attempt` - Submit an answer
-- `POST /hint` - Request a hint
-
-### Student Endpoints
-- `GET /user/{userId}/stats/{topicId}` - Get user statistics
-- `GET /user/{userId}/recommend/{topicId}` - Get difficulty recommendation
-
-### Health Check
-- `GET /health` - API health status
-
-## 🧪 Testing
-
-### Backend Tests
-```bash
-cd backend
-pytest tests/ -v                    # Run all tests
-pytest tests/ -v --cov             # With coverage
-pytest tests/test_api.py -v         # Specific test file
-```
-
-### Frontend Tests (Coming Phase 7)
-```bash
-cd frontend
-npm run test                        # Run tests
-npm run test:coverage              # With coverage
-```
-
-## 🌐 Deployment
-
-### Prerequisites
-- Python 3.9+ with pip
-- Node.js 16+ with npm
-- PostgreSQL 12+
-- OpenAI API key
-
-### Environment Configuration
-
-**Backend** (`backend/.env`):
-```
-DATABASE_URL=postgresql://user:password@localhost/mpg_db
-OPENAI_API_KEY=sk-...
-TEACHER_ACCESS_CODE=TEACHER123
-```
-
-**Frontend** (`frontend/.env.local`):
-```
-VITE_API_BASE_URL=http://localhost:8000
-VITE_TEACHER_ACCESS_CODE=TEACHER123
-```
-
-### Production Build
-
-```bash
-# Backend
-cd backend
-pip install -r requirements.txt
-# Configure .env with production database
-python -m uvicorn api:app --host 0.0.0.0 --port 8000
-
-# Frontend
-cd frontend
-npm install
-npm run build
-# Deploy dist/ folder to static hosting
-```
-
-## 🛠️ Development Workflow
-
-1. **Start Backend**:
-   ```bash
-   cd backend
-   python -m uvicorn api:app --reload --port 8000
-   ```
-
-2. **Start Frontend**:
-   ```bash
-   cd frontend
-   npm run dev
-   ```
-
-3. **Access Application**:
-   - Frontend: http://localhost:5173
-   - API Docs: http://localhost:8000/docs
-   - ReDoc: http://localhost:8000/redoc
-
-4. **Run Tests**:
-   ```bash
-   # Backend
-   cd backend && pytest tests/ -v
-   
-   # Frontend (Phase 7)
-   cd frontend && npm run test
-   ```
-
-## 📝 Git Setup
-
-This folder is ready to be initialized as a Git repository:
-
-```bash
-cd "Math Problem Generator"
-git init
-git add .
-git commit -m "Initial commit: Full-stack math problem generator"
-git remote add origin https://github.com/yourusername/math-problem-generator.git
-git push -u origin main
-```
-
-## 🎓 Learning Resources
-
-- **FastAPI**: https://fastapi.tiangolo.com
-- **React**: https://react.dev
-- **SQLAlchemy**: https://www.sqlalchemy.org
-- **PostgreSQL**: https://www.postgresql.org
-- **Vite**: https://vitejs.dev
-
-## 📞 Support
-
-For detailed information:
-- Backend issues → See `backend/README.md`
-- Frontend issues → See `frontend/README.md`
-- Architecture questions → See `ARCHITECTURE_DIAGRAMS.md`
-- Deployment → See `COMPLETE_SYSTEM_OVERVIEW.md`
-
-## 🧪 Testing
-
-### Frontend Tests
-```bash
-cd frontend
-npm run test              # Run all tests
-npm run test -- --watch  # Watch mode
-npm run test:coverage    # Coverage report
-```
-
-### Backend Tests
-```bash
-cd backend
-pytest                   # Run all tests
-pytest -v               # Verbose output
-pytest --cov           # Coverage report
-```
-
-## 📊 Phase 7 - Frontend Completion Summary
-
-### Completed Components
-✅ **StudentDashboard.tsx** - Enhanced with problem header info and next problem section  
-✅ **StudentDashboard.css** - Responsive styling with mobile support  
-✅ **http_client.ts** - Complete HTTP client with authentication  
-✅ **api_types.ts** - Type-safe API responses  
-✅ **test_validation.ts** - Answer validation utilities  
-✅ **mock_data.ts** - Mock data for testing  
-
-### Test Files Created
-✅ `src/__tests__/validation.test.ts` - 5 test suites  
-✅ `src/__tests__/mock_data.test.ts` - 6 test suites  
-✅ `src/__tests__/types.test.ts` - API type validation  
-✅ `src/__tests__/http_client.test.ts` - HTTP client integration tests  
-
-### Configuration Files
-✅ `vitest.config.ts` - Test runner configuration  
-✅ `jest.config.js` - Jest configuration (legacy)  
-✅ `setupTests.ts` - Test environment setup  
-
-### Documentation
-✅ `frontend/DEVELOPMENT.md` - Complete development guide  
-✅ `README.md` (this file) - Updated with phase 7 summary  
-
-## 🏗️ Architecture Overview
-
-### Frontend Architecture
-- **State Management**: React Context API
-- **Component Pattern**: Functional components with hooks
-- **HTTP Client**: Centralized with authentication
-- **Testing**: Vitest with mock utilities
-- **Styling**: BEM methodology with responsive design
-
-### Backend Architecture
-- **Framework**: FastAPI with async support
-- **Database**: SQLAlchemy ORM with migrations
-- **Authentication**: JWT token-based
-- **Validation**: Pydantic schemas
-- **Testing**: pytest with 264 test cases
-
-## 🚀 Next Steps
-
-### For Developers
-1. Install frontend dependencies: `cd frontend && npm install`
-2. Install backend dependencies: `cd backend && pip install -r requirements.txt`
-3. Review `frontend/DEVELOPMENT.md` for detailed guidelines
-4. Run tests: `npm run test` (frontend) or `pytest` (backend)
-5. Start development: `npm run dev` (frontend) and `python main.py` (backend)
-
-### For Contributors
-1. Create feature branch from main
-2. Implement changes with tests
-3. Ensure all tests pass
-4. Submit PR with description
-5. Wait for review and merge
-
-## 📄 License
-
-[Specify your license here]
+Right now this is a solo project — I'm a math tutor and built this to scale my practice and figure out what AI tutoring can actually do well. The product is aimed at high school and college students working through math courses who want something closer to a real tutoring session than a chat window.
 
 ---
 
-**Status**: Production Ready ✅  
-**Last Updated**: December 2024  
-**Version**: 1.0 (Full Stack with Phase 7 Frontend Complete)
+## For Engineers
+
+### Stack
+
+**Monorepo** — Turborepo with two apps: `apps/api/` (FastAPI, Python 3.10+) and `apps/web/` (Next.js 14, TypeScript, App Router).
+
+**Backend** — FastAPI with WebSockets for tutor sessions. Claude (`claude-sonnet-4-6`) handles problem generation, Socratic responses, hint laddering, drawing recognition, and session summaries. PostgreSQL via SQLAlchemy (mirrored in Prisma for the frontend). Falls back to JSONL for local dev when `USE_DATABASE=false`.
+
+**Frontend** — Next.js 14 App Router. Clerk for auth. KaTeX for math rendering, MathLive for interactive input. Fabric.js for the student drawing canvas. GSAP for the tutor whiteboard write animations.
+
+**Auth** — Clerk in production. The backend supports a dual-auth window (legacy HS256 JWTs + Clerk JWTs simultaneously) controlled by `AUTH_PROVIDER` in env.
+
+### Running it
+
+```bash
+# From repo root — starts both apps concurrently
+npm run dev
+
+# Backend only (port 8000)
+npm run api:dev
+
+# Frontend only (port 3000)
+npm run web:dev
+```
+
+Copy `apps/api/.env.example` → `apps/api/.env` and `apps/web/.env.example` → `apps/web/.env.local` before first run. Required: `ANTHROPIC_API_KEY`, `DATABASE_URL` (or set `USE_DATABASE=false`), Clerk keys.
+
+### Tests
+
+```bash
+# All backend tests
+npm run api:test
+
+# Single file
+cd apps/api && python -m pytest tests/test_drawing_recognizer.py -v
+
+# With coverage
+cd apps/api && python -m pytest tests/ -v --cov
+```
+
+581 backend tests passing. Frontend tests are not yet implemented.
+
+### Architecture notes
+
+The tutor session runs over a single WebSocket (`/ws/tutor/{session_id}`). The session object lives in memory (with Redis for multi-instance deploys) and holds the conversation history, problem queue, and timer state. All LLM calls are async and non-blocking.
+
+The whiteboard has two layers: a tutor layer (GSAP-animated KaTeX blocks, geometry renders via Mafs) and a student Fabric.js layer on top. When the student pauses drawing for 1.5 seconds, a snapshot is sent to the backend where Claude Vision analyzes it and returns a Socratic response plus an optional annotation instruction. Snapshots from the right-panel scratchpad are tagged `source: "scratchpad"` and get a chat response only — no whiteboard annotation.
+
+The curriculum hierarchy (Course → Unit → Topic) is defined in Python dataclasses in `taxonomy.py`, not in the database. Each topic carries a `default_input_mode` that tells the frontend whether to open the Draw or Steps panel by default when a session starts.
+
+Problem generation uses a solution-first approach: pick the target answer, build the equation around it, verify with SymPy, then send to the LLM to wrap in a word problem.
+
+The full design plan lives at `.claude/plans/yes-mighty-moore.md`.
