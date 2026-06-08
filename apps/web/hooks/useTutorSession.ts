@@ -121,7 +121,7 @@ export interface TutorSessionHook {
   scratchpadHasWork: boolean
   setScratchpadHasWork: (v: boolean) => void
   // Drawing recognition + drops
-  sendCanvasSnapshot: (imageB64: string) => void
+  sendCanvasSnapshot: (imageB64: string, source?: 'whiteboard' | 'scratchpad') => void
   sendImageDrop: (imageB64: string, mediaType: string) => void
   sendRagSearch: () => void
   sendStudentWork: (stepsLatex: string) => void
@@ -565,8 +565,8 @@ export function useTutorSession(): TutorSessionHook {
     setTopicPicklist(null)
   }, [_send])
 
-  const sendCanvasSnapshot = useCallback((imageB64: string) => {
-    _send({ type: 'student_canvas_snapshot', image_b64: imageB64 })
+  const sendCanvasSnapshot = useCallback((imageB64: string, source: 'whiteboard' | 'scratchpad' = 'whiteboard') => {
+    _send({ type: 'student_canvas_snapshot', image_b64: imageB64, source })
   }, [_send])
 
   const sendImageDrop = useCallback((imageB64: string, mediaType: string) => {

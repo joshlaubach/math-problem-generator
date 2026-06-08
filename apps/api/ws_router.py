@@ -865,11 +865,10 @@ async def _run_general_session(
 
             # ── student_canvas_snapshot (drawing recognition) ─────────────────
             elif msg_type == "student_canvas_snapshot":
-                if session.session_tier != "premium":
-                    await _send(websocket, type="error", code=4030,
-                                message="Drawing recognition requires a premium session.")
-                    continue
                 snapshot_b64 = str(raw.get("image_b64", "")).strip()
+                # "whiteboard" = shared tutor surface (annotate back)
+                # "scratchpad" = right-panel student toolbar (chat only)
+                snapshot_source = str(raw.get("source", "whiteboard"))
                 if not snapshot_b64:
                     continue
                 problem_stmt = (
@@ -882,7 +881,8 @@ async def _run_general_session(
                     tutor_name=session.tutor_name,
                 )
                 await _send(websocket, type="agent_text", text=result["chat_text"])
-                if result.get("annotation"):
+                # Only place whiteboard annotation for drawings on the shared surface
+                if result.get("annotation") and snapshot_source == "whiteboard":
                     await _send(websocket, type="wb_annotate_student",
                                 **result["annotation"])
                 session.conversation.append({

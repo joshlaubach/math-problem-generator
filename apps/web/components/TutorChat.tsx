@@ -356,7 +356,7 @@ export function TutorChat({ topicId, difficulty, sessionType, getToken, userTier
           {showWhiteboard && (
             <Whiteboard
               ref={whiteboardRef}
-              height={300}
+              visibleHeight={300}
             />
           )}
         </div>

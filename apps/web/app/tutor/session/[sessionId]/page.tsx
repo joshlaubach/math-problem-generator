@@ -8,14 +8,14 @@ import dynamic from 'next/dynamic'
 import { MathText } from '@/components/MathText'
 import { MathInput } from '@/components/MathInput'
 import { useTutorSession } from '@/hooks/useTutorSession'
-import type { MathWhiteboardHandle } from '@/components/MathWhiteboard'
+import type { WhiteboardHandle, WhiteboardMessage, WbMessage } from '@/components/Whiteboard'
 import type { StudentToolbarHandle } from '@/components/StudentToolbar'
 import { ShowMyWorkPanel } from '@/components/ShowMyWorkPanel'
 
 // ── Dynamic imports ────────────────────────────────────────────────────────────
 
-const MathWhiteboard = dynamic(
-  () => import('@/components/MathWhiteboard').then(m => m.MathWhiteboard),
+const Whiteboard = dynamic(
+  () => import('@/components/Whiteboard').then(m => m.Whiteboard),
   {
     ssr: false,
     loading: () => (
@@ -231,16 +231,17 @@ function ExamModeBanner({ onAccept, onDecline }: { onAccept: () => void; onDecli
 export default function TutorSessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
   const { getToken, userId } = useAuth()
-  const mwbRef = useRef<MathWhiteboardHandle>(null)
+  const wbRef = useRef<WhiteboardHandle>(null)
   const studentToolbarRef = useRef<StudentToolbarHandle>(null)
   const workAreaRef = useRef<HTMLDivElement>(null)
+  const leftCanvasRef = useRef<HTMLDivElement>(null)
 
   const {
     state, problem, messages, hintLevel, maxHints,
     secondsRemaining, inGracePeriod, summary,
     lastError, currentIndex, totalProblems,
     examModeProposed, examModeActive,
-    ragMatch, defaultInputMode,
+    whiteboardMessages, ragMatch, defaultInputMode,
     connectToSession, sendText, submitAnswer, requestHint,
     walkMeThrough, goingTooFast, nextProblem, acceptExamMode,
     endSession, sendCanvasSnapshot, sendRagSearch, sendStudentWork,
@@ -254,6 +255,8 @@ export default function TutorSessionPage() {
   const [workMode, setWorkMode] = useState<'draw' | 'steps'>('steps')
   const [isMobile, setIsMobile] = useState(false)
   const [workAreaWidth, setWorkAreaWidth] = useState(460)
+  const [leftCanvasHeight, setLeftCanvasHeight] = useState(600)
+  const wbMsgCountRef = useRef(0)
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Sync global theme
@@ -290,6 +293,25 @@ export default function TutorSessionPage() {
     return () => obs.disconnect()
   }, [])
 
+  // Measure left panel canvas height for Whiteboard visibleHeight
+  useEffect(() => {
+    const el = leftCanvasRef.current
+    if (!el) return
+    const obs = new ResizeObserver(entries => {
+      const h = entries[0]?.contentRect.height
+      if (h && h > 0) setLeftCanvasHeight(Math.floor(h))
+    })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
+
+  // Forward new tutor whiteboard messages to Whiteboard.handleMessage
+  useEffect(() => {
+    const newMsgs = whiteboardMessages.slice(wbMsgCountRef.current)
+    newMsgs.forEach(msg => wbRef.current?.handleMessage(msg as unknown as WhiteboardMessage | WbMessage))
+    wbMsgCountRef.current = whiteboardMessages.length
+  }, [whiteboardMessages])
+
   // Connect on mount
   useEffect(() => {
     let cancelled = false
@@ -308,13 +330,14 @@ export default function TutorSessionPage() {
   // Capture whiteboard export when session ends
   useEffect(() => {
     if ((state === 'ended' || state === 'timeout' || state === 'solved') && !exportUrl) {
-      const url = mwbRef.current?.exportPng()
-      if (url) setExportUrl(url)
+      wbRef.current?.exportPng().then(url => {
+        if (url) setExportUrl(url)
+      })
     }
   }, [state]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  const downloadWhiteboard = useCallback(() => {
-    const url = exportUrl || mwbRef.current?.exportPng()
+  const downloadWhiteboard = useCallback(async () => {
+    const url = exportUrl ?? (await wbRef.current?.exportPng()) ?? null
     if (!url) return
     const a = document.createElement('a')
     a.href = url
@@ -335,6 +358,15 @@ export default function TutorSessionPage() {
     submitAnswer(a)
     setAnswerText('')
   }, [answerText, submitAnswer])
+
+  // Snapshot routing — whiteboard surface triggers annotation; scratchpad is chat-only
+  const sendWhiteboardSnapshot = useCallback((imageB64: string) => {
+    sendCanvasSnapshot(imageB64, 'whiteboard')
+  }, [sendCanvasSnapshot])
+
+  const sendScratchpadSnapshot = useCallback((imageB64: string) => {
+    sendCanvasSnapshot(imageB64, 'scratchpad')
+  }, [sendCanvasSnapshot])
 
   // ── Session end / summary ────────────────────────────────────────────────────
   if ((state === 'ended' || state === 'timeout' || state === 'solved') && summary) {
@@ -431,13 +463,12 @@ export default function TutorSessionPage() {
         </div>
 
         {/* Canvas — fills remaining height */}
-        <div style={{ flex: 1, position: 'relative', minHeight: 0 }}>
-          <MathWhiteboard
-            ref={mwbRef}
-            mode="session"
+        <div ref={leftCanvasRef} style={{ flex: 1, position: 'relative', minHeight: 0, overflow: 'hidden' }}>
+          <Whiteboard
+            ref={wbRef}
             theme={theme}
-            userId={userId ?? undefined}
-            onSnapshot={sendCanvasSnapshot}
+            visibleHeight={Math.max(400, leftCanvasHeight - 40)}
+            onSnapshot={sendWhiteboardSnapshot}
           />
         </div>
       </div>
@@ -597,7 +628,7 @@ export default function TutorSessionPage() {
                 theme={theme}
                 width={workAreaWidth}
                 height={164}
-                onSnapshot={sendCanvasSnapshot}
+                onSnapshot={sendScratchpadSnapshot}
               />
             )}
             {workMode === 'steps' && (
