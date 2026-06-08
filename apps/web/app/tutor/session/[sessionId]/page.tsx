@@ -1,15 +1,5 @@
 'use client'
 
-/**
- * /tutor/session/[sessionId] — Full tutor session shell (Phases 4-6)
- *
- * Layout: 65% whiteboard (left) / 30% chat sidebar (right)
- * Features:
- *  - Phase 4: Problem queue, lesson mode, "Going too fast", "Walk me through"
- *  - Phase 5: Exam mode detection + accept/decline flow
- *  - Phase 6: Post-session summary with 3 sections + whiteboard download
- */
-
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useParams } from 'next/navigation'
 import Link from 'next/link'
@@ -17,32 +7,34 @@ import { useAuth } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
 import { MathText } from '@/components/MathText'
 import { MathInput } from '@/components/MathInput'
-import { ShowMyWorkPanel } from '@/components/ShowMyWorkPanel'
 import { useTutorSession } from '@/hooks/useTutorSession'
-import type { WhiteboardHandle } from '@/components/Whiteboard'
+import type { MathWhiteboardHandle } from '@/components/MathWhiteboard'
 import type { StudentToolbarHandle } from '@/components/StudentToolbar'
+import { ShowMyWorkPanel } from '@/components/ShowMyWorkPanel'
 
 // ── Dynamic imports ────────────────────────────────────────────────────────────
 
-const Whiteboard = dynamic(() => import('@/components/Whiteboard').then(m => m.Whiteboard), {
-  ssr: false,
-  loading: () => (
-    <div style={{
-      flex: 1, background: 'var(--surface)', borderRadius: 12,
-      display: 'flex', alignItems: 'center', justifyContent: 'center',
-      color: 'var(--text-muted)', fontSize: 13,
-    }}>
-      Loading whiteboard…
-    </div>
-  ),
-})
+const MathWhiteboard = dynamic(
+  () => import('@/components/MathWhiteboard').then(m => m.MathWhiteboard),
+  {
+    ssr: false,
+    loading: () => (
+      <div style={{
+        flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center',
+        color: 'var(--text-muted)', fontSize: 13,
+      }}>
+        Loading whiteboard…
+      </div>
+    ),
+  }
+)
 
 const StudentToolbar = dynamic(
   () => import('@/components/StudentToolbar').then(m => m.StudentToolbar),
   { ssr: false }
 )
 
-// ── Sub-components ────────────────────────────────────────────────────────────
+// ── Sub-components ─────────────────────────────────────────────────────────────
 
 function CountdownTimer({
   secondsRemaining, inGracePeriod,
@@ -72,7 +64,7 @@ function MessageBubble({ role, content }: { role: 'student' | 'tutor' | 'system'
   return (
     <div style={{ display: 'flex', justifyContent: isStudent ? 'flex-end' : 'flex-start' }}>
       <div style={{
-        maxWidth: '82%', padding: '9px 13px',
+        maxWidth: '85%', padding: '8px 12px',
         borderRadius: isStudent ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
         background: isStudent ? 'var(--caramel)' : 'var(--surface2)',
         color: isStudent ? '#fff' : 'var(--text)',
@@ -88,11 +80,8 @@ function MessageBubble({ role, content }: { role: 'student' | 'tutor' | 'system'
   )
 }
 
-// ── Post-session summary ───────────────────────────────────────────────────────
-
 function SessionEndScreen({
-  summary,
-  onDownloadWhiteboard,
+  summary, onDownloadWhiteboard,
 }: {
   summary: NonNullable<ReturnType<typeof useTutorSession>['summary']>
   onDownloadWhiteboard: () => void
@@ -115,13 +104,11 @@ function SessionEndScreen({
   return (
     <div style={{
       maxWidth: 600, margin: '0 auto', padding: '48px 24px',
-      color: 'var(--text)', fontFamily: 'system-ui',
+      color: 'var(--text)',
     }}>
-      {/* Header */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 32 }}>
         <div style={{
-          width: 44, height: 44, borderRadius: 10,
-          background: 'var(--caramel)',
+          width: 44, height: 44, borderRadius: 10, background: 'var(--caramel)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 20,
         }}>✦</div>
         <div>
@@ -134,7 +121,6 @@ function SessionEndScreen({
         </div>
       </div>
 
-      {/* Section 1: Summary bullets */}
       {bullets.length > 0 && (
         <div className="notebook-card" style={{ marginBottom: 20, padding: '16px 20px' }}>
           <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 10 }}>What you covered</div>
@@ -146,7 +132,6 @@ function SessionEndScreen({
         </div>
       )}
 
-      {/* Section 2: Per-topic performance */}
       {Object.keys(perf).length > 0 && (
         <div className="notebook-card" style={{ marginBottom: 20, padding: '16px 20px' }}>
           <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 10 }}>Topic performance</div>
@@ -163,7 +148,6 @@ function SessionEndScreen({
         </div>
       )}
 
-      {/* Section 3: Practice problems for weak areas */}
       {practiceProblems.length > 0 && (
         <div className="notebook-card" style={{ marginBottom: 20, padding: '16px 20px' }}>
           <div style={{ fontWeight: 600, fontSize: 13, marginBottom: 10 }}>
@@ -178,9 +162,7 @@ function SessionEndScreen({
                 padding: '10px 14px', borderRadius: 8,
                 background: 'var(--surface)', border: '1px solid var(--border)',
               }}>
-                <span style={{ fontSize: 12, color: 'var(--text-muted)', marginRight: 8 }}>
-                  {i + 1}.
-                </span>
+                <span style={{ fontSize: 12, color: 'var(--text-muted)', marginRight: 8 }}>{i + 1}.</span>
                 <MathText latex={p} />
               </div>
             ))}
@@ -188,7 +170,6 @@ function SessionEndScreen({
         </div>
       )}
 
-      {/* Actions */}
       <div style={{ display: 'flex', gap: 10, marginTop: 8 }}>
         <button
           onClick={onDownloadWhiteboard}
@@ -210,35 +191,31 @@ function SessionEndScreen({
   )
 }
 
-// ── Exam mode banner ───────────────────────────────────────────────────────────
-
-function ExamModeBanner({
-  onAccept, onDecline,
-}: { onAccept: () => void; onDecline: () => void }) {
+function ExamModeBanner({ onAccept, onDecline }: { onAccept: () => void; onDecline: () => void }) {
   return (
     <div style={{
       background: 'var(--caramel)', color: '#fff',
-      padding: '10px 16px', borderRadius: 8,
+      padding: '8px 12px', borderBottom: '1px solid var(--border)',
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-      marginBottom: 8, fontSize: 13,
+      fontSize: 13, flexShrink: 0,
     }}>
       <span>Tutor is proposing exam mode — ready to go solo?</span>
-      <div style={{ display: 'flex', gap: 8 }}>
+      <div style={{ display: 'flex', gap: 6 }}>
         <button
           onClick={onAccept}
           style={{
             background: '#fff', color: 'var(--caramel)',
-            border: 'none', padding: '4px 12px', borderRadius: 6,
+            border: 'none', padding: '3px 10px', borderRadius: 6,
             cursor: 'pointer', fontSize: 12, fontWeight: 600,
           }}
         >
-          Yes, let's go
+          Yes
         </button>
         <button
           onClick={onDecline}
           style={{
             background: 'transparent', color: '#fff',
-            border: '1px solid rgba(255,255,255,0.5)', padding: '4px 12px', borderRadius: 6,
+            border: '1px solid rgba(255,255,255,0.5)', padding: '3px 10px', borderRadius: 6,
             cursor: 'pointer', fontSize: 12,
           }}
         >
@@ -249,28 +226,35 @@ function ExamModeBanner({
   )
 }
 
-// ── Main page ─────────────────────────────────────────────────────────────────
+// ── Main page ──────────────────────────────────────────────────────────────────
 
 export default function TutorSessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
-  const { getToken } = useAuth()
-  const wbRef  = useRef<WhiteboardHandle>(null)
-  const stbRef = useRef<StudentToolbarHandle>(null)
+  const { getToken, userId } = useAuth()
+  const mwbRef = useRef<MathWhiteboardHandle>(null)
+  const studentToolbarRef = useRef<StudentToolbarHandle>(null)
+  const workAreaRef = useRef<HTMLDivElement>(null)
 
   const {
     state, problem, messages, hintLevel, maxHints,
     secondsRemaining, inGracePeriod, summary,
     lastError, currentIndex, totalProblems,
     examModeProposed, examModeActive,
-    whiteboardMessages, ragMatch, defaultInputMode,
+    ragMatch, defaultInputMode,
     connectToSession, sendText, submitAnswer, requestHint,
     walkMeThrough, goingTooFast, nextProblem, acceptExamMode,
     endSession, sendCanvasSnapshot, sendRagSearch, sendStudentWork,
   } = useTutorSession()
 
-  const [inputMode, setInputMode] = useState<'latex' | 'drawing'>('latex')
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
+  const [exportUrl, setExportUrl] = useState<string | null>(null)
+  const [answerText, setAnswerText] = useState('')
+  const [inputText, setInputText] = useState('')
+  const [showEndConfirm, setShowEndConfirm] = useState(false)
+  const [workMode, setWorkMode] = useState<'draw' | 'steps'>('steps')
   const [isMobile, setIsMobile] = useState(false)
+  const [workAreaWidth, setWorkAreaWidth] = useState(460)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
 
   // Sync global theme
   useEffect(() => {
@@ -283,28 +267,30 @@ export default function TutorSessionPage() {
 
   // Mobile detection
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
+    const check = () => setIsMobile(window.innerWidth <= 768)
     check()
     window.addEventListener('resize', check)
     return () => window.removeEventListener('resize', check)
   }, [])
 
-  // Apply default input mode from session_ready
+  // Sync work mode from topic default_input_mode (fires once on session_ready)
   useEffect(() => {
-    if (defaultInputMode === 'drawing' && !isMobile) setInputMode('drawing')
-    else setInputMode('latex')
-  }, [defaultInputMode, isMobile])
+    setWorkMode(defaultInputMode === 'drawing' ? 'draw' : 'steps')
+  }, [defaultInputMode])
 
-  const handleSnapshot = useCallback((imageB64: string) => {
-    sendCanvasSnapshot(imageB64)
-  }, [sendCanvasSnapshot])
+  // Measure work area width for StudentToolbar canvas sizing
+  useEffect(() => {
+    const el = workAreaRef.current
+    if (!el) return
+    const obs = new ResizeObserver(entries => {
+      const w = entries[0]?.contentRect.width
+      if (w && w > 0) setWorkAreaWidth(Math.floor(w))
+    })
+    obs.observe(el)
+    return () => obs.disconnect()
+  }, [])
 
-  const [answerText, setAnswerText] = useState('')
-  const [inputText, setInputText] = useState('')
-  const [showEndConfirm, setShowEndConfirm] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
-
-  // ── Connect on mount ───────────────────────────────────────────────────────
+  // Connect on mount
   useEffect(() => {
     let cancelled = false
     getToken().then(token => {
@@ -314,29 +300,28 @@ export default function TutorSessionPage() {
     return () => { cancelled = true }
   }, [sessionId]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Auto-scroll messages ───────────────────────────────────────────────────
+  // Auto-scroll messages
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
-  // ── Forward WS whiteboard events to the Whiteboard component ──────────────
+  // Capture whiteboard export when session ends
   useEffect(() => {
-    if (whiteboardMessages.length === 0) return
-    const last = whiteboardMessages[whiteboardMessages.length - 1]
-    wbRef.current?.handleMessage(last as any)
-  }, [whiteboardMessages])
+    if ((state === 'ended' || state === 'timeout' || state === 'solved') && !exportUrl) {
+      const url = mwbRef.current?.exportPng()
+      if (url) setExportUrl(url)
+    }
+  }, [state]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // ── Download whiteboard ────────────────────────────────────────────────────
-  const downloadWhiteboard = useCallback(async () => {
-    const dataUrl = await wbRef.current?.exportPng()
-    if (!dataUrl) return
+  const downloadWhiteboard = useCallback(() => {
+    const url = exportUrl || mwbRef.current?.exportPng()
+    if (!url) return
     const a = document.createElement('a')
-    a.href = dataUrl
+    a.href = url
     a.download = `session-${sessionId.slice(0, 8)}.png`
     a.click()
-  }, [sessionId])
+  }, [exportUrl, sessionId])
 
-  // ── Handlers ──────────────────────────────────────────────────────────────
   const handleSendText = useCallback(() => {
     const t = inputText.trim()
     if (!t) return
@@ -351,20 +336,16 @@ export default function TutorSessionPage() {
     setAnswerText('')
   }, [answerText, submitAnswer])
 
-  // ── Session end / summary ──────────────────────────────────────────────────
+  // ── Session end / summary ────────────────────────────────────────────────────
   if ((state === 'ended' || state === 'timeout' || state === 'solved') && summary) {
     return (
-      <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+      <div style={{ minHeight: '100vh', background: 'var(--bg)', overflowY: 'auto' }}>
         <SessionEndScreen summary={summary} onDownloadWhiteboard={downloadWhiteboard} />
-        {/* Keep a hidden whiteboard for the PNG export */}
-        <div style={{ position: 'absolute', visibility: 'hidden', pointerEvents: 'none' }}>
-          <Whiteboard ref={wbRef} />
-        </div>
       </div>
     )
   }
 
-  // ── Loading / connecting ───────────────────────────────────────────────────
+  // ── Loading / connecting ─────────────────────────────────────────────────────
   if (state === 'idle' || state === 'connecting' || state === 'loading') {
     return (
       <div style={{
@@ -381,7 +362,7 @@ export default function TutorSessionPage() {
     )
   }
 
-  // ── Error ──────────────────────────────────────────────────────────────────
+  // ── Error ────────────────────────────────────────────────────────────────────
   if (state === 'error') {
     return (
       <div style={{
@@ -400,7 +381,7 @@ export default function TutorSessionPage() {
     )
   }
 
-  // ── Active session layout ──────────────────────────────────────────────────
+  // ── Active session ───────────────────────────────────────────────────────────
   const isThinking = state === 'thinking'
 
   return (
@@ -408,30 +389,28 @@ export default function TutorSessionPage() {
       display: 'flex', height: '100vh', overflow: 'hidden',
       background: 'var(--bg)', color: 'var(--text)',
     }}>
-      {/* ── 65% whiteboard ──────────────────────────────────────────────── */}
-      <div style={{
-        flex: '0 0 65%', display: 'flex', flexDirection: 'column',
-        padding: '12px 8px 12px 16px', minWidth: 0,
-      }}>
-        {/* Whiteboard header */}
+
+      {/* ── Left: Whiteboard (65%) ─────────────────────────────────────────── */}
+      <div style={{ flex: '0 0 65%', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+        {/* Header bar */}
         <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          marginBottom: 8, paddingRight: 8,
+          height: 44, flexShrink: 0, display: 'flex', alignItems: 'center',
+          padding: '0 12px', gap: 10,
+          borderBottom: '1px solid var(--border)',
+          background: theme === 'dark' ? '#161b22' : '#f6f7fb',
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-            <div style={{
-              width: 28, height: 28, borderRadius: 6, background: 'var(--caramel)',
-              display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 14,
-            }}>✦</div>
-            <span style={{ fontWeight: 600, fontSize: 14 }}>Whiteboard</span>
-            {examModeActive && (
-              <span style={{
-                fontSize: 11, fontWeight: 700, color: '#fff',
-                background: 'var(--terracotta)', padding: '2px 8px', borderRadius: 10,
-              }}>EXAM MODE</span>
-            )}
-          </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div style={{
+            width: 26, height: 26, borderRadius: 6, background: 'var(--caramel)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13,
+          }}>✦</div>
+          <span style={{ fontWeight: 600, fontSize: 13 }}>Whiteboard</span>
+          {examModeActive && (
+            <span style={{
+              fontSize: 10, fontWeight: 700, color: '#fff',
+              background: 'var(--terracotta)', padding: '2px 7px', borderRadius: 10,
+            }}>EXAM MODE</span>
+          )}
+          <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 10 }}>
             {totalProblems > 0 && (
               <span style={{ fontSize: 11, color: 'var(--text-muted)' }}>
                 {currentIndex + 1} / {totalProblems}
@@ -451,98 +430,34 @@ export default function TutorSessionPage() {
           </div>
         </div>
 
-        {/* Whiteboard canvas */}
-        <div style={{ flex: 1, minHeight: 0 }}>
-          <Whiteboard ref={wbRef} visibleHeight={undefined} onSnapshot={handleSnapshot} />
+        {/* Canvas — fills remaining height */}
+        <div style={{ flex: 1, position: 'relative', minHeight: 0 }}>
+          <MathWhiteboard
+            ref={mwbRef}
+            mode="session"
+            theme={theme}
+            userId={userId ?? undefined}
+            onSnapshot={sendCanvasSnapshot}
+          />
         </div>
-
-        {/* ── Student work area ─────────────────────────────────────────── */}
-        <div style={{ marginTop: 8, paddingRight: 8 }}>
-          {/* Mode toggle + mobile banner */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 6 }}>
-            <span style={{ fontSize: 11, color: 'var(--text-muted)', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.05em' }}>
-              My Work
-            </span>
-            <div style={{ display: 'flex', gap: 4, marginLeft: 4 }}>
-              {(['latex', 'drawing'] as const).map(m => (
-                <button key={m}
-                  onClick={() => setInputMode(m)}
-                  disabled={m === 'drawing' && isMobile}
-                  style={{
-                    padding: '2px 9px', borderRadius: 10, fontSize: 11, cursor: m === 'drawing' && isMobile ? 'not-allowed' : 'pointer',
-                    border: `1px solid ${inputMode === m ? 'var(--caramel)' : 'var(--border)'}`,
-                    background: inputMode === m ? 'var(--caramel-dim)' : 'transparent',
-                    color: inputMode === m ? 'var(--caramel)' : 'var(--text-muted)',
-                    opacity: m === 'drawing' && isMobile ? 0.4 : 1,
-                  }}>
-                  {m === 'latex' ? 'LaTeX' : 'Draw'}
-                </button>
-              ))}
-            </div>
-            {isMobile && (
-              <span style={{ fontSize: 11, color: 'var(--text-muted)', fontStyle: 'italic' }}>
-                Switch to desktop to draw
-              </span>
-            )}
-          </div>
-
-          {inputMode === 'latex' && (
-            <ShowMyWorkPanel
-              theme={theme}
-              onSubmit={sendStudentWork}
-            />
-          )}
-
-          {inputMode === 'drawing' && !isMobile && (
-            <StudentToolbar
-              ref={stbRef}
-              theme={theme}
-              height={220}
-              onSnapshot={sendCanvasSnapshot}
-            />
-          )}
-        </div>
-
-        {/* Answer input bar */}
-        {problem && (
-          <div style={{
-            display: 'flex', gap: 8, marginTop: 8, paddingRight: 8,
-          }}>
-            <div style={{ flex: 1 }}>
-              <MathInput
-                value={answerText}
-                onChange={setAnswerText}
-                placeholder="Type your answer…"
-              />
-            </div>
-            <button
-              onClick={handleSubmitAnswer}
-              disabled={!answerText.trim() || isThinking}
-              className="btn-caramel"
-              style={{ padding: '8px 16px', fontSize: 13, flexShrink: 0, justifyContent: 'center' }}
-            >
-              Submit
-            </button>
-          </div>
-        )}
       </div>
 
-      {/* ── 30% chat sidebar ────────────────────────────────────────────── */}
+      {/* ── Right: Chat sidebar (35%) ──────────────────────────────────────── */}
       <div style={{
-        flex: '0 0 30%', display: 'flex', flexDirection: 'column',
-        padding: '12px 16px 12px 8px', minWidth: 0,
-        borderLeft: '1px solid var(--border)',
+        flex: '0 0 35%', display: 'flex', flexDirection: 'column',
+        borderLeft: '1px solid var(--border)', minWidth: 0, overflow: 'hidden',
       }}>
         {/* Sidebar header */}
         <div style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          marginBottom: 8,
+          height: 44, flexShrink: 0, display: 'flex', alignItems: 'center',
+          padding: '0 12px', borderBottom: '1px solid var(--border)',
+          background: theme === 'dark' ? '#161b22' : '#f6f7fb',
         }}>
           <span style={{ fontWeight: 600, fontSize: 13 }}>Chat</span>
           <button
             onClick={() => setShowEndConfirm(true)}
             style={{
-              background: 'none', border: '1px solid var(--border)',
+              marginLeft: 'auto', background: 'none', border: '1px solid var(--border)',
               borderRadius: 6, padding: '3px 10px', cursor: 'pointer',
               fontSize: 11, color: 'var(--text-muted)',
             }}
@@ -555,41 +470,38 @@ export default function TutorSessionPage() {
         {examModeProposed && (
           <ExamModeBanner
             onAccept={acceptExamMode}
-            onDecline={() => { /* just dismiss; don't accept */ }}
+            onDecline={() => { /* dismiss without accepting */ }}
           />
         )}
 
-        {/* Current problem statement */}
+        {/* Current problem */}
         {problem && (
           <div style={{
-            padding: '10px 12px', borderRadius: 8, marginBottom: 8,
-            background: 'var(--surface)', border: '1px solid var(--border)',
-            fontSize: 13, lineHeight: 1.6,
+            padding: '10px 12px', borderBottom: '1px solid var(--border)', flexShrink: 0,
           }}>
-            <div style={{ fontSize: 11, color: 'var(--text-muted)', marginBottom: 4, fontWeight: 600 }}>
+            <div style={{ fontSize: 10, color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: 4 }}>
               Problem {currentIndex + 1}{totalProblems > 1 ? ` of ${totalProblems}` : ''}
             </div>
-            <MathText latex={problem.statement} />
+            <div style={{ fontSize: 13, lineHeight: 1.6 }}>
+              <MathText latex={problem.statement} />
+            </div>
           </div>
         )}
 
-        {/* RAG match card */}
+        {/* RAG match */}
         {ragMatch && (
           <div style={{
-            padding: '8px 10px', borderRadius: 8, marginBottom: 8,
-            background: 'rgba(74,158,255,0.07)',
-            border: '1px solid rgba(74,158,255,0.22)',
+            padding: '8px 12px', borderBottom: '1px solid var(--border)', flexShrink: 0,
+            background: 'rgba(74,158,255,0.06)',
           }}>
             <div style={{
               display: 'flex', alignItems: 'center', gap: 6,
-              fontSize: 11, fontWeight: 700, color: 'var(--link)',
-              marginBottom: 4,
+              fontSize: 11, fontWeight: 700, color: 'var(--link)', marginBottom: 4,
             }}>
               <span>Looks familiar?</span>
               <span style={{
                 marginLeft: 'auto', fontSize: 10,
-                background: 'rgba(74,158,255,0.12)',
-                padding: '1px 5px', borderRadius: 8,
+                background: 'rgba(74,158,255,0.12)', padding: '1px 5px', borderRadius: 8,
               }}>
                 {Math.round(ragMatch.similarity * 100)}% match
               </span>
@@ -600,10 +512,11 @@ export default function TutorSessionPage() {
           </div>
         )}
 
-        {/* Messages */}
+        {/* Messages — scrollable flex-1 */}
         <div style={{
-          flex: 1, overflowY: 'auto', display: 'flex',
-          flexDirection: 'column', gap: 8, paddingRight: 2,
+          flex: 1, overflowY: 'auto',
+          padding: '10px 12px',
+          display: 'flex', flexDirection: 'column', gap: 8,
         }}>
           {messages.map((m, i) => (
             <MessageBubble key={i} role={m.role} content={m.content} />
@@ -617,7 +530,11 @@ export default function TutorSessionPage() {
         </div>
 
         {/* Action chips */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, margin: '8px 0 6px' }}>
+        <div style={{
+          padding: '6px 12px', flexShrink: 0,
+          display: 'flex', flexWrap: 'wrap', gap: 5,
+          borderTop: '1px solid var(--border)',
+        }}>
           {!examModeActive && (
             <button
               onClick={() => requestHint()}
@@ -627,22 +544,93 @@ export default function TutorSessionPage() {
               Hint ({hintLevel}/{maxHints})
             </button>
           )}
-          <button onClick={walkMeThrough} style={chipStyle(false)}>
-            Walk me through
-          </button>
-          <button onClick={goingTooFast} style={chipStyle(false)}>
-            Too fast
-          </button>
-          <button onClick={sendRagSearch} style={chipStyle(false)}>
-            Search my problems
-          </button>
-          <button onClick={nextProblem} style={chipStyle(false)}>
-            Next problem
-          </button>
+          <button onClick={walkMeThrough} style={chipStyle(false)}>Walk me through</button>
+          <button onClick={goingTooFast} style={chipStyle(false)}>Too fast</button>
+          <button onClick={sendRagSearch} style={chipStyle(false)}>Search my problems</button>
+          <button onClick={nextProblem} style={chipStyle(false)}>Next problem</button>
         </div>
 
+        {/* ── Student work area ────────────────────────────────────────────── */}
+        <div style={{ flexShrink: 0, borderTop: '1px solid var(--border)' }}>
+          {/* Tab strip */}
+          <div style={{
+            display: 'flex', borderBottom: '1px solid var(--border)',
+            background: theme === 'dark' ? '#161b22' : '#f6f7fb',
+          }}>
+            {(['draw', 'steps'] as const).map(mode => {
+              const active = workMode === mode
+              return (
+                <button
+                  key={mode}
+                  onClick={() => setWorkMode(mode)}
+                  style={{
+                    flex: 1, padding: '6px 0', fontSize: 11, fontWeight: 600,
+                    border: 'none', cursor: 'pointer', letterSpacing: '0.04em',
+                    background: active ? 'var(--surface)' : 'transparent',
+                    color: active ? 'var(--caramel)' : 'var(--text-muted)',
+                    borderBottom: active ? '2px solid var(--caramel)' : '2px solid transparent',
+                    transition: 'color 120ms, border-color 120ms',
+                  }}
+                >
+                  {mode === 'draw' ? '✏ Draw' : '∑ Steps'}
+                </button>
+              )
+            })}
+          </div>
+
+          {/* Content — 200px fixed */}
+          <div ref={workAreaRef} style={{ height: 200, overflow: 'hidden' }}>
+            {workMode === 'draw' && isMobile && (
+              <div style={{
+                height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                flexDirection: 'column', gap: 8, padding: '0 24px', textAlign: 'center',
+              }}>
+                <span style={{ fontSize: 24 }}>🖥</span>
+                <span style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.5 }}>
+                  Drawing works best on desktop. Switch to Steps to continue on this device.
+                </span>
+              </div>
+            )}
+            {workMode === 'draw' && !isMobile && (
+              <StudentToolbar
+                ref={studentToolbarRef}
+                theme={theme}
+                width={workAreaWidth}
+                height={164}
+                onSnapshot={sendCanvasSnapshot}
+              />
+            )}
+            {workMode === 'steps' && (
+              <div style={{ height: '100%', overflowY: 'auto', padding: '8px 12px' }}>
+                <ShowMyWorkPanel theme={theme} onSubmit={sendStudentWork} />
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Answer input */}
+        {problem && (
+          <div style={{ padding: '6px 12px', flexShrink: 0, display: 'flex', gap: 6 }}>
+            <div style={{ flex: 1 }}>
+              <MathInput
+                value={answerText}
+                onChange={setAnswerText}
+                placeholder="Your answer…"
+              />
+            </div>
+            <button
+              onClick={handleSubmitAnswer}
+              disabled={!answerText.trim() || isThinking}
+              className="btn-caramel"
+              style={{ padding: '8px 14px', fontSize: 13, flexShrink: 0, justifyContent: 'center' }}
+            >
+              Submit
+            </button>
+          </div>
+        )}
+
         {/* Chat input */}
-        <div style={{ display: 'flex', gap: 6 }}>
+        <div style={{ padding: '6px 12px 12px', flexShrink: 0, display: 'flex', gap: 6 }}>
           <input
             value={inputText}
             onChange={e => setInputText(e.target.value)}
@@ -651,7 +639,7 @@ export default function TutorSessionPage() {
             style={{
               flex: 1, padding: '8px 12px', borderRadius: 8, fontSize: 13,
               border: '1px solid var(--border)', background: 'var(--surface)',
-              color: 'var(--text)',
+              color: 'var(--text)', outline: 'none',
             }}
           />
           <button
@@ -665,7 +653,7 @@ export default function TutorSessionPage() {
         </div>
       </div>
 
-      {/* ── End session confirm overlay ──────────────────────────────────── */}
+      {/* ── End session confirm ────────────────────────────────────────────── */}
       {showEndConfirm && (
         <div style={{
           position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.5)',
@@ -702,11 +690,11 @@ export default function TutorSessionPage() {
   )
 }
 
-// ── Shared styles ─────────────────────────────────────────────────────────────
+// ── Shared styles ──────────────────────────────────────────────────────────────
 
 function chipStyle(active: boolean): React.CSSProperties {
   return {
-    padding: '4px 12px', borderRadius: 14, fontSize: 11, fontWeight: 500,
+    padding: '3px 10px', borderRadius: 12, fontSize: 11, fontWeight: 500,
     cursor: 'pointer',
     border: `1px solid ${active ? 'var(--caramel)' : 'var(--border)'}`,
     background: active ? 'var(--caramel-dim)' : 'transparent',

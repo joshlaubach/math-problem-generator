@@ -348,7 +348,7 @@ class TestOptionalAuthOnAttempt:
         assert data["user_id"] != "legacy-user-id"
 
     def test_attempt_with_legacy_user_id(self, client):
-        """Legacy user_id should still work without auth."""
+        """Unauthenticated /attempt with legacy user_id field now returns 403 (auth hardened)."""
         response = client.post(
             "/attempt",
             json={
@@ -360,10 +360,8 @@ class TestOptionalAuthOnAttempt:
                 "is_correct": False,
             }
         )
-        
-        assert response.status_code == 200
-        data = response.json()
-        assert data["user_id"] == "legacy-user-123"
+        # Auth hardening: unauthenticated requests are rejected
+        assert response.status_code == 403
 
 
 class TestAuthTokenContent:

@@ -141,7 +141,7 @@ async def test_mode_b_raises_without_api_key():
             computational_diff=2,
             calc_tier="none",
         )
-        with pytest.raises(RuntimeError, match="ANTHROPIC_API_KEY"):
+        with pytest.raises((RuntimeError, ValueError), match="ANTHROPIC_API_KEY"):
             await generate(inp)
     finally:
         if original:

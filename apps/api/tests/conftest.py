@@ -8,6 +8,9 @@ from pathlib import Path
 import pytest
 
 # Must be set before config.py is imported (which happens when test files are collected).
+# Force these for test isolation — override whatever is in .env
+os.environ["AUTH_PROVIDER"] = "jwt"
+os.environ["USE_DATABASE"] = "false"
 os.environ.setdefault("JWT_SECRET_KEY", "test-secret-key-for-pytest-not-for-production")
 
 # Add parent directory to path so tests can import modules
@@ -15,10 +18,23 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 
 @pytest.fixture(autouse=True, scope="function")
+def reset_rate_limiter():
+    """Reset rate limiter and abuse guard before each test to prevent 429 cross-test bleed."""
+    try:
+        from abuse_guard import reset_for_testing
+        from api import limiter
+        reset_for_testing()
+        limiter._storage.reset()
+    except Exception:
+        pass
+    yield
+
+
+@pytest.fixture(autouse=True, scope="function")
 def reset_user_repo():
     """Reset the in-memory user repository before each test function."""
     import auth_dependencies
-    
+
     # Reset the singleton before each test
     auth_dependencies._user_repo_instance = None
     yield
@@ -45,12 +61,19 @@ def client(reset_user_repo):
     try:
         Path(DEFAULT_ATTEMPT_JSONL_PATH).unlink(missing_ok=True)
         Path("data/attempts.jsonl").unlink(missing_ok=True)
-        # Also clear the API module path if different
         try:
             import api
             Path(api.ATTEMPTS_FILE).unlink(missing_ok=True)
         except Exception:
             pass
+    except Exception:
+        pass
+
+    try:
+        from abuse_guard import reset_for_testing
+        from api import limiter
+        reset_for_testing()
+        limiter._storage.reset()
     except Exception:
         pass
 

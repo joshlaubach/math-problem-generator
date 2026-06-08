@@ -12,11 +12,11 @@ import katex from 'katex'
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const SWATCHES = [
-  '#0f1623', '#4a9eff', '#c4976a', '#f87171',
-  '#4ade80', '#facc15', '#a78bfa', '#94a3b8',
-] as const
-type Swatch = typeof SWATCHES[number]
+// First swatch flips with theme so ink is always visible against the canvas background
+const NEUTRAL_LIGHT = '#0f1623'
+const NEUTRAL_DARK  = '#e8e4dc'
+const FIXED_SWATCHES = ['#4a9eff', '#c4976a', '#f87171', '#4ade80', '#facc15', '#a78bfa', '#94a3b8'] as const
+type Swatch = string
 
 type Tool =
   | 'select' | 'pen' | 'highlight' | 'eraser'
@@ -53,8 +53,9 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
 
     // Refs for canvas event handlers — avoids stale React-closure bugs
     const toolRef      = useRef<Tool>('pen')
-    const colorRef     = useRef<Swatch>(SWATCHES[1])
+    const colorRef     = useRef<Swatch>(FIXED_SWATCHES[0])
     const gridSnapRef  = useRef(false)
+    const bgRef        = useRef('#ffffff')
 
     // Shape-drawing runtime state (lives in a ref, not React state)
     const draw = useRef({
@@ -66,7 +67,7 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
 
     // React state — drives toolbar rendering only
     const [tool,  setTool]  = useState<Tool>('pen')
-    const [color, setColor] = useState<Swatch>(SWATCHES[1])
+    const [color, setColor] = useState<Swatch>(FIXED_SWATCHES[0])
     const [gridSnap, setGridSnap] = useState(false)
     const [showShapes, setShowShapes] = useState(false)
     const [showLatex,  setShowLatex]  = useState(false)
@@ -78,8 +79,48 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
     useEffect(() => { colorRef.current = color },    [color])
     useEffect(() => { gridSnapRef.current = gridSnap }, [gridSnap])
 
+    // ── Keyboard shortcuts ────────────────────────────────────────────────────
+    useEffect(() => {
+      const onKey = (e: KeyboardEvent) => {
+        // Skip when typing inside any text field or MathLive
+        const tag = (e.target as HTMLElement).tagName
+        if (tag === 'INPUT' || tag === 'TEXTAREA' || (e.target as HTMLElement).isContentEditable) return
+
+        const ctrl = e.ctrlKey || e.metaKey
+        if (ctrl && e.key === 'z') { e.preventDefault(); doUndo(); return }
+        if (ctrl && (e.key === 'y' || (e.shiftKey && e.key === 'z'))) { e.preventDefault(); doRedo(); return }
+        if (ctrl && e.key === 'g') { e.preventDefault(); setGridSnap(s => !s); return }
+
+        if (ctrl) return  // don't steal other Ctrl combos
+        switch (e.key.toLowerCase()) {
+          case 'v': case 'escape': setTool('select'); setShowShapes(false); break
+          case 'p': setTool('pen'); setShowShapes(false); break
+          case 'h': setTool('highlight'); setShowShapes(false); break
+          case 't': setTool('text'); setShowShapes(false); break
+          case 'l': setTool('line'); setShowShapes(false); break
+          case 'a': setTool('arrow'); setShowShapes(false); break
+          case 'g': setTool('angle'); setShowShapes(false); break
+          case 'f': setTool('latex'); setShowShapes(false); setShowLatex(true); break
+          case 'e': setTool('eraser'); setShowShapes(false); break
+          case 's': setShowShapes(prev => !prev); break
+        }
+      }
+      window.addEventListener('keydown', onKey)
+      return () => window.removeEventListener('keydown', onKey)
+    }, []) // eslint-disable-line react-hooks/exhaustive-deps
+
+    // Auto-swap the neutral swatch when theme changes so ink stays visible
+    useEffect(() => {
+      setColor(prev => {
+        if (prev === NEUTRAL_LIGHT && theme === 'dark') return NEUTRAL_DARK
+        if (prev === NEUTRAL_DARK  && theme === 'light') return NEUTRAL_LIGHT
+        return prev
+      })
+    }, [theme])
+
     // ── Theme ─────────────────────────────────────────────────────────────────
     const d = theme === 'dark'
+    const swatches = [d ? NEUTRAL_DARK : NEUTRAL_LIGHT, ...FIXED_SWATCHES]
     const bg        = d ? '#0d1117' : '#ffffff'
     const surface   = d ? '#1c2128' : '#f6f7fb'
     const border    = d ? '#30363d' : '#dce0ee'
@@ -87,6 +128,7 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
     const textMuted = d ? '#8b949e' : '#4a5472'
     const caramel   = d ? '#d29922' : '#b8860b'
     const caramelDim = d ? 'rgba(210,153,34,0.12)' : 'rgba(184,134,11,0.10)'
+    bgRef.current = bg  // keep ref in sync for eraser brush
 
     // ── Fabric init ───────────────────────────────────────────────────────────
     useEffect(() => {
@@ -100,7 +142,7 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
         FRef.current = F
 
         const canvas = new F.Canvas(el, {
-          width, height, backgroundColor: bg, isDrawingMode: true,
+          width, height, backgroundColor: '', isDrawingMode: true,
         })
         fabricRef.current = canvas
 
@@ -280,6 +322,10 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
             opt.path.set({ opacity: 0.32 })
             canvas.renderAll()
           }
+          if (toolRef.current === 'eraser' && opt.path) {
+            opt.path.set({ globalCompositeOperation: 'destination-out', selectable: false, evented: false })
+            canvas.renderAll()
+          }
           save(); scheduleSnap()
         })
 
@@ -344,18 +390,10 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
         return
       }
       if (tool === 'eraser') {
-        try {
-          const b = new F.EraserBrush(canvas)
-          b.width = 22
-          canvas.freeDrawingBrush = b
-          canvas.isDrawingMode = true
-        } catch {
-          // Fallback: paint over with background color
-          const b = new F.PencilBrush(canvas)
-          b.color = bg; b.width = 22
-          canvas.freeDrawingBrush = b
-          canvas.isDrawingMode = true
-        }
+        const b = new F.PencilBrush(canvas)
+        b.color = 'rgba(0,0,0,1)'; b.width = 22
+        canvas.freeDrawingBrush = b
+        canvas.isDrawingMode = true
       }
       // line / arrow / rect / circle / triangle / angle / text / latex
       // → handled by mouse:down/move/up; isDrawingMode stays false
@@ -380,7 +418,7 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
       const canvas = fabricRef.current
       if (!canvas) return
       canvas.clear()
-      canvas.setBackgroundColor(bg, () => canvas.renderAll())
+      canvas.renderAll()
     }
 
     useImperativeHandle(ref, () => ({
@@ -501,24 +539,24 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
         <div style={{
           display: 'flex', alignItems: 'center', gap: 3, flexWrap: 'wrap',
           padding: '4px 8px', background: surface,
-          border: `1px solid ${border}`, borderBottom: 'none',
+          borderTop: `1px solid ${border}`, borderLeft: `1px solid ${border}`, borderRight: `1px solid ${border}`, borderBottom: 'none',
           borderRadius: '8px 8px 0 0',
         }}>
-          <Btn id="select"    icon="↖" label="Select / Move" />
-          <Btn id="pen"       icon="✏" label="Pen (2px)" />
-          <Btn id="highlight" icon="☆" label="Highlighter (opacity 0.3, 14px)" />
-          <Btn id="text"      icon="T" label="Text (click to place)" />
-          <Btn id="line"      icon="╱" label="Line" />
-          <Btn id="arrow"     icon="→" label="Arrow" />
-          <Btn id="angle"     icon="∠" label="Angle marker (3-click)" />
-          <Btn id="latex"     icon="ƒ" label="Insert LaTeX formula"
+          <Btn id="select"    icon="↖" label="Select / Move [V]" />
+          <Btn id="pen"       icon="✏" label="Pen [P]" />
+          <Btn id="highlight" icon="☆" label="Highlighter [H]" />
+          <Btn id="text"      icon="T" label="Text [T]" />
+          <Btn id="line"      icon="╱" label="Line [L]" />
+          <Btn id="arrow"     icon="→" label="Arrow [A]" />
+          <Btn id="angle"     icon="∠" label="Angle marker [G]" />
+          <Btn id="latex"     icon="ƒ" label="Insert LaTeX [F]"
                onClick={() => { setTool('latex'); setShowShapes(false); setShowLatex(true) }} />
-          <Btn id="eraser"    icon="⌫" label="Eraser" />
+          <Btn id="eraser"    icon="⌫" label="Eraser [E]" />
 
           {/* Shapes pop-out */}
           <div style={{ position: 'relative' }}>
             <button
-              title="Shapes"
+              title="Shapes [S]"
               onClick={() => setShowShapes(s => !s)}
               style={{
                 width: 28, height: 28, borderRadius: 5, fontSize: 14, flexShrink: 0,
@@ -564,7 +602,7 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
           <div style={{ width: 1, height: 20, background: border, margin: '0 2px', flexShrink: 0 }} />
 
           {/* Color swatches */}
-          {SWATCHES.map(sw => (
+          {swatches.map(sw => (
             <button key={sw} title={sw}
               onClick={() => setColor(sw)}
               style={{
@@ -582,7 +620,7 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
 
           {/* Grid snap */}
           <button
-            title={`Grid snap ${gridSnap ? 'on' : 'off'} (20px)`}
+            title={`Grid snap ${gridSnap ? 'on' : 'off'} (20px) [Ctrl+G]`}
             onClick={() => setGridSnap(s => !s)}
             style={{
               width: 28, height: 28, borderRadius: 5, fontSize: 12, flexShrink: 0,
@@ -596,7 +634,7 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
           </button>
 
           {/* Image upload */}
-          <button title="Upload image"
+          <button title="Upload image (or Ctrl+V to paste)"
             onClick={() => fileInputRef.current?.click()}
             style={{
               width: 28, height: 28, borderRadius: 5, fontSize: 14, flexShrink: 0,
@@ -612,11 +650,11 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
           <div style={{ flex: 1 }} />
 
           {/* Undo / Redo / Clear */}
-          <button title="Undo" onClick={doUndo}
+          <button title="Undo [Ctrl+Z]" onClick={doUndo}
             style={{ width: 28, height: 28, borderRadius: 5, fontSize: 14, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: '1px solid transparent', background: 'transparent', color: text }}>
             ↩
           </button>
-          <button title="Redo" onClick={doRedo}
+          <button title="Redo [Ctrl+Y]" onClick={doRedo}
             style={{ width: 28, height: 28, borderRadius: 5, fontSize: 14, flexShrink: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', border: '1px solid transparent', background: 'transparent', color: text }}>
             ↪
           </button>
@@ -626,10 +664,10 @@ export const StudentToolbar = forwardRef<StudentToolbarHandle, StudentToolbarPro
           </button>
         </div>
 
-        {/* ── Canvas ────────────────────────────────────────────────────────── */}
-        <canvas ref={canvasElRef}
-          style={{ display: 'block', border: `1px solid ${border}`, borderRadius: '0 0 8px 8px' }}
-        />
+        {/* ── Canvas — bg div sits behind Fabric so destination-out holes show correctly ── */}
+        <div style={{ background: bg, border: `1px solid ${border}`, borderRadius: '0 0 8px 8px', overflow: 'hidden', lineHeight: 0 }}>
+          <canvas ref={canvasElRef} style={{ display: 'block' }} />
+        </div>
 
         {/* ── LaTeX overlay ─────────────────────────────────────────────────── */}
         {showLatex && (

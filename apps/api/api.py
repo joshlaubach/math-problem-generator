@@ -43,7 +43,7 @@ from tracking import (
 from adaptive import recommend_difficulty_for_user, get_difficulty_range_for_user
 from word_problem import wrap_problem_as_word_problem
 from taxonomy import get_algebra1_course
-from llm_factory import get_cached_sync_llm_client
+from llm_factory import get_cached_sync_llm_client, get_cached_llm_client
 from concept_analytics import (
     get_user_concept_stats,
     get_course_concept_heatmap,
@@ -1365,7 +1365,7 @@ async def generate_hint(
     _abuse_check(user.id, user.role, user_repo)
 
     try:
-        llm_client = get_cached_sync_llm_client()
+        llm_client = get_cached_llm_client()
 
         _hint_guidance = [
             "Give a very gentle nudge — help the student identify the relevant concept or formula WITHOUT revealing the method.",
@@ -1384,7 +1384,7 @@ async def generate_hint(
         if body.error_description:
             problem_context += f"\nDescribed error: {body.error_description}"
 
-        hint = llm_client.generate_hint(problem_context)
+        hint = await llm_client.generate_hint(problem_context)
 
         return HintResponse(
             problem_id=body.problem_id,

@@ -139,9 +139,17 @@ class DummyLLMClient:
     async def generate_hint(
         self,
         problem_context: str,
+        error_description: str = "",
+        current_step_latex: str = "",
+        **kwargs,
     ) -> str:
         """Return a template hint (no LLM call)."""
-        return f"[Hint] Start by identifying what you know and what you need to find. {problem_context[:60]}…"
+        suffix = ""
+        if error_description:
+            suffix = f" [Error hint: {error_description[:30]}]"
+        elif current_step_latex:
+            suffix = f" [Step hint from: {current_step_latex[:20]}]"
+        return f"[Hint] Start by identifying what you know and what you need to find. {problem_context[:60]}…{suffix}"
 
     async def evaluate_student_work(
         self,

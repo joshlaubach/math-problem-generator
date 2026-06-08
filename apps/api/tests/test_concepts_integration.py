@@ -15,27 +15,27 @@ from api import app
 from concepts import CONCEPTS
 
 
-def _make_auth_client():
-    """TestClient with student auth override (required since /generate needs auth)."""
-    from users_models import User
-    from auth_dependencies import require_student
-    from abuse_guard import reset_for_testing
-    from api import limiter
-
-    def _student():
-        return User(
-            id="concepts-test-student", email="student@concepts-test.com",
-            password_hash="", role="student", created_at=datetime.utcnow(),
-            is_active=True, tier="classroom-student",
-        )
-
-    reset_for_testing()
-    limiter._storage.reset()
-    app.dependency_overrides[require_student] = _student
-    return TestClient(app)
+from users_models import User
+from auth_dependencies import require_student
 
 
-client = _make_auth_client()
+def _concepts_student():
+    return User(
+        id="concepts-test-student", email="student@concepts-test.com",
+        password_hash="", role="student", created_at=datetime.utcnow(),
+        is_active=True, tier="classroom-student",
+    )
+
+
+@pytest.fixture(autouse=True, scope="function")
+def _apply_concepts_auth():
+    """Re-apply student override before each test (other fixtures may clear it)."""
+    app.dependency_overrides[require_student] = _concepts_student
+    yield
+    app.dependency_overrides.pop(require_student, None)
+
+
+client = TestClient(app)
 
 
 # ============================================================================

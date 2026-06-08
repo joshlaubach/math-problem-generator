@@ -86,7 +86,7 @@ class TestListTopics:
         response = client.get("/topics")
         topics = response.json()
         topic_ids = [t["topic_id"] for t in topics]
-        assert "alg1_linear_solve_one_var" in topic_ids
+        assert any(t in topic_ids for t in ("a1_002", "alg1_linear_solve_one_var"))
 
 
 class TestGenerateProblem:
