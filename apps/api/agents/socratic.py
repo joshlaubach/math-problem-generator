@@ -4,12 +4,15 @@ Socratic Tutor Agent.
 The only agent that calls Claude in the real-time WebSocket path.
 Stateless — all context is passed per call.
 
-Rules enforced via system prompt:
-- Never reveal the answer, even indirectly.
-- Always end with a guiding question.
-- Target the most recent misconception when wrong attempts exist.
-- Use hint ladder internally as context — never quote verbatim.
-- Keep responses concise (2-4 sentences).
+System prompt is assembled via prompt_assembler.build_system_prompt() so that:
+- CONSTITUTION + OUTPUT_CONSTRAINTS are always-on (Anthropic-cached static prefix)
+- ROLE_LAYERS["SOCRATIC"] provides the structural rules
+- Situational SCENARIO_SNIPPETS are injected only when signals fire
+- DEEP_GUIDE is injected (cached) only when the escalation gate opens
+
+The duplicated rules that previously lived inline in _SYSTEM_PROMPT_TEMPLATE
+(Never-state-answer, one-question, KaTeX-only, no em-dash, etc.) are now
+authoritative in tutor_guide.py and removed from here to prevent drift.
 """
 
 from __future__ import annotations
@@ -17,27 +20,7 @@ from __future__ import annotations
 from llm_anthropic_client import _call_with_backoff
 from concept_taxonomy import labels_for_topic
 
-_SYSTEM_PROMPT_TEMPLATE = """\
-You are {tutor_name}, a patient, encouraging Socratic math tutor. Your job is to \
-guide students to discover the answer themselves — never to give it to them.
-
-Rules you must follow without exception:
-1. NEVER state or strongly imply the final answer, even if the student begs.
-2. Ask exactly one focused guiding question per response.
-3. If the student made a wrong attempt, identify the specific misconception in \
-that attempt and ask a question that directly targets it.
-4. If a hint has been served (hint_level > 0), use the hint concept internally \
-to shape your question — but do NOT quote the hint text verbatim.
-5. Keep your response to 2-4 sentences. End every response with a question mark.
-6. If the student expresses frustration, acknowledge it warmly in one sentence, \
-then redirect with your guiding question.
-7. Do not repeat a question you have already asked in this conversation.
-{concept_section}\
-{history_briefing}\
-"""
-
 _CONCEPT_SECTION = """\
-
 Known misconception labels for this topic (use these exact labels when tagging errors):
 {labels}
 When a student makes an error, silently identify which label fits best. \
@@ -101,6 +84,9 @@ async def respond(
     session_summary: list[str] | None = None,
     topic_id: str | None = None,
     history_briefing: str = "",
+    snippets: list[str] | None = None,
+    topic_guidance: str | None = None,
+    deep: bool = False,
 ) -> str:
     """
     Generate a Socratic response to the student's message.
@@ -114,21 +100,37 @@ async def respond(
         wrong_attempts: All incorrect answer strings submitted so far.
         tutor_name: Tutor persona name injected into system prompt.
         session_summary: Bullet summaries of earlier problems in this session.
+        topic_id: Topic identifier for concept-label lookup.
+        history_briefing: Cross-session weak concept briefing (optional).
+        snippets: Scenario snippet keys from select_snippets() — injected into prompt.
+        topic_guidance: Block from select_topic_guidance() — injected into prompt.
+        deep: If True, inject the full guide (escalation-gated).
 
     Returns:
         Socratic response string — always ends with a question.
     """
+    from agents.prompt_assembler import build_system_prompt
+
+    # Build dynamic context section for the system prompt
     concept_labels = labels_for_topic(topic_id) if topic_id else []
     concept_section = (
         _CONCEPT_SECTION.format(labels="\n".join(f"• {l}" for l in concept_labels[:30]))
         if concept_labels else ""
     )
-    history_section = f"\n{history_briefing}" if history_briefing else ""
-    system_prompt = _SYSTEM_PROMPT_TEMPLATE.format(
-        tutor_name=tutor_name,
-        concept_section=concept_section,
-        history_briefing=history_section,
+    history_section = f"\nPrior session context: {history_briefing}" if history_briefing else ""
+    tutor_section = f"You are {tutor_name}."
+
+    context = "\n".join(filter(None, [tutor_section, concept_section, history_section]))
+
+    system_prompt = build_system_prompt(
+        role="SOCRATIC",
+        context=context,
+        snippets=snippets,
+        topic_guidance=topic_guidance,
+        deep=deep,
+        cacheable=True,
     )
+
     messages = _build_messages(
         problem_statement, conversation, student_message,
         hint_ladder, hint_level, wrong_attempts,

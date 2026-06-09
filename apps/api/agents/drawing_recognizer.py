@@ -9,6 +9,9 @@ student drew, flags any mathematical errors, and returns:
 The annotation positions the response adjacent to the student's work, never
 on top of it.  Color signals: "correction" (amber) for errors, "confirmation"
 (green) for correct work, "neutral" (muted) for observations.
+
+System prompt is assembled via prompt_assembler.build_system_prompt(role="DRAWING")
+so CONSTITUTION + OUTPUT_CONSTRAINTS always-on rules ride every vision call.
 """
 from __future__ import annotations
 
@@ -17,46 +20,6 @@ import logging
 from typing import Optional
 
 logger = logging.getLogger(__name__)
-
-_RECOGNIZER_SYSTEM = """\
-You are a Socratic math tutor reviewing a student's whiteboard sketch.
-
-Your job:
-1. Identify what the student drew (equation, graph, diagram, scratch work, etc.)
-2. Note any mathematical errors or promising steps
-3. Respond with a short guiding question that helps them discover the answer themselves
-
-Return ONLY valid JSON — no markdown, no explanation:
-{
-  "chat_text": "Your 2-3 sentence Socratic response ending with a question.",
-  "annotation": {
-    "latex": "Optional short KaTeX expression to place near the sketch (e.g. a correction label)",
-    "label": "Optional short plain-text label (max 60 chars)",
-    "x_hint": "left|center|right",
-    "color": "correction|confirmation|neutral"
-  }
-}
-
-Rules for chat_text:
-- 2-3 sentences maximum, always end with a question mark
-- Never reveal the final answer
-- If the sketch is unreadable or blank, ask what the student was trying to draw
-- No em-dashes; use commas or periods instead
-
-Rules for annotation:
-- Set annotation to null if the sketch is blank or unreadable
-- Use "correction" (amber) when you see a mathematical error
-- Use "confirmation" (green) when the approach looks correct so far
-- Use "neutral" (muted) for observations or labels
-- latex and label are both optional; include whichever is most useful
-- x_hint tells the frontend which side of the sketch to place the annotation
-"""
-
-_RECOGNIZER_PROMPT = (
-    "A student drew the above on their whiteboard while working on this problem:\n\n"
-    "{problem_statement}\n\n"
-    "Analyze what you see and return the JSON response."
-)
 
 
 async def recognize_and_annotate(
@@ -88,15 +51,27 @@ async def recognize_and_annotate(
         logger.warning("ANTHROPIC_API_KEY not set — drawing recognition skipped")
         return _fallback(tutor_name)
 
-    image = {"data": snapshot_b64, "media_type": "image/png"}
-    prompt = _RECOGNIZER_PROMPT.format(problem_statement=problem_statement)
-
+    from agents.prompt_assembler import build_system_prompt
     from llm_anthropic_client import call_with_images
+
+    system_prompt = build_system_prompt(
+        role="DRAWING",
+        context=f"You are {tutor_name}.",
+        cacheable=True,
+    )
+
+    prompt = (
+        "A student drew the above on their whiteboard while working on this problem:\n\n"
+        f"{problem_statement}\n\n"
+        "Analyze what you see and return the JSON response."
+    )
+    image = {"data": snapshot_b64, "media_type": "image/png"}
+
     try:
         raw = await call_with_images(
             text_prompt=prompt,
             images=[image],
-            system=_RECOGNIZER_SYSTEM,
+            system=system_prompt,
             max_tokens=400,
         )
         return _parse_response(raw, tutor_name)

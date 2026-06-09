@@ -154,7 +154,7 @@ export default function TutorNewPage() {
   const [classId,      setClassId]      = useState<string>('')
   const [unitIds,      setUnitIds]      = useState<string[]>([])
   const [topicIds,     setTopicIds]     = useState<string[]>([])
-  const [why,          setWhy]          = useState<string>('')
+  const [why,          setWhy]          = useState<string[]>([])
   const [notes,        setNotes]        = useState('')
   const [freeformDesc, setFreeformDesc] = useState('')
   const [sessionType,  setSessionType]  = useState<'1hr' | '2hr'>('1hr')
@@ -221,8 +221,9 @@ export default function TutorNewPage() {
       const token = await getToken()
       if (!token) throw new Error('Not signed in. Please refresh and try again.')
 
-      // Resolve effective topic IDs
-      const effectiveTopicIds = topicIds.includes('__all__')
+      // Resolve effective topic IDs — fall back to all topics in selected units
+      // when no individual topics are explicitly checked (unit-only selection)
+      const effectiveTopicIds = topicIds.includes('__all__') || topicIds.length === 0
         ? allTopics.map(t => t.id)
         : topicIds
 
@@ -239,7 +240,7 @@ export default function TutorNewPage() {
         unit_names: effectiveUnitNames,
         topic_ids: isOther ? [] : effectiveTopicIds,
         freeform_topics: isOther && freeformDesc ? [freeformDesc] : [],
-        why: why || undefined,
+        why: why.length > 0 ? why.join(',') : undefined,
         notes: [notes, isOther ? freeformDesc : ''].filter(Boolean).join('\n\n').trim(),
         session_type: sessionType,
       }
@@ -396,16 +397,16 @@ export default function TutorNewPage() {
                   <button
                     key={opt.value}
                     type="button"
-                    onClick={() => setWhy(why === opt.value ? '' : opt.value)}
+                    onClick={() => setWhy(toggle(why, opt.value))}
                     title={opt.desc}
                     style={{
                       padding: '7px 14px',
                       borderRadius: 20,
                       fontSize: 12, fontWeight: 500,
                       cursor: 'pointer',
-                      border: `1px solid ${why === opt.value ? 'var(--caramel)' : 'var(--border)'}`,
-                      background: why === opt.value ? 'var(--caramel-dim)' : 'transparent',
-                      color: why === opt.value ? 'var(--caramel)' : 'var(--text-dim)',
+                      border: `1px solid ${why.includes(opt.value) ? 'var(--caramel)' : 'var(--border)'}`,
+                      background: why.includes(opt.value) ? 'var(--caramel-dim)' : 'transparent',
+                      color: why.includes(opt.value) ? 'var(--caramel)' : 'var(--text-dim)',
                       transition: 'all 0.15s',
                     }}
                   >

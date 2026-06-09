@@ -615,6 +615,13 @@ async def _run_general_session(
     except Exception:
         pass
 
+    # Mark first-ever session (used by should_inject_deep for diagnostic protocol)
+    try:
+        from session_quota import get_prior_session_count
+        session.is_first_ever_session = get_prior_session_count(user.id) == 0
+    except Exception:
+        session.is_first_ever_session = False
+
     # Set first problem
     first_problem = _problem_from_queue_or_uploads(session)
     if first_problem is not None:
@@ -1126,6 +1133,13 @@ async def _run_legacy_session(
     from misconception_service import weak_concepts_briefing
     history_briefing = weak_concepts_briefing(user.id)
 
+    # Check if this is the user's very first session (diagnostic protocol gate)
+    try:
+        from session_quota import get_prior_session_count as _get_prior
+        _is_first = _get_prior(user.id) == 0
+    except Exception:
+        _is_first = False
+
     session = create_session(
         session_id=session_id,
         user_id=user.id,
@@ -1138,6 +1152,7 @@ async def _run_legacy_session(
         tutor_name=safe_tutor_name,
         history_briefing=history_briefing,
     )
+    session.is_first_ever_session = _is_first
 
     _legacy_meta = TOPIC_REGISTRY.get(resolved_topic_id or "")
     _legacy_input_mode = get_input_mode(

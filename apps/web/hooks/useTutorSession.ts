@@ -153,6 +153,9 @@ export function useTutorSession(): TutorSessionHook {
     preSessionId?: string
   } | null>(null)
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  // Tracks whether the session reached a terminal state (ended/solved/timeout)
+  // so onclose doesn't overwrite it with 'error' via stale closure state
+  const sessionTerminatedRef = useRef(false)
 
   const [state, setState] = useState<TutorSessionState>('idle')
   const [problem, setProblem] = useState<TutorProblem | null>(null)
@@ -372,6 +375,7 @@ export function useTutorSession(): TutorSessionHook {
     // ── Session end ──────────────────────────────────────────────────────────
     else if (type === 'session_end' || type === 'session_timeout') {
       stopCountdown()
+      sessionTerminatedRef.current = true
       setSummary(msg.summary as SessionSummary)
       setState(type === 'session_timeout' ? 'timeout' : 'ended')
     }
@@ -445,9 +449,11 @@ export function useTutorSession(): TutorSessionHook {
           }
         }, delay)
       } else {
-        const s = wsRef.current ? 'idle' : state
-        if (s !== 'solved' && s !== 'ended' && s !== 'timeout') {
-          setState(NO_RECONNECT_CODES.has(event.code) ? 'error' : 'ended')
+        if (!sessionTerminatedRef.current) {
+          const s = wsRef.current ? 'idle' : state
+          if (s !== 'solved' && s !== 'ended' && s !== 'timeout') {
+            setState(NO_RECONNECT_CODES.has(event.code) ? 'error' : 'ended')
+          }
         }
         stopCountdown()
       }
@@ -476,6 +482,7 @@ export function useTutorSession(): TutorSessionHook {
     setExamModeActive(false)
     setCurrentIndex(0)
     setTotalProblems(0)
+    sessionTerminatedRef.current = false
   }, [])
 
   // ── Public API ──────────────────────────────────────────────────────────────
