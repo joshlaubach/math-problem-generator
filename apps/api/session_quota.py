@@ -119,6 +119,19 @@ def record_tutor_session(
     })
 
 
+def get_prior_session_count(user_id: str) -> int:
+    """Return the number of completed tutor sessions ever recorded for this user.
+
+    Used by ws_router to populate TutorSession.is_first_ever_session so the
+    diagnostic protocol is injected correctly on a user's very first session.
+    """
+    records = _load_records()
+    return sum(
+        1 for r in records
+        if r.get("type") == "tutor_session" and r.get("user_id") == user_id
+    )
+
+
 # ── Problem generation tracking ───────────────────────────────────────────────
 
 def get_problems_used(user_id: str, year_month: Optional[str] = None) -> int:

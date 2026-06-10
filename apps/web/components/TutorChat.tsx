@@ -75,10 +75,7 @@ function MessageBubble({ role, content }: { role: 'student' | 'tutor' | 'system'
         fontSize: 14,
         lineHeight: 1.6,
       }}>
-        {isStudent
-          ? <span>{content}</span>
-          : <MathText latex={content} prose />
-        }
+        <MathText latex={content} prose />
       </div>
     </div>
   )

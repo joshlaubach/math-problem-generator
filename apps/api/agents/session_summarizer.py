@@ -15,36 +15,17 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-SUMMARIZER_SYSTEM_PROMPT = """\
-You are summarizing a math tutoring session for a student. Return ONLY valid JSON — no markdown.
+def _get_summarizer_system_prompt() -> str:
+    """Build the summarizer system prompt via the assembler (lazy, cached by the assembler)."""
+    from agents.prompt_assembler import build_system_prompt
+    result = build_system_prompt(role="SUMMARY", cacheable=False)
+    # build_system_prompt with cacheable=False returns a plain string
+    assert isinstance(result, str)
+    return result
 
-Output schema:
-{
-  "bullets": ["...", "...", "..."],
-  "per_topic_performance": {"Topic Name": "strong|needs_work|attempted"},
-  "practice_problems": ["Problem statement 1", "Problem statement 2", ...]
-}
 
-Bullets (3-5 items):
-1. Name the specific concept or skill covered (no generic phrases).
-2. Note whether the student solved it (how quickly / how many hints if relevant).
-3. Give one specific, actionable thing to review or practice before the next session.
-- Plain English, no jargon, no teaching terminology.
-- Do NOT mention "hints", "EDGE", "Socratic", "tutor", or "AI".
-- Each bullet is one sentence, under 20 words.
-
-per_topic_performance:
-- "strong": solved cleanly with ≤1 hint and ≤1 wrong attempt.
-- "needs_work": struggled significantly or did not solve.
-- "attempted": tried but session ended before resolving.
-- Include every topic mentioned in the session; omit internal/freeform labels.
-
-practice_problems (2-4 items):
-- Generate specific, self-contained practice problems for the WEAKEST topics.
-- Use LaTeX notation where appropriate ($...$).
-- These are new problems — never reference the uploaded file or session content.
-- Skip if all topics are "strong".
-"""
+# Keep module-level constant for backward compat with any external imports
+SUMMARIZER_SYSTEM_PROMPT: str = ""  # populated on first call via _get_summarizer_system_prompt()
 
 
 async def summarize_session(
@@ -105,11 +86,12 @@ Generate the session summary JSON."""
 
     try:
         from anthropic import AsyncAnthropic
+        summarizer_prompt = _get_summarizer_system_prompt()
         client = AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
         response = await client.messages.create(
             model=ANTHROPIC_MODEL,
             max_tokens=600,
-            system=SUMMARIZER_SYSTEM_PROMPT,
+            system=summarizer_prompt,
             messages=[{"role": "user", "content": user_content}],
         )
         text = response.content[0].text.strip()
