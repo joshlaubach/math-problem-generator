@@ -18,6 +18,7 @@ NEVER generate a problem question-first. Always:
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -179,6 +180,38 @@ def _convert_legacy_steps(prob) -> list[WorkedStep]:
 # Mode B: LLM-only (topics without SymPy generators)
 # ---------------------------------------------------------------------------
 
+def _extract_json(raw: str) -> dict | None:
+    """Extract the first JSON object from raw LLM output.
+
+    Tries three strategies in order:
+    1. Parse the full response as JSON (fastest path).
+    2. Find JSON in a markdown code block anywhere in the response.
+    3. Find the first {...} span in the response (handles preamble/postamble text).
+    """
+    stripped = raw.strip()
+
+    try:
+        return json.loads(stripped)
+    except json.JSONDecodeError:
+        pass
+
+    m = re.search(r'```(?:json)?\s*\n([\s\S]*?)\n```', stripped)
+    if m:
+        try:
+            return json.loads(m.group(1))
+        except json.JSONDecodeError:
+            pass
+
+    m = re.search(r'\{[\s\S]*\}', stripped)
+    if m:
+        try:
+            return json.loads(m.group(0))
+        except json.JSONDecodeError:
+            pass
+
+    return None
+
+
 async def _generate_mode_b(inp: GeneratorInput) -> GeneratedProblem:
     """
     Mode B: full LLM answer-first generation with SymPy post-verification.
@@ -200,15 +233,8 @@ async def _generate_mode_b(inp: GeneratorInput) -> GeneratedProblem:
             max_tokens=2000,
         )
 
-        # Strip markdown code fences if Claude wrapped the JSON
-        stripped = raw.strip()
-        if stripped.startswith("```"):
-            lines = stripped.splitlines()
-            stripped = "\n".join(lines[1:-1] if lines[-1].strip() == "```" else lines[1:])
-
-        try:
-            data = json.loads(stripped)
-        except json.JSONDecodeError:
+        data = _extract_json(raw)
+        if data is None:
             continue
 
         statement = data.get("statement", "")
