@@ -42,12 +42,19 @@ def _clean_topic_names(names: list[str]) -> list[str]:
     return [_re.sub(r'\s*\(H\+?\)\s*$', '', n).strip() for n in names]
 
 
+def _naturalize(text: str) -> str:
+    """Enforce OUTPUT_CONSTRAINTS the model sometimes ignores: no em-dashes."""
+    return _re.sub(r'\s*—\s*', ', ', text)
+
+
 async def get_opening_message(
     session_why: Optional[str],
     uploaded_problem_count: int,
     class_name: str,
     topic_names: list[str],
     tutor_name: str = "Josh",
+    problem_statement: Optional[str] = None,
+    is_returning: bool = False,
 ) -> str:
     """Generate a natural opening message via LLM, falling back to a simple string."""
     from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL
@@ -57,6 +64,10 @@ async def get_opening_message(
 
     if uploaded_problem_count > 0:
         context = f"The student uploaded {uploaded_problem_count} problem{'s' if uploaded_problem_count != 1 else ''}."
+        if problem_statement:
+            context += f" First problem: {problem_statement}"
+    elif problem_statement:
+        context = f"Problem statement: {problem_statement}"
     elif clean_topics:
         short = clean_topics[:2]
         context = f"Topics: {', '.join(short)}."
@@ -73,16 +84,24 @@ async def get_opening_message(
 
     if not ANTHROPIC_API_KEY:
         # Deterministic fallback — used in tests; must contain "problem" for uploads
+        greeting = "Welcome back!" if is_returning else f"Hey, I'm {tutor_name}!"
         if uploaded_problem_count > 0:
             return (
-                f"Hey, I'm {tutor_name}! I can see you uploaded "
+                f"{greeting} I can see you uploaded "
                 f"{uploaded_problem_count} problem{'s' if uploaded_problem_count != 1 else ''}. "
                 "Which one are you most worried about, or should we start from the top?"
             )
         topic = clean_topics[0] if clean_topics else class_name or "math"
+        if is_returning:
+            return f"Welcome back! Ready to pick up {topic} where we left off?"
         return f"Hey, I'm {tutor_name}! Good to meet you. What are we working on in {topic} today?"
 
-    session_context = f"Tutor name: {tutor_name}. {context} {why_context}".strip()
+    returning_context = (
+        " This is a returning student; greet them like someone you already know, "
+        "do not introduce yourself."
+        if is_returning else ""
+    )
+    session_context = f"Tutor name: {tutor_name}. {context} {why_context}{returning_context}".strip()
     system_prompt = build_system_prompt(
         role="OPENING",
         context=session_context,
@@ -103,12 +122,23 @@ async def get_opening_message(
         else:
             kwargs["system"] = system_prompt
         msg = await client.messages.create(**kwargs)
-        return msg.content[0].text.strip()
+        return _naturalize(msg.content[0].text.strip())
     except Exception:
+        if is_returning:
+            return "Welcome back! What are we working on today?"
         return f"Hey, I'm {tutor_name}! Good to meet you. What are we working on today?"
 
 
 # ── Socratic / lesson responses ────────────────────────────────────────────────
+
+# Rotating fallbacks for LLM outages — never the same canned line twice in a row
+_SOCRATIC_FALLBACKS = [
+    "Walk me through your last step, what were you thinking there?",
+    "Tell me what you tried just now, where did it take you?",
+    "Which part of this feels solid so far, and which part feels shaky?",
+    "Take your best guess at the next step, what would you try?",
+]
+
 
 async def generate_tutor_response(
     session: Any,
@@ -172,8 +202,9 @@ async def generate_tutor_response(
             topic_guidance=topic_guidance,
             deep=deep,
         )
+        reply = _naturalize(reply)
     except Exception:
-        reply = "Interesting approach! What's your reasoning for that step?"
+        reply = _SOCRATIC_FALLBACKS[len(session.conversation) % len(_SOCRATIC_FALLBACKS)]
 
     return reply, False
 
@@ -227,13 +258,23 @@ async def _lesson_response(
     client = AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
 
     stmt = problem.statement if problem else "the current topic"
+
+    # Recent turns let the model scope the lesson to the actual stuck point
+    recent_turns = "\n".join(
+        f"{t['role']}: {t['content']}" for t in session.conversation[-6:]
+    )
+
     context = (
         f"You are {session.tutor_name}. "
-        f"Student's problem: {stmt}\n"
+        f"Student's problem (do NOT solve this one or reveal its answer): {stmt}\n"
         f"Course: {session.class_name}\n"
-        + (f"Lesson worked example:\n{worked_example_text}\n" if worked_example_text else "")
+        + (f"Lesson worked example (use this as your parallel demonstration):\n{worked_example_text}\n"
+           if worked_example_text else "")
+        + (f"Recent conversation:\n{recent_turns}\n" if recent_turns else "")
         + f"Student said: {student_message}\n\n"
-        "Explain the concept, show the approach, then give a simpler practice problem."
+        "Teach the concept the student is stuck on, demonstrating on a parallel example "
+        "with different numbers, never on the student's own problem. Then give a simpler "
+        "practice problem. Never state or imply the answer to the student's problem."
     )
 
     system_prompt = build_system_prompt(
@@ -248,7 +289,7 @@ async def _lesson_response(
     try:
         kwargs: dict = {
             "model": ANTHROPIC_MODEL,
-            "max_tokens": 600,
+            "max_tokens": 800,
             "messages": [{"role": "user", "content": "Generate the lesson response now."}],
         }
         if isinstance(system_prompt, list):
@@ -257,7 +298,7 @@ async def _lesson_response(
         else:
             kwargs["system"] = system_prompt
         resp = await client.messages.create(**kwargs)
-        return resp.content[0].text.strip()
+        return _naturalize(resp.content[0].text.strip())
     except Exception:
         stmt = problem.statement if problem else "the current topic"
         return (
@@ -282,7 +323,7 @@ async def handle_going_too_fast(session: Any) -> str:
 
     if not ANTHROPIC_API_KEY:
         return (
-            "No problem — let's slow down. "
+            "No problem, let's slow down. "
             f"Going back to basics on this one: {stmt}. "
             "Tell me what part feels unclear and we'll work through it together."
         )
@@ -317,10 +358,10 @@ async def handle_going_too_fast(session: Any) -> str:
         else:
             kwargs["system"] = system_prompt
         resp = await client.messages.create(**kwargs)
-        return resp.content[0].text.strip()
+        return _naturalize(resp.content[0].text.strip())
     except Exception:
         return (
-            "Of course — let's back up. "
+            "Of course, let's back up. "
             "Walk me through what you've understood so far and we'll fill the gaps together."
         )
 
@@ -404,6 +445,21 @@ async def build_problem_queue(session: Any) -> list[GeneratedProblem]:
 
 # ── Exam mode detection ────────────────────────────────────────────────────────
 
+def count_recent_clean_solves(session: Any) -> int:
+    """
+    Count consecutive clean solves from the end of session_summary.
+    A clean solve mentions "solved"/"correct" with no mention of hints.
+    """
+    clean_count = 0
+    for bullet in reversed(session.session_summary):
+        bullet_str = str(bullet).lower()
+        if ("solved" in bullet_str or "correct" in bullet_str) and "hint" not in bullet_str:
+            clean_count += 1
+        else:
+            break  # require consecutive
+    return clean_count
+
+
 def check_exam_readiness(session: Any) -> bool:
     """
     Returns True if the student has shown consistent readiness for exam mode:
@@ -414,27 +470,18 @@ def check_exam_readiness(session: Any) -> bool:
     if session.current_index < READINESS_THRESHOLD:
         return False
 
-    # Count clean solves from recent session_summary bullets
-    clean_count = 0
-    for bullet in reversed(session.session_summary[-READINESS_THRESHOLD:]):
-        bullet_str = str(bullet).lower()
-        # A clean solve has no mention of hints or multiple attempts
-        if ("solved" in bullet_str or "correct" in bullet_str) and "hint" not in bullet_str:
-            clean_count += 1
-        else:
-            break  # require consecutive
-
-    return clean_count >= READINESS_THRESHOLD
+    return count_recent_clean_solves(session) >= READINESS_THRESHOLD
 
 
 async def get_exam_mode_proposal(session: Any) -> str:
     """
     Return the tutor message proposing to enter exam mode.
     """
+    clean = count_recent_clean_solves(session) or READINESS_THRESHOLD
     return (
-        f"You've been crushing these — {clean_count_desc(session.current_index)} solved cleanly. "
+        f"You've been crushing these, {clean_count_desc(clean)} in a row with no help. "
         f"I think you're ready to be tested without any support. "
-        "Want to try **exam mode**? I'll clear the board and give you problems without hints. "
+        "Want to try exam mode? I'll clear the board and give you problems without hints. "
         "Say yes when you're ready, or just keep going as normal."
     )
 
@@ -446,6 +493,6 @@ def clean_count_desc(n: int) -> str:
 async def get_exam_start_message(session: Any) -> str:
     """Return the message that plays when exam mode begins."""
     return (
-        "Exam mode — let's see what you've got. "
+        "Exam mode, let's see what you've got. "
         "Board cleared. No hints, no help. Just you and the problems. Good luck!"
     )

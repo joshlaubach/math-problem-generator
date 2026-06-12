@@ -69,6 +69,9 @@ class TutorSession:
     uploaded_problems: list = field(default_factory=list)  # extracted from file uploads
     exam_mode: bool = False
     consecutive_no_progress: int = 0
+    soft_error_count: int = 0            # chat-borne errors the tutor corrected (no formal
+                                         # submission); feeds misconception/deep gates,
+                                         # reset on problem advance
     session_tier: str = "basic"          # "basic" | "premium" — gates drawing recognition + RAG
     is_first_ever_session: bool = False  # True when user has no prior TutorSessionRecord rows;
                                          # gates the diagnostic protocol in should_inject_deep()

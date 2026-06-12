@@ -512,6 +512,7 @@ async def _advance_problem(websocket: WebSocket, session, source_label: str = "s
     session.attempts = []
     session.is_solved = False
     session.consecutive_no_progress = 0
+    session.soft_error_count = 0
 
     next_problem = _problem_from_queue_or_uploads(session)
 
@@ -615,10 +616,15 @@ async def _run_general_session(
     except Exception:
         pass
 
-    # Mark first-ever session (used by should_inject_deep for diagnostic protocol)
+    # Mark first-ever session (used by should_inject_deep for diagnostic protocol).
+    # is_returning gates the opener greeting: only claim "welcome back" when the
+    # lookup SUCCEEDS with prior sessions — on failure, default to a neutral intro.
+    is_returning = False
     try:
         from session_quota import get_prior_session_count
-        session.is_first_ever_session = get_prior_session_count(user.id) == 0
+        prior_count = get_prior_session_count(user.id)
+        session.is_first_ever_session = prior_count == 0
+        is_returning = prior_count > 0
     except Exception:
         session.is_first_ever_session = False
 
@@ -677,6 +683,8 @@ async def _run_general_session(
         class_name=session.class_name,
         topic_names=topic_names,
         tutor_name=session.tutor_name,
+        problem_statement=first_problem.statement if first_problem else None,
+        is_returning=is_returning,
     )
     session.conversation.append({"role": "tutor", "content": opening})
     await _send(websocket, type="agent_text", text=opening)
@@ -713,6 +721,13 @@ async def _run_general_session(
                 reply, entered_lesson = await generate_tutor_response(session, text)
                 session.conversation.append({"role": "tutor", "content": reply})
                 session.consecutive_no_progress += 1  # reset on correct answer
+
+                # Chat-borne errors (wrong work stated in chat, never formally
+                # submitted) still advance the misconception/deep gates
+                from agents.tutor_guide import looks_like_correction
+                if looks_like_correction(reply):
+                    session.soft_error_count += 1
+
                 update_session(session)
 
                 if entered_lesson:

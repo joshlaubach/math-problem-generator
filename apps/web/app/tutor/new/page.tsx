@@ -8,9 +8,10 @@
  * Submits to POST /tutor/session/create → redirects to /tutor/session/:sessionId.
  */
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Suspense, useCallback, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useAuth } from '@clerk/nextjs'
+import { stripHonors, HonorsTag } from '@/components/TopicName'
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -116,10 +117,8 @@ function MultiCheckbox({
               style={{ accentColor: 'var(--caramel)', flexShrink: 0 }}
             />
             <span style={{ color: item.honors ? 'var(--caramel)' : 'var(--text)' }}>
-              {item.name}
-              {item.honors && (
-                <span style={{ fontSize: 10, marginLeft: 5, opacity: 0.6 }}>H</span>
-              )}
+              {stripHonors(item.name)}
+              {item.honors && <HonorsTag />}
             </span>
           </label>
         )
@@ -141,7 +140,16 @@ function checkboxRowStyle(active: boolean): React.CSSProperties {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
+// useSearchParams() requires a Suspense boundary for static prerendering
 export default function TutorNewPage() {
+  return (
+    <Suspense fallback={null}>
+      <TutorNewForm />
+    </Suspense>
+  )
+}
+
+function TutorNewForm() {
   const router        = useRouter()
   const searchParams  = useSearchParams()
   const { getToken }  = useAuth()
