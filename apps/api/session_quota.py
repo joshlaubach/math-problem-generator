@@ -1,8 +1,11 @@
 """
-Session quota tracking — monthly tutor hours and problem generation limits.
+Session quota tracking — monthly tutor hours, problem generation limits,
+served-problem dedup, and TTS budgets.
 
-Stored in data/session_quotas.jsonl (append-only, same pattern as rest of codebase).
-Each line is one event record: a tutor session end or a problem generation.
+Storage: QuotaEventRecord in Postgres when USE_DATABASE=true (durable across
+deploys — Railway's filesystem is ephemeral); data/session_quotas.jsonl in
+dev/test. Each record is one event: tutor session end, problem generation,
+problem served to a student, or TTS synthesis.
 
 Quota resets on the first day of each calendar month.
 """
@@ -10,11 +13,17 @@ Quota resets on the first day of each calendar month.
 from __future__ import annotations
 
 import json
+import uuid
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
 QUOTA_LOG_PATH = Path("data/session_quotas.jsonl")
+
+
+def _uses_database() -> bool:
+    from config import USE_DATABASE
+    return USE_DATABASE
 
 # Tutor access is credits-only (launch decision 2026-06-12): owning a credit IS
 # the quota. This flat ceiling exists solely to bound abuse (stolen card buying
@@ -41,7 +50,7 @@ def _ensure_data_dir() -> None:
     QUOTA_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 
-def _load_records() -> list[dict]:
+def _load_records_jsonl() -> list[dict]:
     _ensure_data_dir()
     if not QUOTA_LOG_PATH.exists():
         return []
@@ -57,7 +66,87 @@ def _load_records() -> list[dict]:
     return records
 
 
+def _query_records(
+    rec_type: str,
+    user_id: str,
+    year_month: Optional[str] = None,
+    date: Optional[str] = None,
+) -> list[dict]:
+    """All events of one type for one user, optionally filtered by period."""
+    if _uses_database():
+        try:
+            from db_models import QuotaEventRecord
+            from db_session import get_session
+
+            db = get_session()
+            try:
+                q = db.query(QuotaEventRecord).filter(
+                    QuotaEventRecord.type == rec_type,
+                    QuotaEventRecord.user_id == user_id,
+                )
+                if year_month is not None:
+                    q = q.filter(QuotaEventRecord.year_month == year_month)
+                if date is not None:
+                    q = q.filter(QuotaEventRecord.date == date)
+                return [
+                    {
+                        "type": r.type,
+                        "user_id": r.user_id,
+                        "problem_id": r.problem_id,
+                        "session_id": r.session_id,
+                        "duration_hours": r.duration_hours,
+                        "chars": r.chars,
+                        "source": r.source,
+                        "year_month": r.year_month,
+                        "date": r.date,
+                    }
+                    for r in q.all()
+                ]
+            finally:
+                db.close()
+        except Exception:
+            return []  # quota checks degrade open in prod rather than blocking sessions
+
+    records = _load_records_jsonl()
+    return [
+        r for r in records
+        if r.get("type") == rec_type
+        and r.get("user_id") == user_id
+        and (year_month is None or r.get("year_month") == year_month)
+        and (date is None or r.get("date") == date)
+    ]
+
+
 def _append_record(record: dict) -> None:
+    if _uses_database():
+        try:
+            from db_models import QuotaEventRecord
+            from db_session import get_session
+
+            db = get_session()
+            try:
+                db.add(QuotaEventRecord(
+                    id=str(uuid.uuid4()),
+                    type=record.get("type", ""),
+                    user_id=record.get("user_id", ""),
+                    problem_id=record.get("problem_id"),
+                    session_id=record.get("session_id"),
+                    duration_hours=record.get("duration_hours"),
+                    chars=record.get("chars"),
+                    source=record.get("source"),
+                    year_month=record.get("year_month", _year_month()),
+                    date=record.get("date", _today()),
+                ))
+                db.commit()
+                return
+            except Exception:
+                db.rollback()
+                raise
+            finally:
+                db.close()
+        except Exception:
+            pass  # fall through to JSONL so the event is never lost silently
+
     _ensure_data_dir()
     with QUOTA_LOG_PATH.open("a", encoding="utf-8") as f:
         f.write(json.dumps(record) + "\n")
@@ -75,13 +164,9 @@ def _today() -> str:
 
 def get_tutor_hours_used(user_id: str, year_month: Optional[str] = None) -> float:
     ym = year_month or _year_month()
-    records = _load_records()
     return sum(
-        r.get("duration_hours", 0.0)
-        for r in records
-        if r.get("type") == "tutor_session"
-        and r.get("user_id") == user_id
-        and r.get("year_month") == ym
+        r.get("duration_hours") or 0.0
+        for r in _query_records("tutor_session", user_id, year_month=ym)
     )
 
 
@@ -126,35 +211,19 @@ def get_prior_session_count(user_id: str) -> int:
     Used by ws_router to populate TutorSession.is_first_ever_session so the
     diagnostic protocol is injected correctly on a user's very first session.
     """
-    records = _load_records()
-    return sum(
-        1 for r in records
-        if r.get("type") == "tutor_session" and r.get("user_id") == user_id
-    )
+    return len(_query_records("tutor_session", user_id))
 
 
 # ── Problem generation tracking ───────────────────────────────────────────────
 
 def get_problems_used(user_id: str, year_month: Optional[str] = None) -> int:
     ym = year_month or _year_month()
-    records = _load_records()
-    return sum(
-        1 for r in records
-        if r.get("type") == "problem"
-        and r.get("user_id") == user_id
-        and r.get("year_month") == ym
-    )
+    return len(_query_records("problem", user_id, year_month=ym))
 
 
 def get_problems_used_today(user_id: str, date_str: Optional[str] = None) -> int:
     today = date_str or _today()
-    records = _load_records()
-    return sum(
-        1 for r in records
-        if r.get("type") == "problem"
-        and r.get("user_id") == user_id
-        and r.get("date") == today
-    )
+    return len(_query_records("problem", user_id, date=today))
 
 
 def check_problem_quota(user_id: str, tier: str) -> tuple[bool, int, int]:
@@ -188,6 +257,65 @@ def record_problem(
         "source": source,
         "year_month": _year_month(),
         "date": _today(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    })
+
+
+# ── Served-problem dedup (bank-first queue) ───────────────────────────────────
+# A separate event type from "problem" so tutor-session serving never counts
+# against practice problem quotas. Cross-student problem reuse is fine (every
+# textbook does it); the same student seeing a repeat is not.
+
+def record_served_problem(user_id: str, problem_id: str, session_id: str) -> None:
+    _append_record({
+        "type": "served",
+        "user_id": user_id,
+        "problem_id": problem_id,
+        "session_id": session_id,
+        "year_month": _year_month(),
+        "date": _today(),
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+    })
+
+
+def get_served_problem_ids(user_id: str) -> set[str]:
+    """All bank problem IDs ever served to this student."""
+    return {
+        r["problem_id"]
+        for r in _query_records("served", user_id)
+        if r.get("problem_id")
+    }
+
+
+# ── Voice (TTS) budget tracking ───────────────────────────────────────────────
+
+# Per-user daily TTS character budget (cost control, launch decision
+# 2026-06-12). ~100k chars ≈ several full voice-mode sessions; legitimate use
+# never hits it, a replay-button-mashing session does.
+DAILY_TTS_CHAR_BUDGET = 100_000
+
+
+def get_tts_chars_today(user_id: str, date_str: Optional[str] = None) -> int:
+    today = date_str or _today()
+    return sum(
+        int(r.get("chars") or 0)
+        for r in _query_records("tts", user_id, date=today)
+    )
+
+
+def check_tts_budget(user_id: str, requested_chars: int) -> tuple[bool, int, int]:
+    """Returns (allowed, used_today, daily_budget)."""
+    used = get_tts_chars_today(user_id)
+    return (used + requested_chars) <= DAILY_TTS_CHAR_BUDGET, used, DAILY_TTS_CHAR_BUDGET
+
+
+def record_tts_chars(user_id: str, chars: int) -> None:
+    _append_record({
+        "type": "tts",
+        "user_id": user_id,
+        "chars": int(chars),
+        "date": _today(),
+        "year_month": _year_month(),
         "timestamp": datetime.now(timezone.utc).isoformat(),
     })
 

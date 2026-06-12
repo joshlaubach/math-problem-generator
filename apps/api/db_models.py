@@ -700,6 +700,38 @@ class ParentLinkRecord(Base):
 
 
 
+class QuotaEventRecord(Base):
+    """
+    One usage event: a tutor session end, a generated/served problem, or a TTS
+    synthesis. Durable home for session_quota in production (the JSONL log is
+    dev-only and ephemeral on Railway). Also the source of per-student
+    served-problem dedup for the bank-first queue.
+    Read/write through session_quota.py, never directly.
+    """
+
+    __tablename__ = "quota_events"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    type: Mapped[str] = mapped_column(String(20), index=True)  # tutor_session|problem|served|tts
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    problem_id: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    session_id: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    duration_hours: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    chars: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    source: Mapped[Optional[str]] = mapped_column(String(10), nullable=True)  # bank|live
+    year_month: Mapped[str] = mapped_column(String(7), index=True)
+    date: Mapped[str] = mapped_column(String(10), index=True)
+    timestamp: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_quota_user_type_ym", "user_id", "type", "year_month"),
+        Index("idx_quota_user_type_date", "user_id", "type", "date"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<QuotaEventRecord(type={self.type}, user_id={self.user_id})>"
+
+
 class TopicLessonRecord(Base):
     """
     Cached structured lesson for one topic (8-section JSON schema: hook,
