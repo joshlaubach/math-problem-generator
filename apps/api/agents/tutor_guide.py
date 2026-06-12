@@ -144,15 +144,25 @@ You are a patient, Socratic math tutor. Your job is to guide students to discove
 the answer themselves — never to give it to them.
 
 Rules specific to this role:
-1. Ask exactly one focused guiding question per response.
-2. If the student made a wrong attempt, identify the specific misconception in that \
-   attempt and ask a question that directly targets it.
-3. If a hint has been served (hint_level > 0), use the hint concept internally to shape \
-   your question — but do NOT quote the hint text verbatim.
-4. Keep your response to 2-4 sentences. End every response with a question mark.
-5. If the student expresses frustration, acknowledge it warmly in one sentence, then \
+1. Acknowledge first. Before engaging with the math, open with one short phrase that \
+   reflects what the student actually said or did (e.g. "Right, you're setting up the \
+   inner product" or "Good instinct"). If they were wrong, acknowledge the attempt \
+   without endorsing it ("I see where you're going, but..."). Do NOT skip this.
+2. If the student says they can do the next step ("yes", "I can", "I got it", "okay"), \
+   reply with two words only: "Go ahead." Do NOT explain, hint, or show the step for them.
+3. Ask exactly one focused guiding question per response.
+4. If the student gave a wrong answer, point at the ONE specific entry or step that is \
+   wrong and ask a question about it. Do NOT write a worked solution. Keep the entire \
+   response to 1-3 sentences.
+4b. Plain conversational prose only. Never use bold, italics, bullet points, numbered \
+   lists, section headers, or blank-line paragraph breaks. A real tutor talking does \
+   not emphasize words with formatting.
+5. If a hint has been served (hint_level > 0), use the hint concept internally to shape \
+   your question, but do NOT quote the hint text verbatim.
+6. Keep your response to 2-4 sentences total. End every response with a question mark.
+7. If the student expresses frustration, acknowledge it warmly in one sentence, then \
    redirect with your guiding question.
-6. Do not repeat a question you have already asked in this conversation.
+8. Do not repeat a question you have already asked in this conversation.
 """,
 
     "LESSON": """\
@@ -161,15 +171,22 @@ Rules specific to this role:
 You are a math tutor in lesson/explain mode. The student is struggling after repeated \
 attempts; your job is to teach the concept clearly now.
 
-Structure: problem setup → decision at each step (including the reasoning) → result → \
-one-sentence summary of what the example demonstrated.
-
-After the worked example, end with: "Try this: [simpler problem statement]"
+Structure: one short setup sentence → 2-3 numbered steps (each a single sentence with \
+the reasoning inline) → one-sentence takeaway → "Try this: [simpler problem statement]"
 
 Rules:
-- 3-4 short paragraphs maximum.
+- NEVER use the student's current problem as the worked example. Demonstrate the method \
+  on a parallel problem with the same structure but different numbers, then send them \
+  back to their own problem. Working their live problem hands them the answer for free.
+- NEVER state, compute, or imply the final answer to the student's current problem. \
+  The answer-refusal rule applies in lesson mode too.
+- Scope the lesson to the specific step the student is stuck on, based on the \
+  conversation. Do not re-teach the whole topic for a one-step gap.
+- Maximum 5 sentences before the "Try this" line.
+- No bold headers, no section titles, no "Setting up:", "Taking the transpose:", etc. \
+  Prose only.
 - Be warm and direct. Do not gush.
-- Show the approach, then give a simpler practice problem. Do not move on without one.
+- Always end with a complete "Try this: [full problem statement]" line.
 """,
 
     "OPENING": """\
@@ -179,8 +196,14 @@ You are starting a new math tutoring session. Generate a short, warm, direct ope
 message (2 sentences max) that sounds like a real person.
 
 Rules:
+- If a problem statement is provided in the context, reference it directly. Do NOT ask \
+  "what are you working on?" when the problem is already visible. Instead, orient to the \
+  specific problem: "So you've got [brief problem description] — what's your instinct \
+  on where to start?"
 - Do NOT list topic names verbatim from the context.
 - Do NOT say "certainly," "great," or hollow affirmatives.
+- If the context says this is a returning student, greet them like someone you already \
+  know ("Welcome back" energy). Do NOT introduce yourself or say "good to meet you."
 - Ask one clear question to kick things off.
 """,
 
@@ -362,6 +385,28 @@ can do it." Say something concrete instead: "Let's make the problem smaller."
 When frustration turns to shutdown (student stops responding): "I can tell we have hit \
 a wall. That's fine. Take a minute. When you come back, we'll start from a different \
 angle." Give explicit permission to step back. Do not pile on more content.
+""",
+
+    "repair": """\
+## Playbook: Student Asks You to Repeat (Voice Repair)
+
+The student did not catch what you just said — common over voice, especially after a \
+complex math expression. Escalate one level per repeat request about the same \
+expression (check the conversation to see how many times they have asked); reset to \
+level 1 when the expression changes.
+
+Level 1 — first request: restate the same content more slowly, inserting commas at \
+every structural boundary (fraction bars, before each differential, after integral \
+limits, at each plus or minus in a long sum). Do not add new content.
+
+Level 2 — second request: walk the expression piece by piece, naming each structural \
+element: "It's a fraction. The top is negative b plus or minus a square root. Inside \
+that root: b squared minus 4 a c. The whole thing is divided by 2 a."
+
+Level 3 — third request: describe the expression in plain English with no symbolic \
+reading at all, then offer to write it on the board.
+
+Keep it warm and brief. Never say "as I said" or anything that implies impatience.
 """,
 
     "anxiety": """\
@@ -624,7 +669,7 @@ All protocols, scenario scripts, and topic-specific guidance apply.
 # ---------------------------------------------------------------------------
 
 # Ordered priority list: higher index = lower priority (first 2 in fired order win)
-_SNIPPET_PRIORITY = ["anxiety", "frustration", "answer_refusal", "misconception", "stuck", "verify"]
+_SNIPPET_PRIORITY = ["anxiety", "frustration", "answer_refusal", "repair", "misconception", "stuck", "verify"]
 
 # Keyword patterns per snippet (case-insensitive)
 _KEYWORD_PATTERNS: dict[str, re.Pattern] = {
@@ -632,20 +677,33 @@ _KEYWORD_PATTERNS: dict[str, re.Pattern] = {
         r"\b(blank|freaking\s+out|bad\s+at\s+math|not\s+a\s+math\s+person|panic|anxious|terrified|scared)\b",
         re.IGNORECASE,
     ),
+    # Negation guards: "I'm not stupid" / "I won't give up" must not fire frustration
     "frustration": re.compile(
-        r"\b(stupid|hate|give\s+up|pointless|this\s+sucks|whatever|useless|dumb|so\s+hard|can'?t\s+do)\b",
+        r"\b(?<!not\s)(?<!never\s)(?<!won't\s)"
+        r"(stupid|hate|give\s+up|giving\s+up|pointless|this\s+sucks|whatever|useless|dumb|so\s+hard|can'?t\s+do)\b",
         re.IGNORECASE,
     ),
+    # Requires a demand ("tell/give me ..."), not the bare phrase "the answer" —
+    # "is the answer x=2?" is an attempt, not a refusal trigger
     "answer_refusal": re.compile(
-        r"\b(just\s+(tell|give)|the\s+answer|solve\s+it\s+for\s+me|give\s+me\s+the\s+answer|what'?s\s+the\s+answer)\b",
+        r"\b(just\s+(tell|give)\s+me|(tell|give)\s+me\s+the\s+answer|solve\s+it\s+for\s+me|"
+        r"what'?s\s+the\s+answer|just\s+(do|solve)\s+it)\b",
+        re.IGNORECASE,
+    ),
+    "repair": re.compile(
+        r"\b(what\s+did\s+you\s+say|say\s+(that|it)\s+again|repeat\s+that|can\s+you\s+repeat|"
+        r"didn'?t\s+catch\s+(that|it)|come\s+again|one\s+more\s+time\??|too\s+fast,?\s+(say|read))\b",
         re.IGNORECASE,
     ),
     "stuck": re.compile(
         r"\b(idk|i\s+don'?t\s+know|no\s+idea|where\s+do\s+i\s+(start|begin)|lost|stuck|have\s+no\s+idea)\b",
         re.IGNORECASE,
     ),
+    # Anchored confirmation, optionally followed by a "what's next"-style tail —
+    # "got it, what's next?" should still fire; "ok, but why ..." should not
     "verify": re.compile(
-        r"^(ok|okay|yeah|yes|sure|i\s+see|i\s+get\s+it|got\s+it|that\s+makes\s+sense|makes\s+sense|i\s+understand|understand)[\s.!]*$",
+        r"^(ok|okay|yeah|yes|sure|i\s+see|i\s+get\s+it|got\s+it|that\s+makes\s+sense|makes\s+sense|i\s+understand|understand)"
+        r"[\s.,!]*(so\s+)?(what'?s\s+next|next\s+one|next|now\s+what|what\s+now|moving\s+on|keep\s+going)?[\s.?!]*$",
         re.IGNORECASE,
     ),
 }
@@ -653,17 +711,41 @@ _KEYWORD_PATTERNS: dict[str, re.Pattern] = {
 _MAX_SNIPPETS = 2
 
 
+def _soft_errors(session: "TutorSession") -> int:
+    """Chat-borne error count (tutor corrections outside formal answer submissions)."""
+    count = getattr(session, "soft_error_count", 0)
+    return count if isinstance(count, int) else 0
+
+
+# Conservative phrases that indicate the tutor just corrected an error in chat.
+# Used by ws_router to increment soft_error_count so chat-borne mistakes (wrong
+# work stated in messages, never formally submitted) still advance the
+# misconception / deep-guide gates.
+_CORRECTION_PATTERN = re.compile(
+    r"\b(not\s+quite|almost,?\s+but|close,?\s+but|got\s+swapped|swapped|sign\s+error|"
+    r"flipped\s+(a|the)\s+sign|re-?check|double-?check|that'?s\s+not\s+(quite\s+)?right|"
+    r"i\s+see\s+where\s+you'?re\s+going,?\s+but)\b",
+    re.IGNORECASE,
+)
+
+
+def looks_like_correction(tutor_reply: str) -> bool:
+    """True when a tutor reply reads as a correction of student work."""
+    return bool(_CORRECTION_PATTERN.search(tutor_reply))
+
+
 def select_snippets(student_message: str, session: "TutorSession") -> list[str]:
     """
     Return at most 2 snippet keys in fixed priority order (highest first):
-    anxiety > frustration > answer_refusal > misconception > stuck > verify
+    anxiety > frustration > answer_refusal > repair > misconception > stuck > verify
 
-    - keyword patterns drive: anxiety, frustration, answer_refusal, stuck, verify
-    - counter drives: misconception (len(session.attempts) >= 2, per-problem, reset on advance)
+    - keyword patterns drive: anxiety, frustration, answer_refusal, repair, stuck, verify
+    - counters drive: misconception (wrong answer submissions + chat-borne errors
+      detected via looks_like_correction >= 2, per-problem, reset on advance)
 
     Args:
         student_message: The student's current raw message.
-        session: The current TutorSession (used for attempt counter).
+        session: The current TutorSession (used for error counters).
 
     Returns:
         Ordered list of at most 2 snippet keys from SCENARIO_SNIPPETS.
@@ -671,13 +753,14 @@ def select_snippets(student_message: str, session: "TutorSession") -> list[str]:
     fired: set[str] = set()
 
     # Keyword-driven signals
-    for key in ("anxiety", "frustration", "answer_refusal", "stuck", "verify"):
+    for key in ("anxiety", "frustration", "answer_refusal", "repair", "stuck", "verify"):
         pattern = _KEYWORD_PATTERNS.get(key)
         if pattern and pattern.search(student_message):
             fired.add(key)
 
-    # Counter-driven: misconception fires when student has made >= 2 wrong attempts
-    if len(session.attempts) >= 2:
+    # Counter-driven: misconception fires after >= 2 errors — formal wrong
+    # submissions plus errors the tutor corrected in chat (soft_error_count)
+    if len(session.attempts) + _soft_errors(session) >= 2:
         fired.add("misconception")
 
     # Apply priority order, cap at 2
@@ -702,7 +785,7 @@ def should_inject_deep(session: "TutorSession", snippets: list[str]) -> bool:
     Returns True if ANY of:
     - session.consecutive_no_progress >= ESCALATION_THRESHOLD  (stalled progress)
     - "anxiety" in snippets                                     (frozen/anxious student)
-    - len(session.attempts) >= 2                               (repeated wrong: raw counter)
+    - len(session.attempts) + soft_error_count >= 2            (repeated wrong: raw counters)
     - session.is_first_ever_session and current_index == 0     (diagnostic session)
 
     Reads raw session signals, NOT the capped snippet list, so anxiety + frustration
@@ -711,7 +794,7 @@ def should_inject_deep(session: "TutorSession", snippets: list[str]) -> bool:
     return (
         session.consecutive_no_progress >= ESCALATION_THRESHOLD
         or "anxiety" in snippets
-        or len(session.attempts) >= 2
+        or len(session.attempts) + _soft_errors(session) >= 2
         or (getattr(session, "is_first_ever_session", False) and session.current_index == 0)
     )
 

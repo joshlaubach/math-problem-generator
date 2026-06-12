@@ -535,14 +535,42 @@ def _save_dispute(
 # ---------------------------------------------------------------------------
 
 import functools
+import re as _re
 
-# Simple in-memory TTS cache: (text, voice_id) → bytes
+def _add_sentence_breaks(text: str) -> str:
+    """Insert SSML break tags at sentence boundaries for natural pacing."""
+    # After . ! ? followed by whitespace + capital letter or closing quote
+    text = _re.sub(r'([.!?])\s+([A-Z\"‘’“”])', r'\1 <break time="450ms"/> \2', text)
+    return text
+
+
+def _expression_complexity(latex_text: str) -> int:
+    """
+    Rough complexity score of the ORIGINAL LaTeX (pre-conversion).
+    Drives the slow-down rule: dense expressions (iterated integrals, chain
+    rules, fundamental theorems) are spoken slower and more steadily.
+    """
+    score = 0
+    score += latex_text.count("\\int")
+    score += 2 * latex_text.count("\\iint") + 3 * latex_text.count("\\iiint")
+    score += 2 * latex_text.count("\\oint")
+    score += latex_text.count("\\frac")
+    score += latex_text.count("\\partial")
+    score += latex_text.count("\\sum") + latex_text.count("\\lim") + latex_text.count("\\prod")
+    score += latex_text.count("\\sqrt")
+    score += latex_text.count("\\nabla")
+    return score
+
+
+# Simple in-memory TTS cache: (text, voice_id, speed, stability) → bytes
 @functools.lru_cache(maxsize=100)
-def _tts_cached(text: str, voice_id: str) -> bytes:
-    """Cached ElevenLabs synthesis — same text+voice returns cached bytes."""
+def _tts_cached(text: str, voice_id: str, speed: float = 0.90, stability: float = 0.55) -> bytes:
+    """Cached ElevenLabs synthesis — same text+voice+settings returns cached bytes."""
     elevenlabs_key = os.getenv("ELEVENLABS_API_KEY", "")
     if not elevenlabs_key:
         raise HTTPException(status_code=503, detail="ElevenLabs API key not configured. Set ELEVENLABS_API_KEY.")
+
+    model_id = os.getenv("ELEVENLABS_MODEL", "eleven_multilingual_v2")
 
     import httpx
     resp = httpx.post(
@@ -553,10 +581,16 @@ def _tts_cached(text: str, voice_id: str) -> bytes:
         },
         json={
             "text": text,
-            "model_id": "eleven_turbo_v2",
-            "voice_settings": {"stability": 0.5, "similarity_boost": 0.75},
+            "model_id": model_id,
+            "voice_settings": {
+                "stability": stability,
+                "similarity_boost": 0.80,
+                "style": 0.10,
+                "use_speaker_boost": True,
+                "speed": speed,
+            },
         },
-        timeout=15.0,
+        timeout=20.0,
     )
     if resp.status_code != 200:
         raise HTTPException(status_code=502, detail=f"ElevenLabs error: {resp.text[:200]}")
@@ -625,14 +659,38 @@ async def synthesize_speech(
     user: User = Depends(require_student),
 ):
     """
-    Synthesize text to speech using ElevenLabs Turbo v2.
+    Synthesize text to speech using ElevenLabs (default: eleven_multilingual_v2).
 
-    Returns audio/mpeg stream. Responses are cached (same text + voice = same bytes).
+    LaTeX is converted to spoken English, sentence breaks are inserted for natural
+    pacing, then audio is synthesized with naturalness tuning. Dense math
+    (iterated integrals, chain rules) is spoken slower and more steadily.
+    Responses are cached (same processed text + voice + settings = same bytes).
+
+    If LaTeX-to-speech conversion fails, this returns 502 and the client falls
+    back to silent text — degraded speech (raw LaTeX tokens) is never synthesized.
     """
+    from agents.latex_to_speech import latex_to_speech, SpeechConversionError
+
     voice_id = os.getenv("ELEVENLABS_VOICE_ID", "21m00Tcm4TlvDq8ikWAM")  # Rachel default
+    raw_text = body.text.strip()
 
     try:
-        audio_bytes = _tts_cached(body.text.strip(), voice_id)
+        spoken = await latex_to_speech(raw_text)
+    except SpeechConversionError as exc:
+        raise HTTPException(
+            status_code=502,
+            detail=f"Voice unavailable for this message (math-to-speech failed): {exc}",
+        )
+    spoken = _add_sentence_breaks(spoken)
+
+    # Slow-down rule: complex expressions get a steadier, slower read
+    if _expression_complexity(raw_text) >= 4:
+        speed, stability = 0.85, 0.70
+    else:
+        speed, stability = 0.90, 0.55
+
+    try:
+        audio_bytes = _tts_cached(spoken, voice_id, speed, stability)
     except HTTPException:
         raise
     except Exception as exc:

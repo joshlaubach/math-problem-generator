@@ -20,6 +20,7 @@ function escHtml(s: string): string {
  * Renders a mixed prose+math string.
  * Finds $$...$$ (display) and $...$ (inline) delimiters; everything else is plain text.
  * Falls back gracefully if KaTeX can't parse a fragment.
+ * Also renders **bold**, *italic*, and --- (horizontal rule) markdown.
  */
 function renderProseHtml(text: string): string {
   const parts: string[] = [];
@@ -48,7 +49,21 @@ function renderProseHtml(text: string): string {
     parts.push(escHtml(text.slice(lastIndex)));
   }
 
-  return parts.join('');
+  return applyMarkdown(parts.join(''));
+}
+
+/** Apply basic markdown to the already-HTML-escaped prose string (post KaTeX pass). */
+function applyMarkdown(html: string): string {
+  // --- on its own line → <hr>
+  html = html.replace(
+    /(^|<br\/>)-{3,}(<br\/>|$)/g,
+    '$1<hr style="border:none;border-top:1px solid var(--border);margin:6px 0">$2'
+  )
+  // **bold**
+  html = html.replace(/\*\*([^*]+?)\*\*/g, '<strong>$1</strong>')
+  // *italic* (not **…**)
+  html = html.replace(/(?<!\*)\*([^*<>]+?)\*(?!\*)/g, '<em>$1</em>')
+  return html
 }
 
 export function MathText({ latex, inline = false, prose = false, className }: MathTextProps) {

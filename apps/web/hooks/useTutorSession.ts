@@ -13,7 +13,6 @@ export type TutorSessionState =
   | 'discovering'  // legacy open-ended topic detection
   | 'ready'
   | 'thinking'
-  | 'in_lesson'    // tutor is narrating a lesson
   | 'solved'
   | 'ended'
   | 'timeout'
@@ -283,19 +282,13 @@ export function useTutorSession(): TutorSessionHook {
         ...prev,
         { role: 'tutor', content: msg.text as string, timestamp: Date.now() },
       ])
-      setState(prev => prev === 'in_lesson' ? 'in_lesson' : 'ready')
+      setState('ready')
     }
 
-    // ── Lesson mode ──────────────────────────────────────────────────────────
-    else if (type === 'lesson_start') {
-      setState('in_lesson')
-      setMessages(prev => [
-        ...prev,
-        { role: 'system', content: '— Lesson mode —', timestamp: Date.now() },
-      ])
-    }
-    else if (type === 'lesson_end') {
-      setState('ready')
+    // ── Lesson mode (state-only protocol events; no student-visible label) ───
+    else if (type === 'lesson_start' || type === 'lesson_end') {
+      // Intentionally no UI state: the lesson reads as a normal tutor message.
+      // Exposing a mode label here would break the human-tutor illusion.
     }
 
     // ── Answer result ────────────────────────────────────────────────────────
@@ -333,11 +326,9 @@ export function useTutorSession(): TutorSessionHook {
     }
     else if (type === 'exam_mode_active') {
       setExamModeProposed(false)
+      // No chat-stream label: the persistent EXAM MODE header badge is the
+      // student-facing indicator (see session page header).
       setExamModeActive(true)
-      setMessages(prev => [
-        ...prev,
-        { role: 'system', content: '— Exam mode active —', timestamp: Date.now() },
-      ])
     }
 
     // ── Whiteboard ───────────────────────────────────────────────────────────
@@ -590,7 +581,7 @@ export function useTutorSession(): TutorSessionHook {
       ...prev,
       { role: 'student', content: `My work: ${stepsLatex}`, timestamp: Date.now() },
     ])
-    setState(prev => prev === 'in_lesson' ? 'in_lesson' : 'thinking')
+    setState('thinking')
   }, [_send])
 
   useEffect(() => {

@@ -327,7 +327,7 @@ export const MathWhiteboard = forwardRef<MathWhiteboardHandle, MathWhiteboardPro
     const snapWorldPt      = useRef<Point | null>(null)
 
     // ── React State ───────────────────────────────────────────────────────────
-    const [tool,             setTool]             = useState<DrawTool>('pen')
+    const [tool,             setTool]             = useState<DrawTool>('select')
     const [strokeW,          setStrokeW]          = useState(2)
     // Per-tool colors
     const [penColor,         setPenColor]         = useState(DEFAULT_STROKE)
