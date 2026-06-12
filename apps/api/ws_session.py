@@ -24,7 +24,11 @@ logger = logging.getLogger(__name__)
 
 SESSION_TYPES: dict[str, int] = {"1hr": 3600, "2hr": 7200}
 GRACE_PERIOD_SECONDS = 600  # 10 min extension after nominal end
-CREDIT_RESTORE_WINDOW_SECONDS = 120  # 2 min
+# Failed-session refund policy (launch decision 2026-06-12): a session that
+# ends by disconnect within this window restores its credit automatically —
+# the student got nothing, and an auto-refund beats a chargeback. Sessions
+# ended by SERVER error restore the credit regardless of elapsed time.
+CREDIT_RESTORE_WINDOW_SECONDS = 600  # 10 min
 
 _KEY_PREFIX = "tutor:session:"
 

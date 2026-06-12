@@ -163,7 +163,7 @@ async def _end_session_early(ws: WebSocket, credit_id: Optional[str]) -> None:
 async def _end_session(
     ws: WebSocket,
     session: TutorSession,
-    reason: Literal["solved", "student_end", "disconnect", "timeout"] = "student_end",
+    reason: Literal["solved", "student_end", "disconnect", "timeout", "server_error"] = "student_end",
 ) -> None:
     """Compute reward, log, record attempt, send summary, and clean up."""
     from credit_router import restore_credit
@@ -172,13 +172,17 @@ async def _end_session(
     started = session.started_at
     duration_seconds = (datetime.now(timezone.utc) - started).total_seconds()
 
-    # Restore credit if session ended very early (technical failure, not student quitting)
-    if (
-        session.credit_id
-        and reason == "disconnect"
-        and within_restore_window(session)
+    # Failed-session refund policy:
+    # - server_error → always restore (our fault, regardless of elapsed time)
+    # - disconnect within the restore window → restore (student got nothing)
+    # - solved / student_end / timeout → credit was used as intended
+    credit_restored = False
+    if session.credit_id and (
+        reason == "server_error"
+        or (reason == "disconnect" and within_restore_window(session))
     ):
         restore_credit(session.credit_id)
+        credit_restored = True
     duration_hours = duration_seconds / 3600
 
     is_correct = session.is_solved
@@ -196,6 +200,7 @@ async def _end_session(
             "hints_used": hints_used,
             "attempts": len(session.attempts),
             "duration_seconds": round(duration_seconds, 1),
+            "credit_restored": credit_restored,  # audit trail for refund-abuse review
         },
         reward=reward,
     )
@@ -280,6 +285,28 @@ async def _end_session(
         ai_bullets = ai_result.get("bullets", [])
         performance_by_topic = ai_result.get("per_topic_performance", {})
         practice_problems = ai_result.get("practice_problems", [])
+
+    # Persist mastery deltas (L1/7B). Runs on ALL exit reasons — solved,
+    # student_end, timeout, AND disconnect — so closing the laptop mid-session
+    # still updates the student model. Summarizer keys performance by topic
+    # NAME; map back to topic_ids (freeform topics have no id and are skipped).
+    if performance_by_topic:
+        try:
+            from progress_store import apply_session_results
+            name_to_id: dict[str, str] = {}
+            for tid in (session.topic_ids or []) + ([session.topic_id] if session.topic_id else []):
+                meta = TOPIC_REGISTRY.get(tid)
+                if meta:
+                    name_to_id[meta.topic_name.strip().lower()] = tid
+            performance_by_topic_id = {
+                name_to_id[name.strip().lower()]: grade
+                for name, grade in performance_by_topic.items()
+                if name.strip().lower() in name_to_id
+            }
+            if performance_by_topic_id:
+                apply_session_results(session.user_id, performance_by_topic_id)
+        except Exception:
+            pass  # Never block session cleanup on the student model
 
     summary = {
         "hints_used": hints_used,
@@ -521,6 +548,14 @@ async def _advance_problem(websocket: WebSocket, session, source_label: str = "s
     session.problem = next_problem
     update_session(session)
 
+    # Per-student dedup: a presented bank problem is never re-served to this student
+    if getattr(next_problem, "problem_id", None):
+        try:
+            from session_quota import record_served_problem
+            record_served_problem(session.user_id, next_problem.problem_id, session.session_id)
+        except Exception:
+            pass
+
     total = _queue_length(session)
     await _send(websocket, type="wb_new_section",
                 label=f"Problem {session.current_index + 1}")
@@ -595,10 +630,28 @@ async def _run_general_session(
         except Exception as exc:
             session.problem_queue = []
 
-    # Attach cross-session history briefing
+    # Attach cross-session history briefing: misconception labels + weak-topic
+    # mastery from the progress store, so the tutor opens with real memory
     try:
         from misconception_service import weak_concepts_briefing
         session.history_briefing = weak_concepts_briefing(user.id)
+    except Exception:
+        pass
+    try:
+        from progress_store import weak_topics
+        weak = weak_topics(user.id, session.topic_ids or [])
+        if weak:
+            lines = []
+            for tid, mastery in weak[:4]:
+                meta = TOPIC_REGISTRY.get(tid)
+                if meta:
+                    lines.append(f"{meta.topic_name} (mastery {mastery:.0%}, struggled previously)")
+            if lines:
+                briefing_add = "Topics needing extra care from prior sessions: " + "; ".join(lines)
+                session.history_briefing = (
+                    f"{session.history_briefing}\n{briefing_add}".strip()
+                    if session.history_briefing else briefing_add
+                )
     except Exception:
         pass
 
@@ -619,6 +672,13 @@ async def _run_general_session(
     if first_problem is not None:
         session.problem = first_problem
         record_problem(user.id, session_id, source="live")
+        # Per-student dedup: never re-serve a presented bank problem
+        if getattr(first_problem, "problem_id", None):
+            try:
+                from session_quota import record_served_problem
+                record_served_problem(user.id, first_problem.problem_id, session_id)
+            except Exception:
+                pass
     update_session(session)
 
     max_dur = session.max_duration_seconds
@@ -952,10 +1012,12 @@ async def _run_general_session(
         if session is not None:
             await _end_session(websocket, session, reason="disconnect")
     except Exception:
+        # Unhandled server-side failure: always restore the credit (our fault)
+        logger.exception("Server error in general session %s", session_id)
         timer_task.cancel()
         session = get_session(session_id)
         if session is not None:
-            await _end_session(websocket, session, reason="disconnect")
+            await _end_session(websocket, session, reason="server_error")
         try:
             await websocket.close(code=1011)
         except Exception:
@@ -1292,10 +1354,12 @@ async def _run_legacy_session(
         if session is not None:
             await _end_session(websocket, session, reason="disconnect")
     except Exception:
+        # Unhandled server-side failure: always restore the credit (our fault)
+        logger.exception("Server error in legacy session %s", session_id)
         timer_task.cancel()
         session = get_session(session_id)
         if session is not None:
-            await _end_session(websocket, session, reason="disconnect")
+            await _end_session(websocket, session, reason="server_error")
         try:
             await websocket.close(code=1011)
         except Exception:

@@ -572,7 +572,10 @@ def _tts_cached(text: str, voice_id: str, speed: float = 0.90, stability: float 
     if not elevenlabs_key:
         raise HTTPException(status_code=503, detail="ElevenLabs API key not configured. Set ELEVENLABS_API_KEY.")
 
-    model_id = os.getenv("ELEVENLABS_MODEL", "eleven_multilingual_v2")
+    # Flash model by default: ~half the cost and lower latency than
+    # multilingual_v2, quality is fine for tutoring speech (cost decision
+    # 2026-06-12). Override with ELEVENLABS_MODEL for A/B.
+    model_id = os.getenv("ELEVENLABS_MODEL", "eleven_flash_v2_5")
 
     import httpx
     resp = httpx.post(
@@ -672,9 +675,20 @@ async def synthesize_speech(
     back to silent text — degraded speech (raw LaTeX tokens) is never synthesized.
     """
     from agents.latex_to_speech import latex_to_speech, SpeechConversionError
+    from session_quota import check_tts_budget, record_tts_chars
 
     voice_id = os.getenv("ELEVENLABS_VOICE_ID", "21m00Tcm4TlvDq8ikWAM")  # Rachel default
     raw_text = body.text.strip()
+
+    # Daily per-user TTS character budget (cost control). Clients degrade to
+    # silent text on any non-200, so hitting the cap is invisible-but-quiet.
+    allowed, used_today, budget = check_tts_budget(user.id, len(raw_text))
+    if not allowed:
+        raise HTTPException(
+            status_code=429,
+            detail=f"Daily voice budget reached ({used_today}/{budget} characters). "
+                   "Voice returns tomorrow; text tutoring is unaffected.",
+        )
 
     try:
         spoken = await latex_to_speech(raw_text)
@@ -697,6 +711,8 @@ async def synthesize_speech(
         raise
     except Exception as exc:
         raise HTTPException(status_code=502, detail=f"Speech synthesis failed: {exc}")
+
+    record_tts_chars(user.id, len(raw_text))
 
     return StreamingResponse(
         iter([audio_bytes]),
