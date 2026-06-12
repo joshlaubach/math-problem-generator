@@ -1,10 +1,11 @@
 """
 Session credit management — purchase, balance, and Stripe webhook.
 
-Bundles:
-  single  → 1 credit  @ $40   (all tiers)
-  3pack   → 3 credits @ $99   (paid tiers only)
-  5pack   → 5 credits @ $149  (paid tiers only)
+Bundles (any authenticated student can buy any bundle — tutor access is
+credits-only as of 2026-06-12; subscription tiers gate practice, not tutoring):
+  single  → 1 credit  @ $40
+  3pack   → 3 credits @ $99
+  5pack   → 5 credits @ $149
 
 Credits expire 6 months after purchase.
 One credit is consumed at the start of each tutor session.
@@ -33,11 +34,10 @@ router = APIRouter(prefix="/credits", tags=["credits"])
 
 BUNDLES: dict[str, dict] = {
     "single": {"credits": 1, "price_usd": 40, "tiers": "all"},
-    "3pack":  {"credits": 3, "price_usd": 99, "tiers": "paid"},
-    "5pack":  {"credits": 5, "price_usd": 149, "tiers": "paid"},
+    "3pack":  {"credits": 3, "price_usd": 99, "tiers": "all"},
+    "5pack":  {"credits": 5, "price_usd": 149, "tiers": "all"},
 }
 
-PAID_TIERS = {"student", "honors", "classroom-student"}
 CREDIT_EXPIRY_DAYS = 183  # ~6 months
 
 # ---------------------------------------------------------------------------
@@ -134,12 +134,6 @@ def create_checkout(
     if not bundle:
         raise HTTPException(status_code=422, detail=f"Unknown bundle: {body.bundle}. Must be one of {list(BUNDLES)}")
 
-    if bundle["tiers"] == "paid" and user.tier not in PAID_TIERS:
-        raise HTTPException(
-            status_code=403,
-            detail=f"The {body.bundle} bundle requires a paid subscription tier.",
-        )
-
     price_id_env = {
         "single": "STRIPE_TUTOR_SINGLE_PRICE_ID",
         "3pack":  "STRIPE_TUTOR_3PACK_PRICE_ID",
@@ -232,8 +226,26 @@ def _handle_checkout_completed(checkout_session) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Internal helpers used by ws_router
+# Internal helpers used by ws_router / tutor_router
 # ---------------------------------------------------------------------------
+
+def has_available_credit(user_id: str) -> bool:
+    """
+    Preflight: does the user have at least one unused, unexpired credit?
+
+    Used by /tutor/session/create for a friendly intake-form error. Does NOT
+    consume anything — consumption happens at WebSocket connect. Returns True
+    when the database is disabled (dev/test), mirroring consume_credit's mock.
+    """
+    if not _uses_database():
+        return True
+
+    db = get_session()
+    try:
+        return len(_available_credits(user_id, db)) > 0
+    finally:
+        db.close()
+
 
 def consume_credit(user_id: str) -> Optional[str]:
     """

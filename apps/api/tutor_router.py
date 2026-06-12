@@ -85,16 +85,18 @@ async def create_tutor_session(
     """
     Create a pending tutor session from intake form data.
 
-    Tier check: session creation requires a paid tier.
-    Problem queue is built when the WebSocket connects (Phase 4).
+    Tutor access is credits-only (no tier gate): this preflight checks that the
+    student has an available credit so the intake form can show a friendly
+    error instead of failing later at WebSocket connect. The credit itself is
+    consumed at connect time, not here.
     """
-    from session_quota import PAID_TIERS
+    from credit_router import has_available_credit
     from ws_session import create_pending_session, SESSION_TYPES
 
-    if user.tier not in PAID_TIERS:
+    if not has_available_credit(user.id):
         raise HTTPException(
-            status_code=403,
-            detail="Tutor sessions require a paid plan. Visit /pricing to upgrade.",
+            status_code=402,
+            detail="No session credits available. Purchase a session at /pricing to get started.",
         )
 
     if body.session_type not in SESSION_TYPES:

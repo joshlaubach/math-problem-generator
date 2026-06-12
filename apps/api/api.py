@@ -68,10 +68,9 @@ from session_quota import (
     get_problems_used,
     get_problems_used_today,
     get_reset_date,
-    TUTOR_HOUR_LIMITS,
+    ABUSE_CEILING_HOURS_PER_MONTH,
     PROBLEM_MONTH_LIMITS,
     FREE_DAILY_PROBLEM_LIMIT,
-    PAID_TIERS,
 )
 from auth_dependencies import (
     get_current_user,
@@ -596,6 +595,64 @@ class AssignmentStatsResponse(BaseModel):
 # ============================================================================
 
 
+def _validate_production_config() -> None:
+    """
+    Fail-loud production readiness checks, run once at startup.
+
+    When USE_DATABASE=true (i.e., production):
+    - the database must be reachable and the schema present (hard fail), and
+    - the lesson store should not be empty (loud warning — sessions would
+      silently regenerate all 866 lessons at LLM cost and latency; run
+      scripts/migrate_lessons_to_db.py).
+    Also warns when REDIS_URL is unset in DB mode: live sessions then reside
+    in process memory only and every deploy drops active tutoring sessions.
+    """
+    import logging
+    import os
+    from config import USE_DATABASE
+
+    log = logging.getLogger("startup")
+
+    if not USE_DATABASE:
+        return
+
+    # 1. Create any missing tables (idempotent), then verify the DB is usable.
+    #    SQLAlchemy owns the schema — the Prisma schema is not applied at runtime.
+    try:
+        from db_session import init_db, get_session
+        from db_models import TopicLessonRecord
+        init_db()
+        db = get_session()
+        try:
+            db.query(TopicLessonRecord).count()
+        finally:
+            db.close()
+    except Exception as exc:
+        raise RuntimeError(
+            "USE_DATABASE=true but the database is unreachable or could not be "
+            f"initialised — refusing to serve traffic: {exc}"
+        ) from exc
+
+    # 2. Lesson store must not be empty in prod
+    from agents.lesson_store import lesson_count
+    db_lessons, file_lessons = lesson_count()
+    if db_lessons == 0:
+        log.error(
+            "LESSON STORE EMPTY: 0 lessons in Postgres (%d on local disk). "
+            "Production will regenerate every lesson on demand at LLM cost. "
+            "Run: python scripts/migrate_lessons_to_db.py", file_lessons,
+        )
+    else:
+        log.info("Lesson store: %d lessons in DB (%d on disk)", db_lessons, file_lessons)
+
+    # 3. Redis strongly recommended in prod
+    if not os.getenv("REDIS_URL"):
+        log.warning(
+            "REDIS_URL not set with USE_DATABASE=true: live tutor sessions are "
+            "in-memory only — every deploy/restart drops active sessions."
+        )
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Manage application startup and shutdown."""
@@ -606,6 +663,7 @@ async def lifespan(app: FastAPI):
     except Exception:
         # Tests expect a clean slate; ignore if file missing
         pass
+    _validate_production_config()
     # Initialise Redis session store (no-op if REDIS_URL not set)
     from ws_session import init_redis
     await init_redis()
@@ -722,15 +780,14 @@ async def get_my_quota(user: AuthUser = Depends(require_student)):
     problem_limit = PROBLEM_MONTH_LIMITS.get(user.tier, PROBLEM_MONTH_LIMITS["free"])
     problems_today = get_problems_used_today(user.id, today) if user.tier == "free" else None
 
-    tutor_info = None
-    if user.tier in PAID_TIERS:
-        hours_used = get_tutor_hours_used(user.id, year_month)
-        hour_limit = TUTOR_HOUR_LIMITS[user.tier]
-        tutor_info = {
-            "used_hours": round(hours_used, 2),
-            "limit_hours": hour_limit,
-            "allowed": hours_used < hour_limit,
-        }
+    # Tutor access is credits-only (see /credits/balance for purchasable credits).
+    # Hours here report only the flat anti-abuse ceiling, same for every tier.
+    hours_used = get_tutor_hours_used(user.id, year_month)
+    tutor_info = {
+        "used_hours": round(hours_used, 2),
+        "limit_hours": ABUSE_CEILING_HOURS_PER_MONTH,
+        "allowed": hours_used < ABUSE_CEILING_HOURS_PER_MONTH,
+    }
 
     return {
         "tier": user.tier,
@@ -2173,26 +2230,18 @@ async def get_topic_lesson(topic_id: str):
     """
     Return a structured JSON lesson for a topic, generating on first request.
 
-    Caches to apps/api/data/topic_lessons/{topic_id}.json.
+    Cache lives in the lesson store (Postgres in prod, data/topic_lessons/
+    files in dev — see agents/lesson_store.py).
     Returns the 8-section schema: hook, concept, anatomy, worked_example,
     partial_example, practice_problems, common_mistakes, untested_variants.
     """
-    import json
     from datetime import datetime, timezone
-    from config import DATA_DIR
     from topic_registry import TOPIC_REGISTRY, COURSE_REGISTRY
+    from agents.lesson_store import get_lesson, save_lesson
 
-    lessons_dir = DATA_DIR / "topic_lessons"
-    lessons_dir.mkdir(parents=True, exist_ok=True)
-    cache_path = lessons_dir / f"{topic_id}.json"
-
-    if cache_path.exists():
-        try:
-            data = json.loads(cache_path.read_text())
-            # Serve cached — but flag if it was a fallback stub so client can retry
-            return data
-        except Exception:
-            pass  # Corrupt cache — regenerate
+    cached = get_lesson(topic_id)
+    if cached is not None:
+        return cached
 
     topic_meta = TOPIC_REGISTRY.get(topic_id)
     if not topic_meta:
@@ -2219,7 +2268,7 @@ async def get_topic_lesson(topic_id: str):
         "generated_at": datetime.now(timezone.utc).isoformat(),
         **lesson,
     }
-    cache_path.write_text(json.dumps(result, indent=2))
+    save_lesson(topic_id, result)
     return result
 
 

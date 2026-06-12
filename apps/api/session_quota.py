@@ -16,12 +16,10 @@ from typing import Optional
 
 QUOTA_LOG_PATH = Path("data/session_quotas.jsonl")
 
-# Tutor hours per calendar month (wall-clock; 1hr session = 1.0, 2hr = 2.0)
-TUTOR_HOUR_LIMITS: dict[str, int] = {
-    "student": 6,
-    "honors": 12,
-    "classroom-student": 10,
-}
+# Tutor access is credits-only (launch decision 2026-06-12): owning a credit IS
+# the quota. This flat ceiling exists solely to bound abuse (stolen card buying
+# unlimited sessions) — it is generous enough that no legitimate student hits it.
+ABUSE_CEILING_HOURS_PER_MONTH = 40.0
 
 # Problems per calendar month (bank + live combined)
 PROBLEM_MONTH_LIMITS: dict[str, int] = {
@@ -34,6 +32,8 @@ PROBLEM_MONTH_LIMITS: dict[str, int] = {
 # Daily problem cap for free tier only
 FREE_DAILY_PROBLEM_LIMIT = 3
 
+# Practice-subscription tiers. NOT used to gate tutor access (credits-only since
+# 2026-06-12) — only meaningful for problem-generation quotas above.
 PAID_TIERS = {"student", "honors", "classroom-student"}
 
 
@@ -89,15 +89,16 @@ def check_tutor_quota(
     user_id: str,
     tier: str,
     requested_hours: float,
-) -> tuple[bool, float, int]:
+) -> tuple[bool, float, float]:
     """
     Returns (allowed, used_hours, limit_hours).
-    allowed = (used + requested) <= limit.
-    Raises ValueError if tier is not a paid tier.
+
+    Tutor access is credits-only — tier plays no role in access. This check is
+    purely an anti-abuse ceiling (ABUSE_CEILING_HOURS_PER_MONTH), flat for all
+    users regardless of tier. The `tier` parameter is retained for call-site
+    compatibility and future per-tier ceilings.
     """
-    if tier not in PAID_TIERS:
-        raise ValueError(f"Tier {tier!r} does not have tutor access")
-    limit = TUTOR_HOUR_LIMITS[tier]
+    limit = ABUSE_CEILING_HOURS_PER_MONTH
     used = get_tutor_hours_used(user_id)
     allowed = (used + requested_hours) <= limit
     return allowed, used, limit

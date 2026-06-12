@@ -8,7 +8,7 @@ with JSON serialization for complex fields.
 from datetime import datetime
 from typing import Optional, Literal
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import String, Integer, Boolean, Float, DateTime, Text, Index, ForeignKey
+from sqlalchemy import String, Integer, Boolean, Float, DateTime, Text, Index, ForeignKey, JSON
 
 
 class Base(DeclarativeBase):
@@ -698,6 +698,29 @@ class ParentLinkRecord(Base):
         return f"<ParentLinkRecord(parent_id={self.parent_id}, student_id={self.student_id})>"
 
 
+
+
+class TopicLessonRecord(Base):
+    """
+    Cached structured lesson for one topic (8-section JSON schema: hook,
+    concept, anatomy, worked_example, partial_example, practice_problems,
+    common_mistakes, untested_variants).
+
+    Durable home for lessons in production — the file cache under
+    data/topic_lessons/ is a dev-only fallback (ephemeral on Railway).
+    Read/write through agents.lesson_store, never directly.
+    """
+
+    __tablename__ = "topic_lessons"
+
+    topic_id: Mapped[str] = mapped_column(String(255), primary_key=True)
+    content: Mapped[dict] = mapped_column(JSON)
+    schema_version: Mapped[int] = mapped_column(Integer, default=1)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<TopicLessonRecord(topic_id={self.topic_id})>"
 
 
 class StudentConceptError(Base):

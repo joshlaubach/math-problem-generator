@@ -42,7 +42,6 @@ from config import AUTH_PROVIDER, JWT_SECRET_KEY, JWT_ALGORITHM
 from rl_logger import compute_reward, log_event
 from input_mode_heuristics import get_input_mode
 from session_quota import (
-    PAID_TIERS,
     check_tutor_quota,
     record_tutor_session,
     record_problem,
@@ -136,17 +135,14 @@ async def _fetch_worked_example(topic_id: str) -> Optional[list]:
     pre-generated example instead of re-generating one from scratch.
     Returns None if the lesson isn't cached yet (tutor falls back to Socratic).
     """
-    import json
-    from config import DATA_DIR
+    from agents.lesson_store import get_lesson
 
-    cache_path = DATA_DIR / "topic_lessons" / f"{topic_id}.json"
-    if not cache_path.exists():
-        return None
     try:
-        data = json.loads(cache_path.read_text())
-        steps = data.get("worked_example")
-        if isinstance(steps, list) and steps:
-            return steps
+        data = get_lesson(topic_id)
+        if data:
+            steps = data.get("worked_example")
+            if isinstance(steps, list) and steps:
+                return steps
     except Exception:
         pass
     return None
@@ -558,12 +554,7 @@ async def _run_general_session(
     from credit_router import consume_credit, restore_credit
     from ws_session import update_session
 
-    # ── 1. Tier check ──────────────────────────────────────────────────────────
-    if user.tier not in PAID_TIERS:
-        await _close_with_error(websocket, 4003, "Tutor Mode requires a paid plan")
-        return
-
-    # ── 2. Credit check ────────────────────────────────────────────────────────
+    # ── 1. Credit check (tutor access is credits-only; tier plays no role) ────
     credit_id = consume_credit(user.id)
     if credit_id is None:
         await _close_with_error(
@@ -573,21 +564,16 @@ async def _run_general_session(
         return
     session.credit_id = credit_id
 
-    # ── 3. Quota check ─────────────────────────────────────────────────────────
+    # ── 2. Anti-abuse ceiling (flat, generous — credits are the real quota) ───
     requested_hours = 1.0 if session.session_type == "1hr" else 2.0
-    try:
-        allowed, used_hours, limit_hours = check_tutor_quota(
-            user.id, user.tier, requested_hours
-        )
-    except ValueError as exc:
-        restore_credit(credit_id)
-        await _close_with_error(websocket, 4003, str(exc))
-        return
+    allowed, used_hours, limit_hours = check_tutor_quota(
+        user.id, user.tier, requested_hours
+    )
     if not allowed:
         restore_credit(credit_id)
         await _close_with_error(
             websocket, 4029,
-            f"Monthly tutor limit reached ({used_hours:.1f}/{limit_hours} hrs used). "
+            f"Monthly tutor limit reached ({used_hours:.1f}/{limit_hours:.0f} hrs used). "
             "Limit resets on the 1st of next month."
         )
         return
@@ -992,12 +978,7 @@ async def _run_legacy_session(
     Original discovery-based session flow (topic_id via query param).
     Preserved for backward compatibility with old client code.
     """
-    # ── 2. Tier check ─────────────────────────────────────────────────────────
-    if user.tier not in PAID_TIERS:
-        await _close_with_error(websocket, 4003, "Tutor Mode requires a paid plan")
-        return
-
-    # ── 2b. Session credit check ──────────────────────────────────────────────
+    # ── 2. Credit check (tutor access is credits-only; tier plays no role) ────
     from credit_router import consume_credit, restore_credit
     credit_id = consume_credit(user.id)
     if credit_id is None:
@@ -1007,20 +988,16 @@ async def _run_legacy_session(
         )
         return
 
-    # ── 3. Tutor quota check ──────────────────────────────────────────────────
+    # ── 3. Anti-abuse ceiling (flat, generous — credits are the real quota) ───
     requested_hours = 1.0 if session_type == "1hr" else 2.0
-    try:
-        allowed, used_hours, limit_hours = check_tutor_quota(
-            user.id, user.tier, requested_hours
-        )
-    except ValueError as exc:
-        await _close_with_error(websocket, 4003, str(exc))
-        return
-
+    allowed, used_hours, limit_hours = check_tutor_quota(
+        user.id, user.tier, requested_hours
+    )
     if not allowed:
+        restore_credit(credit_id)
         await _close_with_error(
             websocket, 4029,
-            f"Monthly tutor limit reached ({used_hours:.1f}/{limit_hours} hrs used). "
+            f"Monthly tutor limit reached ({used_hours:.1f}/{limit_hours:.0f} hrs used). "
             f"Limit resets on the 1st of next month."
         )
         return

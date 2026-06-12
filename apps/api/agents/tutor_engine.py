@@ -220,30 +220,28 @@ async def _lesson_response(
     Generate a lesson-mode response: explain concept, show a worked example,
     then give a simpler fresh problem to try.
     """
-    from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL, DATA_DIR
+    from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL
     from agents.prompt_assembler import build_system_prompt
-    import json as _json
 
     problem: Optional[GeneratedProblem] = session.problem
 
-    # Try to pull worked_example from the cached lesson file
+    # Try to pull worked_example from the cached lesson (DB in prod, file in dev)
     worked_example_text = ""
     if session.topic_id:
-        lesson_path = DATA_DIR / "topic_lessons" / f"{session.topic_id}.json"
-        if lesson_path.exists():
-            try:
-                lesson = _json.loads(lesson_path.read_text())
-                steps = lesson.get("worked_example", [])
-                parts = []
-                for i, step in enumerate(steps[:4], 1):
-                    expr = step.get("expression_latex", "")
-                    desc = step.get("description_latex", "")
-                    if desc or expr:
-                        sep = " — " if desc and expr else ""
-                        parts.append(f"Step {i}: {desc}{sep}{expr}")
-                worked_example_text = "\n".join(parts)
-            except Exception:
-                pass
+        try:
+            from agents.lesson_store import get_lesson
+            lesson = get_lesson(session.topic_id)
+            steps = (lesson or {}).get("worked_example", [])
+            parts = []
+            for i, step in enumerate(steps[:4], 1):
+                expr = step.get("expression_latex", "")
+                desc = step.get("description_latex", "")
+                if desc or expr:
+                    sep = " — " if desc and expr else ""
+                    parts.append(f"Step {i}: {desc}{sep}{expr}")
+            worked_example_text = "\n".join(parts)
+        except Exception:
+            pass
 
     if not ANTHROPIC_API_KEY:
         stmt = problem.statement if problem else "this problem"
