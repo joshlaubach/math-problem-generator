@@ -805,6 +805,22 @@ async def get_my_quota(user: AuthUser = Depends(require_student)):
     }
 
 
+@app.get("/me/reviews")
+async def get_my_reviews(user: AuthUser = Depends(require_student)):
+    """
+    Spaced-repetition topics due for review (next_review_at <= now), soonest
+    first. Surfaces the SRS schedule the adaptive engine writes at session end.
+    """
+    from progress_store import due_for_review
+    from topic_registry import TOPIC_REGISTRY
+
+    due = due_for_review(user.id, limit=20)
+    for item in due:
+        meta = TOPIC_REGISTRY.get(item["topic_id"])
+        item["topic_name"] = meta.topic_name if meta else item["topic_id"]
+    return {"due": due, "count": len(due)}
+
+
 @app.get("/me/progress")
 async def get_my_progress(user: AuthUser = Depends(require_student)):
     """

@@ -72,6 +72,14 @@ class TutorSession:
     current_index: int = 0
     uploaded_problems: list = field(default_factory=list)  # extracted from file uploads
     exam_mode: bool = False
+    exam_mode_proposed: bool = False     # server proposed exam mode, student hasn't accepted yet
+    # In-session adaptive difficulty (L2-3): streaks drive difficulty mutation;
+    # prefetched holds a background-generated next problem at the new difficulty
+    correct_streak: int = 0
+    wrong_streak: int = 0
+    target_diff: int = 0                 # current conceptual difficulty (1-5); 0 = seed lazily
+    prefetched: Optional[dict] = None    # GeneratedProblem dict ready to serve next
+    prefetch_in_flight: bool = False
     consecutive_no_progress: int = 0
     soft_error_count: int = 0            # chat-borne errors the tutor corrected (no formal
                                          # submission); feeds misconception/deep gates,
