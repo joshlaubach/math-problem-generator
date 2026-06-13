@@ -43,10 +43,17 @@ class Advance:
 
 
 @dataclass
+class Prefetch:
+    """Ask the transport to background-generate the next problem at this difficulty."""
+    conceptual_diff: int
+
+
+@dataclass
 class HandlerResult:
     messages: list[Outbound] = field(default_factory=list)
     advance: Optional[Advance] = None
     end_session: Optional[str] = None  # reason → transport ends the session and breaks
+    prefetch: Optional[Prefetch] = None  # transport fires async problem generation
 
     def send(self, type: str, **payload) -> "HandlerResult":
         self.messages.append(Outbound(type=type, payload=payload))
@@ -82,6 +89,54 @@ async def handle(session: Any, user: Any, raw: dict, deps: SessionDeps) -> Handl
     if handler is None:
         return HandlerResult()  # unknown message → no-op (transport ignores)
     return await handler(session, user, raw, deps)
+
+
+# ── In-session adaptive difficulty (L2-3) ────────────────────────────────────
+
+# Streak thresholds: N correct in a row raises difficulty, M wrong lowers it.
+CORRECT_STREAK_TO_RAISE = 3
+WRONG_STREAK_TO_LOWER = 2
+# Prefetch one correct answer BEFORE the raise, so the harder problem is being
+# generated in the background while the student finishes the current one.
+_PREFETCH_AT_CORRECT_STREAK = CORRECT_STREAK_TO_RAISE - 1
+
+
+def _current_diff(session) -> int:
+    """Current conceptual difficulty (1-5), seeded lazily from intake difficulty."""
+    td = getattr(session, "target_diff", 0) or 0
+    if td:
+        return td
+    intake = getattr(session, "difficulty", 3) or 3
+    return max(1, min(5, round(intake * 5 / 6)))
+
+
+def _apply_streak(session, correct: bool) -> Optional[Prefetch]:
+    """
+    Update streak counters and difficulty after an answer. Returns a Prefetch
+    directive when the transport should background-generate the next problem at
+    a new difficulty. No-op (and no prefetch) in exam mode — exams give no
+    adaptive support. Pure; mutates only session counters/target_diff.
+    """
+    if getattr(session, "exam_mode", False):
+        return None
+
+    cur = _current_diff(session)
+    if correct:
+        session.correct_streak = getattr(session, "correct_streak", 0) + 1
+        session.wrong_streak = 0
+        if session.correct_streak == _PREFETCH_AT_CORRECT_STREAK and cur < 5:
+            return Prefetch(conceptual_diff=min(5, cur + 1))
+        if session.correct_streak >= CORRECT_STREAK_TO_RAISE:
+            session.target_diff = min(5, cur + 1)
+            session.correct_streak = 0
+    else:
+        session.wrong_streak = getattr(session, "wrong_streak", 0) + 1
+        session.correct_streak = 0
+        if session.wrong_streak >= WRONG_STREAK_TO_LOWER and cur > 1:
+            session.target_diff = max(1, cur - 1)
+            session.wrong_streak = 0
+            return Prefetch(conceptual_diff=session.target_diff)
+    return None
 
 
 # ── Handlers ─────────────────────────────────────────────────────────────────
@@ -129,6 +184,10 @@ async def _answer_submit(session, user, raw, deps) -> HandlerResult:
     res.send("answer_result", correct=result.correct,
              equivalent_form=result.equivalent_form,
              partial_credit_reason=result.partial_credit_reason)
+
+    # In-session adaptive difficulty: update streaks and maybe prefetch the
+    # next problem at a new difficulty in the background
+    res.prefetch = _apply_streak(session, result.correct)
 
     if result.correct:
         session.is_solved = True

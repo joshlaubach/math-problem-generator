@@ -36,6 +36,8 @@ def _session(**over):
         problem=_problem(), conversation=[], attempts=[], hint_level=0,
         is_solved=False, consecutive_no_progress=0, soft_error_count=0,
         exam_mode=False, exam_mode_proposed=False, tutor_name="Josh",
+        correct_streak=0, wrong_streak=0, target_diff=0,
+        prefetched=None, prefetch_in_flight=False,
     )
     for k, v in over.items():
         setattr(s, k, v)
@@ -177,3 +179,62 @@ class TestDispatch:
     async def test_going_too_fast(self):
         res = await so.handle(_session(), _USER, {"type": "going_too_fast"}, _deps())
         assert res.messages[0].payload["text"] == "SLOW"
+
+
+@pytest.mark.asyncio
+class TestStreakAdaptation:
+    async def _submit(self, s, correct):
+        return await so.handle(s, _USER, {"type": "answer_submit", "answer": "x"},
+                               _deps(_correct=correct))
+
+    async def test_two_correct_prefetches_harder(self):
+        s = _session(difficulty=3)  # seeds to conceptual 3 (≈ round(3*5/6)=2... )
+        await self._submit(s, True)
+        res = await self._submit(s, True)
+        assert res.prefetch is not None
+        assert res.prefetch.conceptual_diff == so._current_diff(s) + 1
+
+    async def test_three_correct_raises_difficulty(self):
+        s = _session(difficulty=3)
+        base = so._current_diff(s)
+        await self._submit(s, True)
+        await self._submit(s, True)
+        await self._submit(s, True)
+        assert s.target_diff == base + 1
+        assert s.correct_streak == 0  # reset after raise
+
+    async def test_two_wrong_lowers_and_prefetches_easier(self):
+        s = _session(difficulty=4)
+        base = so._current_diff(s)
+        await self._submit(s, False)
+        res = await self._submit(s, False)
+        assert s.target_diff == base - 1
+        assert res.prefetch is not None
+        assert res.prefetch.conceptual_diff == base - 1
+
+    async def test_correct_resets_wrong_streak(self):
+        s = _session(difficulty=3)
+        await self._submit(s, False)
+        await self._submit(s, True)
+        assert s.wrong_streak == 0
+        assert s.correct_streak == 1
+
+    async def test_no_adaptation_in_exam_mode(self):
+        s = _session(difficulty=3, exam_mode=True)
+        for _ in range(4):
+            res = await self._submit(s, True)
+        assert s.target_diff == 0  # untouched
+        assert res.prefetch is None
+
+    async def test_difficulty_capped_at_5(self):
+        s = _session(difficulty=6, target_diff=5)
+        res = await self._submit(s, True)
+        res = await self._submit(s, True)
+        # already at 5 → no prefetch past cap
+        assert res.prefetch is None
+
+    async def test_difficulty_floored_at_1(self):
+        s = _session(difficulty=1, target_diff=1)
+        await self._submit(s, False)
+        res = await self._submit(s, False)
+        assert res.prefetch is None  # already at floor

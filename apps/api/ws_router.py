@@ -520,6 +520,49 @@ def _queue_length(session) -> int:
     return 1 if session.problem else 0
 
 
+async def _prefetch_problem(session, conceptual_diff: int) -> None:
+    """
+    Background-generate the next problem at `conceptual_diff` and stash it on
+    the session (L2-3). Fired when a streak signals an upcoming difficulty
+    change. Single-flight; never raises (best-effort optimization).
+    """
+    if getattr(session, "prefetch_in_flight", False):
+        return
+    from ws_session import update_session
+    from agents.generator import generate as generate_problem
+    from agents.schemas import GeneratorInput
+    from problem_bank import save_generated
+
+    topic_id = session.topic_id or (session.topic_ids[0] if session.topic_ids else "")
+    meta = TOPIC_REGISTRY.get(topic_id)
+    if meta is None:
+        return  # freeform/uploaded sessions don't prefetch
+
+    session.prefetch_in_flight = True
+    update_session(session)
+    try:
+        p = await generate_problem(GeneratorInput(
+            topic=meta.topic_name, course=meta.course_name, unit=meta.unit_name,
+            conceptual_diff=conceptual_diff, computational_diff=conceptual_diff,
+            calc_tier="none",
+        ))
+        try:
+            p.problem_id = save_generated(
+                p, topic_id=topic_id,
+                course_id=getattr(meta, "course_id", "") or "",
+                unit_id=getattr(meta, "unit_id", "") or "",
+                conceptual_diff=conceptual_diff, computational_diff=conceptual_diff,
+            )
+        except Exception:
+            pass
+        session.prefetched = p.dict()
+    except Exception as exc:
+        logger.warning("Prefetch failed for %s @diff%s: %s", topic_id, conceptual_diff, exc)
+    finally:
+        session.prefetch_in_flight = False
+        update_session(session)
+
+
 async def _advance_problem(websocket: WebSocket, session, source_label: str = "solved") -> bool:
     """
     Advance to the next problem in the queue.
@@ -527,6 +570,7 @@ async def _advance_problem(websocket: WebSocket, session, source_label: str = "s
     Returns True if there is a next problem, False if the queue is exhausted.
     """
     from ws_session import update_session
+    from agents.schemas import GeneratedProblem as GP
 
     # Compress current conversation to session_summary (background)
     asyncio.create_task(_compress_conversation(session))
@@ -538,7 +582,17 @@ async def _advance_problem(websocket: WebSocket, session, source_label: str = "s
     session.consecutive_no_progress = 0
     session.soft_error_count = 0
 
-    next_problem = _problem_from_queue_or_uploads(session)
+    # Prefer a background-prefetched problem (difficulty already adapted, L2-3),
+    # else fall back to the pre-built queue
+    next_problem = None
+    if getattr(session, "prefetched", None):
+        try:
+            next_problem = GP(**session.prefetched)
+        except Exception:
+            next_problem = None
+        session.prefetched = None
+    if next_problem is None:
+        next_problem = _problem_from_queue_or_uploads(session)
 
     if next_problem is None:
         # Queue exhausted
@@ -774,6 +828,14 @@ async def _run_general_session(
 
             for msg in result.messages:
                 await _send(websocket, type=msg.type, **msg.payload)
+
+            # Background-generate the next problem at a new difficulty (L2-3).
+            # Fire-and-forget; if it isn't ready by the next advance, the queue
+            # is used instead and difficulty shifts one problem later.
+            if result.prefetch is not None:
+                asyncio.create_task(
+                    _prefetch_problem(session, result.prefetch.conceptual_diff)
+                )
 
             if result.end_session is not None:
                 timer_task.cancel()
