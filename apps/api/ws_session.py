@@ -72,6 +72,7 @@ class TutorSession:
     current_index: int = 0
     uploaded_problems: list = field(default_factory=list)  # extracted from file uploads
     exam_mode: bool = False
+    exam_mode_proposed: bool = False     # server proposed exam mode, student hasn't accepted yet
     consecutive_no_progress: int = 0
     soft_error_count: int = 0            # chat-borne errors the tutor corrected (no formal
                                          # submission); feeds misconception/deep gates,
