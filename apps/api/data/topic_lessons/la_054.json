@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_054",
+  "topic_name": "The Spectral Theorem for Real Symmetric Matrices (H)",
+  "generated_at": "2026-05-13T20:41:23.683212+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to diagonalize a matrix: find eigenvalues, find eigenvectors, and if you have enough independent eigenvectors, write $A = PDP^{-1}$. But for a general matrix, those eigenvectors might not be orthogonal, and $P^{-1}$ can be messy to compute. Now suppose someone tells you the matrix is symmetric, meaning $A = A^T$. Can we always diagonalize it with an *orthonormal* basis of eigenvectors, so that $P^{-1} = P^T$ and the whole decomposition becomes beautifully clean?",
+  "concept": "The Spectral Theorem for real symmetric matrices says: yes, always. In plain English, every real symmetric matrix can be broken apart into perpendicular directions that it simply stretches or compresses. Formally, if $A$ is an $n \\times n$ real matrix with $A = A^T$, then there exists an orthogonal matrix $Q$ (satisfying $Q^T Q = I$) and a diagonal matrix $D$ such that $A = QDQ^T$, where the diagonal entries of $D$ are the (real) eigenvalues of $A$ and the columns of $Q$ are corresponding orthonormal eigenvectors.",
+  "anatomy": "The decomposition $A = QDQ^T$ has four distinct components worth naming carefully. First, $A$ is the real symmetric matrix being decomposed \u2014 symmetry ($A = A^T$) is the essential hypothesis. Second, $Q$ is the orthogonal matrix whose columns $q_1, q_2, \\ldots, q_n$ are mutually orthonormal eigenvectors of $A$; because $Q$ is orthogonal, $Q^{-1} = Q^T$, which is what makes this decomposition special. Third, $D = \\operatorname{diag}(\\lambda_1, \\lambda_2, \\ldots, \\lambda_n)$ is the diagonal matrix of eigenvalues, which the theorem guarantees are all real even if you never assumed so. Fourth, the outer product expansion $A = \\sum_{i=1}^n \\lambda_i q_i q_i^T$ is the spectral decomposition form, expressing $A$ as a sum of rank-one orthogonal projections scaled by eigenvalues.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 3 & 1 \\\\ 1 & 3 \\end{pmatrix}",
+      "description_latex": "We start by confirming that $A$ is symmetric: the $(1,2)$ entry equals the $(2,1)$ entry, both equal to $1$, so the Spectral Theorem applies and we are guaranteed real eigenvalues and an orthonormal eigenbasis.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(A - \\lambda I) = (3-\\lambda)^2 - 1 = \\lambda^2 - 6\\lambda + 8 = (\\lambda-2)(\\lambda-4) = 0 \\implies \\lambda_1 = 2,\\; \\lambda_2 = 4",
+      "description_latex": "We find the eigenvalues by solving the characteristic equation. Notice both eigenvalues are real, exactly as the Spectral Theorem promises \u2014 this is not a coincidence but a consequence of symmetry.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_1 = 2:\\; (A - 2I)v = 0 \\Rightarrow \\begin{pmatrix}1&1\\\\1&1\\end{pmatrix}v=0 \\Rightarrow v = t\\begin{pmatrix}1\\\\-1\\end{pmatrix};\\quad \\lambda_2=4:\\; v = t\\begin{pmatrix}1\\\\1\\end{pmatrix}",
+      "description_latex": "We compute eigenvectors for each eigenvalue by row-reducing $A - \\lambda I$. Notice that the two eigenvectors $\\begin{pmatrix}1\\\\-1\\end{pmatrix}$ and $\\begin{pmatrix}1\\\\1\\end{pmatrix}$ are already orthogonal to each other \u2014 this automatic orthogonality between eigenvectors for *distinct* eigenvalues of a symmetric matrix is one of the key guarantees of the Spectral Theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "q_1 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\-1\\end{pmatrix},\\quad q_2 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\1\\end{pmatrix},\\quad Q = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1&1\\\\-1&1\\end{pmatrix},\\quad D = \\begin{pmatrix}2&0\\\\0&4\\end{pmatrix}",
+      "description_latex": "We normalize each eigenvector by dividing by its length $\\sqrt{2}$ to get orthonormal vectors $q_1$ and $q_2$, then assemble $Q$ by placing them as columns. Because the columns are orthonormal, $Q$ is orthogonal and satisfies $Q^T Q = I$, so $Q^{-1} = Q^T$ with no row-reduction required.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = QDQ^T = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1&1\\\\-1&1\\end{pmatrix}\\begin{pmatrix}2&0\\\\0&4\\end{pmatrix}\\frac{1}{\\sqrt{2}}\\begin{pmatrix}1&-1\\\\1&1\\end{pmatrix} = 2\\cdot q_1 q_1^T + 4\\cdot q_2 q_2^T",
+      "description_latex": "The final orthogonal diagonalization $A = QDQ^T$ is complete, and we can also write it in spectral form as a sum of rank-one projections: $A = 2 q_1 q_1^T + 4 q_2 q_2^T$. This form reveals that $A$ acts on any vector by projecting it onto each eigendirection and scaling by the corresponding eigenvalue.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 5 & 2 \\\\ 2 & 5 \\end{pmatrix}",
+      "description_latex": "We want to find the orthogonal diagonalization $B = QDQ^T$. First, verify $B$ is symmetric (it is, since the off-diagonal entries both equal $2$), so the Spectral Theorem applies.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(B - \\lambda I) = (5-\\lambda)^2 - 4 = 0 \\implies \\lambda_1 = 3,\\; \\lambda_2 = 7",
+      "description_latex": "The characteristic polynomial gives us eigenvalues $\\lambda_1 = 3$ and $\\lambda_2 = 7$. Now find an eigenvector for each eigenvalue by solving $(B - \\lambda I)v = 0$, then normalize them to length 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Find the normalized eigenvectors $q_1$ (for $\\lambda=3$) and $q_2$ (for $\\lambda=7$), then write down the matrices $Q$ and $D$ that give $B = QDQ^T$. Verify that your two eigenvectors are orthogonal before normalizing.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "B = 3\\,q_1 q_1^T + 7\\,q_2 q_2^T",
+      "description_latex": "Write the spectral decomposition of $B$ as a sum of scaled rank-one projections. Can you verify this sum actually equals $B$ by computing each outer product $q_i q_i^T$ explicitly?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Is the matrix $C = \\begin{pmatrix} 4 & 0 \\\\ 0 & -1 \\end{pmatrix}$ already orthogonally diagonalized? State $Q$, $D$, and the spectral decomposition.",
+      "answer_latex": "Yes. $Q = I$, $D = \\begin{pmatrix}4&0\\\\0&-1\\end{pmatrix}$; spectral form: $C = 4e_1e_1^T + (-1)e_2e_2^T$."
+    },
+    {
+      "prompt_latex": "Find the orthogonal diagonalization $A = QDQ^T$ for $A = \\begin{pmatrix} 6 & 2 \\\\ 2 & 3 \\end{pmatrix}$.",
+      "answer_latex": "Eigenvalues: $\\lambda = 2, 7$. For $\\lambda=2$: $q_1 = \\frac{1}{\\sqrt{5}}\\begin{pmatrix}-1\\\\2\\end{pmatrix}$; for $\\lambda=7$: $q_2 = \\frac{1}{\\sqrt{5}}\\begin{pmatrix}2\\\\1\\end{pmatrix}$. So $Q = \\frac{1}{\\sqrt{5}}\\begin{pmatrix}-1&2\\\\2&1\\end{pmatrix}$, $D = \\begin{pmatrix}2&0\\\\0&7\\end{pmatrix}$."
+    },
+    {
+      "prompt_latex": "For the symmetric matrix $A = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 2 & 1 \\\\ 0 & 1 & 2 \\end{pmatrix}$, find all eigenvalues and an orthonormal eigenbasis.",
+      "answer_latex": "Eigenvalues: $\\lambda = 1$ (multiplicity 2) and $\\lambda = 3$. For $\\lambda=1$: $e_1 = \\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix}$ and $q_2 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}0\\\\1\\\\-1\\end{pmatrix}$; for $\\lambda=3$: $q_3 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix}$."
+    },
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix}3&1\\\\1&3\\end{pmatrix}$ (from the worked example). Use the spectral decomposition $A = QDQ^T$ to compute $A^{10}$ without repeated matrix multiplication.",
+      "answer_latex": "Since $A = QDQ^T$ and $A^{10} = QD^{10}Q^T$, we get $D^{10} = \\begin{pmatrix}2^{10}&0\\\\0&4^{10}\\end{pmatrix} = \\begin{pmatrix}1024&0\\\\0&1048576\\end{pmatrix}$, so $A^{10} = \\frac{1}{2}\\begin{pmatrix}1&1\\\\-1&1\\end{pmatrix}\\begin{pmatrix}1024&0\\\\0&1048576\\end{pmatrix}\\begin{pmatrix}1&-1\\\\1&1\\end{pmatrix} = \\frac{1}{2}\\begin{pmatrix}1049600 & 1047552 \\\\ 1047552 & 1049600\\end{pmatrix}$."
+    },
+    {
+      "prompt_latex": "A data scientist models a covariance matrix as $\\Sigma = \\begin{pmatrix}2&1\\\\1&2\\end{pmatrix}$. The principal components are the eigenvectors of $\\Sigma$. Find the principal components (orthonormal) and the variance explained by each (the eigenvalues). Which direction explains more variance?",
+      "answer_latex": "Eigenvalues: $\\lambda_1 = 1$ (less variance) and $\\lambda_2 = 3$ (more variance). Principal components: $q_1 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\-1\\end{pmatrix}$ and $q_2 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\1\\end{pmatrix}$. The direction $q_2 = \\frac{1}{\\sqrt{2}}(1,1)^T$ explains more variance ($\\lambda_2 = 3$)."
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting to normalize eigenvectors before forming $Q$: if the columns of $Q$ are orthogonal but not unit vectors, then $Q^T \\neq Q^{-1}$ and the decomposition $A = QDQ^T$ fails. Always divide each eigenvector by its norm before inserting it as a column of $Q$.",
+    "When an eigenvalue has multiplicity greater than 1, students often use any two eigenvectors from the eigenspace without checking they are orthogonal to each other. The Spectral Theorem guarantees an orthonormal basis exists, but you must apply Gram-Schmidt within the repeated eigenspace to produce it \u2014 the raw null-space basis vectors are not automatically orthogonal.",
+    "Confusing $A = QDQ^T$ with the general diagonalization $A = PDP^{-1}$ and writing $Q^T$ on the left instead of the right: the correct orthogonal diagonalization is $A = QDQ^T$, and multiplying both sides gives $Q^T A Q = D$, not $Q A Q^T = D$. Mixing up which side $Q^T$ goes on produces a wrong (non-diagonal) result."
+  ],
+  "untested_variants": [
+    "Orthogonal diagonalization of a $3 \\times 3$ symmetric matrix with three *distinct* eigenvalues, requiring three separate eigenvector calculations and normalizations.",
+    "Using the spectral decomposition to compute $f(A)$ for a matrix function other than a power, such as $e^A = Q e^D Q^T$ or $A^{-1} = Q D^{-1} Q^T$, connecting the Spectral Theorem to matrix exponentials.",
+    "Proving that eigenvectors corresponding to *distinct* eigenvalues of a symmetric matrix must be orthogonal \u2014 the algebraic proof using $\\lambda_1 \\langle v_1, v_2 \\rangle = \\langle Av_1, v_2 \\rangle = \\langle v_1, Av_2 \\rangle = \\lambda_2 \\langle v_1, v_2 \\rangle$.",
+    "Identifying whether a given diagonalization $A = PDP^{-1}$ is actually an *orthogonal* diagonalization by checking whether $P^{-1} = P^T$, rather than constructing the diagonalization from scratch."
+  ]
+}

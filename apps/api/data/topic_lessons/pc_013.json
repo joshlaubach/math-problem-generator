@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_013",
+  "topic_name": "Solving Polynomial and Rational Inequalities",
+  "generated_at": "2026-05-13T19:57:31.588103+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to solve polynomial equations like $x^2 - x - 6 = 0$ by factoring to get $x = 3$ or $x = -2$. You can also solve rational equations by clearing denominators. But what if instead of an equals sign, the problem asks: for which values of $x$ is $x^2 - x - 6 < 0$, or when is $\\frac{x+1}{x-3} \\geq 0$? Finding a single point where an expression equals zero is very different from finding every interval where it stays negative or positive \u2014 how do we systematically hunt down those intervals?",
+  "concept": "A polynomial or rational inequality asks: on which parts of the number line does an expression stay above or below zero (or above/below some value)? The key insight is that a continuous expression can only change sign at points where it equals zero or is undefined. Formally, to solve $f(x) > 0$ (or $< 0$, $\\leq 0$, $\\geq 0$) we find all real zeros and undefined points of $f$, use them to partition the number line into intervals, then test one value per interval to determine the sign throughout that interval.",
+  "anatomy": "Every polynomial or rational inequality has four structural components you must identify. The critical numbers are the $x$-values where the expression equals zero (found by setting the numerator equal to zero) or is undefined (found by setting the denominator equal to zero for rational expressions); together these are the boundary points that divide the number line into test intervals. The test intervals are the open sub-intervals between consecutive critical numbers, plus the two unbounded intervals on the far left and far right. The sign chart is the organized record of whether $f(x)$ is positive or negative on each test interval, determined by plugging a single test value from each interval into $f$. Finally, the solution set is the union of intervals (written in interval notation or with inequality symbols) where the sign chart matches the inequality's direction, with endpoints included only if the original inequality is non-strict ($\\leq$ or $\\geq$) AND the point is a zero (not an undefined point).",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 - x - 6 < 0",
+      "description_latex": "We want to find where the parabola dips below the $x$-axis, so the first thing to do is find its critical numbers by setting the expression equal to zero. We solve $x^2 - x - 6 = 0$, which factors as $(x-3)(x+2) = 0$, giving critical numbers $x = 3$ and $x = -2$. Because this is a polynomial (never undefined), these two points are our only boundaries.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(-\\infty,\\,-2),\\quad (-2,\\,3),\\quad (3,\\,\\infty)",
+      "description_latex": "The two critical numbers split the real line into three test intervals. We list them now so we don't miss any region \u2014 every point on the number line belongs to exactly one of these three intervals, and within each interval the expression cannot change sign.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c} \\text{Interval} & \\text{Test value} & \\text{Sign of } x^2-x-6 \\\\ \\hline (-\\infty,-2) & x=-3: 9+3-6=6 & + \\\\ (-2,\\,3) & x=0: 0-0-6=-6 & - \\\\ (3,\\,\\infty) & x=4: 16-4-6=6 & + \\end{array}",
+      "description_latex": "We pick one convenient test value inside each interval and substitute it into the original expression \u2014 we only need to know the sign, not the exact value. The middle interval gives a negative result, which is exactly what the inequality $< 0$ requires, so that interval will be part of our answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\in (-2,\\,3)",
+      "description_latex": "Because the inequality is strict ($< 0$, not $\\leq 0$), we do not include the endpoints $x = -2$ and $x = 3$ where the expression equals zero. The solution is the open interval $(-2, 3)$, which is the only region where $x^2 - x - 6$ stays negative.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{x+1}{x-3} \\geq 0",
+      "description_latex": "This is a rational inequality, so we must find both zeros and undefined points. The numerator $x+1=0$ gives $x=-1$, and the denominator $x-3=0$ gives $x=3$. Note that $x=3$ makes the expression undefined, so it can never be included in any solution regardless of the inequality symbol.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(-\\infty,-1),\\quad (-1,3),\\quad (3,\\infty)",
+      "description_latex": "The critical numbers $x=-1$ and $x=3$ create three test intervals. For each interval, pick a test value and determine whether $\\frac{x+1}{x-3}$ is positive or negative \u2014 remember you only need the sign, so you can even check the signs of numerator and denominator separately.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Build the sign chart: test $x=-2$ in $(-\\infty,-1)$, test $x=0$ in $(-1,3)$, and test $x=4$ in $(3,\\infty)$. For each, compute the sign of the numerator and denominator separately, then decide whether the fraction is positive or negative. Which intervals satisfy $\\geq 0$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "(-\\infty,-1]\\cup(3,\\infty)",
+      "description_latex": "The expression is non-negative on $(-\\infty,-1)$ and $(3,\\infty)$. Because the inequality is $\\geq 0$ (non-strict), we include $x=-1$ (where the numerator is zero and the expression equals $0$), but we exclude $x=3$ because the expression is undefined there. The final answer is $(-\\infty,-1]\\cup(3,\\infty)$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve: $(x-1)(x+4) > 0$",
+      "answer_latex": "(-\\infty,-4)\\cup(1,\\infty)"
+    },
+    {
+      "prompt_latex": "Solve: $x^2 - 5x + 6 \\leq 0$",
+      "answer_latex": "[2,\\,3]"
+    },
+    {
+      "prompt_latex": "Solve: $\\dfrac{x-2}{x+5} < 0$",
+      "answer_latex": "(-5,\\,2)"
+    },
+    {
+      "prompt_latex": "Solve: $2x^3 - x^2 - 6x \\geq 0$ (Hint: factor out $x$ first, then factor the quadratic)",
+      "answer_latex": "[-\\tfrac{3}{2},\\,0]\\cup[2,\\infty)"
+    },
+    {
+      "prompt_latex": "A projectile's height (in feet) above the ground is modeled by $h(t) = -16t^2 + 64t$, where $t$ is time in seconds. During which time interval is the projectile at least 48 feet above the ground? Set up and solve the inequality $-16t^2 + 64t \\geq 48$.",
+      "answer_latex": "[1,\\,3] \\text{ seconds}"
+    }
+  ],
+  "common_mistakes": [
+    "Students include $x$-values where the expression is undefined in the solution set when the inequality is non-strict. If $x = 3$ makes a denominator zero, it must always be excluded with a parenthesis, even if the inequality uses $\\geq$ or $\\leq$; only zeros of the numerator may be included with a bracket.",
+    "After finding critical numbers, students skip building a sign chart and assume that 'positive, negative, positive' or 'negative, positive, negative' is the automatic pattern. This only holds for expressions with two distinct real roots; a factor raised to an even power, for example $(x-1)^2$, does not change sign at $x=1$, so always test each interval independently.",
+    "When rearranging a rational inequality like $\\frac{x+1}{x-3} \\geq 2$, students cross-multiply without accounting for the sign of the denominator, which can flip the inequality. The correct approach is to move everything to one side first \u2014 rewrite as $\\frac{x+1}{x-3} - 2 \\geq 0$, combine into a single fraction, and then apply the sign-chart method."
+  ],
+  "untested_variants": [
+    "Rational inequalities where the numerator or denominator is a non-factorable quadratic, requiring the quadratic formula to find complex or irrational critical numbers.",
+    "Polynomial inequalities of degree 4 or higher, including cases where a factor appears with multiplicity greater than 1 (e.g., $(x-2)^2(x+1) \\leq 0$), so students must track even vs. odd multiplicities in the sign chart.",
+    "Inequalities involving absolute values combined with polynomials, such as $|x^2 - 4| < 3$, which require splitting into two separate cases before applying the sign-chart method.",
+    "Systems of inequalities where the solution is the intersection of two separate solution sets, for example solving $x^2 - 1 > 0$ AND $\\frac{1}{x} < 2$ simultaneously."
+  ]
+}

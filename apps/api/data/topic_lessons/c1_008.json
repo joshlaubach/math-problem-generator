@@ -1,0 +1,91 @@
+{
+  "topic_id": "c1_008",
+  "topic_name": "The Power Rule",
+  "generated_at": "2026-05-13T00:04:01.036465+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find slopes of straight lines, and you've seen the definition of the derivative as a limit. Using that limit definition to differentiate $f(x) = x^2$ takes a page of algebra \u2014 and for $f(x) = x^{100}$ it would be essentially impossible by hand. There must be a faster pattern hiding in the structure of power functions. Can you spot the shortcut before we reveal it?",
+  "concept": "The Power Rule is the fastest tool for differentiating any function of the form $x^n$. In plain English: bring the exponent down as a coefficient, then reduce the exponent by one. Formally, if $f(x) = x^n$ where $n$ is any real number, then $f'(x) = n x^{n-1}$.",
+  "anatomy": "In the expression $f(x) = x^n$, the base $x$ is the independent variable being differentiated, and the exponent $n$ is the power (which can be any real number \u2014 positive integer, negative integer, fraction, or irrational). When we apply the rule to produce $f'(x) = n x^{n-1}$, the factor $n$ out front is the multiplied-down coefficient, and the new exponent $n-1$ is the result of reducing the original power by exactly one. Every piece has a specific job: the coefficient records what the old exponent was, and the new exponent records that we lost one degree of growth.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^5",
+      "description_latex": "We start by identifying the exponent: here $n = 5$. The Power Rule tells us to multiply the entire term by that exponent and then subtract 1 from it, so we are setting up $f'(x) = 5 \\cdot x^{5-1}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 5x^4",
+      "description_latex": "Simplifying the exponent $5 - 1 = 4$ gives us the final derivative. Notice the original function grew like $x^5$, and its rate of change grows one degree slower, like $x^4$, which makes geometric sense because the slope of a steeper curve must itself be a growing function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(x) = x^{-3}",
+      "description_latex": "Negative exponents are perfectly valid inputs for the Power Rule \u2014 we treat $n = -3$ exactly the same way. We bring $-3$ down as the coefficient and subtract 1 from the exponent: $g'(x) = -3 \\cdot x^{-3-1}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g'(x) = -3x^{-4}",
+      "description_latex": "After computing $-3 - 1 = -4$, we arrive at $g'(x) = -3x^{-4}$. This can also be written as $g'(x) = \\dfrac{-3}{x^4}$, which confirms that as $x$ grows large, both $g$ and $g'$ shrink toward zero \u2014 the function is flattening out, so a small negative slope makes sense.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h(x) = x^{1/2}",
+      "description_latex": "Fractional exponents also obey the Power Rule without any modification. Here $n = \\tfrac{1}{2}$, so we get $h'(x) = \\tfrac{1}{2} x^{1/2 - 1} = \\tfrac{1}{2} x^{-1/2}$, which you may recognise as $\\dfrac{1}{2\\sqrt{x}}$ \u2014 the familiar slope formula for the square-root function that you might have guessed from geometry.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = x^7",
+      "description_latex": "We want to differentiate $f(x) = x^7$. Begin by identifying the exponent $n$ and recalling the Power Rule: $\\frac{d}{dx}[x^n] = n x^{n-1}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Apply the Power Rule: write down the new coefficient and the new exponent. What is $f'(x)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f(x) = x^{3/4}",
+      "description_latex": "Now try a fractional exponent. Identify $n = \\tfrac{3}{4}$ and remember that subtracting 1 from a fraction means finding a common denominator: $\\tfrac{3}{4} - 1 = \\tfrac{3}{4} - \\tfrac{4}{4}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Complete the derivative: bring the exponent $\\tfrac{3}{4}$ down as the coefficient and compute the new exponent $\\tfrac{3}{4} - 1$. Write the fully simplified expression for $f'(x)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find } f'(x) \\text{ if } f(x) = x^6",
+      "answer_latex": "f'(x) = 6x^5"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}\\left[x^{-2}\\right]",
+      "answer_latex": "\\frac{d}{dx}\\left[x^{-2}\\right] = -2x^{-3}"
+    },
+    {
+      "prompt_latex": "\\text{Find } g'(x) \\text{ if } g(x) = x^{2/3}",
+      "answer_latex": "g'(x) = \\frac{2}{3}x^{-1/3}"
+    },
+    {
+      "prompt_latex": "\\text{Find } h'(x) \\text{ if } h(x) = 4x^3 - 7x^{-1} + x^{1/2}",
+      "answer_latex": "h'(x) = 12x^2 + 7x^{-2} + \\frac{1}{2}x^{-1/2}"
+    },
+    {
+      "prompt_latex": "\\text{The position of a particle (in metres) at time } t \\text{ seconds is } s(t) = t^4. \\text{ Find the velocity at } t = 2.",
+      "answer_latex": "s'(t) = 4t^3, \\text{ so } s'(2) = 32 \\text{ m/s}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to subtract 1 from the exponent and write $\\frac{d}{dx}[x^5] = 5x^5$ instead of $5x^4$. Always perform both operations: multiply the coefficient AND reduce the exponent by 1.",
+    "When the exponent is a fraction like $\\tfrac{3}{4}$, students subtract 1 incorrectly by just writing $\\tfrac{2}{4}$ instead of finding a common denominator to get $\\tfrac{3}{4} - \\tfrac{4}{4} = -\\tfrac{1}{4}$. Always convert 1 to a fraction with the same denominator before subtracting.",
+    "Students apply the Power Rule to $e^x$ or $a^x$ (exponential functions) because they see an exponent, writing $\\frac{d}{dx}[e^x] = x e^{x-1}$. The Power Rule only applies when the variable is the base; exponential functions have a completely different rule."
+  ],
+  "untested_variants": [
+    "Differentiating a product before applying the Power Rule, such as rewriting $f(x) = x^2 \\cdot x^3$ as $x^5$ first \u2014 combining exponent laws with the Power Rule.",
+    "Applying the Power Rule to a function written in radical form without first converting it, e.g. $f(x) = \\sqrt[5]{x^3}$ requires rewriting as $x^{3/5}$ before differentiating.",
+    "Using the Power Rule to find higher-order derivatives, such as computing $f''(x)$ and $f'''(x)$ for $f(x) = x^5$ by applying the rule repeatedly.",
+    "Differentiating $f(x) = x^0 = 1$ and $f(x) = x^1 = x$ as edge cases, confirming that the rule correctly produces $0$ and $1$ respectively."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "c1_021",
+  "topic_name": "Concavity and the Second Derivative Test",
+  "generated_at": "2026-05-13T00:08:59.958449+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find where a function is increasing or decreasing using the first derivative, and you can locate local maxima and minima by finding critical points. But here's something the first derivative can't easily tell you: is that hill-shaped curve bending upward like a bowl, or downward like a dome? And when you find a critical point, how can you confirm in one quick calculation whether it's a local max or a local min without analyzing sign changes on both sides? That's the gap we're closing today \u2014 can you tell the shape of a curve's bend just from its derivatives?",
+  "concept": "Concavity describes which direction a curve bends: a curve is concave up where it bends like a bowl (holding water) and concave down where it bends like a dome (shedding water). Formally, $f$ is concave up on an interval if $f''(x) > 0$ there, and concave down if $f''(x) < 0$ there. A point where concavity changes is called an inflection point.",
+  "anatomy": "The key components here are: the second derivative $f''(x)$, which measures how the slope itself is changing; the sign of $f''(x)$ \u2014 positive means the slope is increasing (concave up), negative means the slope is decreasing (concave down); inflection points, which are $x$-values where $f''(x) = 0$ or is undefined AND concavity actually changes sign; and the Second Derivative Test itself, which states that at a critical point $c$ where $f'(c) = 0$, if $f''(c) > 0$ then $f(c)$ is a local minimum, and if $f''(c) < 0$ then $f(c)$ is a local maximum.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^3 - 3x^2 - 9x + 5",
+      "description_latex": "We start with this cubic function and our goals are: (1) find all critical points, (2) classify each as a local max or min using the Second Derivative Test, and (3) find any inflection points. Having a clear plan before differentiating keeps us organized throughout the problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 3x^2 - 6x - 9 = 3(x^2 - 2x - 3) = 3(x-3)(x+1)",
+      "description_latex": "We differentiate to get $f'(x)$, then factor completely to find the critical points. Setting $f'(x) = 0$ gives $x = 3$ and $x = -1$ \u2014 these are the only candidates for local extrema, and now we'll use the second derivative to classify them without doing a sign chart.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f''(x) = 6x - 6",
+      "description_latex": "We differentiate $f'(x)$ once more to get the second derivative, which tells us about concavity and lets us apply the Second Derivative Test. This is straightforward power-rule differentiation, but it's the crucial tool that does the work of classification.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f''(-1) = 6(-1) - 6 = -12 < 0 \\Rightarrow \\text{local max at } x = -1; \\quad f''(3) = 6(3) - 6 = 12 > 0 \\Rightarrow \\text{local min at } x = 3",
+      "description_latex": "We plug each critical point into $f''(x)$: at $x = -1$ the second derivative is negative, so the curve is concave down there, confirming a local maximum; at $x = 3$ the second derivative is positive, so the curve is concave up, confirming a local minimum. This is the Second Derivative Test in action \u2014 one substitution per critical point replaces the need to check signs on both sides.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f''(x) = 0 \\Rightarrow 6x - 6 = 0 \\Rightarrow x = 1; \\quad f''(0) = -6 < 0,\\; f''(2) = 6 > 0 \\Rightarrow \\text{inflection point at } x = 1",
+      "description_latex": "To find inflection points, we set $f''(x) = 0$ and solve, then verify that concavity actually changes by checking the sign of $f''$ on each side of $x = 1$. Since the sign flips from negative to positive, $x = 1$ is a genuine inflection point \u2014 the curve changes from bending downward to bending upward at that location.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = x^4 - 8x^2 + 3",
+      "description_latex": "We want to find the critical points of $g$, classify each using the Second Derivative Test, and identify any inflection points. Let's begin by computing $g'(x)$ and setting it equal to zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g'(x) = 4x^3 - 16x = 4x(x^2 - 4) = 4x(x-2)(x+2) \\Rightarrow x = 0,\\, 2,\\, -2",
+      "description_latex": "Here is the first derivative, fully factored. We can see the three critical points are $x = 0$, $x = 2$, and $x = -2$. Your job next is to compute $g''(x)$ and then evaluate it at each of these three critical points to classify them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Find $g''(x)$ by differentiating $g'(x) = 4x^3 - 16x$, then evaluate $g''$ at $x = -2$, $x = 0$, and $x = 2$. Based on the sign of $g''$ at each critical point, state whether each one is a local maximum, local minimum, or whether the test is inconclusive.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find all inflection points: set $g''(x) = 0$, solve for $x$, and verify that the concavity actually changes sign on either side of each candidate. State the $x$-coordinates of any inflection points.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $f(x) = x^2 - 4x + 7$, determine whether $f$ is concave up or concave down everywhere and find any inflection points.",
+      "answer_latex": "f''(x) = 2 > 0$ for all $x$, so $f$ is concave up everywhere. No inflection points."
+    },
+    {
+      "prompt_latex": "Use the Second Derivative Test to classify all critical points of $h(x) = x^3 - 6x^2 + 9x + 1$.",
+      "answer_latex": "h'(x) = 3x^2 - 12x + 9 = 3(x-1)(x-3)$, so critical points at $x=1$ and $x=3$. $h''(x) = 6x - 12$. $h''(1) = -6 < 0$ (local max); $h''(3) = 6 > 0$ (local min)."
+    },
+    {
+      "prompt_latex": "Find all inflection points of $f(x) = x^4 - 6x^2 + 1$ and determine the intervals where $f$ is concave up and concave down.",
+      "answer_latex": "f''(x) = 12x^2 - 12 = 12(x-1)(x+1)$. Inflection points at $x = \\pm 1$. Concave up on $(-\\infty,-1)\\cup(1,\\infty)$; concave down on $(-1,1)$."
+    },
+    {
+      "prompt_latex": "A function $f$ satisfies $f'(x) = (x-2)e^x$. Find all critical points and use the Second Derivative Test to classify them. (Recall the product rule for differentiation.)",
+      "answer_latex": "f'(x) = (x-2)e^x = 0 \\Rightarrow x = 2$. $f''(x) = e^x + (x-2)e^x = (x-1)e^x$. $f''(2) = e^2 > 0$, so $x = 2$ is a local minimum."
+    },
+    {
+      "prompt_latex": "A company's profit (in thousands) is modeled by $P(t) = -t^3 + 6t^2 + 15$ for $t \\geq 0$ (years). Find the inflection point and explain what it means in context.",
+      "answer_latex": "P''(t) = -6t + 12 = 0 \\Rightarrow t = 2$. $P''$ changes from positive to negative, so $t = 2$ is an inflection point. This means profit is growing at an increasing rate for $t < 2$ and at a decreasing rate for $t > 2$ \u2014 the rate of profit growth peaks at $t = 2$ years."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to verify that concavity actually changes when identifying inflection points: if $f''(c) = 0$ but $f''$ doesn't change sign across $c$ (for example, $f(x) = x^4$ at $x = 0$), then $c$ is NOT an inflection point. Always check the sign of $f''$ on both sides of the candidate point.",
+    "When the Second Derivative Test gives $f''(c) = 0$, students often guess the point is an inflection point \u2014 but $f''(c) = 0$ at a critical point means the test is inconclusive, not that there's an inflection point. You must fall back on the First Derivative Test to classify that critical point.",
+    "Students confuse the conditions for concavity with the conditions for increasing/decreasing: $f'' > 0$ means concave up (not that $f$ is increasing), and $f'' < 0$ means concave down (not that $f$ is decreasing). The sign of $f'$ governs direction; the sign of $f''$ governs bending."
+  ],
+  "untested_variants": [
+    "Applying the Second Derivative Test to trigonometric functions such as $f(x) = \\sin x - x$ on a restricted interval, where critical points and concavity involve trigonometric identities.",
+    "Finding concavity and inflection points for implicitly defined curves using implicit differentiation to obtain $f''$, as arises when differentiating relations like $x^2 + y^2 = r^2$.",
+    "Problems where the function is given only as a graph of $f'(x)$ (not $f$ itself), requiring students to infer concavity and inflection points of $f$ by reading where $f'$ is increasing or decreasing.",
+    "Optimization problems that combine the Second Derivative Test with a constraint, such as finding the dimensions of a box of maximum volume \u2014 where the second derivative confirms the critical point is indeed a maximum rather than a minimum."
+  ]
+}

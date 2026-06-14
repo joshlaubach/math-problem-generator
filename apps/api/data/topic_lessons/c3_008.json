@@ -1,0 +1,76 @@
+{
+  "topic_id": "c3_008",
+  "topic_name": "Derivatives and Integrals of Vector Functions",
+  "generated_at": "2026-05-13T00:29:56.143390+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to differentiate and integrate scalar functions like $f(t) = t^2 + 3t$, and you've just learned that a vector function $\\mathbf{r}(t) = \\langle f(t), g(t), h(t) \\rangle$ traces a curve in space. But what does it mean to differentiate or integrate a vector function \u2014 and why would you even want to? If a particle moves along the path $\\mathbf{r}(t) = \\langle \\cos t, \\sin t, t \\rangle$, how do you find its velocity vector at any moment, or recover its position if you only know its velocity?",
+  "concept": "The derivative and integral of a vector function are computed component-wise: you simply differentiate or integrate each scalar component separately. Formally, if $\\mathbf{r}(t) = \\langle f(t), g(t), h(t) \\rangle$, then $\\mathbf{r}'(t) = \\langle f'(t), g'(t), h'(t) \\rangle$ and $\\int \\mathbf{r}(t)\\,dt = \\langle \\int f(t)\\,dt, \\int g(t)\\,dt, \\int h(t)\\,dt \\rangle + \\mathbf{C}$, where $\\mathbf{C}$ is a constant vector of integration.",
+  "anatomy": "A vector function $\\mathbf{r}(t) = \\langle f(t), g(t), h(t) \\rangle$ has three scalar component functions: $f(t)$, $g(t)$, and $h(t)$, each depending on the parameter $t$. When you differentiate, each component is differentiated independently, producing a new vector $\\mathbf{r}'(t)$ called the tangent vector or velocity vector, which points in the direction of motion along the curve. When you integrate, each component is integrated independently, and the constant of integration is a full constant vector $\\mathbf{C} = \\langle C_1, C_2, C_3 \\rangle$, not a single scalar constant.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{r}(t) = \\langle t^3, e^{2t}, \\sin(4t) \\rangle",
+      "description_latex": "We want to find the derivative $\\mathbf{r}'(t)$. Because differentiation of a vector function is done component-by-component, we plan to differentiate $t^3$, $e^{2t}$, and $\\sin(4t)$ each as separate scalar functions using the rules you already know from Calculus I.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}'(t) = \\langle 3t^2,\\; 2e^{2t},\\; 4\\cos(4t) \\rangle",
+      "description_latex": "Differentiating each component: the power rule gives $(t^3)' = 3t^2$, the chain rule gives $(e^{2t})' = 2e^{2t}$, and the chain rule again gives $(\\sin 4t)' = 4\\cos(4t)$. Notice the result is still a vector function, and it represents the velocity of a particle traveling along the curve traced by $\\mathbf{r}(t)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}'(1) = \\langle 3(1)^2,\\; 2e^{2(1)},\\; 4\\cos(4) \\rangle = \\langle 3,\\; 2e^2,\\; 4\\cos 4 \\rangle",
+      "description_latex": "To evaluate the tangent vector at $t = 1$, we substitute $t = 1$ into each component of $\\mathbf{r}'(t)$. This specific vector gives the exact direction and speed of the particle at the moment $t = 1$, which is a concrete, geometric piece of information about the curve.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{r}'(t) = \\langle 2t,\\; \\cos t,\\; 3t^2 \\rangle, \\quad \\mathbf{r}(0) = \\langle 1, -2, 4 \\rangle",
+      "description_latex": "We are given the velocity vector $\\mathbf{r}'(t)$ and an initial condition, and we need to recover the position vector $\\mathbf{r}(t)$. Our strategy is to integrate $\\mathbf{r}'(t)$ component-by-component to get a general antiderivative vector, then use the initial condition $\\mathbf{r}(0) = \\langle 1, -2, 4 \\rangle$ to find the constant vector $\\mathbf{C}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}(t) = \\langle t^2 + C_1,\\; \\sin t + C_2,\\; t^3 + C_3 \\rangle",
+      "description_latex": "Integrate each component of $\\mathbf{r}'(t)$ independently: $\\int 2t\\,dt = t^2 + C_1$, $\\int \\cos t\\,dt = \\sin t + C_2$, and $\\int 3t^2\\,dt = t^3 + C_3$. This gives the general antiderivative vector with three unknown constants \u2014 go ahead and write this out as a single constant vector $\\mathbf{C} = \\langle C_1, C_2, C_3 \\rangle$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the initial condition $\\mathbf{r}(0) = \\langle 1, -2, 4 \\rangle$: substitute $t = 0$ into your expression for $\\mathbf{r}(t)$, set it equal to $\\langle 1, -2, 4 \\rangle$, and solve for $C_1$, $C_2$, and $C_3$. Then write the final specific formula for $\\mathbf{r}(t)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $\\mathbf{r}'(t)$ for $\\mathbf{r}(t) = \\langle 5t^2,\\; \\ln t,\\; 7 \\rangle$.",
+      "answer_latex": "\\mathbf{r}'(t) = \\langle 10t,\\; \\tfrac{1}{t},\\; 0 \\rangle"
+    },
+    {
+      "prompt_latex": "Find $\\int \\mathbf{r}(t)\\,dt$ for $\\mathbf{r}(t) = \\langle 6t^2,\\; e^{3t},\\; \\cos t \\rangle$.",
+      "answer_latex": "\\langle 2t^3 + C_1,\\; \\tfrac{1}{3}e^{3t} + C_2,\\; \\sin t + C_3 \\rangle"
+    },
+    {
+      "prompt_latex": "Find the unit tangent vector $\\mathbf{T}(t)$ at $t = 0$ for $\\mathbf{r}(t) = \\langle e^t,\\; t^2,\\; \\sin t \\rangle$. (Recall $\\mathbf{T}(t) = \\dfrac{\\mathbf{r}'(t)}{|\\mathbf{r}'(t)|}$.)",
+      "answer_latex": "\\mathbf{r}'(0) = \\langle 1, 0, 1 \\rangle,\\; |\\mathbf{r}'(0)| = \\sqrt{2},\\; \\mathbf{T}(0) = \\left\\langle \\dfrac{1}{\\sqrt{2}}, 0, \\dfrac{1}{\\sqrt{2}} \\right\\rangle"
+    },
+    {
+      "prompt_latex": "Given $\\mathbf{r}'(t) = \\langle \\cos t,\\; 2t,\\; e^t \\rangle$ and $\\mathbf{r}(0) = \\langle 3,\\; 1,\\; 0 \\rangle$, find $\\mathbf{r}(t)$.",
+      "answer_latex": "\\mathbf{r}(t) = \\langle \\sin t + 3,\\; t^2 + 1,\\; e^t - 1 \\rangle"
+    },
+    {
+      "prompt_latex": "A particle's acceleration is $\\mathbf{a}(t) = \\langle 2,\\; -32,\\; 0 \\rangle$. At $t = 0$ the velocity is $\\mathbf{v}(0) = \\langle 10,\\; 20,\\; 5 \\rangle$ and the position is $\\mathbf{r}(0) = \\langle 0,\\; 0,\\; 0 \\rangle$. Find the position vector $\\mathbf{r}(t)$.",
+      "answer_latex": "\\mathbf{v}(t) = \\langle 2t+10,\\; -32t+20,\\; 5 \\rangle,\\quad \\mathbf{r}(t) = \\langle t^2 + 10t,\\; -16t^2 + 20t,\\; 5t \\rangle"
+    }
+  ],
+  "common_mistakes": [
+    "Students treat the constant of integration as a single scalar $C$ rather than a constant vector $\\mathbf{C} = \\langle C_1, C_2, C_3 \\rangle$; since each component integral produces its own arbitrary constant, you must carry three independent constants and solve for all of them using the initial condition.",
+    "When differentiating a component like $e^{2t}$ or $\\sin(4t)$, students forget to apply the chain rule and write $(e^{2t})' = e^{2t}$ or $(\\sin 4t)' = \\cos 4t$; remember that the inner function's derivative multiplies the result, giving $2e^{2t}$ and $4\\cos(4t)$ respectively.",
+    "Students apply the initial condition before integrating rather than after \u2014 they substitute $t = 0$ into $\\mathbf{r}'(t)$ to find $\\mathbf{C}$ instead of first integrating to get $\\mathbf{r}(t)$ and then substituting; always complete the integration step first, then use the initial condition on the resulting antiderivative."
+  ],
+  "untested_variants": [
+    "Differentiating or integrating vector functions given in $\\mathbf{i}, \\mathbf{j}, \\mathbf{k}$ notation rather than angle-bracket component notation.",
+    "Using differentiation rules for products of vector functions, such as the product rule for $\\frac{d}{dt}[f(t)\\,\\mathbf{r}(t)]$ or the dot-product rule $\\frac{d}{dt}[\\mathbf{r}(t) \\cdot \\mathbf{s}(t)]$.",
+    "Computing a definite integral $\\int_a^b \\mathbf{r}(t)\\,dt$ and interpreting the resulting constant vector geometrically.",
+    "Finding $\\mathbf{r}(t)$ when given acceleration $\\mathbf{a}(t)$ and requiring two separate integration steps with two separate initial conditions for both velocity and position."
+  ]
+}

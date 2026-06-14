@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_020",
+  "topic_name": "Equivalence Relations and Partitions",
+  "generated_at": "2026-05-13T20:13:23.882035+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to check if a relation is reflexive, symmetric, or transitive. Now imagine you want to sort all integers into groups where every number in a group is related to every other number in that group \u2014 like grouping numbers that leave the same remainder when divided by 3. The challenge is: what exactly makes a relation capable of producing such a clean, non-overlapping grouping? Can you predict, just by looking at a relation's properties, whether it will perfectly partition a set?",
+  "concept": "An equivalence relation is a relation that behaves like equality \u2014 it groups elements into neat, non-overlapping families. Formally, a relation $R$ on a set $A$ is an equivalence relation if and only if it is reflexive ($aRa$ for all $a \\in A$), symmetric (if $aRb$ then $bRa$), and transitive (if $aRb$ and $bRc$ then $aRc$). Every equivalence relation produces a partition of $A$ into equivalence classes $[a] = \\{x \\in A : xRa\\}$, and conversely every partition defines an equivalence relation.",
+  "anatomy": "An equivalence relation has four key structural components. The underlying set $A$ is the domain on which the relation is defined. The three defining properties \u2014 reflexivity, symmetry, and transitivity \u2014 act as the three checkpoints every candidate relation must pass. The equivalence class of an element $a$, written $[a]$, is the set of all elements related to $a$; it is the 'group' that $a$ belongs to. Finally, the quotient set $A/R = \\{[a] : a \\in A\\}$ is the collection of all distinct equivalence classes, which together form the partition of $A$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\mathbb{Z},\\quad aRb \\iff 3 \\mid (a - b)",
+      "description_latex": "We define our set as the integers and our relation as '$a$ is related to $b$ whenever $3$ divides $a - b$.' Before we do anything else, we commit to this definition clearly, because every verification step will refer back to it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Reflexive: } 3 \\mid (a - a) = 0 \\implies aRa \\checkmark",
+      "description_latex": "To check reflexivity we ask: is every integer related to itself? Since $a - a = 0$ and $3 \\mid 0$ is true, yes \u2014 every element is related to itself, so the relation is reflexive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Symmetric: } 3 \\mid (a-b) \\implies 3 \\mid (-(a-b)) = (b-a) \\implies bRa \\checkmark",
+      "description_latex": "For symmetry we assume $aRb$, meaning $3 \\mid (a - b)$, and we need to show $3 \\mid (b - a)$. Since $b - a = -(a - b)$, divisibility is preserved under negation, so the relation is symmetric.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Transitive: } 3\\mid(a-b),\\ 3\\mid(b-c) \\implies 3\\mid(a-b+b-c)=3\\mid(a-c) \\implies aRc \\checkmark",
+      "description_latex": "For transitivity we assume $aRb$ and $bRc$, so $3 \\mid (a-b)$ and $3 \\mid (b-c)$. Adding these two differences gives $a - c$, and since the sum of two multiples of 3 is also a multiple of 3, transitivity holds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[0] = \\{\\ldots,-3,0,3,6,\\ldots\\},\\quad [1]=\\{\\ldots,-2,1,4,7,\\ldots\\},\\quad [2]=\\{\\ldots,-1,2,5,8,\\ldots\\}",
+      "description_latex": "Since all three properties hold, $R$ is an equivalence relation and partitions $\\mathbb{Z}$ into exactly three equivalence classes \u2014 the residues $0, 1, 2$ modulo $3$. Notice these classes are disjoint and their union is all of $\\mathbb{Z}$, confirming we have a genuine partition.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\{1,2,3,4\\},\\quad R = \\{(1,1),(2,2),(3,3),(4,4),(1,2),(2,1),(3,4),(4,3)\\}",
+      "description_latex": "We are given an explicit relation on a small finite set. Our goal is to verify whether $R$ is an equivalence relation and, if so, identify the equivalence classes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Reflexive: } (1,1),(2,2),(3,3),(4,4) \\in R \\checkmark\\quad \\text{Symmetric: check each non-diagonal pair} \\checkmark\\quad \\text{Transitive: ?}",
+      "description_latex": "Reflexivity is immediate since all four diagonal pairs appear. Symmetry holds because $(1,2)$ and $(2,1)$ are both present, as are $(3,4)$ and $(4,3)$. Now you need to verify transitivity: for every pair $(a,b) \\in R$ and $(b,c) \\in R$, confirm $(a,c) \\in R$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "[1] = \\{1,2\\},\\quad [3] = \\{3,4\\}",
+      "description_latex": "Because $R$ passes all three checks, it is an equivalence relation. The equivalence classes group together the elements that are mutually related: $1$ and $2$ are related to each other (and only each other beyond themselves), and similarly $3$ and $4$ form their own class, giving the partition $\\{\\{1,2\\},\\{3,4\\}\\}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A / R = ?",
+      "description_latex": "Write down the quotient set $A/R$ \u2014 the set whose elements are the distinct equivalence classes you just found. Remember the quotient set is a set of sets.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $R$ be the relation on $\\mathbb{Z}$ defined by $aRb \\iff a = b$. Is $R$ an equivalence relation? If so, describe its equivalence classes.",
+      "answer_latex": "Yes. Reflexivity: $a = a$. Symmetry: $a = b \\implies b = a$. Transitivity: $a = b, b = c \\implies a = c$. Each equivalence class is $[a] = \\{a\\}$, a singleton, so the partition is $\\{\\{a\\} : a \\in \\mathbb{Z}\\}$."
+    },
+    {
+      "prompt_latex": "Define $R$ on $\\mathbb{Z}$ by $aRb \\iff 5 \\mid (a - b)$. Verify $R$ is an equivalence relation and list all distinct equivalence classes.",
+      "answer_latex": "All three properties hold by the same argument as for modulo 3. There are 5 equivalence classes: $[0],[1],[2],[3],[4]$, i.e., the integers grouped by their remainder when divided by 5."
+    },
+    {
+      "prompt_latex": "Let $A = \\mathbb{R}^2$ and define $(x_1,y_1)\\,R\\,(x_2,y_2) \\iff x_1^2 + y_1^2 = x_2^2 + y_2^2$. Show $R$ is an equivalence relation and describe $[(1,0)]$.",
+      "answer_latex": "Reflexive: $x^2+y^2=x^2+y^2$. Symmetric: equality is symmetric. Transitive: equality is transitive. $R$ is an equivalence relation. $[(1,0)] = \\{(x,y) : x^2+y^2 = 1\\}$, the unit circle."
+    },
+    {
+      "prompt_latex": "A relation $R$ on $\\mathbb{Z}$ is defined by $aRb \\iff a^2 \\equiv b^2 \\pmod{4}$. Determine whether $R$ is an equivalence relation. If yes, find the equivalence classes; if no, identify which property fails.",
+      "answer_latex": "Reflexivity and symmetry are clear. Transitivity: $a^2 \\equiv b^2$ and $b^2 \\equiv c^2 \\pmod 4$ gives $a^2 \\equiv c^2 \\pmod 4$, so transitivity holds. $R$ is an equivalence relation. The classes are $[0]=\\{n : 4\\mid n^2\\}$ (even integers), $[1]=\\{n : n^2 \\equiv 1 \\pmod 4\\}$ (odd integers). So $\\mathbb{Z}/R = \\{\\text{evens}, \\text{odds}\\}$."
+    },
+    {
+      "prompt_latex": "A university groups students into sections based on their declared major. Explain why this grouping defines an equivalence relation on the set of all students, and identify what the equivalence classes and quotient set represent in this context.",
+      "answer_latex": "Define $sRt$ iff students $s$ and $t$ share the same major. Reflexive: every student shares their major with themselves. Symmetric: if $s$ and $t$ share a major, so do $t$ and $s$. Transitive: if $s,t$ share a major and $t,u$ share a major, then $s,u$ share that same major. Each equivalence class $[s]$ is the set of all students in $s$'s major, and the quotient set $A/R$ is the set of all distinct majors offered."
+    }
+  ],
+  "common_mistakes": [
+    "Students verify symmetry and transitivity but forget to explicitly check reflexivity, assuming it is 'obvious.' Reflexivity can fail \u2014 for example, the strict inequality $<$ is transitive and antisymmetric but not reflexive \u2014 so always test all three properties explicitly.",
+    "When finding equivalence classes, students list $[a]$ and $[b]$ separately without checking whether they are actually the same class. If $aRb$, then $[a] = [b]$ \u2014 two different representatives can name the same class \u2014 so always check whether classes overlap before counting them as distinct.",
+    "Students confuse the partition (a set of subsets of $A$) with the quotient set $A/R$ (the set whose elements are those subsets). Writing $A/R = \\{1,2,3\\}$ instead of $A/R = \\{[0],[1],[2]\\}$ for modulo-3 classes conflates the representatives with the classes themselves; the quotient set's elements are sets, not individual numbers."
+  ],
+  "untested_variants": [
+    "Proving that a given partition of a set defines an equivalence relation (the converse direction: partition to relation, rather than relation to partition).",
+    "Determining whether a relation defined by a matrix or directed graph (using an adjacency matrix) is an equivalence relation.",
+    "Counting the number of distinct equivalence relations possible on a finite set of size $n$, which connects to the Bell numbers.",
+    "Working with equivalence relations on sets of functions or sequences, such as $f R g \\iff f(0) = g(0)$ on the set of all real-valued functions."
+  ]
+}

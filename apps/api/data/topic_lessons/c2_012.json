@@ -1,0 +1,91 @@
+{
+  "topic_id": "c2_012",
+  "topic_name": "Center of Mass and Moments (H)",
+  "generated_at": "2026-05-13T00:20:48.267091+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to compute areas and volumes with integrals, and you've worked with the idea of an average value of a function. But now imagine you're an engineer balancing a thin metal plate of varying density, or a physicist finding the exact point where a rod would balance on a knife-edge. These 'balance points' depend not just on total mass, but on how that mass is distributed in space. How do you find the single point \u2014 the center of mass \u2014 where all that distributed weight effectively acts?",
+  "concept": "The center of mass is the weighted average position of all the mass in an object. For a thin rod or flat region, we compute 'moments' \u2014 integrals that weight position by mass \u2014 and divide by total mass. Formally, for a rod with linear density $\\rho(x)$ on $[a, b]$, the total mass is $M = \\int_a^b \\rho(x)\\, dx$ and the center of mass is $\\bar{x} = \\frac{1}{M}\\int_a^b x\\,\\rho(x)\\, dx$.",
+  "anatomy": "There are four key components in every center of mass calculation. First, the density function $\\rho(x)$ (or $\\rho(x,y)$ for 2D) tells you how much mass is packed per unit length or area at each point. Second, the total mass $M$ is the integral of the density over the entire region, serving as the normalizing denominator. Third, the moment $M_y = \\int x\\,\\rho(x)\\, dx$ (or $M_x$, $M_y$ for 2D laminas) weights each position by the density there, measuring the 'tendency to rotate' about an axis. Fourth, the center of mass coordinates $\\bar{x} = M_y / M$ (and $\\bar{y} = M_x / M$) are the ratios that give the balance point, always lying within the region for a uniform or positive density.",
+  "worked_example": [
+    {
+      "expression_latex": "\\rho(x) = 3x^2, \\quad x \\in [0, 2]",
+      "description_latex": "We are given a rod whose linear density increases along its length as $\\rho(x) = 3x^2$. Before we can find the center of mass, we need to establish the total mass $M$, because it will serve as the denominator in our balance-point formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M = \\int_0^2 3x^2\\, dx = \\left[x^3\\right]_0^2 = 8",
+      "description_latex": "We integrate the density over the rod's length to get the total mass. Evaluating $x^3$ from $0$ to $2$ gives $M = 8$ (in whatever mass units are appropriate), confirming that we have a finite, positive mass to work with.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_y = \\int_0^2 x \\cdot 3x^2\\, dx = \\int_0^2 3x^3\\, dx",
+      "description_latex": "Now we form the moment integral by multiplying the position $x$ by the density $\\rho(x)$. This product $x \\cdot \\rho(x)$ gives larger weight to mass that sits farther from the origin, which is exactly what 'moment' means physically \u2014 it measures the rotational tendency about $x = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_y = \\left[\\frac{3x^4}{4}\\right]_0^2 = \\frac{3(16)}{4} = 12",
+      "description_latex": "Evaluating the antiderivative $\\frac{3x^4}{4}$ from $0$ to $2$ gives the moment $M_y = 12$. Notice that the moment is larger than the mass, which makes sense because much of the dense mass sits near $x = 2$, far from the origin.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{M_y}{M} = \\frac{12}{8} = \\frac{3}{2}",
+      "description_latex": "Dividing the moment by the total mass gives the center of mass $\\bar{x} = 3/2$. This answer lies in the right half of $[0,2]$, which makes intuitive sense because $\\rho(x) = 3x^2$ is heavier near $x = 2$, so the balance point shifts toward the heavier end.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\rho(x) = 4 - x, \\quad x \\in [0, 4]",
+      "description_latex": "We have a rod whose density decreases linearly from $\\rho(0) = 4$ down to $\\rho(4) = 0$. Our goal is to find the center of mass $\\bar{x}$. Start by computing the total mass $M = \\int_0^4 (4 - x)\\, dx$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M = \\int_0^4 (4 - x)\\, dx = \\left[4x - \\frac{x^2}{2}\\right]_0^4 = 16 - 8 = 8",
+      "description_latex": "The total mass evaluates to $M = 8$. Now you need to set up and evaluate the moment integral $M_y = \\int_0^4 x(4 - x)\\, dx$ \u2014 write out the integrand, expand it, and integrate term by term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $M_y = \\int_0^4 x(4-x)\\, dx$ by expanding $x(4-x) = 4x - x^2$, finding the antiderivative, and evaluating from $0$ to $4$. What is $M_y$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{M_y}{M} = \\frac{32/3}{8} = \\frac{4}{3}",
+      "description_latex": "Once you have $M_y = 32/3$, divide by $M = 8$ to get $\\bar{x} = 4/3$. Notice that $\\bar{x} < 2$, the midpoint of the rod \u2014 the center of mass sits in the left half because the density is highest near $x = 0$, exactly as we'd expect physically.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A rod on $[0, 3]$ has constant density $\\rho(x) = 5$. Find its center of mass $\\bar{x}$.",
+      "answer_latex": "\\bar{x} = \\dfrac{3}{2}"
+    },
+    {
+      "prompt_latex": "Find the center of mass of a rod on $[1, 3]$ with density $\\rho(x) = x$.",
+      "answer_latex": "\\bar{x} = \\dfrac{\\int_1^3 x^2\\,dx}{\\int_1^3 x\\,dx} = \\dfrac{26/3}{4} = \\dfrac{13}{6}"
+    },
+    {
+      "prompt_latex": "A rod on $[0, \\pi]$ has density $\\rho(x) = \\sin x$. Find the total mass $M$ and the center of mass $\\bar{x}$.",
+      "answer_latex": "M = 2,\\quad \\bar{x} = \\dfrac{\\pi}{2}"
+    },
+    {
+      "prompt_latex": "Find the centroid $(\\bar{x}, \\bar{y})$ of the region bounded by $y = \\sqrt{x}$, $y = 0$, and $x = 4$ (uniform density, so treat density as 1 and use area formulas: $\\bar{x} = \\frac{1}{A}\\int_0^4 x\\sqrt{x}\\,dx$, $\\bar{y} = \\frac{1}{A}\\int_0^4 \\frac{1}{2}(\\sqrt{x})^2\\,dx$).",
+      "answer_latex": "A = \\tfrac{16}{3},\\quad \\bar{x} = \\tfrac{12}{5},\\quad \\bar{y} = \\tfrac{3}{4}"
+    },
+    {
+      "prompt_latex": "A thin wire is bent into the shape of the curve on $[0, 1]$ (treat it as a rod) with linear density $\\rho(x) = e^x$. Find the total mass and the $x$-coordinate of the center of mass.",
+      "answer_latex": "M = e - 1,\\quad \\bar{x} = \\dfrac{1}{e-1}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to divide the moment by the total mass, reporting $M_y$ itself as the answer. Remember that $\\bar{x} = M_y / M$ \u2014 the moment alone has units of mass\u00b7length, not position.",
+    "When computing the moment integral $M_y = \\int x\\,\\rho(x)\\,dx$, students sometimes write $\\int \\rho(x)\\,dx$ again (i.e., they leave out the factor of $x$). The extra factor of $x$ is precisely what makes it a moment rather than a mass \u2014 it weights the density by distance from the axis.",
+    "For 2D laminas, students mix up which moment gives which coordinate: $M_x = \\int y\\,\\rho\\,dA$ gives $\\bar{y}$, while $M_y = \\int x\\,\\rho\\,dA$ gives $\\bar{x}$. The subscript names the axis you're taking moments about, not the coordinate it produces, which is the opposite of what many students initially expect."
+  ],
+  "untested_variants": [
+    "Finding the center of mass of a 2D lamina with a non-constant density function $\\rho(x,y)$ (e.g., $\\rho = xy$) over a rectangular or triangular region, requiring a double integral.",
+    "Using Pappus's Theorem to find the volume of a solid of revolution by combining a known centroid with the distance it travels, rather than computing the moment integral directly.",
+    "Finding the centroid of a region described in polar coordinates, such as a semicircular disk or a region bounded by $r = f(\\theta)$.",
+    "Center of mass problems involving a discrete system of point masses, where moments are computed as finite sums $M_y = \\sum m_i x_i$ rather than integrals."
+  ]
+}

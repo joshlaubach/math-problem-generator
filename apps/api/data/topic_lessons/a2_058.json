@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_058",
+  "topic_name": "Graphing Other Trigonometric Functions",
+  "generated_at": "2026-05-12T23:35:08.940503+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to graph $y = \\sin x$ and $y = \\cos x$ \u2014 smooth, gentle waves that repeat every $2\\pi$. But what happens when you divide sine by cosine, or flip cosine upside down? The graphs of tangent, cotangent, secant, and cosecant look completely different: they shoot off to infinity, break apart into disconnected pieces, and have no maximum or minimum values at all. So how do you figure out where these wild graphs go, what their period is, and where the breaks \u2014 called vertical asymptotes \u2014 appear?",
+  "concept": "The four remaining trig functions are built from sine and cosine: $\\tan x = \\frac{\\sin x}{\\cos x}$, $\\cot x = \\frac{\\cos x}{\\sin x}$, $\\sec x = \\frac{1}{\\cos x}$, and $\\csc x = \\frac{1}{\\sin x}$. Because division by zero is undefined, each function has vertical asymptotes wherever its denominator equals zero. These functions are periodic \u2014 $\\tan$ and $\\cot$ have period $\\pi$, while $\\sec$ and $\\csc$ share the period $2\\pi$ \u2014 and their graphs consist of separate, repeating branches between consecutive asymptotes.",
+  "anatomy": "Every graph of these functions has four key structural parts. The vertical asymptotes are the invisible vertical lines where the denominator equals zero (e.g., $x = \\frac{\\pi}{2} + n\\pi$ for tangent); the graph never crosses them but races toward $+\\infty$ or $-\\infty$ on either side. The period tells you the horizontal distance before the pattern repeats: for $y = a\\tan(bx)$ or $y = a\\cot(bx)$ the period is $\\frac{\\pi}{|b|}$, and for $y = a\\sec(bx)$ or $y = a\\csc(bx)$ the period is $\\frac{2\\pi}{|b|}$. The amplitude-like factor $|a|$ stretches or compresses the branches vertically (though these functions have no true amplitude since they are unbounded). Finally, the phase shift $h$ in $y = a\\tan(b(x-h))$ slides every asymptote and branch horizontally by $h$ units.",
+  "worked_example": [
+    {
+      "expression_latex": "y = 2\\tan\\!\\left(\\frac{x}{2}\\right)",
+      "description_latex": "We start by identifying the values of $a$ and $b$: here $a = 2$ and $b = \\frac{1}{2}$. Recognizing these parameters before touching the graph keeps our work organized and prevents errors later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Period} = \\frac{\\pi}{|b|} = \\frac{\\pi}{\\frac{1}{2}} = 2\\pi",
+      "description_latex": "For any tangent function the period formula is $\\frac{\\pi}{|b|}$, not $\\frac{2\\pi}{|b|}$, because one full cycle of tangent naturally spans $\\pi$ radians. Dividing $\\pi$ by $\\frac{1}{2}$ gives a stretched period of $2\\pi$, meaning the pattern repeats every $2\\pi$ units instead of the usual $\\pi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\cos\\!\\left(\\frac{x}{2}\\right) = 0 \\implies \\frac{x}{2} = \\frac{\\pi}{2} + n\\pi \\implies x = \\pi + 2n\\pi",
+      "description_latex": "Vertical asymptotes occur wherever the denominator of tangent \u2014 that is, $\\cos\\!\\left(\\frac{x}{2}\\right)$ \u2014 equals zero. Setting $\\frac{x}{2} = \\frac{\\pi}{2} + n\\pi$ and solving for $x$ gives asymptotes at $x = \\pi + 2n\\pi$, which matches our period of $2\\pi$ between consecutive asymptotes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Key points between } x = -\\pi \\text{ and } x = \\pi:\\quad (0,\\, 0),\\; \\left(\\tfrac{\\pi}{2},\\, 2\\right),\\; \\left(-\\tfrac{\\pi}{2},\\, -2\\right)",
+      "description_latex": "Between two consecutive asymptotes the tangent curve passes through its midpoint (the x-intercept) and through two guide points at the quarter-period positions where $|\\tan| = 1$; the factor $a = 2$ scales those $y$-values to $\\pm 2$. Plotting these three key points anchors the S-shaped branch so we know exactly how steep it is.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Sketch: increasing S-shaped branch from } x=-\\pi \\text{ to } x=\\pi,\\text{ then repeat every } 2\\pi",
+      "description_latex": "Because tangent is an increasing function on each branch, we draw a curve that rises from $-\\infty$ near the left asymptote, passes through our three key points, and shoots to $+\\infty$ near the right asymptote. We then copy this branch to the left and right at intervals of $2\\pi$ to complete the graph.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y = \\csc(2x)",
+      "description_latex": "We want to graph $y = \\csc(2x) = \\frac{1}{\\sin(2x)}$. Our first move is always to graph the 'helper' function $y = \\sin(2x)$ lightly, because the cosecant graph is built directly from it \u2014 its branches curve away from the peaks and valleys of sine, and its asymptotes land exactly where sine equals zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Period of } y = \\csc(2x):\\quad \\frac{2\\pi}{|b|} = \\frac{2\\pi}{2} = \\pi",
+      "description_latex": "The period of cosecant uses the formula $\\frac{2\\pi}{|b|}$ because cosecant inherits its period from sine. With $b = 2$ the period compresses to $\\pi$, so one full cycle of the graph fits in half the usual horizontal space.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find all vertical asymptotes in the interval $[0, 2\\pi]$. Set $\\sin(2x) = 0$, solve for $x$, and list every solution in that interval. There should be five asymptotes \u2014 what are they?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the asymptotes you found and the peaks and valleys of $y = \\sin(2x)$ as anchors, describe the shape of one complete branch of $y = \\csc(2x)$: does it open upward or downward, and what is its minimum (or maximum) $y$-value on that branch?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the period and the equations of two consecutive vertical asymptotes of $y = \\tan(x)$.",
+      "answer_latex": "\\text{Period} = \\pi;\\quad x = -\\tfrac{\\pi}{2} \\text{ and } x = \\tfrac{\\pi}{2}"
+    },
+    {
+      "prompt_latex": "Find the period and all vertical asymptotes (in general form) of $y = \\cot(3x)$.",
+      "answer_latex": "\\text{Period} = \\dfrac{\\pi}{3};\\quad x = \\dfrac{n\\pi}{3},\\; n \\in \\mathbb{Z}"
+    },
+    {
+      "prompt_latex": "Determine the period and vertical asymptotes of $y = \\sec\\!\\left(\\dfrac{x}{3}\\right)$, then identify the minimum positive $y$-value on an upward-opening branch.",
+      "answer_latex": "\\text{Period} = 6\\pi;\\quad x = \\tfrac{3\\pi}{2} + 3n\\pi;\\quad \\text{minimum positive } y\\text{-value} = 1"
+    },
+    {
+      "prompt_latex": "Graph one full period of $y = -2\\csc\\!\\left(\\pi x\\right)$ by first sketching its helper sine function. State the period, asymptotes, and the maximum and minimum values of the cosecant branches.",
+      "answer_latex": "\\text{Period} = 2;\\quad x = n \\text{ (integers)};\\quad \\text{branch max} = -1,\\; \\text{branch min} = -\\infty \\text{ on downward-opening branches and max} = +\\infty \\text{ with vertex at } y = -2 \\text{ (up) or } y = 2 \\text{ (down)}"
+    },
+    {
+      "prompt_latex": "A wave sensor records a signal modeled by $f(t) = 3\\tan\\!\\left(\\dfrac{\\pi}{4}t\\right)$ where $t$ is time in seconds. At what times in the interval $0 < t < 8$ does the signal become undefined (shoot to infinity), and what is the period of the signal?",
+      "answer_latex": "\\text{Period} = 4 \\text{ s};\\quad \\text{undefined at } t = 2 \\text{ s and } t = 6 \\text{ s}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the period formula $\\frac{2\\pi}{|b|}$ for tangent and cotangent instead of the correct $\\frac{\\pi}{|b|}$, doubling the period. Remember: tan and cot naturally complete one cycle over $\\pi$, not $2\\pi$, so their period formula uses $\\pi$ in the numerator.",
+    "When finding asymptotes for $y = \\sec(bx)$ or $y = \\csc(bx)$, students set $bx = n\\pi$ (the zeros of tangent) instead of correctly setting $\\cos(bx) = 0$ or $\\sin(bx) = 0$ respectively; this gives asymptotes in the wrong locations. Always go back to the denominator function and set it equal to zero.",
+    "Students forget that the vertical stretch factor $|a|$ shifts the minimum absolute value of secant and cosecant branches: for $y = a\\sec(x)$ the branches have vertices at $y = a$ and $y = -a$, not at $y = 1$ and $y = -1$. Failing to apply $a$ makes the graph look like the parent function regardless of the coefficient."
+  ],
+  "untested_variants": [
+    "Graphing a function with both a phase shift and a vertical shift, such as $y = \\tan\\!\\left(x - \\frac{\\pi}{4}\\right) + 1$, where students must shift asymptotes horizontally AND shift the entire graph up.",
+    "Identifying the equation of a tangent or secant function from a given graph (the inverse task of graphing), including reading off period, asymptote locations, and stretch factor.",
+    "Graphing $y = |\\sec x|$ or $y = |\\tan x|$ where absolute value reflects the negative branches upward, creating a fundamentally different shape.",
+    "Using a cotangent or cosecant function to model a real-world context such as the length of a shadow as a function of sun angle, requiring interpretation of asymptotes in physical terms."
+  ]
+}

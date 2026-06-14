@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_007",
+  "topic_name": "Linear Independence",
+  "generated_at": "2026-05-13T20:05:34.742267+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to solve systems of linear equations, and you've seen that some systems have unique solutions while others have infinitely many or none at all. But here's a deeper question: given a set of vectors, is every vector in the set truly contributing something new, or is one of them secretly just a combination of the others? For example, if $\\mathbf{v}_1 = \\begin{bmatrix}1\\\\0\\end{bmatrix}$, $\\mathbf{v}_2 = \\begin{bmatrix}0\\\\1\\end{bmatrix}$, and $\\mathbf{v}_3 = \\begin{bmatrix}2\\\\3\\end{bmatrix}$, is $\\mathbf{v}_3$ really giving us any new direction, or is it just $2\\mathbf{v}_1 + 3\\mathbf{v}_2$? How can we make this idea of 'redundancy' mathematically precise?",
+  "concept": "A set of vectors is **linearly independent** if no vector in the set can be written as a linear combination of the others \u2014 each one points in a genuinely new direction. Formally, vectors $\\mathbf{v}_1, \\mathbf{v}_2, \\ldots, \\mathbf{v}_k$ are linearly independent if the only solution to $c_1\\mathbf{v}_1 + c_2\\mathbf{v}_2 + \\cdots + c_k\\mathbf{v}_k = \\mathbf{0}$ is $c_1 = c_2 = \\cdots = c_k = 0$; otherwise they are linearly dependent.",
+  "anatomy": "The key equation to test linear independence is the **vector equation** $c_1\\mathbf{v}_1 + c_2\\mathbf{v}_2 + \\cdots + c_k\\mathbf{v}_k = \\mathbf{0}$. The **scalars** $c_1, c_2, \\ldots, c_k$ are what we solve for; they are called the **weights** or **coefficients**. The **trivial solution** is $c_1 = c_2 = \\cdots = c_k = 0$ \u2014 this always satisfies the equation and tells us nothing interesting. A **nontrivial solution** is one where at least one $c_i \\neq 0$, which is exactly the witness that the set is linearly dependent. We test for independence by forming the **coefficient matrix** $A = [\\mathbf{v}_1 \\ \\mathbf{v}_2 \\ \\cdots \\ \\mathbf{v}_k]$ and row-reducing the homogeneous system $A\\mathbf{c} = \\mathbf{0}$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{v}_1 = \\begin{bmatrix}1\\\\2\\\\3\\end{bmatrix}, \\quad \\mathbf{v}_2 = \\begin{bmatrix}2\\\\5\\\\7\\end{bmatrix}, \\quad \\mathbf{v}_3 = \\begin{bmatrix}1\\\\3\\\\5\\end{bmatrix}",
+      "description_latex": "We want to determine whether these three vectors are linearly independent. Our strategy is to set up the equation $c_1\\mathbf{v}_1 + c_2\\mathbf{v}_2 + c_3\\mathbf{v}_3 = \\mathbf{0}$ and check whether the only solution is the trivial one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = [\\mathbf{v}_1 \\ \\mathbf{v}_2 \\ \\mathbf{v}_3] = \\begin{bmatrix}1 & 2 & 1\\\\2 & 5 & 3\\\\3 & 7 & 5\\end{bmatrix}",
+      "description_latex": "We form the coefficient matrix $A$ by placing each vector as a column. Solving $A\\mathbf{c} = \\mathbf{0}$ is exactly equivalent to finding all linear combinations of the columns that produce the zero vector, which is precisely what we need to check.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{bmatrix}1 & 2 & 1\\\\2 & 5 & 3\\\\3 & 7 & 5\\end{bmatrix} \\xrightarrow{R_2 - 2R_1,\\ R_3 - 3R_1} \\begin{bmatrix}1 & 2 & 1\\\\0 & 1 & 1\\\\0 & 1 & 2\\end{bmatrix} \\xrightarrow{R_3 - R_2} \\begin{bmatrix}1 & 2 & 1\\\\0 & 1 & 1\\\\0 & 0 & 1\\end{bmatrix}",
+      "description_latex": "We row-reduce the matrix using elimination. Subtracting $2R_1$ from $R_2$ and $3R_1$ from $R_3$ clears the first column below the pivot, and then subtracting $R_2$ from $R_3$ clears the second column. Each row operation preserves the solution set of the homogeneous system.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{The row-echelon form has a pivot in every column: columns 1, 2, and 3.}",
+      "description_latex": "Because every column contains a pivot, there are no free variables in the system $A\\mathbf{c} = \\mathbf{0}$. When there are no free variables, the only solution is the trivial solution $c_1 = c_2 = c_3 = 0$, which is the hallmark of linear independence.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\{\\mathbf{v}_1, \\mathbf{v}_2, \\mathbf{v}_3\\} \\text{ is linearly independent.}",
+      "description_latex": "Since the only solution to $c_1\\mathbf{v}_1 + c_2\\mathbf{v}_2 + c_3\\mathbf{v}_3 = \\mathbf{0}$ is $c_1 = c_2 = c_3 = 0$, none of the three vectors can be expressed as a combination of the other two \u2014 each one contributes a genuinely new direction.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{u}_1 = \\begin{bmatrix}1\\\\2\\end{bmatrix}, \\quad \\mathbf{u}_2 = \\begin{bmatrix}3\\\\6\\end{bmatrix}",
+      "description_latex": "We want to test whether $\\{\\mathbf{u}_1, \\mathbf{u}_2\\}$ is linearly independent. We set up the equation $c_1\\mathbf{u}_1 + c_2\\mathbf{u}_2 = \\mathbf{0}$ and form the coefficient matrix $A = \\begin{bmatrix}1 & 3\\\\2 & 6\\end{bmatrix}$, which we will row-reduce.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{bmatrix}1 & 3\\\\2 & 6\\end{bmatrix} \\xrightarrow{R_2 - 2R_1} \\begin{bmatrix}1 & 3\\\\0 & 0\\end{bmatrix}",
+      "description_latex": "After subtracting $2R_1$ from $R_2$, we get a zero row. Notice that column 2 has no pivot, meaning $c_2$ is a free variable. Now it is your turn: write out the general solution for $c_1$ and $c_2$ from this row-reduced system, and use it to determine whether the vectors are linearly independent or dependent.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathbf{u}_2 = 3\\mathbf{u}_1, \\text{ so } \\{\\mathbf{u}_1, \\mathbf{u}_2\\} \\text{ is linearly dependent.}",
+      "description_latex": "Because $c_2$ is free, we can choose $c_2 = 1$ and get $c_1 = -3$, giving a nontrivial solution $-3\\mathbf{u}_1 + 1\\cdot\\mathbf{u}_2 = \\mathbf{0}$. This means $\\mathbf{u}_2 = 3\\mathbf{u}_1$, confirming the set is linearly dependent \u2014 one vector is a scalar multiple of the other, so no new direction is introduced.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Is the set $\\left\\{\\begin{bmatrix}1\\\\0\\end{bmatrix}, \\begin{bmatrix}0\\\\1\\end{bmatrix}\\right\\}$ linearly independent?",
+      "answer_latex": "Yes, linearly independent. The only solution to $c_1\\begin{bmatrix}1\\\\0\\end{bmatrix}+c_2\\begin{bmatrix}0\\\\1\\end{bmatrix}=\\mathbf{0}$ is $c_1=c_2=0$."
+    },
+    {
+      "prompt_latex": "Determine whether $\\mathbf{v}_1=\\begin{bmatrix}2\\\\4\\\\6\\end{bmatrix}$, $\\mathbf{v}_2=\\begin{bmatrix}1\\\\2\\\\3\\end{bmatrix}$ are linearly independent.",
+      "answer_latex": "Linearly dependent, since $\\mathbf{v}_1 = 2\\mathbf{v}_2$, giving the nontrivial solution $c_1=1,\\ c_2=-2$."
+    },
+    {
+      "prompt_latex": "Test whether $\\mathbf{v}_1=\\begin{bmatrix}1\\\\0\\\\2\\end{bmatrix}$, $\\mathbf{v}_2=\\begin{bmatrix}0\\\\1\\\\-1\\end{bmatrix}$, $\\mathbf{v}_3=\\begin{bmatrix}2\\\\3\\\\1\\end{bmatrix}$ are linearly independent by row-reducing $[\\mathbf{v}_1\\ \\mathbf{v}_2\\ \\mathbf{v}_3]$.",
+      "answer_latex": "Linearly dependent. Row reduction gives a zero row (no pivot in column 3), so there is a free variable and a nontrivial solution exists. Specifically, $\\mathbf{v}_3 = 2\\mathbf{v}_1 + 3\\mathbf{v}_2$."
+    },
+    {
+      "prompt_latex": "Suppose $A$ is a $3\\times 4$ matrix. Without doing any computation, explain why the columns of $A$ must be linearly dependent, and state which theorem justifies this.",
+      "answer_latex": "The columns of $A$ are four vectors in $\\mathbb{R}^3$. By the theorem that any set of more than $n$ vectors in $\\mathbb{R}^n$ is linearly dependent, the four columns must be linearly dependent (there will always be at least one free variable when $k > n$)."
+    },
+    {
+      "prompt_latex": "A data scientist has three feature vectors $\\mathbf{f}_1=\\begin{bmatrix}1\\\\2\\\\1\\end{bmatrix}$, $\\mathbf{f}_2=\\begin{bmatrix}2\\\\1\\\\3\\end{bmatrix}$, $\\mathbf{f}_3=\\begin{bmatrix}4\\\\5\\\\5\\end{bmatrix}$ representing measurements. Are these features linearly independent, or is one redundant (a linear combination of the others)?",
+      "answer_latex": "Linearly dependent: $\\mathbf{f}_3 = 2\\mathbf{f}_1 + \\mathbf{f}_2$, so the third feature is redundant and contributes no new information independent of the first two."
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes check only whether two of the vectors are scalar multiples of each other and conclude independence if they are not, missing the fact that a vector could still be a non-scalar linear combination of the others \u2014 for example, $\\mathbf{v}_3 = 2\\mathbf{v}_1 + \\mathbf{v}_2$ makes the set dependent even though no two vectors are proportional. Always set up and solve the full homogeneous system.",
+    "After row reduction, students often declare a set linearly dependent only if the entire matrix reduces to the zero matrix, when in fact a single zero row (indicating one free variable) is already enough to guarantee dependence. The correct rule is: if any column lacks a pivot, the set is linearly dependent.",
+    "Students confuse linear independence with the vectors being orthogonal or 'different-looking.' Two vectors like $\\begin{bmatrix}1\\\\1\\end{bmatrix}$ and $\\begin{bmatrix}2\\\\2\\end{bmatrix}$ clearly look different in size but are linearly dependent because one is a scalar multiple of the other. Independence is determined solely by whether the homogeneous equation has only the trivial solution, not by visual appearance."
+  ],
+  "untested_variants": [
+    "Determining linear independence of a set that contains the zero vector (the set is always dependent, since $1\\cdot\\mathbf{0} = \\mathbf{0}$ is a nontrivial solution).",
+    "Testing linear independence of polynomials or functions (e.g., $\\{1, x, x^2\\}$ in the vector space of polynomials) rather than column vectors in $\\mathbb{R}^n$.",
+    "Using the Wronskian to test linear independence of differentiable functions, a context encountered in differential equations.",
+    "Determining whether the rows of a matrix are linearly independent, and connecting this to the row rank of the matrix."
+  ]
+}

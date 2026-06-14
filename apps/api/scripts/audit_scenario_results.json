@@ -1,0 +1,45 @@
+{
+  "A_visible_problem_opener": {
+    "opening_message": "Stuck on the augmented matrix problem, what does your matrix look like so far?"
+  },
+  "B_yes_i_can": {
+    "student_message": "Yes, I can.",
+    "snippets_fired": [],
+    "deep_guide_injected": false,
+    "entered_lesson_mode": false,
+    "tutor_reply": "Go ahead."
+  },
+  "C_wrong_answer": {
+    "student_message": "I set up the coefficient matrix as $\\begin{pmatrix} 2 & 1 \\\\ 3 & -1 \\end{pmatrix}$",
+    "snippets_fired": [],
+    "deep_guide_injected": false,
+    "entered_lesson_mode": false,
+    "tutor_reply": "I see where you're going, but the columns and rows got swapped. In an augmented matrix, each row represents one equation and each column represents one variable. What does the first row need to look like if it comes from the equation $2x + 3y = 7$?"
+  },
+  "D_voice_partial_approach": {
+    "student_message": "ok so um i think i can multiply the second equation by 2 and then subtract it from the first one to get rid of the x terms",
+    "snippets_fired": [],
+    "deep_guide_injected": false,
+    "entered_lesson_mode": false,
+    "tutor_reply": "Good instinct. Go ahead."
+  },
+  "E_lesson_escalation": {
+    "student_message": "I still don't get it, I'm lost",
+    "snippets_fired": [
+      "misconception",
+      "stuck"
+    ],
+    "deep_guide_injected": true,
+    "entered_lesson_mode": true,
+    "tutor_reply": "The key step is multiplying an entire row by a scalar, which means every entry in that row gets multiplied. For the system $3x + 2y = 8$ and $x - y = 3$, to eliminate $x$ from row 2 I multiply row 2 by $-3$: that turns $[1, -1, 3]$ into $[-3, 3, -9]$. Then I add that result to row 1 entry-by-entry: $3 + (-3) = 0$, $2 + 3 = 5$, $8 + (-9) = -1$, giving a new row 1 of $[0, 5, -1]$ with $x$ gone. The scalar has to multiply every number in the row, including the constant on the right side.\n\nTry this: Starting with the augmented matrix $\\begin{bmatrix} 1 & -1 & 3 \\\\ 3 & 2 & 8 \\end{bmatrix}$, compute $-3 \\times \\text{row 1}$ and write out all three entries of the result."
+  },
+  "F_got_it": {
+    "student_message": "got it",
+    "snippets_fired": [
+      "verify"
+    ],
+    "deep_guide_injected": false,
+    "entered_lesson_mode": false,
+    "tutor_reply": "Good, try this one to confirm: solve the system $3x + y = 10$ and $x - 2y = 1$ using an augmented matrix, showing your row operations?"
+  }
+}

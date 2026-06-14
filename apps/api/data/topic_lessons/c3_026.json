@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_026",
+  "topic_name": "Triple Integrals in Cylindrical and Spherical Coordinates",
+  "generated_at": "2026-05-13T00:36:00.480984+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to evaluate double integrals by switching to polar coordinates when a region has circular symmetry \u2014 that substitution collapsed a messy Cartesian integral into something clean. Now imagine you need to find the mass of a solid cone, or the volume of a region bounded by a sphere and a paraboloid. Setting these up in $x, y, z$ coordinates produces horrific limits and square-root expressions that are nearly impossible to integrate. Is there a three-dimensional analogue of polar coordinates that can tame these solids just as effectively?",
+  "concept": "Cylindrical and spherical coordinates are two ways to describe a point in 3D space that exploit symmetry to simplify triple integrals. In cylindrical coordinates a point is described by $(r, \\theta, z)$ where $r$ and $\\theta$ are the usual polar coordinates in the $xy$-plane and $z$ is the usual height, giving $x = r\\cos\\theta$, $y = r\\sin\\theta$, $z = z$ with volume element $dV = r\\,dr\\,d\\theta\\,dz$. In spherical coordinates a point is described by $(\\rho, \\phi, \\theta)$ where $\\rho$ is the distance from the origin, $\\phi$ is the polar angle from the positive $z$-axis, and $\\theta$ is the azimuthal angle in the $xy$-plane, giving $x = \\rho\\sin\\phi\\cos\\theta$, $y = \\rho\\sin\\phi\\sin\\theta$, $z = \\rho\\cos\\phi$ with volume element $dV = \\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta$.",
+  "anatomy": "In cylindrical coordinates the three components are: $r \\geq 0$, the radial distance from the $z$-axis; $\\theta \\in [0, 2\\pi)$, the azimuthal angle measured from the positive $x$-axis in the $xy$-plane; and $z \\in (-\\infty, \\infty)$, the signed height. The critical structural piece is the Jacobian factor $r$ that appears in $dV = r\\,dr\\,d\\theta\\,dz$ \u2014 without it the volume element is wrong. In spherical coordinates: $\\rho \\geq 0$ is the distance from the origin; $\\phi \\in [0, \\pi]$ is the polar (colatitude) angle from the positive $z$-axis \u2014 note it does NOT range to $2\\pi$; and $\\theta \\in [0, 2\\pi)$ is the same azimuthal angle as in cylindrical. The Jacobian factor here is $\\rho^2\\sin\\phi$, which must appear in $dV = \\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Find the volume of the solid } E \\text{ bounded above by } z = 4 \\text{ and below by } z = x^2 + y^2.",
+      "description_latex": "We recognize that the surface $z = x^2 + y^2$ is a paraboloid and the boundary of $E$ in the $xy$-plane is a circle, so cylindrical coordinates are the natural choice. The paraboloid meets $z = 4$ when $r^2 = 4$, i.e., $r = 2$, so $r$ ranges from $0$ to $2$ and $\\theta$ ranges from $0$ to $2\\pi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V = \\int_0^{2\\pi}\\int_0^{2}\\int_{r^2}^{4} r\\,dz\\,dr\\,d\\theta",
+      "description_latex": "We set up the triple integral in cylindrical coordinates: for a fixed $(r,\\theta)$ the height $z$ runs from the paraboloid floor $z = r^2$ up to the ceiling $z = 4$, and we must include the Jacobian factor $r$ in the integrand. The order $dz\\,dr\\,d\\theta$ lets us integrate the $z$ limits \u2014 which depend on $r$ \u2014 first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\int_0^{2\\pi}\\int_0^{2} r(4 - r^2)\\,dr\\,d\\theta",
+      "description_latex": "Integrating with respect to $z$ simply evaluates the difference of the limits: $\\int_{r^2}^{4} dz = 4 - r^2$. Multiplying by $r$ gives the integrand $r(4-r^2) = 4r - r^3$ for the remaining two-variable integral.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\int_0^{2\\pi}\\left[2r^2 - \\frac{r^4}{4}\\right]_0^{2}d\\theta = \\int_0^{2\\pi} \\left(8 - 4\\right)d\\theta = \\int_0^{2\\pi} 4\\,d\\theta",
+      "description_latex": "Integrating with respect to $r$ we get $\\int_0^2 (4r - r^3)\\,dr = \\bigl[2r^2 - \\tfrac{r^4}{4}\\bigr]_0^2 = 8 - 4 = 4$. Because this result is independent of $\\theta$, the final integral over $\\theta$ is trivial.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V = 8\\pi",
+      "description_latex": "Evaluating the last integral gives $4 \\cdot 2\\pi = 8\\pi$, so the volume of the solid bounded between the paraboloid and the plane $z = 4$ is $8\\pi$ cubic units. This would have required far more work in Cartesian coordinates due to the square-root limits.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find the volume of the solid inside the sphere } \\rho = 2 \\text{ in spherical coordinates.}",
+      "description_latex": "A sphere of radius $2$ centered at the origin is perfectly described in spherical coordinates: $\\rho$ runs from $0$ to $2$, the polar angle $\\phi$ runs from $0$ to $\\pi$, and the azimuthal angle $\\theta$ runs from $0$ to $2\\pi$. We write the volume integral using $dV = \\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V = \\int_0^{2\\pi}\\int_0^{\\pi}\\int_0^{2} \\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta",
+      "description_latex": "This is the fully set-up integral. Your first task is to evaluate the innermost integral with respect to $\\rho$: compute $\\int_0^2 \\rho^2\\,d\\rho$ and write the result as the new integrand (still multiplied by $\\sin\\phi$).",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "= \\int_0^{2\\pi}\\int_0^{\\pi} \\frac{8}{3}\\sin\\phi\\,d\\phi\\,d\\theta",
+      "description_latex": "After computing $\\int_0^2 \\rho^2\\,d\\rho = \\tfrac{8}{3}$, we are left with this two-dimensional integral. Now evaluate the $\\phi$ integral: recall that $\\int_0^{\\pi}\\sin\\phi\\,d\\phi = 2$, and write the resulting single integral over $\\theta$, then compute the final answer.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "V = \\frac{32\\pi}{3}",
+      "description_latex": "Putting it all together: $\\tfrac{8}{3}\\cdot 2 \\cdot 2\\pi = \\tfrac{32\\pi}{3}$, which matches the familiar formula $\\tfrac{4}{3}\\pi r^3$ with $r = 2$. This confirms that the spherical coordinate setup was correct.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Use cylindrical coordinates to find the volume of the solid bounded by } z = 0 \\text{ and } z = 3, \\text{ inside the cylinder } r = 1.",
+      "answer_latex": "3\\pi"
+    },
+    {
+      "prompt_latex": "\\text{Evaluate } \\iiint_E z\\,dV \\text{ where } E \\text{ is the solid inside the cylinder } r = 2, \\text{ between } z = 0 \\text{ and } z = r.",
+      "answer_latex": "\\frac{32\\pi}{3}"
+    },
+    {
+      "prompt_latex": "\\text{Use spherical coordinates to evaluate } \\iiint_E (x^2+y^2+z^2)\\,dV \\text{ where } E \\text{ is the ball } \\rho \\leq 3.",
+      "answer_latex": "\\frac{972\\pi}{5}"
+    },
+    {
+      "prompt_latex": "\\text{Find the volume of the solid that lies inside the sphere } x^2+y^2+z^2 = 4 \\text{ and above the cone } z = \\sqrt{x^2+y^2} \\text{ (i.e., } \\phi = \\pi/4 \\text{).}",
+      "answer_latex": "\\frac{16\\pi}{3}\\left(1 - \\frac{\\sqrt{2}}{2}\\right)"
+    },
+    {
+      "prompt_latex": "\\text{A solid cone has density } \\delta(r,\\theta,z) = z \\text{ (in cylindrical coordinates). It is bounded below by } z = r \\text{ and above by } z = 2. \\text{ Set up and evaluate the integral for its total mass.}",
+      "answer_latex": "\\frac{8\\pi}{3}"
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting the Jacobian factor in spherical coordinates: students write $d\\rho\\,d\\phi\\,d\\theta$ instead of $\\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta$. Always ask yourself: 'Have I included the full volume element with its Jacobian?' In spherical coordinates the factor $\\rho^2\\sin\\phi$ is never optional.",
+    "Letting the polar angle $\\phi$ in spherical coordinates range from $0$ to $2\\pi$ instead of $0$ to $\\pi$: this double-counts every point in the solid. Remember that $\\phi$ is the angle measured downward from the positive $z$-axis, so it only needs to sweep from the north pole to the south pole, a range of $\\pi$.",
+    "Confusing which surface gives the lower versus upper limit in $z$ (cylindrical) or $\\rho$ (spherical) when setting up limits: for example, writing the paraboloid limit above the plane limit instead of below it. Always check a specific point \u2014 e.g., the origin \u2014 to verify which bounding surface is 'closer to zero' and should be the lower limit."
+  ],
+  "untested_variants": [
+    "Triple integrals in spherical coordinates over regions defined by two spheres (e.g., a spherical shell $1 \\leq \\rho \\leq 3$), which require split $\\rho$ limits but not split $\\phi$ or $\\theta$ limits.",
+    "Converting a given iterated integral already written in cylindrical or spherical coordinates back into Cartesian form and identifying the region geometrically.",
+    "Using cylindrical coordinates to compute a moment of inertia or center of mass of a solid with a non-constant density function that depends on $\\theta$, requiring genuine $\\theta$ integration.",
+    "Triple integrals over regions that require splitting the domain into two sub-regions (e.g., a solid bounded by two different cones at different angles), which the single-region setup in the practice problems does not address."
+  ]
+}

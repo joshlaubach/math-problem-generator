@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_037",
+  "topic_name": "Proof Revision and Critique",
+  "generated_at": "2026-05-13T20:21:36.908852+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to write a proof \u2014 you can lay out the logic, invoke the right definitions, and reach a valid conclusion. But have you ever read back a proof you wrote last week and thought, 'wait, is this actually airtight?' Many students can produce a proof but struggle to identify exactly *why* a given proof is flawed or how to fix it precisely. If someone hands you a proof that claims to show every integer is even, could you find the exact line where the logic breaks \u2014 and rewrite it correctly?",
+  "concept": "Proof revision and critique is the practice of reading a mathematical argument with a critical eye: identifying logical gaps, unjustified claims, or structural errors, and then rewriting the proof to correct them. Formally, a valid proof is a finite sequence of statements $S_1, S_2, \\ldots, S_n$ where each $S_i$ is either a hypothesis, a definition, or follows from previous statements by a valid inference rule, and $S_n$ is the conclusion to be proved. Critique asks: is every step in that chain genuinely justified?",
+  "anatomy": "A proof has several identifiable structural components that become the targets of critique. The **hypothesis** is the set of assumptions explicitly granted at the start. The **claim** is the precise statement being proved. Each **inference step** is a single logical move connecting one statement to the next, justified by a rule (definition, algebra, a previously proved theorem, or logical tautology). A **gap** occurs when an inference step is missing or its justification is absent. A **circular argument** occurs when the claim itself \u2014 or an equivalent restatement \u2014 is used as a justification before it has been established. Identifying which component fails is the first task of any critique.",
+  "worked_example": [
+    {
+      "expression_latex": "\\textbf{Flawed Proof. Claim: If } n^2 \\text{ is even, then } n \\text{ is even.}",
+      "description_latex": "We are reading a flawed proof of a classic number-theory result. Before we can fix anything, we need to state the claim precisely so we know what a valid proof must ultimately establish \u2014 that $n^2$ even forces $n$ to be even.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Flawed argument: Assume } n^2 \\text{ is even. Then } n^2 = 2k, \\text{ so } n = \\sqrt{2k}, \\text{ which is even.}",
+      "description_latex": "Here is the flawed proof to critique. The author moves from $n^2 = 2k$ directly to '$n = \\sqrt{2k}$, which is even,' but this is unjustified on two counts: $\\sqrt{2k}$ is not generally an integer, and calling it 'even' without proof simply restates the conclusion \u2014 this is the gap we need to target.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Diagnosis: } \\text{The step } n = \\sqrt{2k} \\Rightarrow n \\text{ is even is both unjustified and circular.}",
+      "description_latex": "Naming the flaw precisely is the next step in revision: the inference '$\\sqrt{2k}$ is even' assumes the conclusion without proof, and the square-root manipulation does not preserve integrality. A correct approach must instead use the contrapositive or direct parity argument \u2014 we will now rewrite the proof using contrapositive to eliminate both problems.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Revised Proof (contrapositive): Assume } n \\text{ is odd, so } n = 2m+1 \\text{ for some } m \\in \\mathbb{Z}.",
+      "description_latex": "We pivot to proving the contrapositive: if $n$ is odd then $n^2$ is odd. Assuming $n = 2m+1$ for an integer $m$ is a clean, justified starting point grounded directly in the definition of an odd integer, replacing the unjustified square-root step entirely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^2 = (2m+1)^2 = 4m^2 + 4m + 1 = 2(2m^2+2m)+1,",
+      "description_latex": "Expanding and factoring shows $n^2 = 2(2m^2+2m)+1$, which is odd by definition because $2m^2+2m$ is an integer. This completes the revised proof: every inference is justified, no step assumes the conclusion, and the chain from hypothesis to claim is unbroken.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\textbf{Flawed Proof. Claim: For all } a, b \\in \\mathbb{R},\\; |a+b| = |a|+|b|.",
+      "description_latex": "We are given a student's 'proof' of this equality. Before critiquing it, notice that the claim as stated is actually false in general \u2014 identifying that a proof proves too much (i.e., proves a false statement) is itself a critical finding.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Flawed argument: } |a+b|^2 = (a+b)^2 = a^2+2ab+b^2 = (|a|+|b|)^2, \\text{ so } |a+b| = |a|+|b|.",
+      "description_latex": "Read each step carefully. The algebra $(a+b)^2 = a^2 + 2ab + b^2$ is correct, but the equality $a^2 + 2ab + b^2 = (|a|+|b|)^2$ requires that $2ab = 2|a||b|$, i.e., that $ab = |ab|$, which is only true when $ab \\geq 0$. Your job is to identify this hidden assumption and state a corrected claim.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Identify the exact flawed inference step in the argument above and explain in one or two sentences why the equality $a^2 + 2ab + b^2 = (|a|+|b|)^2$ is not always valid. Then state the corrected theorem (the Triangle Inequality) that the argument does prove when the missing condition is supplied.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\textbf{Corrected claim (Triangle Inequality): } |a+b| \\leq |a|+|b| \\text{ for all } a,b \\in \\mathbb{R}.",
+      "description_latex": "The corrected claim replaces equality with $\\leq$, and the proof is repaired by noting $(a+b)^2 \\leq (|a|+|b|)^2$ because $2ab \\leq 2|ab| = 2|a||b|$, taking square roots of both non-negative sides gives $|a+b| \\leq |a|+|b|$, with each step now fully justified.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A student writes: 'Claim: $0 \\cdot x = 0$ for all $x \\in \\mathbb{R}$. Proof: $0 \\cdot x = 0$ because anything times zero is zero.' Identify the flaw in this proof.",
+      "answer_latex": "The proof is circular: it justifies the claim by restating the claim ('anything times zero is zero'). A valid proof derives $0 \\cdot x = (0+0)\\cdot x = 0 \\cdot x + 0 \\cdot x$, then subtracts $0 \\cdot x$ from both sides using field axioms."
+    },
+    {
+      "prompt_latex": "Critique the following argument and identify the gap: 'Claim: If $x^2 = 4$, then $x = 2$. Proof: $x^2 = 4 \\Rightarrow x = \\sqrt{4} = 2$.'",
+      "answer_latex": "The gap is that $\\sqrt{x^2} = |x|$, not $x$; the step $x = \\sqrt{4}$ discards the negative solution $x = -2$. The corrected conclusion is $x = 2$ or $x = -2$, i.e., $x = \\pm 2$."
+    },
+    {
+      "prompt_latex": "A student proves 'Every prime greater than $2$ is odd' as follows: 'Let $p > 2$ be prime. Then $p$ is not divisible by $2$, so $p$ is odd.' Decide whether this proof is valid. If not, identify what, if anything, is missing.",
+      "answer_latex": "The proof is valid but needs one sentence of justification: an integer greater than $2$ that is not divisible by $2$ must be odd by the definition of odd (i.e., $p = 2k+1$ for some integer $k$), because every integer is either even or odd. Adding that sentence makes the inference explicit and complete."
+    },
+    {
+      "prompt_latex": "Critique and repair this induction proof. 'Claim: $\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$. Proof: Assume it holds for $n = k$. Then $\\sum_{i=1}^{k+1} i = \\frac{k(k+1)}{2} + (k+1) = \\frac{(k+1)(k+2)}{2}$. Done.'",
+      "answer_latex": "The inductive step is correct, but the base case is missing entirely. The proof must first verify the claim for $n=1$: $\\sum_{i=1}^{1} i = 1 = \\frac{1 \\cdot 2}{2} = 1$. \\checkmark. Without the base case, induction never gets off the ground, so the proof as written is incomplete."
+    },
+    {
+      "prompt_latex": "A referee returns your proof with the comment: 'Your proof that $\\sqrt{2}$ is irrational assumes the conclusion.' Your draft says: 'Suppose $\\sqrt{2} = p/q$ in lowest terms. Then $2q^2 = p^2$, so $p^2$ is even, hence $p$ is even, so $p = 2m$. Then $2q^2 = 4m^2$, giving $q^2 = 2m^2$, so $q$ is even. But $p/q$ was in lowest terms \u2014 contradiction.' Is the referee correct? Justify your answer.",
+      "answer_latex": "The referee is incorrect; the proof is valid. No step assumes $\\sqrt{2}$ is irrational. The key inference 'if $p^2$ is even then $p$ is even' follows from the contrapositive (if $p$ is odd then $p^2$ is odd), which is a separately provable lemma and not circular. The contradiction arises from within the assumed properties of lowest-terms fractions, so the proof is logically sound."
+    }
+  ],
+  "common_mistakes": [
+    "Students label every gap as 'circular reasoning' even when the actual flaw is a missing case or an unjustified algebraic step. Fix: distinguish circularity (conclusion used as evidence) from a gap (a true fact whose proof is simply omitted) before writing your critique.",
+    "When revising a flawed proof, students rewrite only the conclusion and leave the broken inference steps intact, producing a proof that still fails for the same reason. Fix: trace every inference step in the original and replace each unjustified step with a fully supported one, not just the final line.",
+    "Students accept that two expressions are equal because they both simplify to the same number in one example, then use that as justification in a general proof. Fix: a critique must check that each equality or inequality holds for all values in the domain, not just a single test case, and flag any step that implicitly restricts generality."
+  ],
+  "untested_variants": [
+    "Critiquing a proof by contradiction where the negation of the hypothesis is formed incorrectly (e.g., negating a universal statement as another universal rather than as an existential).",
+    "Identifying a proof that is logically valid but proves a weaker statement than the claim (e.g., proving the result only for positive integers when the claim is for all integers).",
+    "Revising a proof that uses a theorem whose hypotheses are not verified in context (e.g., applying the Mean Value Theorem without confirming differentiability on the open interval).",
+    "Critiquing a proof involving set equality where the student proves $A \\subseteq B$ but forgets to prove $B \\subseteq A$, leaving the biconditional incomplete."
+  ]
+}

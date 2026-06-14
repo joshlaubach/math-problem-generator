@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_020",
+  "topic_name": "Cantor's Diagonalization Argument (H)",
+  "generated_at": "2026-05-13T20:19:45.153107+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know that some infinite sets, like the natural numbers $\\mathbb{N}$ and the integers $\\mathbb{Z}$, can be placed in a one-to-one correspondence with each other \u2014 they share the same 'size' of infinity. You might guess that every infinite set is the same size, since infinity is infinity. But what if someone claimed the set of all real numbers between 0 and 1 is strictly larger than $\\mathbb{N}$, so large that no list could ever contain all of them \u2014 can you prove that no such listing is possible?",
+  "concept": "Cantor's Diagonalization Argument is a proof technique showing that the real numbers in $(0,1)$ are uncountable \u2014 meaning there is no surjective function $f: \\mathbb{N} \\to (0,1)$. The key idea: assume a complete list exists, then construct a real number that differs from every entry on that list in at least one decimal place, producing a contradiction. Formally, if $f: \\mathbb{N} \\to (0,1)$ is any function, we build $x \\in (0,1)$ such that $x \\neq f(n)$ for all $n \\in \\mathbb{N}$, so $f$ cannot be surjective.",
+  "anatomy": "The argument has four key components. First, the assumed enumeration: a hypothetical list $f(1), f(2), f(3), \\ldots$ where each $f(n)$ is written in its infinite decimal expansion $0.d_{n,1}d_{n,2}d_{n,3}\\ldots$, with $d_{n,k}$ denoting the $k$-th decimal digit of the $n$-th entry. Second, the diagonal digits: the sequence $d_{1,1}, d_{2,2}, d_{3,3}, \\ldots$ extracted by moving diagonally through the list \u2014 the $n$-th digit of the $n$-th number. Third, the diagonal construction rule: a function that changes each diagonal digit, for instance setting $x_n = 5$ if $d_{n,n} \\neq 5$ and $x_n = 6$ if $d_{n,n} = 5$. Fourth, the contradiction: the constructed number $x = 0.x_1 x_2 x_3 \\ldots$ differs from $f(n)$ in the $n$-th decimal place for every $n$, so $x$ is not in the list.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Assume for contradiction that } f: \\mathbb{N} \\to (0,1) \\text{ is surjective.}",
+      "description_latex": "We begin by assuming the opposite of what we want to prove \u2014 this is a proof by contradiction. If we can assume $f$ is surjective and derive something impossible, we will have shown that no such surjection exists, which is exactly what 'uncountable' means.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(1) = 0.\\mathbf{d_{1,1}}d_{1,2}d_{1,3}\\cdots, \\quad f(2) = 0.d_{2,1}\\mathbf{d_{2,2}}d_{2,3}\\cdots, \\quad f(3) = 0.d_{3,1}d_{3,2}\\mathbf{d_{3,3}}\\cdots, \\quad \\ldots",
+      "description_latex": "Write out the assumed complete list, arranging the decimal expansions in rows so that the $n$-th row corresponds to $f(n)$. The bolded digits $d_{1,1}, d_{2,2}, d_{3,3}, \\ldots$ sit along the main diagonal \u2014 the $n$-th digit of the $n$-th number \u2014 and these are the ones we will use to build our escape number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x_n = \\begin{cases} 5 & \\text{if } d_{n,n} \\neq 5 \\\\ 6 & \\text{if } d_{n,n} = 5 \\end{cases}",
+      "description_latex": "We define each digit of our constructed number $x = 0.x_1 x_2 x_3 \\ldots$ by deliberately disagreeing with the diagonal digit $d_{n,n}$. The specific values 5 and 6 are chosen to avoid the edge case where a number has two decimal representations (like $0.999\\ldots = 1.000\\ldots$), keeping $x$ safely inside $(0,1)$ with a unique representation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\neq f(n) \\text{ for every } n \\in \\mathbb{N}, \\text{ because } x_n \\neq d_{n,n}",
+      "description_latex": "For any particular $n$, the number $x$ differs from $f(n)$ in exactly the $n$-th decimal place by construction, so $x \\neq f(n)$. This means $x$ is not equal to any element of our supposed complete list, regardless of which row $n$ we check.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\in (0,1) \\text{ but } x \\notin \\{f(1), f(2), f(3), \\ldots\\} \\implies f \\text{ is not surjective. Contradiction.}",
+      "description_latex": "Since $x$ is a real number in $(0,1)$ that is missing from the list, $f$ is not surjective \u2014 contradicting our assumption. Therefore no surjection $f: \\mathbb{N} \\to (0,1)$ can exist, which means $(0,1)$ is uncountable and strictly larger than $\\mathbb{N}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Suppose the list begins: } f(1)=0.\\mathbf{3}1415\\ldots,\\; f(2)=0.7\\mathbf{0}711\\ldots,\\; f(3)=0.57\\mathbf{7}21\\ldots,\\; f(4)=0.141\\mathbf{5}9\\ldots",
+      "description_latex": "Here is a concrete partial list with four entries. We have already highlighted the diagonal digits in bold: $d_{1,1}=3$, $d_{2,2}=0$, $d_{3,3}=7$, $d_{4,4}=5$. Your job is to use these to build the first four digits of the diagonal number $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x_n = \\begin{cases} 5 & \\text{if } d_{n,n} \\neq 5 \\\\ 6 & \\text{if } d_{n,n} = 5 \\end{cases}",
+      "description_latex": "Apply this construction rule to each of the four diagonal digits. Remember: you output 5 unless the diagonal digit is already 5, in which case you output 6.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 0.x_1 x_2 x_3 x_4 \\ldots = 0.\\,?\\ ?\\ ?\\ ?\\ldots",
+      "description_latex": "Using the diagonal digits $d_{1,1}=3$, $d_{2,2}=0$, $d_{3,3}=7$, $d_{4,4}=5$ and the rule above, write out the first four digits of $x$, then explain in one sentence why $x$ cannot equal $f(2)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x \\neq f(n) \\text{ for all } n \\in \\{1,2,3,4,\\ldots\\} \\implies \\text{contradiction with surjectivity}",
+      "description_latex": "Now state the contradiction: explain what $x \\in (0,1)$ being absent from the list tells us about the function $f$, and conclude whether $(0,1)$ is countable or uncountable.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given the diagonal digits $d_{1,1}=2,\\, d_{2,2}=5,\\, d_{3,3}=8,\\, d_{4,4}=1$, apply the rule $x_n=5$ if $d_{n,n}\\neq 5$, else $x_n=6$ to write the first four digits of the constructed number $x$.",
+      "answer_latex": "x = 0.5\\,6\\,5\\,5\\ldots \\text{ (since } d_{2,2}=5 \\text{ gives } x_2=6; \\text{ all others give } x_n=5\\text{)}"
+    },
+    {
+      "prompt_latex": "Explain why the constructed diagonal number $x$ satisfies $x \\neq f(n)$ for every $n \\in \\mathbb{N}$, even though $x$ has infinitely many decimal digits.",
+      "answer_latex": "For each $n$, the digit $x_n$ was chosen to differ from $d_{n,n}$ (the $n$-th digit of $f(n)$), so $x$ and $f(n)$ disagree in at least the $n$-th decimal place, hence $x \\neq f(n)$ for all $n$."
+    },
+    {
+      "prompt_latex": "Why do we avoid using the digit 0 or 9 when constructing the diagonal number in Cantor's argument? What problem would arise?",
+      "answer_latex": "The real numbers $0.999\\ldots$ and $1.000\\ldots$ represent the same value, so a diagonal number built with 0s or 9s might coincide with another representation of a listed number; using digits like 5 and 6 avoids any dual-representation ambiguity."
+    },
+    {
+      "prompt_latex": "Use the fact that $(0,1)$ is uncountable and that there exists a bijection $g:(0,1)\\to \\mathbb{R}$ (e.g., $g(x)=\\tan(\\pi x - \\pi/2)$) to conclude whether $\\mathbb{R}$ is countable or uncountable. Justify your answer using the definition of cardinality.",
+      "answer_latex": "Since $g:(0,1)\\to\\mathbb{R}$ is a bijection, $|(0,1)|=|\\mathbb{R}|$. Because $(0,1)$ is uncountable, $\\mathbb{R}$ is also uncountable \u2014 a bijection preserves cardinality, so $\\mathbb{R}$ cannot be put in bijection with $\\mathbb{N}$."
+    },
+    {
+      "prompt_latex": "A student claims: 'I will defeat Cantor's argument by adding the constructed number $x$ to the list as $f(0)$, making the list complete.' Identify the precise flaw in this response.",
+      "answer_latex": "Adding $x$ as $f(0)$ creates a new list indexed by $\\{0,1,2,\\ldots\\}$, but Cantor's argument then produces a new diagonal number $x'$ that differs from every entry in this new list \u2014 including $f(0)=x$ (it differs in the 0th diagonal digit). The argument applies to any enumeration, so no finite patch can fix it."
+    }
+  ],
+  "common_mistakes": [
+    "Students often think the diagonal number $x$ must differ from $f(n)$ in ALL decimal places, but the argument only requires $x$ to differ from $f(n)$ in at least one place (the $n$-th), which is sufficient to guarantee $x \\neq f(n)$. Fix: remember that two real numbers are unequal if they disagree in even a single decimal position.",
+    "Students sometimes apply the diagonalization rule incorrectly by modifying the $n$-th digit of the $n$-th number in the wrong column \u2014 for example, changing the first digit of every number instead of the $n$-th digit of the $n$-th number. Fix: always extract $d_{n,n}$ \u2014 the digit in the $n$-th row AND $n$-th column \u2014 before applying the swap rule.",
+    "Students frequently confuse the conclusion by saying 'the list is incomplete because it misses $x$' without connecting this to the concept of surjectivity: the assumption was that $f$ is surjective onto $(0,1)$, so finding any $x \\in (0,1)$ with $x \\notin \\text{range}(f)$ directly contradicts surjectivity. Fix: always frame the conclusion as '$f$ is not surjective, contradicting our assumption,' rather than just saying the list has a gap."
+  ],
+  "untested_variants": [
+    "Applying diagonalization to prove that the set of all infinite binary sequences $\\{0,1\\}^{\\mathbb{N}}$ is uncountable \u2014 a common exam variant that uses the same diagonal idea but with binary digits rather than decimal digits.",
+    "Using diagonalization to show that the power set $\\mathcal{P}(\\mathbb{N})$ is strictly larger than $\\mathbb{N}$, which requires understanding Cantor's theorem ($|A| < |\\mathcal{P}(A)|$) rather than just the decimal-expansion version.",
+    "Constructing an explicit bijection between $(0,1)$ and $\\mathbb{R}$ or between $\\mathbb{R}$ and $\\mathbb{R}^2$ to compare cardinalities \u2014 this tests the bijection side of uncountability arguments rather than the diagonalization side.",
+    "Determining whether specific sets such as the irrational numbers, the transcendental numbers, or $\\mathbb{R} \\setminus \\mathbb{Q}$ are countable or uncountable using a combination of Cantor's result and properties of countable unions."
+  ]
+}

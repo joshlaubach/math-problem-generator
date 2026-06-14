@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_012",
+  "topic_name": "Causation vs. Correlation",
+  "generated_at": "2026-05-13T20:29:56.877816+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to calculate a correlation coefficient $r$ and interpret its strength \u2014 a value close to $1$ or $-1$ means two variables move together strongly. But here's a puzzle: studies have found a strong positive correlation between the number of Nicolas Cage films released per year and the number of people who drowned in swimming pools. Does that mean watching Nicolas Cage movies causes drowning deaths? Something is clearly wrong with that reasoning, but what exactly is the logical gap you're missing?",
+  "concept": "Correlation means two variables tend to change together in a predictable pattern, but it says nothing about why. Causation means one variable directly produces a change in another. Formally, a correlation coefficient $r \\neq 0$ between variables $X$ and $Y$ tells us only that $X$ and $Y$ are linearly associated; it does not establish that changing $X$ forces a change in $Y$. The core principle is: correlation is a necessary but not sufficient condition for causation.",
+  "anatomy": "Every causation-vs-correlation argument has four structural parts worth naming. First, the response variable $Y$ and the explanatory variable $X$ are the two quantities whose relationship is being examined. Second, the observed association is the measured correlation $r$ between $X$ and $Y$ in the data. Third, the proposed causal mechanism is the claimed logical pathway by which $X$ would force a change in $Y$ \u2014 this is what must be justified, not just assumed. Fourth, a confounding variable (also called a lurking variable) is a third variable $Z$ that is causally related to both $X$ and $Y$, creating an apparent association between $X$ and $Y$ even when no direct causal link exists.",
+  "worked_example": [
+    {
+      "expression_latex": "r_{\\text{ice cream, drowning}} \\approx +0.85",
+      "description_latex": "We are presented with a strong positive correlation between monthly ice cream sales and monthly drowning deaths. The first thing to do is state exactly what the number tells us: $r \\approx +0.85$ means that in months when ice cream sales are high, drowning deaths also tend to be high, and vice versa. This is a factual summary of the data \u2014 nothing more.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Claim: Ice cream sales} \\xrightarrow{?} \\text{Drowning deaths}",
+      "description_latex": "Now we ask whether the data justify the causal arrow. To claim causation, we would need a plausible mechanism by which buying more ice cream directly causes people to drown, and we would need to rule out other explanations. No such mechanism exists, so the causal claim is not supported \u2014 the correlation alone cannot establish it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Z = \\text{Summer heat (temperature)}",
+      "description_latex": "We identify the confounding variable: hot weather simultaneously drives people to buy more ice cream AND to swim more, which raises drowning risk. This single lurking variable $Z$ explains why $X$ (ice cream) and $Y$ (drownings) move together without any direct link between them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Summer heat} \\rightarrow \\text{Ice cream sales}, \\quad \\text{Summer heat} \\rightarrow \\text{Drowning deaths}",
+      "description_latex": "Drawing the correct causal diagram makes the structure clear: $Z$ causes both $X$ and $Y$, producing a spurious correlation between them. Once we control for temperature \u2014 for example, by comparing only months with the same average temperature \u2014 the correlation between ice cream sales and drownings disappears, confirming that the original association was not causal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Conclusion: } r \\neq 0 \\not\\Rightarrow \\text{causation}",
+      "description_latex": "The final step is writing the conclusion in plain language: a strong correlation exists, but the association is entirely explained by a confounding variable, so we cannot conclude that ice cream sales cause drowning deaths. This is the general lesson \u2014 always ask whether a lurking variable could explain the pattern before claiming any causal relationship.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "r_{\\text{shoe size, reading ability}} \\approx +0.78 \\text{ (among elementary school children)}",
+      "description_latex": "We are told there is a strong positive correlation between children's shoe size and their reading ability. Your job is to work through whether this is a causal relationship. Start by stating what the correlation tells us and what it does NOT tell us.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Proposed cause: Shoe size} \\xrightarrow{?} \\text{Reading ability}",
+      "description_latex": "Ask yourself: is there a plausible direct mechanism by which having larger feet makes a child a better reader? Identify whether this causal claim is reasonable or whether something else might be driving both variables.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "Z = \\text{Age} \\rightarrow \\text{Shoe size}, \\quad Z = \\text{Age} \\rightarrow \\text{Reading ability}",
+      "description_latex": "The confounding variable here is age: older children have bigger feet AND have had more years of reading instruction. This single variable $Z$ explains the entire correlation, meaning the association between shoe size and reading is spurious \u2014 not causal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Conclusion: The correlation is } \\underline{\\hspace{2cm}} \\text{ because } \\underline{\\hspace{3cm}}",
+      "description_latex": "Write the final conclusion: state whether this is a causal or spurious relationship and name the confounding variable that explains the pattern.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A researcher finds $r = +0.91$ between the number of firefighters sent to a fire and the amount of property damage caused by that fire. Should the city reduce the number of firefighters to prevent damage? Explain in one sentence why or why not.",
+      "answer_latex": "\\text{No \u2014 the lurking variable is fire severity; bigger fires cause both more damage AND require more firefighters, so the correlation is spurious, not causal.}"
+    },
+    {
+      "prompt_latex": "Identify the likely confounding variable $Z$ in the following scenario: countries with higher chocolate consumption per capita have higher rates of Nobel Prize winners per capita ($r = +0.79$).",
+      "answer_latex": "Z = \\text{National wealth (GDP per capita), which increases both chocolate consumption and funding for education/research}"
+    },
+    {
+      "prompt_latex": "A study shows that students who own more books at home score higher on standardized tests. A policy-maker proposes mailing every low-income student 50 books to raise their test scores. Explain the flaw in this reasoning by identifying the relevant confounding variable.",
+      "answer_latex": "\\text{The confounding variable is household socioeconomic status, which drives both book ownership and academic opportunity; simply sending books does not replicate the causal conditions that produce higher scores.}"
+    },
+    {
+      "prompt_latex": "Two variables have correlation $r = -0.88$. A researcher concludes that $X$ causes $Y$ to decrease. List two conditions (beyond a high $|r|$) that would actually be required before a causal conclusion is scientifically justified.",
+      "answer_latex": "\\text{(1) A plausible mechanism by which } X \\text{ directly produces change in } Y, \\text{ and (2) ruling out confounding variables, ideally through a controlled experiment with random assignment}"
+    },
+    {
+      "prompt_latex": "In a town, the monthly number of hot chocolate sales $X$ and the monthly number of car accidents $Y$ show $r = +0.82$ over five years. (a) Name one plausible confounding variable. (b) Design a brief observational strategy that would help determine whether the confound explains the correlation.",
+      "answer_latex": "\\text{(a) } Z = \\text{winter weather (cold, icy conditions increase both hot chocolate sales and accident rates). (b) Compute the partial correlation between } X \\text{ and } Y \\text{ after controlling for monthly average temperature; if } r \\text{ drops near 0, the original association was spurious.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students treat a high correlation coefficient as sufficient proof of causation, writing 'because $r = 0.95$, $X$ must cause $Y$.' The fix: remember that $r$ measures only linear association \u2014 you must additionally provide a mechanism and rule out confounders before any causal claim is valid.",
+    "Students confuse the direction of causation, assuming that because $X$ and $Y$ are correlated, $X$ must cause $Y$ rather than $Y$ causing $X$ (reverse causation). For example, concluding that depression causes people to exercise less, when reduced exercise may actually cause depression \u2014 the fix is to ask which variable plausibly precedes the other in time and whether a controlled experiment could test the direction.",
+    "Students identify a confounding variable but then incorrectly say the correlation 'doesn't exist' or 'is zero.' The fix: the correlation is real and measured correctly; what is not real is the causal interpretation \u2014 a spurious correlation is still a genuine statistical association, just one explained by a third variable rather than a direct link."
+  ],
+  "untested_variants": [
+    "Calculating and interpreting a partial correlation coefficient to statistically control for a confounding variable $Z$, which requires the formula $r_{XY \\cdot Z} = \\frac{r_{XY} - r_{XZ}r_{YZ}}{\\sqrt{(1-r_{XZ}^2)(1-r_{YZ}^2)}}$.",
+    "Evaluating the design of a randomized controlled experiment and explaining why random assignment to treatment and control groups is the gold standard for establishing causation.",
+    "Distinguishing between a confounding variable and a mediating variable \u2014 a mediator $M$ lies on the causal pathway $X \\rightarrow M \\rightarrow Y$ rather than being a common cause of both.",
+    "Using the Bradford Hill criteria (strength, consistency, temporality, biological gradient, plausibility, etc.) as a multi-factor framework for assessing causal claims in epidemiological data."
+  ]
+}

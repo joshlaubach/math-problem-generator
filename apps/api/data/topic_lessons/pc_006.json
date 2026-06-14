@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_006",
+  "topic_name": "Modeling with Functions",
+  "generated_at": "2026-05-12T23:41:16.499558+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to evaluate a function like $f(x) = 3x + 5$ when someone hands it to you. But what happens when no one hands you the function \u2014 when you're staring at a real-world situation and you have to build the equation yourself? For example, a farmer wants to fence a rectangular pen using 200 feet of fencing along three sides (a barn wall forms the fourth side), and he wants to know what dimensions maximize the area. You know enough algebra to work with area and perimeter, but how do you turn a word problem into a function you can actually analyze?",
+  "concept": "Modeling with functions means translating a real-world relationship into a mathematical function so you can analyze, optimize, or predict behavior. Formally, you identify a quantity of interest \u2014 the output \u2014 express it entirely in terms of a single input variable, and write it as $f(x) = \\text{(expression in } x\\text{)}$, then state a realistic domain. The power is that every tool you know for studying functions (intercepts, vertex, end behavior) now applies to the real situation.",
+  "anatomy": "Every function model has four structural parts you must consciously identify. The **output quantity** is what you are measuring or optimizing, such as area, cost, or distance \u2014 it becomes $f(x)$. The **input variable** $x$ is the quantity you are free to choose or let vary, and you must define it clearly in words and units. The **defining equation** is the algebraic rule connecting input to output, typically assembled from a geometric formula, a rate relationship, or a constraint equation. Finally, the **domain** restricts $x$ to values that make physical sense \u2014 for example, lengths must be positive and cannot exceed available material \u2014 written as an inequality like $0 < x < 100$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{A farmer has 200 ft of fencing for 3 sides of a rectangle. Express area } A \\text{ as a function of width } x.",
+      "description_latex": "We begin by reading the problem carefully and identifying the two structural pieces we need: what we are optimizing (area) and what we can freely choose (the width). Naming the width $x$ feet immediately clarifies our input variable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x + L = 200 \\implies L = 200 - 2x",
+      "description_latex": "The constraint is that three sides \u2014 two widths and one length \u2014 must total 200 feet, giving us $2x + L = 200$. We solve for $L$ so we can eliminate it and write everything in terms of the single variable $x$; this is the critical step that converts a two-variable problem into a one-variable function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A(x) = x \\cdot L = x(200 - 2x) = 200x - 2x^2",
+      "description_latex": "Now we substitute the expression for $L$ into the area formula $A = x \\cdot L$, giving $A(x) = x(200 - 2x)$. Expanding produces $A(x) = 200x - 2x^2$, a quadratic function whose vertex will tell us the maximum area.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Domain: } 0 < x < 100",
+      "description_latex": "We must restrict $x$ to values that make physical sense: the width must be positive ($x > 0$), and the length $L = 200 - 2x$ must also be positive, which requires $x < 100$. Writing the domain $0 < x < 100$ is not optional \u2014 it's part of the complete function model.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A 10-inch wire is bent into a rectangle. Express the area } A \\text{ as a function of width } x.",
+      "description_latex": "The perimeter of a rectangle is $2x + 2L = 10$, where $x$ is the width and $L$ is the length. We need to write area entirely in terms of $x$, so our first move is to solve the perimeter equation for $L$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L = 5 - x",
+      "description_latex": "Solving $2x + 2L = 10$ gives $L = 5 - x$. Now use this expression to write the area $A = x \\cdot L$ as a function of $x$ alone, and state the domain.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the complete function $A(x)$ by substituting $L = 5 - x$ into the area formula, expand it, and state the domain restriction on $x$. This is the key modeling step where you build the actual function.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A rectangle has a perimeter of 24 cm. Write the area $A$ as a function of width $x$, and state the domain.",
+      "answer_latex": "A(x) = x(12 - x) = 12x - x^2, \\quad 0 < x < 12"
+    },
+    {
+      "prompt_latex": "A candle is 12 inches tall and burns at a rate of 0.5 inches per hour. Write the height $h$ as a function of time $t$ (in hours), and state the domain.",
+      "answer_latex": "h(t) = 12 - 0.5t, \\quad 0 \\le t \\le 24"
+    },
+    {
+      "prompt_latex": "An open box is made by cutting squares of side length $x$ from each corner of a 12 \\times 8 inch piece of cardboard and folding up the sides. Write the volume $V$ as a function of $x$, and state the domain.",
+      "answer_latex": "V(x) = x(12 - 2x)(8 - 2x), \\quad 0 < x < 4"
+    },
+    {
+      "prompt_latex": "A Norman window (a rectangle topped by a semicircle) has a total perimeter of 20 ft. If $x$ is the width of the rectangle, write the area $A$ of the entire window as a function of $x$.",
+      "answer_latex": "A(x) = x\\!\\left(20 - x - \\dfrac{\\pi x}{2}\\right)\\cdot\\dfrac{1}{2}\\cdot 2 + \\dfrac{\\pi}{2}\\left(\\dfrac{x}{2}\\right)^2 = x\\!\\left(\\dfrac{20 - x(1 + \\pi/2)}{2}\\right)\\cdot 2 \\text{ simplifies to } A(x) = 20x - \\dfrac{x^2}{2}(2+\\pi)/2"
+    },
+    {
+      "prompt_latex": "A car rental company charges \\$40 per day plus \\$0.15 per mile. A customer has a budget of \\$100 for a one-day rental. Write the number of miles $m$ the customer can drive as a function of the total cost $C$, then determine the maximum miles drivable within budget.",
+      "answer_latex": "m(C) = \\dfrac{C - 40}{0.15}; \\text{ maximum miles } = \\dfrac{100 - 40}{0.15} = 400 \\text{ miles}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write the area or cost formula with two variables and stop there, never using the constraint equation to eliminate one variable. The fix is to always ask: 'Do I have exactly one variable on the right side?' before declaring the model complete.",
+    "Students forget to state \u2014 or incorrectly state \u2014 the domain. For example, writing $0 < x < 200$ for the fencing problem instead of $0 < x < 100$, ignoring that the length must also be positive. Always substitute your domain endpoint back into every expression to check that all quantities remain physically meaningful.",
+    "Students confuse which quantity is the input and which is the output, writing something like $x(A) = \\ldots$ instead of $A(x) = \\ldots$. Before writing any equation, explicitly label 'input = ___' and 'output = ___' in words so the function notation reflects the correct dependency."
+  ],
+  "untested_variants": [
+    "Modeling problems involving two separate rates combining over time, such as two pipes filling a tank simultaneously, where the function involves reciprocals and rational expressions.",
+    "Optimization modeling where the constraint involves a fixed cost plus a variable cost and students must find the break-even point, requiring them to set two function models equal to each other.",
+    "Modeling with trigonometric functions, such as writing the height of a point on a rotating Ferris wheel as a function of time using $h(t) = A\\sin(Bt + C) + D$.",
+    "Modeling scenarios where the domain is determined by a piecewise condition \u2014 for instance, a shipping cost that changes rate after a certain weight threshold \u2014 requiring a piecewise-defined function model."
+  ]
+}

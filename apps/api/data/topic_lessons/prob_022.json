@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_022",
+  "topic_name": "Moment Generating Functions for Discrete Distributions (H)",
+  "generated_at": "2026-05-13T20:27:08.483137+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find the mean and variance of a discrete random variable by summing $x \\cdot P(X=x)$ and $x^2 \\cdot P(X=x)$ over all outcomes \u2014 a process that gets tedious fast, especially for higher moments. What if there were a single function that encoded ALL the moments of a distribution, letting you extract the mean, variance, and beyond through simple differentiation? The moment generating function does exactly this, but how do you build it, and why does differentiation give you moments?",
+  "concept": "A moment generating function (MGF) is a function of a dummy variable $t$ that 'generates' the moments of a random variable through its derivatives. For a discrete random variable $X$, the MGF is defined as $M_X(t) = E[e^{tX}] = \\sum_{x} e^{tx} P(X = x)$, wherever this sum converges. Evaluating derivatives at $t=0$ recovers the moments: $M_X^{(n)}(0) = E[X^n]$.",
+  "anatomy": "The MGF $M_X(t) = E[e^{tX}]$ has several key parts worth naming carefully. The variable $t$ is a real-valued dummy parameter \u2014 it is not a time or a probability, just a mathematical device that lets us 'tune' the function. The term $e^{tX}$ is the exponential kernel, which transforms the random variable $X$ into a form whose expectation encodes all moments via Taylor expansion: $e^{tX} = 1 + tX + \\frac{t^2 X^2}{2!} + \\cdots$. The expectation operator $E[\\cdot]$ converts this into a weighted sum over all possible values using the probability mass function $P(X=x)$. The $n$-th derivative $M_X^{(n)}(t)$ evaluated at $t=0$ isolates the $n$-th raw moment $E[X^n]$.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Bernoulli}(p), \\quad P(X=0) = 1-p, \\quad P(X=1) = p",
+      "description_latex": "We start by clearly stating the distribution. $X$ takes only two values, 0 and 1, so the sum in the MGF definition will have exactly two terms \u2014 this keeps the algebra clean and lets us see the structure clearly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_X(t) = E[e^{tX}] = e^{t \\cdot 0}(1-p) + e^{t \\cdot 1}(p) = (1-p) + pe^t",
+      "description_latex": "We apply the definition $M_X(t) = \\sum_x e^{tx} P(X=x)$ directly. The first term uses $x=0$, giving $e^0(1-p) = 1-p$, and the second uses $x=1$, giving $e^t \\cdot p$. This compact expression now encodes all moments of the Bernoulli distribution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_X'(t) = pe^t \\quad \\Rightarrow \\quad M_X'(0) = p = E[X]",
+      "description_latex": "We differentiate $M_X(t) = (1-p) + pe^t$ with respect to $t$ to get the first derivative, then evaluate at $t=0$. This recovers the mean $E[X] = p$, which matches what we already know for a Bernoulli random variable \u2014 confirming the method works.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_X''(t) = pe^t \\quad \\Rightarrow \\quad M_X''(0) = p = E[X^2]",
+      "description_latex": "Differentiating a second time and again evaluating at $t=0$ gives us the second raw moment $E[X^2] = p$. Notice that for a Bernoulli variable $X^2 = X$ since $0^2=0$ and $1^2=1$, so this result is consistent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Var}(X) = E[X^2] - (E[X])^2 = p - p^2 = p(1-p)",
+      "description_latex": "Once we have both $E[X]$ and $E[X^2]$ from the MGF, we apply the standard variance formula. This shows how the MGF provides everything needed to compute the variance without any separate lengthy calculation \u2014 you differentiate twice, evaluate at zero, and subtract.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Geometric}(p) \\text{ on } \\{1,2,3,\\ldots\\}, \\quad P(X=k) = (1-p)^{k-1}p",
+      "description_latex": "We want to find the MGF of a Geometric random variable. First, write out the definition: $M_X(t) = \\sum_{k=1}^{\\infty} e^{tk}(1-p)^{k-1}p$. We will need to recognise this as a geometric series.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_X(t) = \\sum_{k=1}^{\\infty} e^{tk}(1-p)^{k-1}p = pe^t \\sum_{k=1}^{\\infty} \\left(e^t(1-p)\\right)^{k-1}",
+      "description_latex": "Factor out $pe^t$ to isolate the geometric series. The sum $\\sum_{k=1}^{\\infty} r^{k-1} = \\frac{1}{1-r}$ converges when $|r| < 1$, so here we need $e^t(1-p) < 1$. Can you complete the next step by summing this geometric series to obtain a closed-form expression for $M_X(t)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "M_X(t) = \\frac{pe^t}{1 - (1-p)e^t}, \\quad t < -\\ln(1-p)",
+      "description_latex": "The closed form is obtained by applying the geometric series formula. Now differentiate $M_X(t)$ with respect to $t$ and evaluate at $t=0$ to find $E[X]$. Use the quotient rule carefully \u2014 what do you get for $M_X'(0)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "M_X'(t) = \\frac{pe^t}{(1-(1-p)e^t)^2} \\quad \\Rightarrow \\quad M_X'(0) = \\frac{p}{(1-(1-p))^2} = \\frac{p}{p^2} = \\frac{1}{p}",
+      "description_latex": "Applying the quotient rule and evaluating at $t=0$ confirms that $E[X] = 1/p$ for the Geometric distribution \u2014 a well-known result that we have now re-derived using the MGF, illustrating the power of this technique.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X$ take values $0$ and $2$ with $P(X=0)=\\frac{1}{2}$ and $P(X=2)=\\frac{1}{2}$. Write down $M_X(t)$.",
+      "answer_latex": "M_X(t) = \\frac{1}{2} + \\frac{1}{2}e^{2t}"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Bernoulli}(p)$ with MGF $M_X(t) = (1-p)+pe^t$. Use the MGF to verify that $\\text{Var}(X) = p(1-p)$.",
+      "answer_latex": "E[X] = M_X'(0) = p,\\quad E[X^2] = M_X''(0) = p,\\quad \\text{Var}(X) = p - p^2 = p(1-p)"
+    },
+    {
+      "prompt_latex": "A discrete random variable $X$ has $P(X=k) = \\frac{1}{4}$ for $k = 1,2,3,4$. Find $M_X(t)$ and use it to compute $E[X]$.",
+      "answer_latex": "M_X(t) = \\frac{1}{4}(e^t + e^{2t} + e^{3t} + e^{4t}),\\quad M_X'(0) = \\frac{1}{4}(1+2+3+4) = \\frac{5}{2}"
+    },
+    {
+      "prompt_latex": "The MGF of a Poisson random variable with parameter $\\lambda$ is $M_X(t) = e^{\\lambda(e^t - 1)}$. Use the MGF to find both $E[X]$ and $\\text{Var}(X)$.",
+      "answer_latex": "M_X'(t) = \\lambda e^t e^{\\lambda(e^t-1)},\\quad M_X'(0)=\\lambda;\\quad M_X''(0)=\\lambda^2+\\lambda;\\quad \\text{Var}(X)=\\lambda"
+    },
+    {
+      "prompt_latex": "A fair six-sided die is rolled. Let $X$ be the outcome. Write down $M_X(t)$ and use it to find $E[X]$. Then explain why $M_X(0) = 1$ must always hold for any valid MGF.",
+      "answer_latex": "M_X(t) = \\frac{1}{6}(e^t+e^{2t}+\\cdots+e^{6t}),\\quad E[X]=M_X'(0)=\\frac{1+2+3+4+5+6}{6}=3.5;\\quad M_X(0)=E[e^0]=E[1]=1 \\text{ since probabilities sum to 1}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to evaluate the derivative AT $t=0$ and instead just state $M_X'(t)$ as the mean. The $n$-th moment is specifically $M_X^{(n)}(0)$, not $M_X^{(n)}(t)$ \u2014 always substitute $t=0$ after differentiating.",
+    "When summing the geometric series to close the MGF of distributions like the Geometric, students apply the formula $\\frac{1}{1-r}$ without checking that $|r| < 1$. Failing to state the convergence condition (e.g. $e^t(1-p) < 1$) means the MGF is not properly defined and marks are lost.",
+    "Students confuse raw moments $E[X^n]$ with central moments and try to read the variance directly from $M_X''(0)$. The second derivative at zero gives $E[X^2]$, not $\\text{Var}(X)$ \u2014 you must still subtract $(E[X])^2$ using the formula $\\text{Var}(X) = M_X''(0) - [M_X'(0)]^2$."
+  ],
+  "untested_variants": [
+    "Using the MGF uniqueness theorem to identify an unknown distribution: given a closed-form MGF, recognise which named distribution it belongs to without being told in advance.",
+    "Finding the MGF of a linear transformation $Y = aX + b$ using the property $M_Y(t) = e^{bt} M_X(at)$, then using it to find moments of $Y$.",
+    "Finding the MGF of the sum of two independent discrete random variables by multiplying their individual MGFs, i.e. $M_{X+Y}(t) = M_X(t) \\cdot M_Y(t)$.",
+    "Using the cumulant generating function $K_X(t) = \\ln M_X(t)$ and its derivatives at zero to find the mean and variance more efficiently for distributions like the Poisson."
+  ]
+}

@@ -150,7 +150,11 @@ def ws_harness(monkeypatch, tmp_path):
         )
         created.append(session_id)
         client = TestClient(app)
-        return client.websocket_connect(f"/ws/tutor/{session_id}?token=t")
+        # M3: token travels via Sec-WebSocket-Protocol (["bearer", token]),
+        # not the URL. Assertions below are unchanged — only transport auth moved.
+        return client.websocket_connect(
+            f"/ws/tutor/{session_id}", subprotocols=["bearer", "t"]
+        )
 
     yield SimpleNamespace(connect=connect, state=state)
 

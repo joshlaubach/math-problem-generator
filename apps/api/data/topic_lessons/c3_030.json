@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_030",
+  "topic_name": "The Fundamental Theorem for Line Integrals",
+  "generated_at": "2026-05-13T00:37:54.109649+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to compute line integrals $\\int_C \\mathbf{F} \\cdot d\\mathbf{r}$ by parametrizing a curve and grinding through the algebra \u2014 and you've noticed that the answer can depend heavily on which path you choose. But in single-variable calculus, the Fundamental Theorem told you that $\\int_a^b F'(x)\\,dx = F(b) - F(a)$, making the integral trivially easy once you find an antiderivative. Is there a version of that shortcut for line integrals, and if so, what special structure does $\\mathbf{F}$ need to have for it to work?",
+  "concept": "When a vector field $\\mathbf{F}$ is the gradient of some scalar function $f$ \u2014 meaning $\\mathbf{F} = \\nabla f$ \u2014 we call $f$ a potential function and $\\mathbf{F}$ conservative. The Fundamental Theorem for Line Integrals then says: if $C$ is any smooth curve from point $A$ to point $B$, then $\\int_C \\mathbf{F} \\cdot d\\mathbf{r} = f(B) - f(A)$. The integral depends only on the endpoints, not on the path taken.",
+  "anatomy": "The theorem has four distinct components worth naming. First, the vector field $\\mathbf{F}$, which must be conservative (gradient of something) for the theorem to apply. Second, the potential function $f$, the scalar function satisfying $\\nabla f = \\mathbf{F}$; finding $f$ is the central computational task. Third, the terminal point $B$ (where $C$ ends) and the initial point $A$ (where $C$ starts), which are the only geometric information you need once $f$ is known. Fourth, the difference $f(B) - f(A)$, which replaces the entire path integral \u2014 exactly mirroring the structure of the single-variable Fundamental Theorem.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{F}(x,y) = \\langle 2xy + 1,\\; x^2 + 3y^2 \\rangle, \\quad C: \\text{ any smooth path from } (0,0) \\text{ to } (2,1)",
+      "description_latex": "We want to evaluate $\\int_C \\mathbf{F} \\cdot d\\mathbf{r}$. Before parametrizing anything, let's check whether $\\mathbf{F}$ is conservative by testing whether $\\frac{\\partial M}{\\partial y} = \\frac{\\partial N}{\\partial x}$, where $M = 2xy+1$ and $N = x^2 + 3y^2$. We get $\\frac{\\partial M}{\\partial y} = 2x$ and $\\frac{\\partial N}{\\partial x} = 2x$, so they match \u2014 $\\mathbf{F}$ is conservative on all of $\\mathbb{R}^2$, and the Fundamental Theorem applies.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_x = 2xy + 1 \\implies f(x,y) = x^2 y + x + g(y)",
+      "description_latex": "To find the potential function $f$, we integrate the first component with respect to $x$, treating $y$ as a constant. The 'constant of integration' is actually an unknown function $g(y)$ because $y$ is being held fixed during this partial integration \u2014 this is a crucial difference from ordinary integration.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_y = x^2 + g'(y) = x^2 + 3y^2 \\implies g'(y) = 3y^2 \\implies g(y) = y^3 + C",
+      "description_latex": "Now differentiate our expression for $f$ with respect to $y$ and set it equal to $N = x^2 + 3y^2$. The $x^2$ terms cancel perfectly (which confirms our conservative check), leaving $g'(y) = 3y^2$, so $g(y) = y^3$. We drop the arbitrary constant $C$ because we only need one valid potential function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x,y) = x^2 y + x + y^3",
+      "description_latex": "We have found the potential function. You should quickly verify this is correct by checking $\\nabla f = \\langle 2xy+1,\\; x^2+3y^2 \\rangle = \\mathbf{F}$ \u2014 always worth a 10-second sanity check before moving on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_C \\mathbf{F} \\cdot d\\mathbf{r} = f(2,1) - f(0,0) = \\bigl[(4)(1) + 2 + 1\\bigr] - \\bigl[0\\bigr] = 7",
+      "description_latex": "Now we simply evaluate $f$ at the terminal point $(2,1)$ and subtract its value at the initial point $(0,0)$. The entire path integral collapses to one arithmetic computation: $f(2,1) = 4 + 2 + 1 = 7$ and $f(0,0) = 0$, giving the answer $7$ \u2014 no parametrization required.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{F}(x,y) = \\langle ye^{xy} + 2x,\\; xe^{xy} - 1 \\rangle, \\quad C: \\text{ any smooth path from } (1,0) \\text{ to } (0,2)",
+      "description_latex": "We are asked to compute $\\int_C \\mathbf{F} \\cdot d\\mathbf{r}$. First verify conservativeness: $\\frac{\\partial}{\\partial y}(ye^{xy}+2x) = e^{xy} + xye^{xy}$ and $\\frac{\\partial}{\\partial x}(xe^{xy}-1) = e^{xy} + xye^{xy}$. They match, so $\\mathbf{F}$ is conservative and we can use the Fundamental Theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_x = ye^{xy} + 2x \\implies f(x,y) = e^{xy} + x^2 + g(y)",
+      "description_latex": "Integrating $f_x$ with respect to $x$ gives $f(x,y) = e^{xy} + x^2 + g(y)$. Notice that $\\int ye^{xy}\\,dx = e^{xy}$ because $y$ acts as a constant \u2014 this is why we get $e^{xy}$ and not something involving $y$ out front.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Differentiate $f(x,y) = e^{xy} + x^2 + g(y)$ with respect to $y$, set the result equal to $N = xe^{xy} - 1$, and solve for $g'(y)$ and then $g(y)$. What is the potential function $f(x,y)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\int_C \\mathbf{F} \\cdot d\\mathbf{r} = f(0,2) - f(1,0)",
+      "description_latex": "Once you have $f$, evaluate it at the terminal point $(0,2)$ and subtract its value at the initial point $(1,0)$ to get the final answer. What numerical value do you obtain?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $\\mathbf{F}(x,y) = \\langle 2x,\\; 6y \\rangle$ and $C$ is any smooth path from $(0,0)$ to $(3,1)$, compute $\\int_C \\mathbf{F} \\cdot d\\mathbf{r}$.",
+      "answer_latex": "15"
+    },
+    {
+      "prompt_latex": "Let $\\mathbf{F}(x,y) = \\langle 3x^2 y^2,\\; 2x^3 y \\rangle$. Find a potential function $f(x,y)$ and use it to evaluate $\\int_C \\mathbf{F} \\cdot d\\mathbf{r}$ where $C$ goes from $(1,2)$ to $(3,0)$.",
+      "answer_latex": "$f(x,y) = x^3 y^2$, so the integral equals $f(3,0) - f(1,2) = 0 - 4 = -4$"
+    },
+    {
+      "prompt_latex": "Evaluate $\\int_C \\langle \\cos x - y\\sin x,\\; \\cos x \\rangle \\cdot d\\mathbf{r}$ where $C$ is the parabola $y = x^2$ from $(0,0)$ to $(\\pi, \\pi^2)$.",
+      "answer_latex": "$f(x,y) = y\\cos x$, so the integral equals $f(\\pi,\\pi^2) - f(0,0) = \\pi^2\\cos\\pi - 0 = -\\pi^2$"
+    },
+    {
+      "prompt_latex": "Let $\\mathbf{F}(x,y,z) = \\langle yz,\\; xz,\\; xy \\rangle$ and let $C$ be any smooth path from $(1,1,1)$ to $(2,3,-1)$. Verify $\\mathbf{F}$ is conservative, find a potential function, and evaluate $\\int_C \\mathbf{F} \\cdot d\\mathbf{r}$.",
+      "answer_latex": "$f(x,y,z) = xyz$, so the integral equals $f(2,3,-1) - f(1,1,1) = -6 - 1 = -7$"
+    },
+    {
+      "prompt_latex": "A particle moves through a force field $\\mathbf{F}(x,y) = \\langle 4x^3 y^3 - 1,\\; 3x^4 y^2 + 2 \\rangle$ (in Newtons, with coordinates in meters). How much work does $\\mathbf{F}$ do on the particle as it travels along the spiral $\\mathbf{r}(t) = \\langle \\cos t, \\sin t \\rangle$ for $0 \\le t \\le \\pi$?",
+      "answer_latex": "$f(x,y) = x^4 y^3 - x + 2y$; start $= (1,0)$, end $= (-1,0)$; work $= f(-1,0) - f(1,0) = (1) - (-1) = 2$ Joules"
+    }
+  ],
+  "common_mistakes": [
+    "Students often evaluate $f(A) - f(B)$ instead of $f(B) - f(A)$, reversing the sign of the answer. Remember: you subtract the value at the starting point from the value at the ending point, exactly like the single-variable Fundamental Theorem $F(b) - F(a)$.",
+    "When finding the potential function, students treat $g(y)$ as a plain constant rather than an unknown function of $y$, writing $g(y) = C$ and stopping. This misses the $y$-dependent terms in $f$; always differentiate your expression for $f$ with respect to $y$ and compare to $N$ to determine $g'(y)$.",
+    "Students sometimes apply the Fundamental Theorem without first verifying that $\\mathbf{F}$ is conservative, using it even when $\\frac{\\partial M}{\\partial y} \\neq \\frac{\\partial N}{\\partial x}$. The theorem only holds for conservative fields \u2014 always check the curl (or mixed partial equality) condition before skipping the parametrization."
+  ],
+  "untested_variants": [
+    "Determining that a given vector field is NOT conservative and explaining why the Fundamental Theorem cannot be applied (e.g., a field with a non-zero curl).",
+    "Line integrals over closed curves $C$ where $\\mathbf{F}$ is conservative, requiring the student to recognize immediately that the integral equals zero without any computation.",
+    "Conservative fields in three dimensions $\\mathbf{F}(x,y,z) = \\langle P, Q, R \\rangle$ where finding $f$ requires three stages of partial integration and matching, rather than the two-stage process used in the practice problems above.",
+    "Problems where the potential function involves implicit domain restrictions (e.g., $f = \\ln(x^2+y^2)$ on a region excluding the origin), requiring the student to check that the path stays within a simply connected domain where the theorem is valid."
+  ]
+}

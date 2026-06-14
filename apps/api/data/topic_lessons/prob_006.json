@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_006",
+  "topic_name": "The Multiplication Principle",
+  "generated_at": "2026-05-13T20:25:33.087665+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to count items in a single list \u2014 if a menu has 4 sandwiches, you simply count to 4. But what if you also have 3 drinks to choose from, and you need to pick one sandwich AND one drink? Listing every combination by hand works for small numbers, but what about a lock with 3 dials each showing digits 0\u20139? Is there a faster principle that tells you the total number of combinations without listing them all?",
+  "concept": "The Multiplication Principle says that when a task is made up of independent stages, the total number of ways to complete the whole task is the product of the number of choices at each stage. Formally, if stage 1 has $n_1$ options, stage 2 has $n_2$ options, \u2026, and stage $k$ has $n_k$ options, then the total number of outcomes is $n_1 \\times n_2 \\times \\cdots \\times n_k$.",
+  "anatomy": "The Multiplication Principle has three key components. First, the stages (also called tasks or decisions) \u2014 these are the distinct, sequential choices you must make, such as 'pick a shirt' and then 'pick pants.' Second, the option counts $n_1, n_2, \\ldots, n_k$ \u2014 the number of available choices at each stage, which must be counted carefully and independently. Third, the independence condition \u2014 the number of options at one stage must not depend on what was chosen at a previous stage; if it does, the counts $n_i$ must be adjusted before multiplying.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Stages: (Top choice)} \\times \\text{(Bottom choice)} \\times \\text{(Shoe choice)}",
+      "description_latex": "We start by identifying the stages of the decision. You need to choose a top, then a bottom, then shoes \u2014 three independent stages. Breaking the problem into stages first prevents us from accidentally combining or skipping a decision.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n_1 = 5, \\quad n_2 = 3, \\quad n_3 = 4",
+      "description_latex": "Now we record the number of options at each stage: 5 tops, 3 bottoms, and 4 pairs of shoes. Notice that whatever top you pick, you still have exactly 3 bottoms to choose from \u2014 the stages are independent, so the counts stay fixed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Total outfits} = n_1 \\times n_2 \\times n_3 = 5 \\times 3 \\times 4",
+      "description_latex": "By the Multiplication Principle, we multiply the option counts across all stages. This single product replaces the tedious work of listing every outfit combination one by one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5 \\times 3 \\times 4 = 60",
+      "description_latex": "Carrying out the multiplication gives us 60 distinct outfits. This is our final answer \u2014 there are 60 ways to choose a complete outfit from the available clothing.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A license plate has 2 letters followed by 3 digits (letters: A\u2013Z; digits: 0\u20139).}",
+      "description_latex": "Read the problem carefully and note that there are 5 stages total: two letter choices and three digit choices. We need to figure out how many options exist at each stage before we can multiply.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n_{\\text{letter}} = 26, \\quad n_{\\text{digit}} = 10",
+      "description_latex": "There are 26 letters in the alphabet and 10 possible digits (0 through 9). Each position is filled independently, so these counts apply to every letter stage and every digit stage respectively.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Total} = 26 \\times 26 \\times 10 \\times 10 \\times 10",
+      "description_latex": "Set up the full multiplication by writing one factor for each of the five stages. Can you compute this product to find the total number of possible license plates?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A coin is flipped and a standard 6-sided die is rolled. How many different outcomes are possible?",
+      "answer_latex": "2 \\times 6 = 12"
+    },
+    {
+      "prompt_latex": "A restaurant offers 4 appetizers, 6 main courses, and 3 desserts. How many different three-course meals (one of each) can be ordered?",
+      "answer_latex": "4 \\times 6 \\times 3 = 72"
+    },
+    {
+      "prompt_latex": "How many 4-digit PIN codes are possible if each digit can be 0\u20139 and digits may repeat?",
+      "answer_latex": "10 \\times 10 \\times 10 \\times 10 = 10{,}000"
+    },
+    {
+      "prompt_latex": "A committee must choose a president, vice-president, and treasurer from 10 candidates, where no person can hold more than one office. How many different slates of officers are possible?",
+      "answer_latex": "10 \\times 9 \\times 8 = 720"
+    },
+    {
+      "prompt_latex": "A password must be exactly 5 characters long. Each character can be an uppercase letter (A\u2013Z) or a digit (0\u20139), and characters may repeat. How many passwords are possible?",
+      "answer_latex": "36^5 = 60{,}466{,}176"
+    }
+  ],
+  "common_mistakes": [
+    "Students add the option counts instead of multiplying \u2014 for example, writing $4 + 6 + 3 = 13$ instead of $4 \\times 6 \\times 3 = 72$. Addition counts how many options exist across the stages, not how many full combinations exist; always multiply when you must complete ALL stages.",
+    "When selections are made without replacement, students forget to reduce the option count for later stages \u2014 for example, computing $10 \\times 10 \\times 10$ for distinct officer positions instead of $10 \\times 9 \\times 8$. After each selection the pool shrinks by one, so the next stage has one fewer option.",
+    "Students miscount the number of stages by bundling two separate decisions into one \u2014 for example, treating 'pick a letter-digit pair' as a single stage with 260 options instead of two stages with 26 and 10. Always split the problem into its smallest independent decisions before applying the principle."
+  ],
+  "untested_variants": [
+    "Problems where the number of options at a later stage depends on the choice made at an earlier stage (conditional branching), requiring a case-by-case breakdown before multiplying.",
+    "Circular arrangements or problems involving rotational symmetry, where the Multiplication Principle must be adjusted by dividing out equivalent rotations.",
+    "Problems combining the Multiplication Principle with the Addition Principle \u2014 for example, counting outcomes that fall into two mutually exclusive multi-stage cases and then adding the subtotals.",
+    "Problems where repetition is explicitly forbidden AND the items are not all distinct (i.e., some items are identical), requiring careful adjustment of the denominator or stage counts."
+  ]
+}

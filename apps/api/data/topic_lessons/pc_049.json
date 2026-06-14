@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_049",
+  "topic_name": "Arithmetic and Geometric Sequences",
+  "generated_at": "2026-05-12T23:54:10.598989+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to work with linear and exponential functions \u2014 patterns that grow by adding a constant or multiplying by a constant. Now imagine you're saving money: you deposit $200 the first month, $350 the second, $500 the third, $650 the fourth. Or perhaps a bacterial culture doubles every hour starting from 5 cells. Both situations form lists of numbers with a predictable pattern, but the rules governing them are completely different. How do you find the 50th term of either list without writing out all 50 values?",
+  "concept": "A sequence is an ordered list of numbers where each term follows a rule. An arithmetic sequence adds the same fixed value (called the common difference) to each term: $a_n = a_1 + (n-1)d$. A geometric sequence multiplies each term by the same fixed value (called the common ratio): $a_n = a_1 \\cdot r^{n-1}$. The key distinction is additive growth versus multiplicative growth.",
+  "anatomy": "In the arithmetic formula $a_n = a_1 + (n-1)d$, the term $a_n$ is the $n$th term you want to find, $a_1$ is the first term that anchors the sequence, $n$ is the position number of the term, and $d$ is the common difference found by subtracting any term from the one that follows it: $d = a_{k+1} - a_k$. In the geometric formula $a_n = a_1 \\cdot r^{n-1}$, the letter $r$ is the common ratio found by dividing any term by the one before it: $r = a_{k+1} / a_k$. Notice that in both formulas the exponent or multiplier involves $(n-1)$, not $n$, because the first term requires zero 'jumps' from the starting value.",
+  "worked_example": [
+    {
+      "expression_latex": "3,\\ 7,\\ 11,\\ 15,\\ \\ldots",
+      "description_latex": "We are given an arithmetic sequence and need to identify its type before applying any formula. We check whether consecutive differences are constant: $7 - 3 = 4$, $11 - 7 = 4$, $15 - 11 = 4$, confirming this is arithmetic with common difference $d = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_1 = 3,\\quad d = 4",
+      "description_latex": "We record the two key ingredients the arithmetic formula requires. The first term is $a_1 = 3$ (the term that appears when $n = 1$) and the common difference is $d = 4$, which we just calculated.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_n = 3 + (n - 1)(4)",
+      "description_latex": "We substitute $a_1 = 3$ and $d = 4$ directly into the general formula $a_n = a_1 + (n-1)d$. This gives us a closed-form expression we can evaluate for any position $n$ without listing every previous term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_{20} = 3 + (20 - 1)(4) = 3 + 76 = 79",
+      "description_latex": "To find the 20th term, we substitute $n = 20$ into our formula. We compute $(20 - 1) = 19$ first, then $19 \\times 4 = 76$, and finally add the first term: $3 + 76 = 79$. This confirms that the 20th term is $79$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "2,\\ 6,\\ 18,\\ 54,\\ \\ldots \\quad \\text{Find } a_7.",
+      "description_latex": "We are asked to find the 7th term of this sequence. Before using any formula, we must determine whether this is arithmetic or geometric by checking ratios: $6/2 = 3$, $18/6 = 3$, $54/18 = 3$. Since the ratio is constant, this is a geometric sequence with $a_1 = 2$ and $r = 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_n = 2 \\cdot 3^{n-1}",
+      "description_latex": "We substitute $a_1 = 2$ and $r = 3$ into the geometric formula $a_n = a_1 \\cdot r^{n-1}$ to write the general term. This formula now works for any position $n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $n = 7$ into the formula $a_n = 2 \\cdot 3^{n-1}$ and simplify completely to find the 7th term. Remember to apply the exponent before multiplying by 2.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For the arithmetic sequence $5, 9, 13, 17, \\ldots$, find the common difference $d$ and the 10th term $a_{10}$.",
+      "answer_latex": "d = 4,\\quad a_{10} = 41"
+    },
+    {
+      "prompt_latex": "Find the 8th term of the geometric sequence $3, 6, 12, 24, \\ldots$",
+      "answer_latex": "a_8 = 3 \\cdot 2^7 = 384"
+    },
+    {
+      "prompt_latex": "An arithmetic sequence has $a_1 = -4$ and $a_6 = 16$. Find the common difference $d$ and write the general term $a_n$.",
+      "answer_latex": "d = 4,\\quad a_n = -4 + (n-1)(4) = 4n - 8"
+    },
+    {
+      "prompt_latex": "A geometric sequence has $a_1 = 5$ and $a_4 = 135$. Find the common ratio $r$ and the 6th term $a_6$.",
+      "answer_latex": "r = 3,\\quad a_6 = 5 \\cdot 3^5 = 1215"
+    },
+    {
+      "prompt_latex": "A concert hall has 20 seats in the first row. Each subsequent row has 3 more seats than the row before it. If there are 15 rows total, how many seats are in the last row, and how does this fit the model $a_n = a_1 + (n-1)d$?",
+      "answer_latex": "a_{15} = 20 + (14)(3) = 62 \\text{ seats}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use $a_n = a_1 + nd$ instead of $a_n = a_1 + (n-1)d$, effectively shifting every answer by one $d$-value. Remember: the first term needs zero additions of $d$, so the multiplier must be $(n-1)$, not $n$.",
+    "When identifying whether a sequence is arithmetic or geometric, students subtract all pairs of terms and conclude it is arithmetic without verifying, even when it is actually geometric (or neither). Always check both consecutive differences and consecutive ratios before choosing a formula.",
+    "In a geometric sequence, students write $a_n = a_1 \\cdot r^n$ instead of $a_n = a_1 \\cdot r^{n-1}$, which overstates the answer by a factor of $r$. Since the first term $a_1$ corresponds to $n = 1$ and involves no multiplication by $r$, the exponent must be $(n-1)$."
+  ],
+  "untested_variants": [
+    "Finding a missing term inside a sequence (e.g., given $a_3$ and $a_7$, find $a_5$) using the formula to set up and solve a system of two equations.",
+    "Determining whether a given sequence is arithmetic, geometric, or neither when consecutive differences and ratios are both non-constant.",
+    "Geometric sequences with a fractional or negative common ratio, such as $r = -\\tfrac{1}{2}$, where sign alternation and fraction arithmetic add complexity.",
+    "Using sequence formulas in combination with function notation, such as being asked to evaluate $f(n) = 3 \\cdot 2^{n-1}$ and interpret it as a geometric sequence in a table of values."
+  ]
+}

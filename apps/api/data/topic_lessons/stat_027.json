@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_027",
+  "topic_name": "Margin of Error and Sample Size",
+  "generated_at": "2026-05-13T20:31:18.096741+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know that a confidence interval looks like $\\bar{x} \\pm z^* \\frac{\\sigma}{\\sqrt{n}}$, and you can calculate one given the data. But imagine a pollster says, 'We want our estimate to be within 2 percentage points of the truth, with 95% confidence \u2014 how many people do we need to survey?' You'd know every piece of the formula except the very thing you're solving for: the sample size $n$. How do we flip the formula around to answer that question?",
+  "concept": "The margin of error (ME) is the 'plus or minus' part of a confidence interval \u2014 it tells you how far your estimate could stray from the true parameter. Formally, $ME = z^* \\cdot \\frac{\\sigma}{\\sqrt{n}}$, where $z^*$ is the critical value for your confidence level, $\\sigma$ is the population standard deviation, and $n$ is the sample size. To find the minimum $n$ needed to achieve a desired ME, you rearrange the formula to get $n = \\left(\\frac{z^* \\sigma}{ME}\\right)^2$, always rounding up to the next whole number.",
+  "anatomy": "The margin of error formula $ME = z^* \\cdot \\frac{\\sigma}{\\sqrt{n}}$ has four distinct components: the critical value $z^*$, which is determined entirely by the desired confidence level (e.g., $z^* = 1.96$ for 95% confidence); the population standard deviation $\\sigma$, which measures natural variability in the data; the sample size $n$, which appears under a square root so its effect on ME is nonlinear; and the target margin of error $ME$ itself, which is the maximum allowable error the researcher is willing to accept. When solving for $n$, you isolate it by first dividing both sides by $z^* \\sigma$ and then squaring \u2014 and critically, you always round $n$ up (ceiling), never down, because rounding down would give a margin of error slightly larger than desired.",
+  "worked_example": [
+    {
+      "expression_latex": "ME = z^* \\cdot \\frac{\\sigma}{\\sqrt{n}}",
+      "description_latex": "We start with the margin of error formula. Our goal is to find the sample size $n$ needed so that the margin of error is no greater than a specified value, so we need to solve this equation for $n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{n} = \\frac{z^* \\cdot \\sigma}{ME}",
+      "description_latex": "We isolate $\\sqrt{n}$ by multiplying both sides by $\\sqrt{n}$ and dividing both sides by $ME$. This rearrangement is the key algebraic step that puts $n$ within reach.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = \\left(\\frac{z^* \\cdot \\sigma}{ME}\\right)^2",
+      "description_latex": "Squaring both sides gives the sample size formula. Notice that $n$ grows with the square of $z^*$ and $\\sigma$, but shrinks with the square of $ME$ \u2014 cutting the margin of error in half requires four times the sample size.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = \\left(\\frac{1.96 \\cdot 15}{3}\\right)^2 = \\left(\\frac{29.4}{3}\\right)^2 = (9.8)^2 = 96.04",
+      "description_latex": "Now we plug in the specific values from our problem: a 95% confidence level gives $z^* = 1.96$, the population standard deviation is $\\sigma = 15$, and we want $ME = 3$. Substituting these values and computing gives $96.04$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = 97",
+      "description_latex": "Because $n$ must be a whole number and $96.04$ is not yet a whole number, we round up to $97$ \u2014 rounding down to $96$ would give a margin of error just slightly larger than $3$, which would violate our requirement. Always round up when solving for $n$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "n = \\left(\\frac{z^* \\cdot \\sigma}{ME}\\right)^2",
+      "description_latex": "A researcher wants to estimate a population mean with 90% confidence and a margin of error of no more than $5$. The population standard deviation is known to be $\\sigma = 20$. We start by writing the sample size formula. For 90% confidence, $z^* = 1.645$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = \\left(\\frac{1.645 \\cdot 20}{5}\\right)^2",
+      "description_latex": "We substitute $z^* = 1.645$, $\\sigma = 20$, and $ME = 5$ into the formula. Can you simplify the fraction inside the parentheses and then square it to find $n$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "You should have gotten $n = (6.58)^2 = 43.2964$. Now apply the correct rounding rule for sample size problems: what is the minimum whole-number sample size the researcher needs?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A 95% confidence interval for a population mean has $z^* = 1.96$, $\\sigma = 10$, and $n = 100$. Calculate the margin of error.",
+      "answer_latex": "ME = 1.96 \\cdot \\frac{10}{\\sqrt{100}} = 1.96 \\cdot 1 = 1.96"
+    },
+    {
+      "prompt_latex": "Find the minimum sample size needed to estimate a population mean within $ME = 4$ at 95% confidence ($z^* = 1.96$), given $\\sigma = 18$.",
+      "answer_latex": "n = \\left(\\frac{1.96 \\cdot 18}{4}\\right)^2 = (8.82)^2 = 77.79 \\Rightarrow n = 78"
+    },
+    {
+      "prompt_latex": "A study requires a margin of error of no more than $2.5$ with 99% confidence ($z^* = 2.576$) and $\\sigma = 12$. What is the minimum required sample size?",
+      "answer_latex": "n = \\left(\\frac{2.576 \\cdot 12}{2.5}\\right)^2 = (12.365)^2 = 152.89 \\Rightarrow n = 153"
+    },
+    {
+      "prompt_latex": "A researcher currently uses a sample of $n = 200$ and gets a margin of error of $ME_1$. If they quadruple the sample size to $n = 800$, by what factor does the margin of error change?",
+      "answer_latex": "ME \\propto \\frac{1}{\\sqrt{n}}, \\text{ so } \\frac{ME_2}{ME_1} = \\frac{\\sqrt{200}}{\\sqrt{800}} = \\frac{1}{2}. \\text{ The margin of error is halved.}"
+    },
+    {
+      "prompt_latex": "A quality control engineer wants to estimate the mean weight of cereal boxes within $1$ gram at 95% confidence. A pilot study suggests $\\sigma = 6$ grams. After computing the required $n$, the engineer's manager asks: 'What if we only need to be within $2$ grams?' How does the required sample size change, and what is the new $n$?",
+      "answer_latex": "\\text{Original: } n = \\left(\\frac{1.96 \\cdot 6}{1}\\right)^2 = (11.76)^2 = 138.3 \\Rightarrow 139. \\text{ New: } n = \\left(\\frac{1.96 \\cdot 6}{2}\\right)^2 = (5.88)^2 = 34.57 \\Rightarrow 35. \\text{ Doubling ME reduces } n \\text{ by a factor of } 4."
+    }
+  ],
+  "common_mistakes": [
+    "Students round the computed value of $n$ down instead of up. For example, getting $n = 43.29$ and writing $n = 43$ \u2014 but this sample is too small and would produce a margin of error slightly larger than desired. Always use ceiling (round up) when solving for sample size.",
+    "Students forget to square the entire fraction when applying $n = \\left(\\frac{z^* \\sigma}{ME}\\right)^2$. A common error is computing $n = \\frac{(z^*)^2 \\cdot \\sigma}{ME^2}$ or some other mis-squared version \u2014 write out the fraction in full and square the whole thing at once to avoid this.",
+    "Students use the wrong $z^*$ value for their confidence level, most often using $z^* = 2.0$ instead of $1.96$ for 95% confidence or confusing 90% ($z^* = 1.645$) with 99% ($z^* = 2.576$). Memorize the three standard critical values and double-check which confidence level the problem specifies before substituting."
+  ],
+  "untested_variants": [
+    "Solving for the required margin of error given a fixed sample size and budget constraint (a two-step word problem combining cost per participant with the sample size formula).",
+    "Using the sample size formula for proportions, $n = \\left(\\frac{z^*}{ME}\\right)^2 p^*(1-p^*)$, where $p^*$ is an estimated or conservative proportion \u2014 this formula has a different structure and is tested separately in proportion inference.",
+    "Finding the minimum sample size when $\\sigma$ is unknown and must be estimated from a pilot study standard deviation $s$, including discussion of why this is an approximation.",
+    "Interpreting the effect on margin of error when the confidence level is changed but $n$ is held fixed \u2014 for example, explaining why a 99% CI is always wider than a 95% CI for the same data, and quantifying the ratio of their margins of error."
+  ]
+}

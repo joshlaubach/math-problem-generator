@@ -1,0 +1,86 @@
+{
+  "topic_id": "geo_024",
+  "topic_name": "Compositions of Transformations",
+  "generated_at": "2026-05-12T22:59:16.402980+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to reflect a point across a line and how to translate a figure by a vector. But what happens when you need to do both \u2014 reflect first, then translate the result? The image you get is not the same as if you had only done one transformation, and the order you apply them can actually change the outcome entirely. Can you predict where a point ends up after two transformations are applied one after the other?",
+  "concept": "A composition of transformations is when you apply two or more transformations sequentially, using the output of one as the input of the next. Formally, if $T_1$ and $T_2$ are transformations, their composition is written $T_2 \\circ T_1$, meaning 'apply $T_1$ first, then apply $T_2$ to the result.' The final image depends on both the types of transformations and the order in which they are performed.",
+  "anatomy": "A composition $T_2 \\circ T_1$ has three distinct parts: the first transformation $T_1$, which acts on the original preimage to produce an intermediate image (often labeled with a single prime, $A'$); the second transformation $T_2$, which acts on that intermediate image to produce the final image (often labeled with a double prime, $A''$); and the composition rule itself, which specifies the order \u2014 right-to-left in function notation, meaning the rightmost transformation is always applied first.",
+  "worked_example": [
+    {
+      "expression_latex": "A = (2, 1)",
+      "description_latex": "We start with preimage point $A = (2, 1)$ and will apply two transformations in order: first a reflection across the $x$-axis, then a translation by the vector $\\langle 3, -2 \\rangle$. Identifying the starting point clearly before doing anything prevents mix-ups between the original and the images.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r_{x\\text{-axis}}(A) = A' = (2, -1)",
+      "description_latex": "Applying the first transformation \u2014 reflection across the $x$-axis \u2014 changes the sign of the $y$-coordinate while leaving $x$ unchanged, so $(2, 1)$ maps to $A' = (2, -1)$. This intermediate image $A'$ is our new input; we must use $A'$, not $A$, for the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T_{\\langle 3,-2 \\rangle}(A') = A'' = (2+3,\\; -1+(-2)) = (5, -3)",
+      "description_latex": "Now we apply the second transformation \u2014 translation by $\\langle 3, -2 \\rangle$ \u2014 to the intermediate image $A'=(2,-1)$, adding $3$ to the $x$-coordinate and $-2$ to the $y$-coordinate. The final image is $A'' = (5, -3)$, and this two-step process is exactly what the composition $T_{\\langle 3,-2 \\rangle} \\circ r_{x\\text{-axis}}$ means.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A'' = (5, -3)",
+      "description_latex": "The complete composition maps $A=(2,1)$ to $A''=(5,-3)$, and this result would be different if we had reversed the order of the two transformations \u2014 demonstrating that composition of transformations is generally not commutative. Always check which transformation is labeled 'first' before computing.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = (-1, 4)",
+      "description_latex": "We want to find the final image of $B = (-1, 4)$ under the composition: first a reflection across the $y$-axis, then a translation by $\\langle -2, 3 \\rangle$. We have already identified the preimage \u2014 now apply the first transformation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r_{y\\text{-axis}}(B) = B' = (1, 4)",
+      "description_latex": "Reflecting across the $y$-axis negates the $x$-coordinate and keeps $y$ the same, giving $B' = (1, 4)$. This is the intermediate image that feeds into the second transformation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the translation $\\langle -2, 3 \\rangle$ to the intermediate image $B' = (1, 4)$ \u2014 add $-2$ to the $x$-coordinate and $3$ to the $y$-coordinate \u2014 to find the final image $B''$. What are the coordinates of $B''$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "B'' = (-1, 7)",
+      "description_latex": "The final image is $B'' = (1+(-2),\\; 4+3) = (-1, 7)$, completing the composition. Notice that the $x$-coordinate of $B''$ happens to equal the $x$-coordinate of the original $B$, but $y$ has shifted \u2014 always compute rather than assume symmetry.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Point $P = (0, 3)$ is translated by $\\langle 4, -1 \\rangle$ and then reflected across the $x$-axis. Find $P''$.",
+      "answer_latex": "P'' = (4, -2)"
+    },
+    {
+      "prompt_latex": "Point $Q = (-3, 2)$ is reflected across the $y$-axis, then translated by $\\langle 1, -5 \\rangle$. Find $Q''$.",
+      "answer_latex": "Q'' = (4, -3)"
+    },
+    {
+      "prompt_latex": "Triangle $ABC$ has vertices $A=(1,0)$, $B=(3,0)$, $C=(2,2)$. Apply the composition: reflect across $y = x$ (which maps $(x,y) \\to (y,x)$), then translate by $\\langle -1, 2 \\rangle$. Find $A''$, $B''$, and $C''$.",
+      "answer_latex": "A'' = (-1, 3),\\; B'' = (-1, 5),\\; C'' = (1, 4)"
+    },
+    {
+      "prompt_latex": "Point $R = (2, -3)$ is rotated $90^\\circ$ counterclockwise about the origin (mapping $(x,y) \\to (-y, x)$), and then reflected across the $x$-axis. Find $R''$. Then determine whether reversing the order of the two transformations produces the same result.",
+      "answer_latex": "R'' = (-3, -2);\\text{ reversed order gives } (3, 2) \\neq R'',\\text{ so order matters}"
+    },
+    {
+      "prompt_latex": "A graphic designer moves a logo by reflecting it across the line $x = 0$ (the $y$-axis) and then translating it $5$ units right and $2$ units down. If the logo's anchor point starts at $(-4, 6)$, where does the anchor point end up after both steps?",
+      "answer_latex": "(9, 4)"
+    }
+  ],
+  "common_mistakes": [
+    "Students often apply the transformations in the wrong order, performing $T_2$ before $T_1$ even though the notation $T_2 \\circ T_1$ means 'do $T_1$ first.' Remember: in function composition, always read right-to-left and apply the rightmost transformation to the preimage first.",
+    "Students use the original preimage coordinates for the second transformation instead of the intermediate image coordinates from the first step. After the first transformation produces $A'$, every subsequent transformation must act on $A'$ (or the latest image), not on $A$.",
+    "When one transformation is a reflection, students forget to update only the correct coordinate \u2014 for example, reflecting across the $x$-axis changes only $y$, not $x$, and reflecting across the $y$-axis changes only $x$, not $y$. Mixing these up corrupts the intermediate image and makes the final answer wrong."
+  ],
+  "untested_variants": [
+    "Compositions involving two reflections across parallel lines (which produce a net translation) or across intersecting lines (which produce a net rotation) \u2014 recognizing these shortcut equivalences is a common exam question not covered in the practice problems.",
+    "Compositions of three or more transformations applied in sequence, where students must track preimage, first image, second image, and final image across three steps.",
+    "Compositions where the student is given the final image and must work backwards to find the preimage, reversing each transformation in the correct (reversed) order.",
+    "Glide reflections as a named composition type \u2014 translating along a line and then reflecting across that same line \u2014 presented as a single special transformation with its own properties."
+  ]
+}

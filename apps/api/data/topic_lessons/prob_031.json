@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_031",
+  "topic_name": "Marginal and Conditional Distributions",
+  "generated_at": "2026-05-13T20:28:04.724721+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to work with individual random variables \u2014 you can find probabilities like $P(X = 2)$ or compute expectations like $E[Y]$. Now suppose two random variables $X$ and $Y$ are described together in a joint distribution table, giving you $P(X = x, Y = y)$ for every combination. How do you recover the individual behavior of just $X$, or ask questions like 'what is the distribution of $Y$ given that we already know $X = 3$?' \u2014 and why are these two questions fundamentally different?",
+  "concept": "A joint distribution captures two variables at once, but often we want to zoom in on just one, or condition on partial information. The **marginal distribution** of $X$ is found by summing the joint probabilities over all values of $Y$: $P(X = x) = \\sum_y P(X = x, Y = y)$. The **conditional distribution** of $Y$ given $X = x$ rescales those joint probabilities so they add to 1 within the slice where $X = x$: $P(Y = y \\mid X = x) = \\frac{P(X = x, Y = y)}{P(X = x)}$.",
+  "anatomy": "Every marginal or conditional calculation draws on three building blocks from the joint table. First, the **joint probability** $P(X = x, Y = y)$ is the raw entry in the table \u2014 the probability that both variables take specific values simultaneously. Second, the **marginal probability** $P(X = x)$ is the row (or column) sum, obtained by collapsing the joint table along one dimension. Third, the **conditional probability** $P(Y = y \\mid X = x)$ is a ratio that uses the marginal as its denominator, effectively restricting the sample space to the event $\\{X = x\\}$ and re-normalizing. The direction of conditioning matters: $P(Y \\mid X)$ and $P(X \\mid Y)$ are computed from the same joint table but answer entirely different questions.",
+  "worked_example": [
+    {
+      "expression_latex": "\\begin{array}{c|cc|c} & Y=0 & Y=1 & \\\\ \\hline X=1 & 0.1 & 0.3 & \\\\ X=2 & 0.4 & 0.2 & \\\\ \\hline \\end{array}",
+      "description_latex": "Here is the joint distribution table for $X$ and $Y$. Each interior cell gives $P(X = x, Y = y)$, and notice that all four entries sum to $1.0$, which is the required total probability. Before doing anything else, it helps to confirm this sanity check: $0.1 + 0.3 + 0.4 + 0.2 = 1.0$. \u2713",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 1) = P(X=1, Y=0) + P(X=1, Y=1) = 0.1 + 0.3 = 0.4",
+      "description_latex": "To find the marginal distribution of $X$, we sum each row across all values of $Y$, because regardless of what $Y$ does, the event $\\{X = 1\\}$ includes both possibilities for $Y$. This is an application of the law of total probability: we are 'marginalizing out' $Y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 2) = 0.4 + 0.2 = 0.6 \\quad \\Rightarrow \\quad \\text{Marginal of } X: \\; P(X=1)=0.4,\\; P(X=2)=0.6",
+      "description_latex": "Repeating for the second row gives the complete marginal distribution of $X$. As a check, $0.4 + 0.6 = 1$, confirming these are valid probabilities. Notice that the marginal tells us nothing about $Y$ \u2014 it has been completely summed away.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(Y = y \\mid X = 1) = \\frac{P(X=1, Y=y)}{P(X=1)} = \\frac{P(X=1, Y=y)}{0.4}",
+      "description_latex": "Now we shift to a conditional question: given that $X = 1$, what is the distribution of $Y$? The formula divides each joint probability in the row $X = 1$ by the row's marginal total, $0.4$. The denominator is crucial \u2014 it re-normalizes so that the conditional probabilities within this row sum to $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(Y=0 \\mid X=1) = \\frac{0.1}{0.4} = 0.25, \\quad P(Y=1 \\mid X=1) = \\frac{0.3}{0.4} = 0.75",
+      "description_latex": "Plugging in the values from row $X = 1$ gives the conditional distribution of $Y$ given $X = 1$. We can verify: $0.25 + 0.75 = 1$ \u2713. Intuitively, knowing $X = 1$ shifts most of the probability toward $Y = 1$, which was already the dominant outcome in that row.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{array}{c|ccc} & Y=0 & Y=1 & Y=2 \\\\ \\hline X=0 & 0.05 & 0.15 & 0.10 \\\\ X=1 & 0.20 & 0.30 & 0.20 \\end{array}",
+      "description_latex": "Here is a new joint distribution table. Your goal is to find the marginal distribution of $Y$ and then compute $P(X = 0 \\mid Y = 1)$. Start by identifying the column sums to get the marginal of $Y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(Y=0) = 0.25, \\quad P(Y=1) = 0.45, \\quad P(Y=2) = 0.30",
+      "description_latex": "Each column is summed over both rows: for example, $P(Y=1) = 0.15 + 0.30 = 0.45$. These three values must add to $1$, and indeed $0.25 + 0.45 + 0.30 = 1.0$. \u2713",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now use the conditional probability formula to compute $P(X = 0 \\mid Y = 1)$. You will need the joint probability $P(X=0, Y=1) = 0.15$ and the marginal $P(Y=1) = 0.45$ that you just found. Set up the ratio and simplify \u2014 what fraction do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(X=0 \\mid Y=1) = \\frac{0.15}{0.45} = \\frac{1}{3} \\approx 0.333",
+      "description_latex": "The answer is $\\frac{1}{3}$, meaning that given $Y = 1$, there is only a one-in-three chance that $X = 0$. As a sanity check, $P(X=1 \\mid Y=1) = \\frac{0.30}{0.45} = \\frac{2}{3}$, and $\\frac{1}{3} + \\frac{2}{3} = 1$ \u2713.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A joint table has $P(X=0,Y=0)=0.2$, $P(X=0,Y=1)=0.5$, $P(X=1,Y=0)=0.1$, $P(X=1,Y=1)=0.2$. Find $P(Y=0)$.",
+      "answer_latex": "P(Y=0) = 0.2 + 0.1 = 0.3"
+    },
+    {
+      "prompt_latex": "Using the same table as Problem 1, find the complete marginal distribution of $X$.",
+      "answer_latex": "P(X=0) = 0.7, \\quad P(X=1) = 0.3"
+    },
+    {
+      "prompt_latex": "Using the same table as Problem 1, find $P(Y = 1 \\mid X = 0)$.",
+      "answer_latex": "P(Y=1 \\mid X=0) = \\dfrac{0.5}{0.7} = \\dfrac{5}{7} \\approx 0.714"
+    },
+    {
+      "prompt_latex": "A joint table for $X \\in \\{1,2\\}$ and $Y \\in \\{1,2,3\\}$ has entries: $P(1,1)=0.1$, $P(1,2)=0.2$, $P(1,3)=0.1$, $P(2,1)=0.3$, $P(2,2)=0.1$, $P(2,3)=0.2$. Are $X$ and $Y$ independent? Justify using marginals and the joint.",
+      "answer_latex": "P(X=1)=0.4,\\; P(X=2)=0.6,\\; P(Y=1)=0.4,\\; P(Y=2)=0.3,\\; P(Y=3)=0.3. \\text{ Check: } P(X=1)P(Y=1)=0.16 \\neq 0.1=P(X=1,Y=1), \\text{ so } X \\text{ and } Y \\text{ are NOT independent.}"
+    },
+    {
+      "prompt_latex": "A factory produces items with defect level $D \\in \\{0,1\\}$ and size $S \\in \\{\\text{small, large}\\}$. The joint probabilities are $P(D=0,S=\\text{small})=0.45$, $P(D=0,S=\\text{large})=0.35$, $P(D=1,S=\\text{small})=0.10$, $P(D=1,S=\\text{large})=0.10$. Given that an item is large, what is the probability it has a defect?",
+      "answer_latex": "P(S=\\text{large})=0.45, \\quad P(D=1 \\mid S=\\text{large}) = \\dfrac{0.10}{0.45} = \\dfrac{2}{9} \\approx 0.222"
+    }
+  ],
+  "common_mistakes": [
+    "Students compute the conditional $P(Y \\mid X = x)$ by dividing the joint probability by the *total* probability $1$ instead of by the marginal $P(X = x)$. This fails to re-normalize within the slice $\\{X = x\\}$; always use the marginal of the conditioning variable as the denominator.",
+    "When finding the marginal of $X$, students sum down a single column instead of across the entire row, accidentally computing the marginal of $Y$ instead. Remember: the marginal of $X$ is a row sum (fix $x$, vary $y$), while the marginal of $Y$ is a column sum (fix $y$, vary $x$).",
+    "Students confuse $P(Y = y \\mid X = x)$ with $P(X = x \\mid Y = y)$, treating conditioning as symmetric. These are generally different quantities \u2014 reversing the direction of conditioning requires Bayes' theorem and produces a completely different numerical answer."
+  ],
+  "untested_variants": [
+    "Continuous joint distributions, where marginals are computed via integration $f_X(x) = \\int_{-\\infty}^{\\infty} f_{X,Y}(x,y)\\,dy$ rather than summation over a table.",
+    "Computing the conditional expectation $E[Y \\mid X = x]$ by first finding the conditional distribution and then taking its weighted average \u2014 the practice problems only ask for conditional probabilities, not conditional expectations.",
+    "Using marginals to verify or disprove independence by checking whether $P(X=x, Y=y) = P(X=x)P(Y=y)$ holds for all pairs simultaneously (independence requires every cell, not just one).",
+    "Joint distributions of three or more variables, where marginalizing requires double sums and conditioning may involve entire sub-tables rather than a single row or column."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_008",
+  "topic_name": "Matrix Operations (Addition, Scalar Multiplication)",
+  "generated_at": "2026-05-13T20:05:27.029106+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to add numbers and multiply them by constants \u2014 skills you've used since middle school. Now imagine you have two spreadsheets full of data and you want to combine them entry by entry, or scale every value in one spreadsheet by the same factor. How would you do that systematically? Matrix addition and scalar multiplication give you exactly that power, but you might wonder: can you add ANY two matrices together, and what happens when their sizes don't match?",
+  "concept": "Matrix addition and scalar multiplication extend ordinary arithmetic to rectangular arrays of numbers. Formally, if $A$ and $B$ are both $m \\times n$ matrices, their sum $A + B$ is the $m \\times n$ matrix whose $(i,j)$ entry is $a_{ij} + b_{ij}$. For a scalar $c \\in \\mathbb{R}$ and matrix $A$, the scalar multiple $cA$ is the matrix whose $(i,j)$ entry is $c \\cdot a_{ij}$. Both operations work entry-by-entry.",
+  "anatomy": "Three components govern these operations. First, the entries $a_{ij}$ and $b_{ij}$ are the individual numbers sitting in row $i$, column $j$ of each matrix \u2014 they are what actually get added or scaled. Second, the size (or dimension) $m \\times n$ is the conformability condition: matrix addition is only defined when both matrices share the identical number of rows $m$ and columns $n$; mismatched sizes make addition undefined. Third, the scalar $c$ is an ordinary real (or complex) number that multiplies every entry uniformly \u2014 it is not a matrix and it does not interact with size requirements.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 1 & -2 \\\\ 0 & 4 \\end{pmatrix}, \\quad B = \\begin{pmatrix} 3 & 5 \\\\ -1 & 2 \\end{pmatrix}",
+      "description_latex": "We start by writing out both matrices clearly. Notice that $A$ and $B$ are each $2 \\times 2$ matrices, so they have the same dimensions \u2014 this means addition is defined and we can proceed entry by entry.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A + B = \\begin{pmatrix} 1+3 & -2+5 \\\\ 0+(-1) & 4+2 \\end{pmatrix}",
+      "description_latex": "To add two matrices, we add the corresponding entries: the $(1,1)$ entries together, the $(1,2)$ entries together, and so on. Think of it as overlaying the two grids and summing whatever numbers sit in the same cell.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A + B = \\begin{pmatrix} 4 & 3 \\\\ -1 & 6 \\end{pmatrix}",
+      "description_latex": "We simplify each entry to get the final result. The output matrix has the same $2 \\times 2$ shape as the inputs \u2014 matrix addition never changes the dimensions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3A = 3 \\begin{pmatrix} 1 & -2 \\\\ 0 & 4 \\end{pmatrix} = \\begin{pmatrix} 3(1) & 3(-2) \\\\ 3(0) & 3(4) \\end{pmatrix}",
+      "description_latex": "Now we apply scalar multiplication with $c = 3$. We distribute the scalar to every single entry of the matrix \u2014 no entry is skipped, not even the zero. This is why scalar multiplication is sometimes called 'uniform scaling' of the matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3A = \\begin{pmatrix} 3 & -6 \\\\ 0 & 12 \\end{pmatrix}",
+      "description_latex": "After computing each product, we arrive at the scalar multiple. Observe that the zero entry remained zero (since $3 \\cdot 0 = 0$), which is always true \u2014 multiplying by any scalar cannot turn a zero into a nonzero entry, and multiplying by zero turns the entire matrix into the zero matrix.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "C = \\begin{pmatrix} 2 & 0 & -1 \\\\ 3 & -4 & 5 \\end{pmatrix}, \\quad D = \\begin{pmatrix} -2 & 1 & 3 \\\\ 0 & 4 & -5 \\end{pmatrix}",
+      "description_latex": "Here are two matrices $C$ and $D$. Before doing any arithmetic, confirm that they are both $2 \\times 3$ matrices so that addition is defined. Our goal is to compute $2C + D$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2C = \\begin{pmatrix} 4 & 0 & -2 \\\\ 6 & -8 & 10 \\end{pmatrix}",
+      "description_latex": "We handle the scalar multiplication first by multiplying every entry of $C$ by $2$. This step comes before addition, just like the order of operations for numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now add $2C$ and $D$ entry by entry to find $2C + D$. Write out the full $2 \\times 3$ result matrix \u2014 make sure you align corresponding positions carefully.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "2C + D = \\begin{pmatrix} 2 & 1 & 1 \\\\ 6 & -4 & 5 \\end{pmatrix}",
+      "description_latex": "This is the completed answer. If your result differs in any entry, go back and check whether you added the correct pair of entries \u2014 a common slip is shifting one row or column when the matrix has three columns.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 5 & -3 \\\\ 2 & 0 \\end{pmatrix}$ and $B = \\begin{pmatrix} -5 & 3 \\\\ -2 & 0 \\end{pmatrix}$. Compute $A + B$.",
+      "answer_latex": "A + B = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $P = \\begin{pmatrix} 1 & 4 \\\\ -2 & 3 \\end{pmatrix}$. Compute $-3P$.",
+      "answer_latex": "-3P = \\begin{pmatrix} -3 & -12 \\\\ 6 & -9 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $M = \\begin{pmatrix} 0 & 2 & -1 \\\\ 3 & -3 & 4 \\end{pmatrix}$ and $N = \\begin{pmatrix} 1 & -2 & 5 \\\\ -3 & 1 & -4 \\end{pmatrix}$. Compute $2M + 3N$.",
+      "answer_latex": "2M + 3N = \\begin{pmatrix} 3 & -2 & 13 \\\\ -3 & -3 & -4 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Matrices $A$ and $B$ satisfy $3A - 2B = \\begin{pmatrix} 1 & 5 \\\\ -1 & 4 \\end{pmatrix}$ and $A = \\begin{pmatrix} 1 & 1 \\\\ 0 & 2 \\end{pmatrix}$. Find $B$.",
+      "answer_latex": "B = \\begin{pmatrix} 1 & -1 \\\\ \\tfrac{1}{2} & 1 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A store tracks weekly sales in two departments. Week 1 sales (in thousands): $S_1 = \\begin{pmatrix} 4 & 7 \\\\ 2 & 5 \\end{pmatrix}$. Week 2 sales: $S_2 = \\begin{pmatrix} 6 & 3 \\\\ 4 & 8 \\end{pmatrix}$. Management wants to report total two-week sales and also a 'doubled projection' $2(S_1 + S_2)$ for next month. Compute $2(S_1 + S_2)$.",
+      "answer_latex": "2(S_1 + S_2) = \\begin{pmatrix} 20 & 20 \\\\ 12 & 26 \\end{pmatrix}"
+    }
+  ],
+  "common_mistakes": [
+    "Students attempt to add matrices of different sizes, such as a $2 \\times 2$ and a $2 \\times 3$, by lining up the rows and leaving blanks for missing entries. Matrix addition is simply undefined when dimensions differ \u2014 there is no partial result, so always check dimensions first before writing a single number.",
+    "When computing $cA + B$, students apply the scalar $c$ to $B$ as well as $A$, writing $cA + cB$ instead of $cA + B$. The scalar only multiplies the matrix it is directly attached to; treat the expression exactly like arithmetic order of operations and distribute only when brackets explicitly require it.",
+    "Students add corresponding entries correctly but then report a matrix of the wrong size \u2014 for example, writing a $1 \\times 4$ row instead of a $2 \\times 2$ grid. The output of $A + B$ must always be the same $m \\times n$ shape as the inputs; reshape your answer into the correct grid before checking your work."
+  ],
+  "untested_variants": [
+    "Solving a matrix equation of the form $A + X = B$ for an unknown matrix $X$ (requires rearranging to $X = B - A$, tested algebraically rather than by direct computation).",
+    "Verifying or applying algebraic properties such as commutativity $A + B = B + A$ or associativity $(A + B) + C = A + (B + C)$ as proof-based or fill-in-the-blank exercises.",
+    "Operations involving complex-valued matrices, where entries are complex numbers and the scalar is also complex, requiring students to handle real and imaginary parts separately.",
+    "Combining scalar multiplication with the transpose operation, for example showing that $(cA)^T = cA^T$, which links matrix operations to a topic typically introduced later in the unit."
+  ]
+}

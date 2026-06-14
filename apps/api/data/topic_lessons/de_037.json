@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_037",
+  "topic_name": "Power Series Review",
+  "generated_at": "2026-05-13T20:03:08.409912+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to work with polynomials \u2014 finite sums like $3 + 2x - x^2$ that are easy to differentiate and integrate term by term. But what happens when you need to represent a function like $e^x$ or $\\sin x$ exactly, not just approximately, as an infinite sum of powers of $x$? Differential equations with non-constant coefficients often have solutions that cannot be written in terms of elementary functions at all, and the only way to express them is as an infinite power series. So the question is: how do you manipulate an infinite sum of terms $a_n x^n$ as if it were just a very long polynomial?",
+  "concept": "A power series is an infinite sum of terms built from powers of $(x - x_0)$, where $x_0$ is called the center. Formally, a power series centered at $x_0$ is $\\sum_{n=0}^{\\infty} a_n (x - x_0)^n = a_0 + a_1(x-x_0) + a_2(x-x_0)^2 + \\cdots$, where the $a_n$ are constants called coefficients. The series converges (gives a finite value) for $x$ within a radius of convergence $R$ around $x_0$, and inside that interval it behaves like an infinitely long polynomial.",
+  "anatomy": "Every power series $\\sum_{n=0}^{\\infty} a_n (x - x_0)^n$ has four key parts worth naming precisely. The index $n$ is the summation variable, always a non-negative integer that labels each term. The coefficients $a_n$ are the constants that determine the 'shape' of the series \u2014 finding them is often the whole point of a series solution. The center $x_0$ is the base point around which the series is built; for most differential equations problems you will use $x_0 = 0$, giving the simpler form $\\sum_{n=0}^{\\infty} a_n x^n$. Finally, the radius of convergence $R$ (found via the ratio test: $R = \\lim_{n\\to\\infty}|a_n/a_{n+1}|$) defines the open interval $(x_0 - R,\\, x_0 + R)$ where the series actually converges to a function.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = \\sum_{n=0}^{\\infty} a_n x^n = a_0 + a_1 x + a_2 x^2 + a_3 x^3 + \\cdots",
+      "description_latex": "We start by writing out the first few terms of a general power series centered at $x_0 = 0$ so we can see its structure concretely. Thinking of this as an infinitely long polynomial is exactly the right mental model \u2014 every rule you know about polynomials (adding, differentiating, multiplying by $x$) will carry over term by term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = \\sum_{n=1}^{\\infty} n\\, a_n x^{n-1} = a_1 + 2a_2 x + 3a_3 x^2 + \\cdots",
+      "description_latex": "We differentiate term by term, exactly as we would for a polynomial, using the power rule on each $a_n x^n$ to get $n a_n x^{n-1}$. Notice that the $n=0$ term vanishes (the derivative of a constant is zero), so the sum starts at $n=1$ \u2014 this index shift is crucial to keep track of.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = \\sum_{n=0}^{\\infty} (n+1)\\, a_{n+1}\\, x^{n}",
+      "description_latex": "We re-index the derivative by substituting $m = n - 1$ (equivalently, replacing $n$ with $n+1$ throughout): the lower limit shifts back to $0$, and every $n$ becomes $n+1$. This re-indexing trick is essential when you need two series in a differential equation to share the same power $x^n$ so you can match coefficients.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f''(x) = \\sum_{n=0}^{\\infty} (n+2)(n+1)\\, a_{n+2}\\, x^{n}",
+      "description_latex": "We differentiate once more and re-index in the same way, so the second derivative is also expressed as a power series starting at $n=0$ with the general power $x^n$. Having $f$, $f'$, and $f''$ all written with the same index structure and the same power $x^n$ is what makes it possible to substitute into a differential equation and collect like terms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R = \\lim_{n \\to \\infty} \\left|\\frac{a_n}{a_{n+1}}\\right|",
+      "description_latex": "Finally, once you have a series with known coefficients $a_n$, you find where it converges using the ratio test in this convenient form: $R = \\lim_{n\\to\\infty}|a_n/a_{n+1}|$. For example, if $a_n = 1/n!$ (as in the series for $e^x$), then $R = \\lim_{n\\to\\infty} (n+1)!/n! = \\lim_{n\\to\\infty}(n+1) = \\infty$, meaning the series converges for all $x$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = \\sum_{n=0}^{\\infty} \\frac{x^n}{n!}",
+      "description_latex": "Here is the power series for $e^x$ centered at $x_0 = 0$. We want to find $g'(x)$ by differentiating term by term and then re-index so the result starts at $n = 0$ with a general $x^n$ term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g'(x) = \\sum_{n=1}^{\\infty} \\frac{n\\, x^{n-1}}{n!} = \\sum_{n=1}^{\\infty} \\frac{x^{n-1}}{(n-1)!}",
+      "description_latex": "Differentiating each term with the power rule gives $\\frac{n}{n!} = \\frac{1}{(n-1)!}$, so we simplify the coefficient. We still need to shift the index so the series starts at $n=0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now re-index by letting $m = n - 1$ (so $n = m + 1$) and rewrite $g'(x)$ as a sum starting at $m = 0$. What is the resulting expression, and what does it confirm about the derivative of $e^x$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the ratio test formula $R = \\lim_{n\\to\\infty}|a_n / a_{n+1}|$ with $a_n = 1/n!$, compute the radius of convergence of this series. Show each step of the limit clearly.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write out the first four nonzero terms of $\\sum_{n=0}^{\\infty} (-1)^n x^{2n}$ and identify $a_0,\\, a_1,\\, a_2,\\, a_3$.",
+      "answer_latex": "1 - x^2 + x^4 - x^6 + \\cdots;\\quad a_0 = 1,\\; a_1 = 0,\\; a_2 = -1,\\; a_3 = 0"
+    },
+    {
+      "prompt_latex": "Find $f'(x)$ for $f(x) = \\sum_{n=0}^{\\infty} c_n x^n$ and re-index so the result is written as $\\sum_{n=0}^{\\infty} (\\text{something}) x^n$.",
+      "answer_latex": "f'(x) = \\sum_{n=0}^{\\infty} (n+1)\\,c_{n+1}\\, x^n"
+    },
+    {
+      "prompt_latex": "Find $h''(x)$ for $h(x) = \\sum_{n=0}^{\\infty} a_n x^n$, re-indexed so it starts at $n=0$ with the general power $x^n$.",
+      "answer_latex": "h''(x) = \\sum_{n=0}^{\\infty} (n+2)(n+1)\\,a_{n+2}\\,x^n"
+    },
+    {
+      "prompt_latex": "Find the radius of convergence of $\\sum_{n=0}^{\\infty} \\frac{n!}{3^n} x^n$ using the ratio test.",
+      "answer_latex": "R = \\lim_{n\\to\\infty}\\left|\\frac{a_n}{a_{n+1}}\\right| = \\lim_{n\\to\\infty}\\frac{3^{n+1}}{(n+1)\\cdot 3^n} = \\lim_{n\\to\\infty}\\frac{3}{n+1} = 0"
+    },
+    {
+      "prompt_latex": "Suppose a series solution to a differential equation gives $f(x) = \\sum_{n=0}^{\\infty} a_n x^n$ where $a_0 = 1$, $a_1 = 0$, and $a_{n+2} = \\frac{a_n}{(n+2)(n+1)}$ for $n \\geq 0$. Find the coefficients $a_2, a_4$ and recognize what familiar function $f(x)$ represents.",
+      "answer_latex": "a_2 = \\tfrac{1}{2},\\; a_4 = \\tfrac{1}{24};\\quad f(x) = \\cosh x = \\sum_{n=0}^{\\infty}\\frac{x^{2n}}{(2n)!}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to shift the lower index of summation after differentiating: when you differentiate $\\sum_{n=0}^{\\infty} a_n x^n$ the $n=0$ term vanishes, so the sum genuinely starts at $n=1$; skipping this step causes an off-by-one error when re-indexing, so always explicitly note the new starting index before making the substitution.",
+    "When re-indexing, students replace $n$ with $n+1$ in the summand but forget to replace it in the coefficient as well \u2014 for example, writing $\\sum_{n=0}^{\\infty} (n)\\,a_n x^{n-1}$ after the shift instead of $\\sum_{n=0}^{\\infty}(n+1)a_{n+1}x^n$; the fix is to substitute $n \\to n+1$ simultaneously everywhere $n$ appears, including the subscript on $a$.",
+    "Students apply the ratio test as $\\lim_{n\\to\\infty}|a_{n+1}/a_n|$ to find $R$ directly, which actually gives $1/R$ (that limit gives the reciprocal of the radius); remember that $R = \\lim_{n\\to\\infty}|a_n/a_{n+1}|$ with the ratio flipped, or alternatively use $L = \\lim|a_{n+1}/a_n|$ and take $R = 1/L$."
+  ],
+  "untested_variants": [
+    "Multiplying two power series together using the Cauchy product formula $\\left(\\sum a_n x^n\\right)\\left(\\sum b_n x^n\\right) = \\sum_{n=0}^{\\infty}\\left(\\sum_{k=0}^n a_k b_{n-k}\\right)x^n$, which appears when a differential equation has a product of two series solutions.",
+    "Finding the radius of convergence of a power series centered at a nonzero point $x_0 \\neq 0$, such as $\\sum_{n=0}^{\\infty} \\frac{(x-2)^n}{n^2}$, and determining the actual interval of convergence by checking endpoints.",
+    "Integrating a power series term by term to recover a function from its derivative series, including adjusting the constant of integration, which arises when reconstructing a solution from a known derivative expansion.",
+    "Expressing a known function like $\\sin x$ or $\\ln(1+x)$ as a power series by repeated differentiation (Taylor's theorem) and identifying the pattern for the general coefficient $a_n = f^{(n)}(x_0)/n!$."
+  ]
+}

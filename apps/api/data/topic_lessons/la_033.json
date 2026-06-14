@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_033",
+  "topic_name": "Dual Spaces and Dual Transformations (H)",
+  "generated_at": "2026-05-13T20:08:14.895721+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how a linear transformation $T: V \\to W$ acts on vectors, and you understand how its matrix changes when you pick different bases. But what happens if, instead of transforming vectors, you want to transform the *functions* that eat vectors and return scalars? For example, if $\\phi: W \\to \\mathbb{R}$ is a linear functional on the output space, can you use $T$ to 'pull it back' to a linear functional on $V$? This is the idea behind the dual transformation \u2014 and it raises the question: what is the relationship between the matrix of $T$ and the matrix of this pulled-back map?",
+  "concept": "The dual space $V^*$ of a vector space $V$ is the set of all linear maps $\\phi: V \\to \\mathbb{R}$ (called linear functionals), which itself forms a vector space. Given a linear transformation $T: V \\to W$, the dual transformation (or transpose map) $T^*: W^* \\to V^*$ is defined by $T^*(\\phi) = \\phi \\circ T$, meaning $T^*$ pulls a functional on $W$ back to a functional on $V$ by pre-composing with $T$.",
+  "anatomy": "The dual transformation $T^*: W^* \\to V^*$ has several distinct components worth naming carefully. The domain $W^*$ consists of linear functionals $\\phi: W \\to \\mathbb{R}$, while the codomain $V^*$ consists of linear functionals $\\psi: V \\to \\mathbb{R}$. The defining operation is pre-composition: $(T^*(\\phi))(v) = \\phi(T(v))$ for every vector $v \\in V$. If $T$ has matrix $A$ with respect to chosen bases, then $T^*$ has matrix $A^T$ (the transpose) with respect to the corresponding dual bases. The dual basis $\\{e_1^*, \\ldots, e_n^*\\}$ of $V^*$ is defined by the rule $e_i^*(e_j) = \\delta_{ij}$, where $\\delta_{ij}$ is the Kronecker delta.",
+  "worked_example": [
+    {
+      "expression_latex": "T: \\mathbb{R}^2 \\to \\mathbb{R}^2, \\quad T(x_1, x_2) = (2x_1 + x_2,\\; x_1 - x_2)",
+      "description_latex": "We start by writing down the transformation $T$ explicitly. This gives us a concrete linear map whose matrix is $A = \\begin{pmatrix} 2 & 1 \\\\ 1 & -1 \\end{pmatrix}$, and our goal is to find the dual transformation $T^*$ and verify its matrix is $A^T$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\phi \\in (\\mathbb{R}^2)^*, \\quad \\phi(y_1, y_2) = ay_1 + by_2 \\text{ for constants } a, b \\in \\mathbb{R}",
+      "description_latex": "Every linear functional on $\\mathbb{R}^2$ has exactly this form \u2014 a dot product with a fixed vector. We pick a general element $\\phi$ of the dual space $W^* = (\\mathbb{R}^2)^*$ so we can track how $T^*$ acts on it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(T^*(\\phi))(x_1, x_2) = \\phi(T(x_1, x_2)) = \\phi(2x_1 + x_2,\\; x_1 - x_2)",
+      "description_latex": "This is the definition of $T^*$ in action: we pre-compose $\\phi$ with $T$. Notice the arrow of $T^*$ runs from $W^*$ back to $V^*$, which is why the input $\\phi$ lives on $W$ but the output functional acts on vectors in $V$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(T^*(\\phi))(x_1, x_2) = a(2x_1 + x_2) + b(x_1 - x_2) = (2a + b)x_1 + (a - b)x_2",
+      "description_latex": "Now we expand by substituting the formula for $\\phi$. The result is a new linear functional on $\\mathbb{R}^2$ with coefficients $(2a+b, a-b)$, which we can read as a row vector acting on the column $(x_1, x_2)^T$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{pmatrix} 2a + b \\\\ a - b \\end{pmatrix} = \\begin{pmatrix} 2 & 1 \\\\ 1 & -1 \\end{pmatrix} \\begin{pmatrix} a \\\\ b \\end{pmatrix} = A^T \\begin{pmatrix} a \\\\ b \\end{pmatrix}",
+      "description_latex": "Writing the coefficients of the new functional as a column vector, we see they are produced by multiplying $(a, b)^T$ by $A^T = \\begin{pmatrix} 2 & 1 \\\\ 1 & -1 \\end{pmatrix}$. This confirms the key theorem: the matrix of $T^*$ with respect to the dual bases is precisely the transpose $A^T$ of the matrix of $T$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T: \\mathbb{R}^2 \\to \\mathbb{R}^3, \\quad T(x_1, x_2) = (x_1 + x_2,\\; 2x_1,\\; x_2), \\quad A = \\begin{pmatrix} 1 & 1 \\\\ 2 & 0 \\\\ 0 & 1 \\end{pmatrix}",
+      "description_latex": "Here is a transformation from $\\mathbb{R}^2$ to $\\mathbb{R}^3$ with matrix $A$. We want to find $T^*(\\phi)$ for the functional $\\phi(y_1, y_2, y_3) = 3y_1 - y_2 + 2y_3 \\in (\\mathbb{R}^3)^*$, and then verify the result matches $A^T$ applied to the coefficient vector of $\\phi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(T^*(\\phi))(x_1, x_2) = \\phi(T(x_1, x_2)) = 3(x_1 + x_2) - (2x_1) + 2(x_2)",
+      "description_latex": "We substitute $T(x_1, x_2) = (x_1+x_2, 2x_1, x_2)$ into $\\phi$. Expanding gives us a linear combination of $x_1$ and $x_2$, which is a functional on $\\mathbb{R}^2$ \u2014 exactly what we expect since $T^*(\\phi) \\in (\\mathbb{R}^2)^*$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Collect the coefficients of $x_1$ and $x_2$ to write $T^*(\\phi)$ in the form $c_1 x_1 + c_2 x_2$. Then verify that the coefficient vector $(c_1, c_2)^T$ equals $A^T (3, -1, 2)^T$. What are $c_1$ and $c_2$, and what is $A^T$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "A^T = \\begin{pmatrix} 1 & 2 & 0 \\\\ 1 & 0 & 1 \\end{pmatrix}, \\quad A^T \\begin{pmatrix} 3 \\\\ -1 \\\\ 2 \\end{pmatrix} = \\begin{pmatrix} 1 \\\\ 5 \\end{pmatrix}, \\quad T^*(\\phi) = x_1 + 5x_2",
+      "description_latex": "The coefficients you should find are $c_1 = 3 - 2 = 1$ and $c_2 = 3 + 2 = 5$, giving $T^*(\\phi)(x_1,x_2) = x_1 + 5x_2$. Multiplying $A^T$ by the coefficient vector $(3,-1,2)^T$ yields the same $(1,5)^T$, confirming the matrix of $T^*$ is $A^T$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $\\phi: \\mathbb{R}^2 \\to \\mathbb{R}$ be given by $\\phi(y_1, y_2) = 4y_1 - y_2$. Identify the coefficient vector of $\\phi$ in $((\\mathbb{R}^2)^*)$ with respect to the dual basis.",
+      "answer_latex": "(4, -1)^T"
+    },
+    {
+      "prompt_latex": "Let $T: \\mathbb{R}^2 \\to \\mathbb{R}^2$ have matrix $A = \\begin{pmatrix} 3 & 0 \\\\ -1 & 2 \\end{pmatrix}$ and let $\\phi(y_1, y_2) = y_1 + 2y_2$. Compute $T^*(\\phi)$ explicitly as a formula in $x_1, x_2$.",
+      "answer_latex": "T^*(\\phi)(x_1, x_2) = (3x_1 - x_2) + 2(-0 \\cdot x_1 + 2x_2) = 3x_1 - x_1 + 4x_2; \\text{ i.e., } T^*(\\phi) = (3)(x_1) + (- 1 + 4)x_2. \\text{ More carefully: } A^T\\begin{pmatrix}1\\\\2\\end{pmatrix} = \\begin{pmatrix}3&-1\\\\0&2\\end{pmatrix}\\begin{pmatrix}1\\\\2\\end{pmatrix} = \\begin{pmatrix}1\\\\4\\end{pmatrix}, \\text{ so } T^*(\\phi) = x_1 + 4x_2"
+    },
+    {
+      "prompt_latex": "Let $T: \\mathbb{R}^3 \\to \\mathbb{R}^2$ have matrix $A = \\begin{pmatrix} 1 & 0 & -1 \\\\ 2 & 3 & 1 \\end{pmatrix}$. Write down the matrix of the dual transformation $T^*: (\\mathbb{R}^2)^* \\to (\\mathbb{R}^3)^*$.",
+      "answer_latex": "A^T = \\begin{pmatrix} 1 & 2 \\\\ 0 & 3 \\\\ -1 & 1 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $T: \\mathbb{R}^2 \\to \\mathbb{R}^2$ be defined by $T(x_1,x_2) = (x_1 - x_2, 2x_2)$. Find $\\ker(T^*)$ by computing $A^T$ and finding its null space.",
+      "answer_latex": "A = \\begin{pmatrix}1&-1\\\\0&2\\end{pmatrix}, \\; A^T = \\begin{pmatrix}1&0\\\\-1&2\\end{pmatrix}. \\; \\det(A^T)=2 \\neq 0, \\text{ so } \\ker(T^*) = \\{\\mathbf{0}\\}."
+    },
+    {
+      "prompt_latex": "Suppose $T: V \\to W$ is surjective. Prove that $T^*: W^* \\to V^*$ is injective, using only the definition $T^*(\\phi) = \\phi \\circ T$.",
+      "answer_latex": "Suppose T^*(\\phi) = 0, i.e., \\phi(T(v)) = 0 for all v \\in V. Since T is surjective, every w \\in W equals T(v) for some v, so \\phi(w) = 0 for all w \\in W, meaning \\phi = 0. Thus \\ker(T^*) = \\{0\\}, so T^* is injective."
+    }
+  ],
+  "common_mistakes": [
+    "Students often reverse the direction of $T^*$, writing $T^*: V^* \\to W^*$ instead of $T^*: W^* \\to V^*$. Remember that $T^*$ goes *backwards*: it pulls functionals on the output space back to functionals on the input space via pre-composition.",
+    "Students frequently confuse the transpose matrix $A^T$ with the inverse $A^{-1}$, especially when $T$ is an orthogonal transformation where these coincide. The matrix of $T^*$ is always $A^T$ regardless of whether $A$ is invertible \u2014 fix this by deriving the matrix from the definition $(T^*(\\phi))(v) = \\phi(T(v))$ each time.",
+    "When evaluating $T^*(\\phi)$, students sometimes apply $T$ to $\\phi$ rather than composing in the correct order, writing something like $T^*(\\phi)(v) = T(\\phi(v))$, which is meaningless since $\\phi(v)$ is a scalar. Always remember: first apply $T$ to the vector $v$, then apply $\\phi$ to the result."
+  ],
+  "untested_variants": [
+    "Computing the double dual $T^{**}: V^{**} \\to W^{**}$ and using the natural isomorphism $V \\cong V^{**}$ to show $T^{**}$ corresponds back to $T$.",
+    "Finding the dual transformation when $T$ is given as an abstract linear map on a polynomial space such as $T: P_2 \\to P_1$ defined by differentiation, where the matrix depends on a chosen monomial basis.",
+    "Using the rank-nullity relationships $\\text{rank}(T^*) = \\text{rank}(T)$ and $\\dim\\ker(T^*) = \\dim W - \\text{rank}(T)$ to answer questions about surjectivity and injectivity of $T^*$ from properties of $T$.",
+    "Working over $\\mathbb{C}$ instead of $\\mathbb{R}$, where the dual space uses conjugate-linear functionals and the relevant operation is the conjugate transpose $A^\\dagger$ rather than the ordinary transpose $A^T$."
+  ]
+}

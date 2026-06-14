@@ -1,0 +1,91 @@
+{
+  "topic_id": "cm_024",
+  "topic_name": "Inversion (H)",
+  "generated_at": "2026-05-13T20:23:44.359271+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to use Power of a Point and radical axes to handle circle problems, but some configurations seem impossibly tangled \u2014 circles passing through a fixed point, chains of tangent circles, or Ptolemy-style distance relations that resist every classical tool. What if you could transform the entire figure so that circles become lines and complicated tangency conditions simplify to parallel or concurrent lines? The technique of inversion does exactly that, but the question is: how do you set it up, and how do you track what happens to every object under the map?",
+  "concept": "Inversion is a transformation of the plane that 'turns the plane inside out' with respect to a fixed circle. Formally, given a center $O$ and radius $r$, the inverse of a point $P \\neq O$ is the unique point $P'$ on ray $OP$ satisfying $OP \\cdot OP' = r^2$. The key power of inversion is that circles and lines map to circles and lines, with circles through $O$ mapping to lines and circles not through $O$ mapping to circles.",
+  "anatomy": "An inversion has four distinct components. The center of inversion $O$ is the fixed point that is never mapped (it has no image). The radius of inversion $r$ (sometimes called the radius of the reference circle) determines the scale: the circle of radius $r$ centered at $O$ is called the circle of inversion, and every point on it is its own image. The inversion power $k = r^2$ is the constant product $OP \\cdot OP'$; in some formulations $k$ may be negative (negative inversion or 'inversive reflection'). Finally, the image $P'$ of a point $P$ is the specific transformed point, and understanding whether the pre-image is inside or outside the circle of inversion tells you whether $P'$ is outside or inside.",
+  "worked_example": [
+    {
+      "expression_latex": "OP' = \\frac{r^2}{OP}",
+      "description_latex": "We start by pinning down the coordinate of the image point. Since inversion requires $OP \\cdot OP' = r^2$, we simply solve for $OP'$ by dividing both sides by $OP$. This single formula is the engine behind every calculation in inversion, so make sure you can apply it instantly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{If } P = (d, 0) \\text{ and the inversion has center } O=(0,0),\\ r=3,\\text{ find } P'.",
+      "description_latex": "Place everything on the $x$-axis for simplicity. We need $OP = d$, so $OP' = 9/d$, meaning $P' = (9/d,\\, 0)$. Notice that if $P$ is far from $O$ (large $d$), then $P'$ is close to $O$, illustrating how inversion 'swaps' near and far.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{A circle through } O \\text{ inverts to a line.}",
+      "description_latex": "Take a circle passing through the center of inversion $O$. Every point $P$ on this circle has an image $P'$, and because $P$ approaches $O$ along the circle, $OP' = r^2/OP \\to \\infty$, so $P'$ escapes to infinity \u2014 the image has no finite 'closing point,' which means it must be a line. Concretely, the image line is perpendicular to the diameter of the original circle that passes through $O$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{A circle NOT through } O \\text{ inverts to a circle NOT through } O.",
+      "description_latex": "When a circle does not pass through $O$, none of its points map to infinity, so the image is a bounded curve \u2014 and one can verify algebraically (substitute $x' = r^2 x/(x^2+y^2)$, $y' = r^2 y/(x^2+y^2)$ into the circle equation) that the image satisfies a degree-2 equation with equal $x^2$ and $y^2$ coefficients, which is exactly a circle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d(P', Q') = \\frac{r^2 \\cdot PQ}{OP \\cdot OQ}",
+      "description_latex": "This distance formula under inversion is essential for contest problems. It tells you that the distance between two image points $P'$ and $Q'$ equals the original distance $PQ$ scaled by $r^2/(OP \\cdot OQ)$. Combined with the fact that inversion preserves angles (it is conformal), this formula lets you translate metric conditions in the inverted picture back to the original.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: Three mutually tangent unit circles each tangent to a line } \\ell. \\text{ Find the radius of the small circle tangent to all three.}",
+      "description_latex": "This is a classic Descartes / Soddy configuration. We will invert about the point of tangency of two of the unit circles to simplify the picture. First, identify the center of inversion: let $O$ be the point where the two left-most unit circles are tangent to each other, and choose $r^2 = 1$ (so inversion radius $r=1$).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Under this inversion, the two unit circles through } O \\text{ become } \\underline{\\qquad}, \\text{ and the line } \\ell \\text{ becomes } \\underline{\\qquad}.",
+      "description_latex": "Apply the rule: circles through $O$ invert to lines, and a line not through $O$ inverts to a circle through $O$. Describe exactly what geometric objects the two tangent unit circles and the line $\\ell$ become after inversion, and sketch the new configuration.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "r_{\\text{small}} = \\frac{1}{r'^{-1} + 2}",
+      "description_latex": "In the inverted picture, the unknown small circle becomes a circle of some radius $r'$ sandwiched between two parallel lines \u2014 so $r'$ is determined immediately by the gap between those lines. Invert back using $OP \\cdot OP' = r^2$ to recover the radius of the original small circle. The answer for the standard configuration is $r_{\\text{small}} = 1/(2+2\\sqrt{3}) = (\\sqrt{3}-1)/2 \\cdot \\tfrac{1}{\\sqrt{3}}$; confirm your own computation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r_{\\text{small}} = \\frac{\\sqrt{3}-1}{2\\sqrt{3}} \\cdot \\text{(unit radius)}",
+      "description_latex": "Write the final simplified answer for the radius of the small tangent circle in terms of the unit radius, showing each algebraic simplification step clearly. Does your answer match the expected closed form $r = \\frac{1}{3+2\\sqrt{3}}$? Simplify and verify.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "The inversion has center $O$ and radius $r = 4$. Point $P$ is at distance $2$ from $O$. Find the distance from $O$ to $P'$, the image of $P$.",
+      "answer_latex": "OP' = 8"
+    },
+    {
+      "prompt_latex": "Under inversion with center $O$ and radius $r$, a line $\\ell$ passes through $O$. What is the image of $\\ell$?",
+      "answer_latex": "\\text{The line } \\ell \\text{ itself (lines through the center of inversion are fixed setwise).}"
+    },
+    {
+      "prompt_latex": "A circle of radius $3$ has its center at distance $5$ from the center of inversion $O$, and $r = 2$. Find the center and radius of the image circle. (Use the formulas for the image of a circle not through $O$.)",
+      "answer_latex": "\\text{Image center at distance } \\frac{r^2 d}{d^2 - R^2} = \\frac{4 \\cdot 5}{25-9} = \\frac{20}{16} = \\frac{5}{4} \\text{ from } O,\\ \\text{image radius } \\frac{r^2 R}{|d^2-R^2|} = \\frac{4 \\cdot 3}{16} = \\frac{3}{4}"
+    },
+    {
+      "prompt_latex": "Points $P$ and $Q$ satisfy $OP = 3$, $OQ = 6$, and $PQ = 4$. Under inversion with center $O$ and $r^2 = 9$, compute $P'Q'$.",
+      "answer_latex": "P'Q' = \\frac{r^2 \\cdot PQ}{OP \\cdot OQ} = \\frac{9 \\cdot 4}{3 \\cdot 6} = 2"
+    },
+    {
+      "prompt_latex": "Four circles are arranged in a Steiner chain: each circle is tangent to two fixed non-intersecting circles $\\omega_1$ and $\\omega_2$, and consecutive circles in the chain are tangent to each other, closing after $4$ circles. Use inversion to map $\\omega_1$ and $\\omega_2$ to concentric circles, then determine the ratio of radii of the two concentric circles if each of the $4$ chain circles subtends an angle of $90^\\circ$ at the common center.",
+      "answer_latex": "\\frac{R}{\\rho} = \\frac{1 + \\sin(45^\\circ)}{1 - \\sin(45^\\circ)} = \\frac{1+\\tfrac{\\sqrt{2}}{2}}{1-\\tfrac{\\sqrt{2}}{2}} = 3 + 2\\sqrt{2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that the center of inversion $O$ itself has NO image under inversion \u2014 trying to 'invert $O$' leads to division by zero. The fix: always check whether $O$ lies on any object before applying inversion rules, because circles through $O$ behave differently (they invert to lines, not circles).",
+    "When inverting a circle not through $O$, students incorrectly assume the center of the circle maps to the center of the image circle. In fact, inversion does NOT map centers to centers \u2014 you must use the formula $d' = r^2 d/(d^2 - R^2)$ for the new center distance and recompute the radius separately.",
+    "Students apply the distance formula $P'Q' = r^2 PQ/(OP \\cdot OQ)$ and forget it only holds when $O$, $P$, $Q$ are in general position \u2014 if $P = O$ or $Q = O$ the formula is undefined. Always verify neither point is the center of inversion before using this formula."
+  ],
+  "untested_variants": [
+    "Inversive distance between two non-intersecting circles and how it is preserved under inversion \u2014 a metric concept not covered by any of the five practice problems above.",
+    "Negative inversion (inversion with $k = -r^2$, also called 'inversive reflection'), which combines inversion with reflection in $O$ and arises in some Olympiad configurations.",
+    "Using inversion to prove Ptolemy's Theorem by inverting about one vertex of a cyclic quadrilateral \u2014 a classical proof technique not featured in the worked or practice problems.",
+    "Peaucellier\u2013Lipkin linkage: the mechanical application of inversion to convert circular motion to linear motion, requiring students to reason about inversion in a kinematic context."
+  ]
+}

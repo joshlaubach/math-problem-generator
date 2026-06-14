@@ -84,6 +84,7 @@ class TutorSession:
     soft_error_count: int = 0            # chat-borne errors the tutor corrected (no formal
                                          # submission); feeds misconception/deep gates,
                                          # reset on problem advance
+    message_count: int = 0               # inbound messages this session (H1 per-session cap)
     session_tier: str = "basic"          # "basic" | "premium" — gates drawing recognition + RAG
     is_first_ever_session: bool = False  # True when user has no prior TutorSessionRecord rows;
                                          # gates the diagnostic protocol in should_inject_deep()

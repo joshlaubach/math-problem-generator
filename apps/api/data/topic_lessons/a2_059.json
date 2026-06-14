@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_059",
+  "topic_name": "Inverse Trigonometric Functions",
+  "generated_at": "2026-05-12T23:34:58.094451+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know that $\\sin(30\u00b0) = 0.5$, which lets you find the output of a trig function when you know the angle. But what if the situation is reversed \u2014 you know the ratio and need to find the angle? For example, if $\\sin(\\theta) = 0.5$, how do you solve for $\\theta$? This is exactly the problem that inverse trigonometric functions are designed to solve.",
+  "concept": "An inverse trigonometric function 'undoes' a trig function by taking a ratio as input and returning an angle as output. Formally, $\\sin^{-1}(x)$ (also written $\\arcsin(x)$) gives the angle $\\theta$ in a restricted domain such that $\\sin(\\theta) = x$. Similarly, $\\cos^{-1}(x) = \\arccos(x)$ and $\\tan^{-1}(x) = \\arctan(x)$ are defined for their respective restricted domains.",
+  "anatomy": "Each inverse trig function has three key components worth naming carefully. First, the input value (also called the argument) is the ratio \u2014 a number like $0.5$ or $\\frac{\\sqrt{3}}{2}$ \u2014 and it must lie within the function's domain: $[-1, 1]$ for $\\sin^{-1}$ and $\\cos^{-1}$, and all real numbers for $\\tan^{-1}$. Second, the restricted range is the set of angles the inverse function is allowed to output: $[-90\u00b0, 90\u00b0]$ for $\\sin^{-1}$, $[0\u00b0, 180\u00b0]$ for $\\cos^{-1}$, and $(-90\u00b0, 90\u00b0)$ for $\\tan^{-1}$ \u2014 these restrictions ensure the inverse is actually a function. Third, the output is the unique angle (in degrees or radians) satisfying the original equation.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Find } \\theta \\text{ if } \\sin(\\theta) = \\frac{1}{2}, \\text{ where } 0\u00b0 \\leq \\theta \\leq 360\u00b0",
+      "description_latex": "We are given a sine ratio and asked to find the angle, which means we need to apply the inverse sine function. Our first move is to apply $\\sin^{-1}$ to both sides, because that operation isolates $\\theta$ \u2014 but we must remember that $\\sin^{-1}$ only returns one angle, so we'll check for additional solutions afterward.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\theta = \\sin^{-1}\\!\\left(\\frac{1}{2}\\right) = 30\u00b0",
+      "description_latex": "We evaluate $\\sin^{-1}(0.5)$, and because $\\sin(30\u00b0) = \\frac{1}{2}$ is a known exact value, the inverse function returns $30\u00b0$. This is the principal value \u2014 the unique answer within the restricted range $[-90\u00b0, 90\u00b0]$ \u2014 and it's our starting point for finding all solutions in $[0\u00b0, 360\u00b0]$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Sine is also positive in Quadrant II: } \\theta = 180\u00b0 - 30\u00b0 = 150\u00b0",
+      "description_latex": "Because sine is positive in both Quadrant I and Quadrant II, there is a second angle in $[0\u00b0, 360\u00b0]$ that also has a sine of $\\frac{1}{2}$. We use the reference angle rule: the Quadrant II solution is $180\u00b0$ minus the reference angle, giving $\\theta = 150\u00b0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\theta = 30\u00b0 \\text{ or } \\theta = 150\u00b0",
+      "description_latex": "We state both solutions clearly, confirming that both angles lie in $[0\u00b0, 360\u00b0]$ and both satisfy the original equation $\\sin(\\theta) = \\frac{1}{2}$. This final check is important \u2014 inverse trig gives you the principal value, but the full solution set often requires using your knowledge of which quadrants make the ratio positive or negative.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find } \\theta \\text{ if } \\cos(\\theta) = -\\frac{\\sqrt{2}}{2}, \\text{ where } 0\u00b0 \\leq \\theta \\leq 360\u00b0",
+      "description_latex": "We need to isolate $\\theta$ by applying the inverse cosine function to both sides. Notice the ratio is negative, so we should think carefully about which quadrants have a negative cosine before we finalize our answers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\theta = \\cos^{-1}\\!\\left(-\\frac{\\sqrt{2}}{2}\\right) = 135\u00b0",
+      "description_latex": "Evaluating $\\cos^{-1}\\!\\left(-\\frac{\\sqrt{2}}{2}\\right)$ gives us $135\u00b0$ because $\\cos^{-1}$ returns values in $[0\u00b0, 180\u00b0]$ and cosine equals $-\\frac{\\sqrt{2}}{2}$ at $135\u00b0$. This is our principal value and our first solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Cosine is also negative in Quadrant III. Use the reference angle from $135\u00b0$ (which is $45\u00b0$) to find the second angle in $[0\u00b0, 360\u00b0]$ where cosine equals $-\\frac{\\sqrt{2}}{2}$. What is that angle?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\theta = 135\u00b0 \\text{ or } \\theta = 225\u00b0",
+      "description_latex": "The two solutions are $135\u00b0$ (Quadrant II) and $225\u00b0$ (Quadrant III), since cosine is negative in both of those quadrants and both angles have the same reference angle of $45\u00b0$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate: $\\sin^{-1}\\!\\left(\\frac{\\sqrt{3}}{2}\\right)$",
+      "answer_latex": "60\u00b0"
+    },
+    {
+      "prompt_latex": "Evaluate: $\\tan^{-1}(1)$",
+      "answer_latex": "45\u00b0"
+    },
+    {
+      "prompt_latex": "Find all values of $\\theta$ in $[0\u00b0, 360\u00b0]$ such that $\\tan(\\theta) = -1$",
+      "answer_latex": "\\theta = 135\u00b0 \\text{ or } \\theta = 315\u00b0"
+    },
+    {
+      "prompt_latex": "Find all values of $\\theta$ in $[0\u00b0, 360\u00b0]$ such that $2\\sin(\\theta) + \\sqrt{3} = 0$",
+      "answer_latex": "\\theta = 240\u00b0 \\text{ or } \\theta = 300\u00b0"
+    },
+    {
+      "prompt_latex": "A ramp rises $4$ feet over a horizontal distance of $9$ feet. Use an inverse trig function to find the angle of elevation $\\theta$ that the ramp makes with the ground. Round to the nearest tenth of a degree.",
+      "answer_latex": "\\theta = \\tan^{-1}\\!\\left(\\frac{4}{9}\\right) \\approx 23.9\u00b0"
+    }
+  ],
+  "common_mistakes": [
+    "Students interpret $\\sin^{-1}(x)$ as $\\frac{1}{\\sin(x)}$, confusing the inverse notation with a negative exponent. The notation $\\sin^{-1}(x)$ means 'the angle whose sine is $x$,' not the reciprocal \u2014 if you want the reciprocal, write $\\csc(x)$.",
+    "Students forget that $\\sin^{-1}$ and $\\cos^{-1}$ have domain $[-1, 1]$, so attempting to evaluate something like $\\cos^{-1}(1.5)$ is undefined \u2014 always verify the input is within $[-1, 1]$ before computing.",
+    "Students stop at the principal value from their calculator and forget that most equations have a second solution in $[0\u00b0, 360\u00b0]$. Always use the sign of the ratio to identify which two quadrants are relevant, then apply the appropriate reference-angle rule to find the second solution."
+  ],
+  "untested_variants": [
+    "Evaluating inverse trig functions with outputs in radians (e.g., $\\sin^{-1}\\!\\left(\\frac{1}{2}\\right) = \\frac{\\pi}{6}$) rather than degrees.",
+    "Solving equations of the form $\\cos(2\\theta) = \\frac{1}{2}$ that involve a double angle, requiring an extra division step after applying the inverse function.",
+    "Composing a trig function with an inverse trig function, such as simplifying $\\sin(\\cos^{-1}(x))$ using a right-triangle diagram.",
+    "Finding solutions in an interval other than $[0\u00b0, 360\u00b0]$, such as $[-180\u00b0, 180\u00b0]$ or $[0, 2\\pi]$ in radians."
+  ]
+}

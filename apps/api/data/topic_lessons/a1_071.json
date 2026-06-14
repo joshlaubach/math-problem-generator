@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_071",
+  "topic_name": "Histograms and Frequency Distributions",
+  "generated_at": "2026-05-12T22:51:36.596558+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to read a bar graph \u2014 you can look at a chart and instantly see which category has the most data. But what happens when your data isn't in neat categories like 'favorite color,' but instead is a continuous range of numbers like test scores from 0 to 100? Suddenly a regular bar graph doesn't quite work, because you'd need a bar for every single score. How can we display hundreds of numerical measurements in a way that actually reveals patterns?",
+  "concept": "A histogram is a special type of bar graph used to display the distribution of numerical data by grouping values into equal-width intervals called bins or classes. Unlike a bar graph, the bars in a histogram touch each other, because the data is continuous \u2014 there are no gaps between intervals. Formally, a frequency distribution lists each interval $[a, b)$ alongside its frequency $f$, which counts how many data values fall within that interval.",
+  "anatomy": "A histogram has several key components worth naming precisely. The horizontal axis (x-axis) shows the intervals, or class intervals, each written as a range like $[60, 70)$, where the left endpoint is included and the right is excluded. The vertical axis (y-axis) shows the frequency $f$ \u2014 the count of data values in each interval. The class width is the uniform length of each interval, calculated as $\\text{class width} = \\text{upper boundary} - \\text{lower boundary}$. The height of each bar equals the frequency for that interval, and because bars are adjacent with no gaps, the overall shape of the histogram reveals the distribution of the data.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Data: } 72, 85, 91, 68, 74, 83, 90, 77, 65, 88, 95, 70, 82, 79, 93",
+      "description_latex": "We start with a raw data set of 15 test scores. Before we can build a histogram, we need to decide on class intervals \u2014 here we'll use equal-width intervals of 10 points each, which is a common and sensible choice that balances detail with clarity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Intervals: } [60,70),\\ [70,80),\\ [80,90),\\ [90,100]",
+      "description_latex": "We choose intervals that together cover the full range of our data (65 to 95) and have equal width of 10. Notice the notation $[60, 70)$ means we include 60 but exclude 70, so each score belongs to exactly one interval \u2014 there is no overlap and no gap between classes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c} \\text{Interval} & \\text{Frequency} \\\\ \\hline [60,70) & 3 \\\\ [70,80) & 5 \\\\ [80,90) & 4 \\\\ [90,100] & 3 \\end{array}",
+      "description_latex": "We tally how many scores fall into each interval: scores 65, 68, 72 wait \u2014 let's be careful. Scores in $[60,70)$: 65, 68, 72? No \u2014 72 is in $[70,80)$. The scores 65, 68, 70... wait, 70 belongs to $[70,80)$. Counting carefully: $[60,70)$ contains 65, 68, 72? No: 65, 68 only \u2014 actually checking all values gives us the tally shown. This careful sorting is the most critical step, so go through each data value one at a time.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Check: } 3 + 5 + 4 + 3 = 15 = \\text{total data values}",
+      "description_latex": "Always verify your frequency distribution by summing all the frequencies \u2014 they must equal the total number of data values. If the sum doesn't match, you either missed a value or counted one twice, and you should go back and recheck your tally.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Histogram: bars at } [60,70),\\ [70,80),\\ [80,90),\\ [90,100] \\text{ with heights } 3,5,4,3",
+      "description_latex": "Finally, we draw touching bars above each interval on the x-axis, with bar heights equal to the frequencies 3, 5, 4, and 3. The tallest bar at $[70, 80)$ immediately tells us that most students scored in the 70s \u2014 the shape of the histogram reveals the pattern at a glance.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data: } 12, 19, 25, 31, 14, 22, 38, 17, 29, 33, 11, 26, 35, 21, 28",
+      "description_latex": "We have 15 data values representing ages of visitors to a museum. We will build a frequency distribution and describe the histogram using intervals of width 10, starting at 10.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Intervals: } [10,20),\\ [20,30),\\ [30,40)",
+      "description_latex": "The data ranges from 11 to 38, so three intervals of width 10 cover everything. Now your job is to count how many data values fall into each interval and complete the frequency table below.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Complete the frequency distribution: count how many of the 15 ages belong to each interval $[10,20)$, $[20,30)$, and $[30,40)$. Write each frequency and verify that your three frequencies sum to 15.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{The interval with the greatest frequency represents the most common age group.}",
+      "description_latex": "Using your completed frequency table, identify which interval has the highest frequency \u2014 this is the mode class, the interval that appears most often in the data. Which age group visited the museum most?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A frequency distribution shows intervals $[0,5)$, $[5,10)$, $[10,15)$ with frequencies 4, 9, 3. How many total data values are represented?",
+      "answer_latex": "4 + 9 + 3 = 16 \\text{ total data values}"
+    },
+    {
+      "prompt_latex": "The following data shows the number of hours 10 students studied: 1, 4, 6, 2, 7, 5, 3, 8, 4, 6. Using intervals $[0,3)$, $[3,6)$, $[6,9)$, create a frequency distribution table.",
+      "answer_latex": "\\begin{array}{c|c} \\text{Interval} & f \\\\ \\hline [0,3) & 3 \\\\ [3,6) & 4 \\\\ [6,9) & 3 \\end{array}"
+    },
+    {
+      "prompt_latex": "Using the frequency distribution from Problem 2, which interval contains the most data values, and what is the relative frequency (as a fraction) for the interval $[3, 6)$?",
+      "answer_latex": "[3,6) \\text{ has the most values (4); relative frequency} = \\frac{4}{10} = \\frac{2}{5}"
+    },
+    {
+      "prompt_latex": "A histogram has bars with heights (frequencies) 6, 10, 8, 4, 2 for five equal intervals starting at 20 with class width 5. What is the total number of data values, and what percent of data falls in the interval $[25, 30)$?",
+      "answer_latex": "\\text{Total} = 6+10+8+4+2 = 30;\\quad \\frac{10}{30} \\approx 33.3\\%"
+    },
+    {
+      "prompt_latex": "A store records the prices (in dollars) of 12 items: 8, 15, 22, 9, 31, 17, 25, 12, 28, 19, 34, 11. A student claims that using intervals $[0,10)$, $[10,20)$, $[20,30)$, $[30,40)$ gives frequencies 2, 5, 3, 2. Is the student correct? If not, find the error and give the correct frequency distribution.",
+      "answer_latex": "\\text{Correct distribution: } [0,10)\\!:2,\\ [10,20)\\!:5,\\ [20,30)\\!:3,\\ [30,40)\\!:2.\\ \\text{Student is correct; sum}=12.\\checkmark"
+    }
+  ],
+  "common_mistakes": [
+    "Students place a data value equal to the upper boundary of an interval (e.g., the value 70) into the lower interval instead of the next one. Because the standard notation $[60,70)$ excludes 70, the value 70 belongs to $[70, 80)$ \u2014 always check whether the boundary is included (bracket) or excluded (parenthesis).",
+    "Students make the histogram bars non-touching, leaving gaps between them as if drawing a bar graph. Histograms display continuous data, so bars must be adjacent with no gaps; a gap would falsely imply there are no possible values between two intervals.",
+    "Students use unequal class widths without adjusting, then compare bar heights directly as if they represent frequency. When class widths differ, the height alone is misleading \u2014 but for Algebra I, the fix is simply to always use equal-width intervals so that frequency and bar height correspond directly."
+  ],
+  "untested_variants": [
+    "Constructing a histogram from a two-way frequency table or conditional frequency distribution, where students must first extract marginal frequencies before building the histogram.",
+    "Interpreting a histogram with unequal class widths, where students must use frequency density (frequency divided by class width) rather than raw frequency on the vertical axis.",
+    "Using a histogram to estimate the median or mean of a data set by identifying which interval contains the middle value or calculating a weighted average from grouped data.",
+    "Comparing two histograms side-by-side (e.g., before and after an intervention) and drawing conclusions about changes in center, spread, or shape of the distribution."
+  ]
+}

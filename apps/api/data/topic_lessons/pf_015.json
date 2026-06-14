@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_015",
+  "topic_name": "Induction on Other Structures (H)",
+  "generated_at": "2026-05-13T20:50:16.865447+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to prove statements about natural numbers using standard mathematical induction: prove a base case, assume it holds for $n$, then prove it for $n+1$. But what happens when your objects are not natural numbers at all \u2014 when you want to prove something about every finite binary tree, every well-formed logical formula, or every finite list? The same 'domino' intuition applies, but the structure you're climbing is no longer a straight line of integers. Can you adapt induction to work on these richer, recursively-defined objects?",
+  "concept": "Structural induction is a proof technique for statements about recursively-defined structures (trees, lists, formulas, etc.). Instead of stepping from $n$ to $n+1$, you prove the claim holds for every base object, then show that if it holds for every smaller sub-part, it holds for the whole object built from those parts. Formally: if $P$ holds on all base cases, and whenever $P$ holds on each immediate component of a structure $S$ it also holds on $S$, then $P$ holds on every member of the inductively-defined set.",
+  "anatomy": "A structural induction proof has four named parts. The **recursive definition** specifies the set being reasoned about \u2014 its base cases (smallest objects, e.g., a leaf node or an empty list) and its constructor rules (how larger objects are built from smaller ones, e.g., a tree $T = (T_L, r, T_R)$). The **predicate** $P(S)$ is the property you want to prove for every object $S$ in the set. The **base case** verifies $P$ for each base object directly. The **inductive step** assumes $P$ holds for every immediate sub-structure (this assumption is the **structural induction hypothesis**) and uses that to deduce $P$ for the object built from those sub-structures.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: Every full binary tree has an odd number of nodes.}",
+      "description_latex": "We begin by recalling the recursive definition we will induct over. A full binary tree is either (i) a single leaf (base case), or (ii) a node with a left full binary tree $T_L$ and a right full binary tree $T_R$ attached (inductive constructor). Setting up this definition is the essential first step because it tells us exactly what our base case and inductive step must cover.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Base case: A single leaf has } 1 \\text{ node, and } 1 \\text{ is odd.} \\checkmark",
+      "description_latex": "We verify the predicate $P(T)$: '$T$ has an odd number of nodes' directly for the smallest possible tree. Since $1$ is odd, the base case is established. This is straightforward but necessary \u2014 without it the induction has no foundation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Inductive hypothesis: Assume } P(T_L) \\text{ and } P(T_R): \\text{ both } T_L \\text{ and } T_R \\text{ have an odd number of nodes.}",
+      "description_latex": "Here is the key move that makes structural induction different from standard induction: we assume the predicate holds for BOTH immediate sub-structures, not just a predecessor by size. We are free to assume $P$ for every component that feeds into the constructor, so we write that $|T_L|$ is odd and $|T_R|$ is odd, where $|\\cdot|$ denotes node count.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|T| = |T_L| + |T_R| + 1 = (\\text{odd}) + (\\text{odd}) + 1",
+      "description_latex": "The composite tree $T$ is formed by attaching $T_L$ and $T_R$ to a new root node, so its total node count is the sum of the two sub-tree counts plus one for the root. Substituting the inductive hypothesis, we have odd + odd + 1, and the sum of two odd numbers is even, so adding 1 gives an odd number. Therefore $|T|$ is odd, completing the inductive step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore P(T) \\text{ holds for every full binary tree } T. \\quad \\blacksquare",
+      "description_latex": "By structural induction \u2014 we verified the base case and showed the constructor preserves the property \u2014 we conclude $P(T)$ holds for every full binary tree. Notice the conclusion follows because the recursive definition covers exactly these two cases and nothing else.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: For every full binary tree } T, \\text{ the number of leaves equals the number of internal nodes plus 1.}",
+      "description_latex": "We use the same recursive definition as before: a leaf is the base case, and an internal node with sub-trees $T_L, T_R$ is the constructor. Let $\\ell(T)$ be the leaf count and $i(T)$ the internal node count. We want to show $\\ell(T) = i(T) + 1$ for all $T$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Base case: } \\ell(\\text{leaf}) = 1, \\quad i(\\text{leaf}) = 0, \\quad \\text{so } \\ell = i + 1. \\checkmark",
+      "description_latex": "A single leaf has one leaf and zero internal nodes, so $1 = 0 + 1$ holds. The base case is verified directly with no algebra needed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now state the structural induction hypothesis explicitly: what do you assume about $T_L$ and $T_R$? Then use those assumptions to express $\\ell(T)$ and $i(T)$ in terms of the sub-tree quantities and derive $\\ell(T) = i(T) + 1$. Write out every substitution carefully.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\ell(T) = \\ell(T_L) + \\ell(T_R) = (i(T_L)+1)+(i(T_R)+1) = (i(T_L)+i(T_R)+1)+1 = i(T)+1",
+      "description_latex": "The left sub-tree and right sub-tree each contribute their own leaves (the root itself is internal, not a leaf), so $\\ell(T) = \\ell(T_L) + \\ell(T_R)$. Applying the inductive hypothesis to each and noting $i(T) = i(T_L) + i(T_R) + 1$ (root counts as one internal node) gives the result. Compare your work to this and check each substitution.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A full binary tree is defined as before. Prove by structural induction that $|T| \\geq 1$ for every full binary tree $T$ (i.e., every full binary tree has at least one node).",
+      "answer_latex": "\\text{Base: a leaf has } 1 \\geq 1 \\text{ node.} \\\\ \\text{Step: } |T| = |T_L| + |T_R| + 1 \\geq 1 + 1 + 1 = 3 \\geq 1. \\checkmark"
+    },
+    {
+      "prompt_latex": "Let $h(T)$ be the height of a full binary tree (height of a leaf $= 0$, height of an internal node $= 1 + \\max(h(T_L), h(T_R))$). Prove by structural induction that $|T| \\leq 2^{h(T)+1} - 1$ for every full binary tree $T$.",
+      "answer_latex": "\\text{Base: } |\\text{leaf}| = 1 \\leq 2^{0+1}-1 = 1. \\checkmark \\\\ \\text{Step (IH: } |T_L| \\leq 2^{h(T_L)+1}-1,\\, |T_R| \\leq 2^{h(T_R)+1}-1\\text{):} \\\\ |T| = |T_L|+|T_R|+1 \\leq (2^{h(T_L)+1}-1)+(2^{h(T_R)+1}-1)+1 \\\\ \\leq 2 \\cdot 2^{h(T)+1} - 1 = 2^{h(T)+1+1}-1. \\checkmark"
+    },
+    {
+      "prompt_latex": "Define well-formed propositional formulas (WFFs) recursively: (i) every propositional variable $p_i$ is a WFF; (ii) if $\\phi$ is a WFF then $\\neg\\phi$ is a WFF; (iii) if $\\phi, \\psi$ are WFFs then $(\\phi \\land \\psi)$ is a WFF. Prove by structural induction that every WFF has equal numbers of left and right parentheses.",
+      "answer_latex": "\\text{Base: a variable } p_i \\text{ has 0 left and 0 right parens.} \\checkmark \\\\ \\text{Step for } \\neg\\phi\\text{: IH gives } \\ell(\\phi)=r(\\phi)\\text{; negation adds none, so } \\ell(\\neg\\phi)=r(\\neg\\phi). \\checkmark \\\\ \\text{Step for } (\\phi \\land \\psi)\\text{: adds 1 left and 1 right paren, so } \\ell = \\ell(\\phi)+\\ell(\\psi)+1 = r(\\phi)+r(\\psi)+1 = r. \\checkmark"
+    },
+    {
+      "prompt_latex": "Define finite lists over a set $A$ recursively: (i) $[]$ (the empty list) is a finite list; (ii) if $a \\in A$ and $L$ is a finite list, then $(a :: L)$ is a finite list. Let $\\text{len}(L)$ count elements and $\\text{rev}(L)$ reverse the list (with $\\text{rev}([]) = []$ and $\\text{rev}(a :: L) = \\text{rev}(L) ++ [a]$, where $++$ concatenates). Prove by structural induction that $\\text{len}(\\text{rev}(L)) = \\text{len}(L)$ for every finite list $L$. You may use (without proof) that $\\text{len}(L_1 ++ L_2) = \\text{len}(L_1) + \\text{len}(L_2)$.",
+      "answer_latex": "\\text{Base: } \\text{len}(\\text{rev}([])) = \\text{len}([]) = 0. \\checkmark \\\\ \\text{Step (IH: } \\text{len}(\\text{rev}(L)) = \\text{len}(L)\\text{):} \\\\ \\text{len}(\\text{rev}(a::L)) = \\text{len}(\\text{rev}(L) ++ [a]) = \\text{len}(\\text{rev}(L)) + 1 \\\\ \\stackrel{\\text{IH}}{=} \\text{len}(L) + 1 = \\text{len}(a::L). \\checkmark"
+    },
+    {
+      "prompt_latex": "A compiler writer claims: 'In any arithmetic expression built from integer literals (base case) and the binary operations $+, -, \\times$ (each combining two sub-expressions), the number of operation symbols is always exactly one less than the number of integer literals.' Formalize this claim using structural induction and prove it.",
+      "answer_latex": "\\text{Let } \\ell(E) = \\text{literal count},\\, o(E) = \\text{operator count.} \\\\ \\text{Claim: } \\ell(E) = o(E) + 1. \\\\ \\text{Base: } E = n \\text{ (literal): } \\ell = 1, o = 0,\\, 1 = 0+1. \\checkmark \\\\ \\text{Step (IH on } E_1, E_2\\text{): } \\ell(E_1 \\circ E_2) = \\ell(E_1)+\\ell(E_2) = (o(E_1)+1)+(o(E_2)+1) \\\\ = o(E_1)+o(E_2)+2 = (o(E_1)+o(E_2)+1)+1 = o(E_1 \\circ E_2)+1. \\checkmark"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the inductive hypothesis to only ONE sub-structure when the constructor has two (e.g., assuming $P(T_L)$ but forgetting $P(T_R)$ in a binary tree proof). The fix is to list all immediate sub-components at the start of the inductive step and state the hypothesis for each one explicitly before any algebra begins.",
+    "Students confuse the node count formula for a composite tree by writing $|T| = |T_L| + |T_R|$ and forgetting to add 1 for the root (or connector node). Because the root is a new node not belonging to either sub-tree, you must always count it separately: $|T| = |T_L| + |T_R| + 1$.",
+    "Students write 'assume the statement holds for all trees of size $n$, then consider size $n+1$' \u2014 this is strong induction on size, not structural induction. Structural induction works directly on the shape of the recursive definition without converting to a size parameter; the hypothesis should be stated in terms of the named sub-structures $T_L$ and $T_R$ (or $\\phi$ and $\\psi$, etc.), not in terms of a number $n$."
+  ],
+  "untested_variants": [
+    "Structural induction on $n$-ary trees (where each internal node can have any finite number of children, not just two), requiring an inductive hypothesis over a variable-length list of sub-trees.",
+    "Mutual structural induction, where two mutually recursive definitions (e.g., 'even-length lists' and 'odd-length lists' defined in terms of each other) require proving two predicates simultaneously in a single coupled argument.",
+    "Using structural induction to prove a property about the evaluation semantics of a simple programming language (e.g., that every expression in a given grammar evaluates to a non-negative integer), where the recursive definition is an inference-rule grammar rather than a tree grammar.",
+    "Well-founded induction on a partially-ordered set (such as the subset ordering on finite sets or the divisibility ordering on positive integers), which generalizes structural induction but requires explicitly verifying well-foundedness rather than appealing to a given recursive definition."
+  ]
+}

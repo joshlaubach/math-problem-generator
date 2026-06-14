@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_033",
+  "topic_name": "Solving Trigonometric Equations",
+  "generated_at": "2026-05-12T23:49:02.063958+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to solve algebraic equations like $2x - 1 = 0$ and how to evaluate trigonometric functions like $\\sin(\\pi/6) = 1/2$. But what happens when the unknown is inside a trigonometric function \u2014 for example, $2\\sin(x) - 1 = 0$? Unlike a linear equation, this one has infinitely many solutions spread across the entire real line. How do you find all of them without missing any?",
+  "concept": "Solving a trigonometric equation means finding every angle $x$ that makes the equation true. The core strategy is to isolate the trig function first (just like isolating $x$ in algebra), then use inverse trig or known reference angles to find the solutions in one period, and finally extend to all solutions using the function's periodicity. For example, from $\\sin(x) = 1/2$ you find $x = \\pi/6 + 2\\pi k$ or $x = 5\\pi/6 + 2\\pi k$ for any integer $k$.",
+  "anatomy": "Every trigonometric equation has four key components worth naming. The trigonometric function (such as $\\sin$, $\\cos$, or $\\tan$) tells you which ratio you are working with and determines the period. The argument is the expression inside the function (often just $x$, but sometimes $2x$ or $x + \\pi/3$), which affects how you scale the final answers. The target value is the number the function is set equal to (like $1/2$ or $-\\sqrt{3}/2$), which you locate on the unit circle. Finally, the general solution includes the period parameter $k$ (an integer), which captures the infinitely many solutions by adding full cycles: $2\\pi k$ for sine and cosine, or $\\pi k$ for tangent.",
+  "worked_example": [
+    {
+      "expression_latex": "2\\cos(x) + \\sqrt{3} = 0",
+      "description_latex": "We start by reading the equation carefully: it has cosine as the trig function and a constant term on the left. Our first goal is to isolate $\\cos(x)$ so we can work with it directly, just as we would isolate a variable in a linear equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\cos(x) = -\\frac{\\sqrt{3}}{2}",
+      "description_latex": "Subtracting $\\sqrt{3}$ from both sides and dividing by $2$ gives us $\\cos(x) = -\\sqrt{3}/2$. Now we need to ask: on the unit circle, at which angles does the $x$-coordinate equal $-\\sqrt{3}/2$? We know the reference angle is $\\pi/6$ because $\\cos(\\pi/6) = \\sqrt{3}/2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\frac{5\\pi}{6} \\quad \\text{or} \\quad x = \\frac{7\\pi}{6} \\quad \\text{(in } [0, 2\\pi)\\text{)}",
+      "description_latex": "Cosine is negative in Quadrants II and III. In Quadrant II the angle is $\\pi - \\pi/6 = 5\\pi/6$, and in Quadrant III the angle is $\\pi + \\pi/6 = 7\\pi/6$. These are the two solutions within one full period.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\frac{5\\pi}{6} + 2\\pi k \\quad \\text{or} \\quad x = \\frac{7\\pi}{6} + 2\\pi k, \\quad k \\in \\mathbb{Z}",
+      "description_latex": "Because cosine repeats every $2\\pi$, we append $+ 2\\pi k$ to each solution to capture all angles across the entire real line. This general solution is the complete answer \u2014 every integer value of $k$ produces a valid solution to the original equation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "2\\sin(x) - \\sqrt{2} = 0",
+      "description_latex": "We want to solve this equation for all values of $x$. Start by isolating the sine function on one side, exactly as you would isolate a variable in a linear equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sin(x) = \\frac{\\sqrt{2}}{2}",
+      "description_latex": "Adding $\\sqrt{2}$ to both sides and dividing by $2$ gives $\\sin(x) = \\sqrt{2}/2$. This is a known value: the reference angle is $\\pi/4$ because $\\sin(\\pi/4) = \\sqrt{2}/2$. Now you need to identify in which quadrants sine is positive and write both solutions in $[0, 2\\pi)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = \\frac{\\pi}{4} + 2\\pi k \\quad \\text{or} \\quad x = \\frac{3\\pi}{4} + 2\\pi k, \\quad k \\in \\mathbb{Z}",
+      "description_latex": "Sine is positive in Quadrants I and II, giving $x = \\pi/4$ and $x = \\pi - \\pi/4 = 3\\pi/4$ in one period. Adding $2\\pi k$ to each produces the complete general solution shown here.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve: } \\sin(x) = \\frac{1}{2}, \\quad x \\in [0, 2\\pi)",
+      "answer_latex": "x = \\frac{\\pi}{6} \\quad \\text{or} \\quad x = \\frac{5\\pi}{6}"
+    },
+    {
+      "prompt_latex": "\\text{Solve for all } x: \\quad 2\\cos(x) - 1 = 0",
+      "answer_latex": "x = \\frac{\\pi}{3} + 2\\pi k \\quad \\text{or} \\quad x = \\frac{5\\pi}{3} + 2\\pi k, \\quad k \\in \\mathbb{Z}"
+    },
+    {
+      "prompt_latex": "\\text{Solve for all } x: \\quad \\tan(x) + \\sqrt{3} = 0",
+      "answer_latex": "x = -\\frac{\\pi}{3} + \\pi k, \\quad k \\in \\mathbb{Z} \\quad \\left(\\text{equivalently } x = \\frac{2\\pi}{3} + \\pi k\\right)"
+    },
+    {
+      "prompt_latex": "\\text{Solve for all } x: \\quad 2\\sin^2(x) - \\sin(x) - 1 = 0",
+      "answer_latex": "x = \\frac{3\\pi}{2} + 2\\pi k, \\quad x = \\frac{\\pi}{6} + 2\\pi k, \\quad \\text{or} \\quad x = \\frac{5\\pi}{6} + 2\\pi k, \\quad k \\in \\mathbb{Z}"
+    },
+    {
+      "prompt_latex": "\\text{A mass on a spring has position } h(t) = 4\\cos(t) \\text{ cm at time } t \\text{ seconds. Find all times } t \\geq 0 \\text{ when the mass is at } h = -2 \\text{ cm.}",
+      "answer_latex": "t = \\frac{2\\pi}{3} + 2\\pi k \\quad \\text{or} \\quad t = \\frac{4\\pi}{3} + 2\\pi k, \\quad k = 0, 1, 2, \\ldots"
+    }
+  ],
+  "common_mistakes": [
+    "Students find only the Quadrant I (or principal value) solution and forget the second solution in the other quadrant \u2014 for example, writing only $x = \\pi/6$ when $\\sin(x) = 1/2$ instead of also including $x = 5\\pi/6$. Always ask yourself in which TWO quadrants the trig function has the required sign.",
+    "Students forget to add the general period term $+2\\pi k$ (or $+\\pi k$ for tangent), listing only solutions in $[0, 2\\pi)$ when the problem asks for ALL real solutions. If the domain is not restricted, the answer is incomplete without the $k \\in \\mathbb{Z}$ extension.",
+    "When solving a quadratic-type equation like $2\\sin^2(x) - \\sin(x) - 1 = 0$, students try to take a square root instead of factoring (or using the quadratic formula with $u = \\sin x$), missing one or more solution families entirely. Treat the trig function as a single variable, factor or apply the quadratic formula, then solve each resulting simple equation separately."
+  ],
+  "untested_variants": [
+    "Equations with a compound argument such as $\\sin(2x) = \\sqrt{3}/2$ or $\\cos(x/2) = -1/2$, where you must solve for the argument first and then divide or multiply to get $x$.",
+    "Equations requiring a Pythagorean identity substitution before isolating the trig function, such as $\\cos^2(x) - \\sin(x) = 1$ rewritten entirely in terms of sine.",
+    "Equations that are only solvable within a specific restricted domain stated in degrees rather than radians, such as finding all solutions in $[0^\\circ, 360^\\circ)$.",
+    "Systems or combined equations involving two different trig functions set equal to each other, such as $\\sin(x) = \\cos(x)$, which require dividing both sides to convert to a single tangent equation."
+  ]
+}

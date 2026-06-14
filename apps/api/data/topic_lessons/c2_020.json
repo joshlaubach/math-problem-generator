@@ -1,0 +1,81 @@
+{
+  "topic_id": "c2_020",
+  "topic_name": "Introduction to Series and the Divergence Test",
+  "generated_at": "2026-05-13T00:24:11.299729+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to add a finite list of numbers, and you've seen how sequences can converge to a limit. But what happens when someone asks you to add up infinitely many numbers \u2014 for instance, $1 + \\frac{1}{2} + \\frac{1}{4} + \\frac{1}{8} + \\cdots$? Sometimes that infinite sum settles down to a finite value, and sometimes it blows up to infinity. The big question is: how do we even define what it means to 'add infinitely many terms,' and how do we tell whether the result is finite or not?",
+  "concept": "An infinite series is the sum of all terms of a sequence. Formally, given a sequence $\\{a_n\\}$, the series $\\sum_{n=1}^{\\infty} a_n$ is defined as the limit of its partial sums: $S_N = \\sum_{n=1}^{N} a_n$. We say the series converges if $\\lim_{N \\to \\infty} S_N = L$ for some finite $L$, and diverges otherwise. The Divergence Test states: if $\\lim_{n \\to \\infty} a_n \\neq 0$, then $\\sum a_n$ diverges.",
+  "anatomy": "Every series $\\sum_{n=1}^{\\infty} a_n$ has several key components. The general term $a_n$ is the formula for the $n$-th term being added. The partial sum $S_N = a_1 + a_2 + \\cdots + a_N$ is the finite sum of the first $N$ terms \u2014 this is the sequence whose limit defines the series. The index $n$ runs from the starting value (often $1$ or $0$) to infinity. The Divergence Test isolates the limit $\\lim_{n \\to \\infty} a_n$: if this limit is nonzero or fails to exist, the series must diverge; if the limit equals zero, the test is inconclusive.",
+  "worked_example": [
+    {
+      "expression_latex": "\\sum_{n=1}^{\\infty} \\frac{n}{2n+1}",
+      "description_latex": "We want to determine whether this series converges or diverges. The first tool to reach for is the Divergence Test: compute $\\lim_{n \\to \\infty} a_n$ and see whether it equals zero. Here $a_n = \\frac{n}{2n+1}$, so let's evaluate that limit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{n \\to \\infty} \\frac{n}{2n+1} = \\lim_{n \\to \\infty} \\frac{1}{2 + \\frac{1}{n}} = \\frac{1}{2}",
+      "description_latex": "We divide numerator and denominator by $n$ to handle the $\\infty/\\infty$ form, which is a technique you learned in Calc I. As $n \\to \\infty$, the $\\frac{1}{n}$ term vanishes and the limit simplifies cleanly to $\\frac{1}{2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{n \\to \\infty} a_n = \\frac{1}{2} \\neq 0",
+      "description_latex": "Because the limit of the general term is $\\frac{1}{2}$, not zero, the Divergence Test tells us immediately that the series cannot converge \u2014 the terms themselves are not even shrinking to zero, so their sum must grow without bound.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\sum_{n=1}^{\\infty} \\frac{n}{2n+1} \\text{ diverges by the Divergence Test.}",
+      "description_latex": "We state our conclusion clearly, citing the test we used. Notice that we never had to compute any partial sums; the Divergence Test gave us the answer in one limit calculation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\sum_{n=1}^{\\infty} \\frac{3n^2 - 1}{n^2 + 5}",
+      "description_latex": "We want to test this series for convergence or divergence using the Divergence Test. Start by identifying the general term: $a_n = \\frac{3n^2 - 1}{n^2 + 5}$. Our first job is to compute $\\lim_{n \\to \\infty} a_n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $\\lim_{n \\to \\infty} \\frac{3n^2 - 1}{n^2 + 5}$ by dividing numerator and denominator by $n^2$. What value do you get, and is it equal to zero?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\lim_{n \\to \\infty} \\frac{3n^2 - 1}{n^2 + 5} = 3 \\neq 0 \\implies \\sum_{n=1}^{\\infty} \\frac{3n^2-1}{n^2+5} \\text{ diverges.}",
+      "description_latex": "Since the limit equals $3$, not zero, the Divergence Test confirms the series diverges. Always close with a clear conclusion \u2014 state both the limit you found and the verdict it produces.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Does $\\sum_{n=1}^{\\infty} \\frac{1}{n^2}$ pass or fail the Divergence Test? What does the test tell you?",
+      "answer_latex": "\\lim_{n\\to\\infty} \\frac{1}{n^2} = 0, so the Divergence Test is \\textbf{inconclusive}; it does not tell us whether the series converges or diverges."
+    },
+    {
+      "prompt_latex": "Use the Divergence Test to determine whether $\\sum_{n=0}^{\\infty} \\cos(n)$ converges or diverges.",
+      "answer_latex": "\\lim_{n\\to\\infty} \\cos(n) \\text{ does not exist, so the series diverges by the Divergence Test.}"
+    },
+    {
+      "prompt_latex": "Apply the Divergence Test to $\\sum_{n=1}^{\\infty} \\frac{5n^3 + 2}{3n^3 - n}$.",
+      "answer_latex": "\\lim_{n\\to\\infty} \\frac{5n^3+2}{3n^3-n} = \\frac{5}{3} \\neq 0, \\text{ so the series diverges by the Divergence Test.}"
+    },
+    {
+      "prompt_latex": "Consider the series $\\sum_{n=1}^{\\infty} \\left(1 + \\frac{1}{n}\\right)^n$. Use the Divergence Test, recalling a limit you know from Calculus I.",
+      "answer_latex": "\\lim_{n\\to\\infty}\\left(1+\\frac{1}{n}\\right)^n = e \\neq 0, \\text{ so the series diverges by the Divergence Test.}"
+    },
+    {
+      "prompt_latex": "A ball is dropped and on each bounce reaches $\\frac{2}{3}$ of its previous height. If the first drop is from $1$ meter, the total upward distance after all bounces is modeled by $\\sum_{n=1}^{\\infty} \\left(\\frac{2}{3}\\right)^n$ meters. Does the Divergence Test tell you whether this total is finite? Explain.",
+      "answer_latex": "\\lim_{n\\to\\infty}\\left(\\frac{2}{3}\\right)^n = 0, \\text{ so the Divergence Test is inconclusive \u2014 it cannot confirm convergence, only rule out divergence when the limit is nonzero.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students conclude that a series converges whenever $\\lim_{n\\to\\infty} a_n = 0$, but this is the converse of the Divergence Test and it is false. The Divergence Test only works in one direction: a nonzero limit guarantees divergence, but a zero limit is inconclusive \u2014 the harmonic series $\\sum \\frac{1}{n}$ is the classic counterexample.",
+    "Students confuse the sequence of terms $\\{a_n\\}$ with the sequence of partial sums $\\{S_N\\}$. The Divergence Test examines $\\lim_{n\\to\\infty} a_n$ (the individual terms), not $\\lim_{N\\to\\infty} S_N$ (the running totals); mixing these up leads to testing the wrong limit entirely.",
+    "When $\\lim_{n\\to\\infty} a_n$ does not exist (for example, $a_n = (-1)^n$), students sometimes write 'limit is undefined, so the test fails' and stop without drawing a conclusion. In fact, a limit that does not exist is certainly not equal to zero, so the Divergence Test still applies and the series still diverges."
+  ],
+  "untested_variants": [
+    "Series whose general term involves factorials or exponentials (e.g., $\\sum \\frac{n!}{2^n}$), which require careful limit techniques not practiced in the problems above.",
+    "Determining convergence or divergence of a series given in summation notation with a starting index of $n=0$ and a general term that requires L'H\u00f4pital's Rule to evaluate the limit.",
+    "Series written in telescoping form (e.g., $\\sum_{n=1}^{\\infty}\\left(\\frac{1}{n} - \\frac{1}{n+1}\\right)$) where the Divergence Test is inconclusive and the student must instead compute partial sums explicitly.",
+    "Multi-part problems that ask the student first to write out the partial sums $S_1, S_2, S_3, S_4$ numerically for a given series before applying the Divergence Test, connecting the definition of convergence via partial sums to the test."
+  ]
+}

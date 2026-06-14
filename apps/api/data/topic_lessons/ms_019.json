@@ -1,0 +1,81 @@
+{
+  "topic_id": "ms_019",
+  "topic_name": "Confidence Regions and Simultaneous Inference",
+  "generated_at": "2026-05-14T01:02:54.146112+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to build a confidence interval for a single parameter \u2014 say, the mean of a normal population \u2014 by inverting a pivot and collecting all parameter values not rejected by your test. But what happens when you need to make simultaneous statements about two or more parameters, like both the mean and variance, or several regression coefficients at once? If you build separate 95% intervals for each parameter independently, the probability that ALL of them are correct simultaneously drops well below 95%. So the question is: how do you construct a single region in parameter space that captures the true vector of parameters with a guaranteed joint probability?",
+  "concept": "A confidence region is the multivariate generalization of a confidence interval: instead of an interval on the real line, it is a set $C(\\mathbf{X})$ in $\\mathbb{R}^p$ such that $P(\\boldsymbol{\\theta} \\in C(\\mathbf{X})) \\geq 1 - \\alpha$ for all $\\boldsymbol{\\theta}$. Formally, if $T(\\mathbf{X})$ is a pivot with known distribution, the region is $C(\\mathbf{X}) = \\{\\boldsymbol{\\theta} : T(\\mathbf{X}, \\boldsymbol{\\theta}) \\leq c_{\\alpha}\\}$, where $c_{\\alpha}$ is the appropriate quantile. The geometry of the region \u2014 ellipse, rectangle, etc. \u2014 depends on the pivot chosen.",
+  "anatomy": "A confidence region for a $p$-dimensional parameter vector $\\boldsymbol{\\theta}$ has four key structural parts. First, the estimator $\\hat{\\boldsymbol{\\theta}}$ (usually the MLE) serves as the center of the region. Second, the pivot statistic $T = n(\\hat{\\boldsymbol{\\theta}} - \\boldsymbol{\\theta})^\\top \\hat{I}(\\hat{\\boldsymbol{\\theta}})(\\hat{\\boldsymbol{\\theta}} - \\boldsymbol{\\theta})$ measures standardized distance from $\\hat{\\boldsymbol{\\theta}}$ to a candidate $\\boldsymbol{\\theta}$, using the observed Fisher information $\\hat{I}$ as the metric. Third, the critical value $\\chi^2_{p,\\alpha}$ \u2014 the $1-\\alpha$ quantile of the chi-squared distribution with $p$ degrees of freedom \u2014 determines the size of the region. Fourth, the shape itself: because the quadratic form defines an ellipse in $\\mathbb{R}^p$, the region is an asymptotic confidence ellipsoid, whose axes are aligned with the eigenvectors of $\\hat{I}^{-1}$ and scaled by the corresponding eigenvalues.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\stackrel{\\text{iid}}{\\sim} N(\\mu, \\sigma^2), \\quad \\boldsymbol{\\theta} = (\\mu, \\sigma^2)^\\top",
+      "description_latex": "We set up the problem: we have a normal sample with both parameters unknown, and we want a joint 95% confidence region for $\\boldsymbol{\\theta} = (\\mu, \\sigma^2)^\\top$. We will use the likelihood-ratio approach because it produces exact (not merely asymptotic) regions for the normal family, making the example both concrete and instructive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-2\\log\\Lambda(\\mathbf{X}) = -2\\left[\\ell(\\boldsymbol{\\theta}) - \\ell(\\hat{\\boldsymbol{\\theta}})\\right] = n\\log\\left(\\frac{\\hat{\\sigma}^2}{s^2_n}\\right) + \\frac{n(\\bar{X}-\\mu)^2}{\\hat{\\sigma}^2}",
+      "description_latex": "We write the likelihood-ratio statistic by substituting the normal log-likelihood; here $\\hat{\\mu} = \\bar{X}$ and $\\hat{\\sigma}^2 = n^{-1}\\sum(X_i - \\bar{X})^2$ are the MLEs, and $s^2_n = \\hat{\\sigma}^2$ for compactness. This expression measures how much the log-likelihood drops when we move from the MLE to an arbitrary candidate $(\\mu, \\sigma^2)$, which is exactly the right quantity for building a region via inversion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C(\\mathbf{X}) = \\left\\{(\\mu,\\sigma^2) : n\\log\\left(\\frac{\\hat{\\sigma}^2}{\\sigma^2}\\right) + \\frac{n(\\bar{X}-\\mu)^2}{\\sigma^2} \\leq \\chi^2_{2,0.05}\\right\\}",
+      "description_latex": "By Wilks' theorem, $-2\\log\\Lambda \\xrightarrow{d} \\chi^2_p$ under the null, so we collect all $\\boldsymbol{\\theta}$ for which the statistic does not exceed the 95th percentile of $\\chi^2_2$, which is $5.991$. This inversion step is the core idea: a confidence region is nothing more than the set of parameter values that would NOT be rejected at level $\\alpha$ by the corresponding likelihood-ratio test.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P\\!\\left(\\boldsymbol{\\theta}_0 \\in C(\\mathbf{X})\\right) \\approx 1 - \\alpha = 0.95",
+      "description_latex": "We verify the coverage claim: asymptotically, and exactly in large-sample theory, the true parameter vector $\\boldsymbol{\\theta}_0$ lies inside $C(\\mathbf{X})$ with probability $0.95$. This is the fundamental guarantee of a confidence region \u2014 not that any particular computed region contains the truth, but that the procedure produces a region containing the truth $95\\%$ of the time across repeated sampling.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\hat{\\boldsymbol{\\theta}} = \\hat{\\boldsymbol{\\beta}} \\sim N_p(\\boldsymbol{\\beta}, \\sigma^2(X^\\top X)^{-1}), \\quad \\sigma^2 \\text{ known}",
+      "description_latex": "We are building a joint confidence ellipsoid for the $p$-dimensional regression coefficient vector $\\boldsymbol{\\beta}$ when $\\sigma^2$ is known. The OLS estimator is multivariate normal, so the pivot is a quadratic form in a normal vector, which follows a chi-squared distribution \u2014 set this up by writing the standardized squared distance from $\\hat{\\boldsymbol{\\beta}}$ to $\\boldsymbol{\\beta}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T = \\frac{(\\hat{\\boldsymbol{\\beta}} - \\boldsymbol{\\beta})^\\top X^\\top X (\\hat{\\boldsymbol{\\beta}} - \\boldsymbol{\\beta})}{\\sigma^2} \\sim \\chi^2_p",
+      "description_latex": "This pivot is exact (not just asymptotic) because $\\hat{\\boldsymbol{\\beta}}$ is exactly normal. Now write down the confidence ellipsoid $C(\\mathbf{X})$ by inverting this pivot \u2014 collect all $\\boldsymbol{\\beta}$ for which $T$ does not exceed the critical value $\\chi^2_{p,\\alpha}$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "C(\\mathbf{X}) = \\left\\{\\boldsymbol{\\beta} : \\frac{(\\hat{\\boldsymbol{\\beta}} - \\boldsymbol{\\beta})^\\top X^\\top X (\\hat{\\boldsymbol{\\beta}} - \\boldsymbol{\\beta})}{\\sigma^2} \\leq \\chi^2_{p,\\alpha}\\right\\}",
+      "description_latex": "The resulting set is an ellipsoid in $\\mathbb{R}^p$ centered at $\\hat{\\boldsymbol{\\beta}}$, with shape determined by the matrix $X^\\top X$. Notice that the Bonferroni correction would instead use $p$ separate intervals; use the Bonferroni coverage probability formula $1-(1-\\alpha)^p \\approx p\\alpha$ to explain why the ellipsoidal region is preferable in terms of joint coverage.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A 95\\% confidence ellipsoid for $\\boldsymbol{\\theta} \\in \\mathbb{R}^2$ is based on $-2\\log\\Lambda \\leq \\chi^2_{2,0.05}$. What is the numerical value of the critical value you should use?",
+      "answer_latex": "\\chi^2_{2,0.05} = 5.991"
+    },
+    {
+      "prompt_latex": "You construct three separate 95\\% confidence intervals for three parameters $\\theta_1, \\theta_2, \\theta_3$, treating them as independent. Using the Bonferroni inequality, what is the lower bound on the probability that all three intervals simultaneously contain their true values?",
+      "answer_latex": "P(\\text{all correct}) \\geq 1 - 3(0.05) = 0.85"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\stackrel{\\text{iid}}{\\sim} N(\\mu,\\sigma^2)$ with both parameters unknown. The MLE is $(\\bar{X}, \\hat{\\sigma}^2)$. Using Wilks' theorem, write the asymptotic 90\\% confidence region for $(\\mu,\\sigma^2)$ in terms of $-2\\log\\Lambda$ and identify the degrees of freedom.",
+      "answer_latex": "C = \\{(\\mu,\\sigma^2): -2\\log\\Lambda \\leq \\chi^2_{2,0.10}\\} = \\{(\\mu,\\sigma^2): -2\\log\\Lambda \\leq 4.605\\}, \\text{ with } 2 \\text{ degrees of freedom}"
+    },
+    {
+      "prompt_latex": "In linear regression with $p=3$ coefficients and known $\\sigma^2$, the OLS estimator satisfies $\\hat{\\boldsymbol{\\beta}} \\sim N_3(\\boldsymbol{\\beta}, \\sigma^2 (X^\\top X)^{-1})$. Suppose $\\sigma^2 = 4$ and $(X^\\top X) = 4I_3$. Find the 95\\% confidence ellipsoid for $\\boldsymbol{\\beta}$ and describe its geometric shape (center, matrix defining axes, and radius).",
+      "answer_latex": "C = \\left\\{\\boldsymbol{\\beta}: \\|\\hat{\\boldsymbol{\\beta}} - \\boldsymbol{\\beta}\\|^2 \\leq \\frac{\\sigma^2}{1} \\chi^2_{3,0.05}\\right\\} = \\left\\{\\boldsymbol{\\beta}: \\|\\hat{\\boldsymbol{\\beta}} - \\boldsymbol{\\beta}\\|^2 \\leq 7.815\\right\\}; \\text{ a sphere of radius } \\sqrt{7.815} \\approx 2.795 \\text{ centered at } \\hat{\\boldsymbol{\\beta}}"
+    },
+    {
+      "prompt_latex": "A pharmaceutical company measures two endpoints jointly: systolic blood pressure reduction $\\mu_1$ and heart rate reduction $\\mu_2$. From $n=100$ patients, they report $\\hat{\\mu}_1 = 12$, $\\hat{\\mu}_2 = 5$, and estimated covariance matrix $\\hat{\\Sigma} = \\begin{pmatrix}4 & 1 \\\\ 1 & 2\\end{pmatrix}$. Using the asymptotic 95\\% confidence ellipsoid $n(\\hat{\\boldsymbol{\\mu}} - \\boldsymbol{\\mu})^\\top \\hat{\\Sigma}^{-1}(\\hat{\\boldsymbol{\\mu}} - \\boldsymbol{\\mu}) \\leq \\chi^2_{2,0.05}$, determine whether the point $(\\mu_1, \\mu_2) = (11, 4)$ lies inside or outside the region.",
+      "answer_latex": "\\hat{\\Sigma}^{-1} = \\frac{1}{7}\\begin{pmatrix}2 & -1 \\\\ -1 & 4\\end{pmatrix}, \\quad \\mathbf{d} = (-1,-1)^\\top, \\quad T = 100 \\cdot \\frac{1}{7}(2+1+1+4) = \\frac{800}{7} \\approx 114.3 \\gg 5.991; \\text{ the point lies OUTSIDE the region}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the $\\chi^2_1$ critical value (or a $z$-score) instead of $\\chi^2_p$ when building a joint region for $p > 1$ parameters, forgetting that the degrees of freedom equals the dimension of $\\boldsymbol{\\theta}$; always count the number of free parameters being estimated jointly to set the degrees of freedom.",
+    "Students confuse a simultaneous confidence region with $p$ separate marginal intervals: the marginal intervals have correct individual coverage but their joint coverage can be much lower than $1-\\alpha$, while the ellipsoidal region guarantees joint coverage \u2014 never read off separate intervals from the axes of the ellipsoid and claim joint coverage.",
+    "When applying Wilks' theorem students forget that the asymptotic $\\chi^2_p$ approximation requires the true parameter to be in the interior of the parameter space; if any component of $\\boldsymbol{\\theta}$ is on the boundary (e.g., $\\sigma^2 = 0$ or a mixing proportion at 0 or 1), the $\\chi^2_p$ limit fails and a corrected distribution must be used."
+  ],
+  "untested_variants": [
+    "Constructing simultaneous confidence bands for an entire regression function $f(x) = \\mathbf{x}^\\top \\boldsymbol{\\beta}$ over all $x$ using the Scheff\u00e9 method, which requires an $F$-distribution critical value rather than a chi-squared one.",
+    "Building a confidence region for a smooth function of the parameters $g(\\boldsymbol{\\theta})$ via the delta method, where the student must propagate the covariance through the Jacobian of $g$ to obtain the correct ellipsoid.",
+    "Using the profile likelihood to construct a confidence region when some parameters are nuisance parameters \u2014 profiling out the nuisance to get a reduced chi-squared pivot with fewer degrees of freedom.",
+    "Applying the Bonferroni, \u0160id\u00e1k, or Holm corrections to control the familywise error rate for simultaneous hypothesis tests rather than constructing a geometric confidence region, and comparing the conservatism of each approach."
+  ]
+}

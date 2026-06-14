@@ -1,0 +1,86 @@
+{
+  "topic_id": "ms_028",
+  "topic_name": "Instrumental Variables and Two-Stage Least Squares (H)",
+  "generated_at": "2026-05-14T01:03:49.202171+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know that OLS regression gives unbiased estimates when the regressors are uncorrelated with the error term. But what happens when a key explanatory variable is endogenous \u2014 meaning it is correlated with the unobserved error, perhaps because of reverse causality or omitted variables? For example, suppose you want to estimate the causal effect of education on wages, but people who choose more education may differ in unobservable ways (like motivation) that also raise wages. OLS will conflate the true education effect with these unobservable differences \u2014 so how can we recover an unbiased causal estimate?",
+  "concept": "An instrumental variable (IV) is a variable $z$ that is correlated with the endogenous regressor $x$ (relevance) but uncorrelated with the error term $\\varepsilon$ (exogeneity/exclusion restriction). Two-Stage Least Squares (2SLS) operationalises IV estimation: in Stage 1 we regress $x$ on $z$ to isolate the exogenous variation in $x$; in Stage 2 we regress the outcome $y$ on the fitted values $\\hat{x}$ from Stage 1, so only the 'clean' variation in $x$ is used to identify the causal effect.",
+  "anatomy": "The 2SLS framework has four named components. The endogenous variable $x$ is the regressor contaminated by correlation with $\\varepsilon$, making OLS inconsistent. The instrument $z$ must satisfy two conditions: the relevance condition $\\text{Cov}(z, x) \\neq 0$, which ensures $z$ actually moves $x$, and the exclusion restriction $\\text{Cov}(z, \\varepsilon) = 0$, which ensures $z$ affects $y$ only through $x$. The Stage 1 fitted values $\\hat{x} = \\hat{\\pi}_0 + \\hat{\\pi}_1 z$ represent the purged, exogenous component of $x$. The 2SLS estimator $\\hat{\\beta}_{2SLS}$ is the slope obtained by regressing $y$ on $\\hat{x}$ in Stage 2, and in the just-identified case it equals the ratio of reduced-form to first-stage coefficients.",
+  "worked_example": [
+    {
+      "expression_latex": "y_i = \\beta_0 + \\beta_1 x_i + \\varepsilon_i, \\quad \\text{Cov}(x_i, \\varepsilon_i) \\neq 0",
+      "description_latex": "We start by writing down the structural equation we care about, where $y_i$ is log wages, $x_i$ is years of schooling, and $\\varepsilon_i$ contains unobservable ability. Because ability affects both schooling choices and wages, $x_i$ is endogenous and OLS will give a biased estimate of $\\beta_1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Stage 1: } x_i = \\pi_0 + \\pi_1 z_i + \\nu_i",
+      "description_latex": "We introduce an instrument $z_i$ \u2014 a classic example is proximity to a college (Card, 1995) \u2014 and regress $x_i$ on $z_i$ by OLS to obtain fitted values $\\hat{x}_i$. This step isolates only the variation in schooling that is driven by geographic access (which is plausibly exogenous to individual ability), discarding the endogenous part captured in the residual $\\hat{\\nu}_i$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{x}_i = \\hat{\\pi}_0 + \\hat{\\pi}_1 z_i",
+      "description_latex": "The fitted values $\\hat{x}_i$ represent the predicted level of schooling based solely on the instrument, and they are uncorrelated with $\\varepsilon_i$ by the exclusion restriction. This is the key move: we have extracted a 'clean' version of $x_i$ that no longer carries the contamination from unobservable ability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Stage 2: } y_i = \\beta_0 + \\beta_1 \\hat{x}_i + e_i",
+      "description_latex": "We now regress $y_i$ on $\\hat{x}_i$ rather than $x_i$, and OLS applied to this stage yields the 2SLS estimator $\\hat{\\beta}_{2SLS}$. Because $\\hat{x}_i$ is uncorrelated with $\\varepsilon_i$, the regression is no longer contaminated by the endogeneity problem and $\\hat{\\beta}_{2SLS}$ is a consistent estimator of the causal effect $\\beta_1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\beta}_{2SLS} = \\frac{\\hat{\\text{Cov}}(z_i, y_i)}{\\hat{\\text{Cov}}(z_i, x_i)} = \\frac{\\hat{\\delta}_1}{\\hat{\\pi}_1}",
+      "description_latex": "In the just-identified case (one instrument, one endogenous variable), the 2SLS estimator simplifies to the ratio of the reduced-form coefficient $\\hat{\\delta}_1$ (effect of $z$ on $y$) divided by the first-stage coefficient $\\hat{\\pi}_1$ (effect of $z$ on $x$). This Wald-style formula makes it transparent that if the instrument has a very weak first stage ($\\hat{\\pi}_1 \\approx 0$), small estimation errors are amplified and the IV estimator becomes unreliable \u2014 this is the weak instrument problem.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y_i = \\beta_0 + \\beta_1 x_i + \\varepsilon_i, \\quad x_i = \\pi_0 + \\pi_1 z_i + \\nu_i",
+      "description_latex": "Suppose $y_i$ is annual income, $x_i$ is hours of job training (endogenous because motivated workers self-select into training), and $z_i$ is distance from the nearest training centre. We have the structural equation and the first-stage equation written above. The first step is to obtain the Stage 1 fitted values by running OLS on the first-stage equation and recording $\\hat{\\pi}_0$ and $\\hat{\\pi}_1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{x}_i = \\hat{\\pi}_0 + \\hat{\\pi}_1 z_i",
+      "description_latex": "Using the Stage 1 estimates, we construct the fitted values $\\hat{x}_i$. Now set up and interpret the Stage 2 regression: write down what you regress on what, identify which coefficient is $\\hat{\\beta}_{2SLS}$, and explain why using $\\hat{x}_i$ instead of $x_i$ solves the endogeneity problem.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\hat{\\beta}_{2SLS} = \\frac{\\hat{\\text{Cov}}(z_i, y_i)}{\\hat{\\text{Cov}}(z_i, x_i)}",
+      "description_latex": "Suppose numerical calculations give $\\hat{\\text{Cov}}(z_i, y_i) = -120$ and $\\hat{\\text{Cov}}(z_i, x_i) = -15$. Use the Wald formula to compute $\\hat{\\beta}_{2SLS}$ and state its economic interpretation \u2014 what does a one-unit increase in training hours do to income according to this IV estimate?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the two conditions an instrumental variable $z$ must satisfy for 2SLS to yield a consistent estimator of $\\beta_1$ in $y = \\beta_0 + \\beta_1 x + \\varepsilon$. Write each condition as a covariance statement.",
+      "answer_latex": "\\text{Relevance: } \\text{Cov}(z, x) \\neq 0; \\quad \\text{Exclusion restriction: } \\text{Cov}(z, \\varepsilon) = 0"
+    },
+    {
+      "prompt_latex": "In a just-identified model, the reduced-form regression of $y$ on $z$ gives $\\hat{\\delta}_1 = 0.30$, and the first-stage regression of $x$ on $z$ gives $\\hat{\\pi}_1 = 0.50$. Compute $\\hat{\\beta}_{2SLS}$.",
+      "answer_latex": "\\hat{\\beta}_{2SLS} = \\frac{\\hat{\\delta}_1}{\\hat{\\pi}_1} = \\frac{0.30}{0.50} = 0.60"
+    },
+    {
+      "prompt_latex": "You run the Stage 1 regression $x_i = \\pi_0 + \\pi_1 z_i + \\nu_i$ and obtain $\\hat{\\pi}_0 = 2$, $\\hat{\\pi}_1 = 0.8$. Write down the Stage 2 regression equation and identify the dependent variable, the regressor, and the parameter of interest.",
+      "answer_latex": "\\text{Stage 2: } y_i = \\beta_0 + \\beta_1 \\hat{x}_i + e_i, \\text{ where } \\hat{x}_i = 2 + 0.8z_i. \\text{ Dependent variable: } y_i; \\text{ regressor: } \\hat{x}_i; \\text{ parameter of interest: } \\beta_1 = \\hat{\\beta}_{2SLS}."
+    },
+    {
+      "prompt_latex": "A researcher estimates the causal effect of class size $x$ on test scores $y$ using the instrument $z$ = number of eligible students (Angrist\u2013Lavy style). The first-stage F-statistic is 3.2. Comment on whether this instrument is likely to be valid for 2SLS, referring to the conventional threshold and the implication for the bias of $\\hat{\\beta}_{2SLS}$.",
+      "answer_latex": "\\text{A first-stage } F < 10 \\text{ signals a weak instrument. Weak instruments cause } \\hat{\\beta}_{2SLS} \\text{ to be biased toward the OLS estimate and inflate standard errors, making inference unreliable. The instrument should be strengthened or reconsidered.}"
+    },
+    {
+      "prompt_latex": "In a supply-and-demand system, quantity $q$ and price $p$ are jointly determined (simultaneous equations bias). A researcher proposes using rainfall $r$ as an instrument for price in a demand equation $q = \\alpha + \\beta p + \\varepsilon$. Rainfall affects farm supply costs and hence price, but does not directly affect consumer demand. Verify that $r$ satisfies both IV conditions and set up the 2SLS estimation procedure step by step.",
+      "answer_latex": "\\text{Relevance: } \\text{Cov}(r, p) \\neq 0 \\text{ (rainfall shifts supply, changing equilibrium price).} \\\\ \\text{Exclusion: } \\text{Cov}(r, \\varepsilon) = 0 \\text{ (rainfall does not directly enter demand).} \\\\ \\text{Stage 1: regress } p_i \\text{ on } r_i \\text{ by OLS, obtain } \\hat{p}_i. \\\\ \\text{Stage 2: regress } q_i \\text{ on } \\hat{p}_i \\text{ by OLS; the slope is } \\hat{\\beta}_{2SLS}, \\text{ the consistent demand elasticity.}"
+    }
+  ],
+  "common_mistakes": [
+    "Using OLS standard errors in Stage 2 instead of 2SLS-corrected standard errors: when you manually run two OLS regressions, the Stage 2 OLS standard errors are incorrect because the residuals are computed from $\\hat{x}$ rather than $x$, understating true uncertainty. Always use dedicated 2SLS software (e.g., ivreg in R or ivregress in Stata) that applies the correct variance formula.",
+    "Forgetting to include exogenous controls in Stage 1: if the structural equation contains exogenous covariates $w_i$ (e.g., age, gender), they must also be included in the first-stage regression; omitting them leaves their variation in the Stage 1 residual, biasing $\\hat{x}_i$ and therefore biasing $\\hat{\\beta}_{2SLS}$.",
+    "Concluding that a high first-stage $R^2$ implies a strong instrument: $R^2$ can be inflated by the exogenous controls, not by the instrument alone. The correct diagnostic is the first-stage F-statistic on the excluded instruments, with the conventional threshold of $F > 10$ for the single-instrument case; a high $R^2$ but low partial F still signals a weak instrument problem."
+  ],
+  "untested_variants": [
+    "Over-identified 2SLS with multiple instruments (more instruments than endogenous variables), including the Hansen J-test of overidentifying restrictions to test the joint exclusion restriction.",
+    "Limited Information Maximum Likelihood (LIML) estimation as an alternative to 2SLS that can perform better under weak instruments, and comparison of LIML versus 2SLS bias.",
+    "2SLS in a simultaneous equations system (structural form vs. reduced form identification), including the order condition and rank condition for identification of each equation separately.",
+    "Local Average Treatment Effect (LATE) interpretation of IV when the endogenous variable is binary and the instrument is a dummy (e.g., randomised encouragement designs), distinguishing LATE from ATE and ATT."
+  ]
+}

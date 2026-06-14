@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_009",
+  "topic_name": "Arc Length and Curvature",
+  "generated_at": "2026-05-13T00:29:59.197675+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to find the length of a curve in the plane using a single-variable integral, and you know how to describe curves in space with vector functions $\\mathbf{r}(t) = \\langle x(t), y(t), z(t) \\rangle$. But how do you measure the total length of a twisted space curve, and how do you quantify how sharply it bends at any given point? These two questions \u2014 how long is the curve, and how curved is it \u2014 turn out to have elegant answers, but they require a new machinery you haven't built yet. Can you figure out how to adapt the arc length formula to three dimensions and capture the idea of 'bendiness' with a single number?",
+  "concept": "Arc length measures the total distance traveled along a curve, while curvature measures how rapidly the curve changes direction per unit of arc length. For a vector function $\\mathbf{r}(t)$ on $[a, b]$, arc length is $L = \\int_a^b |\\mathbf{r}'(t)|\\, dt$, and curvature is $\\kappa = \\frac{|\\mathbf{r}'(t) \\times \\mathbf{r}''(t)|}{|\\mathbf{r}'(t)|^3}$, telling you how tightly the curve turns at each point.",
+  "anatomy": "In the arc length formula $L = \\int_a^b |\\mathbf{r}'(t)|\\, dt$, the integrand $|\\mathbf{r}'(t)| = \\sqrt{[x'(t)]^2 + [y'(t)]^2 + [z'(t)]^2}$ is the speed \u2014 the magnitude of the velocity vector. In the curvature formula $\\kappa = \\frac{|\\mathbf{r}'(t) \\times \\mathbf{r}''(t)|}{|\\mathbf{r}'(t)|^3}$, the numerator $|\\mathbf{r}'(t) \\times \\mathbf{r}''(t)|$ captures how much the velocity and acceleration vectors 'twist away' from each other (zero when motion is straight), and the denominator $|\\mathbf{r}'(t)|^3$ normalizes for the fact that faster traversal of the same curve shouldn't change its geometric curvature. The unit tangent vector $\\mathbf{T}(t) = \\frac{\\mathbf{r}'(t)}{|\\mathbf{r}'(t)|}$ is a useful intermediate quantity: curvature can also be written as $\\kappa = \\frac{|\\mathbf{T}'(t)|}{|\\mathbf{r}'(t)|}$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{r}(t) = \\langle 3\\cos t,\\, 3\\sin t,\\, 4t \\rangle, \\quad t \\in [0, 2\\pi]",
+      "description_latex": "We start with a circular helix. Our goal is to find its arc length over one full turn and then compute its curvature. The first step is always to differentiate the position vector to get the velocity vector $\\mathbf{r}'(t)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}'(t) = \\langle -3\\sin t,\\, 3\\cos t,\\, 4 \\rangle \\implies |\\mathbf{r}'(t)| = \\sqrt{9\\sin^2 t + 9\\cos^2 t + 16} = \\sqrt{9 + 16} = 5",
+      "description_latex": "We compute the magnitude of the velocity vector by squaring each component and summing. Notice that $9\\sin^2 t + 9\\cos^2 t = 9(\\sin^2 t + \\cos^2 t) = 9$ by the Pythagorean identity, which simplifies the square root to a constant $5$. A constant speed magnitude makes the integral much easier.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L = \\int_0^{2\\pi} |\\mathbf{r}'(t)|\\, dt = \\int_0^{2\\pi} 5\\, dt = 5 \\cdot 2\\pi = 10\\pi",
+      "description_latex": "Since the speed $|\\mathbf{r}'(t)| = 5$ is constant, the arc length integral reduces to a trivial integral. This tells us the helix stretches $10\\pi$ units over one full revolution \u2014 longer than a flat circle of radius 3 (which would be $6\\pi$) because of the vertical rise.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}''(t) = \\langle -3\\cos t,\\, -3\\sin t,\\, 0 \\rangle, \\quad \\mathbf{r}'(t) \\times \\mathbf{r}''(t) = \\begin{vmatrix} \\mathbf{i} & \\mathbf{j} & \\mathbf{k} \\\\ -3\\sin t & 3\\cos t & 4 \\\\ -3\\cos t & -3\\sin t & 0 \\end{vmatrix}",
+      "description_latex": "To find curvature we need the cross product of velocity and acceleration. We differentiate $\\mathbf{r}'(t)$ to get $\\mathbf{r}''(t)$, then set up the $3 \\times 3$ determinant. This cross product will capture how much the direction of travel is changing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}' \\times \\mathbf{r}'' = \\langle 12\\sin t,\\, -12\\cos t,\\, 9 \\rangle \\implies |\\mathbf{r}' \\times \\mathbf{r}''| = \\sqrt{144\\sin^2 t + 144\\cos^2 t + 81} = \\sqrt{144 + 81} = 15, \\quad \\kappa = \\frac{15}{5^3} = \\frac{15}{125} = \\frac{3}{25}",
+      "description_latex": "Expanding the determinant gives $\\langle 12\\sin t, -12\\cos t, 9 \\rangle$, whose magnitude simplifies to $15$ again by the Pythagorean identity. Dividing by $|\\mathbf{r}'|^3 = 125$ gives the constant curvature $\\kappa = 3/25$, which makes geometric sense: a helix bends the same amount everywhere along its length.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{r}(t) = \\langle t^2,\\, 2t,\\, \\ln t \\rangle, \\quad t \\in [1, e]",
+      "description_latex": "We want the arc length of this curve. The first thing we must do is differentiate each component to find $\\mathbf{r}'(t)$, then build the speed $|\\mathbf{r}'(t)|$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}'(t) = \\langle 2t,\\, 2,\\, 1/t \\rangle \\implies |\\mathbf{r}'(t)| = \\sqrt{4t^2 + 4 + \\frac{1}{t^2}}",
+      "description_latex": "Here is the velocity vector and the expression under the square root. Notice that $4t^2 + 4 + 1/t^2$ looks like it might be a perfect square. Can you factor it as $\\left(2t + \\frac{1}{t}\\right)^2$ and verify? This factoring step is the key insight that makes the integral solvable.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "|\\mathbf{r}'(t)| = 2t + \\frac{1}{t} \\implies L = \\int_1^e \\left(2t + \\frac{1}{t}\\right) dt = \\left[t^2 + \\ln t\\right]_1^e = (e^2 + 1) - (1 + 0) = e^2",
+      "description_latex": "Once we recognize the perfect square, the speed simplifies to $2t + 1/t$ (positive for $t \\geq 1$), and the integral is elementary. Evaluating from $1$ to $e$ gives the clean answer $L = e^2$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the arc length of $\\mathbf{r}(t) = \\langle 4t,\\, 3\\cos t,\\, 3\\sin t \\rangle$ on $[0, 2\\pi]$.",
+      "answer_latex": "L = 10\\pi"
+    },
+    {
+      "prompt_latex": "Find the arc length of $\\mathbf{r}(t) = \\langle t,\\, t^{3/2},\\, 0 \\rangle$ on $[0, 4]$. (Hint: let $u = 1 + \\frac{9}{4}t$.)",
+      "answer_latex": "L = \\frac{8}{27}\\left(10^{3/2} - 1\\right)"
+    },
+    {
+      "prompt_latex": "Compute the curvature of the plane curve $\\mathbf{r}(t) = \\langle t,\\, t^2,\\, 0 \\rangle$ as a function of $t$.",
+      "answer_latex": "\\kappa(t) = \\dfrac{2}{(1 + 4t^2)^{3/2}}"
+    },
+    {
+      "prompt_latex": "For the twisted cubic $\\mathbf{r}(t) = \\langle t,\\, t^2,\\, t^3 \\rangle$, find the curvature $\\kappa$ at the point $t = 0$.",
+      "answer_latex": "\\kappa(0) = 2"
+    },
+    {
+      "prompt_latex": "A particle moves along a path so that its position is $\\mathbf{r}(t) = \\langle e^t \\cos t,\\, e^t \\sin t,\\, e^t \\rangle$. Find the total distance traveled from $t = 0$ to $t = 1$.",
+      "answer_latex": "L = \\sqrt{3}\\,(e - 1)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to cube the speed in the curvature denominator, writing $\\kappa = |\\mathbf{r}' \\times \\mathbf{r}''| / |\\mathbf{r}'|^2$ instead of $|\\mathbf{r}'|^3$. Remember: the denominator must be $|\\mathbf{r}'(t)|^3$ to make curvature a purely geometric quantity independent of parameterization speed.",
+    "When computing $|\\mathbf{r}'(t)|$, students square the entire derivative rather than squaring each component separately \u2014 for example, writing $|\\langle 2t, 2, 1/t \\rangle|^2 = (2t + 2 + 1/t)^2$ instead of $4t^2 + 4 + 1/t^2$. The magnitude squares each component independently under the square root.",
+    "Students confuse the two curvature formulas and apply the simpler formula $\\kappa = |\\mathbf{T}'(t)| / |\\mathbf{r}'(t)|$ but then differentiate $\\mathbf{r}'$ instead of the unit tangent $\\mathbf{T}$. Always identify which formula you are using: the cross-product formula $\\kappa = |\\mathbf{r}' \\times \\mathbf{r}''| / |\\mathbf{r}'|^3$ avoids the tedious unit tangent differentiation entirely for most problems."
+  ],
+  "untested_variants": [
+    "Reparameterizing a curve by arc length \u2014 that is, finding $s(t) = \\int_a^t |\\mathbf{r}'(u)|\\, du$ and then inverting to write $\\mathbf{r}$ as a function of $s$.",
+    "Computing the torsion $\\tau$ of a space curve using $\\tau = \\frac{(\\mathbf{r}' \\times \\mathbf{r}'') \\cdot \\mathbf{r}'''}{|\\mathbf{r}' \\times \\mathbf{r}''|^2}$, which measures how much the curve twists out of its osculating plane.",
+    "Using the simpler single-variable curvature formula $\\kappa = |f''(x)| / (1 + [f'(x)]^2)^{3/2}$ for a plane curve given as $y = f(x)$, and reconciling it with the vector formula.",
+    "Finding the osculating circle at a point \u2014 locating its center (the center of curvature) along the principal normal direction at distance $1/\\kappa$ from the curve."
+  ]
+}

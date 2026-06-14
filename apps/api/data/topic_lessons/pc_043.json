@@ -1,0 +1,91 @@
+{
+  "topic_id": "pc_043",
+  "topic_name": "Multivariable Linear Systems and Row Reduction",
+  "generated_at": "2026-05-12T23:52:35.327790+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to solve a system of two equations with two unknowns \u2014 substitution or elimination gets the job done. But what happens when a client hands you three equations with three unknowns, or even four? Elimination by hand becomes a tangled mess, and it's easy to lose track of which equation you modified. How can we organize this process so that solving any size linear system becomes a reliable, repeatable algorithm?",
+  "concept": "A multivariable linear system is a collection of linear equations sharing the same set of unknowns, and row reduction (Gaussian elimination) is the systematic method for solving it. We encode the system as an augmented matrix $[A|b]$, then apply three elementary row operations \u2014 swapping rows, multiplying a row by a nonzero scalar, and adding a multiple of one row to another \u2014 to reach row echelon form, from which we back-substitute to find the solution.",
+  "anatomy": "The augmented matrix $[A|b]$ has two structural pieces: the coefficient matrix $A$, whose entry $a_{ij}$ is the coefficient of the $j$-th variable in the $i$-th equation, and the constant column $b$, separated by a vertical bar. Row echelon form requires three features: a leading entry (called a pivot) in each nonzero row, every pivot to the right of the pivot above it, and all entries below each pivot equal to zero. Reduced row echelon form (RREF) additionally requires each pivot to equal $1$ and all entries above each pivot to also be zero, eliminating the need for back-substitution.",
+  "worked_example": [
+    {
+      "expression_latex": "\\begin{cases} x + 2y - z = 8 \\\\ -3x - 6y + 4z = -20 \\\\ 2x + y + z = 2 \\end{cases}",
+      "description_latex": "We start by writing down the system clearly so we can identify every coefficient and constant. This is the problem we want to solve \u2014 three equations, three unknowns \u2014 and before we touch any numbers, we confirm each equation is in standard form with variables lined up in the same order.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left[\\begin{array}{ccc|c} 1 & 2 & -1 & 8 \\\\ -3 & -6 & 4 & -20 \\\\ 2 & 1 & 1 & 2 \\end{array}\\right]",
+      "description_latex": "We translate the system into an augmented matrix, placing each coefficient in its column and the constants after the vertical bar. This compact notation lets us perform row operations without rewriting variables over and over, which is exactly how we keep the process organized.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R_2 \\leftarrow R_2 + 3R_1,\\quad R_3 \\leftarrow R_3 - 2R_1 \\implies \\left[\\begin{array}{ccc|c} 1 & 2 & -1 & 8 \\\\ 0 & 0 & 1 & 4 \\\\ 0 & -3 & 3 & -14 \\end{array}\\right]",
+      "description_latex": "Our goal for the first column is to create zeros below the leading $1$ in row 1. We add $3$ times row 1 to row 2 and subtract $2$ times row 1 from row 3 \u2014 both operations eliminate the $x$-terms in the lower rows, which is the whole point of forward elimination.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R_2 \\leftrightarrow R_3 \\implies \\left[\\begin{array}{ccc|c} 1 & 2 & -1 & 8 \\\\ 0 & -3 & 3 & -14 \\\\ 0 & 0 & 1 & 4 \\end{array}\\right]",
+      "description_latex": "We swap rows 2 and 3 so that the nonzero entry in the second column appears in the second row \u2014 this brings the matrix into proper echelon staircase shape and sets up clean back-substitution. Row swaps are perfectly valid and never change the solution set.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z = 4,\\quad y = \\frac{-14 + 3(4)}{-3} = \\frac{-2}{-3} = \\frac{2}{3},\\quad x = 8 - 2\\left(\\frac{2}{3}\\right) + 4 = \\frac{34}{3}",
+      "description_latex": "With the matrix in row echelon form, we back-substitute from the bottom up: row 3 gives $z = 4$ directly, row 2 gives $y$ once we substitute $z$, and row 1 gives $x$ once we substitute both $y$ and $z$. The solution is the ordered triple $\\left(\\frac{34}{3},\\, \\frac{2}{3},\\, 4\\right)$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{cases} 2x + y - z = 3 \\\\ x - y + 2z = 0 \\\\ 3x + 2y + z = 7 \\end{cases}",
+      "description_latex": "Here is a new three-variable system. Our first move is always to write the augmented matrix \u2014 read off every coefficient and constant, and arrange them in the $[A|b]$ format.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left[\\begin{array}{ccc|c} 2 & 1 & -1 & 3 \\\\ 1 & -1 & 2 & 0 \\\\ 3 & 2 & 1 & 7 \\end{array}\\right]",
+      "description_latex": "Good \u2014 here is the augmented matrix. Now we need a leading $1$ in the top-left position. A convenient choice is to swap $R_1$ and $R_2$ so the $1$ from the second equation becomes our pivot. Write the matrix after performing $R_1 \\leftrightarrow R_2$, then use that new row 1 to eliminate $x$ from rows 2 and 3.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\left[\\begin{array}{ccc|c} 1 & -1 & 2 & 0 \\\\ 0 & 3 & -5 & 3 \\\\ 0 & 5 & -5 & 7 \\end{array}\\right]",
+      "description_latex": "After swapping and eliminating, we arrive at this matrix. Continue row reduction to reach echelon form \u2014 eliminate the $y$-term from row 3 using row 2 \u2014 and then back-substitute to find the values of $z$, $y$, and $x$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = 1,\\quad y = \\frac{3}{2},\\quad z = 0",
+      "description_latex": "The completed back-substitution gives this solution. Check your answer by substituting back into all three original equations to confirm every equation balances.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write the augmented matrix for the system: $\\begin{cases} 3x - y = 5 \\\\ x + 4y = 2 \\end{cases}$",
+      "answer_latex": "\\left[\\begin{array}{cc|c} 3 & -1 & 5 \\\\ 1 & 4 & 2 \\end{array}\\right]"
+    },
+    {
+      "prompt_latex": "Use row reduction to solve: $\\begin{cases} x + y + z = 6 \\\\ 2x - y + z = 3 \\\\ x + 2y - z = 4 \\end{cases}$",
+      "answer_latex": "x = 1,\\quad y = 2,\\quad z = 3"
+    },
+    {
+      "prompt_latex": "Use row reduction to solve: $\\begin{cases} x - 2y + 3z = 9 \\\\ -x + 3y - z = -6 \\\\ 2x - 5y + 5z = 17 \\end{cases}$",
+      "answer_latex": "x = 1,\\quad y = -1,\\quad z = 2"
+    },
+    {
+      "prompt_latex": "Solve the system and identify it as consistent (unique solution), inconsistent (no solution), or dependent (infinitely many solutions): $\\begin{cases} x + 2y - z = 4 \\\\ 2x + 4y - 2z = 8 \\\\ -x - 2y + z = -4 \\end{cases}$",
+      "answer_latex": "\\text{Dependent system (infinitely many solutions); all multiples of the second and third equations reduce to the first, giving a solution family such as } (4 - 2t + s,\\, t,\\, s)\\text{ for free parameters }t, s."
+    },
+    {
+      "prompt_latex": "A chemistry student mixes three solutions containing acid, base, and water. Solution A has $20\\%$ acid, $30\\%$ base; Solution B has $10\\%$ acid, $50\\%$ base; Solution C has $30\\%$ acid, $10\\%$ base. She needs $100$ mL total with exactly $20$ mL acid and $30$ mL base. Setting $a, b, c$ as volumes of each solution, set up and solve the augmented matrix.",
+      "answer_latex": "a + b + c = 100,\\quad 0.2a + 0.1b + 0.3c = 20,\\quad 0.3a + 0.5b + 0.1c = 30 \\implies a = 25,\\; b = 50,\\; c = 25"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to apply a row operation to every entry in the row, including the constant column on the right side of the augmented matrix \u2014 for example, they correctly update the coefficients but leave the augmented entry unchanged, producing an incorrect system. Always treat the entire row, all the way to the last column, as a single unit.",
+    "When creating a zero below a pivot, students sometimes overwrite the pivot row itself by mixing up which row is being replaced \u2014 for instance, writing $R_1 \\leftarrow R_1 - 2R_2$ when they meant $R_2 \\leftarrow R_2 - 2R_1$, which destroys the pivot they worked to create. Always double-check that the arrow points to the row being changed, not the row being used as the multiplier.",
+    "During back-substitution, students substitute a variable's value into the wrong equation \u2014 such as plugging $z$ into an already-reduced zero row \u2014 and conclude there is no valid value when there actually is one. Always substitute back into the original unmodified equations or an earlier unreduced row to avoid this confusion."
+  ],
+  "untested_variants": [
+    "Systems with four or more variables requiring a $4 \\times 5$ or larger augmented matrix, where the bookkeeping of multiple elimination steps becomes substantially more complex.",
+    "Bringing a matrix all the way to reduced row echelon form (RREF) using back-elimination to clear entries above each pivot, rather than stopping at row echelon form and back-substituting by hand.",
+    "Identifying and parametrizing the infinite solution set of an underdetermined system (fewer equations than unknowns) by expressing leading variables in terms of free variables.",
+    "Using row reduction to determine whether a system is inconsistent (a row of the form $[0\\;0\\;0\\;|\\;k]$ with $k \\neq 0$ appears) and explaining what this means geometrically in terms of parallel planes."
+  ]
+}

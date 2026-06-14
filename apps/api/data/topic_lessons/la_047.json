@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_047",
+  "topic_name": "Orthogonality and Orthonormal Bases",
+  "generated_at": "2026-05-13T20:09:25.853883+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to check if two vectors are perpendicular in $\\mathbb{R}^2$ or $\\mathbb{R}^3$ using the dot product: $\\mathbf{u} \\cdot \\mathbf{v} = 0$ means a right angle. You also know how to write any vector as a linear combination of basis vectors. But here's the gap: with an arbitrary basis, finding those coordinates requires solving a system of equations \u2014 which gets painful fast. What if there were a special kind of basis where coordinates just fall out instantly, with a single inner product calculation per component?",
+  "concept": "An orthogonal set is a collection of nonzero vectors that are mutually perpendicular \u2014 every pair has inner product zero. When those vectors are also unit vectors (norm equal to 1), the set is called orthonormal. Formally, vectors $\\{\\mathbf{u}_1, \\mathbf{u}_2, \\ldots, \\mathbf{u}_k\\}$ in an inner product space form an orthonormal set if $\\langle \\mathbf{u}_i, \\mathbf{u}_j \\rangle = \\delta_{ij}$, where $\\delta_{ij}$ is the Kronecker delta (1 if $i=j$, 0 if $i \\neq j$). An orthonormal basis is an orthonormal set that also spans the space.",
+  "anatomy": "There are four structural parts to keep straight. The inner product $\\langle \\mathbf{u}, \\mathbf{v} \\rangle$ is the engine \u2014 it measures both angle (via zero vs. nonzero) and length (via $\\|\\mathbf{v}\\| = \\sqrt{\\langle \\mathbf{v}, \\mathbf{v} \\rangle}$). The orthogonality condition $\\langle \\mathbf{u}_i, \\mathbf{u}_j \\rangle = 0$ for $i \\neq j$ handles the perpendicularity requirement. The normalization condition $\\langle \\mathbf{u}_i, \\mathbf{u}_i \\rangle = 1$ enforces unit length, and normalizing a vector means dividing by its norm: $\\hat{\\mathbf{u}} = \\mathbf{u}/\\|\\mathbf{u}\\|$. Finally, the expansion formula $\\mathbf{v} = \\sum_i \\langle \\mathbf{v}, \\mathbf{u}_i \\rangle \\mathbf{u}_i$ is the payoff \u2014 it gives coordinates for free.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{v}_1 = \\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix},\\quad \\mathbf{v}_2 = \\begin{pmatrix}1\\\\-1\\\\0\\end{pmatrix},\\quad \\mathbf{v}_3 = \\begin{pmatrix}0\\\\0\\\\3\\end{pmatrix}",
+      "description_latex": "We start with these three vectors in $\\mathbb{R}^3$ and want to verify they are orthogonal and then build an orthonormal basis. The first step is always to check every pair using the standard dot product, which serves as our inner product here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{v}_1 \\cdot \\mathbf{v}_2 = (1)(1)+(1)(-1)+(0)(0)=0,\\quad \\mathbf{v}_1 \\cdot \\mathbf{v}_3 = 0,\\quad \\mathbf{v}_2 \\cdot \\mathbf{v}_3 = 0",
+      "description_latex": "All three pairwise dot products equal zero, confirming the set is orthogonal. This also immediately tells us the vectors are linearly independent \u2014 a fact worth remembering: every orthogonal set of nonzero vectors is automatically linearly independent, so they form a basis for their span.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\|\\mathbf{v}_1\\| = \\sqrt{1^2+1^2+0^2}=\\sqrt{2},\\quad \\|\\mathbf{v}_2\\|=\\sqrt{2},\\quad \\|\\mathbf{v}_3\\|=\\sqrt{9}=3",
+      "description_latex": "Now we compute the norm of each vector so we know how much to scale each one down. The norms tell us how far each vector is from being a unit vector \u2014 $\\mathbf{v}_3$ has norm 3, so it needs to be divided by 3 to reach length 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{u}_1 = \\frac{\\mathbf{v}_1}{\\|\\mathbf{v}_1\\|}=\\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix},\\quad \\mathbf{u}_2=\\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\-1\\\\0\\end{pmatrix},\\quad \\mathbf{u}_3=\\frac{1}{3}\\begin{pmatrix}0\\\\0\\\\3\\end{pmatrix}=\\begin{pmatrix}0\\\\0\\\\1\\end{pmatrix}",
+      "description_latex": "Dividing each vector by its norm produces the orthonormal set $\\{\\mathbf{u}_1, \\mathbf{u}_2, \\mathbf{u}_3\\}$. Notice that normalization only changes the length, not the direction, so the pairwise inner products between different vectors remain zero \u2014 orthogonality is preserved.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{w} = \\begin{pmatrix}4\\\\2\\\\6\\end{pmatrix} = \\langle \\mathbf{w},\\mathbf{u}_1\\rangle\\mathbf{u}_1 + \\langle \\mathbf{w},\\mathbf{u}_2\\rangle\\mathbf{u}_2 + \\langle \\mathbf{w},\\mathbf{u}_3\\rangle\\mathbf{u}_3 = 3\\sqrt{2}\\,\\mathbf{u}_1 + \\sqrt{2}\\,\\mathbf{u}_2 + 6\\,\\mathbf{u}_3",
+      "description_latex": "This is the payoff of having an orthonormal basis: the coordinate of $\\mathbf{w}$ along each basis direction is simply the inner product of $\\mathbf{w}$ with that basis vector, computed as $\\langle \\mathbf{w},\\mathbf{u}_1\\rangle = \\frac{4+2}{\\sqrt{2}}=3\\sqrt{2}$ and so on. No matrix inversion, no system of equations \u2014 just three dot products.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{a} = \\begin{pmatrix}3\\\\0\\\\4\\end{pmatrix},\\quad \\mathbf{b} = \\begin{pmatrix}0\\\\1\\\\0\\end{pmatrix}",
+      "description_latex": "We want to determine whether $\\{\\mathbf{a}, \\mathbf{b}\\}$ is orthogonal, and if so, build an orthonormal set from them. The first step is always to check orthogonality before worrying about normalization.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{a} \\cdot \\mathbf{b} = (3)(0)+(0)(1)+(4)(0) = 0",
+      "description_latex": "The dot product is zero, so $\\mathbf{a}$ and $\\mathbf{b}$ are orthogonal. Now compute the norm of each vector and write down the normalized versions $\\hat{\\mathbf{a}} = \\mathbf{a}/\\|\\mathbf{a}\\|$ and $\\hat{\\mathbf{b}} = \\mathbf{b}/\\|\\mathbf{b}\\|$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\hat{\\mathbf{a}} = \\frac{1}{5}\\begin{pmatrix}3\\\\0\\\\4\\end{pmatrix},\\quad \\hat{\\mathbf{b}} = \\begin{pmatrix}0\\\\1\\\\0\\end{pmatrix}",
+      "description_latex": "Since $\\|\\mathbf{a}\\|=5$ and $\\|\\mathbf{b}\\|=1$, normalizing gives these two unit vectors. Now use the expansion formula to express $\\mathbf{x} = (6, 2, 8)^T$ in terms of $\\hat{\\mathbf{a}}$ and $\\hat{\\mathbf{b}}$ \u2014 compute $\\langle \\mathbf{x}, \\hat{\\mathbf{a}} \\rangle$ and $\\langle \\mathbf{x}, \\hat{\\mathbf{b}} \\rangle$ and write the expansion.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathbf{x} = 10\\,\\hat{\\mathbf{a}} + 2\\,\\hat{\\mathbf{b}}",
+      "description_latex": "The coordinate along $\\hat{\\mathbf{a}}$ is $\\langle \\mathbf{x},\\hat{\\mathbf{a}}\\rangle = \\frac{18+0+32}{5}=10$ and along $\\hat{\\mathbf{b}}$ is $\\langle \\mathbf{x},\\hat{\\mathbf{b}}\\rangle = 2$, giving this clean decomposition \u2014 exactly the advantage of an orthonormal basis.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Determine whether $\\mathbf{u} = (1,0)^T$ and $\\mathbf{v} = (0,-5)^T$ are orthogonal in $\\mathbb{R}^2$.",
+      "answer_latex": "Yes, $\\mathbf{u} \\cdot \\mathbf{v} = 0$."
+    },
+    {
+      "prompt_latex": "Normalize the vector $\\mathbf{w} = \\begin{pmatrix}2\\\\-1\\\\2\\end{pmatrix}$ to produce a unit vector $\\hat{\\mathbf{w}}$.",
+      "answer_latex": "\\hat{\\mathbf{w}} = \\dfrac{1}{3}\\begin{pmatrix}2\\\\-1\\\\2\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Given the orthonormal basis $\\mathbf{u}_1 = \\tfrac{1}{\\sqrt{2}}(1,1)^T$, $\\mathbf{u}_2 = \\tfrac{1}{\\sqrt{2}}(1,-1)^T$ for $\\mathbb{R}^2$, express $\\mathbf{v} = (3,1)^T$ as $c_1\\mathbf{u}_1 + c_2\\mathbf{u}_2$.",
+      "answer_latex": "c_1 = 2\\sqrt{2},\\quad c_2 = \\sqrt{2}"
+    },
+    {
+      "prompt_latex": "Let $V = \\mathbb{R}^4$ with the standard inner product. Show that $S = \\{\\mathbf{e}_1, \\mathbf{e}_2, \\mathbf{e}_3, \\mathbf{e}_4\\}$ (standard basis vectors) is orthonormal, and use the expansion formula to write $\\mathbf{v} = (7,-2,0,5)^T$ in terms of $S$.",
+      "answer_latex": "\\mathbf{v} = 7\\mathbf{e}_1 - 2\\mathbf{e}_2 + 0\\mathbf{e}_3 + 5\\mathbf{e}_4"
+    },
+    {
+      "prompt_latex": "In the inner product space $P_2$ of polynomials of degree $\\leq 2$ with inner product $\\langle f,g\\rangle = \\int_{-1}^{1}f(t)g(t)\\,dt$, verify that $f(t)=1$ and $g(t)=t$ are orthogonal, then find $\\|f\\|$ and $\\|g\\|$ and normalize both.",
+      "answer_latex": "\\langle f,g\\rangle = 0;\\quad \\hat{f}(t)=\\tfrac{1}{\\sqrt{2}},\\quad \\hat{g}(t)=\\sqrt{\\tfrac{3}{2}}\\,t"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to check ALL pairwise inner products and only verify one pair, concluding orthogonality prematurely \u2014 you must confirm $\\langle \\mathbf{u}_i, \\mathbf{u}_j \\rangle = 0$ for every $i \\neq j$, not just consecutive pairs.",
+    "When expanding $\\mathbf{v} = \\sum_i \\langle \\mathbf{v}, \\mathbf{u}_i \\rangle \\mathbf{u}_i$, students apply this formula to an orthogonal basis instead of an orthonormal one \u2014 the formula only works exactly as written when the basis vectors have unit norm; with an orthogonal (non-unit) basis, you must divide each coefficient by $\\|\\mathbf{u}_i\\|^2$.",
+    "Students normalize each vector independently and assume the resulting unit vectors are still orthogonal to each other, which is always true \u2014 but they forget to re-verify after normalization when they started from a set that was NOT yet confirmed orthogonal, mistaking normalization for a process that can create orthogonality."
+  ],
+  "untested_variants": [
+    "Using the Gram\u2013Schmidt process to construct an orthonormal basis from a non-orthogonal spanning set \u2014 the practice problems all start with vectors that are already orthogonal.",
+    "Orthonormal bases in complex inner product spaces, where $\\langle \\mathbf{u}, \\mathbf{v} \\rangle = \\bar{\\mathbf{u}}^T \\mathbf{v}$ and conjugation matters for the expansion coefficients.",
+    "Finding the orthogonal complement $W^\\perp$ of a subspace $W$ and verifying that $\\mathbb{R}^n = W \\oplus W^\\perp$ \u2014 a direct application of orthonormality not covered here.",
+    "Orthonormal bases for function spaces using weighted inner products $\\langle f,g\\rangle = \\int_a^b w(x)f(x)g(x)\\,dx$, such as Legendre or Chebyshev polynomial families."
+  ]
+}

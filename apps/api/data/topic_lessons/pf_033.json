@@ -1,0 +1,81 @@
+{
+  "topic_id": "pf_033",
+  "topic_name": "Homomorphisms and Isomorphisms (H)",
+  "generated_at": "2026-05-13T20:20:56.490269+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know that two groups can look very different on the surface \u2014 one might consist of integers under addition, another of rotations of a square \u2014 yet somehow feel structurally identical. You've learned what a group is, and you can check its axioms, but you don't yet have a precise tool for saying 'these two groups are really the same thing in disguise.' How could we ever make that intuition rigorous?",
+  "concept": "A homomorphism is a function between two algebraic structures that respects the operation \u2014 it doesn't matter whether you combine elements first and then map, or map first and then combine. Formally, if $(G, \\cdot)$ and $(H, *)$ are groups, a function $\\phi: G \\to H$ is a homomorphism if $\\phi(a \\cdot b) = \\phi(a) * \\phi(b)$ for all $a, b \\in G$. An isomorphism is a homomorphism that is also bijective; when one exists, we write $G \\cong H$.",
+  "anatomy": "Every homomorphism $\\phi: G \\to H$ involves two groups \u2014 the domain group $(G, \\cdot)$ and the codomain group $(H, *)$ \u2014 and the map $\\phi$ itself. The key structural parts are: the operation-preservation condition $\\phi(a \\cdot b) = \\phi(a) * \\phi(b)$, which is the heart of what makes $\\phi$ a homomorphism; the kernel $\\ker(\\phi) = \\{g \\in G \\mid \\phi(g) = e_H\\}$, which measures how far $\\phi$ is from being injective; and the image $\\text{im}(\\phi) = \\{\\phi(g) \\mid g \\in G\\}$, which is the 'shadow' of $G$ inside $H$. For an isomorphism, we additionally require $\\phi$ to be injective (one-to-one) and surjective (onto).",
+  "worked_example": [
+    {
+      "expression_latex": "\\phi: (\\mathbb{Z}, +) \\to (\\mathbb{Z}_4, +_4), \\quad \\phi(n) = n \\bmod 4",
+      "description_latex": "We define a candidate homomorphism from the integers to the group of integers modulo 4. The idea is that reducing modulo 4 should 'respect' addition, and our job is to verify the operation-preservation property precisely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\phi(a + b) = (a + b) \\bmod 4",
+      "description_latex": "We apply $\\phi$ to the sum $a + b$ directly, which is one side of the homomorphism condition. This is asking: if we add first in $\\mathbb{Z}$ and then reduce, what do we get?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\phi(a) +_4 \\phi(b) = (a \\bmod 4) +_4 (b \\bmod 4) = (a + b) \\bmod 4",
+      "description_latex": "Now we compute the other side: map each element first, then combine in $\\mathbb{Z}_4$. A standard property of modular arithmetic tells us that $(a \\bmod 4) +_4 (b \\bmod 4) = (a+b) \\bmod 4$, so both sides agree and the operation-preservation condition holds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ker(\\phi) = \\{n \\in \\mathbb{Z} \\mid n \\bmod 4 = 0\\} = 4\\mathbb{Z}",
+      "description_latex": "Since the kernel is the set of elements mapping to the identity $0 \\in \\mathbb{Z}_4$, we find all integers divisible by 4. The kernel being a non-trivial subgroup confirms $\\phi$ is not injective, so this is a homomorphism but not an isomorphism.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\phi: (\\mathbb{R}^+, \\times) \\to (\\mathbb{R}, +), \\quad \\phi(x) = \\ln(x)",
+      "description_latex": "We want to show that $\\phi(x) = \\ln(x)$ is an isomorphism between the positive reals under multiplication and the reals under addition. Start by writing out what the operation-preservation condition requires: we need $\\phi(x \\cdot y) = \\phi(x) + \\phi(y)$ for all $x, y \\in \\mathbb{R}^+$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\phi(x \\cdot y) = \\ln(xy) = \\ln(x) + \\ln(y) = \\phi(x) + \\phi(y)",
+      "description_latex": "This step uses the logarithm product rule to verify the homomorphism condition. Notice how the multiplication in the domain becomes addition in the codomain \u2014 this is exactly the structural 'translation' a homomorphism provides.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now verify that $\\phi$ is bijective: show it is injective (if $\\ln(x) = \\ln(y)$ then $x = y$) and surjective (for every $r \\in \\mathbb{R}$, find an $x \\in \\mathbb{R}^+$ with $\\ln(x) = r$). Write out both arguments and conclude whether $\\phi$ is an isomorphism.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $\\phi: (\\mathbb{Z}, +) \\to (\\mathbb{Z}, +)$ be defined by $\\phi(n) = 0$ for all $n$. Verify that $\\phi$ is a homomorphism and identify $\\ker(\\phi)$ and $\\text{im}(\\phi)$.",
+      "answer_latex": "$\\phi(a+b) = 0 = 0 + 0 = \\phi(a)+\\phi(b)$, so $\\phi$ is a homomorphism. $\\ker(\\phi) = \\mathbb{Z}$ and $\\text{im}(\\phi) = \\{0\\}$."
+    },
+    {
+      "prompt_latex": "Define $\\phi: (\\mathbb{Z}_6, +_6) \\to (\\mathbb{Z}_3, +_3)$ by $\\phi(n) = n \\bmod 3$. Show $\\phi$ is a homomorphism and find its kernel.",
+      "answer_latex": "$\\phi(a +_6 b) = (a+b) \\bmod 3 = (a \\bmod 3) +_3 (b \\bmod 3) = \\phi(a) +_3 \\phi(b)$, so $\\phi$ is a homomorphism. $\\ker(\\phi) = \\{0, 3\\}$."
+    },
+    {
+      "prompt_latex": "Let $\\phi: (\\mathbb{R}, +) \\to (\\mathbb{R}^+, \\times)$ be defined by $\\phi(x) = e^x$. Prove $\\phi$ is an isomorphism.",
+      "answer_latex": "Homomorphism: $\\phi(x+y) = e^{x+y} = e^x \\cdot e^y = \\phi(x)\\phi(y)$. Injective: $e^x = e^y \\Rightarrow x = y$. Surjective: for any $r > 0$, $\\phi(\\ln r) = r$. Hence $\\phi$ is an isomorphism."
+    },
+    {
+      "prompt_latex": "Suppose $\\phi: G \\to H$ is a group homomorphism. Prove that $\\phi(e_G) = e_H$ and that $\\phi(g^{-1}) = \\phi(g)^{-1}$ for all $g \\in G$.",
+      "answer_latex": "$\\phi(e_G) = \\phi(e_G \\cdot e_G) = \\phi(e_G) * \\phi(e_G)$; multiplying both sides by $\\phi(e_G)^{-1}$ gives $e_H = \\phi(e_G)$. Then $e_H = \\phi(g \\cdot g^{-1}) = \\phi(g) * \\phi(g^{-1})$, so $\\phi(g^{-1}) = \\phi(g)^{-1}$."
+    },
+    {
+      "prompt_latex": "Two friends argue about whether $(\\mathbb{Z}_4, +_4)$ and $(\\mathbb{Z}_2 \\times \\mathbb{Z}_2, +)$ are isomorphic. Decide who is right by examining whether any isomorphism can exist, using the orders of elements.",
+      "answer_latex": "In $\\mathbb{Z}_4$ the element $1$ has order $4$. In $\\mathbb{Z}_2 \\times \\mathbb{Z}_2$ every non-identity element has order $2$. An isomorphism must preserve element orders, so no isomorphism exists: the two groups are not isomorphic."
+    }
+  ],
+  "common_mistakes": [
+    "Students verify $\\phi(a \\cdot b) = \\phi(a) * \\phi(b)$ for a few specific values and conclude $\\phi$ is a homomorphism. This is wrong because the condition must hold for ALL $a, b \\in G$; always write a general proof using arbitrary elements.",
+    "Students confuse 'homomorphism' with 'isomorphism' and claim a surjective or injective map alone is an isomorphism. Remember that an isomorphism requires BOTH injectivity AND surjectivity in addition to the operation-preservation property; check all three conditions explicitly.",
+    "When computing the kernel, students forget that $\\ker(\\phi)$ is defined using the identity of the CODOMAIN group $e_H$, not the identity of the domain. If $H = (\\mathbb{Z}_4, +_4)$, the identity is $0$, not any other element; always identify $e_H$ first before finding the kernel."
+  ],
+  "untested_variants": [
+    "Homomorphisms between non-abelian groups, such as from a dihedral group $D_n$ to a symmetric group $S_n$, where the non-commutativity adds complexity to the verification.",
+    "Using the First Isomorphism Theorem ($G / \\ker(\\phi) \\cong \\text{im}(\\phi)$) to classify quotient groups or conclude facts about $\\phi$ without constructing the isomorphism explicitly.",
+    "Automorphisms (isomorphisms from a group to itself), including inner automorphisms of the form $\\phi_g(x) = gxg^{-1}$, and determining the automorphism group $\\text{Aut}(G)$.",
+    "Homomorphisms between rings or fields, where both the additive and multiplicative structures must be simultaneously preserved, requiring two separate operation-preservation checks."
+  ]
+}

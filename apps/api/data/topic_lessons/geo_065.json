@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_065",
+  "topic_name": "Segment Relationships in Circles",
+  "generated_at": "2026-05-12T23:12:22.788815+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to find missing lengths using the Pythagorean theorem and properties of triangles. Now imagine two chords crossing inside a circle, or a secant and tangent drawn from a point outside a circle \u2014 the triangles formed here have special proportional relationships that go far beyond simple triangle rules. How would you find the length of a chord segment if all you know is where it intersects another chord?",
+  "concept": "When two chords, secants, or tangents intersect in relation to a circle, the segments they create are always connected by a specific product rule. In plain English: the pieces of intersecting segments multiply in predictable ways depending on where the intersection happens. Formally, if two chords intersect inside a circle at point $P$, then $a \\cdot b = c \\cdot d$, where $a, b$ are the two segments of one chord and $c, d$ are the two segments of the other.",
+  "anatomy": "Every segment relationship problem has three key components to identify: the intersection point (which determines which theorem to use \u2014 inside the circle for the Chord-Chord case, on the circle for tangent-secant, or outside for Secant-Secant or Secant-Tangent), the two segments of each chord or secant (the near and far segments from the external point), and the product equation itself. In the Chord-Chord theorem the equation is $a \\cdot b = c \\cdot d$. In the Secant-Secant theorem from an external point $P$, it is $\\text{(whole secant 1)} \\cdot \\text{(external part 1)} = \\text{(whole secant 2)} \\cdot \\text{(external part 2)}$, written as $PA \\cdot PB = PC \\cdot PD$. In the Secant-Tangent theorem, the tangent segment $t$ satisfies $t^2 = \\text{(whole secant)} \\cdot \\text{(external part)}$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Two chords intersect inside a circle. One chord is split into segments of length } 4 \\text{ and } 9. \\text{ The other chord has one segment of length } 6. \\text{ Find the missing segment } x.",
+      "description_latex": "First, identify that the intersection point is inside the circle, which tells us to use the Chord-Chord theorem. The two chords cross at an interior point, so the product of each chord's two pieces must be equal \u2014 this is our starting equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4 \\cdot 9 = 6 \\cdot x",
+      "description_latex": "We set up the product equation by pairing the two segments of each chord: the first chord contributes $4$ and $9$, and the second chord contributes $6$ and $x$. Multiplying each pair and setting them equal is the direct application of the theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "36 = 6x",
+      "description_latex": "The left side simplifies to $36$. Now we have a simple one-step equation to solve for $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 6",
+      "description_latex": "Dividing both sides by $6$ gives $x = 6$. Always pause to check: does this make geometric sense? Since both chords would be length $13$ and $12$ respectively, and the circle is large enough to contain them, this answer is reasonable.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{From an external point } P, \\text{ a secant passes through the circle with external segment } 3 \\text{ and whole length } 12. \\text{ A tangent from } P \\text{ has length } t. \\text{ Find } t.",
+      "description_latex": "Start by identifying the configuration: we have a point outside the circle with one secant and one tangent drawn from it. This means we use the Secant-Tangent theorem, where $t^2$ equals the whole secant length times its external part.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t^2 = 12 \\cdot 3",
+      "description_latex": "We set up the equation using the Secant-Tangent theorem: $t^2 = (\\text{whole secant}) \\cdot (\\text{external segment}) = 12 \\cdot 3$. Notice that the external segment is the piece of the secant that lies outside the circle, which is $3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Simplify the right side and then take the square root to find $t$. What is the value of $t$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Two chords intersect inside a circle. The segments of the first chord are } 5 \\text{ and } 8. \\text{ One segment of the second chord is } 10. \\text{ Find the other segment } x.",
+      "answer_latex": "x = 4"
+    },
+    {
+      "prompt_latex": "\\text{Two chords intersect inside a circle. The segments of one chord are } 6 \\text{ and } x, \\text{ and the segments of the other chord are } 4 \\text{ and } 9. \\text{ Find } x.",
+      "answer_latex": "x = 6"
+    },
+    {
+      "prompt_latex": "\\text{From an external point, two secants are drawn. The first secant has an external segment of } 4 \\text{ and a whole length of } 16. \\text{ The second secant has an external segment of } 8. \\text{ Find the whole length of the second secant.}",
+      "answer_latex": "8"
+    },
+    {
+      "prompt_latex": "\\text{From an external point } P, \\text{ a tangent segment has length } t \\text{ and a secant has external segment } 4 \\text{ and whole length } 9. \\text{ Given that the tangent also equals the radius of the circle and the center is } 13 \\text{ units from } P, \\text{ use both the Secant-Tangent theorem and the Pythagorean theorem to verify the radius.}",
+      "answer_latex": "r = 6"
+    },
+    {
+      "prompt_latex": "\\text{A footbridge design uses a circular arch. A horizontal beam (chord) is divided by a vertical support into segments of } 7 \\text{ ft and } 7 \\text{ ft. A second chord (the vertical diameter extended) is split by the same intersection point into a segment of } 3.5 \\text{ ft and unknown segment } x. \\text{ Find } x.",
+      "answer_latex": "x = 14 \\text{ ft}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often add the two pairs of segments instead of multiplying them, writing $a + b = c + d$ rather than $a \\cdot b = c \\cdot d$. Remember the theorem is about products, not sums \u2014 always multiply the two pieces of each chord together.",
+    "When using the Secant-Secant theorem from an external point, students frequently multiply the two external segments together instead of pairing each external segment with its own whole secant length. The correct setup is $PA \\cdot PB = PC \\cdot PD$, where $PA$ and $PC$ are the whole secant lengths and $PB$, $PD$ are their respective external parts.",
+    "In Secant-Tangent problems, students forget to square the tangent length and instead write $t = (\\text{whole secant}) \\cdot (\\text{external part})$. The tangent segment must be squared because it serves as both 'segments' of a degenerate chord that touches the circle at exactly one point, giving $t^2 = (\\text{whole secant}) \\cdot (\\text{external part})$."
+  ],
+  "untested_variants": [
+    "Two secants drawn from an external point where both whole-secant lengths are unknown and students must set up a system or use a given sum to solve.",
+    "Problems where the intersection point is on the circle itself (the degenerate chord case), which requires recognizing that one segment has length zero and the theorem collapses to a different relationship.",
+    "Problems combining segment relationships with arc length or sector area, requiring students to first find a chord length and then use it to compute an arc or area.",
+    "Three-dimensional contexts such as a sphere cross-section, where the same chord-chord relationship applies but students must first identify the correct cross-sectional circle and relevant chords."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_008",
+  "topic_name": "Correlation",
+  "generated_at": "2026-05-13T20:29:42.357704+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to make a scatterplot and spot a trend by eye \u2014 points sloping upward suggest a positive relationship, downward a negative one. But 'it looks pretty linear' isn't precise enough to compare relationships or draw conclusions. If one study finds a moderate positive trend between study hours and test scores, and another finds a strong positive trend, how do you actually quantify the difference? That's the gap: we need a single number that captures both the direction and strength of a linear relationship. What would such a number look like?",
+  "concept": "Correlation measures how closely two quantitative variables follow a linear pattern \u2014 it tells you both the direction (positive or negative) and the strength (weak to strong) of that relationship in one number. The formal measure is the Pearson correlation coefficient, $r$, defined as $r = \\frac{1}{n-1}\\sum_{i=1}^{n}\\left(\\frac{x_i - \\bar{x}}{s_x}\\right)\\left(\\frac{y_i - \\bar{y}}{s_y}\\right)$, where $\\bar{x}, \\bar{y}$ are sample means and $s_x, s_y$ are sample standard deviations. The value of $r$ always falls between $-1$ and $1$.",
+  "anatomy": "The correlation coefficient $r$ has several distinct components worth naming. The direction is encoded in the sign: a positive $r$ means both variables tend to increase together, while a negative $r$ means one increases as the other decreases. The magnitude $|r|$ encodes strength: values near $0$ indicate a weak or no linear relationship, values near $0.5$ indicate moderate strength, and values near $1$ indicate a strong linear relationship. The standardized deviations $\\frac{x_i - \\bar{x}}{s_x}$ (called z-scores) are the building blocks \u2014 they rescale each observation so that $r$ is unitless and comparable across different datasets. The factor $\\frac{1}{n-1}$ is the same averaging correction used in the sample standard deviation, ensuring $r$ is a sample statistic.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Data: } (x, y) = (1, 2),\\,(2, 4),\\,(3, 5),\\,(4, 4),\\,(5, 5)",
+      "description_latex": "We start by laying out our five data pairs. Before computing anything, notice that as $x$ increases from 1 to 5, $y$ generally increases too, so we expect $r$ to be positive \u2014 keeping this expectation in mind helps us catch arithmetic errors later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{1+2+3+4+5}{5} = 3, \\quad \\bar{y} = \\frac{2+4+5+4+5}{5} = 4, \\quad s_x = \\sqrt{2.5} \\approx 1.581, \\quad s_y = \\sqrt{1.5} \\approx 1.225",
+      "description_latex": "We compute the sample means and sample standard deviations first because the formula for $r$ requires us to standardize every data point. Using the sample standard deviation (dividing by $n-1 = 4$) rather than the population version is essential here, since our data is a sample.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z_{x_i}: \\frac{1-3}{1.581},\\,\\frac{2-3}{1.581},\\,\\frac{3-3}{1.581},\\,\\frac{4-3}{1.581},\\,\\frac{5-3}{1.581} \\approx -1.265,\\,-0.632,\\,0,\\,0.632,\\,1.265",
+      "description_latex": "Each $z$-score tells us how many standard deviations a data point sits above or below its mean. Points above the mean get a positive $z$-score and points below get a negative one, which is exactly how $r$ will detect direction \u2014 matching signs in both variables will produce positive products.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z_{y_i}: \\frac{2-4}{1.225},\\,\\frac{4-4}{1.225},\\,\\frac{5-4}{1.225},\\,\\frac{4-4}{1.225},\\,\\frac{5-4}{1.225} \\approx -1.633,\\,0,\\,0.816,\\,0,\\,0.816",
+      "description_latex": "We repeat the standardization for $y$. Notice that the first $y$-value is below its mean (negative $z$-score) just like the first $x$-value \u2014 this matching of signs will contribute a positive product to the sum, pushing $r$ toward the positive side.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = \\frac{1}{4}\\left[(-1.265)(-1.633) + (-0.632)(0) + (0)(0.816) + (0.632)(0) + (1.265)(0.816)\\right] = \\frac{1}{4}(2.066 + 0 + 0 + 0 + 1.032) \\approx \\frac{3.098}{4} \\approx 0.775",
+      "description_latex": "We multiply the paired $z$-scores, sum them, and divide by $n - 1 = 4$. The result $r \\approx 0.775$ confirms a moderately strong positive linear relationship \u2014 consistent with our initial visual expectation and not too close to $\\pm 1$, which matches the slight scatter in the data.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data: } (x, y) = (2, 8),\\,(4, 6),\\,(6, 4),\\,(8, 2)",
+      "description_latex": "Here we have four data pairs. Before calculating, observe that as $x$ increases, $y$ decreases \u2014 so we should expect a negative value of $r$, likely close to $-1$ since the pattern looks very clean.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = 5,\\quad \\bar{y} = 5,\\quad s_x = s_y = \\sqrt{\\frac{(2-5)^2+(4-5)^2+(6-5)^2+(8-5)^2}{3}} = \\sqrt{\\frac{20}{3}} \\approx 2.582",
+      "description_latex": "The means and standard deviations are computed for you. Both variables happen to have the same standard deviation here, which will simplify the arithmetic slightly \u2014 but the process is identical to the general case.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the $z$-score for each $x$-value and each $y$-value, then multiply the paired $z$-scores together. What are the four products $z_{x_i} \\cdot z_{y_i}$, and what is their sum?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "r = \\frac{1}{n-1}\\sum z_{x_i} z_{y_i}",
+      "description_latex": "Divide your sum by $n - 1 = 3$ to get $r$. Does your answer match the direction you predicted, and is the magnitude close to what you would expect given how perfectly linear the data looks?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "The correlation coefficient between two variables is $r = -0.92$. Describe the direction and strength of this linear relationship.",
+      "answer_latex": "\\text{Strong negative linear relationship (direction: negative; strength: strong since } |r| = 0.92 \\text{ is close to 1)}"
+    },
+    {
+      "prompt_latex": "For the data set $(1,3),(2,5),(3,7),(4,9)$, compute $r$ without using the full formula by noting that the relationship is perfectly linear. What is $r$?",
+      "answer_latex": "r = 1"
+    },
+    {
+      "prompt_latex": "Two variables have $\\bar{x}=10,\\,s_x=2,\\,\\bar{y}=20,\\,s_y=4$, and $n=4$ with $z$-score products $z_{x_i}z_{y_i}$ equal to $1.5,\\,-0.5,\\,-0.5,\\,1.5$. Compute $r$.",
+      "answer_latex": "r = \\frac{1.5 + (-0.5) + (-0.5) + 1.5}{3} = \\frac{2}{3} \\approx 0.667"
+    },
+    {
+      "prompt_latex": "A scatterplot of shoe size ($x$) vs. IQ score ($y$) for adults gives $r = 0.02$. A student concludes that larger feet cause higher intelligence. Identify two errors in this reasoning.",
+      "answer_latex": "\\text{(1) } r \\approx 0 \\text{ indicates essentially no linear relationship, so the trend is negligible. (2) Correlation does not imply causation; a lurking variable (e.g., age) could explain any apparent association.}"
+    },
+    {
+      "prompt_latex": "Heights (in.) and weights (lb.) of 6 athletes yield $\\sum z_{x_i}z_{y_i} = 4.2$. Compute $r$ and interpret it in context.",
+      "answer_latex": "r = \\frac{4.2}{5} = 0.84; \\text{ moderately strong positive linear relationship \u2014 taller athletes tend to weigh more.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse $r$ close to $0$ with 'no relationship,' when it actually means no LINEAR relationship \u2014 a strong curved pattern can produce $r \\approx 0$, so always check the scatterplot before interpreting $r$.",
+    "Students use $n$ instead of $n-1$ when dividing the sum of $z$-score products, which is the population version of the formula. Since we are almost always working with sample data, the denominator must be $n-1$.",
+    "Students conclude that a high $|r|$ proves causation. Correlation quantifies the strength of a linear association only; a lurking (confounding) variable could be driving both variables, so causation requires carefully designed experiments, not just a high $r$ value."
+  ],
+  "untested_variants": [
+    "Computing $r$ from a two-way summary table (given $\\sum x_i y_i$, $\\sum x_i$, $\\sum y_i$, $\\sum x_i^2$, $\\sum y_i^2$, and $n$) using the computational formula $r = \\frac{n\\sum x_i y_i - (\\sum x_i)(\\sum y_i)}{\\sqrt{[n\\sum x_i^2-(\\sum x_i)^2][n\\sum y_i^2-(\\sum y_i)^2]}}$.",
+    "Determining how $r$ changes (or does not change) when all $x$-values are multiplied by a constant or shifted by adding a constant \u2014 testing understanding of $r$'s invariance under linear transformations.",
+    "Reading $r$ from computer output (e.g., a regression summary table) and distinguishing it from $r^2$ (the coefficient of determination), including interpreting what percentage of variability in $y$ is explained by $x$.",
+    "Comparing correlation coefficients across two different datasets to decide which shows a stronger linear relationship, while recognizing that $r$ does not describe slope \u2014 a line with a steep slope can still have a low $r$ if the data scatter widely."
+  ]
+}

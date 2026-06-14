@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_029",
+  "topic_name": "Heteroskedasticity and Robust Standard Errors (H)",
+  "generated_at": "2026-05-14T01:04:05.014665+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You know that OLS gives you the Best Linear Unbiased Estimator when the Gauss-Markov assumptions hold \u2014 including the assumption that error variances are constant across observations (homoskedasticity). But what happens when you plot the residuals from a wage regression against income and see a clear fan shape, where the spread of residuals grows with income? Your standard errors are wrong, your t-statistics are invalid, and every hypothesis test you run is unreliable \u2014 yet your coefficient estimates are still unbiased. So how do you fix your inference without throwing away OLS entirely?",
+  "concept": "Heteroskedasticity occurs when the variance of the error term is not constant across observations, i.e., $\\text{Var}(u_i | x_i) = \\sigma_i^2$ rather than the constant $\\sigma^2$ required by Gauss-Markov. OLS coefficients remain unbiased but are no longer efficient, and crucially the usual OLS standard errors are inconsistent estimators of the true sampling variability. The fix is to use Heteroskedasticity-Consistent (HC) standard errors \u2014 also called robust standard errors \u2014 which consistently estimate the variance of the OLS estimator regardless of the form of heteroskedasticity.",
+  "anatomy": "The key components are: (1) the OLS estimator $\\hat{\\beta} = (X^\\top X)^{-1} X^\\top y$, which remains unbiased under heteroskedasticity; (2) the true variance of $\\hat{\\beta}$, which is the sandwich matrix $\\text{Var}(\\hat{\\beta}) = (X^\\top X)^{-1} \\left(\\sum_i \\sigma_i^2 x_i x_i^\\top\\right) (X^\\top X)^{-1}$, where the middle 'meat' captures individual error variances; (3) the HC0 estimator of that meat, $\\hat{V}_{HC0} = (X^\\top X)^{-1} \\left(\\sum_i \\hat{u}_i^2 x_i x_i^\\top\\right) (X^\\top X)^{-1}$, where the unknown $\\sigma_i^2$ are replaced by squared OLS residuals $\\hat{u}_i^2$; and (4) the finite-sample correction applied in HC1, which scales by $n/(n-k)$ to reduce small-sample bias.",
+  "worked_example": [
+    {
+      "expression_latex": "y_i = \\beta_0 + \\beta_1 x_i + u_i, \\quad \\text{Var}(u_i | x_i) = \\sigma_i^2",
+      "description_latex": "We begin by writing down the model and acknowledging heteroskedasticity explicitly. Because $\\sigma_i^2$ varies with $i$, the standard OLS formula for $\\text{Var}(\\hat{\\beta}_1)$, which assumes a single $\\sigma^2$, will be wrong \u2014 so we need a different approach to inference.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Var}(\\hat{\\beta}) = (X^\\top X)^{-1} \\Omega (X^\\top X)^{-1}, \\quad \\Omega = \\sum_{i=1}^n \\sigma_i^2 x_i x_i^\\top",
+      "description_latex": "This is the true sandwich variance of the OLS estimator. Notice the 'bread' $(X^\\top X)^{-1}$ appears on both sides, while the 'meat' $\\Omega$ accumulates each observation's contribution weighted by its own error variance $\\sigma_i^2$. We cannot compute this directly because the $\\sigma_i^2$ are unknown population quantities.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{V}_{HC0} = (X^\\top X)^{-1} \\left(\\sum_{i=1}^n \\hat{u}_i^2 x_i x_i^\\top\\right) (X^\\top X)^{-1}",
+      "description_latex": "We estimate the unknown $\\sigma_i^2$ with the squared OLS residual $\\hat{u}_i^2$ for each observation, plugging these into the sandwich formula. This is the HC0 robust variance estimator; it is consistent as $n \\to \\infty$ under very mild regularity conditions, making no assumption about the form of heteroskedasticity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{V}_{HC1} = \\frac{n}{n-k} \\hat{V}_{HC0}",
+      "description_latex": "In finite samples, $\\hat{u}_i^2$ tends to underestimate $\\sigma_i^2$ because OLS residuals are 'shrunk' toward zero by the fitting process. The HC1 correction multiplies HC0 by $n/(n-k)$ to partially compensate, analogous to using $s^2 = \\text{SSR}/(n-k)$ instead of $\\text{SSR}/n$ for the homoskedastic variance estimator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t_{\\text{robust}} = \\frac{\\hat{\\beta}_1}{\\sqrt{\\hat{V}_{HC1,11}}}, \\quad \\hat{V}_{HC1,11} = \\frac{n}{n-k} \\cdot \\frac{\\sum_{i=1}^n \\hat{u}_i^2 (x_i - \\bar{x})^2}{\\left[\\sum_{i=1}^n (x_i - \\bar{x})^2\\right]^2}",
+      "description_latex": "Finally, the robust t-statistic for $\\hat{\\beta}_1$ divides the coefficient by its robust standard error, which is the square root of the $(1,1)$ diagonal element of $\\hat{V}_{HC1}$. This t-statistic has an approximate $t_{n-k}$ null distribution in large samples, so we use the same critical values as usual \u2014 the only thing that changed is the denominator.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{OLS residuals: } \\hat{u}_i = y_i - \\hat{\\beta}_0 - \\hat{\\beta}_1 x_i",
+      "description_latex": "We start by running OLS to get coefficient estimates and computing the residuals $\\hat{u}_i$ for each observation. These residuals will serve as stand-ins for the unobservable errors when we build the robust variance estimate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{V}_{HC0} = (X^\\top X)^{-1} \\left(\\sum_{i=1}^n \\hat{u}_i^2 x_i x_i^\\top\\right) (X^\\top X)^{-1}",
+      "description_latex": "Now form the sandwich estimator by replacing the unknown meat $\\Omega$ with our residual-based estimate. Write out what $x_i x_i^\\top$ looks like for the simple regression case with $x_i = (1, x_i)^\\top$, and identify which diagonal element of $\\hat{V}_{HC0}$ gives you the variance of $\\hat{\\beta}_1$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\hat{V}_{HC1} = \\frac{n}{n-k} \\hat{V}_{HC0}",
+      "description_latex": "Apply the finite-sample correction to get HC1. Remember that $k$ counts the number of estimated parameters including the intercept, so in simple regression $k = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t_{\\text{robust}} = \\frac{\\hat{\\beta}_1}{\\sqrt{\\hat{V}_{HC1,11}}}",
+      "description_latex": "Using $\\hat{\\beta}_1 = 2.4$, $n = 50$, $k = 2$, and $\\hat{V}_{HC0,11} = 0.36$, compute the robust t-statistic for $H_0: \\beta_1 = 0$. Does it exceed the 5% critical value of 2.01 from the $t_{48}$ distribution?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A researcher runs OLS and obtains $\\hat{\\beta}_1 = 3.0$ with a conventional standard error of $0.50$ and a robust (HC1) standard error of $0.50$. What can you conclude about the nature of heteroskedasticity in this dataset, and does inference change?",
+      "answer_latex": "\\text{When the robust and conventional SEs are equal, there is no meaningful heteroskedasticity affecting inference. The t-statistic } t = 3.0/0.50 = 6.0 \\text{ is the same under both approaches, so conclusions are unchanged.}"
+    },
+    {
+      "prompt_latex": "You have $n = 100$, $k = 2$, $\\hat{\\beta}_1 = 1.8$, and you compute $\\sum_{i=1}^{100} \\hat{u}_i^2 (x_i - \\bar{x})^2 = 400$ and $\\sum_{i=1}^{100}(x_i - \\bar{x})^2 = 200$. Compute $\\hat{V}_{HC0,11}$ and then the HC1-corrected robust standard error for $\\hat{\\beta}_1$.",
+      "answer_latex": "\\hat{V}_{HC0,11} = \\frac{400}{200^2} = 0.01, \\quad \\hat{V}_{HC1,11} = \\frac{100}{98} \\times 0.01 \\approx 0.01020, \\quad \\text{SE}_{HC1} = \\sqrt{0.01020} \\approx 0.1010"
+    },
+    {
+      "prompt_latex": "Using the values from problem 2, compute the robust t-statistic for $H_0: \\beta_1 = 0$ and state whether you reject at the 5\\% level (two-sided, $t_{98}$ critical value $\\approx 1.984$).",
+      "answer_latex": "t_{\\text{robust}} = \\frac{1.8}{0.1010} \\approx 17.82 > 1.984, \\text{ so we reject } H_0 \\text{ at the 5\\% level.}"
+    },
+    {
+      "prompt_latex": "Recall that under homoskedasticity the standard OLS variance estimator for simple regression is $\\hat{\\text{Var}}(\\hat{\\beta}_1) = s^2 / \\sum(x_i - \\bar{x})^2$ where $s^2 = \\text{SSR}/(n-2)$. Suppose $\\text{SSR} = 980$, $n = 100$, $\\sum(x_i-\\bar{x})^2 = 200$. (a) Compute the conventional SE. (b) Using the HC1 robust SE from problem 2, which is larger, and what does that imply about the direction of heteroskedasticity bias in the conventional SE?",
+      "answer_latex": "s^2 = 980/98 = 10, \\quad \\hat{\\text{Var}}_{\\text{OLS}}(\\hat{\\beta}_1) = 10/200 = 0.05, \\quad \\text{SE}_{\\text{OLS}} = \\sqrt{0.05} \\approx 0.2236. \\text{ Since } 0.2236 > 0.1010, \\text{ the conventional SE overstates uncertainty here, meaning the OLS SE is upward-biased \u2014 opposite to the usual concern, confirming that heteroskedasticity bias can go in either direction.}"
+    },
+    {
+      "prompt_latex": "A study of firm-level R\\&D spending regresses $\\log(\\text{R\\&D}_i)$ on $\\log(\\text{Sales}_i)$ using $n = 200$ firms. The OLS t-statistic is $t_{\\text{OLS}} = 4.5$ but after computing robust standard errors the t-statistic drops to $t_{\\text{robust}} = 2.1$. A colleague argues: 'Since both exceed the 5\\% critical value, robust SEs don't matter here.' Critique this argument carefully, referencing what robust SEs correct for and what could happen in other datasets or for other coefficients in the same regression.",
+      "answer_latex": "\\text{The colleague is wrong in general. Even though both } t\\text{-statistics exceed } \\approx 1.97 \\text{ here, the drop from 4.5 to 2.1 is substantial and signals real heteroskedasticity. In other regressions or for other coefficients, a similar proportional drop could flip the conclusion from reject to fail-to-reject. Robust SEs are needed whenever } \\text{Var}(u_i|x_i) \\neq \\sigma^2 \\text{ to ensure valid inference; relying on OLS SEs would yield incorrect size for hypothesis tests and incorrect coverage for confidence intervals.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often think that switching to robust standard errors also fixes biased OLS coefficient estimates. This is wrong: robust SEs only correct the variance estimator used for inference; the OLS point estimates $\\hat{\\beta}$ are unchanged and are still biased if, for example, there is also omitted variable bias.",
+    "A frequent error is confusing HC0 and HC1 and forgetting to apply the $n/(n-k)$ finite-sample correction when it is required. In small samples, HC0 can seriously underestimate variance; always check which corrected estimator (HC1, HC2, HC3) your software applies by default and report it explicitly.",
+    "Students sometimes use robust standard errors to construct a confidence interval but still cite the homoskedastic OLS standard error in their t-test, or vice versa. You must use the same standard error formula consistently \u2014 either conventional throughout or robust throughout \u2014 or your reported interval and test will be contradictory."
+  ],
+  "untested_variants": [
+    "Weighted Least Squares (WLS) as an alternative to robust SEs when the form of heteroskedasticity $\\sigma_i^2 = \\sigma^2 h(x_i)$ is known, and comparing WLS efficiency gains to robust-SE OLS.",
+    "Formal tests for the presence of heteroskedasticity, including the Breusch-Pagan test and the White test, and how to interpret their p-values before deciding whether robust SEs are needed.",
+    "Cluster-robust standard errors, where observations are grouped into clusters (e.g., students within schools) and both heteroskedasticity and within-cluster correlation must be accounted for simultaneously.",
+    "HC2 and HC3 leverage-adjusted robust variance estimators, which use $\\hat{u}_i^2/(1-h_{ii})$ or $\\hat{u}_i^2/(1-h_{ii})^2$ (where $h_{ii}$ is the hat matrix diagonal) to improve finite-sample performance relative to HC1."
+  ]
+}

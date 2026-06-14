@@ -1,0 +1,76 @@
+{
+  "topic_id": "c1_013",
+  "topic_name": "Derivatives of Exponential and Logarithmic Functions",
+  "generated_at": "2026-05-13T00:05:45.391688+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to differentiate power functions like $x^3$ and polynomials with ease. But now imagine someone asks you: what is the derivative of $2^x$, or $e^{5x}$, or $\\ln(3x^2)$? None of the power rule, product rule, or chain rule alone seems to give you a foothold \u2014 the base is a constant and the exponent is the variable, which is completely different from anything you've seen. So how do we differentiate functions where the variable lives in the exponent, or inside a logarithm?",
+  "concept": "Exponential and logarithmic functions have special derivative rules that come directly from the definition of $e$ as the base of the natural exponential. The core facts are: $\\frac{d}{dx}[e^x] = e^x$ (the natural exponential is its own derivative), $\\frac{d}{dx}[a^x] = a^x \\ln(a)$ for any positive base $a$, $\\frac{d}{dx}[\\ln(x)] = \\frac{1}{x}$, and $\\frac{d}{dx}[\\log_a(x)] = \\frac{1}{x \\ln(a)}$. These rules combine with the chain rule for composite expressions.",
+  "anatomy": "Each rule has distinct parts worth naming carefully. In $\\frac{d}{dx}[a^x] = a^x \\ln(a)$, the base $a$ is a positive constant, the exponent $x$ is the variable, and $\\ln(a)$ is a constant scaling factor that collapses to 1 when $a = e$ (since $\\ln(e)=1$), which is why $e^x$ is uniquely its own derivative. In $\\frac{d}{dx}[\\ln(x)] = \\frac{1}{x}$, the input $x$ becomes the denominator. When the chain rule is involved \u2014 say $\\frac{d}{dx}[\\ln(u(x))]= \\frac{u'(x)}{u(x)}$ \u2014 the inner function $u(x)$ and its derivative $u'(x)$ are both present: $u(x)$ sits in the denominator, and $u'(x)$ appears in the numerator as a multiplier.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = e^{3x}, \\quad f'(x) = ?",
+      "description_latex": "We recognize this as a composite function: the outer function is $e^{(\\cdot)}$ and the inner function is $u(x) = 3x$. We'll apply the chain rule together with the rule $\\frac{d}{dx}[e^x] = e^x$, which tells us the derivative of $e$ to a power is $e$ to that same power, multiplied by the derivative of the exponent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = e^{3x} \\cdot \\frac{d}{dx}[3x] = e^{3x} \\cdot 3",
+      "description_latex": "Applying the chain rule, we keep the outer function $e^{3x}$ intact and multiply by the derivative of the inner function $3x$, which is simply $3$. Notice that $e^{3x}$ does NOT become $3e^{3x-1}$ \u2014 that would be the power rule, which does not apply when $x$ is in the exponent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 3e^{3x}",
+      "description_latex": "We write the final answer by placing the constant factor $3$ in front, which is standard convention and confirms that the function $e^{3x}$ grows at a rate $3$ times itself at every point. This clean result is one reason $e$ is so special in calculus.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = \\ln(x^2 + 1), \\quad g'(x) = ?",
+      "description_latex": "We identify this as a composite function where the outer function is $\\ln(\\cdot)$ and the inner function is $u(x) = x^2 + 1$. The chain rule for logarithms tells us $\\frac{d}{dx}[\\ln(u)] = \\frac{u'}{u}$, so we need both $u$ and its derivative $u'$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u(x) = x^2 + 1, \\quad u'(x) = ?",
+      "description_latex": "Identify the inner function and find its derivative using the power rule. What is $\\frac{d}{dx}[x^2 + 1]$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "g'(x) = \\frac{u'(x)}{u(x)} = \\frac{2x}{x^2 + 1}",
+      "description_latex": "Now substitute $u = x^2 + 1$ and $u' = 2x$ into the chain-rule formula $\\frac{u'}{u}$ to write the complete derivative. The numerator carries the chain-rule factor and the denominator is the original inside expression, left unevaluated.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}[e^x]",
+      "answer_latex": "e^x"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}[\\ln(5x)]",
+      "answer_latex": "\\frac{1}{x}"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}[4^x]",
+      "answer_latex": "4^x \\ln(4)"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}\\left[x^2 e^x\\right]",
+      "answer_latex": "2x e^x + x^2 e^x = xe^x(2 + x)"
+    },
+    {
+      "prompt_latex": "\\text{A bacteria population grows according to } P(t) = P_0 e^{0.04t}. \\text{ Find the instantaneous growth rate } P'(t) \\text{ and interpret what it means.}",
+      "answer_latex": "P'(t) = 0.04 P_0 e^{0.04t} = 0.04\\, P(t), \\text{ meaning the population grows at 4\\% of its current size per unit time}"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the power rule to exponential functions, writing $\\frac{d}{dx}[e^x] = xe^{x-1}$. This is wrong because the power rule applies when the base is variable and the exponent is constant, not the reverse \u2014 fix this by remembering $\\frac{d}{dx}[e^x] = e^x$ exactly, with no exponent change.",
+    "When differentiating $\\ln(u(x))$, students write $\\frac{1}{u(x)}$ and forget to multiply by $u'(x)$ from the chain rule, missing the numerator factor entirely \u2014 always apply the chain rule so the answer is $\\frac{u'(x)}{u(x)}$, not just $\\frac{1}{u(x)}$.",
+    "Students forget the $\\ln(a)$ factor when differentiating $a^x$ for bases other than $e$, writing $\\frac{d}{dx}[a^x] = a^x$ instead of $a^x \\ln(a)$ \u2014 remember that $\\ln(a)$ is the necessary scaling constant, and it only equals 1 when $a = e$."
+  ],
+  "untested_variants": [
+    "Differentiating functions of the form $e^{f(x)} \\cdot g(x)$ where both the product rule and chain rule must be applied simultaneously, such as $x^3 e^{x^2}$.",
+    "Logarithmic differentiation \u2014 using $\\ln$ on both sides of $y = x^x$ or other variable-base, variable-exponent functions before differentiating implicitly.",
+    "Derivatives of $\\log_a(f(x))$ for bases other than $e$, such as $\\frac{d}{dx}[\\log_2(x^3 + 5)]$, combining the base-$a$ log rule with the chain rule.",
+    "Higher-order derivatives of exponential functions, such as finding $f''(x)$ or $f^{(n)}(x)$ for $f(x) = e^{kx}$."
+  ]
+}

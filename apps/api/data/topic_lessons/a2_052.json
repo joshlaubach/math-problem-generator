@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_052",
+  "topic_name": "Recursive Sequences",
+  "generated_at": "2026-05-12T23:31:59.944633+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to find any term in an arithmetic sequence using a formula like $a_n = a_1 + (n-1)d$, where you can jump straight to the 50th term without listing every term before it. But what if a sequence is defined so that each term literally depends on the term before it \u2014 like compound interest, where this month's balance is calculated from last month's balance? How would you find the 10th term of a sequence where $a_1 = 3$ and every new term is double the previous one plus 1?",
+  "concept": "A recursive sequence defines each term using one or more previous terms, plus a starting value called the initial condition. Formally, a recursive sequence is given by a recursive rule (or recurrence relation) of the form $a_n = f(a_{n-1})$ together with an explicit value for $a_1$ (and sometimes $a_2$). To find any term, you must calculate all the terms that come before it.",
+  "anatomy": "Every recursive sequence has three structural parts: the initial condition, which explicitly states the value of the first term (e.g., $a_1 = 2$) and anchors the entire sequence; the subscript notation, where $n$ is the position of the current term and $n-1$ is the position of the previous term; and the recurrence relation, the rule itself (e.g., $a_n = 3a_{n-1} - 4$) that tells you exactly how to compute any term from the one immediately before it.",
+  "worked_example": [
+    {
+      "expression_latex": "a_1 = 5, \\quad a_n = 2a_{n-1} + 3",
+      "description_latex": "We are given the recursive sequence with initial condition $a_1 = 5$ and recurrence relation $a_n = 2a_{n-1} + 3$. Our goal is to find the first five terms, so we will apply the rule repeatedly, each time substituting the previous term into the formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_2 = 2a_1 + 3 = 2(5) + 3 = 13",
+      "description_latex": "To find $a_2$, we substitute $n = 2$ into the recurrence relation, which means we plug in $a_1 = 5$ as the previous term. We get $2(5) + 3 = 13$, so the second term is 13.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_3 = 2a_2 + 3 = 2(13) + 3 = 29",
+      "description_latex": "Now we find $a_3$ by using the result we just computed: $a_2 = 13$ becomes our previous term. Substituting gives $2(13) + 3 = 29$, which is why we cannot skip steps \u2014 each answer feeds directly into the next calculation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_4 = 2a_3 + 3 = 2(29) + 3 = 61, \\quad a_5 = 2a_4 + 3 = 2(61) + 3 = 125",
+      "description_latex": "Continuing the chain, we substitute $a_3 = 29$ to get $a_4 = 61$, then substitute $a_4 = 61$ to get $a_5 = 125$. The five terms of the sequence are $5, 13, 29, 61, 125$, each one built from the previous.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "a_1 = 4, \\quad a_n = a_{n-1} - 2n + 1",
+      "description_latex": "We have a recursive sequence where the rule $a_n = a_{n-1} - 2n + 1$ involves both the previous term and the current index $n$. Notice that $n$ here is the position number of the term we are finding, not the previous term \u2014 this is a slightly more complex recurrence relation. We want to find the first four terms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_2 = a_1 - 2(2) + 1 = 4 - 4 + 1 = 1",
+      "description_latex": "To find $a_2$, we substitute $n = 2$ into the rule: $a_2 = a_1 - 2(2) + 1 = 4 - 4 + 1 = 1$. Notice that we used $n = 2$ for the index part of the formula and $a_1 = 4$ for the previous-term part \u2014 these are two separate substitutions happening at once.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find $a_3$ by substituting $n = 3$ and $a_2 = 1$ into the recurrence relation $a_n = a_{n-1} - 2n + 1$. Show each substitution clearly before simplifying.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using your value of $a_3$, find $a_4$ by substituting $n = 4$ and your result for $a_3$ into $a_n = a_{n-1} - 2n + 1$. What are the four terms of this sequence?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $a_1 = 10$ and $a_n = a_{n-1} - 3$, find the first four terms of the sequence.",
+      "answer_latex": "10, \\; 7, \\; 4, \\; 1"
+    },
+    {
+      "prompt_latex": "Given $a_1 = 2$ and $a_n = 4a_{n-1}$, find $a_5$.",
+      "answer_latex": "a_5 = 512"
+    },
+    {
+      "prompt_latex": "Given $a_1 = 1$, $a_2 = 1$, and $a_n = a_{n-1} + a_{n-2}$, find the first six terms of the sequence.",
+      "answer_latex": "1, \\; 1, \\; 2, \\; 3, \\; 5, \\; 8"
+    },
+    {
+      "prompt_latex": "A recursive sequence is defined by $a_1 = 100$ and $a_n = 0.5a_{n-1} + 10$. Find $a_4$ and determine whether the terms are increasing, decreasing, or approaching a fixed value.",
+      "answer_latex": "a_2 = 60, \\; a_3 = 40, \\; a_4 = 30; \\text{ the terms are decreasing and approaching } 20"
+    },
+    {
+      "prompt_latex": "A bacteria culture starts with 500 cells. Each hour, the number of cells triples and then 200 cells are removed for testing. Write a recursive rule for $b_n$, the number of cells after $n$ hours, and find $b_3$.",
+      "answer_latex": "b_1 = 500, \\; b_n = 3b_{n-1} - 200; \\quad b_2 = 1300, \\; b_3 = 3700"
+    }
+  ],
+  "common_mistakes": [
+    "Students substitute the wrong index into the rule: for example, when finding $a_3$ using $a_n = a_{n-1} + 2n$, they write $2(2)$ instead of $2(3)$ because they confuse the index $n$ of the current term with the index $n-1$ of the previous term. Always identify $n$ (the term you want) first, then separately identify $a_{n-1}$ (the previous term's value).",
+    "Students try to find a term like $a_6$ without computing $a_2, a_3, a_4, a_5$ first, believing they can skip ahead the same way they would with an explicit formula. Recursive sequences require every intermediate term to be calculated in order, because each term literally cannot be computed without the one before it.",
+    "When a sequence has two initial conditions (like Fibonacci-type problems with $a_1$ and $a_2$ given), students apply the recurrence relation starting at $n = 1$ instead of $n = 3$, producing an extra incorrect term at the beginning of their list. Always check whether the recurrence relation starts at $n = 2$ or $n = 3$ based on how many initial conditions are provided."
+  ],
+  "untested_variants": [
+    "Writing a recursive rule from a given sequence of terms (reverse engineering the recurrence relation rather than applying it forward).",
+    "Converting between a recursive definition and an explicit (closed-form) formula, such as showing that $a_1 = 3, a_n = 2a_{n-1}$ is equivalent to $a_n = 3 \\cdot 2^{n-1}$.",
+    "Recursive sequences where the recurrence relation involves $a_{n-2}$ or terms more than one step back (other than the standard two-initial-condition Fibonacci type already tested).",
+    "Graphing recursive sequences on a coordinate plane and describing the long-run behavior or limit of the sequence as $n \\to \\infty$."
+  ]
+}

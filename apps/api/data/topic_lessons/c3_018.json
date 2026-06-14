@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_018",
+  "topic_name": "Directional Derivatives and the Gradient",
+  "generated_at": "2026-05-13T00:34:08.686802+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to find partial derivatives, which tell you the rate of change of a function as you move parallel to the $x$-axis or $y$-axis. But what if you want to know how fast a temperature field changes as you walk in the direction northeast, or along any arbitrary direction? Partial derivatives only give you two special directions \u2014 you're missing infinitely many others. How can we compute the rate of change of $f(x,y)$ in any direction we choose?",
+  "concept": "The directional derivative measures how fast a function changes as you move in a specific direction. Formally, the directional derivative of $f$ at point $(a,b)$ in the direction of a unit vector $\\mathbf{u} = \\langle u_1, u_2 \\rangle$ is $D_{\\mathbf{u}}f(a,b) = \\nabla f(a,b) \\cdot \\mathbf{u}$, where the gradient is $\\nabla f = \\langle f_x, f_y \\rangle$. The result is a scalar telling you the instantaneous rate of change of $f$ per unit distance in that direction.",
+  "anatomy": "The directional derivative formula $D_{\\mathbf{u}}f = \\nabla f \\cdot \\mathbf{u}$ has three distinct parts: the gradient $\\nabla f(a,b) = \\langle f_x(a,b), f_y(a,b) \\rangle$, which packages all partial derivative information into one vector evaluated at the point of interest; the unit direction vector $\\mathbf{u} = \\langle u_1, u_2 \\rangle$, which must have magnitude $|\\mathbf{u}| = 1$ (if you are given a non-unit vector $\\mathbf{v}$, you must normalize it to $\\mathbf{u} = \\mathbf{v}/|\\mathbf{v}|$ first); and the dot product, which projects the gradient onto your chosen direction, extracting only the component of change along $\\mathbf{u}$.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x,y) = x^2 y + \\sin(y), \\quad \\text{point } (1, 0), \\quad \\mathbf{v} = \\langle 3, 4 \\rangle",
+      "description_latex": "We want $D_{\\mathbf{u}}f(1,0)$ in the direction of $\\mathbf{v} = \\langle 3, 4 \\rangle$. Notice $\\mathbf{v}$ is not a unit vector, so our very first job is to normalize it \u2014 skipping this step is the most common error in this topic.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|\\mathbf{v}| = \\sqrt{3^2 + 4^2} = \\sqrt{25} = 5, \\quad \\mathbf{u} = \\left\\langle \\frac{3}{5}, \\frac{4}{5} \\right\\rangle",
+      "description_latex": "We compute the magnitude and divide each component by it to get the unit direction vector $\\mathbf{u}$. This normalization guarantees we are measuring change per unit distance, which is exactly what the directional derivative promises.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_x = 2xy, \\quad f_y = x^2 + \\cos(y), \\quad \\nabla f = \\langle 2xy,\\; x^2 + \\cos(y) \\rangle",
+      "description_latex": "Next we compute the two partial derivatives and assemble the gradient vector. Remember that when finding $f_x$ we treat $y$ as a constant, and when finding $f_y$ we treat $x$ as a constant \u2014 here $\\cos(y)$ appears because $\\frac{d}{dy}\\sin(y) = \\cos(y)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\nabla f(1,0) = \\langle 2(1)(0),\\; 1^2 + \\cos(0) \\rangle = \\langle 0,\\; 2 \\rangle",
+      "description_latex": "We evaluate the gradient at the specific point $(1, 0)$ by substituting $x=1, y=0$. It is important to evaluate at the point after you have differentiated, not before \u2014 the gradient is a vector field, and we want its value exactly where we are standing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D_{\\mathbf{u}}f(1,0) = \\nabla f(1,0) \\cdot \\mathbf{u} = \\langle 0, 2 \\rangle \\cdot \\left\\langle \\frac{3}{5}, \\frac{4}{5} \\right\\rangle = 0 \\cdot \\frac{3}{5} + 2 \\cdot \\frac{4}{5} = \\frac{8}{5}",
+      "description_latex": "Finally, we take the dot product of the gradient with the unit vector to get the directional derivative. The answer $\\frac{8}{5}$ means that if you stand at $(1,0)$ and walk in the direction $\\langle 3,4 \\rangle$, the function $f$ increases at a rate of $\\frac{8}{5}$ per unit of distance traveled.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x,y) = x^3 - 4xy^2, \\quad \\text{point } (2, 1), \\quad \\mathbf{v} = \\langle 1, -1 \\rangle",
+      "description_latex": "We want to find $D_{\\mathbf{u}}f(2,1)$ in the direction of $\\mathbf{v} = \\langle 1,-1 \\rangle$. Start by normalizing: $|\\mathbf{v}| = \\sqrt{1^2 + (-1)^2} = \\sqrt{2}$, so $\\mathbf{u} = \\langle \\frac{1}{\\sqrt{2}}, \\frac{-1}{\\sqrt{2}} \\rangle$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_x = 3x^2 - 4y^2, \\quad f_y = -8xy, \\quad \\nabla f(2,1) = \\langle 3(4)-4(1),\\; -8(2)(1) \\rangle = \\langle 8, -16 \\rangle",
+      "description_latex": "We have computed the partial derivatives and evaluated the gradient at $(2,1)$ for you. Now it's your turn: use the gradient $\\nabla f(2,1) = \\langle 8, -16 \\rangle$ and the unit vector $\\mathbf{u} = \\langle \\frac{1}{\\sqrt{2}}, \\frac{-1}{\\sqrt{2}} \\rangle$ to compute the directional derivative by taking their dot product.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $D_{\\mathbf{u}}f(2,1) = \\nabla f(2,1) \\cdot \\mathbf{u}$ by dotting $\\langle 8, -16 \\rangle$ with $\\langle \\frac{1}{\\sqrt{2}}, \\frac{-1}{\\sqrt{2}} \\rangle$. Multiply component-by-component, add the results, and simplify \u2014 what scalar do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "D_{\\mathbf{u}}f(2,1) = \\frac{8}{\\sqrt{2}} + \\frac{16}{\\sqrt{2}} = \\frac{24}{\\sqrt{2}} = 12\\sqrt{2}",
+      "description_latex": "The directional derivative is $12\\sqrt{2}$, which is positive and large \u2014 this tells us $f$ increases steeply in the direction $\\langle 1,-1 \\rangle$ from the point $(2,1)$. Notice how rationalizing the denominator gives a cleaner final form.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $f(x,y) = 3x + 5y$. Find $D_{\\mathbf{u}}f$ in the direction $\\mathbf{u} = \\langle 1, 0 \\rangle$.",
+      "answer_latex": "D_{\\mathbf{u}}f = 3"
+    },
+    {
+      "prompt_latex": "Let $f(x,y) = x^2 + y^2$. Find $D_{\\mathbf{u}}f(1,2)$ in the direction of $\\mathbf{v} = \\langle 3, 4 \\rangle$.",
+      "answer_latex": "D_{\\mathbf{u}}f(1,2) = \\frac{22}{5}"
+    },
+    {
+      "prompt_latex": "Let $f(x,y) = e^x \\cos(y)$. Find $D_{\\mathbf{u}}f(0, 0)$ in the direction of $\\mathbf{v} = \\langle -1, 1 \\rangle$.",
+      "answer_latex": "D_{\\mathbf{u}}f(0,0) = -\\dfrac{1}{\\sqrt{2}}"
+    },
+    {
+      "prompt_latex": "Let $f(x,y) = \\ln(x^2 + y^2)$. Find the direction $\\mathbf{u}$ in which $D_{\\mathbf{u}}f(1,1)$ is maximized, and find that maximum value.",
+      "answer_latex": "\\mathbf{u} = \\left\\langle \\dfrac{1}{\\sqrt{2}}, \\dfrac{1}{\\sqrt{2}} \\right\\rangle, \\quad D_{\\mathbf{u}}f(1,1) = \\sqrt{2}"
+    },
+    {
+      "prompt_latex": "The temperature at a point $(x,y)$ in a thin plate is given by $T(x,y) = 100 - 2x^2 - 3y^2$ degrees Celsius. A bug at position $(1,2)$ can walk in any direction. In what direction should the bug walk to cool down as fast as possible, and what is the rate of cooling per unit distance?",
+      "answer_latex": "\\text{Direction: } \\mathbf{u} = \\left\\langle \\dfrac{1}{\\sqrt{10}}, \\dfrac{3}{\\sqrt{10}} \\right\\rangle, \\quad \\text{rate of cooling: } \\sqrt{160} = 4\\sqrt{10} \\text{ \u00b0C per unit}"
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting to normalize the direction vector before computing the dot product: if you use $\\mathbf{v}$ instead of $\\mathbf{u} = \\mathbf{v}/|\\mathbf{v}|$, your answer is scaled by $|\\mathbf{v}|$ and is not a true rate of change per unit distance. Always divide by the magnitude first.",
+    "Evaluating the gradient before differentiating \u2014 that is, plugging in the point $(a,b)$ into $f$ first and then trying to differentiate a constant. The correct order is differentiate first to get $\\nabla f(x,y)$, and only then substitute the specific point.",
+    "Confusing the direction of maximum increase with the gradient itself versus the unit gradient: the gradient $\\nabla f$ points in the direction of steepest ascent, but the maximum value of the directional derivative is $|\\nabla f|$ (the magnitude), not the gradient vector itself \u2014 students sometimes report the gradient vector as the answer to 'what is the maximum rate of increase?'"
+  ],
+  "untested_variants": [
+    "Directional derivatives of functions of three variables $f(x,y,z)$, where $\\nabla f = \\langle f_x, f_y, f_z \\rangle$ and the unit vector has three components.",
+    "Using the limit definition $D_{\\mathbf{u}}f(a,b) = \\lim_{h \\to 0} \\frac{f(a+hu_1, b+hu_2) - f(a,b)}{h}$ to compute a directional derivative directly without using the gradient formula.",
+    "Finding all directions $\\mathbf{u}$ in which the directional derivative equals a specified value $c$ (solving $\\nabla f \\cdot \\mathbf{u} = c$ for a unit vector $\\mathbf{u}$, which involves an angle equation).",
+    "Interpreting level curves alongside the gradient \u2014 questions asking you to explain why $\\nabla f$ is perpendicular to a level curve $f(x,y) = k$ at a given point, combining geometric reasoning with the directional derivative concept."
+  ]
+}

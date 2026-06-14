@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_067",
+  "topic_name": "Introduction to Limits (H)",
+  "generated_at": "2026-05-13T00:00:56.477278+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to evaluate a function at a specific point \u2014 just plug in the value and simplify. But what happens when you try to plug in a value that makes the function undefined, like $f(x) = \\frac{x^2 - 1}{x - 1}$ at $x = 1$? Division by zero gives you nothing useful, yet a graph of this function looks perfectly well-behaved near $x = 1$. So here's the real question: can we describe what a function is *approaching* even when we can't evaluate it directly?",
+  "concept": "A limit describes the value a function approaches as the input gets arbitrarily close to some number, without necessarily reaching it. Formally, we write $\\lim_{x \\to a} f(x) = L$ to mean: as $x$ gets closer and closer to $a$ (from both sides), $f(x)$ gets closer and closer to $L$. The function does not need to be defined at $x = a$ for the limit to exist \u2014 only the behavior *near* $a$ matters.",
+  "anatomy": "In the expression $\\lim_{x \\to a} f(x) = L$, there are four distinct components to recognize. The symbol $\\lim$ is the limit operator, signaling that we are describing approaching behavior rather than direct evaluation. The variable $x$ is the independent variable whose value is changing, and $a$ is the target value that $x$ is approaching (but never required to equal). The expression $f(x)$ is the function being analyzed, and $L$ is the limit value \u2014 the number that $f(x)$ gets arbitrarily close to. Together, the subscript $x \\to a$ under the limit operator tells you the direction of the approach.",
+  "worked_example": [
+    {
+      "expression_latex": "\\lim_{x \\to 1} \\frac{x^2 - 1}{x - 1}",
+      "description_latex": "We want to find the limit of $\\frac{x^2 - 1}{x - 1}$ as $x$ approaches $1$. Notice that plugging in $x = 1$ directly gives $\\frac{0}{0}$, which is indeterminate, so we cannot simply evaluate \u2014 we need to simplify the expression first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{x^2 - 1}{x - 1} = \\frac{(x-1)(x+1)}{x - 1}",
+      "description_latex": "We factor the numerator using the difference of squares pattern: $x^2 - 1 = (x-1)(x+1)$. This step is the key algebraic move that reveals why the function behaves nicely near $x = 1$ even though it is undefined there.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{(x-1)(x+1)}{x-1} = x + 1, \\quad x \\neq 1",
+      "description_latex": "Since we are considering $x$ *approaching* $1$ but never equaling it, we can legally cancel the common factor $(x - 1)$ from numerator and denominator. This leaves us with the simpler expression $x + 1$, valid for all $x \\neq 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{x \\to 1} (x + 1) = 1 + 1 = 2",
+      "description_latex": "Now we substitute $x = 1$ into the simplified expression $x + 1$, because direct substitution is valid here. Therefore $\\lim_{x \\to 1} \\frac{x^2 - 1}{x - 1} = 2$, meaning the function approaches the value $2$ as $x$ gets close to $1$, even though the original function is not defined at $x = 1$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\lim_{x \\to 3} \\frac{x^2 - 9}{x - 3}",
+      "description_latex": "We need to find this limit. Start by checking whether direct substitution works: plugging in $x = 3$ gives $\\frac{9 - 9}{3 - 3} = \\frac{0}{0}$, which is indeterminate, so we must factor and simplify first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{x^2 - 9}{x - 3} = \\frac{(x-3)(x+3)}{x-3} = x + 3, \\quad x \\neq 3",
+      "description_latex": "We factor the numerator as a difference of squares and cancel the common $(x - 3)$ factor, since $x$ is only approaching $3$, not equaling it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $x = 3$ into the simplified expression $x + 3$ to find the limit. What is $\\lim_{x \\to 3} \\frac{x^2 - 9}{x - 3}$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate \\lim_{x \\to 4} (2x + 3)",
+      "answer_latex": "11"
+    },
+    {
+      "prompt_latex": "Evaluate \\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}",
+      "answer_latex": "4"
+    },
+    {
+      "prompt_latex": "Evaluate \\lim_{x \\to -3} \\frac{x^2 + x - 6}{x + 3}",
+      "answer_latex": "-5"
+    },
+    {
+      "prompt_latex": "Evaluate \\lim_{x \\to 0} \\frac{x^2 + 5x}{x}",
+      "answer_latex": "5"
+    },
+    {
+      "prompt_latex": "A company's average cost per unit is modeled by $C(x) = \\frac{x^2 - x}{x}$ dollars, where $x$ is the number of units produced. As production approaches $0$ units, what value does the average cost per unit approach? That is, find $\\lim_{x \\to 0} \\frac{x^2 - x}{x}$.",
+      "answer_latex": "-1"
+    }
+  ],
+  "common_mistakes": [
+    "Students often evaluate the original undefined expression and conclude the limit does not exist simply because $f(a)$ is undefined. The fix: remember that a limit describes behavior *near* $a$, not *at* $a$ \u2014 always simplify before concluding the limit fails to exist.",
+    "After canceling the common factor, students forget the restriction $x \\neq a$ and treat the simplified function as completely identical to the original. While this does not affect the final limit value, it reflects a misunderstanding: the original and simplified functions differ at exactly one point, which is why the limit language is necessary in the first place.",
+    "Students sometimes cancel individual terms across a fraction rather than factoring first, for example writing $\\frac{x^2 - 4}{x - 2} = x^2 - 2$ by 'canceling the 2'. The fix: you can only cancel factors (expressions multiplied together), never terms (expressions added or subtracted) \u2014 always factor completely before canceling."
+  ],
+  "untested_variants": [
+    "One-sided limits, where you evaluate $\\lim_{x \\to a^-} f(x)$ or $\\lim_{x \\to a^+} f(x)$ separately and determine whether the two-sided limit exists by comparing them.",
+    "Limits involving trigonometric functions, such as $\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1$, which require special identities rather than algebraic factoring.",
+    "Limits at infinity, such as $\\lim_{x \\to \\infty} \\frac{3x^2 + 1}{x^2 - 5}$, where the variable grows without bound and dominant-term analysis or horizontal asymptote reasoning is needed.",
+    "Limits of piecewise-defined functions where you must check both the left-hand and right-hand behavior using different formula branches to verify the limit exists."
+  ]
+}

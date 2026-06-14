@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_028",
+  "topic_name": "The Fundamental Theorem of Calculus (Part 1 and 2)",
+  "generated_at": "2026-05-13T00:10:41.367682+00:00",
+  "course_name": "Calculus I",
+  "hook": "You know how to find the area under a curve using Riemann sums \u2014 adding up infinitely many thin rectangles \u2014 but that process is painfully slow and requires taking a limit every single time. You also know how to differentiate functions, finding slopes and rates of change. What if these two seemingly unrelated operations, differentiation and integration, were actually inverse processes of each other? Is there a shortcut that connects antiderivatives to areas, letting you compute $\\int_a^b f(x)\\,dx$ without a single Riemann sum?",
+  "concept": "The Fundamental Theorem of Calculus (FTC) is the bridge between differentiation and integration. Part 1 says that if $F(x) = \\int_a^x f(t)\\,dt$, then $F'(x) = f(x)$ \u2014 differentiating an accumulation function recovers the original integrand. Part 2 says that $\\int_a^b f(x)\\,dx = F(b) - F(a)$, where $F$ is any antiderivative of $f$, turning area computation into pure algebra.",
+  "anatomy": "In Part 1, the accumulation function $F(x) = \\int_a^x f(t)\\,dt$ has three key parts: the fixed lower limit $a$ (a constant), the variable upper limit $x$ (which is why differentiating $F$ gives back $f$), and the dummy variable $t$ (used inside the integral so it doesn't clash with $x$). In Part 2, the definite integral $\\int_a^b f(x)\\,dx = F(b) - F(a)$ involves the antiderivative $F$ of $f$, the upper limit of integration $b$, and the lower limit of integration $a$; the notation $\\Big[F(x)\\Big]_a^b$ is a compact way to write the evaluation step $F(b) - F(a)$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Find } \\frac{d}{dx}\\int_1^x \\cos(t^2)\\,dt",
+      "description_latex": "We recognize this as a direct application of FTC Part 1, where $f(t) = \\cos(t^2)$ and the upper limit is exactly $x$. According to Part 1, differentiating an accumulation function simply returns the integrand evaluated at the upper limit, so we do not need to find an antiderivative of $\\cos(t^2)$ (which has no elementary form anyway).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{d}{dx}\\int_1^x \\cos(t^2)\\,dt = \\cos(x^2)",
+      "description_latex": "We replace the dummy variable $t$ with the upper limit $x$, giving $\\cos(x^2)$. This is the complete answer \u2014 FTC Part 1 turns what looks like a hard problem into a one-line result.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Evaluate } \\int_1^4 (3x^2 - 2x)\\,dx",
+      "description_latex": "Now we use FTC Part 2: we need an antiderivative $F(x)$ of $f(x) = 3x^2 - 2x$. Using the power rule in reverse, $F(x) = x^3 - x^2$ (we can omit the $+C$ because it cancels in $F(b) - F(a)$).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Big[x^3 - x^2\\Big]_1^4 = \\bigl(4^3 - 4^2\\bigr) - \\bigl(1^3 - 1^2\\bigr)",
+      "description_latex": "We evaluate the antiderivative at the upper limit $b = 4$ and subtract its value at the lower limit $a = 1$. This subtraction is the entire FTC Part 2 computation \u2014 no limits, no rectangles.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(64 - 16) - (1 - 1) = 48 - 0 = 48",
+      "description_latex": "Simplifying, $F(4) = 48$ and $F(1) = 0$, so the exact area under the curve from $x = 1$ to $x = 4$ is $48$. Notice how antidifferentiation replaced an infinite Riemann sum with three lines of arithmetic.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Evaluate } \\int_0^{\\pi} \\sin(x)\\,dx",
+      "description_latex": "We want to apply FTC Part 2, so the first thing we need is an antiderivative of $f(x) = \\sin(x)$. Recall that the derivative of $-\\cos(x)$ is $\\sin(x)$, so $F(x) = -\\cos(x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Big[-\\cos(x)\\Big]_0^{\\pi}",
+      "description_latex": "We write the evaluation notation to remind ourselves to compute $F(\\pi) - F(0)$. Now carry out this subtraction \u2014 substitute $x = \\pi$ and $x = 0$ into $-\\cos(x)$ and find the difference.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "(-\\cos\\pi) - (-\\cos 0) = (1) - (-1) = 2",
+      "description_latex": "Since $\\cos\\pi = -1$ and $\\cos 0 = 1$, the result is $1 - (-1) = 2$, confirming that the net area between $\\sin(x)$ and the $x$-axis on $[0,\\pi]$ is exactly $2$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}\\int_0^x e^{t^3}\\,dt",
+      "answer_latex": "e^{x^3}"
+    },
+    {
+      "prompt_latex": "\\text{Evaluate } \\int_1^3 (2x + 1)\\,dx",
+      "answer_latex": "10"
+    },
+    {
+      "prompt_latex": "\\text{Evaluate } \\int_0^{\\pi/2} \\cos(x)\\,dx",
+      "answer_latex": "1"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}\\int_x^5 \\sqrt{1+t^4}\\,dt",
+      "answer_latex": "-\\sqrt{1+x^4}"
+    },
+    {
+      "prompt_latex": "\\text{A particle moves along a line with velocity } v(t) = t^2 - 4t + 3 \\text{ (m/s). Find the net displacement on } [0,3].",
+      "answer_latex": "0 \\text{ m}"
+    }
+  ],
+  "common_mistakes": [
+    "When using FTC Part 1 with a lower limit that contains $x$ instead of an upper limit, students forget to negate the result. For example, $\\frac{d}{dx}\\int_x^5 f(t)\\,dt = -f(x)$ because flipping the limits introduces a negative sign \u2014 always flip or rewrite so $x$ is on top before applying the theorem.",
+    "Students often carry the $+C$ through to the final answer when applying FTC Part 2, writing $F(b) + C - (F(a) + C)$ and then panicking about what $C$ is. The fix is to recognize that $+C$ always cancels in $F(b) - F(a)$, so you can freely set $C = 0$ for definite integrals.",
+    "When evaluating $F(b) - F(a)$, students sometimes compute $F(a) - F(b)$ (reversing the order) or forget to subtract $F(a)$ entirely, writing only $F(b)$. Remember the mnemonic: the upper limit is evaluated first, then you subtract the lower-limit value \u2014 upper minus lower, never the reverse."
+  ],
+  "untested_variants": [
+    "FTC Part 1 with a chain rule twist, such as $\\frac{d}{dx}\\int_1^{x^3} \\sin(t)\\,dt$, where the upper limit is a function of $x$ and you must multiply by its derivative.",
+    "FTC Part 1 where both limits depend on $x$, such as $\\frac{d}{dx}\\int_{x}^{x^2} f(t)\\,dt$, requiring the student to split the integral and apply the chain rule to each piece.",
+    "Using FTC Part 2 with a definite integral that involves absolute value, such as $\\int_{-2}^{2} |x|\\,dx$, which requires splitting the integral at the point where the expression changes sign.",
+    "Interpreting FTC in a real-world context where the rate function is given by a table or graph rather than a formula, and the student must use FTC Part 2 conceptually to find total accumulation."
+  ]
+}

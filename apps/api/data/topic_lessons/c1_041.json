@@ -1,0 +1,91 @@
+{
+  "topic_id": "c1_041",
+  "topic_name": "Slope Fields and Solution Curves",
+  "generated_at": "2026-05-13T00:15:54.984501+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to solve simple differential equations like $\\frac{dy}{dx} = 2x$ by integrating both sides to get $y = x^2 + C$. But what if the equation is $\\frac{dy}{dx} = x - y$, which mixes both variables and resists a straightforward antiderivative? You can't yet find an explicit formula for $y$, but you can still understand the behavior of every solution. How can we visualize infinitely many solution curves of a differential equation without ever solving it?",
+  "concept": "A slope field (also called a direction field) is a picture that shows you the slope of the solution to a differential equation at every point in the plane. For a first-order ODE written as $\\frac{dy}{dx} = f(x, y)$, we evaluate $f(x, y)$ at a grid of points and draw a short line segment at each point with that slope. Each solution curve, called an integral curve, flows through these segments like a river following the current.",
+  "anatomy": "A slope field has three key structural elements. The differential equation itself, $\\frac{dy}{dx} = f(x, y)$, supplies the slope formula \u2014 the rule you evaluate at every grid point. Each grid point $(x_0, y_0)$ is a location in the $xy$-plane where you sample the slope; the computed value $m = f(x_0, y_0)$ is the slope value assigned there, drawn as a short line segment centered at that point with inclination $m$. A solution curve (integral curve) is a smooth curve $y = \\phi(x)$ that is everywhere tangent to the slope segments it passes through, satisfying the ODE for every point on it.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = x + 1",
+      "description_latex": "We start with this simple ODE where the slope depends only on $x$, not on $y$, making it easy to build intuition. Our goal is to construct a slope field by computing the slope $m = x + 1$ at several representative grid points and then sketching what the solution curves must look like.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c} (x,y) & m = x+1 \\\\ \\hline (-2, \\text{any}) & -1 \\\\ (-1, \\text{any}) & 0 \\\\ (0, \\text{any}) & 1 \\\\ (1, \\text{any}) & 2 \\\\ (2, \\text{any}) & 3 \\end{array}",
+      "description_latex": "Because $f(x,y) = x+1$ has no $y$ in it, the slope is the same at every point along any vertical line $x = c$. This means all the short segments in a given column are parallel, which is a special but important pattern to recognize. We record these slopes in a table before drawing anything.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Segments: at } x=-1 \\text{ all horizontal } (m=0);\\; x=0 \\text{ all slope } 1;\\; x=1 \\text{ all slope } 2",
+      "description_latex": "Now we draw the slope field by placing short line segments at each grid point with the corresponding inclination. At $x = -1$ every segment is flat, at $x = 0$ every segment tilts upward at $45\u00b0$, and at $x = 1$ segments are steeper still. This gives the field a characteristic 'fanning right and upward' appearance.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = \\frac{x^2}{2} + x + C",
+      "description_latex": "Since this ODE is separable, we can actually solve it: integrating $\\frac{dy}{dx} = x+1$ gives $y = \\frac{x^2}{2} + x + C$. Each value of $C$ produces one parabola, and together these form a family of solution curves. You should verify mentally that each parabola is tangent to the slope-field segments it passes through \u2014 that is the defining property of a solution curve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y(0) = 1 \\implies 1 = 0 + 0 + C \\implies C = 1,\\quad y = \\frac{x^2}{2} + x + 1",
+      "description_latex": "An initial condition pins down exactly one solution curve from the whole family. Here the condition $y(0) = 1$ tells us to start at the point $(0, 1)$ in the slope field and follow the segments; algebraically it forces $C = 1$, giving the unique curve $y = \\frac{x^2}{2} + x + 1$ through that point.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = y - x",
+      "description_latex": "We want to sketch a slope field for this ODE where the slope depends on both $x$ and $y$. The first step is to evaluate $m = y - x$ at a small grid of points. Let's use integer coordinates in the range $-1 \\le x \\le 1$, $-1 \\le y \\le 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|ccc} y \\backslash x & -1 & 0 & 1 \\\\ \\hline 1 & 2 & 1 & 0 \\\\ 0 & 1 & 0 & -1 \\\\ -1 & 0 & -1 & -2 \\end{array}",
+      "description_latex": "Here is the completed slope table. Notice that the slope is zero along the line $y = x$ (the main diagonal), positive above it, and negative below it. This tells us solution curves rise when above $y=x$ and fall when below it \u2014 a crucial observation for sketching behavior.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the slope table above, describe in one or two sentences what the slope segments look like along the line $y = x$, and then explain what happens to a solution curve that starts just above the line $y = x$. Does the curve move toward or away from this line?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify the isocline where $m = 1$ \u2014 that is, solve $y - x = 1$ for $y$ \u2014 and state what this line looks like in the slope field. All segments lying on this isocline should have the same slope; what slope is that, and how would you draw those segments?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For the slope field of $\\frac{dy}{dx} = 2$, what is the slope of every segment in the field? Describe what the family of solution curves looks like.",
+      "answer_latex": "Every segment has slope $2$; the solution curves are the parallel lines $y = 2x + C$."
+    },
+    {
+      "prompt_latex": "Compute the slope that the slope field of $\\frac{dy}{dx} = xy$ assigns to each of the following points: $(0, 3)$, $(1, 2)$, $(-1, 2)$, and $(2, -1)$.",
+      "answer_latex": "$(0,3): m=0$;\\quad $(1,2): m=2$;\\quad $(-1,2): m=-2$;\\quad $(2,-1): m=-2$"
+    },
+    {
+      "prompt_latex": "Find the equation of the isocline of $\\frac{dy}{dx} = x - y$ along which all slope segments are horizontal (i.e., $m = 0$). Then find the isocline along which $m = 2$.",
+      "answer_latex": "$m=0$: $y = x$;\\quad $m=2$: $y = x - 2$"
+    },
+    {
+      "prompt_latex": "A slope field is drawn for $\\frac{dy}{dx} = -\\frac{x}{y}$. A solution curve passes through the point $(0, 3)$. Using separation of variables, find the explicit solution satisfying this initial condition and identify what type of curve it is.",
+      "answer_latex": "Separating gives $y\\,dy = -x\\,dx$, so $\\frac{y^2}{2} = -\\frac{x^2}{2} + C_1$, i.e., $x^2 + y^2 = C$. With $(0,3)$: $C = 9$, giving the circle $x^2 + y^2 = 9$."
+    },
+    {
+      "prompt_latex": "A population grows according to $\\frac{dP}{dt} = 0.5P(1 - P/100)$ (logistic growth). Without solving the ODE, use slope-field reasoning to answer: at what value of $P$ are the slope segments horizontal, and does $P$ increase or decrease when $0 < P < 100$?",
+      "answer_latex": "Segments are horizontal when $P = 0$ or $P = 100$ (since $\\frac{dP}{dt}=0$ there); for $0 < P < 100$ both factors are positive so $\\frac{dP}{dt} > 0$ and $P$ increases."
+    }
+  ],
+  "common_mistakes": [
+    "Students often draw slope segments that point in the direction of the curve rather than simply showing the local slope (inclination). A slope segment is just a short straight line with inclination $m = f(x,y)$ centered at the point \u2014 it has no arrowhead and does not show the direction of travel along a solution curve.",
+    "When $f(x, y)$ depends on both $x$ and $y$, students sometimes evaluate it using only $x$ (or only $y$), forgetting to substitute both coordinates. Always plug in the full ordered pair $(x_0, y_0)$ into $f(x,y)$ before drawing the segment at that point.",
+    "Students frequently assume that a solution curve must pass through every slope segment in its row or column. In reality, a unique solution curve passes through each initial point, and once that curve is fixed it may only intersect certain segments \u2014 it does not zigzag through every segment in the field. The Existence and Uniqueness Theorem guarantees exactly one curve through each point, so two solution curves never cross."
+  ],
+  "untested_variants": [
+    "Sketching a slope field and solution curves for an autonomous ODE like $\\frac{dy}{dx} = y(y-2)$, including analyzing equilibrium solutions and stability from the field.",
+    "Given a picture of a slope field (with no formula shown), working backwards to identify which of several candidate ODEs could have produced it.",
+    "Using Euler's method to numerically trace a solution curve through a slope field step by step from a given initial condition.",
+    "Slope fields for second-order ODEs reduced to a system of first-order equations and displayed as vector fields in the phase plane."
+  ]
+}

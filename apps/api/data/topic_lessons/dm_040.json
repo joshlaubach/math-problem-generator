@@ -1,0 +1,76 @@
+{
+  "topic_id": "dm_040",
+  "topic_name": "Binomial Coefficients and Pascal's Triangle",
+  "generated_at": "2026-05-13T20:14:56.005679+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to multiply out $(a+b)^2 = a^2 + 2ab + b^2$ and perhaps $(a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3$. But what if someone asks you to expand $(a+b)^{10}$ or find just the coefficient of $a^4b^6$ in that expansion \u2014 without multiplying ten times? There must be a pattern hiding in those coefficients 1, 2, 1 and 1, 3, 3, 1, but where does it come from, and how do we compute it for any power?",
+  "concept": "A binomial coefficient counts the number of ways to choose $k$ items from a set of $n$ items without regard to order. We write it $\\binom{n}{k}$ (read 'n choose k') and define it as $\\binom{n}{k} = \\dfrac{n!}{k!(n-k)!}$ for integers $0 \\le k \\le n$. These numbers turn out to be exactly the coefficients in the expansion of $(a+b)^n$, connecting counting to algebra in a beautiful way.",
+  "anatomy": "In the expression $\\binom{n}{k} = \\dfrac{n!}{k!(n-k)!}$, the number $n$ is called the **top** (or upper index) and represents the total number of items in the pool. The number $k$ is called the **bottom** (or lower index) and represents the size of the subset being chosen. The factorial $n! = n \\cdot (n-1) \\cdots 2 \\cdot 1$ counts all arrangements of $n$ items, while the denominator $k!(n-k)!$ divides out the orderings within the chosen group and within the unchosen group, leaving only distinct subsets. Pascal's Triangle arranges these values so that row $n$ lists $\\binom{n}{0}, \\binom{n}{1}, \\ldots, \\binom{n}{n}$, and the Pascal identity $\\binom{n}{k} = \\binom{n-1}{k-1} + \\binom{n-1}{k}$ explains why each entry equals the sum of the two entries directly above it.",
+  "worked_example": [
+    {
+      "expression_latex": "\\binom{6}{2} = \\frac{6!}{2!(6-2)!}",
+      "description_latex": "We start by writing the definition directly: the top index is $n=6$ and the bottom index is $k=2$, so we substitute into $\\frac{n!}{k!(n-k)!}$. It is always safest to set up this fraction before cancelling anything.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{6!}{2! \\cdot 4!} = \\frac{6 \\cdot 5 \\cdot 4!}{2! \\cdot 4!}",
+      "description_latex": "We expand only the part of $6!$ that is not already covered by $4!$, writing $6! = 6 \\cdot 5 \\cdot 4!$. This lets us cancel the common $4!$ in the numerator and denominator immediately, which keeps the arithmetic small and avoids huge numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{6 \\cdot 5}{2!} = \\frac{30}{2} = 15",
+      "description_latex": "After cancelling $4!$, we are left with $\\frac{6 \\cdot 5}{2!} = \\frac{30}{2}$, which equals $15$. This makes intuitive sense: there are exactly 15 ways to choose 2 items from a group of 6, which you could verify by listing all pairs.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\binom{8}{3} = \\frac{8!}{3!(8-3)!} = \\frac{8!}{3! \\cdot 5!}",
+      "description_latex": "We identify $n=8$ and $k=3$ and substitute into the definition. Notice that $n-k = 5$, so the denominator is $3! \\cdot 5!$. Setting this up correctly is the foundation of the whole calculation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{8 \\cdot 7 \\cdot 6 \\cdot 5!}{3! \\cdot 5!} = \\frac{8 \\cdot 7 \\cdot 6}{3!}",
+      "description_latex": "We expand $8!$ only as far as needed \u2014 writing $8! = 8 \\cdot 7 \\cdot 6 \\cdot 5!$ \u2014 and then cancel the $5!$ that appears in both numerator and denominator, leaving a much simpler fraction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now simplify $\\frac{8 \\cdot 7 \\cdot 6}{3!}$: compute $3! = 6$, multiply out the numerator, and divide to get your final integer answer. What is $\\binom{8}{3}$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute $\\binom{5}{2}$.",
+      "answer_latex": "10"
+    },
+    {
+      "prompt_latex": "Compute $\\binom{7}{3}$.",
+      "answer_latex": "35"
+    },
+    {
+      "prompt_latex": "Use Pascal's identity to find $\\binom{9}{4}$ given that $\\binom{8}{3} = 56$ and $\\binom{8}{4} = 70$.",
+      "answer_latex": "\\binom{9}{4} = \\binom{8}{3} + \\binom{8}{4} = 56 + 70 = 126"
+    },
+    {
+      "prompt_latex": "Find the coefficient of $a^3 b^5$ in the expansion of $(a+b)^8$.",
+      "answer_latex": "\\binom{8}{3} = 56"
+    },
+    {
+      "prompt_latex": "A committee of 4 people is to be chosen from a group of 10 candidates. In how many ways can this be done?",
+      "answer_latex": "\\binom{10}{4} = 210"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $\\binom{n}{k} = \\frac{n!}{k!}$ and forget to divide by $(n-k)!$, which overcounts by including all orderings of the unchosen items; always remember the denominator is $k!(n-k)!$, not just $k!$.",
+    "When applying the Binomial Theorem to find the coefficient of $a^r b^s$ in $(a+b)^n$, students use $\\binom{n}{r}$ when they should double-check that $r + s = n$; if the exponents don't add up to $n$, that term does not actually appear in the expansion.",
+    "Students confuse $\\binom{n}{k}$ with $\\binom{n}{n-k}$ being a different value, not realising that choosing $k$ items to include is identical to choosing $n-k$ items to exclude, so $\\binom{n}{k} = \\binom{n}{n-k}$ always; using the smaller of $k$ and $n-k$ in the formula reduces arithmetic errors."
+  ],
+  "untested_variants": [
+    "Proving or applying the Binomial Theorem in full generality, i.e., expanding $(a+b)^n = \\sum_{k=0}^{n} \\binom{n}{k} a^{n-k} b^k$ symbolically for arbitrary $n$.",
+    "Evaluating binomial coefficients involving the symmetry property when $k > n/2$, such as computing $\\binom{20}{17}$ efficiently by recognising it equals $\\binom{20}{3}$.",
+    "Combinatorial identities beyond Pascal's identity, such as the Vandermonde identity $\\sum_{k=0}^{r} \\binom{m}{k}\\binom{n}{r-k} = \\binom{m+n}{r}$ or the hockey-stick identity.",
+    "Multinomial coefficients $\\frac{n!}{k_1! k_2! \\cdots k_r!}$ that arise when expanding expressions with more than two terms, such as $(a+b+c)^n$."
+  ]
+}

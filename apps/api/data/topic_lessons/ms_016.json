@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_016",
+  "topic_name": "Generalized Likelihood Ratio Tests",
+  "generated_at": "2026-05-14T01:02:34.030692+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to test simple hypotheses using likelihood ratios \u2014 when both the null and alternative fully specify the distribution, the Neyman-Pearson lemma gives you the most powerful test. But what happens when your null hypothesis says $\\theta = 0$ and your alternative says $\\theta > 0$, or worse, $\\theta \\neq 0$? These composite hypotheses involve entire families of distributions, and the Neyman-Pearson lemma no longer applies directly. How do we construct a principled, general-purpose test statistic when both hypotheses leave parameters unspecified?",
+  "concept": "A Generalized Likelihood Ratio Test (GLRT) compares how well the data are explained by the best model in the null parameter space versus the best model anywhere in the full parameter space. Formally, given data $\\mathbf{X}$ and parameter space $\\Omega$ with null subspace $\\Omega_0 \\subset \\Omega$, the test statistic is $\\Lambda(\\mathbf{X}) = \\frac{\\sup_{\\theta \\in \\Omega_0} L(\\theta; \\mathbf{X})}{\\sup_{\\theta \\in \\Omega} L(\\theta; \\mathbf{X})}$, and we reject $H_0$ when $\\Lambda$ is sufficiently small.",
+  "anatomy": "The GLRT statistic $\\Lambda$ has four key structural components. The numerator $\\sup_{\\theta \\in \\Omega_0} L(\\theta; \\mathbf{X})$ is the restricted maximum likelihood \u2014 the highest likelihood achievable while respecting $H_0$. The denominator $\\sup_{\\theta \\in \\Omega} L(\\theta; \\mathbf{X})$ is the unrestricted maximum likelihood, evaluated at the global MLE $\\hat{\\theta}$. The ratio $\\Lambda \\in [0, 1]$ always, because $\\Omega_0 \\subseteq \\Omega$. Wilks' theorem then gives the asymptotic null distribution: $-2\\log\\Lambda \\xrightarrow{d} \\chi^2_r$, where $r = \\dim(\\Omega) - \\dim(\\Omega_0)$ is the number of constraints imposed by $H_0$.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} N(\\mu, \\sigma^2),\\quad H_0: \\mu = \\mu_0 \\text{ vs } H_1: \\mu \\neq \\mu_0,\\quad \\sigma^2 \\text{ unknown}",
+      "description_latex": "We set up a two-sided test for the mean of a normal population with unknown variance, a classic composite-vs-composite situation. Both hypotheses leave $\\sigma^2$ unspecified, so we cannot use Neyman-Pearson directly and instead build the GLRT by maximizing the likelihood over each parameter space.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sup_{\\theta \\in \\Omega} L(\\mu, \\sigma^2; \\mathbf{X}) = L(\\hat{\\mu}, \\hat{\\sigma}^2) = \\left(\\frac{1}{2\\pi \\hat{\\sigma}^2}\\right)^{n/2} e^{-n/2}, \\quad \\hat{\\mu} = \\bar{X},\\ \\hat{\\sigma}^2 = \\frac{1}{n}\\sum(X_i - \\bar{X})^2",
+      "description_latex": "We compute the unrestricted maximum likelihood by plugging in the global MLEs $\\hat{\\mu} = \\bar{X}$ and $\\hat{\\sigma}^2 = n^{-1}\\sum(X_i-\\bar{X})^2$. The exponential term collapses to $e^{-n/2}$ because the sum of squared residuals divided by $\\hat{\\sigma}^2$ equals $n$ at the MLE \u2014 this is a standard simplification worth memorizing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sup_{\\theta \\in \\Omega_0} L(\\mu, \\sigma^2; \\mathbf{X}) = L\\!\\left(\\mu_0, \\tilde{\\sigma}^2\\right) = \\left(\\frac{1}{2\\pi \\tilde{\\sigma}^2}\\right)^{n/2} e^{-n/2}, \\quad \\tilde{\\sigma}^2 = \\frac{1}{n}\\sum(X_i - \\mu_0)^2",
+      "description_latex": "Under $H_0$, $\\mu$ is fixed at $\\mu_0$, so we only maximize over $\\sigma^2$, giving the restricted MLE $\\tilde{\\sigma}^2 = n^{-1}\\sum(X_i - \\mu_0)^2$. Notice that $\\tilde{\\sigma}^2 \\geq \\hat{\\sigma}^2$ always, because centering at $\\mu_0$ instead of $\\bar{X}$ cannot reduce the sum of squares \u2014 this is the geometric reason $\\Lambda \\leq 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Lambda = \\frac{L(\\mu_0, \\tilde{\\sigma}^2)}{L(\\hat{\\mu}, \\hat{\\sigma}^2)} = \\left(\\frac{\\hat{\\sigma}^2}{\\tilde{\\sigma}^2}\\right)^{n/2} = \\left(\\frac{\\sum(X_i - \\bar{X})^2}{\\sum(X_i - \\mu_0)^2}\\right)^{n/2}",
+      "description_latex": "Taking the ratio, the $e^{-n/2}$ and $(2\\pi)^{n/2}$ terms cancel perfectly, leaving only the ratio of variance estimates raised to the power $n/2$. This clean cancellation is typical in exponential family problems and is the main reason the GLRT is computationally tractable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-2\\log\\Lambda = n\\log\\!\\left(\\frac{\\tilde{\\sigma}^2}{\\hat{\\sigma}^2}\\right) = n\\log\\!\\left(1 + \\frac{(\\bar{X}-\\mu_0)^2}{\\hat{\\sigma}^2}\\right) \\xrightarrow{d} \\chi^2_1 \\text{ under } H_0",
+      "description_latex": "We apply Wilks' theorem: $-2\\log\\Lambda$ converges in distribution to $\\chi^2_r$ where $r = 1$ because we imposed one constraint ($\\mu = \\mu_0$). Equivalently, the expression inside the log equals $1 + T^2/(n-1) \\cdot (n-1)/n$ which links to the $t$-statistic, confirming the GLRT and $t$-test are asymptotically equivalent \u2014 a reassuring consistency check.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} \\text{Poisson}(\\lambda),\\quad H_0: \\lambda = \\lambda_0 \\text{ vs } H_1: \\lambda \\neq \\lambda_0",
+      "description_latex": "We want to test a specific Poisson rate $\\lambda_0$ against all alternatives. Begin by writing the log-likelihood: $\\ell(\\lambda) = -n\\lambda + n\\bar{X}\\log\\lambda - \\sum\\log(X_i!)$. The global MLE is $\\hat{\\lambda} = \\bar{X}$, and under $H_0$ the restricted MLE is simply $\\lambda_0$ itself since there is nothing to optimize.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Lambda = \\frac{L(\\lambda_0)}{L(\\hat{\\lambda})} = \\frac{e^{-n\\lambda_0}\\lambda_0^{n\\bar{X}}}{e^{-n\\bar{X}}\\bar{X}^{n\\bar{X}}} = \\left(\\frac{\\lambda_0}{\\bar{X}}\\right)^{n\\bar{X}} e^{-n(\\lambda_0 - \\bar{X})}",
+      "description_latex": "The factorials in the likelihood cancel in the ratio, leaving a clean expression involving only $\\lambda_0$ and $\\bar{X}$. This is the GLRT statistic for the Poisson problem \u2014 now take the log-ratio and apply Wilks' theorem to derive the test.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-2\\log\\Lambda = 2n\\left[\\bar{X}\\log\\!\\left(\\frac{\\bar{X}}{\\lambda_0}\\right) - (\\bar{X} - \\lambda_0)\\right]",
+      "description_latex": "Write out $-2\\log\\Lambda$ explicitly by taking the logarithm of the expression above and simplifying. This quantity is called the log-likelihood ratio statistic \u2014 what is its asymptotic distribution under $H_0$, and what is the degrees-of-freedom parameter $r$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "-2\\log\\Lambda \\xrightarrow{d} \\chi^2_1 \\text{ under } H_0",
+      "description_latex": "By Wilks' theorem, $r = \\dim(\\Omega) - \\dim(\\Omega_0) = 1 - 0 = 1$, since $\\Omega = (0,\\infty)$ has one free parameter and $\\Omega_0 = \\{\\lambda_0\\}$ has none. We reject $H_0$ at level $\\alpha$ when $-2\\log\\Lambda > \\chi^2_{1,\\alpha}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For a GLRT with $\\dim(\\Omega) = 4$ and $\\dim(\\Omega_0) = 2$, state the asymptotic null distribution of $-2\\log\\Lambda$ according to Wilks' theorem.",
+      "answer_latex": "-2\\log\\Lambda \\xrightarrow{d} \\chi^2_2"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} \\text{Exponential}(\\lambda)$ with density $f(x;\\lambda)=\\lambda e^{-\\lambda x}$. Under $H_0: \\lambda = \\lambda_0$ vs $H_1: \\lambda \\neq \\lambda_0$, show that $\\Lambda = \\left(\\lambda_0 \\bar{X}\\right)^n e^{-n(\\lambda_0 \\bar{X}-1)}$ and state the asymptotic distribution of $-2\\log\\Lambda$.",
+      "answer_latex": "\\hat{\\lambda}=1/\\bar{X};\\quad \\Lambda = (\\lambda_0 \\bar{X})^n e^{-n(\\lambda_0\\bar{X}-1)};\\quad -2\\log\\Lambda \\xrightarrow{d} \\chi^2_1"
+    },
+    {
+      "prompt_latex": "Let $(X_i, Y_i)$ be $n$ iid observations from $N_2(\\boldsymbol{\\mu}, \\mathbf{I})$ (bivariate normal, identity covariance). Construct the GLRT statistic for $H_0: \\mu_1 = 0,\\ \\mu_2 = 0$ vs $H_1:$ not both zero, and identify $r$.",
+      "answer_latex": "-2\\log\\Lambda = n(\\bar{X}^2 + \\bar{Y}^2) \\xrightarrow{d} \\chi^2_2 \\text{ under } H_0;\\quad r=2"
+    },
+    {
+      "prompt_latex": "Suppose $X_1,\\ldots,X_m \\overset{\\text{iid}}{\\sim} N(\\mu_1, \\sigma^2)$ and $Y_1,\\ldots,Y_n \\overset{\\text{iid}}{\\sim} N(\\mu_2, \\sigma^2)$, all independent, $\\sigma^2$ unknown. Derive the form of the GLRT statistic for $H_0: \\mu_1 = \\mu_2$ and identify its connection to the two-sample $t$-test.",
+      "answer_latex": "\\Lambda = \\left(\\frac{\\hat{\\sigma}^2_{\\text{pool}}}{\\hat{\\sigma}^2_{\\text{unres}}}\\right)^{(m+n)/2};\\quad -2\\log\\Lambda \\xrightarrow{d} \\chi^2_1;\\quad \\text{equivalent to the two-sample } t\\text{-test asymptotically}"
+    },
+    {
+      "prompt_latex": "A factory claims a machine produces items whose diameters follow $N(10, \\sigma^2)$ with $\\sigma^2$ unknown. You measure $n=50$ items and obtain $\\bar{x}=10.3$ and $\\hat{\\sigma}^2 = 0.25$. Compute $-2\\log\\Lambda$ for testing $H_0: \\mu = 10$ vs $H_1: \\mu \\neq 10$ and state your conclusion at $\\alpha = 0.05$.",
+      "answer_latex": "-2\\log\\Lambda = 50\\log\\!\\left(1 + \\frac{(0.3)^2}{0.25}\\right) = 50\\log(1.36) \\approx 15.4 > \\chi^2_{1,0.05}=3.84;\\quad \\text{reject } H_0"
+    }
+  ],
+  "common_mistakes": [
+    "Students often place the unrestricted likelihood in the numerator and the restricted likelihood in the denominator, yielding $\\Lambda \\geq 1$ and reversing the rejection rule. Remember: $\\Lambda = L_{\\text{restricted}} / L_{\\text{unrestricted}} \\in [0,1]$, and small $\\Lambda$ means the null is implausible.",
+    "When applying Wilks' theorem, students sometimes count the total number of parameters in $\\Omega$ rather than computing $r = \\dim(\\Omega) - \\dim(\\Omega_0)$ as a difference. If $H_0$ fixes two parameters in a three-parameter model, then $r=2$, not $r=3$.",
+    "Students confuse the restricted MLE under $H_0$ with the null value itself. When $H_0$ fixes some parameters but leaves others free (e.g., $H_0: \\mu = 0$ with $\\sigma^2$ unknown), the restricted MLE still requires optimizing over the free nuisance parameters \u2014 forgetting this step produces an incorrect numerator."
+  ],
+  "untested_variants": [
+    "GLRTs for testing hypotheses about the variance (or ratio of variances) in normal populations, where the mean is the nuisance parameter \u2014 connecting to $F$-test theory.",
+    "GLRTs in the presence of non-regular models where Wilks' theorem fails (e.g., testing a boundary parameter like $H_0: \\theta = 0$ when $\\theta \\geq 0$, leading to mixture chi-squared null distributions).",
+    "Bartlett's test or likelihood ratio tests for equality of multiple means simultaneously in one-way ANOVA, where $r = k-1$ for $k$ groups.",
+    "Profile likelihood construction as a computational shortcut when the nuisance parameter dimension is large, and how it relates to the GLRT numerator."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_005",
+  "topic_name": "Substitution Methods (Bernoulli, Homogeneous) (H)",
+  "generated_at": "2026-05-13T20:00:01.558883+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve linear first-order ODEs of the form $y' + P(x)y = Q(x)$ using an integrating factor. But what happens when you encounter $y' + P(x)y = Q(x)y^n$ with that extra $y^n$ tacked on the right, or an equation like $y' = f(y/x)$ where the variables refuse to separate cleanly? These equations look almost familiar but resist every technique you've learned so far. Can a clever change of variables transform these stubborn equations into something you already know how to solve?",
+  "concept": "Substitution methods work by introducing a new dependent variable that converts a nonlinear or non-separable ODE into a recognizable form. A Bernoulli equation $y' + P(x)y = Q(x)y^n$ ($n \neq 0,1$) becomes linear after the substitution $v = y^{1-n}$. A homogeneous equation $y' = f(y/x)$ becomes separable after $v = y/x$, i.e., $y = vx$.",
+  "anatomy": "In a Bernoulli equation $y' + P(x)y = Q(x)y^n$, the exponent $n$ (where $n \neq 0$ and $n \neq 1$) is the nonlinearity index that classifies the equation and dictates the substitution $v = y^{1-n}$; the factor $(1-n)$ appears when you differentiate $v$ and is used to clear the coefficient after dividing through by $y^n$. In a homogeneous equation $y' = f(y/x)$, the ratio $v = y/x$ is the substitution variable, $y = vx$ is the substituted form, and $y' = v + xv'$ is the derived derivative identity that converts the equation into a separable ODE in $v$ and $x$.",
+  "worked_example": [
+    {
+      "expression_latex": "y' - \\frac{2}{x}y = x^2 y^3",
+      "description_latex": "We identify this as a Bernoulli equation with $P(x) = -2/x$, $Q(x) = x^2$, and $n = 3$. Because $n = 3 \neq 0, 1$, the Bernoulli substitution applies: we set $v = y^{1-3} = y^{-2}$, which will convert the equation to a linear ODE in $v$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "v = y^{-2} \\implies v' = -2y^{-3}y' \\implies y' = -\\frac{y^3}{2}v'",
+      "description_latex": "Differentiating $v = y^{-2}$ with respect to $x$ gives $v' = -2y^{-3}y'$, so $y' = -\\frac{y^3}{2}v'$. We also note that dividing the original equation by $y^3$ gives $y^{-3}y' - \\frac{2}{x}y^{-2} = x^2$, which prepares the equation for direct substitution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-\\frac{1}{2}v' - \\frac{2}{x}v = x^2",
+      "description_latex": "Substituting $y^{-3}y' = -\\frac{1}{2}v'$ and $y^{-2} = v$ into the divided equation yields $-\\frac{1}{2}v' - \\frac{2}{x}v = x^2$. Multiplying through by $-2$ gives the standard linear form $v' + \\frac{4}{x}v = -2x^2$, which we can solve with an integrating factor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mu = e^{\\int (4/x)\\,dx} = x^4 \\implies \\frac{d}{dx}(x^4 v) = -2x^6",
+      "description_latex": "The integrating factor is $\\mu = e^{\\int 4/x\\,dx} = x^4$. Multiplying $v' + \\frac{4}{x}v = -2x^2$ by $x^4$ gives the exact derivative $\\frac{d}{dx}(x^4 v) = -2x^6$. Integrating both sides yields $x^4 v = -\\frac{2}{7}x^7 + C$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "v = -\\frac{2}{7}x^3 + Cx^{-4} \\implies y^{-2} = -\\frac{2}{7}x^3 + Cx^{-4}",
+      "description_latex": "Dividing by $x^4$ gives $v = -\\frac{2}{7}x^3 + Cx^{-4}$. Since $v = y^{-2}$, we back-substitute to write the general solution as $y^{-2} = -\\frac{2}{7}x^3 + Cx^{-4}$, or equivalently $y^2 = \\frac{1}{Cx^{-4} - \\frac{2}{7}x^3}$. Always back-substitute to express the answer in terms of the original variable $y$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y' = \\frac{y^2 + xy}{x^2}",
+      "description_latex": "We check whether this is homogeneous by writing it as $y' = (y/x)^2 + (y/x)$, which is entirely a function of $y/x$. This confirms the homogeneous form, so we use the substitution $v = y/x$, meaning $y = vx$ and $y' = v + xv'$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "v + xv' = v^2 + v \\implies xv' = v^2",
+      "description_latex": "After substituting $y' = v + xv'$ and $y/x = v$ into the right-hand side, we simplify. The $v$ terms cancel on both sides, leaving a separable equation in $v$ and $x$. Can you separate variables and integrate both sides to find $v$ as a function of $x$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\int v^{-2}\\,dv = \\int \\frac{dx}{x} \\implies -v^{-1} = \\ln|x| + C \\implies v = \\frac{-1}{\\ln|x|+C}",
+      "description_latex": "Separating gives $v^{-2}\\,dv = dx/x$; integrating yields $-v^{-1} = \\ln|x| + C$, so $v = -1/(\\ln|x|+C)$. Now back-substitute $v = y/x$ to write the final answer in terms of $y$ and $x$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y = \\frac{-x}{\\ln|x| + C}",
+      "description_latex": "Multiplying both sides by $x$ gives the general solution $y = -x/(\\ln|x|+C)$. Notice that back-substitution is essential \u2014 the answer must be in terms of the original variables, not the auxiliary variable $v$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve the Bernoulli equation: $y' + y = y^2$",
+      "answer_latex": "y = \\frac{1}{1 - Ce^x}$, found via $v = y^{-1}$, giving $v' - v = -1$, so $v = 1 + Ce^x$."
+    },
+    {
+      "prompt_latex": "Solve: $y' - \\frac{1}{x}y = xy^{1/2}$",
+      "answer_latex": "v = y^{1/2},\\; v' - \\frac{1}{2x}v = \\frac{x}{2},\\; \\text{general solution: } y = \\left(\\frac{x^2}{3} + Cx^{1/2}\\right)^2$"
+    },
+    {
+      "prompt_latex": "Solve the homogeneous equation: $y' = \\frac{x + y}{x}$",
+      "answer_latex": "y = x(\\ln|x| + C)"
+    },
+    {
+      "prompt_latex": "Solve: $xy' = y + \\sqrt{x^2 - y^2}$, for $|y/x| < 1$",
+      "answer_latex": "\\arcsin\\!\\left(\\frac{y}{x}\\right) = \\ln|x| + C,\\text{ or equivalently } y = x\\sin(\\ln|x|+C)"
+    },
+    {
+      "prompt_latex": "A population $P(t)$ satisfies the modified logistic equation $\\frac{dP}{dt} = rP - kP^2$. Using the substitution $v = P^{-1}$, find the general solution $P(t)$.",
+      "answer_latex": "P(t) = \\frac{r}{k + Ce^{-rt}},\\text{ where } C \\text{ is an arbitrary constant}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to divide through by $y^n$ before substituting $v = y^{1-n}$, so $y'$ doesn't transform cleanly into $v'$; always divide every term by $y^n$ first so that $y^{-n}y'$ appears, which equals $\\frac{-1}{1-n}v'$ after substitution.",
+    "When using $y = vx$ for a homogeneous equation, students write $y' = v'$ instead of $y' = v + xv'$ (forgetting the product rule); since $y = vx$ involves a product of two functions of $x$, the chain rule gives $y' = v'x + v$, and omitting $v$ leads to a completely wrong separable equation.",
+    "Students back-substitute $v$ but leave the answer in implicit form involving $v$ rather than fully replacing $v$ with $y^{1-n}$ or $y/x$; always check that your final answer contains only the original variables $x$ and $y$, with no trace of $v$."
+  ],
+  "untested_variants": [
+    "Bernoulli equations where $n$ is a negative integer, such as $y' + y = x y^{-2}$, which require the substitution $v = y^3$ and produce a linear ODE with a non-constant integrating factor.",
+    "Homogeneous equations given in the implicit differential form $M(x,y)\\,dx + N(x,y)\\,dy = 0$ where both $M$ and $N$ are homogeneous of the same degree, requiring the student to recognize homogeneity degree before applying $v = y/x$.",
+    "Initial value problems built on Bernoulli or homogeneous equations, where after finding the general solution the student must apply an initial condition $y(x_0) = y_0$ to determine the constant $C$.",
+    "Equations that appear homogeneous but have a non-zero constant shift, such as $y' = (x + y + 1)/(x - y + 3)$, which first require a translation substitution $X = x - a$, $Y = y - b$ to remove constants before the homogeneous method applies."
+  ]
+}

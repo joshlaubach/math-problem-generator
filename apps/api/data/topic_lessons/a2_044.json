@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_044",
+  "topic_name": "Multiplying and Dividing Rational Expressions",
+  "generated_at": "2026-05-12T23:30:18.620685+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to multiply fractions: $\\frac{3}{4} \\cdot \\frac{8}{9} = \\frac{24}{36} = \\frac{2}{3}$, where you multiply numerators, multiply denominators, and simplify. But what happens when the numerators and denominators aren't numbers \u2014 they're polynomials like $\\frac{x^2 - 4}{x + 3} \\cdot \\frac{x^2 + 5x + 6}{x - 2}$? The same rules apply, but hidden factors can cancel in surprising ways. Can you simplify this product before multiplying everything out?",
+  "concept": "Multiplying and dividing rational expressions uses the same fraction rules you already know, extended to polynomial numerators and denominators. To multiply, you multiply numerators together and denominators together, then cancel any common factors. To divide, you multiply by the reciprocal of the second expression. Formally: $\\frac{A}{B} \\cdot \\frac{C}{D} = \\frac{AC}{BD}$ and $\\frac{A}{B} \\div \\frac{C}{D} = \\frac{A}{B} \\cdot \\frac{D}{C}$, where $B, C, D \\neq 0$.",
+  "anatomy": "Every rational expression has a numerator polynomial (the top) and a denominator polynomial (the bottom). When multiplying, you work with a product of two fractions, each with its own numerator and denominator, giving you four polynomial pieces total. The key structural move is factoring each piece completely before multiplying, which exposes common factors \u2014 matching factors that appear in any numerator and any denominator \u2014 that can be canceled. Any value of the variable that makes an original denominator zero must be explicitly excluded as a restriction, even if that factor later cancels.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{x^2 - 9}{x^2 + 4x + 4} \\cdot \\frac{x^2 + 2x}{x^2 - x - 6}",
+      "description_latex": "This is our starting expression \u2014 a product of two rational expressions. Before multiplying anything together, the smart strategy is to factor every numerator and denominator completely, because factoring will reveal common factors we can cancel.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{(x-3)(x+3)}{(x+2)^2} \\cdot \\frac{x(x+2)}{(x-3)(x+2)}",
+      "description_latex": "We factor each piece: $x^2 - 9 = (x-3)(x+3)$, $x^2 + 4x + 4 = (x+2)^2$, $x^2 + 2x = x(x+2)$, and $x^2 - x - 6 = (x-3)(x+2)$. Now every factor is visible, and we can identify which ones appear in both a numerator and a denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{(x-3)(x+3) \\cdot x(x+2)}{(x+2)^2 \\cdot (x-3)(x+2)}",
+      "description_latex": "We write this as a single fraction by placing all numerator factors on top and all denominator factors on the bottom. This makes it easy to spot and cancel matching factors across the entire expression.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{\\cancel{(x-3)}(x+3) \\cdot x\\cancel{(x+2)}}{\\cancel{(x+2)^2} \\cdot \\cancel{(x-3)}(x+2)}",
+      "description_latex": "We cancel the common factors: $(x-3)$ appears once in the numerator and once in the denominator, and $(x+2)$ appears once in the numerator and twice in the denominator (leaving one $(x+2)$ in the denominator). Each canceled factor represents a restriction: $x \\neq 3$, $x \\neq -2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{x(x+3)}{(x+2)^2}, \\quad x \\neq 3, \\; x \\neq -2",
+      "description_latex": "After canceling, the simplified result is $\\frac{x(x+3)}{(x+2)^2}$, and we state the restrictions $x \\neq 3$ and $x \\neq -2$ because those values made the original denominators equal to zero. Notice the restriction $x \\neq 3$ is essential even though $(x-3)$ no longer appears in the final expression.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{x^2 + 3x - 10}{x^2 - 16} \\div \\frac{x + 5}{x + 4}",
+      "description_latex": "We are dividing two rational expressions. The first step for any division problem is to rewrite it as multiplication by the reciprocal of the second fraction \u2014 flip the second expression and change the operation to multiplication.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{x^2 + 3x - 10}{x^2 - 16} \\cdot \\frac{x + 4}{x + 5}",
+      "description_latex": "Good \u2014 we've flipped the divisor and changed to multiplication. Now factor each numerator and denominator completely so we can see which factors will cancel.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Factor all four polynomials: $x^2 + 3x - 10$, $x^2 - 16$, and recall the second fraction's pieces are already factored. Write the full factored product as a single fraction, cancel any common factors, and state all restrictions. What is the simplified result?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "= \\frac{(x-2)}{(x-4)}, \\quad x \\neq -4, \\; x \\neq 4, \\; x \\neq -5",
+      "description_latex": "The correct answer is $\\frac{x-2}{x-4}$ with restrictions $x \\neq \\pm 4$ and $x \\neq -5$. Check: $(x^2+3x-10) = (x+5)(x-2)$, $(x^2-16) = (x+4)(x-4)$, so $(x+5)$ and $(x+4)$ both cancel, leaving $\\frac{x-2}{x-4}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\frac{4x^2}{3y} \\cdot \\frac{9y^3}{8x}",
+      "answer_latex": "\\frac{3xy^2}{2}"
+    },
+    {
+      "prompt_latex": "\\frac{x^2 - 1}{x + 3} \\cdot \\frac{x + 3}{x - 1}",
+      "answer_latex": "x + 1, \\quad x \\neq -3, \\; x \\neq 1"
+    },
+    {
+      "prompt_latex": "\\frac{x^2 - 5x + 6}{x^2 + x - 2} \\div \\frac{x - 3}{x - 1}",
+      "answer_latex": "\\frac{x - 2}{x + 2}, \\quad x \\neq -2, \\; x \\neq 1, \\; x \\neq 3"
+    },
+    {
+      "prompt_latex": "\\frac{2x^2 + 7x + 3}{x^2 - 9} \\cdot \\frac{x^2 - 5x + 6}{2x^2 - 3x - 2}",
+      "answer_latex": "\\frac{x - 2}{x + 3} \\cdot \\frac{1}{1} = \\frac{x-2}{x+3}, \\quad x \\neq 3, \\; x \\neq -3, \\; x \\neq 2, \\; x \\neq -\\tfrac{1}{2}"
+    },
+    {
+      "prompt_latex": "A rectangle has area $\\frac{x^2 - 4}{x + 5}$ square units and width $\\frac{x - 2}{x^2 + 7x + 10}$ units. Write and simplify an expression for the length.",
+      "answer_latex": "x + 2, \\quad x \\neq -5, \\; x \\neq -2, \\; x \\neq 2"
+    }
+  ],
+  "common_mistakes": [
+    "Canceling terms instead of factors: students write $\\frac{x^2 + 4}{x + 4}$ and cancel the $x$ to get $\\frac{x+4}{4}$, but addition does not allow cancellation \u2014 you can only cancel a factor that multiplies the entire numerator and the entire denominator. Always factor completely before canceling.",
+    "Forgetting to flip when dividing: students see a division sign and start factoring and canceling without first replacing $\\div \\frac{C}{D}$ with $\\cdot \\frac{D}{C}$, which produces an incorrect answer. Always rewrite the division as multiplication by the reciprocal as your very first step.",
+    "Dropping restrictions that cancel out: when a factor like $(x + 3)$ cancels from both numerator and denominator, students omit the restriction $x \\neq -3$ from the final answer because it no longer appears. The restriction must still be stated, because the original expression was undefined at that value."
+  ],
+  "untested_variants": [
+    "Multiplying three rational expressions together in a single problem, requiring students to factor and cancel across six polynomial pieces simultaneously.",
+    "Problems where the numerator or denominator contains a trinomial with a leading coefficient greater than 1 that must be factored by the AC method before canceling (such as $3x^2 + 5x - 2$).",
+    "Rational expressions involving higher-degree polynomials that require factoring out a GCF first, then factoring the remaining quadratic (e.g., $\\frac{2x^3 - 8x}{x^2 - 4}$).",
+    "Division problems where the divisor is a polynomial written without a denominator (i.e., dividing a rational expression by a plain polynomial like $\\frac{x^2-1}{x+3} \\div (x-1)$), requiring students to recognize the polynomial as $\\frac{x-1}{1}$ before flipping."
+  ]
+}

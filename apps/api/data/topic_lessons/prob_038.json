@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_038",
+  "topic_name": "Normal Approximation to the Binomial",
+  "generated_at": "2026-05-13T20:28:35.047542+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to compute binomial probabilities: if $X \\sim \\text{Binomial}(n, p)$, then $P(X = k) = \\binom{n}{k}p^k(1-p)^{n-k}$. But what if someone asks you to find $P(40 \\leq X \\leq 60)$ when $n = 100$ and $p = 0.5$? Computing and summing 21 separate binomial terms by hand is essentially impossible without a computer. Is there a smarter shortcut that turns this into a simple area under a curve?",
+  "concept": "When $n$ is large, a binomial distribution looks nearly bell-shaped, so we can approximate it with a normal distribution. Formally, if $X \\sim \\text{Binomial}(n, p)$, then for large $n$ we treat $X$ as approximately $N(\\mu, \\sigma^2)$ where $\\mu = np$ and $\\sigma^2 = np(1-p)$, converting probability questions about $X$ into standard normal $Z$-score calculations. The rule of thumb for validity is $np \\geq 5$ and $n(1-p) \\geq 5$.",
+  "anatomy": "The approximation has four key components. First, the mean $\\mu = np$, which is the expected center of the binomial distribution. Second, the variance $\\sigma^2 = np(1-p)$ and standard deviation $\\sigma = \\sqrt{np(1-p)}$, which measure the spread. Third, the continuity correction: because we are approximating a discrete distribution with a continuous one, an integer value $k$ is replaced by the interval $(k - 0.5,\\, k + 0.5)$, so $P(X = k)$ becomes $P(k - 0.5 < Y < k + 0.5)$ for the normal variable $Y$. Fourth, the $Z$-score standardization $Z = \\frac{X - \\mu}{\\sigma}$, which converts to the standard normal table.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Binomial}(100,\\, 0.5),\\quad P(40 \\leq X \\leq 60)",
+      "description_latex": "We start by identifying the problem: $X$ counts the number of heads in 100 fair coin flips, and we want the probability of getting between 40 and 60 heads inclusive. Since $np = 50 \\geq 5$ and $n(1-p) = 50 \\geq 5$, the normal approximation is valid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mu = np = 100 \\cdot 0.5 = 50, \\quad \\sigma = \\sqrt{np(1-p)} = \\sqrt{100 \\cdot 0.5 \\cdot 0.5} = 5",
+      "description_latex": "We compute the mean and standard deviation of the approximating normal distribution. These two parameters completely determine the bell curve we will use in place of the binomial, and they are derived directly from $n$ and $p$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(40 \\leq X \\leq 60) \\approx P(39.5 < Y < 60.5) \\quad \\text{where } Y \\sim N(50, 25)",
+      "description_latex": "We apply the continuity correction: because $X$ is discrete and takes the integer values 40 through 60, we expand the interval by half a unit on each side to $39.5$ to $60.5$. This correction accounts for the probability mass that lives exactly at the boundary integers and improves our approximation noticeably.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Z_1 = \\frac{39.5 - 50}{5} = -2.1, \\quad Z_2 = \\frac{60.5 - 50}{5} = 2.1",
+      "description_latex": "We standardize both endpoints by subtracting the mean and dividing by the standard deviation, converting the problem to one about the standard normal $Z \\sim N(0,1)$. Now we can look up or recall these $Z$-values in a standard normal table.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(-2.1 < Z < 2.1) = 2\\Phi(2.1) - 1 = 2(0.9821) - 1 = 0.9642",
+      "description_latex": "By symmetry of the standard normal, $P(-2.1 < Z < 2.1) = 2\\Phi(2.1) - 1$ where $\\Phi$ is the standard normal CDF. Looking up $\\Phi(2.1) \\approx 0.9821$, we conclude there is roughly a 96.4% chance of getting between 40 and 60 heads, which matches the exact binomial answer to three decimal places.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Binomial}(80,\\, 0.4),\\quad P(X \\leq 28)",
+      "description_latex": "We want to find the probability that $X$ is at most 28 when $n=80$ and $p=0.4$. First, verify the approximation is valid: $np = 32 \\geq 5$ and $n(1-p) = 48 \\geq 5$, so we may proceed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mu = 80 \\cdot 0.4 = 32, \\quad \\sigma = \\sqrt{80 \\cdot 0.4 \\cdot 0.6} = \\sqrt{19.2} \\approx 4.382",
+      "description_latex": "We compute the mean and standard deviation of the approximating normal. These values pin down exactly which bell curve we are using for the rest of the calculation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Apply the continuity correction for $P(X \\leq 28)$: since we want integers up to and including 28, write the corrected upper bound and then compute the $Z$-score. What is the standardized value you should look up?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using your $Z$-score from the previous step, look up the standard normal CDF value $\\Phi(z)$ to state the final approximate probability $P(X \\leq 28)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim \\text{Binomial}(50, 0.5)$. Verify the normal approximation is valid and compute $\\mu$ and $\\sigma$.",
+      "answer_latex": "np = 25 \\geq 5,\\; n(1-p)=25 \\geq 5 \\text{ (valid)};\\quad \\mu = 25,\\; \\sigma = \\sqrt{12.5} \\approx 3.536"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Binomial}(60, 0.3)$. Use the normal approximation with continuity correction to find $P(X = 18)$.",
+      "answer_latex": "\\mu=18,\\; \\sigma=\\sqrt{12.6}\\approx3.550;\\quad P(17.5<Y<18.5)=\\Phi(0.141)-\\Phi(-0.141)\\approx 0.1121"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Binomial}(200, 0.45)$. Use the normal approximation with continuity correction to find $P(X \\geq 100)$.",
+      "answer_latex": "\\mu=90,\\; \\sigma=\\sqrt{49.5}\\approx7.036;\\quad P(Y\\geq99.5)=1-\\Phi\\!\\left(\\frac{9.5}{7.036}\\right)=1-\\Phi(1.350)\\approx 0.0885"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Binomial}(n, p)$ with $n = 150$ and $p = 0.6$. A student claims $P(X \\leq 85) \\approx 0.5$ because 85 is close to the mean. Use the normal approximation with continuity correction to find $P(X \\leq 85)$ and evaluate the claim.",
+      "answer_latex": "\\mu=90,\\;\\sigma=\\sqrt{36}=6;\\quad Z=\\frac{85.5-90}{6}=-0.75;\\quad P(X\\leq85)\\approx\\Phi(-0.75)\\approx0.2266.\\text{ The claim is wrong; the probability is about 22.7\\%, not 50\\%.}"
+    },
+    {
+      "prompt_latex": "A factory produces light bulbs that are defective with probability 0.08 independently. In a shipment of 500 bulbs, use the normal approximation with continuity correction to find the probability that at most 30 bulbs are defective.",
+      "answer_latex": "\\mu=40,\\;\\sigma=\\sqrt{36.8}\\approx6.066;\\quad Z=\\frac{30.5-40}{6.066}\\approx-1.566;\\quad P(X\\leq30)\\approx\\Phi(-1.566)\\approx 0.0587"
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting the continuity correction entirely: students often compute $P(X \\leq 28)$ by standardizing 28 directly instead of 28.5, which can introduce noticeable error especially for probabilities near the tails. Always expand the interval by 0.5 in the direction you are integrating before forming the $Z$-score.",
+    "Applying the continuity correction in the wrong direction: for $P(X \\geq k)$, students sometimes use $k + 0.5$ instead of $k - 0.5$ as the lower bound, shrinking the region instead of expanding it. Remember the rule: you always move the boundary outward, away from the interior of the region you want.",
+    "Using the normal approximation when $np < 5$ or $n(1-p) < 5$: when $p$ is very small or very large, the binomial is heavily skewed and the normal approximation is unreliable. Always check both conditions $np \\geq 5$ and $n(1-p) \\geq 5$ before proceeding."
+  ],
+  "untested_variants": [
+    "Finding an approximate value of $n$ or $p$ given a target probability, which requires inverting the normal approximation and working backwards from a $Z$-score.",
+    "Using the Poisson approximation alongside the normal approximation and deciding which is more appropriate for a given $n$ and $p$ (e.g., when $p$ is very small and $np$ is moderate).",
+    "Approximating the sum of independent but non-identically distributed Bernoulli random variables with a normal distribution via the Lindeberg\u2013L\u00e9vy CLT, rather than a single Binomial.",
+    "Computing the approximation error explicitly by comparing the exact binomial probability to the normal approximation, and discussing when the continuity-corrected approximation fails to be accurate enough."
+  ]
+}

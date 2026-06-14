@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_016",
+  "topic_name": "Probability Distributions and Histograms",
+  "generated_at": "2026-05-13T20:26:43.753997+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to list outcomes and assign probabilities to events. But what happens when a random experiment produces numerical outcomes \u2014 like the number of heads in three coin flips \u2014 and you want to see the whole picture at once? You can list the probabilities one by one, but you have no way yet to organize them into a single mathematical object or display them visually. How can you capture every possible value of a random variable and its likelihood in one clean framework?",
+  "concept": "A probability distribution is a complete description of a discrete random variable $X$: it tells you every value $X$ can take and the probability of each value. Formally, if $X$ takes values $x_1, x_2, \\ldots, x_k$, then the distribution is the set of pairs $\\{(x_i, P(X = x_i))\\}$ where $P(X = x_i) \\geq 0$ for all $i$ and $\\sum_{i=1}^{k} P(X = x_i) = 1$. A probability histogram displays these pairs as bars whose heights equal the probabilities.",
+  "anatomy": "A probability distribution has three key structural parts. First, the sample space of the random variable: the set of all possible numerical outcomes $\\{x_1, x_2, \\ldots, x_k\\}$, which label the horizontal axis of the histogram. Second, the probability function $P(X = x_i)$: the height assigned to each outcome, always between 0 and 1 inclusive. Third, the normalization condition $\\sum_{i} P(X = x_i) = 1$: the rule that all bar heights must sum to exactly 1, confirming the distribution accounts for every possible outcome.",
+  "worked_example": [
+    {
+      "expression_latex": "X = \\text{number of heads in 2 fair coin flips}",
+      "description_latex": "We start by defining the random variable precisely. Here $X$ counts heads, so we need to find $P(X = 0)$, $P(X = 1)$, and $P(X = 2)$ by listing outcomes: $\\{TT, HT, TH, HH\\}$, each with probability $\\frac{1}{4}$. Identifying all possible values first ensures we don't miss any outcome when building the distribution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X=0) = \\frac{1}{4}, \\quad P(X=1) = \\frac{2}{4} = \\frac{1}{2}, \\quad P(X=2) = \\frac{1}{4}",
+      "description_latex": "We count how many outcomes give each value of $X$: one outcome has 0 heads, two outcomes have exactly 1 head ($HT$ and $TH$), and one outcome has 2 heads. Dividing by the total of 4 equally likely outcomes gives us each probability. Notice that each probability is non-negative, as required.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum P(X=x_i) = \\frac{1}{4} + \\frac{1}{2} + \\frac{1}{4} = 1",
+      "description_latex": "We must verify the normalization condition: all probabilities must sum to exactly 1. Adding $\\frac{1}{4} + \\frac{2}{4} + \\frac{1}{4} = \\frac{4}{4} = 1$ confirms that our distribution is valid and accounts for every possible outcome.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|ccc} x & 0 & 1 & 2 \\\\ \\hline P(X=x) & 1/4 & 1/2 & 1/4 \\end{array}",
+      "description_latex": "We organize the distribution into a probability table, which is the standard written form. Each column pairs one value of $X$ with its probability, making it easy to read off any individual probability and to check the sum at a glance.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Histogram: bars at } x=0,1,2 \\text{ with heights } 0.25, 0.50, 0.25",
+      "description_latex": "To draw the probability histogram, we place a bar above each value $x$ on the horizontal axis whose height equals $P(X = x)$. The bar at $x = 1$ is twice as tall as the bars at $x = 0$ and $x = 2$, giving the histogram a symmetric, tent-like shape that makes the distribution's center and spread immediately visible.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X = \\text{number of tails in 3 fair coin flips}",
+      "description_latex": "We define $X$ as the count of tails in 3 flips of a fair coin. The possible values are $X \\in \\{0, 1, 2, 3\\}$ and there are $2^3 = 8$ equally likely outcomes. We will use counting to find each probability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X=0) = \\frac{1}{8}, \\quad P(X=1) = \\frac{3}{8}, \\quad P(X=2) = \\frac{3}{8}, \\quad P(X=3) = \\frac{1}{8}",
+      "description_latex": "Using combinations: $P(X=k) = \\binom{3}{k}\\left(\\frac{1}{2}\\right)^3$. The four probabilities are listed here \u2014 your job next is to verify the normalization condition and then describe what the histogram looks like.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Verify that this is a valid probability distribution by checking the normalization condition $\\sum P(X = x_i) = 1$, then state the heights of all four bars in the probability histogram and describe the shape of the histogram (is it symmetric, skewed, or uniform?).",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "A new random variable $Y$ is defined on the same experiment: $Y = 1$ if $X \\geq 2$ (two or more tails) and $Y = 0$ otherwise. Using the distribution of $X$ above, find $P(Y = 0)$ and $P(Y = 1)$ and write out the complete probability distribution table for $Y$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A probability distribution for $X$ is partially given: $P(X=1) = 0.3$, $P(X=2) = 0.5$, $P(X=3) = ?$. Find $P(X=3)$.",
+      "answer_latex": "P(X=3) = 0.2"
+    },
+    {
+      "prompt_latex": "A fair six-sided die is rolled once. Let $X = 1$ if the result is even, and $X = 0$ if the result is odd. Construct the complete probability distribution table for $X$.",
+      "answer_latex": "P(X=0) = \\frac{1}{2}, \\quad P(X=1) = \\frac{1}{2}"
+    },
+    {
+      "prompt_latex": "The probability distribution of $X$ is given by the table below. Draw (or describe) the probability histogram and identify the most likely value of $X$. $\\begin{array}{c|cccc} x & 1 & 2 & 3 & 4 \\\\ \\hline P(X=x) & 0.1 & 0.4 & 0.3 & 0.2 \\end{array}$",
+      "answer_latex": "\\text{Bars have heights } 0.1, 0.4, 0.3, 0.2; \\text{ the most likely value is } x = 2"
+    },
+    {
+      "prompt_latex": "Let $X$ be the number of 6's obtained when two fair dice are rolled. Find $P(X=0)$, $P(X=1)$, $P(X=2)$, verify $\\sum P(X=x_i)=1$, and compute $P(X \\geq 1)$.",
+      "answer_latex": "P(X=0)=\\frac{25}{36},\\; P(X=1)=\\frac{10}{36},\\; P(X=2)=\\frac{1}{36};\\; P(X \\geq 1) = \\frac{11}{36}"
+    },
+    {
+      "prompt_latex": "A carnival game costs $\\$1$ to play. You roll a fair die: if you roll a 6 you win $\\$4$ (net gain $\\$3$); otherwise you lose your dollar (net gain $-\\$1$). Let $X$ be your net gain. Write the probability distribution for $X$ and verify it is valid.",
+      "answer_latex": "P(X=3)=\\frac{1}{6},\\; P(X=-1)=\\frac{5}{6};\\; \\frac{1}{6}+\\frac{5}{6}=1 \\checkmark"
+    }
+  ],
+  "common_mistakes": [
+    "Students list the probabilities for a distribution that do not sum to 1 \u2014 often because they forget an outcome or double-count one \u2014 and still treat it as valid. Always check the normalization condition $\\sum P(X = x_i) = 1$ as the final step before using any distribution.",
+    "When drawing the probability histogram, students make the bar heights proportional to the outcome values $x_i$ rather than to the probabilities $P(X = x_i)$. Remember: the horizontal axis carries the values of $X$, and only the vertical axis (height of each bar) represents probability.",
+    "Students confuse a probability distribution with a frequency distribution from descriptive statistics, writing counts or relative frequencies that exceed 1. Every entry in a probability distribution must satisfy $0 \\leq P(X = x_i) \\leq 1$; if any value is greater than 1, the table is not a probability distribution."
+  ],
+  "untested_variants": [
+    "Finding the probability distribution of a function of a random variable, such as $Y = X^2$, given the distribution of $X$ \u2014 requiring students to transform values and combine probabilities when multiple $x$ values map to the same $y$ value.",
+    "Determining whether a given formula, such as $P(X = x) = \\frac{x}{10}$ for $x = 1, 2, 3, 4$, defines a valid probability distribution by checking both the non-negativity condition and the normalization condition algebraically.",
+    "Reading a probability histogram (given as an image with unlabeled bar heights) and reconstructing the full probability distribution table from it, including identifying a missing probability from the normalization constraint.",
+    "Comparing two probability distributions displayed as side-by-side histograms and answering questions about which distribution is more spread out or has a higher probability of exceeding a given threshold."
+  ]
+}

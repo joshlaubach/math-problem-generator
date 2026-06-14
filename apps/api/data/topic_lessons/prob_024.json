@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_024",
+  "topic_name": "The Uniform Distribution",
+  "generated_at": "2026-05-13T20:27:12.310782+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find probabilities using discrete distributions \u2014 you list outcomes and add up their probabilities. Now imagine a spinner that can land on any angle between 0\u00b0 and 360\u00b0, where every angle is equally likely. There are infinitely many possible outcomes, so you can't just add up a list. How do you find the probability of landing between 90\u00b0 and 180\u00b0, when each individual angle has probability exactly zero?",
+  "concept": "A continuous uniform distribution models a situation where every value in an interval is equally likely. Formally, a random variable $X$ is uniformly distributed on $[a, b]$, written $X \\sim \\text{Uniform}(a, b)$, if its probability density function is $f(x) = \\frac{1}{b - a}$ for $a \\leq x \\leq b$, and $f(x) = 0$ otherwise. Probabilities are found as areas under this flat density curve.",
+  "anatomy": "The uniform distribution $\\text{Uniform}(a, b)$ has four key components. The parameters $a$ and $b$ are the lower and upper endpoints of the interval, respectively, and they define where the distribution lives. The density height $\\frac{1}{b-a}$ is the constant value of $f(x)$ across the entire interval \u2014 it is determined entirely by the width so that the total area equals 1. The support $[a, b]$ is the set of values $X$ can actually take; outside this interval, $f(x) = 0$. Finally, the CDF $F(x) = \\frac{x - a}{b - a}$ for $a \\leq x \\leq b$ accumulates probability linearly from 0 at $a$ to 1 at $b$.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Uniform}(2, 10)",
+      "description_latex": "We are told that $X$ is uniformly distributed on the interval $[2, 10]$, so every value between 2 and 10 is equally likely. Our goal is to find $P(4 \\leq X \\leq 7)$, the probability that $X$ lands in the sub-interval $[4, 7]$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x) = \\frac{1}{b - a} = \\frac{1}{10 - 2} = \\frac{1}{8}",
+      "description_latex": "We first identify the density height by computing $\\frac{1}{b-a}$. This constant value ensures the total area of the rectangle over $[2, 10]$ equals 1, which is required for any valid probability density function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(4 \\leq X \\leq 7) = f(x) \\times (7 - 4) = \\frac{1}{8} \\times 3",
+      "description_latex": "Because the density is constant, the probability over any sub-interval is simply the height of the density times the width of that sub-interval \u2014 it is the area of a rectangle. We multiply the constant density $\\frac{1}{8}$ by the length of the interval $[4, 7]$, which is $7 - 4 = 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(4 \\leq X \\leq 7) = \\frac{3}{8} = 0.375",
+      "description_latex": "This simplifies to $\\frac{3}{8}$, meaning there is a 37.5% chance that $X$ falls between 4 and 7. Notice that this equals the fraction of the total interval length that $[4,7]$ occupies: $\\frac{3}{8}$ of the full width of 8.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Uniform}(0, 5), \\quad P(X \\leq 3) = ?",
+      "description_latex": "We want the probability that $X$ is at most 3, where $X$ is uniform on $[0, 5]$. Start by writing down the density function $f(x)$ for this distribution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x) = \\frac{1}{5 - 0} = \\frac{1}{5}",
+      "description_latex": "The density height is $\\frac{1}{5}$ since the total interval has width 5. Now use this to set up the probability as an area \u2014 what rectangle do you need to compute?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $P(X \\leq 3)$ by multiplying the density height by the appropriate interval width. Write your answer as a simplified fraction and as a decimal.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "X \\sim \\text{Uniform}(0, 10). \\text{ Find } P(X \\leq 6).",
+      "answer_latex": "P(X \\leq 6) = \\frac{6}{10} = 0.6"
+    },
+    {
+      "prompt_latex": "X \\sim \\text{Uniform}(3, 11). \\text{ Find } P(5 \\leq X \\leq 9).",
+      "answer_latex": "P(5 \\leq X \\leq 9) = \\frac{4}{8} = 0.5"
+    },
+    {
+      "prompt_latex": "X \\sim \\text{Uniform}(1, 6). \\text{ Find the mean } \\mu \\text{ and variance } \\sigma^2 \\text{ of } X.",
+      "answer_latex": "\\mu = \\frac{1+6}{2} = 3.5, \\quad \\sigma^2 = \\frac{(6-1)^2}{12} = \\frac{25}{12}"
+    },
+    {
+      "prompt_latex": "X \\sim \\text{Uniform}(0, 1). \\text{ Find the value } c \\text{ such that } P(X \\leq c) = 0.3.",
+      "answer_latex": "c = 0.3"
+    },
+    {
+      "prompt_latex": "A bus arrives at a stop at a uniformly random time between 8{:}00 \\text{ and } 8{:}20 \\text{ (in minutes after 8:00, so } X \\sim \\text{Uniform}(0, 20)\\text{)}. \\text{ You arrive at 8:05. What is the probability the bus has not yet arrived?}",
+      "answer_latex": "P(X > 5) = \\frac{20 - 5}{20} = \\frac{15}{20} = 0.75"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write the density as $f(x) = b - a$ instead of $f(x) = \\frac{1}{b-a}$, flipping the fraction. Remember: a wider interval means each small piece gets less probability, so the density height must be smaller \u2014 always put the width in the denominator.",
+    "When computing $P(c \\leq X \\leq d)$, students sometimes forget to subtract and instead use the full interval width $b - a$ in the numerator, writing $\\frac{b - a}{b - a} = 1$. The numerator must be the width of the sub-interval you care about: $d - c$.",
+    "Students treat $P(X = c)$ for a specific value $c$ as nonzero, often writing $\\frac{1}{b-a}$. For any continuous distribution, the probability of any single exact point is 0 \u2014 the density value $f(c)$ is not a probability; it is a density height that only produces probability when multiplied by a width."
+  ],
+  "untested_variants": [
+    "Finding a missing parameter: given that $X \\sim \\text{Uniform}(a, b)$ and $P(X \\leq 4) = 0.25$, determine the value of $a$ or $b$.",
+    "Computing probabilities using the CDF formula $F(x) = \\frac{x-a}{b-a}$ explicitly and interpreting its graph.",
+    "Using the uniform distribution as a component inside a compound probability problem, such as finding $P(X^2 \\leq 4)$ when $X \\sim \\text{Uniform}(-3, 3)$.",
+    "Deriving or applying the standard deviation $\\sigma = \\frac{b-a}{\\sqrt{12}}$ in a context where the answer requires knowing how spread out the distribution is."
+  ]
+}

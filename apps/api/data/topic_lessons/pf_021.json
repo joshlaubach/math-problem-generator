@@ -1,0 +1,81 @@
+{
+  "topic_id": "pf_021",
+  "topic_name": "Divisibility Proofs",
+  "generated_at": "2026-05-13T20:19:32.384911+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know that an even number is divisible by 2, and you can check this for any specific number just by doing the division. But what if someone asks you to prove that the sum of any two even numbers is always even \u2014 not just for 4 + 6 = 10, but for every possible pair of even numbers that will ever exist? Checking examples one by one can never cover all cases. How do you write a proof that works for infinitely many numbers at once?",
+  "concept": "Divisibility is the idea that one integer divides another evenly, leaving no remainder. Formally, we say $a \\mid b$ (read '$a$ divides $b$') if there exists an integer $k$ such that $b = ak$. The key to proving divisibility statements is always producing that integer $k$ explicitly \u2014 once you exhibit $k$, the proof is complete.",
+  "anatomy": "A divisibility statement $a \\mid b$ has three components: the divisor $a$ (the number doing the dividing), the dividend $b$ (the number being divided), and the witness $k$ (the integer that makes the equation $b = ak$ true). In a proof, $b$ is usually an expression involving arbitrary integers, $a$ is the fixed number you are dividing by, and your entire job is to algebraically manipulate $b$ until you can factor out $a$ and identify $k$ as a concrete integer expression.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: If } a \\mid b \\text{ and } a \\mid c, \\text{ then } a \\mid (b + c).",
+      "description_latex": "We start by writing down exactly what the hypotheses give us. Since $a \\mid b$, there exists an integer $j$ such that $b = aj$, and since $a \\mid c$, there exists an integer $m$ such that $c = am$. Writing these out explicitly is the essential first move in any divisibility proof \u2014 it converts the abstract divisibility symbols into equations we can actually manipulate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b + c = aj + am",
+      "description_latex": "Now we substitute the expressions for $b$ and $c$ that we just obtained. This step is straightforward substitution, but it is crucial because it brings everything into a single algebraic expression involving $a$, $j$, and $m$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b + c = a(j + m)",
+      "description_latex": "We factor out $a$ from the right-hand side. This is the pivotal moment: we can now see that $b + c$ is equal to $a$ times the quantity $(j + m)$, so if we can confirm that $(j + m)$ is an integer, we are done.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "k = j + m \\in \\mathbb{Z}, \\text{ so } a \\mid (b+c). \\quad \\blacksquare",
+      "description_latex": "Since $j$ and $m$ are both integers, their sum $k = j + m$ is also an integer \u2014 the integers are closed under addition. We have exhibited the required witness $k$, which means by definition $a \\mid (b + c)$, and the proof is complete.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: If } a \\mid b, \\text{ then } a \\mid (b \\cdot n) \\text{ for any integer } n.",
+      "description_latex": "We want to prove that any multiple of $b$ is also divisible by $a$. Start by unpacking what '$a \\mid b$' means: there exists an integer $k$ such that $b = ak$. Write this down as your first line.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b \\cdot n = (ak) \\cdot n = a(kn)",
+      "description_latex": "We substitute $b = ak$ into the product $b \\cdot n$ and then regroup using associativity of multiplication. Notice how factoring $a$ out of the product isolates it as the divisor \u2014 this is the algebraic move that makes the proof work.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify the witness integer and write the concluding statement: explain why $kn$ is an integer and state what this tells you about divisibility. Write the final line of the proof.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Prove that if } 3 \\mid n, \\text{ then } 3 \\mid n^2.",
+      "answer_latex": "\\text{Since } 3 \\mid n, \\text{ write } n = 3k. \\text{ Then } n^2 = 9k^2 = 3(3k^2). \\text{ Since } 3k^2 \\in \\mathbb{Z}, \\text{ we have } 3 \\mid n^2."
+    },
+    {
+      "prompt_latex": "\\text{Prove that if } a \\mid b \\text{ and } a \\mid c, \\text{ then } a \\mid (3b - 2c).",
+      "answer_latex": "\\text{Write } b = aj,\\, c = am. \\text{ Then } 3b - 2c = 3aj - 2am = a(3j - 2m). \\text{ Since } 3j-2m \\in \\mathbb{Z}, \\text{ we have } a \\mid (3b-2c)."
+    },
+    {
+      "prompt_latex": "\\text{Prove that for any integer } n, \\text{ the expression } n^3 - n \\text{ is divisible by } 3.",
+      "answer_latex": "\\text{Factor: } n^3 - n = n(n-1)(n+1). \\text{ These are three consecutive integers, so one must be divisible by } 3. \\text{ Hence } 3 \\mid n(n-1)(n+1)."
+    },
+    {
+      "prompt_latex": "\\text{Prove that if } a \\mid b \\text{ and } b \\mid c, \\text{ then } a \\mid c. \\text{ (Transitivity of divisibility)}",
+      "answer_latex": "\\text{Write } b = aj \\text{ and } c = bm. \\text{ Then } c = (aj)m = a(jm). \\text{ Since } jm \\in \\mathbb{Z}, \\text{ we have } a \\mid c."
+    },
+    {
+      "prompt_latex": "\\text{A computer generates numbers of the form } 6k + 3 \\text{ for positive integers } k. \\text{ Prove every such number is divisible by } 3.",
+      "answer_latex": "6k + 3 = 3(2k + 1). \\text{ Since } 2k+1 \\in \\mathbb{Z}, \\text{ we have } 3 \\mid (6k+3) \\text{ for all integers } k."
+    }
+  ],
+  "common_mistakes": [
+    "Students write 'let $k$ be an integer' without specifying what $k$ equals, leaving the witness undefined. In a divisibility proof you must provide an explicit formula for $k$ (e.g., $k = 3j - 2m$) \u2014 saying it exists without naming it is not a proof.",
+    "When trying to prove $a \\mid b$, students sometimes assume what they want to prove by writing $b = a \\cdot (\\text{something})$ and treating the 'something' as automatically an integer without checking closure. Always verify that the witness expression actually produces an integer by appealing to closure properties of $\\mathbb{Z}$.",
+    "Students often confuse the direction of a divisibility statement, writing $b = ka$ but then concluding $b \\mid a$ instead of $a \\mid b$. Remember: $a \\mid b$ means $a$ is the factor, so the equation is $b = a \\cdot k$, and it is $b$ that is divisible."
+  ],
+  "untested_variants": [
+    "Proving divisibility results involving modular arithmetic notation, such as showing $n \\equiv r \\pmod{m}$ implies a related congruence for $n^2$.",
+    "Disproofs of divisibility: constructing a counterexample to show a general divisibility claim is false (e.g., showing $4 \\mid n^2$ does not imply $4 \\mid n$).",
+    "Divisibility proofs by mathematical induction, such as proving $6 \\mid n^3 - n$ for all $n \\geq 1$ by an inductive argument rather than factoring.",
+    "Proving results about divisibility of sums of three or more terms with different divisors, or proofs that combine divisibility with properties of prime numbers."
+  ]
+}

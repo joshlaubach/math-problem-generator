@@ -1,0 +1,81 @@
+{
+  "topic_id": "stat_011",
+  "topic_name": "Interpreting Slope and Intercept",
+  "generated_at": "2026-05-13T20:29:54.566964+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to find the equation of a least-squares regression line, something like $\\hat{y} = 2.5x + 10$. You can plug in an $x$-value and get a predicted $\\hat{y}$, no problem. But if someone asks you, 'What does the 2.5 actually mean in the context of this data?' \u2014 could you answer in plain English without just saying 'it's the slope'? Can you explain what the intercept of 10 tells us, and whether it even makes real-world sense?",
+  "concept": "A regression line summarizes how one variable changes with another using two numbers: slope and intercept. The slope tells you the predicted change in $\\hat{y}$ for each one-unit increase in $x$, while the intercept is the predicted value of $\\hat{y}$ when $x = 0$. Formally, in $\\hat{y} = b_1 x + b_0$, $b_1$ is the slope and $b_0$ is the $y$-intercept, and both must be interpreted in the units of the actual variables.",
+  "anatomy": "In the regression equation $\\hat{y} = b_1 x + b_0$, there are four named components: $\\hat{y}$ (the predicted response variable, with its real-world units), $x$ (the explanatory variable, also with real-world units), $b_1$ (the slope \u2014 the rate of change, carrying units of 'units of $y$ per unit of $x$'), and $b_0$ (the $y$-intercept \u2014 the predicted value of $y$ when $x$ is exactly zero, meaningful only when $x = 0$ is plausible in context). Every interpretation must reference the actual variable names, not just abstract $x$ and $y$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\hat{\\text{price}} = 45.2(\\text{age}) + 8500",
+      "description_latex": "We are given a regression equation predicting the resale price (in dollars) of a used car from its age (in years). Before interpreting anything, it helps to label exactly what $\\hat{y}$ and $x$ represent and note their units \u2014 price is in dollars and age is in years. This step keeps us from writing a correct-sounding but context-free answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_1 = 45.2 \\text{ dollars per year}",
+      "description_latex": "We interpret the slope by asking: 'For each additional year of age, how does predicted price change?' Since $b_1 = 45.2$ is positive and price is in dollars while age is in years, we would say the predicted resale price increases by $45.20 for each additional year of age \u2014 but wait, that seems backwards for a car! This is a signal to check whether the slope sign makes real-world sense; in practice the slope for an aging car should be negative, so the model context always matters.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_0 = 8500 \\text{ dollars}",
+      "description_latex": "We interpret the intercept by asking: 'What does the model predict when $x = 0$?' Here, when age $= 0$ years (a brand-new car, never driven), the model predicts a resale price of $\\$8{,}500$. We also ask whether $x = 0$ is realistic \u2014 in this case it is plausible because new cars exist, so the intercept has a meaningful real-world interpretation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Interpretation: slope} \\rightarrow \\Delta\\hat{y} \\text{ per 1-unit } \\Delta x; \\quad \\text{intercept} \\rightarrow \\hat{y}\\text{ when }x=0",
+      "description_latex": "We summarize the two-part template every interpretation should follow: for the slope, state the direction and magnitude of change in $\\hat{y}$ for a one-unit increase in $x$, using both variables' names and units; for the intercept, state the predicted value of $\\hat{y}$ when $x = 0$, and comment on whether that situation is realistic. Using this template ensures your answer is always connected to the real context rather than abstract algebra.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\hat{\\text{score}} = 3.8(\\text{hours studied}) + 42",
+      "description_latex": "A regression line predicts a student's exam score (out of 100) from hours studied. We are given the equation above. Start by identifying the slope and intercept values and noting what each number is attached to.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_0 = 42: \\text{ predicted score when hours studied} = 0",
+      "description_latex": "The intercept $b_0 = 42$ means a student who studied zero hours is predicted to score 42 points. We have done this interpretation for you \u2014 notice we named the variables and kept the units (points). Now it's your turn to interpret the slope.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write a complete, context-specific interpretation of the slope $b_1 = 3.8$. Your answer should state what happens to the predicted exam score for each additional hour studied, and include the correct units.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A regression line is $\\hat{y} = 4x + 20$. What is the slope and what is the $y$-intercept?",
+      "answer_latex": "\\text{Slope} = 4, \\quad y\\text{-intercept} = 20"
+    },
+    {
+      "prompt_latex": "The regression equation $\\hat{\\text{weight}} = 6.2(\\text{height}) - 100$ predicts weight (lbs) from height (inches). Interpret the slope in context.",
+      "answer_latex": "\\text{For each additional inch of height, predicted weight increases by } 6.2 \\text{ lbs.}"
+    },
+    {
+      "prompt_latex": "Using the same equation $\\hat{\\text{weight}} = 6.2(\\text{height}) - 100$, interpret the $y$-intercept and comment on whether it is meaningful.",
+      "answer_latex": "\\text{When height} = 0 \\text{ inches, predicted weight} = -100 \\text{ lbs. This is not meaningful because a height of 0 is impossible.}"
+    },
+    {
+      "prompt_latex": "A researcher reports a regression line $\\hat{\\text{salary}} = 2150(\\text{years experience}) + 38000$ with $r = 0.87$. Interpret the slope AND use the correlation to comment on the strength of this linear relationship.",
+      "answer_latex": "\\text{Each additional year of experience predicts a } \\$2{,}150 \\text{ increase in salary. With } r = 0.87, \\text{ there is a strong positive linear association between experience and salary.}"
+    },
+    {
+      "prompt_latex": "A city planner finds that for every 1{,}000 additional residents, a city has on average 2.3 more coffee shops, and a city with 0 residents would have a predicted 0.5 coffee shops. Write the regression equation using $p$ for population (in thousands) and $c$ for coffee shops, then interpret both parameters.",
+      "answer_latex": "\\hat{c} = 2.3p + 0.5; \\quad \\text{slope: each additional 1,000 residents predicts 2.3 more coffee shops; intercept: a city with 0 residents is predicted to have 0.5 coffee shops (not practically meaningful).}"
+    }
+  ],
+  "common_mistakes": [
+    "Students interpret the slope as the predicted value of $\\hat{y}$ rather than the change in $\\hat{y}$. For example, they say 'the predicted score is 3.8' instead of 'the predicted score increases by 3.8 for each additional hour studied.' Always phrase slope interpretations using the word 'change' or 'increase/decrease per unit.'",
+    "Students forget to include the real variable names and units in their interpretation, writing something like 'when $x$ increases by 1, $y$ increases by 3.8' \u2014 this earns no credit on an AP exam. Fix this by replacing $x$ and $y$ with the actual variable names and attaching their units every time.",
+    "Students declare the intercept meaningful (or not) without checking whether $x = 0$ is realistic in context. They either blindly say 'the intercept is not meaningful' for every problem or blindly interpret it without questioning plausibility. Always ask: is a value of zero for the explanatory variable even possible and sensible in this situation?"
+  ],
+  "untested_variants": [
+    "Interpreting slope and intercept when the regression equation is given in the form $\\hat{y} = b_0 + b_1 x$ (intercept listed first), which can confuse students about which number is the slope.",
+    "Back-solving context problems where the slope or intercept is unknown and must be determined from a verbal description of what the line predicts at two specific points.",
+    "Interpreting a negative slope in context, where students must recognize that a negative $b_1$ means the response variable decreases as the explanatory variable increases, and articulate this correctly.",
+    "Problems involving a regression equation where the explanatory variable has been measured in non-standard units (e.g., hundreds of dollars, thousands of miles) requiring students to rescale their slope interpretation accordingly."
+  ]
+}

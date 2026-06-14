@@ -1,0 +1,76 @@
+{
+  "topic_id": "c1_026",
+  "topic_name": "Antiderivatives and Indefinite Integrals",
+  "generated_at": "2026-05-13T00:10:36.193607+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know that if $f(x) = x^3$, then $f'(x) = 3x^2$. Differentiation takes a function and produces its rate of change. But what if someone hands you $3x^2$ and asks: what function produced this? You'd need to run the process in reverse \u2014 and you don't yet have a systematic way to do that. How do we \"undo\" differentiation, and how do we capture every possible function that could have been the source?",
+  "concept": "An antiderivative of a function $f(x)$ is any function $F(x)$ such that $F'(x) = f(x)$ \u2014 differentiation of $F$ gives back $f$. Because any constant disappears when differentiated, there are infinitely many antiderivatives. The indefinite integral $\\int f(x)\\,dx = F(x) + C$ collects all of them at once, where $C$ is an arbitrary constant called the constant of integration.",
+  "anatomy": "The expression $\\int f(x)\\,dx$ has four distinct parts: the integral sign $\\int$ (an elongated S, historically standing for 'sum') signals that we are antidifferentiating; the integrand $f(x)$ is the function whose antiderivative we seek; the differential $dx$ tells us which variable we are integrating with respect to, which matters whenever other letters appear; and the constant of integration $+C$ represents the entire family of antiderivatives, because any two antiderivatives of the same function differ by at most a constant.",
+  "worked_example": [
+    {
+      "expression_latex": "\\int x^4\\,dx",
+      "description_latex": "We want a function whose derivative is $x^4$. We know from the power rule that differentiating $x^n$ produces $n x^{n-1}$, so to reverse that process we raise the exponent by one and divide by the new exponent \u2014 this is called the reverse power rule, and it works for any $n \\neq -1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int x^4\\,dx = \\frac{x^{4+1}}{4+1} + C",
+      "description_latex": "Applying the reverse power rule, we increase the exponent from $4$ to $5$ and divide by $5$. We attach $+C$ immediately because we must account for every possible antiderivative, not just one particular one \u2014 forgetting $C$ would mean we've only found one member of an infinite family.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int x^4\\,dx = \\frac{x^5}{5} + C",
+      "description_latex": "Simplifying, our final answer is $\\frac{x^5}{5} + C$. You can verify this by differentiating: $\\frac{d}{dx}\\!\\left(\\frac{x^5}{5} + C\\right) = \\frac{5x^4}{5} + 0 = x^4$, which is exactly the integrand we started with \u2014 checking by differentiation is always a valid way to confirm an antiderivative.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\int (3x^2 - 6x + 2)\\,dx",
+      "description_latex": "We have a polynomial integrand with three terms. Because integration is linear, we can split this into three separate integrals and handle each term individually: $\\int 3x^2\\,dx - \\int 6x\\,dx + \\int 2\\,dx$. This is always valid when the integrand is a sum or difference.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 3 \\cdot \\frac{x^3}{3} - 6 \\cdot \\frac{x^2}{2} + 2x + C",
+      "description_latex": "Applying the reverse power rule to each term: $x^2$ becomes $\\frac{x^3}{3}$, $x$ becomes $\\frac{x^2}{2}$, and the constant $2$ becomes $2x$ (since $2 = 2x^0$ and $\\frac{x^1}{1} = x$). We pull the coefficients $3$ and $6$ along and write a single $+C$ at the end for the entire expression.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now simplify by multiplying each coefficient through: cancel the $3$s in the first term, simplify the second term, and leave the third term. What is the fully simplified antiderivative?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\int 7\\,dx",
+      "answer_latex": "7x + C"
+    },
+    {
+      "prompt_latex": "\\int x^6\\,dx",
+      "answer_latex": "\\frac{x^7}{7} + C"
+    },
+    {
+      "prompt_latex": "\\int (4x^3 - 5x + 1)\\,dx",
+      "answer_latex": "x^4 - \\frac{5x^2}{2} + x + C"
+    },
+    {
+      "prompt_latex": "\\int \\sqrt{x}\\,dx",
+      "answer_latex": "\\frac{2}{3}x^{3/2} + C"
+    },
+    {
+      "prompt_latex": "A particle's velocity is given by $v(t) = 6t^2 - 4t$. Find the position function $s(t)$ if $s(0) = 3$.",
+      "answer_latex": "s(t) = 2t^3 - 2t^2 + 3"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to add $+C$ when computing an indefinite integral, writing $\\frac{x^5}{5}$ instead of $\\frac{x^5}{5} + C$. This omits an entire family of antiderivatives; always append $+C$ unless an initial condition pins down the specific value.",
+    "When applying the reverse power rule to a term like $x^{-1}$ (i.e., $\\frac{1}{x}$), students write $\\frac{x^0}{0}$, which is undefined. The reverse power rule does not apply when the exponent is $-1$; that case requires the special formula $\\int x^{-1}\\,dx = \\ln|x| + C$.",
+    "Students sometimes forget to divide by the new exponent, writing $\\int x^4\\,dx = x^5 + C$ instead of $\\frac{x^5}{5} + C$. You can catch this error immediately by differentiating your answer: $\\frac{d}{dx}(x^5) = 5x^4 \\neq x^4$, confirming the missing $\\frac{1}{5}$."
+  ],
+  "untested_variants": [
+    "Antiderivatives of trigonometric functions such as $\\int \\cos(x)\\,dx$ or $\\int \\sec^2(x)\\,dx$, which require memorized trig antiderivative rules not introduced in these problems.",
+    "Antiderivatives involving exponential functions such as $\\int e^x\\,dx$ or $\\int a^x\\,dx$, which follow different rules from the power rule.",
+    "Integrands that require algebraic simplification before integrating, such as $\\int \\frac{x^3 + 2x}{x}\\,dx$ where the student must first divide and rewrite the expression as a polynomial.",
+    "Finding a specific antiderivative using two initial conditions (e.g., given both $F(0)$ and $F'(0)$) for a function requiring two rounds of antidifferentiation."
+  ]
+}

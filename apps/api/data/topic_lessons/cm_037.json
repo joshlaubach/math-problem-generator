@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_037",
+  "topic_name": "Graph Theory in Olympiad Problems (H)",
+  "generated_at": "2026-05-13T20:24:54.557824+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You know how to count handshakes at a party: if $n$ people each shake hands with everyone else, there are $\\binom{n}{2}$ handshakes total. But what if we impose a constraint \u2014 say, every person must shake hands with an odd number of others? Suddenly counting alone isn't enough. You need a structural argument about the entire network of handshakes. Can you prove that in any such party, the number of people who shake hands with an odd number of others must itself be even?",
+  "concept": "A graph is a collection of objects (called vertices) connected by links (called edges). Formally, a graph $G = (V, E)$ consists of a vertex set $V$ and an edge set $E \\subseteq \\binom{V}{2}$. The degree $\\deg(v)$ of a vertex $v$ is the number of edges incident to it. Graph theory lets us model and prove things about networks, connections, and combinatorial structures that pure counting cannot easily capture.",
+  "anatomy": "Every graph $G = (V, E)$ has four key structural components worth naming precisely. The vertex set $V$ is the finite collection of nodes; $|V|$ denotes the number of vertices, also called the order of $G$. The edge set $E$ is the collection of two-element subsets of $V$; $|E|$ denotes the number of edges, also called the size of $G$. The degree sequence is the list of all values $\\deg(v)$ for $v \\in V$, recording how many edges touch each vertex. A path is a sequence of distinct vertices $v_1, v_2, \\ldots, v_k$ with each consecutive pair forming an edge, while a cycle is a closed path returning to its start \u2014 both are the building blocks of nearly every olympiad graph argument.",
+  "worked_example": [
+    {
+      "expression_latex": "\\sum_{v \\in V} \\deg(v) = 2|E|",
+      "description_latex": "This identity, called the Handshaking Lemma, is the most important single fact in olympiad graph theory. We prove it by observing that each edge $\\{u,v\\} \\in E$ contributes exactly $1$ to $\\deg(u)$ and exactly $1$ to $\\deg(v)$, so when we sum all degrees, every edge is counted exactly twice \u2014 giving $2|E|$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Let } O = \\{v \\in V : \\deg(v) \\text{ is odd}\\}. \\text{ Then } \\sum_{v \\in O} \\deg(v) + \\sum_{v \\notin O} \\deg(v) = 2|E|.",
+      "description_latex": "We split the sum from the Handshaking Lemma by parity of degree. The second sum $\\sum_{v \\notin O} \\deg(v)$ consists entirely of even numbers, so it is even. Since the total $2|E|$ is also even, the first sum $\\sum_{v \\in O} \\deg(v)$ must be even as well.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{v \\in O} \\deg(v) \\equiv 0 \\pmod{2} \\implies |O| \\cdot 1 \\equiv 0 \\pmod{2} \\implies |O| \\text{ is even}.",
+      "description_latex": "Each term in $\\sum_{v \\in O} \\deg(v)$ is odd, so modulo $2$ this sum equals $|O| \\cdot 1$. Since the sum is even, we conclude $|O|$ is even \u2014 meaning the number of odd-degree vertices in any graph is always even. This is the core olympiad result that answers the original handshake question.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Application: } \\text{In a graph on } n \\text{ vertices where every vertex has degree } \\geq 1, \\text{ prove } |E| \\geq \\lceil n/2 \\rceil.",
+      "description_latex": "Using the Handshaking Lemma directly: $\\sum_{v} \\deg(v) \\geq n \\cdot 1 = n$ since every degree is at least $1$. But $\\sum_v \\deg(v) = 2|E|$, so $2|E| \\geq n$, giving $|E| \\geq n/2$. Since $|E|$ is an integer, we sharpen this to $|E| \\geq \\lceil n/2 \\rceil$, completing the proof.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\textbf{Problem: } \\text{A tournament on } n \\text{ players has every pair playing exactly once. Show } \\sum_{i=1}^{n} w_i^2 \\text{ is the same for all tournaments, where } w_i \\text{ is the number of wins for player } i.",
+      "description_latex": "A tournament is a complete graph $K_n$ where each edge is directed (the winner beats the loser). We model wins as out-degrees: $w_i = \\deg^+(v_i)$. Our goal is to compute $\\sum w_i^2$ in terms of $n$ alone, showing it doesn't depend on who beat whom.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{i=1}^{n} w_i = \\binom{n}{2} \\quad \\text{and} \\quad \\sum_{i=1}^{n} w_i(w_i - 1) = \\text{(number of ordered paths of length 2)}",
+      "description_latex": "The first identity holds because each of the $\\binom{n}{2}$ games produces exactly one win, so total wins equal total games. The second identity counts ordered pairs of distinct players that player $i$ has beaten, summed over all $i$ \u2014 can you find a combinatorial formula for this count that depends only on $n$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\sum_{i} w_i(w_i-1) = n(n-1)(n-2)/3, \\text{ so } \\sum_i w_i^2 = \\sum_i w_i(w_i-1) + \\sum_i w_i = \\frac{n(n-1)(n-2)}{3} + \\binom{n}{2}.",
+      "description_latex": "For every ordered triple $(A, B, C)$ of players where $A$ beat both $B$ and $C$, player $A$ contributes one unit to $w_A(w_A-1)$. There are $\\binom{n}{3}$ triples of players, and in each triple exactly one player either beat both others OR lost to both \u2014 but we can count more carefully: summing $w_i(w_i-1)$ over all $i$ counts the pairs $(B,C)$ of players beaten by some common $A$, which by symmetry equals $n(n-1)(n-2)/3$. Combining gives the final answer $\\frac{n(n-1)(2n-1)}{6} = \\binom{n}{2}\\cdot\\frac{2n-1}{3}$... wait, let's verify: can you simplify $\\frac{n(n-1)(n-2)}{3} + \\frac{n(n-1)}{2}$ into a single closed form?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A graph has $7$ vertices. Prove it is impossible for every vertex to have degree exactly $3$.",
+      "answer_latex": "By the Handshaking Lemma, $\\sum \\deg(v) = 2|E|$ is even. But if every vertex has degree $3$, then $\\sum \\deg(v) = 7 \\cdot 3 = 21$, which is odd \u2014 a contradiction. Hence no such graph exists."
+    },
+    {
+      "prompt_latex": "In a graph $G$ on $n$ vertices, every vertex has degree at least $\\lfloor n/2 \\rfloor$. Prove $G$ is connected (i.e., there is a path between every pair of vertices).",
+      "answer_latex": "Suppose $G$ is disconnected, with components $A$ and $B$ where $|A| \\leq |B|$. Any vertex $v \\in A$ can only be adjacent to other vertices in $A$, so $\\deg(v) \\leq |A|-1$. Since $|A| \\leq n/2$, we get $\\deg(v) \\leq n/2 - 1 < \\lfloor n/2 \\rfloor$, contradicting the degree condition. Hence $G$ is connected."
+    },
+    {
+      "prompt_latex": "A graph $G$ has $n$ vertices and $m$ edges. Show that $G$ contains a vertex of degree at least $\\lceil 2m/n \\rceil$.",
+      "answer_latex": "By the Handshaking Lemma, $\\sum_{v} \\deg(v) = 2m$. By the pigeonhole principle, at least one vertex has degree $\\geq \\frac{2m}{n}$. Since degree is an integer, some vertex has degree $\\geq \\lceil 2m/n \\rceil$."
+    },
+    {
+      "prompt_latex": "Prove that in any graph, the number of vertices with odd degree is even. Then use this to show: in a group of $2023$ people where each person knows an odd number of others (knowing is mutual), there must exist at least one person who knows at least $2023$ others \u2014 or derive a contradiction showing such a group cannot exist.",
+      "answer_latex": "By the Handshaking Lemma, $\\sum \\deg(v) = 2|E|$ is even. The sum of all even-degree contributions is even, so the sum of odd-degree contributions is also even, meaning the count of odd-degree vertices is even. But $2023$ is odd, so we cannot have all $2023$ people knowing an odd number of others \u2014 the number of odd-degree vertices must be even, contradicting $2023$ being odd. Hence such a group of $2023$ people (each knowing an odd number of the others) cannot exist."
+    },
+    {
+      "prompt_latex": "At a conference, $10$ mathematicians each give exactly $3$ handshakes. A handshake graph is drawn: vertices are mathematicians, edges are handshakes. How many edges does this graph have, and is it necessarily connected?",
+      "answer_latex": "By the Handshaking Lemma, $|E| = \\frac{1}{2}\\sum \\deg(v) = \\frac{10 \\cdot 3}{2} = 15$ edges. It is not necessarily connected: for example, two disjoint copies of $K_4$ minus a perfect matching... actually a simpler example is two disjoint copies of $K_{3,3}$-like structures \u2014 or simply note that two groups of $5$ people each forming a $3$-regular graph on $5$ vertices works if such graphs exist ($5 \\cdot 3 = 15$ is odd so a single component of $5$ is impossible, but overall $10$ vertices with $15$ edges and all degrees $3$ can be disconnected, e.g., the Petersen graph is one connected example but a disconnected one can be constructed from two copies of $K_4$ on vertices sharing edges). The graph need not be connected."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that the Handshaking Lemma counts each edge twice and write $\\sum \\deg(v) = |E|$ instead of $2|E|$; always remember that every edge contributes $1$ to each of its two endpoints, giving the factor of $2$.",
+    "When proving a graph property by contradiction, students assume disconnectedness means exactly two components \u2014 in general a graph can have many components, and the argument must handle the component containing the vertex of interest (usually the smallest component), not assume a clean two-part split.",
+    "Students conflate a path (all vertices distinct) with a walk (vertices may repeat); in olympiad proofs about connectivity and cycles, using 'path' when you mean 'walk' leads to incorrect conclusions, so always specify whether vertices or edges may be revisited."
+  ],
+  "untested_variants": [
+    "Bipartite graphs and K\u00f6nig's theorem: problems asking you to find maximum matchings or minimum vertex covers using the bipartite structure, which requires a different set of tools (Hall's Marriage Theorem) not covered here.",
+    "Graph coloring problems: proving the chromatic number $\\chi(G) \\leq k$ or showing a graph requires many colors, which uses the independence number and greedy coloring arguments not addressed in these degree-counting techniques.",
+    "Eulerian and Hamiltonian circuits: characterizing when a graph has a closed trail visiting every edge (Eulerian) versus a cycle visiting every vertex (Hamiltonian), which go beyond the Handshaking Lemma into structural theorems like Ore's or Dirac's condition.",
+    "Planar graphs and Euler's formula $V - E + F = 2$: problems involving graph drawings in the plane, crossing numbers, or the non-planarity of $K_5$ and $K_{3,3}$, which require a completely separate set of olympiad techniques."
+  ]
+}

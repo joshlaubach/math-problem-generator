@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_011",
+  "topic_name": "Prior and Posterior Distributions",
+  "generated_at": "2026-05-14T01:01:48.102775+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to compute probabilities using fixed parameters \u2014 for instance, if a coin has probability $p = 0.6$ of heads, you can find the likelihood of any sequence of flips. But what if you don't know $p$? In Bayesian inference, instead of treating $p$ as a fixed unknown number, we treat it as a random variable with its own probability distribution. That raises an immediate question: how do we combine what we believed about $p$ before seeing data with what the data actually tells us?",
+  "concept": "Bayesian inference treats unknown parameters as random variables. Before observing data, your uncertainty about a parameter $\\theta$ is encoded in the **prior distribution** $p(\\theta)$. After observing data $x$, you update your belief using Bayes' theorem to obtain the **posterior distribution** $p(\\theta \\mid x) = \\frac{p(x \\mid \\theta)\\, p(\\theta)}{p(x)}$, where $p(x \\mid \\theta)$ is the likelihood and $p(x)$ is the marginal likelihood (normalizing constant).",
+  "anatomy": "The posterior formula $p(\\theta \\mid x) = \\frac{p(x \\mid \\theta)\\, p(\\theta)}{p(x)}$ has four named components. The **prior** $p(\\theta)$ encodes pre-data beliefs about the parameter. The **likelihood** $p(x \\mid \\theta)$ is the probability of the observed data given a specific value of $\\theta$ \u2014 the same object used in frequentist inference. The **marginal likelihood** (or evidence) $p(x) = \\int p(x \\mid \\theta)\\, p(\\theta)\\, d\\theta$ is a normalizing constant ensuring the posterior integrates to one. The **posterior** $p(\\theta \\mid x)$ is the updated belief distribution; it lives in the same space as the prior but has been shifted and sharpened by the data. When a prior and likelihood combine to yield a posterior in the same distributional family as the prior, the prior is called a **conjugate prior**.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\mid p \\sim \\text{Bernoulli}(p), \\quad p \\sim \\text{Beta}(\\alpha, \\beta)",
+      "description_latex": "We set up a coin-flipping model where each flip is Bernoulli with unknown success probability $p$, and we choose a Beta prior for $p$ because the Beta distribution has support on $[0,1]$, matching the natural range of a probability. The parameters $\\alpha$ and $\\beta$ of the prior encode our pre-data beliefs: larger $\\alpha$ relative to $\\beta$ means we initially believe $p$ is closer to 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(x_1,\\ldots,x_n \\mid p) = p^{\\sum x_i}(1-p)^{n - \\sum x_i}",
+      "description_latex": "We write the likelihood by multiplying the Bernoulli probabilities for all $n$ observations. If we let $s = \\sum_{i=1}^n x_i$ denote the number of observed successes, the likelihood becomes $p^s (1-p)^{n-s}$. This is the bridge between the data and the parameter \u2014 it tells us which values of $p$ make the observed data most plausible.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(\\theta \\mid x) \\propto p(x \\mid \\theta)\\, p(\\theta) = p^s(1-p)^{n-s} \\cdot p^{\\alpha-1}(1-p)^{\\beta-1}",
+      "description_latex": "We apply Bayes' theorem in its proportional form, dropping the normalizing constant $p(x)$ because it does not depend on $p$. Multiplying the likelihood by the prior, we collect all powers of $p$ and $(1-p)$ together. The symbol $\\propto$ means 'proportional to as a function of $p$,' and this is the key move in Bayesian computation \u2014 we identify the kernel of the posterior by pattern-matching.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(p \\mid x) \\propto p^{(\\alpha + s)-1}(1-p)^{(\\beta + n - s)-1}",
+      "description_latex": "Combining the exponents gives us $p^{(\\alpha+s)-1}(1-p)^{(\\beta+n-s)-1}$, which we recognize as the kernel of a Beta distribution. Pattern recognition is the entire point: if you know the standard forms of common distributions, you can read off the posterior family without computing the integral in the denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p \\mid x \\sim \\text{Beta}(\\alpha + s,\\; \\beta + n - s)",
+      "description_latex": "The posterior is $\\text{Beta}(\\alpha + s, \\beta + n - s)$, confirming that Beta is conjugate to the Bernoulli likelihood. Notice the intuitive interpretation: the data adds $s$ successes to $\\alpha$ and $n - s$ failures to $\\beta$, so the prior counts $\\alpha$ and $\\beta$ behave like pseudo-observations. As $n$ grows large, the data dominates the prior, and the posterior concentrates around the true $p$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\mid \\lambda \\sim \\text{Poisson}(\\lambda), \\quad \\lambda \\sim \\text{Gamma}(\\alpha, \\beta)",
+      "description_latex": "We observe a single count $X$ from a Poisson distribution with unknown rate $\\lambda$, and we place a Gamma prior on $\\lambda$ because the Gamma distribution has support on $(0, \\infty)$, which matches the natural domain of a rate parameter. The Gamma density is $p(\\lambda) \\propto \\lambda^{\\alpha - 1} e^{-\\beta \\lambda}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(\\lambda \\mid x) \\propto p(x \\mid \\lambda)\\, p(\\lambda) = \\frac{e^{-\\lambda}\\lambda^x}{x!} \\cdot \\lambda^{\\alpha-1}e^{-\\beta\\lambda}",
+      "description_latex": "We apply Bayes' theorem proportionally and write out both the Poisson likelihood and the Gamma prior. Your job now is to simplify this product by collecting like terms in $\\lambda$ and dropping any factor that does not depend on $\\lambda$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Collect all powers of $\\lambda$ and all exponential terms in $\\lambda$ from the product above. What is the simplified kernel, and what named distribution does it match? Write the posterior distribution of $\\lambda \\mid x$ in the form $\\text{Gamma}(\\cdot, \\cdot)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\lambda \\mid x \\sim \\text{Gamma}(\\alpha + x,\\; \\beta + 1)",
+      "description_latex": "The posterior is $\\text{Gamma}(\\alpha + x, \\beta + 1)$, confirming that Gamma is conjugate to the Poisson likelihood. Each observed count $x$ adds to the shape parameter $\\alpha$, while observing one data point adds 1 to the rate parameter $\\beta$ \u2014 exactly as if the prior encoded $\\alpha$ prior counts spread over $\\beta$ prior time units.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Suppose $p \\sim \\text{Beta}(2, 2)$ and you observe $n = 10$ Bernoulli trials with $s = 7$ successes. Write down the posterior distribution of $p$.",
+      "answer_latex": "p \\mid x \\sim \\text{Beta}(9, 5)"
+    },
+    {
+      "prompt_latex": "Let $\\lambda \\sim \\text{Gamma}(3, 1)$ and observe $n = 5$ i.i.d. Poisson observations with $\\sum x_i = 12$. Find the posterior distribution of $\\lambda$.",
+      "answer_latex": "\\lambda \\mid x \\sim \\text{Gamma}(15, 6)"
+    },
+    {
+      "prompt_latex": "A statistician uses a $\\text{Beta}(1,1)$ prior (the uniform prior) on a binomial probability $p$ and observes $s$ successes in $n$ trials. Show that the posterior mean of $p$ equals $\\frac{s+1}{n+2}$ and explain why this differs from the MLE $\\hat{p} = s/n$.",
+      "answer_latex": "\\text{Posterior mean} = \\frac{\\alpha + s}{\\alpha + \\beta + n} = \\frac{1+s}{2+n}; \\text{ the prior adds 2 pseudo-observations, pulling the estimate toward } 1/2."
+    },
+    {
+      "prompt_latex": "Suppose $\\mu \\mid \\sigma^2 \\sim N(\\mu_0, \\sigma^2/\\kappa_0)$ (prior) and you observe $n$ i.i.d. $N(\\mu, \\sigma^2)$ observations with known $\\sigma^2$ and sample mean $\\bar{x}$. Using Bayes' theorem, show that the posterior mean is the weighted average $\\frac{\\kappa_0 \\mu_0 + n\\bar{x}}{\\kappa_0 + n}$.",
+      "answer_latex": "\\mu \\mid x \\sim N\\!\\left(\\frac{\\kappa_0 \\mu_0 + n\\bar{x}}{\\kappa_0 + n},\\; \\frac{\\sigma^2}{\\kappa_0 + n}\\right)"
+    },
+    {
+      "prompt_latex": "A quality engineer believes that 1 in 20 items is defective, so she sets a $\\text{Beta}(1, 19)$ prior on the defect rate $p$. She inspects 50 items and finds 4 defects. (a) Find the posterior distribution. (b) Compute the posterior mean and compare it to the prior mean of $1/20 = 0.05$.",
+      "answer_latex": "(a)\\; p \\mid x \\sim \\text{Beta}(5, 65);\\quad (b)\\; \\text{posterior mean} = 5/70 \\approx 0.071, \\text{ shifted upward from the prior mean } 0.05 \\text{ by the observed data.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often treat the normalizing constant $p(x)$ as part of the posterior kernel and attempt to compute it before identifying the family. The fix: work with $p(\\theta \\mid x) \\propto p(x \\mid \\theta)\\, p(\\theta)$ first, pattern-match the kernel to a known distribution, and only then recall that the normalizing constant is determined by that distribution.",
+    "When combining exponents from the likelihood and prior, students frequently add the exponents incorrectly \u2014 for example, writing $\\text{Beta}(\\alpha + s + 1, \\beta + n - s + 1)$ instead of $\\text{Beta}(\\alpha + s, \\beta + n - s)$ because they forget that the Beta kernel is $p^{\\alpha-1}(1-p)^{\\beta-1}$, not $p^\\alpha(1-p)^\\beta$. Always match the kernel form before reading off the parameters.",
+    "Students sometimes confuse the likelihood $p(x \\mid \\theta)$ with the posterior $p(\\theta \\mid x)$, treating a large likelihood at some $\\hat{\\theta}$ as equivalent to the posterior being concentrated at $\\hat{\\theta}$. This ignores the prior entirely; the posterior balances both the likelihood and the prior, and when the prior is strong or $n$ is small, the posterior mode can differ substantially from the MLE."
+  ],
+  "untested_variants": [
+    "Deriving the posterior predictive distribution $p(x_{n+1} \\mid x_1, \\ldots, x_n) = \\int p(x_{n+1} \\mid \\theta)\\, p(\\theta \\mid x)\\, d\\theta$ after finding the posterior.",
+    "Non-conjugate priors requiring numerical methods such as Markov chain Monte Carlo (MCMC) or Laplace approximation to approximate the posterior.",
+    "Sequential updating, where data arrives in batches and the posterior from one batch becomes the prior for the next, and proving this gives the same result as updating on all data at once.",
+    "Hierarchical (multi-level) Bayesian models where the hyperparameters $\\alpha$ and $\\beta$ of the prior are themselves given prior distributions."
+  ]
+}

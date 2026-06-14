@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_039",
+  "topic_name": "Nonhomogeneous Equations: Undetermined Coefficients",
+  "generated_at": "2026-05-13T19:59:11.932048+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to solve homogeneous second-order linear equations like $y'' + 3y' + 2y = 0$ by finding the complementary solution $y_c$. But what happens when there's a forcing function on the right-hand side, like $y'' + 3y' + 2y = e^{3x}$? The complementary solution alone can't satisfy this equation \u2014 we need something extra. How do we find that extra piece, and how do we know what form it should take?",
+  "concept": "The method of undetermined coefficients finds a particular solution $y_p$ to a nonhomogeneous equation $ay'' + by' + cy = g(x)$ by guessing a trial function whose form mirrors $g(x)$, then solving for the unknown coefficients. The general solution is then $y = y_c + y_p$, where $y_c$ is the complementary (homogeneous) solution. This method works when $g(x)$ is a polynomial, exponential, sine, cosine, or a product of these.",
+  "anatomy": "Every application of undetermined coefficients has four structural parts: the complementary solution $y_c$, found by solving the associated homogeneous equation; the forcing function $g(x)$, which is the nonhomogeneous right-hand side that drives the system; the trial particular solution $y_p$, whose form is chosen to match $g(x)$ using the standard guess table; and the undetermined coefficients (like $A$, $B$, $C$) that are literal unknown constants you solve for by substituting $y_p$ back into the original equation and matching both sides.",
+  "worked_example": [
+    {
+      "expression_latex": "y'' + 3y' + 2y = e^{3x}",
+      "description_latex": "Our goal is to find the general solution to this nonhomogeneous equation. We always start by identifying the form of $g(x) = e^{3x}$ and checking that undetermined coefficients applies \u2014 since $g(x)$ is an exponential, we're in good shape.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_c = C_1 e^{-x} + C_2 e^{-2x}",
+      "description_latex": "We solve the associated homogeneous equation $y'' + 3y' + 2y = 0$ by finding the characteristic roots: $r^2 + 3r + 2 = (r+1)(r+2) = 0$ gives $r = -1, -2$. This complementary solution is essential because the general solution will be $y = y_c + y_p$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_p = Ae^{3x}",
+      "description_latex": "Because $g(x) = e^{3x}$, we guess a trial solution of the same exponential form with an undetermined coefficient $A$. Notice that $e^{3x}$ does not appear in $y_c$ (the exponent $3$ is not a characteristic root), so we don't need to modify our guess \u2014 we can use it as-is.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_p' = 3Ae^{3x}, \\quad y_p'' = 9Ae^{3x}",
+      "description_latex": "We differentiate $y_p$ once and twice so we can substitute into the left-hand side of the original equation. Differentiating an exponential is clean precisely because the derivative of $e^{3x}$ stays in the same family, which is exactly why our guess works.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "9Ae^{3x} + 3(3Ae^{3x}) + 2(Ae^{3x}) = e^{3x} \\implies 20A = 1 \\implies A = \\tfrac{1}{20}",
+      "description_latex": "Substituting into the equation and collecting the $e^{3x}$ factor gives $20Ae^{3x} = e^{3x}$, so $A = 1/20$. The general solution is therefore $y = C_1 e^{-x} + C_2 e^{-2x} + \\tfrac{1}{20}e^{3x}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y'' - 4y = 3x^2",
+      "description_latex": "We want to find the general solution. First, identify the forcing function: $g(x) = 3x^2$ is a degree-2 polynomial, so undetermined coefficients applies. The complementary solution comes from $r^2 - 4 = 0$, giving $r = \\pm 2$, so $y_c = C_1 e^{2x} + C_2 e^{-2x}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_p = Ax^2 + Bx + C",
+      "description_latex": "Because $g(x)$ is a degree-2 polynomial, we choose a trial solution that is also a full degree-2 polynomial. We must include all lower-degree terms ($Bx$ and $C$) even though $g(x)$ has no linear or constant term \u2014 differentiation will mix these terms together when we substitute.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $y_p'$ and $y_p''$, substitute into $y_p'' - 4y_p = 3x^2$, collect like powers of $x$, and solve the resulting system for $A$, $B$, and $C$. What are the values of $A$, $B$, and $C$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y = C_1 e^{2x} + C_2 e^{-2x} - \\tfrac{3}{4}x^2 - \\tfrac{3}{8}",
+      "description_latex": "Matching coefficients gives $A = -3/4$, $B = 0$, $C = -3/8$, so $y_p = -\\tfrac{3}{4}x^2 - \\tfrac{3}{8}$. Write the full general solution by adding $y_c + y_p$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find a particular solution to $y'' + y' = 5$.",
+      "answer_latex": "y_p = 5x"
+    },
+    {
+      "prompt_latex": "Find the general solution to $y'' - y' - 6y = e^{4x}$.",
+      "answer_latex": "y = C_1 e^{3x} + C_2 e^{-2x} + \\tfrac{1}{6}e^{4x}"
+    },
+    {
+      "prompt_latex": "Find the general solution to $y'' + 4y = \\cos(x)$.",
+      "answer_latex": "y = C_1 \\cos(2x) + C_2 \\sin(2x) + \\tfrac{1}{3}\\cos(x)"
+    },
+    {
+      "prompt_latex": "Find the general solution to $y'' - 3y' + 2y = xe^{x}$. (Hint: $e^x$ is a solution to the homogeneous equation, so modification is needed.)",
+      "answer_latex": "y = C_1 e^{x} + C_2 e^{2x} + e^x\\!\\left(-\\tfrac{x^2}{2} - x\\right)"
+    },
+    {
+      "prompt_latex": "A mass-spring system satisfies $x'' + 9x = 2\\sin(t)$, where $x(t)$ is displacement. Find the general solution and identify the particular solution that represents the forced oscillation.",
+      "answer_latex": "x = C_1 \\cos(3t) + C_2 \\sin(3t) + \\tfrac{1}{4}\\sin(t); \\text{ the forced oscillation is } x_p = \\tfrac{1}{4}\\sin(t)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to include all lower-degree polynomial terms in the trial solution: for example, when $g(x) = x^2$, guessing only $y_p = Ax^2$ instead of $y_p = Ax^2 + Bx + C$ misses terms that appear after differentiation, causing the coefficient system to be inconsistent. Always include every degree from 0 up to the degree of the polynomial in $g(x)$.",
+    "Students fail to apply the modification rule when part of the trial solution duplicates a term in $y_c$: for instance, if $g(x) = e^{2x}$ and $e^{2x}$ is already in $y_c$, guessing $y_p = Ae^{2x}$ will substitute to $0 = e^{2x}$, which is impossible. The fix is to multiply the entire trial solution by $x$ (or $x^2$ if the root has multiplicity 2) to make it linearly independent from $y_c$.",
+    "Students solve for the undetermined coefficients but then forget to add $y_c$ to $y_p$, reporting only $y_p$ as the final answer. The complete general solution always requires $y = y_c + y_p$, because $y_p$ alone does not satisfy the homogeneous part and cannot incorporate arbitrary constants needed to match initial conditions."
+  ],
+  "untested_variants": [
+    "Equations where $g(x)$ is a product of a polynomial and an exponential, such as $y'' - y = x^2 e^x$, requiring a trial solution of the form $(Ax^2 + Bx + C)e^x$ with possible modification.",
+    "Equations where $g(x)$ is a product of an exponential and a sine or cosine, such as $y'' + 2y' + 5y = e^{-x}\\cos(2x)$, requiring a trial solution of the form $e^{-x}(A\\cos(2x) + B\\sin(2x))$.",
+    "Higher-order nonhomogeneous equations (third or fourth order) where the characteristic polynomial has repeated or complex roots and the forcing function requires modification.",
+    "Systems where the forcing function is a sum of several distinct types, such as $g(x) = e^x + \\sin(x) + x$, requiring superposition of three separate particular solutions found independently."
+  ]
+}

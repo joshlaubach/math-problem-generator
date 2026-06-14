@@ -1,0 +1,81 @@
+{
+  "topic_id": "la_020",
+  "topic_name": "Basis and Dimension",
+  "generated_at": "2026-05-13T20:06:42.484739+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to check whether a set of vectors spans a space or whether they are linearly independent. But what is the *minimum* amount of information needed to completely describe every vector in a space like $\\mathbb{R}^3$? The standard coordinate vectors $\\mathbf{e}_1, \\mathbf{e}_2, \\mathbf{e}_3$ feel special somehow \u2014 they are efficient, non-redundant, and cover everything. Could a different set of three vectors do the same job? And if we used four vectors instead, would something go wrong?",
+  "concept": "A **basis** for a vector space $V$ is a set of vectors that is both linearly independent and spans $V$. Informally, a basis is a perfectly efficient spanning set: no vector is redundant, yet together they reach every point in the space. Formally, a set $\\mathcal{B} = \\{\\mathbf{v}_1, \\dots, \\mathbf{v}_n\\}$ is a basis for $V$ if (1) $\\mathcal{B}$ is linearly independent, and (2) $\\text{span}(\\mathcal{B}) = V$. The **dimension** of $V$, written $\\dim(V)$, is the number of vectors in any basis for $V$.",
+  "anatomy": "Every basis has two structural properties that must both hold simultaneously. The **linear independence** condition says no vector in the set can be written as a linear combination of the others \u2014 there is no dead weight. The **spanning** condition says every vector $\\mathbf{v} \\in V$ can be written as $\\mathbf{v} = c_1\\mathbf{v}_1 + \\cdots + c_n\\mathbf{v}_n$ for some scalars $c_1, \\dots, c_n$; nothing in $V$ is out of reach. The **dimension** $n = \\dim(V)$ is a property of the space itself, not of the particular basis chosen \u2014 a deep theorem guarantees that every basis of $V$ has the same number of elements, making $n$ well-defined.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathcal{B} = \\left\\{\\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix},\\begin{pmatrix}0\\\\1\\\\0\\end{pmatrix},\\begin{pmatrix}0\\\\0\\\\1\\end{pmatrix}\\right\\} \\subset \\mathbb{R}^3",
+      "description_latex": "We start with the standard basis of $\\mathbb{R}^3$, our most familiar example. We want to verify it genuinely satisfies both basis conditions before moving on to a less obvious example.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c_1\\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix}+c_2\\begin{pmatrix}0\\\\1\\\\0\\end{pmatrix}+c_3\\begin{pmatrix}0\\\\0\\\\1\\end{pmatrix}=\\mathbf{0}\\implies c_1=c_2=c_3=0",
+      "description_latex": "To check linear independence, we set the linear combination equal to the zero vector. Reading off each component immediately forces $c_1 = c_2 = c_3 = 0$, so the only solution is the trivial one \u2014 the set is linearly independent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{pmatrix}a\\\\b\\\\c\\end{pmatrix} = a\\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix}+b\\begin{pmatrix}0\\\\1\\\\0\\end{pmatrix}+c\\begin{pmatrix}0\\\\0\\\\1\\end{pmatrix}\\quad\\text{for any }a,b,c\\in\\mathbb{R}",
+      "description_latex": "To check spanning, we take an arbitrary vector in $\\mathbb{R}^3$ and exhibit it explicitly as a linear combination of the basis vectors. The coefficients are simply the coordinates themselves, so every vector in $\\mathbb{R}^3$ is reachable \u2014 spanning is confirmed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore\\; \\mathcal{B}\\text{ is a basis for }\\mathbb{R}^3,\\quad \\dim(\\mathbb{R}^3)=3",
+      "description_latex": "Since both conditions hold, $\\mathcal{B}$ is a basis. The number of vectors in the basis is 3, so $\\dim(\\mathbb{R}^3) = 3$. This matches our geometric intuition that ordinary space is three-dimensional.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathcal{S} = \\left\\{\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix},\\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix},\\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix}\\right\\}",
+      "description_latex": "We want to determine whether $\\mathcal{S}$ is a basis for $\\mathbb{R}^3$. Our plan is to check linear independence first, then spanning. We form the matrix whose columns are these three vectors and row-reduce it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\begin{pmatrix}1&0&1\\\\1&1&0\\\\0&1&1\\end{pmatrix}\\xrightarrow{\\text{row reduce}}\\begin{pmatrix}1&0&1\\\\0&1&-1\\\\0&0&2\\end{pmatrix}",
+      "description_latex": "Here we place the vectors as columns of a matrix and row-reduce. The result has three pivots, which tells us the columns are linearly independent. Can you use this same row-reduction result to conclude whether $\\mathcal{S}$ spans $\\mathbb{R}^3$, and state the dimension of the span?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Since the row-reduced matrix has three pivots and $A$ is $3 \\times 3$, what can you conclude about whether $\\mathcal{S}$ is a basis for $\\mathbb{R}^3$, and what is $\\dim(\\mathbb{R}^3)$ as confirmed by this example? Write your conclusion as a complete statement.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the dimension of each space: $\\mathbb{R}^4$, $\\mathbb{R}^1$, and the space $\\{\\mathbf{0}\\}$ containing only the zero vector.",
+      "answer_latex": "\\dim(\\mathbb{R}^4)=4,\\;\\dim(\\mathbb{R}^1)=1,\\;\\dim(\\{\\mathbf{0}\\})=0"
+    },
+    {
+      "prompt_latex": "Determine whether $\\mathcal{B}=\\left\\{\\begin{pmatrix}1\\\\2\\end{pmatrix},\\begin{pmatrix}3\\\\4\\end{pmatrix}\\right\\}$ is a basis for $\\mathbb{R}^2$.",
+      "answer_latex": "\\det\\begin{pmatrix}1&3\\\\2&4\\end{pmatrix}=4-6=-2\\neq 0,\\text{ so yes, }\\mathcal{B}\\text{ is a basis for }\\mathbb{R}^2"
+    },
+    {
+      "prompt_latex": "Find a basis for the subspace $W=\\left\\{\\begin{pmatrix}a\\\\b\\\\c\\end{pmatrix}\\in\\mathbb{R}^3 : a+b+c=0\\right\\}$ and state $\\dim(W)$.",
+      "answer_latex": "\\left\\{\\begin{pmatrix}1\\\\-1\\\\0\\end{pmatrix},\\begin{pmatrix}1\\\\0\\\\-1\\end{pmatrix}\\right\\}\\text{ is a basis};\\;\\dim(W)=2"
+    },
+    {
+      "prompt_latex": "Let $T:\\mathbb{R}^3\\to\\mathbb{R}^3$ be the linear map with matrix $A=\\begin{pmatrix}1&2&3\\\\0&1&4\\\\0&0&0\\end{pmatrix}$. Find $\\dim(\\ker(T))$ and $\\dim(\\text{im}(T))$, and verify the rank-nullity theorem.",
+      "answer_latex": "\\text{rank}(A)=2,\\;\\dim(\\ker(T))=1,\\;\\dim(\\text{im}(T))=2,\\;1+2=3=\\dim(\\mathbb{R}^3)\\;\\checkmark"
+    },
+    {
+      "prompt_latex": "The set of all polynomials of degree at most 2, denoted $P_2$, is a vector space. Write down a basis for $P_2$ and state its dimension.",
+      "answer_latex": "\\{1,\\, x,\\, x^2\\}\\text{ is the standard basis};\\;\\dim(P_2)=3"
+    }
+  ],
+  "common_mistakes": [
+    "Students often check only linear independence or only spanning, then declare a set a basis after verifying just one condition. Both conditions are required simultaneously \u2014 a set can span without being independent (e.g., four vectors in $\\mathbb{R}^3$), and it can be independent without spanning (e.g., two vectors in $\\mathbb{R}^3$). Always verify both explicitly.",
+    "Students sometimes believe that having the right *number* of vectors guarantees a basis. For example, they assume any three vectors in $\\mathbb{R}^3$ must form a basis. In fact, three vectors in $\\mathbb{R}^3$ form a basis *only if* they are linearly independent (equivalently, only if the matrix they form is invertible \u2014 check by computing the determinant or row-reducing).",
+    "Students confuse the dimension of the ambient space with the dimension of a subspace. For instance, the subspace of $\\mathbb{R}^3$ satisfying $a + b + c = 0$ has dimension 2, not 3. Always find a basis for the specific subspace in question rather than defaulting to the dimension of the surrounding space."
+  ],
+  "untested_variants": [
+    "Finding a basis for the null space or column space of a given matrix using row reduction, then applying those bases directly to compute the rank and nullity.",
+    "Determining whether a given set of polynomials or matrices (rather than coordinate vectors) forms a basis for a polynomial space like $P_3$ or the space of $2\\times 2$ matrices.",
+    "Extending a linearly independent set to a full basis of $\\mathbb{R}^n$ by adding standard basis vectors, which requires understanding which directions are missing from the current span.",
+    "Using the fact that any $n$ linearly independent vectors in an $n$-dimensional space automatically form a basis (without separately checking spanning), and applying this shortcut to speed up proofs."
+  ]
+}

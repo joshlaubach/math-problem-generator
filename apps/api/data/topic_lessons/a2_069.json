@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_069",
+  "topic_name": "Sampling Methods and Bias",
+  "generated_at": "2026-05-12T23:38:12.130697+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to calculate the mean, median, and standard deviation of a data set \u2014 tools that help you describe a group numerically. But here's the catch: those calculations are only as trustworthy as the data you collected in the first place. Suppose you want to know the average number of hours students in your school sleep per night, but you only ask your friends at lunch. Could your answer be wrong even if your arithmetic is perfect? How do you know whether the data you collected actually represents the group you care about?",
+  "concept": "A sampling method is the procedure used to select individuals from a larger group (the population) to form a smaller group (the sample) that you actually measure. A good sampling method gives every member of the population a fair chance of being included, which is the core idea behind a simple random sample. Bias occurs when the sampling method systematically favors certain outcomes over others, making the sample statistic a poor estimate of the true population parameter $\\mu$ or $p$.",
+  "anatomy": "Every sampling situation has four distinct components worth naming precisely. The population is the entire group you want to draw conclusions about (e.g., all 1,200 students in the school). The sample is the subset you actually observe, ideally of size $n$. The sampling frame is the list or mechanism from which individuals are selected \u2014 and a mismatch between the frame and the true population is a major source of bias. Finally, the sampling method itself is the rule for choosing who is in the sample: simple random sampling (every set of $n$ individuals is equally likely), stratified sampling (population split into subgroups called strata, then random samples taken from each), cluster sampling (population split into clusters, entire clusters chosen at random), systematic sampling (every $k$-th member of a list selected), and convenience sampling (whoever is easiest to reach \u2014 a common source of bias).",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Population: all 800 students at Lincoln High School}",
+      "description_latex": "We start by clearly identifying the population \u2014 the full group we want to learn about. Every good sampling analysis begins here, because the sample is only meaningful if we know what larger group it is supposed to represent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Goal: estimate the proportion } p \\text{ who prefer a later school start time}",
+      "description_latex": "Next, we name the parameter we are trying to estimate. Here it is the population proportion $p$, a number between 0 and 1. Knowing the parameter keeps us focused on whether our method will produce a fair estimate of it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Method A (convenience): survey 50 students waiting outside the gym at 7:45 AM}",
+      "description_latex": "Method A is convenience sampling \u2014 we pick whoever is easy to reach. Students who arrive at 7:45 AM are likely the earliest risers, so they are systematically different from the full population on the very question we are asking. This creates voluntary/selection bias that will likely underestimate support for a later start time.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Method B (simple random): assign each student an ID 1\u2013800, use a random number generator to select } n = 50 \\text{ IDs}",
+      "description_latex": "Method B gives every student an equal chance of being selected, which is the defining property of a simple random sample. Because selection is not related to opinions about start times, the resulting sample proportion $\\hat{p}$ will be an unbiased estimator of the true population proportion $p$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Conclusion: Method B is unbiased; Method A produces selection bias}",
+      "description_latex": "We conclude by naming the bias type in Method A and confirming that Method B avoids it. Identifying the bias by name \u2014 selection bias in this case \u2014 is what the question will ask for, so practice linking the mechanism (who was excluded or over-represented) to its label.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Scenario: A magazine wants to know what percentage of its readers support a new layout.}",
+      "description_latex": "Read the scenario carefully and begin by identifying the population \u2014 the full group the magazine wants to draw conclusions about. The population here is all current readers of the magazine, not just those who happened to see a particular issue.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Method used: the magazine prints a coupon readers can mail in to record their opinion}",
+      "description_latex": "Now examine the mechanics of the method. Who actually responds? Only readers who feel strongly enough to cut out the coupon and mail it \u2014 a self-selected group. Think about how this differs from the full population and what that implies for the estimate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Identify the specific type of bias this method introduces, explain which direction the estimate is likely to be skewed (toward stronger opinions or toward moderate opinions), and name an alternative method that would reduce this bias. Write your answer in 2\u20133 sentences.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Bias type: voluntary response bias; fix: simple random sample of subscriber emails}",
+      "description_latex": "This is voluntary response bias because only self-motivated readers reply, over-representing extreme opinions. A simple random sample from the subscriber list would give every reader an equal chance, producing a more reliable estimate of the true proportion who prefer the new layout.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{A teacher wants to know the favorite subject of students in her class of 30. She puts each student's name on a slip of paper, mixes them, and draws 10 names. What sampling method is this?}",
+      "answer_latex": "\\text{Simple random sampling \u2014 every group of 10 students is equally likely to be chosen.}"
+    },
+    {
+      "prompt_latex": "\\text{A researcher surveys every 5th person on a voter registration list of 10{,}000 people. (a) What sampling method is used? (b) What is the sampling interval } k?",
+      "answer_latex": "\\text{(a) Systematic sampling. (b) } k = \\frac{10{,}000}{2{,}000} = 5 \\text{ (one sample member per every 5 on the list)}"
+    },
+    {
+      "prompt_latex": "\\text{A city is divided into 20 neighborhoods. The city randomly selects 4 neighborhoods and surveys every resident in those 4 neighborhoods. What sampling method is this, and why might it be preferred over a simple random sample in this context?}",
+      "answer_latex": "\\text{Cluster sampling. It is preferred because it reduces the cost and travel required to reach respondents spread across all 20 neighborhoods.}"
+    },
+    {
+      "prompt_latex": "\\text{A sample of } n = 100 \\text{ shoppers is taken at a mall on a Tuesday morning. The sample mean spending is } \\bar{x} = \\$47. \\text{ Explain why this } \\bar{x} \\text{ is likely a biased estimate of the true population mean } \\mu \\text{ for all shoppers, and identify the bias type.}",
+      "answer_latex": "\\text{Tuesday-morning shoppers (e.g., retirees, non-workers) are not representative of all shoppers, so } \\bar{x} \\text{ may differ systematically from } \\mu. \\text{ This is selection (or convenience) bias.}"
+    },
+    {
+      "prompt_latex": "\\text{A school has 600 students: 200 freshmen, 200 sophomores, and 200 juniors. A researcher wants a stratified random sample of } n = 60. \\text{ How many students should be selected from each grade?}",
+      "answer_latex": "\\frac{200}{600} \\times 60 = 20 \\text{ students from each grade (20 freshmen, 20 sophomores, 20 juniors)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse cluster sampling with stratified sampling because both divide the population into groups. The key difference is that in stratified sampling you sample from every stratum, whereas in cluster sampling you randomly select entire clusters and include all their members \u2014 remembering 'cluster = choose whole clusters' prevents this mix-up.",
+    "Students label any sample that gives an unexpected result as 'biased,' when bias specifically means the sampling method systematically favors certain outcomes \u2014 not just that the sample happened to look different by chance. Fix: always point to a mechanism (who was excluded or over-represented) to justify calling a method biased.",
+    "Students assume that a large sample size eliminates bias. A sample of 10,000 people chosen by convenience is still biased; increasing $n$ only reduces random sampling error (captured by the formula $SE = \\frac{\\sigma}{\\sqrt{n}}$), not systematic error from a flawed method. Fix: evaluate the sampling method first, then worry about sample size."
+  ],
+  "untested_variants": [
+    "Undercoverage bias: scenarios where a portion of the population has zero chance of being selected (e.g., phone surveys that miss households without phones) \u2014 distinct from voluntary response or convenience bias.",
+    "Calculating the exact number of clusters to sample and the within-cluster sample size in a two-stage cluster sampling design.",
+    "Non-response bias: distinguishing between the people who were selected for a random sample and those who actually responded, and analyzing how non-response distorts estimates.",
+    "Wording/question bias: identifying how the phrasing of a survey question (rather than the selection method) can produce biased responses, such as leading questions."
+  ]
+}

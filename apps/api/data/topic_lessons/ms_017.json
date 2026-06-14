@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_017",
+  "topic_name": "Asymptotic Normality of the MLE",
+  "generated_at": "2026-05-14T01:02:38.494700+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You know that the MLE $\\hat{\\theta}_n$ is consistent \u2014 it converges in probability to the true parameter $\\theta_0$ as $n \\to \\infty$. But consistency only tells you the estimator lands near the truth eventually; it says nothing about *how fast* it gets there or what shape the error distribution takes for finite (but large) $n$. Specifically, if someone hands you a dataset of size $n = 500$ and asks for a 95% confidence interval for $\\theta_0$ using the MLE, how do you know what distribution to use for the error $\\hat{\\theta}_n - \\theta_0$?",
+  "concept": "Asymptotic normality of the MLE says that, under regularity conditions, the standardized MLE is approximately standard normal for large $n$. Formally, if $X_1, \\ldots, X_n \\overset{iid}{\\sim} f(x;\\theta_0)$ and regularity conditions hold, then $\\sqrt{n}(\\hat{\\theta}_n - \\theta_0) \\xrightarrow{d} N\\!\\left(0,\\, [I(\\theta_0)]^{-1}\\right)$, where $I(\\theta_0)$ is the Fisher information at the true parameter.",
+  "anatomy": "The asymptotic normality result $\\sqrt{n}(\\hat{\\theta}_n - \\theta_0) \\xrightarrow{d} N(0, [I(\\theta_0)]^{-1})$ has four key components. The **scaling factor** $\\sqrt{n}$ is chosen precisely because the MLE error shrinks at rate $1/\\sqrt{n}$; multiplying by $\\sqrt{n}$ stabilizes the variance to a finite limit. The **centering** $\\hat{\\theta}_n - \\theta_0$ measures the estimation error around the truth $\\theta_0$. The **Fisher information** $I(\\theta_0) = -E\\!\\left[\\frac{\\partial^2}{\\partial\\theta^2} \\log f(X;\\theta_0)\\right] = E\\!\\left[\\left(\\frac{\\partial}{\\partial\\theta}\\log f(X;\\theta_0)\\right)^2\\right]$ quantifies how much a single observation informs us about $\\theta$. The **asymptotic variance** $[I(\\theta_0)]^{-1}$ is the reciprocal of Fisher information \u2014 greater information means a tighter (smaller variance) asymptotic distribution.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1,\\ldots,X_n \\overset{iid}{\\sim} \\text{Poisson}(\\lambda_0),\\quad f(x;\\lambda)=\\frac{e^{-\\lambda}\\lambda^x}{x!},\\quad x=0,1,2,\\ldots",
+      "description_latex": "We set up the problem: we have an iid Poisson sample and want to find the asymptotic distribution of the MLE $\\hat{\\lambda}_n$. Our plan is to (1) find the MLE, (2) compute Fisher information $I(\\lambda_0)$, and (3) apply the asymptotic normality theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\lambda}_n = \\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i",
+      "description_latex": "The MLE for the Poisson rate is the sample mean $\\bar{X}_n$, which you can verify by differentiating the log-likelihood $\\ell(\\lambda) = -n\\lambda + (\\sum_i x_i)\\log\\lambda - \\sum_i \\log(x_i!)$ and setting it to zero. This gives $\\hat{\\lambda}_n = \\bar{X}_n$, and the second derivative confirms it is a maximum.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ell(\\lambda) = \\log f(X;\\lambda) = -\\lambda + X\\log\\lambda - \\log(X!), \\quad \\frac{\\partial^2 \\ell}{\\partial \\lambda^2} = -\\frac{X}{\\lambda^2}",
+      "description_latex": "To compute Fisher information we take the second derivative of the log-likelihood for a single observation. We use the formula $I(\\lambda_0) = -E\\!\\left[\\frac{\\partial^2}{\\partial\\lambda^2}\\log f(X;\\lambda_0)\\right]$, so we need $E[X/\\lambda_0^2]$. Since $E[X] = \\lambda_0$ for a Poisson random variable, we get $I(\\lambda_0) = \\lambda_0/\\lambda_0^2 = 1/\\lambda_0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "I(\\lambda_0) = -E\\!\\left[-\\frac{X}{\\lambda_0^2}\\right] = \\frac{E[X]}{\\lambda_0^2} = \\frac{\\lambda_0}{\\lambda_0^2} = \\frac{1}{\\lambda_0}",
+      "description_latex": "We plug in $E[X] = \\lambda_0$ to get $I(\\lambda_0) = 1/\\lambda_0$, so the asymptotic variance is $[I(\\lambda_0)]^{-1} = \\lambda_0$. Notice this makes intuitive sense: larger $\\lambda_0$ means more variability in the data, so the estimator itself is noisier.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{n}(\\hat{\\lambda}_n - \\lambda_0) \\xrightarrow{d} N(0,\\, \\lambda_0), \\quad \\text{equivalently } \\hat{\\lambda}_n \\approx N\\!\\left(\\lambda_0,\\, \\frac{\\lambda_0}{n}\\right) \\text{ for large } n",
+      "description_latex": "Applying the asymptotic normality theorem with $[I(\\lambda_0)]^{-1} = \\lambda_0$, we conclude that $\\sqrt{n}(\\hat{\\lambda}_n - \\lambda_0)$ converges in distribution to $N(0, \\lambda_0)$. In practice we write $\\hat{\\lambda}_n \\approx N(\\lambda_0, \\lambda_0/n)$ for large $n$, and we substitute the estimate $\\hat{\\lambda}_n$ for the unknown $\\lambda_0$ to form confidence intervals.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1,\\ldots,X_n \\overset{iid}{\\sim} \\text{Exponential}(\\theta),\\quad f(x;\\theta)=\\theta e^{-\\theta x},\\quad x>0",
+      "description_latex": "We want to find the asymptotic distribution of the MLE $\\hat{\\theta}_n$ for the rate parameter $\\theta_0$ of an Exponential distribution. The log-likelihood for a single observation is $\\log f(X;\\theta) = \\log\\theta - \\theta X$, and you can check that the MLE is $\\hat{\\theta}_n = 1/\\bar{X}_n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial^2}{\\partial\\theta^2}\\log f(X;\\theta) = -\\frac{1}{\\theta^2}, \\quad I(\\theta_0) = -E\\!\\left[-\\frac{1}{\\theta_0^2}\\right] = \\frac{1}{\\theta_0^2}",
+      "description_latex": "We compute the Fisher information by taking the negative expected second derivative of the log-likelihood. Notice that the second derivative $-1/\\theta^2$ is non-random here (it does not involve $X$), so the expectation is trivial \u2014 the result is $I(\\theta_0) = 1/\\theta_0^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the asymptotic normality theorem: using $I(\\theta_0) = 1/\\theta_0^2$, write down the asymptotic distribution of $\\sqrt{n}(\\hat{\\theta}_n - \\theta_0)$. What is the asymptotic variance $[I(\\theta_0)]^{-1}$, and what does the result say about the approximate distribution of $\\hat{\\theta}_n$ for large $n$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\hat{\\theta}_n \\approx N\\!\\left(\\theta_0,\\, \\frac{\\theta_0^2}{n}\\right) \\text{ for large } n",
+      "description_latex": "The asymptotic variance is $[I(\\theta_0)]^{-1} = \\theta_0^2$, so the approximate large-sample distribution of $\\hat{\\theta}_n$ is $N(\\theta_0, \\theta_0^2/n)$. In practice, we replace $\\theta_0$ with $\\hat{\\theta}_n = 1/\\bar{X}_n$ to construct a confidence interval.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{iid}{\\sim} \\text{Bernoulli}(p)$. The MLE is $\\hat{p}_n = \\bar{X}_n$. Compute the Fisher information $I(p)$ and state the asymptotic distribution of $\\sqrt{n}(\\hat{p}_n - p_0)$.",
+      "answer_latex": "I(p_0) = \\frac{1}{p_0(1-p_0)},\\quad \\sqrt{n}(\\hat{p}_n - p_0) \\xrightarrow{d} N\\!\\left(0,\\, p_0(1-p_0)\\right)"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{iid}{\\sim} N(\\mu, \\sigma^2)$ with $\\sigma^2$ known. The MLE of $\\mu$ is $\\hat{\\mu}_n = \\bar{X}_n$. Compute $I(\\mu)$ and find the asymptotic distribution of $\\sqrt{n}(\\hat{\\mu}_n - \\mu_0)$.",
+      "answer_latex": "I(\\mu_0) = \\frac{1}{\\sigma^2},\\quad \\sqrt{n}(\\hat{\\mu}_n - \\mu_0) \\xrightarrow{d} N(0, \\sigma^2)"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{iid}{\\sim} \\text{Gamma}(\\alpha, \\beta)$ with $\\alpha$ known and $\\beta$ unknown (rate parametrization, $f(x;\\beta) = \\frac{\\beta^\\alpha}{\\Gamma(\\alpha)} x^{\\alpha-1}e^{-\\beta x}$). Show that $I(\\beta) = \\alpha/\\beta^2$ and state the asymptotic distribution of $\\hat{\\beta}_n$.",
+      "answer_latex": "I(\\beta_0) = \\frac{\\alpha}{\\beta_0^2},\\quad \\sqrt{n}(\\hat{\\beta}_n - \\beta_0) \\xrightarrow{d} N\\!\\left(0,\\, \\frac{\\beta_0^2}{\\alpha}\\right)"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{iid}{\\sim} \\text{Poisson}(\\lambda_0)$ with MLE $\\hat{\\lambda}_n = \\bar{X}_n$. Using the delta method with $g(\\lambda) = \\sqrt{\\lambda}$, find the asymptotic distribution of $\\sqrt{n}(\\sqrt{\\hat{\\lambda}_n} - \\sqrt{\\lambda_0})$.",
+      "answer_latex": "\\sqrt{n}\\left(\\sqrt{\\hat{\\lambda}_n} - \\sqrt{\\lambda_0}\\right) \\xrightarrow{d} N\\!\\left(0,\\, \\frac{1}{4}\\right), \\text{ since } [g'(\\lambda_0)]^2 \\cdot \\lambda_0 = \\frac{1}{4\\lambda_0}\\cdot\\lambda_0 = \\frac{1}{4}"
+    },
+    {
+      "prompt_latex": "A reliability engineer observes $n = 200$ independent component lifetimes modeled as $\\text{Exponential}(\\theta_0)$, finding $\\bar{x} = 4.0$ hours. Using asymptotic normality of the MLE $\\hat{\\theta}_n = 1/\\bar{X}_n$, construct an approximate 95\\% confidence interval for $\\theta_0$.",
+      "answer_latex": "\\hat{\\theta}_n = 0.25,\\; [I(\\theta_0)]^{-1} = \\theta_0^2,\\; \\text{CI: } \\hat{\\theta}_n \\pm 1.96\\,\\hat{\\theta}_n/\\sqrt{n} = 0.25 \\pm 1.96(0.25)/\\sqrt{200} \\approx (0.2154,\\, 0.2846)"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse Fisher information $I(\\theta_0) = 1/\\text{Var}(\\hat\\theta_n)_{\\text{asymptotic per obs}}$ with the asymptotic variance itself, and write $\\sqrt{n}(\\hat\\theta_n-\\theta_0)\\xrightarrow{d}N(0, I(\\theta_0))$ instead of $N(0,[I(\\theta_0)]^{-1})$. Remember: more Fisher information means *less* variance, so the asymptotic variance is the *reciprocal* of $I(\\theta_0)$.",
+    "Students forget to substitute the estimated value $\\hat\\theta_n$ for the unknown $\\theta_0$ when constructing a confidence interval, leaving the answer in terms of the unknown $\\theta_0$. In practice you must replace $\\theta_0$ with $\\hat\\theta_n$ in the expression for $[I(\\theta_0)]^{-1}$ to get a usable interval.",
+    "When computing Fisher information, students sometimes take the expectation of the *first* derivative squared but accidentally forget to evaluate at $\\theta_0$ (the true parameter), or they use the alternative formula $I(\\theta_0) = E[(\\partial \\log f/\\partial\\theta)^2]$ without checking that the regularity conditions (interchange of differentiation and integration) actually hold for their model."
+  ],
+  "untested_variants": [
+    "Multivariate parameter settings where $\\theta \\in \\mathbb{R}^k$ with $k > 1$, requiring the Fisher information *matrix* $\\mathbf{I}(\\theta_0)$ and the result $\\sqrt{n}(\\hat{\\boldsymbol{\\theta}}_n - \\boldsymbol{\\theta}_0) \\xrightarrow{d} N_k(\\mathbf{0}, \\mathbf{I}(\\theta_0)^{-1})$.",
+    "Verifying regularity conditions explicitly (e.g., checking that the support of $f(x;\\theta)$ does not depend on $\\theta$, and that differentiation under the integral sign is valid) for a given model such as the Uniform$(0,\\theta)$ distribution where the MLE is *not* asymptotically normal.",
+    "Applying the Cram\u00e9r\u2013Rao lower bound in conjunction with asymptotic normality to argue that the MLE is asymptotically efficient (achieves the CRLB), and comparing the asymptotic variance to that of a competing estimator.",
+    "Two-parameter models where one parameter is a nuisance parameter and students must find the asymptotic distribution of the MLE for only one component using the partitioned Fisher information matrix."
+  ]
+}

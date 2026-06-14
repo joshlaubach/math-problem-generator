@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_023",
+  "topic_name": "Stability of Equilibrium Points",
+  "generated_at": "2026-05-13T20:01:44.710958+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to find equilibrium points of a system like $x' = f(x, y)$, $y' = g(x, y)$ by setting both right-hand sides to zero. But finding where a system 'rests' is only half the story \u2014 you also need to know what happens when a solution starts *near* that rest point. Does it spiral back in, fly away, or orbit forever? Without a way to classify equilibria, you can't predict long-term behavior, which is the whole point of studying differential equations.",
+  "concept": "Stability describes whether solutions that start close to an equilibrium point stay close (or return) over time. Formally, an equilibrium $\\mathbf{x}^*$ is *stable* if solutions starting near it remain near it for all future time; it is *asymptotically stable* if they also converge to $\\mathbf{x}^*$ as $t \\to \\infty$; and it is *unstable* if nearby solutions eventually move away. For linear (or linearized) systems, stability is determined entirely by the eigenvalues $\\lambda$ of the Jacobian matrix evaluated at the equilibrium.",
+  "anatomy": "The key components are: the *equilibrium point* $\\mathbf{x}^*$ (where $f = g = 0$), the *Jacobian matrix* $J = \\begin{pmatrix} f_x & f_y \\\\ g_x & g_y \\end{pmatrix}$ evaluated at $\\mathbf{x}^*$, the *eigenvalues* $\\lambda_1, \\lambda_2$ of $J$ (which are roots of the characteristic equation $\\det(J - \\lambda I) = 0$), the *real parts* $\\text{Re}(\\lambda_i)$ (which govern growth or decay), and the *imaginary parts* $\\text{Im}(\\lambda_i)$ (which signal oscillatory behavior). The classification \u2014 node, spiral, saddle, or center \u2014 depends entirely on the signs and nature of these eigenvalues.",
+  "worked_example": [
+    {
+      "expression_latex": "x' = x - y, \\quad y' = x + y^2 - 2",
+      "description_latex": "We begin by finding the equilibrium points, since stability is always analyzed at a specific rest state. Setting $x' = 0$ gives $x = y$, and substituting into $y' = 0$ gives $y + y^2 - 2 = 0$, so $(y+2)(y-1) = 0$, yielding the two equilibria $(1, 1)$ and $(-2, -2)$. We will analyze stability at $(1, 1)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "J = \\begin{pmatrix} f_x & f_y \\\\ g_x & g_y \\end{pmatrix} = \\begin{pmatrix} 1 & -1 \\\\ 1 & 2y \\end{pmatrix}",
+      "description_latex": "Next we compute the Jacobian matrix of partial derivatives, because the Jacobian linearizes the system around the equilibrium and its eigenvalues tell us the local behavior. The entries are $f_x = 1$, $f_y = -1$, $g_x = 1$, and $g_y = 2y$, which still contains $y$ before we substitute.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "J\\big|_{(1,1)} = \\begin{pmatrix} 1 & -1 \\\\ 1 & 2 \\end{pmatrix}",
+      "description_latex": "We evaluate the Jacobian at the equilibrium point $(1,1)$ by substituting $y = 1$, giving $g_y = 2$. This is the matrix whose eigenvalues will determine stability \u2014 everything from here on is linear algebra applied to this specific $2 \\times 2$ matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(J - \\lambda I) = (1-\\lambda)(2-\\lambda) + 1 = \\lambda^2 - 3\\lambda + 3 = 0 \\implies \\lambda = \\frac{3 \\pm i\\sqrt{3}}{2}",
+      "description_latex": "We solve the characteristic equation $\\det(J - \\lambda I) = 0$ to find the eigenvalues. The discriminant $9 - 12 = -3$ is negative, so the eigenvalues are complex conjugates with real part $\\text{Re}(\\lambda) = \\tfrac{3}{2} > 0$ and nonzero imaginary part $\\pm\\tfrac{\\sqrt{3}}{2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Re}(\\lambda) = \\frac{3}{2} > 0 \\implies \\text{unstable spiral at } (1,1)",
+      "description_latex": "Because both eigenvalues have positive real part, solutions spiral away from $(1,1)$ \u2014 the equilibrium is an unstable spiral (also called an unstable focus). If the real part were negative, solutions would spiral inward and the point would be an asymptotically stable spiral; if the real part were zero, linearization alone cannot determine stability.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x' = -x + y, \\quad y' = -2y",
+      "description_latex": "We want to classify the equilibrium at the origin $(0,0)$. Because the system is already linear, the Jacobian is just the coefficient matrix itself: $J = \\begin{pmatrix} -1 & 1 \\\\ 0 & -2 \\end{pmatrix}$. No substitution is needed here, which saves a step compared to nonlinear systems.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(J - \\lambda I) = (-1-\\lambda)(-2-\\lambda) - 0 = 0",
+      "description_latex": "We set up the characteristic equation. Notice that because $J$ is upper-triangular, the eigenvalues are simply the diagonal entries. Go ahead and write down both eigenvalues $\\lambda_1$ and $\\lambda_2$ directly from the diagonal.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\lambda_1 = -1, \\quad \\lambda_2 = -2",
+      "description_latex": "Both eigenvalues are real and negative. Using the eigenvalue classification table, identify what type of equilibrium this is and whether it is stable, asymptotically stable, or unstable. State your conclusion in a complete sentence referencing the signs of the eigenvalues.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Both } \\lambda_i < 0 \\implies \\text{asymptotically stable node (stable node) at } (0,0)",
+      "description_latex": "Since both eigenvalues are real, distinct, and negative, all solutions decay exponentially toward the origin, making it an asymptotically stable node. This is the most clear-cut case of stability: no oscillation, no ambiguity, just guaranteed convergence.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "The Jacobian at an equilibrium has eigenvalues $\\lambda_1 = -3$ and $\\lambda_2 = -5$. Classify the equilibrium.",
+      "answer_latex": "\\text{Asymptotically stable node (both eigenvalues real and negative)}"
+    },
+    {
+      "prompt_latex": "Find and classify the equilibrium at the origin for the linear system $x' = 2x + y,\\ y' = 3y$.",
+      "answer_latex": "\\lambda_1 = 2,\\ \\lambda_2 = 3;\\ \\text{unstable node}"
+    },
+    {
+      "prompt_latex": "For the system $x' = y,\\ y' = -x - 2y$, find the Jacobian at $(0,0)$ and determine stability.",
+      "answer_latex": "J = \\begin{pmatrix}0&1\\\\-1&-2\\end{pmatrix},\\ \\lambda = -1 \\pm 0i\\ (\\text{repeated}),\\ \\text{asymptotically stable (degenerate node or star)}"
+    },
+    {
+      "prompt_latex": "Find all equilibria of $x' = x(1-x-y),\\ y' = y(2-y-3x)$ and classify each using linearization.",
+      "answer_latex": "\\text{Equilibria: }(0,0),\\ (1,0),\\ (0,2),\\ \\left(\\tfrac{1}{2},\\tfrac{1}{2}\\right).\\ (0,0)\\text{: unstable node; }(1,0)\\text{: saddle; }(0,2)\\text{: saddle; }\\left(\\tfrac{1}{2},\\tfrac{1}{2}\\right)\\text{: stable node}"
+    },
+    {
+      "prompt_latex": "A population model gives the Jacobian $J = \\begin{pmatrix}-0.1 & 0.4 \\\\ -0.4 & -0.1\\end{pmatrix}$ at an equilibrium. Compute the eigenvalues and interpret the long-term population behavior near this equilibrium.",
+      "answer_latex": "\\lambda = -0.1 \\pm 0.4i;\\ \\text{Re}(\\lambda)<0\\text{, so the populations spiral inward to the equilibrium \u2014 asymptotically stable spiral, meaning oscillating but decaying fluctuations}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to evaluate the Jacobian *at the equilibrium point* before computing eigenvalues, leaving variables like $y$ or $x$ in the matrix. Fix: always substitute the coordinates of $\\mathbf{x}^*$ into every entry of $J$ before finding the characteristic polynomial.",
+    "When eigenvalues are purely imaginary (e.g., $\\lambda = \\pm 2i$), students incorrectly call the equilibrium 'stable' or 'unstable' based on linearization alone. Fix: remember that purely imaginary eigenvalues give a *center* in the linearized system, but nonlinear terms can make the true equilibrium stable, unstable, or a center \u2014 linearization is inconclusive in this case.",
+    "Students mix up *stable* and *asymptotically stable*: a center is stable (nearby orbits stay nearby) but NOT asymptotically stable (solutions don't converge to the equilibrium). Fix: check both conditions \u2014 boundedness near the point AND convergence to it \u2014 before applying the stronger label 'asymptotically stable'."
+  ],
+  "untested_variants": [
+    "Classifying equilibria when the Jacobian has a zero eigenvalue (non-hyperbolic equilibrium), where linearization is insufficient and center manifold theory is required.",
+    "Stability analysis in three-dimensional systems $x' = f(x,y,z)$ where the Jacobian is $3 \\times 3$ and the characteristic polynomial is cubic.",
+    "Using the trace-determinant plane ($\\text{tr}(J)$ vs. $\\det(J)$) as a graphical shortcut to classify equilibria without explicitly computing eigenvalues.",
+    "Lyapunov's direct method for proving stability without linearization, particularly for cases where the linearization gives inconclusive purely imaginary eigenvalues."
+  ]
+}

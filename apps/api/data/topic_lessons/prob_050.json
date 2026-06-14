@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_050",
+  "topic_name": "The Bivariate Normal Distribution (H)",
+  "generated_at": "2026-05-13T23:09:26.065531+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to work with a single normal random variable $X \\sim N(\\mu, \\sigma^2)$, computing probabilities by standardizing and reading $z$-scores. But what if two measurements \u2014 say, a person's height and weight \u2014 are both roughly normal AND correlated with each other? A single normal PDF can't capture that joint behavior. How do we write a single formula that simultaneously describes two correlated normal random variables and encodes the strength of their linear relationship?",
+  "concept": "The bivariate normal distribution describes a pair of random variables $(X, Y)$ that are jointly normal, meaning every linear combination $aX + bY$ is itself normally distributed. Formally, $(X, Y)$ has a bivariate normal distribution with parameters $\\mu_X, \\mu_Y, \\sigma_X^2, \\sigma_Y^2$, and correlation $\\rho \\in (-1, 1)$ if its joint PDF is $f(x,y) = \\frac{1}{2\\pi\\sigma_X\\sigma_Y\\sqrt{1-\\rho^2}}\\exp\\!\\left(-\\frac{1}{2(1-\\rho^2)}\\left[\\frac{(x-\\mu_X)^2}{\\sigma_X^2} - \\frac{2\\rho(x-\\mu_X)(y-\\mu_Y)}{\\sigma_X\\sigma_Y} + \\frac{(y-\\mu_Y)^2}{\\sigma_Y^2}\\right]\\right)$.",
+  "anatomy": "The bivariate normal PDF has five structural parameters: the marginal means $\\mu_X$ and $\\mu_Y$ shift the center of the joint distribution along each axis; the marginal standard deviations $\\sigma_X$ and $\\sigma_Y$ control the spread along each axis and appear in the normalizing constant $2\\pi\\sigma_X\\sigma_Y\\sqrt{1-\\rho^2}$; and the correlation coefficient $\\rho = \\text{Cov}(X,Y)/(\\sigma_X\\sigma_Y)$ controls the tilt of the elliptical contours \u2014 when $\\rho=0$ the exponent separates into independent normal terms, and as $|\\rho| \\to 1$ the ellipse collapses to a line. The quadratic form inside the exponent, $Q = \\frac{1}{1-\\rho^2}\\left[\\frac{(x-\\mu_X)^2}{\\sigma_X^2} - \\frac{2\\rho(x-\\mu_X)(y-\\mu_Y)}{\\sigma_X\\sigma_Y} + \\frac{(y-\\mu_Y)^2}{\\sigma_Y^2}\\right]$, is the key engine of the distribution: its level sets $Q = c$ are the elliptical contours of constant density.",
+  "worked_example": [
+    {
+      "expression_latex": "(X, Y) \\sim \\text{BivNormal}(\\mu_X=0,\\, \\mu_Y=0,\\, \\sigma_X=1,\\, \\sigma_Y=2,\\, \\rho=0.5)",
+      "description_latex": "We start by clearly identifying all five parameters from the problem statement. Setting $\\mu_X = \\mu_Y = 0$ centers the distribution at the origin, $\\sigma_X = 1$ and $\\sigma_Y = 2$ give the marginal spreads, and $\\rho = 0.5$ tells us the two variables share a moderate positive linear relationship.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x,y) = \\frac{1}{2\\pi(1)(2)\\sqrt{1-0.25}}\\exp\\!\\left(-\\frac{1}{2(0.75)}\\left[x^2 - \\frac{2(0.5)xy}{(1)(2)} + \\frac{y^2}{4}\\right]\\right)",
+      "description_latex": "We substitute the parameters directly into the general formula, computing the normalizing constant $2\\pi\\sigma_X\\sigma_Y\\sqrt{1-\\rho^2} = 2\\pi(1)(2)\\sqrt{0.75} = 4\\pi\\cdot\\frac{\\sqrt{3}}{2} = 2\\sqrt{3}\\pi$ and the factor $1-\\rho^2 = 1-0.25 = 0.75$ inside the exponent. Every substitution here is mechanical \u2014 just replace each symbol with its numerical value before simplifying.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q(x,y) = \\frac{1}{0.75}\\left[x^2 - \\frac{xy}{2} + \\frac{y^2}{4}\\right] = \\frac{4x^2 - 2xy + y^2}{3}",
+      "description_latex": "We isolate and simplify the quadratic form $Q$ inside the exponent, multiplying through by $1/0.75 = 4/3$ and combining terms over a common denominator of 3. Understanding this quadratic form is crucial because its level curves $Q = c$ are the constant-density ellipses that characterize the shape of the joint distribution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x,y) = \\frac{1}{2\\sqrt{3}\\,\\pi}\\exp\\!\\left(-\\frac{4x^2 - 2xy + y^2}{6}\\right)",
+      "description_latex": "We assemble the final, simplified PDF by combining the normalizing constant $2\\sqrt{3}\\,\\pi$ with the exponent $-Q/2 = -(4x^2-2xy+y^2)/6$. Notice the cross-term $-2xy$ in the exponent: it is present precisely because $\\rho \\neq 0$, and it is exactly what distinguishes a correlated joint normal from two independent normals.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Marginal: } X \\sim N(0,1), \\quad Y \\sim N(0,4), \\quad \\text{Cov}(X,Y) = \\rho\\sigma_X\\sigma_Y = 0.5(1)(2) = 1",
+      "description_latex": "A key theorem states that the marginal distributions of a bivariate normal are themselves normal, so we can read off $X \\sim N(\\mu_X, \\sigma_X^2) = N(0,1)$ and $Y \\sim N(\\mu_Y, \\sigma_Y^2) = N(0,4)$ directly from the parameters, and compute the covariance as $\\text{Cov}(X,Y) = \\rho\\sigma_X\\sigma_Y = 1$. This step shows that all the marginal and covariance information is fully encoded in the five parameters, with no integration required.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "(X,Y) \\sim \\text{BivNormal}(\\mu_X=1,\\, \\mu_Y=-1,\\, \\sigma_X=2,\\, \\sigma_Y=1,\\, \\rho=-0.6)",
+      "description_latex": "We are given all five parameters of a bivariate normal. Our goal is to write the explicit joint PDF and identify the quadratic form in the exponent. Begin by computing the two quantities we will need: $1 - \\rho^2 = 1 - 0.36 = 0.64$ and the normalizing constant $2\\pi\\sigma_X\\sigma_Y\\sqrt{1-\\rho^2} = 2\\pi(2)(1)\\sqrt{0.64} = 2\\pi(2)(0.8) = 3.2\\pi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q(x,y) = \\frac{1}{0.64}\\left[\\frac{(x-1)^2}{4} - \\frac{2(-0.6)(x-1)(y+1)}{(2)(1)} + (y+1)^2\\right]",
+      "description_latex": "Now substitute the parameters into the quadratic form $Q$. Notice that $\\rho = -0.6$ makes the cross-term positive, which you should write explicitly before simplifying \u2014 this is the step where sign errors most often occur.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Simplify $Q(x,y)$ completely: multiply out $1/0.64$, substitute the cross-term coefficient $-2\\rho/(\\sigma_X\\sigma_Y) = -2(-0.6)/2 = 0.6$, and combine all terms over a common denominator. Write your simplified $Q$ in the form $\\frac{A(x-1)^2 + B(x-1)(y+1) + C(y+1)^2}{D}$ where $A, B, C, D$ are integers or simple fractions.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f(x,y) = \\frac{1}{3.2\\pi}\\exp\\!\\left(-\\frac{Q(x,y)}{2}\\right)",
+      "description_latex": "Using your simplified $Q$ from the previous step, write out the complete joint PDF. Then state the marginal distributions $X \\sim N(?,?)$ and $Y \\sim N(?,?)$ and compute $\\text{Cov}(X,Y)$ \u2014 you should be able to do this by reading the parameters directly without any integration.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $(X,Y) \\sim \\text{BivNormal}(\\mu_X=0, \\mu_Y=0, \\sigma_X=1, \\sigma_Y=1, \\rho=0)$. Write the joint PDF $f(x,y)$ and explain why $X$ and $Y$ are independent.",
+      "answer_latex": "f(x,y) = \\frac{1}{2\\pi}e^{-(x^2+y^2)/2} = \\frac{1}{\\sqrt{2\\pi}}e^{-x^2/2}\\cdot\\frac{1}{\\sqrt{2\\pi}}e^{-y^2/2}; \\text{ the PDF factors into } f_X(x)f_Y(y) \\text{ because } \\rho=0 \\text{ eliminates the cross-term, so } X\\perp Y."
+    },
+    {
+      "prompt_latex": "For $(X,Y) \\sim \\text{BivNormal}(\\mu_X=3, \\mu_Y=5, \\sigma_X=2, \\sigma_Y=3, \\rho=0.4)$, compute (a) $E[X]$, $E[Y]$, (b) $\\text{Var}(X)$, $\\text{Var}(Y)$, and (c) $\\text{Cov}(X,Y)$.",
+      "answer_latex": "(a)\\; E[X]=3,\\; E[Y]=5;\\quad (b)\\; \\text{Var}(X)=4,\\; \\text{Var}(Y)=9;\\quad (c)\\; \\text{Cov}(X,Y)=\\rho\\sigma_X\\sigma_Y=0.4(2)(3)=2.4"
+    },
+    {
+      "prompt_latex": "Let $(X,Y) \\sim \\text{BivNormal}(0, 0, 1, 2, 0.5)$. Write the quadratic form $Q(x,y)$ that appears in the exponent of the joint PDF in fully simplified form.",
+      "answer_latex": "Q(x,y) = \\frac{1}{0.75}\\left[x^2 - \\frac{xy}{2} + \\frac{y^2}{4}\\right] = \\frac{4x^2 - 2xy + y^2}{3}"
+    },
+    {
+      "prompt_latex": "Suppose $(X,Y)$ is bivariate normal with $\\mu_X=0, \\mu_Y=0, \\sigma_X=\\sigma_Y=1, \\rho=0.8$. Using the conditional distribution theorem for bivariate normals, find the distribution of $Y \\mid X = 1.5$. (Recall: $Y\\mid X=x \\sim N(\\mu_Y + \\rho\\frac{\\sigma_Y}{\\sigma_X}(x-\\mu_X),\\; \\sigma_Y^2(1-\\rho^2))$.)",
+      "answer_latex": "Y \\mid X=1.5 \\sim N\\!\\left(0 + 0.8\\cdot\\frac{1}{1}(1.5-0),\\; 1^2(1-0.64)\\right) = N(1.2,\\; 0.36)"
+    },
+    {
+      "prompt_latex": "A researcher models the joint distribution of exam score $S$ and study hours $H$ as bivariate normal with $\\mu_S=70, \\mu_H=5, \\sigma_S=10, \\sigma_H=2, \\rho=0.7$. A student studied for $H=7$ hours. Find the conditional expected exam score $E[S \\mid H=7]$ and the conditional standard deviation $\\text{SD}(S\\mid H=7)$.",
+      "answer_latex": "E[S\\mid H=7] = 70 + 0.7\\cdot\\frac{10}{2}(7-5) = 70 + 7 = 77;\\quad \\text{SD}(S\\mid H=7) = 10\\sqrt{1-0.49} = 10\\sqrt{0.51} \\approx 7.14"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse $\\rho = 0$ with independence in general, but for bivariate normal distributions, $\\rho = 0$ actually does imply independence \u2014 however, this is a special property of the bivariate normal and does NOT hold for arbitrary joint distributions. Always note explicitly that you are using the bivariate normal structure when claiming $\\rho = 0 \\Rightarrow$ independence.",
+    "When computing the cross-term in the quadratic form, students frequently drop the negative sign in $-2\\rho(x-\\mu_X)(y-\\mu_Y)/(\\sigma_X\\sigma_Y)$, especially when $\\rho$ is itself negative \u2014 this causes the sign of the cross-term to flip incorrectly. Always substitute $\\rho$'s sign explicitly before simplifying: write $-2(-0.6) = +1.2$, never skip the step.",
+    "Students often apply the marginal formula and write $X \\sim N(\\mu_X, \\sigma_X)$ instead of $X \\sim N(\\mu_X, \\sigma_X^2)$, confusing the standard deviation parameter in the bivariate PDF with the variance in the marginal distribution's notation. Remember that the bivariate PDF uses $\\sigma_X$ and $\\sigma_Y$ (standard deviations), but the marginal variance is $\\sigma_X^2$."
+  ],
+  "untested_variants": [
+    "Deriving the marginal PDF of $X$ by integrating out $Y$ from the bivariate normal joint PDF using the technique of completing the square.",
+    "Computing multivariate probabilities $P(X > a, Y > b)$ by standardizing and using bivariate normal tables or software, including handling the correlation in the probability region.",
+    "Working with the matrix (covariance matrix) form of the bivariate normal, $f(\\mathbf{x}) = \\frac{1}{2\\pi|\\Sigma|^{1/2}}\\exp(-\\frac{1}{2}(\\mathbf{x}-\\boldsymbol{\\mu})^T\\Sigma^{-1}(\\mathbf{x}-\\boldsymbol{\\mu}))$, and identifying $\\Sigma$ from given parameters.",
+    "Finding the distribution of a linear combination $aX + bY$ when $(X,Y)$ is bivariate normal, and using the result to compute probabilities involving $aX + bY$."
+  ]
+}

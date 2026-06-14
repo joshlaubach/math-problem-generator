@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_023",
+  "topic_name": "Double Integrals in Polar Coordinates",
+  "generated_at": "2026-05-13T00:35:56.928905+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to compute double integrals over rectangles and general regions in Cartesian coordinates, and you've probably noticed how painful the algebra gets when the region is a circle or a sector. For instance, if you tried to integrate $f(x,y) = e^{-(x^2+y^2)}$ over the unit disk using $x$ and $y$, you'd run into $e^{-(x^2+y^2)}$ with no clean antiderivative in either variable. The key insight is that circles, rings, and wedge-shaped regions are described beautifully by a different coordinate system \u2014 but how do you actually rewrite the integral, including the area element, in polar coordinates?",
+  "concept": "In polar coordinates, every point is described by a radius $r$ (distance from the origin) and an angle $\\theta$ (measured from the positive $x$-axis), with $x = r\\cos\\theta$ and $y = r\\sin\\theta$. When you switch a double integral from Cartesian to polar, the area element $dA$ is not simply $dr\\,d\\theta$; instead, the correct substitution gives $dA = r\\,dr\\,d\\theta$, so the double integral becomes $\\iint_R f(x,y)\\,dA = \\int_{\\alpha}^{\\beta}\\int_{r_1(\\theta)}^{r_2(\\theta)} f(r\\cos\\theta,\\, r\\sin\\theta)\\; r\\,dr\\,d\\theta$.",
+  "anatomy": "The polar double integral $\\int_{\\alpha}^{\\beta}\\int_{r_1(\\theta)}^{r_2(\\theta)} f(r\\cos\\theta, r\\sin\\theta)\\, r\\,dr\\,d\\theta$ has four distinct structural pieces. First, the angular limits $\\alpha$ and $\\beta$ define the sweep of the region (e.g., $0$ to $2\\pi$ for a full disk). Second, the radial limits $r_1(\\theta)$ and $r_2(\\theta)$ can be constants (rings, disks) or functions of $\\theta$ (polar curves like $r = 1 + \\cos\\theta$). Third, the integrand $f(r\\cos\\theta, r\\sin\\theta)$ is the original function rewritten in polar form \u2014 note that $x^2 + y^2 = r^2$, a simplification that is often the entire reason we switch coordinates. Fourth, and most critically, the Jacobian factor $r$ (sometimes called the polar area element factor) must always appear; it accounts for the fact that polar 'boxes' stretch as they move away from the origin.",
+  "worked_example": [
+    {
+      "expression_latex": "\\iint_D e^{x^2+y^2}\\,dA, \\quad D: x^2+y^2 \\le 4",
+      "description_latex": "We want to integrate $e^{x^2+y^2}$ over the disk of radius 2. In Cartesian coordinates this is hopeless because $e^{x^2+y^2}$ has no elementary antiderivative in $x$ or $y$ alone, but notice that $x^2+y^2 = r^2$ in polar \u2014 the integrand will simplify instantly, which is exactly why we switch.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D \\text{ in polar: } 0 \\le r \\le 2, \\quad 0 \\le \\theta \\le 2\\pi",
+      "description_latex": "The disk $x^2+y^2 \\le 4$ is perfectly described by letting $r$ run from $0$ to $2$ (the radius) and $\\theta$ sweep the full circle from $0$ to $2\\pi$. Identifying these limits before writing the integral is always the first step when converting a region to polar.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^{2\\pi}\\int_0^{2} e^{r^2}\\cdot r\\,dr\\,d\\theta",
+      "description_latex": "We substitute $x^2+y^2 = r^2$ in the integrand and attach the essential Jacobian factor $r$, giving $e^{r^2}\\cdot r\\,dr\\,d\\theta$. That factor of $r$ is not optional \u2014 without it we would be computing the wrong integral entirely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^{2\\pi}\\left[\\frac{1}{2}e^{r^2}\\right]_0^{2}d\\theta = \\int_0^{2\\pi}\\frac{e^4 - 1}{2}\\,d\\theta",
+      "description_latex": "The inner integral in $r$ is handled by the substitution $u = r^2$, $du = 2r\\,dr$, turning $\\int_0^2 e^{r^2}r\\,dr$ into $\\frac{1}{2}\\int_0^4 e^u\\,du = \\frac{e^4-1}{2}$. Because this result is a constant with respect to $\\theta$, the outer integral is simply multiplication.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{e^4 - 1}{2}\\cdot 2\\pi = \\pi(e^4 - 1)",
+      "description_latex": "The outer integral $\\int_0^{2\\pi}\\frac{e^4-1}{2}\\,d\\theta$ evaluates to $\\frac{e^4-1}{2}\\cdot 2\\pi$, giving the clean final answer $\\pi(e^4-1)$. This problem would have been completely intractable in Cartesian coordinates, which perfectly illustrates when the polar change of variables pays off.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\iint_D \\sqrt{x^2+y^2}\\,dA, \\quad D: 1 \\le x^2+y^2 \\le 9",
+      "description_latex": "We are integrating $\\sqrt{x^2+y^2}$ over the annular ring between circles of radius 1 and 3. The region and integrand both scream 'polar coordinates,' so our first job is to write the polar limits for this ring and rewrite $\\sqrt{x^2+y^2}$ in terms of $r$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^{2\\pi}\\int_1^{3} r \\cdot r\\,dr\\,d\\theta = \\int_0^{2\\pi}\\int_1^{3} r^2\\,dr\\,d\\theta",
+      "description_latex": "The annulus becomes $1 \\le r \\le 3$, $0 \\le \\theta \\le 2\\pi$, and $\\sqrt{x^2+y^2} = \\sqrt{r^2} = r$. Don't forget to include the extra factor of $r$ from the area element, giving $r \\cdot r = r^2$ in the integrand. Now set up and evaluate the inner integral with respect to $r$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Evaluate $\\int_1^{3} r^2\\,dr$ and substitute the limits to get a numerical value. Then use that result to evaluate the outer integral with respect to $\\theta$ and state the final answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Convert to polar and evaluate: $\\iint_D 3\\,dA$ where $D$ is the disk $x^2+y^2 \\le 25$.",
+      "answer_latex": "75\\pi"
+    },
+    {
+      "prompt_latex": "Evaluate $\\int_0^{\\pi}\\int_0^{2} r^2\\sin\\theta\\,dr\\,d\\theta$.",
+      "answer_latex": "\\dfrac{16}{3}"
+    },
+    {
+      "prompt_latex": "Use polar coordinates to evaluate $\\iint_D (x^2+y^2)\\,dA$ where $D$ is the region $1 \\le x^2+y^2 \\le 4$.",
+      "answer_latex": "\\dfrac{15\\pi}{2}"
+    },
+    {
+      "prompt_latex": "Find the volume of the solid that lies below the paraboloid $z = 9 - x^2 - y^2$ and above the $xy$-plane. (Hint: first determine where $z=0$.)",
+      "answer_latex": "\\dfrac{81\\pi}{2}"
+    },
+    {
+      "prompt_latex": "A thin lamina occupies the upper half of the disk $x^2+y^2 \\le 4$ ($y \\ge 0$) and has density $\\rho(x,y) = y$. Set up and evaluate the double integral to find the total mass.",
+      "answer_latex": "\\dfrac{16}{3}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to include the Jacobian factor $r$ in the area element, writing $dr\\,d\\theta$ instead of $r\\,dr\\,d\\theta$; this gives an answer that is dimensionally wrong and will always be off \u2014 remember that $dA = r\\,dr\\,d\\theta$ is a non-negotiable consequence of the change of variables.",
+    "When setting up the radial limits for a full disk of radius $a$, students sometimes write $-a \\le r \\le a$ by analogy with Cartesian bounds; but $r$ is always non-negative in polar coordinates, so the correct limits are $0 \\le r \\le a$, with the full circle captured by letting $\\theta$ run from $0$ to $2\\pi$.",
+    "Students replace $\\sqrt{x^2+y^2}$ with $r$ correctly but then forget to simplify $x^2+y^2$ as $r^2$ elsewhere in the same integrand, or they leave expressions like $\\cos^2\\theta + \\sin^2\\theta$ unsimplified instead of using the Pythagorean identity to reduce them to 1."
+  ],
+  "untested_variants": [
+    "Double integrals converted to polar over a region bounded by a polar curve such as a cardioid $r = 1 + \\cos\\theta$ or a rose curve, where the radial limits are non-constant functions of $\\theta$.",
+    "Using polar coordinates to evaluate an improper double integral over the entire plane $\\mathbb{R}^2$, such as the classic Gaussian integral $\\iint_{\\mathbb{R}^2} e^{-(x^2+y^2)}\\,dA = \\pi$.",
+    "Finding the area of a polar region by computing $\\iint_D 1\\,dA$ in polar coordinates when the region is described by an inequality between two polar curves (e.g., inside $r=2\\cos\\theta$ and outside $r=1$).",
+    "Triple integrals in cylindrical coordinates, which extend the polar substitution to three dimensions by adding a $z$-component and require the same Jacobian factor $r$."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_032",
+  "topic_name": "Curl and Divergence",
+  "generated_at": "2026-05-13T19:58:52.064238+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to take partial derivatives of multivariable functions and how to work with vector fields like $\\mathbf{F}(x,y,z) = P\\,\\mathbf{i} + Q\\,\\mathbf{j} + R\\,\\mathbf{k}$. You've even seen the gradient operator $\\nabla = \\left\\langle \\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z} \\right\\rangle$ turn a scalar function into a vector. But what happens when you apply $\\nabla$ to a vector field itself \u2014 either as a dot product or a cross product? And what do those operations tell you physically about how the field rotates or spreads? That's the gap we're closing today.",
+  "concept": "Divergence measures how much a vector field 'spreads out' from a point (like a source or sink), while curl measures how much it rotates around a point (like a whirlpool). Formally, for $\\mathbf{F} = \\langle P, Q, R \\rangle$, the divergence is the scalar $\\operatorname{div}\\mathbf{F} = \\nabla \\cdot \\mathbf{F} = \\frac{\\partial P}{\\partial x} + \\frac{\\partial Q}{\\partial y} + \\frac{\\partial R}{\\partial z}$, and the curl is the vector $\\operatorname{curl}\\mathbf{F} = \\nabla \\times \\mathbf{F} = \\left\\langle \\frac{\\partial R}{\\partial y} - \\frac{\\partial Q}{\\partial z},\\; \\frac{\\partial P}{\\partial z} - \\frac{\\partial R}{\\partial x},\\; \\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y} \\right\\rangle$.",
+  "anatomy": "Both operations act on a vector field $\\mathbf{F} = P\\,\\mathbf{i} + Q\\,\\mathbf{j} + R\\,\\mathbf{k}$, where $P$, $Q$, and $R$ are the scalar component functions depending on $(x, y, z)$. In divergence, you differentiate each component with respect to its matching variable ($P$ with $x$, $Q$ with $y$, $R$ with $z$) and sum \u2014 the output is a scalar. In curl, think of it as a $3\\times 3$ determinant with $\\mathbf{i}, \\mathbf{j}, \\mathbf{k}$ in the first row, $\\frac{\\partial}{\\partial x}, \\frac{\\partial}{\\partial y}, \\frac{\\partial}{\\partial z}$ in the second row, and $P, Q, R$ in the third row; expanding this determinant gives the rotation vector. The sign pattern in each curl component \u2014 for instance $\\frac{\\partial R}{\\partial y} - \\frac{\\partial Q}{\\partial z}$ for the $\\mathbf{i}$ component \u2014 comes directly from how cross-product determinant expansion works.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{F}(x,y,z) = \\langle xy^2,\\; y z^3,\\; x^2 z \\rangle",
+      "description_latex": "We start by clearly identifying the three component functions: $P = xy^2$, $Q = yz^3$, and $R = x^2z$. Labeling these explicitly is the most important first step, because every subsequent partial derivative depends on knowing exactly which variable each component belongs to.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\operatorname{div}\\mathbf{F} = \\frac{\\partial}{\\partial x}(xy^2) + \\frac{\\partial}{\\partial y}(yz^3) + \\frac{\\partial}{\\partial z}(x^2z)",
+      "description_latex": "To compute divergence we differentiate each component with respect to its own matching variable. Notice that in $\\frac{\\partial}{\\partial x}(xy^2)$, the variables $y$ and $z$ are treated as constants, so we get $y^2$. Similarly, $\\frac{\\partial}{\\partial y}(yz^3) = z^3$ and $\\frac{\\partial}{\\partial z}(x^2z) = x^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\operatorname{div}\\mathbf{F} = y^2 + z^3 + x^2",
+      "description_latex": "Summing those three partial derivatives gives us the divergence, which is a scalar field. A positive value at a point means the field is locally expanding (a source), and a negative value means it is locally compressing (a sink).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\operatorname{curl}\\mathbf{F} = \\begin{vmatrix} \\mathbf{i} & \\mathbf{j} & \\mathbf{k} \\\\ \\partial_x & \\partial_y & \\partial_z \\\\ xy^2 & yz^3 & x^2z \\end{vmatrix}",
+      "description_latex": "For the curl we set up the symbolic $3\\times 3$ determinant with $\\mathbf{i}$, $\\mathbf{j}$, $\\mathbf{k}$ across the top row, the partial-derivative operators in the middle row, and the component functions $P$, $Q$, $R$ in the bottom row. Expanding this determinant along the top row will give us the three components of the curl vector.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\operatorname{curl}\\mathbf{F} = \\left\\langle \\frac{\\partial(x^2z)}{\\partial y} - \\frac{\\partial(yz^3)}{\\partial z},\\; \\frac{\\partial(xy^2)}{\\partial z} - \\frac{\\partial(x^2z)}{\\partial x},\\; \\frac{\\partial(yz^3)}{\\partial x} - \\frac{\\partial(xy^2)}{\\partial y} \\right\\rangle = \\langle 0 - 3yz^2,\\; 0 - 2xz,\\; 0 - 2xy \\rangle = \\langle -3yz^2,\\; -2xz,\\; -2xy \\rangle",
+      "description_latex": "Carrying out each partial derivative \u2014 remembering that $\\frac{\\partial(x^2z)}{\\partial y} = 0$ because $x^2z$ has no $y$, and $\\frac{\\partial(yz^3)}{\\partial z} = 3yz^2$ \u2014 we collect the results into the final curl vector $\\langle -3yz^2, -2xz, -2xy \\rangle$. This vector field points in the direction of the axis around which the original field rotates at each point.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{G}(x,y,z) = \\langle x^2 z,\\; -2xz,\\; y^2 \\rangle,\\quad P = x^2z,\\; Q = -2xz,\\; R = y^2",
+      "description_latex": "We identify the three component functions first. This labeling step is never optional \u2014 it determines which partial derivatives you need to compute in both divergence and curl calculations.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\operatorname{div}\\mathbf{G} = \\frac{\\partial(x^2z)}{\\partial x} + \\frac{\\partial(-2xz)}{\\partial y} + \\frac{\\partial(y^2)}{\\partial z} = 2xz + 0 + 0 = 2xz",
+      "description_latex": "We compute divergence by differentiating each component with respect to its own variable and summing. Notice that $\\frac{\\partial(-2xz)}{\\partial y} = 0$ because there is no $y$ in that term, and similarly $\\frac{\\partial(y^2)}{\\partial z} = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now set up and fully evaluate $\\operatorname{curl}\\mathbf{G}$ using the determinant formula. Compute each of the three components $\\frac{\\partial R}{\\partial y} - \\frac{\\partial Q}{\\partial z}$, $\\frac{\\partial P}{\\partial z} - \\frac{\\partial R}{\\partial x}$, and $\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}$, then write the final vector. What is $\\operatorname{curl}\\mathbf{G}$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute $\\operatorname{div}\\mathbf{F}$ for $\\mathbf{F} = \\langle 3x,\\; 2y,\\; z \\rangle$.",
+      "answer_latex": "\\operatorname{div}\\mathbf{F} = 3 + 2 + 1 = 6"
+    },
+    {
+      "prompt_latex": "Compute $\\operatorname{div}\\mathbf{F}$ and $\\operatorname{curl}\\mathbf{F}$ for $\\mathbf{F} = \\langle x^2 y,\\; -xy^2,\\; 0 \\rangle$.",
+      "answer_latex": "\\operatorname{div}\\mathbf{F} = 2xy - 2xy = 0;\\quad \\operatorname{curl}\\mathbf{F} = \\langle 0,\\; 0,\\; -y^2 - x^2 \\rangle"
+    },
+    {
+      "prompt_latex": "Compute $\\operatorname{curl}\\mathbf{F}$ for $\\mathbf{F} = \\langle e^{xz},\\; e^{xy},\\; e^{yz} \\rangle$.",
+      "answer_latex": "\\operatorname{curl}\\mathbf{F} = \\langle ze^{yz} - xe^{xy},\\; xe^{xz} - ye^{yz},\\; ye^{xy} - ze^{xz} \\rangle"
+    },
+    {
+      "prompt_latex": "A vector field $\\mathbf{F} = \\nabla f$ where $f(x,y,z) = x^2 y + yz^2$. Compute $\\operatorname{curl}(\\nabla f)$ and explain the result using the identity for conservative fields.",
+      "answer_latex": "\\nabla f = \\langle 2xy,\\; x^2 + z^2,\\; 2yz \\rangle;\\quad \\operatorname{curl}(\\nabla f) = \\mathbf{0}\\text{ (curl of any gradient is always the zero vector)}"
+    },
+    {
+      "prompt_latex": "Fluid velocity is modeled by $\\mathbf{v} = \\langle -y,\\; x,\\; 0 \\rangle$ (rotation about the $z$-axis). Compute $\\operatorname{div}\\mathbf{v}$ and $\\operatorname{curl}\\mathbf{v}$, then interpret: is the fluid compressible at any point, and in which direction does it spin?",
+      "answer_latex": "\\operatorname{div}\\mathbf{v} = 0\\text{ (incompressible)};\\quad \\operatorname{curl}\\mathbf{v} = \\langle 0,\\; 0,\\; 2 \\rangle\\text{ (constant rotation about the }z\\text{-axis, counterclockwise when viewed from above)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse which partial derivative goes with which component in the curl, forgetting that the $\\mathbf{i}$ component involves $\\frac{\\partial R}{\\partial y} - \\frac{\\partial Q}{\\partial z}$ (the $y$ and $z$ derivatives of the last two components), not the derivative of the first component $P$. Always expand the determinant carefully starting with the top-row cofactors.",
+    "When computing divergence, students sometimes differentiate every component with respect to all three variables and then add everything up, instead of differentiating $P$ only with respect to $x$, $Q$ only with respect to $y$, and $R$ only with respect to $z$. Remember: divergence is a sum of three matched pairs, not a sum of nine partial derivatives.",
+    "A frequent sign error in curl occurs with the $\\mathbf{j}$ component: because of the cofactor sign pattern in the determinant, the $\\mathbf{j}$ component is $-\\left(\\frac{\\partial R}{\\partial x} - \\frac{\\partial P}{\\partial z}\\right) = \\frac{\\partial P}{\\partial z} - \\frac{\\partial R}{\\partial x}$. Students who forget the leading minus sign will get the $\\mathbf{j}$ component flipped in sign, which changes the direction of the curl vector."
+  ],
+  "untested_variants": [
+    "Verifying the vector identity $\\operatorname{div}(\\operatorname{curl}\\mathbf{F}) = 0$ algebraically by computing both operations on a given field and confirming the result is always zero.",
+    "Using product rules for divergence and curl, such as computing $\\operatorname{div}(f\\mathbf{F})$ or $\\operatorname{curl}(f\\mathbf{F})$ where $f$ is a scalar function and $\\mathbf{F}$ is a vector field.",
+    "Determining whether a given vector field is irrotational ($\\operatorname{curl}\\mathbf{F} = \\mathbf{0}$) or solenoidal ($\\operatorname{div}\\mathbf{F} = 0$) and linking that conclusion to the existence of a potential function or stream function.",
+    "Computing curl and divergence in contexts where the component functions involve products or compositions requiring the chain rule, such as $\\mathbf{F} = \\langle \\sin(xy),\\; e^{x^2+z},\\; \\ln(yz) \\rangle$."
+  ]
+}

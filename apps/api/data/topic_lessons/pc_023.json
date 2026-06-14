@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_023",
+  "topic_name": "The Unit Circle",
+  "generated_at": "2026-05-12T23:46:00.949061+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to find the sine and cosine of angles in a right triangle using SOH-CAH-TOA, but that only works for angles between 0\u00b0 and 90\u00b0. What happens when someone asks for $\\sin(150\u00b0)$, or worse, $\\cos(-\\frac{\\pi}{4})$? These angles don't fit inside any right triangle you've drawn, yet calculators spit out answers instantly. How do we define trigonometric functions for any angle at all?",
+  "concept": "The unit circle is a circle of radius 1 centered at the origin of the coordinate plane. For any angle $\\theta$ measured counterclockwise from the positive $x$-axis, we draw a terminal ray from the origin; where that ray intersects the circle gives a point $(x, y)$. We then define $\\cos\\theta = x$ and $\\sin\\theta = y$. Because the radius is 1, these coordinates are always between $-1$ and $1$, and the definition works for every real number angle.",
+  "anatomy": "The unit circle has several key components. The radius is always $r = 1$, which is what makes the $x$ and $y$ coordinates equal to cosine and sine directly \u2014 no division needed. The standard position means the initial side of angle $\\theta$ lies along the positive $x$-axis. The terminal side is the rotating ray that sweeps out the angle $\\theta$; its intersection with the circle is the point $(\\cos\\theta, \\sin\\theta)$. The four quadrants determine the signs of $x$ and $y$: in Quadrant I both are positive, in Quadrant II $x$ is negative and $y$ is positive, in Quadrant III both are negative, and in Quadrant IV $x$ is positive and $y$ is negative. The reference angle is the acute angle between the terminal side and the $x$-axis, used to find exact values from familiar 30-60-90 and 45-45-90 triangles.",
+  "worked_example": [
+    {
+      "expression_latex": "\\theta = \\frac{\\pi}{3}",
+      "description_latex": "We start with the angle $\\frac{\\pi}{3}$ radians, which is 60\u00b0. Since this is a standard angle, we recognize the terminal side lands in Quadrant I, and we can use the well-known 30-60-90 triangle ratios to read off the exact coordinates without a calculator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Reference angle} = \\frac{\\pi}{3}, \\quad \\text{Quadrant I}",
+      "description_latex": "Because $\\frac{\\pi}{3}$ sits squarely in Quadrant I, its reference angle is itself. In Quadrant I both coordinates are positive, so we expect both $\\cos$ and $\\sin$ to be positive \u2014 this is a useful sanity check before writing any numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\cos\\frac{\\pi}{3} = \\frac{1}{2}, \\quad \\sin\\frac{\\pi}{3} = \\frac{\\sqrt{3}}{2}",
+      "description_latex": "Reading directly from the 30-60-90 triangle inscribed in the unit circle, the point on the circle at angle $\\frac{\\pi}{3}$ is $\\left(\\frac{1}{2}, \\frac{\\sqrt{3}}{2}\\right)$. Remember that the $x$-coordinate is cosine and the $y$-coordinate is sine \u2014 in that order, every time.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\tan\\frac{\\pi}{3} = \\frac{\\sin\\frac{\\pi}{3}}{\\cos\\frac{\\pi}{3}} = \\frac{\\frac{\\sqrt{3}}{2}}{\\frac{1}{2}} = \\sqrt{3}",
+      "description_latex": "Tangent is defined as $\\tan\\theta = \\frac{y}{x} = \\frac{\\sin\\theta}{\\cos\\theta}$, so we simply divide the $y$-coordinate by the $x$-coordinate. Dividing $\\frac{\\sqrt{3}}{2}$ by $\\frac{1}{2}$ is the same as multiplying by $2$, giving us $\\sqrt{3}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\theta = \\frac{5\\pi}{6}",
+      "description_latex": "We want to find $\\cos\\frac{5\\pi}{6}$ and $\\sin\\frac{5\\pi}{6}$. The first thing to do is identify which quadrant the terminal side lands in. Since $\\frac{\\pi}{2} < \\frac{5\\pi}{6} < \\pi$, the angle is in Quadrant II, where $x < 0$ and $y > 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Reference angle} = \\pi - \\frac{5\\pi}{6} = \\frac{\\pi}{6}",
+      "description_latex": "To find the reference angle in Quadrant II, we subtract the angle from $\\pi$. The reference angle is $\\frac{\\pi}{6}$ (30\u00b0), which corresponds to a 30-60-90 triangle with the well-known side ratios.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the quadrant signs: the reference angle $\\frac{\\pi}{6}$ gives base values $\\cos\\frac{\\pi}{6} = \\frac{\\sqrt{3}}{2}$ and $\\sin\\frac{\\pi}{6} = \\frac{1}{2}$, but since $\\frac{5\\pi}{6}$ is in Quadrant II, $x$ must be negative. Write the final values of $\\cos\\frac{5\\pi}{6}$ and $\\sin\\frac{5\\pi}{6}$ with the correct signs.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the coordinates $(\\cos\\theta, \\sin\\theta)$ for $\\theta = 0$.",
+      "answer_latex": "(1,\\, 0)"
+    },
+    {
+      "prompt_latex": "Find $\\cos\\frac{\\pi}{4}$ and $\\sin\\frac{\\pi}{4}$ using the unit circle.",
+      "answer_latex": "\\cos\\frac{\\pi}{4} = \\frac{\\sqrt{2}}{2}, \\quad \\sin\\frac{\\pi}{4} = \\frac{\\sqrt{2}}{2}"
+    },
+    {
+      "prompt_latex": "Find the exact value of $\\sin\\frac{4\\pi}{3}$.",
+      "answer_latex": "\\sin\\frac{4\\pi}{3} = -\\frac{\\sqrt{3}}{2}"
+    },
+    {
+      "prompt_latex": "Using the unit circle definition, evaluate $\\cos^2\\frac{\\pi}{6} + \\sin^2\\frac{\\pi}{6}$ and explain why your answer makes sense for any angle $\\theta$.",
+      "answer_latex": "\\cos^2\\frac{\\pi}{6} + \\sin^2\\frac{\\pi}{6} = \\frac{3}{4} + \\frac{1}{4} = 1; \\text{ this equals 1 for every } \\theta \\text{ because } x^2+y^2=1 \\text{ on the unit circle.}"
+    },
+    {
+      "prompt_latex": "A point on the unit circle has $x$-coordinate $-\\frac{1}{2}$ and lies in Quadrant III. Find the $y$-coordinate and then determine the angle $\\theta$ in $[0, 2\\pi)$.",
+      "answer_latex": "y = -\\frac{\\sqrt{3}}{2}, \\quad \\theta = \\frac{4\\pi}{3}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often swap cosine and sine, writing $\\sin\\theta = x$ and $\\cos\\theta = y$. Remember the alphabetical pairing: $\\cos$ goes with $x$ (both come first alphabetically among their pairs) and $\\sin$ goes with $y$. Always double-check by recalling that $\\cos 0 = 1$ and the point at $\\theta = 0$ is $(1, 0)$.",
+    "When finding values for angles in Quadrants II, III, or IV, students often forget to apply the correct sign and simply use the positive reference-angle values. The fix is to identify the quadrant first, write down the expected signs of $x$ and $y$ for that quadrant, and only then attach those signs to the reference-angle values.",
+    "Students confuse radians and degrees and mix them when reading the unit circle \u2014 for example, assuming the point at $\\frac{\\pi}{6}$ is the same as the point at $6\u00b0$. Always confirm which unit you are working in: $\\frac{\\pi}{6}$ radians equals $30\u00b0$, and treating them interchangeably without conversion leads to completely wrong coordinates."
+  ],
+  "untested_variants": [
+    "Evaluating trigonometric functions at negative angles such as $\\cos(-\\frac{2\\pi}{3})$ using the symmetry of the unit circle.",
+    "Finding all angles $\\theta$ in $[0, 2\\pi)$ that satisfy an equation like $\\sin\\theta = \\frac{\\sqrt{2}}{2}$, where two solutions exist.",
+    "Converting between radian and degree measures for non-standard unit-circle angles (e.g., 225\u00b0 to radians) before evaluating.",
+    "Using the unit circle to evaluate the reciprocal functions cosecant, secant, and cotangent at standard angles."
+  ]
+}

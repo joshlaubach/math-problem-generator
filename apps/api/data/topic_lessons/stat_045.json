@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_045",
+  "topic_name": "Residual Analysis and Conditions for Inference",
+  "generated_at": "2026-05-13T20:35:29.300496+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to fit a least-squares regression line and interpret its slope and intercept. But fitting a line is only the beginning \u2014 before you can make confidence intervals or run hypothesis tests about that slope, you need to verify that certain conditions are actually satisfied by your data. What happens if the relationship isn't truly linear, or the variability of the response explodes as the predictor grows? Without checking, any p-value you compute could be completely meaningless. So how do you systematically verify that your regression model is trustworthy enough to support inference?",
+  "concept": "Residual analysis is the process of examining the leftovers \u2014 the differences between each observed value and the value predicted by the regression line \u2014 to check whether the assumptions required for valid inference are met. Formally, the residual for observation $i$ is $e_i = y_i - \\hat{y}_i$, where $y_i$ is the observed response and $\\hat{y}_i = \\hat{\\beta}_0 + \\hat{\\beta}_1 x_i$ is the fitted value. By plotting and studying these residuals, we diagnose whether the four inference conditions hold.",
+  "anatomy": "The four conditions for regression inference each have a specific name and diagnostic tool. The Linearity condition requires that the true relationship between $x$ and $y$ is linear, checked by looking for a random, patternless scatter in a residual-vs-fitted (or residual-vs-$x$) plot. The Independence condition requires that observations are independent of one another, assessed by knowing how the data were collected (e.g., random sampling) and sometimes by a residual-vs-order plot for time-series data. The Equal Variance (homoscedasticity) condition requires that the standard deviation of residuals, $\\sigma$, is constant across all values of $x$, diagnosed by checking that the vertical spread of the residual plot stays roughly uniform \u2014 no fanning or funneling. The Normality condition requires that the residuals are approximately normally distributed, checked via a histogram of residuals or a normal probability (Q-Q) plot.",
+  "worked_example": [
+    {
+      "expression_latex": "e_i = y_i - \\hat{y}_i",
+      "description_latex": "We start by computing each residual, which is simply the observed response minus the predicted response from our fitted line. This quantity captures everything our model failed to explain for observation $i$, and it is the raw material for all four condition checks.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Residual plot: } e_i \\text{ vs. } \\hat{y}_i \\text{ (or vs. } x_i\\text{)}",
+      "description_latex": "We construct a scatterplot with the fitted values (or the predictor $x$) on the horizontal axis and the residuals $e_i$ on the vertical axis. A random cloud of points with no visible curve or trend is evidence that the Linearity condition is satisfied; any systematic curve would tell us the relationship is not truly linear and that our model is misspecified.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Spread of } e_i \\text{ roughly constant across all } \\hat{y}_i",
+      "description_latex": "Next we examine the vertical spread of the residual plot across the range of fitted values. If the band of residuals widens or narrows as $\\hat{y}_i$ increases, the Equal Variance condition is violated \u2014 a 'fan' shape is the classic warning sign \u2014 and standard errors and p-values computed under constant-$\\sigma$ assumptions will be incorrect.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Normal probability plot of } e_i",
+      "description_latex": "To check the Normality condition, we plot the residuals on a normal Q-Q plot: if the points fall close to a straight diagonal line, the residuals are approximately normal, supporting the inference procedures. Moderate departures are tolerable with large samples because the Central Limit Theorem provides some protection, but severe skew or heavy tails are genuine concerns.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{All four conditions: L, I, E, N (LINE)}",
+      "description_latex": "A convenient mnemonic is LINE \u2014 Linearity, Independence, Equal variance, Normality \u2014 and only when all four are reasonably satisfied can we trust the t-based confidence intervals and hypothesis tests for the regression slope $\\beta_1$. If any condition is seriously violated, we must transform the data, collect more data, or use a different modeling approach before inference is valid.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\hat{y} = 3.2 + 1.8x, \\quad \\text{observed point: } (x=5,\\, y=14)",
+      "description_latex": "We are given a fitted regression equation and one data point. The first step is to compute the fitted value $\\hat{y}$ by plugging $x = 5$ into the equation, so $\\hat{y} = 3.2 + 1.8(5) = 12.2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e = y - \\hat{y} = 14 - 12.2 = 1.8",
+      "description_latex": "The residual is the observed value minus the fitted value. Here $e = 14 - 12.2 = 1.8$, meaning our model under-predicted this observation by 1.8 units.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now suppose the residual plot for this dataset shows a clear U-shaped (curved) pattern rather than a random scatter. Which inference condition does this violate, and what does it tell you about the appropriateness of using a linear model for inference here? State the condition by name and explain what action you would take.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A regression model gives $\\hat{y} = 10 + 4x$. An observed data point is $(x = 3,\\, y = 25)$. Compute the residual $e$.",
+      "answer_latex": "e = 25 - (10 + 4 \\cdot 3) = 25 - 22 = 3"
+    },
+    {
+      "prompt_latex": "A residual plot shows that as $\\hat{y}$ increases from 20 to 80, the vertical spread of residuals increases from roughly $\\pm 2$ to roughly $\\pm 12$. Which condition for regression inference is violated? Name it and describe what the plot looks like.",
+      "answer_latex": "\\text{Equal Variance (homoscedasticity) is violated; the plot shows a fan (funnel) shape, with spread increasing with } \\hat{y}."
+    },
+    {
+      "prompt_latex": "A researcher fits a regression line to data collected over 30 consecutive days and plots residuals in time order. The plot shows a pattern where positive residuals cluster together followed by negative residuals clustering together. Which condition is likely violated and why?",
+      "answer_latex": "\\text{Independence is violated; the clustering indicates autocorrelation \u2014 successive observations are not independent.}"
+    },
+    {
+      "prompt_latex": "Data on study hours $x$ and exam scores $y$ yield the regression $\\hat{y} = 50 + 6x$ with $s = 8.2$ and $SE_{\\hat{\\beta}_1} = 1.4$. A residual vs. fitted plot shows a clear curved (parabolic) pattern. Explain whether it is valid to compute the 95\\% confidence interval $\\hat{\\beta}_1 \\pm t^* \\cdot SE_{\\hat{\\beta}_1}$ and why.",
+      "answer_latex": "\\text{No \u2014 the Linearity condition is violated (curved residual plot), so the linear model is misspecified and the confidence interval for } \\beta_1 \\text{ is not valid.}"
+    },
+    {
+      "prompt_latex": "A biologist models plant height $y$ (cm) from soil nitrogen $x$ (mg/L) using 45 randomly selected plots. The residual plot looks like a random scatter, the Q-Q plot of residuals is nearly linear, and the data were collected via simple random sampling. State whether all four LINE conditions appear satisfied and justify each briefly.",
+      "answer_latex": "\\text{Linearity: } \\checkmark \\text{ (random scatter in residual plot)}. \\text{ Independence: } \\checkmark \\text{ (SRS of plots)}. \\text{ Equal Variance: } \\checkmark \\text{ (constant spread in residual plot)}. \\text{ Normality: } \\checkmark \\text{ (linear Q-Q plot)}. \\text{ All four conditions are satisfied.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often check only the residual plot for one condition (usually linearity) and declare the model valid, forgetting to separately assess equal variance, independence, and normality. Each of the four LINE conditions requires its own specific diagnostic, so make it a habit to work through all four explicitly before performing inference.",
+    "A frequent error is confusing a fan-shaped residual plot (violating Equal Variance) with a curved residual plot (violating Linearity). A fan opens to the right as fitted values increase, signaling non-constant spread, while a curve bends upward or downward systematically, signaling a non-linear relationship \u2014 these require different remedies, such as a variance-stabilizing transformation versus adding a quadratic term.",
+    "Students often apply the Normality condition too strictly, rejecting a model because a histogram of residuals is slightly skewed when the sample size is large. With large $n$, mild non-normality is acceptable because inference on the slope is robust via the Central Limit Theorem; the Normality condition is most critical for small samples (roughly $n < 30$), so context and sample size must both be considered."
+  ],
+  "untested_variants": [
+    "Performing and interpreting a formal statistical test for non-constant variance, such as the Breusch-Pagan test, rather than relying on visual inspection of a residual plot.",
+    "Applying a data transformation (e.g., $\\ln y$ or $\\sqrt{y}$) to correct a violated condition and then re-checking residuals on the transformed scale.",
+    "Residual analysis in the context of multiple regression, where residuals are plotted against each individual predictor variable separately to check linearity and equal variance for each one.",
+    "Using a Durbin-Watson statistic or autocorrelation function (ACF) plot to formally test the Independence condition for time-series regression data."
+  ]
+}

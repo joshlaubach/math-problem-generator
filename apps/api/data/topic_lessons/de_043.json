@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_043",
+  "topic_name": "Homogeneous Systems with Distinct Real Eigenvalues",
+  "generated_at": "2026-05-13T20:03:32.174595+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve a single first-order linear ODE like $x' = ax$, getting the exponential solution $x(t) = ce^{at}$. Now imagine you have two (or more) interacting quantities whose rates of change depend on each other, described by a system $\\mathbf{x}' = A\\mathbf{x}$ where $A$ is a matrix. The scalar trick of 'the solution is an exponential' still works, but what replaces the constant $a$ and the scalar $c$? Can you figure out what kind of exponential-like objects solve a matrix system?",
+  "concept": "A homogeneous linear system $\\mathbf{x}' = A\\mathbf{x}$ has solutions built from eigenvalues and eigenvectors of $A$. If $\\lambda$ is an eigenvalue with eigenvector $\\mathbf{v}$, then $\\mathbf{x}(t) = e^{\\lambda t}\\mathbf{v}$ solves the system. When $A$ is $n \\times n$ with $n$ distinct real eigenvalues $\\lambda_1, \\ldots, \\lambda_n$, the general solution is $\\mathbf{x}(t) = c_1 e^{\\lambda_1 t}\\mathbf{v}_1 + c_2 e^{\\lambda_2 t}\\mathbf{v}_2 + \\cdots + c_n e^{\\lambda_n t}\\mathbf{v}_n$, where $c_i$ are arbitrary constants determined by initial conditions.",
+  "anatomy": "The solution $\\mathbf{x}(t) = c_1 e^{\\lambda_1 t}\\mathbf{v}_1 + c_2 e^{\\lambda_2 t}\\mathbf{v}_2$ has four distinct types of components. Each $\\lambda_i$ is an eigenvalue of $A$, found by solving the characteristic equation $\\det(A - \\lambda I) = 0$; it controls the growth or decay rate. Each $\\mathbf{v}_i$ is the corresponding eigenvector, found by solving $(A - \\lambda_i I)\\mathbf{v} = \\mathbf{0}$; it gives the direction of that particular mode of motion. Each $e^{\\lambda_i t}$ is the scalar exponential weight attached to that mode. Each $c_i$ is an arbitrary scalar constant, fixed only when initial conditions are applied \u2014 without initial conditions, the general solution contains all $c_i$ free.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{x}' = A\\mathbf{x}, \\quad A = \\begin{pmatrix} 3 & 1 \\\\ 0 & -2 \\end{pmatrix}",
+      "description_latex": "We start with the system matrix $A$ and our goal is to find the general solution. Because $A$ is triangular, a useful observation is that we can read off the eigenvalues from the diagonal, but we will go through the full procedure anyway so you see every step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(A - \\lambda I) = (3 - \\lambda)(-2 - \\lambda) = 0 \\implies \\lambda_1 = 3,\\; \\lambda_2 = -2",
+      "description_latex": "We find eigenvalues by computing the characteristic polynomial $\\det(A - \\lambda I) = 0$. The two roots $\\lambda_1 = 3$ and $\\lambda_2 = -2$ are distinct and real, which guarantees we will get two linearly independent eigenvectors and a complete general solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_1 = 3: \\quad (A - 3I)\\mathbf{v} = \\begin{pmatrix} 0 & 1 \\\\ 0 & -5 \\end{pmatrix}\\mathbf{v} = \\mathbf{0} \\implies \\mathbf{v}_1 = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}",
+      "description_latex": "For each eigenvalue we plug into $(A - \\lambda_i I)\\mathbf{v} = \\mathbf{0}$ and row-reduce to find the free variable. Here the second equation gives $-5v_2 = 0$, so $v_2 = 0$, and $v_1$ is free; choosing $v_1 = 1$ gives the eigenvector $\\mathbf{v}_1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_2 = -2: \\quad (A + 2I)\\mathbf{v} = \\begin{pmatrix} 5 & 1 \\\\ 0 & 0 \\end{pmatrix}\\mathbf{v} = \\mathbf{0} \\implies \\mathbf{v}_2 = \\begin{pmatrix} 1 \\\\ -5 \\end{pmatrix}",
+      "description_latex": "Repeating for $\\lambda_2 = -2$, the only non-trivial equation is $5v_1 + v_2 = 0$, so $v_2 = -5v_1$; choosing $v_1 = 1$ gives $\\mathbf{v}_2 = \\begin{pmatrix}1 \\\\ -5\\end{pmatrix}$. Notice that the eigenvectors are not unique \u2014 any nonzero scalar multiple would also work.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{x}(t) = c_1 e^{3t}\\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix} + c_2 e^{-2t}\\begin{pmatrix} 1 \\\\ -5 \\end{pmatrix}",
+      "description_latex": "We assemble the general solution by multiplying each eigenvector by its corresponding exponential $e^{\\lambda_i t}$ and an arbitrary constant $c_i$. This is the complete answer when no initial condition is given; the two constants $c_1$ and $c_2$ remain free.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{x}' = A\\mathbf{x}, \\quad A = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}",
+      "description_latex": "Here is a symmetric $2 \\times 2$ system. We need to find the eigenvalues first by solving $\\det(A - \\lambda I) = 0$. The characteristic polynomial is $(1-\\lambda)^2 - 4 = \\lambda^2 - 2\\lambda - 3 = (\\lambda - 3)(\\lambda + 1) = 0$, giving eigenvalues $\\lambda_1 = 3$ and $\\lambda_2 = -1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find the eigenvector for each eigenvalue. For $\\lambda_1 = 3$, solve $(A - 3I)\\mathbf{v} = \\mathbf{0}$, and for $\\lambda_2 = -1$, solve $(A + I)\\mathbf{v} = \\mathbf{0}$. Write both eigenvectors $\\mathbf{v}_1$ and $\\mathbf{v}_2$ before moving on.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathbf{v}_1 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}, \\quad \\mathbf{v}_2 = \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}",
+      "description_latex": "These are the two eigenvectors. You should verify each one satisfies $A\\mathbf{v} = \\lambda\\mathbf{v}$ by direct multiplication. Now use these to build the general solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the general solution $\\mathbf{x}(t)$ as a linear combination of the two solution modes $e^{\\lambda_i t}\\mathbf{v}_i$. Make sure you include both arbitrary constants $c_1$ and $c_2$ in your answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the general solution of $\\mathbf{x}' = \\begin{pmatrix} 2 & 0 \\\\ 0 & -3 \\end{pmatrix}\\mathbf{x}$.",
+      "answer_latex": "\\mathbf{x}(t) = c_1 e^{2t}\\begin{pmatrix}1\\\\0\\end{pmatrix} + c_2 e^{-3t}\\begin{pmatrix}0\\\\1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Find the general solution of $\\mathbf{x}' = \\begin{pmatrix} 4 & 1 \\\\ 0 & 2 \\end{pmatrix}\\mathbf{x}$.",
+      "answer_latex": "\\mathbf{x}(t) = c_1 e^{4t}\\begin{pmatrix}1\\\\0\\end{pmatrix} + c_2 e^{2t}\\begin{pmatrix}1\\\\-2\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Find the general solution of $\\mathbf{x}' = \\begin{pmatrix} 0 & 1 \\\\ 6 & 1 \\end{pmatrix}\\mathbf{x}$.",
+      "answer_latex": "\\mathbf{x}(t) = c_1 e^{3t}\\begin{pmatrix}1\\\\3\\end{pmatrix} + c_2 e^{-2t}\\begin{pmatrix}1\\\\-2\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Solve the initial value problem $\\mathbf{x}' = \\begin{pmatrix} 3 & 1 \\\\ 0 & -2 \\end{pmatrix}\\mathbf{x}$, $\\mathbf{x}(0) = \\begin{pmatrix} 2 \\\\ 5 \\end{pmatrix}$.",
+      "answer_latex": "\\mathbf{x}(t) = 3e^{3t}\\begin{pmatrix}1\\\\0\\end{pmatrix} + (-1)e^{-2t}\\begin{pmatrix}1\\\\-5\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Two populations $x_1(t)$ and $x_2(t)$ satisfy $x_1' = -x_1$ and $x_2' = x_1 + 2x_2$. Write the system as $\\mathbf{x}' = A\\mathbf{x}$ and find the general solution. Describe the long-term behavior.",
+      "answer_latex": "A = \\begin{pmatrix}-1 & 0\\\\1 & 2\\end{pmatrix};\\quad \\mathbf{x}(t) = c_1 e^{-t}\\begin{pmatrix}3\\\\-1\\end{pmatrix} + c_2 e^{2t}\\begin{pmatrix}0\\\\1\\end{pmatrix};\\quad \\text{as } t\\to\\infty,\\; x_2 \\text{ grows without bound (if } c_2\\neq 0\\text{)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often find an eigenvalue correctly but then substitute it into $(A - \\lambda I)$ with a sign error, writing $(A - (-2)I) = A - 2I$ instead of $A + 2I$; always rewrite $A - \\lambda_i I$ explicitly with the numerical value before row-reducing.",
+    "When assembling the general solution, students sometimes write $\\mathbf{x}(t) = e^{\\lambda_1 t + \\lambda_2 t}(c_1\\mathbf{v}_1 + c_2\\mathbf{v}_2)$, incorrectly combining the exponentials; each term must keep its own exponential $e^{\\lambda_i t}$ multiplied by its own eigenvector, and the two terms are then added.",
+    "When applying an initial condition $\\mathbf{x}(0) = \\mathbf{x}_0$, students plug in $t = 0$ but forget that $e^{\\lambda_i \\cdot 0} = 1$, reducing the problem to solving the linear system $c_1\\mathbf{v}_1 + c_2\\mathbf{v}_2 = \\mathbf{x}_0$; if you set this up as a matrix equation $[\\mathbf{v}_1 \\; \\mathbf{v}_2]\\mathbf{c} = \\mathbf{x}_0$ and solve for $\\mathbf{c}$, you will avoid arithmetic mistakes."
+  ],
+  "untested_variants": [
+    "Three-by-three systems with three distinct real eigenvalues, requiring the full $3 \\times 3$ characteristic polynomial and three separate eigenvector calculations.",
+    "Systems where one eigenvalue is zero, so one solution component is a constant vector rather than a growing or decaying exponential, requiring interpretation of the equilibrium direction.",
+    "Computing the matrix exponential $e^{At}$ using eigendecomposition $A = PDP^{-1}$, which connects the eigenvalue solution method to the fundamental matrix formulation.",
+    "Phase-portrait analysis \u2014 classifying the origin as a stable node, unstable node, or saddle based on the signs of the distinct real eigenvalues, and sketching solution curves."
+  ]
+}

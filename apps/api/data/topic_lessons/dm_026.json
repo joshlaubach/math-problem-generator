@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_026",
+  "topic_name": "Composition and Inverse Functions",
+  "generated_at": "2026-05-13T20:13:58.798058+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to apply a single function to an input \u2014 for example, if $f(x) = 2x + 1$, you can compute $f(3) = 7$ without hesitation. But what if you need to apply two functions one after the other, feeding the output of the first into the second? And what if you want to 'undo' a function entirely, reversing its effect to recover the original input? Can you find a function $g$ such that applying $g$ after $f$ always returns you to where you started?",
+  "concept": "Composition chains two functions so the output of one becomes the input of the next. Formally, given functions $f: A \\to B$ and $g: B \\to C$, the composition $g \\circ f$ is defined by $(g \\circ f)(x) = g(f(x))$ for every $x \\in A$. An inverse function reverses a bijection: if $f: A \\to B$ is bijective, its inverse $f^{-1}: B \\to A$ satisfies $f^{-1}(f(x)) = x$ and $f(f^{-1}(y)) = y$ for all $x \\in A$, $y \\in B$.",
+  "anatomy": "In composition $g \\circ f$, the inner function $f$ is applied first, consuming the original input $x$ from domain $A$ and producing an intermediate value $f(x)$ in $B$; the outer function $g$ then acts on that intermediate value, producing the final output in $C$. The notation $g \\circ f$ is read 'g after f,' and the order matters: $g \\circ f$ and $f \\circ g$ are generally different. For inverses, the key components are the original bijective function $f$, its inverse $f^{-1}$, and the identity function $\\text{id}(x) = x$, since the defining property is $f^{-1} \\circ f = \\text{id}_A$ and $f \\circ f^{-1} = \\text{id}_B$.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 3x - 1, \\quad g(x) = x^2 + 2",
+      "description_latex": "We start by identifying our two functions clearly. Here $f$ takes an input and multiplies by 3 then subtracts 1, while $g$ squares its input and adds 2. Keeping these roles distinct is crucial before we chain them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(g \\circ f)(x) = g(f(x)) = g(3x - 1)",
+      "description_latex": "To compute $g \\circ f$, we apply $f$ first, obtaining $f(x) = 3x - 1$, and then plug that entire expression into $g$ in place of $g$'s usual input. Notice we have not yet used the formula for $g$ \u2014 we are setting up the substitution step by step so we do not lose track of what is being squared.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(g \\circ f)(x) = (3x-1)^2 + 2 = 9x^2 - 6x + 1 + 2 = 9x^2 - 6x + 3",
+      "description_latex": "Now we apply the rule of $g$, squaring the whole expression $3x - 1$ and adding 2. Expanding $(3x-1)^2 = 9x^2 - 6x + 1$ and collecting constants gives the fully simplified composition $9x^2 - 6x + 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Find } f^{-1} \\text{ where } f(x) = 3x - 1.",
+      "description_latex": "To find the inverse of $f(x) = 3x - 1$, we set $y = 3x - 1$ and solve for $x$ in terms of $y$. This algebraic reversal captures exactly what $f^{-1}$ must do: undo whatever $f$ did to its input.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = 3x - 1 \\implies x = \\frac{y+1}{3} \\implies f^{-1}(x) = \\frac{x+1}{3}",
+      "description_latex": "Adding 1 to both sides and dividing by 3 isolates $x$, so $f^{-1}(x) = \\frac{x+1}{3}$. We can verify: $f^{-1}(f(x)) = f^{-1}(3x-1) = \\frac{(3x-1)+1}{3} = x$, confirming the inverse undoes $f$ perfectly.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "h(x) = 2x + 4, \\quad k(x) = \\frac{x}{2}",
+      "description_latex": "We want to compute $(h \\circ k)(x)$ and then find $h^{-1}(x)$. Start by identifying which function gets applied first in the composition $h \\circ k$ \u2014 remember the inner function is always applied before the outer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(h \\circ k)(x) = h\\!\\left(k(x)\\right) = h\\!\\left(\\frac{x}{2}\\right)",
+      "description_latex": "We substitute $k(x) = \\frac{x}{2}$ into $h$, so we now need to evaluate $h$ at the input $\\frac{x}{2}$. Apply $h$'s rule \u2014 multiply the input by 2 and add 4 \u2014 to complete this composition.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "h^{-1}(x) = \\, ?",
+      "description_latex": "Now find the inverse of $h(x) = 2x + 4$ by setting $y = 2x + 4$, solving for $x$, and then rewriting the result as a function of $x$. What is $h^{-1}(x)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "h^{-1}(x) = \\frac{x - 4}{2}, \\quad \\text{check: } h^{-1}(h(x)) = \\frac{(2x+4)-4}{2} = x \\checkmark",
+      "description_latex": "The inverse is $h^{-1}(x) = \\frac{x-4}{2}$, and we verify it satisfies the defining property $h^{-1}(h(x)) = x$. This check is not optional \u2014 it is the only way to be certain our algebra produced a true inverse and not just an algebraic accident.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $f(x) = x + 5$ and $g(x) = 2x$. Compute $(f \\circ g)(3)$.",
+      "answer_latex": "11"
+    },
+    {
+      "prompt_latex": "Let $f(x) = 4x - 2$. Find $f^{-1}(x)$.",
+      "answer_latex": "f^{-1}(x) = \\dfrac{x + 2}{4}"
+    },
+    {
+      "prompt_latex": "Let $f(x) = x^2$ (with domain $x \\ge 0$) and $g(x) = x + 3$. Find a simplified formula for $(f \\circ g)(x)$ and $(g \\circ f)(x)$, and verify they are not equal.",
+      "answer_latex": "(f \\circ g)(x) = (x+3)^2 = x^2 + 6x + 9; \\quad (g \\circ f)(x) = x^2 + 3. \\text{ They differ, confirming composition is not commutative.}"
+    },
+    {
+      "prompt_latex": "Suppose $f: A \\to B$ is bijective with $f^{-1}(y) = \\frac{y-7}{3}$. Find $f(x)$ by computing the inverse of $f^{-1}$.",
+      "answer_latex": "f(x) = 3x + 7"
+    },
+    {
+      "prompt_latex": "A temperature conversion pipeline first converts Celsius to Kelvin via $K(c) = c + 273$ and then scales Kelvin by a factor of 2 via $S(k) = 2k$. Write a single formula for the composed function $(S \\circ K)(c)$ and find the value of $c$ that maps to an output of 600 under this pipeline.",
+      "answer_latex": "(S \\circ K)(c) = 2(c + 273) = 2c + 546; \\quad c = 27"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the functions in the wrong order when evaluating $g \\circ f$, computing $f(g(x))$ instead of $g(f(x))$. Remember that in $g \\circ f$ the rightmost function $f$ is always applied first; reading the notation right-to-left is the reliable fix.",
+    "When finding an inverse, students swap the equation to solve for $y$ but then forget to rename the variable, writing $f^{-1}(y) = \\ldots$ instead of replacing $y$ with $x$ in the final answer. Always re-express the inverse as a function of $x$ (or whatever the standard variable is) after solving.",
+    "Students try to find an inverse for a function that is not bijective \u2014 for example, $f(x) = x^2$ over all reals \u2014 and produce a 'formula' without realising the inverse is not a well-defined function. Always confirm the function is one-to-one and onto (or restrict its domain) before writing down an inverse."
+  ],
+  "untested_variants": [
+    "Composition of three or more functions, such as computing $(h \\circ g \\circ f)(x)$ and simplifying the result.",
+    "Showing algebraically that a given pair of functions are inverses of each other by verifying both $f^{-1}(f(x)) = x$ AND $f(f^{-1}(y)) = y$, rather than deriving the inverse from scratch.",
+    "Finding the inverse of a function defined on a finite set given by an explicit mapping table (discrete domain), rather than a formula.",
+    "Using composition to decompose a complex function \u2014 given $(g \\circ f)(x) = \\sqrt{3x+1}$, identifying possible choices for $f$ and $g$ separately."
+  ]
+}

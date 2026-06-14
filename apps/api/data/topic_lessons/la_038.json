@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_038",
+  "topic_name": "Cayley-Hamilton Theorem (H)",
+  "generated_at": "2026-05-13T20:08:35.593072+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You know how to find the characteristic polynomial $p(\\lambda) = \\det(A - \\lambda I)$ of a square matrix $A$, and you know its roots are the eigenvalues. But what if you plugged the matrix $A$ itself into that polynomial \u2014 treating $A$ like a number \u2014 and evaluated $p(A)$? You might expect to get some complicated nonzero matrix, since $A$ is not a scalar eigenvalue. The Cayley-Hamilton Theorem says something astonishing: does $p(A)$ always equal the zero matrix, no matter what $A$ is?",
+  "concept": "Every square matrix satisfies its own characteristic equation. Formally, if $A$ is an $n \\times n$ matrix with characteristic polynomial $p(\\lambda) = \\det(A - \\lambda I)$, then substituting the matrix itself gives $p(A) = 0$ (the zero matrix). In other words, the polynomial that encodes the eigenvalue structure of $A$ is literally annihilated when $A$ replaces the variable.",
+  "anatomy": "There are four key components to keep straight. First, the matrix $A$ is the $n \\times n$ matrix under study. Second, the characteristic polynomial $p(\\lambda) = \\det(A - \\lambda I)$ is a degree-$n$ polynomial in the scalar variable $\\lambda$, with coefficients built from $A$'s entries. Third, the matrix substitution $p(A)$ replaces every power $\\lambda^k$ with the matrix power $A^k$ and every scalar coefficient $c_k$ with $c_k I$ (the scaled identity), so that all terms are $n \\times n$ matrices and can be added. Fourth, the conclusion is that $p(A) = 0$, the $n \\times n$ zero matrix \u2014 not the scalar zero.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 3 & 1 \\\\ 2 & 4 \\end{pmatrix}",
+      "description_latex": "We start by writing down our matrix $A$. Our goal is to verify the Cayley-Hamilton Theorem by computing the characteristic polynomial $p(\\lambda)$ and then showing that $p(A) = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(\\lambda) = \\det(A - \\lambda I) = \\det\\begin{pmatrix} 3-\\lambda & 1 \\\\ 2 & 4-\\lambda \\end{pmatrix} = (3-\\lambda)(4-\\lambda) - 2 = \\lambda^2 - 7\\lambda + 10",
+      "description_latex": "We form $A - \\lambda I$ and take its determinant to get the characteristic polynomial. Expanding $(3-\\lambda)(4-\\lambda) - 2 = 12 - 7\\lambda + \\lambda^2 - 2$ gives us $p(\\lambda) = \\lambda^2 - 7\\lambda + 10$, a degree-2 polynomial as expected for a $2 \\times 2$ matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A^2 = \\begin{pmatrix} 3 & 1 \\\\ 2 & 4 \\end{pmatrix}\\begin{pmatrix} 3 & 1 \\\\ 2 & 4 \\end{pmatrix} = \\begin{pmatrix} 11 & 7 \\\\ 14 & 18 \\end{pmatrix}",
+      "description_latex": "To evaluate $p(A) = A^2 - 7A + 10I$, we first need $A^2$. We multiply $A$ by itself entry-by-entry using the standard matrix product, getting the $2\\times 2$ matrix shown. This step is purely computational but is essential before we can add the matrix terms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(A) = A^2 - 7A + 10I = \\begin{pmatrix} 11 & 7 \\\\ 14 & 18 \\end{pmatrix} - 7\\begin{pmatrix} 3 & 1 \\\\ 2 & 4 \\end{pmatrix} + 10\\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}",
+      "description_latex": "Now we substitute $A$ for $\\lambda$ in $p(\\lambda)$: the $\\lambda^2$ term becomes $A^2$, the $-7\\lambda$ term becomes $-7A$, and the constant $10$ becomes $10I$ so that every term is a $2\\times 2$ matrix. Notice we must write $10I$, not the scalar $10$, so that the dimensions are consistent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(A) = \\begin{pmatrix} 11-21+10 & 7-7+0 \\\\ 14-14+0 & 18-28+10 \\end{pmatrix} = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix} = 0",
+      "description_latex": "Adding the three matrices entry by entry, every entry collapses to zero, confirming that $p(A) = 0$. This is the Cayley-Hamilton Theorem in action: the matrix satisfies its own characteristic equation exactly.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 1 & 2 \\\\ 0 & 3 \\end{pmatrix}",
+      "description_latex": "We want to verify Cayley-Hamilton for $B$. The first step is to find the characteristic polynomial $p(\\lambda) = \\det(B - \\lambda I)$. Since $B$ is upper triangular, $\\det(B - \\lambda I) = (1-\\lambda)(3-\\lambda)$, so $p(\\lambda) = \\lambda^2 - 4\\lambda + 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B^2 = \\begin{pmatrix} 1 & 8 \\\\ 0 & 9 \\end{pmatrix}",
+      "description_latex": "We have already computed $B^2$ for you. Now you need to form $p(B) = B^2 - 4B + 3I$ by substituting $B$ for $\\lambda$, remembering to write the constant term as $3I$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $p(B) = B^2 - 4B + 3I$ explicitly by substituting the matrices and adding entry by entry. Show that every entry of the result is zero, thereby verifying the Cayley-Hamilton Theorem for $B$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "p(B) = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}",
+      "description_latex": "The result is indeed the zero matrix. Notice that for triangular matrices the characteristic polynomial factors especially cleanly, but the theorem still holds just the same as for any other matrix.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 2 & 0 \\\\ 0 & 5 \\end{pmatrix}$. Find the characteristic polynomial $p(\\lambda)$ of $A$ and verify that $p(A) = 0$.",
+      "answer_latex": "p(\\lambda) = \\lambda^2 - 7\\lambda + 10;\\quad p(A) = A^2 - 7A + 10I = \\begin{pmatrix} 4 & 0 \\\\ 0 & 25 \\end{pmatrix} - \\begin{pmatrix} 14 & 0 \\\\ 0 & 35 \\end{pmatrix} + \\begin{pmatrix} 10 & 0 \\\\ 0 & 10 \\end{pmatrix} = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$. Compute the characteristic polynomial $p(\\lambda)$ and verify $p(A) = 0$.",
+      "answer_latex": "p(\\lambda) = \\lambda^2 + 1;\\quad A^2 = \\begin{pmatrix} -1 & 0 \\\\ 0 & -1 \\end{pmatrix} = -I,\\text{ so } p(A) = A^2 + I = -I + I = 0"
+    },
+    {
+      "prompt_latex": "For $A = \\begin{pmatrix} 1 & 3 \\\\ 4 & 2 \\end{pmatrix}$, use the Cayley-Hamilton Theorem to express $A^2$ as a linear combination of $A$ and $I$.",
+      "answer_latex": "p(\\lambda) = \\lambda^2 - 3\\lambda - 10,\\text{ so } A^2 = 3A + 10I = \\begin{pmatrix} 13 & 9 \\\\ 12 & 16 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 1 & 1 \\\\ 0 & 1 \\end{pmatrix}$ (a nilpotent-shifted matrix). Use Cayley-Hamilton to compute $A^5$ by first finding $p(\\lambda)$ and expressing high powers of $A$ in terms of lower ones.",
+      "answer_latex": "p(\\lambda) = (\\lambda-1)^2 = \\lambda^2 - 2\\lambda + 1,\\text{ so } A^2 = 2A - I = \\begin{pmatrix} 1 & 2 \\\\ 0 & 1 \\end{pmatrix}.\\text{ Using } A^2 = 2A-I: A^3 = 2A^2 - A = 3A - 2I,\\; A^4 = 4A-3I,\\; A^5 = 5A - 4I = \\begin{pmatrix} 1 & 5 \\\\ 0 & 1 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A $2\\times 2$ matrix $A$ satisfies $\\text{tr}(A) = 5$ and $\\det(A) = 6$. Without knowing $A$ explicitly, write down $p(\\lambda)$ using the trace-determinant formula and state the matrix equation that $A$ must satisfy by the Cayley-Hamilton Theorem.",
+      "answer_latex": "p(\\lambda) = \\lambda^2 - \\text{tr}(A)\\,\\lambda + \\det(A) = \\lambda^2 - 5\\lambda + 6,\\text{ so by Cayley-Hamilton: } A^2 - 5A + 6I = 0"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $p(A)$ by substituting $\\lambda = A$ but forget to replace the constant term $c$ with $cI$, writing a scalar added to a matrix. Every term in $p(A)$ must be an $n \\times n$ matrix, so always write $c_0 I$ instead of $c_0$.",
+    "Students confuse $p(A) = 0$ (the zero matrix) with $p(A) = 0$ meaning $\\det(A) = 0$. The Cayley-Hamilton result is a matrix equation, not a scalar equation \u2014 $A$ need not be singular for $p(A)$ to be the zero matrix.",
+    "When using Cayley-Hamilton to compute higher powers of $A$, students rearrange $p(A)=0$ incorrectly, for example writing $A^2 = -c_1 A - c_0 I$ when the sign should differ. Always rearrange $A^2 + c_1 A + c_0 I = 0$ carefully: $A^2 = -c_1 A - c_0 I$, then double-check signs before substituting."
+  ],
+  "untested_variants": [
+    "Applying the Cayley-Hamilton Theorem to $3 \\times 3$ matrices, where the characteristic polynomial is cubic and expressing $A^3$ in terms of $A^2$, $A$, and $I$ requires careful sign tracking across three terms.",
+    "Using Cayley-Hamilton to compute the inverse $A^{-1}$ by expressing it from $p(A)=0$ when $\\det(A) \\neq 0$, i.e., deriving $A^{-1} = -\\frac{1}{c_0}(A^{n-1} + \\cdots + c_{n-1}I)$.",
+    "Applying Cayley-Hamilton in the context of matrix functions such as $e^A$ or $\\sin(A)$, where any polynomial in $A$ of degree $\\geq n$ can be reduced to degree $< n$ using the characteristic relation.",
+    "Proving or sketch-proving the Cayley-Hamilton Theorem using the adjugate matrix identity $\\text{adj}(A - \\lambda I)(A - \\lambda I) = p(\\lambda)I$ and carefully substituting, rather than just verifying it for specific matrices."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "c2_011",
+  "topic_name": "Work, Force, and Pressure Applications",
+  "generated_at": "2026-05-13T00:21:01.696963+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to compute the work done by a constant force using $W = Fd$. But what happens when the force changes as an object moves \u2014 like stretching a spring farther and farther, or pumping water out of a tank whose weight decreases as it empties? You also know that pressure is force per unit area, but how do you find the total force on a curved or submerged surface where pressure varies with depth? The integral is the key tool, but how exactly do you set it up?",
+  "concept": "Work, force, and pressure problems all share the same structure: a quantity that varies continuously, so we slice the problem into infinitesimal pieces, write a formula for each piece, and integrate. Formally, work done by a variable force $F(x)$ over displacement from $a$ to $b$ is $W = \\int_a^b F(x)\\,dx$; hydrostatic force on a submerged surface is $F = \\int_a^b \\rho g \\, d(x) \\, w(x)\\,dx$, where $d(x)$ is depth and $w(x)$ is the width of the surface at that depth.",
+  "anatomy": "Every integral in this topic has four named components you must identify before writing anything down. First, the force function $F(x)$ (or pressure-times-width for hydrostatic problems), which describes how the quantity of interest changes with position $x$. Second, the limits of integration $a$ and $b$, which are the physical start and end positions along your chosen axis. Third, the infinitesimal element $dx$, representing a thin slice of displacement, depth, or height. Fourth, the physical constants \u2014 the spring constant $k$ (Hooke's Law: $F = kx$), the fluid weight density $\\rho g$ ($\\approx 9800$ N/m\u00b3 for water), or gravitational acceleration $g$ \u2014 which anchor the formula to real units.",
+  "worked_example": [
+    {
+      "expression_latex": "F(x) = kx, \\quad F(0.2) = 30 \\text{ N} \\Rightarrow k = \\frac{30}{0.2} = 150 \\text{ N/m}",
+      "description_latex": "We start by identifying the spring constant $k$ using Hooke's Law. A force of 30 N stretches the spring 0.2 m beyond its natural length, so we solve $30 = k(0.2)$ to get $k = 150$ N/m. This constant characterizes how stiff the spring is and appears in every subsequent step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = \\int_0^{0.5} 150x\\,dx",
+      "description_latex": "Now we set up the work integral. We want to stretch the spring from its natural length ($x = 0$) to 0.5 m beyond natural length ($x = 0.5$), and at each position $x$ the force required is $F(x) = 150x$. Integrating this force over the displacement gives total work.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = 150 \\cdot \\frac{x^2}{2}\\Bigg|_0^{0.5} = 75x^2\\Big|_0^{0.5}",
+      "description_latex": "We apply the Power Rule to integrate $150x$: the antiderivative is $150 \\cdot \\frac{x^2}{2} = 75x^2$. We leave the bounds in place and prepare to evaluate, which is just standard definite integral mechanics at this point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = 75(0.5)^2 - 75(0)^2 = 75(0.25) = 18.75 \\text{ J}",
+      "description_latex": "Evaluating at the upper and lower bounds gives $W = 18.75$ joules. Notice that the units work out: N/m times m\u00b2 gives N\u00b7m = joules, which confirms we set up the integral correctly with consistent units throughout.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\rho g = 9800 \\text{ N/m}^3, \\quad \\text{depth at position } x: \\; d(x) = 4 - x, \\quad w(x) = 3 \\text{ m (constant width)}",
+      "description_latex": "We are finding the hydrostatic force on a vertical rectangular plate 3 m wide submerged so that its top is at depth 1 m and its bottom is at depth 4 m. We set up coordinates so $x$ runs from 1 to 4 along depth, and we identify that the depth at position $x$ is simply $x$ itself, the width $w(x) = 3$ is constant, and the weight density of water is $\\rho g = 9800$ N/m\u00b3.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F = \\int_1^{4} 9800 \\cdot x \\cdot 3\\,dx",
+      "description_latex": "Each thin horizontal strip at depth $x$ has area $w(x)\\,dx = 3\\,dx$, and the pressure at that depth is $\\rho g x = 9800x$ Pa. Multiplying pressure by area gives the force on that strip, and we integrate from $x=1$ to $x=4$ to accumulate all strips. Notice why we multiply all three factors together before integrating.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Evaluate the definite integral $\\int_1^{4} 29400x\\,dx$ by finding the antiderivative and applying the Fundamental Theorem of Calculus. What is the total hydrostatic force in newtons?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "F = 29400 \\cdot \\frac{x^2}{2}\\Bigg|_1^4 = 14700(16 - 1) = 14700 \\times 15 = 220{,}500 \\text{ N}",
+      "description_latex": "The antiderivative of $29400x$ is $14700x^2$, and evaluating from 1 to 4 gives $14700(16-1) = 220{,}500$ N, or about 220.5 kN. This large force illustrates why engineers must account for water pressure carefully in dam and container design.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A spring has natural length 0.5 m. A force of 20 N stretches it to 0.7 m. How much work is done stretching it from 0.5 m to 0.9 m (i.e., 0 to 0.4 m beyond natural length)?",
+      "answer_latex": "W = \\int_0^{0.4} 100x\\,dx = 50x^2\\Big|_0^{0.4} = 8 \\text{ J}"
+    },
+    {
+      "prompt_latex": "A chain 10 m long with linear density 5 kg/m hangs vertically. Using $g = 9.8$ m/s\u00b2, find the work done lifting the entire chain to the top of the building (i.e., lifting each piece to height 10 m). Set $x$ as the distance from the bottom.",
+      "answer_latex": "W = \\int_0^{10} 5(9.8)x\\,dx = 49\\cdot\\frac{x^2}{2}\\Big|_0^{10} = 2450 \\text{ J}"
+    },
+    {
+      "prompt_latex": "A vertical rectangular plate is 2 m wide and extends from depth 0 to depth 3 m in water ($\\rho g = 9800$ N/m\u00b3). Find the total hydrostatic force on one face.",
+      "answer_latex": "F = \\int_0^{3} 9800 \\cdot x \\cdot 2\\,dx = 19600\\cdot\\frac{x^2}{2}\\Big|_0^3 = 88{,}200 \\text{ N}"
+    },
+    {
+      "prompt_latex": "A conical tank (vertex down) has height 4 m and top radius 2 m. It is full of water ($\\rho g = 9800$ N/m\u00b3). Find the work required to pump all the water out over the top rim. Let $x$ be height measured from the vertex.",
+      "answer_latex": "r(x) = \\frac{x}{2},\\; W = \\int_0^4 9800\\pi\\left(\\frac{x}{2}\\right)^2(4-x)\\,dx = 9800\\pi\\int_0^4 \\frac{x^2(4-x)}{4}\\,dx = 9800\\pi\\cdot\\frac{16}{3} \\approx 163{,}270 \\text{ J}"
+    },
+    {
+      "prompt_latex": "A spring requires 6 J of work to stretch it from its natural length to 0.3 m beyond natural length. How much additional work is required to stretch it from 0.3 m to 0.5 m beyond natural length?",
+      "answer_latex": "k: 6 = \\int_0^{0.3}kx\\,dx = \\frac{k(0.09)}{2} \\Rightarrow k = \\frac{400}{3}.\\; W_{extra} = \\int_{0.3}^{0.5}\\frac{400}{3}x\\,dx = \\frac{400}{3}\\cdot\\frac{x^2}{2}\\Big|_{0.3}^{0.5} = \\frac{200}{3}(0.25-0.09) = \\frac{32}{3} \\approx 10.67 \\text{ J}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to convert the spring's total length into its elongation beyond natural length. For example, if the spring has natural length 0.5 m and is stretched to 0.8 m, the integration variable $x$ should run from 0 to 0.3 m, not from 0 to 0.8 m \u2014 always use the stretch, not the total length.",
+    "When setting up the pumping-work integral, students frequently forget to include the distance the water must travel, writing $dW = \\rho g A(x)\\,dx$ instead of $dW = \\rho g A(x)(H - x)\\,dx$, where $(H - x)$ is the height each slice must be lifted to reach the top. Always multiply the weight of each slice by the distance it travels.",
+    "For hydrostatic force on a non-rectangular surface, students use a constant width instead of expressing width as a function of depth $w(x)$. For example, on a trapezoidal or triangular plate, the width changes with depth, so you must find $w(x)$ using similar triangles or the equation of the boundary before integrating."
+  ],
+  "untested_variants": [
+    "Pumping work from a cylindrical or spherical tank that is only partially full (not filled to the brim), requiring adjusted limits of integration.",
+    "Hydrostatic force on a tilted or non-vertical plate, where the relationship between the integration variable and true depth requires a trigonometric correction factor.",
+    "Work done against gravity lifting a leaking bucket or a rope with a weight attached, where the load decreases linearly as the object rises, combining a variable force due to both the changing rope length and the leaking mass.",
+    "Work computed in imperial units (pounds, feet) rather than SI units, requiring use of $\\rho g \\approx 62.4$ lb/ft\u00b3 and careful dimensional analysis throughout."
+  ]
+}

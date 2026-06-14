@@ -1,0 +1,91 @@
+{
+  "topic_id": "c2_017",
+  "topic_name": "Area and Arc Length in Polar Coordinates",
+  "generated_at": "2026-05-13T00:22:40.494723+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to find the area under a curve in Cartesian coordinates using $\\int_a^b f(x)\\,dx$, and you can compute arc lengths with $\\int_a^b \\sqrt{1+(f'(x))^2}\\,dx$. But polar curves like the rose $r = \\cos(2\\theta)$ or the cardioid $r = 1 + \\sin\\theta$ don't live in the $xy$-world \u2014 they're defined by a radius that sweeps out as an angle changes, so your old formulas simply don't apply. How do you find the area enclosed by a petal of a rose curve, or the total length of a spiral?",
+  "concept": "In polar coordinates, area is built by sweeping a radius outward through an angle, tracing out thin circular sectors rather than thin rectangles. The area enclosed by a polar curve $r = f(\\theta)$ from $\\theta = \\alpha$ to $\\theta = \\beta$ is $A = \\frac{1}{2}\\int_\\alpha^\\beta [f(\\theta)]^2\\,d\\theta$, and the arc length of that same curve is $L = \\int_\\alpha^\\beta \\sqrt{[f(\\theta)]^2 + [f'(\\theta)]^2}\\,d\\theta$.",
+  "anatomy": "In the area formula $A = \\frac{1}{2}\\int_\\alpha^\\beta r^2\\,d\\theta$, the factor $\\frac{1}{2}r^2\\,d\\theta$ is the area of an infinitesimally thin circular sector with radius $r$ and opening angle $d\\theta$. The limits $\\alpha$ and $\\beta$ are the angles at which the curve begins and ends (or where it closes on itself), and choosing them correctly is the critical geometric step. In the arc-length formula $L = \\int_\\alpha^\\beta \\sqrt{r^2 + \\left(\\frac{dr}{d\\theta}\\right)^2}\\,d\\theta$, the term $r^2$ accounts for the circular sweep while $\\left(\\frac{dr}{d\\theta}\\right)^2$ accounts for how the radius is changing \u2014 together they give the true speed of the point tracing the curve.",
+  "worked_example": [
+    {
+      "expression_latex": "r = 1 + \\cos\\theta, \\quad \\text{find the total area enclosed by the cardioid}",
+      "description_latex": "We start by identifying the full range of $\\theta$ that traces the cardioid exactly once. Because $\\cos\\theta$ has period $2\\pi$, the curve closes after one full revolution, so we integrate from $0$ to $2\\pi$. Setting up the limits correctly before touching any algebra is always the right first move.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\frac{1}{2}\\int_0^{2\\pi}(1+\\cos\\theta)^2\\,d\\theta",
+      "description_latex": "We substitute $r = 1+\\cos\\theta$ directly into the polar area formula $A = \\frac{1}{2}\\int_\\alpha^\\beta r^2\\,d\\theta$. Notice the entire expression $r$ is squared \u2014 a common error is squaring only part of a sum, so we must expand $(1+\\cos\\theta)^2$ carefully in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(1+\\cos\\theta)^2 = 1 + 2\\cos\\theta + \\cos^2\\theta = 1 + 2\\cos\\theta + \\frac{1+\\cos(2\\theta)}{2}",
+      "description_latex": "We expand the square and immediately apply the power-reduction identity $\\cos^2\\theta = \\frac{1+\\cos(2\\theta)}{2}$, because $\\cos^2\\theta$ has no elementary antiderivative in its raw form. This identity is your standard tool whenever an even power of sine or cosine appears inside a polar area integral.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\frac{1}{2}\\int_0^{2\\pi}\\left(\\frac{3}{2} + 2\\cos\\theta + \\frac{\\cos(2\\theta)}{2}\\right)d\\theta = \\frac{1}{2}\\left[\\frac{3\\theta}{2} + 2\\sin\\theta + \\frac{\\sin(2\\theta)}{4}\\right]_0^{2\\pi}",
+      "description_latex": "After collecting like constants ($1 + \\frac{1}{2} = \\frac{3}{2}$), we integrate term by term \u2014 each piece has a standard antiderivative. The sine terms vanish at both $0$ and $2\\pi$, which is a reassuring check that the oscillatory parts contribute nothing over a full period.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\frac{1}{2}\\cdot\\frac{3(2\\pi)}{2} = \\frac{3\\pi}{2}",
+      "description_latex": "Evaluating at $\\theta = 2\\pi$ gives $\\frac{3(2\\pi)}{2} = 3\\pi$, and at $\\theta = 0$ gives $0$, so the bracket equals $3\\pi$. Multiplying by the leading $\\frac{1}{2}$ yields the total enclosed area $A = \\frac{3\\pi}{2}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "r = \\sin\\theta, \\quad \\text{find the area enclosed by one loop}",
+      "description_latex": "The circle $r = \\sin\\theta$ traces one complete loop as $\\theta$ goes from $0$ to $\\pi$ (it closes because $\\sin 0 = \\sin\\pi = 0$). We set up the polar area formula with these limits: $A = \\frac{1}{2}\\int_0^{\\pi}\\sin^2\\theta\\,d\\theta$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sin^2\\theta = \\frac{1 - \\cos(2\\theta)}{2}",
+      "description_latex": "Apply the power-reduction identity so the integral becomes tractable. This is the key algebraic transformation \u2014 without it, $\\sin^2\\theta$ has no direct antiderivative.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute the identity into the integral and evaluate $A = \\frac{1}{2}\\int_0^{\\pi}\\frac{1-\\cos(2\\theta)}{2}\\,d\\theta$ by integrating term by term and applying the limits. What is the exact area?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "A = \\frac{\\pi}{4}",
+      "description_latex": "The antiderivative is $\\frac{1}{4}\\left[\\theta - \\frac{\\sin(2\\theta)}{2}\\right]_0^{\\pi}$, which evaluates to $\\frac{\\pi}{4}$. This matches the geometric fact that $r = \\sin\\theta$ is a circle of radius $\\frac{1}{2}$, whose area is $\\pi(\\frac{1}{2})^2 = \\frac{\\pi}{4}$ \u2014 a great sanity check.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the area enclosed by the circle $r = 3$ (use the polar area formula, not geometry).",
+      "answer_latex": "A = 9\\pi"
+    },
+    {
+      "prompt_latex": "Find the area enclosed by one petal of the rose $r = \\cos(2\\theta)$.",
+      "answer_latex": "A = \\dfrac{\\pi}{8}"
+    },
+    {
+      "prompt_latex": "Find the area of the region inside the cardioid $r = 1 - \\sin\\theta$ and outside the circle $r = \\frac{1}{2}$.",
+      "answer_latex": "A = \\pi - \\dfrac{3\\sqrt{3}}{4} - \\dfrac{\\pi}{12} = \\dfrac{11\\pi}{12} - \\dfrac{3\\sqrt{3}}{4}"
+    },
+    {
+      "prompt_latex": "Find the arc length of the spiral $r = e^\\theta$ from $\\theta = 0$ to $\\theta = 2\\pi$.",
+      "answer_latex": "L = \\sqrt{2}\\,(e^{2\\pi}-1)"
+    },
+    {
+      "prompt_latex": "A radar sweep traces the curve $r = \\theta$ (the Archimedean spiral) from $\\theta = 0$ to $\\theta = \\pi$. Set up and evaluate the integral giving the area swept out by the radar beam.",
+      "answer_latex": "A = \\dfrac{\\pi^3}{6}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget the factor of $\\frac{1}{2}$ in $A = \\frac{1}{2}\\int r^2\\,d\\theta$, writing $\\int r^2\\,d\\theta$ instead. Remember: the formula comes from the area of a circular sector $\\frac{1}{2}r^2\\Delta\\theta$, so the $\\frac{1}{2}$ is structural, not optional.",
+    "Students choose wrong limits of integration by using $0$ to $2\\pi$ for every curve, even those that close earlier. A rose petal like $r = \\cos(2\\theta)$ completes one petal from $\\theta = -\\pi/4$ to $\\theta = \\pi/4$ \u2014 always find where $r = 0$ to locate the true endpoints of each loop.",
+    "When computing arc length, students omit the $r^2$ term and write $L = \\int\\sqrt{(dr/d\\theta)^2}\\,d\\theta = \\int|dr/d\\theta|\\,d\\theta$. The correct integrand is $\\sqrt{r^2 + (dr/d\\theta)^2}$ because the point moves both angularly and radially."
+  ],
+  "untested_variants": [
+    "Finding the area of the region that is inside one polar curve and inside another simultaneously (intersection areas), such as the region inside both $r = 1$ and $r = 2\\cos\\theta$.",
+    "Arc length of a cardioid or lima\u00e7on, which requires recognizing a perfect-square trigonometric expression under the radical after substituting both $r^2$ and $(dr/d\\theta)^2$.",
+    "Polar curves given in the form $r = f(\\theta)$ where the curve wraps multiple times (e.g., $r = \\theta^2$ from $0$ to $4\\pi$), requiring careful reasoning about whether area is double-counted.",
+    "Surface area of revolution generated by rotating a polar curve about the polar axis, which uses the formula $S = 2\\pi\\int r\\sin\\theta\\sqrt{r^2+(dr/d\\theta)^2}\\,d\\theta$."
+  ]
+}

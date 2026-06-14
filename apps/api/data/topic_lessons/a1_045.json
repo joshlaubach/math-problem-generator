@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_045",
+  "topic_name": "Factoring Trinomials (a=1)",
+  "generated_at": "2026-05-12T22:44:25.736985+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to multiply two binomials like $(x+3)(x+4)$ and get $x^2 + 7x + 12$ by distributing. But what if someone handed you $x^2 + 7x + 12$ and asked you to work backwards \u2014 to \"un-multiply\" it into two factors? That reverse process is called factoring, and right now you don't have a reliable method to do it. How do you figure out which two numbers to use?",
+  "concept": "Factoring a trinomial means rewriting it as a product of two binomials. For a monic trinomial $x^2 + bx + c$ (where the leading coefficient is 1), you need two numbers $p$ and $q$ such that $p + q = b$ and $p \\cdot q = c$, giving the factored form $(x + p)(x + q)$. In plain English: find a factor pair of the constant term that also adds up to the middle coefficient.",
+  "anatomy": "Every trinomial of the form $x^2 + bx + c$ has three named parts: the **leading term** $x^2$ (which tells you each binomial factor starts with $x$), the **linear coefficient** $b$ (the number in front of $x$, which must equal the sum $p + q$), and the **constant term** $c$ (the standalone number, which must equal the product $p \\cdot q$). The numbers $p$ and $q$ are called the **factor pair** \u2014 they are the constants placed inside the two binomial factors $(x+p)$ and $(x+q)$.",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 + 7x + 12",
+      "description_latex": "We start by identifying $b = 7$ and $c = 12$. Our goal is to find two numbers $p$ and $q$ such that $p + q = 7$ and $p \\cdot q = 12$. Writing out the problem this way first keeps us organized and reminds us exactly what conditions we need to satisfy.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Factor pairs of } 12: \\quad (1,12),\\ (2,6),\\ (3,4)",
+      "description_latex": "We list every pair of positive integers whose product is $12$. Since $c = 12$ is positive and $b = 7$ is positive, both numbers in our pair must be positive, so we only need to consider positive factor pairs here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p = 3,\\ q = 4 \\quad \\text{because } 3+4=7 \\text{ and } 3 \\times 4 = 12",
+      "description_latex": "Checking each pair: $1+12=13$ (too big), $2+6=8$ (still too big), $3+4=7$ \u2014 that's exactly what we need! We select $p=3$ and $q=4$ because this is the only pair that satisfies both conditions simultaneously.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 + 7x + 12 = (x+3)(x+4)",
+      "description_latex": "We write the factored form by placing $p$ and $q$ inside two binomials: $(x+3)(x+4)$. You can always verify this answer by FOILing: $(x+3)(x+4) = x^2+4x+3x+12 = x^2+7x+12$, which matches our original trinomial perfectly.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^2 - 5x + 6",
+      "description_latex": "We need two numbers $p$ and $q$ with $p + q = -5$ and $p \\cdot q = 6$. Notice that $c = 6$ is positive but $b = -5$ is negative, which tells us both $p$ and $q$ must be negative (two negatives multiply to a positive and add to a negative).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Factor pairs of } 6 \\text{ (both negative)}: \\quad (-1,-6),\\ (-2,-3)",
+      "description_latex": "We list factor pairs of $6$ where both numbers are negative. Check the sums: $-1 + (-6) = -7$ and $-2 + (-3) = -5$. Which pair satisfies both conditions?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Identify the correct factor pair and write the fully factored form of $x^2 - 5x + 6$ as a product of two binomials. Don't forget to verify by expanding your answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Factor: } x^2 + 5x + 6",
+      "answer_latex": "(x+2)(x+3)"
+    },
+    {
+      "prompt_latex": "\\text{Factor: } x^2 - 8x + 15",
+      "answer_latex": "(x-3)(x-5)"
+    },
+    {
+      "prompt_latex": "\\text{Factor: } x^2 + 2x - 15",
+      "answer_latex": "(x+5)(x-3)"
+    },
+    {
+      "prompt_latex": "\\text{Factor completely: } 3x^2 + 15x + 18 \\quad \\text{(Hint: factor out the GCF first)}",
+      "answer_latex": "3(x+2)(x+3)"
+    },
+    {
+      "prompt_latex": "\\text{A rectangular garden has area } x^2 + 9x + 20 \\text{ square feet. If the length and width are both linear expressions in } x, \\text{ find possible expressions for the length and width.}",
+      "answer_latex": "\\text{Length} = x+5, \\text{ Width} = x+4"
+    }
+  ],
+  "common_mistakes": [
+    "Students find a pair that multiplies to $c$ but forget to check that the pair also adds to $b$ \u2014 for example, factoring $x^2+7x+12$ as $(x+2)(x+6)$ because $2 \\times 6=12$, ignoring that $2+6=8\\neq7$. Always verify BOTH conditions: the product must equal $c$ AND the sum must equal $b$.",
+    "When $c$ is positive but $b$ is negative, students write both factors as positive (e.g., writing $(x+3)(x+5)$ for $x^2-8x+15$) because they don't account for the sign of $b$. Remember: if $c > 0$ and $b < 0$, both $p$ and $q$ must be negative, so the factors are $(x-p)(x-q)$ with positive values $p$ and $q$.",
+    "When $c$ is negative, students sometimes make both numbers in the factor pair negative instead of one positive and one negative \u2014 for instance, writing $(-5)(-3)$ for $x^2+2x-15$ even though $(-5)(-3)=+15$, not $-15$. A negative constant term always means one factor is positive and one is negative; only the sign of $b$ tells you which is larger in absolute value."
+  ],
+  "untested_variants": [
+    "Trinomials where $x$ is replaced by a different variable or a higher-power term, such as factoring $y^2 + 7y + 12$ or $x^4 + 7x^2 + 12$ using a substitution strategy.",
+    "Trinomials that are prime (cannot be factored over the integers), requiring students to recognize and state that no integer factor pair exists.",
+    "Factoring trinomials that appear in an equation set equal to zero, such as solving $x^2 + 7x + 12 = 0$ by factoring and applying the Zero Product Property.",
+    "Trinomials with a leading coefficient other than 1, such as $2x^2 + 7x + 3$, which require a more advanced factoring method (the $ac$-method or trial-and-error with non-monic binomials)."
+  ]
+}

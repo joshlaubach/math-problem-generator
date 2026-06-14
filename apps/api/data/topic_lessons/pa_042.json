@@ -1,0 +1,81 @@
+{
+  "topic_id": "pa_042",
+  "topic_name": "Writing and Solving Inequalities",
+  "generated_at": "2026-05-12T22:24:40.932599+00:00",
+  "course_name": "Pre-Algebra",
+  "hook": "You already know how to solve equations like $x + 3 = 7$ \u2014 you find the one value that makes both sides equal. But what if a situation doesn't have just one answer? Suppose a roller coaster requires riders to be at least 48 inches tall: heights of 48, 52, 60, and 75 inches all work, but 47 does not. How do you write a single mathematical statement that captures infinitely many valid values at once?",
+  "concept": "An inequality is a mathematical statement that compares two expressions using a relationship other than equality. Instead of saying two things are exactly equal, an inequality says one is greater than, less than, or possibly equal to the other. Formally, an inequality uses one of four symbols: $<$ (less than), $>$ (greater than), $\\leq$ (less than or equal to), or $\\geq$ (greater than or equal to), and we solve it the same way we solve equations \u2014 with one critical exception for negative coefficients.",
+  "anatomy": "Every inequality has four key parts working together. The left expression and the right expression are the two quantities being compared \u2014 just like the two sides of an equation. The inequality symbol sitting between them ($<$, $>$, $\\leq$, or $\\geq$) tells us the direction of the relationship and whether the boundary value itself is included ($\\leq$ and $\\geq$ include it; $<$ and $>$ do not). Finally, the solution set is not a single number but an entire range of values, which is why we express it on a number line or in interval notation \u2014 and why we use an open circle for strict inequalities and a closed circle when the endpoint is included.",
+  "worked_example": [
+    {
+      "expression_latex": "2x + 5 > 11",
+      "description_latex": "We start by reading the inequality carefully: we need all values of $x$ that make $2x + 5$ greater than $11$. Our strategy is identical to solving an equation \u2014 we isolate $x$ by undoing operations in reverse order \u2014 but we will keep the inequality symbol pointing in the same direction throughout, as long as we only add or subtract.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x + 5 - 5 > 11 - 5 \\quad \\Rightarrow \\quad 2x > 6",
+      "description_latex": "We subtract $5$ from both sides to undo the addition, which leaves $2x > 6$. Subtracting the same number from both sides of an inequality is always legal and never changes the direction of the symbol, so our $>$ stays exactly as it was.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{2x}{2} > \\frac{6}{2} \\quad \\Rightarrow \\quad x > 3",
+      "description_latex": "We divide both sides by $2$, a positive number, to isolate $x$. Dividing by a positive value keeps the inequality symbol unchanged, giving us $x > 3$ \u2014 meaning every number strictly greater than $3$ is a solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\circ \\!\\!\\!\\!\\longrightarrow \\text{ on a number line at } x = 3",
+      "description_latex": "To graph the solution, we place an open circle at $3$ (because $3$ itself does NOT satisfy $x > 3$ \u2014 remember, strict inequality) and shade everything to the right to show that all larger values work. You can verify by testing: $x = 4$ gives $2(4)+5 = 13 > 11$ \u2713, and $x = 3$ gives $2(3)+5 = 11 \\not> 11$ \u2717.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "-3x + 1 \\leq 10",
+      "description_latex": "Here we need to find all values of $x$ that make $-3x + 1$ less than or equal to $10$. We begin by subtracting $1$ from both sides, which gives us $-3x \\leq 9$. This step works just like an equation \u2014 subtracting the same value from both sides is always safe.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-3x \\leq 9",
+      "description_latex": "Now we need to divide both sides by $-3$ to isolate $x$. This is the critical step: what must you do to the inequality symbol when you divide by a negative number, and what is the resulting inequality?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x \\geq -3",
+      "description_latex": "Because we divided by a negative number ($-3$), the inequality symbol flips from $\\leq$ to $\\geq$, giving $x \\geq -3$. On a number line, we place a closed circle at $-3$ (because $-3$ IS included, since we have $\\geq$) and shade to the right.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve and graph: } x + 4 < 9",
+      "answer_latex": "x < 5 \\text{ (open circle at 5, shade left)}"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } 3x - 2 \\geq 7",
+      "answer_latex": "x \\geq 3"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } -4x + 6 > 22",
+      "answer_latex": "x < -4"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } 2(x - 1) \\leq 3x + 4",
+      "answer_latex": "x \\geq -6"
+    },
+    {
+      "prompt_latex": "\\text{A student needs at least 80 points total across two tests. She scored 73 on the first test. Write and solve an inequality to find the minimum score } s \\text{ she needs on the second test.}",
+      "answer_latex": "73 + s \\geq 80 \\Rightarrow s \\geq 7"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to flip the inequality symbol when multiplying or dividing both sides by a negative number. For example, from $-2x > 8$ they write $x > -4$ instead of the correct $x < -4$. The fix: every time you see a negative coefficient you are dividing by, circle the symbol and ask yourself, 'Do I need to flip this?' \u2014 the answer is always yes.",
+    "Students use an open circle on the number line when the inequality is $\\leq$ or $\\geq$, and a closed circle when it is $<$ or $>$ \u2014 exactly backwards. Remember: a closed (filled) circle means the endpoint IS part of the solution (equal is allowed), and an open circle means it is NOT.",
+    "When writing an inequality from a word problem, students reverse the symbol's direction \u2014 for example, 'at least 48 inches' means $h \\geq 48$, but students often write $h \\leq 48$. A reliable trick is to translate the phrase first: 'at least' always means $\\geq$, 'no more than' always means $\\leq$, 'more than' means $>$, and 'fewer than' means $<$."
+  ],
+  "untested_variants": [
+    "Compound inequalities such as $-2 < 3x + 1 \\leq 10$, where the student must solve a three-part inequality and express the solution as an intersection of two conditions.",
+    "Inequalities involving fractions or decimal coefficients, such as $\\frac{x}{4} - 1.5 \\geq 2$, which require extra care when multiplying both sides by a fractional or decimal value.",
+    "Writing and solving inequalities from tables of values, where students must identify which inputs satisfy a given output condition rather than solving algebraically.",
+    "Inequalities where the variable appears on both sides after distribution, such as $5(x + 2) > 3x - 4$, requiring combining like terms before isolating the variable."
+  ]
+}

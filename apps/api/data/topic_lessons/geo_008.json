@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_008",
+  "topic_name": "Inductive Reasoning and Conjectures",
+  "generated_at": "2026-05-12T22:54:36.717778+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to follow rules in geometry \u2014 if two lines are parallel, you can predict angle relationships, and if a shape is a triangle, you know its angles sum to $180\u00b0$. But what happens when you notice a pattern in numbers or shapes and want to predict what comes next, before you have a rule to prove it? For example, look at the sums $1, 1+3, 1+3+5, 1+3+5+7$ \u2014 what do you notice, and can you predict the 10th sum without adding everything up?",
+  "concept": "Inductive reasoning is the process of observing specific examples and using the pattern you see to make a general conclusion. Formally, a conjecture is an unproven statement that is believed to be true based on observed patterns discovered through inductive reasoning. Unlike deductive reasoning (which guarantees truth from rules), inductive reasoning gives you a plausible guess \u2014 one that must later be proven or disproven.",
+  "anatomy": "Inductive reasoning has three structural parts worth naming carefully. First, the specific cases (or observations) are the individual examples you examine \u2014 for instance, the first four terms of a sequence or the first few instances of a geometric relationship. Second, the pattern is the consistent behavior you identify across those cases, such as 'each term increases by the same amount' or 'each sum is a perfect square.' Third, the conjecture is the general statement you write based on that pattern, extending it beyond the cases you checked \u2014 it applies to all cases, not just the ones observed.",
+  "worked_example": [
+    {
+      "expression_latex": "1 = 1^2, \\quad 1+3 = 4 = 2^2, \\quad 1+3+5 = 9 = 3^2, \\quad 1+3+5+7 = 16 = 4^2",
+      "description_latex": "We begin by computing and recording specific cases \u2014 the sums of consecutive odd numbers starting from 1. Writing each result as a perfect square is the key move here, because it reveals the hidden structure in the pattern.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Sum of first } n \\text{ odd numbers} = n^2",
+      "description_latex": "After checking four cases and seeing the same relationship every time, we write a conjecture: the sum of the first $n$ odd numbers equals $n^2$. Notice that we are generalizing from specific examples to ALL values of $n$, which is the defining step of inductive reasoning.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Verify for } n = 5: \\quad 1+3+5+7+9 = 25 = 5^2 \\checkmark",
+      "description_latex": "A good habit is to test one additional case beyond your original observations to build confidence in the conjecture. This check for $n=5$ supports the conjecture, but remember \u2014 checking more cases never proves it true for all $n$; it only strengthens our belief.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Conjecture: The sum of the first } n \\text{ odd numbers is } n^2.",
+      "description_latex": "We state the final conjecture in a clear, general sentence that covers every possible case, not just the ones we checked. This is the output of inductive reasoning \u2014 a statement that is plausible and testable, but not yet proven.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "3, \\quad 6, \\quad 12, \\quad 24, \\quad 48, \\quad \\ldots",
+      "description_latex": "Here is a sequence of numbers. Your first task is to examine the specific cases: look at consecutive terms and ask yourself what operation takes you from one term to the next.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{6}{3} = 2, \\quad \\frac{12}{6} = 2, \\quad \\frac{24}{12} = 2, \\quad \\frac{48}{24} = 2",
+      "description_latex": "We compute the ratio between consecutive terms and find it is always 2. This consistent ratio is the pattern \u2014 each term is multiplied by 2 to get the next one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now it is your turn: using the pattern you identified (multiplying by 2 each time), write a conjecture about the $n$-th term of this sequence, and also state what the 6th term of the sequence will be.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{The sequence is } 5, 10, 15, 20, 25, \\ldots \\text{ What is the next term? State a conjecture about the pattern.}",
+      "answer_latex": "\\text{Next term: } 30. \\text{ Conjecture: Each term is a multiple of 5; the } n\\text{-th term is } 5n."
+    },
+    {
+      "prompt_latex": "\\text{Observe: } 2^1 - 1 = 1, \\quad 2^2 - 1 = 3, \\quad 2^3 - 1 = 7, \\quad 2^4 - 1 = 15. \\text{ Make a conjecture about } 2^n - 1.",
+      "answer_latex": "\\text{Conjecture: } 2^n - 1 \\text{ is always an odd number (and specifically one less than a power of 2).}"
+    },
+    {
+      "prompt_latex": "\\text{A student draws diagonals from one vertex of a polygon: triangle (0), quadrilateral (1), pentagon (2), hexagon (3). Make a conjecture about an } n\\text{-gon.}",
+      "answer_latex": "\\text{Conjecture: The number of diagonals from one vertex of an } n\\text{-gon is } n - 3."
+    },
+    {
+      "prompt_latex": "\\text{Using your conjecture from problem 3, predict the number of diagonals from one vertex of a 20-gon. Then find a counterexample or confirm: does a triangle (3-gon) fit the rule?}",
+      "answer_latex": "20 - 3 = 17 \\text{ diagonals. A triangle fits: } 3 - 3 = 0 \\text{ diagonals from one vertex, which is correct.}"
+    },
+    {
+      "prompt_latex": "\\text{Every even number you try can be written as the sum of two prime numbers: } 4=2+2,\\; 6=3+3,\\; 8=3+5,\\; 10=3+7. \\text{ What is this famous conjecture called, and is it proven?}",
+      "answer_latex": "\\text{This is Goldbach's Conjecture. It has been verified for enormous numbers but is NOT proven \u2014 it remains one of the most famous unproven conjectures in mathematics.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students treat a conjecture as a proven fact just because it holds for several cases. A conjecture is unproven by definition \u2014 checking even 1,000 examples does not constitute a proof, because a single counterexample anywhere would disprove it. Always label conjectures as 'believed to be true, not proven.'",
+    "Students write a conjecture that only restates the specific cases they observed rather than making a general claim. For example, writing 'the sums are 1, 4, 9, 16' is just a list, not a conjecture. The fix is to write a statement using a variable like $n$ that applies to ALL cases, not just the ones checked.",
+    "Students confuse inductive reasoning with deductive reasoning. Inductive reasoning moves from specific examples to a general conclusion (pattern \u2192 conjecture), while deductive reasoning moves from general rules to a specific conclusion (rule \u2192 result). A common sign of this error is when a student says 'I proved it by checking examples' \u2014 checking examples is inductive, not deductive, and does not constitute a proof."
+  ],
+  "untested_variants": [
+    "Finding a counterexample to disprove a given conjecture \u2014 for example, disproving 'all prime numbers are odd' by citing $2$.",
+    "Conjectures involving geometric figures, such as noticing that the sum of interior angles increases by $180\u00b0$ for each additional side and writing a conjecture for an $n$-gon.",
+    "Using inductive reasoning with visual or pictorial patterns, such as sequences of dot arrangements or growing tile figures, where students must count and generalize.",
+    "Evaluating whether a given conjecture is true or false and explaining the reasoning, rather than generating a new conjecture from scratch."
+  ]
+}

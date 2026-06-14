@@ -1,0 +1,86 @@
+{
+  "topic_id": "dm_001",
+  "topic_name": "Propositions and Logical Connectives",
+  "generated_at": "2026-05-13T20:11:13.400605+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to evaluate arithmetic expressions like $3 + 5 = 8$ \u2014 they either equal a specific number or they don't. But what about statements like \"It is raining\" or \"7 is greater than 3\"? These aren't equations you can calculate, yet they still have a definite truth value. How can we build a rigorous mathematical system around everyday language, and what happens when we combine two statements with words like \"and\" or \"or\"?",
+  "concept": "A proposition is a declarative statement that is either true or false, but not both. Formally, a proposition $p$ has a truth value drawn from the set $\\{T, F\\}$ (or equivalently $\\{1, 0\\}$). Logical connectives \u2014 negation $\\neg$, conjunction $\\land$, disjunction $\\lor$, conditional $\\rightarrow$, and biconditional $\\leftrightarrow$ \u2014 combine propositions into compound propositions whose truth value depends entirely on the truth values of their components.",
+  "anatomy": "Every compound proposition has three identifiable parts. First, the atomic propositions (also called propositional variables), typically labelled $p$, $q$, $r$, which are the simplest statements with no internal logical structure. Second, the connective itself \u2014 for example, $\\land$ (AND) requires both operands to be true, $\\lor$ (OR) requires at least one to be true, and $\\neg$ (NOT) flips a single truth value. Third, the resulting compound proposition, such as $p \\land q$, which is a new statement whose truth value is completely determined by a truth table applied to its components.",
+  "worked_example": [
+    {
+      "expression_latex": "p: \\text{\"It is sunny.\"} \\quad q: \\text{\"I will go running.\"}",
+      "description_latex": "We start by identifying and labelling our atomic propositions. Giving each simple statement a variable name like $p$ and $q$ is essential because it lets us manipulate the logical structure without worrying about the English wording at every step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p \\land q: \\text{\"It is sunny AND I will go running.\"}",
+      "description_latex": "We form the conjunction $p \\land q$, which is true only when both $p$ is true and $q$ is true. If it is sunny but you decide to stay home, the conjunction is false \u2014 both conditions must hold simultaneously for $\\land$ to give $T$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{cc|c} p & q & p \\land q \\\\ \\hline T & T & T \\\\ T & F & F \\\\ F & T & F \\\\ F & F & F \\end{array}",
+      "description_latex": "We build the truth table by exhausting all four combinations of truth values for $p$ and $q$. Notice that only the first row yields $T$, confirming that conjunction is the most restrictive of the basic connectives \u2014 both inputs must be true.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\neg p: \\text{\"It is NOT sunny.\"} \\quad \\text{Truth value of } \\neg p \\text{ when } p = T \\text{ is } F",
+      "description_latex": "Negation $\\neg p$ simply inverts the truth value of $p$: when $p$ is true, $\\neg p$ is false, and vice versa. This is the only unary connective we study \u2014 it takes exactly one proposition rather than two.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p \\lor q: \\text{true when at least one of } p, q \\text{ is } T",
+      "description_latex": "The disjunction $p \\lor q$ is false only in the one case where both $p$ and $q$ are false. In all three remaining rows of a truth table for $p$ and $q$, $p \\lor q$ evaluates to $T$, making disjunction much more permissive than conjunction.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "p: \\text{\"The number is even.\"} \\quad q: \\text{\"The number is greater than 10.\"}",
+      "description_latex": "We are given two atomic propositions and we want to evaluate the compound proposition $\\neg p \\lor q$ for the specific number $12$. Begin by determining the truth values of $p$ and $q$ individually: $12$ is even, so $p = T$; $12 > 10$, so $q = T$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\neg p = \\neg T = F",
+      "description_latex": "Now we apply negation to $p$. Since $p$ is true, $\\neg p$ flips to false. This intermediate step is crucial before combining with $q$ using disjunction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using $\\neg p = F$ and $q = T$, evaluate $\\neg p \\lor q$ by applying the disjunction rule. Write out the substitution and state the final truth value of the compound proposition.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Is the sentence \"Paris is the capital of France\" a proposition? If so, state its truth value.}",
+      "answer_latex": "\\text{Yes, it is a proposition. Its truth value is } T."
+    },
+    {
+      "prompt_latex": "\\text{Let } p = T \\text{ and } q = F. \\text{ Evaluate } p \\lor q \\text{ and } p \\land q.",
+      "answer_latex": "p \\lor q = T, \\quad p \\land q = F"
+    },
+    {
+      "prompt_latex": "\\text{Let } p = F \\text{ and } q = F. \\text{ Evaluate } \\neg p \\land \\neg q.",
+      "answer_latex": "\\neg p = T, \\; \\neg q = T, \\; \\text{so } \\neg p \\land \\neg q = T"
+    },
+    {
+      "prompt_latex": "\\text{Construct the full truth table for } (p \\lor q) \\land \\neg p.",
+      "answer_latex": "\\begin{array}{cc|c} p & q & (p \\lor q) \\land \\neg p \\\\ \\hline T & T & F \\\\ T & F & F \\\\ F & T & T \\\\ F & F & F \\end{array}"
+    },
+    {
+      "prompt_latex": "\\text{A student says: \"I will pass the exam or I will not study.\" Let } p = \\text{\"I will pass the exam\"} \\text{ and } q = \\text{\"I will study.\"}  \\text{ Express the sentence symbolically, then evaluate it when } p = F \\text{ and } q = T.",
+      "answer_latex": "p \\lor \\neg q; \\quad \\neg q = F, \\quad p \\lor \\neg q = F \\lor F = F"
+    }
+  ],
+  "common_mistakes": [
+    "Students often treat disjunction $p \\lor q$ as exclusive OR, believing it is false when both $p$ and $q$ are true. In standard logic, $\\lor$ is inclusive OR and is true whenever at least one operand is true, including the case where both are true. Always check the $T,T$ row first to remind yourself of this.",
+    "When negating a compound proposition, students frequently write $\\neg p \\land q$ to mean 'negate the whole thing $p \\land q$', forgetting that $\\neg(p \\land q)$ is different from $\\neg p \\land q$. The negation symbol applies only to what is immediately to its right, so use parentheses explicitly: $\\neg(p \\land q)$ means the entire conjunction is negated.",
+    "Students sometimes classify questions ('Is it raining?') or commands ('Close the door.') as propositions because they are sentences. A proposition must be a declarative statement with a definite truth value; questions and commands have neither $T$ nor $F$, so they are not propositions. Always ask yourself: can this sentence be true or false?"
+  ],
+  "untested_variants": [
+    "Evaluating the conditional $p \\rightarrow q$ and biconditional $p \\leftrightarrow q$, including the counterintuitive case where a false hypothesis makes $p \\rightarrow q$ vacuously true.",
+    "Determining whether a compound proposition is a tautology, contradiction, or contingency by constructing a full truth table and inspecting every row.",
+    "Translating complex English sentences with nested connectives (e.g., 'If it is raining and cold, then I will stay home or read') into symbolic form with correct use of parentheses for precedence.",
+    "Using operator precedence rules ($\\neg$ before $\\land$ before $\\lor$ before $\\rightarrow$ before $\\leftrightarrow$) to parse an expression like $p \\lor q \\land \\neg r$ without added parentheses."
+  ]
+}

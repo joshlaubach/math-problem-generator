@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_070",
+  "topic_name": "Box-and-Whisker Plots",
+  "generated_at": "2026-05-12T22:51:32.748314+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to find the mean and median of a data set, which give you a single number to describe the 'center' of the data. But what if you want to see how spread out the data is \u2014 where the middle half lives, and whether there are any extreme values pulling things around? Given the test scores 62, 70, 71, 75, 80, 85, 88, 90, 95, 98, can you quickly describe both the spread and the center at the same time? That's exactly what a box-and-whisker plot lets you do.",
+  "concept": "A box-and-whisker plot (also called a box plot) is a visual display that summarizes a data set using five key values called the five-number summary. In plain English, it draws a box over the middle 50% of the data and extends lines (whiskers) out to the smallest and largest values. Formally, the five-number summary is: the minimum value, the first quartile $Q_1$, the median $Q_2$, the third quartile $Q_3$, and the maximum value.",
+  "anatomy": "A box-and-whisker plot has five structural parts. The left whisker extends from the minimum value to $Q_1$. The box spans from $Q_1$ to $Q_3$, so its width equals the interquartile range $IQR = Q_3 - Q_1$, which measures the spread of the middle 50% of the data. A vertical line inside the box marks the median $Q_2$. The right whisker extends from $Q_3$ to the maximum value. Together, the two whiskers show where the outer 25% of data falls on each side.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Data: } 4, 8, 11, 13, 15, 17, 20, 22, 25",
+      "description_latex": "First, confirm the data is already in ascending order \u2014 if it isn't, sort it before doing anything else, because all five-number summary values depend on position. Here the nine values are already sorted, so we can move directly to identifying key positions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Minimum} = 4, \\quad \\text{Maximum} = 25",
+      "description_latex": "The minimum is simply the first (smallest) value and the maximum is the last (largest) value in the sorted list. These two values will become the endpoints of the whiskers on your plot.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Median } Q_2 = 15 \\quad (\\text{5th value out of 9})",
+      "description_latex": "With 9 data values, the median is the middle value at position $\\frac{9+1}{2} = 5$, which is $15$. This splits the data into a lower half $\\{4, 8, 11, 13\\}$ and an upper half $\\{17, 20, 22, 25\\}$, and the median becomes the line inside the box.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q_1 = \\frac{8 + 11}{2} = 9.5, \\quad Q_3 = \\frac{20 + 22}{2} = 21",
+      "description_latex": "To find $Q_1$, take the median of the lower half $\\{4, 8, 11, 13\\}$: there are 4 values, so average the 2nd and 3rd to get $\\frac{8+11}{2} = 9.5$. Similarly, the median of the upper half $\\{17, 20, 22, 25\\}$ is $\\frac{20+22}{2} = 21$, giving $Q_3 = 21$. These become the left and right edges of the box.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Five-Number Summary: } 4,\\ 9.5,\\ 15,\\ 21,\\ 25 \\quad IQR = 21 - 9.5 = 11.5",
+      "description_latex": "The complete five-number summary is minimum $= 4$, $Q_1 = 9.5$, median $= 15$, $Q_3 = 21$, maximum $= 25$, and the interquartile range is $Q_3 - Q_1 = 11.5$. You now have everything needed to draw the box-and-whisker plot: place dots at each of the five values on a number line, draw a box from $Q_1$ to $Q_3$ with a line at the median, and draw whiskers out to the minimum and maximum.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data: } 3, 7, 9, 12, 14, 18, 21, 24",
+      "description_latex": "We have 8 data values already sorted in ascending order. The minimum is $3$ and the maximum is $24$. With an even number of values, the median is the average of the 4th and 5th values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q_2 = \\frac{12 + 14}{2} = 13",
+      "description_latex": "The median is $13$, which splits the data into lower half $\\{3, 7, 9, 12\\}$ and upper half $\\{14, 18, 21, 24\\}$. Now you need to find $Q_1$ and $Q_3$ by taking the median of each half.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Find $Q_1$ (the median of the lower half $\\{3, 7, 9, 12\\}$) and $Q_3$ (the median of the upper half $\\{14, 18, 21, 24\\}$), then write the complete five-number summary and calculate the $IQR$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Five-Number Summary: } 3,\\ 8,\\ 13,\\ 19.5,\\ 24 \\quad IQR = 19.5 - 8 = 11.5",
+      "description_latex": "Check: $Q_1 = \\frac{7+9}{2} = 8$ and $Q_3 = \\frac{18+21}{2} = 19.5$, giving an $IQR$ of $11.5$. If your values match, you're ready to draw the plot by marking all five numbers on a scaled number line and constructing the box and whiskers.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Identify the five-number summary from this sorted data set: } 5, 10, 15, 20, 25.",
+      "answer_latex": "\\text{Min}=5,\\ Q_1=10,\\ Q_2=15,\\ Q_3=20,\\ \\text{Max}=25"
+    },
+    {
+      "prompt_latex": "\\text{Find the five-number summary and IQR for: } 2, 6, 8, 10, 14, 18.",
+      "answer_latex": "\\text{Min}=2,\\ Q_1=7,\\ Q_2=9,\\ Q_3=14,\\ \\text{Max}=18,\\ IQR=7"
+    },
+    {
+      "prompt_latex": "\\text{Find the five-number summary and IQR for: } 11, 13, 15, 17, 19, 21, 23, 25, 27.",
+      "answer_latex": "\\text{Min}=11,\\ Q_1=14,\\ Q_2=19,\\ Q_3=24,\\ \\text{Max}=27,\\ IQR=10"
+    },
+    {
+      "prompt_latex": "\\text{A box plot has } Q_1 = 30 \\text{ and } Q_3 = 50. \\text{ A data value of } 80 \\text{ is recorded. Using the rule that an outlier lies more than } 1.5 \\times IQR \\text{ beyond } Q_3, \\text{ determine whether } 80 \\text{ is an outlier.}",
+      "answer_latex": "IQR=20,\\; 1.5 \\times 20=30,\\; Q_3+30=80.\\text{ Since }80\\text{ is exactly at the boundary, it is not beyond it, so }80\\text{ is not an outlier.}"
+    },
+    {
+      "prompt_latex": "\\text{A teacher records these quiz scores: } 55, 60, 70, 72, 75, 78, 80, 88, 92, 95.\\text{ Build the five-number summary and describe what the IQR tells you about the class performance.}",
+      "answer_latex": "\\text{Min}=55,\\ Q_1=71,\\ Q_2=76.5,\\ Q_3=84,\\ \\text{Max}=95,\\ IQR=13.\\text{ The middle 50\\% of students scored within a 13-point range, suggesting most scores were fairly consistent.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students include the median value in both the lower and upper halves when computing $Q_1$ and $Q_3$ for an odd-sized data set. The fix is to exclude the median itself \u2014 $Q_1$ is the median of only the values strictly below $Q_2$, and $Q_3$ uses only the values strictly above $Q_2$.",
+    "Students confuse the length of a whisker with the range of the entire data set, or assume both whiskers must be equal in length. In reality, whiskers can be very different lengths because the data may be skewed, and the whisker length simply reflects where the data actually falls, not a calculated formula.",
+    "Students place the vertical line inside the box at the mean rather than the median. The box-and-whisker plot always uses the median ($Q_2$) for that center line \u2014 the mean is not part of the five-number summary at all, and substituting it produces an incorrect and misleading display."
+  ],
+  "untested_variants": [
+    "Identifying or comparing two box plots drawn on the same number line and making conclusions about which data set has greater spread or a higher median.",
+    "Working backwards from a given box plot image to reconstruct the five-number summary values, rather than building a plot from raw data.",
+    "Determining and plotting outliers using the $1.5 \\times IQR$ rule and drawing modified whiskers that stop at the last non-outlier value.",
+    "Using a box plot to compare real-world data sets with different sample sizes and drawing statistical conclusions about the populations."
+  ]
+}

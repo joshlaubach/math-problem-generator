@@ -1,0 +1,76 @@
+{
+  "topic_id": "a2_037",
+  "topic_name": "Properties of Logarithms",
+  "generated_at": "2026-05-12T23:27:10.112239+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know that $\\log_2(8) = 3$ because $2^3 = 8$, and you can evaluate simple logarithms one at a time. But what happens when you need to simplify something like $\\log_3(27x^4)$ or $\\log_5\\!\\left(\\frac{25}{y}\\right)$? These expressions combine multiplication, division, and exponents inside a single logarithm \u2014 and right now you have no tools to break them apart. How can we expand or condense complicated logarithmic expressions using a small set of rules?",
+  "concept": "Logarithms turn multiplication into addition, division into subtraction, and exponents into multiplication \u2014 and the three properties of logarithms make this precise. For any valid base $b > 0$, $b \\neq 1$, and positive values $M$ and $N$: the Product Property says $\\log_b(MN) = \\log_b M + \\log_b N$; the Quotient Property says $\\log_b\\!\\left(\\frac{M}{N}\\right) = \\log_b M - \\log_b N$; and the Power Property says $\\log_b(M^p) = p\\log_b M$.",
+  "anatomy": "Each property has three distinct parts worth naming. The base $b$ is the subscript on the logarithm and must stay consistent across every term when you expand or condense. The argument is the expression inside the logarithm \u2014 in the Product Property the argument $MN$ splits into two separate logarithms, each with its own argument ($M$ and $N$). The exponent (or power) $p$ in the Power Property migrates: it lives inside the argument as an exponent before applying the property, and becomes a leading coefficient multiplying the logarithm afterward. Recognizing which property applies depends entirely on the structure of the argument \u2014 product, quotient, or power.",
+  "worked_example": [
+    {
+      "expression_latex": "\\log_2(8x^3)",
+      "description_latex": "We start by identifying the structure of the argument $8x^3$. Because two factors are multiplied together inside a single logarithm, we apply the Product Property: $\\log_2(8x^3) = \\log_2 8 + \\log_2(x^3)$. This splits one complicated logarithm into two simpler ones that we can handle individually.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\log_2 8 + \\log_2(x^3) = 3 + \\log_2(x^3)",
+      "description_latex": "We evaluate $\\log_2 8 = 3$ because $2^3 = 8$, so that term becomes the constant $3$. The second term still has an exponent inside its argument, so we are not finished yet.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3 + \\log_2(x^3) = 3 + 3\\log_2 x",
+      "description_latex": "Now we apply the Power Property to $\\log_2(x^3)$: the exponent $3$ moves from inside the argument to become a coefficient in front of the logarithm, giving $3\\log_2 x$. This is the fully expanded form, and it cannot be simplified further.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\log_5\\!\\left(\\frac{25}{x^2}\\right)",
+      "description_latex": "We need to expand this expression completely. Start by noticing the argument is a fraction, so we apply the Quotient Property first: $\\log_5\\!\\left(\\frac{25}{x^2}\\right) = \\log_5 25 - \\log_5(x^2)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\log_5 25 - \\log_5(x^2) = 2 - \\log_5(x^2)",
+      "description_latex": "We evaluate $\\log_5 25 = 2$ since $5^2 = 25$. The second term still contains an exponent inside the argument, so one more step is needed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Apply the Power Property to $\\log_5(x^2)$ to move the exponent out front, and write the final fully expanded expression. What do you get?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Expand: $\\log_3(9y)$",
+      "answer_latex": "2 + \\log_3 y"
+    },
+    {
+      "prompt_latex": "Expand completely: $\\log_4\\!\\left(\\frac{x^5}{16}\\right)$",
+      "answer_latex": "5\\log_4 x - 2"
+    },
+    {
+      "prompt_latex": "Condense into a single logarithm: $2\\log_6 x + \\log_6 3$",
+      "answer_latex": "\\log_6(3x^2)"
+    },
+    {
+      "prompt_latex": "Expand completely: $\\ln\\!\\left(\\frac{e^3 x^2}{y}\\right)$",
+      "answer_latex": "3 + 2\\ln x - \\ln y"
+    },
+    {
+      "prompt_latex": "The decibel level of a sound is $D = 10\\log\\!\\left(\\frac{I}{I_0}\\right)$. If the intensity $I = 10^6 I_0$, use the Quotient and Power Properties to evaluate $D$.",
+      "answer_latex": "D = 60 \\text{ decibels}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $\\log_b(M + N) = \\log_b M + \\log_b N$, but the Product Property only applies to a product inside the argument, not a sum. There is no property that splits a sum inside a logarithm, so $\\log_b(M+N)$ cannot be expanded further.",
+    "When applying the Quotient Property, students subtract in the wrong order and write $\\log_b N - \\log_b M$ instead of $\\log_b M - \\log_b N$ for $\\log_b\\!\\left(\\frac{M}{N}\\right)$. Remember that the numerator's logarithm always comes first and the denominator's logarithm is subtracted.",
+    "When condensing, students apply the Power Property incorrectly by writing $\\log_b(pM)$ instead of $\\log_b(M^p)$ \u2014 they multiply the argument by $p$ rather than raising it to the power $p$. The coefficient in front of a logarithm becomes an exponent on the argument, not a factor."
+  ],
+  "untested_variants": [
+    "Expanding a logarithm whose argument contains a square root, such as $\\log_2\\!\\sqrt{x^3 y}$, which requires rewriting the radical as a fractional exponent before applying the Power Property.",
+    "Condensing three or more logarithmic terms into a single logarithm using all three properties simultaneously, such as $3\\log x - 2\\log y + \\log 5$.",
+    "Using the Change-of-Base formula in combination with the properties to evaluate or simplify expressions like $\\log_4 5 \\cdot \\log_5 16$.",
+    "Solving equations that require condensing logarithms as a first step, such as $\\log_2 x + \\log_2(x-2) = 3$, where the properties are used as a solving strategy rather than a simplification goal."
+  ]
+}

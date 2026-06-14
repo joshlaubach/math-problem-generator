@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_035",
+  "topic_name": "Polynomial Division and the Remainder Theorem",
+  "generated_at": "2026-05-13T20:07:58.804504+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to divide integers \u2014 when you divide 17 by 5, you get a quotient of 3 and a remainder of 2, and you can write $17 = 5 \\cdot 3 + 2$. It turns out polynomials behave in almost exactly the same way: you can divide one polynomial by another and get a quotient polynomial plus a remainder. But here's the surprising part: if you just want to know the remainder when dividing by a linear factor $(x - c)$, do you really have to perform the entire long division?",
+  "concept": "Polynomial division extends the idea of integer division to polynomials. Given polynomials $p(x)$ and $d(x)$ with $\\deg(d) \\geq 1$, there exist unique polynomials $q(x)$ and $r(x)$ such that $p(x) = d(x) \\cdot q(x) + r(x)$, where $r(x)$ is either zero or $\\deg(r) < \\deg(d)$. The Remainder Theorem adds a powerful shortcut: when $d(x) = x - c$, the remainder is simply $r = p(c)$.",
+  "anatomy": "In the division equation $p(x) = d(x) \\cdot q(x) + r(x)$, $p(x)$ is the dividend (the polynomial being divided), $d(x)$ is the divisor (the polynomial you divide by), $q(x)$ is the quotient (the result of the division), and $r(x)$ is the remainder (what is left over). When the divisor is linear, say $d(x) = x - c$, the value $c$ is the root being tested, and the remainder collapses to a constant $r$ because its degree must be less than 1. The Remainder Theorem identifies this constant as $r = p(c)$, the evaluation of the dividend at $x = c$.",
+  "worked_example": [
+    {
+      "expression_latex": "p(x) = 2x^3 - 3x^2 + x - 5, \\quad d(x) = x - 2",
+      "description_latex": "We want to find the remainder when $p(x) = 2x^3 - 3x^2 + x - 5$ is divided by $x - 2$. Before doing any long division, notice that the divisor is linear in the form $x - c$, so the Remainder Theorem applies directly with $c = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = p(2) = 2(2)^3 - 3(2)^2 + (2) - 5",
+      "description_latex": "By the Remainder Theorem, the remainder equals $p(c)$, which here means we substitute $x = 2$ into every term of $p(x)$. We are essentially asking: what is the value of the polynomial at the point where the divisor would equal zero?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = 2(8) - 3(4) + 2 - 5 = 16 - 12 + 2 - 5",
+      "description_latex": "Now we evaluate each power: $2^3 = 8$ and $2^2 = 4$, then multiply by the corresponding coefficients. This is straightforward arithmetic, and keeping the terms separated helps avoid sign errors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = 1",
+      "description_latex": "Combining the arithmetic gives $16 - 12 + 2 - 5 = 1$, so the remainder is $1$. This means we can write $2x^3 - 3x^2 + x - 5 = (x-2) \\cdot q(x) + 1$ for some quotient polynomial $q(x)$, without ever needing to find $q(x)$ explicitly.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "p(x) = x^4 - 3x^3 + 0x^2 + 2x - 7, \\quad d(x) = x + 1",
+      "description_latex": "We want the remainder when $p(x) = x^4 - 3x^3 + 2x - 7$ is divided by $x + 1$. Start by rewriting the divisor in the form $x - c$: since $x + 1 = x - (-1)$, we identify $c = -1$. The Remainder Theorem tells us $r = p(-1)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = p(-1) = (-1)^4 - 3(-1)^3 + 2(-1) - 7",
+      "description_latex": "We substitute $x = -1$ into $p(x)$, being careful with signs on each power of $-1$. Notice the missing $x^2$ term contributes nothing here, but you must remember it has a zero coefficient so it does not appear in the substitution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Evaluate each term: compute $(-1)^4$, $(-1)^3$, and $(-1)$, then combine everything to find the numerical value of $r$. What is $p(-1)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "r = 1 + 3 - 2 - 7 = -5",
+      "description_latex": "Putting it all together: $1 - 3(-1) + 2(-1) - 7 = 1 + 3 - 2 - 7 = -5$, so the remainder is $-5$ and we can write $p(x) = (x+1) \\cdot q(x) - 5$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use the Remainder Theorem to find the remainder when $p(x) = x^2 - 4x + 3$ is divided by $x - 1$.",
+      "answer_latex": "r = p(1) = 1 - 4 + 3 = 0"
+    },
+    {
+      "prompt_latex": "Find the remainder when $p(x) = 3x^3 + 2x^2 - x + 4$ is divided by $x - 2$.",
+      "answer_latex": "r = p(2) = 24 + 8 - 2 + 4 = 34"
+    },
+    {
+      "prompt_latex": "Find the remainder when $p(x) = x^4 + 2x^3 - 5x + 1$ is divided by $x + 3$.",
+      "answer_latex": "r = p(-3) = 81 - 54 + 15 + 1 = 43"
+    },
+    {
+      "prompt_latex": "Given that $p(x) = x^3 + kx^2 - 2x + 1$ leaves a remainder of $5$ when divided by $x - 2$, find the value of $k$.",
+      "answer_latex": "p(2) = 8 + 4k - 4 + 1 = 5 \\Rightarrow 4k + 5 = 5 \\Rightarrow k = 0"
+    },
+    {
+      "prompt_latex": "A polynomial $p(x)$ satisfies $p(3) = 7$ and $p(-2) = 0$. What can you conclude about the remainders when $p(x)$ is divided by $x - 3$ and by $x + 2$, and what does $p(-2) = 0$ tell you about the factor structure of $p(x)$?",
+      "answer_latex": "\\text{Remainder when dividing by } x-3 \\text{ is } 7; \\text{ remainder when dividing by } x+2 \\text{ is } 0, \\text{ so } (x+2) \\text{ is a factor of } p(x)."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to negate $c$ when the divisor is $x + a$: they set $c = a$ instead of $c = -a$. Remember, the form is $x - c$, so $x + 3 = x - (-3)$ means $c = -3$, not $3$.",
+    "When substituting negative values of $c$, students mishandle even vs. odd powers \u2014 for example, writing $(-2)^3 = 8$ instead of $-8$. Always compute the power first, then apply the sign, and be explicit: $(-2)^3 = (-2)(-2)(-2) = -8$.",
+    "Students apply the Remainder Theorem to non-linear divisors, such as $x^2 - 1$, by trying to evaluate at a single point. The Remainder Theorem only works when the divisor is linear ($x - c$); for higher-degree divisors, full polynomial long division or partial fractions are required."
+  ],
+  "untested_variants": [
+    "Performing full polynomial long division and writing out the quotient $q(x)$ explicitly \u2014 the practice problems only ask for the remainder, never for $q(x)$.",
+    "Using the Factor Theorem as a standalone tool to verify whether a given binomial is a factor and then completely factoring a higher-degree polynomial by finding all rational roots.",
+    "Synthetic division as an algorithmic shortcut for dividing by $x - c$ and simultaneously reading off the quotient coefficients and the remainder in one compact tableau.",
+    "Dividing one polynomial by a quadratic or higher-degree divisor, where the remainder is itself a non-constant polynomial rather than a single number."
+  ]
+}

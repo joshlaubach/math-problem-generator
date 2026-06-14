@@ -610,7 +610,8 @@ class SessionCreditRecord(Base):
     user_id: Mapped[str] = mapped_column(String(255), index=True)
     used_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime, index=True)
-    purchase_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    # Indexed for the M6 idempotency lookup (replayed Stripe webhooks).
+    purchase_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     def __repr__(self) -> str:
@@ -686,8 +687,12 @@ class ParentLinkRecord(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
     parent_id: Mapped[str] = mapped_column(String(255), index=True)
     student_id: Mapped[str] = mapped_column(String(255), index=True)
-    link_code: Mapped[str] = mapped_column(String(12), unique=True, index=True)
+    # Widened for a full-entropy token (H2); was String(12).
+    link_code: Mapped[str] = mapped_column(String(64), unique=True, index=True)
     confirmed: Mapped[bool] = mapped_column(Boolean, default=False)
+    # H2: codes expire and lock out after repeated bad redemption attempts.
+    expires_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    failed_attempts: Mapped[int] = mapped_column(Integer, default=0)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     __table_args__ = (
@@ -730,6 +735,45 @@ class QuotaEventRecord(Base):
 
     def __repr__(self) -> str:
         return f"<QuotaEventRecord(type={self.type}, user_id={self.user_id})>"
+
+
+class FlaggedContentRecord(Base):
+    """
+    A student message the moderation screen flagged (H3). Reviewable by admins
+    via the transcript view; the highest-priority category is self_harm.
+    """
+
+    __tablename__ = "flagged_content"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    session_id: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    category: Mapped[str] = mapped_column(String(40), index=True)
+    excerpt: Mapped[str] = mapped_column(Text)
+    reviewed: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+
+    def __repr__(self) -> str:
+        return f"<FlaggedContentRecord(user_id={self.user_id}, category={self.category})>"
+
+
+class ConsentLogRecord(Base):
+    """
+    Immutable audit trail of age/consent attestations (M4). One row per
+    /users/me/confirm-age call, with timestamp + IP for compliance records.
+    """
+
+    __tablename__ = "consent_log"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    event: Mapped[str] = mapped_column(String(40))  # e.g. "age_confirmed_13plus"
+    ip_address: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    user_agent: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<ConsentLogRecord(user_id={self.user_id}, event={self.event})>"
 
 
 class TopicLessonRecord(Base):

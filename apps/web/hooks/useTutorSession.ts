@@ -407,8 +407,10 @@ export function useTutorSession(): TutorSessionHook {
 
   // ── WS open ─────────────────────────────────────────────────────────────────
 
-  const openWs = useCallback((url: string) => {
-    const ws = new WebSocket(url)
+  // SECURITY (M3): the auth token is sent via the Sec-WebSocket-Protocol header
+  // (as ["bearer", token]), never in the URL — URLs leak into logs/history.
+  const openWs = useCallback((url: string, token: string) => {
+    const ws = new WebSocket(url, ['bearer', token])
     wsRef.current = ws
     ws.onmessage = (event) => handleMessage(event.data as string)
 
@@ -427,15 +429,15 @@ export function useTutorSession(): TutorSessionHook {
           const p = connectParamsRef.current
           if (p.preSessionId) {
             // Phase 4: reconnect to known session
-            openWs(`${API_WS_BASE}/ws/tutor/${p.preSessionId}?token=${encodeURIComponent(p.token)}`)
+            openWs(`${API_WS_BASE}/ws/tutor/${p.preSessionId}`, p.token)
           } else {
             openWs(
               `${API_WS_BASE}/ws/tutor/${crypto.randomUUID()}` +
-              `?token=${encodeURIComponent(p.token)}` +
-              `&difficulty=${p.difficulty}` +
+              `?difficulty=${p.difficulty}` +
               `&session_type=${p.sessionType}` +
               (p.topicId ? `&topic_id=${encodeURIComponent(p.topicId)}` : '') +
-              (p.tutorName ? `&tutor_name=${encodeURIComponent(p.tutorName)}` : '')
+              (p.tutorName ? `&tutor_name=${encodeURIComponent(p.tutorName)}` : ''),
+              p.token
             )
           }
         }, delay)
@@ -487,7 +489,7 @@ export function useTutorSession(): TutorSessionHook {
     }
     setState('connecting')
     resetState()
-    openWs(`${API_WS_BASE}/ws/tutor/${sessionId}?token=${encodeURIComponent(token)}`)
+    openWs(`${API_WS_BASE}/ws/tutor/${sessionId}`, token)
   }, [openWs, resetState])
 
   /** Legacy: connect without a pre-created session. */
@@ -504,12 +506,11 @@ export function useTutorSession(): TutorSessionHook {
     resetState()
     const url =
       `${API_WS_BASE}/ws/tutor/${crypto.randomUUID()}` +
-      `?token=${encodeURIComponent(token)}` +
-      `&difficulty=${difficulty}` +
+      `?difficulty=${difficulty}` +
       `&session_type=${sessionType}` +
       (topicId ? `&topic_id=${encodeURIComponent(topicId)}` : '') +
       (tutorName ? `&tutor_name=${encodeURIComponent(tutorName)}` : '')
-    openWs(url)
+    openWs(url, token)
   }, [openWs, resetState])
 
   const _send = useCallback((payload: object) => {

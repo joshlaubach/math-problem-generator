@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_014",
+  "topic_name": "Well-Ordering Principle",
+  "generated_at": "2026-05-13T20:18:51.614135+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to prove statements by induction: you verify a base case, assume the statement holds for some $k$, and then prove it for $k+1$. But have you ever wondered *why* that process actually works? What is the deeper principle that guarantees induction is logically valid? The answer lies in a foundational property of the natural numbers called the Well-Ordering Principle \u2014 and understanding it will give you a powerful proof technique all on its own.",
+  "concept": "The Well-Ordering Principle says, in plain English, that you can never have an infinite descending chain of positive integers \u2014 eventually you must hit a smallest one. Formally: every non-empty subset $S$ of the positive integers $\\mathbb{Z}^+$ (or $\\mathbb{N}$) contains a least element, i.e., there exists $m \\in S$ such that $m \\leq s$ for all $s \\in S$. This property is deceptively simple but extraordinarily powerful as a direct proof tool.",
+  "anatomy": "A Well-Ordering argument has three distinct structural parts. First, the non-empty set $S$: you define a set of positive integers that you want to show is empty (by contradiction) or whose least element has special properties \u2014 you must verify it is a subset of $\\mathbb{Z}^+$. Second, the least element $m$: once you invoke the Well-Ordering Principle, you are guaranteed a smallest element $m \\in S$ exists; your argument then analyzes what $m$ being *least* implies. Third, the contradiction or conclusion: you derive a logical impossibility (for example, constructing an element smaller than $m$ that also belongs to $S$), forcing $S$ to be empty or $m$ to satisfy the desired property.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: Every integer } n \\geq 2 \\text{ has a prime divisor.}",
+      "description_latex": "We state the claim clearly before beginning. Rather than using induction, we will apply the Well-Ordering Principle directly by assuming the claim fails and extracting a smallest counterexample \u2014 this is the classic proof-by-minimum-counterexample strategy.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\{ n \\in \\mathbb{Z}^+ : n \\geq 2 \\text{ and } n \\text{ has no prime divisor} \\}",
+      "description_latex": "We define $S$ to be the set of all integers greater than or equal to $2$ that fail the claim. If $S$ is empty, the claim is true for all such integers, so we assume for contradiction that $S \\neq \\emptyset$. Because $S$ is a non-empty set of positive integers, the Well-Ordering Principle guarantees it contains a least element $m$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m \\in S \\Rightarrow m \\geq 2 \\text{ and } m \\text{ has no prime divisor}",
+      "description_latex": "We unpack what it means for $m$ to be in $S$: it is at least 2 and no prime divides it. Now ask: is $m$ itself prime? If $m$ were prime, it would divide itself, making $m$ a prime divisor of $m$ \u2014 contradicting that $m \\in S$. So $m$ cannot be prime, meaning $m$ is composite.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m = a \\cdot b \\text{ where } 2 \\leq a < m \\text{ and } 2 \\leq b < m",
+      "description_latex": "Since $m$ is composite, we can write $m = a \\cdot b$ with $2 \\leq a, b < m$. Because $a < m$ and $m$ is the *least* element of $S$, we know $a \\notin S$, which means $a$ does have a prime divisor $p$. This is the key step where minimality does the work for us.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p \\mid a \\text{ and } a \\mid m \\Rightarrow p \\mid m",
+      "description_latex": "Since $p$ divides $a$ and $a$ divides $m$, divisibility is transitive and $p$ divides $m$. But this means $m$ has a prime divisor, contradicting $m \\in S$. This contradiction shows $S$ must be empty, proving every integer $n \\geq 2$ has a prime divisor.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: There is no solution in positive integers to } a^2 = 2b^2.",
+      "description_latex": "We want to prove $\\sqrt{2}$ is irrational by showing no positive integers $a, b$ satisfy $a^2 = 2b^2$. We will apply the Well-Ordering Principle: assume solutions exist, form a non-empty set of positive integers, and derive a contradiction using the least element.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\{ a \\in \\mathbb{Z}^+ : a^2 = 2b^2 \\text{ for some } b \\in \\mathbb{Z}^+ \\}",
+      "description_latex": "We define $S$ as the set of all positive integer values of $a$ for which a solution exists. Assuming the claim is false, $S$ is non-empty, and by the Well-Ordering Principle $S$ has a least element $a_0$ with corresponding $b_0$ satisfying $a_0^2 = 2b_0^2$. Your task next is to derive a contradiction by finding a smaller element of $S$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "From $a_0^2 = 2b_0^2$ we know $a_0^2$ is even, so $a_0$ is even. Write $a_0 = 2c$ for some positive integer $c$, substitute back into the equation, and simplify to find a new equation relating $c$ and $b_0$. What equation do you get, and what does it tell you about $b_0$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "b_0^2 = 2c^2 \\Rightarrow b_0 \\in S \\text{ and } b_0 < a_0 \\Rightarrow \\text{contradiction}",
+      "description_latex": "Substituting $a_0 = 2c$ gives $(2c)^2 = 2b_0^2$, so $4c^2 = 2b_0^2$, meaning $b_0^2 = 2c^2$. This means $b_0 \\in S$, but $b_0 < a_0$ (since $b_0^2 = \\frac{a_0^2}{2} < a_0^2$), contradicting the minimality of $a_0$. Therefore $S$ is empty and no such solution exists.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the Well-Ordering Principle precisely. Then give one example of a non-empty subset of $\\mathbb{Z}^+$ and identify its least element.",
+      "answer_latex": "Every non-empty subset $S \\subseteq \\mathbb{Z}^+$ has a least element $m \\in S$ such that $m \\leq s$ for all $s \\in S$. Example: $S = \\{3, 7, 12\\}$; least element is $3$."
+    },
+    {
+      "prompt_latex": "Use the Well-Ordering Principle to prove: there is no integer strictly between $0$ and $1$. (Assume for contradiction that such an integer exists, form the appropriate set $S$, and apply WOP.)",
+      "answer_latex": "Let $S = \\{n \\in \\mathbb{Z}^+ : 0 < n < 1\\}$. If $S \\neq \\emptyset$, by WOP let $m$ be its least element with $0 < m < 1$. Then $0 < m^2 < m < 1$, so $m^2 \\in S$ and $m^2 < m$, contradicting minimality of $m$. Thus $S = \\emptyset$."
+    },
+    {
+      "prompt_latex": "Use a minimum-counterexample argument to prove: for all integers $n \\geq 1$, we have $n < 2^n$.",
+      "answer_latex": "Let $S = \\{n \\in \\mathbb{Z}^+ : n \\geq 2^n\\}$. Note $1 < 2^1$ so $1 \\notin S$. Assume $S \\neq \\emptyset$ and let $m$ be its least element, $m \\geq 2$. Then $m-1 \\notin S$, so $m-1 < 2^{m-1}$. Then $m = (m-1)+1 < 2^{m-1}+1 \\leq 2^{m-1}+2^{m-1} = 2^m$, so $m \\notin S$, a contradiction. Thus $S = \\emptyset$."
+    },
+    {
+      "prompt_latex": "Use the Well-Ordering Principle to prove the Division Algorithm: for any integers $a \\geq 1$ and $b \\geq 1$, there exist unique integers $q \\geq 0$ and $0 \\leq r < b$ such that $a = bq + r$. (Prove existence only, by defining $S = \\{a - bq : q \\in \\mathbb{Z}, a - bq \\geq 0\\}$ and analyzing its least element.)",
+      "answer_latex": "The set $S = \\{a - bq : q \\in \\mathbb{Z},\\, a-bq \\geq 0\\}$ is non-empty (take $q=0$: $a \\in S$). By WOP let $r = a - bq_0$ be the least element. Then $r \\geq 0$ by definition of $S$. If $r \\geq b$, then $r - b = a - b(q_0+1) \\geq 0$, so $r-b \\in S$ and $r-b < r$, contradicting minimality. Thus $0 \\leq r < b$ and $a = bq_0 + r$."
+    },
+    {
+      "prompt_latex": "A staircase has $n$ steps. Each move you make goes either $1$ step up or $2$ steps up. Use a minimum-counterexample argument to prove that every step $n \\geq 1$ can be reached from step $0$.",
+      "answer_latex": "Let $S = \\{n \\in \\mathbb{Z}^+ : \\text{step } n \\text{ cannot be reached}\\}$. Step $1$ is reached in one move of size $1$, and step $2$ is reached in one move of size $2$, so $1, 2 \\notin S$. Suppose $S \\neq \\emptyset$ and let $m$ be its least element; then $m \\geq 3$. Since $m-1 < m$ and $m-2 < m$, both $m-1$ and $m-2$ are reachable. A single move of size $1$ from step $m-1$ reaches step $m$, contradicting $m \\in S$. So $S = \\emptyset$."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to verify that the set $S$ they define is actually a subset of the positive integers (or natural numbers), which is required to invoke the Well-Ordering Principle. If $S$ could contain negative integers or real numbers, WOP does not apply \u2014 always check that your set consists of non-negative or positive integers.",
+    "After invoking WOP to get a least element $m$, students sometimes construct a new element $m'$ that is smaller than $m$ but then fail to verify that $m'$ actually belongs to $S$. The contradiction only arises if $m' \\in S$ AND $m' < m$, so you must explicitly confirm membership in $S$, not just the inequality.",
+    "Students confuse the Well-Ordering Principle with the Principle of Mathematical Induction, treating them as separate, unrelated tools. In fact they are logically equivalent, and using WOP correctly means setting up a set of counterexamples and finding a minimum \u2014 not restating an inductive step. Using WOP as if it were induction (without explicitly defining a set and applying minimality) does not constitute a valid WOP proof."
+  ],
+  "untested_variants": [
+    "Proving the equivalence of the Well-Ordering Principle and the Principle of Mathematical Induction (i.e., formally deriving each from the other as a theorem).",
+    "Applying WOP to subsets of the integers $\\mathbb{Z}$ that are bounded below but not subsets of $\\mathbb{Z}^+$, such as $\\{n \\in \\mathbb{Z} : n \\geq -5\\}$, and understanding why a modified version of WOP still holds.",
+    "Using WOP to prove the Fundamental Theorem of Arithmetic (unique prime factorization), which requires both the existence argument from the worked example and a separate uniqueness argument.",
+    "Using WOP in the context of infinite descent (Fermat's method), where the argument is phrased as an infinite descending sequence rather than explicitly defining a set with a least element."
+  ]
+}
