@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_077",
+  "topic_name": "Theoretical vs. Experimental Probability",
+  "generated_at": "2026-05-12T23:15:08.881823+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that if you flip a fair coin, the chance of getting heads is $\\frac{1}{2}$ \u2014 that's the math telling you what *should* happen. But what if you actually flipped a coin 20 times and got heads only 7 times? Does that mean the coin is unfair, or did you just get unlucky? The gap between what the math predicts and what actually happens in an experiment is exactly what separates two powerful ideas in probability \u2014 and knowing the difference will change how you interpret data forever. So why don't these two values always match?",
+  "concept": "Theoretical probability is what math tells us *should* happen in a perfectly ideal world, calculated from the structure of the situation itself. Experimental probability is what *actually* happens when you run a real trial. Formally, theoretical probability is $P(E) = \\frac{\\text{number of favorable outcomes}}{\\text{total number of equally likely outcomes}}$, while experimental probability is $P(E) = \\frac{\\text{number of times event occurred}}{\\text{total number of trials}}$. As the number of trials grows, the experimental probability tends to get closer to the theoretical value.",
+  "anatomy": "Both formulas share a fraction structure, so it helps to name the parts precisely. In theoretical probability, the numerator is the count of *favorable outcomes* (outcomes that match the event you care about) and the denominator is the *sample space size* (every equally likely outcome possible). In experimental probability, the numerator is the *observed frequency* (how many times the event actually happened) and the denominator is the *number of trials* (how many times the experiment was run in total). The critical distinction is that theoretical probability requires no experiment \u2014 only logical counting \u2014 while experimental probability requires recorded real-world data.",
+  "worked_example": [
+    {
+      "expression_latex": "P(\\text{rolling a 3}) = \\frac{\\text{favorable outcomes}}{\\text{total outcomes}} = \\frac{1}{6}",
+      "description_latex": "We start by identifying the theoretical probability of rolling a 3 on a standard six-sided die. There is exactly 1 favorable outcome (rolling a 3) out of 6 equally likely outcomes, so the theoretical probability is $\\frac{1}{6}$. This value comes purely from the structure of the die \u2014 no rolling required.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Experiment: rolled 30 times, got a 3 exactly 4 times}",
+      "description_latex": "Now suppose you actually roll the die 30 times and record that a 3 appears 4 times. This gives us the data we need to compute the experimental probability \u2014 we know both the observed frequency (4) and the number of trials (30).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{rolling a 3, experimental}) = \\frac{4}{30} = \\frac{2}{15} \\approx 0.133",
+      "description_latex": "We apply the experimental probability formula by placing the observed frequency in the numerator and the total trials in the denominator, giving $\\frac{4}{30}$, which simplifies to $\\frac{2}{15}$. Notice this is close to but not equal to the theoretical value of $\\frac{1}{6} \\approx 0.167$ \u2014 that gap is completely normal for only 30 trials.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{2}{15} \\approx 0.133 \\quad \\text{vs.} \\quad \\frac{1}{6} \\approx 0.167",
+      "description_latex": "Comparing the two values side by side shows that the experimental probability is lower than the theoretical probability in this particular experiment. This does not mean the die is unfair \u2014 random variation is expected, especially with small numbers of trials. If we rolled 3000 times instead of 30, we would expect the experimental probability to be much closer to $\\frac{1}{6}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A bag contains 4 red marbles and 6 blue marbles. A marble is drawn 25 times (with replacement); red appears 8 times.}",
+      "description_latex": "We have all the information we need to compute both probabilities. Start by identifying the theoretical probability: the bag holds 10 marbles total, 4 of which are red, so we use the favorable-outcomes-over-total-outcomes formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{red, theoretical}) = \\frac{4}{10} = \\frac{2}{5}",
+      "description_latex": "The theoretical probability is $\\frac{4}{10} = \\frac{2}{5} = 0.4$. Now you need to calculate the experimental probability using the data from the 25 draws \u2014 remember, red appeared 8 times out of 25 total draws.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Calculate the experimental probability of drawing a red marble. Write your answer as a fraction in simplest form and as a decimal, then state whether it is greater than, less than, or equal to the theoretical probability.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A standard deck has 52 cards and 13 are hearts. What is the theoretical probability of drawing a heart?",
+      "answer_latex": "P(\\text{heart}) = \\frac{13}{52} = \\frac{1}{4}"
+    },
+    {
+      "prompt_latex": "A spinner is spun 40 times. It lands on green 14 times. What is the experimental probability of landing on green?",
+      "answer_latex": "P(\\text{green, exp}) = \\frac{14}{40} = \\frac{7}{20}"
+    },
+    {
+      "prompt_latex": "A fair coin is flipped. The theoretical probability of tails is $\\frac{1}{2}$. If the coin is flipped 50 times and tails appears 18 times, how much greater is the theoretical probability than the experimental probability? Express as a fraction.",
+      "answer_latex": "\\frac{1}{2} - \\frac{18}{50} = \\frac{25}{50} - \\frac{18}{50} = \\frac{7}{50}"
+    },
+    {
+      "prompt_latex": "A six-sided die is rolled 60 times. The theoretical probability of rolling an even number is $\\frac{1}{2}$. How many times would you *expect* to roll an even number? If you actually rolled an even number 27 times, what is the experimental probability, and by what percent does it differ from the theoretical probability (to the nearest whole percent)?",
+      "answer_latex": "\\text{Expected: } 30 \\text{ times}; \\quad P(\\text{even, exp}) = \\frac{27}{60} = \\frac{9}{20} = 0.45; \\quad \\text{Difference: } |0.50 - 0.45| = 0.05 = 5\\%"
+    },
+    {
+      "prompt_latex": "A quality-control inspector tests light bulbs. Out of 200 bulbs tested, 12 are defective. Based on experimental probability, how many defective bulbs would you expect in a shipment of 1{,}500 bulbs?",
+      "answer_latex": "P(\\text{defective}) = \\frac{12}{200} = \\frac{3}{50}; \\quad \\frac{3}{50} \\times 1500 = 90 \\text{ bulbs}"
+    }
+  ],
+  "common_mistakes": [
+    "Students swap the numerator and denominator in the experimental probability formula, writing $\\frac{\\text{total trials}}{\\text{observed frequency}}$ instead of $\\frac{\\text{observed frequency}}{\\text{total trials}}$. Remember: the frequency of the specific event always goes on top, just as favorable outcomes sit in the numerator for theoretical probability.",
+    "Students assume that if experimental and theoretical probabilities differ, something is wrong with the experiment or the object is unfair. In reality, random variation is completely normal \u2014 the two values are only guaranteed to be equal in the long run (many trials), not in any single small experiment.",
+    "When asked for theoretical probability, students accidentally use the experimental data from the problem instead of counting outcomes in the sample space. Always ask: am I using the *structure* of the situation (theoretical) or the *recorded results* (experimental)? These require different numbers from the problem."
+  ],
+  "untested_variants": [
+    "Problems where students must determine the *minimum number of trials* needed so that the experimental probability is within a given tolerance of the theoretical probability.",
+    "Geometric probability problems where the theoretical probability is found using areas or lengths (e.g., probability a dart hits a shaded region) rather than discrete counting.",
+    "Problems requiring students to back-calculate a missing count \u2014 for example, given the experimental probability and the total number of trials, find how many times the event occurred.",
+    "Multi-event problems where students compare experimental vs. theoretical probabilities for compound events (such as rolling two dice and summing the result), requiring them to first build a sample space."
+  ]
+}

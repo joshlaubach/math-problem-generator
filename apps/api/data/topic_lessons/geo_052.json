@@ -1,0 +1,86 @@
+{
+  "topic_id": "geo_052",
+  "topic_name": "Similarity in Three-Dimensional Figures (H)",
+  "generated_at": "2026-05-12T23:08:09.669113+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that similar polygons have proportional sides and equal angles, and you can scale a triangle or rectangle by a ratio $k$ to get a larger or smaller version. Now imagine scaling a sphere, a cylinder, or a rectangular prism by the same ratio $k$ \u2014 the shape grows in three directions at once, not just two. If you double the side length of a cube, does its volume double too, or does something more dramatic happen?",
+  "concept": "Similar three-dimensional figures are solids that have the same shape but not necessarily the same size \u2014 every linear dimension (length, width, height, radius, slant height) scales by the same ratio $k$, called the scale factor. Because area involves two dimensions and volume involves three, if two solids are similar with scale factor $k$, their surface areas are related by $k^2$ and their volumes by $k^3$. Formally: if $k = \\frac{l_2}{l_1}$, then $\\frac{SA_2}{SA_1} = k^2$ and $\\frac{V_2}{V_1} = k^3$.",
+  "anatomy": "The key components to track are: the linear scale factor $k$, which is the ratio of any pair of corresponding lengths (radii, heights, edge lengths) between the two solids; the area scale factor $k^2$, applied to any surface area or cross-sectional area; the volume scale factor $k^3$, applied to the total volume of either solid; and the corresponding dimensions themselves \u2014 you must identify which length in solid 1 corresponds to which length in solid 2 before computing $k$. Getting the direction of the ratio right (larger to smaller vs. smaller to larger) determines whether $k > 1$ or $k < 1$.",
+  "worked_example": [
+    {
+      "expression_latex": "k = \\frac{r_2}{r_1} = \\frac{6}{4} = \\frac{3}{2}",
+      "description_latex": "We start by identifying the linear scale factor $k$ using the two radii, which are corresponding lengths. Here, the larger cone has radius 6 and the smaller has radius 4, so $k = \\frac{3}{2}$. This single ratio will drive all our area and volume comparisons.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{SA_{\\text{large}}}{SA_{\\text{small}}} = k^2 = \\left(\\frac{3}{2}\\right)^2 = \\frac{9}{4}",
+      "description_latex": "Because surface area is a two-dimensional measurement, we square the linear scale factor to get the area ratio. This tells us the larger cone's total surface area is $\\frac{9}{4}$ times the smaller cone's surface area \u2014 you can now find one surface area if you know the other.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{V_{\\text{large}}}{V_{\\text{small}}} = k^3 = \\left(\\frac{3}{2}\\right)^3 = \\frac{27}{8}",
+      "description_latex": "Volume lives in three dimensions, so we cube $k$ to get the volume ratio. The larger cone holds $\\frac{27}{8}$ times as much space as the smaller cone \u2014 notice how dramatically the ratio grows compared to the linear or area ratios.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V_{\\text{large}} = \\frac{27}{8} \\times 32\\pi = 108\\pi",
+      "description_latex": "If we are told the smaller cone has volume $32\\pi$, we multiply by the volume ratio $\\frac{27}{8}$ to find the larger volume. This approach avoids re-deriving the cone volume formula \u2014 the similarity ratio does all the scaling work for us.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "k = \\frac{5}{2}",
+      "description_latex": "Two similar rectangular prisms have corresponding edge lengths of 2 cm and 5 cm. We identify the linear scale factor first: $k = \\frac{5}{2}$. This sets up every ratio we will need.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{SA_{\\text{large}}}{SA_{\\text{small}}} = k^2 = \\left(\\frac{5}{2}\\right)^2 = \\frac{25}{4}",
+      "description_latex": "Now square $k$ to find the surface area ratio. The larger prism's surface area is $\\frac{25}{4}$ times the smaller prism's surface area.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "The smaller prism has surface area $48 \\text{ cm}^2$. Use the area scale factor $\\frac{25}{4}$ to find the surface area of the larger prism. What is $SA_{\\text{large}}$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "The smaller prism has volume $24 \\text{ cm}^3$. Write the volume scale factor $k^3$ and use it to find the volume of the larger prism.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Two similar spheres have radii $r_1 = 3$ and $r_2 = 6$. Find the ratio of their volumes.",
+      "answer_latex": "\\frac{V_2}{V_1} = 8"
+    },
+    {
+      "prompt_latex": "Two similar cylinders have a linear scale factor of $k = \\frac{2}{5}$. Find the ratio of their surface areas.",
+      "answer_latex": "\\frac{SA_2}{SA_1} = \\frac{4}{25}"
+    },
+    {
+      "prompt_latex": "Two similar cones have surface areas of $36\\pi$ and $100\\pi$. Find the ratio of their volumes.",
+      "answer_latex": "\\frac{V_{\\text{large}}}{V_{\\text{small}}} = \\frac{125}{27}"
+    },
+    {
+      "prompt_latex": "A small pyramid has a square base with side length 4 and volume $80$. A similar pyramid has a square base with side length 10. Find the volume of the larger pyramid.",
+      "answer_latex": "V_{\\text{large}} = 1250"
+    },
+    {
+      "prompt_latex": "A manufacturer makes two similar cylindrical cans. The smaller can holds $250 \\text{ mL}$ of soup and has a height of 8 cm. The taller can has a height of 12 cm. How many milliliters does the taller can hold? Round to the nearest milliliter.",
+      "answer_latex": "V_{\\text{large}} \\approx 844 \\text{ mL}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the linear scale factor $k$ directly to scale volume, writing $V_2 = k \\cdot V_1$ instead of $V_2 = k^3 \\cdot V_1$. Always ask yourself: am I scaling a length (use $k$), an area (use $k^2$), or a volume (use $k^3$)?",
+    "When the surface areas of two similar solids are given, students find $k = \\frac{SA_2}{SA_1}$ and then cube it for the volume ratio, forgetting that the surface area ratio is already $k^2$. The fix is to take the square root of the area ratio first to recover $k$, then cube that result.",
+    "Students mix up which solid is 'solid 1' and which is 'solid 2,' leading to a scale factor that is the reciprocal of the correct one (e.g., writing $k = \\frac{3}{5}$ when the problem scales up). Always label the solids clearly and set up the ratio consistently as $k = \\frac{\\text{new}}{\\text{original}}$ or $\\frac{\\text{large}}{\\text{small}}$ throughout the problem."
+  ],
+  "untested_variants": [
+    "Finding a missing linear dimension (e.g., the radius or height) given the volume ratio between two similar solids.",
+    "Problems involving similar solids where the scale factor must be determined from a volume ratio (requiring cube-root extraction, such as $k = \\sqrt[3]{\\frac{125}{8}}$).",
+    "Composite or real-world solids (e.g., a silo that combines a cylinder and a cone) where students must apply the same scale factor to the combined volume or surface area.",
+    "Problems comparing two similar solids by finding how many times the smaller solid fits inside the larger, connecting volume ratios to division."
+  ]
+}

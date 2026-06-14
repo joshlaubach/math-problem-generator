@@ -1,0 +1,91 @@
+{
+  "topic_id": "geo_046",
+  "topic_name": "Coordinate Proofs with Quadrilaterals (H)",
+  "generated_at": "2026-05-12T23:06:46.232613+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to classify quadrilaterals by their side lengths, angles, and diagonals \u2014 but what happens when someone hands you four points on a coordinate plane and asks you to *prove* it's a parallelogram, rectangle, or rhombus? You have the distance formula, the slope formula, and the midpoint formula in your toolkit. The question is: which formulas do you use, in what order, and how do you turn numerical results into a airtight logical argument that settles the classification once and for all?",
+  "concept": "A coordinate proof uses algebra on coordinate points to verify geometric properties without relying on diagrams alone. You assign coordinates to vertices, then compute distances ($d = \\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$), slopes ($m = \\frac{y_2-y_1}{x_2-x_1}$), or midpoints ($M = \\left(\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2}\\right)$) to confirm properties like congruent sides, parallel sides, perpendicular sides, or bisecting diagonals.",
+  "anatomy": "Every coordinate proof with quadrilaterals has four structural ingredients: the four labeled vertices (e.g., $A$, $B$, $C$, $D$) with their coordinate pairs, the chosen tool (distance for side or diagonal length, slope for parallelism or perpendicularity, midpoint for bisection), the computed values organized by side or diagonal, and the classification criterion \u2014 the specific theorem or definition you are satisfying, such as 'opposite sides parallel and equal' for a parallelogram or 'perpendicular diagonals' for a rhombus.",
+  "worked_example": [
+    {
+      "expression_latex": "A(0,0),\\; B(4,0),\\; C(5,3),\\; D(1,3)",
+      "description_latex": "We begin by clearly labeling the four vertices in order so we know which segments are sides ($AB$, $BC$, $CD$, $DA$) and which are diagonals ($AC$, $BD$). Organizing the vertices first prevents mix-ups when you apply formulas later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m_{AB} = \\frac{0-0}{4-0} = 0, \\quad m_{CD} = \\frac{3-3}{5-1} = 0",
+      "description_latex": "We compute the slopes of both pairs of opposite sides, starting with $AB$ and $CD$. Both slopes equal $0$, which tells us these sides are horizontal \u2014 and therefore parallel \u2014 a necessary condition for a parallelogram.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m_{BC} = \\frac{3-0}{5-4} = 3, \\quad m_{DA} = \\frac{3-0}{1-0} = 3",
+      "description_latex": "Next we check the other pair of opposite sides, $BC$ and $DA$. Both slopes equal $3$, confirming that this second pair is also parallel. Two pairs of parallel opposite sides satisfies the definition of a parallelogram.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AB = \\sqrt{(4-0)^2+(0-0)^2} = 4, \\quad BC = \\sqrt{(5-4)^2+(3-0)^2} = \\sqrt{10}",
+      "description_latex": "Because $AB = 4 \\neq \\sqrt{10} = BC$, the adjacent sides are not equal, so we can rule out a rhombus. We now ask whether any right angles exist by checking whether $m_{AB} \\cdot m_{BC} = 0 \\cdot 3 = 0 \\neq -1$, so adjacent sides are not perpendicular and the figure is not a rectangle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Conclusion: } ABCD \\text{ is a parallelogram (not a rectangle or rhombus).}",
+      "description_latex": "We have shown two pairs of parallel sides (via equal slopes) while confirming no right angles (slopes are not negative reciprocals) and no equal adjacent sides, so the most precise classification is a parallelogram. Writing the conclusion with explicit justification is what makes this a proof rather than just a calculation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(0,2),\\; Q(3,5),\\; R(6,2),\\; S(3,-1)",
+      "description_latex": "We want to prove that $PQRS$ is a rhombus. A rhombus has four congruent sides, so our plan is to compute all four side lengths using the distance formula and show they are equal. Start by identifying the four sides: $PQ$, $QR$, $RS$, and $SP$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "PQ = \\sqrt{(3-0)^2+(5-2)^2} = \\sqrt{9+9} = 3\\sqrt{2}",
+      "description_latex": "Here is the distance for side $PQ$ computed for you as a model. Notice how we subtract coordinates in the correct order and simplify the radical. Your job next is to compute $QR$, $RS$, and $SP$ the same way.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $QR = \\sqrt{(6-3)^2+(2-5)^2}$, $RS = \\sqrt{(3-6)^2+(-1-2)^2}$, and $SP = \\sqrt{(0-3)^2+(2-(-1))^2}$. Show all four side lengths and confirm they all equal $3\\sqrt{2}$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{All four sides} = 3\\sqrt{2} \\Rightarrow PQRS \\text{ is a rhombus.}",
+      "description_latex": "Now write the conclusion: because all four side lengths are equal, the definition of a rhombus is satisfied, and this completes the coordinate proof. Always cite the property you verified as the final sentence of your proof.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "The vertices of quadrilateral $ABCD$ are $A(0,0)$, $B(5,0)$, $C(5,4)$, $D(0,4)$. Use slopes to verify that $ABCD$ is a parallelogram.",
+      "answer_latex": "m_{AB} = 0 = m_{DC}$ and $m_{BC}$ is undefined $= m_{AD}$; both pairs of opposite sides are parallel, so $ABCD$ is a parallelogram."
+    },
+    {
+      "prompt_latex": "Given $W(1,1)$, $X(4,1)$, $Y(4,5)$, $Z(1,5)$, use the slope formula to prove that $WXYZ$ is a rectangle.",
+      "answer_latex": "m_{WX}=0$, $m_{XY}$ is undefined, $m_{WX}\\cdot m_{XY}$ is undefined but sides are perpendicular (one horizontal, one vertical), so all four angles are right angles and $WXYZ$ is a rectangle."
+    },
+    {
+      "prompt_latex": "Prove that $EFGH$ with $E(0,0)$, $F(4,3)$, $G(8,0)$, $H(4,-3)$ is a rhombus by showing all four sides are congruent.",
+      "answer_latex": "EF=FG=GH=HE=\\sqrt{16+9}=5$; all sides equal $5$, so $EFGH$ is a rhombus."
+    },
+    {
+      "prompt_latex": "Quadrilateral $ABCD$ has vertices $A(-2,1)$, $B(1,4)$, $C(4,1)$, $D(1,-2)$. (a) Show it is a rhombus using side lengths, and (b) confirm it is a square by showing its diagonals are perpendicular using slopes.",
+      "answer_latex": "(a) Each side $= 3\\sqrt{2}$; (b) $m_{AC} = 0$, $m_{BD}$ is undefined, so $AC \\perp BD$; since it is a rhombus with perpendicular diagonals, $ABCD$ is a square."
+    },
+    {
+      "prompt_latex": "A city planner places four fountain locations at $F_1(0,3)$, $F_2(4,6)$, $F_3(8,3)$, $F_4(4,0)$. Determine the most precise classification of the quadrilateral formed, using both side lengths and diagonal slopes as evidence.",
+      "answer_latex": "All sides $= 5$, so it is at least a rhombus; $m_{F_1F_3}=0$ and $m_{F_2F_4}$ is undefined, so the diagonals are perpendicular; the diagonals also bisect each other (both midpoints $= (4,3)$), confirming $F_1F_2F_3F_4$ is a square (a rhombus with perpendicular bisecting diagonals)."
+    }
+  ],
+  "common_mistakes": [
+    "Students check only one pair of opposite sides for parallelism and conclude the figure is a parallelogram \u2014 to complete the proof you must verify *both* pairs of opposite sides are parallel, because a single pair of parallel sides only guarantees a trapezoid.",
+    "When testing for a rectangle, students check that all sides are equal instead of checking that adjacent sides have slopes that are negative reciprocals; equal sides proves a rhombus, not a rectangle \u2014 always verify perpendicularity via $m_1 \\cdot m_2 = -1$ for right angles.",
+    "Students apply the midpoint formula to find where diagonals cross but forget to check that *both* diagonals share the same midpoint; finding the midpoint of only one diagonal proves nothing about bisection \u2014 you must show $M_{AC} = M_{BD}$ to conclude the diagonals bisect each other."
+  ],
+  "untested_variants": [
+    "Proving a quadrilateral is an isosceles trapezoid (one pair of parallel sides and two congruent legs) using a combination of slope and distance formulas.",
+    "Using general variable coordinates such as $A(0,0)$, $B(a,0)$, $C(a+b,c)$, $D(b,c)$ to prove algebraically that any figure of that form is always a parallelogram.",
+    "Given three vertices of a parallelogram, finding the coordinates of the missing fourth vertex by using the property that diagonals bisect each other.",
+    "Classifying a quadrilateral whose vertices are given in non-standard (out-of-order) sequence, requiring students to first determine the correct ordering before applying any formulas."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "dm_023",
+  "topic_name": "Relational Databases (Application) (H)",
+  "generated_at": "2026-05-13T20:13:34.472688+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know that a relation on sets is just a subset of a Cartesian product \u2014 a collection of ordered tuples connecting objects. But databases store millions of real-world records as tables, and query languages like SQL secretly perform set operations on those tables every second. If someone asks 'which customers placed orders in both January AND February?', are you combining tables with a union, an intersection, or something else entirely \u2014 and how does that even map to the relational math you've learned?",
+  "concept": "A relational database is a collection of tables, where each table is literally a mathematical relation: a set of tuples drawn from the Cartesian product of attribute domains. If a table $R$ has attributes $A_1, A_2, \\ldots, A_k$ with domains $D_1, D_2, \\ldots, D_k$, then formally $R \\subseteq D_1 \\times D_2 \\times \\cdots \\times D_k$. Database queries are then performed using relational algebra \u2014 a set of operations on these relations that produce new relations as output.",
+  "anatomy": "The key components of relational algebra on database tables are: the **relation (table)** $R$ or $S$, which is a set of tuples; the **schema**, which names the attributes (columns) and their domains; the **selection** $\\sigma_{\\text{condition}}(R)$, which filters rows satisfying a predicate (like a set comprehension); the **projection** $\\pi_{A_i, A_j}(R)$, which keeps only specified columns (attribute subset); the **natural join** $R \\bowtie S$, which combines tuples from two relations that agree on shared attributes; and the standard **set operations** union $R \\cup S$, intersection $R \\cap S$, and difference $R - S$, which require $R$ and $S$ to have identical schemas.",
+  "worked_example": [
+    {
+      "expression_latex": "R = \\{(1, \\text{Alice}, \\text{HR}),\\ (2, \\text{Bob}, \\text{IT}),\\ (3, \\text{Carol}, \\text{HR})\\}",
+      "description_latex": "We start by establishing our relation $R$ on attributes $(\\text{EmpID}, \\text{Name}, \\text{Dept})$. Think of this as a three-column table where each row is a tuple \u2014 this is the raw mathematical object we will now query using relational algebra.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sigma_{\\text{Dept} = \\text{HR}}(R) = \\{(1, \\text{Alice}, \\text{HR}),\\ (3, \\text{Carol}, \\text{HR})\\}",
+      "description_latex": "Selection $\\sigma$ acts like a filter: it keeps only the tuples where the condition $\\text{Dept} = \\text{HR}$ is true, discarding the Bob tuple entirely. This is analogous to taking the subset $\\{t \\in R : t[\\text{Dept}] = \\text{HR}\\}$, which is why selection always produces a relation with the same schema but fewer (or equal) rows.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi_{\\text{Name}}\\!\\left(\\sigma_{\\text{Dept}=\\text{HR}}(R)\\right) = \\{(\\text{Alice}),\\ (\\text{Carol})\\}",
+      "description_latex": "Projection $\\pi_{\\text{Name}}$ then strips away all columns except Name, reducing our 3-attribute tuples down to 1-attribute tuples. Notice that the result is still a set \u2014 if two rows had identical Name values after projection, duplicates would collapse into one, which is the mathematical consequence of working with sets rather than multisets.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\{(2, \\text{Bob}, 70000),\\ (3, \\text{Carol}, 85000)\\},\\quad R \\bowtie S \\text{ on } \\text{EmpID}",
+      "description_latex": "Now suppose $S$ has schema $(\\text{EmpID}, \\text{Name}, \\text{Salary})$. The natural join $R \\bowtie S$ combines every pair of tuples from $R$ and $S$ that share the same value on the common attribute EmpID \u2014 this is the relational counterpart of composition or intersection over a key. Only EmpID 2 (Bob) and EmpID 3 (Carol) appear in both, so only they survive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R \\bowtie S = \\{(2, \\text{Bob}, \\text{IT}, 70000),\\ (3, \\text{Carol}, \\text{HR}, 85000)\\}",
+      "description_latex": "The output schema merges all attributes from both relations (with shared attributes appearing once), giving us a 4-column table. This result is itself a new relation \u2014 a subset of $\\mathbb{Z} \\times \\text{Names} \\times \\text{Depts} \\times \\mathbb{Z}$ \u2014 and can be fed into further relational algebra operations, showing how queries compose.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T = \\{(101, \\text{Math}, \\text{Fall}),\\ (102, \\text{CS}, \\text{Spring}),\\ (103, \\text{Math}, \\text{Spring})\\}",
+      "description_latex": "We have relation $T$ with schema $(\\text{CourseID}, \\text{Subject}, \\text{Semester})$. Our goal is to find the IDs of all Math courses offered in Spring \u2014 this requires two operations applied in sequence.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sigma_{\\text{Subject}=\\text{Math}\\ \\wedge\\ \\text{Semester}=\\text{Spring}}(T)",
+      "description_latex": "We first apply selection with a compound condition to filter rows \u2014 only tuples satisfying BOTH conditions survive. Notice we use logical AND ($\\wedge$) to require both attributes to match simultaneously.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply projection to extract only the CourseID column from the result of the selection above. Write the full relational algebra expression $\\pi_{\\text{CourseID}}(\\ldots)$ with the selection nested inside, and state the resulting set of tuples.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $R = \\{(a, 1),\\ (b, 2),\\ (c, 1)\\}$ with schema $(\\text{Letter}, \\text{Num})$. Compute $\\sigma_{\\text{Num}=1}(R)$.",
+      "answer_latex": "\\{(a, 1),\\ (c, 1)\\}"
+    },
+    {
+      "prompt_latex": "Using $R = \\{(a, 1),\\ (b, 2),\\ (c, 1)\\}$ with schema $(\\text{Letter}, \\text{Num})$, compute $\\pi_{\\text{Letter}}(R)$.",
+      "answer_latex": "\\{(a),\\ (b),\\ (c)\\}"
+    },
+    {
+      "prompt_latex": "Let $R = \\{(1, X),\\ (2, Y),\\ (3, X)\\}$ and $S = \\{(1, X),\\ (3, X),\\ (4, Z)\\}$, both with schema $(\\text{ID}, \\text{Tag})$. Compute $R \\cap S$ and $R - S$.",
+      "answer_latex": "R \\cap S = \\{(1, X),\\ (3, X)\\},\\quad R - S = \\{(2, Y)\\}"
+    },
+    {
+      "prompt_latex": "Let $R$ have schema $(\\text{SID}, \\text{Name}, \\text{Major})$ with tuples $\\{(10, \\text{Ana}, \\text{CS}),\\ (11, \\text{Ben}, \\text{Math}),\\ (12, \\text{Cara}, \\text{CS})\\}$, and let $S$ have schema $(\\text{SID}, \\text{GPA})$ with tuples $\\{(10, 3.8),\\ (12, 3.5)\\}$. Compute $\\pi_{\\text{Name},\\text{GPA}}(R \\bowtie S)$.",
+      "answer_latex": "\\{(\\text{Ana},\\ 3.8),\\ (\\text{Cara},\\ 3.5)\\}"
+    },
+    {
+      "prompt_latex": "A library database has relation $\\text{Loans}(\\text{PatronID}, \\text{BookID}, \\text{Month})$. Express in relational algebra: 'Find all PatronIDs who borrowed a book in both January and February.' (Hint: use selection, projection, and intersection.)",
+      "answer_latex": "\\pi_{\\text{PatronID}}(\\sigma_{\\text{Month}=\\text{Jan}}(\\text{Loans}))\\ \\cap\\ \\pi_{\\text{PatronID}}(\\sigma_{\\text{Month}=\\text{Feb}}(\\text{Loans}))"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply set union $R \\cup S$ to two tables with different schemas (different attributes or column orders), which is undefined in relational algebra \u2014 union requires both relations to have identical schemas, so always check that attribute names and domains match before combining.",
+    "When computing a natural join $R \\bowtie S$, students sometimes include tuples where shared-attribute values do NOT match, essentially performing a full Cartesian product $R \\times S$ instead \u2014 remember that the whole point of natural join is to keep only pairs of tuples that agree on every shared attribute.",
+    "Students confuse selection $\\sigma$ and projection $\\pi$: selection filters rows (tuples) based on a condition and preserves all columns, while projection filters columns (attributes) and preserves all rows. Mixing them up leads to answers with the wrong dimensions or structure entirely."
+  ],
+  "untested_variants": [
+    "The rename operation $\\rho_{A/B}(R)$, which renames an attribute from $B$ to $A$ \u2014 necessary when joining two relations that have different column names for the same conceptual attribute.",
+    "Division operation $R \\div S$ in relational algebra, used to answer queries of the form 'find all X that are related to every Y in S' \u2014 a significantly harder operation not covered in the worked examples above.",
+    "Expressing multi-table queries involving three or more relations joined together, where the student must decide the correct join order and verify the schema at each intermediate step.",
+    "Translating a given SQL SELECT-FROM-WHERE query directly into a formal relational algebra expression, requiring knowledge of how WHERE maps to $\\sigma$, SELECT to $\\pi$, and JOIN to $\\bowtie$."
+  ]
+}

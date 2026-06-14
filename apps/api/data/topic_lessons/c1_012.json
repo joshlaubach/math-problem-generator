@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_012",
+  "topic_name": "Implicit Differentiation",
+  "generated_at": "2026-05-13T00:05:43.278411+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to differentiate functions like $y = x^2 + 3x$ by applying the power rule directly. But what happens when $x$ and $y$ are tangled together in a single equation, like $x^2 + y^2 = 25$? Solving for $y$ first gives two separate functions, and some equations \u2014 like $x^3 + y^3 = 6xy$ \u2014 can't be solved for $y$ at all. How do you find $\\frac{dy}{dx}$ when you can't isolate $y$?",
+  "concept": "Implicit differentiation lets you differentiate both sides of an equation with respect to $x$ without ever solving for $y$. The key idea is that $y$ is secretly a function of $x$, so whenever you differentiate a term involving $y$, the chain rule forces you to multiply by $\\frac{dy}{dx}$. Formally, if $F(x, y) = 0$ defines $y$ implicitly as a function of $x$, differentiating both sides with respect to $x$ and solving for $\\frac{dy}{dx}$ gives the derivative.",
+  "anatomy": "An implicit equation like $x^2 + y^2 = 25$ has three structural pieces to recognize. The $x$-terms differentiate normally using whatever rule applies (power, product, chain). The $y$-terms require the chain rule because $y = y(x)$ is a function of $x$ \u2014 differentiating $y^n$ gives $n y^{n-1} \\frac{dy}{dx}$, where that extra $\\frac{dy}{dx}$ factor is the chain rule contribution. After differentiating, you collect all $\\frac{dy}{dx}$ terms on one side and factor them out to solve, making $\\frac{dy}{dx}$ the isolated unknown.",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 + y^2 = 25",
+      "description_latex": "We start with the implicit equation of a circle. Our goal is to find $\\frac{dy}{dx}$, and since we cannot cleanly isolate $y$ as a single function, we will differentiate both sides of the equation with respect to $x$ all at once.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{d}{dx}\\left(x^2\\right) + \\frac{d}{dx}\\left(y^2\\right) = \\frac{d}{dx}(25)",
+      "description_latex": "We apply $\\frac{d}{dx}$ to every term on both sides. The left side splits into two separate derivatives by the sum rule, and the right side is a constant so its derivative is zero. This step is just setting up the machinery before we evaluate each piece.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x + 2y\\,\\frac{dy}{dx} = 0",
+      "description_latex": "Now we evaluate each derivative: $\\frac{d}{dx}(x^2) = 2x$ by the power rule, and $\\frac{d}{dx}(y^2) = 2y\\,\\frac{dy}{dx}$ by the chain rule because $y$ is itself a function of $x$. That $\\frac{dy}{dx}$ factor is the essential new piece \u2014 never forget it when differentiating $y$-terms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2y\\,\\frac{dy}{dx} = -2x",
+      "description_latex": "We isolate the $\\frac{dy}{dx}$ term by moving $2x$ to the right side. Think of $\\frac{dy}{dx}$ as the unknown we are solving for \u2014 just like solving a linear equation for a variable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dy}{dx} = -\\frac{x}{y}",
+      "description_latex": "Dividing both sides by $2y$ gives the final answer. Notice that the derivative depends on both $x$ and $y$, which is perfectly normal for implicitly defined functions \u2014 this tells us the slope of the circle at any point $(x, y)$ on it.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^3 + xy + y^2 = 7",
+      "description_latex": "We want $\\frac{dy}{dx}$ for this implicit equation. Start by differentiating every term on both sides with respect to $x$, keeping in mind that $y$ is a function of $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3x^2 + \\left(y + x\\,\\frac{dy}{dx}\\right) + 2y\\,\\frac{dy}{dx} = 0",
+      "description_latex": "Here $\\frac{d}{dx}(x^3) = 3x^2$, the product rule on $xy$ gives $y + x\\frac{dy}{dx}$, and the chain rule on $y^2$ gives $2y\\frac{dy}{dx}$. Now you need to collect all $\\frac{dy}{dx}$ terms on one side and solve \u2014 can you complete this step and write the final expression for $\\frac{dy}{dx}$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\frac{dy}{dx} = -\\frac{3x^2 + y}{x + 2y}",
+      "description_latex": "Grouping gives $x\\frac{dy}{dx} + 2y\\frac{dy}{dx} = -3x^2 - y$, then factoring out $\\frac{dy}{dx}$ and dividing yields this result. Check that your answer matches \u2014 if not, look carefully at which terms carried a $\\frac{dy}{dx}$ factor.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $\\frac{dy}{dx}$ for $x^2 + y^3 = 16$.",
+      "answer_latex": "\\frac{dy}{dx} = -\\frac{2x}{3y^2}"
+    },
+    {
+      "prompt_latex": "Find $\\frac{dy}{dx}$ for $x^2 - 3xy + y^2 = 5$.",
+      "answer_latex": "\\frac{dy}{dx} = \\frac{3y - 2x}{2y - 3x}"
+    },
+    {
+      "prompt_latex": "Find $\\frac{dy}{dx}$ for $\\sin(y) = x^2$.",
+      "answer_latex": "\\frac{dy}{dx} = \\frac{2x}{\\cos(y)}"
+    },
+    {
+      "prompt_latex": "Find the equation of the tangent line to $x^2 + y^2 = 13$ at the point $(2, 3)$.",
+      "answer_latex": "y - 3 = -\\dfrac{2}{3}(x - 2)"
+    },
+    {
+      "prompt_latex": "A curve is defined implicitly by $e^y + xy = e$. Find $\\frac{dy}{dx}$ and evaluate it at the point $(0, 1)$.",
+      "answer_latex": "\\frac{dy}{dx} = -\\frac{y}{e^y + x};\\quad \\text{at }(0,1),\\; \\frac{dy}{dx} = -\\frac{1}{e}"
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting the chain rule factor on $y$-terms: students write $\\frac{d}{dx}(y^2) = 2y$ instead of $2y\\frac{dy}{dx}$. Because $y$ depends on $x$, the chain rule always requires that extra $\\frac{dy}{dx}$ multiplier \u2014 treat every $y$-term as a composition.",
+    "Misapplying the product rule to mixed terms like $xy$: students often differentiate $xy$ as simply $y$ or $x\\frac{dy}{dx}$, missing the full product rule result $y + x\\frac{dy}{dx}$. Remember that both factors depend on $x$ (since $y = y(x)$), so the product rule gives $\\frac{d}{dx}(x)\\cdot y + x\\cdot\\frac{d}{dx}(y)$.",
+    "Failing to collect all $\\frac{dy}{dx}$ terms before solving: students try to divide too early when $\\frac{dy}{dx}$ still appears on both sides of the equation. Always move every $\\frac{dy}{dx}$ term to one side and factor it out first, then divide by its coefficient."
+  ],
+  "untested_variants": [
+    "Implicit differentiation involving $\\ln(y)$ or other logarithmic expressions, such as finding $\\frac{dy}{dx}$ for $\\ln(xy) = x + 1$.",
+    "Finding the second derivative $\\frac{d^2y}{dx^2}$ implicitly, which requires differentiating the expression for $\\frac{dy}{dx}$ itself and substituting back.",
+    "Implicit differentiation combined with related rates, where $x$ and $y$ both depend on a third variable $t$ and you must find $\\frac{dy}{dt}$.",
+    "Curves defined by trigonometric products such as $\\cos(xy) = x$, which require both the chain rule and the product rule inside the trig derivative."
+  ]
+}

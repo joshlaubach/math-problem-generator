@@ -1,0 +1,86 @@
+{
+  "topic_id": "cm_033",
+  "topic_name": "Writing Rigorous Solutions (AMC/AIME Style)",
+  "generated_at": "2026-05-13T20:24:31.333824+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to find answers to competition problems \u2014 you can compute that the sum of divisors of 360 equals 1170, or that there are exactly 15 ways to choose 2 items from 6. But finding an answer is only half the battle on AIME and proof-based contests: you must also convince a skeptical reader that your answer is correct, covering every case and justifying every logical leap. What separates a solution that earns full credit from one that earns zero, even when the final answer is right?",
+  "concept": "A rigorous mathematical solution is a complete logical argument that starts from given hypotheses, proceeds through justified steps, and arrives at the conclusion with no gaps. Informally, every claim you make must be either a known fact, a direct consequence of the problem's conditions, or something you proved just before. Formally, a valid proof is a finite sequence of statements $S_1, S_2, \\ldots, S_n$ where each $S_i$ follows from axioms, definitions, or previous statements by a valid rule of inference, and $S_n$ is the desired conclusion.",
+  "anatomy": "A well-structured contest solution has four named components: the **setup**, where you introduce variables and restate what you must prove or find; the **main argument**, the chain of logical deductions, each linked by words like 'therefore,' 'since,' or 'it follows that'; the **case analysis** (when needed), an exhaustive, non-overlapping enumeration of all possibilities with each case resolved; and the **conclusion**, a sentence that explicitly states the final answer or result and confirms it satisfies all conditions of the problem. Every component plays a role \u2014 omitting the conclusion, for example, leaves a reader unsure whether you answered the right question.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Problem: Prove that for all integers } n \\geq 1, \\text{ the expression } n^3 - n \\text{ is divisible by } 6.",
+      "description_latex": "We begin by reading the problem carefully and identifying exactly what we must prove: that $6 \\mid n^3 - n$ for every positive integer $n$. Before writing anything, it helps to factor the expression, because divisibility proofs become much easier when the structure of the number is visible.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^3 - n = n(n^2 - 1) = n(n-1)(n+1) = (n-1)\\,n\\,(n+1)",
+      "description_latex": "We factor $n^3 - n$ completely, recognizing that $(n-1)$, $n$, and $(n+1)$ are three consecutive integers. This factored form is the key structural insight: naming these three consecutive integers tells us immediately why both 2 and 3 must divide their product, since every run of three consecutive integers contains a multiple of 3, and at least one even number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3 \\mid (n-1)n(n+1) \\text{ because among any three consecutive integers, exactly one is divisible by } 3.",
+      "description_latex": "We justify divisibility by 3 rigorously: the integers $n-1$, $n$, $n+1$ cover three consecutive residues modulo 3, which are $\\{0,1,2\\}$ in some order, so exactly one of them is congruent to $0 \\pmod{3}$. This means $3$ divides their product, and we have proved the claim for the factor of 3.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2 \\mid (n-1)n(n+1) \\text{ because among any two consecutive integers, one is even; here both } (n-1,n) \\text{ and } (n,n+1) \\text{ are consecutive pairs.}",
+      "description_latex": "We now handle divisibility by 2: since $n-1$ and $n$ are consecutive, one is even, so their product \u2014 and hence the full product $(n-1)n(n+1)$ \u2014 is even. Writing this step explicitly ensures we have not assumed it silently, which is a common source of lost points.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\gcd(2,3)=1 \\text{ and } 2\\mid (n-1)n(n+1),\\ 3\\mid (n-1)n(n+1) \\implies 6 \\mid (n-1)n(n+1) = n^3 - n. \\quad \\blacksquare",
+      "description_latex": "Because $2$ and $3$ are coprime and both divide $(n-1)n(n+1)$, their product $6$ also divides it \u2014 this is a standard lemma you should always cite by name or justify briefly. The $\\blacksquare$ signals that the proof is complete, and the reader knows we have answered exactly the question posed.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: Prove that if } n \\text{ is an odd integer, then } n^2 \\equiv 1 \\pmod{8}.",
+      "description_latex": "We start the setup: since $n$ is odd, we can write $n = 2k+1$ for some integer $k$. This substitution turns a divisibility statement about an unknown odd number into an algebraic identity we can expand, which is the standard technique for odd/even proofs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^2 = (2k+1)^2 = 4k^2 + 4k + 1 = 4k(k+1) + 1",
+      "description_latex": "We expand and regroup, noticing the term $4k(k+1)$ appears. Your task is to explain why $8$ divides $4k(k+1)$, and then conclude the proof. Think about what you know about the product of two consecutive integers $k$ and $k+1$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "k(k+1) \\text{ is the product of two consecutive integers, so } 2 \\mid k(k+1), \\text{ hence } 8 \\mid 4k(k+1), \\text{ therefore } n^2 = 4k(k+1)+1 \\equiv 1 \\pmod{8}. \\quad \\blacksquare",
+      "description_latex": "The conclusion explicitly links every piece: we named why $2 \\mid k(k+1)$, used it to get $8 \\mid 4k(k+1)$, and restated the original claim. Notice how the final sentence mirrors the problem statement word-for-word \u2014 this is good practice so a reader never has to guess what was proved.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Write one complete sentence that justifies the step: } 2 \\mid n(n+1) \\text{ for every integer } n.",
+      "answer_latex": "\\text{Since } n \\text{ and } n+1 \\text{ are consecutive integers, one of them is even, so } 2 \\mid n(n+1)."
+    },
+    {
+      "prompt_latex": "\\text{Prove that for every integer } n,\\text{ the value } n^2 + n \\text{ is even.}",
+      "answer_latex": "n^2 + n = n(n+1). \\text{ Since } n \\text{ and } n+1 \\text{ are consecutive, one is even, so } 2 \\mid n(n+1). \\quad \\blacksquare"
+    },
+    {
+      "prompt_latex": "\\text{Prove that the sum of any two odd integers is even. Your proof must explicitly name the form of an odd integer.}",
+      "answer_latex": "\\text{Let the two odd integers be } 2a+1 \\text{ and } 2b+1. \\text{ Their sum is } (2a+1)+(2b+1)=2(a+b+1), \\text{ which is even.} \\quad \\blacksquare"
+    },
+    {
+      "prompt_latex": "\\text{Prove that } 5 \\mid n^5 - n \\text{ for all integers } n \\geq 0. \\text{ (Hint: factor and use modular arithmetic or cases mod 5.)}",
+      "answer_latex": "n^5 - n = n(n^4-1)=n(n^2-1)(n^2+1)=n(n-1)(n+1)(n^2+1). \\text{ Check each residue } n \\equiv 0,1,2,3,4 \\pmod 5: \\text{ in every case } 5 \\mid n^5-n \\text{ (by Fermat's Little Theorem or direct verification).} \\quad \\blacksquare"
+    },
+    {
+      "prompt_latex": "\\text{A student claims: 'Since } 4 \\mid 8 \\text{ and } 4 \\mid 12, \\text{ we have } 16 \\mid 96.' \\text{ Identify the logical error in this argument and write a corrected proof that } 16 \\mid 96.",
+      "answer_latex": "\\text{Error: } a\\mid m \\text{ and } a\\mid n \\text{ does NOT imply } a^2\\mid mn \\text{ in general. Correct proof: } 96 = 16 \\times 6, \\text{ so } 16\\mid 96 \\text{ by definition.} \\quad \\blacksquare"
+    }
+  ],
+  "common_mistakes": [
+    "Students write 'clearly' or 'obviously' to skip a step they cannot fully justify \u2014 this earns zero credit because the omitted step is exactly what needs to be proved; fix this by replacing every instance of 'clearly' with an explicit two-line justification.",
+    "Students verify a statement for several small cases (e.g., $n=1,2,3$) and conclude it holds for all $n$, confusing empirical evidence with a proof; fix this by always asking 'have I argued for an arbitrary $n$, or only specific values?'",
+    "Students handle only one case in a case analysis \u2014 for example, proving a divisibility result only for even $n$ and forgetting odd $n$ \u2014 leaving the argument incomplete; fix this by writing out all cases explicitly at the start and checking each one off before concluding."
+  ],
+  "untested_variants": [
+    "Proofs by mathematical induction, where the inductive step requires a separate structural argument beyond the base algebraic manipulation covered in this lesson.",
+    "Proof by contradiction, where the student must assume the negation of the conclusion and derive a logical impossibility rather than arguing directly toward the result.",
+    "Combinatorial proofs (double-counting arguments), where the same quantity is counted in two different ways to establish an identity such as $\\sum_{k=0}^{n}\\binom{n}{k} = 2^n$.",
+    "Existence and uniqueness proofs common in number theory contests, where the student must both construct an example and show no other example can exist."
+  ]
+}

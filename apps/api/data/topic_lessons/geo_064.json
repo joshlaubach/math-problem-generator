@@ -1,0 +1,76 @@
+{
+  "topic_id": "geo_064",
+  "topic_name": "Angle Relationships in Circles",
+  "generated_at": "2026-05-12T23:11:01.559922+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that a central angle equals the arc it intercepts, and that an inscribed angle equals half that arc. But what happens when two chords cross inside a circle, or when two secants are drawn from a point outside the circle? The rules you learned for inscribed angles no longer apply directly, and suddenly the angle measure seems to have no obvious relationship to any single arc. Can you figure out the angle formed by two chords that intersect at a point that is neither the center nor on the circle?",
+  "concept": "Angle relationships in circles describe how angles formed by chords, secants, and tangents relate to the arcs they intercept. The key principle is: an angle formed inside a circle equals half the sum of its intercepted arcs, an inscribed angle equals half its intercepted arc, and an angle formed outside the circle equals half the positive difference of its intercepted arcs. Formally, if an angle intercepts arcs of measure $a$ and $b$, then the angle equals $\\frac{a+b}{2}$ (interior) or $\\frac{a-b}{2}$ (exterior).",
+  "anatomy": "Every angle-in-a-circle problem involves three components: the vertex location (on the circle, inside the circle, or outside the circle), which determines which formula applies; the intercepted arcs, meaning the arcs that lie in the interior of the angle and are 'cut off' by the two sides of the angle; and the arc measures $a$ and $b$, where $a$ is the far arc (larger, opposite the vertex for exterior angles) and $b$ is the near arc (smaller, adjacent to the vertex for exterior angles). For an interior angle formed by two intersecting chords, both arcs are intercepted \u2014 one by the angle itself and one by its vertical angle.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Two chords intersect inside a circle. The intercepted arcs are } 80^\\circ \\text{ and } 40^\\circ. \\text{ Find the angle.}",
+      "description_latex": "Since the vertex is inside the circle, we use the Interior Angle Theorem: the angle equals half the sum of the two intercepted arcs. This is the correct formula because the two chords create two pairs of vertical angles, each pair averaging the two arcs they cut off.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\angle = \\frac{a + b}{2} = \\frac{80^\\circ + 40^\\circ}{2}",
+      "description_latex": "We substitute the two arc measures, $a = 80^\\circ$ and $b = 40^\\circ$, directly into the interior angle formula. Notice we are adding the arcs because both arcs are 'captured' by the intersecting chords \u2014 one by the angle and one by its vertical angle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\angle = \\frac{120^\\circ}{2} = 60^\\circ",
+      "description_latex": "Adding the arcs gives $120^\\circ$, and dividing by 2 gives us the final angle measure of $60^\\circ$. You can verify this makes sense: the angle lies between the two arc values of $40^\\circ$ and $80^\\circ$, which is a good sanity check for interior angles.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Two secants are drawn from an external point. The far arc is } 150^\\circ \\text{ and the near arc is } 50^\\circ. \\text{ Find the angle at the external point.}",
+      "description_latex": "Because the vertex is outside the circle, we use the Exterior Angle Theorem: the angle equals half the positive difference of the two intercepted arcs. Identify which arc is 'far' (intercepted by the full angle) and which is 'near' (the smaller arc between the two secants).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\angle = \\frac{a - b}{2} = \\frac{150^\\circ - 50^\\circ}{2}",
+      "description_latex": "We set up the formula with $a = 150^\\circ$ (far arc) and $b = 50^\\circ$ (near arc). Now complete the arithmetic to find the angle measure \u2014 what is half of the difference of these two arcs?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\angle = 50^\\circ",
+      "description_latex": "The difference of the arcs is $100^\\circ$, and half of that is $50^\\circ$. Notice the result equals the near arc in this case \u2014 that is a coincidence of the numbers, not a general rule, so always apply the formula rather than guessing.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{An inscribed angle intercepts an arc of } 94^\\circ. \\text{ Find the inscribed angle.}",
+      "answer_latex": "47^\\circ"
+    },
+    {
+      "prompt_latex": "\\text{Two chords intersect inside a circle, intercepting arcs of } 70^\\circ \\text{ and } 110^\\circ. \\text{ Find the measure of the angle formed.}",
+      "answer_latex": "90^\\circ"
+    },
+    {
+      "prompt_latex": "\\text{Two secants are drawn from an external point, intercepting arcs of } 200^\\circ \\text{ and } 80^\\circ. \\text{ Find the exterior angle.}",
+      "answer_latex": "60^\\circ"
+    },
+    {
+      "prompt_latex": "\\text{A tangent and a secant are drawn from the same external point. The far intercepted arc is } 210^\\circ \\text{ and the near arc is } 30^\\circ. \\text{ The two intercepted arcs must sum to } 360^\\circ\\text{; verify this, then find the angle between the tangent and secant.}",
+      "answer_latex": "90^\\circ"
+    },
+    {
+      "prompt_latex": "\\text{Two chords intersect inside a circle. One intercepted arc measures } (3x + 10)^\\circ \\text{ and the other measures } (x + 20)^\\circ. \\text{ The angle formed by the chords is } 40^\\circ. \\text{ Find } x.",
+      "answer_latex": "x = 10"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the inscribed angle formula (half one arc) to angles formed by two intersecting chords inside the circle, using only one of the two intercepted arcs instead of averaging both. The fix is to remember that an interior intersection always involves two arcs \u2014 one for the angle and one for its vertical angle \u2014 so you must add them first, then divide by 2.",
+    "When working with exterior angles, students subtract the arcs in the wrong order and get a negative result, then just drop the negative sign without understanding why. Always subtract the near (smaller) arc from the far (larger) arc so the difference is positive, because arc $a$ must be the one intercepted by the full opening of the exterior angle.",
+    "Students confuse the vertex location rule: they see an angle that looks 'close to' the circle and assume it is inscribed, when the vertex is actually outside the circle. Always check carefully whether the vertex lies exactly on the circle (inscribed), strictly inside (use the sum formula), or strictly outside (use the difference formula) before choosing which theorem to apply."
+  ],
+  "untested_variants": [
+    "Angles formed by two tangents drawn from an external point, where you must first find the two arcs (major and minor) that sum to $360^\\circ$ before applying the exterior angle formula.",
+    "Problems where the arc measures are given as algebraic expressions and the angle is also expressed algebraically, requiring students to set up and solve a multi-step equation rather than just computing a numerical answer.",
+    "Circle problems embedded in a larger figure, such as a triangle inscribed in a circle where you must use triangle angle-sum properties alongside the inscribed angle theorem to find an unknown arc.",
+    "Angles formed by a tangent and a chord meeting at the point of tangency, which use the Tangent-Chord Angle Theorem (the angle equals half the intercepted arc) \u2014 a special case distinct from all four cases practiced above."
+  ]
+}

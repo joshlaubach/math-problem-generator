@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_031",
+  "topic_name": "Special Systems (No Solution, Infinitely Many)",
+  "generated_at": "2026-05-12T22:40:20.784564+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to solve a system of two linear equations by substitution or elimination \u2014 you find the one point where two lines cross. But what happens when you apply elimination perfectly and the variable completely disappears, leaving you with something like $0 = 5$ or $0 = 0$? These aren't mistakes \u2014 they're clues about something deeper happening with the lines. What do those strange results actually mean, and how do you report an answer when there isn't just one point?",
+  "concept": "A system of linear equations can have exactly one solution (lines intersect at one point), no solution (lines are parallel and never meet), or infinitely many solutions (lines are the same line, lying on top of each other). Formally, a system $a_1x + b_1y = c_1$ and $a_2x + b_2y = c_2$ has no solution when the lines have equal slopes but different $y$-intercepts, and infinitely many solutions when both equations describe the identical line.",
+  "anatomy": "Every special system has three key structural signals to recognize. First, the slope ratio: compare $\\frac{a_1}{a_2}$ and $\\frac{b_1}{b_2}$ \u2014 if these ratios are equal, the lines are either parallel or identical. Second, the constant ratio $\\frac{c_1}{c_2}$: if the slope ratios equal the constant ratio, the system is dependent (infinitely many solutions); if the slope ratios are equal but the constant ratio differs, the system is inconsistent (no solution). Third, the algebraic signal produced during solving: a false statement like $3 = 7$ signals no solution, while a true identity like $0 = 0$ signals infinitely many solutions.",
+  "worked_example": [
+    {
+      "expression_latex": "\\begin{cases} 2x + 4y = 8 \\\\ x + 2y = 3 \\end{cases}",
+      "description_latex": "We start by setting up the system. Notice that the left side of the first equation looks like it might be related to the second \u2014 specifically, the coefficients $2, 4$ are exactly twice the coefficients $1, 2$. This pattern is our first hint that something unusual may happen when we try to eliminate a variable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-2(x + 2y) = -2(3) \\implies -2x - 4y = -6",
+      "description_latex": "We multiply the second equation by $-2$ so that the $x$-terms will cancel when we add the equations together. This is the standard elimination move \u2014 we're not doing anything wrong here, we're just following the algorithm faithfully.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(2x + 4y) + (-2x - 4y) = 8 + (-6) \\implies 0 = 2",
+      "description_latex": "Adding the two equations causes every variable to vanish, and we're left with the statement $0 = 2$, which is never true no matter what values $x$ and $y$ take. This false statement is the algebraic signal that the system has no solution \u2014 the two lines are parallel and distinct.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{No Solution} \\quad (\\text{the system is inconsistent})",
+      "description_latex": "We conclude that this system is inconsistent, meaning it has no solution. On a graph, the two lines $2x + 4y = 8$ (slope $-\\frac{1}{2}$, $y$-intercept $2$) and $x + 2y = 3$ (slope $-\\frac{1}{2}$, $y$-intercept $\\frac{3}{2}$) are parallel lines that never intersect, which confirms there is no ordered pair $(x, y)$ that satisfies both equations simultaneously.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{cases} 3x - 6y = 12 \\\\ -x + 2y = -4 \\end{cases}",
+      "description_latex": "Here is a new system. Before jumping into algebra, scan the coefficients: in the first equation the coefficients are $3, -6$ and the constant is $12$; in the second they are $-1, 2$ and $-4$. Notice that $\\frac{3}{-1} = -3$ and $\\frac{-6}{2} = -3$ \u2014 the slope ratios match. Now check the constant ratio: $\\frac{12}{-4} = -3$ as well. All three ratios are equal, so we suspect infinitely many solutions, but let's confirm algebraically.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3(-x + 2y) = 3(-4) \\implies -3x + 6y = -12",
+      "description_latex": "We multiply the second equation by $3$ to set up elimination of the $x$-terms. Now add this result to the first equation \u2014 what do you get, and what does it tell you about the system?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Infinitely Many Solutions} \\quad (\\text{the system is dependent})",
+      "description_latex": "Adding the equations gives $0 = 0$, a statement that is always true. This identity means every point on the line $3x - 6y = 12$ (equivalently $x - 2y = 4$) is a solution. We report infinitely many solutions and can express the solution set as all points satisfying $x - 2y = 4$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve the system and classify it: \\begin{cases} x + y = 5 \\\\ x + y = 8 \\end{cases}",
+      "answer_latex": "\\text{No Solution \u2014 the lines are parallel (same slope, different } y\\text{-intercepts)}"
+    },
+    {
+      "prompt_latex": "Solve the system and classify it: \\begin{cases} 4x - 2y = 10 \\\\ -2x + y = -5 \\end{cases}",
+      "answer_latex": "\\text{Infinitely Many Solutions \u2014 both equations describe the line } y = 2x - 5"
+    },
+    {
+      "prompt_latex": "Solve the system and classify it: \\begin{cases} 3x + 9y = 6 \\\\ x + 3y = 4 \\end{cases}",
+      "answer_latex": "\\text{No Solution \u2014 elimination yields } 0 = -6\\text{, a contradiction}"
+    },
+    {
+      "prompt_latex": "A student sets up a system from two word-problem conditions and gets the equations $5x - 10y = 20$ and $x - 2y = 3$. Determine the number of solutions and explain what this means in context.",
+      "answer_latex": "\\text{No Solution \u2014 the slope ratios match } \\left(\\tfrac{5}{1}=5,\\, \\tfrac{-10}{-2}=5\\right) \\text{ but } \\tfrac{20}{3}\\neq 5\\text{, so the conditions are contradictory}"
+    },
+    {
+      "prompt_latex": "For what value of $k$ does the system \\begin{cases} 2x - 4y = k \\\\ -x + 2y = -3 \\end{cases} have infinitely many solutions?",
+      "answer_latex": "k = 6 \\text{ (so that } \\tfrac{k}{-3} = \\tfrac{2}{-1} = -2\\text{, making all three ratios equal)}"
+    }
+  ],
+  "common_mistakes": [
+    "When elimination produces $0 = 0$, students often write 'no solution' instead of 'infinitely many solutions' \u2014 remember that $0 = 0$ is always TRUE (every point works), while a false statement like $0 = 5$ means no solution exists; flip a mental switch: true identity \u2192 infinite solutions, false statement \u2192 no solution.",
+    "Students sometimes stop after noticing that two equations have the same coefficients on the variables without checking the constants \u2014 for example, writing 'infinitely many solutions' for $\\begin{cases} x + 2y = 5 \\\\ x + 2y = 9 \\end{cases}$ \u2014 but equal left-hand coefficients with different constants means the lines are parallel (no solution), not identical.",
+    "When asked to express the solution set for a dependent system, students frequently write only $x = $ some number or leave the answer blank, not realizing they need to describe an entire line \u2014 the correct response is to state the relationship (e.g., $y = 2x - 4$ for all real $x$, or equivalently list the equation of the shared line)."
+  ],
+  "untested_variants": [
+    "Systems given in slope-intercept form $y = mx + b$ where students must convert to standard form before applying the ratio test \u2014 the practice problems all present equations already in standard form.",
+    "Three-variable systems (in three equations) that are dependent or inconsistent \u2014 recognizing special systems in $3 \\times 3$ linear systems is beyond the scope of this lesson.",
+    "Graphical identification of special systems \u2014 given a graph of two lines, determining from the picture alone (without equations) whether there are zero or infinitely many solutions.",
+    "Finding the value of a parameter (other than the constant $k$) that appears in a coefficient to make a system dependent or inconsistent \u2014 for example, 'Find $m$ such that $mx + 3y = 6$ and $2x + y = 4$ have no solution,' where the unknown is in a variable coefficient rather than the constant term."
+  ]
+}

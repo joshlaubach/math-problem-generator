@@ -1,0 +1,81 @@
+{
+  "topic_id": "de_014",
+  "topic_name": "Complex and Repeated Roots",
+  "generated_at": "2026-05-13T20:00:43.710841+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve second-order linear differential equations with constant coefficients by finding the roots of the characteristic equation. When those roots are real and distinct, you get two exponential solutions and you're done. But what happens when the discriminant is negative and the roots are complex numbers, or when the discriminant is exactly zero and the characteristic equation gives you only one repeated root? Without a strategy for these cases, a huge class of oscillating and critically-damped systems is completely out of reach \u2014 so how do we build a general solution when the characteristic roots aren't conveniently real and distinct?",
+  "concept": "When solving $ay'' + by' + cy = 0$, we substitute $y = e^{rt}$ to get the characteristic equation $ar^2 + br + c = 0$. If the discriminant $b^2 - 4ac < 0$, the roots are complex conjugates $r = \\alpha \\pm \\beta i$, and using Euler's formula we rewrite the general solution in real form as $y = e^{\\alpha t}(C_1 \\cos \\beta t + C_2 \\sin \\beta t)$. If $b^2 - 4ac = 0$, there is one repeated root $r = -b/(2a)$, and the general solution is $y = (C_1 + C_2 t)e^{rt}$ \u2014 the factor of $t$ is introduced to produce a second linearly independent solution.",
+  "anatomy": "For the complex-root case the solution $y = e^{\\alpha t}(C_1 \\cos \\beta t + C_2 \\sin \\beta t)$ has four named parts: the real part $\\alpha$ of the complex root, which controls exponential growth or decay through the envelope $e^{\\alpha t}$; the imaginary part $\\beta$, which sets the angular frequency of oscillation in $\\cos \\beta t$ and $\\sin \\beta t$; and the two arbitrary constants $C_1$ and $C_2$ determined by initial conditions. For the repeated-root case, $y = (C_1 + C_2 t)e^{rt}$, the critical new ingredient is the factor $t$ multiplying $C_2 e^{rt}$ \u2014 this is called reduction of order in practice, and it is what rescues linear independence when a single root $r$ appears twice.",
+  "worked_example": [
+    {
+      "expression_latex": "y'' + 4y' + 13y = 0",
+      "description_latex": "We begin by identifying the differential equation we need to solve. Our first move is always to write the characteristic equation by replacing $y''$ with $r^2$, $y'$ with $r$, and $y$ with $1$, giving us $r^2 + 4r + 13 = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = \\frac{-4 \\pm \\sqrt{16 - 52}}{2} = \\frac{-4 \\pm \\sqrt{-36}}{2} = -2 \\pm 3i",
+      "description_latex": "Applying the quadratic formula reveals that the discriminant $16 - 52 = -36$ is negative, so the roots are the complex conjugate pair $r = -2 \\pm 3i$. We immediately identify $\\alpha = -2$ (the real part) and $\\beta = 3$ (the imaginary part), which are the two numbers we will plug directly into our solution template.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = e^{-2t}(C_1 \\cos 3t + C_2 \\sin 3t)",
+      "description_latex": "Because the roots are complex, we use Euler's formula to convert the complex exponentials into real-valued trigonometric functions, arriving at the general solution $y = e^{\\alpha t}(C_1 \\cos \\beta t + C_2 \\sin \\beta t)$ with $\\alpha = -2$ and $\\beta = 3$. This form is preferred over writing $C_1 e^{(-2+3i)t} + C_2 e^{(-2-3i)t}$ because it makes clear that every solution is a real-valued, damped oscillation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y'' - 6y' + 9y = 0",
+      "description_latex": "We want to solve this equation. Start by writing the characteristic equation $r^2 - 6r + 9 = 0$ and factoring or using the quadratic formula to find the roots.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 - 6r + 9 = (r-3)^2 = 0 \\implies r = 3 \\text{ (repeated)}",
+      "description_latex": "The characteristic equation factors perfectly as $(r-3)^2 = 0$, giving the single repeated root $r = 3$. Now you need to recall: what is the correct general solution when there is a repeated root, and why can't you just write $y = C_1 e^{3t} + C_2 e^{3t}$?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write down the general solution for this repeated-root case. Remember that a repeated root $r$ requires you to introduce a factor of $t$ on the second term to ensure the two solutions are linearly independent \u2014 write the full general solution $y(t)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y = (C_1 + C_2 t)e^{3t}",
+      "description_latex": "The completed general solution is $y = (C_1 + C_2 t)e^{3t}$. You can verify linear independence by checking that the Wronskian of $e^{3t}$ and $te^{3t}$ is nonzero, which confirms these two functions really do form a fundamental set of solutions.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the general solution: $y'' + 9y = 0$",
+      "answer_latex": "y = C_1 \\cos 3t + C_2 \\sin 3t"
+    },
+    {
+      "prompt_latex": "Find the general solution: $y'' + 6y' + 13y = 0$",
+      "answer_latex": "y = e^{-3t}(C_1 \\cos 2t + C_2 \\sin 2t)"
+    },
+    {
+      "prompt_latex": "Find the general solution: $4y'' + 4y' + y = 0$",
+      "answer_latex": "y = (C_1 + C_2 t)e^{-t/2}"
+    },
+    {
+      "prompt_latex": "Solve the initial value problem: $y'' + 2y' + 5y = 0$, $y(0) = 1$, $y'(0) = 1$",
+      "answer_latex": "y = e^{-t}\\!\\left(\\cos 2t + \\sin 2t\\right)"
+    },
+    {
+      "prompt_latex": "A mass-spring-damper system satisfies $m x'' + c x' + k x = 0$ with $m=1$, $c=4$, $k=4$. Classify the motion and write the general solution for $x(t)$.",
+      "answer_latex": "\\text{Critically damped; } x = (C_1 + C_2 t)e^{-2t}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to convert complex-root solutions into real form and leave the answer as $y = C_1 e^{(-2+3i)t} + C_2 e^{(-2-3i)t}$; while technically correct, this is not a real-valued general solution in usable form \u2014 always apply Euler's formula to write $e^{\\alpha t}(C_1 \\cos \\beta t + C_2 \\sin \\beta t)$.",
+    "When a repeated root $r$ is found, students write $y = C_1 e^{rt} + C_2 e^{rt}$, which collapses to a single-parameter family and cannot satisfy arbitrary initial conditions; the correct form requires the factor of $t$ on the second solution: $y = (C_1 + C_2 t)e^{rt}$.",
+    "Students mix up $\\alpha$ and $\\beta$ when reading off complex roots $r = \\alpha \\pm \\beta i$, for example putting $\\cos(\\alpha t)$ where $\\cos(\\beta t)$ belongs; remember that $\\alpha$ is the real part and goes in the exponent of $e^{\\alpha t}$, while $\\beta$ is the imaginary part and goes inside the trig functions."
+  ],
+  "untested_variants": [
+    "Complex-root equations with non-unit leading coefficient, such as $2y'' + 2y' + 5y = 0$, where students must carefully divide before identifying $\\alpha$ and $\\beta$.",
+    "Repeated-root initial value problems where applying initial conditions to $y = (C_1 + C_2 t)e^{rt}$ requires the product rule to differentiate $y'$, testing whether students can handle the extra algebra.",
+    "Higher-order equations (e.g., fourth-order) whose characteristic polynomial has both a repeated real root and a pair of complex conjugate roots simultaneously, requiring all three solution forms at once.",
+    "Systems where $\\alpha = 0$ (purely imaginary roots), leading to undamped pure oscillation $y = C_1 \\cos \\beta t + C_2 \\sin \\beta t$, and asking students to find amplitude and phase-shift form $R \\cos(\\beta t - \\delta)$."
+  ]
+}

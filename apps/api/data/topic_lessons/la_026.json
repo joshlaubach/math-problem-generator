@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_026",
+  "topic_name": "Quotient Spaces (H)",
+  "generated_at": "2026-05-13T20:07:17.692104+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that a subspace $U$ of a vector space $V$ partitions $V$ into cosets of the form $v + U = \\{v + u : u \\in U\\}$. You've also seen that we can add cosets and scale them, but is the result actually a well-defined vector space? The gap is this: when we 'mod out' by $U$, the cosets themselves become the new objects \u2014 but we haven't verified that arithmetic on cosets is consistent regardless of which representative we pick. Can the set of all cosets of $U$ in $V$ be given the structure of a genuine vector space?",
+  "concept": "A quotient space is what you get when you collapse an entire subspace $U$ down to a single point and let the cosets do the heavy lifting. Formally, if $V$ is a vector space over a field $\\mathbb{F}$ and $U$ is a subspace of $V$, the quotient space $V/U$ is the set $\\{v + U : v \\in V\\}$ equipped with addition $(v+U)+(w+U) = (v+w)+U$ and scalar multiplication $\\lambda(v+U) = (\\lambda v)+U$.",
+  "anatomy": "The quotient space $V/U$ has several distinct components worth naming carefully. The ambient space $V$ is the original vector space being divided. The subspace $U$ (sometimes called the kernel subspace or the 'modded-out' subspace) plays the role of zero in $V/U$ \u2014 the coset $0+U = U$ itself is the zero vector of the new space. A coset $v + U$ is a single element of $V/U$, and $v$ is called a representative of that coset; crucially, any other $w$ with $w - v \\in U$ gives the same coset. The quotient map $\\pi: V \\to V/U$ defined by $\\pi(v) = v + U$ is the canonical surjection, and the dimension of $V/U$ is $\\dim V - \\dim U$, a quantity called the codimension of $U$ in $V$.",
+  "worked_example": [
+    {
+      "expression_latex": "V = \\mathbb{R}^3, \\quad U = \\{(x, 0, 0) : x \\in \\mathbb{R}\\} = \\operatorname{span}\\{e_1\\}",
+      "description_latex": "We start by identifying the pieces: $V$ is three-dimensional real space and $U$ is the $x$-axis, a one-dimensional subspace. Because $\\dim U = 1$ and $\\dim V = 3$, we expect $V/U$ to be two-dimensional, which gives us a sanity check for everything that follows.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "v + U = (a, b, c) + U = \\{(a+t,\\, b,\\, c) : t \\in \\mathbb{R}\\}",
+      "description_latex": "A coset of $U$ in $V$ is formed by fixing a vector $(a,b,c)$ and adding every element of $U$ to it. Notice that two vectors $(a,b,c)$ and $(a',b,c)$ that differ only in their first coordinate land in exactly the same coset, because their difference $(a-a', 0, 0)$ lives in $U$. This means the coset is completely determined by the pair $(b,c)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(a,b,c)+U = (a',b,c)+U \\iff (a,b,c)-(a',b,c) = (a-a',0,0) \\in U",
+      "description_latex": "Here we are verifying well-definedness of the representative: two vectors represent the same coset if and only if their difference belongs to $U$. This is the critical check that arithmetic on $V/U$ does not depend on which representative we choose \u2014 without this, addition of cosets would be meaningless.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[(a,b,c)+U] + [(d,e,f)+U] = (a+d,\\, b+e,\\, c+f)+U",
+      "description_latex": "We test the addition rule: add the representatives componentwise and then take their coset. Since the first components can be anything, the result is uniquely identified by $(b+e, c+f)$, confirming that the sum of two cosets is again a coset and the operation is well-defined.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V/U \\cong \\mathbb{R}^2, \\quad \\dim(V/U) = \\dim V - \\dim U = 3 - 1 = 2",
+      "description_latex": "Since every coset is uniquely labelled by its last two coordinates $(b,c)$, the map $(a,b,c)+U \\mapsto (b,c)$ is a linear isomorphism from $V/U$ to $\\mathbb{R}^2$. This confirms the dimension formula $\\dim(V/U) = \\dim V - \\dim U$, which is the quotient-space analogue of the rank-nullity theorem.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "V = \\mathcal{P}_3(\\mathbb{R}),\\quad U = \\{p \\in \\mathcal{P}_3(\\mathbb{R}) : p(0) = 0\\}",
+      "description_latex": "Our vector space is the space of real polynomials of degree at most 3, and $U$ is the subspace of polynomials whose constant term is zero, i.e., polynomials of the form $a_1 x + a_2 x^2 + a_3 x^3$. First, confirm that $U$ is indeed a subspace (it is closed under addition and scaling) and find $\\dim U = 3$, so we expect $\\dim(V/U) = 4 - 3 = 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p + U = (a_0 + a_1 x + a_2 x^2 + a_3 x^3) + U",
+      "description_latex": "Write out a general coset representative and think about which part of the polynomial is 'free' to vary within the coset versus which part uniquely identifies the coset. Recall that two polynomials $p$ and $q$ belong to the same coset exactly when $p - q \\in U$, meaning $p(0) = q(0)$. What single quantity determines the coset?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Show that every coset $p + U$ is uniquely determined by the constant term $a_0 = p(0)$, and write down an explicit linear isomorphism $\\varphi: V/U \\to \\mathbb{R}$ that witnesses $V/U \\cong \\mathbb{R}$. What is $\\varphi(p + U)$, and why is it well-defined?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\dim(V/U) = \\dim V - \\dim U = 4 - 3 = 1",
+      "description_latex": "Confirm the answer using the dimension formula: since $\\dim V = 4$ and $\\dim U = 3$, we get $\\dim(V/U) = 1$, consistent with $V/U \\cong \\mathbb{R}$. This is a good habit \u2014 always cross-check your isomorphism claim against the dimension count.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $V = \\mathbb{R}^2$ and $U = \\{(x,0) : x \\in \\mathbb{R}\\}$. What is $\\dim(V/U)$?",
+      "answer_latex": "\\dim(V/U) = 2 - 1 = 1"
+    },
+    {
+      "prompt_latex": "Let $V = \\mathbb{R}^4$ and $U = \\operatorname{span}\\{e_1, e_2\\}$. Describe the coset $(1,2,3,4)+U$ and find a canonical representative for it.",
+      "answer_latex": "(1,2,3,4)+U = \\{(1+s,\\,2+t,\\,3,\\,4): s,t\\in\\mathbb{R}\\}; \\text{ canonical rep: } (0,0,3,4)+U"
+    },
+    {
+      "prompt_latex": "Let $V = \\mathcal{M}_{2\\times 2}(\\mathbb{R})$ and $U$ be the subspace of symmetric $2\\times 2$ matrices. Compute $\\dim(V/U)$.",
+      "answer_latex": "\\dim V = 4,\\; \\dim U = 3,\\; \\text{so } \\dim(V/U) = 1"
+    },
+    {
+      "prompt_latex": "Let $T: V \\to W$ be a linear map. Using the first isomorphism theorem, show that $V/\\ker T \\cong \\operatorname{im} T$ and deduce the rank-nullity theorem $\\dim V = \\operatorname{rank} T + \\operatorname{nullity} T$ when $V$ is finite-dimensional.",
+      "answer_latex": "\\text{Define } \\tilde{T}: V/\\ker T \\to \\operatorname{im}T \\text{ by } \\tilde{T}(v+\\ker T)=T(v). \\text{ This is well-defined, injective, and surjective, so } V/\\ker T \\cong \\operatorname{im}T. \\text{ Taking dimensions: } \\dim V - \\dim\\ker T = \\dim\\operatorname{im}T, \\text{ i.e., } \\dim V = \\operatorname{rank}T + \\operatorname{nullity}T."
+    },
+    {
+      "prompt_latex": "In the space $\\mathcal{P}_2(\\mathbb{R})$ of polynomials of degree at most 2, let $U = \\operatorname{span}\\{x^2 - 1\\}$. Are the polynomials $p = 2x^2 + x - 2$ and $q = x^2 + x - 1$ in the same coset of $U$? Justify your answer.",
+      "answer_latex": "p - q = x^2 - 1 \\in U, \\text{ so yes, } p \\text{ and } q \\text{ represent the same coset: } p + U = q + U."
+    }
+  ],
+  "common_mistakes": [
+    "Students often treat two cosets $v + U$ and $w + U$ as equal whenever $v = w$, forgetting that equality of cosets requires $v - w \\in U$, not $v = w$. Fix: always check membership in $U$, not equality of representatives.",
+    "A frequent error is assuming the quotient space $V/U$ inherits a basis directly from a basis of $V$ by simply deleting a basis for $U$. In general you need a complementary subspace: if $\\{u_1,\\ldots,u_k\\}$ is a basis for $U$ extended to $\\{u_1,\\ldots,u_k,v_1,\\ldots,v_m\\}$ for $V$, then $\\{v_1+U,\\ldots,v_m+U\\}$ is a basis for $V/U$. Fix: always extend and then project.",
+    "Students sometimes confuse the zero vector of $V/U$ with the zero vector $0 \\in V$; in $V/U$ the zero element is the entire coset $0 + U = U$, not just the vector $0$. Fix: remind yourself that every element of $V/U$ is a coset (a set), and the additive identity is $U$ itself."
+  ],
+  "untested_variants": [
+    "Computing the quotient space of an infinite-dimensional function space, such as $C([0,1]) / \\ker\\phi$ where $\\phi$ is a bounded linear functional.",
+    "Using the second or third isomorphism theorems for vector spaces, e.g., showing $(V/U_1)/(U_2/U_1) \\cong V/U_2$ when $U_1 \\subseteq U_2 \\subseteq V$.",
+    "Determining whether a given map from a quotient space is injective by verifying its kernel is trivial (i.e., applying the universal property of the quotient map).",
+    "Working with quotient spaces over fields other than $\\mathbb{R}$, such as $\\mathbb{F}_2^n / U$ where arithmetic is modular."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_043",
+  "topic_name": "The Hypergeometric Distribution (H)",
+  "generated_at": "2026-05-13T23:08:35.226018+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to work with the binomial distribution, where you flip a coin or draw a card with replacement and count successes. But what happens when you draw cards without replacement? Once you pull a card from a deck, the probability of the next draw changes because the population has shrunk. The binomial formula assumes each draw is independent, so it breaks down here \u2014 so how do we calculate the probability of getting exactly $k$ successes when sampling without replacement from a finite population?",
+  "concept": "The hypergeometric distribution models the number of successes when drawing a fixed number of items without replacement from a finite population split into two types. Formally, if a population of size $N$ contains $K$ items classified as 'successes' and $N - K$ failures, and we draw $n$ items without replacement, then the number of successes $X$ follows a hypergeometric distribution: $P(X = k) = \\dfrac{\\binom{K}{k}\\binom{N-K}{n-k}}{\\binom{N}{n}}$.",
+  "anatomy": "There are four key components in the hypergeometric formula $P(X = k) = \\dfrac{\\binom{K}{k}\\binom{N-K}{n-k}}{\\binom{N}{n}}$. The population size $N$ is the total number of items available. The success count $K$ is how many of those $N$ items are considered successes. The sample size $n$ is how many items you draw without replacement. Finally, $k$ is the specific number of successes you are asking about, which must satisfy $\\max(0, n-(N-K)) \\leq k \\leq \\min(n, K)$. The denominator $\\binom{N}{n}$ counts all equally likely ways to choose your sample, while the numerator counts only the favorable ways \u2014 choosing $k$ successes from the $K$ available and $n-k$ failures from the $N-K$ available.",
+  "worked_example": [
+    {
+      "expression_latex": "N = 20, \\quad K = 8, \\quad n = 5, \\quad k = 3",
+      "description_latex": "We first identify the four parameters of the problem. Suppose a box contains 20 light bulbs, 8 of which are defective, and we randomly select 5 bulbs without replacement; we want the probability that exactly 3 of the selected bulbs are defective. Labeling these values carefully before plugging in prevents the most common errors later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 3) = \\frac{\\binom{8}{3}\\binom{12}{2}}{\\binom{20}{5}}",
+      "description_latex": "We substitute directly into the hypergeometric formula: the numerator picks 3 defective bulbs from the 8 defective ones and 2 good bulbs from the remaining 12, while the denominator counts all possible ways to choose any 5 bulbs from the full 20. Notice how $n - k = 5 - 3 = 2$ and $N - K = 20 - 8 = 12$ give us the second binomial coefficient.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\binom{8}{3} = 56, \\quad \\binom{12}{2} = 66, \\quad \\binom{20}{5} = 15504",
+      "description_latex": "We evaluate each binomial coefficient separately to keep the arithmetic organized. Recall that $\\binom{n}{k} = \\dfrac{n!}{k!(n-k)!}$, so $\\binom{8}{3} = \\dfrac{8!}{3!5!} = 56$, $\\binom{12}{2} = 66$, and $\\binom{20}{5} = 15504$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 3) = \\frac{56 \\times 66}{15504} = \\frac{3696}{15504} \\approx 0.2384",
+      "description_latex": "We multiply the two numerator terms and divide by the denominator to get the final probability. The answer $\\approx 0.2384$ means there is roughly a 23.8% chance that exactly 3 of the 5 selected bulbs are defective, which makes intuitive sense since 8 out of 20 bulbs (40%) are defective and we expect around 2 defective in a sample of 5.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "N = 15, \\quad K = 6, \\quad n = 4, \\quad k = 2",
+      "description_latex": "A committee of 15 people contains 6 women and 9 men. We select 4 people at random without replacement and want the probability that exactly 2 are women. We start by identifying the four parameters: population $N = 15$, successes $K = 6$, sample size $n = 4$, and target $k = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 2) = \\frac{\\binom{6}{2}\\binom{9}{2}}{\\binom{15}{4}}",
+      "description_latex": "Write the hypergeometric formula substituting in our four parameter values. The numerator has $\\binom{6}{2}$ ways to choose the 2 women and $\\binom{9}{2}$ ways to choose the remaining 2 men from the 9 available, and the denominator counts all ways to choose any 4 people from 15.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate each binomial coefficient: compute $\\binom{6}{2}$, $\\binom{9}{2}$, and $\\binom{15}{4}$, then multiply the numerator terms and divide by the denominator to find $P(X = 2)$. Write your answer as a fraction and as a decimal rounded to four places.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A bag contains 10 marbles: 4 red and 6 blue. You draw 3 marbles without replacement. Find $P(X = 1)$, the probability of getting exactly 1 red marble.",
+      "answer_latex": "P(X=1) = \\dfrac{\\binom{4}{1}\\binom{6}{2}}{\\binom{10}{3}} = \\dfrac{4 \\times 15}{120} = \\dfrac{60}{120} = 0.5"
+    },
+    {
+      "prompt_latex": "A shipment of 12 items contains 5 defective items. An inspector randomly selects 4 items without replacement. Find the probability that exactly 2 of the selected items are defective.",
+      "answer_latex": "P(X=2) = \\dfrac{\\binom{5}{2}\\binom{7}{2}}{\\binom{12}{4}} = \\dfrac{10 \\times 21}{495} = \\dfrac{210}{495} = \\dfrac{14}{33} \\approx 0.4242"
+    },
+    {
+      "prompt_latex": "From a standard deck of 52 cards, 5 cards are dealt without replacement. Find the probability that exactly 3 of the 5 cards are hearts.",
+      "answer_latex": "P(X=3) = \\dfrac{\\binom{13}{3}\\binom{39}{2}}{\\binom{52}{5}} = \\dfrac{286 \\times 741}{2598960} = \\dfrac{211926}{2598960} \\approx 0.0815"
+    },
+    {
+      "prompt_latex": "A hypergeometric random variable has parameters $N = 25$, $K = 10$, $n = 6$. Find $P(X \\leq 1)$, and also state the mean $\\mu = E[X]$ and variance $\\sigma^2 = \\text{Var}(X)$ using the known formulas $\\mu = \\dfrac{nK}{N}$ and $\\sigma^2 = n\\dfrac{K}{N}\\dfrac{N-K}{N}\\dfrac{N-n}{N-1}$.",
+      "answer_latex": "P(X=0) = \\dfrac{\\binom{10}{0}\\binom{15}{6}}{\\binom{25}{6}} = \\dfrac{5005}{177100} \\approx 0.02827; \\quad P(X=1) = \\dfrac{\\binom{10}{1}\\binom{15}{5}}{\\binom{25}{6}} = \\dfrac{30030}{177100} \\approx 0.16revelation; \\quad P(X \\leq 1) \\approx 0.1980; \\quad \\mu = \\dfrac{6 \\times 10}{25} = 2.4; \\quad \\sigma^2 = 6 \\cdot \\dfrac{10}{25} \\cdot \\dfrac{15}{25} \\cdot \\dfrac{19}{24} = \\dfrac{1140}{600} = 1.14"
+    },
+    {
+      "prompt_latex": "A wildlife biologist tags 20 fish in a lake known to contain 100 fish total. Later, she nets 15 fish at random without replacement. What is the probability that exactly 4 of the 15 netted fish are tagged? (Set up the full expression and evaluate to four decimal places.)",
+      "answer_latex": "P(X=4) = \\dfrac{\\binom{20}{4}\\binom{80}{11}}{\\binom{100}{15}} \\approx 0.1745"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use $N - k$ instead of $N - K$ (confusing the fixed population parameter $K$ with the variable outcome $k$) in the second binomial coefficient, writing $\\binom{N-k}{n-k}$ instead of $\\binom{N-K}{n-k}$. Remember: the top of the second binomial is always the total number of failures in the population, which is fixed at $N - K$.",
+    "Students apply the binomial distribution formula $\\binom{n}{k}p^k(1-p)^{n-k}$ when sampling is done without replacement, ignoring that the draws are dependent. The hypergeometric distribution must be used whenever sampling occurs without replacement from a finite population \u2014 if the population is finite and small relative to the sample, the binomial approximation is invalid.",
+    "Students forget the valid range of $k$ and try to compute probabilities for values of $k$ that are impossible, such as $k > K$ or $k > n$ or $k < n - (N-K)$, leading to binomial coefficients like $\\binom{3}{5}$ which equal zero. Always check that $\\max(0, n-(N-K)) \\leq k \\leq \\min(n, K)$ before computing."
+  ],
+  "untested_variants": [
+    "Finding the cumulative probability $P(X \\leq k)$ or $P(X \\geq k)$ by summing multiple hypergeometric probabilities, which requires evaluating and adding several terms of the formula.",
+    "Deriving or applying the mean and variance formulas $\\mu = \\dfrac{nK}{N}$ and $\\sigma^2 = n\\dfrac{K}{N}\\dfrac{N-K}{N}\\dfrac{N-n}{N-1}$ to find expected counts or spread without computing individual probabilities.",
+    "Using the hypergeometric distribution in a multi-stage or conditional probability problem, such as computing the probability of a specific event given that a first draw already occurred without replacement.",
+    "Recognizing when a hypergeometric situation can be safely approximated by a binomial distribution (when $n$ is small relative to $N$, typically $n/N < 0.05$) and justifying why the approximation is appropriate."
+  ]
+}

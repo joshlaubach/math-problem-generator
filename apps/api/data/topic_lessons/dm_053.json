@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_053",
+  "topic_name": "Bipartite Graphs and Matching (H)",
+  "generated_at": "2026-05-13T20:16:30.651107+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to represent relationships between objects using graphs, where vertices are connected by edges. Now imagine you are a hospital administrator trying to assign doctors to shifts: each doctor has availability constraints, and each shift needs exactly one doctor. You can draw this as a graph, but how do you know a valid assignment even exists, let alone find one efficiently? The key question is: when can we perfectly pair up two groups of objects with no conflicts?",
+  "concept": "A bipartite graph is a graph whose vertices can be split into two disjoint sets so that every edge connects a vertex in one set to a vertex in the other \u2014 never two vertices within the same set. Formally, a graph $G = (V, E)$ is bipartite if there exists a partition $V = A \\cup B$ with $A \\cap B = \\emptyset$ such that every edge $e \\in E$ has one endpoint in $A$ and one endpoint in $B$. A matching $M \\subseteq E$ is a set of edges with no shared endpoints, and a perfect matching covers every vertex.",
+  "anatomy": "A bipartite graph has several key components worth naming precisely. The two vertex classes $A$ and $B$ (sometimes called the left and right partitions) contain the two groups being matched. Each edge $(a, b)$ with $a \\in A$, $b \\in B$ represents a compatible or allowable pairing. A matching $M$ is the subset of chosen edges where every vertex appears at most once; if $|M| = |A| = |B|$, we call it a perfect matching. Hall's condition is the structural criterion $|N(S)| \\geq |S|$ for all $S \\subseteq A$, where $N(S)$ denotes the neighbourhood of $S$ \u2014 the set of all vertices in $B$ adjacent to at least one vertex of $S$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\{a_1, a_2, a_3\\},\\quad B = \\{b_1, b_2, b_3\\}",
+      "description_latex": "We start by clearly identifying the two vertex classes. Here $A$ represents three job applicants and $B$ represents three job positions, so every edge we draw will go between an applicant and a position \u2014 never between two applicants or two positions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E = \\{(a_1,b_1),(a_1,b_2),(a_2,b_2),(a_2,b_3),(a_3,b_1),(a_3,b_3)\\}",
+      "description_latex": "These edges encode which applicants are qualified for which positions. Before looking for a matching, we should verify the graph is bipartite \u2014 since every edge runs between $A$ and $B$, this is satisfied automatically by construction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\{a_1\\} \\Rightarrow N(S) = \\{b_1, b_2\\},\\quad |N(S)| = 2 \\geq 1 = |S|",
+      "description_latex": "To check Hall's condition, we must verify that for every subset $S \\subseteq A$, the neighbourhood $N(S)$ is at least as large as $S$. We begin with the singleton subsets; $a_1$ is connected to both $b_1$ and $b_2$, so this subset passes easily.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\{a_1,a_2,a_3\\} \\Rightarrow N(S) = \\{b_1,b_2,b_3\\},\\quad |N(S)| = 3 \\geq 3 = |S|",
+      "description_latex": "We must also check all larger subsets, including the full set $A$ itself. Since collectively the three applicants cover all three positions, Hall's condition holds for this subset too \u2014 and after checking every subset, Hall's theorem guarantees a perfect matching exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M = \\{(a_1,b_2),(a_2,b_3),(a_3,b_1)\\}",
+      "description_latex": "We exhibit an explicit perfect matching: $a_1$ gets position $b_2$, $a_2$ gets $b_3$, and $a_3$ gets $b_1$. You can confirm this is a valid matching because no vertex appears more than once, and every vertex in both $A$ and $B$ is covered.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\{p, q\\},\\quad B = \\{x, y, z\\},\\quad E = \\{(p,x),(p,y),(q,y),(q,z)\\}",
+      "description_latex": "We are given this bipartite graph and asked whether Hall's condition holds for all subsets of $A$. We have $|A| = 2$ and $|B| = 3$, so we need to check the three non-empty subsets of $A$: the two singletons and the full set.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\{p\\} \\Rightarrow N(S) = \\{x, y\\},\\quad S = \\{q\\} \\Rightarrow N(S) = \\{y, z\\}",
+      "description_latex": "The two singleton subsets both satisfy $|N(S)| \\geq |S|$ since each applicant is connected to two positions. Now you need to check the remaining non-trivial subset and state your conclusion about whether a perfect matching of $A$ into $B$ exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Check Hall's condition for $S = \\{p, q\\}$ by finding $N(\\{p,q\\})$, then decide: does a perfect matching (saturating all of $A$) exist? Write $N(\\{p,q\\})$, verify the inequality, and if it holds, state one valid matching $M$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "M = \\{(p, x), (q, z)\\}",
+      "description_latex": "Since $N(\\{p,q\\}) = \\{x,y,z\\}$ and $|N(\\{p,q\\})| = 3 \\geq 2 = |\\{p,q\\}|$, Hall's condition is satisfied for every subset, so a perfect matching of $A$ into $B$ exists. One valid matching is $(p,x)$ paired with $(q,z)$ \u2014 note that $y$ is left unmatched in $B$, which is fine since $|B| > |A|$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Is the cycle graph $C_4$ (a four-cycle) bipartite? Justify your answer by finding a valid 2-colouring or explaining why none exists.",
+      "answer_latex": "Yes. Partition the four vertices as $A = \\{v_1, v_3\\}$ and $B = \\{v_2, v_4\\}$; all edges run between $A$ and $B$, confirming $C_4$ is bipartite."
+    },
+    {
+      "prompt_latex": "Let $A = \\{a_1, a_2\\}$, $B = \\{b_1, b_2\\}$, and $E = \\{(a_1,b_1),(a_2,b_1)\\}$. Check Hall's condition for every non-empty $S \\subseteq A$ and state whether a perfect matching exists.",
+      "answer_latex": "$N(\\{a_1\\}) = \\{b_1\\}$, $N(\\{a_2\\}) = \\{b_1\\}$, $N(\\{a_1,a_2\\}) = \\{b_1\\}$. Hall's condition fails for $S = \\{a_1,a_2\\}$ since $|N(S)| = 1 < 2 = |S|$, so no perfect matching exists."
+    },
+    {
+      "prompt_latex": "For the bipartite graph with $A = \\{1,2,3\\}$, $B = \\{x,y,z\\}$, and edges $\\{(1,x),(1,y),(2,y),(2,z),(3,x),(3,z)\\}$, verify Hall's condition holds for all subsets of $A$ and exhibit a perfect matching.",
+      "answer_latex": "All seven non-empty subsets of $A$ satisfy $|N(S)| \\geq |S|$. One perfect matching is $M = \\{(1,y),(2,z),(3,x)\\}$."
+    },
+    {
+      "prompt_latex": "A graph $G$ is bipartite if and only if it contains no odd-length cycle. Use this theorem to determine whether the complete graph $K_3$ is bipartite, and state the size of the largest matching in $K_3$.",
+      "answer_latex": "$K_3$ contains the 3-cycle $v_1 v_2 v_3$, which has odd length, so $K_3$ is not bipartite. The largest matching in $K_3$ has size 1 (any single edge, since no two edges in $K_3$ are independent)."
+    },
+    {
+      "prompt_latex": "Five students $\\{S_1,S_2,S_3,S_4,S_5\\}$ must each be assigned to one of five project topics $\\{T_1,T_2,T_3,T_4,T_5\\}$. Their preferences form a bipartite graph where $S_1 \\to \\{T_1,T_2\\}$, $S_2 \\to \\{T_2,T_3\\}$, $S_3 \\to \\{T_1,T_4\\}$, $S_4 \\to \\{T_3,T_5\\}$, $S_5 \\to \\{T_4,T_5\\}$. Does a perfect assignment exist? If so, give one.",
+      "answer_latex": "Check Hall's condition: every subset $S$ of students has $|N(S)| \\geq |S|$ (verify key cases such as $S=\\{S_1,S_2\\}$ giving $N=\\{T_1,T_2,T_3\\}$). A perfect matching is $\\{(S_1,T_2),(S_2,T_3),(S_3,T_1),(S_4,T_5),(S_5,T_4)\\}$."
+    }
+  ],
+  "common_mistakes": [
+    "Students often check Hall's condition only for the singleton subsets $\\{a\\}$ and the full set $A$, skipping intermediate subsets. The condition must hold for every non-empty $S \\subseteq A$, and a violation can occur at any subset size \u2014 always enumerate all $2^{|A|}-1$ non-empty subsets for small graphs.",
+    "When a perfect matching is requested but $|A| \\neq |B|$, students sometimes think no matching is possible. A perfect matching in a bipartite graph means every vertex of $A$ is matched (saturated), even if vertices in $B$ are left unmatched \u2014 Hall's condition only requires $|N(S)| \\geq |S|$ for subsets of $A$.",
+    "Students confuse 'the graph has a matching of size $k$' with 'the graph is bipartite.' Bipartiteness is a structural property about the partition of vertices, not about the existence or size of any particular matching; a non-bipartite graph can still have large matchings."
+  ],
+  "untested_variants": [
+    "Finding a maximum matching (not necessarily perfect) using the augmenting path algorithm or K\u00f6nig's theorem in a bipartite graph where Hall's condition fails.",
+    "Proving or applying K\u00f6nig's theorem, which states that in any bipartite graph the size of the maximum matching equals the size of the minimum vertex cover.",
+    "Determining whether a given graph is bipartite using breadth-first search and 2-colouring, then reporting the partition sets explicitly.",
+    "Counting the total number of distinct perfect matchings in a bipartite graph, which connects to the permanent of the biadjacency matrix."
+  ]
+}

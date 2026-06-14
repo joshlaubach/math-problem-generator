@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_047",
+  "topic_name": "Graph Representations (Adjacency Matrix, List)",
+  "generated_at": "2026-05-13T20:15:40.050691+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to draw a graph by sketching vertices and edges on paper, and you can identify neighbors by eye. But imagine you need to write a program that finds the shortest path in a network of a million routers \u2014 you can't hand a drawing to a computer. How do we translate the visual structure of a graph into a precise data format that an algorithm can process? That's exactly the gap this lesson closes.",
+  "concept": "A graph representation is a formal data structure that encodes the vertices and edges of a graph $G = (V, E)$ in a way a computer (or mathematician) can manipulate systematically. The two most common representations are the adjacency matrix, an $n \\times n$ array $A$ where $A[i][j] = 1$ if edge $(i,j) \\in E$ and $0$ otherwise, and the adjacency list, a collection of $n$ lists where the list for vertex $i$ contains every neighbor of $i$.",
+  "anatomy": "Both representations share the same underlying graph with $n = |V|$ vertices and $m = |E|$ edges, but package that information differently. In the adjacency matrix $A$, the row index $i$ and column index $j$ each represent a vertex, and the entry $A[i][j]$ is the relationship flag (1 for adjacent, 0 for not). In the adjacency list, each vertex $v_i$ owns a list $L_i$ of neighbor vertices; the degree of $v_i$ equals $|L_i|$. For an undirected graph both structures are symmetric: $A[i][j] = A[j][i]$ and $v_j \\in L_i \\Leftrightarrow v_i \\in L_j$.",
+  "worked_example": [
+    {
+      "expression_latex": "G = (V, E),\\quad V = \\{1,2,3,4\\},\\quad E = \\{(1,2),(1,3),(2,4),(3,4)\\}",
+      "description_latex": "We start by clearly writing out the vertex set and edge set of our example graph. Having every edge listed explicitly is the foundation for both representations \u2014 we will read from this list to fill in the matrix and the lists, so getting this right first prevents downstream errors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\begin{pmatrix} 0 & 1 & 1 & 0 \\\\ 1 & 0 & 0 & 1 \\\\ 1 & 0 & 0 & 1 \\\\ 0 & 1 & 1 & 0 \\end{pmatrix}",
+      "description_latex": "To build the adjacency matrix, label rows and columns $1$ through $4$, then set $A[i][j] = 1$ exactly when $(i,j) \\in E$. For instance, edge $(1,2)$ sets both $A[1][2]$ and $A[2][1]$ to $1$ because the graph is undirected, which is why the matrix is symmetric about the main diagonal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L_1 = [2,3],\\quad L_2 = [1,4],\\quad L_3 = [1,4],\\quad L_4 = [2,3]",
+      "description_latex": "For the adjacency list, we scan the edge set and, for each edge $(i,j)$, append $j$ to list $L_i$ and $i$ to list $L_j$. Vertex 1 appears in edges $(1,2)$ and $(1,3)$, so its list is $[2,3]$; you can verify each list by counting which edges touch that vertex.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Space (matrix)} = O(n^2) = 16 \\text{ entries};\\quad \\text{Space (list)} = O(n + m) = 4 + 2(4) = 12 \\text{ entries}",
+      "description_latex": "Now we compare storage costs. The matrix always allocates $n^2$ cells regardless of how many edges exist, while the adjacency list stores exactly $n$ list headers plus $2m$ neighbor references for an undirected graph. For sparse graphs (few edges relative to $n^2$), the list representation is far more memory-efficient.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "G = (V,E),\\quad V=\\{A,B,C\\},\\quad E=\\{(A,B),(B,C)\\}",
+      "description_latex": "We have a small path graph on three vertices. Our goal is to build both its adjacency matrix and its adjacency list. Start by noting $n = 3$ and $m = 2$, which tells us the matrix will be $3 \\times 3$ and each adjacency list will have at most 2 entries.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\begin{pmatrix} 0 & 1 & 0 \\\\ 1 & 0 & 1 \\\\ 0 & 1 & 0 \\end{pmatrix}",
+      "description_latex": "Here is the completed adjacency matrix with rows and columns ordered $A, B, C$. Notice that $A[B][B] = 0$ because there are no self-loops, and the matrix is symmetric. Use this matrix to check your adjacency list in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write out the adjacency list for each vertex: $L_A$, $L_B$, and $L_C$. For each vertex, list every neighbor by scanning the edges. Which vertex has degree 2, and how does that show up in its list?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Write the adjacency matrix for } G \\text{ with } V=\\{1,2,3\\},\\; E=\\{(1,2),(2,3)\\}.",
+      "answer_latex": "A = \\begin{pmatrix} 0 & 1 & 0 \\\\ 1 & 0 & 1 \\\\ 0 & 1 & 0 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "\\text{Given adjacency matrix } A = \\begin{pmatrix} 0&1&1\\\\1&0&0\\\\1&0&0 \\end{pmatrix}, \\text{ list the edges of } G.",
+      "answer_latex": "E = \\{(1,2),(1,3)\\}"
+    },
+    {
+      "prompt_latex": "\\text{Write the adjacency list for } G \\text{ with } V=\\{1,2,3,4\\},\\; E=\\{(1,2),(1,4),(2,3),(3,4)\\}.",
+      "answer_latex": "L_1=[2,4],\\; L_2=[1,3],\\; L_3=[2,4],\\; L_4=[1,3]"
+    },
+    {
+      "prompt_latex": "\\text{Graph } G \\text{ has } n=5 \\text{ vertices and } m=3 \\text{ edges (undirected, no self-loops). How many 1-entries appear in its adjacency matrix, and what is the total number of neighbor references stored across all adjacency lists?}",
+      "answer_latex": "\\text{Matrix: } 2m = 6 \\text{ ones};\\quad \\text{Lists: } 2m = 6 \\text{ references}"
+    },
+    {
+      "prompt_latex": "\\text{A social network has 4 users. User 1 follows 2 and 3; User 2 follows 4; User 3 follows 4. Model this as a directed graph and write its adjacency matrix } A \\text{, where } A[i][j]=1 \\text{ means } i \\text{ follows } j.",
+      "answer_latex": "A = \\begin{pmatrix} 0&1&1&0\\\\0&0&0&1\\\\0&0&0&1\\\\0&0&0&0 \\end{pmatrix}"
+    }
+  ],
+  "common_mistakes": [
+    "Students fill in only half the adjacency matrix for an undirected graph \u2014 they set $A[i][j]=1$ but forget to also set $A[j][i]=1$. Remember: an undirected edge $(i,j)$ means both directions are valid, so the matrix must be symmetric; always update both entries simultaneously.",
+    "When reading an adjacency list, students count the number of lists instead of the total entries to find the number of edges, leading to $m = n$ instead of $m = (\\sum |L_i|)/2$. The correct rule is that each undirected edge appears twice across all lists, so divide the total neighbor-reference count by 2.",
+    "Students index the adjacency matrix starting at row/column 0 in code but at 1 in their written work, causing off-by-one mismatches when checking whether $A[i][j]$ matches the edge list. Always agree on a single indexing convention before building any representation and stick to it throughout."
+  ],
+  "untested_variants": [
+    "Weighted graphs, where $A[i][j]$ stores the edge weight (e.g., distance or capacity) rather than a binary 0/1 flag, and how the adjacency list stores (neighbor, weight) pairs.",
+    "Converting between representations in the reverse direction: given an adjacency list, reconstructing the full adjacency matrix for a graph with 5 or more vertices.",
+    "Incidence matrices, where rows represent vertices and columns represent edges, as a third representation not covered in the practice problems.",
+    "Analyzing time complexity differences between the two representations for specific operations such as checking whether edge $(u,v)$ exists ($O(1)$ for matrix vs. $O(\\deg(u))$ for list) or iterating over all neighbors of a vertex."
+  ]
+}

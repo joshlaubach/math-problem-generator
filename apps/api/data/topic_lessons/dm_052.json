@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_052",
+  "topic_name": "Graph Coloring",
+  "generated_at": "2026-05-13T20:16:21.823382+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to model relationships between objects using graphs, with vertices connected by edges. Now imagine you're scheduling final exams: two exams must be scheduled at different times if any student is enrolled in both courses. You could model this as a graph where courses are vertices and edges connect conflicting courses \u2014 but how do you figure out the minimum number of time slots needed? This is exactly the kind of question graph coloring answers, and right now you don't yet have the tools to solve it.",
+  "concept": "Graph coloring assigns labels (called 'colors') to the vertices of a graph so that no two adjacent vertices share the same color. Formally, a proper $k$-coloring of a graph $G = (V, E)$ is a function $c: V \\to \\{1, 2, \\ldots, k\\}$ such that for every edge $\\{u, v\\} \\in E$, $c(u) \\neq c(v)$. The chromatic number $\\chi(G)$ is the smallest $k$ for which a proper $k$-coloring exists.",
+  "anatomy": "A graph coloring problem has four key components worth naming precisely. The graph $G = (V, E)$ provides the structure: vertices $V$ are the objects being colored, and edges $E$ encode the conflicts or constraints. The color set $\\{1, 2, \\ldots, k\\}$ is the palette of available labels \u2014 the actual names don't matter, only their distinctness. The coloring function $c: V \\to \\{1, 2, \\ldots, k\\}$ is the assignment itself, mapping each vertex to exactly one color. Finally, the chromatic number $\\chi(G)$ is the central quantity of interest: the minimum size of any palette that permits a valid coloring.",
+  "worked_example": [
+    {
+      "expression_latex": "G: V = \\{A, B, C, D\\},\\; E = \\{\\{A,B\\}, \\{B,C\\}, \\{C,D\\}, \\{D,A\\}, \\{A,C\\}\\}",
+      "description_latex": "We start by writing down the graph explicitly. Reading the edge list tells us the adjacencies: $A$ conflicts with $B$, $C$, and $D$; $B$ conflicts with $A$ and $C$; $C$ conflicts with $A$, $B$, and $D$; $D$ conflicts with $A$ and $C$. Listing adjacencies first prevents mistakes when we try to assign colors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\chi(G) \\geq 3 \\text{ because } \\{A, B, C\\} \\text{ form a triangle (3-clique)}",
+      "description_latex": "Before attempting any coloring, we look for a lower bound on $\\chi(G)$. Since $A$, $B$, and $C$ are mutually adjacent (every pair shares an edge), they form a clique of size 3, called $K_3$. A clique of size $k$ requires at least $k$ colors, so we know immediately that $\\chi(G) \\geq 3$ \u2014 no 2-coloring can possibly work.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c(A) = 1,\\quad c(B) = 2,\\quad c(C) = 3",
+      "description_latex": "We now try to build a 3-coloring greedily. We assign color 1 to $A$, then since $B$ is adjacent to $A$ we must give $B$ a different color, so $c(B) = 2$. Vertex $C$ is adjacent to both $A$ and $B$, so it cannot be 1 or 2; we assign $c(C) = 3$. Notice we are being forced into these choices by the adjacency constraints.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c(D) = 2 \\quad (\\text{since } D \\text{ is adjacent to } A \\text{ and } C \\text{ only})",
+      "description_latex": "Finally, $D$ is adjacent to $A$ (color 1) and $C$ (color 3), but it is NOT adjacent to $B$. This means color 2 is available for $D$, so we set $c(D) = 2$. We reuse an existing color rather than introducing a fourth, which is always the goal when finding the chromatic number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\chi(G) = 3",
+      "description_latex": "We have exhibited a valid 3-coloring \u2014 every edge connects vertices of different colors \u2014 and we proved $\\chi(G) \\geq 3$ via the triangle lower bound, so the chromatic number is exactly 3. Always confirm both directions: a valid coloring gives an upper bound, and a clique (or other argument) gives the lower bound.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "G: V = \\{1,2,3,4,5\\},\\; E = \\{\\{1,2\\},\\{1,3\\},\\{2,3\\},\\{3,4\\},\\{4,5\\},\\{2,5\\}\\}",
+      "description_latex": "Here is the graph we need to color. Start by identifying which vertices are mutually adjacent so you can establish a lower bound on $\\chi(G)$ before trying any coloring.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\chi(G) \\geq \\underline{\\quad} \\text{ because vertices } \\underline{\\quad} \\text{ form a clique}",
+      "description_latex": "Look at the edge list and find the largest set of mutually adjacent vertices. Use that clique to state the best lower bound you can find for $\\chi(G)$. Which vertices form a triangle (or larger clique)?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "c(1)=1,\\; c(2)=2,\\; c(3)=3,\\; c(4)=\\underline{\\quad},\\; c(5)=\\underline{\\quad}",
+      "description_latex": "The colors for vertices 1, 2, and 3 are forced by the triangle $\\{1,2,3\\}$. Now you must assign colors to vertices 4 and 5, keeping in mind all of their adjacencies. Try to use no more colors than your lower bound requires, and verify every edge afterward.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\chi(G) = \\underline{\\quad}",
+      "description_latex": "State the chromatic number, confirming that your coloring achieves the lower bound you found earlier so that no smaller palette could possibly work.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $\\chi(G)$ for the path graph $P_4$ with $V = \\{a,b,c,d\\}$ and $E = \\{\\{a,b\\},\\{b,c\\},\\{c,d\\}\\}$.",
+      "answer_latex": "\\chi(P_4) = 2"
+    },
+    {
+      "prompt_latex": "Find the chromatic number of the complete graph $K_5$.",
+      "answer_latex": "\\chi(K_5) = 5"
+    },
+    {
+      "prompt_latex": "Find $\\chi(G)$ for the cycle $C_5$ (a 5-cycle: vertices $\\{1,2,3,4,5\\}$ with edges forming a pentagon). Justify your answer.",
+      "answer_latex": "\\chi(C_5) = 3 \\text{ (odd cycles require 3 colors; 2 colors fail because the odd length forces a conflict)}"
+    },
+    {
+      "prompt_latex": "Graph $G$ has vertices $\\{A,B,C,D,E\\}$ and edges $\\{\\{A,B\\},\\{A,C\\},\\{B,C\\},\\{B,D\\},\\{C,E\\},\\{D,E\\}\\}$. A proper 3-coloring assigns $c(A)=1, c(B)=2, c(C)=3$. Determine valid colors for $D$ and $E$, and prove that $\\chi(G) = 3$ by also showing $\\chi(G) \\geq 3$.",
+      "answer_latex": "c(D) = 1 \\text{ or } 3,\\; c(E) = 1 \\text{ or } 2 \\text{ (consistent choice: } c(D)=1, c(E)=2\\text{)}; \\; \\chi(G)=3 \\text{ since } \\{A,B,C\\} \\text{ is a triangle}"
+    },
+    {
+      "prompt_latex": "A university must schedule 5 oral exams. Pairs of exams that share a student examiner are: $(1,2),(1,3),(2,4),(3,4),(3,5),(4,5)$. Model this as a graph and find the minimum number of time slots needed so no examiner is double-booked.",
+      "answer_latex": "\\chi(G) = 3 \\text{ time slots suffice; the graph contains a triangle } \\{1,2\\}\\text{\u2014wait, check: largest clique is } \\{3,4,5\\} \\text{ (a triangle), so } \\chi \\geq 3 \\text{, and a valid 3-coloring exists}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often stop as soon as they find any valid coloring, reporting the number of colors used as the chromatic number without proving no smaller coloring exists. A valid $k$-coloring only gives an upper bound $\\chi(G) \\leq k$; you must also provide a lower bound argument (such as a clique) to pin down $\\chi(G)$ exactly.",
+    "Students sometimes color vertices in an unlucky order and introduce an unnecessary extra color, then incorrectly conclude that color is required. If a greedy coloring uses $k$ colors, try reordering the vertices or backtracking \u2014 a more careful assignment might do it in $k-1$, and only the clique lower bound tells you when you truly cannot do better.",
+    "When checking whether a coloring is proper, students frequently check only the edges they 'remember' rather than every edge in $E$. With dense graphs it is easy to miss an edge; the fix is to go through the edge list systematically after assigning all colors, verifying $c(u) \\neq c(v)$ for each $\\{u,v\\} \\in E$ one by one."
+  ],
+  "untested_variants": [
+    "Edge coloring (chromatic index): coloring the edges of a graph so no two edges sharing a vertex receive the same color, and finding the minimum number of edge-colors needed.",
+    "Planar graphs and the Four Color Theorem: the fact that every planar graph satisfies $\\chi(G) \\leq 4$, and problems that ask students to apply this theorem or verify planarity before coloring.",
+    "List coloring (choosability): each vertex is given its own list of allowable colors and students must find a proper coloring from those lists, which requires reasoning beyond a single fixed palette.",
+    "Chromatic polynomial $P(G, k)$: counting the number of distinct proper $k$-colorings of a graph as a polynomial in $k$, and evaluating or deriving it using deletion-contraction."
+  ]
+}

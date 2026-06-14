@@ -1,0 +1,86 @@
+{
+  "topic_id": "dm_044",
+  "topic_name": "Recurrence Relations and Solving Techniques (H)",
+  "generated_at": "2026-05-13T20:15:35.364535+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to count arrangements and subsets directly, but some counting problems are defined in terms of smaller versions of themselves. For example, you know the Fibonacci sequence $1, 1, 2, 3, 5, 8, \\ldots$ where each term is the sum of the two before it \u2014 but how do you find the 50th term without computing all 49 before it? This is the challenge of recurrence relations: equations that define a sequence in terms of its previous values, and the techniques we need to extract a closed-form (direct) formula. Can you find an explicit formula for $a_n$ if $a_n = 5a_{n-1} - 6a_{n-2}$ with $a_0 = 1$ and $a_1 = 4$?",
+  "concept": "A recurrence relation expresses each term of a sequence as a function of one or more preceding terms. Formally, a linear homogeneous recurrence relation of degree $k$ with constant coefficients has the form $a_n = c_1 a_{n-1} + c_2 a_{n-2} + \\cdots + c_k a_{n-k}$, where $c_1, \\ldots, c_k$ are real constants and $c_k \\neq 0$. The goal of 'solving' it is to find an explicit closed-form formula $a_n = f(n)$ that works for all $n$ without needing earlier terms.",
+  "anatomy": "A second-order linear homogeneous recurrence has three structural parts worth naming. The recurrence rule itself, such as $a_n = c_1 a_{n-1} + c_2 a_{n-2}$, tells you how each new term is built from the previous two, with $c_1$ and $c_2$ being the constant coefficients. The initial conditions, typically $a_0$ and $a_1$, anchor the sequence to specific starting values and are what allow you to pin down the two free constants $\\alpha$ and $\\beta$ in the general solution. The characteristic equation $r^2 - c_1 r - c_2 = 0$ is obtained by substituting the trial solution $a_n = r^n$; its roots $r_1$ and $r_2$ determine the form of the closed-form solution.",
+  "worked_example": [
+    {
+      "expression_latex": "a_n = 5a_{n-1} - 6a_{n-2}, \\quad a_0 = 1,\\ a_1 = 4",
+      "description_latex": "We begin by clearly identifying the recurrence rule and initial conditions. The recurrence tells us how to generate terms, but our aim is a direct formula $a_n = f(n)$, so we will use the characteristic root method.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 - 5r + 6 = 0",
+      "description_latex": "We substitute the trial solution $a_n = r^n$ into the recurrence, which gives $r^n = 5r^{n-1} - 6r^{n-2}$. Dividing through by $r^{n-2}$ (assuming $r \\neq 0$) yields the characteristic equation $r^2 - 5r + 6 = 0$. The roots of this equation are the key to the general solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(r-2)(r-3) = 0 \\implies r_1 = 2,\\ r_2 = 3",
+      "description_latex": "Factoring the characteristic equation gives two distinct real roots $r_1 = 2$ and $r_2 = 3$. Because the roots are distinct, the general solution is a linear combination of the two independent solutions $2^n$ and $3^n$, giving $a_n = \\alpha \\cdot 2^n + \\beta \\cdot 3^n$ for constants $\\alpha$ and $\\beta$ to be determined.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_0 = 1: \\alpha + \\beta = 1 \\qquad a_1 = 4: 2\\alpha + 3\\beta = 4",
+      "description_latex": "We substitute the initial conditions into the general solution to get a system of two equations in two unknowns. This is the step that transforms the general solution into the unique solution matching our specific sequence.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\alpha = -1,\\ \\beta = 2 \\implies a_n = -1 \\cdot 2^n + 2 \\cdot 3^n = 2 \\cdot 3^n - 2^n",
+      "description_latex": "Solving the system: from the first equation $\\alpha = 1 - \\beta$; substituting into the second gives $2(1-\\beta) + 3\\beta = 4$, so $\\beta = 2$ and $\\alpha = -1$. The closed-form solution $a_n = 2 \\cdot 3^n - 2^n$ can be verified by checking $a_0 = 2 - 1 = 1$ \u2713 and $a_1 = 6 - 2 = 4$ \u2713.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "a_n = 6a_{n-1} - 9a_{n-2}, \\quad a_0 = 2,\\ a_1 = 3",
+      "description_latex": "Here is a second-order recurrence. We follow the same method: write the characteristic equation by substituting $a_n = r^n$ and dividing by $r^{n-2}$, giving $r^2 - 6r + 9 = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(r-3)^2 = 0 \\implies r = 3 \\text{ (repeated root)}",
+      "description_latex": "The characteristic equation factors as $(r-3)^2 = 0$, giving a repeated root $r = 3$. When a root is repeated, the general solution changes form \u2014 instead of $\\alpha \\cdot 3^n + \\beta \\cdot 3^n$ (which would collapse into one term), we must use $a_n = (\\alpha + \\beta n) \\cdot 3^n$ to get two linearly independent solutions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the initial conditions $a_0 = 2$ and $a_1 = 3$ to the general solution $a_n = (\\alpha + \\beta n) \\cdot 3^n$ to form a system of equations, then solve for $\\alpha$ and $\\beta$ and write the final closed-form solution.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the closed-form solution to $a_n = 4a_{n-1}$ with $a_0 = 3$.",
+      "answer_latex": "a_n = 3 \\cdot 4^n"
+    },
+    {
+      "prompt_latex": "Solve $a_n = 7a_{n-1} - 10a_{n-2}$ with $a_0 = 0$ and $a_1 = 1$.",
+      "answer_latex": "a_n = \\dfrac{1}{3}\\left(5^n - 2^n\\right)"
+    },
+    {
+      "prompt_latex": "Solve $a_n = 4a_{n-1} - 4a_{n-2}$ with $a_0 = 1$ and $a_1 = 4$.",
+      "answer_latex": "a_n = (1 + n) \\cdot 2^n"
+    },
+    {
+      "prompt_latex": "A sequence satisfies $a_n = 5a_{n-1} - 6a_{n-2}$ with $a_0 = 2$ and $a_1 = 5$. Find $a_n$ and determine the exact value of $a_{10}$.",
+      "answer_latex": "a_n = 3^n + 2^n - 2^n = 3^n + 2^n,\\ \\text{so}\\ a_{10} = 3^{10} + 2^{10} = 59049 + 1024 = 60073"
+    },
+    {
+      "prompt_latex": "A staircase can be climbed by taking 1 or 2 steps at a time. Let $a_n$ be the number of ways to climb $n$ stairs, with $a_1 = 1$ and $a_2 = 2$. Write the recurrence, find the closed-form solution, and compute $a_8$.",
+      "answer_latex": "a_n = a_{n-1} + a_{n-2};\\ a_n = \\dfrac{1}{\\sqrt{5}}\\left[\\left(\\dfrac{1+\\sqrt{5}}{2}\\right)^n - \\left(\\dfrac{1-\\sqrt{5}}{2}\\right)^n\\right];\\ a_8 = 34"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the general solution form $a_n = \\alpha r_1^n + \\beta r_2^n$ even when the characteristic equation has a repeated root. When the root $r$ is repeated, the correct form is $a_n = (\\alpha + \\beta n)r^n$; forgetting the factor of $n$ leads to a system with no valid solution for the constants.",
+    "Students substitute $n = 1$ and $n = 2$ into the general solution instead of using the given initial conditions at $n = 0$ and $n = 1$ (or whichever starting indices are specified). Always match the index at which each initial condition is given \u2014 plugging into the wrong index produces an incorrect system and wrong constants.",
+    "When writing the characteristic equation from $a_n = c_1 a_{n-1} + c_2 a_{n-2}$, students write $r^2 = c_1 r^{n-1} + c_2 r^{n-2}$ without dividing by $r^{n-2}$, or they forget to bring all terms to one side. The characteristic equation must be set equal to zero: $r^2 - c_1 r - c_2 = 0$, not $r^2 = c_1 r + c_2$."
+  ],
+  "untested_variants": [
+    "Non-homogeneous linear recurrences of the form $a_n = c_1 a_{n-1} + c_2 a_{n-2} + f(n)$, where a particular solution must be found and added to the homogeneous solution.",
+    "Recurrences with complex or irrational characteristic roots, requiring the solution to be expressed using trigonometric functions or left in surd form (e.g., arising from $r^2 - r + 1 = 0$).",
+    "Recurrences of degree three or higher (third-order or above), where the characteristic equation has three or more roots to find.",
+    "Solving recurrences using generating functions, which is an entirely different technique from the characteristic root method and is common in advanced combinatorics courses."
+  ]
+}

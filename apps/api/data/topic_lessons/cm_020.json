@@ -1,0 +1,76 @@
+{
+  "topic_id": "cm_020",
+  "topic_name": "Power of a Point and Radical Axes",
+  "generated_at": "2026-05-13T20:23:08.309888+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know that two chords of a circle can intersect, and you've probably measured their segments before. But here's something strange: if two chords $AB$ and $CD$ intersect inside a circle at point $P$, then $PA \\cdot PB = PC \\cdot PD$ \u2014 always, no matter where $P$ is or how the chords are drawn. What if $P$ is outside the circle instead? And why does this product stay constant? That constant is the key to a powerful tool, and right now you don't have a name for it.",
+  "concept": "The power of a point $P$ with respect to a circle with center $O$ and radius $r$ is the quantity $\\text{pow}(P) = OP^2 - r^2$. Informally, it measures how far $P$ is from 'being on' the circle \u2014 negative inside, zero on the circle, positive outside. For any line through $P$ meeting the circle at points $X$ and $Y$, the signed product $PX \\cdot PY$ equals $\\text{pow}(P)$, making it independent of the chosen line.",
+  "anatomy": "Every power-of-a-point configuration has four key components. First, the reference point $P$, which can lie inside, on, or outside the circle. Second, the circle itself, defined by center $O$ and radius $r$, which determines the constant $OP^2 - r^2$. Third, the signed lengths: when $P$ is inside, both $PX$ and $PY$ point in opposite directions but the product is taken as positive; when $P$ is outside, both segments point in the same direction. Fourth, the radical axis, which is the locus of all points having equal power with respect to two given circles \u2014 it is always a straight line perpendicular to the line joining the two centers.",
+  "worked_example": [
+    {
+      "expression_latex": "PA \\cdot PB = PC \\cdot PD",
+      "description_latex": "We start by setting up the intersecting-chords theorem. Two chords $AB$ and $CD$ intersect inside the circle at $P$, and the power of $P$ with respect to the circle is the same regardless of which chord we use, so both products equal $\\text{pow}(P)$. This equality is our main equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "PA = 3,\\quad PB = 8,\\quad PC = 4,\\quad PD = ?",
+      "description_latex": "We're given specific lengths: $PA = 3$, $PB = 8$, and $PC = 4$, and we need $PD$. Plugging the known values into both sides of the power equation gives us $3 \\cdot 8 = 4 \\cdot PD$, so we have one equation in one unknown.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "24 = 4 \\cdot PD \\implies PD = 6",
+      "description_latex": "Dividing both sides by 4 gives $PD = 6$. Notice that we never needed the radius or the center \u2014 the power of the point encoded all the information we needed about the circle through this single product.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{pow}(P) = PT^2 = PA \\cdot PB",
+      "description_latex": "Here $P$ is outside the circle, $PT$ is a tangent from $P$ to the circle touching at $T$, and $PAB$ is a secant through $P$ meeting the circle at $A$ and $B$. The power of the point equals the square of the tangent length, and also equals the product of the two secant lengths from $P$. We write this equality to set up the problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "PT = 6,\\quad PA = 4,\\quad PB = ?",
+      "description_latex": "We know the tangent length $PT = 6$ and the nearer intersection $PA = 4$. Your job is to substitute into the equation above and solve for $PB$, the full secant length from $P$ through the circle.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "PB = 9",
+      "description_latex": "Once you find $PB = 9$, notice that the chord inside the circle has length $AB = PB - PA = 9 - 4 = 5$. This is a typical final step in contest problems: the question often asks for the chord length, not the full secant length.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Two chords $AB$ and $CD$ intersect inside a circle at point $P$. If $PA = 5$, $PB = 4$, and $PC = 2$, find $PD$.",
+      "answer_latex": "PD = 10"
+    },
+    {
+      "prompt_latex": "From an external point $P$, a tangent touches the circle at $T$ with $PT = 8$. A secant from $P$ passes through the circle, entering at $A$ and exiting at $B$, with $PA = 4$. Find $PB$.",
+      "answer_latex": "PB = 16"
+    },
+    {
+      "prompt_latex": "Two circles have centers $O_1$ and $O_2$ with radii $3$ and $5$, respectively, and the distance between their centers is $O_1O_2 = 8$. Find the power of the midpoint $M$ of $O_1O_2$ with respect to each circle, and verify that $M$ does not lie on the radical axis.",
+      "answer_latex": "\\text{pow}_1(M) = 16 - 9 = 7,\\quad \\text{pow}_2(M) = 16 - 25 = -9;\\quad 7 \\neq -9,\\text{ so } M \\text{ is not on the radical axis}"
+    },
+    {
+      "prompt_latex": "In triangle $ABC$, the altitude from $A$ meets $BC$ at $H$. Using the fact that $H$ lies on both legs of a right angle in the circumscribed configuration, show that $BH \\cdot HC = AH^2$ if and only if $\\angle BAC = 90^\\circ$, and compute $AH$ when $BH = 3$ and $HC = 12$.",
+      "answer_latex": "AH = 6"
+    },
+    {
+      "prompt_latex": "Two circles intersect at points $X$ and $Y$. A line through an external point $P$ is tangent to the first circle at $T_1$ with $PT_1 = 7$, and tangent to the second circle at $T_2$ with $PT_2 = 7$. What can you conclude about $P$, and where does $P$ lie relative to the line $XY$?",
+      "answer_latex": "P \\text{ lies on the radical axis of the two circles, which is the line } XY"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the full chord length instead of the two individual segment lengths from $P$: if a chord has total length $10$ and $P$ divides it into segments of $3$ and $7$, the power is $3 \\cdot 7 = 21$, not $10 \\cdot 10$ or $5 \\cdot 5$. Always split the chord at $P$ and multiply the two parts.",
+    "When $P$ is outside the circle and a secant is drawn, students confuse $PA$ (distance to the near intersection) with the chord length $AB$: the correct formula is $PA \\cdot PB$ where $PB$ is the distance to the far intersection, not $PA \\cdot AB$. Draw and label all four points $P$, $A$, $B$, $T$ explicitly to avoid this.",
+    "Students assume the radical axis of two circles is always their common chord: the radical axis is the locus of equal power, and it is a real line even when the circles do not intersect \u2014 in that case there is no common chord at all, but the radical axis still exists and is still perpendicular to the line of centers."
+  ],
+  "untested_variants": [
+    "Problems involving three circles simultaneously, where you must find the radical center (the single point where all three pairwise radical axes meet) and use it to solve for unknown lengths.",
+    "Problems where the power of a point is used to prove concyclicity \u2014 showing four points lie on a common circle by verifying that a candidate point has equal products for two different pairs of segments.",
+    "Coordinate-geometry formulations where you must derive the equation of the radical axis of two circles given in the form $x^2 + y^2 + Dx + Ey + F = 0$ by subtracting the two equations.",
+    "Problems combining power of a point with trigonometric identities, such as using the extended law of sines together with the intersecting-chords result to find angle measures in a cyclic quadrilateral."
+  ]
+}

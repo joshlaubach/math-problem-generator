@@ -1,0 +1,76 @@
+{
+  "topic_id": "geo_066",
+  "topic_name": "Equations of Circles (H)",
+  "generated_at": "2026-05-12T23:12:22.714173+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to use the distance formula to find the length between two points \u2014 great. Now imagine you fix one of those points as a center and ask: what is the set of ALL points exactly $r$ units away from it? That collection of points traces out a circle, and every single one of those points satisfies the same algebraic equation. But how do you write that equation, and how do you read information back out of it once it's written?",
+  "concept": "A circle is defined as the set of all points in a plane that are exactly a fixed distance (the radius) from a fixed point (the center). Applying the distance formula to a point $(x, y)$, a center $(h, k)$, and radius $r$ gives the standard equation of a circle: $(x - h)^2 + (y - k)^2 = r^2$. Every point on the circle satisfies this equation, and no point off the circle does.",
+  "anatomy": "The standard equation $(x - h)^2 + (y - k)^2 = r^2$ has three structural parts. The center is the ordered pair $(h, k)$, read directly from the equation by noting the values subtracted inside each squared term \u2014 be careful, because the signs are flipped. The radius is $r$, but it appears as $r^2$ on the right-hand side, so you must take a square root to recover the actual radius length. The squared binomials $(x - h)^2$ and $(y - k)^2$ come from squaring the horizontal and vertical distances between a general point $(x, y)$ and the center.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Write the equation of the circle with center } (3, -5) \\text{ and radius } 7.",
+      "description_latex": "We start by identifying the three pieces we need: $h = 3$, $k = -5$, and $r = 7$. These go directly into the standard form $(x - h)^2 + (y - k)^2 = r^2$, so our job is simply to substitute carefully.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x - 3)^2 + (y - (-5))^2 = 7^2",
+      "description_latex": "We substitute $h = 3$, $k = -5$, and $r = 7$ into the template. Notice that subtracting a negative gives a plus sign in the next step \u2014 this is the most common place to make an error, so we write it out explicitly first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x - 3)^2 + (y + 5)^2 = 49",
+      "description_latex": "Simplifying $y - (-5)$ to $y + 5$ and $7^2$ to $49$ gives us the final equation. This is the complete standard form: center $(3, -5)$, radius $7$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Identify the center and radius of } (x + 2)^2 + (y - 6)^2 = 25.",
+      "description_latex": "To read information out of the standard form, we match the equation to the template $(x - h)^2 + (y - k)^2 = r^2$. We need to identify $h$, $k$, and then compute $r$ from $r^2 = 25$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h = -2, \\quad k = 6, \\quad r^2 = 25",
+      "description_latex": "We read $h$ and $k$ by asking what value makes each binomial equal to zero. For $(x + 2)^2$ that value is $x = -2$, so $h = -2$; for $(y - 6)^2$ it is $y = 6$, so $k = 6$. The right-hand side gives us $r^2 = 25$ directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now take the square root of $r^2 = 25$ to find the radius, and state the center and radius of the circle. What are the center and radius?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Write the equation of the circle with center } (0, 0) \\text{ and radius } 5.",
+      "answer_latex": "x^2 + y^2 = 25"
+    },
+    {
+      "prompt_latex": "\\text{Write the equation of the circle with center } (-4, 1) \\text{ and radius } 3.",
+      "answer_latex": "(x + 4)^2 + (y - 1)^2 = 9"
+    },
+    {
+      "prompt_latex": "\\text{Identify the center and radius of } (x - 5)^2 + (y + 3)^2 = 64.",
+      "answer_latex": "\\text{Center } (5, -3), \\text{ radius } 8"
+    },
+    {
+      "prompt_latex": "\\text{A circle has center } (2, -1) \\text{ and passes through the point } (6, 2). \\text{ Write its equation.}",
+      "answer_latex": "(x - 2)^2 + (y + 1)^2 = 25"
+    },
+    {
+      "prompt_latex": "\\text{A cell tower is located at } (3, 4) \\text{ on a coordinate grid (units in miles). It broadcasts to all points within 10 miles. Does the point } (11, 9) \\text{ receive signal? Show work using the circle's equation.}",
+      "answer_latex": "(11-3)^2 + (9-4)^2 = 64 + 25 = 89 > 100, \\text{ so } (11, 9) \\text{ is outside the broadcast circle and does NOT receive signal.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students read the center's signs directly from the equation and write the wrong center \u2014 for example, they see $(x + 4)^2$ and record the center's $x$-coordinate as $+4$ instead of $-4$. Remember that the standard form subtracts the center coordinates, so flip the sign of whatever appears inside each binomial.",
+    "Students forget to square the radius when writing the equation, writing $r$ on the right-hand side instead of $r^2$ \u2014 for instance, writing $(x-1)^2 + (y-2)^2 = 6$ when the radius is $6$ rather than the correct $(x-1)^2 + (y-2)^2 = 36$. Always square the radius value before placing it in the equation.",
+    "When finding the radius from the equation, students report $r^2$ as the radius instead of taking the square root \u2014 for example, seeing $r^2 = 49$ and stating the radius is $49$ rather than $7$. After identifying $r^2$ from the right-hand side, always compute $r = \\sqrt{r^2}$ to get the actual radius."
+  ],
+  "untested_variants": [
+    "Completing the square to convert an equation in general form $x^2 + y^2 + Dx + Ey + F = 0$ back into standard form \u2014 the practice problems only give equations already in standard form.",
+    "Finding the equation of a circle given the endpoints of a diameter (requiring the student to first find the midpoint as the center and half the distance as the radius).",
+    "Determining whether two circles intersect, are tangent, or are separate by comparing the distance between centers to the sum or difference of their radii.",
+    "Graphing a circle on the coordinate plane given its equation and labeling the center and radius accurately \u2014 the problems above are purely algebraic."
+  ]
+}

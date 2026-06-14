@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_020",
+  "topic_name": "Lagrange Multipliers (H)",
+  "generated_at": "2026-05-13T00:33:56.039600+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to find the maximum or minimum of a function by setting its gradient equal to zero \u2014 that works perfectly when your variables can roam freely. But what happens when there's a constraint tying your variables together, like finding the point on the ellipse $x^2 + 4y^2 = 4$ that is closest to the origin? Setting the gradient of the distance function to zero ignores the constraint entirely, and substitution can become algebraically brutal for harder surfaces. Is there a cleaner, more systematic method that builds the constraint directly into the optimization?",
+  "concept": "Lagrange multipliers let you optimize a function $f(x, y)$ subject to a constraint $g(x, y) = 0$ by exploiting a geometric insight: at a constrained extremum, the gradient of $f$ must be parallel to the gradient of $g$. Formally, you look for points where $\\nabla f = \\lambda \\nabla g$ for some scalar $\\lambda$ (the Lagrange multiplier), together with the constraint $g(x,y)=0$, giving you a system of equations whose solutions are your candidates.",
+  "anatomy": "The method has four named components. First, the objective function $f(x, y)$ (or $f(x,y,z)$) is the quantity you want to maximize or minimize. Second, the constraint function $g(x, y)$ is written in the form $g(x,y) = 0$, so if the constraint is given as $x^2 + y^2 = 1$, you rewrite it as $g = x^2 + y^2 - 1 = 0$. Third, the Lagrange multiplier $\\lambda$ (lambda) is the unknown scalar that measures how sensitive the optimal value of $f$ is to relaxing the constraint. Fourth, the Lagrange system consists of the two (or three) component equations from $\\nabla f = \\lambda \\nabla g$ plus the constraint equation \u2014 together these are solved simultaneously for all unknowns.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Maximize } f(x,y) = xy \\text{ subject to } x + 2y = 8",
+      "description_latex": "We start by identifying our objective and constraint. The objective function is $f(x,y) = xy$, the quantity we want to maximize, and the constraint is $g(x,y) = x + 2y - 8 = 0$, written with zero on the right so we can apply the Lagrange condition directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\nabla f = \\langle y,\\, x \\rangle, \\quad \\nabla g = \\langle 1,\\, 2 \\rangle",
+      "description_latex": "We compute both gradients because the Lagrange condition $\\nabla f = \\lambda \\nabla g$ requires them. The gradient of $f$ gives $f_x = y$ and $f_y = x$, while the gradient of $g$ gives $g_x = 1$ and $g_y = 2$ \u2014 these are the building blocks of our system.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = \\lambda(1), \\quad x = \\lambda(2), \\quad x + 2y = 8",
+      "description_latex": "Setting $\\nabla f = \\lambda \\nabla g$ component by component gives us two scalar equations, and we add the original constraint as the third equation, giving a system of three equations in three unknowns: $x$, $y$, and $\\lambda$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda = y = \\frac{x}{2} \\implies x = 2y",
+      "description_latex": "We eliminate $\\lambda$ by noting from the first equation $\\lambda = y$ and from the second $\\lambda = x/2$, so setting these equal gives $x = 2y$. Eliminating $\\lambda$ first is almost always the cleanest approach because $\\lambda$ itself is rarely the answer we need.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 4,\\; y = 2 \\implies f(4, 2) = 8",
+      "description_latex": "Substituting $x = 2y$ into the constraint $x + 2y = 8$ gives $2y + 2y = 8$, so $y = 2$ and $x = 4$. Since this is the only critical point and the problem has a maximum (the product grows but the constraint is bounded), the maximum value of $xy$ subject to the constraint is $\\mathbf{8}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Minimize } f(x,y) = x^2 + y^2 \\text{ subject to } x + y = 6",
+      "description_latex": "We want to find the point on the line $x + y = 6$ closest to the origin. We identify $f(x,y) = x^2 + y^2$ as the objective (square of distance) and write the constraint as $g(x,y) = x + y - 6 = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\nabla f = \\langle 2x,\\, 2y \\rangle, \\quad \\nabla g = \\langle 1,\\, 1 \\rangle",
+      "description_latex": "Both gradients are computed and ready. The Lagrange system becomes $2x = \\lambda$, $2y = \\lambda$, and $x + y = 6$. From the first two equations we immediately get $x = y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $x = y$ into the constraint $x + y = 6$ to solve for $x$ and $y$, then state the minimum value of $f$ at that point. What are $x$, $y$, and the minimum value of $x^2 + y^2$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = 3,\\; y = 3 \\implies f(3,3) = 18",
+      "description_latex": "The unique critical point is $(3, 3)$, which gives the minimum squared distance of $18$, confirming the closest point on the line to the origin is $(3, 3)$ at distance $3\\sqrt{2}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the maximum of $f(x,y) = 3x + 4y$ subject to $x^2 + y^2 = 25$.",
+      "answer_latex": "\\text{Maximum value is } 25, \\text{ at } (x, y) = (3, 4)"
+    },
+    {
+      "prompt_latex": "Find the minimum value of $f(x,y) = x^2 + y^2$ subject to $2x + y = 5$.",
+      "answer_latex": "\\text{Minimum value is } 5, \\text{ at } (x, y) = (2, 1)"
+    },
+    {
+      "prompt_latex": "Use Lagrange multipliers to find the maximum and minimum values of $f(x,y) = xy$ subject to the constraint $x^2 + y^2 = 2$.",
+      "answer_latex": "\\text{Maximum } 1 \\text{ at } (1,1) \\text{ and } (-1,-1);\\; \\text{Minimum } -1 \\text{ at } (1,-1) \\text{ and } (-1,1)"
+    },
+    {
+      "prompt_latex": "Find the point on the plane $2x + y + z = 5$ closest to the origin by minimizing $f(x,y,z) = x^2 + y^2 + z^2$ subject to $g(x,y,z) = 2x + y + z - 5 = 0$.",
+      "answer_latex": "\\left(\\frac{10}{6},\\, \\frac{5}{6},\\, \\frac{5}{6}\\right) \\text{ with minimum distance } \\sqrt{\\frac{25}{6}}"
+    },
+    {
+      "prompt_latex": "A rectangular box with no lid is to have a surface area of $48 \\text{ m}^2$. Use Lagrange multipliers to find the dimensions $x$, $y$, $z$ (length, width, height) that maximize the volume $V = xyz$ subject to the surface area constraint $xy + 2xz + 2yz = 48$.",
+      "answer_latex": "x = 4,\\; y = 4,\\; z = 2 \\text{ (maximum volume } V = 32 \\text{ m}^3\\text{)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to write the constraint in the form $g(x,y) = 0$ before computing $\\nabla g$, and accidentally include the wrong constant inside the gradient; always move everything to one side first so $g$ is zero on the right.",
+    "After finding $\\nabla f = \\lambda \\nabla g$, students solve for $\\lambda$ and report it as the answer instead of substituting back to find the values of $x$ and $y$ \u2014 remember that $\\lambda$ is a tool for setting up the system, not the quantity being optimized.",
+    "Students assume there is only one critical point and report it without checking whether it is a maximum, minimum, or neither; when both a max and a min exist on a closed constraint curve (like a circle or ellipse), you must evaluate $f$ at all critical points and compare."
+  ],
+  "untested_variants": [
+    "Problems with two simultaneous constraints (using two multipliers $\\lambda$ and $\\mu$), such as optimizing $f(x,y,z)$ subject to both $g_1 = 0$ and $g_2 = 0$.",
+    "Lagrange multiplier problems where the constraint is an inequality $g(x,y) \\leq 0$, requiring you to also check interior critical points alongside the boundary.",
+    "Problems where after applying the Lagrange conditions you must interpret the value of $\\lambda$ itself as a sensitivity or shadow price, common in economics applications.",
+    "Optimization over a region whose boundary consists of multiple smooth pieces (e.g., a triangle), requiring Lagrange multipliers on each edge separately combined with checking interior critical points."
+  ]
+}

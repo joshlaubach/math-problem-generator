@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_033",
+  "topic_name": "One-Sample z-Test for a Proportion",
+  "generated_at": "2026-05-13T20:31:57.456120+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to compute proportions from sample data \u2014 for example, if 55 out of 100 surveyed voters support a candidate, the sample proportion is 0.55. But here's the gap: how do you decide whether that 0.55 is genuinely different from the claimed 50%, or whether it could just be random chance? You need a formal procedure that weighs the size of the discrepancy against the natural variability of sampling. Can you determine, with statistical rigor, whether the evidence is strong enough to reject a claim about a population proportion?",
+  "concept": "A one-sample z-test for a proportion lets you decide whether a sample proportion is statistically different from a hypothesized population proportion $p_0$. Formally, under $H_0: p = p_0$, the test statistic is $z = \\dfrac{\\hat{p} - p_0}{\\sqrt{p_0(1-p_0)/n}}$, which follows a standard normal distribution when the conditions (randomness, independence, and at least 10 expected successes and failures) are met.",
+  "anatomy": "The test has several named components: $\\hat{p}$ is the sample proportion (successes divided by $n$); $p_0$ is the null-hypothesis proportion, the specific value being tested; $n$ is the sample size; the denominator $\\sqrt{p_0(1-p_0)/n}$ is the standard error of $\\hat{p}$ under $H_0$, measuring how much $\\hat{p}$ naturally varies; the resulting $z$-score measures how many standard errors $\\hat{p}$ sits from $p_0$; and the $p$-value is the probability of observing a $z$-score at least as extreme as the one computed, used to decide whether to reject $H_0$.",
+  "worked_example": [
+    {
+      "expression_latex": "H_0: p = 0.40 \\quad \\text{vs.} \\quad H_a: p > 0.40",
+      "description_latex": "We begin by stating the hypotheses. A manufacturer claims that 40% of customers prefer their new product, but a consumer group suspects the true proportion is higher, so the null hypothesis sets $p_0 = 0.40$ and the alternative is one-sided ($p > 0.40$). Identifying the direction of $H_a$ is essential because it determines whether we use a one-tailed or two-tailed $p$-value.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = 150, \\quad x = 72, \\quad \\hat{p} = \\frac{72}{150} = 0.48",
+      "description_latex": "Next we record the sample information and compute the sample proportion $\\hat{p}$. Dividing the number of successes (72) by the sample size (150) gives $\\hat{p} = 0.48$, which is the observed proportion we will compare to $p_0 = 0.40$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Check: } np_0 = 150(0.40) = 60 \\geq 10 \\quad \\text{and} \\quad n(1-p_0) = 150(0.60) = 90 \\geq 10",
+      "description_latex": "Before computing anything, we must verify the large-counts condition using $p_0$ (not $\\hat{p}$), because under the null hypothesis it is $p_0$ that governs the distribution. Both 60 and 90 exceed 10, so the sampling distribution of $\\hat{p}$ is approximately normal and the z-test is valid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z = \\frac{\\hat{p} - p_0}{\\sqrt{p_0(1-p_0)/n}} = \\frac{0.48 - 0.40}{\\sqrt{0.40(0.60)/150}} = \\frac{0.08}{\\sqrt{0.0016}} = \\frac{0.08}{0.04} = 2.00",
+      "description_latex": "Now we compute the test statistic by plugging into the formula. The standard error is $\\sqrt{0.40 \\times 0.60 / 150} = \\sqrt{0.0016} = 0.04$, so the $z$-score is $0.08/0.04 = 2.00$, meaning $\\hat{p}$ is exactly 2 standard errors above the null value.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p\\text{-value} = P(Z > 2.00) \\approx 0.0228 < 0.05 \\Rightarrow \\text{Reject } H_0",
+      "description_latex": "Because $H_a$ is one-sided (greater than), the $p$-value is the area to the right of $z = 2.00$ in the standard normal distribution, which is approximately 0.0228. Since $0.0228 < 0.05$ (the significance level $\\alpha$), we reject $H_0$ and conclude there is statistically significant evidence that the true proportion exceeds 40%.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H_0: p = 0.25 \\quad \\text{vs.} \\quad H_a: p \\neq 0.25",
+      "description_latex": "A university claims 25% of its students commute from off-campus housing. A researcher surveys 200 students and finds 60 commuters. We state a two-sided alternative because we're checking whether the true proportion differs in either direction from 0.25.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{p} = \\frac{60}{200} = 0.30",
+      "description_latex": "We compute the sample proportion: 60 commuters out of 200 students gives $\\hat{p} = 0.30$. We have also verified the large-counts condition: $np_0 = 200(0.25) = 50 \\geq 10$ and $n(1-p_0) = 150 \\geq 10$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z = \\frac{0.30 - 0.25}{\\sqrt{0.25(0.75)/200}}",
+      "description_latex": "Now compute the test statistic. Evaluate the standard error $\\sqrt{p_0(1-p_0)/n}$ and then divide the difference $\\hat{p} - p_0$ by it to find $z$. What numerical value do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the $z$-score you just found and the fact that $H_a$ is two-sided, compute the $p$-value as $2 \\times P(Z > |z|)$ and state whether you reject or fail to reject $H_0$ at $\\alpha = 0.05$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A coin is flipped 100 times and lands heads 52 times. Test $H_0: p = 0.50$ vs.\\ $H_a: p \\neq 0.50$ at $\\alpha = 0.05$. Compute the $z$-test statistic.",
+      "answer_latex": "z = \\frac{0.52 - 0.50}{\\sqrt{0.50(0.50)/100}} = \\frac{0.02}{0.05} = 0.40; \\text{ fail to reject } H_0"
+    },
+    {
+      "prompt_latex": "A survey of 400 adults finds that 220 support a new policy. Test $H_0: p = 0.50$ vs.\\ $H_a: p > 0.50$ at $\\alpha = 0.05$. State the $z$-statistic and conclusion.",
+      "answer_latex": "\\hat{p} = 0.55,\\; z = \\frac{0.55-0.50}{\\sqrt{0.50(0.50)/400}} = \\frac{0.05}{0.025} = 2.00,\\; p\\text{-value} \\approx 0.0228 < 0.05,\\; \\text{reject } H_0"
+    },
+    {
+      "prompt_latex": "A quality control inspector checks 250 items and finds 30 defective. The company claims the defect rate is 10%. Test $H_0: p = 0.10$ vs.\\ $H_a: p \\neq 0.10$ at $\\alpha = 0.05$.",
+      "answer_latex": "\\hat{p} = 0.12,\\; z = \\frac{0.12-0.10}{\\sqrt{0.10(0.90)/250}} \\approx \\frac{0.02}{0.01897} \\approx 1.054,\\; p\\text{-value} \\approx 0.292 > 0.05,\\; \\text{fail to reject } H_0"
+    },
+    {
+      "prompt_latex": "A researcher wants to detect a departure from $p_0 = 0.30$ using a one-sided test ($H_a: p < 0.30$) at $\\alpha = 0.01$. A sample of 500 yields $\\hat{p} = 0.26$. Compute the $z$-statistic, find the exact $p$-value (use the fact that $P(Z < -1.95) \\approx 0.026$ and $P(Z < -2.50) \\approx 0.006$), and state your conclusion.",
+      "answer_latex": "z = \\frac{0.26-0.30}{\\sqrt{0.30(0.70)/500}} = \\frac{-0.04}{0.02049} \\approx -1.95,\\; p\\text{-value} \\approx 0.026 > 0.01,\\; \\text{fail to reject } H_0"
+    },
+    {
+      "prompt_latex": "A clinical trial tests whether a new drug cures a condition more often than the current 35\\% cure rate. Of 180 patients given the new drug, 81 are cured. (a) State hypotheses, (b) verify conditions, (c) compute $z$, (d) find the $p$-value, and (e) interpret in context at $\\alpha = 0.05$.",
+      "answer_latex": "\\hat{p} = 81/180 = 0.45;\\; z = \\frac{0.45-0.35}{\\sqrt{0.35(0.65)/180}} \\approx \\frac{0.10}{0.03559} \\approx 2.81;\\; p\\text{-value} = P(Z>2.81) \\approx 0.0025 < 0.05;\\; \\text{Reject } H_0\\text{: significant evidence the new drug has a higher cure rate}"
+    }
+  ],
+  "common_mistakes": [
+    "Using $\\hat{p}$ instead of $p_0$ in the standard error formula. The standard error under the null hypothesis must use $p_0$ because we are computing how variable $\\hat{p}$ would be if $H_0$ were true; using $\\hat{p}$ gives an incorrect denominator and a wrong $z$-score. Always plug $p_0$ into $\\sqrt{p_0(1-p_0)/n}$.",
+    "Forgetting to double the tail probability for a two-sided test. When $H_a: p \\neq p_0$, the $p$-value is $2 \\times P(Z > |z|)$ because extreme values in either direction count as evidence against $H_0$; taking only one tail cuts the $p$-value in half and can lead to incorrectly rejecting $H_0$. Always check whether your alternative is one-sided or two-sided before computing the $p$-value.",
+    "Checking the large-counts condition with $\\hat{p}$ instead of $p_0$. The condition $np_0 \\geq 10$ and $n(1-p_0) \\geq 10$ ensures the null sampling distribution is approximately normal; using $\\hat{p}$ checks the wrong distribution and can give a false green light when the test is actually invalid. Always use the null value $p_0$ when verifying this condition."
+  ],
+  "untested_variants": [
+    "Determining the minimum sample size $n$ needed to achieve a specified power (probability of correctly rejecting $H_0$) for a given effect size $p_a - p_0$.",
+    "Constructing and interpreting a confidence interval for $p$ and connecting it to a two-sided hypothesis test conclusion (the duality between confidence intervals and hypothesis tests).",
+    "Performing the test when data are given as a two-way table or in percentage form rather than as raw counts, requiring the student to extract $n$ and $\\hat{p}$ before applying the formula.",
+    "Comparing the z-test conclusion to a chi-square goodness-of-fit test for a single proportion, noting that $z^2 = \\chi^2$ and reconciling the two approaches."
+  ]
+}

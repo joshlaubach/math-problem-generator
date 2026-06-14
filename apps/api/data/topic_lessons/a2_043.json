@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_043",
+  "topic_name": "Graphing Rational Functions (Asymptotes, Holes)",
+  "generated_at": "2026-05-12T23:30:23.634940+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to find x-intercepts and y-intercepts of polynomial functions, and you can sketch a parabola without much trouble. But what happens when a polynomial is divided by another polynomial? Consider the function $f(x) = \\frac{x^2 - x - 6}{x^2 - x - 2}$. If you try to plug in $x = 2$, you get $\\frac{0}{0}$, which is undefined \u2014 but is there a hole in the graph or a vertical asymptote? And as $x$ grows huge, does the graph level off, shoot up, or keep climbing? How do you even begin to sketch something like this?",
+  "concept": "A rational function is a ratio of two polynomials, $f(x) = \\frac{p(x)}{q(x)}$, where $q(x) \\neq 0$. Its graph is shaped by where the denominator equals zero (creating vertical asymptotes or holes) and by how the degrees of numerator and denominator compare (creating horizontal or oblique asymptotes). A hole occurs where a factor cancels from both $p(x)$ and $q(x)$; a vertical asymptote occurs where the denominator is zero but the factor does not cancel.",
+  "anatomy": "Every rational function graph analysis involves four distinct structural features you must identify: the **holes** (removable discontinuities), which occur at $x$-values where a common factor $(x - c)$ cancels from both numerator and denominator, leaving the point $(c, f_{reduced}(c))$ missing from the graph; the **vertical asymptotes** (non-removable discontinuities), which are vertical lines $x = a$ where the reduced denominator equals zero; the **horizontal or oblique asymptote**, determined by comparing degree of numerator $n$ and degree of denominator $m$ \u2014 if $n < m$ then $y = 0$, if $n = m$ then $y = \\frac{\\text{leading coeff of } p}{\\text{leading coeff of } q}$, if $n = m + 1$ then perform polynomial long division to find the oblique asymptote; and the **x- and y-intercepts**, found from the reduced numerator (set equal to zero) and $f(0)$ respectively.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = \\frac{x^2 - x - 6}{x^2 - x - 2}",
+      "description_latex": "We start by factoring both the numerator and the denominator completely. Factoring gives us $f(x) = \\frac{(x-3)(x+2)}{(x-2)(x+1)}$. Always factor first \u2014 this single step reveals every feature of the graph at once.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Common factors: none} \\Rightarrow \\text{No holes}",
+      "description_latex": "We compare the factors of the numerator $(x-3)(x+2)$ with those of the denominator $(x-2)(x+1)$. Since no factor appears in both, nothing cancels, which means there are no holes in this graph \u2014 every discontinuity will be a full vertical asymptote.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Vertical asymptotes: } x = 2 \\text{ and } x = -1",
+      "description_latex": "Setting the reduced denominator equal to zero, $(x-2)(x+1) = 0$, gives $x = 2$ and $x = -1$. These are the lines the graph approaches but never crosses \u2014 draw them as dashed vertical lines on your sketch.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Horizontal asymptote: } y = \\frac{1}{1} = 1",
+      "description_latex": "Because the degree of the numerator equals the degree of the denominator (both degree 2), the horizontal asymptote is the ratio of their leading coefficients, which is $\\frac{1}{1} = 1$. This tells us the graph levels off toward $y = 1$ as $x \\to \\pm\\infty$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{x-intercepts: } x = 3,\\, x = -2; \\quad y\\text{-intercept: } f(0) = \\frac{(-3)(2)}{(-2)(1)} = 3",
+      "description_latex": "The x-intercepts come from setting the reduced numerator equal to zero: $(x-3)(x+2)=0$ gives $x=3$ and $x=-2$. The y-intercept is found by plugging in $x=0$, which gives $\\frac{(-3)(2)}{(-2)(1)} = \\frac{-6}{-2} = 3$. Now you have all the landmarks needed to produce an accurate sketch.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = \\frac{x^2 - 4}{x^2 - 3x + 2}",
+      "description_latex": "We need to fully analyze this rational function. Our very first move is always to factor both polynomials. Factor the numerator and denominator: $g(x) = \\frac{(x-2)(x+2)}{(x-2)(x-1)}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify any holes and reduce the function. Because $(x-2)$ appears in both numerator and denominator, there is a hole. At what $x$-value does the hole occur, and what is the $y$-coordinate of the hole? Write the reduced form of $g(x)$ after canceling the common factor.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Vertical asymptote: } x = 1; \\quad \\text{Horizontal asymptote: } y = 1",
+      "description_latex": "After canceling, the reduced function is $g(x) = \\frac{x+2}{x-1}$ (with a hole at $x=2$). The remaining denominator factor gives the vertical asymptote $x=1$, and since degrees are equal the horizontal asymptote is $y = \\frac{1}{1} = 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the reduced function, find the x-intercept(s) and the y-intercept, then describe what the completed sketch looks like \u2014 including where the hole sits as an open circle on the graph.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the vertical asymptote(s) of $f(x) = \\frac{1}{x - 5}$.",
+      "answer_latex": "x = 5"
+    },
+    {
+      "prompt_latex": "Find all vertical asymptotes, holes, and the horizontal asymptote of $f(x) = \\frac{x-3}{x^2 - 9}$.",
+      "answer_latex": "\\text{Hole at } x = 3 \\left(y = \\tfrac{1}{6}\\right),\\; \\text{vertical asymptote } x = -3,\\; \\text{horizontal asymptote } y = 0"
+    },
+    {
+      "prompt_latex": "Identify all asymptotes, holes, and intercepts for $h(x) = \\frac{2x^2 + x - 6}{x^2 - 4}$.",
+      "answer_latex": "\\text{Hole at } x = -2 \\left(y = \\tfrac{7}{4}\\right),\\; \\text{vertical asymptote } x = 2,\\; \\text{horizontal asymptote } y = 2,\\; \\text{x-intercept } x = \\tfrac{3}{2},\\; \\text{y-intercept } y = \\tfrac{3}{2}"
+    },
+    {
+      "prompt_latex": "Find the oblique asymptote of $f(x) = \\frac{x^2 + 3x - 4}{x - 1}$, and determine whether the graph has a hole or a vertical asymptote at $x = 1$.",
+      "answer_latex": "\\text{Hole at } x = 1 \\,(y = 5);\\; \\text{oblique asymptote } y = x + 4"
+    },
+    {
+      "prompt_latex": "A biologist models a drug concentration in the bloodstream as $C(t) = \\frac{5t}{t^2 + 1}$, where $t \\geq 0$ is time in hours. Find any asymptotes and determine what happens to the concentration as $t \\to \\infty$. What does this mean in context?",
+      "answer_latex": "\\text{No vertical asymptotes for } t \\geq 0;\\; \\text{horizontal asymptote } y = 0,\\; \\text{so concentration approaches 0 as time grows large (drug is eliminated)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often label a zero of the denominator as a vertical asymptote without first checking whether that factor cancels with the numerator. If the factor cancels, the result is a hole (open circle), not an asymptote \u2014 always factor and reduce before naming asymptotes.",
+    "When the degrees of numerator and denominator are equal, students sometimes take the ratio of the constant terms instead of the ratio of the leading coefficients. For example, in $\\frac{3x^2 + 5}{2x^2 - 1}$ the horizontal asymptote is $y = \\frac{3}{2}$, not $y = \\frac{5}{-1}$ \u2014 always use the leading (highest-degree) coefficients.",
+    "Students frequently forget to find the y-coordinate of a hole, simply reporting only the x-value. To find the full coordinates, substitute the x-value into the reduced (canceled) form of the function, not the original, and report the point as an open circle $(c,\\, f_{\\text{reduced}}(c))$."
+  ],
+  "untested_variants": [
+    "Rational functions with higher-degree numerators where the degree exceeds the denominator by 2 or more, requiring analysis of end behavior that is neither horizontal nor a single oblique line.",
+    "Graphing rational functions that cross their own horizontal asymptote in the interior of the domain \u2014 students often assume the graph can never touch the asymptote, but this is only guaranteed at the ends.",
+    "Rational functions with repeated factors in the denominator, such as $f(x) = \\frac{x+1}{(x-2)^2}$, where the behavior on both sides of the vertical asymptote goes to the same infinity rather than opposite infinities.",
+    "Using the sign chart (test-point method) to determine whether the graph approaches $+\\infty$ or $-\\infty$ on each side of a vertical asymptote, which is essential for accurate sketching but not required in the problems above."
+  ]
+}

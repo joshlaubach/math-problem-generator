@@ -676,9 +676,20 @@ async def synthesize_speech(
     """
     from agents.latex_to_speech import latex_to_speech, SpeechConversionError
     from session_quota import check_tts_budget, record_tts_chars
+    import rate_limit
 
     voice_id = os.getenv("ELEVENLABS_VOICE_ID", "21m00Tcm4TlvDq8ikWAM")  # Rachel default
     raw_text = body.text.strip()
+
+    # SECURITY (H1): per-user request-rate ceiling on TTS, independent of the
+    # daily character budget — bounds a rapid scripted flood (each call bills
+    # ElevenLabs). 30 syntheses/minute is far above genuine spoken-tutor cadence.
+    allowed_rate, _ = rate_limit.hit(f"tts:{user.id}", 30, 60)
+    if not allowed_rate:
+        raise HTTPException(
+            status_code=429,
+            detail="Too many voice requests. Please slow down.",
+        )
 
     # Daily per-user TTS character budget (cost control). Clients degrade to
     # silent text on any non-200, so hitting the cap is invisible-but-quiet.

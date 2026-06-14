@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_050",
+  "topic_name": "Triangle Proportionality Theorem",
+  "generated_at": "2026-05-12T23:08:13.288172+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that a line parallel to one side of a triangle creates a smaller triangle that is similar to the original \u2014 similar triangles have proportional sides. But what if you want to find a missing segment length when a parallel line cuts through two sides of a triangle, without finding all six sides? For example, if a line parallel to the base of a triangle cuts the two legs into segments of length 4 and 6 on one side, and 5 and unknown on the other, how do you find that missing length without setting up full triangle similarity?",
+  "concept": "The Triangle Proportionality Theorem states that if a line is drawn parallel to one side of a triangle, it divides the other two sides proportionally. In formal terms: if $\\overline{DE} \\parallel \\overline{BC}$ in $\\triangle ABC$ with $D$ on $\\overline{AB}$ and $E$ on $\\overline{AC}$, then $\\dfrac{AD}{DB} = \\dfrac{AE}{EC}$. The converse is also true: if a line divides two sides of a triangle proportionally, then it is parallel to the third side.",
+  "anatomy": "The theorem involves four key segment lengths created when the parallel line intersects the two sides of the triangle. On one side of the triangle, the parallel line creates two sub-segments: the part closer to the apex, and the part closer to the base \u2014 call these $AD$ (near segment) and $DB$ (far segment). On the other side, the same split produces $AE$ (near segment) and $EC$ (far segment). The proportion $\\dfrac{AD}{DB} = \\dfrac{AE}{EC}$ pairs each near segment with its corresponding far segment on the same side, not with the segment across the triangle.",
+  "worked_example": [
+    {
+      "expression_latex": "\\overline{DE} \\parallel \\overline{BC},\\quad AD = 4,\\quad DB = 6,\\quad AE = 5,\\quad EC = x",
+      "description_latex": "We start by identifying what we are given: a line $\\overline{DE}$ parallel to the base $\\overline{BC}$, with the two sides of the triangle cut into near and far segments. Label each segment carefully \u2014 $AD$ and $AE$ are the near segments (from the apex), while $DB$ and $EC$ are the far segments (toward the base).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{AD}{DB} = \\frac{AE}{EC}",
+      "description_latex": "By the Triangle Proportionality Theorem, the parallel line divides the two sides proportionally, so we set up the proportion pairing near segments over far segments on each side. This is the core equation that connects all four sub-segments.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{4}{6} = \\frac{5}{x}",
+      "description_latex": "We substitute the known values into the proportion: $AD = 4$, $DB = 6$, $AE = 5$, and the unknown $EC = x$. The equation is now a straightforward proportion ready to solve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4x = 6 \\cdot 5 = 30 \\implies x = 7.5",
+      "description_latex": "Cross-multiply to clear the fractions: $4 \\cdot x = 6 \\cdot 5$, giving $4x = 30$. Dividing both sides by 4 yields $x = 7.5$, so segment $EC$ has length $7.5$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\overline{MN} \\parallel \\overline{QR},\\quad PM = 8,\\quad MQ = 12,\\quad PN = x,\\quad NR = 9",
+      "description_latex": "Here $\\overline{MN}$ is parallel to the base $\\overline{QR}$ of $\\triangle PQR$, with $M$ on $\\overline{PQ}$ and $N$ on $\\overline{PR}$. The given segments split each side of the triangle into a near piece and a far piece \u2014 identify which segments are near and which are far before writing the proportion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{PM}{MQ} = \\frac{PN}{NR}",
+      "description_latex": "Apply the Triangle Proportionality Theorem: the ratio of near to far on the left side equals the ratio of near to far on the right side. We now substitute the known values \u2014 set up the equation with $x$ in the correct position.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Substitute all four values into the proportion and solve for $x$. Write the cross-multiplication equation and simplify to find $PN$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\overline{DE} \\parallel \\overline{BC} \\text{ in } \\triangle ABC.\\text{ If } AD = 3,\\ DB = 6,\\text{ and } AE = 4,\\text{ find } EC.",
+      "answer_latex": "EC = 8"
+    },
+    {
+      "prompt_latex": "\\overline{XY} \\parallel \\overline{AC} \\text{ in } \\triangle ABC,\\text{ with } X \\text{ on } \\overline{AB} \\text{ and } Y \\text{ on } \\overline{BC}.\\text{ If } BX = 5,\\ XA = 10,\\text{ and } BY = 7,\\text{ find } YC.",
+      "answer_latex": "YC = 14"
+    },
+    {
+      "prompt_latex": "\\overline{PQ} \\parallel \\overline{RS} \\text{ in } \\triangle TRS.\\text{ If } TP = 9,\\ PR = 6,\\text{ and } TQ = 12,\\text{ find } QS.",
+      "answer_latex": "QS = 8"
+    },
+    {
+      "prompt_latex": "In \\triangle ABC,\\ \\overline{DE} \\parallel \\overline{BC}\\text{ with }D\\text{ on }\\overline{AB}\\text{ and }E\\text{ on }\\overline{AC}.\\text{ Given }AD = x+2,\\ DB = 8,\\ AE = x,\\ EC = 6,\\text{ find }x.",
+      "answer_latex": "x = 6"
+    },
+    {
+      "prompt_latex": "A surveyor stretches a rope parallel to the far bank of a triangular plot. The rope divides two sides of the plot so that the near segments are 30\\text{ m and }45\\text{ m, and one far segment is }20\\text{ m. Find the other far segment.}",
+      "answer_latex": "30\\text{ m}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often set up the proportion as $\\frac{AD}{AE} = \\frac{DB}{EC}$, pairing segments across the triangle instead of near-over-far on the same side \u2014 always match each near segment with the far segment from the same side, writing $\\frac{AD}{DB} = \\frac{AE}{EC}$.",
+    "When one of the four segments is given as a total side length rather than a sub-segment, students forget to subtract to find the missing sub-segment before substituting \u2014 always label all four sub-segments separately and compute any that are implied by the given information.",
+    "Students confuse the converse of the theorem with the theorem itself, and attempt to apply the proportion to lines that are not stated or shown to be parallel \u2014 the proportionality relationship holds only when the transversal line is explicitly parallel to the third side, so always verify that condition first."
+  ],
+  "untested_variants": [
+    "Problems where the parallel line's position is given as a ratio of the full side length (e.g., 'D is one-third of the way from A to B') and students must infer segment lengths before applying the theorem.",
+    "Problems requiring the converse: given four segment lengths, determine whether the line cutting two sides of a triangle is parallel to the third side by checking whether the ratios are equal.",
+    "Multi-step problems combining the Triangle Proportionality Theorem with the Pythagorean Theorem, where students must first find a missing segment using proportionality and then use it in a right-triangle calculation.",
+    "Problems involving two parallel lines cutting a triangle, creating three segments on each side, requiring extended ratio reasoning or the Three Parallel Lines Proportionality corollary."
+  ]
+}

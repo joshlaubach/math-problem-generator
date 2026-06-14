@@ -1,0 +1,86 @@
+{
+  "topic_id": "a1_064",
+  "topic_name": "Graphing Square Root and Cube Root Functions",
+  "generated_at": "2026-05-12T22:50:09.084831+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to graph linear functions like $y = 2x + 3$ and quadratic functions like $y = x^2 - 4$ by plotting points and recognizing their shapes. But what happens when the variable is trapped inside a square root or cube root \u2014 like $y = \\sqrt{x - 2} + 1$ or $y = \\sqrt[3]{x + 4}$? These functions have unusual domains, unexpected starting points, and shapes that don't behave like anything you've graphed before. How do you figure out where to start plotting, which direction the graph goes, and what the curve actually looks like?",
+  "concept": "A square root function has the form $y = a\\sqrt{x - h} + k$, and a cube root function has the form $y = a\\sqrt[3]{x - h} + k$. Both are transformations of their parent functions \u2014 $y = \\sqrt{x}$ and $y = \\sqrt[3]{x}$ \u2014 shifted, stretched, or reflected based on the parameters $a$, $h$, and $k$. The key difference is that square root functions require $x - h \\geq 0$, restricting the domain, while cube root functions accept all real numbers.",
+  "anatomy": "In $y = a\\sqrt{x - h} + k$ and $y = a\\sqrt[3]{x - h} + k$, the value $h$ is the horizontal shift \u2014 it moves the starting point (or inflection point for cube roots) left or right, and you find it by setting the radicand equal to zero. The value $k$ is the vertical shift, moving the graph up or down, so the key point of the graph lands at $(h, k)$. The coefficient $a$ controls vertical stretch or compression: if $|a| > 1$ the graph is steeper, if $0 < |a| < 1$ it is flatter, and if $a < 0$ the graph reflects across the horizontal axis. For square roots, the domain is $[h, \\infty)$; for cube roots, the domain is all real numbers.",
+  "worked_example": [
+    {
+      "expression_latex": "y = \\sqrt{x - 3} + 2",
+      "description_latex": "We begin by identifying the parameters: here $a = 1$, $h = 3$, and $k = 2$. This tells us the graph is the parent square root function $y = \\sqrt{x}$ shifted right 3 units and up 2 units, so the starting point (called the endpoint) is $(3, 2)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Domain: } x - 3 \\geq 0 \\implies x \\geq 3, \\text{ so domain is } [3, \\infty)",
+      "description_latex": "Because we cannot take the square root of a negative number, we set the radicand $x - 3 \\geq 0$ and solve. This confirms the graph only exists for $x \\geq 3$, starting at our endpoint and extending to the right.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c} x & y \\\\ \\hline 3 & 2 \\\\ 4 & 3 \\\\ 7 & 4 \\\\ 12 & 5 \\end{array}",
+      "description_latex": "We build a table of values by choosing $x$ values that make the radicand a perfect square \u2014 so $x = 3, 4, 7, 12$ give radicands $0, 1, 4, 9$ respectively. This makes computation clean and gives us reliable points to plot: $(3,2)$, $(4,3)$, $(7,4)$, $(12,5)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Plot } (3,2),\\ (4,3),\\ (7,4),\\ (12,5) \\text{ and draw a curve from the endpoint rightward}",
+      "description_latex": "We plot these four points and connect them with a smooth, gradually flattening curve that begins at $(3,2)$ and increases to the right \u2014 never going left of $x = 3$. The shape mirrors the parent $y = \\sqrt{x}$ but anchored at the new starting point $(3, 2)$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y = \\sqrt[3]{x + 1} - 2",
+      "description_latex": "We are graphing a cube root function. Start by reading off the parameters: $a = 1$, $h = -1$ (since $x - h = x + 1$ means $h = -1$), and $k = -2$. The key point \u2014 the inflection point \u2014 is therefore at $(-1, -2)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Domain: all real numbers; Key point: } (-1, -2)",
+      "description_latex": "Unlike square root functions, cube root functions accept all real values of $x$ \u2014 you can cube root any number including negatives. This means the graph passes through $(-1, -2)$ and extends in both directions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Build a table of values by choosing $x$ values that make $x + 1$ a perfect cube: try $x = -9,\\ -2,\\ -1,\\ 0,\\ 7$. Compute each $y$ value using $y = \\sqrt[3]{x+1} - 2$. What are the five ordered pairs?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using your table, describe the key features of this graph: Where is the inflection point? Does the graph rise or fall to the right? What is the domain and range? Write two or three sentences describing what the graph looks like.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the domain of $y = \\sqrt{x + 5}$.",
+      "answer_latex": "x \\geq -5, \\text{ or } [-5, \\infty)"
+    },
+    {
+      "prompt_latex": "Identify the key point (endpoint) and domain of $y = \\sqrt{x - 4} - 3$, then plot at least three points.",
+      "answer_latex": "\\text{Key point: } (4, -3);\\quad \\text{Domain: } [4, \\infty);\\quad \\text{Sample points: } (4,-3),\\ (5,-2),\\ (8,-1)"
+    },
+    {
+      "prompt_latex": "Identify the inflection point of $y = \\sqrt[3]{x - 2} + 5$ and state the domain and range.",
+      "answer_latex": "\\text{Inflection point: } (2,5);\\quad \\text{Domain: } (-\\infty, \\infty);\\quad \\text{Range: } (-\\infty, \\infty)"
+    },
+    {
+      "prompt_latex": "Graph $y = -2\\sqrt{x + 1}$ by identifying all transformations, finding the domain, and plotting at least four points.",
+      "answer_latex": "\\text{Endpoint: }(-1,\\ 0);\\text{ reflected over x-axis, stretched by 2; Domain: }[-1,\\infty);\\text{ Points: }(-1,0),(0,-2),(3,-4),(8,-6)"
+    },
+    {
+      "prompt_latex": "A city planner models the speed $s$ (in mph) a car can safely travel around a curve as $s = 3.5\\sqrt{r}$, where $r$ is the radius of the curve in feet. What is the domain of this function in context, and what is the safe speed for a curve of radius 64 feet?",
+      "answer_latex": "\\text{Domain: } r \\geq 0 \\text{ (radius cannot be negative)};\\quad s = 3.5\\sqrt{64} = 3.5 \\times 8 = 28 \\text{ mph}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the sign of $h$ and shift the graph in the wrong direction \u2014 for example, writing $y = \\sqrt{x - 3}$ and shifting left instead of right. Remember: set the radicand equal to zero ($x - 3 = 0$) to find the starting point, which gives $x = 3$, a rightward shift.",
+    "When $a$ is negative (like $y = -\\sqrt{x}$), students forget that the graph reflects across the horizontal axis and instead treat $a$ only as a stretch factor, plotting all positive $y$ values. The negative sign on $a$ flips the entire curve so it decreases instead of increases.",
+    "Students apply a domain restriction to cube root functions the same way they do for square root functions, incorrectly writing the domain as $[h, \\infty)$ instead of all real numbers. Cube roots are defined for all real inputs \u2014 including negatives \u2014 so the domain is always $(-\\infty, \\infty)$."
+  ],
+  "untested_variants": [
+    "Graphing transformations with both a vertical stretch and a reflection combined with a shift, such as $y = -3\\sqrt[3]{x - 5} + 4$, where students must handle all four parameters simultaneously.",
+    "Writing the equation of a square root or cube root function from a given graph \u2014 identifying $h$, $k$, and $a$ by reading the key point and one additional point, then substituting to solve for $a$.",
+    "Comparing the graphs of $y = \\sqrt{x}$ and $y = x^2$ on the same coordinate plane and analyzing their relationship as inverse functions, including the restricted domain of the parabola needed to make it invertible.",
+    "Solving for $x$ or $y$ given a specific output value on the graph \u2014 for example, finding the $x$-value where $y = \\sqrt{x - 3} + 2$ equals 5, which requires isolating and squaring the radical."
+  ]
+}

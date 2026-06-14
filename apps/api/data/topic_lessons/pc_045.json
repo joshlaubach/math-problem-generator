@@ -1,0 +1,91 @@
+{
+  "topic_id": "pc_045",
+  "topic_name": "Matrix Multiplication",
+  "generated_at": "2026-05-12T23:52:38.367459+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to add matrices and multiply a matrix by a scalar \u2014 operations that work entry by entry. Now imagine two companies tracking sales data in separate matrices, and a manager wants to combine those relationships into a single summary. Simply adding or scaling the matrices won't capture how the rows of one interact with the columns of the other. How do you multiply two matrices together in a way that actually means something?",
+  "concept": "Matrix multiplication is a structured operation where each entry of the result is computed as a dot product of a row from the left matrix with a column from the right matrix. Formally, if $A$ is an $m \\times n$ matrix and $B$ is an $n \\times p$ matrix, their product $C = AB$ is an $m \\times p$ matrix where each entry is $c_{ij} = \\sum_{k=1}^{n} a_{ik} b_{kj}$.",
+  "anatomy": "In the product $C = AB$, there are three essential structural pieces to name. The inner dimensions of $A$ and $B$ must match \u2014 $A$ is $m \\times n$ and $B$ is $n \\times p$, so both share the value $n$; this shared dimension is the one that gets 'consumed' by the dot products and disappears in the result. The outer dimensions $m$ and $p$ survive and define the size of $C$. Inside the formula $c_{ij} = \\sum_{k=1}^{n} a_{ik} b_{kj}$, the index $i$ selects a row of $A$, the index $j$ selects a column of $B$, and the index $k$ runs across that shared inner dimension to accumulate the sum.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}, \\quad B = \\begin{pmatrix} 5 & 6 \\\\ 7 & 8 \\end{pmatrix}",
+      "description_latex": "We start by identifying that $A$ is $2 \\times 2$ and $B$ is $2 \\times 2$, so the inner dimensions match (both equal 2), and the result $C = AB$ will also be a $2 \\times 2$ matrix. Checking dimensions before computing saves you from wasted work on incompatible matrices.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c_{11} = (1)(5) + (2)(7) = 5 + 14 = 19",
+      "description_latex": "To find the entry in row 1, column 1 of $C$, we take the dot product of row 1 of $A$ \u2014 which is $(1, 2)$ \u2014 with column 1 of $B$ \u2014 which is $(5, 7)$. Multiply corresponding entries and add: $1 \\cdot 5 + 2 \\cdot 7 = 19$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c_{12} = (1)(6) + (2)(8) = 6 + 16 = 22",
+      "description_latex": "Now we move to row 1, column 2: we keep row 1 of $A$ the same but switch to column 2 of $B$, which is $(6, 8)$. Notice that the row index tells you which row of $A$ to use and the column index tells you which column of $B$ to use \u2014 these two pieces always change independently.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c_{21} = (3)(5) + (4)(7) = 15 + 28 = 43, \\quad c_{22} = (3)(6) + (4)(8) = 18 + 32 = 50",
+      "description_latex": "For the second row of $C$, we switch to row 2 of $A$, which is $(3, 4)$, and pair it with each column of $B$ in turn. Computing both entries at once shows the rhythm: same row of $A$, cycle through the columns of $B$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C = AB = \\begin{pmatrix} 19 & 22 \\\\ 43 & 50 \\end{pmatrix}",
+      "description_latex": "Assembling the four computed entries into their correct positions gives the final product. Always double-check that the resulting matrix has the dimensions you predicted from the outer dimensions of $A$ and $B$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 2 & 0 & 1 \\\\ -1 & 3 & 2 \\end{pmatrix}, \\quad B = \\begin{pmatrix} 1 & 4 \\\\ 0 & -1 \\\\ 3 & 2 \\end{pmatrix}",
+      "description_latex": "Begin by checking compatibility: $A$ is $2 \\times 3$ and $B$ is $3 \\times 2$, so the inner dimensions both equal 3 and they match. The product $C = AB$ will be a $2 \\times 2$ matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c_{11} = (2)(1) + (0)(0) + (1)(3) = 2 + 0 + 3 = 5",
+      "description_latex": "We compute the top-left entry by dotting row 1 of $A$, which is $(2, 0, 1)$, with column 1 of $B$, which is $(1, 0, 3)$. Each pair of corresponding entries is multiplied and the three products are summed to give 5.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find the remaining three entries of $C$: compute $c_{12}$ by dotting row 1 of $A$ with column 2 of $B$, then compute $c_{21}$ and $c_{22}$ using row 2 of $A$ with each column of $B$. Write out the full $2 \\times 2$ matrix $C$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "C = \\begin{pmatrix} 5 & 10 \\\\ 7 & -3 \\end{pmatrix}",
+      "description_latex": "The completed product is shown here. Check your work by verifying: $c_{12} = 2(4)+0(-1)+1(2) = 10$, $c_{21} = (-1)(1)+3(0)+2(3) = 5$... wait, $c_{21} = -1+0+6 = 5$ \u2014 confirm each entry matches before moving on.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute $AB$ where $A = \\begin{pmatrix} 3 & 1 \\\\ 0 & 2 \\end{pmatrix}$ and $B = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$.",
+      "answer_latex": "\\begin{pmatrix} 3 & 1 \\\\ 0 & 2 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Compute $AB$ where $A = \\begin{pmatrix} 1 & 3 \\\\ 2 & -1 \\end{pmatrix}$ and $B = \\begin{pmatrix} 4 & 0 \\\\ 1 & 2 \\end{pmatrix}$.",
+      "answer_latex": "\\begin{pmatrix} 7 & 6 \\\\ 7 & -2 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Compute $AB$ where $A = \\begin{pmatrix} 1 & 2 & -1 \\end{pmatrix}$ (a $1 \\times 3$ matrix) and $B = \\begin{pmatrix} 3 \\\\ 0 \\\\ 4 \\end{pmatrix}$ (a $3 \\times 1$ matrix).",
+      "answer_latex": "\\begin{pmatrix} -1 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Given $A = \\begin{pmatrix} 2 & 1 \\\\ 5 & 3 \\end{pmatrix}$, compute $A^2 = AA$ and then verify that $\\det(A^2) = (\\det A)^2$.",
+      "answer_latex": "A^2 = \\begin{pmatrix} 9 & 5 \\\\ 25 & 14 \\end{pmatrix},\\ \\det(A^2) = 1,\\ (\\det A)^2 = (6-5)^2 = 1 \\checkmark"
+    },
+    {
+      "prompt_latex": "A bakery sells two products. Its ingredient matrix is $I = \\begin{pmatrix} 2 & 1 \\\\ 3 & 4 \\end{pmatrix}$ (rows = products, columns = flour and sugar in cups), and its cost matrix is $C = \\begin{pmatrix} 0.50 \\\\ 0.75 \\end{pmatrix}$ (cost per cup of flour, then sugar). Compute $IC$ to find the ingredient cost per product.",
+      "answer_latex": "\\begin{pmatrix} 1.75 \\\\ 4.50 \\end{pmatrix}"
+    }
+  ],
+  "common_mistakes": [
+    "Students multiply matrices entry-by-entry (like scalar multiplication), producing a matrix of pointwise products instead of dot products. The fix is to always ask 'am I taking a full row of the left matrix times a full column of the right matrix and summing?' before writing any entry.",
+    "Students assume matrix multiplication is commutative and compute $BA$ when asked for $AB$, or assume $AB = BA$ always. In general $AB \\neq BA$, and sometimes one order is defined while the other isn't \u2014 always keep the original left-to-right order of the problem.",
+    "Students forget to verify that the inner dimensions match before multiplying, then attempt to compute a product that doesn't exist (for example, multiplying a $2 \\times 3$ matrix on the left by a $2 \\times 2$ matrix). The fix is to write the dimensions side by side \u2014 e.g., $(2 \\times 3)(2 \\times 2)$ \u2014 and check that the two inner numbers are equal before doing any arithmetic."
+  ],
+  "untested_variants": [
+    "Multiplying three or more matrices in sequence, such as computing $ABC$, and deciding which pair to multiply first using the associative property for efficiency.",
+    "Using matrix multiplication to represent a system of linear equations in the form $Ax = b$, where students must identify the coefficient matrix, variable vector, and constant vector.",
+    "Raising a matrix to a higher integer power (e.g., $A^3$) and recognizing patterns or using diagonalization to simplify repeated multiplication.",
+    "Multiplying matrices whose entries contain variables or parameters, such as $A = \\begin{pmatrix} x & 1 \\\\ 0 & x \\end{pmatrix}$, and expressing the product in simplified algebraic form."
+  ]
+}

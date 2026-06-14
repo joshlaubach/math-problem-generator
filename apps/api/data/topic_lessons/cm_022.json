@@ -1,0 +1,91 @@
+{
+  "topic_id": "cm_022",
+  "topic_name": "Trigonometric Methods in Geometry (H)",
+  "generated_at": "2026-05-13T20:23:30.434827+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You know how to find missing sides and angles in right triangles using basic trig, and you can find areas with $\\frac{1}{2}bh$. But what happens when a triangle has no right angle and no obvious height? For instance: in triangle $ABC$, you know $AB = 7$, $BC = 5$, and $\\angle B = 40\u00b0$ \u2014 can you find the area, and can you find the missing side $AC$? These problems feel stuck until you have the right tools. What formula could possibly connect sides and angles in a non-right triangle?",
+  "concept": "Trigonometric methods in geometry use the Law of Sines and Law of Cosines to relate the sides and angles of any triangle \u2014 not just right triangles. The Law of Sines states $\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C}$, and the Law of Cosines states $c^2 = a^2 + b^2 - 2ab\\cos C$. Combined with the trig area formula $[ABC] = \\frac{1}{2}ab\\sin C$, these unlock almost every triangle problem in contest math.",
+  "anatomy": "In the Law of Cosines $c^2 = a^2 + b^2 - 2ab\\cos C$, lowercase $a$, $b$, $c$ are the side lengths opposite the angles labeled with the corresponding uppercase letters $A$, $B$, $C$ respectively \u2014 so $c$ is always the side opposite angle $C$. The term $-2ab\\cos C$ is the correction term that modifies the Pythagorean theorem; when $C = 90\u00b0$, $\\cos C = 0$ and it vanishes. In the Law of Sines, each ratio $\\frac{a}{\\sin A}$ equals the circumradius $2R$, which is a powerful hidden quantity. In the area formula $[ABC] = \\frac{1}{2}ab\\sin C$, the angle $C$ must be the included angle between sides $a$ and $b$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{In } \\triangle ABC,\\ AB = 7,\\ BC = 5,\\ \\angle B = 40\u00b0.\\ \\text{Find } [ABC] \\text{ and } AC.",
+      "description_latex": "We have two sides and their included angle, which is the perfect setup for the trig area formula and then the Law of Cosines. Let's label carefully: sides adjacent to angle $B$ are $AB = c = 7$ and $BC = a = 5$, so the included angle between them is $\\angle B = 40\u00b0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[ABC] = \\frac{1}{2} \\cdot AB \\cdot BC \\cdot \\sin(\\angle B) = \\frac{1}{2}(7)(5)\\sin 40\u00b0 \\approx \\frac{1}{2}(35)(0.6428) \\approx 11.25",
+      "description_latex": "We apply the area formula $[ABC] = \\frac{1}{2}ab\\sin C$ with the two known sides and their included angle. The key insight is that $\\sin 40\u00b0$ captures how 'spread apart' those two sides are \u2014 a larger angle means more area, up to $90\u00b0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AC^2 = AB^2 + BC^2 - 2 \\cdot AB \\cdot BC \\cdot \\cos(\\angle B)",
+      "description_latex": "To find side $AC$ (opposite angle $B$), we apply the Law of Cosines. Notice we're writing the formula with $AC$ as the 'target' side and $\\angle B$ as the included angle between the two known sides \u2014 so the formula reads $b^2 = a^2 + c^2 - 2ac\\cos B$ in standard notation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AC^2 = 49 + 25 - 2(7)(5)\\cos 40\u00b0 = 74 - 70(0.7660) \\approx 74 - 53.62 = 20.38",
+      "description_latex": "We substitute the known values and evaluate. The $-2ab\\cos C$ term reduces the sum $a^2 + b^2$ because the angle is acute; if the angle were obtuse, $\\cos C$ would be negative and this term would add to $a^2 + b^2$ instead, giving a longer third side.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AC = \\sqrt{20.38} \\approx 4.51",
+      "description_latex": "Taking the square root gives the missing side. Always sanity-check: $AC \\approx 4.51$ is shorter than both $AB = 7$ and $BC = 5$, which makes sense because the opposite angle $B = 40\u00b0$ is the smallest angle in the triangle.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{In } \\triangle PQR,\\ PQ = 8,\\ QR = 11,\\ PR = 7.\\ \\text{Find } \\angle Q.",
+      "description_latex": "We know all three sides but no angles \u2014 this is exactly the scenario where we use the Law of Cosines solved for an angle. The side opposite the angle we want ($\\angle Q$) is $PR = 7$, so we'll write the Law of Cosines as $PR^2 = PQ^2 + QR^2 - 2 \\cdot PQ \\cdot QR \\cdot \\cos Q$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "49 = 64 + 121 - 2(8)(11)\\cos Q = 185 - 176\\cos Q",
+      "description_latex": "Substituting all three side lengths gives this equation. Now we need to isolate $\\cos Q$ \u2014 rearrange to solve for $\\cos Q$ before taking the inverse cosine.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Solve for $\\cos Q$ by isolating it algebraically, then find $\\angle Q$ in degrees using an inverse cosine. What is $\\angle Q$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\cos Q = \\frac{185 - 49}{176} = \\frac{136}{176} = \\frac{17}{22},\\quad \\angle Q = \\cos^{-1}\\!\\left(\\frac{17}{22}\\right) \\approx 39.4\u00b0",
+      "description_latex": "This is the complete solution. Notice that $\\cos Q > 0$ confirms $\\angle Q$ is acute, consistent with the fact that the side opposite it ($PR = 7$) is shorter than both other sides.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{In } \\triangle ABC,\\ AB = 6,\\ AC = 9,\\ \\angle A = 30\u00b0.\\ \\text{Find the area of } \\triangle ABC.",
+      "answer_latex": "[ABC] = \\frac{1}{2}(6)(9)\\sin 30\u00b0 = \\frac{1}{2}(54)(0.5) = 13.5"
+    },
+    {
+      "prompt_latex": "\\text{In } \\triangle XYZ,\\ XY = 10,\\ YZ = 13,\\ \\angle Y = 60\u00b0.\\ \\text{Find } XZ.",
+      "answer_latex": "XZ^2 = 100 + 169 - 2(10)(13)\\cos 60\u00b0 = 269 - 130 = 139,\\quad XZ = \\sqrt{139}"
+    },
+    {
+      "prompt_latex": "\\text{In } \\triangle DEF,\\ DE = 5,\\ EF = 7,\\ DF = 8.\\ \\text{Find } \\angle E \\text{ to the nearest tenth of a degree.}",
+      "answer_latex": "\\cos E = \\frac{25 + 49 - 64}{2(5)(7)} = \\frac{10}{70} = \\frac{1}{7},\\quad \\angle E = \\cos^{-1}\\!\\left(\\tfrac{1}{7}\\right) \\approx 81.8\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{In } \\triangle ABC,\\ \\angle A = 45\u00b0,\\ \\angle B = 75\u00b0,\\ a = 6.\\ \\text{Find the exact area of } \\triangle ABC.\\ (\\text{Hint: find } b \\text{ via Law of Sines first.})",
+      "answer_latex": "\\angle C = 60\u00b0;\\ \\frac{b}{\\sin 75\u00b0} = \\frac{6}{\\sin 45\u00b0} \\Rightarrow b = \\frac{6\\sin 75\u00b0}{\\sin 45\u00b0} = 6 \\cdot \\frac{\\frac{\\sqrt{6}+\\sqrt{2}}{4}}{\\frac{\\sqrt{2}}{2}} = 3(\\sqrt{3}+1);\\ [ABC] = \\frac{1}{2}(6)(3(\\sqrt{3}+1))\\sin 60\u00b0 = \\frac{27(\\sqrt{3}+1)}{2} \\cdot \\frac{\\sqrt{3}}{2} = \\frac{9(3+\\sqrt{3})}{2}"
+    },
+    {
+      "prompt_latex": "Two ships leave port at the same time. Ship A travels 12\\ \\text{km} on a bearing of } 0\u00b0\\ \\text{(due north) and Ship B travels } 9\\ \\text{km on a bearing of } 70\u00b0. \\text{ How far apart are the ships?}",
+      "answer_latex": "\\text{Angle between paths} = 70\u00b0;\\ d^2 = 144 + 81 - 2(12)(9)\\cos 70\u00b0 = 225 - 216\\cos 70\u00b0 \\approx 225 - 73.9 \\approx 151.1,\\quad d \\approx 12.3\\ \\text{km}"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the Law of Cosines but pair the wrong side with the angle \u2014 for example, writing $c^2 = a^2 + b^2 - 2ab\\cos C$ but using a side that is NOT opposite $C$. The fix: always identify the target side first; the angle in the cosine term must be the included angle between the two sides on the right-hand side.",
+    "When finding an angle using the Law of Sines ($\\sin A = \\frac{a \\sin B}{b}$), students forget the ambiguous case: if $A$ could be obtuse, there may be a second valid triangle with $A' = 180\u00b0 - A$. Always check whether the obtuse solution is geometrically consistent with the given information.",
+    "Students use the area formula $[ABC] = \\frac{1}{2}ab\\sin C$ but plug in a non-included angle \u2014 for instance, they know sides $a$ and $c$ but accidentally use $\\angle B$ instead of $\\angle A$ (the angle between $b$ and $c$). The fix: the angle in the formula must be sandwiched directly between the two sides you are multiplying."
+  ],
+  "untested_variants": [
+    "Finding the circumradius $R$ of a triangle using the extended Law of Sines $\\frac{a}{\\sin A} = 2R$, then using $R$ to find other quantities.",
+    "Proving or using the formula for the area of a triangle inscribed in a circle, or combining the Law of Sines with the inscribed angle theorem in a circle problem.",
+    "Applying the Law of Cosines in a coordinate geometry context \u2014 for example, verifying or finding an angle formed by two vectors using the dot product form $\\mathbf{u}\\cdot\\mathbf{v} = |\\mathbf{u}||\\mathbf{v}|\\cos\\theta$.",
+    "Using the Law of Sines in the fully ambiguous (SSA) case where two distinct triangles are possible, and determining both solutions or proving uniqueness."
+  ]
+}

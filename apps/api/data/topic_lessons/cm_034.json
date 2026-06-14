@@ -1,0 +1,91 @@
+{
+  "topic_id": "cm_034",
+  "topic_name": "Olympiad Proof Structure (USAMO/IMO Style)",
+  "generated_at": "2026-05-13T20:24:36.649166+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to solve competition problems \u2014 finding clever algebraic manipulations, constructing clever geometric arguments, and verifying answers numerically. But at the olympiad level, a correct answer is worth nothing without a watertight written proof that convinces a skeptical judge. The gap between 'I see why it's true' and 'I can write a proof that earns full marks' is exactly what separates AIME finalists from USAMO qualifiers. So: given that $n$ is a positive integer and $n^2 + n + 41$ fails to be prime for infinitely many $n$, how would you structure a complete olympiad proof of this fact?",
+  "concept": "An olympiad proof is a logically complete, formally written argument that moves from stated hypotheses to a conclusion through explicitly justified steps, leaving no logical gaps for a grader to question. In contest mathematics, a proof must include: a clear statement of what is being shown, all necessary case analysis or induction, and a concluding sentence that ties back to the claim. Every assertion must be supported \u2014 intuition alone does not constitute a proof.",
+  "anatomy": "An olympiad proof has five structural components. The **setup** restates the claim in your own words and introduces all notation you will use. The **strategy declaration** states in one sentence which proof technique you are using (e.g., induction, contradiction, construction, direct computation). The **main argument** is the logical core \u2014 a chain of justified implications or a case-by-case analysis, each step labeled clearly. The **boundary/edge-case check** verifies any special values (e.g., base cases in induction, degenerate configurations in geometry) that the general argument might miss. Finally, the **conclusion sentence** explicitly states that the proof is complete, often by invoking the original claim verbatim.",
+  "worked_example": [
+    {
+      "expression_latex": "\\textbf{Claim:} \\text{ For all integers } n \\geq 1, \\text{ we have } 1 + 2 + \\cdots + n = \\frac{n(n+1)}{2}.",
+      "description_latex": "We begin by writing the claim precisely in the setup. Naming the exact statement you are proving \u2014 not a vague paraphrase \u2014 forces you to know what 'done' looks like and gives the grader an immediate reference point for every step that follows.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Proof by induction.}\\quad \\textbf{Base case } (n=1): \\quad 1 = \\frac{1 \\cdot 2}{2} = 1. \\checkmark",
+      "description_latex": "The strategy declaration ('Proof by induction') tells the grader your entire logical framework upfront, so every subsequent step is interpreted correctly. The base case is then a simple numerical check \u2014 you must state it explicitly because induction is undefined without it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Inductive hypothesis:} \\text{ Assume } 1 + 2 + \\cdots + k = \\frac{k(k+1)}{2} \\text{ for some integer } k \\geq 1.",
+      "description_latex": "Stating the inductive hypothesis as a named, boxed assumption is a formal requirement in olympiad writing \u2014 you must be explicit about exactly what you are assuming and for which values, so that the reader can verify you use only this hypothesis and nothing stronger in the inductive step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Inductive step:} \\quad 1 + 2 + \\cdots + k + (k+1) = \\frac{k(k+1)}{2} + (k+1) = \\frac{k(k+1) + 2(k+1)}{2} = \\frac{(k+1)(k+2)}{2}.",
+      "description_latex": "In the inductive step you apply the inductive hypothesis (replacing the sum up to $k$) and then simplify algebraically \u2014 every equals sign here is justified, which is exactly what a USAMO grader checks line by line. Notice how factoring out $(k+1)$ produces the formula for $n = k+1$, closing the induction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Conclusion:} \\text{ By induction, } 1 + 2 + \\cdots + n = \\frac{n(n+1)}{2} \\text{ for all integers } n \\geq 1. \\quad \\blacksquare",
+      "description_latex": "The conclusion sentence restates the original claim and declares the proof complete \u2014 the $\\blacksquare$ (or 'QED') is a formal signal, not decoration. Omitting this sentence is a common presentation error that costs partial credit on olympiad rubrics.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\textbf{Claim:} \\text{ For every integer } n \\geq 0, \\text{ the number } 7^n - 1 \\text{ is divisible by } 6.",
+      "description_latex": "We set up the claim and choose proof by induction. The setup is done for you \u2014 your job is to carry out the two key structural steps: the base case and the inductive step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Base case } (n=0): \\quad 7^0 - 1 = 0 = 6 \\cdot 0.",
+      "description_latex": "The base case is given here. Study how it directly verifies divisibility by 6 with an explicit factor \u2014 your base case should always exhibit the factor, not just say 'it works'.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the full inductive step. Assume $7^k - 1$ is divisible by $6$ for some $k \\geq 0$, and deduce that $7^{k+1} - 1$ is also divisible by $6$. Hint: write $7^{k+1} - 1 = 7 \\cdot 7^k - 1$ and add and subtract $7$ strategically. Show every algebraic step and explicitly name where you use the inductive hypothesis.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore \\text{ By induction, } 6 \\mid 7^n - 1 \\text{ for all integers } n \\geq 0. \\quad \\blacksquare",
+      "description_latex": "The conclusion is provided as a model. Notice that it restates the divisibility claim verbatim and explicitly cites induction as the method \u2014 both elements are required for full marks in olympiad scoring.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write a complete proof by induction that $2^n > n$ for all integers $n \\geq 1$. Your proof must include a named base case, an explicit inductive hypothesis, a complete inductive step, and a conclusion sentence.",
+      "answer_latex": "\\textbf{Base case } (n=1): 2^1 = 2 > 1. \\checkmark \\quad \\textbf{IH:} Assume 2^k > k. \\quad \\textbf{Step:} 2^{k+1} = 2 \\cdot 2^k > 2k \\geq k+1 \\text{ for } k \\geq 1. \\quad \\therefore 2^n > n \\text{ for all } n \\geq 1. \\blacksquare"
+    },
+    {
+      "prompt_latex": "Prove by contradiction that $\\sqrt{3}$ is irrational. Your proof must state the contradiction hypothesis, derive the contradiction explicitly, and conclude by naming what was contradicted.",
+      "answer_latex": "Assume \\sqrt{3} = p/q in lowest terms. Then 3q^2 = p^2, so 3 \\mid p, write p = 3m. Then 3q^2 = 9m^2 \\Rightarrow q^2 = 3m^2, so 3 \\mid q. This contradicts \\gcd(p,q)=1. \\blacksquare"
+    },
+    {
+      "prompt_latex": "Prove that for all positive integers $n$, $\\displaystyle\\sum_{k=1}^{n} k^2 = \\frac{n(n+1)(2n+1)}{6}$. Use strong or weak induction and include all five structural components of an olympiad proof.",
+      "answer_latex": "\\textbf{Base:} n=1: 1 = \\frac{1 \\cdot 2 \\cdot 3}{6}=1.\\checkmark \\quad \\textbf{IH:} \\sum_{k=1}^m k^2 = \\frac{m(m+1)(2m+1)}{6}. \\quad \\textbf{Step:} \\sum_{k=1}^{m+1}k^2 = \\frac{m(m+1)(2m+1)}{6}+(m+1)^2 = \\frac{(m+1)(m+2)(2m+3)}{6}. \\quad \\blacksquare"
+    },
+    {
+      "prompt_latex": "Using the Well-Ordering Principle (every non-empty set of positive integers has a least element), prove that there are no positive integer solutions to $3x + 6y = 1$. (This combines proof structure with modular arithmetic.)",
+      "answer_latex": "Suppose a solution exists. Then 3(x+2y)=1, so 3 \\mid 1, a contradiction since 1 \\not\\equiv 0 \\pmod{3}. Therefore no positive integer solutions exist. \\blacksquare"
+    },
+    {
+      "prompt_latex": "A tournament has $n$ players and every pair plays exactly once. Prove by induction that the total number of games played is $\\dfrac{n(n-1)}{2}$. Interpret each step structurally: what does the inductive step mean in terms of adding a new player?",
+      "answer_latex": "\\textbf{Base:} n=2: 1 game = \\frac{2 \\cdot 1}{2}=1. \\checkmark \\quad \\textbf{IH:} k players play \\frac{k(k-1)}{2} games. \\quad \\textbf{Step:} Adding player k+1 introduces k new games (one against each existing player), giving \\frac{k(k-1)}{2}+k = \\frac{k(k+1)}{2} = \\frac{(k+1)k}{2}. \\blacksquare"
+    }
+  ],
+  "common_mistakes": [
+    "Students write 'it is clear that...' or 'obviously...' in the inductive step instead of explicitly invoking the inductive hypothesis \u2014 graders treat any unjustified step as a gap, so you must write 'by the inductive hypothesis' and cite the exact substitution you are making.",
+    "In proofs by contradiction, students state the negation correctly but then forget to name what is being contradicted in the conclusion \u2014 simply writing 'contradiction' without specifying which assumption is violated is not accepted at the USAMO/IMO level; you must write 'this contradicts our assumption that [exact hypothesis]'.",
+    "Students conflate verifying examples with proving a claim \u2014 checking that a formula holds for $n = 1, 2, 3$ is not induction and earns zero marks; an olympiad proof requires a universal argument that works for an arbitrary $n$, not a finite list of cases."
+  ],
+  "untested_variants": [
+    "Proofs using strong induction (where the inductive hypothesis assumes truth for all values up to $k$, not just $k$), such as proving every integer greater than 1 has a prime factorization.",
+    "Proof by infinite descent (Fermat's method), where you show a minimal counterexample leads to a strictly smaller counterexample \u2014 used frequently in olympiad number theory but not covered in the practice problems above.",
+    "Two-sentence 'elegant' proofs using bijections or double counting (combinatorial proof style), where the structural components look very different from induction or contradiction \u2014 e.g., proving $\\binom{n}{k} = \\binom{n}{n-k}$ by constructing an explicit bijection.",
+    "Geometry olympiad proofs requiring a construction step before the logical argument, such as introducing an auxiliary line or circle and then proving properties of the resulting configuration."
+  ]
+}

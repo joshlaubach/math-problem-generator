@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_059",
+  "topic_name": "Shortest Path: Dijkstra's Algorithm",
+  "generated_at": "2026-05-13T20:17:05.108568+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to find paths in graphs and understand basic graph traversal using BFS or DFS. But those algorithms treat all edges equally \u2014 what happens when roads have different travel times, or network links have different costs? Suppose you need to drive from city A to city F across a road network where every road has a known travel time: how do you find the route that minimizes your total travel time, not just the number of roads taken? Can you think of a systematic way to always guarantee you've found the shortest possible path?",
+  "concept": "Dijkstra's Algorithm is a greedy method for finding the shortest path from a single source vertex to all other vertices in a weighted graph with non-negative edge weights. Formally, given a weighted graph $G = (V, E)$ with weight function $w: E \\to \\mathbb{R}_{\\geq 0}$ and source $s \\in V$, the algorithm maintains a distance estimate $d[v]$ for each vertex $v$ and repeatedly selects the unvisited vertex with minimum $d[v]$, then relaxes its neighbors, until all vertices are finalized.",
+  "anatomy": "The algorithm has five key components: the source vertex $s$, which is the starting point assigned $d[s] = 0$; the distance array $d[v]$, initialized to $\\infty$ for all $v \\neq s$ and updated as shorter paths are discovered; the visited (or finalized) set $S$, containing vertices whose shortest distances are permanently known; the priority queue (or min-heap) $Q$, which always yields the unvisited vertex with the smallest current $d[v]$; and the relaxation step, which checks whether going through a newly finalized vertex $u$ improves the estimate to a neighbor $v$ via the condition $d[u] + w(u,v) < d[v]$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Graph: } V = \\{A, B, C, D\\},\\; E = \\{(A,B,1),(A,C,4),(B,C,2),(B,D,6),(C,D,3)\\},\\; s = A",
+      "description_latex": "We start by clearly stating the graph. Each edge is written as (from, to, weight), so $(A,B,1)$ means there is an edge from $A$ to $B$ with weight $1$. Our source is $A$, meaning we want the shortest distance from $A$ to every other vertex.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d[A]=0,\\; d[B]=\\infty,\\; d[C]=\\infty,\\; d[D]=\\infty,\\quad S=\\emptyset,\\quad Q=\\{A,B,C,D\\}",
+      "description_latex": "We initialize the algorithm by setting $d[A] = 0$ because the distance from the source to itself is zero, and $d[v] = \\infty$ for all other vertices because we haven't found any path to them yet. The visited set $S$ is empty, and the priority queue $Q$ contains all vertices.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Extract } A \\text{ (min dist = 0)}: \\; d[B] = \\min(\\infty, 0+1) = 1,\\quad d[C] = \\min(\\infty, 0+4) = 4",
+      "description_latex": "We extract $A$ from $Q$ (it has the smallest distance, $0$) and add it to $S$. We then relax each of $A$'s neighbors: edge $(A,B,1)$ gives $d[B] = 1$ and edge $(A,C,4)$ gives $d[C] = 4$. These are improvements over $\\infty$, so we update the distance estimates.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Extract } B \\text{ (min dist = 1)}: \\; d[C] = \\min(4, 1+2) = 3,\\quad d[D] = \\min(\\infty, 1+6) = 7",
+      "description_latex": "Next we extract $B$ with $d[B] = 1$ and relax its neighbors. Edge $(B,C,2)$ gives $1+2=3 < 4$, so we improve $d[C]$ to $3$. Edge $(B,D,6)$ gives $1+6=7 < \\infty$, so $d[D]$ becomes $7$. Notice that $d[C]$ was just improved \u2014 this is why we must keep checking even after an initial estimate is set.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Extract } C \\text{ (min dist = 3)}: \\; d[D] = \\min(7, 3+3) = 6.\\quad \\text{Extract } D \\text{ (min dist = 6)}.\\quad \\text{Final: } d[A]=0, d[B]=1, d[C]=3, d[D]=6",
+      "description_latex": "We extract $C$ with $d[C] = 3$ and relax edge $(C,D,3)$: $3+3=6 < 7$, so $d[D]$ improves to $6$. Finally we extract $D$ with no new neighbors to relax. The algorithm terminates with shortest distances $d = [0,1,3,6]$ from $A$ to $A,B,C,D$ respectively.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Graph: } V=\\{S,X,Y,Z\\},\\; E=\\{(S,X,2),(S,Y,5),(X,Y,1),(X,Z,4),(Y,Z,2)\\},\\; \\text{source}=S",
+      "description_latex": "Here is a new weighted graph with source $S$. We want to find the shortest distances from $S$ to all other vertices. Start by initializing the distance array and the priority queue exactly as we did in the worked example.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d[S]=0,\\; d[X]=\\infty,\\; d[Y]=\\infty,\\; d[Z]=\\infty",
+      "description_latex": "Initialization is done for you. Now extract $S$ from $Q$ and perform the relaxation step on all of $S$'s neighbors. What are the updated values of $d[X]$ and $d[Y]$ after relaxing from $S$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{After relaxing from } S:\\; d[X]=2,\\; d[Y]=5.\\quad \\text{Extract } X \\text{ (min = 2). Relax neighbors of } X.",
+      "description_latex": "Good. Now extract $X$ since it has the smallest distance. Relax edges $(X,Y,1)$ and $(X,Z,4)$. Determine the new values of $d[Y]$ and $d[Z]$, then state which vertex is extracted next and give the final shortest distances to all vertices.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "d[Y]=\\min(5,2+1)=3,\\; d[Z]=\\min(\\infty,2+4)=6.\\quad \\text{Extract }Y: d[Z]=\\min(6,3+2)=5.\\quad \\text{Final: }d[S]=0,d[X]=2,d[Y]=3,d[Z]=5",
+      "description_latex": "After extracting $X$, we update $d[Y] = 3$ and $d[Z] = 6$. Extracting $Y$ next further improves $d[Z]$ to $5$. The final shortest distances from $S$ are $0, 2, 3, 5$ to $S, X, Y, Z$ respectively \u2014 notice how $Z$ was reached more cheaply through $Y$ than directly through $X$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A graph has vertices $\\{A, B\\}$ and a single edge $(A,B,7)$. Run Dijkstra's algorithm from $A$. What is $d[B]$?",
+      "answer_latex": "d[B] = 7"
+    },
+    {
+      "prompt_latex": "Given $V=\\{1,2,3\\}$ and edges $(1,2,3),(1,3,10),(2,3,4)$ with source $1$, use Dijkstra's algorithm to find $d[2]$ and $d[3]$.",
+      "answer_latex": "d[2]=3,\\; d[3]=7 \\text{ (via vertex 2: } 3+4=7 < 10\\text{)}"
+    },
+    {
+      "prompt_latex": "Run Dijkstra's algorithm from $P$ on the graph $V=\\{P,Q,R,S\\}$, $E=\\{(P,Q,1),(P,R,8),(Q,R,2),(Q,S,9),(R,S,3)\\}$. Find the shortest distances to all vertices.",
+      "answer_latex": "d[P]=0,\\; d[Q]=1,\\; d[R]=3,\\; d[S]=6"
+    },
+    {
+      "prompt_latex": "A weighted directed graph has $V=\\{A,B,C,D,E\\}$ and edges $(A,B,2),(A,C,6),(B,D,5),(C,D,1),(D,E,3),(B,E,10)$. Run Dijkstra from $A$ and find the shortest path (as a sequence of vertices) and distance from $A$ to $E$.",
+      "answer_latex": "\\text{Shortest path: } A \\to C \\to D \\to E,\\; \\text{distance} = 6+1+3=10.\\; \\text{Note: } A\\to B\\to D\\to E = 2+5+3=10 \\text{ also, but } A\\to B\\to E=12 \\text{ is longer.}"
+    },
+    {
+      "prompt_latex": "A city bus network has stops $\\{1,2,3,4,5\\}$ with travel times (in minutes): route $1\\to2$: $4$ min, $1\\to3$: $2$ min, $3\\to2$: $1$ min, $2\\to4$: $5$ min, $3\\to5$: $8$ min, $4\\to5$: $2$ min. Using Dijkstra's algorithm starting at stop $1$, what is the minimum travel time to reach stop $5$?",
+      "answer_latex": "d[5] = 10 \\text{ min, via path } 1\\to3\\to2\\to4\\to5:\\; 2+1+5+2=10"
+    }
+  ],
+  "common_mistakes": [
+    "Students often update $d[v]$ for a neighbor $v$ even when $v$ has already been finalized (added to $S$). Once a vertex is in the visited set, its shortest distance is guaranteed and should never be re-relaxed \u2014 only check unvisited neighbors during the relaxation step.",
+    "When multiple vertices tie for the minimum distance in the priority queue, students sometimes process all of them simultaneously or skip one. You should extract and process exactly one vertex per iteration (any tied vertex is fine to choose), then re-evaluate the queue \u2014 failing to do so can corrupt the distance estimates for subsequent vertices.",
+    "Students frequently confuse the algorithm's termination condition: they stop as soon as the destination vertex is first reached, without realizing that shorter paths through other vertices might still be discovered. You must continue until the destination vertex is actually extracted from the priority queue (not merely updated), at which point its distance is finalized."
+  ],
+  "untested_variants": [
+    "Dijkstra's algorithm on a graph represented as an adjacency matrix rather than an edge list, where students must read off weights from a table and track iterations in a table format row by row.",
+    "Finding and explicitly reconstructing the shortest path (sequence of vertices), not just the shortest distance, using a predecessor/parent array $\\pi[v]$ updated during relaxation.",
+    "Analyzing the time complexity of Dijkstra's algorithm with different data structures \u2014 $O(V^2)$ with a simple array versus $O((V+E)\\log V)$ with a binary heap \u2014 and determining which is preferable for sparse versus dense graphs.",
+    "Explaining why Dijkstra's algorithm fails or gives incorrect results on graphs containing negative-weight edges, and identifying which edges in a given graph would cause it to break."
+  ]
+}

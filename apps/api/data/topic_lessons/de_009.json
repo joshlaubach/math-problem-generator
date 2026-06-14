@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_009",
+  "topic_name": "Newton's Law of Cooling",
+  "generated_at": "2026-05-13T20:00:16.786407+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve separable differential equations, and you've seen exponential growth and decay models. Now imagine you pull a hot cup of coffee out of the microwave \u2014 it's 90\u00b0C, and the room is 20\u00b0C. You want to know: how long before it cools to a drinkable 60\u00b0C? You could guess, but is there a precise mathematical model that governs this cooling process, and can you use it to get an exact answer?",
+  "concept": "Newton's Law of Cooling states that the rate at which an object's temperature changes is proportional to the difference between the object's current temperature and the surrounding ambient temperature. Formally, if $T(t)$ is the temperature of the object at time $t$ and $T_a$ is the constant ambient temperature, the model is $\\frac{dT}{dt} = k(T - T_a)$, where $k$ is a proportionality constant (negative for cooling, positive for heating toward ambient).",
+  "anatomy": "The equation $\\frac{dT}{dt} = k(T - T_a)$ has four distinct components: $T(t)$ is the unknown temperature function we are solving for; $T_a$ is the ambient (surrounding) temperature, treated as a constant throughout the problem; the quantity $(T - T_a)$ is the temperature excess, measuring how far the object currently is from its surroundings; and $k$ is the cooling constant, a negative number for a cooling object, whose magnitude controls how quickly the temperature gap closes. The general solution $T(t) = T_a + Ce^{kt}$ introduces $C$, an integration constant determined by the initial temperature condition $T(0) = T_0$, which forces $C = T_0 - T_a$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dT}{dt} = k(T - T_a)",
+      "description_latex": "We begin with Newton's Law of Cooling in its differential equation form. This equation tells us the rate of temperature change is proportional to how far the object is from the surrounding temperature, and our goal is to solve for $T(t)$ explicitly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dT}{T - T_a} = k\\, dt",
+      "description_latex": "We separate variables by dividing both sides by $(T - T_a)$ and multiplying both sides by $dt$. This rearrangement isolates all the $T$-dependent pieces on the left and the $t$-dependent pieces on the right, setting us up to integrate both sides independently.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ln|T - T_a| = kt + C_1",
+      "description_latex": "Integrating both sides, the left side gives $\\ln|T - T_a|$ because the integrand is $\\frac{1}{T - T_a}$, and the right side gives $kt + C_1$ where $C_1$ is the constant of integration. We keep the absolute value because we don't yet know the sign of $T - T_a$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(t) = T_a + Ce^{kt}",
+      "description_latex": "Exponentiating both sides removes the logarithm, giving $|T - T_a| = e^{C_1}e^{kt}$, and we absorb $\\pm e^{C_1}$ into a single arbitrary constant $C$. This is the general solution: temperature decays (or rises) exponentially toward $T_a$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(t) = T_a + (T_0 - T_a)e^{kt}",
+      "description_latex": "Applying the initial condition $T(0) = T_0$ forces $T_0 = T_a + C$, so $C = T_0 - T_a$. Substituting back gives the particular solution, where the initial temperature excess $(T_0 - T_a)$ decays exponentially at rate $k$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T(0) = 90,\\quad T_a = 20,\\quad T(10) = 70",
+      "description_latex": "A cup of coffee starts at 90\u00b0C in a 20\u00b0C room, and after 10 minutes it has cooled to 70\u00b0C. We want to find the temperature function $T(t)$ and use it to determine when the coffee reaches 60\u00b0C. Start by writing the general solution with the initial condition already applied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(t) = 20 + 70e^{kt}",
+      "description_latex": "Using the general solution $T(t) = T_a + (T_0 - T_a)e^{kt}$ with $T_0 = 90$ and $T_a = 20$, we get $T(t) = 20 + 70e^{kt}$. Now we need to determine the constant $k$ using the second data point $T(10) = 70$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Substitute $t = 10$ and $T = 70$ into $T(t) = 20 + 70e^{kt}$, solve for $k$. You will need to isolate the exponential and take a natural logarithm \u2014 what is the exact value of $k$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now that you have $k$, set $T(t) = 60$ and solve for $t$. At what time (in minutes) does the coffee reach 60\u00b0C? Express your answer using a natural logarithm.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A object obeys Newton's Law of Cooling with $T_a = 25$, $T_0 = 75$, and $k = -0.1$. Write the explicit temperature function $T(t)$.",
+      "answer_latex": "T(t) = 25 + 50e^{-0.1t}"
+    },
+    {
+      "prompt_latex": "An object cools from $T_0 = 100$\u00b0C in a room at $T_a = 25$\u00b0C. After 5 minutes the temperature is 80\u00b0C. Find the cooling constant $k$.",
+      "answer_latex": "k = \\dfrac{1}{5}\\ln\\!\\left(\\dfrac{55}{75}\\right) = \\dfrac{1}{5}\\ln\\!\\left(\\dfrac{11}{15}\\right)"
+    },
+    {
+      "prompt_latex": "A thermometer reading 10\u00b0C is brought into a 22\u00b0C room. After 2 minutes it reads 16\u00b0C. What does it read after 4 minutes?",
+      "answer_latex": "T(4) = 22 - 12\\left(\\dfrac{6}{12}\\right)^2 = 22 - 3 = 19\\text{\u00b0C}"
+    },
+    {
+      "prompt_latex": "A body is found at 27\u00b0C in a room held at 20\u00b0C. One hour later the body is 25\u00b0C. Assuming normal body temperature is 37\u00b0C, use Newton's Law of Cooling to estimate the time of death (in hours before the first measurement).",
+      "answer_latex": "t^* = \\dfrac{\\ln(17/7)}{\\ln(7/5)} \\approx 2.56 \\text{ hours before first measurement}"
+    },
+    {
+      "prompt_latex": "A hot coal at 800\u00b0C is placed in surroundings at 30\u00b0C. The temperature satisfies $\\frac{dT}{dt} = k(T-30)$ with $T(0)=800$. If $T(20)=500$, at what time $t$ does the temperature first drop below 100\u00b0C?",
+      "answer_latex": "t = \\dfrac{20\\ln(70/770)}{\\ln(470/770)} = \\dfrac{20\\ln(1/11)}{\\ln(47/77)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to subtract the ambient temperature before applying the initial condition, writing $C = T_0$ instead of $C = T_0 - T_a$. This error shifts the entire solution and gives temperatures that never approach $T_a$. Always check: your solution must satisfy $T(t) \\to T_a$ as $t \\to \\infty$.",
+    "When solving for $k$, students divide both sides by $(T_0 - T_a)$ correctly but then forget to apply $\\ln$ to both sides, instead writing $k = \\frac{T(t_1) - T_a}{(T_0 - T_a) \\cdot t_1}$ as if the relationship were linear. The fix is to always isolate the exponential first: $e^{kt_1} = \\frac{T(t_1)-T_a}{T_0-T_a}$, then take $\\ln$ of both sides.",
+    "Students assume $k$ must be positive and write the model as $\\frac{dT}{dt} = k(T_a - T)$ with a sign flip, then get confused about whether $k$ is positive or negative in the solution. The standard convention uses $\\frac{dT}{dt} = k(T - T_a)$ with $k < 0$ for cooling, so commit to one form and be consistent throughout the problem."
+  ],
+  "untested_variants": [
+    "Problems where the ambient temperature $T_a$ is not constant but changes over time, leading to a non-autonomous linear first-order ODE that requires an integrating factor rather than simple separation of variables.",
+    "Problems that give the half-life of the temperature excess (the time for $T - T_a$ to reduce by half) and ask students to find $k$ from that, which requires recognizing the connection to exponential decay half-life formulas.",
+    "Two-body cooling problems where one object heats a second object and both temperatures change simultaneously, requiring a system of differential equations rather than a single Newton's Law equation.",
+    "Problems asking students to find the ambient temperature $T_a$ as the unknown, given multiple temperature readings at known times, which requires setting up a system of equations in both $k$ and $T_a$."
+  ]
+}

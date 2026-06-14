@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_017",
+  "topic_name": "Logarithmic Functions and Their Graphs",
+  "generated_at": "2026-05-12T23:44:36.346414+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know that exponential functions like $f(x) = 2^x$ take an exponent as input and produce a power as output. You can evaluate $2^3 = 8$ without hesitation. But what if someone asks: 'To what power must I raise 2 to get 8?' \u2014 that is, what is the *input* (the exponent) when the *output* is 8? You need a new kind of function that 'undoes' exponentiation, and right now you don't have one. What does the graph of that inverse function even look like?",
+  "concept": "A logarithm answers the question 'what exponent do I need?' In plain English, $\\log_b(x)$ asks: 'to what power must I raise $b$ to get $x$?' Formally, if $b > 0$, $b \\neq 1$, and $x > 0$, the logarithmic function $f(x) = \\log_b(x)$ is defined by $\\log_b(x) = y \\iff b^y = x$. It is exactly the inverse of $g(x) = b^x$, which means its graph is the reflection of the exponential graph over the line $y = x$.",
+  "anatomy": "Every logarithmic expression $\\log_b(x)$ has three distinct parts: the **base** $b$ (a positive number not equal to 1, placed as a subscript, which determines how fast the function grows or shrinks), the **argument** $x$ (the input to the logarithm, which must be strictly positive \u2014 this is why the domain is $(0, \\infty)$), and the **logarithm value** (the output $y$, which is the exponent such that $b^y = x$). The graph itself has key structural features: a **vertical asymptote** at $x = 0$, an **x-intercept** always at $(1, 0)$ because $b^0 = 1$ for any valid base, and the curve passes through $(b, 1)$ since $b^1 = b$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Evaluate } \\log_2(32)",
+      "description_latex": "We want the exponent $y$ such that $2^y = 32$. The key move is to rewrite the logarithm as an exponential equation: $\\log_2(32) = y$ means exactly $2^y = 32$. This translation between logarithmic and exponential form is the fundamental tool for every logarithm problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2^y = 32 = 2^5 \\implies y = 5",
+      "description_latex": "We recognize that $32 = 2^5$, so both sides have base 2, which forces $y = 5$. Therefore $\\log_2(32) = 5$. Always check: $2^5 = 32$ \u2713.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Sketch } f(x) = \\log_2(x)",
+      "description_latex": "To graph the function, we plot the key anchor points derived from the definition. Because $\\log_2(x) = y \\iff 2^y = x$, we can build a table by choosing easy $y$-values: when $y = -1$, $x = 2^{-1} = \\tfrac{1}{2}$; when $y = 0$, $x = 1$; when $y = 1$, $x = 2$; when $y = 2$, $x = 4$. This gives the points $(\\tfrac{1}{2}, -1)$, $(1, 0)$, $(2, 1)$, $(4, 2)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Domain: } (0,\\infty),\\quad \\text{Range: } (-\\infty, \\infty),\\quad \\text{Vertical Asymptote: } x = 0",
+      "description_latex": "The argument of any logarithm must be strictly positive because $2^y$ is always positive \u2014 there is no real exponent that makes $2^y$ zero or negative. This restricts the domain to $x > 0$. The range is all real numbers because $y$ can be any exponent, positive, negative, or zero. The curve approaches the $y$-axis from the right but never touches it, making $x = 0$ a vertical asymptote.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Graph } f(x) = \\log_3(x-2) \\text{ and state the domain and vertical asymptote.}",
+      "description_latex": "Notice that the argument of the logarithm is $(x-2)$ instead of just $x$. This means we are shifting the parent graph $y = \\log_3(x)$ horizontally. Before doing anything else, we should figure out what values of $x$ are actually allowed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x - 2 > 0 \\implies x > 2",
+      "description_latex": "Because the argument must be positive, we set $x - 2 > 0$ and solve. This tells us the domain is $(2, \\infty)$ and the vertical asymptote shifts from $x = 0$ to $x = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify the new anchor points for the shifted graph by replacing $x$ with values that make $(x-2)$ equal to $\\tfrac{1}{3}$, $1$, and $3$. What are the three anchor points $(x, y)$ for this graph, and through which point does it cross the $x$-axis?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Evaluate: } \\log_5(125)",
+      "answer_latex": "3"
+    },
+    {
+      "prompt_latex": "\\text{Rewrite in exponential form: } \\log_4(64) = 3",
+      "answer_latex": "4^3 = 64"
+    },
+    {
+      "prompt_latex": "\\text{State the domain, range, and vertical asymptote of } f(x) = \\log_6(x + 4)",
+      "answer_latex": "\\text{Domain: } (-4, \\infty),\\ \\text{Range: } (-\\infty,\\infty),\\ \\text{V.A.: } x = -4"
+    },
+    {
+      "prompt_latex": "\\text{The graph of } g(x) = \\log_3(x) \\text{ is reflected over the } x\\text{-axis and shifted up 2 units. Write the new function and find its } x\\text{-intercept.}",
+      "answer_latex": "h(x) = -\\log_3(x) + 2;\\quad x\\text{-intercept at } (9,\\, 0)"
+    },
+    {
+      "prompt_latex": "\\text{A sound's intensity level in decibels is } L = 10\\log_{10}\\!\\left(\\dfrac{I}{I_0}\\right) \\text{ where } I_0 = 10^{-12}\\text{ W/m}^2.\\text{ If } I = 10^{-4}\\text{ W/m}^2,\\text{ find } L.",
+      "answer_latex": "L = 80 \\text{ dB}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often try to evaluate $\\log_b(0)$ or $\\log_b(\\text{negative number})$, forgetting that the argument must be strictly positive. Fix: always check that the argument is greater than zero before evaluating or stating a domain.",
+    "When finding the domain of a shifted logarithm like $\\log_b(x - h)$, students set the entire expression equal to zero instead of setting the argument strictly greater than zero \u2014 writing $x - h = 0$ and stopping, rather than solving $x - h > 0$. Fix: the vertical asymptote is at $x - h = 0$, but the domain is all $x$ where $x - h > 0$, which is a strict inequality.",
+    "Students confuse the base and the argument when translating to exponential form, writing $x^b = y$ instead of $b^y = x$. Fix: read $\\log_b(x) = y$ out loud as 'base $b$ to the power $y$ equals $x$', so the exponential form is always $b^y = x$."
+  ],
+  "untested_variants": [
+    "Evaluating logarithms with the natural log base: $\\ln(e^5)$ or converting between $\\ln$ and $\\log_{10}$ using the change-of-base formula $\\log_b(x) = \\dfrac{\\ln x}{\\ln b}$.",
+    "Graphing a logarithm that involves both a horizontal shift and a vertical stretch or reflection simultaneously, such as $f(x) = -2\\log_3(x+1) + 4$, and identifying all transformations in order.",
+    "Solving a logarithmic equation by converting to exponential form, such as $\\log_2(3x - 1) = 4$, where the student must also check that the solution satisfies the domain restriction.",
+    "Using the one-to-one property of logarithms to solve equations of the form $\\log_b(f(x)) = \\log_b(g(x))$ by setting $f(x) = g(x)$ directly."
+  ]
+}

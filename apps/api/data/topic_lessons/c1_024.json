@@ -1,0 +1,91 @@
+{
+  "topic_id": "c1_024",
+  "topic_name": "Optimization Problems",
+  "generated_at": "2026-05-13T00:09:04.834933+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find where a derivative equals zero and classify critical points as local maxima or minima. But what if the real question isn't 'where is the function flat?' \u2014 it's 'what dimensions should a box have to hold the most volume while using the least cardboard?' or 'how close does a highway need to pass to a city to minimize total road length?' These are optimization problems, and the derivative is your main tool \u2014 but setting up the right function to differentiate is the hard part. How do you translate a real-world constraint into a single-variable function you can actually optimize?",
+  "concept": "Optimization problems ask you to find the input value that makes some quantity as large or as small as possible, subject to real-world constraints. Formally, you seek the global maximum or minimum of an objective function $f(x)$ on a domain, typically found by solving $f'(x) = 0$ and checking critical points alongside any domain endpoints. The key challenge is constructing $f(x)$ from a word problem using a constraint equation to eliminate extra variables.",
+  "anatomy": "Every optimization problem has four structural pieces: the **objective function** $f$, which is the quantity you want to maximize or minimize (e.g., area, cost, volume); the **constraint equation**, a relationship between variables given by the problem (e.g., fixed perimeter, fixed surface area); the **decision variable** $x$, the single variable remaining after you use the constraint to eliminate all others; and the **feasible domain**, the interval of $x$-values that make physical sense (e.g., side lengths must be positive). Missing or misidentifying any one of these pieces leads to the wrong answer.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Problem: A farmer has 200 m of fence and wants to enclose a rectangular area. Find the dimensions that maximize the enclosed area.}",
+      "description_latex": "We start by identifying the objective function and constraint. The quantity to maximize is the area $A = xy$, where $x$ and $y$ are the length and width of the rectangle. The constraint is that the total fencing used equals 200 m, giving us $2x + 2y = 200$. Writing both of these down explicitly before differentiating anything is the most important first step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = 100 - x, \\quad \\text{so} \\quad A(x) = x(100 - x) = 100x - x^2",
+      "description_latex": "We use the constraint to eliminate $y$: solving $2x + 2y = 200$ gives $y = 100 - x$. Substituting into $A = xy$ produces a single-variable objective function $A(x) = 100x - x^2$, which we can now differentiate. The feasible domain is $0 < x < 100$ because both dimensions must be positive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A'(x) = 100 - 2x = 0 \\implies x = 50",
+      "description_latex": "Differentiating and setting the derivative equal to zero finds the critical point. We get $A'(x) = 100 - 2x$, and solving $100 - 2x = 0$ gives $x = 50$ m. This is the only critical point inside our domain, so it is our candidate for the maximum.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A''(x) = -2 < 0 \\implies x = 50 \\text{ is a maximum}",
+      "description_latex": "The second derivative $A''(x) = -2$ is negative everywhere, confirming that $x = 50$ gives a local maximum \u2014 and since it is the only critical point on an open interval, it is also the global maximum. Alternatively, you can check that the boundary values give $A(0) = A(100) = 0$, which are clearly smaller.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 50 \\text{ m}, \\quad y = 100 - 50 = 50 \\text{ m}, \\quad A_{\\max} = 50 \\times 50 = 2500 \\text{ m}^2",
+      "description_latex": "Finally, we recover both dimensions and state the answer in context. With $x = 50$ m, the constraint gives $y = 50$ m, so the optimal rectangle is actually a square with maximum area $2500 \\text{ m}^2$. Always go back and answer the original question \u2014 dimensions, not just the critical point value.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: A open-top box is made by cutting squares of side } x \\text{ from the corners of a 12 cm} \\times 12 \\text{ cm sheet and folding up the sides. Maximize volume.}",
+      "description_latex": "Start by visualizing the box: after cutting squares of side $x$ from each corner and folding, the base dimensions are $(12 - 2x)$ by $(12 - 2x)$ and the height is $x$. The objective function for volume is therefore $V(x) = x(12-2x)^2$, and the feasible domain is $0 < x < 6$ since both the height and base length must be positive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V(x) = x(12-2x)^2 = 4x^3 - 48x^2 + 144x",
+      "description_latex": "We expand the objective function so it is easier to differentiate. Expanding $(12-2x)^2 = 144 - 48x + 4x^2$ and multiplying by $x$ gives $V(x) = 4x^3 - 48x^2 + 144x$. Now differentiate and set $V'(x) = 0$ to find the critical points \u2014 try this step yourself.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "V'(x) = 12x^2 - 96x + 144 = 12(x^2 - 8x + 12) = 12(x-2)(x-6) = 0 \\implies x = 2 \\text{ or } x = 6",
+      "description_latex": "The critical points are $x = 2$ and $x = 6$. Since $x = 6$ lies on the boundary of the domain (it makes the base have zero size), only $x = 2$ is in the interior. Verify using the second derivative or by evaluating $V$ at the endpoints that $x = 2$ gives the maximum, and state the maximum volume.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = 2 \\text{ cm}, \\quad V_{\\max} = 2(12-4)^2 = 2 \\times 64 = 128 \\text{ cm}^3",
+      "description_latex": "Substituting $x = 2$ back into the volume formula gives $V(2) = 2(8)^2 = 128 \\text{ cm}^3$. Checking the boundary values $V(0) = 0$ and $V(6) = 0$ confirms this is the global maximum on the domain.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find two positive numbers whose sum is 20 and whose product is as large as possible.}",
+      "answer_latex": "x = 10, \\; y = 10, \\; \\text{maximum product} = 100"
+    },
+    {
+      "prompt_latex": "\\text{A rectangle has perimeter 48 cm. Find the dimensions that maximize its area.}",
+      "answer_latex": "\\text{length} = 12 \\text{ cm}, \\; \\text{width} = 12 \\text{ cm} \\; (\\text{a square}), \\; A_{\\max} = 144 \\text{ cm}^2"
+    },
+    {
+      "prompt_latex": "\\text{An open-top rectangular box with a square base must have a volume of } 32 \\text{ cm}^3\\text{. Find the dimensions that minimize the total surface area.}",
+      "answer_latex": "\\text{base side} = 4 \\text{ cm}, \\; \\text{height} = 2 \\text{ cm}, \\; S_{\\min} = 48 \\text{ cm}^2"
+    },
+    {
+      "prompt_latex": "\\text{Find the point on the parabola } y = x^2 \\text{ that is closest to the point } (3, 0). \\text{ (Minimize the squared distance.)}",
+      "answer_latex": "x \\approx 1.3247 \\text{ (real root of } 2x^3 - x - 3 = 0\\text{)}, \\; \\text{closest point} \\approx (1.3247,\\, 1.7548)"
+    },
+    {
+      "prompt_latex": "\\text{A company sells } x \\text{ units at price } p = 50 - 0.5x \\text{ dollars each. The cost to produce } x \\text{ units is } C(x) = 10x + 200\\text{. Find the production level that maximizes profit.}",
+      "answer_latex": "x = 40 \\text{ units}, \\; \\text{maximum profit} = \\$600"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to check the feasibility of each critical point against the domain, reporting x = 6 as the answer in the box-cutting problem even though it makes the base area zero \u2014 always verify that every critical point lies strictly inside the feasible domain before evaluating the objective function.",
+    "Students set up the constraint equation correctly but then differentiate it alongside the objective function (treating it as a second equation in two unknowns) instead of substituting it to eliminate a variable first \u2014 you must reduce to a single-variable function before differentiating.",
+    "Students find a critical point and stop, never confirming whether it is a maximum or minimum \u2014 on a closed domain you must also evaluate the objective function at the endpoints and compare all values, since the global optimum can occur at a boundary rather than at an interior critical point."
+  ],
+  "untested_variants": [
+    "Optimization problems involving trigonometric functions, such as minimizing the length of a ladder that must reach over a fence of given height.",
+    "Optimization on an unbounded domain (e.g., find the rectangle of maximum area that can be inscribed in a semicircle of given radius), requiring a careful argument about behavior as $x \\to$ the boundary at infinity or zero.",
+    "Revenue and profit optimization where the demand function is not linear (e.g., $p = 100/\\sqrt{x}$), requiring the product rule and more complex algebra when solving $P'(x) = 0$.",
+    "Related-rates problems that are superficially similar to optimization but require differentiating with respect to time rather than finding a critical point, which students often confuse with this topic."
+  ]
+}

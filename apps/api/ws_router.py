@@ -37,6 +37,12 @@ from agents.hint_scaffolder import get_hint
 from agents.schemas import GeneratorInput, HintRequest
 from agents.socratic import respond as socratic_respond
 import session_orchestrator
+import rate_limit
+
+# SECURITY (H1): WebSocket message ceilings. A 2-hour session of genuine
+# back-and-forth is well under these; they exist to bound a scripted flood.
+MAX_MESSAGES_PER_SESSION = 600
+MAX_MESSAGES_PER_MINUTE = 60
 from auth_dependencies import get_user_repository
 from auth_utils import decode_access_token
 from config import AUTH_PROVIDER, JWT_SECRET_KEY, JWT_ALGORITHM
@@ -520,6 +526,40 @@ def _queue_length(session) -> int:
     return 1 if session.problem else 0
 
 
+def _record_flagged_content(user_id: str, session_id: str, category: str, excerpt: str) -> None:
+    """
+    Persist a moderation flag (H3) and emit an admin alert. Best-effort: a
+    logging/DB failure must never break the student's session or suppress the
+    safety response they already received.
+    """
+    # Always alert, even if the DB write fails — this is the signal Josh needs.
+    logger.warning(
+        "CONTENT_FLAG category=%s user=%s session=%s excerpt=%r",
+        category, user_id, session_id, excerpt,
+    )
+    try:
+        from config import USE_DATABASE
+        if not USE_DATABASE:
+            return
+        from db_models import FlaggedContentRecord
+        from db_session import get_session as _get_db
+        import uuid as _uuid
+        db = _get_db()
+        try:
+            db.add(FlaggedContentRecord(
+                id=str(_uuid.uuid4()),
+                user_id=user_id,
+                session_id=session_id,
+                category=category,
+                excerpt=excerpt,
+            ))
+            db.commit()
+        finally:
+            db.close()
+    except Exception:
+        logger.exception("Failed to persist flagged content (alert already logged)")
+
+
 async def _prefetch_problem(session, conceptual_diff: int) -> None:
     """
     Background-generate the next problem at `conceptual_diff` and stash it on
@@ -809,6 +849,28 @@ async def _run_general_session(
             if session is None:
                 break
 
+            # ── SECURITY (H1): message rate limits ───────────────────────────
+            # Credits gate session START; without these a single session could
+            # send unlimited LLM-backed messages. Per-session hard cap + a
+            # per-user sliding window (shared across replicas via Redis).
+            session.message_count += 1
+            if session.message_count > MAX_MESSAGES_PER_SESSION:
+                timer_task.cancel()
+                await _close_with_error(
+                    websocket, 4029,
+                    "Session message limit reached. Please start a new session.",
+                )
+                break
+            _allowed, _ = rate_limit.hit(
+                f"ws:{user.id}", MAX_MESSAGES_PER_MINUTE, 60
+            )
+            if not _allowed:
+                await _send(
+                    websocket, type="error", code=4029,
+                    message="You're sending messages too quickly. Please slow down.",
+                )
+                continue
+
             # Resolve dependencies from the (test-patchable) current module state
             deps = session_orchestrator.SessionDeps(
                 generate_tutor_response=generate_tutor_response,
@@ -828,6 +890,12 @@ async def _run_general_session(
 
             for msg in result.messages:
                 await _send(websocket, type=msg.type, **msg.payload)
+
+            # SECURITY (H3): a flagged message → persist for admin review + alert.
+            if result.flagged is not None:
+                _record_flagged_content(
+                    user.id, session_id, result.flagged.category, result.flagged.excerpt
+                )
 
             # Background-generate the next problem at a new difficulty (L2-3).
             # Fire-and-forget; if it isn't ready by the next advance, the queue
@@ -1102,6 +1170,22 @@ async def _run_legacy_session(
             if session is None:
                 break
 
+            # SECURITY (H1): same message ceilings as the general path, so the
+            # legacy flow can't be used to bypass per-session/per-user limits.
+            session.message_count += 1
+            if session.message_count > MAX_MESSAGES_PER_SESSION:
+                timer_task.cancel()
+                await _close_with_error(
+                    websocket, 4029,
+                    "Session message limit reached. Please start a new session.",
+                )
+                break
+            _allowed, _ = rate_limit.hit(f"ws:{user.id}", MAX_MESSAGES_PER_MINUTE, 60)
+            if not _allowed:
+                await _send(websocket, type="error", code=4029,
+                            message="You're sending messages too quickly. Please slow down.")
+                continue
+
             if msg_type == "student_text":
                 text = str(raw.get("text", "")).strip()
                 if not text:
@@ -1219,14 +1303,24 @@ async def _run_legacy_session(
 async def tutor_ws(
     websocket: WebSocket,
     session_id: str,
-    token: Optional[str] = Query(None),
     topic_id: Optional[str] = Query(None),
     difficulty: int = Query(3, ge=1, le=6),
     session_type: Literal["1hr", "2hr"] = Query("1hr"),
     calculator_mode: str = Query("none"),
     tutor_name: str = Query("Josh"),
 ) -> None:
-    await websocket.accept()
+    # SECURITY (M3): the auth token is NOT accepted in the URL query string
+    # (URLs leak into access logs, proxies, and browser history). The client
+    # sends it via Sec-WebSocket-Protocol as ["bearer", "<token>"]; we echo the
+    # "bearer" subprotocol on accept.
+    subprotocols = websocket.scope.get("subprotocols", []) or []
+    token: Optional[str] = None
+    accept_subprotocol: Optional[str] = None
+    if len(subprotocols) >= 2 and subprotocols[0] == "bearer":
+        token = subprotocols[1]
+        accept_subprotocol = "bearer"
+
+    await websocket.accept(subprotocol=accept_subprotocol)
 
     # Auth
     try:

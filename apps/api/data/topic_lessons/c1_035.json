@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_035",
+  "topic_name": "Volume by Shell Method",
+  "generated_at": "2026-05-13T00:13:58.320123+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find the volume of a solid of revolution using the disk and washer methods, where you stack thin circular slices perpendicular to the axis of rotation. But what happens when your region is awkward to express as a function of the variable along that axis \u2014 for example, when rotating a region around the y-axis but your curves are naturally written as functions of x? Setting up a washer integral in y can get messy or even impossible. Is there a smarter way to slice the solid that keeps everything in terms of x?",
+  "concept": "The shell method computes volume by imagining thin cylindrical shells \u2014 like nested toilet paper tubes \u2014 stacked parallel to the axis of rotation rather than perpendicular to it. When rotating a region around the y-axis, each vertical strip of width $dx$ becomes a cylindrical shell of radius $x$, height $f(x)$, and thickness $dx$, giving the formula $V = 2\\pi \\int_a^b x\\, f(x)\\, dx$. More generally, for rotation about a vertical or horizontal axis, $V = 2\\pi \\int (\\text{radius})(\\text{height})\\, d(\\text{thickness})$.",
+  "anatomy": "Every shell-method integral has four geometric ingredients that students must identify before writing the integral. The radius is the distance from the axis of rotation to the shell, typically $x$ when rotating around the y-axis or $y$ when rotating around the x-axis. The height is the length of the shell in the direction parallel to the axis, usually $f(x) - g(x)$ when two curves bound the region. The thickness is the infinitesimal width $dx$ (or $dy$) of each shell. The limits of integration $a$ and $b$ are the outermost and innermost radii, i.e., the x-values (or y-values) where the region begins and ends.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Region: } y = x^2,\\; y = 0,\\; x = 0,\\; x = 2,\\text{ rotated about the y-axis}",
+      "description_latex": "We start by reading the problem carefully to identify what we're rotating and about which axis. The region is bounded above by $y = x^2$, below by the x-axis, on the left by $x = 0$, and on the right by $x = 2$, and we spin it around the y-axis. Because the curves are natural functions of $x$ and we're rotating around a vertical axis, the shell method will let us integrate in $x$ without any rearranging.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{radius} = x,\\quad \\text{height} = x^2 - 0 = x^2,\\quad \\text{thickness} = dx",
+      "description_latex": "Next we identify the three shell ingredients. The radius of each shell is its distance from the y-axis, which is simply $x$. The height of each shell equals the vertical extent of the region at position $x$, which is $x^2$ (top curve minus bottom curve). The thickness of each shell is the infinitesimal strip width $dx$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V = 2\\pi \\int_0^2 x \\cdot x^2\\, dx = 2\\pi \\int_0^2 x^3\\, dx",
+      "description_latex": "We plug the three ingredients into the shell-method formula $V = 2\\pi\\int_a^b (\\text{radius})(\\text{height})\\,dx$, with limits matching the x-range of the region. Multiplying the radius $x$ by the height $x^2$ simplifies the integrand to $x^3$, which is easy to integrate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V = 2\\pi \\left[\\frac{x^4}{4}\\right]_0^2 = 2\\pi \\cdot \\frac{16}{4} = 8\\pi",
+      "description_latex": "We evaluate the antiderivative $\\frac{x^4}{4}$ from $0$ to $2$. Substituting gives $\\frac{2^4}{4} - \\frac{0^4}{4} = 4$, so the volume is $2\\pi \\cdot 4 = 8\\pi$. Always include the factor of $2\\pi$ from the shell formula \u2014 it is part of every shell-method answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Region: } y = \\sqrt{x},\\; y = 0,\\; x = 0,\\; x = 4,\\text{ rotated about the y-axis}",
+      "description_latex": "We want the volume when the region under $y = \\sqrt{x}$ from $x=0$ to $x=4$ is rotated about the y-axis. The curves are written in $x$, the axis is vertical, so we will use the shell method. Start by identifying the radius, height, and limits of integration for the shells.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{radius} = x,\\quad \\text{height} = \\sqrt{x},\\quad \\text{limits: } 0 \\text{ to } 4",
+      "description_latex": "The radius of each shell is $x$ (its distance from the y-axis) and the height is $\\sqrt{x}$ (the value of the top curve). Now set up the full shell-method integral \u2014 remember the $2\\pi$ factor \u2014 and write the integrand in simplified form.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "V = 2\\pi \\int_0^4 x \\cdot \\sqrt{x}\\, dx = 2\\pi \\int_0^4 x^{3/2}\\, dx",
+      "description_latex": "The integral is $2\\pi\\int_0^4 x^{3/2}\\,dx$. Evaluate this using the power rule for integration: $\\int x^{3/2}\\,dx = \\frac{x^{5/2}}{5/2} = \\frac{2}{5}x^{5/2}$. Apply the limits and compute the final numerical answer.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "V = 2\\pi \\cdot \\frac{2}{5}\\left[x^{5/2}\\right]_0^4 = 2\\pi \\cdot \\frac{2}{5}\\cdot 32 = \\frac{128\\pi}{5}",
+      "description_latex": "Substituting $x = 4$ gives $4^{5/2} = (\\sqrt{4})^5 = 2^5 = 32$, so the volume is $2\\pi \\cdot \\frac{2}{5} \\cdot 32 = \\frac{128\\pi}{5}$. Notice that handling the $\\frac{2}{5}$ from the antiderivative before multiplying by $2\\pi$ keeps the arithmetic clean.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find the volume of the solid formed by rotating the region bounded by } y = x,\\; y = 0,\\; x = 3 \\text{ about the y-axis.}",
+      "answer_latex": "V = 18\\pi"
+    },
+    {
+      "prompt_latex": "\\text{Find the volume of the solid formed by rotating the region bounded by } y = x^3,\\; y = 0,\\; x = 1 \\text{ about the y-axis.}",
+      "answer_latex": "V = \\dfrac{\\pi}{2}"
+    },
+    {
+      "prompt_latex": "\\text{Find the volume of the solid formed by rotating the region bounded by } y = x^2 \\text{ and } y = x \\text{ about the y-axis.}",
+      "answer_latex": "V = \\dfrac{\\pi}{6}"
+    },
+    {
+      "prompt_latex": "\\text{Find the volume of the solid formed by rotating the region bounded by } y = e^x,\\; y = 0,\\; x = 0,\\; x = 1 \\text{ about the y-axis.}",
+      "answer_latex": "V = 2\\pi(1) = 2\\pi \\quad \\text{(by integration by parts: } V = 2\\pi[xe^x - e^x]_0^1 = 2\\pi)"
+    },
+    {
+      "prompt_latex": "\\text{A manufacturer needs to know the volume of a vase shape generated by rotating } y = \\ln x,\\; y = 0,\\; x = 1,\\; x = e \\text{ about the y-axis. Find the volume in exact form.}",
+      "answer_latex": "V = \\pi(e^2 + 1)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget the $2\\pi$ factor entirely, writing $V = \\int_a^b (\\text{radius})(\\text{height})\\,dx$ instead of $V = 2\\pi\\int_a^b (\\text{radius})(\\text{height})\\,dx$. Every shell-method integral must include the $2\\pi$ that accounts for the full revolution; check this before evaluating.",
+    "When the region is bounded by two curves, students use only the top curve as the height instead of subtracting the bottom curve, writing $h = f(x)$ rather than $h = f(x) - g(x)$. The height of each shell must equal the vertical gap between the bounding curves at each $x$, so always form the difference (top minus bottom).",
+    "When the axis of rotation is not the y-axis but a vertical line like $x = a$, students use radius $= x$ instead of the correct distance radius $= |x - a|$. Always compute the radius as the distance from the shell to the actual axis, which shifts the radius formula by the axis location."
+  ],
+  "untested_variants": [
+    "Rotating a region about a horizontal axis (e.g., the x-axis) using shells, which requires integrating in $y$ with radius $= y$ and a height expressed as a function of $y$.",
+    "Rotating about a non-coordinate vertical axis such as $x = -2$ or $x = 3$, where the radius formula becomes $x + 2$ or $3 - x$ depending on which side of the axis the region lies.",
+    "Regions bounded by three or more curves where the height function changes (i.e., piecewise height), requiring the integral to be split into two or more separate shell integrals.",
+    "Comparing the disk/washer method and the shell method on the same solid to verify they give equal volumes, a common conceptual exam question that tests understanding of when each method is appropriate."
+  ]
+}

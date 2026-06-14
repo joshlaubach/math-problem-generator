@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_026",
+  "topic_name": "Confidence Intervals for a Proportion",
+  "generated_at": "2026-05-13T20:31:10.918408+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to calculate a sample proportion \u2014 if 60 out of 100 surveyed voters support a candidate, the sample proportion is $\\hat{p} = 0.60$. But that single number tells you nothing about how much it might differ from the true population proportion. How do we build a range of plausible values that captures the true proportion with a stated level of confidence?",
+  "concept": "A confidence interval for a proportion is a range of values, built from sample data, that we expect to contain the true population proportion $p$ with a specified probability. Formally, a $C\\%$ confidence interval is $\\hat{p} \\pm z^* \\sqrt{\\dfrac{\\hat{p}(1-\\hat{p})}{n}}$, where $\\hat{p}$ is the sample proportion, $n$ is the sample size, and $z^*$ is the critical value from the standard normal distribution corresponding to confidence level $C$.",
+  "anatomy": "The interval has four named parts. The sample proportion $\\hat{p} = x/n$ is the center of the interval and our best single estimate of $p$. The critical value $z^*$ is the number of standard deviations that corresponds to your chosen confidence level \u2014 common values are $z^* = 1.645$ for 90%, $z^* = 1.960$ for 95%, and $z^* = 2.576$ for 99%. The standard error $SE = \\sqrt{\\hat{p}(1-\\hat{p})/n}$ measures the typical sampling variability of $\\hat{p}$. Finally, the margin of error $ME = z^* \\cdot SE$ is the half-width of the interval; the full interval is $\\hat{p} - ME$ to $\\hat{p} + ME$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\hat{p} = \\frac{x}{n} = \\frac{120}{400} = 0.30",
+      "description_latex": "We start by computing the sample proportion $\\hat{p}$, which is simply the number of successes divided by the total sample size. Here, 120 out of 400 adults said they regularly exercise, giving us $\\hat{p} = 0.30$. This is the center of our interval.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Check: } n\\hat{p} = 400(0.30) = 120 \\geq 10 \\quad \\text{and} \\quad n(1-\\hat{p}) = 400(0.70) = 280 \\geq 10",
+      "description_latex": "Before constructing any confidence interval, we must verify the success-failure condition: both $n\\hat{p}$ and $n(1-\\hat{p})$ must be at least 10. This ensures the sampling distribution of $\\hat{p}$ is approximately normal, which is what allows us to use $z^*$ as our critical value. Both conditions are satisfied here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "SE = \\sqrt{\\frac{\\hat{p}(1-\\hat{p})}{n}} = \\sqrt{\\frac{(0.30)(0.70)}{400}} = \\sqrt{\\frac{0.21}{400}} = \\sqrt{0.000525} \\approx 0.0229",
+      "description_latex": "Next we compute the standard error, which quantifies how much $\\hat{p}$ is expected to vary from sample to sample. We plug in $\\hat{p} = 0.30$ and $n = 400$; the smaller the standard error, the more precisely our sample estimates the true proportion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "ME = z^* \\cdot SE = 1.960 \\times 0.0229 \\approx 0.0449",
+      "description_latex": "For a 95% confidence level, we use $z^* = 1.960$. Multiplying the critical value by the standard error gives the margin of error, which is the half-width of our interval \u2014 it tells us how far above and below $\\hat{p}$ our interval extends.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(0.30 - 0.0449,\\ 0.30 + 0.0449) = (0.255,\\ 0.345)",
+      "description_latex": "We construct the interval by subtracting and adding the margin of error to $\\hat{p}$. We interpret this as: we are 95% confident that the true proportion of adults who regularly exercise is between 0.255 and 0.345. Remember \u2014 this confidence refers to the long-run procedure, not to a probability that $p$ itself moves.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\hat{p} = \\frac{85}{250} = 0.34",
+      "description_latex": "A survey finds that 85 out of 250 college students own a car. We begin by computing the sample proportion, which will be the center of our 99% confidence interval.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "SE = \\sqrt{\\frac{(0.34)(0.66)}{250}} \\approx 0.02996",
+      "description_latex": "We compute the standard error using $\\hat{p} = 0.34$ and $n = 250$. This value captures the sampling variability in our estimate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now it is your turn: using $z^* = 2.576$ for 99% confidence and $SE \\approx 0.02996$, compute the margin of error $ME = z^* \\cdot SE$ and then write the full 99% confidence interval $(\\hat{p} - ME,\\ \\hat{p} + ME)$. Round to three decimal places.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A sample of $n = 100$ items finds $x = 40$ defectives. Compute $\\hat{p}$ and the standard error $SE$.",
+      "answer_latex": "\\hat{p} = 0.40,\\quad SE = \\sqrt{\\frac{(0.40)(0.60)}{100}} = 0.049"
+    },
+    {
+      "prompt_latex": "Using the data from Problem 1 ($\\hat{p} = 0.40$, $n = 100$), construct a 95% confidence interval for the true proportion of defectives.",
+      "answer_latex": "(0.304,\\ 0.496)"
+    },
+    {
+      "prompt_latex": "In a poll of $n = 600$ registered voters, 342 say they support a ballot measure. Construct a 90% confidence interval for the true proportion of supporters.",
+      "answer_latex": "\\hat{p} = 0.57,\\quad SE \\approx 0.02022,\\quad ME \\approx 0.0333,\\quad (0.537,\\ 0.603)"
+    },
+    {
+      "prompt_latex": "A researcher wants a 95% confidence interval for a proportion with a margin of error no greater than 0.04. She has no prior estimate for $p$. What is the minimum sample size $n$ she needs? Use the conservative estimate $\\hat{p} = 0.5$ and recall $n = \\left(\\dfrac{z^*}{ME}\\right)^2 \\hat{p}(1-\\hat{p})$.",
+      "answer_latex": "n = \\left(\\frac{1.960}{0.04}\\right)^2(0.5)(0.5) = (49)^2(0.25) = 600.25 \\Rightarrow n = 601"
+    },
+    {
+      "prompt_latex": "A quality control inspector samples 80 bolts from a large shipment and finds 12 that are undersized. A manufacturer claims fewer than 20\\% of bolts are undersized. Construct a 95% confidence interval for the true proportion and use it to evaluate the manufacturer's claim.",
+      "answer_latex": "\\hat{p} = 0.15,\\quad SE \\approx 0.03994,\\quad ME \\approx 0.0783,\\quad (0.072,\\ 0.228).\\text{ Since 0.20 is inside the interval, the data are consistent with the claim but do not confirm it.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to check the success-failure condition ($n\\hat{p} \\geq 10$ and $n(1-\\hat{p}) \\geq 10$) before building the interval; if these fail, the normal approximation is invalid and the $z^*$ formula should not be used.",
+    "A very common error is using $p$ (the unknown population proportion) inside the standard error formula instead of the sample estimate $\\hat{p}$; always replace $p$ with $\\hat{p}$ when computing $SE = \\sqrt{\\hat{p}(1-\\hat{p})/n}$.",
+    "Students frequently misinterpret the confidence level, saying '95% probability that $p$ is in this interval'; the correct interpretation is that 95% of intervals constructed by this procedure in repeated sampling would contain the true $p$ \u2014 the interval either contains $p$ or it doesn't, with no probability attached to that specific interval."
+  ],
+  "untested_variants": [
+    "Determining the required sample size to achieve a specified margin of error when a prior estimate of $p$ (not the conservative 0.5) is available.",
+    "Comparing two independent proportions by constructing a confidence interval for the difference $p_1 - p_2$.",
+    "Using a plus-four or Wilson score interval instead of the standard Wald interval, which is recommended when $n$ is small or $\\hat{p}$ is near 0 or 1.",
+    "Reading a confidence interval off a provided computer output or table and interpreting the endpoints in a real-world context without doing any calculations."
+  ]
+}

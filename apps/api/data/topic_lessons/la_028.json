@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_028",
+  "topic_name": "The Matrix of a Linear Transformation",
+  "generated_at": "2026-05-13T20:07:25.092640+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to work with linear transformations abstractly \u2014 you can verify linearity, compose maps, and find kernels. But suppose someone hands you a transformation like $T: \\mathbb{R}^2 \\to \\mathbb{R}^3$ defined by $T(x_1, x_2) = (x_1 + x_2,\\, 2x_1,\\, x_1 - x_2)$ and asks you to compute $T(\\mathbf{v})$ for hundreds of vectors, or to compose it with another transformation. Doing this symbolically every time is tedious and error-prone. Wouldn't it be better if every linear transformation could be captured as a single matrix \u2014 so that applying $T$ is just matrix-vector multiplication? The question is: how do you find that matrix, and why does it always exist?",
+  "concept": "Every linear transformation $T: \\mathbb{R}^n \\to \\mathbb{R}^m$ can be represented by a unique $m \\times n$ matrix $A$ such that $T(\\mathbf{x}) = A\\mathbf{x}$ for all $\\mathbf{x} \\in \\mathbb{R}^n$. This works because linearity forces $T$ to be completely determined by where it sends the basis vectors. Formally, the standard matrix of $T$ is $A = [T(\\mathbf{e}_1) \\mid T(\\mathbf{e}_2) \\mid \\cdots \\mid T(\\mathbf{e}_n)]$, where $\\mathbf{e}_1, \\ldots, \\mathbf{e}_n$ are the standard basis vectors of $\\mathbb{R}^n$.",
+  "anatomy": "The standard matrix $A$ of a linear transformation $T: \\mathbb{R}^n \\to \\mathbb{R}^m$ has three structural features worth naming. First, the size: $A$ is always $m \\times n$, where $m$ is the dimension of the codomain (output space) and $n$ is the dimension of the domain (input space). Second, the columns: the $j$-th column of $A$ is exactly $T(\\mathbf{e}_j)$, the image of the $j$-th standard basis vector \u2014 so each column is a vector in $\\mathbb{R}^m$. Third, the action: once $A$ is built, applying $T$ to any vector $\\mathbf{x}$ is achieved by the matrix-vector product $A\\mathbf{x}$, which combines the columns of $A$ using the entries of $\\mathbf{x}$ as weights.",
+  "worked_example": [
+    {
+      "expression_latex": "T: \\mathbb{R}^2 \\to \\mathbb{R}^3, \\quad T(x_1, x_2) = (x_1 + x_2,\\; 2x_1,\\; x_1 - x_2)",
+      "description_latex": "We start by identifying the domain dimension $n = 2$ and the codomain dimension $m = 3$, which tells us the standard matrix $A$ will be $3 \\times 2$. Our strategy is to evaluate $T$ on each standard basis vector of $\\mathbb{R}^2$ and use those outputs as the columns of $A$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(\\mathbf{e}_1) = T\\!\\begin{pmatrix}1\\\\0\\end{pmatrix} = \\begin{pmatrix}1+0\\\\2(1)\\\\1-0\\end{pmatrix} = \\begin{pmatrix}1\\\\2\\\\1\\end{pmatrix}",
+      "description_latex": "We plug in $\\mathbf{e}_1 = (1, 0)$ by setting $x_1 = 1$ and $x_2 = 0$ in the formula for $T$. The result $(1, 2, 1)$ will become the first column of our matrix, because it tells us exactly where the first coordinate direction gets sent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(\\mathbf{e}_2) = T\\!\\begin{pmatrix}0\\\\1\\end{pmatrix} = \\begin{pmatrix}0+1\\\\2(0)\\\\0-1\\end{pmatrix} = \\begin{pmatrix}1\\\\0\\\\-1\\end{pmatrix}",
+      "description_latex": "Now we plug in $\\mathbf{e}_2 = (0, 1)$ by setting $x_1 = 0$ and $x_2 = 1$. The result $(1, 0, -1)$ becomes the second column of $A$, capturing how the second coordinate direction is transformed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\begin{pmatrix}1 & 1\\\\2 & 0\\\\1 & -1\\end{pmatrix}",
+      "description_latex": "We assemble the standard matrix by placing $T(\\mathbf{e}_1)$ and $T(\\mathbf{e}_2)$ side by side as columns. Notice the matrix is $3 \\times 2$, exactly as the dimensions $m = 3$ and $n = 2$ predicted \u2014 this is a good sanity check.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T\\!\\begin{pmatrix}3\\\\-1\\end{pmatrix} = A\\begin{pmatrix}3\\\\-1\\end{pmatrix} = \\begin{pmatrix}1(3)+1(-1)\\\\2(3)+0(-1)\\\\1(3)+(-1)(-1)\\end{pmatrix} = \\begin{pmatrix}2\\\\6\\\\4\\end{pmatrix}",
+      "description_latex": "To verify the matrix works, we compute $T(3, -1)$ using $A\\mathbf{x}$ and check it matches the original formula: $3 + (-1) = 2$, $2(3) = 6$, $3 - (-1) = 4$. Both methods give $(2, 6, 4)$, confirming that $A$ perfectly encodes the transformation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T: \\mathbb{R}^2 \\to \\mathbb{R}^2, \\quad T(x_1, x_2) = (3x_1 - x_2,\\; x_1 + 2x_2)",
+      "description_latex": "We want to find the standard matrix $A$ for this transformation. We know $A$ will be $2 \\times 2$ since both the domain and codomain are $\\mathbb{R}^2$. Our plan is to compute $T(\\mathbf{e}_1)$ and $T(\\mathbf{e}_2)$ and use them as columns.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(\\mathbf{e}_1) = \\begin{pmatrix}3\\\\1\\end{pmatrix}, \\qquad T(\\mathbf{e}_2) = \\begin{pmatrix}-1\\\\2\\end{pmatrix}",
+      "description_latex": "Here are the images of the two standard basis vectors \u2014 take a moment to verify these by substituting $(1,0)$ and $(0,1)$ into the formula for $T$ yourself before moving on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the two column vectors above, write down the standard matrix $A$ for $T$, then use it to compute $T(2, -3)$ by forming the product $A\\mathbf{x}$ with $\\mathbf{x} = (2, -3)^T$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the standard matrix of the transformation $T: \\mathbb{R}^2 \\to \\mathbb{R}^2$ defined by $T(x_1, x_2) = (5x_1,\\; -x_2)$.",
+      "answer_latex": "A = \\begin{pmatrix}5 & 0\\\\0 & -1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Find the standard matrix of $T: \\mathbb{R}^2 \\to \\mathbb{R}^3$ defined by $T(x_1, x_2) = (x_1 - 2x_2,\\; 3x_2,\\; 4x_1 + x_2)$.",
+      "answer_latex": "A = \\begin{pmatrix}1 & -2\\\\0 & 3\\\\4 & 1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "The standard matrix of a linear transformation $T: \\mathbb{R}^3 \\to \\mathbb{R}^2$ is $A = \\begin{pmatrix}1 & 0 & -1\\\\2 & 3 & 0\\end{pmatrix}$. Compute $T(1, -1, 2)$.",
+      "answer_latex": "T(1,-1,2) = \\begin{pmatrix}-1\\\\-1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $T: \\mathbb{R}^2 \\to \\mathbb{R}^2$ be the linear transformation with standard matrix $A = \\begin{pmatrix}2 & 1\\\\-1 & 3\\end{pmatrix}$ and let $S: \\mathbb{R}^2 \\to \\mathbb{R}^2$ have standard matrix $B = \\begin{pmatrix}1 & 0\\\\0 & -1\\end{pmatrix}$. Find the standard matrix of the composition $S \\circ T$ and use it to compute $(S \\circ T)(1, 2)$.",
+      "answer_latex": "BA = \\begin{pmatrix}2 & 1\\\\1 & -3\\end{pmatrix}, \\quad (S\\circ T)(1,2) = \\begin{pmatrix}4\\\\-5\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A graphics program represents a 2D shear transformation by $T(x_1, x_2) = (x_1 + kx_2,\\; x_2)$ for a fixed constant $k$. Find the standard matrix of $T$, then determine what value of $k$ would map the point $(0, 1)$ to $(3, 1)$.",
+      "answer_latex": "A = \\begin{pmatrix}1 & k\\\\0 & 1\\end{pmatrix}, \\quad k = 3"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the order of dimensions and build an $n \\times m$ matrix instead of an $m \\times n$ matrix \u2014 remember that the number of rows equals the output dimension $m$ because each image vector $T(\\mathbf{e}_j)$ lives in $\\mathbb{R}^m$ and is placed as a column, giving $m$ rows.",
+    "When reading off the standard matrix from a formula like $T(x_1, x_2) = (ax_1 + bx_2,\\; cx_1 + dx_2)$, students sometimes place the coefficients of $x_1$ and $x_2$ as rows instead of recognizing that $T(\\mathbf{e}_1) = (a, c)$ forms the first column and $T(\\mathbf{e}_2) = (b, d)$ forms the second \u2014 always evaluate at each basis vector and treat the result as a column.",
+    "When computing the composition $S \\circ T$ of two transformations, students often write the matrix product as $AB$ (applying $A$ first) instead of $BA$ \u2014 the standard matrix of $S \\circ T$ is $BA$ because you multiply by $A$ first (for $T$), then by $B$ (for $S$), reading right to left."
+  ],
+  "untested_variants": [
+    "Finding the standard matrix of a linear transformation defined on a non-standard basis (change-of-basis problems where the input is described in terms of basis vectors other than $\\mathbf{e}_1, \\ldots, \\mathbf{e}_n$).",
+    "Determining whether a given transformation is linear before attempting to find its matrix, particularly for transformations involving absolute values, squares, or added constants.",
+    "Finding the standard matrix of a geometric transformation described verbally, such as projection onto a line $y = mx$ or reflection across a given axis, where no algebraic formula is provided upfront.",
+    "Using the standard matrix to determine properties of the transformation such as injectivity (one-to-one) or surjectivity (onto) by analyzing the rank and nullity of $A$."
+  ]
+}

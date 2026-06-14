@@ -1,0 +1,91 @@
+{
+  "topic_id": "pc_066",
+  "topic_name": "Surfaces in Three Dimensions (H)",
+  "generated_at": "2026-05-13T00:01:08.612600+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to graph circles, parabolas, ellipses, and hyperbolas in the $xy$-plane, and you can even write equations of planes and lines in three dimensions. But what happens when an equation involves all three variables $x$, $y$, and $z$ in a more complex way \u2014 say, $\\frac{x^2}{4} + \\frac{y^2}{9} + \\frac{z^2}{1} = 1$? This is no longer a flat plane, and it's not a curve \u2014 it's an entire surface stretching through 3D space. How do we identify, describe, and sketch these surfaces systematically?",
+  "concept": "A surface in three dimensions is the set of all points $(x, y, z)$ satisfying an equation $F(x, y, z) = 0$. Rather than trying to visualize it all at once, we slice it with coordinate planes to produce familiar 2D curves called traces. Formally, a trace is the intersection of a surface with a plane (usually $z = k$, $y = k$, or $x = k$), and by analyzing several traces together we reconstruct the full shape of the surface.",
+  "anatomy": "Every surface analysis involves three key components. First, the equation itself determines the surface's type \u2014 look for squared terms, linear terms, and constants that signal ellipsoids, paraboloids, cones, or hyperboloids. Second, the traces are the 2D cross-sections you get by setting one variable equal to a constant $k$; for example, setting $z = 0$ gives the trace in the $xy$-plane, and setting $z = k$ for various values of $k$ produces a family of curves that 'stack' to form the surface. Third, the intercepts (where the surface crosses each coordinate axis) are found by setting the two non-axis variables to zero and solving for the third \u2014 these anchor the sketch in space.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{x^2}{4} + \\frac{y^2}{9} + z^2 = 1",
+      "description_latex": "We begin by recognizing the structure of this equation: every variable is squared and appears with a positive coefficient, and the right-hand side is 1. This pattern \u2014 a sum of squared terms equaling 1 \u2014 is the hallmark of an ellipsoid, the 3D analog of an ellipse.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Trace in } xy\\text{-plane } (z=0): \\quad \\frac{x^2}{4} + \\frac{y^2}{9} = 1",
+      "description_latex": "We set $z = 0$ to find the trace in the $xy$-plane. Substituting gives an ellipse with semi-axis $a = 2$ along the $x$-direction and $b = 3$ along the $y$-direction, which confirms that the surface extends 2 units left and right and 3 units forward and back.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Trace in } xz\\text{-plane } (y=0): \\quad \\frac{x^2}{4} + z^2 = 1",
+      "description_latex": "Setting $y = 0$ produces an ellipse in the $xz$-plane with semi-axes $a = 2$ and $c = 1$, telling us the surface only reaches 1 unit above and below the $xy$-plane in the $z$-direction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Trace at } z = k: \\quad \\frac{x^2}{4} + \\frac{y^2}{9} = 1 - k^2 \\quad (|k| \\leq 1)",
+      "description_latex": "Horizontal slices at height $z = k$ yield ellipses that shrink as $|k|$ increases toward 1, and disappear entirely when $|k| > 1$ because the right-hand side becomes negative and no real solution exists. This shrinking family of ellipses stacks up to produce the closed, egg-like shape of the ellipsoid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Ellipsoid with semi-axes } a=2,\\; b=3,\\; c=1",
+      "description_latex": "Putting all traces together, we confirm the surface is an ellipsoid centered at the origin with semi-axes $a = 2$ along $x$, $b = 3$ along $y$, and $c = 1$ along $z$. The general form $\\frac{x^2}{a^2}+\\frac{y^2}{b^2}+\\frac{z^2}{c^2}=1$ matches our equation exactly with these values.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "z = x^2 + \\frac{y^2}{4}",
+      "description_latex": "We want to identify and sketch this surface. Start by noticing that $z$ is expressed as a sum of non-negative squared terms, so $z \\geq 0$ always \u2014 the surface sits entirely on or above the $xy$-plane. This signals a type of paraboloid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Trace in } xz\\text{-plane } (y=0): \\quad z = x^2",
+      "description_latex": "Setting $y = 0$ gives a parabola opening upward in the $xz$-plane. Similarly, setting $x = 0$ gives $z = y^2/4$, a wider parabola in the $yz$-plane. Both cross-sections are upward-opening parabolas, which is consistent with an elliptic paraboloid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find the horizontal traces by setting $z = k$ for a positive constant $k$. What 2D curve do you get, and what does this tell you about the shape of the surface as you move higher up in $z$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Elliptic paraboloid opening upward along the } z\\text{-axis}",
+      "description_latex": "The horizontal traces are ellipses $x^2 + \\frac{y^2}{4} = k$ that grow larger as $k$ increases, confirming this is an elliptic paraboloid \u2014 a bowl-shaped surface that widens as you go higher, with the vertex at the origin.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the surface: \\quad x^2 + y^2 + z^2 = 25",
+      "answer_latex": "Sphere of radius 5 centered at the origin"
+    },
+    {
+      "prompt_latex": "Find the traces in the three coordinate planes and identify the surface: \\quad \\frac{x^2}{9} + \\frac{y^2}{4} + \\frac{z^2}{16} = 1",
+      "answer_latex": "Traces are ellipses; the surface is an ellipsoid with semi-axes $a=3$, $b=2$, $c=4$"
+    },
+    {
+      "prompt_latex": "Identify the surface and describe its traces at $z = k$: \\quad z = 4x^2 + y^2",
+      "answer_latex": "Elliptic paraboloid opening upward; horizontal traces $4x^2 + y^2 = k$ are ellipses growing larger as $k$ increases"
+    },
+    {
+      "prompt_latex": "Identify the surface and find its $x$-, $y$-, and $z$-intercepts: \\quad \\frac{x^2}{4} + \\frac{y^2}{9} - \\frac{z^2}{1} = 1",
+      "answer_latex": "Hyperboloid of one sheet; $x$-intercepts $(\\pm 2, 0, 0)$, $y$-intercepts $(0, \\pm 3, 0)$, no $z$-intercepts (setting $x=y=0$ gives $-z^2=1$, no real solution)"
+    },
+    {
+      "prompt_latex": "A radar dish is modeled by the surface $z = 9 - x^2 - y^2$ for $z \\geq 0$. At what height $z$ is the rim of the dish, and what is the radius of the rim in the $xy$-plane?",
+      "answer_latex": "The rim is at $z = 0$, where $x^2 + y^2 = 9$, giving a circular rim of radius 3; the vertex (deepest point) is at $(0,0,9)$"
+    }
+  ],
+  "common_mistakes": [
+    "Students often misidentify the sign pattern and confuse a hyperboloid of one sheet $\\frac{x^2}{a^2}+\\frac{y^2}{b^2}-\\frac{z^2}{c^2}=1$ with a hyperboloid of two sheets $\\frac{x^2}{a^2}-\\frac{y^2}{b^2}-\\frac{z^2}{c^2}=1$; remember that one sheet has exactly one minus sign, while two sheets has two minus signs, and the number of minus signs tells you the number of pieces the surface splits into.",
+    "When computing traces, students sometimes set a variable equal to zero and then forget to check whether the resulting equation has real solutions \u2014 for example, setting $z = 2$ in an ellipsoid might yield a negative right-hand side, meaning no trace exists at that level and students should not attempt to sketch one.",
+    "Students frequently read off semi-axes incorrectly by taking the denominator rather than its square root: in $\\frac{x^2}{9} + \\frac{y^2}{4} + z^2 = 1$, the semi-axis along $x$ is $\\sqrt{9} = 3$, not 9 \u2014 always take the square root of the denominator to find the actual geometric length of the semi-axis."
+  ],
+  "untested_variants": [
+    "Identifying and sketching a cone of the form $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = \\frac{z^2}{c^2}$, where all traces through the vertex are degenerate (a single point) and the surface has two nappes.",
+    "Surfaces shifted away from the origin, such as $\\frac{(x-1)^2}{4} + \\frac{(y+2)^2}{9} + (z-3)^2 = 1$, requiring completing the square before identifying the surface type.",
+    "Hyperboloid of two sheets of the form $-\\frac{x^2}{4} - \\frac{y^2}{9} + z^2 = 1$, where horizontal traces only exist for $|z| \\geq 1$ and the surface consists of two disconnected pieces.",
+    "Hyperbolic paraboloids (saddle surfaces) of the form $z = x^2 - y^2$, where traces in horizontal planes are hyperbolas that switch orientation depending on whether $k > 0$ or $k < 0$."
+  ]
+}

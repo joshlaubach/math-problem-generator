@@ -1,0 +1,86 @@
+{
+  "topic_id": "geo_080",
+  "topic_name": "Conditional Probability",
+  "generated_at": "2026-05-12T23:16:47.921787+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to find the probability of an event by counting favorable outcomes over total outcomes. But what happens when you learn that part of the experiment has already occurred? For example, if you know a card drawn from a deck is red, does that change the probability that it's a heart? The total number of possibilities has suddenly shrunk \u2014 and the probability formula you've been using no longer applies directly. How do we calculate the probability of an event when we already know something else has happened?",
+  "concept": "Conditional probability measures the likelihood of an event occurring given that another event is already known to have occurred. In plain English, knowing extra information 'filters' the sample space down to only what's still possible. Formally, the conditional probability of event $A$ given event $B$ is $P(A \\mid B) = \\dfrac{P(A \\cap B)}{P(B)}$, provided $P(B) > 0$.",
+  "anatomy": "The expression $P(A \\mid B)$ has three key components: the vertical bar $\\mid$, read as 'given,' signals that a condition is in force; the event to the right of the bar, $B$, is the condition \u2014 the event already known to have occurred, which becomes the new restricted sample space; and the event to the left, $A$, is the target event whose updated probability we want. The numerator $P(A \\cap B)$ counts outcomes where both events happen simultaneously, and the denominator $P(B)$ rescales everything so probabilities still add to 1 within the new restricted space.",
+  "worked_example": [
+    {
+      "expression_latex": "P(\\text{Heart} \\mid \\text{Red}) = \\dfrac{P(\\text{Heart} \\cap \\text{Red})}{P(\\text{Red})}",
+      "description_latex": "We set up the conditional probability formula with $A = \\text{Heart}$ and $B = \\text{Red}$. We're asking: among only the red cards, what fraction are hearts? Writing the formula first keeps us organized and reminds us that we need two things \u2014 the joint probability and the probability of the condition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Red}) = \\dfrac{26}{52} = \\dfrac{1}{2}",
+      "description_latex": "There are 52 cards in a standard deck and 26 of them are red (13 hearts + 13 diamonds), so $P(\\text{Red}) = \\frac{26}{52}$. This is the denominator \u2014 the size of our new, restricted sample space.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Heart} \\cap \\text{Red}) = \\dfrac{13}{52} = \\dfrac{1}{4}",
+      "description_latex": "Every heart is already red, so all 13 hearts are in the overlap of 'Heart' and 'Red.' That gives $P(\\text{Heart} \\cap \\text{Red}) = \\frac{13}{52}$. Notice we always compute joint probability out of the original total sample space, not the restricted one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Heart} \\mid \\text{Red}) = \\dfrac{\\frac{13}{52}}{\\frac{26}{52}} = \\dfrac{13}{26} = \\dfrac{1}{2}",
+      "description_latex": "Dividing the joint probability by the condition probability, the 52s cancel and we get $\\frac{13}{26} = \\frac{1}{2}$. This makes intuitive sense: half of the 26 red cards are hearts, so once you know the card is red, there's a 50% chance it's a heart.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(\\text{both even} \\mid \\text{sum} > 6)",
+      "description_latex": "Two standard six-sided dice are rolled. We want the probability that both dice show even numbers, given that the sum is greater than 6. First, let's identify the sample space: there are $6 \\times 6 = 36$ equally likely outcomes total.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{sum} > 6) = \\dfrac{21}{36} = \\dfrac{7}{12}",
+      "description_latex": "The outcomes with sum greater than 6 are sums of 7, 8, 9, 10, 11, and 12. Counting carefully, there are 21 such outcomes out of 36, giving $P(\\text{sum} > 6) = \\frac{21}{36}$. This will be our denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find $P(\\text{both even} \\cap \\text{sum} > 6)$. List the outcomes where both dice are even AND the sum exceeds 6 \u2014 pairs like (2,6), (4,4), (4,6), (6,2), (6,4), (6,6) \u2014 and write this as a fraction over 36.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(\\text{both even} \\mid \\text{sum} > 6) = \\dfrac{6/36}{21/36} = \\dfrac{6}{21} = \\dfrac{2}{7}",
+      "description_latex": "Dividing the joint probability $\\frac{6}{36}$ by the condition probability $\\frac{21}{36}$ gives $\\frac{6}{21} = \\frac{2}{7}$. Notice how knowing the sum is greater than 6 changed the probability from the unconditional $\\frac{9}{36} = \\frac{1}{4}$ for both-even.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A bag contains 5 red marbles and 3 blue marbles. One marble is drawn. Given that the marble drawn is red, what is the probability it is the first red marble placed in the bag? (Assume all red marbles are distinguishable and equally likely.) More simply: $P(A \\mid B) = ?$ where $P(A \\cap B) = 0.15$ and $P(B) = 0.5$.",
+      "answer_latex": "P(A \\mid B) = \\dfrac{0.15}{0.5} = 0.30"
+    },
+    {
+      "prompt_latex": "A single card is drawn from a standard 52-card deck. Find $P(\\text{King} \\mid \\text{Face Card})$. (Face cards are Jacks, Queens, and Kings \u2014 12 total.)",
+      "answer_latex": "P(\\text{King} \\mid \\text{Face Card}) = \\dfrac{4/52}{12/52} = \\dfrac{4}{12} = \\dfrac{1}{3}"
+    },
+    {
+      "prompt_latex": "The table shows 200 students: 80 play sports, 60 play an instrument, and 20 do both. A student is chosen at random. Find $P(\\text{plays instrument} \\mid \\text{plays sports})$.",
+      "answer_latex": "P(\\text{plays instrument} \\mid \\text{plays sports}) = \\dfrac{20/200}{80/200} = \\dfrac{20}{80} = \\dfrac{1}{4}"
+    },
+    {
+      "prompt_latex": "Events $A$ and $B$ are such that $P(A) = 0.6$, $P(B) = 0.5$, and $P(A \\cup B) = 0.8$. Using the Addition Rule to find $P(A \\cap B)$ first, then compute $P(A \\mid B)$.",
+      "answer_latex": "P(A \\cap B) = 0.6 + 0.5 - 0.8 = 0.3, \\quad P(A \\mid B) = \\dfrac{0.3}{0.5} = 0.6"
+    },
+    {
+      "prompt_latex": "A disease affects 1\\% of a population. A test for the disease is 90\\% accurate for those who have it and gives a false positive 5\\% of the time for those who don't. A person tests positive. Find the probability they actually have the disease: $P(\\text{disease} \\mid \\text{positive})$.",
+      "answer_latex": "P(\\text{disease} \\mid +) = \\dfrac{(0.01)(0.90)}{(0.01)(0.90)+(0.99)(0.05)} = \\dfrac{0.009}{0.009+0.0495} = \\dfrac{0.009}{0.0585} \\approx 0.154"
+    }
+  ],
+  "common_mistakes": [
+    "Students often flip the condition and compute $P(B \\mid A)$ instead of $P(A \\mid B)$, putting the wrong event in the numerator. Remember: the event to the RIGHT of the bar goes in the denominator because that's the new restricted world.",
+    "Students compute the joint probability $P(A \\cap B)$ out of the restricted sample space instead of the full original sample space, effectively dividing by $P(B)$ twice. The formula always uses the original total in the denominator for both $P(A \\cap B)$ and $P(B)$ \u2014 they cancel correctly only when computed from the same base.",
+    "Students confuse conditional probability with the probability of an intersection, writing $P(A \\mid B) = P(A \\cap B)$ and skipping the division by $P(B)$. The condition restricts the sample space, so you must always rescale by dividing by $P(B)$ to keep probabilities valid."
+  ],
+  "untested_variants": [
+    "Using a two-way frequency table with actual counts (not fractions) to read off conditional probabilities directly, without ever writing the formula \u2014 a common format on standardized tests.",
+    "Determining whether two events are independent by checking if $P(A \\mid B) = P(A)$, which requires computing conditional probability and then comparing it to the marginal probability.",
+    "Working backwards: given $P(A \\mid B)$ and $P(B)$, solving for the unknown $P(A \\cap B)$ using the multiplication rule $P(A \\cap B) = P(A \\mid B) \\cdot P(B)$.",
+    "Tree diagrams where conditional probabilities are assigned to branches and students must multiply along paths to find joint probabilities, then sum paths for total event probabilities."
+  ]
+}

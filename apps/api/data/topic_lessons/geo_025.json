@@ -1,0 +1,76 @@
+{
+  "topic_id": "geo_025",
+  "topic_name": "Dilations",
+  "generated_at": "2026-05-12T23:00:34.097847+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to slide, flip, and rotate shapes without changing their size. But what if you needed to scale a shape up or down \u2014 like zooming in on a map or shrinking a blueprint \u2014 while keeping every angle and proportion exactly the same? You know translations and rotations preserve distance, but this new transformation deliberately changes distances by a fixed ratio. The question is: given a center point and a scale factor, can you find the exact coordinates of every new vertex?",
+  "concept": "A dilation is a transformation that resizes a figure by stretching or compressing it toward or away from a fixed point called the center of dilation. Every point $P$ moves to a new point $P'$ so that $P'$ lies on the ray from the center $C$ through $P$, and the distance satisfies $CP' = k \\cdot CP$, where $k$ is the scale factor. If $|k| > 1$ the image is larger (an enlargement); if $0 < |k| < 1$ it is smaller (a reduction); if $k = 1$ the figure is unchanged.",
+  "anatomy": "A dilation has three distinct components. First, the center of dilation $C = (c_x, c_y)$ is the fixed anchor point \u2014 every other point moves directly toward or away from it, and it is the only point that maps to itself. Second, the scale factor $k$ is the ratio that controls how far each image point lands from the center; it multiplies every distance from $C$. Third, the pre-image point $P = (x, y)$ and its image $P' = (x', y')$ are related by the coordinate rule $P' = (c_x + k(x - c_x),\\ c_y + k(y - c_y))$, which can also be written compactly as $P' = k(P - C) + C$.",
+  "worked_example": [
+    {
+      "expression_latex": "P = (2, 4),\\quad C = (0, 0),\\quad k = 3",
+      "description_latex": "We start by identifying all three components: the pre-image point $P = (2, 4)$, the center of dilation at the origin $C = (0, 0)$, and the scale factor $k = 3$. Writing these down first prevents mix-ups in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P' = (k \\cdot x,\\; k \\cdot y) = (3 \\cdot 2,\\; 3 \\cdot 4)",
+      "description_latex": "Because the center is the origin, the coordinate rule simplifies to just multiplying each coordinate by $k$. We apply $k = 3$ to both the $x$- and $y$-coordinates of $P$, which pulls the point three times farther from the origin along the same ray.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P' = (6, 12)",
+      "description_latex": "Carrying out the multiplication gives the image point $P' = (6, 12)$. Notice that $P'$ lies on the ray from the origin through $(2, 4)$, and the distance from $C$ tripled from $\\sqrt{20}$ to $\\sqrt{180} = 3\\sqrt{20}$, confirming $k = 3$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P = (5, 1),\\quad C = (1, -1),\\quad k = 2",
+      "description_latex": "Here the center is NOT the origin, so we must use the full rule $P' = (c_x + k(x - c_x),\\; c_y + k(y - c_y))$. Let's first substitute the known values into each slot of the formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x' = 1 + 2(5 - 1) = 1 + 2(4) = 9",
+      "description_latex": "For the $x$-coordinate we subtract the center's $x$-value from $P$'s $x$-value to find the horizontal displacement from $C$, then scale it by $k = 2$, and finally shift back by adding $c_x = 1$. This gives $x' = 9$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the same process to find $y'$: compute $y' = c_y + k(y - c_y)$ using $y = 1$, $c_y = -1$, and $k = 2$. What is $P'$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Dilate $A = (3, 5)$ from the origin with scale factor $k = 2$. Find $A'$.",
+      "answer_latex": "A' = (6, 10)"
+    },
+    {
+      "prompt_latex": "Dilate $B = (8, 4)$ from the origin with scale factor $k = \\dfrac{1}{2}$. Find $B'$.",
+      "answer_latex": "B' = (4, 2)"
+    },
+    {
+      "prompt_latex": "Dilate $Q = (6, 2)$ from center $C = (2, 0)$ with scale factor $k = 3$. Find $Q'$.",
+      "answer_latex": "Q' = (14, 6)"
+    },
+    {
+      "prompt_latex": "Triangle $XYZ$ has vertices $X = (0, 0)$, $Y = (4, 0)$, $Z = (0, 3)$. It is dilated from $C = (0, 0)$ with $k = 2$. Find the perimeter of the image triangle $X'Y'Z'$.",
+      "answer_latex": "\\text{Original perimeter} = 4 + 3 + 5 = 12,\\text{ so image perimeter} = 2 \\times 12 = 24"
+    },
+    {
+      "prompt_latex": "On a map, 1 cm represents 50 km. An architect draws a route that is 3.4 cm long on the map. If the map is produced by a dilation with scale factor $k = \\dfrac{1}{5000000}$ (converting km to cm), what is the actual distance in km?",
+      "answer_latex": "170 \\text{ km}"
+    }
+  ],
+  "common_mistakes": [
+    "Students multiply both coordinates by $k$ even when the center is not the origin, skipping the displacement step. The fix is to always subtract the center first: use $x' = c_x + k(x - c_x)$, not just $x' = kx$.",
+    "Students confuse which direction the dilation goes when $0 < k < 1$, sometimes assuming a fraction 'enlarges' because fractions can feel complicated. Remember: a scale factor less than 1 brings every point closer to the center, producing a smaller image.",
+    "Students forget that the center of dilation maps to itself, so if a vertex of the pre-image coincides with $C$, its image is the same point \u2014 they sometimes incorrectly move it. Any point at the center stays fixed because $k \\cdot 0 = 0$ displacement."
+  ],
+  "untested_variants": [
+    "Dilations with a negative scale factor $k < 0$, which both resize and rotate the figure 180\u00b0 about the center \u2014 none of the practice problems use negative $k$.",
+    "Finding the scale factor or the center of dilation given a pre-image point and its image, rather than computing the image from given information.",
+    "Composing a dilation with another transformation (e.g., a dilation followed by a reflection) and describing the single transformation equivalent to the composition.",
+    "Dilations on the coordinate plane where the center lies inside the pre-image figure, requiring students to reason about which vertices move inward versus outward."
+  ]
+}

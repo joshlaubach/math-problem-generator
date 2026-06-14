@@ -1,0 +1,76 @@
+{
+  "topic_id": "c2_019",
+  "topic_name": "Sequences and Their Limits",
+  "generated_at": "2026-05-13T00:22:36.455299+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to find limits of functions like $\\lim_{x \\to \\infty} \\frac{3x^2 + 1}{x^2 - 5}$ using L'H\u00f4pital's rule or dividing by the highest power. But what if instead of a continuous function, you only have a list of numbers: $2, \\frac{3}{2}, \\frac{4}{3}, \\frac{5}{4}, \\ldots$? These numbers follow a pattern, and the list goes on forever \u2014 but does it settle down to some specific value, or does it wander off to infinity? How do you even define what 'settling down' means for an infinite list of numbers?",
+  "concept": "A sequence is an ordered, infinite list of real numbers, one for each positive integer. Formally, a sequence is a function $a: \\mathbb{Z}^+ \\to \\mathbb{R}$, written as $\\{a_n\\}_{n=1}^{\\infty}$, where $a_n$ is the $n$th term. We say $\\{a_n\\}$ converges to a limit $L$ if $\\lim_{n \\to \\infty} a_n = L$, meaning the terms get arbitrarily close to $L$ as $n$ grows. If no such $L$ exists, the sequence diverges.",
+  "anatomy": "Every sequence has three structural parts to identify: the index $n$, which is the positive integer labeling each position (first term, second term, etc.); the general term formula $a_n$, which is the rule expressing each term as a function of $n$; and the limit $L$ (if it exists), which is the value the terms approach as $n \\to \\infty$. For example, in $a_n = \\frac{n+1}{n}$, the index $n$ runs over $1, 2, 3, \\ldots$, the general term $\\frac{n+1}{n}$ tells you any specific value, and the limit is $L = 1$ because the terms creep downward toward $1$ but never reach it.",
+  "worked_example": [
+    {
+      "expression_latex": "a_n = \\frac{3n^2 + 2}{n^2 - 4}, \\quad n \\geq 3",
+      "description_latex": "We want to find $\\lim_{n \\to \\infty} a_n$. Because $a_n$ looks exactly like a rational function of $n$, we can treat $n$ as a continuous variable and apply the same limit techniques we used for functions of $x$. The key strategy for rational expressions is to divide every term in the numerator and denominator by the highest power of $n$ present, which is $n^2$ here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_n = \\frac{3n^2 + 2}{n^2 - 4} = \\frac{3 + \\frac{2}{n^2}}{1 - \\frac{4}{n^2}}",
+      "description_latex": "Dividing numerator and denominator by $n^2$ rewrites the expression in a form where we can evaluate the limit term by term. Each fraction with $n^2$ in the denominator, like $\\frac{2}{n^2}$ and $\\frac{4}{n^2}$, vanishes as $n \\to \\infty$ because the denominator grows without bound while the numerator stays fixed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{n \\to \\infty} a_n = \\frac{3 + 0}{1 - 0} = 3",
+      "description_latex": "Taking the limit as $n \\to \\infty$, every term of the form $\\frac{c}{n^k}$ with $k > 0$ goes to zero, leaving us with $\\frac{3}{1} = 3$. Therefore the sequence converges and its limit is $L = 3$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "a_n = \\frac{5n - 2}{3n + 7}",
+      "description_latex": "We want to determine whether this sequence converges and find its limit. Start by identifying the highest power of $n$ in the expression \u2014 here it is $n^1$ \u2014 and plan to divide numerator and denominator by that power.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_n = \\frac{5 - \\frac{2}{n}}{3 + \\frac{7}{n}}",
+      "description_latex": "After dividing numerator and denominator by $n$, we get this cleaner form. Now take the limit as $n \\to \\infty$: what happens to $\\frac{2}{n}$ and $\\frac{7}{n}$, and what does that leave you with?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\lim_{n \\to \\infty} a_n = \\frac{5}{3}",
+      "description_latex": "Both $\\frac{2}{n}$ and $\\frac{7}{n}$ go to zero, so the limit is $\\frac{5-0}{3+0} = \\frac{5}{3}$. The sequence converges to $\\frac{5}{3}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find \\lim_{n \\to \\infty} a_n \\text{ for } a_n = \\frac{7}{n}",
+      "answer_latex": "0"
+    },
+    {
+      "prompt_latex": "Determine whether the sequence $a_n = \\frac{2n^2 - 3n}{4n^2 + 1}$ converges or diverges, and if it converges, find its limit.",
+      "answer_latex": "\\text{Converges to } \\frac{1}{2}"
+    },
+    {
+      "prompt_latex": "Find \\lim_{n \\to \\infty} \\frac{n^3 - 5n}{2n^3 + n^2 - 1}",
+      "answer_latex": "\\frac{1}{2}"
+    },
+    {
+      "prompt_latex": "Determine whether $a_n = (-1)^n \\cdot \\frac{n}{n+1}$ converges or diverges. Justify your answer.",
+      "answer_latex": "\\text{Diverges (terms oscillate between values approaching } +1 \\text{ and } -1\\text{)}"
+    },
+    {
+      "prompt_latex": "A ball is dropped and each bounce reaches $\\frac{2}{3}$ of the previous height. If the first bounce reaches $18$ meters, the height of the $n$th bounce is $a_n = 18 \\left(\\frac{2}{3}\\right)^{n-1}$. Find $\\lim_{n \\to \\infty} a_n$ and interpret what it means physically.",
+      "answer_latex": "\\lim_{n \\to \\infty} a_n = 0 \\text{; the bounce heights approach zero, meaning the ball eventually comes to rest.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes cancel $n$ from a term like $\\frac{n^2 + n}{n}$ and get $n + 1$, then conclude the sequence diverges without checking \u2014 this is actually correct, but students often panic and write the limit as $\\infty$ instead of properly concluding the sequence diverges to infinity rather than failing to have a finite limit.",
+    "When a sequence involves $(-1)^n$, students often just take the limit of the non-alternating part and report that as the answer \u2014 for example, claiming $\\lim_{n \\to \\infty} (-1)^n \\cdot \\frac{1}{n} = 0$ is correct by the Squeeze Theorem, but claiming $\\lim_{n \\to \\infty} (-1)^n = 0$ is wrong because the oscillating sign never settles; always check whether the alternating factor is being multiplied by something that itself goes to zero.",
+    "Students forget that the Squeeze Theorem applies to sequences: if $|a_n| \\leq b_n$ and $b_n \\to 0$, then $a_n \\to 0$, but many students try to separately take limits of both sides of an inequality and misapply the comparison \u2014 always verify both the bounding inequality and that the bounding sequence actually converges to zero."
+  ],
+  "untested_variants": [
+    "Sequences defined recursively, such as $a_1 = 1$ and $a_{n+1} = \\sqrt{2 + a_n}$, where you must show the sequence is monotone and bounded before finding the limit by setting $L = \\sqrt{2 + L}$.",
+    "Sequences involving exponentials and factorials, such as $a_n = \\frac{3^n}{n!}$, where ratio-based arguments are needed rather than algebraic simplification.",
+    "Using the Squeeze Theorem explicitly to evaluate limits like $\\lim_{n \\to \\infty} \\frac{\\sin(n)}{n}$ by constructing $-\\frac{1}{n} \\leq \\frac{\\sin n}{n} \\leq \\frac{1}{n}$.",
+    "Determining convergence or divergence of sequences involving $n$th roots, such as $a_n = n^{1/n}$, which require the identity $\\lim_{n \\to \\infty} n^{1/n} = 1$ or a logarithm-and-L'H\u00f4pital approach."
+  ]
+}

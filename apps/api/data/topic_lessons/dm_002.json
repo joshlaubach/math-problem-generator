@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_002",
+  "topic_name": "Truth Tables",
+  "generated_at": "2026-05-13T20:11:39.636605+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to evaluate simple logical statements like 'It is raining AND I have an umbrella' as true or false once you know the facts. But what if you want to know every possible true/false outcome for a compound statement \u2014 without knowing anything about the world yet? For instance, can the statement $(p \\land q) \\lor \\neg p$ ever be false, and for exactly which combinations of $p$ and $q$? You need a systematic tool, and that tool is the truth table.",
+  "concept": "A truth table is a complete, organized list of every possible assignment of truth values to the propositional variables in a statement, together with the resulting truth value of the whole expression. For a formula built from $n$ distinct variables, the table has $2^n$ rows, one for each combination of T and F. Formally, a truth table for a well-formed formula $\\phi(p_1, p_2, \\ldots, p_n)$ is a function from $\\{T,F\\}^n$ to $\\{T,F\\}$ that evaluates $\\phi$ under every possible interpretation.",
+  "anatomy": "A truth table has four distinct structural components. First, the **variable columns** \u2014 one column per propositional variable (e.g., $p$, $q$, $r$), filled with all $2^n$ binary combinations in a systematic order (usually alternating T/F at halving intervals). Second, the **sub-expression columns** \u2014 intermediate columns for parts of the formula such as $\\neg p$ or $p \\land q$, which break a complex expression into manageable pieces. Third, the **final column**, which carries the truth value of the complete formula for each row and is the ultimate result. Fourth, the **connective evaluation rules** embedded in every step: $\\land$ (AND) is T only when both operands are T; $\\lor$ (OR) is F only when both are F; $\\neg$ (NOT) flips the value; $\\rightarrow$ (implication) is F only when the antecedent is T and the consequent is F; $\\leftrightarrow$ (biconditional) is T exactly when both sides match.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Build a truth table for } (p \\land q) \\lor \\neg p",
+      "description_latex": "We start by identifying the variables \u2014 there are two, $p$ and $q$ \u2014 so we need $2^2 = 4$ rows. We set up columns: $p$, $q$, $\\neg p$, $p \\land q$, and finally $(p \\land q) \\lor \\neg p$. Working left to right through sub-expressions keeps us organized and prevents errors on the final column.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c} p & q \\\\ \\hline T & T \\\\ T & F \\\\ F & T \\\\ F & F \\end{array}",
+      "description_latex": "We fill the variable columns by cycling $p$ through T, T, F, F and $q$ through T, F, T, F \u2014 this alternating pattern guarantees every combination appears exactly once. Notice $p$ changes half as often as $q$; for three variables you would add $r$ cycling T, F, T, F, T, F, T, F.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c} p & q & \\neg p \\\\ \\hline T & T & F \\\\ T & F & F \\\\ F & T & T \\\\ F & F & T \\end{array}",
+      "description_latex": "We compute $\\neg p$ by flipping each value in the $p$ column: wherever $p$ is T, $\\neg p$ is F, and wherever $p$ is F, $\\neg p$ is T. This is the simplest connective to evaluate, and getting it right here prevents cascading errors later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c|c} p & q & \\neg p & p \\land q \\\\ \\hline T & T & F & T \\\\ T & F & F & F \\\\ F & T & T & F \\\\ F & F & T & F \\end{array}",
+      "description_latex": "We evaluate $p \\land q$ row by row: AND is T only when both $p$ and $q$ are T, which happens only in row 1. In every other row at least one variable is F, so $p \\land q$ is F. This sub-expression column is now ready to be combined with $\\neg p$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c|c|c} p & q & \\neg p & p \\land q & (p \\land q) \\lor \\neg p \\\\ \\hline T & T & F & T & T \\\\ T & F & F & F & F \\\\ F & T & T & F & T \\\\ F & F & T & F & T \\end{array}",
+      "description_latex": "Finally, we compute $(p \\land q) \\lor \\neg p$ by OR-ing the $p \\land q$ column with the $\\neg p$ column: OR is T whenever at least one operand is T. Row 1: $T \\lor F = T$; Row 2: $F \\lor F = F$; Row 3: $F \\lor T = T$; Row 4: $F \\lor T = T$. The formula is false exactly when $p$ is T and $q$ is F \u2014 now we have a complete picture of its behavior.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Build a truth table for } p \\rightarrow (\\neg p \\lor q)",
+      "description_latex": "We have two variables, so we need 4 rows. Set up columns for $p$, $q$, $\\neg p$, $\\neg p \\lor q$, and finally $p \\rightarrow (\\neg p \\lor q)$. We fill the variable columns with the standard alternating pattern: $p$ goes T, T, F, F and $q$ goes T, F, T, F.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c|c} p & q & \\neg p & \\neg p \\lor q \\\\ \\hline T & T & F & T \\\\ T & F & F & F \\\\ F & T & T & T \\\\ F & F & T & T \\end{array}",
+      "description_latex": "We compute $\\neg p$ by flipping the $p$ column, then compute $\\neg p \\lor q$: OR is T unless both operands are F, which only happens in row 2 where $\\neg p = F$ and $q = F$. The sub-expression column is now complete and ready for the final step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now complete the final column for $p \\rightarrow (\\neg p \\lor q)$. Remember that an implication $A \\rightarrow B$ is F only when $A$ is T and $B$ is F \u2014 check each row and write T or F for all four rows.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c|c|c} p & q & \\neg p & \\neg p \\lor q & p \\rightarrow (\\neg p \\lor q) \\\\ \\hline T & T & F & T & T \\\\ T & F & F & F & F \\\\ F & T & T & T & T \\\\ F & F & T & T & T \\end{array}",
+      "description_latex": "The completed table shows that $p \\rightarrow (\\neg p \\lor q)$ is false only in row 2, where $p$ is T and the sub-expression $\\neg p \\lor q$ is F. In all other rows the implication holds, so this formula is not a tautology \u2014 it fails exactly when $p$ is true and $q$ is false.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Construct a truth table for $p \\land \\neg p$ and state whether it is a tautology, contradiction, or neither.",
+      "answer_latex": "\\begin{array}{c|c|c} p & \\neg p & p \\land \\neg p \\\\ \\hline T & F & F \\\\ F & T & F \\end{array} \\text{ \u2014 contradiction (always F)}"
+    },
+    {
+      "prompt_latex": "Construct a truth table for $\\neg(p \\lor q)$ and for $\\neg p \\land \\neg q$. Are they logically equivalent?",
+      "answer_latex": "\\begin{array}{c|c|c|c|c|c} p & q & p\\lor q & \\neg(p\\lor q) & \\neg p & \\neg p \\land \\neg q \\\\ \\hline T&T&T&F&F&F\\\\ T&F&T&F&F&F\\\\ F&T&T&F&T&F\\\\ F&F&F&T&T&T \\end{array} \\text{ \u2014 Yes, identical final columns (De Morgan's Law)}"
+    },
+    {
+      "prompt_latex": "Construct a truth table for $(p \\rightarrow q) \\land (q \\rightarrow p)$ and identify what simpler connective it equals.",
+      "answer_latex": "\\begin{array}{c|c|c|c|c} p&q&p\\rightarrow q&q\\rightarrow p&(p\\rightarrow q)\\land(q\\rightarrow p)\\\\ \\hline T&T&T&T&T\\\\ T&F&F&T&F\\\\ F&T&T&F&F\\\\ F&F&T&T&T \\end{array} \\text{ \u2014 equivalent to } p \\leftrightarrow q"
+    },
+    {
+      "prompt_latex": "Using a truth table, determine for which truth values of $p$, $q$, $r$ the formula $p \\land (q \\lor r)$ has a different truth value from $(p \\land q) \\lor r$. (Hint: you need $2^3 = 8$ rows.)",
+      "answer_latex": "\\text{The two formulas differ in rows where } p=F, r=T \\text{ (i.e., rows 5 and 7 in standard order): } p \\land(q\\lor r)=F \\text{ but } (p\\land q)\\lor r=T \\text{ there. They are NOT equivalent.}"
+    },
+    {
+      "prompt_latex": "A security system triggers an alarm ($A$) according to the rule: 'The alarm sounds if and only if the motion sensor ($m$) is activated or the door sensor ($d$) is activated, but not both.' Write this as $A \\leftrightarrow (m \\oplus d)$ where $\\oplus$ denotes XOR ($m \\oplus d$ is T when exactly one of $m$, $d$ is T). Build its truth table and find all input combinations that set $A = T$.",
+      "answer_latex": "\\begin{array}{c|c|c|c} m&d&m\\oplus d&A\\leftrightarrow(m\\oplus d)\\\\ \\hline T&T&F&F\\\\ T&F&T&T\\\\ F&T&T&T\\\\ F&F&F&T \\end{array} \\text{ \u2014 } A=T \\text{ when } (m=T,d=F),\\,(m=F,d=T), \\text{ or }(m=F,d=F)"
+    }
+  ],
+  "common_mistakes": [
+    "Students misread the implication rule and mark $p \\rightarrow q$ as F whenever $p$ is F. In fact, a conditional is only F when the antecedent $p$ is T and the consequent $q$ is F; any row where $p$ is F automatically gives $p \\rightarrow q = T$ regardless of $q$.",
+    "Students skip intermediate sub-expression columns and try to evaluate a complex formula in one step, leading to operator precedence errors \u2014 for example, evaluating $p \\lor q \\land r$ as $(p \\lor q) \\land r$ instead of $p \\lor (q \\land r)$ because $\\land$ binds more tightly than $\\lor$. Always add a separate column for each sub-expression and apply the precedence order: $\\neg$ first, then $\\land$, then $\\lor$, then $\\rightarrow$, then $\\leftrightarrow$.",
+    "Students fill the variable columns in an ad-hoc order and accidentally repeat or omit a combination of truth values, making the table incomplete. The fix is to always use the standard systematic pattern: the rightmost variable alternates T/F every row, the next variable alternates every 2 rows, the next every 4 rows, and so on, guaranteeing all $2^n$ distinct rows appear exactly once."
+  ],
+  "untested_variants": [
+    "Three-variable truth tables involving all five connectives simultaneously (e.g., $(p \\rightarrow q) \\leftrightarrow (\\neg q \\lor r)$), which require 8-row tables and careful precedence handling.",
+    "Using truth tables to test the validity of a logical argument form, such as verifying that $[(p \\rightarrow q) \\land p] \\rightarrow q$ (modus ponens) is a tautology.",
+    "Constructing a truth table for a formula containing the exclusive-or connective $\\oplus$ in a purely abstract setting (not a word problem), then using it to prove or disprove equivalence with another formula.",
+    "Reading a given completed truth table and reverse-engineering (reconstructing) the logical formula in disjunctive normal form (DNF) that matches exactly those rows marked T."
+  ]
+}

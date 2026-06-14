@@ -1,0 +1,81 @@
+{
+  "topic_id": "c3_002",
+  "topic_name": "Vectors in 3D: Operations and Properties",
+  "generated_at": "2026-05-13T00:28:03.749700+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to add vectors and scale them in 2D \u2014 sliding arrows around in a plane feels pretty natural. But what happens when a drone navigates through three-dimensional airspace, or a physicist tracks a particle moving through space? Suddenly every vector needs a third component, and operations like subtraction and scalar multiplication pick up a new coordinate to track. Can you find the vector pointing exactly halfway between two points in 3D space?",
+  "concept": "A 3D vector is an ordered triple of real numbers that encodes magnitude and direction in space. Formally, a vector $\\mathbf{v} = \\langle v_1, v_2, v_3 \\rangle$ lives in $\\mathbb{R}^3$, where $v_1$, $v_2$, $v_3$ are its components along the $x$-, $y$-, and $z$-axes respectively. Addition, subtraction, and scalar multiplication all work component-by-component, just as in 2D, but now every operation touches three coordinates instead of two.",
+  "anatomy": "Every 3D vector operation has four key ingredients: the two operand vectors $\\mathbf{u} = \\langle u_1, u_2, u_3 \\rangle$ and $\\mathbf{v} = \\langle v_1, v_2, v_3 \\rangle$, a scalar $c \\in \\mathbb{R}$ for scaling, and the component-wise rule that governs the operation. Vector addition is $\\mathbf{u} + \\mathbf{v} = \\langle u_1+v_1,\\, u_2+v_2,\\, u_3+v_3 \\rangle$; scalar multiplication is $c\\mathbf{v} = \\langle cv_1, cv_2, cv_3 \\rangle$; the magnitude (length) of $\\mathbf{v}$ is $|\\mathbf{v}| = \\sqrt{v_1^2 + v_2^2 + v_3^2}$; and the unit vector in the direction of $\\mathbf{v}$ is $\\hat{\\mathbf{v}} = \\frac{\\mathbf{v}}{|\\mathbf{v}|}$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{u} = \\langle 1, -2, 4 \\rangle, \\quad \\mathbf{v} = \\langle 3, 0, -1 \\rangle",
+      "description_latex": "We are given two vectors in $\\mathbb{R}^3$ and will compute $3\\mathbf{u} - 2\\mathbf{v}$ and then find its magnitude. Setting up the vectors clearly before operating on them prevents sign errors later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3\\mathbf{u} = \\langle 3(1),\\, 3(-2),\\, 3(4) \\rangle = \\langle 3, -6, 12 \\rangle, \\quad 2\\mathbf{v} = \\langle 6, 0, -2 \\rangle",
+      "description_latex": "Scalar multiplication distributes onto each component independently, so we multiply every entry of $\\mathbf{u}$ by 3 and every entry of $\\mathbf{v}$ by 2. Notice that the scalar does NOT change the number of components \u2014 we still have three entries in each result.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3\\mathbf{u} - 2\\mathbf{v} = \\langle 3-6,\\; -6-0,\\; 12-(-2) \\rangle = \\langle -3, -6, 14 \\rangle",
+      "description_latex": "Subtraction is handled component-by-component: we subtract the corresponding entries of $2\\mathbf{v}$ from $3\\mathbf{u}$. Pay special attention to the third component: subtracting $-2$ gives $+2$, so $12 - (-2) = 14$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|3\\mathbf{u} - 2\\mathbf{v}| = \\sqrt{(-3)^2 + (-6)^2 + 14^2} = \\sqrt{9 + 36 + 196} = \\sqrt{241}",
+      "description_latex": "To find the magnitude we square each component, add all three squares, and take the square root \u2014 this is just the 3D version of the Pythagorean theorem. Since $241$ has no perfect-square factors, $\\sqrt{241}$ is already fully simplified.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{w} = \\langle 2, -3, 6 \\rangle",
+      "description_latex": "Our goal is to find the unit vector $\\hat{\\mathbf{w}}$ pointing in the same direction as $\\mathbf{w}$. The first step is to compute the magnitude $|\\mathbf{w}|$ using $|\\mathbf{w}| = \\sqrt{w_1^2 + w_2^2 + w_3^2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|\\mathbf{w}| = \\sqrt{4 + 9 + 36} = \\sqrt{49} = 7",
+      "description_latex": "We squared each component and summed: $2^2 + (-3)^2 + 6^2 = 4 + 9 + 36 = 49$, giving $|\\mathbf{w}| = 7$. Now divide every component of $\\mathbf{w}$ by this magnitude to get the unit vector.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using $\\hat{\\mathbf{w}} = \\frac{\\mathbf{w}}{|\\mathbf{w}|}$, divide each component of $\\langle 2, -3, 6 \\rangle$ by 7 and write the resulting unit vector. Then verify that its magnitude equals 1.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Let } \\mathbf{a} = \\langle 4, -1, 2 \\rangle \\text{ and } \\mathbf{b} = \\langle -2, 3, 5 \\rangle. \\text{ Compute } \\mathbf{a} + \\mathbf{b}.",
+      "answer_latex": "\\langle 2, 2, 7 \\rangle"
+    },
+    {
+      "prompt_latex": "\\text{Let } \\mathbf{u} = \\langle 0, -4, 3 \\rangle. \\text{ Find } |\\mathbf{u}| \\text{ and the unit vector } \\hat{\\mathbf{u}}.",
+      "answer_latex": "|\\mathbf{u}| = 5,\\quad \\hat{\\mathbf{u}} = \\left\\langle 0,\\, -\\tfrac{4}{5},\\, \\tfrac{3}{5} \\right\\rangle"
+    },
+    {
+      "prompt_latex": "\\text{Let } \\mathbf{p} = \\langle 1, 2, -2 \\rangle \\text{ and } \\mathbf{q} = \\langle 3, -1, 4 \\rangle. \\text{ Compute } 2\\mathbf{p} - 3\\mathbf{q}.",
+      "answer_latex": "\\langle -7, 7, -16 \\rangle"
+    },
+    {
+      "prompt_latex": "\\text{Points } A = (1, 3, -2) \\text{ and } B = (4, -1, 5) \\text{ are in } \\mathbb{R}^3. \\text{ Find the vector } \\overrightarrow{AB}, \\text{ its magnitude, and the unit vector in the direction of } \\overrightarrow{AB}.",
+      "answer_latex": "\\overrightarrow{AB} = \\langle 3, -4, 7 \\rangle,\\quad |\\overrightarrow{AB}| = \\sqrt{74},\\quad \\hat{u} = \\frac{1}{\\sqrt{74}}\\langle 3, -4, 7 \\rangle"
+    },
+    {
+      "prompt_latex": "\\text{A drone flies from position } P_1 = (2, -1, 3) \\text{ to } P_2 = (5, 4, 1). \\text{ Find the displacement vector, the distance traveled, and a unit vector describing its direction of flight.}",
+      "answer_latex": "\\overrightarrow{P_1P_2} = \\langle 3, 5, -2 \\rangle,\\quad \\text{distance} = \\sqrt{38},\\quad \\hat{d} = \\frac{1}{\\sqrt{38}}\\langle 3, 5, -2 \\rangle"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to include the $z$-component when computing magnitude, writing $|\\mathbf{v}| = \\sqrt{v_1^2 + v_2^2}$ instead of $\\sqrt{v_1^2 + v_2^2 + v_3^2}$; always count three terms under the radical for a 3D vector.",
+    "When computing $\\mathbf{u} - \\mathbf{v}$, students sometimes subtract the wrong direction and write $\\langle v_1 - u_1, v_2 - u_2, v_3 - u_3 \\rangle$; remember that the vector in front of the minus sign provides the entries you subtract FROM, not the entries you subtract.",
+    "After scalar multiplication by a negative constant, students drop or mishandle the sign on one component \u2014 for example, computing $-2\\langle 3, -1, 4 \\rangle$ and writing $\\langle -6, -2, -8 \\rangle$ instead of $\\langle -6, 2, -8 \\rangle$; multiply the scalar through every single component, treating each sign carefully."
+  ],
+  "untested_variants": [
+    "Finding a vector of a specified length (not necessarily 1) in the direction of a given vector, such as 'find a vector of length 5 in the direction of $\\langle 1, 2, 2 \\rangle$'.",
+    "Linear combination problems that ask students to solve for an unknown scalar, e.g., finding $c$ such that $|c\\mathbf{v}| = k$ for a given vector $\\mathbf{v}$ and constant $k$.",
+    "Problems involving the standard basis vectors $\\mathbf{i}$, $\\mathbf{j}$, $\\mathbf{k}$ and expressing a vector in component form versus $\\mathbf{i}\\mathbf{j}\\mathbf{k}$ notation.",
+    "Midpoint problems in 3D, such as finding the point $M$ that lies exactly halfway between two given points $A$ and $B$, which combines vector addition with scalar multiplication by $\\frac{1}{2}$."
+  ]
+}

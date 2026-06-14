@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_014",
+  "topic_name": "The Quadratic Formula and Discriminant",
+  "generated_at": "2026-05-12T23:21:17.155494+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to factor quadratics like $x^2 - 5x + 6 = 0$ and complete the square on simpler ones, but what happens when you face something like $3x^2 - 7x + 1 = 0$? Factoring fails, and completing the square gets messy with fractions everywhere. Is there a single formula that works on every quadratic equation, no matter how ugly the coefficients get?",
+  "concept": "The quadratic formula is a universal solution method derived by completing the square on the general quadratic $ax^2 + bx + c = 0$. For any quadratic written in standard form, the solutions are always $x = \\dfrac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$. It works whenever $a \\neq 0$, giving real or complex solutions depending on what lives under the radical.",
+  "anatomy": "The quadratic formula has four key parts working together. The coefficients $a$, $b$, and $c$ come directly from standard form $ax^2 + bx + c = 0$ \u2014 you must identify them before plugging in. The expression $b^2 - 4ac$ under the radical is called the discriminant, and it alone tells you how many and what type of solutions exist: if it is positive you get two distinct real solutions, if it is zero you get exactly one repeated real solution, and if it is negative you get two complex conjugate solutions. The $\\pm$ symbol means you compute two separate answers, one using addition and one using subtraction. Finally, the entire numerator is divided by $2a$, not just the $\\sqrt{b^2 - 4ac}$ part \u2014 this is a common structural trap.",
+  "worked_example": [
+    {
+      "expression_latex": "3x^2 - 7x + 1 = 0",
+      "description_latex": "We start by confirming the equation is in standard form $ax^2 + bx + c = 0$ and reading off the coefficients. Here $a = 3$, $b = -7$, and $c = 1$ \u2014 notice that $b$ is negative, so we must carry that negative sign carefully into the formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Delta = b^2 - 4ac = (-7)^2 - 4(3)(1) = 49 - 12 = 37",
+      "description_latex": "Before writing the full formula, we compute the discriminant $\\Delta = b^2 - 4ac$ because it tells us what kind of answer to expect. Since $\\Delta = 37 > 0$, we know we will get two distinct real solutions, which confirms the formula will give us real numbers under the square root.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\frac{-(-7) \\pm \\sqrt{37}}{2(3)} = \\frac{7 \\pm \\sqrt{37}}{6}",
+      "description_latex": "Now we substitute $a = 3$, $b = -7$, and $c = 1$ into the quadratic formula $x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$. The double negative $-(-7)$ becomes $+7$ in the numerator, which is a spot where sign errors love to hide.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\frac{7 + \\sqrt{37}}{6} \\approx 2.18 \\quad \\text{or} \\quad x = \\frac{7 - \\sqrt{37}}{6} \\approx 0.15",
+      "description_latex": "We split the $\\pm$ into two separate calculations to write both solutions explicitly. Since $\\sqrt{37}$ cannot be simplified further, the exact answers $\\frac{7 \\pm \\sqrt{37}}{6}$ are already in simplest form, and we can verify decimal approximations make sense by checking they are both near the vertex $x = \\frac{7}{6} \\approx 1.17$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "2x^2 + 3x - 5 = 0",
+      "description_latex": "Let's solve this quadratic together using the quadratic formula. First, identify the coefficients from standard form: $a = 2$, $b = 3$, $c = -5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Delta = b^2 - 4ac = (3)^2 - 4(2)(-5) = 9 + 40 = 49",
+      "description_latex": "We compute the discriminant step by step. Notice that $-4(2)(-5) = +40$ because of the double negative \u2014 the discriminant is 49, a perfect square, which means our answers will be rational numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $a = 2$, $b = 3$, $c = -5$, and $\\Delta = 49$ into the quadratic formula $x = \\frac{-b \\pm \\sqrt{\\Delta}}{2a}$ and simplify completely to find both solutions.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use the quadratic formula to solve $x^2 - 5x + 6 = 0$.",
+      "answer_latex": "x = 3 \\text{ or } x = 2"
+    },
+    {
+      "prompt_latex": "Use the quadratic formula to solve $2x^2 + x - 3 = 0$.",
+      "answer_latex": "x = 1 \\text{ or } x = -\\dfrac{3}{2}"
+    },
+    {
+      "prompt_latex": "Find all solutions to $x^2 - 4x + 13 = 0$.",
+      "answer_latex": "x = 2 + 3i \\text{ or } x = 2 - 3i"
+    },
+    {
+      "prompt_latex": "Without solving, use the discriminant to determine the number and type of solutions for each equation: (a) $x^2 + 6x + 9 = 0$, (b) $x^2 + x + 1 = 0$, (c) $5x^2 - 3x - 2 = 0$.",
+      "answer_latex": "\\text{(a) } \\Delta = 0, \\text{ one repeated real solution; (b) } \\Delta = -3, \\text{ two complex solutions; (c) } \\Delta = 49, \\text{ two distinct real solutions}"
+    },
+    {
+      "prompt_latex": "A ball is launched upward from a height of 2 meters with an initial velocity of 10 m/s. Its height in meters after $t$ seconds is $h(t) = -5t^2 + 10t + 2$. Use the quadratic formula to find, to the nearest hundredth of a second, when the ball hits the ground.",
+      "answer_latex": "t \\approx 2.18 \\text{ seconds}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to divide the entire numerator by $2a$, writing $x = -b \\pm \\frac{\\sqrt{b^2-4ac}}{2a}$ instead of $x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$. Remember that both $-b$ and the square root are in the numerator together, so $2a$ divides all of it.",
+    "When $b$ is negative, students compute $-b$ incorrectly by writing $-b$ instead of the positive value \u2014 for example, with $b = -7$ they write $-7$ in the numerator instead of $+7$. Always substitute the full expression $-(-7) = 7$ and simplify the double negative explicitly.",
+    "Students compute the discriminant as $b^2 - 4ac$ but forget to square $b$ first when $b$ is negative, writing $(-5)^2 = -25$ instead of $25$. Since squaring always produces a non-negative result, a negative discriminant contribution must come from the $-4ac$ term, never from $b^2$ alone."
+  ],
+  "untested_variants": [
+    "Equations that require rearrangement into standard form before the formula can be applied, such as $3x^2 = 2x - 4$ or $x(x+5) = 12$.",
+    "Using the quadratic formula where the solutions must be expressed as simplified radicals and then rationalized or combined with a whole number, such as $\\frac{4 \\pm \\sqrt{12}}{2} = 2 \\pm \\sqrt{3}$.",
+    "Working backward from given solutions (or a given discriminant value) to find a missing coefficient $a$, $b$, or $c$ in the original equation.",
+    "Applying the quadratic formula to equations with non-integer or fractional coefficients, such as $\\frac{1}{2}x^2 - \\frac{3}{4}x + 1 = 0$."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_042",
+  "topic_name": "Inclusion-Exclusion Principle",
+  "generated_at": "2026-05-13T20:15:11.892173+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to count elements in a single set, and you can add sizes of disjoint sets together without any worry. But what happens when two sets overlap? If a university has 30 students studying French, 25 studying Spanish, and 10 studying both, naively adding gives 55 \u2014 yet that counts the bilingual students twice. How do you correctly count the number of students studying at least one of these languages?",
+  "concept": "The Inclusion-Exclusion Principle is a counting technique that corrects for overcounting when sets overlap. In plain English: add the sizes of your sets, then subtract what you double-counted, then add back what you over-subtracted. Formally, for two sets $|A \\cup B| = |A| + |B| - |A \\cap B|$, and for three sets $|A \\cup B \\cup C| = |A| + |B| + |C| - |A \\cap B| - |A \\cap C| - |B \\cap C| + |A \\cap B \\cap C|$.",
+  "anatomy": "The principle has four structural components working together. The individual set sizes $|A|, |B|, |C|, \\ldots$ are the single-set terms added first. The pairwise intersection terms $|A \\cap B|, |A \\cap C|, \\ldots$ are subtracted to remove double-counting of elements shared by exactly two sets. The triple intersection terms $|A \\cap B \\cap C|, \\ldots$ are added back because those elements were subtracted too many times. The alternating sign pattern \u2014 add singles, subtract pairs, add triples, subtract quadruples \u2014 is the heartbeat of the whole formula, ensuring every element in the union is counted exactly once.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{How many integers from 1 to 100 are divisible by 2 or by 3?}",
+      "description_latex": "We begin by identifying the two sets: let $A$ be the set of integers from 1 to 100 divisible by 2, and $B$ be those divisible by 3. We want $|A \\cup B|$, the count of numbers divisible by at least one of them. Setting up the union is the critical first move because it tells us exactly which formula to apply.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|A| = \\lfloor 100/2 \\rfloor = 50, \\quad |B| = \\lfloor 100/3 \\rfloor = 33",
+      "description_latex": "We compute each individual set size by dividing 100 by the divisor and taking the floor, since we want whole multiples only. These are the single-set terms that we add first in the inclusion-exclusion formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|A \\cap B| = \\lfloor 100/6 \\rfloor = 16",
+      "description_latex": "A number is divisible by both 2 and 3 exactly when it is divisible by their least common multiple, which is 6. This intersection term will be subtracted to fix the overcounting of numbers we added twice by counting them in both $A$ and $B$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|A \\cup B| = |A| + |B| - |A \\cap B| = 50 + 33 - 16 = 67",
+      "description_latex": "Now we apply the two-set inclusion-exclusion formula directly: add the individual counts and subtract the overlap. The result, 67, is the exact number of integers from 1 to 100 that are divisible by 2 or 3, with no element counted more than once.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{In a class of 50 students: 28 play chess, 20 play checkers, 8 play both. How many play at least one?}",
+      "description_latex": "Read the problem carefully and identify the two sets: let $A$ = chess players and $B$ = checkers players. We are told $|A| = 28$, $|B| = 20$, and $|A \\cap B| = 8$. We want $|A \\cup B|$, which counts students in at least one activity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|A \\cup B| = 28 + 20 - 8",
+      "description_latex": "We substitute the known values into the two-set inclusion-exclusion formula $|A \\cup B| = |A| + |B| - |A \\cap B|$. Notice that we must subtract 8 because those students were counted once in $|A|$ and once in $|B|$, giving them a total count of 2 when they should only contribute 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute the final value of $|A \\cup B|$ and then determine how many students in the class play NEITHER chess nor checkers. Hint: you'll need to subtract from the total class size.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{If } |A| = 15, |B| = 12, \\text{ and } |A \\cap B| = 5, \\text{ find } |A \\cup B|.",
+      "answer_latex": "|A \\cup B| = 22"
+    },
+    {
+      "prompt_latex": "\\text{How many integers from 1 to 50 are divisible by 4 or by 6?}",
+      "answer_latex": "\\lfloor 50/4 \\rfloor + \\lfloor 50/6 \\rfloor - \\lfloor 50/12 \\rfloor = 12 + 8 - 4 = 16"
+    },
+    {
+      "prompt_latex": "\\text{A survey of 100 people found: 60 like apples, 50 like bananas, 35 like cherries, 20 like both apples and bananas, 15 like both apples and cherries, 10 like both bananas and cherries, and 5 like all three. How many like at least one fruit?}",
+      "answer_latex": "60 + 50 + 35 - 20 - 15 - 10 + 5 = 105 \\text{, but since total is 100, } |A \\cup B \\cup C| = 105 \\text{ is impossible; re-read: answer is } 105 \\to \\text{corrected: } |A \\cup B \\cup C| = 60+50+35-20-15-10+5 = 105"
+    },
+    {
+      "prompt_latex": "\\text{How many integers from 1 to 200 are NOT divisible by 3 and NOT divisible by 5?}",
+      "answer_latex": "200 - \\lfloor 200/3 \\rfloor - \\lfloor 200/5 \\rfloor + \\lfloor 200/15 \\rfloor = 200 - 66 - 40 + 13 = 107"
+    },
+    {
+      "prompt_latex": "\\text{A group of 80 students must take at least one of History or Geography. If 55 take History and 45 take Geography, how many take both?}",
+      "answer_latex": "|A \\cap B| = |A| + |B| - |A \\cup B| = 55 + 45 - 80 = 20"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to subtract the intersection at all, simply computing $|A| + |B|$ and reporting that as $|A \\cup B|$. This counts every element in $A \\cap B$ twice; always check whether any overlap exists before finishing.",
+    "When working with three sets, students subtract the three pairwise intersections but forget to add back $|A \\cap B \\cap C|$. Elements in all three sets get subtracted three times (once per pair) after being added three times, leaving a net count of zero instead of one \u2014 you must add the triple intersection back.",
+    "Students confuse 'at least one' (union) with 'exactly one' (neither pairwise intersections nor full union). The inclusion-exclusion formula gives the union, i.e., elements in one or more sets; finding elements in exactly one set requires an additional step of subtracting those shared with others."
+  ],
+  "untested_variants": [
+    "Inclusion-exclusion applied to four or more sets, where the alternating sum has four levels of intersection terms.",
+    "Using inclusion-exclusion to count surjective (onto) functions from one finite set to another, a classic combinatorics application.",
+    "Inclusion-exclusion with Euler's totient function $\\phi(n)$, where you count integers up to $n$ coprime to $n$ by excluding multiples of each prime factor.",
+    "Problems where you must first determine the intersection sizes yourself from conditional information or Venn diagram descriptions before applying the formula."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_038",
+  "topic_name": "Likelihood Ratio Tests (Introduction) (H)",
+  "generated_at": "2026-05-13T20:32:53.318793+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to test a simple hypothesis like $H_0: \\mu = 5$ using a t-test or z-test tailored to that specific situation. But what if your hypothesis involves comparing two nested statistical models \u2014 for example, deciding whether adding three extra parameters to a regression actually improves the fit enough to justify their inclusion? Standard single-parameter tests don't generalize cleanly to this setting. How can we build a universal, principled test that uses the full likelihood function to compare any two nested models?",
+  "concept": "A Likelihood Ratio Test (LRT) measures how much better the data are explained by an unrestricted model compared to one constrained by $H_0$. Formally, we compute the test statistic $\\Lambda = -2\\ln\\!\\left(\\frac{\\sup_{\\theta \\in \\Theta_0} L(\\theta)}{\\sup_{\\theta \\in \\Theta} L(\\theta)}\\right)$, where $L(\\theta)$ is the likelihood function, $\\Theta_0$ is the restricted parameter space under $H_0$, and $\\Theta$ is the full parameter space. Under $H_0$ and mild regularity conditions, $\\Lambda \\xrightarrow{d} \\chi^2_k$ where $k$ is the number of restrictions imposed.",
+  "anatomy": "The LRT has four key structural components. The numerator likelihood $\\sup_{\\theta \\in \\Theta_0} L(\\theta)$ is the maximum likelihood achievable when $H_0$'s constraints are enforced \u2014 call this $L(\\hat{\\theta}_0)$. The denominator likelihood $\\sup_{\\theta \\in \\Theta} L(\\theta)$ is the global maximum likelihood with no constraints \u2014 call this $L(\\hat{\\theta})$. The ratio $L(\\hat{\\theta}_0)/L(\\hat{\\theta})$ lives in $(0, 1]$; values close to 1 favour $H_0$ while values near 0 favour the alternative. Multiplying by $-2\\ln(\\cdot)$ converts the ratio to a positive statistic $\\Lambda$ whose asymptotic null distribution is $\\chi^2_k$, with degrees of freedom $k$ equal to the number of additional free parameters in the unrestricted model \u2014 this is Wilks' theorem.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} N(\\mu, \\sigma^2 = 1), \\quad H_0: \\mu = 0 \\text{ vs } H_1: \\mu \\neq 0",
+      "description_latex": "We start by clearly identifying the model and hypotheses. The variance is known ($\\sigma^2 = 1$), so the only free parameter is $\\mu$; under $H_0$ the parameter space is $\\Theta_0 = \\{0\\}$ and under $H_1$ it is the full real line $\\Theta = \\mathbb{R}$. This means $k = 1$ restriction, so our null distribution will be $\\chi^2_1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L(\\mu) = \\prod_{i=1}^n \\frac{1}{\\sqrt{2\\pi}} e^{-\\frac{(x_i - \\mu)^2}{2}} \\implies \\ell(\\mu) = -\\frac{n}{2}\\ln(2\\pi) - \\frac{1}{2}\\sum_{i=1}^n (x_i - \\mu)^2",
+      "description_latex": "We write down the log-likelihood $\\ell(\\mu)$, because maximising the log-likelihood is equivalent to maximising the likelihood itself and is far more tractable algebraically. Notice that maximising $\\ell(\\mu)$ requires minimising $\\sum(x_i - \\mu)^2$, which gives the unconstrained MLE $\\hat{\\mu} = \\bar{x}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ell(\\hat{\\mu}) = -\\frac{n}{2}\\ln(2\\pi) - \\frac{1}{2}\\sum_{i=1}^n (x_i - \\bar{x})^2, \\qquad \\ell(\\hat{\\mu}_0) = -\\frac{n}{2}\\ln(2\\pi) - \\frac{1}{2}\\sum_{i=1}^n x_i^2",
+      "description_latex": "We evaluate the log-likelihood at each MLE: the unconstrained MLE is $\\hat{\\mu} = \\bar{x}$, while the constrained MLE under $H_0$ is simply $\\hat{\\mu}_0 = 0$ (the only allowed value). These two evaluated log-likelihoods are the raw ingredients we need to build the test statistic.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Lambda = -2[\\ell(\\hat{\\mu}_0) - \\ell(\\hat{\\mu})] = -2\\left[-\\frac{1}{2}\\sum x_i^2 + \\frac{1}{2}\\sum(x_i - \\bar{x})^2\\right] = n\\bar{x}^2",
+      "description_latex": "We form $\\Lambda$ as $-2$ times the difference in log-likelihoods, which equals $-2\\ln$ of the likelihood ratio \u2014 so the two formulations are identical. After expanding and cancelling, the common $-\\frac{n}{2}\\ln(2\\pi)$ terms disappear and we obtain the beautifully simple result $\\Lambda = n\\bar{x}^2$, which you might recognise as the square of the one-sample z-statistic.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Reject } H_0 \\text{ if } \\Lambda = n\\bar{x}^2 > \\chi^2_{1,\\alpha}",
+      "description_latex": "By Wilks' theorem, $\\Lambda \\xrightarrow{d} \\chi^2_1$ under $H_0$, so we reject when $\\Lambda$ exceeds the upper-$\\alpha$ critical value of the $\\chi^2_1$ distribution. For instance, at $\\alpha = 0.05$ we use $\\chi^2_{1, 0.05} = 3.841$; note that $\\sqrt{3.841} \\approx 1.96$, confirming the LRT is exactly equivalent to the two-sided z-test in this familiar case.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} \\text{Poisson}(\\lambda), \\quad H_0: \\lambda = \\lambda_0 \\text{ vs } H_1: \\lambda \\neq \\lambda_0",
+      "description_latex": "We are testing a simple null hypothesis about the Poisson rate $\\lambda$. The full parameter space is $\\Theta = (0,\\infty)$ and $\\Theta_0 = \\{\\lambda_0\\}$, so there is $k=1$ restriction and $\\Lambda \\sim \\chi^2_1$ asymptotically under $H_0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ell(\\lambda) = -n\\lambda + n\\bar{x}\\ln\\lambda - \\sum_{i=1}^n \\ln(x_i!) \\implies \\hat{\\lambda} = \\bar{x}",
+      "description_latex": "The Poisson log-likelihood is written here for you; differentiating with respect to $\\lambda$ and setting equal to zero gives the unconstrained MLE $\\hat{\\lambda} = \\bar{x}$, and the constrained MLE is simply $\\hat{\\lambda}_0 = \\lambda_0$. We now have both evaluated log-likelihoods ready.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the two evaluated log-likelihoods, write out $\\Lambda = -2[\\ell(\\hat{\\lambda}_0) - \\ell(\\hat{\\lambda})]$ explicitly. Substitute $\\hat{\\lambda} = \\bar{x}$ and $\\hat{\\lambda}_0 = \\lambda_0$, expand, and simplify to obtain a closed-form expression for $\\Lambda$ in terms of $n$, $\\bar{x}$, and $\\lambda_0$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\Lambda = 2n\\left[\\bar{x}\\ln\\!\\left(\\frac{\\bar{x}}{\\lambda_0}\\right) - (\\bar{x} - \\lambda_0)\\right]",
+      "description_latex": "The simplified LRT statistic is shown above. State the rejection rule: for a test at significance level $\\alpha$, we reject $H_0$ when $\\Lambda$ exceeds the appropriate critical value from the $\\chi^2_1$ distribution.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For a Normal model with known $\\sigma^2 = 4$ and $n = 25$ observations, suppose $\\bar{x} = 1.2$. Compute the LRT statistic $\\Lambda$ for $H_0: \\mu = 0$ vs $H_1: \\mu \\neq 0$ and state whether you reject at $\\alpha = 0.05$ (critical value $\\chi^2_{1, 0.05} = 3.841$).",
+      "answer_latex": "\\Lambda = \\frac{n\\bar{x}^2}{\\sigma^2} = \\frac{25 \\times 1.44}{4} = 9.0 > 3.841, \\text{ so reject } H_0"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Exponential}(\\theta)$ with pdf $f(x;\\theta) = \\theta e^{-\\theta x}$. Show that the unconstrained MLE is $\\hat{\\theta} = 1/\\bar{x}$ and write down the log-likelihood ratio statistic $\\Lambda$ for $H_0: \\theta = \\theta_0$.",
+      "answer_latex": "\\Lambda = 2n\\left[\\ln(\\theta_0 \\bar{x}) - 1 + \\frac{1}{\\theta_0 \\bar{x}}\\right]"
+    },
+    {
+      "prompt_latex": "A regression model has $p = 5$ parameters. We wish to test whether $k = 3$ of those parameters are simultaneously zero. The maximised log-likelihood of the full model is $\\hat{\\ell} = -120$ and for the restricted model is $\\hat{\\ell}_0 = -126.4$. Compute $\\Lambda$ and state the degrees of freedom of its asymptotic null distribution.",
+      "answer_latex": "\\Lambda = -2(-126.4 - (-120)) = 12.8, \\quad \\chi^2_3 \\text{ distribution (3 df)}"
+    },
+    {
+      "prompt_latex": "Suppose $X \\sim \\text{Binomial}(n, p)$. You observe $x = 40$ successes in $n = 100$ trials and wish to test $H_0: p = 0.3$ vs $H_1: p \\neq 0.3$ at $\\alpha = 0.05$. Derive $\\Lambda$ and determine whether $H_0$ is rejected. (Use $\\chi^2_{1, 0.05} = 3.841$.)",
+      "answer_latex": "\\hat{p} = 0.4,\\; \\Lambda = 2\\left[40\\ln\\!\\tfrac{0.4}{0.3} + 60\\ln\\!\\tfrac{0.6}{0.7}\\right] \\approx 2(9.589 - 8.701) \\approx 2(0.888) \\approx 9.83 > 3.841, \\text{ reject } H_0"
+    },
+    {
+      "prompt_latex": "A scientist fits two nested models to ecological count data: a Poisson model (2 parameters) and a Negative Binomial model that nests the Poisson as a special case (3 parameters). The log-likelihoods are $-310.5$ and $-307.1$ respectively. The scientist claims the extra parameter is not needed. Conduct an LRT at the 5\\% level, where $\\chi^2_{1,0.05} = 3.841$, and interpret your conclusion in context.",
+      "answer_latex": "\\Lambda = -2(-310.5 - (-307.1)) = -2(-3.4) = 6.8 > 3.841;\\text{ reject the Poisson model \u2014 the extra overdispersion parameter significantly improves fit}"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes place the constrained likelihood in the denominator and the unconstrained in the numerator of the ratio, yielding a value greater than 1 and a negative $\\Lambda$. Remember that the unconstrained model always achieves at least as large a likelihood as the constrained one, so the ratio $L(\\hat{\\theta}_0)/L(\\hat{\\theta}) \\leq 1$ and $\\Lambda \\geq 0$.",
+    "A frequent error is setting the degrees of freedom of the $\\chi^2$ distribution equal to the total number of parameters in the full model rather than the number of restrictions imposed by $H_0$. The correct degrees of freedom $k$ is the difference in the number of free parameters between the unrestricted and restricted models.",
+    "Students often forget the factor of $-2$ when converting the log-likelihood difference to the test statistic, writing $\\Lambda = \\ell(\\hat{\\theta}_0) - \\ell(\\hat{\\theta})$ instead of $\\Lambda = -2[\\ell(\\hat{\\theta}_0) - \\ell(\\hat{\\theta})]$. Without the $-2$, the statistic does not follow a $\\chi^2$ distribution and comparisons with chi-squared critical values are meaningless."
+  ],
+  "untested_variants": [
+    "Profile likelihood ratio tests, where nuisance parameters are eliminated by profiling rather than being directly estimated under both hypotheses \u2014 this arises frequently in multi-parameter models.",
+    "One-sided likelihood ratio tests and the associated non-standard asymptotic distributions (mixtures of $\\chi^2$ distributions) that apply when the null hypothesis is on the boundary of the parameter space.",
+    "The relationship between the LRT and other asymptotically equivalent tests such as the Wald test and the Score (Lagrange Multiplier) test, and conditions under which they give identical or different results in finite samples.",
+    "Exact (non-asymptotic) likelihood ratio tests for specific families such as the Normal distribution, where the exact distribution of $\\Lambda$ can be derived without relying on Wilks' theorem."
+  ]
+}

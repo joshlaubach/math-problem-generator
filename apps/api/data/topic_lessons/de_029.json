@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_029",
+  "topic_name": "Variation of Parameters for Higher Order Equations",
+  "generated_at": "2026-05-13T20:02:15.275455+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve nonhomogeneous second-order equations using variation of parameters, building two particular solution components from the Wronskian of a fundamental set. Now imagine the forcing function is something like $g(x) = \\sec x \\tan x$ attached to a fourth-order equation \u2014 undetermined coefficients won't touch it, and the two-function Wronskian formula you memorized simply doesn't exist in that form. How do we extend variation of parameters to handle equations of order $n \\geq 3$?",
+  "concept": "Variation of parameters for higher-order equations generalizes the second-order method: instead of two unknown functions, we seek $n$ unknown functions $u_1, u_2, \\ldots, u_n$ that multiply the $n$ linearly independent homogeneous solutions $y_1, y_2, \\ldots, y_n$. The particular solution takes the form $y_p = u_1 y_1 + u_2 y_2 + \\cdots + u_n y_n$, where each $u_k'$ is found by solving the $n \\times n$ linear system built from the homogeneous solutions and the forcing function $g(x)$ divided by the leading coefficient.",
+  "anatomy": "The method has several named components. The **fundamental set** $\\{y_1, y_2, \\ldots, y_n\\}$ consists of $n$ linearly independent solutions to the associated homogeneous equation. The **Wronskian** $W = W(y_1, \\ldots, y_n)$ is the determinant of the matrix whose rows are $y_k$ and its successive derivatives up to order $n-1$. Each **cofactor Wronskian** $W_k$ is the determinant obtained by replacing the $k$-th column of the Wronskian matrix with the column vector $(0, 0, \\ldots, 0, 1)^T$. The **variation functions** $u_k'(x) = W_k(x) \\cdot g(x) / W(x)$ are integrated to obtain $u_k(x)$, and then $y_p = \\sum_{k=1}^n u_k y_k$.",
+  "worked_example": [
+    {
+      "expression_latex": "y''' - y' = e^{2x}",
+      "description_latex": "We start by identifying the homogeneous equation $y''' - y' = 0$, whose characteristic equation is $r^3 - r = r(r-1)(r+1) = 0$, giving roots $r = 0, 1, -1$. This means the fundamental set is $\\{y_1, y_2, y_3\\} = \\{1, e^x, e^{-x}\\}$, which we will use to build the Wronskian system.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = \\begin{vmatrix} 1 & e^x & e^{-x} \\\\ 0 & e^x & -e^{-x} \\\\ 0 & e^x & e^{-x} \\end{vmatrix} = 1 \\cdot (e^x \\cdot e^{-x} - (-e^{-x}) \\cdot e^x) = 1(1+1) = 2",
+      "description_latex": "We compute the main Wronskian $W$ by expanding along the first column. The $3\\times 3$ determinant collapses to a $2\\times 2$ minor, and we get $W = 2$, which is nonzero everywhere \u2014 confirming that our fundamental set is valid over the entire real line.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W_1 = \\begin{vmatrix} 0 & e^x & e^{-x} \\\\ 0 & e^x & -e^{-x} \\\\ 1 & e^x & e^{-x} \\end{vmatrix} = 1 \\cdot (e^x(-e^{-x}) - e^{-x}(e^x)) \\cdot (-1)^{3+1} = -2, \\quad W_2 = \\begin{vmatrix} 1 & 0 & e^{-x} \\\\ 0 & 0 & -e^{-x} \\\\ 0 & 1 & e^{-x} \\end{vmatrix} = e^{-x}, \\quad W_3 = \\begin{vmatrix} 1 & e^x & 0 \\\\ 0 & e^x & 0 \\\\ 0 & e^x & 1 \\end{vmatrix} = e^x",
+      "description_latex": "For each $k$, we form $W_k$ by replacing the $k$-th column of the Wronskian matrix with the column $(0,0,1)^T$ \u2014 the last entry is 1 because the forcing function appears only in the last row of the linear system. Computing these three cofactor determinants gives us the numerators we need for each $u_k'$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_1' = \\frac{W_1 g}{W} = \\frac{(-2)e^{2x}}{2} = -e^{2x}, \\quad u_2' = \\frac{W_2 g}{W} = \\frac{e^{-x} e^{2x}}{2} = \\frac{e^x}{2}, \\quad u_3' = \\frac{W_3 g}{W} = \\frac{e^x e^{2x}}{2} = \\frac{e^{3x}}{2}",
+      "description_latex": "We apply the formula $u_k' = W_k g / W$ with $g(x) = e^{2x}$. Each derivative $u_k'$ is now a simple exponential, making integration straightforward \u2014 this is the payoff for all the determinant work we just did.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_1 = -\\frac{e^{2x}}{2}, \\quad u_2 = \\frac{e^x}{2}, \\quad u_3 = \\frac{e^{3x}}{6}, \\quad y_p = -\\frac{e^{2x}}{2}(1) + \\frac{e^x}{2}(e^x) + \\frac{e^{3x}}{6}(e^{-x}) = -\\frac{e^{2x}}{2} + \\frac{e^{2x}}{2} + \\frac{e^{2x}}{6} = \\frac{e^{2x}}{6}",
+      "description_latex": "Integrating each $u_k'$ and then forming $y_p = u_1 y_1 + u_2 y_2 + u_3 y_3$, the first two terms cancel and we obtain the clean particular solution $y_p = \\frac{e^{2x}}{6}$. You can verify this directly: $y_p''' - y_p' = \\frac{8e^{2x}}{6} - \\frac{2e^{2x}}{6} = e^{2x}$ \u2713",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y''' + y' = \\tan x",
+      "description_latex": "The homogeneous equation $y''' + y' = 0$ has characteristic roots $r = 0, i, -i$, giving the fundamental set $\\{1, \\cos x, \\sin x\\}$. We write the Wronskian matrix whose rows are formed by successively differentiating each basis function up to order 2.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = \\begin{vmatrix} 1 & \\cos x & \\sin x \\\\ 0 & -\\sin x & \\cos x \\\\ 0 & -\\cos x & -\\sin x \\end{vmatrix} = 1",
+      "description_latex": "Expanding along the first column confirms $W = (-\\sin x)(-\\sin x) - (\\cos x)(\\cos x) = -(\\sin^2 x + \\cos^2 x) = -1$... wait, let's be careful: the $2\\times 2$ minor gives $(-\\sin x)(-\\sin x) - (\\cos x)(-\\cos x) = \\sin^2 x + \\cos^2 x = 1$. So $W = 1$, a convenient constant.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W_1 = ?, \\quad W_2 = ?, \\quad W_3 = ?",
+      "description_latex": "Now compute each cofactor Wronskian $W_k$ by replacing column $k$ of the Wronskian matrix with $(0, 0, 1)^T$. Then write down each $u_k' = W_k \\tan x / 1$ and identify which integrals require a special technique.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y_p = u_1(1) + u_2 \\cos x + u_3 \\sin x",
+      "description_latex": "After integrating (recall $\\int \\tan x \\, dx = -\\ln|\\cos x|$ and $\\int \\sin x \\tan x \\, dx = \\ln|\\sec x + \\tan x| - \\sin x$), assemble $y_p$ and write the general solution $y = c_1 + c_2 \\cos x + c_3 \\sin x + y_p$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find a particular solution to $y''' - y'' = 4$, given that $\\{1, x, e^x\\}$ is a fundamental set for the homogeneous equation.",
+      "answer_latex": "y_p = -2x^2"
+    },
+    {
+      "prompt_latex": "Use variation of parameters to find $y_p$ for $y''' - 3y'' + 3y' - y = e^x$. (Hint: The homogeneous solution is $y_h = (c_1 + c_2 x + c_3 x^2)e^x$.)",
+      "answer_latex": "y_p = \\dfrac{x^3 e^x}{6}"
+    },
+    {
+      "prompt_latex": "Find a particular solution to $y''' + 4y' = \\sec 2x$, given fundamental set $\\{1, \\cos 2x, \\sin 2x\\}$.",
+      "answer_latex": "y_p = \\dfrac{x}{4}\\sin 2x + \\dfrac{1}{8}\\cos 2x \\ln|\\cos 2x|"
+    },
+    {
+      "prompt_latex": "Solve the initial value problem $y''' - y' = e^x + e^{-x}$, $y(0)=0$, $y'(0)=0$, $y''(0)=1$, using the general solution $y = c_1 + c_2 e^x + c_3 e^{-x} + y_p$.",
+      "answer_latex": "y = -\\dfrac{1}{2} + \\dfrac{1}{4}e^x + \\dfrac{1}{4}e^{-x} + \\dfrac{x}{2}e^x - \\dfrac{x}{2}e^{-x}"
+    },
+    {
+      "prompt_latex": "A driven mechanical system leads to the equation $y^{(4)} - y = e^x$. The homogeneous fundamental set is $\\{e^x, e^{-x}, \\cos x, \\sin x\\}$. Use variation of parameters to find $y_p$, noting the special structure that arises when $e^x$ is both a homogeneous solution and the forcing function.",
+      "answer_latex": "y_p = \\dfrac{x e^x}{4}"
+    }
+  ],
+  "common_mistakes": [
+    "Students replace the wrong column when forming $W_k$: the column $(0, 0, \\ldots, 0, 1)^T$ must replace column $k$ and the '1' goes in the last (nth) row \u2014 if you put '1' in the first row instead, every cofactor Wronskian will be wrong and your particular solution will fail the check.",
+    "When the leading coefficient of the ODE is not 1, students forget to divide $g(x)$ by that coefficient before writing $u_k' = W_k g / W$. The formula requires the equation to be in standard form $y^{(n)} + \\cdots = g(x)$, so always divide through first.",
+    "After integrating to find each $u_k$, students sometimes absorb the constants of integration into the particular solution rather than discarding them. Any constant terms in $u_k$ only reproduce homogeneous solutions in $y_p$, so they should be dropped \u2014 keep only the specific antiderivative needed."
+  ],
+  "untested_variants": [
+    "Fourth-order equations with constant coefficients (order $n=4$) requiring a $4\\times 4$ Wronskian and four cofactor determinants, such as $y^{(4)} + 4y = \\sin x$.",
+    "Higher-order equations with non-constant (Euler-Cauchy) coefficients, where the fundamental set involves powers of $x$ like $\\{x, x^2, x^3\\}$ instead of exponentials.",
+    "Systems where the forcing function $g(x)$ requires a reduction-of-order step to find one of the homogeneous solutions before variation of parameters can even begin.",
+    "Cases requiring integration by parts or tabular integration multiple times within the $u_k$ computation, such as forcing functions of the form $g(x) = x^2 e^{3x}$ attached to a third-order equation."
+  ]
+}

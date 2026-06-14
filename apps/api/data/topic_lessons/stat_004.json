@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_004",
+  "topic_name": "Measures of Spread: Range, IQR, Standard Deviation",
+  "generated_at": "2026-05-13T20:29:09.743651+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to find the mean and median of a dataset \u2014 measures that tell you where the center is. But consider two classes that both average 75 on a test: Class A has scores of 73, 74, 75, 76, 77, while Class B has scores of 50, 60, 75, 90, 100. The averages are identical, but something feels very different about these two classes. How do we capture that difference mathematically?",
+  "concept": "Measures of spread quantify how far data values are from one another \u2014 they describe variability, not center. The three main measures are the **range**, $R = x_{\\max} - x_{\\min}$; the **interquartile range**, $IQR = Q_3 - Q_1$; and the **standard deviation**, $s = \\sqrt{\\dfrac{\\sum_{i=1}^{n}(x_i - \\bar{x})^2}{n-1}}$, which measures a typical distance from the mean.",
+  "anatomy": "The range uses only two values: $x_{\\max}$, the largest data point, and $x_{\\min}$, the smallest. The IQR uses two quartiles: $Q_1$ (the median of the lower half) and $Q_3$ (the median of the upper half), so it captures the spread of the middle 50% of data. The standard deviation formula has four moving parts: the deviations $(x_i - \\bar{x})$, which measure each point's distance from the mean; the squared deviations $(x_i - \\bar{x})^2$, which make all distances positive; the sum $\\sum$, which totals them; and the divisor $n-1$ (degrees of freedom), which corrects for sample bias before taking the square root.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Data: } 4, 8, 6, 5, 3, 7",
+      "description_latex": "We begin by sorting the data in ascending order to make every calculation easier and less error-prone. Sorted: $3, 4, 5, 6, 7, 8$. This single step prevents mistakes in finding quartiles and identifying the max and min.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R = x_{\\max} - x_{\\min} = 8 - 3 = 5",
+      "description_latex": "The range is simply the distance from the smallest to the largest value \u2014 it gives a quick but rough sense of spread. Here $x_{\\max} = 8$ and $x_{\\min} = 3$, so $R = 5$. Note that the range is sensitive to a single outlier, which is why we also use the IQR.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q_1 = 4, \\quad Q_3 = 7, \\quad IQR = Q_3 - Q_1 = 7 - 4 = 3",
+      "description_latex": "To find the IQR, split the sorted data into two halves: the lower half is $3, 4, 5$ and the upper half is $6, 7, 8$. The median of the lower half is $Q_1 = 4$ and the median of the upper half is $Q_3 = 7$, giving $IQR = 3$. The IQR ignores the extreme values entirely, making it resistant to outliers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{3+4+5+6+7+8}{6} = \\frac{33}{6} = 5.5",
+      "description_latex": "Before computing standard deviation we must know the mean, $\\bar{x}$, because every deviation is measured from it. Adding all six values gives $33$, and dividing by $n = 6$ gives $\\bar{x} = 5.5$. This is our reference point for measuring how spread out each individual value is.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "s = \\sqrt{\\frac{(3-5.5)^2+(4-5.5)^2+(5-5.5)^2+(6-5.5)^2+(7-5.5)^2+(8-5.5)^2}{6-1}} = \\sqrt{\\frac{6.25+2.25+0.25+0.25+2.25+6.25}{5}} = \\sqrt{\\frac{17.5}{5}} = \\sqrt{3.5} \\approx 1.87",
+      "description_latex": "We compute each squared deviation, sum them to get $17.5$, and divide by $n - 1 = 5$ rather than $6$ because we are working with a sample \u2014 this keeps our estimate of the population spread unbiased. Taking the square root brings the units back to the original scale, giving a standard deviation of approximately $1.87$, meaning a typical value is about $1.87$ units away from the mean.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data: } 10, 2, 8, 6, 4",
+      "description_latex": "Let's find the range, IQR, and standard deviation for this dataset. First, sort the values in ascending order: $2, 4, 6, 8, 10$. The mean is $\\bar{x} = \\frac{2+4+6+8+10}{5} = 6$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R = 10 - 2 = 8, \\quad Q_1 = 4, \\quad Q_3 = 8, \\quad IQR = ?",
+      "description_latex": "The range is $8$ and we can identify $Q_1 = 4$ and $Q_3 = 8$ from the sorted data. Now compute the IQR by subtracting $Q_1$ from $Q_3$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "s = \\sqrt{\\frac{(2-6)^2+(4-6)^2+(6-6)^2+(8-6)^2+(10-6)^2}{5-1}}",
+      "description_latex": "Here is the standard deviation formula set up with all deviations filled in. Each squared deviation has been placed in the numerator and we are dividing by $n - 1 = 4$. Simplify the numerator, divide, and take the square root to find $s$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "s = \\sqrt{\\frac{16+4+0+4+16}{4}} = \\sqrt{\\frac{40}{4}} = \\sqrt{10} \\approx 3.16",
+      "description_latex": "The squared deviations sum to $40$, and dividing by $4$ gives $10$. The standard deviation is $\\sqrt{10} \\approx 3.16$, meaning a typical value in this dataset sits about $3.16$ units from the mean of $6$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find the range of the dataset: } 5, 12, 7, 3, 19.",
+      "answer_latex": "R = 19 - 3 = 16"
+    },
+    {
+      "prompt_latex": "\\text{Find the IQR of: } 1, 3, 5, 7, 9, 11, 13.",
+      "answer_latex": "Q_1 = 3, \\; Q_3 = 11, \\; IQR = 8"
+    },
+    {
+      "prompt_latex": "\\text{Find the sample standard deviation of: } 2, 4, 4, 4, 5, 5, 7, 9.",
+      "answer_latex": "\\bar{x} = 5, \\quad s = \\sqrt{\\frac{54}{7}} \\approx 2.00"
+    },
+    {
+      "prompt_latex": "\\text{Dataset A: } 10, 10, 10, 10, 10. \\text{ Dataset B: } 2, 6, 10, 14, 18. \\text{ Both have mean } 10. \\text{ Without full calculation, which has larger standard deviation, and what is the standard deviation of Dataset A?}",
+      "answer_latex": "\\text{Dataset B has larger spread; } s_A = 0 \\text{ (no variability)}"
+    },
+    {
+      "prompt_latex": "\\text{A runner's mile times (minutes) over 7 days are: } 8.1, 7.9, 8.3, 7.8, 8.5, 8.0, 7.6. \\text{ Find the range and IQR. The coach says any time more than } 1.5 \\times IQR \\text{ above } Q_3 \\text{ is an outlier. Is any value an outlier?}",
+      "answer_latex": "\\text{Sorted: }7.6,7.8,7.9,8.0,8.1,8.3,8.5;\\; R=0.9,\\; Q_1=7.8,\\; Q_3=8.3,\\; IQR=0.5;\\; Q_3+1.5(0.5)=9.05;\\; \\text{No outliers.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to sort the data before finding quartiles, leading to wrong $Q_1$ and $Q_3$ values; always sort first and then split the dataset at the median.",
+    "When computing standard deviation, students divide by $n$ instead of $n - 1$ for a sample \u2014 remember that $n$ is only correct for a population, and most problems involving collected data use the sample formula with $n-1$ in the denominator.",
+    "Students confuse the IQR with the range by subtracting $x_{\\min}$ from $x_{\\max}$ instead of $Q_1$ from $Q_3$; the IQR specifically measures the width of the middle 50% of data, not the full span."
+  ],
+  "untested_variants": [
+    "Computing the standard deviation for a population (dividing by $n$) rather than a sample (dividing by $n-1$), and knowing which formula to apply given a problem's context.",
+    "Using the IQR to formally identify outliers with the $1.5 \\times IQR$ fence rule for both the lower fence ($Q_1 - 1.5 \\cdot IQR$) and upper fence simultaneously on the same dataset.",
+    "Comparing the spread of two datasets given only their summary statistics (e.g., given two box plots or two five-number summaries) without access to raw data.",
+    "Computing the standard deviation from a frequency table or grouped data rather than from a raw list of individual values."
+  ]
+}

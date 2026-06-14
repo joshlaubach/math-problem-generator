@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_003",
+  "topic_name": "Linear First Order Equations and Integrating Factors",
+  "generated_at": "2026-05-13T19:59:33.403130+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve separable differential equations by splitting variables and integrating both sides. But what happens when you encounter something like $\\frac{dy}{dx} + \\frac{2}{x}y = x^2$? The variables refuse to separate cleanly, so your old technique breaks down entirely. How do we find a systematic method to solve this new class of equations?",
+  "concept": "A linear first-order ODE has the standard form $\\frac{dy}{dx} + P(x)y = Q(x)$, where $P$ and $Q$ are functions of $x$ alone. The key idea is to multiply both sides by a cleverly chosen function $\\mu(x)$, called the integrating factor, so that the left side becomes the derivative of a product $\\mu(x)y$, making the equation directly integrable.",
+  "anatomy": "In the standard form $\\frac{dy}{dx} + P(x)y = Q(x)$, the function $P(x)$ is the coefficient of $y$ and determines the integrating factor via $\\mu(x) = e^{\\int P(x)\\,dx}$. The function $Q(x)$ is the forcing term or right-hand side. Once you multiply through by $\\mu(x)$, the left side collapses into $\\frac{d}{dx}[\\mu(x)\\,y]$, which is the product-rule structure the method exploits. The solution is then recovered by integrating both sides and dividing by $\\mu(x)$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} + \\frac{2}{x}y = x^2",
+      "description_latex": "We start by confirming the equation is already in standard linear form $\\frac{dy}{dx} + P(x)y = Q(x)$, identifying $P(x) = \\frac{2}{x}$ and $Q(x) = x^2$. Recognizing this structure is essential because the entire method depends on reading off $P(x)$ correctly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mu(x) = e^{\\int \\frac{2}{x}\\,dx} = e^{2\\ln|x|} = x^2",
+      "description_latex": "We compute the integrating factor by evaluating $e^{\\int P(x)\\,dx}$. Here $\\int \\frac{2}{x}\\,dx = 2\\ln|x|$, and then $e^{2\\ln|x|} = x^2$, so $\\mu(x) = x^2$. We drop the constant of integration at this stage because any nonzero constant would cancel out later anyway.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2\\frac{dy}{dx} + 2xy = x^4 \\quad \\Longrightarrow \\quad \\frac{d}{dx}\\bigl[x^2 y\\bigr] = x^4",
+      "description_latex": "Multiplying both sides of the original equation by $\\mu(x) = x^2$ gives $x^2\\frac{dy}{dx} + 2xy = x^4$. The crucial observation is that the left side is exactly $\\frac{d}{dx}[x^2 y]$ by the product rule, which is precisely why we chose this integrating factor in the first place.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 y = \\int x^4\\,dx = \\frac{x^5}{5} + C",
+      "description_latex": "Now that the left side is a perfect derivative, we integrate both sides with respect to $x$. The left side integrates trivially to $x^2 y$, and the right side gives $\\frac{x^5}{5} + C$, where $C$ is the arbitrary constant of integration that we must not forget.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = \\frac{x^3}{5} + \\frac{C}{x^2}",
+      "description_latex": "Finally, we solve for $y$ by dividing both sides by $\\mu(x) = x^2$, yielding the general solution $y = \\frac{x^3}{5} + \\frac{C}{x^2}$. You can verify this is correct by differentiating and substituting back into the original equation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} - 3y = e^{5x}",
+      "description_latex": "We are given this linear first-order ODE. Start by identifying $P(x) = -3$ and $Q(x) = e^{5x}$ from the standard form \u2014 note the negative sign on $P(x)$ here, which is easy to overlook.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mu(x) = e^{\\int (-3)\\,dx} = e^{-3x}",
+      "description_latex": "We compute the integrating factor $\\mu(x) = e^{\\int P(x)\\,dx} = e^{-3x}$. Multiplying both sides by $e^{-3x}$ transforms the left side into $\\frac{d}{dx}[e^{-3x}y]$, setting up the direct integration.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "After multiplying through by $\\mu(x) = e^{-3x}$, the equation becomes $\\frac{d}{dx}[e^{-3x}y] = e^{2x}$. Now integrate both sides with respect to $x$ and solve for $y$ to find the general solution. What is $y$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve: } \\frac{dy}{dx} + y = 3",
+      "answer_latex": "y = 3 + Ce^{-x}"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\frac{dy}{dx} + \\frac{1}{x}y = \\cos x, \\quad x > 0",
+      "answer_latex": "y = \\frac{\\sin x + C}{x}"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\frac{dy}{dx} - 2xy = x",
+      "answer_latex": "y = -\\frac{1}{2} + Ce^{x^2}"
+    },
+    {
+      "prompt_latex": "\\text{Solve the IVP: } \\frac{dy}{dx} + 2y = 4x, \\quad y(0) = 3",
+      "answer_latex": "y = 2x - 1 + 4e^{-2x}"
+    },
+    {
+      "prompt_latex": "\\text{A tank contains 100 L of brine. Pure water enters at 2 L/min and well-mixed solution leaves at 2 L/min. If the initial salt content is 50 g, the amount of salt } Q(t) \\text{ satisfies } \\frac{dQ}{dt} + \\frac{Q}{50} = 0. \\text{ Find } Q(t).",
+      "answer_latex": "Q(t) = 50e^{-t/50} \\text{ grams}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget the negative sign when reading off $P(x)$: in $\\frac{dy}{dx} - 3y = e^{5x}$, $P(x)$ is $-3$, not $3$. Using $P(x) = 3$ produces the wrong integrating factor $e^{3x}$ instead of $e^{-3x}$, and the method fails silently. Always rewrite the equation in standard form first and copy the sign carefully.",
+    "Students apply the integrating factor method to an equation that is not yet in standard form \u2014 for example, trying to identify $P(x)$ from $2\\frac{dy}{dx} + 4y = x$ without first dividing through by 2. This gives $P(x) = 4$ instead of the correct $P(x) = 2$, leading to the wrong integrating factor. Always divide by the coefficient of $\\frac{dy}{dx}$ before doing anything else.",
+    "After integrating both sides, students forget to divide by $\\mu(x)$ to isolate $y$, leaving their answer as $\\mu(x)\\,y = \\int \\mu(x)Q(x)\\,dx$ rather than solving for $y$ explicitly. The general solution requires the final division step, and omitting it means the answer is in implicit rather than solved form."
+  ],
+  "untested_variants": [
+    "Linear equations where $P(x)$ and $Q(x)$ are trigonometric functions, requiring integration by parts after multiplying by the integrating factor (e.g., $\\frac{dy}{dx} + y = \\sin x$).",
+    "Equations that must first be algebraically rearranged into standard linear form from a non-obvious presentation, such as $(1+x^2)\\frac{dy}{dx} + 2xy = \\frac{1}{1+x^2}$.",
+    "Bernoulli equations, which look like $\\frac{dy}{dx} + P(x)y = Q(x)y^n$ with $n \\neq 0,1$, requiring the substitution $v = y^{1-n}$ to convert them into a linear equation before applying the integrating factor.",
+    "Initial value problems where the domain of the solution must be restricted due to a singularity in $P(x)$, requiring students to determine the appropriate interval of validity for the solution."
+  ]
+}

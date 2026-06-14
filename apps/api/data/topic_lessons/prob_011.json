@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_011",
+  "topic_name": "The Multiplication Rule",
+  "generated_at": "2026-05-13T20:26:06.162976+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find the probability of a single event, like drawing a red card from a deck. You can also find the probability that two events both happen when those events are independent \u2014 you just multiply. But what happens when the two events are NOT independent, like drawing two aces in a row WITHOUT replacing the first card? The deck changes after the first draw, so how do we account for that dependence to find the probability that both events occur?",
+  "concept": "The Multiplication Rule gives us a way to find the probability that two events A and B both occur, whether or not they are independent. In plain English: the chance that both things happen equals the chance the first happens, multiplied by the chance the second happens given that the first already did. Formally, $P(A \\cap B) = P(A) \\cdot P(B|A)$. When A and B are independent, $P(B|A) = P(B)$, so the rule simplifies to $P(A \\cap B) = P(A) \\cdot P(B)$.",
+  "anatomy": "The Multiplication Rule $P(A \\cap B) = P(A) \\cdot P(B|A)$ has three distinct components. First, $P(A)$ is the marginal (or unconditional) probability of the first event \u2014 the probability that A occurs on its own, before we know anything about B. Second, $P(B|A)$ is the conditional probability of B given A \u2014 it describes how likely B is once we know A has already happened, and this is the factor that captures dependence between the two events. Third, $P(A \\cap B)$ is the joint probability \u2014 the probability that both A and B occur together. The order can be reversed: $P(A \\cap B) = P(B) \\cdot P(A|B)$ is equally valid.",
+  "worked_example": [
+    {
+      "expression_latex": "P(\\text{1st ace}) = \\frac{4}{52}",
+      "description_latex": "We begin by identifying the probability of the first event: drawing an ace on the first pick from a standard 52-card deck. There are 4 aces in 52 cards, so $P(\\text{1st ace}) = \\frac{4}{52}$. This is our $P(A)$ in the Multiplication Rule.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{2nd ace} \\mid \\text{1st ace}) = \\frac{3}{51}",
+      "description_latex": "Now we find the conditional probability of the second event given the first. Because we did NOT replace the first card, only 51 cards remain and only 3 of them are aces \u2014 so the deck has genuinely changed. This is $P(B|A)$, and it is different from $P(B)$ precisely because the draws are dependent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A \\cap B) = P(A) \\cdot P(B|A) = \\frac{4}{52} \\cdot \\frac{3}{51}",
+      "description_latex": "We now apply the Multiplication Rule directly: multiply $P(A)$ by $P(B|A)$. Writing the product $\\frac{4}{52} \\cdot \\frac{3}{51}$ sets us up to compute the joint probability. Notice that we are multiplying the chance of the first ace by the updated chance of a second ace given one has already been removed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A \\cap B) = \\frac{12}{2652} = \\frac{1}{221}",
+      "description_latex": "Multiplying the numerators gives $4 \\times 3 = 12$ and the denominators give $52 \\times 51 = 2652$, so the joint probability simplifies to $\\frac{1}{221}$. This is a much smaller number than either individual probability, which makes intuitive sense because both events must happen simultaneously.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(\\text{rain Mon}) = 0.4, \\quad P(\\text{rain Tue} \\mid \\text{rain Mon}) = 0.7",
+      "description_latex": "A weather model says the probability of rain on Monday is 0.4, and given that it rains on Monday, the probability of rain on Tuesday is 0.7. We want to find the probability that it rains on BOTH days. Start by identifying which number is $P(A)$ and which is $P(B|A)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{rain Mon} \\cap \\text{rain Tue}) = P(\\text{rain Mon}) \\cdot P(\\text{rain Tue} \\mid \\text{rain Mon})",
+      "description_latex": "Write the Multiplication Rule for this situation. We set up the product of the marginal probability of Monday rain and the conditional probability of Tuesday rain given Monday rain.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute the given values into the Multiplication Rule and compute the probability that it rains on both Monday and Tuesday. What is $P(\\text{rain Mon} \\cap \\text{rain Tue})$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A bag contains 3 red and 7 blue marbles. You draw one marble and do not replace it, then draw a second. Find $P(\\text{1st red} \\cap \\text{2nd red})$.",
+      "answer_latex": "P = \\frac{3}{10} \\cdot \\frac{2}{9} = \\frac{6}{90} = \\frac{1}{15}"
+    },
+    {
+      "prompt_latex": "Given $P(A) = 0.5$ and $P(B|A) = 0.6$, find $P(A \\cap B)$.",
+      "answer_latex": "P(A \\cap B) = 0.5 \\times 0.6 = 0.30"
+    },
+    {
+      "prompt_latex": "A card is drawn from a standard 52-card deck and not replaced; then a second card is drawn. Find the probability that the first card is a heart and the second card is also a heart.",
+      "answer_latex": "P = \\frac{13}{52} \\cdot \\frac{12}{51} = \\frac{156}{2652} = \\frac{1}{17}"
+    },
+    {
+      "prompt_latex": "You know that $P(A \\cap B) = 0.12$ and $P(A) = 0.4$. Use the Multiplication Rule to find $P(B|A)$.",
+      "answer_latex": "P(B|A) = \\frac{P(A \\cap B)}{P(A)} = \\frac{0.12}{0.4} = 0.30"
+    },
+    {
+      "prompt_latex": "A factory has two machines. Machine 1 produces a part with probability 0.9 of being defect-free. If Machine 1's part is defect-free, Machine 2 processes it successfully with probability 0.95; if it is defective, Machine 2 succeeds with probability 0.60. Find the probability that Machine 1 produces a defect-free part AND Machine 2 processes it successfully.",
+      "answer_latex": "P = 0.9 \\times 0.95 = 0.855"
+    }
+  ],
+  "common_mistakes": [
+    "Students use $P(B)$ instead of $P(B|A)$ when events are dependent \u2014 for example, after drawing one card without replacement, they still use the original fraction for the second draw. The fix: always ask 'has the sample space changed after the first event?' and update probabilities accordingly.",
+    "Students confuse $P(A \\cap B)$ with $P(A) + P(B)$, accidentally adding probabilities instead of multiplying. Remember that the addition rule applies to unions ($A$ or $B$), while the Multiplication Rule applies to intersections ($A$ and $B$).",
+    "Students apply the simplified independent version $P(A \\cap B) = P(A) \\cdot P(B)$ to dependent events without checking independence first. Always verify or state whether events are independent before dropping the conditional; when in doubt, use the full form $P(A) \\cdot P(B|A)$."
+  ],
+  "untested_variants": [
+    "Extending the Multiplication Rule to three or more events, e.g., $P(A \\cap B \\cap C) = P(A) \\cdot P(B|A) \\cdot P(C|A \\cap B)$.",
+    "Using the Multiplication Rule within a tree diagram to find probabilities along multi-stage branches, then summing branches for a total probability.",
+    "Proving or verifying independence of two events by checking whether $P(A \\cap B) = P(A) \\cdot P(B)$ holds from a given joint probability table.",
+    "Applying the Multiplication Rule in a Bayes' theorem context, where the joint probability computed is later used as the numerator in $P(A|B) = \\frac{P(A \\cap B)}{P(B)}$."
+  ]
+}

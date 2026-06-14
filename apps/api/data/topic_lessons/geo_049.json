@@ -1,0 +1,76 @@
+{
+  "topic_id": "geo_049",
+  "topic_name": "Triangle Similarity: AA, SSS, SAS",
+  "generated_at": "2026-05-12T23:06:43.054100+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that two triangles are congruent when their sides and angles match exactly, and you've used SSS, SAS, and ASA to prove it. But what if two triangles have the same shape yet completely different sizes \u2014 like a small logo and a giant billboard version of the same triangle? You can't use congruence shortcuts because the sides are different lengths. So how do you prove two triangles are similar without measuring every single side and angle?",
+  "concept": "Two triangles are similar when they have the same shape but not necessarily the same size \u2014 meaning corresponding angles are equal and corresponding sides are proportional. Formally, $\\triangle ABC \\sim \\triangle DEF$ if and only if their corresponding angles are congruent and their corresponding sides satisfy $\\frac{AB}{DE} = \\frac{BC}{EF} = \\frac{AC}{DF}$. Instead of checking all six conditions, three shortcuts \u2014 AA, SSS Similarity, and SAS Similarity \u2014 let you prove similarity with minimal information.",
+  "anatomy": "There are three distinct similarity shortcuts, each with its own components. AA (Angle-Angle) requires exactly two pairs of congruent corresponding angles; because triangle angle sums force the third angles to match automatically, no side information is needed. SSS Similarity requires all three pairs of corresponding sides to be proportional: $\\frac{AB}{DE} = \\frac{BC}{EF} = \\frac{AC}{DF}$, where each ratio is called a scale factor. SAS Similarity requires one pair of congruent included angles sandwiched between two pairs of sides whose ratios are equal: $\\frac{AB}{DE} = \\frac{AC}{DF}$ with $\\angle A \\cong \\angle D$, where 'included' means the angle sits between the two sides being compared.",
+  "worked_example": [
+    {
+      "expression_latex": "\\triangle ABC \\text{ with } \\angle A = 47^\\circ,\\ \\angle B = 63^\\circ \\quad \\triangle DEF \\text{ with } \\angle D = 47^\\circ,\\ \\angle F = 70^\\circ",
+      "description_latex": "We are given two triangles with some angle measures, and we want to determine whether they are similar. Start by finding all missing angles using the Triangle Angle Sum Theorem: in $\\triangle ABC$, $\\angle C = 180^\\circ - 47^\\circ - 63^\\circ = 70^\\circ$, and in $\\triangle DEF$, $\\angle E = 180^\\circ - 47^\\circ - 70^\\circ = 63^\\circ$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\angle A = \\angle D = 47^\\circ \\quad \\text{and} \\quad \\angle C = \\angle F = 70^\\circ",
+      "description_latex": "Now we identify two pairs of congruent corresponding angles. We only need two pairs for AA \u2014 the third pair ($\\angle B = \\angle E = 63^\\circ$) is guaranteed to match because all three angles in both triangles sum to $180^\\circ$, so checking it is redundant.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\triangle ABC \\sim \\triangle DEF \\quad \\text{by AA Similarity}",
+      "description_latex": "Because two pairs of corresponding angles are congruent, we can conclude the triangles are similar by the AA Similarity Postulate. Notice we wrote the vertices in the order that matches corresponding parts: $A \\leftrightarrow D$, $B \\leftrightarrow E$, $C \\leftrightarrow F$, which is critical for any follow-up work with proportional sides.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\triangle PQR: PQ = 6,\\ QR = 10,\\ PR = 8 \\quad \\triangle XYZ: XY = 9,\\ YZ = 15,\\ XZ = 12",
+      "description_latex": "We want to determine whether these two triangles are similar using SSS Similarity. The plan is to check whether all three ratios of corresponding sides are equal, so we must pair up the sides in the correct order \u2014 largest to largest, smallest to smallest.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{PQ}{XY} = \\frac{6}{9} = \\frac{2}{3}, \\quad \\frac{PR}{XZ} = \\frac{8}{12} = \\frac{2}{3}, \\quad \\frac{QR}{YZ} = \\frac{?}{?}",
+      "description_latex": "Two of the three ratios have already been simplified to $\\frac{2}{3}$. Now compute the third ratio $\\frac{QR}{YZ}$ and determine whether it also equals $\\frac{2}{3}$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\triangle PQR \\sim \\triangle XYZ \\quad \\text{by SSS Similarity}",
+      "description_latex": "Since all three ratios equal $\\frac{2}{3}$, the corresponding sides are proportional with a constant scale factor, so the triangles are similar by SSS Similarity. The common ratio $\\frac{2}{3}$ is the scale factor from $\\triangle XYZ$ down to $\\triangle PQR$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\triangle ABC \\text{ has } \\angle A = 55^\\circ \\text{ and } \\angle B = 80^\\circ.\\ \\triangle DEF \\text{ has } \\angle D = 55^\\circ \\text{ and } \\angle E = 80^\\circ.\\ \\text{Are the triangles similar? If so, state the postulate.}",
+      "answer_latex": "\\text{Yes, } \\triangle ABC \\sim \\triangle DEF \\text{ by AA Similarity.}"
+    },
+    {
+      "prompt_latex": "\\triangle JKL: JK = 4,\\ KL = 6,\\ JL = 5.\\ \\triangle MNP: MN = 8,\\ NP = 12,\\ MP = 10.\\ \\text{Are the triangles similar? State the postulate or explain why not.}",
+      "answer_latex": "\\frac{JK}{MN}=\\frac{4}{8}=\\frac{1}{2},\\ \\frac{KL}{NP}=\\frac{6}{12}=\\frac{1}{2},\\ \\frac{JL}{MP}=\\frac{5}{10}=\\frac{1}{2}.\\ \\text{Yes, } \\triangle JKL \\sim \\triangle MNP \\text{ by SSS Similarity.}"
+    },
+    {
+      "prompt_latex": "\\text{In } \\triangle ABC \\text{ and } \\triangle ADE,\\ \\angle A \\text{ is shared, } AB = 6,\\ AC = 9,\\ AD = 4,\\ AE = 6.\\ \\text{Are the triangles similar? State the postulate.}",
+      "answer_latex": "\\frac{AD}{AB}=\\frac{4}{6}=\\frac{2}{3} \\text{ and } \\frac{AE}{AC}=\\frac{6}{9}=\\frac{2}{3},\\ \\text{and } \\angle A \\cong \\angle A.\\ \\text{Yes, } \\triangle ADE \\sim \\triangle ABC \\text{ by SAS Similarity.}"
+    },
+    {
+      "prompt_latex": "\\triangle RST \\sim \\triangle UVW \\text{ with scale factor } \\frac{RS}{UV}=\\frac{3}{5}.\\ \\text{If the perimeter of } \\triangle RST = 24,\\ \\text{find the perimeter of } \\triangle UVW.",
+      "answer_latex": "\\text{Perimeter of } \\triangle UVW = 24 \\times \\frac{5}{3} = 40"
+    },
+    {
+      "prompt_latex": "\\text{A 6-foot-tall person casts a shadow 9 feet long. At the same time, a tree casts a shadow 24 feet long. Explain why the triangles formed are similar and find the height of the tree.}",
+      "answer_latex": "\\text{Both triangles share the same sun angle (AA: right angle at ground + equal sun elevation angle), so they are similar by AA. } \\frac{h}{6}=\\frac{24}{9} \\Rightarrow h = 16 \\text{ feet.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply AA by matching any two angles from different positions in the triangles, ignoring corresponding order. The fix: always match angles in the correct vertex-to-vertex correspondence and write the similarity statement $\\triangle ABC \\sim \\triangle DEF$ with vertices explicitly aligned.",
+    "When checking SSS Similarity, students pair the sides in the order they are listed rather than matching longest-to-longest and shortest-to-shortest, producing unequal ratios even when the triangles are actually similar. The fix: always sort both triangles' sides by length before forming the three ratios.",
+    "Students confuse SAS Similarity with SAS Congruence and forget that the angle must be the included angle \u2014 the one between the two sides whose ratios are being compared. Using a non-included angle with two proportional sides does not guarantee similarity, so always verify the angle sits between the two sides in question."
+  ],
+  "untested_variants": [
+    "Proving similarity in overlapping triangles where two triangles share a common vertex or side inside a larger figure, requiring students to identify shared angles or vertical angles before applying a shortcut.",
+    "Using similarity to find a missing side length algebraically once similarity is established, such as setting up and solving a proportion like $\\frac{x}{8} = \\frac{6}{4}$.",
+    "Indirect measurement problems beyond shadow problems, such as using mirror reflections or surveying contexts where students must first identify which similarity postulate applies before computing distances.",
+    "Determining whether triangles are similar when information is given on a coordinate plane, requiring students to compute side lengths using the distance formula before checking SSS or SAS Similarity ratios."
+  ]
+}

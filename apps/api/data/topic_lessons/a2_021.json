@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_021",
+  "topic_name": "Dividing Polynomials: Long Division",
+  "generated_at": "2026-05-12T23:22:40.371033+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to multiply polynomials \u2014 for example, you can verify that $(x+3)(x-2) = x^2 + x - 6$. But what if you start with the product $x^2 + x - 6$ and only one of the factors, $(x+3)$, and need to find the other? Division is the inverse of multiplication, but the long-multiplication structure of polynomials makes simple cancellation impossible. How do we systematically \"undo\" polynomial multiplication to recover a missing factor?",
+  "concept": "Polynomial long division is the process of dividing one polynomial by another of equal or lower degree, mirroring the digit-by-digit algorithm of arithmetic long division. Given a dividend $p(x)$ and a divisor $d(x)$, we find a quotient $q(x)$ and remainder $r(x)$ such that $p(x) = d(x) \\cdot q(x) + r(x)$, where the degree of $r(x)$ is strictly less than the degree of $d(x)$ (or $r(x) = 0$).",
+  "anatomy": "In polynomial long division every calculation involves four named parts: the **dividend** $p(x)$ is the polynomial being divided (it goes inside the division bracket); the **divisor** $d(x)$ is what you are dividing by (it goes outside); the **quotient** $q(x)$ is the answer built term-by-term above the bracket; and the **remainder** $r(x)$ is what is left over after no further division is possible. Within each step of the algorithm you also perform a **trial division** \u2014 dividing the leading term of the current dividend by the leading term of the divisor to get the next term of the quotient \u2014 followed by a **subtraction step** that eliminates that leading term.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{x^2 + x - 6}{x + 3}",
+      "description_latex": "We want to divide the dividend $x^2 + x - 6$ by the divisor $x + 3$. Before touching any numbers, we confirm both polynomials are written in descending degree order and that no power is missing \u2014 this prevents alignment errors in every step that follows.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Trial: } \\frac{x^2}{x} = x \\quad\\Rightarrow\\quad \\text{first quotient term is } x",
+      "description_latex": "We perform the trial division by asking: what must we multiply the leading term of the divisor, $x$, by to match the leading term of the current dividend, $x^2$? The answer is $x$, so we write $x$ as the first term of our quotient above the division bracket. This single term will eliminate the $x^2$ in the next subtraction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\cdot (x+3) = x^2 + 3x \\quad\\Rightarrow\\quad (x^2 + x - 6) - (x^2 + 3x) = -2x - 6",
+      "description_latex": "We multiply the entire divisor $(x+3)$ by the quotient term $x$ to get $x^2 + 3x$, then subtract it from the current dividend. Subtraction removes the leading $x^2$ term and leaves a new, simpler polynomial $-2x - 6$ to continue dividing \u2014 just like bringing down the next digit in arithmetic long division.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Trial: } \\frac{-2x}{x} = -2 \\quad\\Rightarrow\\quad (-2)(x+3) = -2x - 6 \\quad\\Rightarrow\\quad (-2x-6)-(-2x-6) = 0",
+      "description_latex": "We repeat the process on the new dividend $-2x - 6$: dividing the leading term $-2x$ by $x$ gives $-2$, the next quotient term. Multiplying the divisor by $-2$ and subtracting produces a remainder of exactly $0$, which tells us the divisor divides the dividend evenly \u2014 no remainder.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{x^2 + x - 6}{x + 3} = x - 2",
+      "description_latex": "Reading off the quotient terms in order, the answer is $x - 2$. We can verify by checking that $(x+3)(x-2) = x^2 + x - 6$, confirming the relationship $p(x) = d(x)\\cdot q(x) + r(x)$ with $r(x)=0$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{2x^2 + 7x + 3}{x + 3}",
+      "description_latex": "We are dividing the dividend $2x^2 + 7x + 3$ by the divisor $x + 3$. Both are already in descending order with no missing terms, so we are ready to begin the trial division on the leading term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{2x^2}{x} = 2x \\quad\\Rightarrow\\quad 2x \\cdot (x+3) = 2x^2 + 6x \\quad\\Rightarrow\\quad (2x^2+7x+3)-(2x^2+6x) = x + 3",
+      "description_latex": "The first trial division gives quotient term $2x$. We multiply the whole divisor by $2x$, subtract from the dividend, and the result is $x + 3$. Notice how the subtraction step must be applied to every term of $2x^2 + 6x$, not just the leading term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now perform the trial division on the new dividend $x + 3$: divide its leading term by the leading term of the divisor to find the next quotient term, multiply the divisor by that term, and subtract to find the remainder. What is the next quotient term, and what is the remainder?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\frac{2x^2 + 7x + 3}{x + 3} = 2x + 1",
+      "description_latex": "Combining the quotient terms $2x$ and $1$ gives the final answer $2x + 1$ with remainder $0$. You can check: $(x+3)(2x+1) = 2x^2 + 7x + 3$ \u2713.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\frac{x^2 - 5x + 6}{x - 2}",
+      "answer_latex": "x - 3"
+    },
+    {
+      "prompt_latex": "\\frac{3x^2 + 11x + 6}{x + 3}",
+      "answer_latex": "3x + 2"
+    },
+    {
+      "prompt_latex": "\\frac{2x^2 - 3x - 5}{x + 1}",
+      "answer_latex": "2x - 5"
+    },
+    {
+      "prompt_latex": "\\frac{x^3 - 2x^2 - 5x + 6}{x - 3}",
+      "answer_latex": "x^2 + x - 2"
+    },
+    {
+      "prompt_latex": "A rectangular garden has area $2x^2 + 9x + 10$ square feet. If one side of the garden has length $(x+2)$ feet, use polynomial long division to find an expression for the other side.",
+      "answer_latex": "2x + 5 \\text{ feet}"
+    }
+  ],
+  "common_mistakes": [
+    "Students subtract only the first term of the product instead of the whole product: after computing $2x \\cdot (x+3) = 2x^2+6x$, they write $2x^2+7x - 2x^2 = 7x$ and forget to subtract the $6x$, producing $7x$ instead of the correct $x$. Always distribute the subtraction sign to every term of the product.",
+    "When a polynomial is missing a degree (e.g., $x^3 + 2x - 1$ has no $x^2$ term), students omit that column entirely, causing all subsequent terms to misalign and be combined incorrectly. Always insert a placeholder term with coefficient $0$ \u2014 write $x^3 + 0x^2 + 2x - 1$ \u2014 before starting the division.",
+    "Students stop the algorithm as soon as the remaining polynomial looks 'small' without checking whether its degree is still greater than or equal to the divisor's degree. If the current remainder still has degree $\\geq$ the degree of the divisor, you must continue dividing \u2014 stopping early produces an incorrect quotient and an invalid remainder."
+  ],
+  "untested_variants": [
+    "Dividing a polynomial by a divisor with a leading coefficient other than 1, such as $\\frac{4x^2 + 8x + 3}{2x + 1}$, where the trial division produces fractional quotient terms.",
+    "Polynomial division that results in a non-zero remainder, requiring students to express the answer in the form $q(x) + \\frac{r(x)}{d(x)}$, such as $\\frac{x^2 + 3x + 5}{x + 1}$.",
+    "Dividing a degree-4 or higher polynomial by a linear divisor, such as $\\frac{x^4 - x^3 - 7x^2 + x + 6}{x - 2}$, extending the step count and compounding alignment challenges.",
+    "Using division to factor completely: given that $(x-1)$ is a known factor of $x^3 - 6x^2 + 11x - 6$, performing long division and then factoring the resulting quadratic quotient to find all three roots."
+  ]
+}

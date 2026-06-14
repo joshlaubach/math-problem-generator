@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_070",
+  "topic_name": "Infinite Limits and Limits at Infinity (H)",
+  "generated_at": "2026-05-13T00:01:07.074287+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to evaluate limits where $x$ approaches a finite number, and you can recognize when a limit fails to exist because the function oscillates or jumps. But what happens when $x$ itself grows without bound \u2014 when $x \\to \\infty$? And what happens to a function's output when it races toward $+\\infty$ or $-\\infty$ near a specific input? These two scenarios \u2014 limits at infinity and infinite limits \u2014 look similar but mean very different things, and confusing them leads to completely wrong answers. Can you tell the difference between $\\lim_{x \\to \\infty} f(x)$ and $\\lim_{x \\to 2} f(x) = \\infty$, and do you know how to evaluate each one?",
+  "concept": "An **infinite limit** describes a function whose output grows without bound as $x$ approaches some finite value $a$, written $\\lim_{x \\to a} f(x) = \\infty$. A **limit at infinity** describes a function's long-run behavior as $x$ itself grows without bound, written $\\lim_{x \\to \\infty} f(x) = L$. Formally: $\\lim_{x \\to \\infty} f(x) = L$ means $f(x)$ can be made arbitrarily close to $L$ by taking $x$ sufficiently large, while $\\lim_{x \\to a} f(x) = \\infty$ means $f(x)$ can be made arbitrarily large by taking $x$ sufficiently close to $a$.",
+  "anatomy": "For **limits at infinity** of rational functions, the key structural parts are the **degree of the numerator** (call it $m$) and the **degree of the denominator** (call it $n$), and the **leading coefficients** of each. The three cases are: if $m < n$ the limit is $0$; if $m = n$ the limit is the ratio of leading coefficients; if $m > n$ the limit is $\\pm\\infty$. For **infinite limits**, the key parts are the **value $a$** where the vertical asymptote occurs, the **sign of the numerator** near $a$, and the **sign of the denominator** as $x$ approaches $a$ from the left or right \u2014 these signs together determine whether the output goes to $+\\infty$ or $-\\infty$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\lim_{x \\to \\infty} \\frac{3x^2 - 5x + 1}{7x^2 + 4}",
+      "description_latex": "We identify this as a limit at infinity of a rational function. The numerator has degree $2$ and the denominator has degree $2$, so $m = n$. When the degrees are equal, the limit equals the ratio of the leading coefficients, which is $\\frac{3}{7}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{x \\to \\infty} \\frac{3x^2 - 5x + 1}{7x^2 + 4} = \\frac{3}{7}",
+      "description_latex": "We can confirm this by dividing every term in the numerator and denominator by $x^2$, the highest power present: $\\frac{3 - 5/x + 1/x^2}{7 + 4/x^2}$. As $x \\to \\infty$, every term with $x$ in the denominator vanishes to $0$, leaving exactly $\\frac{3}{7}$. This tells us the function has a horizontal asymptote at $y = \\frac{3}{7}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{x \\to 3^+} \\frac{1}{x - 3}",
+      "description_latex": "Now we shift to an infinite limit. Here $x$ is approaching the finite value $3$ from the right, and we need to determine what happens to the output. Notice that when $x$ is slightly greater than $3$, the numerator is $1$ (positive) and the denominator $x - 3$ is a tiny positive number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{x \\to 3^+} \\frac{1}{x - 3} = +\\infty",
+      "description_latex": "Because we are dividing a positive constant by an increasingly small positive number, the quotient grows without bound in the positive direction. This confirms a vertical asymptote at $x = 3$, and from the right side the function rises to $+\\infty$. If we had approached from the left, $x - 3$ would be a tiny negative number, giving $-\\infty$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\lim_{x \\to \\infty} \\frac{4x^3 - 2x}{x^2 + 9}",
+      "description_latex": "We are finding a limit at infinity of a rational function. Start by comparing the degrees: the numerator has degree $3$ and the denominator has degree $2$, so $m > n$. When the numerator's degree is larger, the function grows without bound \u2014 but we should determine the sign carefully.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{4x^3 - 2x}{x^2 + 9} = \\frac{x^2(4x - 2/x)}{x^2(1 + 9/x^2)}",
+      "description_latex": "Divide every term by $x^2$, the highest power in the denominator. This simplifies the expression so we can see what dominates as $x \\to \\infty$. After cancelling $x^2$, the numerator behaves like $4x - 2/x$ and the denominator approaches $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "As $x \\to \\infty$, the $-2/x$ and $9/x^2$ terms all vanish. What does the simplified expression approach? Write the final value of the limit, including the correct sign.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\lim_{x \\to \\infty} \\frac{5x + 3}{2x - 1}",
+      "answer_latex": "\\dfrac{5}{2}"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to \\infty} \\frac{6x^2 - 1}{3x^3 + 5}",
+      "answer_latex": "0"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to -2^+} \\frac{x + 5}{x + 2}",
+      "answer_latex": "+\\infty"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to \\infty} \\frac{\\sqrt{9x^2 + 4}}{2x + 1}",
+      "answer_latex": "\\dfrac{3}{2}"
+    },
+    {
+      "prompt_latex": "A company's average cost per unit is modeled by $\\bar{C}(x) = \\dfrac{500 + 3x}{x}$, where $x$ is the number of units produced. What does the average cost approach as production grows without bound, and what does this tell you economically?",
+      "answer_latex": "\\lim_{x \\to \\infty} \\bar{C}(x) = 3; \\text{ the average cost approaches the variable cost per unit } \\$3 \\text{ as fixed costs become negligible.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse $\\lim_{x \\to \\infty} f(x) = \\infty$ (a limit at infinity that is infinite) with $\\lim_{x \\to a} f(x) = \\infty$ (an infinite limit at a finite point), treating them as the same type of problem. Remember: the position of $\\infty$ in the notation tells you entirely different things \u2014 check whether $\\infty$ is where $x$ is going or what $f(x)$ is doing.",
+    "When the degree of the numerator exceeds the degree of the denominator, students often write $\\lim_{x \\to \\infty} = \\text{undefined}$ instead of $\\pm\\infty$, borrowing the rule from limits that oscillate. Fix this by remembering that $m > n$ means unbounded growth, and you must determine the sign from the leading coefficient.",
+    "For one-sided infinite limits, students forget to check the sign of the denominator from each side separately, and incorrectly assign $+\\infty$ to both one-sided limits when one should be $-\\infty$. Always substitute a test value just to the left and just to the right of $a$ to determine the sign of the denominator before concluding the direction of the infinite limit."
+  ],
+  "untested_variants": [
+    "Limits at infinity involving trigonometric functions, such as $\\lim_{x \\to \\infty} \\frac{\\sin x}{x}$, which require the Squeeze Theorem rather than degree-comparison.",
+    "Two-sided infinite limits where you must confirm $\\lim_{x \\to a^-}$ and $\\lim_{x \\to a^+}$ agree before writing $\\lim_{x \\to a} f(x) = \\infty$, such as $\\lim_{x \\to 0} \\frac{1}{x^2}$.",
+    "Limits at negative infinity ($x \\to -\\infty$) for functions with square roots, where the sign of $\\sqrt{x^2}$ must be treated as $|x| = -x$ for negative $x$.",
+    "Infinite limits involving exponential or logarithmic functions, such as $\\lim_{x \\to 0^+} \\ln x = -\\infty$ or $\\lim_{x \\to \\infty} e^x = \\infty$, which do not use the rational-function degree rules."
+  ]
+}

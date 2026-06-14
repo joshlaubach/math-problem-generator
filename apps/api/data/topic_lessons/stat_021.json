@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_021",
+  "topic_name": "Sampling Distributions",
+  "generated_at": "2026-05-13T20:30:41.925341+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to calculate probabilities for a single observation \u2014 for example, you can find the probability that one randomly selected adult is taller than 6 feet given a normal distribution. But what happens when a researcher takes a sample of 50 adults and records the average height? That average is itself a random quantity, and it behaves very differently from a single observation. How do we figure out the probability that a sample mean lands within a certain range?",
+  "concept": "A sampling distribution describes how a statistic (like the sample mean $\\bar{x}$) varies across all possible samples of the same size drawn from a population. Formally, if we draw samples of size $n$ from a population with mean $\\mu$ and standard deviation $\\sigma$, the sampling distribution of $\\bar{x}$ has mean $\\mu_{\\bar{x}} = \\mu$ and standard deviation $\\sigma_{\\bar{x}} = \\frac{\\sigma}{\\sqrt{n}}$, called the standard error. By the Central Limit Theorem, this distribution is approximately normal for large $n$.",
+  "anatomy": "The sampling distribution of $\\bar{x}$ has four key components. First, the population mean $\\mu$ and population standard deviation $\\sigma$ describe the original distribution from which samples are drawn. Second, the sample size $n$ controls how much the sample mean varies \u2014 larger $n$ means less variability. Third, the standard error $\\sigma_{\\bar{x}} = \\frac{\\sigma}{\\sqrt{n}}$ is the standard deviation of the sampling distribution itself, measuring the typical distance between $\\bar{x}$ and $\\mu$. Fourth, the shape of the sampling distribution is determined either by the original population (if it is normal) or by the Central Limit Theorem (CLT), which guarantees approximate normality when $n \\geq 30$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mu = 500,\\quad \\sigma = 100,\\quad n = 25",
+      "description_latex": "We start by identifying the given information: the population mean is $\\mu = 500$, the population standard deviation is $\\sigma = 100$, and we are drawing samples of size $n = 25$. Writing these down first prevents confusion later when we build the sampling distribution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mu_{\\bar{x}} = \\mu = 500",
+      "description_latex": "The mean of the sampling distribution always equals the population mean, so $\\mu_{\\bar{x}} = 500$. This tells us that on average, our sample means are centered exactly at the true population mean \u2014 the sample mean is an unbiased estimator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sigma_{\\bar{x}} = \\frac{\\sigma}{\\sqrt{n}} = \\frac{100}{\\sqrt{25}} = \\frac{100}{5} = 20",
+      "description_latex": "We compute the standard error by dividing the population standard deviation by the square root of the sample size. The result, $\\sigma_{\\bar{x}} = 20$, tells us that sample means typically fall within about 20 points of $\\mu$ \u2014 far less spread than the original $\\sigma = 100$ for individual scores.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Z = \\frac{\\bar{x} - \\mu_{\\bar{x}}}{\\sigma_{\\bar{x}}} = \\frac{520 - 500}{20} = \\frac{20}{20} = 1.00",
+      "description_latex": "To find the probability that $\\bar{x} > 520$, we standardize by converting to a $Z$-score using the standard error (not $\\sigma$). Using the standard error here is critical \u2014 if we mistakenly used $\\sigma = 100$, we would get $Z = 0.20$, which would give a completely wrong probability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\bar{x} > 520) = P(Z > 1.00) = 1 - 0.8413 = 0.1587",
+      "description_latex": "Looking up $Z = 1.00$ in the standard normal table gives the area to the left as $0.8413$, so the area to the right \u2014 the probability that the sample mean exceeds 520 \u2014 is $1 - 0.8413 = 0.1587$, or about a 15.87% chance.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mu = 70,\\quad \\sigma = 12,\\quad n = 36",
+      "description_latex": "A population of exam scores has mean $\\mu = 70$ and standard deviation $\\sigma = 12$. We want to find $P(\\bar{x} < 68)$ for random samples of size $n = 36$. Begin by noting all the given values \u2014 this is already done for you.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sigma_{\\bar{x}} = \\frac{12}{\\sqrt{36}} = 2",
+      "description_latex": "We compute the standard error: $\\sigma_{\\bar{x}} = \\frac{\\sigma}{\\sqrt{n}} = \\frac{12}{\\sqrt{36}} = 2$. Notice how the spread of sample means is much smaller than the spread of individual scores.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now standardize $\\bar{x} = 68$ by computing the $Z$-score using the standard error you just found. Write the formula $Z = \\frac{\\bar{x} - \\mu}{\\sigma_{\\bar{x}}}$, substitute the values, and simplify to find $Z$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using your $Z$-score, look up the standard normal table to find $P(\\bar{x} < 68)$. State the final probability and interpret it in one sentence: what does this number tell you about samples of size 36?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A population has mean $\\mu = 80$ and standard deviation $\\sigma = 10$. For samples of size $n = 25$, find the standard error $\\sigma_{\\bar{x}}$.",
+      "answer_latex": "\\sigma_{\\bar{x}} = \\frac{10}{\\sqrt{25}} = 2"
+    },
+    {
+      "prompt_latex": "Heights of adults are normally distributed with $\\mu = 68$ inches and $\\sigma = 3$ inches. For random samples of size $n = 9$, find $P(\\bar{x} > 69)$.",
+      "answer_latex": "\\sigma_{\\bar{x}} = 1,\\quad Z = \\frac{69-68}{1} = 1.00,\\quad P(\\bar{x} > 69) = 1 - 0.8413 = 0.1587"
+    },
+    {
+      "prompt_latex": "Battery lifetimes have $\\mu = 200$ hours and $\\sigma = 20$ hours. For samples of $n = 100$, find $P(195 < \\bar{x} < 205)$.",
+      "answer_latex": "\\sigma_{\\bar{x}} = 2,\\quad Z_1 = -2.50,\\; Z_2 = 2.50,\\quad P = 0.9938 - 0.0062 = 0.9876"
+    },
+    {
+      "prompt_latex": "A machine fills bags with $\\mu = 500$ g and $\\sigma = 15$ g. Quality control takes samples of $n = 36$. An alarm sounds if $\\bar{x} < 497$ g. Find the probability the alarm sounds on any given sample, and state whether this type of false alarm seems likely.",
+      "answer_latex": "\\sigma_{\\bar{x}} = 2.5,\\quad Z = \\frac{497 - 500}{2.5} = -1.20,\\quad P(\\bar{x} < 497) = 0.1151 \\approx 11.5\\%,\\quad \\text{relatively common false alarm}"
+    },
+    {
+      "prompt_latex": "A population is strongly right-skewed with $\\mu = 30$ and $\\sigma = 8$. A researcher takes samples of size $n = 40$ and wants $P(\\bar{x} > 32)$. Can you use normal probability methods? If so, find the probability.",
+      "answer_latex": "\\text{Yes \u2014 CLT applies since } n = 40 \\geq 30.\\quad \\sigma_{\\bar{x}} = \\frac{8}{\\sqrt{40}} \\approx 1.265,\\quad Z = \\frac{32-30}{1.265} \\approx 1.58,\\quad P(\\bar{x} > 32) \\approx 1 - 0.9429 = 0.0571"
+    }
+  ],
+  "common_mistakes": [
+    "Students often compute the $Z$-score using the population standard deviation $\\sigma$ instead of the standard error $\\sigma_{\\bar{x}} = \\sigma/\\sqrt{n}$. This treats the sample mean as if it were a single observation, producing a $Z$-score that is too small in magnitude and a probability that is far too large. Always check: if the problem involves $\\bar{x}$, divide $\\sigma$ by $\\sqrt{n}$ before computing $Z$.",
+    "Students frequently forget to take the square root of $n$, computing $\\sigma_{\\bar{x}} = \\sigma / n$ instead of $\\sigma / \\sqrt{n}$. This mistake makes the standard error shrink too fast and produces $Z$-scores that are too extreme. Remember: the formula literally contains a square root symbol, $\\sigma_{\\bar{x}} = \\frac{\\sigma}{\\sqrt{n}}$.",
+    "When the population is non-normal (e.g., skewed or uniform), students sometimes apply normal sampling distribution methods to small samples (like $n = 5$ or $n = 10$) without checking whether the CLT applies. The CLT requires approximately $n \\geq 30$ for non-normal populations; for smaller samples from non-normal populations, the sampling distribution is not approximately normal and you cannot use standard $Z$-table methods."
+  ],
+  "untested_variants": [
+    "Finding probabilities for the sample proportion $\\hat{p}$ rather than the sample mean $\\bar{x}$, which uses the standard error formula $\\sigma_{\\hat{p}} = \\sqrt{p(1-p)/n}$.",
+    "Working backwards from a given probability to find a cutoff value for $\\bar{x}$ (i.e., finding a percentile of the sampling distribution using an inverse normal lookup).",
+    "Comparing two independent sampling distributions \u2014 for example, finding the probability that one sample mean exceeds another sample mean drawn from a different population.",
+    "Using finite population correction when sampling without replacement from a small population, which modifies the standard error to $\\sigma_{\\bar{x}} = \\frac{\\sigma}{\\sqrt{n}} \\cdot \\sqrt{\\frac{N-n}{N-1}}$."
+  ]
+}

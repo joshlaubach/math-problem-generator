@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_031",
+  "topic_name": "Introduction to Hypothesis Testing",
+  "generated_at": "2026-05-13T20:31:52.578481+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to calculate sample means and understand that samples vary \u2014 if you survey 30 students about their average study hours, you know your result won't perfectly match the true population mean. But here's the gap: suppose a university claims its students study an average of 15 hours per week, and your sample of 30 students yields a mean of 12.4 hours. Is that difference real evidence against the university's claim, or just random sampling noise? How do we make a principled, mathematical decision?",
+  "concept": "Hypothesis testing is a formal procedure for using sample data to evaluate a claim about a population. In plain English, we assume a specific claim is true, then ask: 'How surprising would my data be if that claim were actually correct?' Formally, we set up a null hypothesis $H_0$ (the status-quo claim, usually an equality like $\\mu = \\mu_0$) and an alternative hypothesis $H_a$ (what we suspect instead), collect data, compute a test statistic, and decide whether the data are too unlikely under $H_0$ to keep believing it.",
+  "anatomy": "Every hypothesis test has five structural parts: the null hypothesis $H_0$, which states the specific parameter value we are testing (e.g., $\\mu = 15$); the alternative hypothesis $H_a$, which captures the direction of suspicion and can be one-sided left ($\\mu < 15$), one-sided right ($\\mu > 15$), or two-sided ($\\mu \\neq 15$); the significance level $\\alpha$ (commonly $0.05$), which sets our threshold for 'surprising enough'; the test statistic (e.g., a $z$- or $t$-score) that converts sample data into a standardized number; and the $p$-value, the probability of observing a result as extreme as ours if $H_0$ were true, which we compare to $\\alpha$ to reach a conclusion.",
+  "worked_example": [
+    {
+      "expression_latex": "H_0: \\mu = 15 \\quad \\text{vs.} \\quad H_a: \\mu < 15",
+      "description_latex": "We begin by translating the research question into formal hypotheses. The university claims $\\mu = 15$ hours, so that is our null hypothesis; because we suspect students study fewer hours than claimed, our alternative is one-sided to the left. Choosing the correct direction for $H_a$ before seeing the data is critical \u2014 it should reflect your prior suspicion, not be chosen to match the data.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\alpha = 0.05",
+      "description_latex": "Before computing anything, we declare a significance level $\\alpha = 0.05$. This means we are willing to incorrectly reject a true $H_0$ at most 5% of the time \u2014 it is our pre-committed standard for what counts as 'surprising enough.' Setting $\\alpha$ in advance prevents us from moving the goalposts after we see the result.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z = \\frac{\\bar{x} - \\mu_0}{\\sigma / \\sqrt{n}} = \\frac{12.4 - 15}{3.2 / \\sqrt{30}} = \\frac{-2.6}{0.584} \\approx -4.45",
+      "description_latex": "We compute the test statistic by measuring how many standard errors our sample mean sits from the claimed population mean. Here $\\bar{x} = 12.4$, $\\mu_0 = 15$, $\\sigma = 3.2$ (known), and $n = 30$, giving $z \\approx -4.45$. A $z$-score this far into the left tail is extremely unusual if $H_0$ were true.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p\\text{-value} = P(Z \\leq -4.45) \\approx 0.000004",
+      "description_latex": "The $p$-value is the probability of observing a sample mean as low as 12.4 (or lower) if the true mean really were 15. Using the standard normal table or software, $P(Z \\leq -4.45) \\approx 0.000004$, which is astronomically small \u2014 our data would be nearly impossible under $H_0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p\\text{-value} \\approx 0.000004 < 0.05 = \\alpha \\quad \\Rightarrow \\quad \\text{Reject } H_0",
+      "description_latex": "We compare the $p$-value to $\\alpha$: since $0.000004 < 0.05$, the result is statistically significant and we reject $H_0$. In context, we have strong evidence that the true mean study time is less than 15 hours per week \u2014 the sample result is far too extreme to be explained by random sampling variation alone.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H_0: \\mu = 500 \\quad \\text{vs.} \\quad H_a: \\mu \\neq 500",
+      "description_latex": "A packaging machine is supposed to fill bags with $\\mu = 500$ grams of flour. A quality-control inspector suspects the machine is off in either direction, so we use a two-sided alternative. We have already set $\\alpha = 0.05$ and we know $\\sigma = 8$ grams.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z = \\frac{\\bar{x} - \\mu_0}{\\sigma / \\sqrt{n}} = \\frac{497.2 - 500}{8 / \\sqrt{40}}",
+      "description_latex": "A sample of $n = 40$ bags yields $\\bar{x} = 497.2$ grams. We set up the $z$-test statistic formula \u2014 your job is to simplify this expression completely and report the numerical value of $z$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "p\\text{-value} = 2 \\cdot P(Z \\leq -2.21) \\approx 2(0.0136) = 0.0272",
+      "description_latex": "Because this is a two-sided test, the $p$-value doubles the one-tail area. Using the standard normal table, $P(Z \\leq -2.21) \\approx 0.0136$, so the two-sided $p$-value is approximately $0.0272$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compare the $p$-value of $0.0272$ to $\\alpha = 0.05$ and write a conclusion: do you reject or fail to reject $H_0$? State what your conclusion means in the context of the packaging machine.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A researcher claims the mean resting heart rate for adults is $\\mu = 72$ bpm. She suspects it may be different. Write the null and alternative hypotheses for a two-sided test.",
+      "answer_latex": "H_0: \\mu = 72 \\quad \\text{vs.} \\quad H_a: \\mu \\neq 72"
+    },
+    {
+      "prompt_latex": "A sample of $n = 50$ gives $\\bar{x} = 74.3$ bpm, and $\\sigma = 10$ bpm is known. Compute the $z$-test statistic for testing $H_0: \\mu = 72$ vs. $H_a: \\mu \\neq 72$.",
+      "answer_latex": "z = \\frac{74.3 - 72}{10/\\sqrt{50}} = \\frac{2.3}{1.414} \\approx 1.63"
+    },
+    {
+      "prompt_latex": "Using the test statistic $z \\approx 1.63$ from the heart-rate study and $\\alpha = 0.05$, find the two-sided $p$-value and state whether you reject $H_0$. (Use $P(Z \\leq 1.63) \\approx 0.9484$.)",
+      "answer_latex": "p\\text{-value} = 2(1 - 0.9484) = 2(0.0516) = 0.1032 > 0.05; \\text{ Fail to reject } H_0"
+    },
+    {
+      "prompt_latex": "A school district previously found that students averaged $\\mu = 82$ on a standardized test with $\\sigma = 12$. After a new curriculum, a sample of $n = 64$ students yields $\\bar{x} = 85.4$. Test $H_0: \\mu = 82$ vs. $H_a: \\mu > 82$ at $\\alpha = 0.01$. Compute $z$, find the $p$-value using $P(Z \\leq 2.27) \\approx 0.9884$, and state your conclusion.",
+      "answer_latex": "z = \\frac{85.4 - 82}{12/\\sqrt{64}} = \\frac{3.4}{1.5} \\approx 2.27; \\quad p\\text{-value} = 1 - 0.9884 = 0.0116 > 0.01; \\text{ Fail to reject } H_0"
+    },
+    {
+      "prompt_latex": "A bottled water company claims its bottles contain $\\mu = 16$ oz on average. A consumer group measures $n = 36$ bottles and finds $\\bar{x} = 15.7$ oz with known $\\sigma = 0.9$ oz. They suspect underfilling. Set up hypotheses, compute the test statistic, find the $p$-value (use $P(Z \\leq -2.00) \\approx 0.0228$), and interpret at $\\alpha = 0.05$.",
+      "answer_latex": "H_0: \\mu = 16,\\ H_a: \\mu < 16;\\ z = \\frac{15.7-16}{0.9/\\sqrt{36}} = -2.00;\\ p\\text{-value} = 0.0228 < 0.05;\\text{ Reject } H_0 \u2014 evidence of underfilling"
+    }
+  ],
+  "common_mistakes": [
+    "Students choose the direction of $H_a$ after looking at the sample data (e.g., seeing $\\bar{x} < \\mu_0$ and then writing $H_a: \\mu < \\mu_0$). This inflates the false-positive rate because the test was designed assuming $H_a$ was chosen in advance; always set up hypotheses based on the research question before computing anything.",
+    "Students confuse failing to reject $H_0$ with proving $H_0$ is true. A large $p$-value only means the data are consistent with $H_0$; it does not confirm the null \u2014 write 'fail to reject $H_0$,' never 'accept $H_0$' or 'the null is true.'",
+    "Students forget to double the tail probability for a two-sided test, reporting $p = P(Z \\leq z^*)$ instead of $p = 2 \\cdot P(Z \\leq z^*)$ when $H_a$ uses $\\neq$. Remember: two-sided means extreme results in either direction count as evidence, so both tails must be included."
+  ],
+  "untested_variants": [
+    "Using a $t$-test statistic when the population standard deviation $\\sigma$ is unknown and must be estimated by the sample standard deviation $s$, which requires the $t$-distribution with $n-1$ degrees of freedom.",
+    "Computing the critical-value rejection region (e.g., reject if $z < -1.645$) as an alternative decision rule to the $p$-value approach, and verifying both methods give the same conclusion.",
+    "Interpreting Type I error ($\\alpha$) and Type II error ($\\beta$) in context, including calculating the probability of a Type II error or the power of a test for a specific alternative value of $\\mu$.",
+    "Hypothesis tests for population proportions using the test statistic $z = (\\hat{p} - p_0)/\\sqrt{p_0(1-p_0)/n}$, where the parameter of interest is $p$ rather than $\\mu$."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "pc_054",
+  "topic_name": "Mathematical Induction (H)",
+  "generated_at": "2026-05-12T23:55:56.416494+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to verify that a formula works for a few specific cases \u2014 plug in $n = 1$, $n = 2$, $n = 3$, and check. But how do you prove a formula like $1 + 2 + 3 + \\cdots + n = \\frac{n(n+1)}{2}$ works for ALL positive integers, infinitely many of them, without checking every single one? No finite number of examples can ever constitute a proof for all cases. So what mathematical tool lets us leap from \"true for some\" to \"true for all\"?",
+  "concept": "Mathematical induction is a proof technique for statements about all positive integers. Think of it like an infinite chain of dominoes: if the first one falls, and each falling domino always knocks over the next, then every domino eventually falls. Formally, to prove a statement $P(n)$ holds for all $n \\geq 1$, we prove two things: the **base case** $P(1)$ is true, and the **inductive step** \u2014 if $P(k)$ is true, then $P(k+1)$ must also be true.",
+  "anatomy": "Mathematical induction has three named structural parts. The **base case** is where you verify the statement $P(n)$ is true for the smallest value, usually $n = 1$, by direct substitution. The **inductive hypothesis** is the assumption that $P(k)$ is true for some arbitrary positive integer $k$ \u2014 you are not proving this; you are temporarily assuming it to build on. The **inductive step** is the logical argument where you use the inductive hypothesis to prove that $P(k+1)$ must also be true, completing the chain.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } 1 + 2 + 3 + \\cdots + n = \\frac{n(n+1)}{2} \\text{ for all } n \\geq 1",
+      "description_latex": "We state clearly what we want to prove, calling it $P(n)$. Identifying the statement precisely before we start is critical \u2014 every subsequent step refers back to this exact claim.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Base Case: } n = 1. \\quad \\text{LHS} = 1, \\quad \\text{RHS} = \\frac{1(1+1)}{2} = \\frac{2}{2} = 1. \\quad \\checkmark",
+      "description_latex": "We verify $P(1)$ by checking that both sides equal $1$ when $n = 1$. This establishes the first domino in our chain \u2014 without this step, there is nothing to start the cascade.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Inductive Hypothesis: } \\text{Assume } P(k) \\text{ is true: } 1 + 2 + \\cdots + k = \\frac{k(k+1)}{2}",
+      "description_latex": "We assume the formula works for some particular (but arbitrary) integer $k$. Notice we are not proving this \u2014 we are granting it temporarily as a tool to use in the next step. This is the single most important conceptual move in induction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Inductive Step: } 1 + 2 + \\cdots + k + (k+1) = \\frac{k(k+1)}{2} + (k+1) = \\frac{k(k+1) + 2(k+1)}{2} = \\frac{(k+1)(k+2)}{2}",
+      "description_latex": "We need to prove $P(k+1)$, which says the sum of the first $k+1$ integers equals $\\frac{(k+1)(k+2)}{2}$. We start with the left side, split off the last term $(k+1)$, and substitute the inductive hypothesis for the sum of the first $k$ terms. Factoring $(k+1)$ from the numerator gives exactly the right-hand side of $P(k+1)$, closing the argument.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Conclusion: } \\text{By the principle of mathematical induction, } 1 + 2 + \\cdots + n = \\frac{n(n+1)}{2} \\text{ for all } n \\geq 1.",
+      "description_latex": "We state the conclusion explicitly: since the base case holds and the inductive step is valid, the statement is true for every positive integer. Always write this closing sentence \u2014 it ties the two parts of the proof together and signals that the logic is complete.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } 1 + 3 + 5 + \\cdots + (2n-1) = n^2 \\text{ for all } n \\geq 1",
+      "description_latex": "We want to prove that the sum of the first $n$ odd numbers equals $n^2$. Let's walk through the induction structure together, and you'll complete the key step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Base Case: } n=1. \\quad \\text{LHS} = 2(1)-1 = 1, \\quad \\text{RHS} = 1^2 = 1. \\quad \\checkmark \\\\[6pt] \\textbf{Inductive Hypothesis: } \\text{Assume } 1 + 3 + \\cdots + (2k-1) = k^2.",
+      "description_latex": "The base case checks out, and we've stated the inductive hypothesis. Now you need to use the hypothesis to prove the statement for $k+1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Complete the inductive step: starting from $1 + 3 + \\cdots + (2k-1) + (2(k+1)-1)$, substitute the inductive hypothesis for the first $k$ terms and simplify to show the result equals $(k+1)^2$. Show each algebraic step clearly.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\textbf{Conclusion: } \\text{By induction, } 1 + 3 + 5 + \\cdots + (2n-1) = n^2 \\text{ for all } n \\geq 1.",
+      "description_latex": "Once you've shown that assuming $P(k)$ forces $P(k+1)$ to be true, you combine it with the verified base case to conclude the formula holds universally. Always state this conclusion sentence explicitly.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Verify the base case } (n=1) \\text{ and state the inductive hypothesis for the claim: } \\sum_{i=1}^{n} 2i = n(n+1).",
+      "answer_latex": "\\text{Base case: LHS} = 2(1) = 2,\\ \\text{RHS} = 1(2) = 2.\\ \\checkmark \\\\ \\text{Inductive hypothesis: Assume } \\sum_{i=1}^{k} 2i = k(k+1)."
+    },
+    {
+      "prompt_latex": "\\text{Prove by mathematical induction: } 1 + 2 + 4 + \\cdots + 2^{n-1} = 2^n - 1 \\text{ for all } n \\geq 1.",
+      "answer_latex": "\\text{Base: } 2^1 - 1 = 1.\\ \\checkmark\\ \\text{Assume } \\sum_{i=0}^{k-1} 2^i = 2^k - 1.\\ \\text{Then } (2^k - 1) + 2^k = 2 \\cdot 2^k - 1 = 2^{k+1} - 1.\\ \\checkmark"
+    },
+    {
+      "prompt_latex": "\\text{Prove by induction: } \\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6} \\text{ for all } n \\geq 1.",
+      "answer_latex": "\\text{Base: } 1^2 = 1 = \\frac{1 \\cdot 2 \\cdot 3}{6}.\\ \\checkmark\\ \\text{Inductive step: } \\frac{k(k+1)(2k+1)}{6} + (k+1)^2 = \\frac{(k+1)(k+2)(2k+3)}{6}.\\ \\checkmark"
+    },
+    {
+      "prompt_latex": "\\text{Prove by induction that } 3^n > 2n + 1 \\text{ for all integers } n \\geq 2.",
+      "answer_latex": "\\text{Base: } n=2:\\ 3^2 = 9 > 5 = 2(2)+1.\\ \\checkmark\\ \\text{Assume } 3^k > 2k+1.\\ \\text{Then } 3^{k+1} = 3 \\cdot 3^k > 3(2k+1) = 6k+3 > 2k+3 = 2(k+1)+1 \\text{ for } k \\geq 2.\\ \\checkmark"
+    },
+    {
+      "prompt_latex": "\\text{A bank account starts with } \\$1 \\text{ and doubles each month. Use induction to prove the balance after } n \\text{ months is } 2^n \\text{ dollars.}",
+      "answer_latex": "\\text{Base: After 1 month, balance} = 2 = 2^1.\\ \\checkmark\\ \\text{Assume after } k \\text{ months balance} = 2^k.\\ \\text{After month } k+1 \\text{: balance} = 2 \\cdot 2^k = 2^{k+1}.\\ \\checkmark\\ \\text{By induction, balance after } n \\text{ months is } 2^n."
+    }
+  ],
+  "common_mistakes": [
+    "Students assume $P(k)$ is true and then simply re-state $P(k+1)$ without actually deriving it from $P(k)$. The inductive step requires you to start from the left side of $P(k+1)$, insert the inductive hypothesis mid-calculation, and algebraically reach the right side \u2014 writing the conclusion first and working backwards is circular reasoning, not a proof.",
+    "Students forget to write the base case, or check only that \"the formula looks right for $n=1$\" without substituting into both sides and confirming equality. The base case must be an explicit, numerical verification \u2014 without it the inductive chain has no starting point and the entire proof is invalid.",
+    "During the inductive step, students add $(k+1)$ to the right side of the inductive hypothesis but forget to add it to the left side as well, breaking the equation. Always start your inductive step by writing out the complete sum for $n = k+1$, then split off the final term and substitute \u2014 this mechanical structure prevents mismatched equations."
+  ],
+  "untested_variants": [
+    "Proving divisibility statements by induction, such as showing $6^n - 1$ is divisible by $5$ for all $n \\geq 1$, which requires reasoning about remainders rather than algebraic simplification.",
+    "Induction with a base case other than $n = 1$, such as proving an inequality holds for all $n \\geq 3$ or all $n \\geq 0$, where students must adjust what the base case is and why.",
+    "Strong induction (also called complete induction), where the inductive hypothesis assumes $P(j)$ is true for ALL $j \\leq k$ rather than just $j = k$, commonly needed in problems like proving every integer $\\geq 2$ has a prime factorization.",
+    "Induction to prove formulas involving products rather than sums, such as $\\prod_{i=1}^{n}\\left(1 - \\frac{1}{i+1}\\right) = \\frac{1}{n+1}$, where the inductive step requires multiplying both sides by a new factor rather than adding a new term."
+  ]
+}

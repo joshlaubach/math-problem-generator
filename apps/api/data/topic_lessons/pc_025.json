@@ -1,0 +1,91 @@
+{
+  "topic_id": "pc_025",
+  "topic_name": "Graphs of Sine and Cosine",
+  "generated_at": "2026-05-12T23:46:15.373374+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know that $\\sin(\\theta)$ and $\\cos(\\theta)$ give you the $y$- and $x$-coordinates on the unit circle, and you can evaluate them at special angles. But what happens when you stretch, compress, or shift those values and plot them as a continuous curve across the entire real line? For example, if a sound wave is modeled by $y = 3\\sin(2x - \\pi) + 1$, how do you know where the wave starts, how tall it is, and how long one full cycle takes \u2014 just by reading the equation?",
+  "concept": "The graphs of sine and cosine are smooth, repeating (periodic) wave-shaped curves. Formally, $y = A\\sin(Bx - C) + D$ and $y = A\\cos(Bx - C) + D$ describe transformations of the basic waves $y = \\sin(x)$ and $y = \\cos(x)$, where the output oscillates forever between a maximum and minimum value. Understanding these graphs means being able to read four key features \u2014 amplitude, period, phase shift, and vertical shift \u2014 directly from the equation.",
+  "anatomy": "The four structural parameters each control a distinct feature of the wave. The amplitude $|A|$ is the distance from the midline to the peak (or trough), controlling vertical stretch; if $A < 0$ the wave is reflected over the midline. The period $T = \\frac{2\\pi}{|B|}$ is the horizontal length of one full cycle, controlled by the frequency factor $B$. The phase shift $\\frac{C}{B}$ is the horizontal translation \u2014 positive $\\frac{C}{B}$ shifts the graph to the right. The vertical shift $D$ moves the entire midline up or down from $y = 0$, so the wave oscillates between $D - |A|$ and $D + |A|$.",
+  "worked_example": [
+    {
+      "expression_latex": "y = 3\\sin(2x - \\pi) + 1",
+      "description_latex": "We start by identifying the four parameters directly from the equation. Matching to the form $y = A\\sin(Bx - C) + D$, we can read off $A = 3$, $B = 2$, $C = \\pi$, and $D = 1$. Writing these down first keeps the rest of the work organized.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Amplitude} = |A| = |3| = 3",
+      "description_latex": "The amplitude tells us how far the wave travels above and below its midline. Here $|A| = 3$, so the graph reaches 3 units above and 3 units below the midline $y = 1$, meaning the maximum value is $1 + 3 = 4$ and the minimum is $1 - 3 = -2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T = \\frac{2\\pi}{|B|} = \\frac{2\\pi}{2} = \\pi",
+      "description_latex": "The period is the horizontal distance needed to complete one full cycle of the wave. Dividing $2\\pi$ by $|B| = 2$ gives $T = \\pi$, which means the wave repeats every $\\pi$ units along the $x$-axis \u2014 it completes cycles twice as fast as the basic sine curve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Phase shift} = \\frac{C}{B} = \\frac{\\pi}{2} \\text{ (right)}",
+      "description_latex": "The phase shift tells us where the cycle begins horizontally. Because $C = \\pi$ and $B = 2$, the graph is shifted $\\frac{\\pi}{2}$ units to the right compared to $y = 3\\sin(2x) + 1$. A positive phase shift always moves the wave to the right.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Key points over one cycle: } x = \\frac{\\pi}{2},\\; \\frac{3\\pi}{4},\\; \\pi,\\; \\frac{5\\pi}{4},\\; \\frac{3\\pi}{2}",
+      "description_latex": "To sketch the graph, we divide one full period starting at the phase shift into four equal quarter-period intervals of $\\frac{\\pi}{4}$ each, giving us five key $x$-values. At these points the sine wave hits its start (midline), maximum, midline, minimum, and return to midline in sequence, so the corresponding $y$-values are $1, 4, 1, -2, 1$. Plotting and connecting these five points with a smooth curve produces one complete cycle.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y = -2\\cos\\!\\left(\\tfrac{1}{2}x + \\tfrac{\\pi}{4}\\right) - 3",
+      "description_latex": "We want to find the amplitude, period, phase shift, and vertical shift for this cosine function. First, match the equation to the form $y = A\\cos(Bx - C) + D$. Notice that $+\\frac{\\pi}{4}$ inside the parentheses means $C = -\\frac{\\pi}{4}$, because the form uses subtraction: $Bx - C = \\frac{1}{2}x - (-\\frac{\\pi}{4})$. We can read off $A = -2$, $B = \\frac{1}{2}$, $C = -\\frac{\\pi}{4}$, $D = -3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Amplitude} = |{-2}| = 2, \\quad T = \\frac{2\\pi}{1/2} = 4\\pi",
+      "description_latex": "The amplitude is $2$ (the negative sign means the cosine is reflected, so it starts at its minimum rather than its maximum), and the period is $4\\pi$ because $B = \\frac{1}{2}$ stretches the cycle to be four times as wide as the basic cosine. These two values are computed for you \u2014 use them in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find the phase shift and state the midline. The phase shift equals $\\frac{C}{B}$; substitute $C = -\\frac{\\pi}{4}$ and $B = \\frac{1}{2}$ and simplify. Then write the equation of the midline using $D$. Does a negative phase shift move the graph left or right?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Max} = D + |A| = -3 + 2 = -1, \\quad \\text{Min} = D - |A| = -3 - 2 = -5",
+      "description_latex": "With the midline at $y = -3$ and amplitude $2$, the wave oscillates between $-1$ and $-5$. Because $A$ is negative the graph opens downward from the start of the cycle \u2014 it hits its minimum first at the phase-shifted starting point, reaches the midline, then climbs to the maximum, and returns. Use these values and the phase shift you found to sketch or describe the key points of one full cycle.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the amplitude and period of $y = 4\\sin(x)$.",
+      "answer_latex": "\\text{Amplitude} = 4, \\quad T = 2\\pi"
+    },
+    {
+      "prompt_latex": "Find the amplitude, period, phase shift, and vertical shift of $y = 2\\cos(3x - \\pi)$.",
+      "answer_latex": "\\text{Amplitude} = 2,\\; T = \\dfrac{2\\pi}{3},\\; \\text{Phase shift} = \\dfrac{\\pi}{3} \\text{ right},\\; D = 0"
+    },
+    {
+      "prompt_latex": "Write the equation of a sine function with amplitude $5$, period $4\\pi$, a phase shift of $\\frac{\\pi}{2}$ to the left, and a vertical shift of $-2$.",
+      "answer_latex": "y = 5\\sin\\!\\left(\\tfrac{1}{2}x + \\tfrac{\\pi}{4}\\right) - 2"
+    },
+    {
+      "prompt_latex": "The graph of $y = \\sin(x)$ is transformed to $y = -\\sin(2x + \\pi) + 3$. Identify all four parameters, state the maximum and minimum values, and give the $x$-coordinate where the first maximum occurs for $x \\geq 0$.",
+      "answer_latex": "|A|=1 \\text{ (reflected)},\\; T=\\pi,\\; \\text{phase shift}=\\tfrac{\\pi}{2}\\text{ left},\\; D=3;\\quad \\text{Max}=4,\\; \\text{Min}=2;\\quad x = \\tfrac{\\pi}{2} \\text{ (first max, since reflection turns the minimum into the starting peak)}"
+    },
+    {
+      "prompt_latex": "A Ferris wheel has a diameter of $40$ m and its center is $25$ m above the ground. It completes one full rotation every $60$ seconds. A rider starts at the bottom. Write a cosine equation $h(t)$ for the rider's height in meters as a function of time $t$ in seconds, then state the maximum height and the first time the rider reaches it.",
+      "answer_latex": "h(t) = -20\\cos\\!\\left(\\tfrac{\\pi}{30}t\\right) + 25;\\quad \\text{Max height} = 45\\text{ m at } t = 30\\text{ s}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often compute the period as $2\\pi \\cdot |B|$ instead of $\\frac{2\\pi}{|B|}$, multiplying when they should divide. Remember: a larger $B$ makes the wave oscillate faster, so the period must get smaller, which means you divide.",
+    "When the equation is written as $y = A\\sin(Bx + C) + D$ (addition inside), students frequently report the phase shift as $+\\frac{C}{B}$ (to the right) when it is actually $-\\frac{C}{B}$ (to the left). Always rewrite the argument in the form $(Bx - C)$ before computing $\\frac{C}{B}$ to get the correct direction.",
+    "Students often ignore the sign of $A$ when sketching, drawing a normal peak at the start of the cycle even when $A$ is negative. A negative amplitude reflects the graph over the midline, so the wave begins at its minimum (for sine) or maximum descent (for cosine) \u2014 check the sign before plotting key points."
+  ],
+  "untested_variants": [
+    "Finding the equation of a sine or cosine function given only its graph (reading amplitude, period, and phase shift visually from plotted key points).",
+    "Graphing or analyzing $y = A\\sin(Bx - C) + D$ where $B$ is a non-unit fraction that creates a period greater than $2\\pi$, combined with a fractional phase shift requiring careful simplification.",
+    "Determining where two sinusoidal functions intersect by setting them equal, which requires combining graph-reading skills with solving a trigonometric equation.",
+    "Modeling scenarios involving sinusoidal regression or data fitting, where students must determine $A$, $B$, $C$, and $D$ from a table of real-world values rather than from an explicit equation."
+  ]
+}

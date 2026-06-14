@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_055",
+  "topic_name": "The Spectral Theorem for Normal Operators (H)",
+  "generated_at": "2026-05-13T20:10:14.637524+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that symmetric matrices over the reals have a full set of orthogonal eigenvectors \u2014 the real spectral theorem is a clean and powerful result. You have also just learned what it means for an operator on a complex inner product space to be *normal*, satisfying $TT^* = T^*T$. But can we get an equally clean diagonal picture for normal operators on complex spaces, and what exactly does 'diagonal' mean in the infinite-dimensional or abstract setting? The question is: given a normal operator $T$ on a finite-dimensional complex inner product space, can we always find an orthonormal basis of eigenvectors?",
+  "concept": "The Spectral Theorem for Normal Operators says yes: every normal operator on a finite-dimensional complex inner product space is *orthonormally diagonalizable*. Formally, if $V$ is a finite-dimensional complex inner product space and $T \\in \\mathcal{L}(V)$ satisfies $TT^* = T^*T$, then there exists an orthonormal basis $e_1, \\ldots, e_n$ of $V$ consisting entirely of eigenvectors of $T$, meaning $T e_j = \\lambda_j e_j$ for eigenvalues $\\lambda_j \\in \\mathbb{C}$.",
+  "anatomy": "The theorem has four key components. First, the *normality condition* $TT^* = T^*T$ is the hypothesis \u2014 it generalizes both self-adjoint operators ($T = T^*$) and unitary operators ($TT^* = I$). Second, the *eigenvalues* $\\lambda_1, \\ldots, \\lambda_n \\in \\mathbb{C}$ are generally complex (not necessarily real), which is what requires working over $\\mathbb{C}$. Third, the *orthonormal eigenbasis* $\\{e_1, \\ldots, e_n\\}$ is the structural output \u2014 these eigenvectors are pairwise orthogonal and each has unit norm. Fourth, the *matrix representation* of $T$ in this basis is the diagonal matrix $\\operatorname{diag}(\\lambda_1, \\ldots, \\lambda_n)$, so $T$ looks like a pure scaling in each direction.",
+  "worked_example": [
+    {
+      "expression_latex": "T = \\begin{pmatrix} 2 & i \\\\ -i & 2 \\end{pmatrix}, \\quad T^* = \\begin{pmatrix} 2 & i \\\\ -i & 2 \\end{pmatrix}",
+      "description_latex": "We first compute $T^*$ by taking the conjugate transpose of $T$. Since the $(1,2)$ entry of $T$ is $i$, the $(2,1)$ entry of $T^*$ is $\\overline{i} = -i$, and similarly for the other entry, giving $T^* = T$. This means $T$ is self-adjoint, which is a special case of normal, so the spectral theorem applies.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(T - \\lambda I) = (2-\\lambda)^2 - (i)(-i) = (2-\\lambda)^2 - 1 = 0",
+      "description_latex": "We find the eigenvalues by solving the characteristic polynomial. The off-diagonal product $(i)(-i) = -i^2 = 1$, so the determinant simplifies to $(2-\\lambda)^2 - 1 = 0$. Solving gives $2 - \\lambda = \\pm 1$, yielding eigenvalues $\\lambda_1 = 1$ and $\\lambda_2 = 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_1 = 1: \\quad (T - I)v = 0 \\implies \\begin{pmatrix} 1 & i \\\\ -i & 1 \\end{pmatrix}\\begin{pmatrix} v_1 \\\\ v_2 \\end{pmatrix} = 0 \\implies v_1 = -iv_2",
+      "description_latex": "For $\\lambda_1 = 1$ we row-reduce $T - I$ to find the eigenspace. The equation $v_1 + iv_2 = 0$ gives $v_1 = -iv_2$, so an unnormalized eigenvector is $(-i, 1)^T$. We normalize: $\\|(-i,1)\\| = \\sqrt{1+1} = \\sqrt{2}$, giving $e_1 = \\frac{1}{\\sqrt{2}}(-i, 1)^T$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_2 = 3: \\quad e_2 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix} i \\\\ 1 \\end{pmatrix}",
+      "description_latex": "For $\\lambda_2 = 3$ we solve $(T - 3I)v = 0$ and find $v_1 = iv_2$, giving unnormalized eigenvector $(i, 1)^T$ with norm $\\sqrt{2}$, so $e_2 = \\frac{1}{\\sqrt{2}}(i, 1)^T$. We should verify orthogonality: $\\langle e_1, e_2 \\rangle = \\frac{1}{2}((-i)(\\overline{i}) + (1)(\\overline{1})) = \\frac{1}{2}((-i)(-i) + 1) = \\frac{1}{2}(-1+1) = 0$, confirming the spectral theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[T]_{\\{e_1,e_2\\}} = \\begin{pmatrix} 1 & 0 \\\\ 0 & 3 \\end{pmatrix}",
+      "description_latex": "The spectral theorem guarantees that in the orthonormal basis $\\{e_1, e_2\\}$, the matrix of $T$ is diagonal with eigenvalues on the diagonal. We can write this as $T = 1 \\cdot e_1 e_1^* + 3 \\cdot e_2 e_2^*$, which is the *spectral decomposition* of $T$ as a sum of scaled orthogonal projections onto eigenspaces.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}",
+      "description_latex": "We want to apply the spectral theorem to this real matrix viewed as an operator on $\\mathbb{C}^2$. First, verify normality by computing $AA^*$ and $A^*A$, where $A^* = A^T$ since all entries are real.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AA^* = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}\\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix} = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix} = A^*A",
+      "description_latex": "We confirm $AA^* = A^*A = I$, so $A$ is unitary \u2014 a special case of normal. The spectral theorem therefore applies over $\\mathbb{C}$, and $A$ must have an orthonormal eigenbasis of $\\mathbb{C}^2$. Now find the eigenvalues by solving $\\det(A - \\lambda I) = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute the characteristic polynomial $\\det(A - \\lambda I)$, solve for the two eigenvalues $\\lambda_1, \\lambda_2 \\in \\mathbb{C}$, and for each eigenvalue find a unit eigenvector. Then write down the diagonal matrix representing $A$ in the eigenbasis.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $T$ have matrix $\\begin{pmatrix} 3 & 0 \\\\ 0 & 5 \\end{pmatrix}$ on $\\mathbb{C}^2$. Is $T$ normal? State its spectral decomposition.",
+      "answer_latex": "$T$ is already diagonal and self-adjoint, hence normal. The spectral decomposition is $T = 3 e_1 e_1^* + 5 e_2 e_2^*$ where $e_1 = (1,0)^T$, $e_2 = (0,1)^T$."
+    },
+    {
+      "prompt_latex": "Verify that $A = \\begin{pmatrix} 1 & i \\\\ -i & 1 \\end{pmatrix}$ is normal and find its eigenvalues.",
+      "answer_latex": "$A^* = \\begin{pmatrix} 1 & i \\\\ -i & 1 \\end{pmatrix} = A$, so $A$ is self-adjoint and normal. The characteristic polynomial is $(1-\\lambda)^2 - 1 = 0$, giving eigenvalues $\\lambda = 0$ and $\\lambda = 2$."
+    },
+    {
+      "prompt_latex": "Find an orthonormal eigenbasis for $B = \\begin{pmatrix} 0 & i \\\\ -i & 0 \\end{pmatrix}$ on $\\mathbb{C}^2$.",
+      "answer_latex": "Eigenvalues: $\\lambda^2 - 1 = 0$, so $\\lambda = \\pm 1$. For $\\lambda=1$: eigenvector proportional to $(i,1)^T$, normalized to $e_1 = \\frac{1}{\\sqrt{2}}(i,1)^T$. For $\\lambda=-1$: eigenvector proportional to $(-i,1)^T$, normalized to $e_2 = \\frac{1}{\\sqrt{2}}(-i,1)^T$."
+    },
+    {
+      "prompt_latex": "Let $T$ be a normal operator on $\\mathbb{C}^3$ with eigenvalues $1, 1, -1$ and suppose the eigenspace for $\\lambda=1$ is spanned by $(1,0,0)^T$ and $(0,1,0)^T$, and the eigenspace for $\\lambda=-1$ is spanned by $(0,0,1)^T$. Write the spectral decomposition $T = \\sum_j \\lambda_j P_j$ where $P_j$ are orthogonal projections onto eigenspaces.",
+      "answer_latex": "$T = 1 \\cdot P_1 + (-1) \\cdot P_2$ where $P_1 = \\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&0\\end{pmatrix}$ and $P_2 = \\begin{pmatrix}0&0&0\\\\0&0&0\\\\0&0&1\\end{pmatrix}$."
+    },
+    {
+      "prompt_latex": "A quantum observable is modeled by $H = \\begin{pmatrix} 2 & 1+i \\\\ 1-i & 3 \\end{pmatrix}$. Verify $H$ is self-adjoint, then find the eigenvalues (the possible measurement outcomes) using the characteristic polynomial.",
+      "answer_latex": "$H^* = \\overline{H}^T = \\begin{pmatrix}2 & 1+i \\\\ 1-i & 3\\end{pmatrix} = H$, so $H$ is self-adjoint (hence normal). Characteristic polynomial: $(2-\\lambda)(3-\\lambda) - (1+i)(1-i) = \\lambda^2 - 5\\lambda + 6 - 2 = \\lambda^2 - 5\\lambda + 4 = 0$, giving eigenvalues $\\lambda = 1$ and $\\lambda = 4$."
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes try to apply the spectral theorem over $\\mathbb{R}$ to a normal operator that is not self-adjoint, then are surprised when no real eigenbasis exists. The fix: the complex spectral theorem requires working over $\\mathbb{C}$; over $\\mathbb{R}$, orthonormal diagonalizability requires the stronger condition that $T$ is self-adjoint ($T = T^*$), not merely normal.",
+    "When computing $T^*$ to check normality, students forget to take the complex conjugate and only transpose, so they check $T^T$ instead of $\\overline{T}^T$. This leads to incorrectly classifying a non-normal operator as normal; always conjugate every entry AND transpose.",
+    "Students conflate 'orthonormal eigenbasis exists' with 'eigenvalues are real.' For normal operators on complex spaces the spectral theorem guarantees an orthonormal eigenbasis but the eigenvalues $\\lambda_j$ can be any complex numbers; it is only the additional assumption $T = T^*$ (self-adjointness) that forces all $\\lambda_j \\in \\mathbb{R}$."
+  ],
+  "untested_variants": [
+    "Applying the real spectral theorem: proving that a self-adjoint operator on a *real* inner product space is orthonormally diagonalizable, where the argument requires a different proof strategy since $\\mathbb{C}$ is not available.",
+    "Spectral theorem for unitary operators: proving or using the fact that a unitary operator's eigenvalues all lie on the unit circle $|\\lambda| = 1$, and constructing eigenbases for explicit $3 \\times 3$ unitary matrices.",
+    "Infinite-dimensional generalizations: the spectral theorem for compact normal operators or bounded normal operators on Hilbert spaces, where the sum over eigenvalues becomes an integral or an infinite series.",
+    "Using the spectral decomposition to compute functions of operators, such as $f(T) = \\sum_j f(\\lambda_j) P_j$, for example computing $e^T$ or $T^{100}$ via the spectral decomposition of a given normal matrix."
+  ]
+}

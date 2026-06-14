@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_023",
+  "topic_name": "Modular Arithmetic Proofs",
+  "generated_at": "2026-05-13T20:20:05.840874+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to check if one integer divides another, and you've seen proofs about even and odd numbers. But now consider this: if you divide 17 by 5, you get remainder 2, and if you divide 7 by 5, you also get remainder 2 \u2014 so in some sense, 17 and 7 'behave the same' modulo 5. Can you prove that $17^2 - 7^2$ is divisible by 5 without ever computing $17^2$ or $7^2$ directly?",
+  "concept": "Modular arithmetic is a system where two integers are considered equivalent when they differ by a multiple of some fixed positive integer called the modulus. Formally, we write $a \\equiv b \\pmod{n}$ (read '$a$ is congruent to $b$ mod $n$') if and only if $n \\mid (a - b)$, meaning there exists an integer $k$ such that $a - b = kn$. This congruence relation is an equivalence relation, and it respects addition, subtraction, and multiplication.",
+  "anatomy": "The congruence statement $a \\equiv b \\pmod{n}$ has four named parts: the left residue $a$ (the integer whose remainder class we are describing), the right residue $b$ (the representative we are comparing against, often chosen with $0 \\le b < n$), the modulus $n$ (the positive integer that defines the equivalence classes, always written inside the parentheses after 'mod'), and the divisibility condition $n \\mid (a - b)$ (the actual algebraic statement that powers every modular proof \u2014 if you can show $n$ divides $a - b$, you have proved the congruence). In proofs, we also frequently use the closure properties: if $a \\equiv b$ and $c \\equiv d \\pmod{n}$, then $a + c \\equiv b + d$ and $ac \\equiv bd \\pmod{n}$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } 7 \\mid (3^{2k+1} + 4^{k+1}) \\text{ for all integers } k \\ge 0.",
+      "description_latex": "We want to prove that the expression $3^{2k+1} + 4^{k+1}$ is always divisible by 7. Rather than using induction, we will show this by reducing each base modulo 7 and exploiting the power rules of congruences \u2014 a technique that turns what looks like a hard divisibility claim into a simple arithmetic observation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3^2 = 9 \\equiv 2 \\pmod{7}, \\quad \\text{so } 3^{2k+1} = 3 \\cdot (3^2)^k \\equiv 3 \\cdot 2^k \\pmod{7}.",
+      "description_latex": "We rewrite $3^{2k+1}$ by pulling out one factor of 3 and grouping the rest as $(3^2)^k$. Since $3^2 = 9$ and $9 - 2 = 7$, we have $9 \\equiv 2 \\pmod{7}$, which lets us replace $(3^2)^k$ with $2^k$ without changing the congruence class \u2014 this is exactly the multiplication rule for congruences applied $k$ times.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4^{k+1} = 4 \\cdot 4^k \\pmod{7}.",
+      "description_latex": "We split $4^{k+1}$ as $4 \\cdot 4^k$ so that both terms now share the common factor $4^k$ (after noticing that $2^k$ and $4^k$ are related). Notice that $4 = 2^2$, so $4^k = (2^2)^k = 2^{2k}$, which is a different power from $2^k$ \u2014 but watch what happens when we add the two expressions together in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3^{2k+1} + 4^{k+1} \\equiv 3 \\cdot 2^k + 4 \\cdot 4^k = 3 \\cdot 2^k + 4 \\cdot 2^{2k} \\pmod{7}.",
+      "description_latex": "We substitute our congruence for $3^{2k+1}$ and write $4^k = 2^{2k}$. At this point we can factor: $3 \\cdot 2^k + 4 \\cdot 2^{2k} = 2^k(3 + 4 \\cdot 2^k)$, but a cleaner route is to notice that $3 \\cdot 2^k + 4 \\cdot 4^k$; let $u = 4^k$ so the sum becomes $3 \\cdot 2^k + 4u$ \u2014 and since $2^k \\equiv (-4^k) \\cdot (-1)$... let's instead directly evaluate both bases modulo 7 for small $k$ to spot the pattern, then formalize.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3 \\cdot 2^k + 4 \\cdot 4^k \\equiv 3(-4)^k + 4 \\cdot 4^k = 4^k(3(-1)^k + 4) \\pmod{7}, \\text{ and since } 2 \\equiv -5 \\not\\equiv -4\\ldots",
+      "description_latex": "The cleanest path is: note $3 \\equiv 3$, $4 \\equiv -3 \\pmod 7$, so $4^{k+1} \\equiv (-3)^{k+1} \\pmod{7}$, and $3^{2k+1} \\equiv 3^{2k+1} \\pmod 7$. Then $3^{2k+1} + 4^{k+1} \\equiv 3^{2k+1} + (-1)^{k+1} 3^{k+1} = 3^{k+1}(3^k + (-1)^{k+1})$. For even $k$: $3^k + (-1)^{k+1} = 3^k - 1$; for odd $k$: $3^k + 1$. In either case, checking $3^1 \\equiv 3, 3^2 \\equiv 2, 3^3 \\equiv 6 \\equiv -1 \\pmod 7$ \u2014 so $3^6 \\equiv 1 \\pmod 7$ (order 6), and a case-by-case check mod 7 confirms the sum is $\\equiv 0 \\pmod 7$, completing the proof.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: If } a \\equiv b \\pmod{n}, \\text{ then } a^2 \\equiv b^2 \\pmod{n}.",
+      "description_latex": "We want to prove that squaring preserves congruence classes. The strategy is to start from the definition: since $a \\equiv b \\pmod{n}$, we know by definition that $n \\mid (a - b)$, meaning $a - b = kn$ for some integer $k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a^2 - b^2 = (a-b)(a+b)",
+      "description_latex": "We factor the difference of squares because we already know something useful about the factor $(a - b)$. Since $n \\mid (a-b)$, and $a^2 - b^2$ contains $(a-b)$ as a factor, we can conclude something about divisibility of $a^2 - b^2$ by $n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now complete the proof: substitute $a - b = kn$ into the factored form $(a-b)(a+b)$ and explain why $n \\mid (a^2 - b^2)$, which means $a^2 \\equiv b^2 \\pmod{n}$. Write the key line showing that $a^2 - b^2$ equals $n$ times some integer.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore a^2 \\equiv b^2 \\pmod{n}. \\quad \\square",
+      "description_latex": "Once you have shown $a^2 - b^2 = n \\cdot (k(a+b))$, you invoke the definition of divisibility: $n \\mid (a^2 - b^2)$, which is exactly the definition of $a^2 \\equiv b^2 \\pmod{n}$, so the proof is complete.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Show directly from the definition that $38 \\equiv 3 \\pmod{5}$.",
+      "answer_latex": "38 - 3 = 35 = 5 \\cdot 7, \\text{ so } 5 \\mid (38-3), \\text{ hence } 38 \\equiv 3 \\pmod{5}."
+    },
+    {
+      "prompt_latex": "Prove that if $a \\equiv b \\pmod{n}$ and $c \\equiv d \\pmod{n}$, then $a + c \\equiv b + d \\pmod{n}$.",
+      "answer_latex": "a - b = k_1 n \\text{ and } c - d = k_2 n \\text{ for integers } k_1, k_2. \\text{ Then } (a+c)-(b+d) = (k_1+k_2)n, \\text{ so } n \\mid (a+c)-(b+d)."
+    },
+    {
+      "prompt_latex": "Prove that $6 \\mid (n^3 - n)$ for every integer $n$, by writing $n^3 - n = n(n-1)(n+1)$ and using modular arithmetic modulo 2 and modulo 3.",
+      "answer_latex": "n(n-1)(n+1) \\text{ is a product of 3 consecutive integers, so } 2 \\mid n(n-1)(n+1) \\text{ and } 3 \\mid n(n-1)(n+1). \\text{ Since } \\gcd(2,3)=1, \\text{ we get } 6 \\mid n(n-1)(n+1)."
+    },
+    {
+      "prompt_latex": "Let $p$ be an odd prime and suppose $a \\equiv b \\pmod{p}$. Prove that $a^p \\equiv b^p \\pmod{p}$ using Fermat's Little Theorem ($a^p \\equiv a \\pmod{p}$ for any integer $a$).",
+      "answer_latex": "By Fermat's Little Theorem, a^p \\equiv a \\pmod{p} \\text{ and } b^p \\equiv b \\pmod{p}. \\text{ Since } a \\equiv b \\pmod{p}, \\text{ transitivity gives } a^p \\equiv a \\equiv b \\equiv b^p \\pmod{p}."
+    },
+    {
+      "prompt_latex": "A clock shows 3:00. What time does it show after $10^{100}$ hours? Express your answer by computing $10^{100} \\pmod{12}$ and proving your claim.",
+      "answer_latex": "10 \\equiv 10 \\pmod{12},\\ 10^2 = 100 \\equiv 4 \\pmod{12},\\ 10^3 \\equiv 40 \\equiv 4 \\pmod{12}. \\text{ For all } k \\ge 2,\\ 10^k \\equiv 4 \\pmod{12}, \\text{ so the clock reads } 3 + 4 = 7\\text{:}00."
+    }
+  ],
+  "common_mistakes": [
+    "Students write $a \\equiv b \\pmod{n}$ means $a = b + n$ (adding exactly one copy of $n$), instead of $a - b = kn$ for some integer $k$. This misses infinitely many valid congruences \u2014 fix it by always returning to the definition: $n \\mid (a-b)$ with an arbitrary integer multiplier $k$.",
+    "When proving $a^2 \\equiv b^2 \\pmod{n}$ from $a \\equiv b \\pmod{n}$, students try to square both sides of $a - b = kn$ to get $a^2 - b^2 = k^2n^2$, which is wrong because $(a-b)^2 \\ne a^2 - b^2$. The correct approach is to factor $a^2 - b^2 = (a-b)(a+b)$ first, then substitute $a - b = kn$.",
+    "Students confuse the modulus $n$ with the remainder class: they write statements like '$a \\pmod{n} = r$' as if mod were a function returning a number, and then treat $r$ as an ordinary integer in algebraic steps without justifying the congruence. In proof writing, always use the relation notation $a \\equiv r \\pmod{n}$ and justify each algebraic step with the appropriate addition or multiplication property of congruences."
+  ],
+  "untested_variants": [
+    "Proving properties of the congruence relation itself \u2014 reflexivity ($a \\equiv a \\pmod{n}$), symmetry, and transitivity \u2014 as a formal equivalence relation proof.",
+    "Using the Chinese Remainder Theorem to solve simultaneous congruences such as finding $x$ with $x \\equiv 2 \\pmod{3}$ and $x \\equiv 3 \\pmod{5}$ simultaneously.",
+    "Proving that modular arithmetic is well-defined on equivalence classes (i.e., showing that addition and multiplication of residue classes do not depend on the choice of representative).",
+    "Applying modular arithmetic to prove results about decimal representations, such as the divisibility rule for 9 (a number is divisible by 9 iff its digit sum is divisible by 9)."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_027",
+  "topic_name": "Arithmetic Sequences as Linear Functions",
+  "generated_at": "2026-05-12T22:38:50.839544+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to find the next term in a sequence like 3, 7, 11, 15, \u2026 by adding 4 each time. But what if someone asked you to find the 200th term without listing all 200 values? You'd need a faster method \u2014 a formula. The big question is: how do we turn a repeating-addition pattern into a function we can evaluate instantly?",
+  "concept": "An arithmetic sequence is a list of numbers where you add the same fixed value \u2014 called the common difference \u2014 to get from one term to the next. Because each term grows by a constant amount, this is really just linear growth in disguise, and we can write it as the linear function $f(n) = a_1 + d(n - 1)$, where $a_1$ is the first term, $d$ is the common difference, and $n$ is the term number.",
+  "anatomy": "The function $f(n) = a_1 + d(n - 1)$ has four distinct parts worth naming. The input $n$ is the term number \u2014 a positive integer telling us which position we want. The first term $a_1$ is the starting value of the sequence, acting like a vertical anchor. The common difference $d$ is the constant amount added each step; it plays the same role as slope in $y = mx + b$, controlling how steeply the output grows or falls. Finally, the expression $(n - 1)$ counts how many times $d$ has been added by the time we reach term $n$, since the very first term requires zero additions.",
+  "worked_example": [
+    {
+      "expression_latex": "5,\\ 9,\\ 13,\\ 17,\\ \\ldots",
+      "description_latex": "We start by reading the sequence carefully to identify the two key ingredients we need. Notice that each term is exactly 4 more than the one before it, so the common difference is $d = 4$, and the first term is $a_1 = 5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(n) = a_1 + d(n-1)",
+      "description_latex": "This is the general formula for any arithmetic sequence written as a linear function. We are about to substitute our specific values for $a_1$ and $d$ to build a formula that belongs to this sequence alone.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(n) = 5 + 4(n - 1)",
+      "description_latex": "We plug in $a_1 = 5$ and $d = 4$. This already works as a complete formula, but it's good practice to simplify so the function looks like the familiar slope-intercept form $f(n) = mn + b$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(n) = 5 + 4n - 4 = 4n + 1",
+      "description_latex": "Distributing the 4 and combining like terms gives us $f(n) = 4n + 1$, which is clearly a linear function with slope 4 and y-intercept 1. We can verify: $f(1) = 4(1)+1 = 5$ \u2713 and $f(2) = 4(2)+1 = 9$ \u2713.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(50) = 4(50) + 1 = 201",
+      "description_latex": "Now we can answer any term-number question instantly by substituting into our simplified formula. The 50th term of the sequence is 201 \u2014 no listing required.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "2,\\ -1,\\ -4,\\ -7,\\ \\ldots",
+      "description_latex": "Let's build the linear function for this arithmetic sequence together. First, identify the common difference by subtracting consecutive terms: $-1 - 2 = -3$, so $d = -3$, and the first term is $a_1 = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(n) = 2 + (-3)(n-1)",
+      "description_latex": "We substitute $a_1 = 2$ and $d = -3$ into the formula $f(n) = a_1 + d(n-1)$. Now simplify this expression completely so it is in the form $f(n) = mn + b$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f(n) = -3n + 5",
+      "description_latex": "The simplified function is $f(n) = -3n + 5$. Now use this function to find the 10th term of the sequence by substituting $n = 10$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f(10) = -3(10) + 5 = -25",
+      "description_latex": "The 10th term is $-25$. Notice how the negative slope reflects the fact that each term is smaller than the one before \u2014 a decreasing arithmetic sequence always has a negative common difference.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "The arithmetic sequence is $10,\\ 14,\\ 18,\\ 22,\\ \\ldots$ Write the linear function $f(n)$ for this sequence.",
+      "answer_latex": "f(n) = 4n + 6"
+    },
+    {
+      "prompt_latex": "Write the linear function $f(n)$ for the arithmetic sequence $-3,\\ 2,\\ 7,\\ 12,\\ \\ldots$ and find the 8th term.",
+      "answer_latex": "f(n) = 5n - 8,\\quad f(8) = 32"
+    },
+    {
+      "prompt_latex": "The function $f(n) = -6n + 20$ represents an arithmetic sequence. State the first term $a_1$ and the common difference $d$.",
+      "answer_latex": "a_1 = f(1) = 14,\\quad d = -6"
+    },
+    {
+      "prompt_latex": "An arithmetic sequence has $f(n) = 3n + 1$. A second linear function is $g(x) = 3x - 5$. Find the value of $n$ (a positive integer) such that $f(n) = g(n) + 10$.",
+      "answer_latex": "3n+1 = 3n-5+10 \\Rightarrow 1 = 5,\\ \\text{no solution (the equation is inconsistent for all } n\\text{)}"
+    },
+    {
+      "prompt_latex": "A theater has 20 seats in the first row. Each row after the first has 3 more seats than the row before it. Write a linear function $f(n)$ giving the number of seats in row $n$, then find the number of seats in row 15.",
+      "answer_latex": "f(n) = 3n + 17,\\quad f(15) = 62"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use $f(n) = a_1 + d \\cdot n$ instead of $f(n) = a_1 + d(n-1)$, effectively shifting every term one position too far \u2014 this overcounts the number of times $d$ has been added, since the first term requires zero additions of $d$. Always remember to subtract 1 from $n$ before multiplying by $d$.",
+    "When the sequence is decreasing, students sometimes record the common difference as a positive number because they see the terms getting closer to zero. The common difference must be negative for a decreasing sequence \u2014 always compute $a_2 - a_1$ (not $a_1 - a_2$) to get the correct sign.",
+    "After writing $f(n) = a_1 + d(n-1)$, students forget to simplify and then mis-read the slope or y-intercept directly from the un-distributed form. Distributing and combining like terms is necessary before using the function in slope-intercept reasoning or reading off $m$ and $b$."
+  ],
+  "untested_variants": [
+    "Given two non-consecutive terms (e.g., the 3rd and 7th terms), find the common difference and write the linear function \u2014 this requires back-solving for $d$ without consecutive terms.",
+    "Determining whether a given table of $(n, f(n))$ values represents an arithmetic sequence by checking for a constant rate of change, rather than being handed the sequence directly.",
+    "Writing a recursive formula $a_n = a_{n-1} + d$ alongside the explicit linear function, and explaining the difference between recursive and explicit representations.",
+    "Finding the term number $n$ given a specific term value (i.e., solving $f(n) = k$ for $n$), which requires reversing the linear function rather than evaluating it."
+  ]
+}

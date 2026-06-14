@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_013",
+  "topic_name": "Homogeneous Equations with Constant Coefficients",
+  "generated_at": "2026-05-13T20:38:30.856296+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve first-order linear ODEs like $y' + 2y = 0$ by separation of variables, getting $y = Ce^{-2x}$. Now imagine facing $y'' - y' - 6y = 0$: two derivatives, no obvious way to separate, and separation of variables won't help you here. What if there were a single systematic method that converts any such equation into a simple algebra problem you already know how to solve?",
+  "concept": "A second-order homogeneous ODE with constant coefficients has the form $ay'' + by' + cy = 0$, where $a$, $b$, $c$ are real constants and $a \\neq 0$. The key insight is to guess a solution of the form $y = e^{rx}$, which transforms the differential equation into a purely algebraic equation in $r$. Solving that algebraic equation tells you exactly what exponential functions solve the ODE.",
+  "anatomy": "The equation $ay'' + by' + cy = 0$ has three structural parts worth naming. The constants $a$, $b$, $c$ are the coefficients, and their values completely determine the nature of the solutions. Substituting $y = e^{rx}$ produces the characteristic equation $ar^2 + br + c = 0$, whose solutions $r_1$ and $r_2$ are called characteristic roots (or eigenvalues). The discriminant $\\Delta = b^2 - 4ac$ is the decisive quantity: when $\\Delta > 0$ you get two distinct real roots, when $\\Delta = 0$ a repeated root, and when $\\Delta < 0$ a pair of complex conjugate roots \u2014 each case yielding a different form of the general solution.",
+  "worked_example": [
+    {
+      "expression_latex": "y'' - y' - 6y = 0",
+      "description_latex": "We start by identifying the equation as second-order, linear, homogeneous, and with constant coefficients \u2014 all conditions that let us use the characteristic equation method. Our goal is to find the general solution, which will be a linear combination of two independent solutions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = e^{rx} \\Rightarrow y' = re^{rx},\\quad y'' = r^2 e^{rx}",
+      "description_latex": "We substitute the trial solution $y = e^{rx}$ into the ODE. The beautiful reason this works is that derivatives of $e^{rx}$ are just multiples of $e^{rx}$ itself, so every term in the equation shares the factor $e^{rx}$, which we can then cancel.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 e^{rx} - r e^{rx} - 6e^{rx} = 0 \\implies e^{rx}(r^2 - r - 6) = 0",
+      "description_latex": "After substituting, we factor out $e^{rx}$. Since $e^{rx}$ is never zero, we can divide both sides by it, leaving only the polynomial in $r$. This is the characteristic equation $r^2 - r - 6 = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 - r - 6 = (r-3)(r+2) = 0 \\implies r_1 = 3,\\quad r_2 = -2",
+      "description_latex": "We factor the characteristic equation to find the two characteristic roots. Because the discriminant $\\Delta = 1 + 24 = 25 > 0$, we have two distinct real roots, which is the simplest case and directly gives us two independent exponential solutions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = C_1 e^{3x} + C_2 e^{-2x}",
+      "description_latex": "The general solution is a linear combination of $e^{r_1 x}$ and $e^{r_2 x}$ with arbitrary constants $C_1$ and $C_2$. These two constants are necessary because a second-order ODE requires two pieces of initial data (such as $y(0)$ and $y'(0)$) to pin down a unique solution.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y'' + 6y' + 9y = 0",
+      "description_latex": "We have a second-order homogeneous ODE with constant coefficients. Notice the coefficients are $a=1$, $b=6$, $c=9$. Our first move is always to write down the characteristic equation by replacing $y''$ with $r^2$, $y'$ with $r$, and $y$ with $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 + 6r + 9 = (r+3)^2 = 0 \\implies r = -3 \\text{ (repeated)}",
+      "description_latex": "The characteristic equation factors as a perfect square, giving a repeated root $r = -3$. This is the case $\\Delta = 36 - 36 = 0$. When roots repeat, the two independent solutions are NOT both $e^{-3x}$; a repeated root requires a special second solution involving a factor of $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the rule that a repeated root $r = r_0$ gives the general solution $y = (C_1 + C_2 x)e^{r_0 x}$, write down the general solution for this equation. What are the two independent solutions here?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find the general solution: } y'' - 5y' + 6y = 0",
+      "answer_latex": "y = C_1 e^{2x} + C_2 e^{3x}"
+    },
+    {
+      "prompt_latex": "\\text{Find the general solution: } y'' + 4y' + 4y = 0",
+      "answer_latex": "y = (C_1 + C_2 x)e^{-2x}"
+    },
+    {
+      "prompt_latex": "\\text{Find the general solution: } y'' + y' + y = 0",
+      "answer_latex": "y = e^{-x/2}\\!\\left(C_1 \\cos\\!\\tfrac{\\sqrt{3}}{2}x + C_2 \\sin\\!\\tfrac{\\sqrt{3}}{2}x\\right)"
+    },
+    {
+      "prompt_latex": "\\text{Solve the IVP: } y'' - 4y = 0,\\quad y(0) = 3,\\quad y'(0) = -2",
+      "answer_latex": "y = \\tfrac{5}{4}e^{2x} + \\tfrac{7}{4}e^{-2x}"
+    },
+    {
+      "prompt_latex": "\\text{A mass-spring system (no damping, no forcing) satisfies } \\ddot{x} + 9x = 0.\\text{ If } x(0)=2 \\text{ and } \\dot{x}(0)=6,\\text{ find } x(t).",
+      "answer_latex": "x(t) = 2\\cos 3t + 2\\sin 3t"
+    }
+  ],
+  "common_mistakes": [
+    "Students write down the characteristic equation with wrong signs \u2014 for example, turning $y'' - y' - 6y = 0$ into $r^2 + r + 6 = 0$ by misreading signs. Fix this by mechanically replacing $y^{(n)}$ with $r^n$ and carrying the original coefficient and sign along with it.",
+    "When a repeated root $r_0$ appears, students write the general solution as $y = C_1 e^{r_0 x} + C_2 e^{r_0 x}$, which collapses to a single-parameter family and is not the general solution. The correct form is $y = (C_1 + C_2 x)e^{r_0 x}$; the extra factor of $x$ is essential to obtain a second linearly independent solution.",
+    "For complex conjugate roots $r = \\alpha \\pm \\beta i$, students leave the answer as $y = C_1 e^{(\\alpha+\\beta i)x} + C_2 e^{(\\alpha - \\beta i)x}$ instead of converting to real form using Euler's formula. The correct real general solution is $y = e^{\\alpha x}(C_1 \\cos \\beta x + C_2 \\sin \\beta x)$, and leaving complex exponentials in the answer is considered incomplete."
+  ],
+  "untested_variants": [
+    "Higher-order homogeneous equations with constant coefficients, such as $y''' - 3y'' + 3y' - y = 0$, where the characteristic polynomial has degree 3 or higher and may have triple roots.",
+    "Characteristic equations with irrational roots, such as $2y'' - 3y' - y = 0$, where the quadratic formula is needed and students must simplify a surd into the exponent of the general solution.",
+    "Applying the general solution to a boundary-value problem (rather than an IVP), such as $y'' + \\lambda y = 0$ with $y(0)=0$ and $y(\\pi)=0$, which introduces the concept of eigenvalues.",
+    "Equations given in operator notation, such as $(D^2 - 4D + 3)y = 0$ where $D = d/dx$, requiring students to recognize the characteristic polynomial directly from the factored operator form."
+  ]
+}

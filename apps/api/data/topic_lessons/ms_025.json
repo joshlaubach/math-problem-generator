@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_025",
+  "topic_name": "Analysis of Variance",
+  "generated_at": "2026-05-14T01:03:16.751283+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to use a two-sample $t$-test to compare the means of two groups. But what happens when a researcher wants to compare the average crop yields across five different fertilizer treatments, or test whether three different teaching methods produce different exam scores? Running all possible pairwise $t$-tests inflates your Type I error rate dramatically. How can we test whether any of the group means differ \u2014 all at once \u2014 without that penalty?",
+  "concept": "Analysis of Variance (ANOVA) is a method for testing whether the means of three or more groups are equal by partitioning the total variability in the data into components attributable to different sources. Formally, in the one-way model $Y_{ij} = \\mu + \\alpha_i + \\varepsilon_{ij}$, we test $H_0: \\alpha_1 = \\alpha_2 = \\cdots = \\alpha_k = 0$ (all treatment effects are zero) against the alternative that at least one $\\alpha_i \\neq 0$, using an $F$-statistic formed as a ratio of mean squares.",
+  "anatomy": "A one-way ANOVA table has four key structural components. The Between-Groups Sum of Squares, $SS_\\text{Between} = \\sum_{i=1}^k n_i(\\bar{Y}_{i\\cdot} - \\bar{Y}_{\\cdot\\cdot})^2$, measures how much the group means deviate from the grand mean, with $k-1$ degrees of freedom. The Within-Groups (Error) Sum of Squares, $SS_\\text{Within} = \\sum_{i=1}^k\\sum_{j=1}^{n_i}(Y_{ij}-\\bar{Y}_{i\\cdot})^2$, measures variability inside each group, with $N-k$ degrees of freedom where $N = \\sum n_i$. Dividing each SS by its degrees of freedom gives the Mean Squares $MS_\\text{Between}$ and $MS_\\text{Within}$. The $F$-statistic, $F = MS_\\text{Between}/MS_\\text{Within}$, follows an $F(k-1,\\, N-k)$ distribution under $H_0$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\bar{Y}_{1\\cdot}=6,\\quad \\bar{Y}_{2\\cdot}=8,\\quad \\bar{Y}_{3\\cdot}=10,\\quad n_1=n_2=n_3=4,\\quad N=12",
+      "description_latex": "We start by recording the group sample means and sizes. Before computing any sums of squares, it is essential to know these quantities because every subsequent calculation is built on them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{Y}_{\\cdot\\cdot} = \\frac{n_1\\bar{Y}_{1\\cdot}+n_2\\bar{Y}_{2\\cdot}+n_3\\bar{Y}_{3\\cdot}}{N} = \\frac{4(6)+4(8)+4(10)}{12} = \\frac{96}{12} = 8",
+      "description_latex": "We compute the grand mean as the weighted average of group means. This single number serves as the baseline against which all group means are compared when we construct $SS_\\text{Between}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "SS_\\text{Between} = \\sum_{i=1}^{3} n_i(\\bar{Y}_{i\\cdot}-\\bar{Y}_{\\cdot\\cdot})^2 = 4(6-8)^2+4(8-8)^2+4(10-8)^2 = 4(4)+0+4(4) = 32",
+      "description_latex": "We calculate the between-groups sum of squares by squaring each group mean's deviation from the grand mean and weighting by group size. A large $SS_\\text{Between}$ signals that the groups have very different means, which is evidence against $H_0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "MS_\\text{Between} = \\frac{SS_\\text{Between}}{k-1} = \\frac{32}{2} = 16, \\qquad MS_\\text{Within} = \\frac{SS_\\text{Within}}{N-k} = \\frac{36}{9} = 4",
+      "description_latex": "We convert sums of squares to mean squares by dividing by their respective degrees of freedom. Suppose $SS_\\text{Within} = 36$ was given or computed from the raw data; dividing by $N-k = 9$ gives $MS_\\text{Within}$, which estimates the common within-group variance $\\sigma^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F = \\frac{MS_\\text{Between}}{MS_\\text{Within}} = \\frac{16}{4} = 4.00 \\sim F(2,9) \\text{ under } H_0",
+      "description_latex": "The $F$-statistic is the ratio of mean squares; under $H_0$ it follows an $F(2,9)$ distribution. Since the critical value $F_{0.05}(2,9) \\approx 4.26$, our observed $F = 4.00$ falls just below that threshold, so we fail to reject $H_0$ at the 5% level.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "k=4 \\text{ groups},\\quad n_i = 5 \\text{ each},\\quad N=20,\\quad \\bar{Y}_{1\\cdot}=10,\\ \\bar{Y}_{2\\cdot}=12,\\ \\bar{Y}_{3\\cdot}=14,\\ \\bar{Y}_{4\\cdot}=12",
+      "description_latex": "Here are the group sample means for a balanced one-way design with four groups. We want to build the ANOVA $F$-test from scratch.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{Y}_{\\cdot\\cdot} = \\frac{5(10)+5(12)+5(14)+5(12)}{20} = \\frac{240}{20} = 12",
+      "description_latex": "The grand mean has been computed for you. Notice how equal group sizes make this a simple arithmetic mean of the four group means.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute $SS_\\text{Between}$ using the formula $\\sum_{i=1}^{4} n_i(\\bar{Y}_{i\\cdot}-\\bar{Y}_{\\cdot\\cdot})^2$. Plug in each group mean, subtract the grand mean 12, square the result, multiply by $n_i = 5$, and add all four terms together.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Given $SS_\\text{Within} = 60$, form the $F$-statistic: first compute $MS_\\text{Between} = SS_\\text{Between}/(k-1)$ and $MS_\\text{Within} = SS_\\text{Within}/(N-k)$, then take their ratio. What is $F$, and what distribution does it follow under $H_0$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "An ANOVA table reports $SS_\\text{Between} = 20$, $k = 3$ groups, and $N = 15$ observations. Compute $MS_\\text{Between}$.",
+      "answer_latex": "MS_\\text{Between} = \\frac{20}{2} = 10"
+    },
+    {
+      "prompt_latex": "Three groups each of size $n_i = 6$ have means $\\bar{Y}_{1\\cdot}=4$, $\\bar{Y}_{2\\cdot}=7$, $\\bar{Y}_{3\\cdot}=10$. Compute the grand mean and $SS_\\text{Between}$.",
+      "answer_latex": "\\bar{Y}_{\\cdot\\cdot} = 7,\\quad SS_\\text{Between} = 6(9)+6(0)+6(9) = 108"
+    },
+    {
+      "prompt_latex": "In a one-way ANOVA with $k=4$ groups and $N=20$, we find $MS_\\text{Between}=15$ and $MS_\\text{Within}=3$. State the $F$-statistic and its null distribution.",
+      "answer_latex": "F = \\frac{15}{3} = 5,\\quad F \\sim F(3,16) \\text{ under } H_0"
+    },
+    {
+      "prompt_latex": "Under the one-way ANOVA model $Y_{ij}=\\mu+\\alpha_i+\\varepsilon_{ij}$ with $\\varepsilon_{ij}\\overset{iid}{\\sim}N(0,\\sigma^2)$, show that $E[MS_\\text{Within}] = \\sigma^2$ by writing out the expectation of $SS_\\text{Within}/(N-k)$.",
+      "answer_latex": "E\\!\\left[\\frac{SS_\\text{Within}}{N-k}\\right] = \\frac{(N-k)\\sigma^2}{N-k} = \\sigma^2"
+    },
+    {
+      "prompt_latex": "A food scientist tests four sauce recipes on five tasters each (balanced design). The ANOVA table shows $SS_\\text{Between}=48$ and $SS_\\text{Total}=108$. Compute $SS_\\text{Within}$, both mean squares, the $F$-statistic, and state whether $H_0$ is rejected at $\\alpha=0.05$ given $F_{0.05}(3,16)\\approx3.24$.",
+      "answer_latex": "SS_\\text{Within}=60,\\; MS_\\text{Between}=16,\\; MS_\\text{Within}=3.75,\\; F=4.27>3.24,\\; \\text{reject } H_0"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use $N-1$ as the degrees of freedom for $SS_\\text{Within}$ instead of $N-k$. Remember that you lose one degree of freedom for each group mean you estimate, so the correct within-group df is $N-k$.",
+    "A frequent error is computing $SS_\\text{Between}$ without weighting by group size, writing $\\sum_i(\\bar{Y}_{i\\cdot}-\\bar{Y}_{\\cdot\\cdot})^2$ instead of $\\sum_i n_i(\\bar{Y}_{i\\cdot}-\\bar{Y}_{\\cdot\\cdot})^2$. The weight $n_i$ reflects how much information each group contributes; omitting it gives a wrong SS every time.",
+    "Students sometimes confuse rejecting $H_0$ in ANOVA with knowing which specific pairs of means differ. The $F$-test only tells you that at least one mean is different; to identify which pairs, you must perform a post-hoc procedure such as Tukey's HSD \u2014 the $F$-test alone does not do this."
+  ],
+  "untested_variants": [
+    "Two-way ANOVA with interaction, where the total SS is partitioned into main effects for Factor A, Factor B, and an $A\\times B$ interaction term.",
+    "Unbalanced one-way ANOVA where group sizes $n_i$ differ substantially, requiring careful tracking of degrees of freedom and weighted grand means.",
+    "The random-effects (Model II) ANOVA, where the group factor levels are themselves a random sample from a larger population and the goal is to estimate variance components rather than fixed treatment effects.",
+    "ANOVA followed by a specific post-hoc multiple-comparison correction (e.g., Bonferroni or Tukey HSD) to determine which group means are significantly different from one another."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "c2_006",
+  "topic_name": "Improper Integrals",
+  "generated_at": "2026-05-13T00:19:04.561428+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to evaluate definite integrals like $\\int_1^4 \\frac{1}{x^2}\\,dx$ \u2014 you find an antiderivative, plug in the bounds, and subtract. But what happens when one of the bounds is $\\infty$, like in $\\int_1^{\\infty} \\frac{1}{x^2}\\,dx$? Or what if the integrand blows up inside the interval, like $\\int_0^1 \\frac{1}{\\sqrt{x}}\\,dx$ where the function shoots to infinity at $x=0$? Can an integral over an infinite region actually have a finite value, and if so, how do we compute it?",
+  "concept": "An improper integral is a definite integral that involves either an infinite limit of integration or an integrand that becomes unbounded at some point in the interval. Instead of plugging in $\\infty$ directly (which is not a number), we replace the problematic bound with a finite parameter $t$ and take a limit. Formally, $\\int_a^{\\infty} f(x)\\,dx = \\lim_{t \\to \\infty} \\int_a^t f(x)\\,dx$, and the integral converges if this limit exists and is finite; otherwise it diverges.",
+  "anatomy": "Every improper integral has three structural parts worth naming. First, the integrand \u2014 the function $f(x)$ being integrated, which may grow without bound or be perfectly well-behaved. Second, the problematic bound \u2014 either an infinite limit such as $\\infty$ or $-\\infty$, or a finite point $c$ where $f(x) \\to \\pm\\infty$ (called a vertical asymptote); this is the bound that forces us to use a limit. Third, the limit parameter $t$ \u2014 the finite stand-in for the problematic bound that we let approach its target value; together, evaluating $\\lim_{t \\to \\infty} F(t) - F(a)$ (where $F$ is the antiderivative) determines whether the integral converges or diverges.",
+  "worked_example": [
+    {
+      "expression_latex": "\\int_1^{\\infty} \\frac{1}{x^2}\\,dx",
+      "description_latex": "We begin by identifying that the upper limit is infinite, making this an improper integral of the first kind. Because we cannot substitute $\\infty$ directly, we replace it with a finite parameter $t$ and plan to take $\\lim_{t \\to \\infty}$ at the end.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{t \\to \\infty} \\int_1^t x^{-2}\\,dx",
+      "description_latex": "We rewrite the integral using the limit definition \u2014 this is the formal move that converts an improper integral into something we can actually compute with standard integration rules. Everything inside the limit is now a proper definite integral.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{t \\to \\infty} \\left[\\frac{x^{-1}}{-1}\\right]_1^t = \\lim_{t \\to \\infty} \\left[-\\frac{1}{x}\\right]_1^t",
+      "description_latex": "We find the antiderivative of $x^{-2}$ using the power rule, getting $-x^{-1}$, and then evaluate it at the bounds $x = t$ and $x = 1$ by subtraction. This gives us an expression purely in terms of $t$ that we can analyze as $t \\to \\infty$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{t \\to \\infty} \\left(-\\frac{1}{t} + 1\\right) = 0 + 1 = 1",
+      "description_latex": "As $t \\to \\infty$, the term $-\\frac{1}{t}$ approaches zero, so the limit equals $1$. Because this limit is a finite number, we conclude that the integral converges and its value is $1$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\int_0^1 \\frac{1}{\\sqrt{x}}\\,dx",
+      "description_latex": "This is an improper integral of the second kind because the integrand $\\frac{1}{\\sqrt{x}}$ blows up at the left endpoint $x = 0$. We handle it by replacing the lower limit with $t$ and letting $t \\to 0^+$, writing $\\lim_{t \\to 0^+} \\int_t^1 x^{-1/2}\\,dx$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{t \\to 0^+} \\left[2x^{1/2}\\right]_t^1",
+      "description_latex": "We integrate $x^{-1/2}$ using the power rule to get $\\frac{x^{1/2}}{1/2} = 2x^{1/2}$, and we write the evaluated antiderivative at the bounds $x=1$ and $x=t$. The next step is to substitute these bounds and simplify the expression inside the limit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Substitute $x = 1$ and $x = t$ into $2x^{1/2}$, write out $2(1)^{1/2} - 2t^{1/2}$, and then evaluate the limit as $t \\to 0^+$. What does the expression equal, and does the integral converge or diverge?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $\\int_1^{\\infty} \\frac{1}{x^3}\\,dx$.",
+      "answer_latex": "\\frac{1}{2}"
+    },
+    {
+      "prompt_latex": "Evaluate $\\int_0^{\\infty} e^{-x}\\,dx$.",
+      "answer_latex": "1"
+    },
+    {
+      "prompt_latex": "Determine whether $\\int_1^{\\infty} \\frac{1}{x}\\,dx$ converges or diverges.",
+      "answer_latex": "\\text{Diverges (limit is } \\infty\\text{)}"
+    },
+    {
+      "prompt_latex": "Evaluate $\\int_0^{\\infty} x\\,e^{-x^2}\\,dx$. (Hint: use substitution $u = x^2$ before applying the improper integral definition.)",
+      "answer_latex": "\\frac{1}{2}"
+    },
+    {
+      "prompt_latex": "A probability density function is given by $f(x) = Ce^{-2x}$ for $x \\geq 0$ and $f(x)=0$ otherwise. Find the value of $C$ that makes $\\int_{-\\infty}^{\\infty} f(x)\\,dx = 1$.",
+      "answer_latex": "C = 2"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to take the limit and instead directly substitute $\\infty$ into the antiderivative, writing something like $\\left[-\\frac{1}{x}\\right]_1^{\\infty} = -\\frac{1}{\\infty} + 1 = 1$ without limit notation \u2014 while the answer may be correct here by luck, this is not valid mathematics and breaks down in subtler cases; always write $\\lim_{t\\to\\infty}$ explicitly and evaluate the limit formally.",
+    "When the integrand has a vertical asymptote at an interior point $c$ in $(a, b)$, students apply the Fundamental Theorem of Calculus directly across $c$ without splitting the integral into $\\int_a^c f(x)\\,dx + \\int_c^b f(x)\\,dx$; failing to split means missing the divergence at $c$, so always check whether $f$ is bounded on the entire interval before integrating.",
+    "Students confuse the $p$-integral rules: $\\int_1^{\\infty} \\frac{1}{x^p}\\,dx$ converges when $p > 1$ and diverges when $p \\leq 1$, but $\\int_0^1 \\frac{1}{x^p}\\,dx$ converges when $p < 1$ and diverges when $p \\geq 1$ \u2014 the inequalities are reversed for the two cases, and mixing them up leads to wrong conclusions about convergence."
+  ],
+  "untested_variants": [
+    "Improper integrals over the entire real line $\\int_{-\\infty}^{\\infty} f(x)\\,dx$, which require splitting into two separate limits at an intermediate point and checking that both converge independently.",
+    "Using the Comparison Test (or Limit Comparison Test) to determine convergence or divergence of an improper integral without computing the integral explicitly, such as deciding whether $\\int_1^{\\infty} \\frac{1}{x^2 + \\sin x}\\,dx$ converges.",
+    "Improper integrals that involve both an infinite limit and a vertical asymptote simultaneously, requiring two separate limit operations.",
+    "Integrals involving absolute convergence versus conditional convergence, such as determining whether $\\int_1^{\\infty} \\frac{\\sin x}{x}\\,dx$ converges."
+  ]
+}

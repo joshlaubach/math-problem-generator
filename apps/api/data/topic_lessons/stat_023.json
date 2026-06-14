@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_023",
+  "topic_name": "Derivation of Sampling Distributions via Integration (H)",
+  "generated_at": "2026-05-13T20:43:44.421552+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to find probabilities for a single random variable using its PDF, and you've seen that the sample mean $\\bar{X}$ varies from sample to sample. But where does the exact sampling distribution of $\\bar{X}$ \u2014 or any other statistic \u2014 actually come from? Tables and theorems give you approximate answers, but the precise distribution requires deriving it directly through integration. How do we start from joint densities of individual observations and arrive at the full PDF of a statistic like $\\bar{X}$?",
+  "concept": "A sampling distribution describes the probability behaviour of a statistic computed from a random sample. To derive it exactly, we treat the $n$ observations as jointly distributed random variables, form the transformation that defines the statistic, and use integration (via the change-of-variables technique or direct CDF differentiation) to find the new PDF. Formally, if $X_1,\\ldots,X_n$ are i.i.d. with PDF $f(x)$, the sampling distribution of a statistic $T = g(X_1,\\ldots,X_n)$ is obtained by computing $F_T(t) = P(T \\le t)$ as a multiple integral and then differentiating.",
+  "anatomy": "Every derivation has four structural parts: (1) the joint density $f(x_1,\\ldots,x_n) = \\prod_{i=1}^n f(x_i)$, which factors because the observations are independent; (2) the transformation $T = g(X_1,\\ldots,X_n)$ defining the statistic of interest; (3) the integration region $\\{(x_1,\\ldots,x_n): g(x_1,\\ldots,x_n) \\le t\\}$, which determines the limits of the cumulative integral; and (4) the differentiation step $f_T(t) = \\frac{d}{dt}F_T(t)$, which converts the CDF back into a PDF. Recognising each part separately prevents confusion between where you set up limits and where you carry out algebra.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, X_2 \\stackrel{\\text{i.i.d.}}{\\sim} \\text{Uniform}(0,1), \\quad T = \\max(X_1, X_2)",
+      "description_latex": "We want the exact PDF of the maximum of two independent Uniform(0,1) variables. This is a clean setting to practice the method because the joint density is simply $f(x_1,x_2) = 1$ on the unit square, so all complexity lives in the integration region.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F_T(t) = P(T \\le t) = P(X_1 \\le t,\\; X_2 \\le t) = \\int_0^t \\int_0^t 1\\; dx_1\\, dx_2",
+      "description_latex": "Because $T = \\max(X_1,X_2) \\le t$ if and only if both $X_1 \\le t$ AND $X_2 \\le t$, the integration region is the square $[0,t]^2$. Independence lets us split this into the product of two separate intervals, so the double integral has the simple rectangular region you see here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F_T(t) = \\left(\\int_0^t 1\\;dx_1\\right)\\left(\\int_0^t 1\\;dx_2\\right) = t \\cdot t = t^2, \\quad 0 \\le t \\le 1",
+      "description_latex": "Since the two integrals are identical and independent, we evaluate each one to get $t$, giving $F_T(t) = t^2$. This is the CDF of the maximum, valid on the support $[0,1]$; outside this interval it equals 0 or 1 respectively.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_T(t) = \\frac{d}{dt}F_T(t) = \\frac{d}{dt}t^2 = 2t, \\quad 0 \\le t \\le 1",
+      "description_latex": "Differentiating the CDF with respect to $t$ yields the PDF. The factor of 2 arises naturally here and reflects the fact that the maximum is more likely to be near 1 than near 0, which makes intuitive sense \u2014 both values would need to be small for the max to be small.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1, X_2 \\stackrel{\\text{i.i.d.}}{\\sim} \\text{Uniform}(0,1), \\quad T = \\min(X_1, X_2)",
+      "description_latex": "Now we derive the sampling distribution of the minimum of two i.i.d. Uniform(0,1) variables. Notice that for the minimum, $T > t$ when both observations exceed $t$, which gives us a complementary approach to finding the CDF.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F_T(t) = 1 - P(T > t) = 1 - P(X_1 > t,\\; X_2 > t) = 1 - \\int_t^1\\int_t^1 1\\;dx_1\\,dx_2",
+      "description_latex": "We use the complement because the region $\\{T \\le t\\}$ is harder to describe directly for a minimum, while the region $\\{X_1 > t \\text{ and } X_2 > t\\}$ is again a nice rectangle. Evaluate both inner integrals and simplify to get $F_T(t)$ explicitly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Complete the evaluation of the double integral and simplify $F_T(t) = 1 - (1-t)^2$. Show each step: evaluate the inner integral over $x_1$, then over $x_2$, and subtract from 1.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f_T(t) = \\frac{d}{dt}\\bigl[1-(1-t)^2\\bigr] = 2(1-t), \\quad 0 \\le t \\le 1",
+      "description_latex": "Differentiating using the chain rule gives the PDF of the minimum. Notice that $f_T(t) = 2(1-t)$ is decreasing in $t$, confirming our intuition that the minimum of two uniform draws tends to be closer to 0 than to 1.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim \\text{Uniform}(0,1)$ and let $T = X^2$. Find the PDF of $T$ by differentiating its CDF.",
+      "answer_latex": "f_T(t) = \\dfrac{1}{2\\sqrt{t}}, \\quad 0 < t < 1"
+    },
+    {
+      "prompt_latex": "Let $X_1, X_2 \\stackrel{\\text{i.i.d.}}{\\sim} \\text{Uniform}(0,1)$. Derive the CDF and then PDF of $T = X_1 + X_2$ for $0 \\le t \\le 1$ by integrating the joint density over the region $\\{x_1 + x_2 \\le t\\}$.",
+      "answer_latex": "f_T(t) = t \\quad \\text{for } 0 \\le t \\le 1"
+    },
+    {
+      "prompt_latex": "Let $X_1, X_2 \\stackrel{\\text{i.i.d.}}{\\sim} \\text{Uniform}(0,1)$. Derive the PDF of $T = X_1 + X_2$ for the case $1 < t \\le 2$ by integrating the joint density over the appropriate triangular region.",
+      "answer_latex": "f_T(t) = 2 - t \\quad \\text{for } 1 < t \\le 2"
+    },
+    {
+      "prompt_latex": "Let $X_1, X_2, X_3 \\stackrel{\\text{i.i.d.}}{\\sim} \\text{Uniform}(0,1)$. Using the CDF method, show that the PDF of $T = \\max(X_1,X_2,X_3)$ is $f_T(t) = 3t^2$ for $0 \\le t \\le 1$, and verify that it integrates to 1.",
+      "answer_latex": "F_T(t) = t^3 \\Rightarrow f_T(t) = 3t^2;\\quad \\int_0^1 3t^2\\,dt = 1 \\checkmark"
+    },
+    {
+      "prompt_latex": "A quality-control engineer samples $n=2$ independent components, each with lifetime $X_i \\sim \\text{Exponential}(\\lambda)$ (PDF $f(x)=\\lambda e^{-\\lambda x}$, $x>0$). The system fails when the first component fails, so $T = \\min(X_1,X_2)$. Derive the PDF of $T$ and identify its distribution by name.",
+      "answer_latex": "f_T(t) = 2\\lambda e^{-2\\lambda t},\\; t>0; \\quad T \\sim \\text{Exponential}(2\\lambda)"
+    }
+  ],
+  "common_mistakes": [
+    "Students set up the integration region for $\\max$ as if it were $\\min$: they write $P(\\max \\le t) = P(X_1 \\le t \\text{ or } X_2 \\le t)$ instead of the correct $P(X_1 \\le t \\text{ and } X_2 \\le t)$, which leads to an incorrect CDF. Fix this by remembering that the maximum is below $t$ only when every single observation is below $t$, so the region is an intersection, not a union.",
+    "After computing the CDF $F_T(t)$, students forget to differentiate and instead report $F_T(t)$ as the PDF, or they differentiate with respect to the wrong variable. Fix this by explicitly writing $f_T(t) = \\frac{d}{dt}F_T(t)$ as a separate labelled step before carrying out any calculus.",
+    "When the integration region is a triangle or non-rectangular shape (e.g., $x_1 + x_2 \\le t$), students use constant limits $\\int_0^t\\int_0^t$ instead of the correct dependent limits $\\int_0^t\\int_0^{t-x_1}$, effectively integrating over a square and overcounting the probability. Fix this by sketching the region in the $(x_1,x_2)$ plane before writing any integral signs."
+  ],
+  "untested_variants": [
+    "Deriving the sampling distribution of the sample mean $\\bar{X}$ for $n \\ge 3$ i.i.d. Uniform variables using iterated convolution integrals, which requires tracking multiple piecewise regions.",
+    "Using the Jacobian change-of-variables formula for two-dimensional transformations, such as finding the joint distribution of $(X_1+X_2, X_1-X_2)$ from a bivariate joint density.",
+    "Deriving the sampling distribution of a ratio statistic, such as $T = X_1/(X_1+X_2)$, where the integration region is bounded by a line through the origin rather than a horizontal or triangular boundary.",
+    "Applying the CDF method when the underlying distribution is not Uniform \u2014 for example, deriving the distribution of the minimum or maximum of i.i.d. Exponential or Normal observations with $n > 2$."
+  ]
+}

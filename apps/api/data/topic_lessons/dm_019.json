@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_019",
+  "topic_name": "Properties of Relations (Reflexive, Symmetric, Transitive)",
+  "generated_at": "2026-05-13T20:13:12.170044+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to list ordered pairs in a relation \u2014 for example, $R = \\{(1,1),(1,2),(2,1),(2,2),(3,3)\\}$ on the set $A = \\{1,2,3\\}$. But two relations can have the same elements and behave very differently in terms of structure. What makes one relation fair, reversible, or chainable? We need a precise vocabulary to describe those behaviors, but we don't have one yet. Can you tell, right now, whether the relation $R = \\{(1,2),(2,3),(1,3)\\}$ on $\\{1,2,3\\}$ is missing something important?",
+  "concept": "A relation $R$ on a set $A$ can satisfy three key structural properties. Reflexivity means every element relates to itself. Symmetry means if $a$ relates to $b$, then $b$ relates back to $a$. Transitivity means if $a$ relates to $b$ and $b$ relates to $c$, then $a$ must relate to $c$. Formally: $R$ is reflexive if $\\forall a \\in A,\\,(a,a)\\in R$; symmetric if $(a,b)\\in R \\Rightarrow (b,a)\\in R$; transitive if $(a,b)\\in R$ and $(b,c)\\in R \\Rightarrow (a,c)\\in R$.",
+  "anatomy": "Each property has a precise structure worth naming. The reflexive property concerns the diagonal pairs \u2014 those of the form $(a,a)$, sometimes called self-loops; every element of the base set $A$ must appear as one. The symmetric property concerns the directionality of non-diagonal pairs: for every witness pair $(a,b)$ in $R$, its reverse $(b,a)$ must also be present. The transitive property concerns chains: a chain is a sequence of pairs $(a,b)$ and $(b,c)$ that share a middle element $b$; the chain forces a shortcut pair $(a,c)$ to exist in $R$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\{1,2,3\\},\\quad R = \\{(1,1),(2,2),(3,3),(1,2),(2,1)\\}",
+      "description_latex": "We start by writing down the relation clearly so we can inspect it systematically. Having the set $A$ and all ordered pairs in front of us lets us check each property by asking targeted questions rather than guessing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Reflexive? } (1,1)\\in R,\\;(2,2)\\in R,\\;(3,3)\\in R \\implies \\textbf{Yes}",
+      "description_latex": "To check reflexivity, we list every element of $A$ and verify its diagonal pair is present. All three self-pairs appear, so the reflexive property holds \u2014 no element is left without a self-loop.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Symmetric? } (1,2)\\in R \\text{ and } (2,1)\\in R;\\quad \\text{no other non-diagonal pairs} \\implies \\textbf{Yes}",
+      "description_latex": "For symmetry, we hunt for every non-diagonal pair and check that its reverse is also present. The only non-diagonal pair is $(1,2)$, and its mirror $(2,1)$ is indeed in $R$, so symmetry is satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Transitive? Check all chains: } (1,2)\\in R,\\,(2,1)\\in R \\Rightarrow (1,1)\\in R\\;\\checkmark;\\quad (2,1)\\in R,\\,(1,2)\\in R \\Rightarrow (2,2)\\in R\\;\\checkmark",
+      "description_latex": "For transitivity, we try every possible chain $(a,b),(b,c)$ and verify $(a,c)$ exists. Every chain ends at a pair already present in $R$, so transitivity holds as well.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Conclusion: } R \\text{ is reflexive, symmetric, and transitive (an equivalence relation).}",
+      "description_latex": "When all three properties hold simultaneously, the relation is called an equivalence relation \u2014 a fact that will matter in later topics. For now, the key takeaway is the systematic three-step checking process we just applied.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\{1,2,3\\},\\quad R = \\{(1,2),(2,3),(1,3)\\}",
+      "description_latex": "We have a new relation with no diagonal pairs at all. Before checking anything, notice that $(1,1)$, $(2,2)$, and $(3,3)$ are all absent, which is already a hint about one of the three properties.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Reflexive? } (1,1)\\notin R \\implies \\textbf{Not Reflexive}",
+      "description_latex": "Since none of the three diagonal pairs appear in $R$, reflexivity fails immediately. We mark it not reflexive and move on to symmetry.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now check symmetry: for each pair $(a,b)$ in $R$, determine whether $(b,a)$ is also in $R$. List every pair, write its reverse, and decide whether $R$ is symmetric or not symmetric. Show your reasoning.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Finally, check transitivity: identify every chain $(a,b),(b,c)$ in $R$ and verify whether the shortcut $(a,c)$ is present. State your conclusion \u2014 is $R$ transitive or not? Justify with a specific example or counterexample.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\{1,2\\}$ and $R = \\{(1,1),(2,2),(1,2),(2,1)\\}$. Is $R$ reflexive, symmetric, and transitive?",
+      "answer_latex": "Reflexive: yes (both diagonal pairs present). Symmetric: yes ($(1,2)$ and $(2,1)$ both present). Transitive: yes (all chains close). $R$ is an equivalence relation."
+    },
+    {
+      "prompt_latex": "Let $A = \\{1,2,3\\}$ and $R = \\{(1,1),(2,2),(3,3),(1,2),(2,3)\\}$. Check each property and identify which ones hold.",
+      "answer_latex": "Reflexive: yes. Symmetric: no, because $(1,2)\\in R$ but $(2,1)\\notin R$. Transitive: no, because $(1,2),(2,3)\\in R$ but $(1,3)\\notin R$."
+    },
+    {
+      "prompt_latex": "Let $A = \\{a,b,c\\}$ and define $R$ by $(x,y)\\in R$ if and only if $x = y$. Show that $R$ is reflexive, symmetric, and transitive.",
+      "answer_latex": "Reflexive: every element equals itself, so $(x,x)\\in R$ for all $x$. Symmetric: if $x=y$ then $y=x$, so $(y,x)\\in R$. Transitive: if $x=y$ and $y=z$ then $x=z$, so $(x,z)\\in R$."
+    },
+    {
+      "prompt_latex": "On $A = \\mathbb{Z}$, define $R$ by $(a,b)\\in R$ iff $a \\leq b$. Determine which of the three properties hold and provide a counterexample for each that fails.",
+      "answer_latex": "Reflexive: yes, $a \\leq a$. Symmetric: no; counterexample $(1,2)\\in R$ but $(2,1)\\notin R$. Transitive: yes, $a\\leq b$ and $b\\leq c$ implies $a\\leq c$."
+    },
+    {
+      "prompt_latex": "A social network has users $\\{P,Q,R\\}$. Define 'follows' as: $P$ follows $Q$, $Q$ follows $R$, and $P$ follows $R$. No one follows themselves, and no reverse-follows exist. Represent this as a relation and determine which properties it satisfies.",
+      "answer_latex": "The relation is $F = \\{(P,Q),(Q,R),(P,R)\\}$. Reflexive: no (no self-pairs). Symmetric: no (e.g., $P$ follows $Q$ but $Q$ does not follow $P$). Transitive: yes (the only chain is $(P,Q),(Q,R)$ and $(P,R)\\in F$)."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to check reflexivity against every element of the base set $A$, not just the elements that appear in the relation. If $A = \\{1,2,3\\}$ but $3$ appears nowhere in $R$, reflexivity still fails because $(3,3)$ is missing \u2014 fix this by always listing the diagonal pairs for all elements of $A$ first.",
+    "Students test symmetry only on 'interesting' pairs and skip self-pairs like $(1,1)$, then incorrectly claim that $(1,1)$ breaks symmetry because there is no 'reverse' to check. In fact, $(a,a)$ is its own reverse and never violates symmetry \u2014 symmetry only fails when $(a,b)\\in R$ with $a\\neq b$ but $(b,a)\\notin R$.",
+    "Students check only one chain when testing transitivity and conclude the property holds globally. For example, they verify $(1,2),(2,3)\\Rightarrow(1,3)$ but forget to check whether $(2,1),(1,3)\\Rightarrow(2,3)$ is also required \u2014 the fix is to systematically list every ordered pair as a potential middle element and check all chains that pass through it."
+  ],
+  "untested_variants": [
+    "Checking properties of relations defined on infinite sets using set-builder or modular arithmetic notation, such as $(a,b)\\in R$ iff $a \\equiv b \\pmod{n}$.",
+    "Using a matrix representation (Boolean adjacency matrix) to identify reflexive, symmetric, and transitive properties from the pattern of 1s on the diagonal or in symmetric positions.",
+    "Determining which properties are preserved or destroyed when two relations $R$ and $S$ are composed or unioned, e.g., deciding whether $R \\cup S$ inherits transitivity.",
+    "Constructing the smallest relation that extends a given relation to make it satisfy one or more missing properties (i.e., computing reflexive, symmetric, or transitive closures)."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_029",
+  "topic_name": "Epsilon-Delta Proofs for Limits (H)",
+  "generated_at": "2026-05-13T20:20:37.863008+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know what it means intuitively for a function to approach a limit: as $x$ gets close to $a$, $f(x)$ gets close to $L$. But 'close' is doing a lot of heavy lifting there \u2014 close enough for what? Close in whose opinion? A rigorous proof of a limit must replace vague nearness with a precise, quantified challenge-and-response: for ANY level of accuracy demanded, you can guarantee the function stays within it. Can you actually write down a proof that $\\lim_{x \\to 2}(3x - 1) = 5$ that would convince the most skeptical mathematician?",
+  "concept": "An epsilon-delta proof formalizes 'closeness' using two positive numbers: $\\varepsilon$ (epsilon) measures how close we require $f(x)$ to be to $L$, and $\\delta$ (delta) measures how close $x$ must be to $a$ to guarantee it. Formally, $\\lim_{x \\to a} f(x) = L$ means: for every $\\varepsilon > 0$, there exists $\\delta > 0$ such that if $0 < |x - a| < \\delta$, then $|f(x) - L| < \\varepsilon$.",
+  "anatomy": "The definition has four structural components worth naming carefully. The universal quantifier 'for every $\\varepsilon > 0$' is the adversarial challenge \u2014 your proof must work for any positive $\\varepsilon$ an opponent could choose. The existential statement 'there exists $\\delta > 0$' is your response \u2014 you must produce a specific $\\delta$ (usually expressed as a formula in $\\varepsilon$). The hypothesis $0 < |x - a| < \\delta$ is the input condition \u2014 the strict inequality $0 <$ ensures $x \\neq a$, so the limit is about approach, not the value at $a$. The conclusion $|f(x) - L| < \\varepsilon$ is the output guarantee \u2014 this is what you must verify holds whenever the hypothesis does.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\lim_{x \\to 2}(3x - 1) = 5",
+      "description_latex": "We want to prove that $3x - 1$ approaches $5$ as $x$ approaches $2$. Before writing any formal proof, we do scratch work: we need to find a $\\delta$ in terms of $\\varepsilon$ that will work, so we start by examining $|f(x) - L|$ and simplifying it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|f(x) - L| = |(3x-1) - 5| = |3x - 6| = 3|x - 2|",
+      "description_latex": "We simplify $|(3x - 1) - 5|$ algebraically to get $3|x - 2|$. This is the key scratch-work step: it tells us that controlling $|f(x) - L|$ is exactly the same as controlling $|x - 2|$, which is our $|x - a|$ term, and the factor of $3$ tells us exactly how the two quantities are linked.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3|x - 2| < \\varepsilon \\iff |x - 2| < \\frac{\\varepsilon}{3}, \\text{ so choose } \\delta = \\frac{\\varepsilon}{3}",
+      "description_latex": "From the scratch work we see that if we want $|f(x) - L| < \\varepsilon$, we need $3|x-2| < \\varepsilon$, which means $|x - 2| < \\varepsilon/3$. This tells us exactly what to choose for $\\delta$: we set $\\delta = \\varepsilon/3$, and now we write the formal proof using this choice.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Proof: } \\text{Let } \\varepsilon > 0. \\text{ Choose } \\delta = \\frac{\\varepsilon}{3}. \\text{ Suppose } 0 < |x - 2| < \\delta.",
+      "description_latex": "We open the formal proof by letting $\\varepsilon > 0$ be arbitrary (this honours the 'for every $\\varepsilon$' quantifier), announcing our chosen $\\delta$, and assuming the hypothesis. Notice that the proof only flows forward \u2014 we use the scratch work to choose $\\delta$ wisely, but the proof itself starts from the hypothesis and drives toward the conclusion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|(3x-1) - 5| = 3|x - 2| < 3\\delta = 3 \\cdot \\frac{\\varepsilon}{3} = \\varepsilon. \\quad \\square",
+      "description_latex": "We compute $|f(x) - L|$ using our earlier simplification, then substitute the hypothesis $|x-2| < \\delta$ and finally substitute $\\delta = \\varepsilon/3$ to get $\\varepsilon$. The chain of (strict) inequalities closes the proof: we have shown $|f(x) - L| < \\varepsilon$ whenever $0 < |x-2| < \\delta$, exactly as required.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\lim_{x \\to 1}(5x + 2) = 7",
+      "description_latex": "We want to prove this limit using an epsilon-delta argument. Start with scratch work: write out $|f(x) - L|$ and simplify it as much as possible so you can see what $\\delta$ should be.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|(5x + 2) - 7| = |5x - 5| = 5|x - 1|",
+      "description_latex": "After simplification we find $|f(x) - L| = 5|x - 1|$. This tells us that controlling the output error requires controlling $|x - 1|$ with a factor of $5$ in play. From this, determine what $\\delta$ should be chosen as a function of $\\varepsilon$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write the complete formal proof: state your choice of $\\delta$ in terms of $\\varepsilon$, assume $0 < |x - 1| < \\delta$, and carry out the chain of inequalities to show $|(5x+2) - 7| < \\varepsilon$. Make sure every inequality is justified.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove using an $\\varepsilon$-$\\delta$ argument that $\\lim_{x \\to 3}(2x) = 6$.",
+      "answer_latex": "Choose $\\delta = \\varepsilon/2$. Then $0 < |x-3| < \\delta \\Rightarrow |2x - 6| = 2|x-3| < 2\\delta = \\varepsilon$."
+    },
+    {
+      "prompt_latex": "Prove that $\\lim_{x \\to 4}(3x - 5) = 7$ using the $\\varepsilon$-$\\delta$ definition.",
+      "answer_latex": "Choose $\\delta = \\varepsilon/3$. Then $|(3x-5)-7| = 3|x-4| < 3\\delta = \\varepsilon$."
+    },
+    {
+      "prompt_latex": "Prove that $\\lim_{x \\to 0}(7x + 1) = 1$.",
+      "answer_latex": "Choose $\\delta = \\varepsilon/7$. Then $|(7x+1)-1| = 7|x| < 7\\delta = \\varepsilon$."
+    },
+    {
+      "prompt_latex": "Prove that $\\lim_{x \\to 2} x^2 = 4$ using an $\\varepsilon$-$\\delta$ argument. (Hint: restrict $\\delta \\le 1$ first to bound $|x+2|$.)",
+      "answer_latex": "Require $\\delta \\le 1$, so $|x-2|<1 \\Rightarrow 1 < x < 3 \\Rightarrow |x+2| < 5$. Then $|x^2 - 4| = |x+2||x-2| < 5\\delta$. Choose $\\delta = \\min(1, \\varepsilon/5)$, giving $|x^2 - 4| < 5 \\cdot (\\varepsilon/5) = \\varepsilon$."
+    },
+    {
+      "prompt_latex": "A temperature sensor reads $T(v) = 4v - 3$ degrees when voltage is $v$ volts. An engineer needs the reading to be within $0.02$ degrees of $9$ degrees (the target). Use the $\\varepsilon$-$\\delta$ definition to find the maximum allowable deviation in voltage from $v = 3$ volts.",
+      "answer_latex": "We need $|T(v) - 9| < 0.02$, i.e., $|4v-12| = 4|v-3| < 0.02$, so $|v-3| < 0.005$. The allowable voltage deviation is $\\delta = 0.005$ volts."
+    }
+  ],
+  "common_mistakes": [
+    "Students write the proof 'backwards', starting from $|f(x) - L| < \\varepsilon$ and deriving $|x - a| < \\delta$, which proves nothing \u2014 the logical direction must go from the hypothesis $|x-a| < \\delta$ forward to the conclusion $|f(x) - L| < \\varepsilon$; use scratch work separately to find $\\delta$, then write the proof in the correct direction.",
+    "When dealing with nonlinear functions like $x^2$, students forget to first bound the 'extra' factor (e.g., $|x+2|$) by restricting $\\delta \\le 1$ or some fixed constant \u2014 without this preliminary bound, $\\delta$ cannot be expressed purely in terms of $\\varepsilon$, and the proof is incomplete.",
+    "Students choose $\\delta$ that depends on both $\\varepsilon$ and $x$ (for example writing $\\delta = \\varepsilon / |x+2|$), not realising that $\\delta$ must be a fixed positive number depending only on $\\varepsilon$ and the constant $a$ \u2014 the fix is to bound $|x + 2|$ by a constant using the preliminary $\\delta \\le 1$ restriction before defining $\\delta$."
+  ],
+  "untested_variants": [
+    "Epsilon-delta proofs for limits at infinity, i.e., proving $\\lim_{x \\to \\infty} f(x) = L$ using an $N$-$\\varepsilon$ definition where $x > N$ replaces $0 < |x - a| < \\delta$.",
+    "Proving that a limit does NOT exist by negating the epsilon-delta definition and finding a specific $\\varepsilon$ for which no valid $\\delta$ exists, often via two sequences approaching $a$ with different function values.",
+    "Epsilon-delta proofs involving rational functions such as $\\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}$ where algebraic simplification and the restriction $x \\neq a$ must both be handled explicitly.",
+    "Using the epsilon-delta definition to prove limit laws (e.g., that the limit of a sum equals the sum of limits), which requires manipulating two separate $\\varepsilon/2$ arguments simultaneously."
+  ]
+}

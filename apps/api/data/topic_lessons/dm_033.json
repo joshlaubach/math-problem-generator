@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_033",
+  "topic_name": "Modular Arithmetic and Congruences",
+  "generated_at": "2026-05-13T20:14:32.708206+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to divide integers and compute remainders \u2014 for example, you know that 17 divided by 5 gives remainder 2. But what if you need to know whether two very large numbers like 10,847 and 10,852 leave the same remainder when divided by 5, without computing both remainders from scratch? Or imagine designing a calendar system: why do dates cycle with period 7, and how can you predict what day of the week a date falls on hundreds of years in the future? Standard arithmetic doesn't give you clean tools for this kind of cyclic reasoning \u2014 so how do mathematicians handle it?",
+  "concept": "Modular arithmetic is a system where numbers 'wrap around' after reaching a fixed value, exactly like a clock resets after 12. Formally, we say $a \\equiv b \\pmod{n}$ (read: $a$ is congruent to $b$ modulo $n$) if and only if $n \\mid (a - b)$, meaning $n$ divides $a - b$ with no remainder. Equivalently, $a$ and $b$ leave the same remainder when divided by $n$.",
+  "anatomy": "A congruence statement $a \\equiv b \\pmod{n}$ has three components: the modulus $n$, which is a positive integer that sets the 'cycle length'; the two integers $a$ and $b$ being compared, called the left-hand side and right-hand side of the congruence; and the divisibility condition $n \\mid (a - b)$, which is the actual test that determines whether the congruence holds. The remainder $r$ satisfying $0 \\le r < n$ and $a \\equiv r \\pmod{n}$ is called the residue of $a$ modulo $n$, and the full set $\\{0, 1, 2, \\ldots, n-1\\}$ is called the complete residue system modulo $n$.",
+  "worked_example": [
+    {
+      "expression_latex": "38 \\equiv 2 \\pmod{9}",
+      "description_latex": "We want to verify this congruence using the definition: $a \\equiv b \\pmod{n}$ holds when $n \\mid (a - b)$. Compute the difference: $38 - 2 = 36$. Since $9 \\mid 36$ (because $36 = 9 \\times 4$), the congruence is true.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(17 + 25) \\pmod{6} = ?",
+      "description_latex": "One of the most useful properties of modular arithmetic is that you can reduce before or after adding. First reduce each number: $17 \\equiv 5 \\pmod{6}$ and $25 \\equiv 1 \\pmod{6}$. Then add the residues: $5 + 1 = 6 \\equiv 0 \\pmod{6}$, so $(17 + 25) \\equiv 0 \\pmod{6}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(13 \\times 11) \\pmod{7} = ?",
+      "description_latex": "Multiplication also respects congruences: reduce each factor first before multiplying, which keeps numbers small. We have $13 \\equiv 6 \\pmod{7}$ and $11 \\equiv 4 \\pmod{7}$, so $13 \\times 11 \\equiv 6 \\times 4 = 24 \\pmod{7}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "24 \\pmod{7} = 3",
+      "description_latex": "We still need to reduce 24 modulo 7 to find the final residue. Divide: $24 = 7 \\times 3 + 3$, so the remainder is 3, giving $13 \\times 11 \\equiv 3 \\pmod{7}$. You can verify: $143 = 7 \\times 20 + 3$, confirming the answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "3^4 \\pmod{5} = ?",
+      "description_latex": "We want to compute a power modulo 5. The strategy is to reduce at each multiplication step rather than computing the full power first, keeping our numbers manageable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3^2 = 9 \\equiv 4 \\pmod{5}",
+      "description_latex": "Start by squaring the base: $3^2 = 9$, and $9 = 5 \\times 1 + 4$, so $3^2 \\equiv 4 \\pmod{5}$. We will use this intermediate result in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now square your intermediate result to find $3^4 \\equiv (3^2)^2 \\equiv 4^2 \\pmod{5}$. Compute $4^2$, reduce it modulo 5, and write the final congruence.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Determine whether $52 \\equiv 16 \\pmod{9}$. Justify your answer using the definition.",
+      "answer_latex": "52 - 16 = 36 = 9 \\times 4, \\text{ so yes, } 52 \\equiv 16 \\pmod{9}."
+    },
+    {
+      "prompt_latex": "Compute $(47 + 63) \\pmod{8}$ by reducing each term before adding.",
+      "answer_latex": "47 \\equiv 7 \\pmod{8},\\; 63 \\equiv 7 \\pmod{8},\\; 7+7=14 \\equiv 6 \\pmod{8}"
+    },
+    {
+      "prompt_latex": "Compute $7^3 \\pmod{11}$.",
+      "answer_latex": "7^2 = 49 \\equiv 5 \\pmod{11},\\; 7^3 \\equiv 5 \\times 7 = 35 \\equiv 2 \\pmod{11}"
+    },
+    {
+      "prompt_latex": "Find all integers $x$ with $0 \\le x < 12$ such that $5x \\equiv 3 \\pmod{12}$.",
+      "answer_latex": "x = 3 \\text{ (since } 5 \\times 3 = 15 = 12 + 3\\text{)}"
+    },
+    {
+      "prompt_latex": "Today is Wednesday. What day of the week will it be 100 days from now? (Encode days as integers modulo 7, with Wednesday $= 3$.)",
+      "answer_latex": "100 \\equiv 2 \\pmod{7},\\; 3 + 2 = 5 \\equiv 5 \\pmod{7},\\text{ so Friday.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $a \\equiv b \\pmod{n}$ and then check whether $n \\mid a$ and $n \\mid b$ separately, but the definition requires $n$ to divide the *difference* $a - b$, not each number individually. Fix: always compute $a - b$ first, then check divisibility.",
+    "When computing powers like $2^{10} \\pmod{7}$, students compute the full value $2^{10} = 1024$ and then reduce, which works but becomes impractical for large exponents; worse, some reduce only once at the very end and make arithmetic errors along the way. Fix: reduce after every multiplication step to keep intermediate values small.",
+    "Students sometimes treat the congruence $a \\equiv b \\pmod{n}$ as if it means $a = b$, and cancel a common factor $k$ from $ka \\equiv kb \\pmod{n}$ to get $a \\equiv b \\pmod{n}$ \u2014 but this is only valid when $\\gcd(k, n) = 1$. Fix: before canceling a factor, check that it is coprime to the modulus, or divide the modulus by $\\gcd(k,n)$ instead."
+  ],
+  "untested_variants": [
+    "Finding the modular inverse of an integer modulo $n$ using the extended Euclidean algorithm, e.g., find $x$ such that $7x \\equiv 1 \\pmod{13}$.",
+    "Solving simultaneous congruences using the Chinese Remainder Theorem, e.g., find $x$ with $x \\equiv 2 \\pmod{3}$ and $x \\equiv 3 \\pmod{5}$.",
+    "Using Fermat's Little Theorem to compute large powers efficiently, e.g., $3^{100} \\pmod{7}$.",
+    "Proving divisibility rules for specific integers (like the rule that a number is divisible by 9 if and only if its digit sum is divisible by 9) using properties of congruences modulo 9 or 10."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_057",
+  "topic_name": "Spanning Trees: BFS and DFS",
+  "generated_at": "2026-05-13T20:16:38.169420+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know that a spanning tree of a connected graph $G$ is a subgraph that includes every vertex and is itself a tree. You've probably even listed spanning trees by trial and error on small graphs. But what if $G$ has hundreds of vertices? You need a systematic algorithm that guarantees you'll find a spanning tree without revisiting vertices or creating cycles. The question is: which search strategy should you use, and how do you prove it actually produces a spanning tree?",
+  "concept": "A spanning tree can be built by systematically exploring a connected graph $G = (V, E)$ and recording only the edges used to discover new vertices. Breadth-First Search (BFS) explores neighbors level by level (closest vertices first), while Depth-First Search (DFS) plunges as deep as possible before backtracking. Formally, given a connected graph $G$, both BFS and DFS produce a spanning tree $T = (V, E_T)$ where $E_T \\subseteq E$, $|E_T| = |V| - 1$, and $T$ is acyclic and connected.",
+  "anatomy": "Both algorithms share several structural components. The **source vertex** $s$ is where exploration begins, and it becomes the root of the spanning tree. The **frontier** is the collection of vertices waiting to be explored: BFS uses a queue (FIFO) so it processes vertices in the order they were discovered, while DFS uses a stack (LIFO) or recursion so it dives into the most recently discovered vertex first. A **visited set** (often called the 'marked' or 'discovered' array) tracks which vertices have been seen, preventing revisits. Each time a new vertex $v$ is reached via edge $(u, v)$, that edge becomes a **tree edge** and is added to $E_T$; edges that lead to already-visited vertices are called **non-tree edges** (cross edges in BFS, back edges in DFS) and are discarded.",
+  "worked_example": [
+    {
+      "expression_latex": "G: \\text{ vertices } \\{1,2,3,4,5\\},\\; \\text{edges } \\{(1,2),(1,3),(2,4),(2,5),(3,5)\\}",
+      "description_latex": "We start by clearly naming the graph we will work on. Having the edge list written out explicitly ensures we don't miss any neighbors during the search \u2014 this is your reference throughout both algorithms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{BFS from } s=1:\\; \\text{Queue: } [1],\\; \\text{Visited: } \\{1\\}",
+      "description_latex": "We initialize BFS by placing the source vertex $1$ in the queue and marking it visited. The queue structure guarantees we will finish processing all neighbors of vertex $1$ before moving on to their neighbors, which is exactly what gives BFS its level-by-level character.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Dequeue } 1,\\; \\text{enqueue neighbors } 2,3.\\; E_T \\leftarrow \\{(1,2),(1,3)\\}.\\; \\text{Visited: }\\{1,2,3\\}",
+      "description_latex": "We remove vertex $1$ from the front of the queue and examine each of its neighbors. Vertices $2$ and $3$ are unvisited, so we mark them, add them to the queue, and record the discovery edges $(1,2)$ and $(1,3)$ as tree edges. Notice we are building $E_T$ one edge at a time.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Dequeue } 2,\\; \\text{enqueue } 4,5.\\; E_T \\leftarrow \\{(1,2),(1,3),(2,4),(2,5)\\}.\\; \\text{Dequeue } 3,\\; (3,5) \\text{ skipped (5 visited)}.",
+      "description_latex": "Vertex $2$ is dequeued next; its unvisited neighbors $4$ and $5$ are added to the tree. When we later dequeue vertex $3$, we find that its only neighbor $5$ is already visited, so the edge $(3,5)$ is a non-tree edge and is simply discarded \u2014 this is how BFS avoids creating a cycle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_T = \\{(1,2),(1,3),(2,4),(2,5)\\},\\; |E_T| = 4 = |V|-1 = 5-1",
+      "description_latex": "After dequeuing $4$ and $5$ (each with no new neighbors), the queue is empty and every vertex has been visited. The resulting spanning tree $T$ has exactly $|V|-1 = 4$ edges and is acyclic, confirming it is indeed a valid spanning tree of $G$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "G: \\text{ vertices } \\{A,B,C,D,E\\},\\; \\text{edges } \\{(A,B),(A,C),(B,C),(B,D),(C,E),(D,E)\\}",
+      "description_latex": "Here is the graph we will traverse using DFS starting from vertex $A$. Begin by placing $A$ on the stack and marking it visited: Stack: $[A]$, Visited: $\\{A\\}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Pop } A,\\; \\text{push unvisited neighbors (say } B \\text{ first, then } C\\text{)}.\\; E_T \\leftarrow \\{(A,B)\\} \\text{ or } \\{(A,C)\\}?",
+      "description_latex": "When we pop $A$ and push its neighbors, we push $C$ then $B$ so that $B$ is on top. We add a tree edge for each newly discovered vertex. Which edges are added to $E_T$ at this step, and what does the stack look like after this operation?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Continue DFS: pop } B,\\; \\text{push unvisited neighbors of } B \\text{ (skip } A\\text{)}.\\; \\ldots",
+      "description_latex": "Continuing from the state you found above, pop vertex $B$, examine its neighbors $A$ (already visited \u2014 skip), $C$ (unvisited \u2014 push and record tree edge), and $D$ (unvisited \u2014 push and record tree edge). Update the visited set and $E_T$ accordingly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_T = ?",
+      "description_latex": "Finish the DFS by processing the remaining stack entries. List all tree edges in $E_T$ and verify that $|E_T| = 4 = |V| - 1$, confirming you have a valid spanning tree.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Run BFS from vertex $1$ on the path graph $P_4$ with vertices $\\{1,2,3,4\\}$ and edges $\\{(1,2),(2,3),(3,4)\\}$. List the tree edges in the order they are added to $E_T$.",
+      "answer_latex": "E_T = \\{(1,2),(2,3),(3,4)\\} \\text{ (added in that order)}"
+    },
+    {
+      "prompt_latex": "Run DFS from vertex $a$ on the graph with vertices $\\{a,b,c,d\\}$ and edges $\\{(a,b),(a,c),(b,d),(c,d)\\}$, always choosing the alphabetically earlier unvisited neighbor first. List the tree edges and identify the one non-tree edge.",
+      "answer_latex": "\\text{Tree edges: } \\{(a,b),(b,d),(d,c)\\};\\; \\text{Non-tree (back) edge: } (a,c)"
+    },
+    {
+      "prompt_latex": "A connected graph $G$ has vertices $\\{1,2,3,4,5,6\\}$ and edges $\\{(1,2),(1,4),(2,3),(2,5),(3,6),(4,5),(5,6)\\}$. Perform BFS from vertex $1$, breaking ties by choosing the smaller-numbered vertex first. State the BFS spanning tree $T$ by listing $E_T$.",
+      "answer_latex": "E_T = \\{(1,2),(1,4),(2,3),(2,5),(3,6)\\}"
+    },
+    {
+      "prompt_latex": "Let $G = K_4$ (the complete graph on 4 vertices $\\{1,2,3,4\\}$). How many distinct spanning trees does $K_4$ have? Then verify that both a BFS spanning tree and a DFS spanning tree (each started from vertex $1$) each have $|V|-1 = 3$ edges and are acyclic.",
+      "answer_latex": "K_4 \\text{ has } 4^{4-2} = 16 \\text{ spanning trees (Cayley's formula). Any BFS or DFS from vertex } 1 \\text{ produces a tree with exactly 3 edges, e.g., } E_T = \\{(1,2),(1,3),(1,4)\\} \\text{ for BFS (star).}"
+    },
+    {
+      "prompt_latex": "A network of 5 computers is modeled by a graph with vertices $\\{C_1,C_2,C_3,C_4,C_5\\}$ and connections $\\{(C_1,C_2),(C_1,C_3),(C_2,C_4),(C_3,C_4),(C_4,C_5)\\}$. A network administrator wants to find a broadcast tree (spanning tree) rooted at $C_1$ so that every computer receives a message in the fewest possible relay hops. Which algorithm (BFS or DFS) should she use, and what is the resulting spanning tree?",
+      "answer_latex": "\\text{BFS minimizes hop-distance. BFS from } C_1:\\; E_T = \\{(C_1,C_2),(C_1,C_3),(C_2,C_4),(C_4,C_5)\\}."
+    }
+  ],
+  "common_mistakes": [
+    "Students often add an edge to $E_T$ when a neighbor is already visited, which creates a cycle. The fix is strict: only add edge $(u,v)$ to $E_T$ if $v$ has NOT yet been visited at the moment $u$ is processed.",
+    "In DFS, students confuse the order of pushing neighbors onto the stack, and as a result they expect DFS to behave like BFS level-by-level. Remember that the stack is LIFO \u2014 the last neighbor pushed is the first explored \u2014 so DFS will dive deep along one path before backtracking, producing a very different tree from BFS even on the same graph.",
+    "Students sometimes stop the algorithm early when a cycle would be formed, believing the graph itself has no spanning tree. In reality, every connected graph has at least one spanning tree; you simply skip the offending edge and continue. Stopping early leaves some vertices undiscovered and produces an incomplete spanning tree."
+  ],
+  "untested_variants": [
+    "Counting the total number of distinct spanning trees of a given graph using Kirchhoff's Matrix-Tree Theorem (the determinant of a cofactor of the Laplacian matrix).",
+    "Determining the BFS or DFS spanning tree of a directed graph (digraph), where edge directions constrain which vertices can be reached from a given source.",
+    "Comparing the depth (height) of the BFS spanning tree versus the DFS spanning tree on the same graph and proving that the BFS tree always minimizes the maximum depth from the source.",
+    "Using DFS to detect back edges and thereby determine whether a graph contains a cycle, and how this differs from merely building a spanning tree."
+  ]
+}

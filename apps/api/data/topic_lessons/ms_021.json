@@ -1,0 +1,86 @@
+{
+  "topic_id": "ms_021",
+  "topic_name": "The Kolmogorov-Smirnov Goodness-of-Fit Test",
+  "generated_at": "2026-05-14T01:02:56.038493+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to use the chi-square goodness-of-fit test to check whether data follows a hypothesized distribution \u2014 but that test requires you to bin continuous data into arbitrary categories, and the result can change depending on how you draw those bins. What if you could compare your entire empirical distribution directly against the theoretical one, without binning at all? The Kolmogorov-Smirnov test does exactly this, but how does it measure the 'distance' between two distributions, and when do we reject?",
+  "concept": "The Kolmogorov-Smirnov (KS) goodness-of-fit test compares the empirical cumulative distribution function (ECDF) of a sample against a fully specified theoretical CDF to decide whether the data plausibly came from that distribution. Formally, given a sample $X_1, \\ldots, X_n$, the test statistic is $D_n = \\sup_x |F_n(x) - F_0(x)|$, where $F_n(x) = \\frac{1}{n}\\sum_{i=1}^n \\mathbf{1}(X_i \\le x)$ is the ECDF and $F_0$ is the hypothesized CDF. We reject $H_0: F = F_0$ when $D_n$ exceeds a critical value.",
+  "anatomy": "The KS test has four key components. First, the empirical CDF $F_n(x)$ is the step function that jumps by $1/n$ at each observed data point, serving as the sample's portrait of its own distribution. Second, the null CDF $F_0(x)$ is the completely specified theoretical distribution you are testing against (all parameters must be known, not estimated from the data). Third, the test statistic $D_n = \\sup_x |F_n(x) - F_0(x)|$ is the maximum absolute vertical gap between these two functions \u2014 the worst-case discrepancy anywhere on the real line. Fourth, the critical value $d_{n,\\alpha}$ (tabulated or approximated by the large-sample formula $\\sqrt{-\\ln(\\alpha/2)/(2n)}$) is the threshold above which we reject $H_0$ at significance level $\\alpha$.",
+  "worked_example": [
+    {
+      "expression_latex": "H_0: F = F_0 \\quad \\text{where} \\quad F_0(x) = 1 - e^{-x}, \\; x \\ge 0 \\quad (\\text{Exponential with mean } 1)",
+      "description_latex": "We begin by stating the hypotheses clearly. Our null hypothesis is that the data come from a standard Exponential(1) distribution, whose CDF is $F_0(x) = 1 - e^{-x}$. Notice that $F_0$ must be completely specified \u2014 no unknown parameters \u2014 for the KS critical values to be valid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Ordered sample: } x_{(1)}=0.2,\\; x_{(2)}=0.5,\\; x_{(3)}=0.9,\\; x_{(4)}=1.4,\\; x_{(5)}=2.1",
+      "description_latex": "We sort the $n = 5$ observations into order statistics $x_{(1)} \\le x_{(2)} \\le \\cdots \\le x_{(5)}$. The ECDF $F_n(x)$ takes the value $i/n$ in the interval $[x_{(i)}, x_{(i+1)})$, so we only need to evaluate things at the jump points.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|cc|cc|c} i & x_{(i)} & F_n(x_{(i)}) = i/5 & F_0(x_{(i)}) & F_n(x_{(i-1)}) = (i-1)/5 & \\max\\text{ gap at }x_{(i)} \\\\ \\hline 1 & 0.2 & 0.2 & 0.181 & 0.0 & \\max(|0.2-0.181|,|0.0-0.181|)=0.181 \\\\ 2 & 0.5 & 0.4 & 0.394 & 0.2 & \\max(0.006, 0.194)=0.194 \\\\ 3 & 0.9 & 0.6 & 0.593 & 0.4 & \\max(0.007, 0.193)=0.193 \\\\ 4 & 1.4 & 0.8 & 0.754 & 0.6 & \\max(0.046, 0.154)=0.154 \\\\ 5 & 2.1 & 1.0 & 0.878 & 0.8 & \\max(0.122, 0.078)=0.122 \\end{array}",
+      "description_latex": "At each order statistic $x_{(i)}$ the ECDF has a jump, so the maximum gap between $F_n$ and $F_0$ on the whole real line is achieved either just after $x_{(i)}$ (where $F_n = i/n$) or just before it (where $F_n = (i-1)/n$). We evaluate $|i/n - F_0(x_{(i)})|$ and $|(i-1)/n - F_0(x_{(i)})|$ at every order statistic and record the larger of the two, because $\\sup_x |F_n - F_0|$ must occur at one of these candidate points.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D_5 = \\max\\{0.181,\\, 0.194,\\, 0.193,\\, 0.154,\\, 0.122\\} = 0.194",
+      "description_latex": "The KS statistic $D_n$ is simply the maximum over all those candidate gaps we computed in the table. Here $D_5 = 0.194$, which occurs at $x_{(2)} = 0.5$ where the ECDF jumps from $0.2$ to $0.4$ while $F_0(0.5) \\approx 0.394$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d_{5,0.05} = 0.565 \\quad \\Rightarrow \\quad D_5 = 0.194 < 0.565 \\quad \\Rightarrow \\quad \\text{Fail to reject } H_0",
+      "description_latex": "We compare $D_5 = 0.194$ to the critical value $d_{5, 0.05} = 0.565$ from the KS table for $n=5$ at the 5% significance level. Because $D_5$ is well below the critical value, we do not have sufficient evidence to reject the null hypothesis that the data come from an Exponential(1) distribution.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H_0: F = F_0 \\quad \\text{where} \\quad F_0(x) = x, \\; 0 \\le x \\le 1 \\quad (\\text{Uniform}(0,1))",
+      "description_latex": "We want to test whether a sample of $n=4$ observations follows a Uniform(0,1) distribution. The CDF is simply $F_0(x) = x$ for $x \\in [0,1]$. We start by sorting the data: the ordered sample is $x_{(1)}=0.10,\\, x_{(2)}=0.35,\\, x_{(3)}=0.62,\\, x_{(4)}=0.88$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|ccc} i & x_{(i)} & F_0(x_{(i)}) & i/4 \\\\ \\hline 1 & 0.10 & 0.10 & 0.25 \\\\ 2 & 0.35 & 0.35 & 0.50 \\\\ 3 & 0.62 & 0.62 & 0.75 \\\\ 4 & 0.88 & 0.88 & 1.00 \\end{array}",
+      "description_latex": "Here is the table of $F_0$ values and ECDF values $i/n$ at each order statistic. To find $D_4$ you need to compute, for each $i$, both $|i/4 - F_0(x_{(i)})|$ and $|(i-1)/4 - F_0(x_{(i)})|$, then take the maximum over all $i$. Try completing the calculation of $D_4$ yourself using these values.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "d_{4,0.05} = 0.624",
+      "description_latex": "The critical value for $n=4$ at $\\alpha = 0.05$ is $d_{4,0.05} = 0.624$. Using your computed $D_4$, state the conclusion of the test: do we reject or fail to reject $H_0$? Make sure to compare $D_4$ to this critical value and write a one-sentence conclusion.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A sample of $n=3$ yields ordered values $0.3, 0.6, 0.9$. The null hypothesis is $F_0(x)=x$ on $[0,1]$. Compute $D_3$.",
+      "answer_latex": "D_3 = 1/3 \\approx 0.333"
+    },
+    {
+      "prompt_latex": "For a sample of size $n=5$ with $D_5 = 0.42$, use the critical value $d_{5,0.05}=0.565$ and $d_{5,0.10}=0.509$. At which significance levels, among $\\alpha=0.05$ and $\\alpha=0.10$, do you fail to reject $H_0$?",
+      "answer_latex": "\\text{Fail to reject at both } \\alpha=0.05 \\text{ and } \\alpha=0.10, \\text{ since } 0.42 < 0.509 < 0.565"
+    },
+    {
+      "prompt_latex": "A sample of $n=4$ observations ordered as $0.2, 0.5, 0.7, 1.3$ is tested against $F_0(x)=1-e^{-x}$ ($x\\ge0$). Evaluate $F_0$ at each point and compute $D_4$ by checking both $|i/4 - F_0(x_{(i)})|$ and $|(i-1)/4 - F_0(x_{(i)})|$ for each $i$.",
+      "answer_latex": "F_0: 0.181, 0.394, 0.503, 0.727; \\text{ gaps: } 0.181, 0.144, 0.253, 0.227; \\; D_4 = 0.253"
+    },
+    {
+      "prompt_latex": "Using the large-sample approximation $d_{n,\\alpha} \\approx \\sqrt{\\frac{-\\ln(\\alpha/2)}{2n}}$, find the critical value for $n=100$ at $\\alpha=0.05$, and determine whether $D_{100}=0.15$ leads to rejection.",
+      "answer_latex": "d_{100,0.05} \\approx \\sqrt{\\frac{-\\ln(0.025)}{200}} = \\sqrt{\\frac{3.689}{200}} \\approx 0.136; \\quad 0.15 > 0.136 \\Rightarrow \\text{Reject } H_0"
+    },
+    {
+      "prompt_latex": "A quality engineer records the lifetimes (in hours) of 5 components: $120, 250, 400, 610, 950$. She believes lifetimes follow an Exponential distribution with mean $500$ (i.e., $F_0(x)=1-e^{-x/500}$). Compute $D_5$ and state the conclusion at $\\alpha=0.05$ using $d_{5,0.05}=0.565$.",
+      "answer_latex": "F_0 \\text{ values}: 0.213, 0.394, 0.551, 0.705, 0.850; \\text{ max gap} = D_5 \\approx 0.213; \\quad 0.213 < 0.565 \\Rightarrow \\text{Fail to reject } H_0"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to check the gap on both sides of each jump \u2014 that is, they compute only $|i/n - F_0(x_{(i)})|$ and ignore $|(i-1)/n - F_0(x_{(i)})|$. Because the ECDF is a step function, the supremum can occur just before the jump as well as just after it, so you must evaluate both differences at every order statistic and take the larger one.",
+    "Students apply the standard KS critical values even when the parameters of $F_0$ were estimated from the same data being tested, which invalidates the table. If you estimate the mean from your sample and then test against an exponential with that mean, the true null distribution of $D_n$ is different \u2014 you need modified critical values (such as Lilliefors critical values for normality) in that situation.",
+    "Students sometimes confuse the direction of the comparison and reject when $D_n < d_{n,\\alpha}$ instead of when $D_n > d_{n,\\alpha}$. Remember: a large $D_n$ means the data look very different from the null distribution, so we reject $H_0$ only when the statistic is large, i.e., when it exceeds the critical value."
+  ],
+  "untested_variants": [
+    "The two-sample KS test, which compares the ECDFs of two independent samples to test whether they come from the same population \u2014 none of the practice problems address this setting.",
+    "Computing the exact p-value of $D_n$ using the Kolmogorov distribution or software output, rather than comparing to tabulated critical values \u2014 the practice problems only use the critical-value decision rule.",
+    "Applying the Lilliefors correction when testing normality with both mean and variance estimated from data, a modification required whenever any parameters of $F_0$ are estimated from the same sample.",
+    "One-sided KS statistics $D_n^+ = \\sup_x (F_n(x)-F_0(x))$ and $D_n^- = \\sup_x (F_0(x)-F_n(x))$, which arise in tests of stochastic dominance or one-sided departures, and which have different critical values from the two-sided $D_n$."
+  ]
+}

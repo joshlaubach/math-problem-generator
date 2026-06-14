@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_054",
+  "topic_name": "Special Right Triangles (45-45-90 and 30-60-90)",
+  "generated_at": "2026-05-13T19:56:49.170433+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to use the Pythagorean theorem to find a missing side of a right triangle when you know the other two. But what if you're on a timed test and someone asks for the hypotenuse of an isosceles right triangle with legs of length 7, or the short leg of a 30-60-90 triangle with hypotenuse 10? Calculating from scratch every time is slow and error-prone. Is there a faster way to find all sides of these special triangles without re-deriving the Pythagorean theorem each time?",
+  "concept": "Special right triangles are two specific triangle shapes whose side ratios are always the same, no matter how big or small the triangle is. The 45-45-90 triangle has legs in ratio $1:1:\\sqrt{2}$, meaning if each leg is $a$, the hypotenuse is $a\\sqrt{2}$. The 30-60-90 triangle has sides in ratio $1:\\sqrt{3}:2$, meaning if the short leg is $a$, the long leg is $a\\sqrt{3}$ and the hypotenuse is $2a$. Memorizing these ratios lets you find any side instantly from any other side.",
+  "anatomy": "Each special right triangle has three named parts that connect to its fixed ratio. For the 45-45-90 triangle: two equal legs (each of length $a$) and the hypotenuse (length $a\\sqrt{2}$); the scale factor $a$ is whatever the leg measures. For the 30-60-90 triangle: the short leg opposite the 30\u00b0 angle (length $a$), the long leg opposite the 60\u00b0 angle (length $a\\sqrt{3}$), and the hypotenuse opposite the right angle (length $2a$); here $a$ is determined by whichever side you are given, and every other side is expressed as a multiple of that same $a$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{45-45-90 triangle, leg} = 5",
+      "description_latex": "We start by identifying which special triangle we have. Because both acute angles are 45\u00b0, this is a 45-45-90 triangle, so the side ratio is leg : leg : hypotenuse $= 1:1:\\sqrt{2}$. Our scale factor is $a = 5$ because that is the given leg length.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{hypotenuse} = a\\sqrt{2} = 5\\sqrt{2}",
+      "description_latex": "We apply the ratio directly by multiplying the scale factor $a = 5$ by $\\sqrt{2}$, giving us the hypotenuse $= 5\\sqrt{2}$. Because the triangle is isosceles, the other leg is also 5, so there is nothing left to find.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{30-60-90 triangle, hypotenuse} = 10",
+      "description_latex": "Now we switch to a 30-60-90 problem. The ratio for this triangle is short leg : long leg : hypotenuse $= 1:\\sqrt{3}:2$, so the hypotenuse is always twice the short leg. Setting $2a = 10$ lets us find the scale factor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = 5, \\quad \\text{long leg} = a\\sqrt{3} = 5\\sqrt{3}",
+      "description_latex": "Dividing both sides of $2a = 10$ by 2 gives $a = 5$, which is the short leg. We then multiply $a$ by $\\sqrt{3}$ to get the long leg $= 5\\sqrt{3}$. Notice we never needed to set up a full Pythagorean equation \u2014 the ratio did all the work.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{30-60-90 triangle, long leg} = 6",
+      "description_latex": "We are given the long leg of a 30-60-90 triangle, not the short leg, so we need to be careful about which ratio to use. The long leg always equals $a\\sqrt{3}$, so we set up the equation $a\\sqrt{3} = 6$ and solve for the scale factor $a$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = \\frac{6}{\\sqrt{3}} = \\frac{6\\sqrt{3}}{3} = 2\\sqrt{3}",
+      "description_latex": "Dividing both sides by $\\sqrt{3}$ and rationalizing the denominator gives us $a = 2\\sqrt{3}$. This is the short leg of the triangle, and now every other side can be found by multiplying $a$ by the appropriate ratio factor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the scale factor $a = 2\\sqrt{3}$, find the hypotenuse of this 30-60-90 triangle. Remember the hypotenuse is always $2a$ in this ratio \u2014 what do you get when you substitute?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{A 45-45-90 triangle has legs of length } 9. \\text{ Find the hypotenuse.}",
+      "answer_latex": "9\\sqrt{2}"
+    },
+    {
+      "prompt_latex": "\\text{A 30-60-90 triangle has a short leg of length } 4. \\text{ Find the long leg and hypotenuse.}",
+      "answer_latex": "\\text{long leg} = 4\\sqrt{3}, \\quad \\text{hypotenuse} = 8"
+    },
+    {
+      "prompt_latex": "\\text{A 45-45-90 triangle has a hypotenuse of length } 12. \\text{ Find the leg length.}",
+      "answer_latex": "6\\sqrt{2}"
+    },
+    {
+      "prompt_latex": "\\text{Square } ABCD \\text{ has side length } 8. \\text{ Find the length of diagonal } AC.",
+      "answer_latex": "8\\sqrt{2}"
+    },
+    {
+      "prompt_latex": "\\text{An equilateral triangle has side length } 10. \\text{ Find its height.}",
+      "answer_latex": "5\\sqrt{3}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often assign $a\\sqrt{3}$ to the hypotenuse of a 30-60-90 triangle instead of the long leg, confusing which multiple goes where. Remember that the hypotenuse is always the longest side and equals $2a$, while $a\\sqrt{3}$ is the long leg \u2014 and since $\\sqrt{3} \\approx 1.73 < 2$, the hypotenuse must be larger than the long leg.",
+    "When the hypotenuse of a 45-45-90 triangle is given, students sometimes multiply it by $\\sqrt{2}$ instead of dividing by $\\sqrt{2}$ to get the leg. The ratio says leg $\\times \\sqrt{2} =$ hypotenuse, so you must divide the hypotenuse by $\\sqrt{2}$ (and rationalize) to recover the leg.",
+    "Students frequently leave a radical in the denominator after setting up $a = \\frac{6}{\\sqrt{3}}$ and then use the un-rationalized form in subsequent calculations, causing errors. Always rationalize immediately by multiplying numerator and denominator by $\\sqrt{3}$, converting to a clean form like $2\\sqrt{3}$ before continuing."
+  ],
+  "untested_variants": [
+    "Finding sides of a 30-60-90 triangle when the hypotenuse is given as an irrational number, such as hypotenuse $= 6\\sqrt{2}$.",
+    "Using special right triangle ratios inside coordinate geometry problems, such as finding the coordinates of a vertex knowing the triangle is 45-45-90 and one side lies along an axis.",
+    "Multi-step problems involving two stacked special right triangles, such as an altitude drawn inside a larger triangle creating two 30-60-90 triangles whose sides must be related to each other.",
+    "Applying special right triangles to find exact values of trigonometric ratios like $\\sin 45\u00b0$ or $\\cos 30\u00b0$ without a calculator."
+  ]
+}

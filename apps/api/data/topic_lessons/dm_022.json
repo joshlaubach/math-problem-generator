@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_022",
+  "topic_name": "Closures of Relations (H)",
+  "generated_at": "2026-05-13T20:13:22.991250+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to check whether a relation is reflexive, symmetric, or transitive. But what if you're given a relation that fails one of these properties and you need to 'fix' it with as few additions as possible? For example, suppose $R = \\{(1,2),(2,3)\\}$ on the set $\\{1,2,3\\}$ \u2014 it's not transitive because $(1,3)$ is missing, but simply adding every possible pair would be overkill. How do you find the smallest relation that contains $R$ and has the property you need?",
+  "concept": "A closure of a relation $R$ on a set $A$ with respect to a property $P$ is the smallest relation $R'$ on $A$ such that $R \\subseteq R'$ and $R'$ has property $P$. 'Smallest' means no proper subset of $R'$ contains $R$ and still satisfies $P$. The three standard closures are the reflexive closure $r(R)$, the symmetric closure $s(R)$, and the transitive closure $t(R)$, each obtained by adding the minimum pairs needed to achieve the corresponding property.",
+  "anatomy": "Every closure construction has three identifiable parts: the base relation $R$ (the starting set of ordered pairs), the target property (reflexive, symmetric, or transitive), and the added pairs \u2014 the specific ordered pairs adjoined to $R$ to satisfy the property without going further. For the reflexive closure the added pairs form the diagonal $\\Delta = \\{(a,a) \\mid a \\in A\\}$. For the symmetric closure they are the reversals $\\{(b,a) \\mid (a,b) \\in R\\}$. For the transitive closure they are all pairs $(a,c)$ reachable by 'chaining' existing pairs, captured formally as $t(R) = \\bigcup_{n=1}^{\\infty} R^n$ where $R^n$ denotes the $n$-fold composition of $R$ with itself.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\{1,2,3\\},\\quad R = \\{(1,2),(2,3),(3,1)\\}",
+      "description_latex": "We begin by identifying our base relation $R$ on the set $A$. Before computing any closure, it is always worth checking which property is missing so we know exactly what pairs we need to add \u2014 here we will find the reflexive closure $r(R)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Delta = \\{(1,1),(2,2),(3,3)\\}",
+      "description_latex": "The reflexive closure requires that every element of $A$ be related to itself, so we form the diagonal $\\Delta$ by pairing each element with itself. These are precisely the pairs that guarantee reflexivity, and they are the only pairs we ever need to add for this closure.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r(R) = R \\cup \\Delta = \\{(1,2),(2,3),(3,1),(1,1),(2,2),(3,3)\\}",
+      "description_latex": "We take the union of $R$ with the diagonal $\\Delta$ to obtain the reflexive closure. Because $R$ already contained no self-loops, all three diagonal pairs are genuinely new additions, and no smaller superset of $R$ could be reflexive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "s(R) = R \\cup R^{-1} = \\{(1,2),(2,3),(3,1),(2,1),(3,2),(1,3)\\}",
+      "description_latex": "For comparison, the symmetric closure requires us to add the reverse $R^{-1} = \\{(b,a)\\mid (a,b)\\in R\\}$ of every pair in $R$. Notice that $r(R)$ and $s(R)$ are separate closures \u2014 the reflexive closure does not make a relation symmetric, which is exactly why we treat each property independently.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\{1,2,3,4\\},\\quad R = \\{(1,2),(2,3),(3,4)\\}",
+      "description_latex": "We want to find the transitive closure $t(R)$. Start by computing $R^2$, the set of all pairs $(a,c)$ such that there exists $b$ with $(a,b)\\in R$ and $(b,c)\\in R$. Check every possible 'bridge' element $b$ systematically.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R^2 = \\{(1,3),(2,4)\\},\\quad R^3 = \\{(1,4)\\},\\quad R^4 = \\emptyset",
+      "description_latex": "Here are the higher powers of $R$. Notice that $R^2$ chains pairs separated by one step, $R^3$ chains pairs separated by two steps, and $R^4$ is empty because the longest chain has length 3. Now combine everything to write $t(R)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "t(R) = R \\cup R^2 \\cup R^3 = \\{(1,2),(2,3),(3,4),(1,3),(2,4),(1,4)\\}",
+      "description_latex": "The transitive closure is the union of all non-empty powers of $R$. You can verify it is correct by checking that for every pair $(a,b)$ and $(b,c)$ in $t(R)$, the pair $(a,c)$ is also present \u2014 no further pairs are missing.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\{a,b\\}$ and $R = \\{(a,b)\\}$. Find the reflexive closure $r(R)$.",
+      "answer_latex": "r(R) = \\{(a,b),(a,a),(b,b)\\}"
+    },
+    {
+      "prompt_latex": "Let $A = \\{1,2,3\\}$ and $R = \\{(1,2),(2,1),(3,3)\\}$. Find the symmetric closure $s(R)$.",
+      "answer_latex": "s(R) = \\{(1,2),(2,1),(3,3)\\} = R \\quad (\\text{R is already symmetric})"
+    },
+    {
+      "prompt_latex": "Let $A = \\{1,2,3\\}$ and $R = \\{(1,2),(2,3)\\}$. Find the transitive closure $t(R)$.",
+      "answer_latex": "t(R) = \\{(1,2),(2,3),(1,3)\\}"
+    },
+    {
+      "prompt_latex": "Let $A = \\{1,2,3,4\\}$ and $R = \\{(1,2),(2,2),(2,3),(3,4)\\}$. Find the transitive closure $t(R)$, then verify it is also transitive by checking the definition directly.",
+      "answer_latex": "t(R) = \\{(1,2),(2,2),(2,3),(3,4),(1,3),(2,4),(1,4)\\}"
+    },
+    {
+      "prompt_latex": "A database stores a 'direct prerequisite' relation $R$ on courses $\\{A,B,C,D\\}$: $R = \\{(A,B),(B,C),(B,D)\\}$, meaning course $A$ is a direct prerequisite of $B$, etc. Find $t(R)$, which represents all indirect prerequisite relationships, and explain what the pair $(A,D)$ means in context.",
+      "answer_latex": "t(R) = \\{(A,B),(B,C),(B,D),(A,C),(A,D)\\};\\text{ the pair }(A,D)\\text{ means course }A\\text{ is an (indirect) prerequisite of course }D."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to include $R$ itself in the closure, writing $r(R) = \\Delta$ instead of $r(R) = R \\cup \\Delta$. The closure must contain all original pairs plus the new ones, so always start with $R$ and add to it.",
+    "When computing the transitive closure, students stop after $R^2$ and miss longer chains. For a relation on an $n$-element set you must compute up to $R^n$; stopping early produces a relation that is not yet transitive.",
+    "Students confuse 'the symmetric closure of $R$' with 'checking whether $R$ is symmetric' \u2014 they add $R^{-1}$ only for pairs whose reversal is missing, but accidentally omit some reversals. The rule is unconditional: $s(R) = R \\cup R^{-1}$, so add the reverse of every pair in $R$ regardless of whether it is already present."
+  ],
+  "untested_variants": [
+    "Computing the reflexive-transitive closure $r(t(R))$ or transitive-reflexive closure $t(r(R))$ and comparing whether the order of operations matters.",
+    "Representing relations as Boolean matrices and computing the transitive closure using Warshall's algorithm rather than by direct power computation.",
+    "Determining the closure of a relation defined on an infinite set, such as $R = \\{(m,n) \\in \\mathbb{Z}^2 \\mid m = n+1\\}$, where power enumeration does not terminate.",
+    "Proving formally (not just computing) that a given constructed relation is indeed the smallest relation satisfying a property \u2014 i.e., writing a minimality proof for a closure."
+  ]
+}

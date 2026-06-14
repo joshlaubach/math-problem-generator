@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_017",
+  "topic_name": "The Chain Rule for Multivariable Functions",
+  "generated_at": "2026-05-13T00:33:58.814684+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know the single-variable chain rule: if $y = f(g(x))$, then $\\frac{dy}{dx} = f'(g(x)) \\cdot g'(x)$. Now suppose the temperature in a room is described by $T(x, y)$, where $x$ and $y$ are your coordinates, and your position changes over time so that $x = x(t)$ and $y = y(t)$. You want to know how fast the temperature you feel is changing as you move \u2014 but $T$ depends on two variables, each of which depends on $t$. How do you differentiate $T$ with respect to $t$?",
+  "concept": "The multivariable chain rule tells us how to differentiate a composite function when the outer function depends on several intermediate variables, each of which depends on one or more independent variables. If $z = f(x, y)$ with $x = x(t)$ and $y = y(t)$, then $\\frac{dz}{dt} = \\frac{\\partial f}{\\partial x}\\frac{dx}{dt} + \\frac{\\partial f}{\\partial y}\\frac{dy}{dt}$. Each intermediate variable contributes one term: its partial derivative times its own rate of change.",
+  "anatomy": "There are four key components in the expression $\\frac{dz}{dt} = \\frac{\\partial f}{\\partial x}\\frac{dx}{dt} + \\frac{\\partial f}{\\partial y}\\frac{dy}{dt}$. The outer partial derivatives $\\frac{\\partial f}{\\partial x}$ and $\\frac{\\partial f}{\\partial y}$ measure how sensitive $f$ is to each intermediate variable while holding the other fixed. The inner derivatives $\\frac{dx}{dt}$ and $\\frac{dy}{dt}$ are ordinary single-variable derivatives measuring how each intermediate variable changes with respect to $t$. The two products are called branch contributions \u2014 one for each path from $t$ to $z$ through the dependency tree \u2014 and they are added together to account for every route by which $t$ affects $z$.",
+  "worked_example": [
+    {
+      "expression_latex": "z = x^2 y + y^3, \\quad x(t) = \\cos t, \\quad y(t) = \\sin t",
+      "description_latex": "We are given a function $z = f(x, y)$ where both $x$ and $y$ depend on a single parameter $t$. Our goal is to find $\\frac{dz}{dt}$, the rate of change of $z$ along the path $(x(t), y(t))$, using the multivariable chain rule.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial z}{\\partial x} = 2xy, \\qquad \\frac{\\partial z}{\\partial y} = x^2 + 3y^2",
+      "description_latex": "We begin by computing the two partial derivatives of $z$ with respect to each intermediate variable. When finding $\\frac{\\partial z}{\\partial x}$, we treat $y$ as a constant, giving $2xy$; when finding $\\frac{\\partial z}{\\partial y}$, we treat $x$ as a constant, giving $x^2 + 3y^2$. These are the 'outer' factors in each branch of the chain rule.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dx}{dt} = -\\sin t, \\qquad \\frac{dy}{dt} = \\cos t",
+      "description_latex": "Next we differentiate the parametric equations for $x$ and $y$ with respect to $t$ using standard single-variable calculus. These are the 'inner' factors that complete each branch of the chain rule formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dz}{dt} = \\frac{\\partial z}{\\partial x}\\frac{dx}{dt} + \\frac{\\partial z}{\\partial y}\\frac{dy}{dt} = (2xy)(-\\sin t) + (x^2 + 3y^2)(\\cos t)",
+      "description_latex": "We now assemble the chain rule by multiplying each partial derivative by its corresponding inner derivative and adding the two branch contributions together. Notice that the result is still expressed in terms of $x$, $y$, and $t$, which is fine \u2014 we can substitute back in the next step if a fully simplified answer in terms of $t$ alone is required.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dz}{dt} = -2\\cos t\\sin^2 t + (\\cos^2 t + 3\\sin^2 t)\\cos t",
+      "description_latex": "We substitute $x = \\cos t$ and $y = \\sin t$ to obtain an expression entirely in $t$. This final form is useful when you need to evaluate $\\frac{dz}{dt}$ at a specific value of $t$, and it confirms that the chain rule has successfully converted the multivariable rate of change into a single-variable derivative.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "w = e^{xy}, \\quad x(t) = t^2, \\quad y(t) = 3t",
+      "description_latex": "We want to compute $\\frac{dw}{dt}$ using the chain rule. Start by identifying the structure: $w$ depends on $x$ and $y$, each of which depends on $t$, so we will need two branch contributions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial w}{\\partial x} = ye^{xy}, \\qquad \\frac{\\partial w}{\\partial y} = xe^{xy}, \\qquad \\frac{dx}{dt} = 2t, \\qquad \\frac{dy}{dt} = 3",
+      "description_latex": "Here are the four derivatives you need \u2014 the two outer partial derivatives and the two inner ordinary derivatives. Make sure you can verify each one before moving on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the multivariable chain rule formula $\\frac{dw}{dt} = \\frac{\\partial w}{\\partial x}\\frac{dx}{dt} + \\frac{\\partial w}{\\partial y}\\frac{dy}{dt}$, substitute the four derivatives above, and then substitute $x = t^2$ and $y = 3t$ to express your answer entirely in terms of $t$. What do you get?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $z = x^2 + y^2$, $x(t) = 3t$, $y(t) = 4t$. Find $\\frac{dz}{dt}$ using the chain rule.",
+      "answer_latex": "\\frac{dz}{dt} = 6x(3) + 2y(4) = 18t + 32t = 50t"
+    },
+    {
+      "prompt_latex": "Let $z = \\ln(x^2 + y)$, $x(t) = e^t$, $y(t) = t^2$. Find $\\frac{dz}{dt}$.",
+      "answer_latex": "\\frac{dz}{dt} = \\frac{2x}{x^2+y}\\cdot e^t + \\frac{1}{x^2+y}\\cdot 2t = \\frac{2e^{2t}+2t}{e^{2t}+t^2}"
+    },
+    {
+      "prompt_latex": "Let $w = x^2yz$, $x(t) = t$, $y(t) = t^2$, $z(t) = t^3$. Find $\\frac{dw}{dt}$ and simplify.",
+      "answer_latex": "\\frac{dw}{dt} = 2xyz(1) + x^2z(2t) + x^2y(3t^2) = 2t^6 + 2t^6 + 3t^6 = 7t^6"
+    },
+    {
+      "prompt_latex": "Let $f(x,y) = x\\sin(y)$, $x(s,t) = s^2t$, $y(s,t) = s + t^2$. Find the partial derivative $\\frac{\\partial f}{\\partial s}$ using the chain rule.",
+      "answer_latex": "\\frac{\\partial f}{\\partial s} = \\sin(y)\\cdot 2st + x\\cos(y)\\cdot 1 = 2s^2t^2\\sin(s+t^2) + s^2t\\cos(s+t^2)"
+    },
+    {
+      "prompt_latex": "A particle moves along a path so that its coordinates at time $t$ are $x(t) = t$ and $y(t) = t^2$. The pressure at position $(x,y)$ is $P(x,y) = 3x^2 - 2xy + y$. At what rate is the pressure changing with respect to time at $t = 1$?",
+      "answer_latex": "\\frac{dP}{dt}\\Big|_{t=1} = (6x-2y)(1) + (-2x+1)(2t)\\Big|_{t=1} = (6-2)(1)+(-2+1)(2) = 4 - 2 = 2"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to include all branch contributions when there are more than two intermediate variables \u2014 for example, with $w = f(x,y,z)$ they write only two terms instead of three. Always count the number of intermediate variables and make sure your sum has exactly that many terms.",
+    "Students confuse partial derivatives with ordinary derivatives and write $\\frac{dz}{dx}$ instead of $\\frac{\\partial z}{\\partial x}$ for the outer factor, or vice versa for the inner factor. Remember: use $\\partial$ when differentiating a function of multiple variables with respect to one of them, and $d$ when the function depends on only one variable.",
+    "After applying the chain rule, students forget to substitute the parametric expressions for $x$ and $y$ back in when the problem asks for the derivative purely in terms of $t$. The formula is not wrong if you leave it in mixed variables, but leaving $x$ and $y$ in the answer when the problem expects a function of $t$ alone is incomplete and will cost points."
+  ],
+  "untested_variants": [
+    "The case where $z = f(x, y)$ and both $x$ and $y$ depend on two independent variables $s$ and $t$, requiring computation of both $\\frac{\\partial z}{\\partial s}$ and $\\frac{\\partial z}{\\partial t}$ simultaneously.",
+    "Implicit differentiation via the multivariable chain rule, such as finding $\\frac{dy}{dx}$ when $F(x, y) = 0$ using the formula $\\frac{dy}{dx} = -\\frac{F_x}{F_y}$.",
+    "Chain rule problems where the outer function has three or more intermediate variables (e.g., $w = f(x,y,z)$ with $x, y, z$ each functions of two parameters), requiring a dependency tree with six branches.",
+    "Second-order chain rule problems, such as computing $\\frac{d^2z}{dt^2}$ when $z = f(x(t), y(t))$, which requires differentiating the chain rule result a second time."
+  ]
+}

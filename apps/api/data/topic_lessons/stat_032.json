@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_032",
+  "topic_name": "One-Sample t-Test for a Mean",
+  "generated_at": "2026-05-13T20:31:59.991160+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to use z-scores to test claims about a population mean when the population standard deviation $\\sigma$ is known. But in real life, you almost never know $\\sigma$ \u2014 you only have the sample standard deviation $s$. Plugging $s$ into the z-formula quietly breaks the math, because the sampling distribution is no longer standard normal. So how do you test a hypothesis about a mean when $\\sigma$ is unknown?",
+  "concept": "A one-sample t-test lets you test a claim about a population mean $\\mu$ when the population standard deviation is unknown, replacing $\\sigma$ with the sample standard deviation $s$. The test statistic follows a t-distribution with $n-1$ degrees of freedom rather than the standard normal, which has heavier tails to account for the extra uncertainty in estimating $\\sigma$. Formally, the test statistic is $t = \\frac{\\bar{x} - \\mu_0}{s / \\sqrt{n}}$, and we compare it to critical values from the $t_{n-1}$ distribution.",
+  "anatomy": "The t-statistic $t = \\frac{\\bar{x} - \\mu_0}{s / \\sqrt{n}}$ has four distinct parts: $\\bar{x}$ is the observed sample mean, $\\mu_0$ is the hypothesized population mean stated in $H_0$, $s$ is the sample standard deviation computed from your data (this replaces the unknown $\\sigma$), and $s/\\sqrt{n}$ is the standard error of the mean, measuring how much $\\bar{x}$ typically varies from sample to sample. The degrees of freedom $df = n - 1$ determine which specific t-curve you use to find the p-value or critical value.",
+  "worked_example": [
+    {
+      "expression_latex": "H_0: \\mu = 500 \\quad H_a: \\mu < 500",
+      "description_latex": "We start by stating the hypotheses clearly, because everything else depends on them. The null hypothesis $H_0$ pins down the specific value $\\mu_0 = 500$ we will test against, and the alternative $H_a: \\mu < 500$ tells us this is a left-tailed test, which matters when we look up the p-value.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = 25, \\quad \\bar{x} = 492, \\quad s = 20, \\quad \\alpha = 0.05",
+      "description_latex": "Next we identify the given information: a sample of 25 students scored an average of 492 with a sample standard deviation of 20 on a standardized exam. We also note the significance level $\\alpha = 0.05$, which is the threshold we will compare our p-value against to make a decision.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t = \\frac{\\bar{x} - \\mu_0}{s / \\sqrt{n}} = \\frac{492 - 500}{20 / \\sqrt{25}} = \\frac{-8}{20/5} = \\frac{-8}{4} = -2.00",
+      "description_latex": "Now we compute the test statistic by substituting into the formula. Notice that $s/\\sqrt{n} = 20/5 = 4$ is the standard error \u2014 it tells us how far a sample mean of 492 is from the null value of 500 in units of standard errors, giving us $t = -2.00$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "df = n - 1 = 24, \\quad p\\text{-value} = P(t_{24} < -2.00) \\approx 0.029",
+      "description_latex": "We use $df = 24$ to find the p-value from a t-table or software. Because this is a left-tailed test, the p-value is the area to the left of $t = -2.00$ under the $t_{24}$ curve, which is approximately 0.029.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p\\text{-value} \\approx 0.029 < \\alpha = 0.05 \\implies \\text{Reject } H_0",
+      "description_latex": "Since the p-value of 0.029 is less than $\\alpha = 0.05$, we reject $H_0$ and conclude there is sufficient evidence that the true mean score is less than 500. Always tie your decision back to the real-world context rather than stopping at 'reject $H_0$.'",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H_0: \\mu = 16 \\quad H_a: \\mu \\neq 16",
+      "description_latex": "A manufacturer claims that cereal boxes contain 16 oz on average. A quality-control inspector samples $n = 9$ boxes and finds $\\bar{x} = 15.7$ oz and $s = 0.6$ oz. We use $\\alpha = 0.05$. The hypotheses are already stated above \u2014 notice the two-tailed alternative because the inspector wants to detect any deviation, not just underfilling.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t = \\frac{15.7 - 16}{0.6 / \\sqrt{9}} = \\frac{-0.3}{0.2} = -1.50",
+      "description_latex": "Here we compute the t-statistic step by step. The standard error is $s/\\sqrt{n} = 0.6/3 = 0.2$, and dividing the difference $\\bar{x} - \\mu_0 = -0.3$ by 0.2 gives $t = -1.50$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now it is your turn: find the degrees of freedom, then use a t-table to find the two-tailed p-value for $t = -1.50$ with those degrees of freedom. Write the p-value and state whether you reject or fail to reject $H_0$ at $\\alpha = 0.05$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "df = 8, \\quad p\\text{-value} \\approx 0.172 > 0.05 \\implies \\text{Fail to reject } H_0",
+      "description_latex": "With $df = 8$ and a two-tailed test, the p-value is approximately 0.172, which exceeds 0.05, so we fail to reject $H_0$. There is not sufficient evidence to conclude that the true mean differs from 16 oz \u2014 the inspector cannot flag this machine based on these nine boxes.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A sample of $n = 16$ observations gives $\\bar{x} = 53$ and $s = 8$. The null hypothesis is $H_0: \\mu = 50$. Compute the t-statistic.",
+      "answer_latex": "t = \\frac{53 - 50}{8/\\sqrt{16}} = \\frac{3}{2} = 1.50"
+    },
+    {
+      "prompt_latex": "A researcher tests $H_0: \\mu = 100$ vs. $H_a: \\mu > 100$ with $n = 25$, $\\bar{x} = 104$, $s = 10$, and $\\alpha = 0.05$. Find the t-statistic and state the decision, given that the critical value is $t_{24, 0.05} = 1.711$.",
+      "answer_latex": "t = \\frac{104-100}{10/\\sqrt{25}} = \\frac{4}{2} = 2.00 > 1.711, \\text{ so reject } H_0"
+    },
+    {
+      "prompt_latex": "A hospital records the recovery time (days) for $n = 10$ patients: $\\bar{x} = 8.4$ days, $s = 1.8$ days. Test $H_0: \\mu = 9$ vs. $H_a: \\mu \\neq 9$ at $\\alpha = 0.05$. The two-tailed critical value is $t_{9,0.025} = 2.262$. State the t-statistic and conclusion.",
+      "answer_latex": "t = \\frac{8.4-9}{1.8/\\sqrt{10}} = \\frac{-0.6}{0.569} \\approx -1.054; \\; |{-1.054}| < 2.262, \\text{ fail to reject } H_0"
+    },
+    {
+      "prompt_latex": "A 95% confidence interval for $\\mu$ based on $n = 20$ observations is $(47.2,\\, 54.8)$. Without computing a new test statistic, determine whether a two-tailed t-test of $H_0: \\mu = 46$ at $\\alpha = 0.05$ would reject $H_0$. Explain.",
+      "answer_latex": "\\mu_0 = 46 \\text{ lies outside the 95\\% CI } (47.2, 54.8), \\text{ so we reject } H_0 \\text{ at } \\alpha = 0.05."
+    },
+    {
+      "prompt_latex": "A coffee shop claims its medium cups contain $\\mu = 12$ oz. An inspector measures $n = 9$ cups and records (in oz): 11.8, 12.1, 11.5, 11.9, 12.3, 11.7, 12.0, 11.6, 11.9. Compute $\\bar{x}$ and $s$, then test $H_0: \\mu = 12$ vs. $H_a: \\mu < 12$ at $\\alpha = 0.05$ (critical value $t_{8,0.05} = 1.860$).",
+      "answer_latex": "\\bar{x} \\approx 11.867, \\; s \\approx 0.245, \\; t \\approx \\frac{11.867-12}{0.245/3} \\approx -1.63; \\; |{-1.63}| < 1.860, \\text{ fail to reject } H_0"
+    }
+  ],
+  "common_mistakes": [
+    "Students use z-critical values (e.g., 1.96) instead of t-critical values when $\\sigma$ is unknown. Because the t-distribution has heavier tails than the normal, z-critical values are too small and will cause you to reject $H_0$ too often; always use the t-table with $df = n-1$ when $\\sigma$ is not given.",
+    "Students forget to divide by $\\sqrt{n}$ when computing the standard error, writing $t = (\\bar{x} - \\mu_0)/s$ instead of $t = (\\bar{x} - \\mu_0)/(s/\\sqrt{n})$. This inflates the denominator and makes the t-statistic far too small, so always check that your denominator is $s/\\sqrt{n}$, not just $s$.",
+    "In a two-tailed test, students look up the p-value for one tail and forget to double it before comparing to $\\alpha$. Because the t-distribution is symmetric, a two-tailed p-value equals twice the one-tail area beyond $|t|$; always check the direction of your alternative hypothesis before reporting the p-value."
+  ],
+  "untested_variants": [
+    "Paired t-test (two related samples reduced to a single set of differences), where you first compute $d_i = x_{1i} - x_{2i}$ before applying the one-sample t-procedure.",
+    "Using a t-test when the sample size is small and the data show clear non-normality or outliers, requiring a discussion of the t-test's robustness assumptions or non-parametric alternatives.",
+    "Constructing a one-sample t-based confidence interval $\\bar{x} \\pm t^* \\cdot s/\\sqrt{n}$ and then using it to conduct a hypothesis test, rather than computing the t-statistic directly.",
+    "Calculating the required sample size $n$ to achieve a specified power $(1-\\beta)$ for a one-sample t-test given effect size and $\\alpha$."
+  ]
+}

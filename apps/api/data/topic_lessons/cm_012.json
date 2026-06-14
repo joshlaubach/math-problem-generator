@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_012",
+  "topic_name": "Counting Techniques and Bijections",
+  "generated_at": "2026-05-13T20:22:29.386177+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to count arrangements and subsets directly \u2014 factorials, combinations, the multiplication principle. But sometimes a counting problem looks hopelessly complicated until you realize it's secretly the same as a problem you already solved. For example, how many ways can you distribute 7 identical candies among 4 kids so that each kid gets at least one? Direct counting feels messy \u2014 can you turn this into something familiar?",
+  "concept": "A bijection is a one-to-one, onto correspondence between two sets, meaning every element of each set is paired with exactly one element of the other. When you establish a bijection between a hard-to-count set $A$ and an easy-to-count set $B$, you immediately get $|A| = |B|$ \u2014 the two sets have exactly the same size. This is the core idea: instead of counting $A$ directly, transform the problem into counting $B$.",
+  "anatomy": "A bijection-based counting argument has three distinct parts. First, there is the source set $A$, the collection of objects you actually want to count (e.g., candy distributions). Second, there is the target set $B$, a well-understood set whose size you can compute easily (e.g., combinations). Third, there is the correspondence rule, an explicit function $f: A \\to B$ that you must show is both injective (no two elements of $A$ map to the same element of $B$) and surjective (every element of $B$ is hit). The Stars and Bars technique is one famous example: the correspondence rule turns a distribution problem into a sequence of stars and bars, and the target set is $\\binom{n+k-1}{k-1}$ arrangements.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Count the number of ways to write } n = x_1 + x_2 + x_3 \\text{ with } x_1, x_2, x_3 \\geq 1, \\text{ where } n = 7.",
+      "description_latex": "We want to count positive-integer solutions to $x_1 + x_2 + x_3 = 7$. Direct enumeration is tedious, so instead we look for a bijection to a combinatorial object we already understand \u2014 sequences of symbols.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Substitution: let } y_i = x_i - 1 \\geq 0, \\text{ so } y_1 + y_2 + y_3 = 4.",
+      "description_latex": "By shifting each variable down by 1, we convert the 'at least 1' constraint into a 'non-negative' constraint, turning the equation into $y_1 + y_2 + y_3 = 4$. This substitution is itself a bijection: every positive solution $(x_1,x_2,x_3)$ maps to exactly one non-negative solution $(y_1,y_2,y_3)$ and vice versa.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Bijection: represent each solution as a sequence of } 4 \\text{ stars and } 2 \\text{ bars, e.g., } {\\star}{\\star}{|}\\,{\\star}{|}{\\star}.",
+      "description_latex": "Think of placing 4 identical stars in a row and using 2 bars to divide them into 3 groups; the group sizes give $(y_1, y_2, y_3)$. Every arrangement of 4 stars and 2 bars corresponds to exactly one non-negative solution, and every non-negative solution corresponds to exactly one such arrangement \u2014 this is our bijection.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|B| = \\binom{4 + 2}{2} = \\binom{6}{2} = 15.",
+      "description_latex": "Since the target set $B$ consists of all ways to choose which 2 of the $4+2=6$ positions are bars, we count $\\binom{6}{2} = 15$. Because the bijection guarantees $|A|=|B|$, there are exactly 15 positive-integer solutions to $x_1+x_2+x_3=7$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Count non-negative integer solutions to } a + b + c + d = 10.",
+      "description_latex": "We want to count ways to split 10 into four non-negative integer parts. Since variables are already non-negative, no substitution is needed \u2014 we can directly apply a Stars and Bars bijection between solutions and arrangements of stars and bars.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Bijection: arrange } 10 \\text{ stars and } \\underline{\\;?\\;} \\text{ bars; total positions} = \\underline{\\;?\\;}.",
+      "description_latex": "To separate 10 identical stars into 4 groups we need exactly 3 bars (one fewer than the number of variables). How many total symbols are in each arrangement, and how many positions must we choose for the bars?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "|A| = \\binom{10+3}{3} = \\binom{13}{3}.",
+      "description_latex": "We choose 3 positions (for bars) from the 13 total symbols, giving $\\binom{13}{3} = 286$ solutions. Verify you get the same formula by thinking of choosing which positions are stars instead \u2014 both perspectives give the same binomial coefficient.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "How many non-negative integer solutions does $x_1 + x_2 = 5$ have?",
+      "answer_latex": "\\binom{6}{1} = 6"
+    },
+    {
+      "prompt_latex": "How many ways can 12 identical books be distributed among 4 distinct shelves if each shelf may be empty?",
+      "answer_latex": "\\binom{15}{3} = 455"
+    },
+    {
+      "prompt_latex": "How many positive-integer solutions does $a + b + c + d = 20$ have?",
+      "answer_latex": "\\binom{19}{3} = 969"
+    },
+    {
+      "prompt_latex": "How many non-negative integer solutions does $x_1 + x_2 + x_3 \\leq 8$ have? (Hint: introduce a slack variable $x_4 \\geq 0$ so that $x_1+x_2+x_3+x_4 = 8$.)",
+      "answer_latex": "\\binom{11}{3} = 165"
+    },
+    {
+      "prompt_latex": "A baker makes muffins in 5 flavors and puts 15 muffins in a box. The box must contain at least 2 of each flavor. How many distinct assortments are possible?",
+      "answer_latex": "\\binom{9}{4} = 126"
+    }
+  ],
+  "common_mistakes": [
+    "Students use $\\binom{n+k-1}{k-1}$ without adjusting for 'at least 1' constraints, forgetting to substitute $y_i = x_i - 1$ first; always reduce the problem to non-negative variables before applying the Stars and Bars formula.",
+    "When counting bars, students write $k$ bars for $k$ variables instead of $k-1$ bars, inflating the answer; remember that $k$ groups require exactly $k-1$ dividers, just as cutting a rope into 3 pieces requires 2 cuts.",
+    "Students forget to verify the bijection is actually a bijection \u2014 they describe a map from $A$ to $B$ but never check surjectivity (that every element of $B$ is achieved), which is essential for concluding $|A|=|B|$; explicitly argue both directions of the correspondence."
+  ],
+  "untested_variants": [
+    "Bijections involving lattice paths (e.g., counting paths from $(0,0)$ to $(m,n)$ using steps R and U) and their connection to combinations.",
+    "Problems requiring a bijection between two non-obvious combinatorial sets, such as proving the number of subsets of $\\{1,\\dots,n\\}$ of even size equals the number of odd-size subsets via a sign-flipping map.",
+    "Stars and Bars with an upper-bound constraint on variables (e.g., $x_i \\leq 4$), which requires inclusion-exclusion on top of the bijection argument.",
+    "Catalan-number bijections, such as matching valid parenthesization sequences to monotone lattice paths that never cross the diagonal."
+  ]
+}

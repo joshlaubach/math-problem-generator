@@ -1,0 +1,91 @@
+{
+  "topic_id": "pc_020",
+  "topic_name": "Modeling with Exponential and Logarithmic Functions",
+  "generated_at": "2026-05-13T20:48:01.160550+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know that populations grow and that bank accounts earn interest \u2014 and you've seen the formulas $A = P(1+r)^t$ and $y = ab^x$. But what happens when you're given the data and asked to *build* the model from scratch, or when the question asks you to find *when* something happens rather than *how much*? For instance, if a bacteria colony starts at 500 cells and doubles every 3 hours, how long will it take to reach one million cells \u2014 and can you write an equation that answers any question about this colony at any time?",
+  "concept": "Modeling with exponential and logarithmic functions means choosing and building an equation that captures real-world growth or decay, then using that equation to make predictions. An exponential model takes the form $y = ab^t$ (or equivalently $y = ae^{kt}$), where $a$ is the initial amount and the base controls the rate; a logarithmic model $y = a + b\\ln(t)$ is used when growth slows over time. Solving for time requires applying the inverse \u2014 the logarithm.",
+  "anatomy": "In the exponential model $y = ab^t$, the initial value $a$ is the quantity at time $t = 0$, the base $b$ encodes whether the situation is growth ($b > 1$) or decay ($0 < b < 1$), and the exponent $t$ is the independent variable (usually time). When the model is written as $y = ae^{kt}$, the continuous growth rate $k$ replaces the base: $k > 0$ means growth and $k < 0$ means decay. The half-life or doubling time is a special value of $t$ that can be used to determine $b$ or $k$ from context.",
+  "worked_example": [
+    {
+      "expression_latex": "y = a \\cdot b^t, \\quad a = 500, \\quad b = ?",
+      "description_latex": "We start by identifying the form of the model and what we already know. The initial population is 500 cells, so $a = 500$, and we still need to find the base $b$ using the doubling information. Setting up the structure first keeps the algebra organized.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1000 = 500 \\cdot b^3",
+      "description_latex": "Because the colony doubles every 3 hours, after $t = 3$ hours the population is $2 \\times 500 = 1000$. We substitute this known data point into our model to create an equation we can solve for $b$. This is the key move: using a known input-output pair to pin down the unknown parameter.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b^3 = 2 \\implies b = 2^{1/3}",
+      "description_latex": "Dividing both sides by 500 gives $b^3 = 2$, and taking the cube root of both sides gives $b = 2^{1/3} \\approx 1.2599$. This base means the population grows by about 26% each hour, which is the continuous effect of doubling every 3 hours.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = 500 \\cdot 2^{t/3}",
+      "description_latex": "We can write $b^t = (2^{1/3})^t = 2^{t/3}$, which gives us the clean, interpretable model $y = 500 \\cdot 2^{t/3}$. This form makes the doubling time of 3 hours immediately visible in the exponent, so it's preferred over writing $y = 500(1.2599)^t$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1{,}000{,}000 = 500 \\cdot 2^{t/3} \\implies t = 3\\log_2(2000) = \\frac{3\\ln 2000}{\\ln 2} \\approx 32.9 \\text{ hours}",
+      "description_latex": "To find when the population reaches one million, we set $y = 1{,}000{,}000$ and solve for $t$: dividing by 500 gives $2^{t/3} = 2000$, then taking $\\log_2$ of both sides gives $t/3 = \\log_2 2000$, so $t = 3\\log_2 2000$. Using the change-of-base formula, $t = \\frac{3\\ln 2000}{\\ln 2} \\approx 32.9$ hours \u2014 this is why logarithms are the natural tool for answering 'when' questions in exponential models.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y = a \\cdot e^{kt}, \\quad a = 200, \\quad y = 50 \\text{ when } t = 10",
+      "description_latex": "A radioactive substance starts with 200 grams and decays to 50 grams after 10 years. We use the continuous decay model $y = ae^{kt}$ with $a = 200$. Our goal is to find $k$ and then determine the half-life.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "50 = 200 e^{10k} \\implies e^{10k} = \\frac{1}{4}",
+      "description_latex": "Substituting the known data point gives $50 = 200e^{10k}$. Dividing both sides by 200 isolates the exponential part, giving $e^{10k} = \\frac{1}{4}$. We are one logarithm step away from finding $k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Take the natural logarithm of both sides of $e^{10k} = \\frac{1}{4}$ to solve for $k$, then write the complete model $y = 200e^{kt}$ with your value of $k$. Show each algebraic step.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using your model, set $y = 100$ (half of the initial 200 grams) and solve for $t$ to find the half-life of this substance. What does the sign of $k$ tell you about whether this is growth or decay?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A population starts at 300 and triples every 5 years. Write the exponential model in the form $y = 300 \\cdot b^t$.",
+      "answer_latex": "y = 300 \\cdot 3^{t/5}"
+    },
+    {
+      "prompt_latex": "The value of a car depreciates so that after 4 years it is worth half its original value. If the car originally cost $\\$24{,}000$, write a model $y = 24000 \\cdot e^{kt}$ and find $k$.",
+      "answer_latex": "k = \\dfrac{\\ln(0.5)}{4} = -\\dfrac{\\ln 2}{4} \\approx -0.1733, \\quad y = 24000e^{-0.1733t}"
+    },
+    {
+      "prompt_latex": "Using the model $y = 1500 \\cdot 2^{t/6}$, find the time $t$ (in hours) when the population first exceeds 48{,}000.",
+      "answer_latex": "t = 6\\log_2(32) = 6 \\cdot 5 = 30 \\text{ hours}"
+    },
+    {
+      "prompt_latex": "A substance decays according to $y = 80e^{-0.04t}$. How long does it take for the substance to decay to 20\\% of its initial amount? Give an exact answer and a decimal approximation.",
+      "answer_latex": "t = \\dfrac{\\ln(0.2)}{-0.04} = \\dfrac{\\ln 5}{0.04} \\approx 40.2 \\text{ years}"
+    },
+    {
+      "prompt_latex": "The pH of a solution is defined as $\\text{pH} = -\\log_{10}[\\text{H}^+]$, where $[\\text{H}^+]$ is the hydrogen ion concentration in moles per liter. If one lake has $[\\text{H}^+] = 3.2 \\times 10^{-6}$ and a second lake has pH $= 4.0$, which lake is more acidic, and by what factor is its hydrogen ion concentration larger?",
+      "answer_latex": "\\text{Lake 1: pH} \\approx 5.49. \\text{ Lake 2: } [\\text{H}^+] = 10^{-4}. \\text{ Lake 2 is more acidic by a factor of } \\dfrac{10^{-4}}{3.2\\times10^{-6}} \\approx 31.25"
+    }
+  ],
+  "common_mistakes": [
+    "Students often substitute $b = 2$ directly when told something 'doubles every 3 hours,' writing $y = 500 \\cdot 2^t$ instead of $y = 500 \\cdot 2^{t/3}$. The fix: always check that the exponent equals 1 exactly when $t$ equals the doubling (or halving) time, and adjust the exponent accordingly.",
+    "When solving for $k$ in $e^{kt} = c$, students sometimes write $k = \\ln(c)/t$ but then use a positive value of $k$ even when the context is decay. The fix: always check the sign of $k$ against the physical situation \u2014 decay requires $k < 0$, and a positive $k$ in a decay model would produce growth instead.",
+    "Students frequently confuse the initial value $a$ with a value of the function at some later time, especially when a problem gives a data point at $t = 5$ rather than $t = 0$. The fix: explicitly identify the time $t = 0$ in the problem and make sure the $a$ in your model equals the output at that specific starting moment, not at any other time."
+  ],
+  "untested_variants": [
+    "Logistic growth models of the form $y = \\dfrac{L}{1 + Ce^{-kt}}$, where growth is bounded by a carrying capacity $L$, which appear in biology and population contexts.",
+    "Finding a model from two data points neither of which is at $t = 0$, requiring students to set up and solve a system of two equations to determine both $a$ and $k$ simultaneously.",
+    "Newton's Law of Cooling, $T(t) = T_s + (T_0 - T_s)e^{-kt}$, which adds a horizontal asymptote to the exponential model and requires students to account for the ambient temperature $T_s$ before solving.",
+    "Compound interest with varying compounding frequencies, including the comparison between $A = P(1 + r/n)^{nt}$ and continuous compounding $A = Pe^{rt}$, and finding the effective annual rate."
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "topic_id": "prob_012",
+  "topic_name": "Independent Events",
+  "generated_at": "2026-05-13T20:26:03.376085+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to calculate $P(A \\cap B) = P(A) \\cdot P(B|A)$ using conditional probability. But sometimes, knowing that event $A$ happened gives you absolutely no new information about whether $B$ will happen \u2014 like flipping a coin twice. When that special relationship holds, the math simplifies beautifully. So how do you recognize it, and how does it change your calculations?",
+  "concept": "Two events are independent when the occurrence of one does not affect the probability of the other. Formally, events $A$ and $B$ are independent if and only if $P(A \\cap B) = P(A) \\cdot P(B)$. Equivalently, $P(B|A) = P(B)$ whenever $P(A) > 0$. Independence is a mathematical condition you must verify \u2014 never assume it just because two events seem unrelated in everyday language.",
+  "anatomy": "The independence condition $P(A \\cap B) = P(A) \\cdot P(B)$ has three distinct components: the joint probability $P(A \\cap B)$, which measures how often both events occur together; the marginal probability $P(A)$, which is the probability of the first event ignoring $B$ entirely; and the marginal probability $P(B)$, which is the probability of the second event ignoring $A$ entirely. The multiplication rule $P(A) \\cdot P(B)$ is the benchmark \u2014 if the joint probability equals this product, the events are independent; if it does not, they are dependent.",
+  "worked_example": [
+    {
+      "expression_latex": "P(A) = 0.4, \\quad P(B) = 0.3, \\quad P(A \\cap B) = 0.12",
+      "description_latex": "We are given the probabilities of two events and their intersection, and we want to determine whether $A$ and $B$ are independent. The first step is simply to read off the three relevant numbers, because the independence test requires all three.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A) \\cdot P(B) = 0.4 \\times 0.3 = 0.12",
+      "description_latex": "We compute the product of the two marginal probabilities. This product is the value that $P(A \\cap B)$ must equal for independence to hold \u2014 think of it as the 'target' we are comparing against.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A \\cap B) = 0.12 = P(A) \\cdot P(B)",
+      "description_latex": "Because the joint probability exactly equals the product of the marginals, the independence condition is satisfied. We conclude that $A$ and $B$ are independent events, which means knowing $A$ occurred tells us nothing new about $B$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(A) = 0.5, \\quad P(B) = 0.6, \\quad P(A \\cap B) = 0.25",
+      "description_latex": "We want to decide whether events $A$ and $B$ are independent. We have all three numbers we need, so let's set up the independence test by computing the product of the marginals.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A) \\cdot P(B) = 0.5 \\times 0.6 = 0.30",
+      "description_latex": "Here we calculate the benchmark product. This is the value $P(A \\cap B)$ would need to match for independence \u2014 hold this number in mind as you compare it to the given joint probability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compare $P(A \\cap B) = 0.25$ with the product you just found. Are they equal? State your conclusion: are $A$ and $B$ independent or dependent, and justify your answer in one sentence.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A fair coin is flipped twice. Let $A$ = {first flip is heads} and $B$ = {second flip is heads}. Verify algebraically that $A$ and $B$ are independent.",
+      "answer_latex": "P(A) = \\tfrac{1}{2},\\ P(B) = \\tfrac{1}{2},\\ P(A \\cap B) = \\tfrac{1}{4} = P(A)\\cdot P(B). \\text{ Independent.}"
+    },
+    {
+      "prompt_latex": "Given $P(A) = 0.6$, $P(B) = 0.5$, and $A$ and $B$ are independent, find $P(A \\cap B)$.",
+      "answer_latex": "P(A \\cap B) = 0.6 \\times 0.5 = 0.30"
+    },
+    {
+      "prompt_latex": "Given $P(A) = 0.7$, $P(B) = 0.4$, and $P(A \\cap B) = 0.28$. Are $A$ and $B$ independent?",
+      "answer_latex": "P(A)\\cdot P(B) = 0.28 = P(A \\cap B). \\text{ Yes, independent.}"
+    },
+    {
+      "prompt_latex": "Events $A$ and $B$ are independent with $P(A) = 0.3$ and $P(B) = 0.5$. Use the inclusion-exclusion principle to find $P(A \\cup B)$.",
+      "answer_latex": "P(A \\cup B) = 0.3 + 0.5 - (0.3)(0.5) = 0.80 - 0.15 = 0.65"
+    },
+    {
+      "prompt_latex": "A student takes a multiple-choice test with two questions. She guesses randomly on each: question 1 has 4 options and question 2 has 5 options. What is the probability she gets both correct?",
+      "answer_latex": "P(\\text{both correct}) = \\tfrac{1}{4} \\times \\tfrac{1}{5} = \\tfrac{1}{20} = 0.05"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse mutually exclusive events with independent events. Mutually exclusive means $P(A \\cap B) = 0$, which actually implies the events are dependent (unless one has probability 0), because knowing $A$ occurred guarantees $B$ did not. Independence and mutual exclusivity are nearly opposite ideas.",
+    "Students assume two events are independent simply because they involve different physical objects or experiments, without checking the condition $P(A \\cap B) = P(A) \\cdot P(B)$. Independence is a numerical property that must be verified with the given probabilities, not inferred from context alone.",
+    "When using independence to find $P(A \\cup B)$, students forget to subtract $P(A \\cap B)$ and write $P(A \\cup B) = P(A) + P(B)$ instead of $P(A) + P(B) - P(A)P(B)$. The fix is to always apply inclusion-exclusion first, and only substitute $P(A \\cap B) = P(A)P(B)$ after writing out the full formula."
+  ],
+  "untested_variants": [
+    "Testing independence for three events $A$, $B$, $C$ simultaneously, which requires checking $P(A \\cap B \\cap C) = P(A)P(B)P(C)$ as well as all pairwise conditions (pairwise independence does not imply mutual independence).",
+    "Using independence to compute conditional probabilities \u2014 for example, finding $P(A|B)$ when $A$ and $B$ are independent, which requires recognizing that $P(A|B) = P(A)$.",
+    "Problems where independence must be determined from a two-way frequency table, requiring the student to first extract marginal and joint probabilities from the table before applying the test.",
+    "Complement-based problems where you find $P(A^c \\cap B^c)$ or $P(\\text{at least one of } A, B)$ using independence, which requires combining the independence rule with complement rules."
+  ]
+}

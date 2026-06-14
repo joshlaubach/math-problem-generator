@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_031",
+  "topic_name": "Function Composition",
+  "generated_at": "2026-05-12T23:25:55.235600+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to evaluate a function like $f(x) = x^2 + 1$ at a specific number \u2014 just plug in and compute. But what if, instead of plugging in a number, you wanted to plug in an entire other function? For example, if $g(x) = 3x - 2$, could you figure out what $f(g(x))$ equals as a single simplified expression? This idea \u2014 feeding one function into another \u2014 is something your current toolkit doesn't quite cover yet. How do we build a brand-new function by chaining two functions together?",
+  "concept": "Function composition is the process of applying one function to the output of another. In plain English: you evaluate the inner function first, then use that result as the input of the outer function. Formally, the composition of $f$ and $g$ is written $(f \\circ g)(x) = f(g(x))$, which means 'plug $g(x)$ into $f$ wherever you see $x$.'",
+  "anatomy": "In the notation $(f \\circ g)(x) = f(g(x))$, there are three distinct parts to keep straight. The outer function $f$ is the function that receives the input last \u2014 it acts on whatever the inner function produces. The inner function $g$ is evaluated first using the original input $x$. The composition symbol $\\circ$ (read 'composed with') signals the chaining operation; the order matters because $(f \\circ g)(x)$ and $(g \\circ f)(x)$ are generally different functions.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^2 + 1, \\quad g(x) = 3x - 2. \\text{ Find } (f \\circ g)(x).",
+      "description_latex": "We are asked to find $f(g(x))$, which means we will substitute the entire expression $g(x) = 3x - 2$ into $f$ wherever we see the variable $x$. Identifying the outer function $f$ and the inner function $g$ before touching any algebra prevents the most common ordering mistake.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(g(x)) = f(3x - 2) = (3x - 2)^2 + 1",
+      "description_latex": "We replace every $x$ in $f(x) = x^2 + 1$ with the quantity $(3x - 2)$, keeping it in parentheses so we don't lose any terms when we expand. Notice that the entire expression $3x - 2$ is squared, not just the $3x$ or just the $-2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(3x - 2)^2 + 1 = 9x^2 - 12x + 4 + 1",
+      "description_latex": "We expand $(3x - 2)^2$ using the perfect square pattern $(a - b)^2 = a^2 - 2ab + b^2$, giving $9x^2 - 12x + 4$. Then we add the $+1$ that was already in $f$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(f \\circ g)(x) = 9x^2 - 12x + 5",
+      "description_latex": "Combining the constants $4 + 1 = 5$ gives us the fully simplified composition. This single polynomial is the new function you get whenever you first apply $g$ and then apply $f$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = \\sqrt{x + 4}, \\quad g(x) = x^2 - 1. \\text{ Find } (f \\circ g)(x).",
+      "description_latex": "Our goal is $f(g(x))$, so $g$ is the inner function and $f$ is the outer function. We start by identifying what we will substitute: the entire expression $g(x) = x^2 - 1$ will replace $x$ inside $f(x) = \\sqrt{x + 4}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(g(x)) = f(x^2 - 1) = \\sqrt{(x^2 - 1) + 4}",
+      "description_latex": "We plug $x^2 - 1$ into $f$ in place of $x$, writing $(x^2 - 1) + 4$ under the radical. The parentheses ensure the entire expression is added to $4$, not just part of it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Simplify the expression under the radical by combining like terms, then write the final simplified form of $(f \\circ g)(x)$. What constant results from $-1 + 4$, and what does the fully simplified composition look like?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "f(x) = 2x + 3, \\quad g(x) = 4. \\text{ Find } (f \\circ g)(x).",
+      "answer_latex": "(f \\circ g)(x) = 11"
+    },
+    {
+      "prompt_latex": "f(x) = x^2 - 5, \\quad g(x) = x + 2. \\text{ Find } (f \\circ g)(x).",
+      "answer_latex": "(f \\circ g)(x) = x^2 + 4x - 1"
+    },
+    {
+      "prompt_latex": "f(x) = 3x - 1, \\quad g(x) = x^2. \\text{ Find } (g \\circ f)(x).",
+      "answer_latex": "(g \\circ f)(x) = 9x^2 - 6x + 1"
+    },
+    {
+      "prompt_latex": "f(x) = \\sqrt{x}, \\quad g(x) = 4x^2 + 9. \\text{ Find } (f \\circ g)(x) \\text{ and state its domain.}",
+      "answer_latex": "(f \\circ g)(x) = \\sqrt{4x^2 + 9}, \\text{ domain: all real numbers}"
+    },
+    {
+      "prompt_latex": "A shipping cost is computed in two stages: first, weight $w$ (in pounds) is converted to a shipping score by $g(w) = 2w + 3$, and then the cost in dollars is $f(s) = 0.5s + 1$ where $s$ is the shipping score. Write a single function $C(w) = (f \\circ g)(w)$ for the cost as a function of weight, and find the cost to ship a 7-pound package.",
+      "answer_latex": "C(w) = w + 2.5, \\text{ so } C(7) = \\$9.50"
+    }
+  ],
+  "common_mistakes": [
+    "Students reverse the order of composition, computing $g(f(x))$ when asked for $f(g(x))$. Remember that in $f(g(x))$, the function written closest to $x$ \u2014 which is $g$ \u2014 acts first; think 'inside out.'",
+    "When substituting the inner function, students only substitute into part of the outer function \u2014 for example, writing $f(g(x)) = g(x)^2 + 1$ but then only squaring the first term of $g(x)$ instead of the entire expression. Always wrap the inner function in parentheses before expanding.",
+    "Students confuse function composition $(f \\circ g)(x) = f(g(x))$ with multiplication, writing $f(x) \\cdot g(x)$ instead. The composition symbol $\\circ$ means substitution, not multiplication; the two operations produce completely different results."
+  ],
+  "untested_variants": [
+    "Evaluating a composition at a specific numeric value, such as finding $(f \\circ g)(3)$, rather than finding the general symbolic expression.",
+    "Decomposing a given function $h(x)$ into two functions $f$ and $g$ such that $(f \\circ g)(x) = h(x)$, which reverses the composition process.",
+    "Three-function compositions of the form $(f \\circ g \\circ h)(x) = f(g(h(x)))$, which require applying the inside-out rule twice.",
+    "Compositions involving rational functions such as $f(x) = \\dfrac{1}{x-1}$, where the domain of the composition must be restricted to exclude values that make any denominator zero."
+  ]
+}

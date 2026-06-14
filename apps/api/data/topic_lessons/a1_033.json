@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_033",
+  "topic_name": "Graphing Systems of Linear Inequalities",
+  "generated_at": "2026-05-12T22:40:21.266806+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to graph a single linear inequality \u2014 you draw the boundary line and shade the region that satisfies the inequality. But what happens when a real situation has two constraints at once, like a budget limit AND a minimum quantity requirement? The solution to that situation isn't a single shaded region; it's wherever two shaded regions overlap. How do you find and describe that overlap on a coordinate plane?",
+  "concept": "A system of linear inequalities is a set of two or more linear inequalities that must all be satisfied simultaneously. The solution is not a single point or line, but a region of the plane \u2014 specifically, the intersection of all the individual solution regions. Formally, solving the system means finding all points $(x, y)$ such that every inequality in the set is true at the same time.",
+  "anatomy": "Each inequality in a system has four key components. First, the boundary line, obtained by replacing the inequality symbol with an equals sign \u2014 it is drawn as a solid line if the symbol is $\\leq$ or $\\geq$ (meaning points on the line are included) or a dashed line if the symbol is $<$ or $>$ (meaning points on the line are excluded). Second, the shaded half-plane, the region on one side of the boundary line where the inequality is satisfied. Third, the test point, typically $(0, 0)$ when it is not on the boundary, used to determine which side to shade. Fourth, the overlap region, the area where all individual shaded regions coincide \u2014 this is the actual solution set of the system.",
+  "worked_example": [
+    {
+      "expression_latex": "\\begin{cases} y \\leq 2x + 1 \\\\ y > -x + 3 \\end{cases}",
+      "description_latex": "We are given this system of two linear inequalities and our goal is to identify the region of the coordinate plane that satisfies both at the same time. Start by recognizing that each inequality will produce its own boundary line and shaded region, and the solution is wherever those regions overlap.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = 2x + 1 \\text{ (solid line)}, \\quad y = -x + 3 \\text{ (dashed line)}",
+      "description_latex": "We graph the boundary lines first. Because $y \\leq 2x + 1$ uses $\\leq$, the boundary line $y = 2x + 1$ is solid, meaning points on it ARE solutions. Because $y > -x + 3$ uses $>$ (strict), the boundary line $y = -x + 3$ is dashed, meaning points on it are NOT solutions. Getting the line style right is critical \u2014 it tells us whether the boundary itself is included.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Test } (0,0): \\quad 0 \\leq 2(0)+1 \\Rightarrow 0 \\leq 1 \\checkmark",
+      "description_latex": "To decide which side of $y = 2x+1$ to shade, substitute the test point $(0,0)$ into the first inequality. Since $0 \\leq 1$ is true, the side containing the origin is the correct region, so we shade below and on the line $y = 2x+1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Test } (0,0): \\quad 0 > -(0)+3 \\Rightarrow 0 > 3 \\text{ \u2717}",
+      "description_latex": "Now test $(0,0)$ in the second inequality $y > -x+3$. Since $0 > 3$ is false, the origin is NOT in the solution region for this inequality, so we shade the opposite side \u2014 the region above the dashed line $y = -x+3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Solution: the region where } y \\leq 2x+1 \\text{ AND } y > -x+3 \\text{ overlap}",
+      "description_latex": "The solution to the system is the overlapping region where both shadings occur simultaneously \u2014 it is bounded above by the dashed line $y = -x+3$ and below by the solid line $y = 2x+1$, in the area where those two constraints coexist. Any point in that wedge-shaped overlap satisfies both inequalities at once.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{cases} y \\geq -x + 2 \\\\ y < 3x - 1 \\end{cases}",
+      "description_latex": "We want to graph this system. Begin by identifying the boundary lines: $y = -x+2$ will be a solid line (because $\\geq$) and $y = 3x-1$ will be a dashed line (because $<$). Graph both lines on the same coordinate plane.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Test } (0,0) \\text{ in } y \\geq -x+2: \\quad 0 \\geq -(0)+2 \\Rightarrow 0 \\geq 2",
+      "description_latex": "We tested $(0,0)$ in the first inequality and got a false statement, which means the origin is NOT in the solution region for $y \\geq -x+2$. This tells us we should shade above the solid line $y = -x+2$. Now you try: test the point $(0,0)$ in the second inequality $y < 3x-1$, determine whether the statement is true or false, and describe which side of $y = 3x-1$ you should shade.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Test $(0,0)$ in $y < 3x - 1$: substitute and simplify. Is the result true or false? Based on your answer, state which side of the dashed line $y = 3x-1$ represents the solution region for the second inequality.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Solution: overlap of } y \\geq -x+2 \\text{ and } y < 3x-1",
+      "description_latex": "Identify and describe the final solution region \u2014 it is the area on the coordinate plane where both shadings overlap. Check your answer by picking a point in the overlap and verifying it satisfies both original inequalities at the same time.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Is the point } (2, 1) \\text{ a solution to the system } \\begin{cases} y \\leq x + 1 \\\\ y \\geq -x + 0 \\end{cases}?",
+      "answer_latex": "\\text{Yes: } 1 \\leq 3 \\checkmark \\text{ and } 1 \\geq -2 \\checkmark"
+    },
+    {
+      "prompt_latex": "\\text{Graph the system and identify the solution region: } \\begin{cases} y < 2x - 1 \\\\ y \\geq -x + 4 \\end{cases}",
+      "answer_latex": "\\text{Dashed line } y=2x-1 \\text{, shade below; solid line } y=-x+4 \\text{, shade above; solution is the overlap region}"
+    },
+    {
+      "prompt_latex": "\\text{Graph the system: } \\begin{cases} y > x + 2 \\\\ y > -2x - 1 \\end{cases}",
+      "answer_latex": "\\text{Both boundary lines are dashed; shade above each; solution is the region above both lines simultaneously}"
+    },
+    {
+      "prompt_latex": "\\text{Graph the system and state whether the boundary lines are included in the solution: } \\begin{cases} 2x + y \\leq 6 \\\\ x - y < 2 \\end{cases}",
+      "answer_latex": "\\text{Rewrite: } y \\leq -2x+6 \\text{ (solid, included) and } y > x-2 \\text{ (dashed, not included); overlap is the solution region}"
+    },
+    {
+      "prompt_latex": "\\text{A student can spend at most } \\$20 \\text{ total on notebooks } (x) \\text{ at } \\$2 \\text{ each and pens } (y) \\text{ at } \\$1 \\text{ each, and must buy at least 5 items total. Write and graph the system of inequalities, then give one combination that works.}",
+      "answer_latex": "\\begin{cases} 2x + y \\leq 20 \\\\ x + y \\geq 5 \\end{cases} \\text{; one solution: } (3, 4) \\text{ since } 10 \\leq 20 \\checkmark \\text{ and } 7 \\geq 5 \\checkmark"
+    }
+  ],
+  "common_mistakes": [
+    "Students draw a solid boundary line for a strict inequality ($<$ or $>$) instead of a dashed line, incorrectly including the boundary points in the solution; always check the inequality symbol first \u2014 if it is strict, the line must be dashed.",
+    "After testing a point, students shade the wrong side of the boundary line by forgetting that a false result means they shade the side that does NOT contain the test point; if the substitution is false, shade the opposite side from where the test point sits.",
+    "Students shade each inequality separately and then report both shaded regions as the solution, rather than identifying only the overlapping area; the solution to a system is exclusively the intersection \u2014 the region that satisfies every inequality at the same time."
+  ],
+  "untested_variants": [
+    "Systems of three or more linear inequalities where the solution region is a bounded polygon (triangle or quadrilateral) rather than an infinite wedge.",
+    "Systems where the two boundary lines are parallel, resulting in either no solution (the shaded regions never overlap) or an infinite strip as the solution region.",
+    "Identifying the vertices (corner points) of the solution region by solving the system of boundary equations algebraically \u2014 a skill required in linear programming problems.",
+    "Systems written in standard form $ax + by \\leq c$ that require rearranging into slope-intercept form before graphing, where $a$ is negative and the inequality flips direction."
+  ]
+}

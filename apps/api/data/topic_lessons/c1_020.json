@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_020",
+  "topic_name": "Monotonicity and the First Derivative Test",
+  "generated_at": "2026-05-13T00:09:01.367050+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to compute derivatives and interpret them as instantaneous rates of change. You can tell whether a function is increasing or decreasing at a single point by checking the sign of the derivative there. But what if someone asks you: 'On exactly which intervals does $f(x) = x^3 - 3x^2 - 9x + 5$ increase, and where does it decrease \u2014 and does it ever turn around?' Checking one point at a time would take forever. How can you systematically find every interval of increase and decrease, and identify all local maxima and minima, in one organized process?",
+  "concept": "Monotonicity describes whether a function is consistently going up or down on an interval. Formally, $f$ is increasing on an interval $I$ if $f'(x) > 0$ for all $x$ in $I$, and decreasing if $f'(x) < 0$. The First Derivative Test goes further: at a critical number $c$ where $f'(c) = 0$ or $f'(c)$ is undefined, if $f'$ changes from positive to negative, $f$ has a local maximum at $c$; if $f'$ changes from negative to positive, $f$ has a local minimum; if $f'$ does not change sign, there is no local extremum.",
+  "anatomy": "The key components of this process are: (1) the critical numbers, which are the $x$-values where $f'(x) = 0$ or $f'(x)$ does not exist \u2014 these are the only places where the sign of $f'$ can change; (2) the sign chart (or sign diagram), a number line partitioned by the critical numbers into open intervals called test intervals; (3) the test values, one $x$-value chosen inside each test interval, plugged into $f'$ to determine the sign of $f'$ on that entire interval; and (4) the sign conclusions, which tell you the direction of monotonicity on each interval and, by comparing adjacent signs across each critical number, whether that critical point is a local max, local min, or neither.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^3 - 3x^2 - 9x + 5",
+      "description_latex": "We start by identifying the function we want to analyze. Our goal is to find all intervals where $f$ increases or decreases and to classify any local extrema. The first step is always to compute the derivative, because the sign of $f'$ is the engine that drives everything else.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 3x^2 - 6x - 9 = 3(x^2 - 2x - 3) = 3(x-3)(x+1)",
+      "description_latex": "We differentiate term by term and then factor completely. Factoring is worth the effort because it lets us read off the critical numbers immediately \u2014 the derivative equals zero exactly when one of the factors is zero, giving us $x = 3$ and $x = -1$. Since $f'$ is a polynomial it is defined everywhere, so these two values are our only critical numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(-\\infty,\\,-1),\\quad (-1,\\,3),\\quad (3,\\,\\infty)",
+      "description_latex": "We place the critical numbers $-1$ and $3$ on a number line, which divides the real line into three test intervals. We need to check the sign of $f'$ on each interval separately because the sign can only change at a critical number \u2014 it cannot flip in the middle of an interval where $f'$ is continuous.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(-2)=3(-5)(-1)=15>0;\\quad f'(0)=3(-3)(1)=-9<0;\\quad f'(4)=3(1)(5)=15>0",
+      "description_latex": "We pick one test value inside each interval \u2014 $x = -2$, $x = 0$, and $x = 4$ \u2014 and evaluate $f'$ there. Because $f'$ is continuous and nonzero throughout each open interval, the sign we find at the test point equals the sign everywhere on that interval. We get positive, negative, then positive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Increasing on }(-\\infty,-1)\\text{ and }(3,\\infty);\\;\\text{Decreasing on }(-1,3);\\;\\text{local max at }x=-1,\\;\\text{local min at }x=3",
+      "description_latex": "Reading the sign chart from left to right, $f'$ goes from $+$ to $-$ at $x = -1$, so the First Derivative Test tells us $f$ has a local maximum there; $f(-1) = 10$. Then $f'$ goes from $-$ to $+$ at $x = 3$, so $f$ has a local minimum there; $f(3) = -22$. This single organized process gives us the complete monotonicity picture and all local extrema.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = x^4 - 8x^2 + 3",
+      "description_latex": "We want to find all intervals of increase and decrease for $g$ and classify any local extrema. Begin by computing the derivative $g'(x)$ and factoring it completely so that you can identify the critical numbers. Go ahead and do that now.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g'(x) = 4x^3 - 16x = 4x(x^2-4) = 4x(x-2)(x+2)",
+      "description_latex": "The derivative factors into three linear factors, giving critical numbers $x = -2,\\; 0,\\; 2$. These three values split the real line into four test intervals: $(-\\infty,-2)$, $(-2,0)$, $(0,2)$, $(2,\\infty)$. Choose one test value in each interval and determine the sign of $g'$ there \u2014 this is the key step that requires real understanding of the sign-chart process.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Increasing on }(-2,0)\\text{ and }(2,\\infty);\\;\\text{Decreasing on }(-\\infty,-2)\\text{ and }(0,2)",
+      "description_latex": "Using the signs you found, state the intervals of increase and decrease and then apply the First Derivative Test to classify each critical point as a local maximum, local minimum, or neither.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the intervals on which $f(x) = 3x - x^3$ is increasing and the intervals on which it is decreasing.",
+      "answer_latex": "Increasing on $(-1,\\,1)$; Decreasing on $(-\\infty,-1)$ and $(1,\\infty)$"
+    },
+    {
+      "prompt_latex": "Find all critical numbers of $h(x) = x^3 - 6x^2 + 9x + 2$, then use the First Derivative Test to classify each as a local maximum or local minimum.",
+      "answer_latex": "Critical numbers $x=1$ (local max, $h(1)=6$) and $x=3$ (local min, $h(3)=2$)"
+    },
+    {
+      "prompt_latex": "Determine the intervals of increase and decrease for $f(x) = \\dfrac{x^2}{x^2+1}$.",
+      "answer_latex": "Increasing on $(0,\\infty)$; Decreasing on $(-\\infty,0)$; local minimum at $x=0$"
+    },
+    {
+      "prompt_latex": "Let $f(x) = x^{2/3}(x-5)$. Find all critical numbers, the intervals of monotonicity, and classify any local extrema. (Note that $f'$ may be undefined at some point.)",
+      "answer_latex": "Critical numbers at $x=0$ (local max) and $x=2$ (local min); Increasing on $(-\\infty,0)$ and $(2,\\infty)$; Decreasing on $(0,2)$"
+    },
+    {
+      "prompt_latex": "A company's weekly profit (in thousands of dollars) is modeled by $P(x) = -x^3 + 12x^2 - 36x + 10$, where $x$ is the number of units (in hundreds) produced, $0 \\le x \\le 8$. On what production intervals is profit increasing, and at what production level does the local maximum profit occur?",
+      "answer_latex": "Profit increases on $(2,6)$; local maximum profit occurs at $x=6$ hundred units, $P(6)=46$ thousand dollars"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that critical numbers also include points where $f'(x)$ is undefined, not just where $f'(x) = 0$. This causes them to miss critical numbers like $x = 0$ for $f(x) = x^{2/3}$. Always check both conditions when forming your list of critical numbers.",
+    "After finding critical numbers, students sometimes pick test values outside the intended interval, or they substitute into $f$ instead of $f'$. The sign of $f'$ at the test value \u2014 not the value of $f$ \u2014 determines whether the function is increasing or decreasing on that interval.",
+    "Students conclude there must be a local extremum at every critical number. If $f'$ has the same sign on both sides of a critical number (for example, $f'$ goes from $+$ to $+$ across $x = c$), then the function is still monotone there and $c$ is neither a local max nor a local min \u2014 it is an inflection-like plateau such as at $x = 0$ for $f(x) = x^3$."
+  ],
+  "untested_variants": [
+    "Monotonicity analysis for trigonometric functions such as $f(x) = 2\\sin x - x$ on $[0, 2\\pi]$, where critical numbers are found by solving transcendental equations.",
+    "Functions defined only on a closed interval $[a, b]$, where you must also evaluate and compare endpoint behavior alongside the interior critical points to identify absolute (global) extrema rather than just local ones.",
+    "Implicit functions or parametric curves where the derivative $dy/dx$ must first be computed via implicit differentiation before a sign chart can be constructed.",
+    "Monotonicity for functions of the form $f(x) = e^{g(x)}$ or $f(x) = \\ln(g(x))$, where the chain rule produces a derivative whose sign depends on the sign of $g'(x)$ alone since the exponential is always positive."
+  ]
+}

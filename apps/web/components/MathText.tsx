@@ -40,6 +40,8 @@ function renderProseHtml(text: string): string {
         displayMode: isDisplay,
         throwOnError: false,
         output: 'html',
+        trust: false,      // SECURITY: never honor \href/\htmlData etc. (XSS)
+        strict: 'ignore',
       })
     );
     lastIndex = match.index + match[0].length;
@@ -85,6 +87,8 @@ export function MathText({ latex, inline = false, prose = false, className }: Ma
     throwOnError: false,
     displayMode: !inline,
     output: 'html',
+    trust: false,      // SECURITY: never honor \href/\htmlData etc. (XSS)
+    strict: 'ignore',
   });
 
   if (inline) {

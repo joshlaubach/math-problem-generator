@@ -1,0 +1,91 @@
+{
+  "topic_id": "c1_023",
+  "topic_name": "Curve Sketching",
+  "generated_at": "2026-05-13T20:38:04.461523+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find where a function is increasing or decreasing, where it has local maxima and minima, and where it is concave up or concave down. But can you take all of that information simultaneously and produce an accurate, labeled sketch of the curve $f(x) = x^3 - 3x^2 - 9x + 5$ without plotting dozens of points? The gap is that knowing each fact separately isn't the same as synthesizing them into a coherent picture. How do you combine intercepts, critical points, inflection points, and end behavior into one unified sketch?",
+  "concept": "Curve sketching is the process of using calculus tools \u2014 derivatives, sign charts, and limits \u2014 together with algebraic information to draw a qualitatively accurate graph of a function. Formally, given a function $f(x)$, we systematically determine its domain, intercepts, symmetry, end behavior via $\\lim_{x \\to \\pm\\infty} f(x)$, critical points where $f'(x) = 0$ or is undefined, intervals of increase/decrease, local extrema, inflection points where $f''(x) = 0$ changes sign, and concavity, then assemble these into a sketch.",
+  "anatomy": "A complete curve sketch has several distinct structural components. The domain and intercepts (x-intercepts where $f(x)=0$ and the y-intercept $f(0)$) anchor the graph to the coordinate plane. The critical points, values $c$ where $f'(c)=0$ or $f'(c)$ is undefined, identify candidates for local maxima and minima, and the First Derivative Test (sign of $f'$ on each side) classifies them. The sign chart of $f'(x)$ reveals intervals of increase ($f' > 0$) and decrease ($f' < 0$). The inflection points, values $x = p$ where $f''(p) = 0$ and $f''$ changes sign, mark transitions between concave up ($f'' > 0$) and concave down ($f'' < 0$). End behavior describes what $f(x)$ approaches as $x \\to +\\infty$ and $x \\to -\\infty$, setting the overall shape.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^3 - 3x^2 - 9x + 5",
+      "description_latex": "We start by identifying the domain and basic features. The domain is all real numbers $(-\\infty, \\infty)$ since $f$ is a polynomial. The y-intercept is $f(0) = 5$, giving the point $(0, 5)$. For end behavior, because the leading term is $x^3$ with a positive coefficient, we know $f(x) \\to -\\infty$ as $x \\to -\\infty$ and $f(x) \\to +\\infty$ as $x \\to +\\infty$, so the graph rises to the right and falls to the left.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 3x^2 - 6x - 9 = 3(x^2 - 2x - 3) = 3(x-3)(x+1)",
+      "description_latex": "We compute the first derivative and factor it to find the critical points. Setting $f'(x) = 0$ gives $x = 3$ and $x = -1$. These are the only candidates for local extrema, and since $f'$ is defined everywhere, there are no other critical points to consider.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|ccc} & x<-1 & -1<x<3 & x>3 \\\\ \\hline f'(x) & + & - & + \\\\ f & \\nearrow & \\searrow & \\nearrow \\end{array}",
+      "description_latex": "We build a sign chart for $f'(x) = 3(x-3)(x+1)$ by testing one value in each interval. For $x < -1$ (try $x=-2$): $f'(-2) = 3(-5)(-1) = 15 > 0$, so $f$ is increasing. For $-1 < x < 3$ (try $x=0$): $f'(0) = -9 < 0$, so $f$ is decreasing. For $x > 3$ (try $x=4$): $f'(4) = 3(1)(5) = 15 > 0$, so $f$ is increasing again. By the First Derivative Test, $x = -1$ is a local maximum and $x = 3$ is a local minimum, with values $f(-1) = 10$ and $f(3) = -22$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f''(x) = 6x - 6 = 6(x-1); \\quad f''(x)=0 \\text{ at } x=1",
+      "description_latex": "We compute the second derivative to locate inflection points and determine concavity. Since $f''(x) < 0$ for $x < 1$ and $f''(x) > 0$ for $x > 1$, the function is concave down on $(-\\infty, 1)$ and concave up on $(1, \\infty)$. The sign of $f''$ changes at $x=1$, confirming an inflection point there with coordinates $(1, f(1)) = (1, -6)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Key points: } (-1,\\,10),\\; (1,\\,-6),\\; (3,\\,-22),\\; (0,\\,5)",
+      "description_latex": "We now assemble the sketch using all collected information. We plot the local max at $(-1, 10)$, inflection point at $(1, -6)$, local min at $(3, -22)$, and y-intercept $(0, 5)$. The curve falls from upper-left (end behavior), rises to $(-1, 10)$, decreases through the inflection point at $(1,-6)$, reaches the local min at $(3,-22)$, then rises toward the upper-right \u2014 and the concavity switches from concave down to concave up exactly at $x=1$, giving the characteristic S-shape of a cubic.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = x^3 - 6x^2 + 9x + 1",
+      "description_latex": "We want to sketch $g(x) = x^3 - 6x^2 + 9x + 1$. Let's begin by establishing the basics: the domain is all real numbers, $g(0) = 1$ is the y-intercept, and since the leading term is $x^3$ positive, end behavior gives $g(x) \\to -\\infty$ as $x \\to -\\infty$ and $g(x) \\to +\\infty$ as $x \\to +\\infty$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g'(x) = 3x^2 - 12x + 9 = 3(x^2 - 4x + 3) = 3(x-1)(x-3)",
+      "description_latex": "The first derivative factors neatly, giving critical points at $x = 1$ and $x = 3$. We have already done the differentiation for you \u2014 your job is to classify each critical point. Use a sign chart for $g'(x)$ on the intervals $(-\\infty,1)$, $(1,3)$, and $(3,\\infty)$, and apply the First Derivative Test to decide whether $x=1$ and $x=3$ are local maxima, local minima, or neither. Also compute the function values $g(1)$ and $g(3)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "g''(x) = 6x - 12 = 6(x - 2)",
+      "description_latex": "The second derivative is provided here. Use it to find the inflection point: determine where $g''(x) = 0$, verify that $g''$ changes sign there, compute the inflection point's coordinates, and state the intervals where $g$ is concave up and concave down.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Key points: local max }(1,\\,5),\\; \\text{inflection }(2,\\,3),\\; \\text{local min }(3,\\,1)",
+      "description_latex": "With the critical points classified and the inflection point located, we now synthesize: the graph rises to a local max at $(1, 5)$, decreases through the inflection point $(2, 3)$ where concavity shifts from down to up, reaches a local min at $(3, 1)$, then rises to the right. Notice how close the local min value of $1$ is to the y-intercept \u2014 this makes for a subtle feature in the sketch that you should capture by plotting those points carefully.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find all critical points of $h(x) = x^3 - 3x + 2$ and classify each as a local maximum or local minimum.",
+      "answer_latex": "Local max at $(-1,\\, 4)$; local min at $(1,\\, 0)$"
+    },
+    {
+      "prompt_latex": "For $f(x) = x^4 - 8x^2 + 3$, find the intervals of increase/decrease, local extrema, and intervals of concavity.",
+      "answer_latex": "Decreasing on $(-\\infty,-2)$ and $(0,2)$; increasing on $(-2,0)$ and $(2,\\infty)$; local mins at $x=\\pm 2$ with $f(\\pm 2)=-13$; local max at $x=0$ with $f(0)=3$; concave up on $\\left(-\\infty, -\\frac{2}{\\sqrt{3}}\\right)$ and $\\left(\\frac{2}{\\sqrt{3}}, \\infty\\right)$; concave down on $\\left(-\\frac{2}{\\sqrt{3}}, \\frac{2}{\\sqrt{3}}\\right)$; inflection points at $x = \\pm\\frac{2\\sqrt{3}}{3}$"
+    },
+    {
+      "prompt_latex": "Sketch a complete curve for $f(x) = 3x^2 - x^3$ by finding intercepts, critical points, inflection points, and end behavior.",
+      "answer_latex": "x-intercepts at $x=0$ and $x=3$; y-intercept $(0,0)$; local min at $(0,0)$, local max at $(2,4)$; inflection point at $(1,2)$; concave up on $(-\\infty,1)$, concave down on $(1,\\infty)$; $f\\to +\\infty$ as $x\\to -\\infty$, $f\\to -\\infty$ as $x\\to +\\infty$"
+    },
+    {
+      "prompt_latex": "Given that $f'(x) = (x-1)^2(x+2)$, determine all intervals where $f$ is increasing or decreasing and identify all local extrema of $f$.",
+      "answer_latex": "Decreasing on $(-\\infty, -2)$; increasing on $(-2, \\infty)$; local minimum at $x = -2$ (no local extremum at $x = 1$ since $f'$ does not change sign there)"
+    },
+    {
+      "prompt_latex": "A particle moves along a line with position function $s(t) = 2t^3 - 9t^2 + 12t - 4$ for $t \\geq 0$. Sketch the position curve and determine all time intervals when the particle is moving in the positive direction, any local extrema of position, and when the particle's velocity is increasing.",
+      "answer_latex": "Velocity $s'(t)=6t^2-18t+12=6(t-1)(t-2)$; particle moves in positive direction on $(0,1)$ and $(2,\\infty)$, negative direction on $(1,2)$; local max position at $t=1$: $s(1)=1$; local min position at $t=2$: $s(2)=0$; acceleration $s''(t)=12t-18>0$ for $t>\\frac{3}{2}$, so velocity is increasing on $\\left(\\frac{3}{2},\\infty\\right)$"
+    }
+  ],
+  "common_mistakes": [
+    "Students find that $f''(c) = 0$ at some point $c$ and immediately declare it an inflection point without checking whether $f''$ actually changes sign there. If $f''$ does not change sign (for example, $f(x) = x^4$ at $x=0$), there is no inflection point \u2014 always verify the sign change on both sides.",
+    "When classifying a critical point using the First Derivative Test, students sometimes check only one side of the critical point or use the value of $f''$ at the critical point without applying the Second Derivative Test rules correctly, leading to a misclassified extremum. Remember: the First Derivative Test requires you to check the sign of $f'$ on BOTH sides of the critical point to determine whether the function transitions from increasing-to-decreasing (local max) or decreasing-to-increasing (local min).",
+    "Students often confuse the x-coordinates of critical points (where $f'=0$) with the actual local maximum or minimum values, forgetting to substitute back into the original function $f(x)$ to find the y-coordinates. The sketch requires plotting points with correct coordinates, so always compute $f(c)$ for each critical point $c$."
+  ],
+  "untested_variants": [
+    "Curve sketching for rational functions with vertical and horizontal asymptotes, where the domain has gaps and $f'$ may be undefined at multiple points for algebraic rather than geometric reasons.",
+    "Curve sketching when $f'(x)$ is given directly (rather than $f(x)$), requiring the student to recover qualitative information about $f$ from the derivative's graph without ever having an explicit formula for $f$.",
+    "Curve sketching for functions involving absolute values or piecewise definitions, where differentiability must be checked at the breakpoints before applying the standard procedure.",
+    "Curve sketching combined with optimization: using the sketch to argue that a located critical point is a global (absolute) maximum or minimum on an open interval or on all of $\\mathbb{R}$, rather than merely local."
+  ]
+}

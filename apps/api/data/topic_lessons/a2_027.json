@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_027",
+  "topic_name": "nth Roots and Rational Exponents",
+  "generated_at": "2026-05-12T23:24:13.848818+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know that squaring and square roots undo each other: $\\sqrt{9} = 3$ because $3^2 = 9$. But what happens when an engineer needs to find the side length of a cube with volume 125 cubic centimeters, or when a formula involves $x^{2/3}$? You've never seen an exponent that's a fraction before \u2014 so how do you even begin to evaluate something like $8^{2/3}$?",
+  "concept": "An nth root asks: what number, raised to the power $n$, gives you the original value? Formally, $\\sqrt[n]{a} = a^{1/n}$, meaning the nth root of $a$ is the number whose $n$th power equals $a$. Extending this, a rational exponent $a^{m/n}$ means you take the nth root and raise to the $m$th power: $a^{m/n} = (\\sqrt[n]{a})^m = \\sqrt[n]{a^m}$.",
+  "anatomy": "In the expression $a^{m/n}$, the base $a$ is the number being acted on, the denominator $n$ of the rational exponent tells you which root to take (e.g., $n=2$ is a square root, $n=3$ is a cube root), and the numerator $m$ tells you the power to apply to that root. In radical form $\\sqrt[n]{a^m}$, the index $n$ sits in the notch of the radical symbol, the radicand $a^m$ sits under the bar, and the two forms are completely interchangeable.",
+  "worked_example": [
+    {
+      "expression_latex": "27^{1/3}",
+      "description_latex": "We start with a unit fraction exponent, which means we are simply taking a root. Because the denominator is 3, we need the cube root of 27 \u2014 that is, the number which, when cubed, equals 27. Asking yourself '3 to what power gives 27?' quickly reveals the answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "27^{1/3} = \\sqrt[3]{27} = 3",
+      "description_latex": "We rewrite the expression using the definition $a^{1/n} = \\sqrt[n]{a}$, so $27^{1/3} = \\sqrt[3]{27}$. Since $3^3 = 27$, the cube root of 27 is exactly 3, giving us our final answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "8^{2/3} = (\\sqrt[3]{8})^2",
+      "description_latex": "Now the exponent is a non-unit fraction $\\frac{2}{3}$, so we use the rule $a^{m/n} = (\\sqrt[n]{a})^m$. It is almost always easier to take the root first (the denominator) before applying the power (the numerator), because working with a smaller number is simpler.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(\\sqrt[3]{8})^2 = (2)^2 = 4",
+      "description_latex": "We evaluate the cube root first: $\\sqrt[3]{8} = 2$ because $2^3 = 8$. Then we square that result to get $2^2 = 4$. Notice how taking the root before the power kept our numbers small and manageable throughout the computation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "32^{3/5}",
+      "description_latex": "We have a rational exponent $\\frac{3}{5}$ on the base 32. Recall the rule $a^{m/n} = (\\sqrt[n]{a})^m$, so the denominator 5 tells us to take the 5th root, and the numerator 3 tells us to cube the result. Let's start by identifying and evaluating the root.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "32^{3/5} = (\\sqrt[5]{32})^3 = (2)^3",
+      "description_latex": "Since $2^5 = 32$, the 5th root of 32 is 2, so we now have $(2)^3$. The problem is almost done \u2014 you just need to evaluate this final power.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Evaluate $(2)^3$ to find the final value of $32^{3/5}$. What is the answer?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate: $64^{1/2}$",
+      "answer_latex": "8"
+    },
+    {
+      "prompt_latex": "Evaluate: $125^{2/3}$",
+      "answer_latex": "25"
+    },
+    {
+      "prompt_latex": "Rewrite $\\sqrt[4]{x^3}$ using a rational exponent.",
+      "answer_latex": "x^{3/4}"
+    },
+    {
+      "prompt_latex": "Evaluate: $(-32)^{3/5}$",
+      "answer_latex": "-8"
+    },
+    {
+      "prompt_latex": "A square garden has area $A = s^2$. A gardener knows the area is $A = 50$ square feet and wants to express the side length as $s = 50^{1/2}$. Simplify $50^{1/2}$ in exact radical form.",
+      "answer_latex": "5\\sqrt{2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the numerator before the denominator, computing $8^{2/3}$ as $(8^2)^{1/3} = 64^{1/3} \\approx 4$, which is technically equivalent but forces them to take the cube root of a large number and causes arithmetic errors; always take the root first to keep numbers small.",
+    "When the base is negative, students incorrectly declare the expression undefined for any fractional exponent \u2014 but $(-8)^{1/3} = -2$ is perfectly valid because cube roots (odd roots) of negative numbers are real; only even roots of negative numbers are undefined in the reals.",
+    "Students confuse the numerator and denominator roles, treating $a^{m/n}$ as 'take the $m$th root and raise to the $n$th power' instead of the correct 'take the $n$th root and raise to the $m$th power', leading to answers like $8^{2/3} = (\\sqrt{8})^3$ instead of $(\\sqrt[3]{8})^2$."
+  ],
+  "untested_variants": [
+    "Simplifying expressions with rational exponents using exponent rules, such as $x^{1/2} \\cdot x^{3/2}$ or $\\dfrac{x^{5/3}}{x^{2/3}}$, which require applying the product and quotient rules for exponents.",
+    "Evaluating rational exponents with a base that is a fraction, for example $\\left(\\dfrac{27}{8}\\right)^{2/3}$, which requires applying the root and power to both numerator and denominator separately.",
+    "Converting between rational exponent form and radical form when the expression contains a coefficient, such as rewriting $3x^{2/5}$ versus $(3x)^{2/5}$ and distinguishing what the exponent applies to.",
+    "Solving equations involving rational exponents, such as $x^{3/2} = 27$, which requires raising both sides to the reciprocal power $\\frac{2}{3}$ to isolate $x$."
+  ]
+}

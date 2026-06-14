@@ -1,0 +1,81 @@
+{
+  "topic_id": "stat_009",
+  "topic_name": "Introduction to Linear Regression",
+  "generated_at": "2026-05-13T20:29:36.042608+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to read a scatterplot and describe the direction and strength of the relationship between two variables. You can say things like 'as study time increases, test scores tend to increase' \u2014 but you cannot yet make a precise numerical prediction. If a student studies for 4.5 hours, what score should we actually expect? That gap \u2014 between seeing a trend and quantifying it \u2014 is exactly what linear regression fills. How do we find the single best line that captures the relationship between two quantitative variables?",
+  "concept": "Linear regression gives us a mathematical equation for the straight line that best summarizes the linear relationship between an explanatory variable and a response variable. In plain English, it finds the line that sits as close as possible to all the data points at once. Formally, the least-squares regression line is written $\\hat{y} = a + bx$, where $\\hat{y}$ (pronounced 'y-hat') is the predicted value of the response variable, $x$ is the value of the explanatory variable, $b$ is the slope, and $a$ is the y-intercept.",
+  "anatomy": "The regression equation $\\hat{y} = a + bx$ has four distinct parts worth naming precisely. The slope $b$ tells you how much $\\hat{y}$ changes, on average, for each one-unit increase in $x$ \u2014 it carries units and a sign (positive or negative). The intercept $a$ is the predicted value of $y$ when $x = 0$, though this is only meaningful in context. The hat symbol on $\\hat{y}$ signals that we are producing a prediction, not an observed data value. Finally, the word 'least-squares' describes the criterion used to choose this particular line: it minimizes the sum of the squared vertical distances between each observed point and the line, called residuals.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Given: } b = 2.3, \\quad a = 41.0, \\quad x = \\text{hours studied}",
+      "description_latex": "We are given a regression equation built from a dataset of students' study hours and test scores. Before writing the equation, we identify which variable is explanatory ($x$ = hours studied) and which is the response ($y$ = test score), because getting this order wrong changes everything about how we interpret the equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{y} = 41.0 + 2.3x",
+      "description_latex": "We assemble the least-squares regression equation by plugging in the intercept $a = 41.0$ and slope $b = 2.3$. The intercept 41.0 means a student who studies zero hours is predicted to score 41 points, and the slope 2.3 means each additional hour of studying is associated with, on average, 2.3 more points on the test.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{y} = 41.0 + 2.3(4.5)",
+      "description_latex": "To predict the score for a student who studies 4.5 hours, we substitute $x = 4.5$ into the equation. This is the core use of the regression line \u2014 we are plugging a specific $x$-value into our model to generate a specific numerical prediction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{y} = 41.0 + 10.35 = 51.35",
+      "description_latex": "Carrying out the arithmetic gives a predicted test score of approximately 51.35 points. Notice we write $\\hat{y}$, not $y$, to remind ourselves this is a model prediction \u2014 the actual student's score will almost certainly differ by some residual amount.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Given: } b = -1.8, \\quad a = 95.0, \\quad x = \\text{absences (days)}",
+      "description_latex": "A teacher fits a regression line using student absences to predict final exam scores. We are told the slope is $-1.8$ and the intercept is $95.0$. Start by assembling the full regression equation \u2014 write $\\hat{y}$ in terms of $x$ using these values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{y} = 95.0 - 1.8x",
+      "description_latex": "Good \u2014 here is the equation. Notice the slope is negative, meaning more absences predict lower scores. Now, a student missed 6 days. Write the substitution and compute the predicted exam score.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\hat{y} = 95.0 - 1.8(6) = 95.0 - 10.8 = 84.2",
+      "description_latex": "The predicted score is 84.2 points. The negative slope told the story \u2014 every additional absence costs the student about 1.8 exam points, and this prediction makes that cost concrete.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A regression equation is given as $\\hat{y} = 5 + 3x$. What is the slope, and what is the y-intercept?",
+      "answer_latex": "\\text{Slope } b = 3, \\quad \\text{Intercept } a = 5"
+    },
+    {
+      "prompt_latex": "Using the equation $\\hat{y} = 12.4 + 0.85x$, predict $\\hat{y}$ when $x = 20$.",
+      "answer_latex": "\\hat{y} = 12.4 + 0.85(20) = 12.4 + 17.0 = 29.4"
+    },
+    {
+      "prompt_latex": "A regression line for predicting monthly sales (in thousands of dollars) from advertising spending (in hundreds of dollars) is $\\hat{y} = 8.2 + 1.6x$. Interpret the slope in context.",
+      "answer_latex": "\\text{For each additional } \\$100 \\text{ spent on advertising, predicted monthly sales increase by } \\$1{,}600 \\text{ on average.}"
+    },
+    {
+      "prompt_latex": "A dataset has $\\bar{x} = 10$, $\\bar{y} = 34$, and slope $b = 2.5$. Use the fact that the regression line always passes through $(\\bar{x},\\, \\bar{y})$ to find the intercept $a$.",
+      "answer_latex": "34 = a + 2.5(10) \\Rightarrow a = 34 - 25 = 9, \\quad \\hat{y} = 9 + 2.5x"
+    },
+    {
+      "prompt_latex": "A marine biologist measures water temperature (\u00b0C) and fish activity level (scale 1\u201310). The regression equation is $\\hat{y} = -0.5 + 0.4x$. A reading shows $x = 22$\u00b0C but the observed activity level is $y = 7.8$. Compute the residual for this observation.",
+      "answer_latex": "\\hat{y} = -0.5 + 0.4(22) = -0.5 + 8.8 = 8.3 \\quad \\Rightarrow \\quad \\text{residual} = y - \\hat{y} = 7.8 - 8.3 = -0.5"
+    }
+  ],
+  "common_mistakes": [
+    "Students swap the roles of the explanatory and response variables, writing $\\hat{x} = a + by$ instead of $\\hat{y} = a + bx$. This produces a completely different line \u2014 always ask 'which variable am I trying to predict?' and make that variable $\\hat{y}$.",
+    "Students interpret the intercept as always meaningful, saying things like 'when studying 0 hours, the student scores 41 points' even when $x = 0$ is impossible or outside the data range. Always check whether $x = 0$ is realistic in context before interpreting the intercept.",
+    "Students confuse the predicted value $\\hat{y}$ with the actual observed value $y$, dropping the hat and writing $y = a + bx$. The hat is not decorative \u2014 it signals 'this is a model prediction,' and forgetting it leads to treating the line as an exact rule rather than an estimate."
+  ],
+  "untested_variants": [
+    "Calculating the slope $b$ and intercept $a$ from raw summary statistics using the formulas $b = r \\cdot \\frac{s_y}{s_x}$ and $a = \\bar{y} - b\\bar{x}$, which requires working with correlation $r$ and standard deviations.",
+    "Reading and interpreting a regression equation from a computer output table (e.g., a StatCrunch or R summary) where the student must identify coefficient rows rather than being handed a pre-written equation.",
+    "Deciding whether it is appropriate to use a linear regression model for a given scatterplot, including recognizing when the relationship is clearly nonlinear or when influential outliers are present.",
+    "Using the coefficient of determination $r^2$ to assess how well the regression line fits the data \u2014 interpreting what percentage of variation in $y$ is explained by $x$."
+  ]
+}

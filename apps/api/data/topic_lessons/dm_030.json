@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_030",
+  "topic_name": "Divisibility and the Division Algorithm",
+  "generated_at": "2026-05-13T20:14:09.034798+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to divide numbers and get a decimal answer \u2014 for instance, $17 \\div 5 = 3.4$. But in number theory, we care about a different kind of division: one that stays entirely in the world of integers. What is the remainder when $17$ is divided by $5$, and how do we write that relationship precisely using only whole numbers? The gap is that we need a formal language to express division-with-remainder \u2014 and that language is the Division Algorithm.",
+  "concept": "Divisibility captures whether one integer divides another with no remainder. Formally, we say $a \\mid b$ (read '$a$ divides $b$') if there exists an integer $k$ such that $b = ak$. More generally, the Division Algorithm guarantees that for any integer $a$ and positive integer $d$, there exist unique integers $q$ (the quotient) and $r$ (the remainder) satisfying $a = dq + r$ with $0 \\le r < d$.",
+  "anatomy": "The Division Algorithm expression $a = dq + r$ has four named parts. The dividend $a$ is the integer being divided \u2014 it can be any integer, including negative values. The divisor $d$ is the positive integer we divide by; it must be positive for the algorithm to guarantee uniqueness. The quotient $q$ is the integer number of times $d$ fits into $a$, computed as $q = \\lfloor a/d \\rfloor$. The remainder $r$ is what is left over, constrained by the strict inequality $0 \\le r < d$, which is precisely what makes $q$ and $r$ unique.",
+  "worked_example": [
+    {
+      "expression_latex": "a = 47, \\quad d = 6",
+      "description_latex": "We want to apply the Division Algorithm to find unique integers $q$ and $r$ such that $47 = 6q + r$ with $0 \\le r < 6$. Identifying $a = 47$ and $d = 6$ first is good practice \u2014 it keeps the structure of the theorem visible before we do any arithmetic.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "q = \\lfloor 47/6 \\rfloor = \\lfloor 7.833\\ldots \\rfloor = 7",
+      "description_latex": "The quotient $q$ is the floor of $a/d$, meaning we round down to the nearest integer. Since $47/6 \\approx 7.83$, we get $q = 7$. We round down \u2014 never round to nearest \u2014 because the remainder must stay non-negative.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = 47 - 6 \\cdot 7 = 47 - 42 = 5",
+      "description_latex": "The remainder is computed by subtracting $dq$ from $a$: $r = a - dq = 47 - 42 = 5$. We should always verify the remainder satisfies $0 \\le r < d$, and indeed $0 \\le 5 < 6$, so we are on the right track.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "47 = 6 \\cdot 7 + 5",
+      "description_latex": "Writing the final answer in the form $a = dq + r$ confirms everything: $6 \\times 7 = 42$ and $42 + 5 = 47$. This verification step is quick and catches arithmetic errors before they become wrong answers on an exam.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "a = -23, \\quad d = 7",
+      "description_latex": "We apply the Division Algorithm to a negative dividend. The setup is the same \u2014 we need $-23 = 7q + r$ with $0 \\le r < 7$ \u2014 but the floor function behaves differently for negative numbers, so pay close attention to the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "q = \\lfloor -23/7 \\rfloor = \\lfloor -3.285\\ldots \\rfloor = ?",
+      "description_latex": "Compute $-23 \\div 7$ as a decimal, then apply the floor function. Remember that $\\lfloor x \\rfloor$ always rounds toward $-\\infty$, not toward zero \u2014 so for a negative decimal you round to the more negative integer. What is $q$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "-23 = 7 \\cdot (-4) + r, \\quad r = -23 + 28 = 5",
+      "description_latex": "With $q = -4$, we find $r = -23 - 7(-4) = -23 + 28 = 5$. Check: $0 \\le 5 < 7$ \u2713, and $7(-4) + 5 = -28 + 5 = -23$ \u2713. Notice that even though the dividend was negative, the remainder is still a non-negative integer \u2014 that is a requirement, not a coincidence.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Apply the Division Algorithm to $a = 29$, $d = 4$. Find $q$ and $r$.",
+      "answer_latex": "q = 7,\\ r = 1 \\quad (29 = 4 \\cdot 7 + 1)"
+    },
+    {
+      "prompt_latex": "Determine whether $7 \\mid 91$. If yes, exhibit the integer $k$ such that $91 = 7k$.",
+      "answer_latex": "7 \\mid 91 \\text{ because } 91 = 7 \\cdot 13, \\text{ so } k = 13"
+    },
+    {
+      "prompt_latex": "Apply the Division Algorithm to $a = -50$, $d = 9$. Find $q$ and $r$.",
+      "answer_latex": "q = -6,\\ r = 4 \\quad (-50 = 9 \\cdot (-6) + 4)"
+    },
+    {
+      "prompt_latex": "Suppose $a \\mid b$ and $a \\mid c$. Prove or disprove: $a \\mid (3b - 2c)$.",
+      "answer_latex": "\\text{True. Since } b = ak_1 \\text{ and } c = ak_2,\\ 3b - 2c = a(3k_1 - 2k_2),\\text{ so } a \\mid (3b-2c)."
+    },
+    {
+      "prompt_latex": "A warehouse has $247$ boxes to be packed equally into crates that hold $15$ boxes each. How many full crates can be packed, and how many boxes remain?",
+      "answer_latex": "247 = 15 \\cdot 16 + 7, \\text{ so } 16 \\text{ full crates with } 7 \\text{ boxes remaining}"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply $q = \\lfloor a/d \\rfloor$ but for negative dividends they round toward zero instead of toward $-\\infty$ \u2014 for example, writing $q = -3$ for $a = -23, d = 7$ rather than the correct $q = -4$. Always ask: does using this $q$ keep $r$ non-negative?",
+    "Students confuse the notation $a \\mid b$ (divisibility, '$a$ divides $b$') with $a/b$ (the fraction or ratio), and write statements like '$6 \\mid 3$' meaning '$6/3 = 2$'. Remember that $a \\mid b$ means $b$ is the multiple, not $a$: check whether the larger number is a multiple of the smaller.",
+    "After computing $q$ and $r$, students skip the verification step $a = dq + r$ and fail to catch sign errors or off-by-one mistakes in the quotient, especially with negative dividends. Always substitute back: if $dq + r \\ne a$, something went wrong."
+  ],
+  "untested_variants": [
+    "Finding the remainder when a large integer (e.g., $2^{100}$) is divided by a small modulus using modular arithmetic patterns \u2014 this requires combining the Division Algorithm with properties of exponents.",
+    "Using divisibility to determine whether a number is divisible by composite numbers like $12$ or $18$ by checking divisibility by prime factors simultaneously.",
+    "Proving general divisibility properties, such as showing that the sum of any three consecutive integers is divisible by $3$, using the parametric form $n = 3q + r$.",
+    "Applying the Division Algorithm with a divisor that is itself expressed algebraically (e.g., find $q$ and $r$ when $a = n^2 + 3n + 5$ is divided by $d = n + 1$ using polynomial division)."
+  ]
+}

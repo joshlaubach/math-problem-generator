@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_012",
+  "topic_name": "Elementary Matrices and LU Decomposition (H)",
+  "generated_at": "2026-05-13T20:05:56.679177+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to row-reduce a matrix by hand, applying operations like swapping rows, scaling a row, or adding a multiple of one row to another. But have you ever wondered whether those operations could themselves be represented as matrices \u2014 and whether multiplying by those matrices is exactly the same as performing the operation? Here's the deeper puzzle: if every row operation is secretly a matrix multiplication, can we 'factor' any matrix $A$ into a product of simple pieces that record the entire elimination process? What structure emerges when we do this systematically?",
+  "concept": "An elementary matrix is a square matrix obtained by performing exactly one row operation on the identity matrix $I_n$. Multiplying $A$ on the left by an elementary matrix $E$ has the same effect as applying that row operation to $A$. An LU decomposition factors a matrix $A$ into a product $A = LU$, where $L$ is a lower triangular matrix (with 1s on the diagonal) and $U$ is an upper triangular matrix, with the columns of $L$ recording the multipliers used during Gaussian elimination.",
+  "anatomy": "In an LU decomposition $A = LU$, there are four key structural pieces to name. The matrix $L$ (lower triangular) has 1s along its main diagonal and the elimination multipliers $m_{ij} = a_{ij}^{(k)}/a_{jj}^{(k)}$ stored below the diagonal in position $(i,j)$; these multipliers are exactly the numbers you subtracted during forward elimination. The matrix $U$ (upper triangular) is the row echelon form of $A$ produced at the end of elimination. Each elementary matrix $E_{ij}$ encodes a single row operation: a type-III elementary matrix for row replacement has $-m_{ij}$ in position $(i,j)$ below the diagonal and 1s elsewhere, and its inverse $E_{ij}^{-1}$ simply places $+m_{ij}$ in that same position, which is why $L$ assembles so cleanly from those inverses.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 2 & 1 & 1 \\\\ 4 & 3 & 3 \\\\ 8 & 7 & 9 \\end{pmatrix}",
+      "description_latex": "We start with the matrix $A$ and our goal is to find matrices $L$ and $U$ such that $A = LU$. We will perform Gaussian elimination on $A$, recording every multiplier we use, because those multipliers will populate $L$ while the result of elimination becomes $U$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m_{21} = \\frac{4}{2} = 2, \\quad R_2 \\leftarrow R_2 - 2R_1 \\implies \\begin{pmatrix} 2 & 1 & 1 \\\\ 0 & 1 & 1 \\\\ 8 & 7 & 9 \\end{pmatrix}",
+      "description_latex": "In the first column, the pivot is $a_{11} = 2$. We eliminate the entry in row 2 by computing the multiplier $m_{21} = 4/2 = 2$ and subtracting $2 \\times R_1$ from $R_2$. We record $m_{21} = 2$ for later placement in $L$; it will go in position $(2,1)$ of $L$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m_{31} = \\frac{8}{2} = 4, \\quad R_3 \\leftarrow R_3 - 4R_1 \\implies \\begin{pmatrix} 2 & 1 & 1 \\\\ 0 & 1 & 1 \\\\ 0 & 3 & 5 \\end{pmatrix}",
+      "description_latex": "Now we eliminate the $(3,1)$ entry using multiplier $m_{31} = 8/2 = 4$, subtracting $4 \\times R_1$ from $R_3$. After this step the first column is cleared below the pivot, and we record $m_{31} = 4$ for position $(3,1)$ of $L$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m_{32} = \\frac{3}{1} = 3, \\quad R_3 \\leftarrow R_3 - 3R_2 \\implies U = \\begin{pmatrix} 2 & 1 & 1 \\\\ 0 & 1 & 1 \\\\ 0 & 0 & 2 \\end{pmatrix}",
+      "description_latex": "Moving to the second column, the pivot is now $a_{22} = 1$ (after the previous step). We eliminate the $(3,2)$ entry with multiplier $m_{32} = 3/1 = 3$. The matrix is now fully upper triangular, so this is our $U$, and we record $m_{32} = 3$ for position $(3,2)$ of $L$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L = \\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 4 & 3 & 1 \\end{pmatrix}, \\quad U = \\begin{pmatrix} 2 & 1 & 1 \\\\ 0 & 1 & 1 \\\\ 0 & 0 & 2 \\end{pmatrix}, \\quad A = LU",
+      "description_latex": "We assemble $L$ by placing the multipliers we recorded into their corresponding positions below the diagonal, with 1s on the diagonal. Notice that the multipliers drop in exactly as collected \u2014 no sign changes and no reordering \u2014 because we did not swap any rows. You can verify this decomposition by multiplying $LU$ and confirming you recover $A$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 3 & 6 \\\\ 1 & 4 \\end{pmatrix}",
+      "description_latex": "We want to find the LU decomposition of $B$. The first step is to identify the pivot in column 1, which is $b_{11} = 3$, and compute the multiplier needed to eliminate the entry below it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m_{21} = \\frac{1}{3}, \\quad R_2 \\leftarrow R_2 - \\tfrac{1}{3}R_1 \\implies U = \\begin{pmatrix} 3 & 6 \\\\ 0 & 2 \\end{pmatrix}",
+      "description_latex": "Using the multiplier $m_{21} = 1/3$, we subtract $\\frac{1}{3} R_1$ from $R_2$ to clear the $(2,1)$ entry. Since the matrix is now $2 \\times 2$ and the second column already has a single nonzero entry below the first pivot, elimination is complete and this result is $U$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write down the matrix $L$ by placing the multiplier $m_{21} = 1/3$ in the correct position below the diagonal, with 1s on the diagonal. Then verify your answer by computing the product $LU$ and checking that it equals $B$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write down the $3 \\times 3$ elementary matrix $E$ that encodes the row operation $R_3 \\leftarrow R_3 - 5R_1$ (i.e., apply this operation to $I_3$).",
+      "answer_latex": "E = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ -5 & 0 & 1 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Find the LU decomposition of $A = \\begin{pmatrix} 2 & 4 \\\\ 1 & 3 \\end{pmatrix}$.",
+      "answer_latex": "L = \\begin{pmatrix} 1 & 0 \\\\ 1/2 & 1 \\end{pmatrix}, \\quad U = \\begin{pmatrix} 2 & 4 \\\\ 0 & 1 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Find the LU decomposition of $A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 5 & 7 \\\\ 3 & 5 & 10 \\end{pmatrix}$.",
+      "answer_latex": "L = \\begin{pmatrix} 1 & 0 & 0 \\\\ 2 & 1 & 0 \\\\ 3 & -1 & 1 \\end{pmatrix}, \\quad U = \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 1 & 1 \\\\ 0 & 0 & 2 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Given the LU decomposition $A = LU$ with $L = \\begin{pmatrix} 1 & 0 \\\\ 3 & 1 \\end{pmatrix}$ and $U = \\begin{pmatrix} 2 & 4 \\\\ 0 & -1 \\end{pmatrix}$, solve $Ax = b$ where $b = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}$ by forward substitution ($Ly = b$) followed by back substitution ($Ux = y$).",
+      "answer_latex": "y = \\begin{pmatrix} 2 \\\\ -5 \\end{pmatrix}, \\quad x = \\begin{pmatrix} -\\tfrac{9}{2} \\\\ 5 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A factory runs the same set of linear equations $Ax = b_1, Ax = b_2, Ax = b_3$ with three different right-hand sides. Explain in one or two sentences why computing the LU decomposition of $A$ once is more efficient than re-running Gaussian elimination from scratch for each right-hand side, and estimate the order of operations saved for an $n \\times n$ matrix.",
+      "answer_latex": "\\text{Once } A = LU \\text{ is known, each new system } b_k \\text{ requires only forward and back substitution at } O(n^2) \\text{ cost, rather than re-running full elimination at } O(n^3) \\text{ cost, saving roughly } 2n^3/3 \\text{ flops per additional right-hand side.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often place the multipliers into $L$ with a negative sign, writing $-m_{ij}$ instead of $+m_{ij}$. This happens because the row operation uses subtraction ($R_i \\leftarrow R_i - m_{ij}R_j$), but $L$ stores the positive multipliers, not the operation coefficients. Fix: remember that $L = E_1^{-1}E_2^{-1}\\cdots$ and the inverse of a type-III elementary matrix simply flips the sign of the off-diagonal entry back to positive.",
+    "Students attempt to write down an LU decomposition without noticing that a zero pivot requires a row swap, proceeding with division by zero. If a pivot is zero mid-elimination, a standard LU decomposition does not exist without permutation. Fix: check each pivot before computing a multiplier, and recognise that when a zero pivot appears you need a permuted form $PA = LU$ instead.",
+    "When reading off $L$ after a $3 \\times 3$ or larger elimination, students sometimes mix up which multiplier belongs in which position, especially if they performed the row operations in a non-standard order. Because multiplier $m_{ij}$ is computed to eliminate the $(i,j)$ entry, it must sit in position $(i,j)$ of $L$ \u2014 row index first, column index second. Fix: label each multiplier with its row-column address as you compute it, and place it directly in that cell of $L$."
+  ],
+  "untested_variants": [
+    "LU decomposition with partial pivoting (the $PA = LU$ form), where a permutation matrix $P$ must be tracked because row swaps are needed to avoid zero or numerically small pivots.",
+    "Using an LU decomposition to compute $\\det(A) = \\det(L)\\det(U) = u_{11}u_{22}\\cdots u_{nn}$, combining this topic with determinant theory.",
+    "The LDU decomposition, where the diagonal of $U$ is further factored out into a separate diagonal matrix $D$, leaving both $L$ and $U$ with 1s on their diagonals.",
+    "Expressing the full elimination process as a product of explicit elementary matrices $E_k \\cdots E_2 E_1 A = U$ and then inverting each factor to recover $L = E_1^{-1}E_2^{-1}\\cdots E_k^{-1}$, making the connection between elementary matrices and $L$ algebraically explicit."
+  ]
+}

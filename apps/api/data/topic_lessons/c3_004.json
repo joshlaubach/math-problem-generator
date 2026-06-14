@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_004",
+  "topic_name": "The Cross Product",
+  "generated_at": "2026-05-13T00:28:08.793662+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to multiply vectors using the dot product, which gives you a scalar measuring how much two vectors point in the same direction. But what if you need to find a vector that is simultaneously perpendicular to two given vectors \u2014 something that arises constantly in physics when computing torque or magnetic force? The dot product cannot do this for you because it produces a number, not a direction in space. So how do you construct a vector that stands at right angles to both $\\vec{u}$ and $\\vec{v}$ in three dimensions?",
+  "concept": "The cross product takes two 3D vectors and produces a new vector that is perpendicular to both of them. Given $\\vec{u} = \\langle u_1, u_2, u_3 \\rangle$ and $\\vec{v} = \\langle v_1, v_2, v_3 \\rangle$, the cross product is $\\vec{u} \\times \\vec{v} = \\langle u_2 v_3 - u_3 v_2,\\; u_3 v_1 - u_1 v_3,\\; u_1 v_2 - u_2 v_1 \\rangle$. Its magnitude equals $|\\vec{u}||\\vec{v}|\\sin\\theta$, and its direction follows the right-hand rule.",
+  "anatomy": "The cross product $\\vec{u} \\times \\vec{v}$ has four key parts worth naming. First, the two input vectors $\\vec{u}$ and $\\vec{v}$ must be three-dimensional \u2014 the cross product is not defined in 2D. Second, each component of the result is a $2 \\times 2$ determinant: for instance the first component is the minor $u_2 v_3 - u_3 v_2$, computed by ignoring the first row and column of the $3 \\times 3$ determinant. Third, notice the alternating sign pattern: the second component carries a minus sign in front of its minor. Fourth, the magnitude $|\\vec{u} \\times \\vec{v}| = |\\vec{u}||\\vec{v}|\\sin\\theta$ gives the area of the parallelogram spanned by the two vectors, a geometric interpretation you will use repeatedly.",
+  "worked_example": [
+    {
+      "expression_latex": "\\vec{u} = \\langle 2, -1, 3 \\rangle, \\quad \\vec{v} = \\langle 1, 4, -2 \\rangle",
+      "description_latex": "We are given two specific vectors and asked to compute $\\vec{u} \\times \\vec{v}$. Before calculating anything, it helps to write both vectors clearly so we can track each component \u2014 mixing up $u_2$ with $u_3$, for example, is the single most common source of errors in this computation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\vec{u} \\times \\vec{v} = \\begin{vmatrix} \\vec{i} & \\vec{j} & \\vec{k} \\\\ 2 & -1 & 3 \\\\ 1 & 4 & -2 \\end{vmatrix}",
+      "description_latex": "We set up the formal $3 \\times 3$ determinant with unit vectors $\\vec{i}, \\vec{j}, \\vec{k}$ in the first row and the components of $\\vec{u}$ and $\\vec{v}$ in the second and third rows respectively. This determinant framework is not magic \u2014 it is simply a mnemonic that organizes the three $2 \\times 2$ minors you need to evaluate, each one giving one component of the result.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\vec{i}\\begin{vmatrix}-1 & 3 \\\\ 4 & -2\\end{vmatrix} - \\vec{j}\\begin{vmatrix}2 & 3 \\\\ 1 & -2\\end{vmatrix} + \\vec{k}\\begin{vmatrix}2 & -1 \\\\ 1 & 4\\end{vmatrix}",
+      "description_latex": "Expanding along the first row, we pick out each unit vector and multiply it by the $2 \\times 2$ minor formed by deleting its column \u2014 and we must remember to attach a minus sign to the $\\vec{j}$ term because of the alternating sign pattern $+, -, +$ in cofactor expansion. This step is where the alternating sign is most often forgotten, so pause here and double-check before continuing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\vec{i}[(-1)(-2) - (3)(4)] - \\vec{j}[(2)(-2) - (3)(1)] + \\vec{k}[(2)(4) - (-1)(1)]",
+      "description_latex": "Now we evaluate each $2 \\times 2$ determinant using the formula $ad - bc$, being careful with the negative entries. Each minor captures a 'slice' of how $\\vec{u}$ and $\\vec{v}$ interact in a coordinate plane, and taking all three together gives the full 3D perpendicular vector.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\vec{i}[2 - 12] - \\vec{j}[-4 - 3] + \\vec{k}[8 + 1] = \\langle -10, 7, 9 \\rangle",
+      "description_latex": "After simplifying each bracket we collect the scalar coefficients into the final vector $\\langle -10, 7, 9 \\rangle$. As a quick sanity check, you can verify perpendicularity by computing $\\vec{u} \\cdot (\\vec{u} \\times \\vec{v})$ \u2014 it should equal zero, and indeed $2(-10) + (-1)(7) + 3(9) = -20 - 7 + 27 = 0$, confirming our answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\vec{a} = \\langle 1, 0, -2 \\rangle, \\quad \\vec{b} = \\langle 3, 1, 1 \\rangle; \\text{ find } \\vec{a} \\times \\vec{b}",
+      "description_latex": "We want to compute $\\vec{a} \\times \\vec{b}$ using the determinant method. Let's set up the $3 \\times 3$ determinant with $\\vec{i}, \\vec{j}, \\vec{k}$ in the first row and the components of $\\vec{a}$ and $\\vec{b}$ below.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\vec{a} \\times \\vec{b} = \\vec{i}\\begin{vmatrix}0 & -2 \\\\ 1 & 1\\end{vmatrix} - \\vec{j}\\begin{vmatrix}1 & -2 \\\\ 3 & 1\\end{vmatrix} + \\vec{k}\\begin{vmatrix}1 & 0 \\\\ 3 & 1\\end{vmatrix}",
+      "description_latex": "The determinant is already expanded here. Your job now is to evaluate each $2 \\times 2$ minor and simplify \u2014 remember the formula $ad - bc$ and watch the signs carefully, especially on the $\\vec{j}$ term which already carries a minus.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\vec{a} \\times \\vec{b} = \\langle 2, -7, 1 \\rangle",
+      "description_latex": "Once you have evaluated all three minors \u2014 $(0)(1)-(-2)(1) = 2$, $(1)(1)-(-2)(3) = 7$, and $(1)(1)-(0)(3) = 1$ \u2014 and applied the minus sign to the $\\vec{j}$ component, verify your answer makes sense by checking that $\\vec{a} \\cdot (\\vec{a} \\times \\vec{b}) = 0$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute $\\vec{u} \\times \\vec{v}$ where $\\vec{u} = \\langle 1, 0, 0 \\rangle$ and $\\vec{v} = \\langle 0, 1, 0 \\rangle$.",
+      "answer_latex": "\\langle 0, 0, 1 \\rangle"
+    },
+    {
+      "prompt_latex": "Find $\\vec{u} \\times \\vec{v}$ for $\\vec{u} = \\langle 3, -2, 1 \\rangle$ and $\\vec{v} = \\langle 0, 1, 4 \\rangle$.",
+      "answer_latex": "\\langle -9, -12, 3 \\rangle"
+    },
+    {
+      "prompt_latex": "Compute $\\vec{a} \\times \\vec{b}$ where $\\vec{a} = \\langle 2, 1, -3 \\rangle$ and $\\vec{b} = \\langle -1, 4, 2 \\rangle$, then verify the result is perpendicular to $\\vec{a}$.",
+      "answer_latex": "\\vec{a} \\times \\vec{b} = \\langle 14, -1, 9 \\rangle; \\quad \\vec{a} \\cdot (\\vec{a} \\times \\vec{b}) = 2(14) + 1(-1) + (-3)(9) = 28 - 1 - 27 = 0 \\checkmark"
+    },
+    {
+      "prompt_latex": "Find the area of the parallelogram with adjacent sides $\\vec{u} = \\langle 1, 3, -2 \\rangle$ and $\\vec{v} = \\langle 2, -1, 1 \\rangle$.",
+      "answer_latex": "|\\vec{u} \\times \\vec{v}| = |\\langle 1, -5, -7 \\rangle| = \\sqrt{1 + 25 + 49} = \\sqrt{75} = 5\\sqrt{3}"
+    },
+    {
+      "prompt_latex": "A wrench applies a force $\\vec{F} = \\langle 0, 0, 10 \\rangle$ newtons at the end of a position vector $\\vec{r} = \\langle 0.3, 0.4, 0 \\rangle$ meters from a bolt. Find the torque vector $\\vec{\\tau} = \\vec{r} \\times \\vec{F}$ and its magnitude.",
+      "answer_latex": "\\vec{\\tau} = \\langle 4, -3, 0 \\rangle \\text{ N\u00b7m}, \\quad |\\vec{\\tau}| = \\sqrt{16 + 9} = 5 \\text{ N\u00b7m}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget the alternating sign pattern and compute all three components with a plus sign, giving an incorrect $\\vec{j}$ component; always remember that the middle component gets a minus sign in front of its $2 \\times 2$ minor.",
+    "Students confuse the order of the vectors and compute $\\vec{v} \\times \\vec{u}$ instead of $\\vec{u} \\times \\vec{v}$, producing the correct magnitude but the wrong direction \u2014 the cross product is anticommutative, meaning $\\vec{v} \\times \\vec{u} = -(\\vec{u} \\times \\vec{v})$, so order always matters.",
+    "When extracting the $2 \\times 2$ minor for the $\\vec{k}$ component, students sometimes copy the wrong rows \u2014 they should delete the first row and third column, leaving rows two and three with columns one and two; writing out the full determinant before expanding prevents this mix-up."
+  ],
+  "untested_variants": [
+    "Using the cross product to find a unit normal vector to a plane defined by three points, which requires first forming two direction vectors from the points.",
+    "Applying the scalar triple product $\\vec{u} \\cdot (\\vec{v} \\times \\vec{w})$ to compute the volume of a parallelepiped or to test whether three vectors are coplanar.",
+    "Using the identity $|\\vec{u} \\times \\vec{v}| = |\\vec{u}||\\vec{v}|\\sin\\theta$ to find the angle between two vectors, as an alternative to the dot product formula.",
+    "Computing a cross product where one or both vectors are given in terms of symbolic parameters or unit vectors $\\vec{i}, \\vec{j}, \\vec{k}$ notation rather than component brackets, requiring students to translate between notations."
+  ]
+}

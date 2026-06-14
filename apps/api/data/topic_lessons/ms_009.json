@@ -1,0 +1,81 @@
+{
+  "topic_id": "ms_009",
+  "topic_name": "The Rao-Blackwell Theorem and UMVUE",
+  "generated_at": "2026-05-14T01:01:39.151324+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know that unbiased estimators are desirable, and you've seen that some unbiased estimators have smaller variance than others. Suppose you have an unbiased estimator $\\hat{\\theta}$ that 'wastes' information \u2014 it doesn't use all the structure in your data. You also know about sufficient statistics, which capture everything the data says about $\\theta$. So here is the puzzle: if you condition your estimator on a sufficient statistic, can you always do better, and how much better can you possibly do?",
+  "concept": "The Rao-Blackwell Theorem gives a systematic way to improve any unbiased estimator by conditioning it on a sufficient statistic. Informally, conditioning 'averages out' the randomness in your estimator that is irrelevant to $\\theta$, reducing variance without introducing bias. Formally: if $\\hat{\\theta}$ is an unbiased estimator of $\\theta$ and $T$ is a sufficient statistic for $\\theta$, then $\\tilde{\\theta} = E[\\hat{\\theta} \\mid T]$ is also unbiased and satisfies $\\text{Var}(\\tilde{\\theta}) \\leq \\text{Var}(\\hat{\\theta})$ for all $\\theta$, with equality only if $\\hat{\\theta}$ is already a function of $T$.",
+  "anatomy": "The theorem has four key components working together. The original estimator $\\hat{\\theta}$ is any unbiased estimator, possibly inefficient, that we start with. The sufficient statistic $T = T(X_1, \\ldots, X_n)$ is the data-compression that retains all information about $\\theta$ \u2014 its defining property is that the conditional distribution of the data given $T$ does not depend on $\\theta$. The Rao-Blackwellized estimator $\\tilde{\\theta} = E[\\hat{\\theta} \\mid T]$ is the improved estimator, formed by taking the conditional expectation of $\\hat{\\theta}$ given $T$, which is guaranteed to be a function of $T$ alone. Finally, a UMVUE (Uniformly Minimum Variance Unbiased Estimator) is the unique unbiased estimator achieving the lowest possible variance for every $\\theta$ simultaneously; when $T$ is also complete, the Rao-Blackwell procedure applied to any unbiased estimator yields the UMVUE.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, X_2 \\overset{\\text{iid}}{\\sim} \\text{Bernoulli}(p), \\quad \\hat{p} = X_1",
+      "description_latex": "We start with the simplest possible unbiased estimator of $p$: just the first observation $X_1$. You can verify it is unbiased since $E[X_1] = p$, but it clearly ignores the information in $X_2$, so it should be improvable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T = X_1 + X_2 \\text{ is sufficient for } p",
+      "description_latex": "Recall that the sum $T = X_1 + X_2$ is a sufficient statistic for $p$ in the Bernoulli model \u2014 this follows from the Factorization Theorem since the joint PMF factors as a function of $T$ times a function free of $p$. We will condition our estimator on this $T$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\tilde{p} = E[X_1 \\mid T] = E\\left[X_1 \\mid X_1 + X_2 = t\\right]",
+      "description_latex": "By symmetry between $X_1$ and $X_2$ (they are i.i.d.), we have $E[X_1 \\mid T] = E[X_2 \\mid T]$, and since $X_1 + X_2 = T$ we can write $E[X_1 \\mid T] + E[X_2 \\mid T] = T$, so each equals $T/2$. This is the key calculation that 'spreads' the information equally.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\tilde{p} = \\frac{T}{2} = \\frac{X_1 + X_2}{2} = \\bar{X}",
+      "description_latex": "The Rao-Blackwellized estimator is the sample mean $\\bar{X}$, which is exactly what we would intuitively choose. Its variance is $p(1-p)/2$, compared to $\\text{Var}(X_1) = p(1-p)$, confirming that conditioning halved the variance \u2014 a concrete demonstration of the theorem's power.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Poisson}(\\lambda). \\text{ Let } \\hat{\\lambda} = \\mathbf{1}(X_1 = 0) \\cdot (-1), \\text{ actually use } \\hat{g} = \\mathbf{1}(X_1 = 0) \\text{ as an unbiased estimator of } e^{-\\lambda}",
+      "description_latex": "We want the UMVUE of $e^{-\\lambda} = P(X = 0)$. A naive unbiased estimator is $\\hat{g} = \\mathbf{1}(X_1 = 0)$, since $E[\\mathbf{1}(X_1=0)] = e^{-\\lambda}$. The sufficient statistic for $\\lambda$ is $T = \\sum_{i=1}^n X_i$, and since $T \\sim \\text{Poisson}(n\\lambda)$ and the exponential family is complete, the Rao-Blackwell result will give us the UMVUE.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\tilde{g} = E\\left[\\mathbf{1}(X_1 = 0) \\mid T = t\\right] = P(X_1 = 0 \\mid T = t)",
+      "description_latex": "Now we need to compute this conditional probability. Given $T = \\sum_{i=1}^n X_i = t$, note that $X_1 \\mid T = t$ follows a Binomial distribution with parameters $t$ and $1/n$ (this is a standard result for Poisson random variables conditioning on their sum). Use this fact to evaluate $P(X_1 = 0 \\mid T = t)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\tilde{g} = \\left(1 - \\frac{1}{n}\\right)^T = \\left(\\frac{n-1}{n}\\right)^{\\sum_{i=1}^n X_i}",
+      "description_latex": "The result follows because $P(X_1 = 0 \\mid T = t) = \\binom{t}{0}(1/n)^0 (1-1/n)^t = ((n-1)/n)^t$. This is the UMVUE of $e^{-\\lambda}$ because $T$ is a complete sufficient statistic, and any function of a complete sufficient statistic that is unbiased must be the unique UMVUE by the Lehmann-Scheff\u00e9 Theorem.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X_1, X_2 \\overset{\\text{iid}}{\\sim} \\text{Bernoulli}(p)$. Verify that $\\tilde{p} = (X_1 + X_2)/2$ is unbiased for $p$ and compute $\\text{Var}(\\tilde{p})$.",
+      "answer_latex": "E[\\tilde{p}] = p; \\quad \\text{Var}(\\tilde{p}) = \\frac{p(1-p)}{2}"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Exponential}(\\lambda)$ with mean $1/\\lambda$. The sufficient statistic is $T = \\sum_{i=1}^n X_i$. Show that the sample mean $\\bar{X} = T/n$ is unbiased for $1/\\lambda$, and use the Rao-Blackwell Theorem to argue it is at least as good as the estimator $\\hat{\\theta} = X_1$.",
+      "answer_latex": "E[\\bar{X}] = 1/\\lambda; \\text{ since } \\bar{X} = T/n \\text{ is already a function of } T, \\text{ Rao-Blackwell gives } E[X_1 \\mid T] = T/n = \\bar{X}, \\text{ confirming } \\bar{X} \\text{ is the improved estimator with } \\text{Var}(\\bar{X}) = 1/(n\\lambda^2) \\leq 1/\\lambda^2 = \\text{Var}(X_1)"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Uniform}(0, \\theta)$. The sufficient statistic is $T = X_{(n)} = \\max_i X_i$. Given that $E[X_1] = \\theta/2$ (so $2X_1$ is unbiased), compute the Rao-Blackwellized estimator $E[2X_1 \\mid X_{(n)}]$ and verify it is unbiased.",
+      "answer_latex": "E[2X_1 \\mid X_{(n)} = t] = \\frac{(n+1)t}{n}; \\quad E\\!\\left[\\frac{(n+1)X_{(n)}}{n}\\right] = \\theta"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} N(\\mu, \\sigma^2)$ with $\\sigma^2$ known. The Cram\u00e9r-Rao lower bound for unbiased estimators of $\\mu$ is $\\sigma^2/n$. Show that $\\bar{X}$ achieves this bound and therefore is the UMVUE of $\\mu$.",
+      "answer_latex": "\\text{Var}(\\bar{X}) = \\sigma^2/n = \\text{CRLB}, \\text{ and } \\bar{X} \\text{ is unbiased and a function of the complete sufficient statistic } T = \\sum X_i, \\text{ so } \\bar{X} \\text{ is UMVUE by Lehmann-Scheff\u00e9}"
+    },
+    {
+      "prompt_latex": "A quality-control inspector randomly selects one item from a batch of $N$ items (unknown fraction $p$ defective) and records $X_1 = 1$ if defective. She repeats independently for $n$ items. Explain in words why $\\hat{p} = X_1$ (using only the first observation) is a valid but poor unbiased estimator, identify the sufficient statistic, and state what the UMVUE of $p$ is.",
+      "answer_latex": "\\hat{p} = X_1 \\text{ is unbiased but ignores } X_2, \\ldots, X_n; \\text{ the sufficient statistic is } T = \\sum_{i=1}^n X_i; \\text{ the UMVUE is } \\bar{X} = T/n"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to verify that the conditioning statistic is actually sufficient before applying the theorem. If $T$ is not sufficient, the conditional expectation $E[\\hat{\\theta} \\mid T]$ may no longer be unbiased, because the sufficiency condition is exactly what guarantees $E[E[\\hat{\\theta} \\mid T]] = E[\\hat{\\theta}] = \\theta$. Always confirm sufficiency via the Factorization Theorem first.",
+    "Students confuse the Rao-Blackwell Theorem with the Lehmann-Scheff\u00e9 Theorem, applying Rao-Blackwell and immediately claiming the result is the UMVUE. Rao-Blackwell only guarantees the improved estimator has variance no larger than the original; you need the sufficient statistic to also be complete (Lehmann-Scheff\u00e9) to conclude the resulting estimator is the unique UMVUE.",
+    "When computing $E[\\hat{\\theta} \\mid T]$, students sometimes treat the conditioning as if $\\hat{\\theta}$ and $T$ are independent, or forget that the result must be expressed as a function of $T$ alone. The whole point is that $E[\\hat{\\theta} \\mid T]$ depends on the data only through $T$; if your answer still contains individual $X_i$ that are not part of $T$, you have made an error in the conditional expectation calculation."
+  ],
+  "untested_variants": [
+    "Applying the Rao-Blackwell Theorem in a two-parameter exponential family (e.g., Normal with both $\\mu$ and $\\sigma^2$ unknown) where the sufficient statistic is a vector $(\\sum X_i, \\sum X_i^2)$.",
+    "Using completeness of the sufficient statistic to prove uniqueness of the UMVUE via Lehmann-Scheff\u00e9, particularly in cases where two different functions of $T$ are both unbiased and students must show they must be equal almost everywhere.",
+    "Constructing a UMVUE for a non-linear function of the parameter, such as finding the UMVUE of $\\lambda^2$ in a Poisson model or $p^2$ in a Binomial model, requiring careful computation of the conditional expectation.",
+    "Situations where no UMVUE exists because the parameter space is restricted or the estimand is not estimable, requiring students to recognize when the Rao-Blackwell improvement process cannot reach a minimum variance bound."
+  ]
+}

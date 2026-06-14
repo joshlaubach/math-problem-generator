@@ -1,0 +1,81 @@
+{
+  "topic_id": "c3_001",
+  "topic_name": "Coordinate Systems in Three Dimensions",
+  "generated_at": "2026-05-13T00:26:07.253030+00:00",
+  "course_name": "Calculus III",
+  "hook": "In two dimensions, you already know how to locate any point on a flat plane using an ordered pair $(x, y)$ measured along two perpendicular axes. But what happens when you need to describe the position of a drone flying through the air, or track a particle moving through a solid object? A flat plane simply cannot capture depth. How do we extend the familiar coordinate system to describe every point in three-dimensional space?",
+  "concept": "Three-dimensional Cartesian coordinates assign to every point in space an ordered triple $(x, y, z)$, where each number measures a signed distance along one of three mutually perpendicular axes. Formally, 3D space is defined as $\\mathbb{R}^3 = \\{(x, y, z) \\mid x, y, z \\in \\mathbb{R}\\}$, with the $x$-, $y$-, and $z$-axes meeting at the origin $O = (0, 0, 0)$. The distance between any two points $P_1 = (x_1, y_1, z_1)$ and $P_2 = (x_2, y_2, z_2)$ is $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2}$.",
+  "anatomy": "The three-dimensional coordinate system has several distinct structural parts worth naming carefully. The three coordinate axes are the $x$-axis (pointing right), the $y$-axis (pointing forward or into the page), and the $z$-axis (pointing up), all intersecting at the origin. The three coordinate planes are the $xy$-plane ($z = 0$), the $xz$-plane ($y = 0$), and the $yz$-plane ($x = 0$); these planes divide all of $\\mathbb{R}^3$ into eight regions called octants. Each component of the ordered triple $(x, y, z)$ is the signed projection of the point onto its respective axis, and the right-hand rule determines the positive orientation of the axes.",
+  "worked_example": [
+    {
+      "expression_latex": "P_1 = (1, 3, -2), \\quad P_2 = (4, -1, 2)",
+      "description_latex": "We are given two points in 3D space and want to find the distance between them. Before plugging into any formula, it helps to identify the coordinates clearly: $x_1 = 1, y_1 = 3, z_1 = -2$ and $x_2 = 4, y_2 = -1, z_2 = 2$. Notice that $z_1$ is negative, which simply means $P_1$ lies below the $xy$-plane.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2 + (z_2 - z_1)^2}",
+      "description_latex": "We write the 3D distance formula, which is a direct generalization of the 2D distance formula \u2014 we simply include a third squared difference for the $z$-coordinates. This works because the three coordinate differences form the legs of a right triangle in each pair of dimensions, and we are applying the Pythagorean theorem twice in succession.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d = \\sqrt{(4-1)^2 + (-1-3)^2 + (2-(-2))^2} = \\sqrt{9 + 16 + 16}",
+      "description_latex": "Substituting the coordinates, we compute each difference: $4 - 1 = 3$, $-1 - 3 = -4$, and $2 - (-2) = 4$. Squaring each gives $9$, $16$, and $16$ respectively. Notice that squaring eliminates the sign on $-4$, so negative differences cause no problem as long as we square them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d = \\sqrt{41}",
+      "description_latex": "Adding the squared differences gives $9 + 16 + 16 = 41$, and since $41$ has no perfect-square factors, the exact distance is $\\sqrt{41}$. This is approximately $6.40$ units. It is almost always preferable in Calculus III to leave answers in exact radical form unless the problem specifically asks for a decimal approximation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P_1 = (0, -2, 5), \\quad P_2 = (3, 1, -1)",
+      "description_latex": "We want to find the distance between these two points. Start by identifying the coordinate differences: $x_2 - x_1 = 3 - 0 = 3$, $y_2 - y_1 = 1 - (-2) = 3$, and $z_2 - z_1 = -1 - 5 = -6$. Notice how subtracting a negative in the $y$-difference adds, while the $z$-difference is negative \u2014 both are handled correctly by squaring.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d = \\sqrt{(3)^2 + (3)^2 + (-6)^2}",
+      "description_latex": "We now substitute the three coordinate differences into the distance formula. Go ahead and square each term and add them together \u2014 what value do you get under the radical?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "d = \\sqrt{54} = 3\\sqrt{6}",
+      "description_latex": "Squaring gives $9 + 9 + 36 = 54$, and we simplify $\\sqrt{54} = \\sqrt{9 \\cdot 6} = 3\\sqrt{6}$. Simplifying radicals like this is an expected part of a clean final answer in this course.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Plot and identify which octant the point $P = (-3, 2, 5)$ lies in.",
+      "answer_latex": "P$ lies in the second octant (where $x < 0$, $y > 0$, $z > 0$)"
+    },
+    {
+      "prompt_latex": "Find the distance between $A = (0, 0, 0)$ and $B = (2, 3, 6)$.",
+      "answer_latex": "d = \\sqrt{4 + 9 + 36} = \\sqrt{49} = 7"
+    },
+    {
+      "prompt_latex": "Find the distance between $P = (-1, 4, 2)$ and $Q = (3, 0, -2)$.",
+      "answer_latex": "d = \\sqrt{16 + 16 + 16} = \\sqrt{48} = 4\\sqrt{3}"
+    },
+    {
+      "prompt_latex": "Find the equation of a sphere centered at $C = (2, -1, 3)$ that passes through the origin $O = (0, 0, 0)$.",
+      "answer_latex": "(x-2)^2 + (y+1)^2 + (z-3)^2 = 14"
+    },
+    {
+      "prompt_latex": "A drone starts at position $(10, 0, 5)$ meters and flies to $(4, 8, 9)$ meters. How far did the drone travel in a straight line?",
+      "answer_latex": "d = \\sqrt{36 + 64 + 16} = \\sqrt{116} = 2\\sqrt{29} \\approx 10.77 \\text{ meters}"
+    }
+  ],
+  "common_mistakes": [
+    "Students frequently forget to square the $z$-difference and instead write $d = \\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2 + (z_2-z_1)}$, leaving the third term unsquared. The fix: every term inside the radical must be a squared difference \u2014 if any term looks different from the others, something is wrong.",
+    "When a coordinate is negative, students often subtract incorrectly, for example writing $2 - (-2) = 0$ instead of $4$. This sign error changes the distance entirely. The fix: rewrite $z_2 - z_1$ as $2 - (-2)$ explicitly, then simplify step by step rather than doing it mentally.",
+    "Students sometimes confuse the coordinate planes by thinking $z = 0$ is a line rather than a plane in 3D space, leading to errors when describing where a point lies or when equations involve only two variables. The fix: remember that in $\\mathbb{R}^3$ any equation missing one variable (like $z = 0$) describes an entire plane, not a line, because the missing variable is free to take any value."
+  ],
+  "untested_variants": [
+    "Finding the midpoint of a segment in 3D space using the midpoint formula $M = \\left(\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2}, \\frac{z_1+z_2}{2}\\right)$.",
+    "Identifying or sketching the graph of equations like $x = 3$ or $y = -2$ as planes in $\\mathbb{R}^3$ rather than lines.",
+    "Expanding and completing the square to rewrite a general second-degree equation $x^2 + y^2 + z^2 + Dx + Ey + Fz + G = 0$ in standard sphere form.",
+    "Using the distance formula to prove that three given points are collinear or form a right triangle in 3D space."
+  ]
+}

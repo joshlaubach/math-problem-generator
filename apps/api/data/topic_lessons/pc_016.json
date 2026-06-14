@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_016",
+  "topic_name": "The Natural Exponential Function",
+  "generated_at": "2026-05-12T23:44:37.560849+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to work with exponential functions like $f(x) = 2^x$ or $f(x) = 10^x$, where you pick a base and raise it to a power. But mathematicians discovered one particular base that shows up constantly in nature, finance, and science \u2014 a base so special it gets its own letter. The catch? This base is an irrational number you can't write as a simple fraction. What is this mysterious constant, and why does the function $f(x) = e^x$ behave so differently from any exponential you've seen before?",
+  "concept": "The natural exponential function is the exponential function whose base is Euler's number, $e \\approx 2.71828...$, an irrational constant defined as $e = \\lim_{n \\to \\infty}\\left(1 + \\frac{1}{n}\\right)^n$. In plain English, $e$ is the number that a dollar grows toward when interest compounds infinitely many times per year. The function is written $f(x) = e^x$, and it is the unique exponential function that is its own rate of change \u2014 a property that makes it indispensable across all of mathematics.",
+  "anatomy": "The natural exponential function $f(x) = e^x$ has three key components. The base is $e \\approx 2.71828$, a fixed irrational constant \u2014 not a variable. The exponent $x$ is the independent variable and can be any real number, including negative values, fractions, or algebraic expressions. In a transformed version such as $f(x) = A e^{kx}$, the coefficient $A$ scales the output (vertical stretch or reflection) and $k$ controls the rate of growth or decay \u2014 when $k > 0$ the function grows, and when $k < 0$ it decays.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = e^x, \\quad \\text{evaluate } f(2)",
+      "description_latex": "We want to evaluate the natural exponential function at $x = 2$, which means we substitute $2$ into the exponent. This is no different from evaluating $2^2$, except our base is $e$ instead of $2$. We write $f(2) = e^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(2) = e^2 \\approx 7.389",
+      "description_latex": "Using a calculator, $e^2 \\approx 7.389$. Notice that the output is positive, which will always be the case for $e^x$ \u2014 since $e > 0$, raising it to any real power never produces a zero or negative result. This confirms the range of $f(x) = e^x$ is $(0, \\infty)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(x) = 3e^{2x}, \\quad \\text{evaluate } g(0)",
+      "description_latex": "Now we evaluate a scaled and stretched version of the natural exponential at $x = 0$. We substitute $0$ for $x$, giving $g(0) = 3e^{2(0)} = 3e^{0}$. Remember that any nonzero number raised to the $0$ power equals $1$, and $e$ is no exception.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(0) = 3e^{0} = 3 \\cdot 1 = 3",
+      "description_latex": "Since $e^0 = 1$, the expression simplifies cleanly to $3$. This illustrates the general rule: for any function of the form $f(x) = Ae^{kx}$, the $y$-intercept is always $A$, because $e^{k \\cdot 0} = 1$ regardless of the value of $k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h(x) = e^{-x}, \\quad \\text{describe behavior as } x \\to \\infty",
+      "description_latex": "When the exponent is $-x$, as $x$ grows larger the exponent becomes a large negative number, so $e^{-x}$ approaches $0$ from above \u2014 this is exponential decay. The graph still has a horizontal asymptote at $y = 0$, the function is still always positive, but instead of growing without bound it shrinks toward zero. This is the mirror image of $e^x$ reflected across the $y$-axis.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = 5e^{3x}, \\quad \\text{evaluate } f(1)",
+      "description_latex": "We are evaluating the natural exponential function with a coefficient and a stretched exponent at $x = 1$. Start by substituting $x = 1$ into the expression: $f(1) = 5e^{3(1)} = 5e^3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(1) = 5e^3 \\approx \\ ?",
+      "description_latex": "Now use your calculator to find a decimal approximation for $e^3$, then multiply by $5$. What is $f(1)$ rounded to three decimal places?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f(1) = 5e^3 \\approx 5(20.086) \\approx 100.428",
+      "description_latex": "Since $e^3 \\approx 20.086$, multiplying by $5$ gives approximately $100.428$. Notice how rapidly $e^{3x}$ grows compared to plain $e^x$ \u2014 the coefficient $3$ in the exponent dramatically accelerates the rate of growth.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $f(x) = e^x$ at $x = 0$.",
+      "answer_latex": "f(0) = e^0 = 1"
+    },
+    {
+      "prompt_latex": "Evaluate $g(x) = 4e^x$ at $x = 1$. Round to three decimal places.",
+      "answer_latex": "g(1) = 4e^1 = 4e \\approx 10.873"
+    },
+    {
+      "prompt_latex": "Evaluate $h(x) = e^{-2x}$ at $x = 1$. Round to three decimal places.",
+      "answer_latex": "h(1) = e^{-2} \\approx 0.135"
+    },
+    {
+      "prompt_latex": "The function $f(x) = e^x$ passes through the point $(0, 1)$. Find the $y$-intercept of $g(x) = 7e^{5x} - 3$ and identify whether $g$ represents growth or decay.",
+      "answer_latex": "y\\text{-intercept}: g(0) = 7e^{0} - 3 = 7(1) - 3 = 4; \\text{ since } k = 5 > 0, \\text{ it represents exponential growth.}"
+    },
+    {
+      "prompt_latex": "A population is modeled by $P(t) = 200e^{0.04t}$, where $t$ is time in years. What is the initial population (at $t = 0$), and what is the population after $10$ years? Round to the nearest whole number.",
+      "answer_latex": "P(0) = 200e^{0} = 200; \\quad P(10) = 200e^{0.4} \\approx 200(1.4918) \\approx 298"
+    }
+  ],
+  "common_mistakes": [
+    "Students treat $e$ as a variable and try to simplify expressions like $e^2 + e^3$ into $e^5$ by adding exponents \u2014 this is wrong because $e$ is a constant base, not a variable, so $e^2 + e^3$ cannot be combined and only multiplied terms share exponents: $e^2 \\cdot e^3 = e^5$.",
+    "When evaluating $f(x) = Ae^{kx}$ at $x = 0$, students sometimes write $A \\cdot e^k$ instead of $A \\cdot e^0 = A$, forgetting to substitute $x = 0$ into the entire exponent $kx$, not just $x$ alone. Always replace the full exponent expression with $k(0) = 0$ first.",
+    "Students confuse $e^{-x}$ with $-e^x$, thinking the negative sign makes the function produce negative outputs \u2014 but $e^{-x}$ is always positive (it equals $\\frac{1}{e^x}$), whereas $-e^x$ is always negative. A negative exponent creates exponential decay toward zero, not a reflection below the $x$-axis."
+  ],
+  "untested_variants": [
+    "Graphing transformations of $f(x) = e^x$ such as $f(x) = e^{x-2} + 3$, identifying the horizontal and vertical shifts and the equation of the horizontal asymptote.",
+    "Solving equations involving $e^x$ that require applying the natural logarithm to both sides, for example solving $e^{2x} = 7$ for $x$.",
+    "Compound interest problems using the continuous compounding formula $A = Pe^{rt}$ where students must solve for the rate $r$ or the time $t$ given the other quantities.",
+    "Comparing the graphs of $e^x$, $2^x$, and $3^x$ on the same axes and explaining why $e^x$ lies between the other two for $x > 0$."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "c2_003",
+  "topic_name": "Trigonometric Integrals",
+  "generated_at": "2026-05-13T00:17:17.347213+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to integrate basic functions like $x^n$ and $e^x$, and you've seen how substitution can simplify certain integrals. But what happens when you face something like $\\int \\sin^5(x)\\cos^2(x)\\,dx$? Neither a simple substitution nor a standard formula handles this directly. The key turns out to be using Pythagorean identities to strategically rewrite the integrand \u2014 but knowing exactly which identity to apply, and when, is the challenge. How do you systematically break apart products of sines and cosines so that integration becomes possible?",
+  "concept": "Trigonometric integrals are integrals involving products (and powers) of trigonometric functions. The core idea is to use identities \u2014 especially $\\sin^2(x)+\\cos^2(x)=1$, half-angle formulas, and double-angle formulas \u2014 to rewrite the integrand into a form that is directly integrable. Formally, we focus on $\\int \\sin^m(x)\\cos^n(x)\\,dx$ and $\\int \\tan^m(x)\\sec^n(x)\\,dx$, where $m$ and $n$ are non-negative integers.",
+  "anatomy": "In an integral like $\\int \\sin^m(x)\\cos^n(x)\\,dx$, there are four key structural parts to identify: the exponent $m$ on sine, the exponent $n$ on cosine, the parity (odd or even) of each exponent \u2014 which determines the strategy \u2014 and the identity used to peel off a factor. When one exponent is odd, you reserve one factor (e.g., $\\cos(x)\\,dx$) for the substitution $u=\\sin(x)$, and convert the remaining even power using $\\cos^2(x)=1-\\sin^2(x)$. When both exponents are even, you use the half-angle identities $\\sin^2(x)=\\frac{1-\\cos(2x)}{2}$ and $\\cos^2(x)=\\frac{1+\\cos(2x)}{2}$ to reduce powers.",
+  "worked_example": [
+    {
+      "expression_latex": "\\int \\sin^3(x)\\cos^2(x)\\,dx",
+      "description_latex": "We begin by identifying the structure: $m=3$ (odd) and $n=2$ (even). Because the sine exponent is odd, our strategy is to peel off one factor of $\\sin(x)$ to pair with $dx$, and rewrite the remaining $\\sin^2(x)$ using the Pythagorean identity $\\sin^2(x)=1-\\cos^2(x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int \\sin^2(x)\\cos^2(x)\\cdot\\sin(x)\\,dx = \\int (1-\\cos^2(x))\\cos^2(x)\\sin(x)\\,dx",
+      "description_latex": "We rewrite $\\sin^3(x)$ as $\\sin^2(x)\\cdot\\sin(x)$ and substitute $\\sin^2(x)=1-\\cos^2(x)$, giving us $(1-\\cos^2(x))\\cos^2(x)\\sin(x)\\,dx$. The entire integrand now depends only on $\\cos(x)$ and the leftover $\\sin(x)\\,dx$, which is exactly the derivative we need for substitution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u = \\cos(x),\\quad du = -\\sin(x)\\,dx \\implies \\int (1-u^2)u^2(-du) = -\\int(u^2 - u^4)\\,du",
+      "description_latex": "We let $u=\\cos(x)$, so $du=-\\sin(x)\\,dx$, which means $\\sin(x)\\,dx=-du$. This substitution transforms the integral into a pure polynomial in $u$, which is straightforward to integrate term by term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-\\int(u^2 - u^4)\\,du = -\\left(\\frac{u^3}{3} - \\frac{u^5}{5}\\right) + C",
+      "description_latex": "We integrate term by term using the power rule: $\\int u^2\\,du = \\frac{u^3}{3}$ and $\\int u^4\\,du = \\frac{u^5}{5}$. Distributing the negative sign gives us $-\\frac{u^3}{3}+\\frac{u^5}{5}+C$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-\\frac{\\cos^3(x)}{3} + \\frac{\\cos^5(x)}{5} + C",
+      "description_latex": "Finally, we substitute back $u=\\cos(x)$ to express the answer in terms of the original variable $x$. Always remember to back-substitute at the end \u2014 leaving the answer in terms of $u$ is incomplete.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\int \\sin^2(x)\\cos^2(x)\\,dx",
+      "description_latex": "Both exponents are even ($m=2$, $n=2$), so we cannot use the odd-exponent substitution strategy. Instead, we apply the half-angle identities $\\sin^2(x)=\\frac{1-\\cos(2x)}{2}$ and $\\cos^2(x)=\\frac{1+\\cos(2x)}{2}$ to reduce powers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int \\frac{1-\\cos(2x)}{2}\\cdot\\frac{1+\\cos(2x)}{2}\\,dx = \\frac{1}{4}\\int (1-\\cos^2(2x))\\,dx",
+      "description_latex": "After substituting the half-angle identities, we multiply out the numerators: $(1-\\cos(2x))(1+\\cos(2x)) = 1-\\cos^2(2x)$, which is a difference of squares. This simplifies the product nicely and pulls the constant $\\frac{1}{4}$ out front.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Notice that $1-\\cos^2(2x)=\\sin^2(2x)$, so the integral becomes $\\frac{1}{4}\\int\\sin^2(2x)\\,dx$. Now apply the half-angle identity once more to $\\sin^2(2x)$ by writing it as $\\frac{1-\\cos(4x)}{2}$, then integrate term by term. What is the final answer?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\int \\cos^3(x)\\,dx",
+      "answer_latex": "\\sin(x) - \\frac{\\sin^3(x)}{3} + C"
+    },
+    {
+      "prompt_latex": "\\int \\sin^2(x)\\,dx",
+      "answer_latex": "\\frac{x}{2} - \\frac{\\sin(2x)}{4} + C"
+    },
+    {
+      "prompt_latex": "\\int \\sin^3(x)\\cos^3(x)\\,dx",
+      "answer_latex": "\\frac{\\cos^4(x)}{4} - \\frac{\\cos^6(x)}{6} + C"
+    },
+    {
+      "prompt_latex": "\\int_0^{\\pi/2} \\sin^4(x)\\cos^2(x)\\,dx",
+      "answer_latex": "\\frac{\\pi}{32}"
+    },
+    {
+      "prompt_latex": "A particle's velocity is given by $v(t)=\\sin^2(t)\\cos^2(t)$ m/s. Find the total distance traveled from $t=0$ to $t=\\pi$.",
+      "answer_latex": "\\frac{\\pi}{8} \\text{ meters}"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes apply the odd-exponent strategy even when both exponents are even, trying to peel off a $\\sin(x)$ factor and substitute $u=\\cos(x)$ \u2014 this fails because $\\sin^{2k}(x)$ cannot be converted cleanly via the Pythagorean identity without a leftover odd power. Fix: always check parity of both exponents first, and use half-angle identities when both are even.",
+    "When using the substitution $u=\\cos(x)$, students frequently forget that $du=-\\sin(x)\\,dx$, writing $du=\\sin(x)\\,dx$ instead and losing the negative sign. This sign error propagates through the entire integral and produces a wrong final answer. Fix: explicitly write $du=-\\sin(x)\\,dx$ and note the sign change before substituting.",
+    "After using the half-angle identity $\\sin^2(x)=\\frac{1-\\cos(2x)}{2}$, students sometimes integrate $\\cos(2x)$ as $\\sin(2x)$ without applying the chain rule, forgetting the factor of $\\frac{1}{2}$ from the inner derivative. Fix: remember that $\\int\\cos(2x)\\,dx=\\frac{\\sin(2x)}{2}+C$, accounting for the factor of 2 in the argument."
+  ],
+  "untested_variants": [
+    "Integrals of the form $\\int\\tan^m(x)\\sec^n(x)\\,dx$, which require a separate case analysis based on the parity of $n$ and the value of $m$, using the identity $\\tan^2(x)=\\sec^2(x)-1$.",
+    "Integrals involving products of sines and cosines with different arguments, such as $\\int\\sin(3x)\\cos(5x)\\,dx$, which require the product-to-sum identities rather than Pythagorean or half-angle identities.",
+    "Integrals of $\\int\\tan^n(x)\\,dx$ or $\\int\\sec^n(x)\\,dx$ in isolation (e.g., $\\int\\sec^3(x)\\,dx$), which require integration by parts combined with trigonometric identities.",
+    "Trigonometric integrals that arise as part of a trigonometric substitution problem, where $x=a\\sin(\\theta)$ or $x=a\\tan(\\theta)$ transforms an algebraic integral into a trigonometric one that must then be evaluated using the techniques from this lesson."
+  ]
+}

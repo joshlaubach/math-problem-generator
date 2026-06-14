@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_066",
+  "topic_name": "Expected Value (H)",
+  "generated_at": "2026-05-12T23:36:27.951157+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to find the average of a data set by adding values and dividing by how many there are. But what if different outcomes don't happen equally often \u2014 what if rolling a 6 on a die earns you $10, while rolling anything else loses you $2, and you want to know what you'd 'average' per roll over many tries? Simple averaging doesn't account for how likely each outcome is. So how do we find the long-run average when probabilities are unequal?",
+  "concept": "Expected value is the long-run average outcome of a random process if you repeated it many times. In plain English, you weight each possible outcome by how likely it is, then add everything up. Formally, if outcomes $x_1, x_2, \\ldots, x_n$ have probabilities $P(x_1), P(x_2), \\ldots, P(x_n)$, the expected value is $E(X) = x_1 \\cdot P(x_1) + x_2 \\cdot P(x_2) + \\cdots + x_n \\cdot P(x_n)$.",
+  "anatomy": "Every expected value calculation has three structural parts. First, the outcomes $x_i$ \u2014 these are the specific numerical values the random variable $X$ can take (such as dollar amounts, point values, or counts). Second, the probabilities $P(x_i)$ \u2014 each outcome's probability, which must satisfy $0 \\le P(x_i) \\le 1$ and all probabilities must sum to exactly $1$. Third, the weighted products $x_i \\cdot P(x_i)$ \u2014 each outcome multiplied by its own probability, capturing that outcome's 'contribution' to the long-run average. The expected value $E(X)$ is the sum of all those weighted products.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Outcomes: } +\\$10 \\text{ (roll a 6)}, \\; -\\$2 \\text{ (roll 1\u20135)}",
+      "description_latex": "We start by clearly listing every possible outcome and its numerical value. Here, rolling a 6 earns $10 and rolling anything else loses $2, so our two outcomes are $+10$ and $-2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\$10) = \\frac{1}{6}, \\quad P(-\\$2) = \\frac{5}{6}",
+      "description_latex": "Next we assign a probability to each outcome. A fair die has 6 equally likely faces, so rolling a 6 has probability $\\frac{1}{6}$ and rolling any of the other five faces has probability $\\frac{5}{6}$. Notice these add to $1$, which is always required.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E(X) = (10)\\left(\\frac{1}{6}\\right) + (-2)\\left(\\frac{5}{6}\\right)",
+      "description_latex": "Now we apply the expected value formula by multiplying each outcome by its probability and writing the sum. This is the core step: every outcome gets weighted by how often it occurs, so common outcomes pull the average more than rare ones.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E(X) = \\frac{10}{6} + \\left(-\\frac{10}{6}\\right) = \\frac{0}{6} = 0",
+      "description_latex": "We simplify each product and add them together. The expected value is $0$, meaning that over many rolls you'd break even on average \u2014 this game is perfectly fair in the long run.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Outcomes: } +\\$5 \\text{ (heads)}, \\; -\\$3 \\text{ (tails)}; \\quad P(\\text{heads}) = 0.5, \\; P(\\text{tails}) = 0.5",
+      "description_latex": "A coin is flipped: heads wins $5 and tails loses $3. We have already identified the two outcomes and their probabilities. Both probabilities are $0.5$ and they sum to $1$, so we are ready to apply the formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E(X) = (5)(0.5) + (-3)(0.5)",
+      "description_latex": "We write out the expected value formula, substituting each outcome and its corresponding probability. Each term is an outcome times its own probability \u2014 make sure the negative sign stays with $-3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now simplify each product and add the results to find $E(X)$. What is the expected value of one coin flip in this game, and what does it tell you about whether you should play?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A spinner has two sections: land on red and win $4$ (probability $0.5$); land on blue and win $0$ (probability $0.5$). Find $E(X)$.",
+      "answer_latex": "E(X) = \\$2"
+    },
+    {
+      "prompt_latex": "A raffle ticket costs $\\$3$. You win $\\$20$ with probability $0.1$ and win nothing with probability $0.9$. Let $X$ be your net gain. Find $E(X)$.",
+      "answer_latex": "E(X) = -\\$1"
+    },
+    {
+      "prompt_latex": "A game pays out according to the table: $X = 1$ with $P = 0.2$, $X = 3$ with $P = 0.5$, $X = 10$ with $P = 0.3$. Find $E(X)$.",
+      "answer_latex": "E(X) = 4.7"
+    },
+    {
+      "prompt_latex": "An insurance company charges $\\$200$ for a policy. The company pays out $\\$5000$ with probability $0.03$ and $\\$0$ with probability $0.97$. Find the expected profit per policy for the company.",
+      "answer_latex": "\\$50 \\text{ expected profit per policy}"
+    },
+    {
+      "prompt_latex": "You roll a standard six-sided die. You win $\\$n$ if you roll $n$, where $n \\in \\{1,2,3,4,5,6\\}$ and each face is equally likely. Find $E(X)$.",
+      "answer_latex": "E(X) = \\$3.50"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to assign a negative sign to losses and treat all outcomes as positive, which inflates the expected value. Always check: if an outcome represents losing money or a penalty, its $x_i$ value must be negative before multiplying by the probability.",
+    "Students use raw counts (like '3 out of 10') instead of converting to probabilities first, then try to divide at the end. Each $x_i$ must be multiplied by its probability $P(x_i)$ as a decimal or fraction \u2014 dividing by $n$ at the end only works when all outcomes are equally likely.",
+    "Students check that the outcome values sum to 1 instead of verifying that the probabilities sum to 1. It is the probabilities $P(x_i)$ that must add to exactly $1$; the outcomes $x_i$ can be any real numbers and have no such requirement."
+  ],
+  "untested_variants": [
+    "Expected value of a discrete random variable given in a formal probability distribution table where one probability is left as an unknown variable and must be solved for before computing $E(X)$.",
+    "Comparing two different games or investments by computing each expected value and using the comparison to make a decision (multi-scenario expected value comparison problems).",
+    "Expected value problems involving geometric or binomial distributions, where probabilities are generated by a formula rather than listed explicitly.",
+    "Problems where expected value is set equal to zero (fair game condition) and students must solve for an unknown payout or ticket price."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_029",
+  "topic_name": "Kernel and Image",
+  "generated_at": "2026-05-13T20:07:31.531160+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to multiply a matrix by a vector, and you understand that a matrix $A$ defines a linear transformation $T(\\mathbf{x}) = A\\mathbf{x}$. You can find specific outputs like $T(\\mathbf{v})$ for a given $\\mathbf{v}$. But here's the deeper question: which inputs get sent to the zero vector, and which vectors can possibly appear as outputs? Answering these questions unlocks everything about the structure of a linear transformation \u2014 can you figure out what those two sets are called and how to find them?",
+  "concept": "The kernel (or null space) of a linear transformation $T: V \\to W$ is the set of all input vectors that $T$ maps to the zero vector: $\\ker(T) = \\{\\mathbf{v} \\in V : T(\\mathbf{v}) = \\mathbf{0}\\}$. The image (or range) is the set of all possible outputs: $\\text{im}(T) = \\{T(\\mathbf{v}) : \\mathbf{v} \\in V\\}$. Both are subspaces \u2014 the kernel lives in the domain, the image lives in the codomain.",
+  "anatomy": "For a transformation $T: \\mathbb{R}^n \\to \\mathbb{R}^m$ given by $T(\\mathbf{x}) = A\\mathbf{x}$, there are four key components to track. The domain $\\mathbb{R}^n$ is where your inputs live. The codomain $\\mathbb{R}^m$ is the space where outputs land. The kernel, $\\ker(T) = \\text{null}(A)$, is found by solving the homogeneous system $A\\mathbf{x} = \\mathbf{0}$ and its dimension is called the nullity. The image, $\\text{im}(T) = \\text{col}(A)$, is the column space of $A$ \u2014 spanned by the columns of $A$ that correspond to pivot columns in row-reduced form \u2014 and its dimension is the rank.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\end{pmatrix}, \\quad T(\\mathbf{x}) = A\\mathbf{x}",
+      "description_latex": "We are given the matrix $A$ defining our transformation $T: \\mathbb{R}^3 \\to \\mathbb{R}^2$. Our goal is to find both the kernel and the image, so we'll treat these as two separate but related tasks \u2014 both flow naturally from row-reducing $A$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Row reduce } A: \\quad \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\end{pmatrix} \\xrightarrow{R_2 - 2R_1} \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "We row-reduce $A$ to find pivot positions. There is only one pivot (in column 1), which tells us the rank is 1 and there are two free variables ($x_2$ and $x_3$). This single row-reduction step gives us everything we need for both the kernel and the image.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ker(T): \\quad x_1 = -2x_2 - 3x_3, \\text{ so } \\mathbf{x} = x_2\\begin{pmatrix}-2\\\\1\\\\0\\end{pmatrix} + x_3\\begin{pmatrix}-3\\\\0\\\\1\\end{pmatrix}",
+      "description_latex": "To find the kernel, we solve $A\\mathbf{x} = \\mathbf{0}$. The reduced system gives $x_1 = -2x_2 - 3x_3$ with $x_2, x_3$ free, so we parametrize the solution. Writing the general solution as a linear combination of two vectors gives us a basis for the kernel.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ker(T) = \\text{span}\\left\\{\\begin{pmatrix}-2\\\\1\\\\0\\end{pmatrix},\\ \\begin{pmatrix}-3\\\\0\\\\1\\end{pmatrix}\\right\\}, \\quad \\text{nullity}(T) = 2",
+      "description_latex": "The kernel is a 2-dimensional subspace of $\\mathbb{R}^3$, spanned by the two vectors we found. The nullity (dimension of the kernel) equals the number of free variables, which is 2. Notice this makes intuitive sense: two degrees of freedom in the input get collapsed to zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{im}(T) = \\text{col}(A) = \\text{span}\\left\\{\\begin{pmatrix}1\\\\2\\end{pmatrix}\\right\\}, \\quad \\text{rank}(T) = 1",
+      "description_latex": "The image is spanned by the pivot columns of $A$ (not the row-reduced form \u2014 use the original columns corresponding to pivot positions). There is only one pivot column, column 1, so the image is a 1-dimensional subspace of $\\mathbb{R}^2$. As a check: rank + nullity $= 1 + 2 = 3 = n$, confirming the Rank-Nullity Theorem.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 1 & 0 & -1 \\\\ 0 & 1 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "We are given the matrix $B$ (already row-reduced) defining $T: \\mathbb{R}^3 \\to \\mathbb{R}^3$. Since $B$ is already in reduced row echelon form, we can read off the pivot columns immediately \u2014 columns 1 and 2 are pivot columns, and $x_3$ is the free variable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ker(T): \\quad x_1 = x_3,\\ x_2 = -2x_3 \\implies \\mathbf{x} = x_3\\begin{pmatrix}1\\\\-2\\\\1\\end{pmatrix}",
+      "description_latex": "From the pivot rows, we back-substitute: $x_1 - x_3 = 0$ gives $x_1 = x_3$, and $x_2 + 2x_3 = 0$ gives $x_2 = -2x_3$. So the kernel is spanned by the single vector shown above, giving nullity 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find the image of $T$. Remember: the image equals the span of the pivot columns of the ORIGINAL matrix $B$. Which columns are the pivot columns, and what is a basis for $\\text{im}(T)$? Write the answer as $\\text{im}(T) = \\text{span}\\{\\ldots\\}$ and state the rank.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $T: \\mathbb{R}^2 \\to \\mathbb{R}^2$ be defined by $T(\\mathbf{x}) = A\\mathbf{x}$ where $A = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$. Find $\\ker(T)$ and $\\text{im}(T)$.",
+      "answer_latex": "\\ker(T) = \\{\\mathbf{0}\\},\\ \\text{im}(T) = \\mathbb{R}^2"
+    },
+    {
+      "prompt_latex": "Find a basis for the kernel and image of $T(\\mathbf{x}) = A\\mathbf{x}$ where $A = \\begin{pmatrix} 2 & -4 \\\\ -1 & 2 \\end{pmatrix}$.",
+      "answer_latex": "\\ker(T) = \\text{span}\\left\\{\\begin{pmatrix}2\\\\1\\end{pmatrix}\\right\\},\\ \\text{im}(T) = \\text{span}\\left\\{\\begin{pmatrix}2\\\\-1\\end{pmatrix}\\right\\}"
+    },
+    {
+      "prompt_latex": "For $A = \\begin{pmatrix} 1 & 2 & 0 \\\\ 0 & 0 & 1 \\\\ 1 & 2 & 1 \\end{pmatrix}$, find $\\ker(T)$, $\\text{im}(T)$, and verify the Rank-Nullity Theorem.",
+      "answer_latex": "\\ker(T) = \\text{span}\\left\\{\\begin{pmatrix}-2\\\\1\\\\0\\end{pmatrix}\\right\\},\\ \\text{im}(T) = \\text{span}\\left\\{\\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix},\\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix}\\right\\};\\ \\text{rank } 2 + \\text{nullity } 1 = 3 \\checkmark"
+    },
+    {
+      "prompt_latex": "Let $T: \\mathbb{R}^3 \\to \\mathbb{R}^3$ be defined by $A = \\begin{pmatrix} 1 & 3 & 2 \\\\ 2 & 6 & 4 \\\\ -1 & -3 & -2 \\end{pmatrix}$. Determine whether $T$ is injective (one-to-one) and whether it is surjective (onto), justifying your answers using the kernel and image.",
+      "answer_latex": "\\ker(T) \\neq \\{\\mathbf{0}\\} \\text{ (nullity 2)}, \\text{ so } T \\text{ is NOT injective; } \\text{rank}(A)=1 < 3, \\text{ so } \\text{im}(T) \\neq \\mathbb{R}^3 \\text{ and } T \\text{ is NOT surjective}"
+    },
+    {
+      "prompt_latex": "A data scientist applies a linear map $T: \\mathbb{R}^4 \\to \\mathbb{R}^3$ represented by a matrix with rank 2. What are the dimensions of $\\ker(T)$ and $\\text{im}(T)$? How many linearly independent outputs can $T$ produce?",
+      "answer_latex": "\\dim(\\ker(T)) = 2,\\ \\dim(\\text{im}(T)) = 2;\\ T \\text{ can produce at most 2 linearly independent output vectors}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often find the kernel by row-reducing $A$ and then reading the pivot columns of the REDUCED matrix as a basis for the image. This is wrong \u2014 the image is spanned by the pivot columns of the ORIGINAL matrix $A$, because row operations change the column space. Always return to the original matrix to identify the image basis.",
+    "When parametrizing the kernel, students sometimes write only one free-variable vector even when there are two free variables, missing part of the basis. A reliable fix: count the free variables first, then write one basis vector per free variable, setting that variable to 1 and all others to 0.",
+    "Students confuse the kernel being $\\{\\mathbf{0}\\}$ with the kernel being empty. The zero vector is always in the kernel (since $T(\\mathbf{0}) = \\mathbf{0}$), so the kernel is never empty \u2014 when we say the kernel is trivial we mean it contains only $\\mathbf{0}$, which is the condition for $T$ to be injective."
+  ],
+  "untested_variants": [
+    "Finding the kernel and image of an abstract linear transformation not defined by a matrix, such as $T: P_2 \\to P_2$ defined by $T(p(x)) = p'(x)$ (differentiation on polynomials).",
+    "Using the kernel to determine whether a specific vector $\\mathbf{b}$ is in the image of $T$ \u2014 i.e., solving $A\\mathbf{x} = \\mathbf{b}$ for consistency and connecting it to column space membership.",
+    "Problems involving the kernel and image of a composition of two transformations $T \\circ S$, and how $\\ker(T \\circ S)$ relates to $\\ker(S)$ and $\\ker(T)$.",
+    "Proving that the kernel and image are subspaces from the definition, using the subspace test with closure under addition and scalar multiplication."
+  ]
+}

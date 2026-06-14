@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_049",
+  "topic_name": "Order Statistics (H)",
+  "generated_at": "2026-05-13T23:09:18.587511+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find the distribution of a single random variable, and you're comfortable with joint densities of independent variables. But suppose you collect $n$ independent measurements \u2014 say, $n$ component lifetimes \u2014 and you want to know the distribution of the *smallest* or the *largest* value, or more generally the $k$-th value when they're sorted from smallest to largest. None of your current tools directly give you that. How do you find the PDF of the $k$-th smallest observation out of $n$?",
+  "concept": "Order statistics are the sorted values of a random sample. Given $n$ independent, identically distributed random variables $X_1, X_2, \\ldots, X_n$ with CDF $F(x)$ and PDF $f(x)$, we define the $k$-th order statistic $X_{(k)}$ as the $k$-th smallest value when the sample is arranged in increasing order, so $X_{(1)} \\le X_{(2)} \\le \\cdots \\le X_{(n)}$. The PDF of $X_{(k)}$ is $f_{(k)}(x) = \\frac{n!}{(k-1)!(n-k)!} [F(x)]^{k-1}[1-F(x)]^{n-k} f(x)$.",
+  "anatomy": "The formula $f_{(k)}(x) = \\frac{n!}{(k-1)!(n-k)!} [F(x)]^{k-1}[1-F(x)]^{n-k} f(x)$ has four distinct components: the multinomial coefficient $\\frac{n!}{(k-1)!(n-k)!}$ counts the number of ways to assign the $n$ observations to the roles of 'below', 'at', and 'above' the order statistic; the factor $[F(x)]^{k-1}$ is the probability that exactly $k-1$ of the remaining observations fall below $x$; the factor $[1-F(x)]^{n-k}$ is the probability that exactly $n-k$ observations fall above $x$; and $f(x)$ is the density at $x$ itself, representing the one observation that equals the order statistic.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, X_2, X_3 \\overset{\\text{iid}}{\\sim} \\text{Uniform}(0,1), \\quad \\text{find the PDF of } X_{(2)}",
+      "description_latex": "We are finding the PDF of the median \u2014 the 2nd order statistic \u2014 out of $n = 3$ iid Uniform$(0,1)$ random variables. For the Uniform$(0,1)$ distribution, $F(x) = x$ and $f(x) = 1$ for $x \\in (0,1)$, so this setup is clean and will let us verify the formula easily.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_{(2)}(x) = \\frac{3!}{(2-1)!(3-2)!} [F(x)]^{2-1}[1-F(x)]^{3-2} f(x)",
+      "description_latex": "We plug $n = 3$ and $k = 2$ directly into the order statistic formula. The multinomial coefficient becomes $\\frac{6}{1! \\cdot 1!} = 6$, which counts the $6$ ways to label one observation as 'below', one as 'the order statistic', and one as 'above'.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_{(2)}(x) = 6 \\cdot x^1 \\cdot (1-x)^1 \\cdot 1 = 6x(1-x), \\quad x \\in (0,1)",
+      "description_latex": "Now we substitute $F(x) = x$ and $f(x) = 1$, which gives us $6x(1-x)$. Notice this is a Beta$(2,2)$ density, which makes sense because the $k$-th order statistic from a Uniform$(0,1)$ sample always follows a Beta$(k, n-k+1)$ distribution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^1 6x(1-x)\\,dx = 6\\int_0^1 (x - x^2)\\,dx = 6\\left[\\frac{1}{2} - \\frac{1}{3}\\right] = 6 \\cdot \\frac{1}{6} = 1",
+      "description_latex": "We verify that $f_{(2)}(x)$ integrates to 1, which it must if it is a valid PDF. The integral confirms our answer is correct, and it's always worth doing this sanity check when the integral is tractable.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1, X_2, X_3, X_4 \\overset{\\text{iid}}{\\sim} \\text{Uniform}(0,1), \\quad \\text{find the PDF of } X_{(4)} \\text{ (the maximum)}",
+      "description_latex": "We want the PDF of the largest value, the 4th order statistic, from a sample of size $n = 4$. For Uniform$(0,1)$, recall $F(x) = x$ and $f(x) = 1$ on $(0,1)$. Start by identifying $n$, $k$, $F(x)$, and $f(x)$ before plugging into the formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_{(4)}(x) = \\frac{4!}{(4-1)!(4-4)!} [x]^{3}[1-x]^{0} \\cdot 1",
+      "description_latex": "Here we substitute $n = 4$, $k = 4$, $F(x) = x$, and $f(x) = 1$ into the order statistic formula. Notice that $[1-x]^{n-k} = [1-x]^0 = 1$ because there are no observations above the maximum \u2014 this always happens for the largest order statistic.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Simplify the multinomial coefficient $\\frac{4!}{3! \\cdot 0!}$ and combine all factors to write the final simplified PDF $f_{(4)}(x)$. Remember that $0! = 1$. What is the resulting expression, and what familiar distribution does it correspond to?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X_1, X_2 \\overset{\\text{iid}}{\\sim} \\text{Uniform}(0,1)$. Write down the PDF of $X_{(1)}$, the minimum.",
+      "answer_latex": "f_{(1)}(x) = 2(1-x), \\quad x \\in (0,1)"
+    },
+    {
+      "prompt_latex": "Let $X_1, X_2, X_3 \\overset{\\text{iid}}{\\sim} \\text{Uniform}(0,1)$. Find the PDF of $X_{(3)}$, the maximum, and compute $E[X_{(3)}]$.",
+      "answer_latex": "f_{(3)}(x) = 3x^2 \\text{ on } (0,1); \\quad E[X_{(3)}] = \\frac{3}{4}"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_5 \\overset{\\text{iid}}{\\sim} \\text{Exponential}(1)$, so $f(x)=e^{-x}$ and $F(x)=1-e^{-x}$ for $x>0$. Find the PDF of $X_{(1)}$, the minimum.",
+      "answer_latex": "f_{(1)}(x) = 5e^{-5x}, \\quad x > 0 \\quad (\\text{i.e., Exponential}(5))"
+    },
+    {
+      "prompt_latex": "Let $X_1, X_2, X_3 \\overset{\\text{iid}}{\\sim} \\text{Uniform}(0,1)$. Find the PDF of $X_{(2)}$ (the median) and then compute $\\text{Var}(X_{(2)})$.",
+      "answer_latex": "f_{(2)}(x)=6x(1-x) \\text{ on }(0,1);\\quad E[X_{(2)}]=\\tfrac{1}{2},\\; E[X_{(2)}^2]=\\tfrac{2}{5} - \\text{wait: } E[X^2]=\\int_0^1 6x^3(1-x)dx=\\tfrac{3}{10};\\quad \\text{Var}(X_{(2)})=\\tfrac{3}{10}-\\tfrac{1}{4}=\\tfrac{1}{20}"
+    },
+    {
+      "prompt_latex": "A system has 4 independent components, each with lifetime $T_i \\sim \\text{Exponential}(\\lambda)$. The system fails when the second component fails (a 2-out-of-4 system). Write the PDF of the system lifetime $T_{(2)}$ in terms of $\\lambda$.",
+      "answer_latex": "f_{(2)}(t) = \\frac{4!}{1!\\,2!}(1-e^{-\\lambda t})^{1}(e^{-\\lambda t})^{2}(\\lambda e^{-\\lambda t}) = 12\\lambda e^{-3\\lambda t}(1-e^{-\\lambda t}), \\quad t>0"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use $k$ and $n-k$ as the exponents instead of $k-1$ and $n-k$, writing $[F(x)]^k [1-F(x)]^{n-k}$. This is wrong because exactly one observation plays the role of the order statistic itself, leaving only $k-1$ observations to fall strictly below it; always subtract 1 from the rank to get the correct exponent.",
+    "Students frequently forget the multinomial coefficient entirely and write $f_{(k)}(x) = [F(x)]^{k-1}[1-F(x)]^{n-k}f(x)$. The coefficient $\\frac{n!}{(k-1)!(n-k)!}$ is essential for counting the arrangements of the remaining $n-1$ observations, and omitting it makes the result fail to integrate to 1.",
+    "When applying the formula to non-uniform distributions, students sometimes substitute $f(x)$ where $F(x)$ should go (or vice versa) because both appear in the formula. A reliable check: $F(x)$ is always the CDF (the integral of the density, valued between 0 and 1), and $f(x)$ is the density itself \u2014 every factor in the formula has a probabilistic meaning, so pausing to identify each one prevents this confusion."
+  ],
+  "untested_variants": [
+    "Finding the joint PDF of two order statistics $f_{(i),(j)}(x,y)$ for $i < j$, which requires a multinomial coefficient with three groups and is used to study the range $X_{(n)} - X_{(1)}$.",
+    "Computing the CDF of an order statistic using the binomial CDF representation $F_{(k)}(x) = \\sum_{j=k}^{n} \\binom{n}{j}[F(x)]^j[1-F(x)]^{n-j}$ rather than differentiating the PDF formula.",
+    "Order statistics from non-uniform, non-exponential distributions such as $\\text{Beta}(\\alpha, \\beta)$ or $\\text{Pareto}$ where $F(x)$ does not simplify to a monomial, requiring more careful algebraic manipulation.",
+    "Using the connection between order statistics and the Beta distribution to compute moments of $X_{(k)}$ from a Uniform$(0,1)$ sample via the identity $E[X_{(k)}^r] = B(k+r, n-k+1)/B(k, n-k+1)$ without setting up the integral from scratch."
+  ]
+}

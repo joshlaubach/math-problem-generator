@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_038",
+  "topic_name": "Arc Length (H)",
+  "generated_at": "2026-05-13T00:13:48.417822+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find the area under a curve and the distance between two points using the distance formula. But what if someone asked you: how long is the curve itself \u2014 not the straight-line distance between endpoints, but the actual length you'd travel if you walked along the curve? For example, how long is the arc of $y = x^{3/2}$ from $x = 0$ to $x = 4$? The distance formula only works for straight line segments, so we need something new.",
+  "concept": "Arc length measures the actual distance along a curve between two points, as if you unrolled the curve into a straight line. Formally, if $f$ is a differentiable function whose derivative $f'$ is continuous on $[a, b]$, then the arc length of $y = f(x)$ from $x = a$ to $x = b$ is $L = \\int_a^b \\sqrt{1 + [f'(x)]^2}\\, dx$. The idea is that infinitely many tiny straight-line segments \u2014 each of length $\\sqrt{(dx)^2 + (dy)^2}$ \u2014 are added up along the curve.",
+  "anatomy": "The arc length formula $L = \\int_a^b \\sqrt{1 + [f'(x)]^2}\\, dx$ has several distinct parts worth naming. The limits of integration $a$ and $b$ are the $x$-values of the two endpoints of the arc. The integrand $\\sqrt{1 + [f'(x)]^2}$ is the arc length element, which represents the length of each infinitesimal segment of the curve; note the $1$ inside the square root comes from the $dx$ factor in the infinitesimal hypotenuse $\\sqrt{(dx)^2 + (dy)^2} = \\sqrt{1 + (dy/dx)^2}\\, dx$. The term $[f'(x)]^2$ is the square of the slope of the curve at each point, and it is absolutely essential that you differentiate $f$ correctly before squaring.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = \\frac{x^3}{6} + \\frac{1}{2x}, \\quad [1, 3]",
+      "description_latex": "We want to find the arc length of this curve on the interval $[1, 3]$. Before we can apply the formula, we need $f'(x)$, so let's differentiate: $f'(x) = \\frac{x^2}{2} - \\frac{1}{2x^2}$. Careful differentiation here is the foundation of the whole problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[f'(x)]^2 = \\left(\\frac{x^2}{2} - \\frac{1}{2x^2}\\right)^2 = \\frac{x^4}{4} - \\frac{1}{2} + \\frac{1}{4x^4}",
+      "description_latex": "Now we square $f'(x)$ by expanding the binomial. Notice that the middle term is $-\\frac{1}{2}$, and when we add the $1$ inside the square root it becomes $1 - \\frac{1}{2} = \\frac{1}{2}$. This is the key algebraic step that makes the square root simplify nicely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1 + [f'(x)]^2 = \\frac{x^4}{4} + \\frac{1}{2} + \\frac{1}{4x^4} = \\left(\\frac{x^2}{2} + \\frac{1}{2x^2}\\right)^2",
+      "description_latex": "Adding 1 to $[f'(x)]^2$ gives us a perfect square trinomial, which is the 'lucky' structure that makes this integral tractable. Recognizing that $\\frac{x^4}{4} + \\frac{1}{2} + \\frac{1}{4x^4}$ factors as $\\left(\\frac{x^2}{2} + \\frac{1}{2x^2}\\right)^2$ is the crucial insight here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L = \\int_1^3 \\sqrt{\\left(\\frac{x^2}{2} + \\frac{1}{2x^2}\\right)^2}\\, dx = \\int_1^3 \\left(\\frac{x^2}{2} + \\frac{1}{2x^2}\\right) dx",
+      "description_latex": "Taking the square root eliminates the radical entirely, and since $\\frac{x^2}{2} + \\frac{1}{2x^2} > 0$ on $[1,3]$ we can drop the absolute value. Now we have a straightforward polynomial-style integral to evaluate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L = \\left[\\frac{x^3}{6} - \\frac{1}{2x}\\right]_1^3 = \\left(\\frac{27}{6} - \\frac{1}{6}\\right) - \\left(\\frac{1}{6} - \\frac{1}{2}\\right) = \\frac{14}{3}",
+      "description_latex": "Antidifferentiating term by term gives $\\frac{x^3}{6} - \\frac{1}{2x}$, and evaluating at the bounds yields $\\left(\\frac{9}{2} - \\frac{1}{6}\\right) - \\left(\\frac{1}{6} - \\frac{1}{2}\\right) = \\frac{14}{3}$. So the arc length is $\\frac{14}{3}$ units.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = x^{3/2}, \\quad [0, 4]",
+      "description_latex": "We want the arc length of $y = x^{3/2}$ from $x = 0$ to $x = 4$. Start by finding $f'(x)$: differentiating gives $f'(x) = \\frac{3}{2}x^{1/2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1 + [f'(x)]^2 = 1 + \\frac{9}{4}x",
+      "description_latex": "We compute $[f'(x)]^2 = \\frac{9}{4}x$ and add 1, giving the expression under the radical. This sets up the arc length integral $L = \\int_0^4 \\sqrt{1 + \\frac{9}{4}x}\\, dx$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate the integral $L = \\int_0^4 \\sqrt{1 + \\frac{9}{4}x}\\, dx$ using the substitution $u = 1 + \\frac{9}{4}x$. Set up the substitution, find $du$, change the limits, and carry out the integration to find the exact arc length.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the arc length of $f(x) = 2x + 1$ from $x = 0$ to $x = 3$.",
+      "answer_latex": "L = 3\\sqrt{5}"
+    },
+    {
+      "prompt_latex": "Find the arc length of $y = \\frac{2}{3}x^{3/2}$ from $x = 0$ to $x = 3$.",
+      "answer_latex": "L = \\frac{14}{3}"
+    },
+    {
+      "prompt_latex": "Find the arc length of $f(x) = \\frac{x^4}{8} + \\frac{1}{4x^2}$ from $x = 1$ to $x = 2$.",
+      "answer_latex": "L = \\frac{33}{16}"
+    },
+    {
+      "prompt_latex": "A curve is defined implicitly as $x = \\frac{y^3}{3} + \\frac{1}{4y}$ from $y = 1$ to $y = 3$. Set up and evaluate the arc length integral (integrating with respect to $y$).",
+      "answer_latex": "L = \\frac{53}{6}"
+    },
+    {
+      "prompt_latex": "A cable hangs in the shape of $y = \\cosh(x)$ for $-1 \\leq x \\leq 1$. Using the identity $1 + \\sinh^2(x) = \\cosh^2(x)$, find the exact length of the cable.",
+      "answer_latex": "L = 2\\sinh(1)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to square $f'(x)$ before adding 1, writing $\\sqrt{1 + f'(x)}$ instead of $\\sqrt{1 + [f'(x)]^2}$. The formula requires the square of the derivative; go back to the derivation \u2014 it comes from the Pythagorean theorem applied to $dx$ and $dy$.",
+    "When the expression $1 + [f'(x)]^2$ is a perfect square, students take the square root and get a negative factor or forget to check that the expression is non-negative before dropping the absolute value. Always verify the sign of the square-rooted expression on your interval before removing the absolute value bars.",
+    "Students incorrectly compute $[f'(x)]^2$ by only squaring the numerator or forgetting to square negative signs, especially with quotient or sum expressions like $\\left(\\frac{x^2}{2} - \\frac{1}{2x^2}\\right)^2$. Expand the binomial fully using $(a - b)^2 = a^2 - 2ab + b^2$, watching the cross term carefully."
+  ],
+  "untested_variants": [
+    "Arc length of a parametric curve defined by $x(t)$ and $y(t)$, using the formula $L = \\int_a^b \\sqrt{[x'(t)]^2 + [y'(t)]^2}\\, dt$.",
+    "Arc length of a polar curve $r = f(\\theta)$ using $L = \\int_\\alpha^\\beta \\sqrt{r^2 + \\left(\\frac{dr}{d\\theta}\\right)^2}\\, d\\theta$.",
+    "Problems where the arc length integral cannot be evaluated in closed form and must be approximated numerically (e.g., $y = \\sin x$ on $[0, \\pi]$).",
+    "Arc length expressed as a function of an upper limit of integration, leading to arc length as a function $s(x) = \\int_a^x \\sqrt{1 + [f'(t)]^2}\\, dt$, used in the definition of arc length parameterization."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "dm_036",
+  "topic_name": "Fermat's Little Theorem and Euler's Theorem (H)",
+  "generated_at": "2026-05-13T20:14:47.191894+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to compute things like $2^{10} \\mod 7$ by repeated squaring, but what if someone asked you to find $2^{1000000} \\mod 7$? Even with fast exponentiation, the numbers feel daunting. There is a beautiful theorem that says: if the base and modulus share no common factors and the modulus is prime, the exponent can be dramatically reduced before you ever start computing. Can you see how knowing the structure of multiplication modulo a prime might let you shortcut enormous powers?",
+  "concept": "Fermat's Little Theorem says that when $p$ is prime and $\\gcd(a, p) = 1$, raising $a$ to the power $p-1$ always gives remainder $1$ modulo $p$: $a^{p-1} \\equiv 1 \\pmod{p}$. Euler's Theorem generalises this: for any modulus $n$ and any $a$ with $\\gcd(a,n)=1$, we have $a^{\\phi(n)} \\equiv 1 \\pmod{n}$, where $\\phi(n)$ is Euler's totient function counting integers from $1$ to $n$ that are coprime to $n$.",
+  "anatomy": "In the expression $a^{\\phi(n)} \\equiv 1 \\pmod{n}$, the base $a$ is the integer whose power we are reducing, and the coprimality condition $\\gcd(a,n)=1$ is the essential hypothesis \u2014 the theorem fails without it. The modulus $n$ is the number we divide by; when $n=p$ is prime, $\\phi(p)=p-1$, recovering Fermat's theorem exactly. The totient $\\phi(n)$ is the exponent period: any power of $a$ can be reduced by writing the exponent as $q \\cdot \\phi(n) + r$ (via division algorithm), then collapsing $a^{q\\cdot\\phi(n)}$ to $1^q = 1$, leaving $a^r$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Find } 2^{1000000} \\mod 7",
+      "description_latex": "We want to compute a huge power modulo a prime, so Fermat's Little Theorem is our tool. Since $p = 7$ is prime and $\\gcd(2,7)=1$, the theorem guarantees $2^{6} \\equiv 1 \\pmod{7}$, meaning every complete block of 6 in the exponent contributes nothing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1000000 = 6 \\times 166666 + 4",
+      "description_latex": "We divide the exponent $1000000$ by $\\phi(7) = 6$ using the division algorithm to find the quotient and remainder. The key insight is that only the remainder $r = 4$ will matter, because the quotient part of the exponent will collapse to $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2^{1000000} = 2^{6 \\times 166666 + 4} = \\left(2^6\\right)^{166666} \\cdot 2^4",
+      "description_latex": "We rewrite the power using the law of exponents, separating the part divisible by $6$ from the remainder. This is always the structural move when applying Fermat's or Euler's theorem: isolate the full cycles of $\\phi(n)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\equiv 1^{166666} \\cdot 2^4 \\equiv 2^4 \\pmod{7}",
+      "description_latex": "By Fermat's Little Theorem, $2^6 \\equiv 1 \\pmod 7$, so $\\left(2^6\\right)^{166666} \\equiv 1^{166666} = 1$. The entire enormous exponent collapses to just $2^4$, which is completely manageable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2^4 = 16 \\equiv 2 \\pmod{7}",
+      "description_latex": "Finally we evaluate the small power: $16 = 2 \\times 7 + 2$, so $16 \\equiv 2 \\pmod 7$. Therefore $2^{1000000} \\equiv 2 \\pmod{7}$, and the theorem has reduced a million-digit computation to a single division.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find } 3^{200} \\mod 13",
+      "description_latex": "We are working modulo the prime $13$, and since $\\gcd(3,13)=1$, Fermat's Little Theorem applies. The period is $\\phi(13) = 13 - 1 = 12$, so we need to reduce the exponent $200$ modulo $12$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "200 = 12 \\times 16 + 8",
+      "description_latex": "We apply the division algorithm: $200 \\div 12 = 16$ remainder $8$. This tells us $3^{200} = (3^{12})^{16} \\cdot 3^8 \\equiv 1^{16} \\cdot 3^8 \\equiv 3^8 \\pmod{13}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate $3^8 \\pmod{13}$. You can compute this by repeated squaring: find $3^2$, then $3^4 = (3^2)^2$, then $3^8 = (3^4)^2$, reducing modulo $13$ at each step. What is $3^{200} \\pmod{13}$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use Fermat's Little Theorem to find $5^{12} \\pmod{13}$.",
+      "answer_latex": "5^{12} \\equiv 1 \\pmod{13}"
+    },
+    {
+      "prompt_latex": "Compute $7^{100} \\pmod{11}$.",
+      "answer_latex": "7^{100} \\equiv 1 \\pmod{11}"
+    },
+    {
+      "prompt_latex": "Find $2^{87} \\pmod{5}$.",
+      "answer_latex": "2^{87} \\equiv 3 \\pmod{5}"
+    },
+    {
+      "prompt_latex": "Use Euler's Theorem to compute $3^{100} \\pmod{10}$. (Note: $10$ is not prime; first find $\\phi(10)$.)",
+      "answer_latex": "3^{100} \\equiv 1 \\pmod{10}"
+    },
+    {
+      "prompt_latex": "A cryptographic protocol requires computing the last two digits of $7^{222}$, i.e., $7^{222} \\pmod{100}$. Using $\\phi(100) = 40$ and $\\gcd(7,100)=1$, find the answer.",
+      "answer_latex": "7^{222} \\equiv 49 \\pmod{100}"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply Fermat's Little Theorem when $\\gcd(a,p) \\neq 1$, for example claiming $7^{6} \\equiv 1 \\pmod 7$. The theorem requires the base and modulus to be coprime; if $p \\mid a$, then $a^{p-1} \\equiv 0 \\pmod p$, not $1$. Always verify the coprimality condition first.",
+    "Students reduce the exponent modulo $p$ instead of modulo $p-1$ (or $\\phi(n)$). For example, computing $2^{100} \\pmod 7$ by writing $100 \\equiv 2 \\pmod 7$ and concluding $2^{100} \\equiv 2^2 = 4$. The correct step is to reduce the exponent modulo $\\phi(7) = 6$, not modulo $7$ itself.",
+    "When applying Euler's Theorem to a composite modulus $n$, students use $n-1$ as the period instead of computing $\\phi(n)$. For instance, for $n = 15$ they write $a^{14} \\equiv 1$ rather than using $\\phi(15) = 8$. Fermat's shortcut $\\phi(p) = p-1$ only works when $n$ is prime; for composite $n$ you must factorise and apply the totient formula."
+  ],
+  "untested_variants": [
+    "Using Fermat's Little Theorem to find modular inverses, i.e., computing $a^{-1} \\equiv a^{p-2} \\pmod p$, and applying this inside a larger computation.",
+    "Problems where $\\phi(n)$ must be computed for a modulus that is a product of three or more distinct primes, requiring the full multiplicative totient formula $\\phi(n) = n \\prod_{p \\mid n}(1 - 1/p)$.",
+    "Proving that a given number is composite using Fermat's Little Theorem as a primality test (i.e., finding a Fermat witness), and understanding why Carmichael numbers defeat this test.",
+    "Combining Fermat's/Euler's Theorem with the Chinese Remainder Theorem to compute $a^k \\pmod{n}$ where $n = p \\cdot q$ by splitting into two congruences and recombining."
+  ]
+}

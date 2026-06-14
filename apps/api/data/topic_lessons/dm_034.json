@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_034",
+  "topic_name": "Solving Linear Congruences",
+  "generated_at": "2026-05-13T20:14:37.840054+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to solve linear equations like $2x = 6$ over the integers \u2014 just divide both sides by 2 to get $x = 3$. But what if you're working modulo some number, like finding an integer $x$ such that $2x \\equiv 6 \\pmod{8}$, or even harder, $3x \\equiv 5 \\pmod{7}$? Division doesn't work the same way in modular arithmetic \u2014 you can't just 'divide both sides by 3' without knowing whether 3 has a modular inverse. So how do you actually solve for $x$ when the usual rules break down?",
+  "concept": "A linear congruence is an equation of the form $ax \\equiv b \\pmod{m}$, where you seek all integers $x$ satisfying it. Unlike ordinary equations, solutions exist only under a specific condition: $\\gcd(a, m) \\mid b$. When this holds, there are exactly $d = \\gcd(a, m)$ distinct solutions modulo $m$, found by using the extended Euclidean algorithm to compute a modular inverse of $a/d$ modulo $m/d$.",
+  "anatomy": "The linear congruence $ax \\equiv b \\pmod{m}$ has four key components. The coefficient $a$ is the multiplier of the unknown; the unknown $x$ is the integer we solve for; the right-hand side $b$ is the target remainder; and the modulus $m$ defines the universe of residues. The central structural quantity is $d = \\gcd(a, m)$, which simultaneously determines whether a solution exists ($d \\mid b$), how many distinct solutions exist modulo $m$ (exactly $d$ of them), and how we reduce the problem to an equivalent congruence $\\frac{a}{d}x \\equiv \\frac{b}{d} \\pmod{\\frac{m}{d}}$ with a coefficient that is invertible.",
+  "worked_example": [
+    {
+      "expression_latex": "3x \\equiv 5 \\pmod{7}",
+      "description_latex": "We start by checking whether a solution exists. Compute $d = \\gcd(3, 7) = 1$, and since $1 \\mid 5$, the congruence has exactly one solution modulo 7. Because $d = 1$, the equation is already in reduced form and we simply need the inverse of 3 modulo 7.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3 \\cdot 5 = 15 \\equiv 1 \\pmod{7}",
+      "description_latex": "To find $3^{-1} \\pmod{7}$, we test multiples of 3 or use the extended Euclidean algorithm. Notice $3 \\times 5 = 15 = 2 \\cdot 7 + 1$, so $3 \\times 5 \\equiv 1 \\pmod{7}$, which tells us the modular inverse of 3 is 5.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\equiv 5 \\cdot 5 \\pmod{7}",
+      "description_latex": "We multiply both sides of the original congruence by the inverse $3^{-1} = 5$. This isolates $x$ because $5 \\cdot 3 \\equiv 1 \\pmod 7$, so the left side becomes $1 \\cdot x = x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\equiv 25 \\equiv 4 \\pmod{7}",
+      "description_latex": "Reducing $25$ modulo 7 gives $25 = 3 \\cdot 7 + 4$, so $x \\equiv 4 \\pmod{7}$ is the unique solution. You can verify: $3 \\cdot 4 = 12 = 7 + 5 \\equiv 5 \\pmod{7}$. \u2713",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "6x \\equiv 4 \\pmod{8}",
+      "description_latex": "We begin by computing $d = \\gcd(6, 8) = 2$. Since $2 \\mid 4$, solutions exist, and there will be exactly $d = 2$ distinct solutions modulo 8. We now divide through by $d$ to get the reduced congruence.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3x \\equiv 2 \\pmod{4}",
+      "description_latex": "After dividing $a$, $b$, and $m$ each by $d = 2$, we obtain this reduced congruence, where $\\gcd(3, 4) = 1$ so 3 is invertible modulo 4. Find the inverse of 3 modulo 4 and use it to solve for $x$ modulo 4.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x \\equiv 2 \\pmod{4}, \\quad x \\equiv 6 \\pmod{8}",
+      "description_latex": "Once you find the solution $x_0$ modulo 4 from the reduced congruence, the two solutions modulo 8 are $x_0$ and $x_0 + 4$ (reduced mod 8). Write out both solutions modulo 8 and verify each one satisfies the original congruence $6x \\equiv 4 \\pmod{8}$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve: $5x \\equiv 3 \\pmod{7}$",
+      "answer_latex": "x \\equiv 2 \\pmod{7}"
+    },
+    {
+      "prompt_latex": "Solve: $4x \\equiv 6 \\pmod{10}$",
+      "answer_latex": "x \\equiv 4 \\pmod{5}, \\text{ i.e., } x \\equiv 4 \\text{ or } 9 \\pmod{10}"
+    },
+    {
+      "prompt_latex": "Solve: $9x \\equiv 12 \\pmod{15}$",
+      "answer_latex": "x \\equiv 3 \\pmod{5}, \\text{ i.e., } x \\equiv 3, 8, \\text{ or } 13 \\pmod{15}"
+    },
+    {
+      "prompt_latex": "Find all $x$ with $0 \\le x < 100$ satisfying $7x \\equiv 1 \\pmod{11}$, then determine which of these $x$ are also even.",
+      "answer_latex": "x \\equiv 8 \\pmod{11}; \\text{ even solutions: } x = 8, 30, 52, 74, 96"
+    },
+    {
+      "prompt_latex": "A bag of coins is divided equally among 5 friends with 3 left over. If instead divided among 7 friends, there are 2 left over. Modeling this as $5k + 3 = 7j + 2$ for integers $k, j \\ge 0$, find the smallest possible number of coins.",
+      "answer_latex": "8 \\text{ coins}"
+    }
+  ],
+  "common_mistakes": [
+    "Students attempt to solve $ax \\equiv b \\pmod{m}$ even when $\\gcd(a,m) \\nmid b$, incorrectly writing down a 'solution' that doesn't exist. Always check the divisibility condition first: if $\\gcd(a,m)$ does not divide $b$, stop and state that there is no solution.",
+    "When $d = \\gcd(a,m) > 1$ and solutions do exist, students find only one solution $x_0$ modulo $m/d$ and forget to lift it to all $d$ solutions modulo $m$. Remember: the complete solution set is $x \\equiv x_0, x_0 + m/d, x_0 + 2m/d, \\ldots, x_0 + (d-1)m/d \\pmod{m}$.",
+    "Students 'cancel' the coefficient $a$ from $ax \\equiv b \\pmod{m}$ by dividing both sides by $a$ as if it were ordinary division, rather than multiplying by $a^{-1}$. This is only valid when $\\gcd(a,m)=1$, and even then you must multiply by the inverse, not divide \u2014 for example, $\\frac{b}{a} \\pmod{m}$ is meaningless notation."
+  ],
+  "untested_variants": [
+    "Solving a system of two simultaneous linear congruences using the Chinese Remainder Theorem, where the moduli are not coprime.",
+    "Using the extended Euclidean algorithm explicitly (with the full B\u00e9zout coefficient table) to find the modular inverse, rather than testing small multiples.",
+    "Linear congruences where $a$ or $b$ are negative integers, requiring the student to first reduce them to their least non-negative residues before applying the standard method.",
+    "Parametric or variable-modulus problems, such as finding all moduli $m$ for which $ax \\equiv b \\pmod{m}$ has a solution for given $a$ and $b$."
+  ]
+}

@@ -14,16 +14,21 @@ from __future__ import annotations
 
 import os
 import secrets
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from pydantic import BaseModel
 
 from auth_dependencies import require_student, get_user_repository
 from users_models import User
 
 router = APIRouter(tags=["parent-monitoring"])
+
+# H2 hardening parameters
+LINK_CODE_TTL_HOURS = 24
+MAX_REDEEM_ATTEMPTS_PER_HOUR = 5   # per IP+user sliding window
+MAX_FAILED_ATTEMPTS_PER_CODE = 5   # a code self-destructs after this many misses
 
 
 # ---------------------------------------------------------------------------
@@ -41,8 +46,14 @@ def _get_db():
 
 
 def _generate_link_code() -> str:
-    """Generate a human-readable 8-char alphanumeric code."""
-    return secrets.token_urlsafe(6).upper()[:8]
+    """
+    Generate a high-entropy, unguessable link code (H2).
+
+    Was `token_urlsafe(6).upper()[:8]` — the .upper() collapsed case and the
+    truncation left ~40 bits, brute-forceable. token_urlsafe(16) is 128 bits
+    of case-sensitive entropy.
+    """
+    return secrets.token_urlsafe(16)
 
 
 # ---------------------------------------------------------------------------
@@ -85,6 +96,7 @@ async def create_parent_link(
             student_id=user.id,
             link_code=code,
             confirmed=False,
+            expires_at=datetime.now(timezone.utc) + timedelta(hours=LINK_CODE_TTL_HOURS),
         )
         db.add(record)
         db.commit()
@@ -105,7 +117,7 @@ async def remove_parent_link(
     if not _uses_database():
         return {"ok": True}
 
-    from db_models import ParentLinkRecord
+    from db_models import ParentLinkRecord, ConsentLogRecord
     db = _get_db()
     try:
         record = (
@@ -117,7 +129,18 @@ async def remove_parent_link(
             .first()
         )
         if record:
+            was_confirmed = record.confirmed
             db.delete(record)
+            # M4: audit trail when a monitoring relationship is severed. The
+            # current launch model is 13+ self-attestation (monitoring link is
+            # not the consent gate), so we record the event rather than auto-
+            # suspending; when a true parental-consent gate exists, suspension
+            # wires in here by clearing the child's age_confirmed.
+            if was_confirmed:
+                db.add(ConsentLogRecord(
+                    id=str(uuid4()), user_id=user.id,
+                    event="parent_link_removed", ip_address=None, user_agent=None,
+                ))
             db.commit()
         return {"ok": True}
     except Exception:
@@ -134,26 +157,54 @@ async def remove_parent_link(
 @router.post("/parent/link/{code}", status_code=status.HTTP_200_OK)
 async def redeem_parent_link(
     code: str,
+    request: Request,
     user: User = Depends(require_student),
 ):
     """Parent redeems a link code to connect to a student's account."""
     if not _uses_database():
         return {"ok": True, "student_email": "student@example.com (dev mode)"}
 
+    # SECURITY (H2): throttle redemption per IP+user so the code space cannot be
+    # brute-forced to link an attacker to a stranger's (possibly minor's) account.
+    import rate_limit
+    client_ip = request.client.host if request.client else "unknown"
+    allowed, _ = rate_limit.hit(
+        f"parent_redeem:{client_ip}:{user.id}", MAX_REDEEM_ATTEMPTS_PER_HOUR, 3600
+    )
+    if not allowed:
+        raise HTTPException(
+            status_code=429,
+            detail="Too many link attempts. Please wait an hour and try again.",
+        )
+
+    # Codes are now full-entropy and case-sensitive; do NOT upper-case.
     from db_models import ParentLinkRecord
     db = _get_db()
     try:
         record = (
             db.query(ParentLinkRecord)
             .filter(
-                ParentLinkRecord.link_code == code.upper(),
+                ParentLinkRecord.link_code == code,
                 ParentLinkRecord.confirmed.is_(False),
             )
             .first()
         )
         if not record:
             raise HTTPException(status_code=404, detail="Invalid or expired link code.")
+
+        # Expired → delete and reject
+        now = datetime.now(timezone.utc)
+        if record.expires_at is not None and record.expires_at < now:
+            db.delete(record)
+            db.commit()
+            raise HTTPException(status_code=404, detail="Invalid or expired link code.")
+
         if record.student_id == user.id:
+            # Count as a failed attempt and lock out after too many
+            record.failed_attempts = (record.failed_attempts or 0) + 1
+            if record.failed_attempts >= MAX_FAILED_ATTEMPTS_PER_CODE:
+                db.delete(record)
+            db.commit()
             raise HTTPException(status_code=400, detail="You cannot link to your own account.")
 
         record.parent_id = user.id

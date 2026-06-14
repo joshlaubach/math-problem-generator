@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_037",
+  "topic_name": "Minimal Polynomials (H)",
+  "generated_at": "2026-05-13T20:08:12.351547+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that if $A$ is a square matrix, you can form its characteristic polynomial $p_A(\\lambda) = \\det(\\lambda I - A)$, and by the Cayley\u2013Hamilton theorem $p_A(A) = 0$. But the characteristic polynomial can be quite large \u2014 a $4 \\times 4$ matrix has a degree-4 characteristic polynomial \u2014 and sometimes a much smaller polynomial already annihilates $A$. Is the characteristic polynomial really the 'simplest' polynomial that kills a matrix, or can we always find something smaller?",
+  "concept": "The minimal polynomial of a matrix $A$ is the monic polynomial of smallest degree that annihilates $A$. Formally, the minimal polynomial $m_A(\\lambda)$ is the unique monic polynomial of least degree such that $m_A(A) = 0$. It always divides the characteristic polynomial $p_A(\\lambda)$, and every eigenvalue of $A$ is also a root of $m_A(\\lambda)$, but roots may appear with smaller multiplicity.",
+  "anatomy": "The minimal polynomial $m_A(\\lambda) = \\lambda^k + c_{k-1}\\lambda^{k-1} + \\cdots + c_1\\lambda + c_0$ has three structural features worth naming. First, it is monic \u2014 the leading coefficient is exactly $1$, which makes it unique. Second, its degree $k$ satisfies $1 \\le k \\le n$ where $n$ is the size of the matrix; the degree measures how 'independent' the powers $I, A, A^2, \\ldots$ are. Third, each irreducible factor of $m_A(\\lambda)$ is also a factor of the characteristic polynomial $p_A(\\lambda)$, meaning the eigenvalues of $A$ are precisely the roots of $m_A(\\lambda)$ \u2014 only their algebraic multiplicities may differ between the two polynomials.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 3 & 1 \\\\ 0 & 3 \\end{pmatrix}",
+      "description_latex": "We start by identifying the matrix we will work with. Notice that $A$ is a $2 \\times 2$ upper-triangular matrix with the single eigenvalue $\\lambda = 3$ repeated twice, so the characteristic polynomial is $p_A(\\lambda) = (\\lambda - 3)^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m_A(\\lambda) \\text{ must be either } (\\lambda - 3) \\text{ or } (\\lambda - 3)^2",
+      "description_latex": "Because $m_A(\\lambda)$ must divide $p_A(\\lambda) = (\\lambda-3)^2$ and share the same roots, the only candidates for the minimal polynomial are $\\lambda - 3$ or $(\\lambda-3)^2$. We test the smaller candidate first, since we want the polynomial of least degree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A - 3I = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix} \\neq 0",
+      "description_latex": "We substitute $\\lambda = 3$ directly and check whether $A - 3I = 0$. Since $A - 3I$ is not the zero matrix \u2014 the off-diagonal entry $1$ survives \u2014 the polynomial $\\lambda - 3$ does NOT annihilate $A$, so the minimal polynomial cannot have degree $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(A - 3I)^2 = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}^2 = \\begin{pmatrix} 0 & 0 \\\\ 0 & 0 \\end{pmatrix} = 0",
+      "description_latex": "We now test the next candidate $(\\lambda - 3)^2$ by computing $(A - 3I)^2$. The result is the zero matrix, confirming that $(\\lambda - 3)^2$ annihilates $A$. Since degree $1$ failed but degree $2$ works, this is the polynomial of least degree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m_A(\\lambda) = (\\lambda - 3)^2",
+      "description_latex": "We conclude that the minimal polynomial of $A$ is $m_A(\\lambda) = (\\lambda - 3)^2$. Observe that in this case $m_A(\\lambda) = p_A(\\lambda)$, which happens precisely because $A$ is not diagonalisable \u2014 a Jordan block of size $\\ge 2$ always forces the minimal polynomial to match the characteristic polynomial for that eigenvalue.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 2 & 0 \\\\ 0 & 2 \\end{pmatrix} = 2I",
+      "description_latex": "Here $B$ is the scalar matrix $2I$. Its characteristic polynomial is $p_B(\\lambda) = (\\lambda - 2)^2$, so the candidates for the minimal polynomial are $\\lambda - 2$ and $(\\lambda - 2)^2$. We want to test the smallest candidate first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B - 2I = ?",
+      "description_latex": "Compute $B - 2I$ explicitly and decide: is it the zero matrix? This step determines whether $\\lambda - 2$ already annihilates $B$, which would make it the minimal polynomial.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "m_B(\\lambda) = \\lambda - 2",
+      "description_latex": "Because $B - 2I = 0$, the linear polynomial $\\lambda - 2$ already annihilates $B$, so we do not need to check $(\\lambda - 2)^2$. Since this is the monic polynomial of smallest possible degree that kills $B$, we conclude $m_B(\\lambda) = \\lambda - 2$. Notice that $B$ is diagonalisable (it is already a scalar multiple of the identity), and diagonalisable matrices always have minimal polynomials with no repeated roots.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the minimal polynomial of $A = \\begin{pmatrix} 5 & 0 \\\\ 0 & 5 \\end{pmatrix}$.",
+      "answer_latex": "m_A(\\lambda) = \\lambda - 5"
+    },
+    {
+      "prompt_latex": "Find the minimal polynomial of $A = \\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$.",
+      "answer_latex": "m_A(\\lambda) = (\\lambda - 1)(\\lambda + 1) = \\lambda^2 - 1"
+    },
+    {
+      "prompt_latex": "Find the minimal polynomial of $A = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}$ (the $3 \\times 3$ nilpotent Jordan block).",
+      "answer_latex": "m_A(\\lambda) = \\lambda^3"
+    },
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 2 & 1 & 0 \\\\ 0 & 2 & 0 \\\\ 0 & 0 & 3 \\end{pmatrix}$. The characteristic polynomial is $p_A(\\lambda) = (\\lambda-2)^2(\\lambda-3)$. Find $m_A(\\lambda)$ by testing whether $(\\lambda-2)(\\lambda-3)$ annihilates $A$.",
+      "answer_latex": "m_A(\\lambda) = (\\lambda - 2)^2(\\lambda - 3)"
+    },
+    {
+      "prompt_latex": "A linear operator $T$ on $\\mathbb{R}^4$ has characteristic polynomial $p_T(\\lambda) = (\\lambda - 1)^2(\\lambda + 2)^2$. Given that $T$ is diagonalisable, write down $m_T(\\lambda)$ without computing any matrices.",
+      "answer_latex": "m_T(\\lambda) = (\\lambda - 1)(\\lambda + 2)"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the minimal polynomial with the characteristic polynomial, assuming they are always equal. In fact $m_A(\\lambda)$ always divides $p_A(\\lambda)$, but they coincide only when every eigenvalue's Jordan block structure forces the full multiplicity \u2014 check by testing lower-degree candidates first.",
+    "When testing a candidate polynomial $q(A)$, students forget that $q(A)$ must equal the zero MATRIX (every entry zero), not just have zero trace or zero determinant. A matrix can have zero trace or determinant while being nonzero, so always write out $q(A)$ entry by entry.",
+    "Students incorrectly include extra eigenvalue factors in $m_A(\\lambda)$ beyond what is needed. The rule is that each distinct eigenvalue must appear at least once in $m_A(\\lambda)$, but the exponent equals the size of the largest Jordan block for that eigenvalue \u2014 not the total algebraic multiplicity \u2014 so the minimal polynomial can have strictly lower exponents than the characteristic polynomial."
+  ],
+  "untested_variants": [
+    "Finding the minimal polynomial of a matrix given its rational canonical form or Frobenius normal form, where the minimal polynomial equals the largest invariant factor.",
+    "Using the minimal polynomial to determine whether a given matrix is diagonalisable over $\\mathbb{C}$ (a matrix is diagonalisable if and only if $m_A(\\lambda)$ has no repeated roots), applied to a matrix with complex eigenvalues.",
+    "Computing the minimal polynomial of a linear operator defined abstractly on a polynomial space or function space, rather than as a concrete matrix.",
+    "Finding the minimal polynomial of $A^2$ or $A + cI$ given the minimal polynomial of $A$, requiring substitution and factoring in the new variable."
+  ]
+}

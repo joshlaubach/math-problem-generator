@@ -1,0 +1,86 @@
+{
+  "topic_id": "c2_002",
+  "topic_name": "Integration by Parts",
+  "generated_at": "2026-05-13T00:17:12.684541+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to differentiate a product of two functions using the product rule: $\\frac{d}{dx}[u v] = u'v + uv'$. And you've built a solid toolkit for integrating power functions, exponentials, and trig functions. But what happens when you need to integrate something like $\\int x e^x \\, dx$ \u2014 a product where no substitution seems to simplify things? Neither function 'disappears' under a $u$-substitution, and the integral doesn't match any standard form. So how do we handle integrals that look like products?",
+  "concept": "Integration by parts is the integration counterpart of the product rule. In plain English, it lets you 'shift' the derivative from one factor onto the other, trading a hard integral for an easier one. Formally, if $u$ and $v$ are differentiable functions of $x$, then $\\int u \\, dv = uv - \\int v \\, du$. You choose which part of the integrand becomes $u$ (to be differentiated) and which becomes $dv$ (to be integrated).",
+  "anatomy": "In the formula $\\int u \\, dv = uv - \\int v \\, du$, there are four distinct parts to name and track. First, $u$ is the factor you choose to differentiate \u2014 it should become simpler when differentiated. Second, $dv$ is everything else in the original integrand (including $dx$), and it must be something you can integrate. Third, $du$ is the differential of $u$, computed as $du = u'\\, dx$. Fourth, $v$ is the antiderivative of $dv$, found by integrating $dv$. The mnemonic LIATE (Logarithms, Inverse trig, Algebraic, Trig, Exponential) ranks which type of function usually makes the best choice for $u$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\int x e^x \\, dx",
+      "description_latex": "We need to integrate the product $x e^x$. No substitution simplifies this, so we reach for integration by parts. By LIATE, we choose $u = x$ because it is algebraic and its derivative is simpler, while $dv = e^x \\, dx$ because exponentials integrate easily.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u = x, \\quad du = dx, \\quad dv = e^x \\, dx, \\quad v = e^x",
+      "description_latex": "We now compute the four components. Differentiating $u = x$ gives $du = dx$, and integrating $dv = e^x \\, dx$ gives $v = e^x$. It is important to write all four pieces explicitly before plugging into the formula, so nothing gets mixed up.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int x e^x \\, dx = x e^x - \\int e^x \\, dx",
+      "description_latex": "We apply the integration by parts formula $\\int u \\, dv = uv - \\int v \\, du$, substituting our four pieces. Notice that the remaining integral $\\int e^x \\, dx$ is now a standard form \u2014 exactly the kind of trade we were hoping to make.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int x e^x \\, dx = x e^x - e^x + C",
+      "description_latex": "We evaluate the simple remaining integral: $\\int e^x \\, dx = e^x$. Subtracting and adding the constant of integration gives our final answer. You can verify this by differentiating $x e^x - e^x$ using the product rule and confirming you recover $x e^x$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\int x \\cos x \\, dx",
+      "description_latex": "We want to integrate $x \\cos x$. Following LIATE, we should choose $u$ to be the algebraic factor and $dv$ to be the trigonometric factor. Let's set up: $u = x$, so $du = dx$, and $dv = \\cos x \\, dx$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "v = ?",
+      "description_latex": "To complete the setup, you need to find $v$ by integrating $dv = \\cos x \\, dx$. What is the antiderivative of $\\cos x$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\int x \\cos x \\, dx = x \\sin x - \\int \\sin x \\, dx",
+      "description_latex": "Using $v = \\sin x$, we apply the formula $\\int u \\, dv = uv - \\int v \\, du$ to get $x \\sin x - \\int \\sin x \\, dx$. The remaining integral is a standard form, so we can finish immediately.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate $\\int \\sin x \\, dx$ and write the complete final answer, including the constant of integration $C$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\int x e^{2x} \\, dx",
+      "answer_latex": "\\frac{x e^{2x}}{2} - \\frac{e^{2x}}{4} + C"
+    },
+    {
+      "prompt_latex": "\\int x \\sin x \\, dx",
+      "answer_latex": "-x \\cos x + \\sin x + C"
+    },
+    {
+      "prompt_latex": "\\int \\ln x \\, dx",
+      "answer_latex": "x \\ln x - x + C"
+    },
+    {
+      "prompt_latex": "\\int x^2 e^x \\, dx",
+      "answer_latex": "x^2 e^x - 2x e^x + 2e^x + C"
+    },
+    {
+      "prompt_latex": "\\text{A particle's velocity is } v(t) = t e^{-t}. \\text{ Find the displacement from } t=0 \\text{ to } t=2, \\text{ i.e., evaluate } \\int_0^2 t e^{-t} \\, dt.",
+      "answer_latex": "1 - 3e^{-2}"
+    }
+  ],
+  "common_mistakes": [
+    "Choosing $u$ and $dv$ backwards \u2014 for example, setting $u = e^x$ and $dv = x \\, dx$ in $\\int x e^x \\, dx$ \u2014 produces a new integral $\\int \\frac{x^2}{2} e^x \\, dx$ that is more complicated than the original. Always use LIATE to guide your choice so that $u$ simplifies upon differentiation.",
+    "Forgetting to differentiate $u$ when computing $du$, or forgetting to integrate $dv$ when computing $v$ \u2014 for instance, writing $v = \\cos x$ instead of $v = \\sin x$ when $dv = \\cos x \\, dx$. Keep a clear four-line table ($u$, $du$, $dv$, $v$) before applying the formula to avoid this mix-up.",
+    "Dropping the constant of integration or mishandling the minus sign in front of $\\int v \\, du$. The formula is $uv \\mathbf{-} \\int v \\, du$, and if $\\int v \\, du$ itself produces a negative (e.g., $-\\cos x$), students often write a double negative incorrectly. Always simplify the sign carefully at the final step."
+  ],
+  "untested_variants": [
+    "Integration by parts applied twice in succession to the same integral, such as $\\int x^2 \\sin x \\, dx$, where you must repeat the process after the first application.",
+    "The tabular (rapid repeated) method for integrals requiring multiple applications of integration by parts, such as $\\int x^3 e^x \\, dx$.",
+    "Integrals where integration by parts leads back to the original integral and you must solve algebraically, such as $\\int e^x \\sin x \\, dx$.",
+    "Integration by parts on a definite integral requiring evaluation at bounds, such as $\\int_1^e x^2 \\ln x \\, dx$, where the boundary terms $[uv]_1^e$ must be handled explicitly."
+  ]
+}

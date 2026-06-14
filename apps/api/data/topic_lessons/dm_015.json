@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_015",
+  "topic_name": "Proof by Cases",
+  "generated_at": "2026-05-13T20:12:50.298917+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to prove statements using direct proofs and perhaps simple algebraic manipulation. But now consider this: prove that for any integer $n$, the expression $n^2 + n$ is always even. A single chain of algebra almost works, but the behavior of even and odd integers is fundamentally different \u2014 and a single argument treating them the same might miss something. How can you handle a claim that depends on which 'type' of object you're working with?",
+  "concept": "Proof by cases (also called proof by exhaustion) is a technique where you divide the universe of possibilities into a finite number of distinct, exhaustive categories, then prove the statement holds separately in each category. Formally, if you want to prove a proposition $P(x)$ for all $x$ in some domain, you identify cases $C_1, C_2, \\ldots, C_k$ such that every $x$ falls into at least one $C_i$, and then prove $C_i \\Rightarrow P(x)$ for each $i$.",
+  "anatomy": "A proof by cases has three structural components. First, the **case partition**: a list of cases $C_1, C_2, \\ldots, C_k$ that are collectively exhaustive \u2014 every element of the domain belongs to at least one case \u2014 though cases may overlap (they need not be mutually exclusive). Second, the **case argument**: for each $C_i$, a self-contained sub-proof showing the desired conclusion follows when $x \\in C_i$, often using a substitution like $n = 2m$ or $n = 2m+1$ to make the case concrete. Third, the **conclusion**: a brief synthesis stating that since all cases are covered and the result holds in each, the proposition holds universally.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: For all integers } n, \\text{ the expression } n^2 + n \\text{ is even.}",
+      "description_latex": "We state the claim precisely before doing anything else. Because integers split cleanly into even and odd, we will handle these two cases separately \u2014 this is the natural partition that makes the algebra tractable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Case 1: } n \\text{ is even.} \\quad n = 2m \\text{ for some integer } m.",
+      "description_latex": "We substitute the definition of an even integer so that we have something concrete to compute with. Writing $n = 2m$ turns an abstract parity condition into usable algebra.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^2 + n = (2m)^2 + (2m) = 4m^2 + 2m = 2(2m^2 + m)",
+      "description_latex": "Expanding and factoring out 2 shows the expression equals $2$ times an integer, which is exactly the definition of even. So in Case 1, $n^2 + n$ is even.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Case 2: } n \\text{ is odd.} \\quad n = 2m + 1 \\text{ for some integer } m.",
+      "description_latex": "Now we handle the remaining possibility by writing $n = 2m+1$. Every integer is either even or odd, so these two cases together cover all integers \u2014 our partition is exhaustive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^2 + n = (2m+1)^2 + (2m+1) = 4m^2 + 4m + 1 + 2m + 1 = 4m^2 + 6m + 2 = 2(2m^2 + 3m + 1)",
+      "description_latex": "Again we factor out 2, confirming $n^2 + n$ is even in Case 2 as well. Since every integer is covered by one of the two cases and the conclusion holds in both, the claim is proved for all integers $n$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: For all integers } n, \\; n^3 - n \\text{ is divisible by } 3.",
+      "description_latex": "We want to show $3 \\mid n^3 - n$ for every integer $n$. Notice that $n^3 - n = n(n-1)(n+1)$, a product of three consecutive integers. The natural case partition here is the remainder when $n$ is divided by 3: either $n \\equiv 0$, $n \\equiv 1$, or $n \\equiv 2 \\pmod{3}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Case 1: } n = 3m. \\quad n(n-1)(n+1) = 3m(3m-1)(3m+1)",
+      "description_latex": "When $n$ is a multiple of 3, the factor $3m$ already contains 3 as a factor, so the entire product is divisible by 3. Case 1 is complete.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now handle Case 2 where $n = 3m + 1$. Substitute into $n(n-1)(n+1)$, simplify the factor $(n-1) = 3m$, and explain why the product is divisible by 3.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Handle Case 3 where $n = 3m + 2$. Substitute into $n(n-1)(n+1)$, identify which factor is divisible by 3, and write the conclusion that ties all three cases together to complete the proof.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Prove that for every integer } n, \\; n^2 \\text{ is either even or odd (i.e., } n^2 \\text{ has the same parity as } n\\text{).}",
+      "answer_latex": "\\text{Case 1: } n=2m \\Rightarrow n^2=4m^2=2(2m^2), \\text{ even. Case 2: } n=2m+1 \\Rightarrow n^2=4m^2+4m+1=2(2m^2+2m)+1, \\text{ odd. } n^2 \\text{ matches parity of } n."
+    },
+    {
+      "prompt_latex": "\\text{Prove that for all integers } n, \\; n^2 + 3n + 2 \\text{ is even.}",
+      "answer_latex": "\\text{Note } n^2+3n+2=(n+1)(n+2). \\text{ Case 1: } n \\text{ even} \\Rightarrow n+2 \\text{ even, product even. Case 2: } n \\text{ odd} \\Rightarrow n+1 \\text{ even, product even. Even in both cases.}"
+    },
+    {
+      "prompt_latex": "\\text{Prove that for every real number } x, \\; |x| \\geq 0.",
+      "answer_latex": "\\text{Case 1: } x \\geq 0 \\Rightarrow |x|=x \\geq 0. \\text{ Case 2: } x < 0 \\Rightarrow |x|=-x > 0 \\geq 0. \\text{ In both cases } |x| \\geq 0."
+    },
+    {
+      "prompt_latex": "\\text{Prove that for all integers } n, \\; n^2 \\geq n \\text{ if and only if } n \\leq 0 \\text{ or } n \\geq 1.",
+      "answer_latex": "\\text{Equivalently, prove } n^2 - n \\geq 0 \\Leftrightarrow n(n-1) \\geq 0. \\text{ Case 1: } n \\leq 0 \\Rightarrow n \\leq 0, n-1 < 0, \\text{ product} \\geq 0. \\text{ Case 2: } n \\geq 1 \\Rightarrow n \\geq 1, n-1 \\geq 0, \\text{ product} \\geq 0. \\text{ Case 3: } 0 < n < 1 \\text{ (no integers).}"
+    },
+    {
+      "prompt_latex": "\\text{A store charges } \\$5 \\text{ per item for } 1\\text{\u2013}3 \\text{ items, and } \\$4 \\text{ per item for 4 or more. Prove that for any purchase of } n \\geq 1 \\text{ items, the total cost } C(n) \\text{ satisfies } C(n) \\leq 5n.",
+      "answer_latex": "\\text{Case 1: } 1 \\leq n \\leq 3 \\Rightarrow C(n)=5n \\leq 5n. \\text{ Case 2: } n \\geq 4 \\Rightarrow C(n)=4n < 5n. \\text{ In both cases } C(n) \\leq 5n."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to verify that their cases are exhaustive \u2014 for example, only checking even integers and forgetting odd ones \u2014 leaving the proof incomplete. Always explicitly state why your cases cover every possibility in the domain before proceeding.",
+    "Students treat cases as if they must be mutually exclusive and panic when cases overlap, for instance when using $n \\leq 1$ and $n \\geq 0$ as two cases. Overlapping cases are perfectly valid; what matters is that every element falls in at least one case, not exactly one.",
+    "Students write a single general proof and then label it 'by cases' without actually doing separate arguments for each case \u2014 for example, writing $n^2 + n = n(n+1)$ and claiming 'one of $n$ or $n+1$ is even' without proving that claim separately for even and odd $n$. Each case must be a self-contained argument using only the assumption for that case."
+  ],
+  "untested_variants": [
+    "Proof by cases with three or more cases derived from modular arithmetic beyond mod 3, such as proving divisibility results modulo 4 or 5.",
+    "Proof by cases applied to real-valued functions involving absolute values or piecewise definitions, such as proving the triangle inequality $|a + b| \\leq |a| + |b|$ by splitting on the signs of $a$ and $b$ simultaneously.",
+    "Proof by cases combined with proof by contradiction, where within a single case you assume the negation and derive a contradiction.",
+    "Proof by cases in a combinatorial context, such as proving graph-theoretic properties by splitting on whether a vertex has even or odd degree."
+  ]
+}

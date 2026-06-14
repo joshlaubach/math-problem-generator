@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_040",
+  "topic_name": "Introduction to Differential Equations",
+  "generated_at": "2026-05-13T00:15:42.780494+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to differentiate a function \u2014 given $y = e^{2x}$, you can quickly find $\\frac{dy}{dx} = 2e^{2x}$. But what if the problem runs in reverse: suppose you're told that a quantity changes at a rate proportional to itself, so $\\frac{dy}{dx} = 2y$, and you need to find the function $y$ that makes this true? This is no longer an algebra problem or a plain integration problem \u2014 it's an entirely new kind of equation. What does it even mean to 'solve' an equation where the unknown is itself a function, and the equation involves that function's own derivative?",
+  "concept": "A differential equation is an equation that relates an unknown function to one or more of its derivatives. In plain English, instead of solving for a number, you're solving for a function whose rate of change (or higher derivatives) satisfies a given relationship. Formally, a first-order ordinary differential equation (ODE) has the form $F\\!\\left(x,\\, y,\\, \\frac{dy}{dx}\\right) = 0$, where $y = y(x)$ is the unknown function and $\\frac{dy}{dx}$ is its derivative with respect to the independent variable $x$.",
+  "anatomy": "Every first-order ODE has several named parts. The independent variable is $x$ (the input, often representing time or position). The dependent variable is $y$ (the unknown function we seek, written $y(x)$). The derivative term $\\frac{dy}{dx}$ (also written $y'$) is the rate of change of $y$ with respect to $x$ \u2014 this is what makes the equation 'differential.' The order of the equation is 1 because the highest derivative present is the first derivative. A solution is any specific function $y(x)$ that satisfies the equation identically on some interval; the general solution contains an arbitrary constant $C$, while a particular solution fixes $C$ using an initial condition such as $y(x_0) = y_0$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = 3x^2",
+      "description_latex": "We begin with a simple differential equation: find all functions $y(x)$ whose derivative equals $3x^2$. Notice this is already 'solved for' the derivative, which is the standard form we'll use throughout this unit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "dy = 3x^2 \\, dx",
+      "description_latex": "We treat $\\frac{dy}{dx}$ as a ratio of differentials and multiply both sides by $dx$ to separate the variables. This algebraic step is the gateway to integration \u2014 it places all the $y$-information on the left and all the $x$-information on the right.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int dy = \\int 3x^2 \\, dx",
+      "description_latex": "Now we integrate both sides. Integrating $dy$ gives $y$, and integrating $3x^2$ gives $x^3$. Because this is an indefinite integral, we must include the arbitrary constant $C$ \u2014 this single constant encodes an entire family of solutions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = x^3 + C",
+      "description_latex": "This is the general solution: every function of the form $y = x^3 + C$ for any constant $C$ satisfies the original equation, as you can verify by differentiating to recover $\\frac{dy}{dx} = 3x^2$. The constant $C$ cannot be determined without additional information, such as an initial condition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y(0) = 5 \\implies 5 = 0^3 + C \\implies C = 5, \\quad \\text{so } y = x^3 + 5",
+      "description_latex": "If we are given the initial condition $y(0) = 5$, we substitute $x = 0$ and $y = 5$ into the general solution to solve for $C = 5$. This produces the particular solution $y = x^3 + 5$, the unique curve in the family that passes through the point $(0, 5)$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = 4x^3 - 2x, \\quad y(1) = 3",
+      "description_latex": "Here is a first-order ODE with an initial condition. Our goal is to find the particular solution $y(x)$. We start by recognizing that the right-hand side involves only $x$, so we can find $y$ by direct integration.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = \\int (4x^3 - 2x)\\, dx = x^4 - x^2 + C",
+      "description_latex": "We integrate both sides with respect to $x$. Term-by-term integration gives $x^4$ and $-x^2$, and we append the arbitrary constant $C$ to capture all possible solutions. This is the general solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the initial condition $y(1) = 3$ to find the value of $C$. Substitute $x = 1$ and $y = 3$ into the general solution $y = x^4 - x^2 + C$ and solve for $C$. What is the particular solution?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Verify that $y = e^{5x}$ is a solution to the differential equation $\\frac{dy}{dx} = 5y$.",
+      "answer_latex": "\\frac{d}{dx}e^{5x} = 5e^{5x} = 5y \\; \\checkmark"
+    },
+    {
+      "prompt_latex": "Find the general solution to $\\frac{dy}{dx} = 6x^2 - 4x + 1$.",
+      "answer_latex": "y = 2x^3 - 2x^2 + x + C"
+    },
+    {
+      "prompt_latex": "Find the particular solution to $\\frac{dy}{dx} = \\cos x$ with initial condition $y(0) = -2$.",
+      "answer_latex": "y = \\sin x - 2"
+    },
+    {
+      "prompt_latex": "Find the particular solution to $\\frac{dy}{dx} = \\frac{1}{x}$ with $y(1) = 4$, and determine the value of $y(e)$.",
+      "answer_latex": "y = \\ln|x| + 4, \\quad y(e) = 5"
+    },
+    {
+      "prompt_latex": "A population $P$ grows so that its rate of change satisfies $\\frac{dP}{dt} = 200$ (people per year). If the population at time $t = 0$ is $P_0 = 5000$, write the function $P(t)$ and find the population after 3 years.",
+      "answer_latex": "P(t) = 200t + 5000, \\quad P(3) = 5600"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to add the arbitrary constant $C$ when integrating to find the general solution. Omitting $C$ produces only one specific function instead of the full family of solutions \u2014 always attach $C$ immediately after integrating and do not drop it until an initial condition forces you to.",
+    "When applying an initial condition, students substitute $x = 0$ automatically, even when the initial condition is given at a different point such as $y(2) = 7$. Always read the initial condition carefully: substitute the given $x$-value and the corresponding $y$-value into the general solution before solving for $C$.",
+    "Students confuse 'verifying a solution' with 'finding a solution.' To verify that $y = f(x)$ is a solution, you must differentiate $f(x)$, substitute $y$ and $y'$ back into the original equation, and confirm both sides are equal \u2014 many students instead try to re-solve the equation from scratch, which misses the point of verification entirely."
+  ],
+  "untested_variants": [
+    "Differential equations of the form $\\frac{dy}{dx} = g(y)$ (where the right side depends only on $y$, not $x$), requiring separation of variables in a less obvious way.",
+    "Verifying that a function involving both $e^{kx}$ and a polynomial is a solution to a more complex ODE, where students must apply the product rule during verification.",
+    "Initial-value problems where the initial condition is given at a negative $x$-value, requiring careful use of absolute value in logarithmic solutions such as $y = \\ln|x| + C$.",
+    "Interpreting the order and linearity of a differential equation \u2014 classifying whether a given ODE is linear or nonlinear, first-order or second-order \u2014 without being asked to solve it."
+  ]
+}

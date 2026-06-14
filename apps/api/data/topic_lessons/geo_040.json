@@ -1,0 +1,91 @@
+{
+  "topic_id": "geo_040",
+  "topic_name": "Triangle Concurrency Proofs (H)",
+  "generated_at": "2026-05-12T23:05:20.167575+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that triangles have special points like the centroid (where medians meet) and the circumcenter (where perpendicular bisectors meet). You've probably located these points by construction or coordinate methods, and you can state that they exist \u2014 but can you actually *prove* that three separate lines are guaranteed to meet at a single point? The gap is this: just because three lines *seem* to converge in a diagram doesn't mean they always must. So how do we rigorously prove that all three medians of *any* triangle are concurrent?",
+  "concept": "Concurrency means that three or more lines all pass through exactly one common point. For triangles, the classic concurrency results \u2014 medians meeting at the centroid, angle bisectors at the incenter, perpendicular bisectors at the circumcenter, and altitudes at the orthocenter \u2014 are not obvious facts but theorems requiring proof. Formally, lines $\\ell_1, \\ell_2, \\ell_3$ are concurrent if there exists a unique point $P$ such that $P \\in \\ell_1 \\cap \\ell_2 \\cap \\ell_3$.",
+  "anatomy": "Every triangle concurrency proof has four structural parts: (1) the *cevians*, which are the line segments drawn from each vertex to the opposite side (medians, altitudes, and angle bisectors are all special cevians); (2) the *foot* of each cevian, the point where it meets the opposite side; (3) the *ratios* that the foot divides the opposite side into, which are the key numerical quantities in the proof; and (4) Ceva's Theorem itself, the algebraic criterion $\\frac{AF}{FB} \\cdot \\frac{BD}{DC} \\cdot \\frac{CE}{EA} = 1$ that is both necessary and sufficient for cevians $AD$, $BE$, $CF$ to be concurrent in triangle $ABC$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Given: } \\triangle ABC \\text{ with medians } AD, BE, CF \\text{ where } D, E, F \\text{ are midpoints.}",
+      "description_latex": "We set up the problem by identifying what each cevian is and where its foot lands. Since $D$ is the midpoint of $BC$, $E$ is the midpoint of $CA$, and $F$ is the midpoint of $AB$, we are dealing with medians, and our goal is to show these three cevians are concurrent using Ceva's Theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{AF}{FB} = \\frac{AC}{BC} \\cdot \\frac{\\sin(\\angle ACF)}{\\sin(\\angle BCF)}",
+      "description_latex": "Actually, for medians the ratio is simpler \u2014 because $F$ is the midpoint of $AB$, we immediately get $AF = FB$, so $\\frac{AF}{FB} = 1$. We record this directly from the definition of midpoint, and we will use the same reasoning for the other two ratios.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{AF}{FB} = 1, \\quad \\frac{BD}{DC} = 1, \\quad \\frac{CE}{EA} = 1",
+      "description_latex": "Because $D$, $E$, and $F$ are all midpoints, each foot divides its opposite side into two equal halves, giving a ratio of $1$ in every case. This is the crucial step: the definition of median directly determines all three ratios we need for Ceva's Theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{AF}{FB} \\cdot \\frac{BD}{DC} \\cdot \\frac{CE}{EA} = 1 \\cdot 1 \\cdot 1 = 1",
+      "description_latex": "We now substitute the three ratios into Ceva's Theorem. The product equals $1$, which is exactly the condition Ceva's Theorem requires for the cevians to be concurrent. Notice that this works for *any* triangle, not just special ones, because the midpoint argument is universal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore AD, BE, CF \\text{ are concurrent (the centroid exists for every triangle).}",
+      "description_latex": "Since the product of ratios equals $1$, Ceva's Theorem guarantees that the three medians meet at a single point, which we call the centroid $G$. The proof is complete and applies to all triangles, confirming that the centroid is not just a coincidence of nice diagrams but a provable geometric fact.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Prove the angle bisectors of } \\triangle ABC \\text{ are concurrent (incenter exists).}",
+      "description_latex": "We will apply Ceva's Theorem, so we first need to identify the foot of each angle bisector on the opposite side. The Angle Bisector Theorem tells us how each bisector divides the opposite side: for bisector from $A$ to foot $D$ on $BC$, we have $\\frac{BD}{DC} = \\frac{AB}{AC} = \\frac{c}{b}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{BD}{DC} = \\frac{c}{b}, \\quad \\frac{CE}{EA} = \\frac{a}{c}, \\quad \\frac{AF}{FB} = \\frac{b}{a}",
+      "description_latex": "Using the Angle Bisector Theorem for each vertex, write down all three ratios. Here $a = BC$, $b = CA$, $c = AB$. You should verify the pattern: each ratio uses the two sides adjacent to that vertex.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the product $\\frac{AF}{FB} \\cdot \\frac{BD}{DC} \\cdot \\frac{CE}{EA}$ by substituting the three ratios above and simplifying. What does the product equal, and what does this tell you about the angle bisectors?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore \\text{The three angle bisectors are concurrent at the incenter } I.",
+      "description_latex": "Once you confirm the product equals $1$, state the conclusion using Ceva's Theorem: the three angle bisectors meet at a single point for every triangle, and that point is called the incenter.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State Ceva's Theorem: given cevians $AD$, $BE$, $CF$ in $\\triangle ABC$, write the condition on the ratios $\\frac{AF}{FB}$, $\\frac{BD}{DC}$, $\\frac{CE}{EA}$ that guarantees concurrency.",
+      "answer_latex": "\\frac{AF}{FB} \\cdot \\frac{BD}{DC} \\cdot \\frac{CE}{EA} = 1"
+    },
+    {
+      "prompt_latex": "In $\\triangle ABC$, cevians $AD$, $BE$, $CF$ satisfy $\\frac{AF}{FB} = 3$, $\\frac{BD}{DC} = 2$, and $\\frac{CE}{EA} = k$. Find the value of $k$ that makes the cevians concurrent.",
+      "answer_latex": "k = \\dfrac{1}{6}"
+    },
+    {
+      "prompt_latex": "Use Ceva's Theorem to prove that the three altitudes of an acute triangle $\\triangle ABC$ are concurrent. (Hint: express the foot of each altitude using trigonometric ratios of the angles.)",
+      "answer_latex": "\\frac{AF}{FB} \\cdot \\frac{BD}{DC} \\cdot \\frac{CE}{EA} = \\frac{\\tan B}{\\tan A} \\cdot \\frac{\\tan C}{\\tan B} \\cdot \\frac{\\tan A}{\\tan C} = 1, \\text{ so the altitudes are concurrent.}"
+    },
+    {
+      "prompt_latex": "In $\\triangle ABC$, $D$ is on $BC$ with $BD = 4$ and $DC = 6$, $E$ is on $CA$ with $CE = 3$ and $EA = 5$. Cevian $CF$ passes through $F$ on $AB$. If the three cevians $AD$, $BE$, $CF$ are concurrent, find $\\frac{AF}{FB}$ and then find $AF$ given $AB = 9$.",
+      "answer_latex": "\\frac{AF}{FB} = \\frac{5}{2}, \\text{ so } AF = \\dfrac{45}{7} \\approx 6.43"
+    },
+    {
+      "prompt_latex": "A triangular plot of land $\\triangle PQR$ has a water pipe running from each vertex to the opposite side. The pipe from $P$ divides $QR$ in ratio $2:3$, the pipe from $Q$ divides $PR$ in ratio $3:k$, and the pipe from $R$ divides $PQ$ in ratio $k:2$. For all three pipes to meet at a single junction point, find $k$.",
+      "answer_latex": "\\frac{2}{3} \\cdot \\frac{3}{k} \\cdot \\frac{k}{2} = 1 \\text{ for all } k > 0, \\text{ so any positive } k \\text{ works (the product is identically } 1\\text{).}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write the Ceva's Theorem ratios in the wrong cyclic order \u2014 for example, mixing up which endpoint of each side goes in the numerator versus denominator. The fix is to always traverse the triangle in one consistent direction (e.g., $A \\to B \\to C$) and always put the vertex you are 'leaving' in the numerator of each ratio.",
+    "A frequent error is confusing the *converse* of Ceva's Theorem (ratios equal 1 implies concurrent) with the *forward* direction (concurrent implies ratios equal 1) \u2014 students sometimes use the theorem backwards, assuming concurrency to find a ratio rather than proving the product first. Always check: are you trying to prove concurrency (use converse) or find a ratio given concurrency (use forward direction)?",
+    "Students applying the Angle Bisector Theorem in a concurrency proof often mislabel which sides form each ratio \u2014 they write $\\frac{BD}{DC} = \\frac{b}{c}$ (swapping $b$ and $c$) instead of $\\frac{c}{b}$, where $b = CA$ and $c = AB$. Remember that the bisector from vertex $A$ divides the opposite side $BC$ in the ratio of the two sides *adjacent to $A$*, written in the order matching the segments: $\\frac{BD}{DC} = \\frac{AB}{AC}$."
+  ],
+  "untested_variants": [
+    "Proving concurrency of the external angle bisectors (excenters) using the trigonometric form of Ceva's Theorem with signed ratios.",
+    "Using coordinate geometry (finding intersection of two cevians and verifying the third passes through the same point) as an alternative proof method for concurrency.",
+    "Applying the trigonometric (or sine) form of Ceva's Theorem: $\\frac{\\sin \\angle BAD}{\\sin \\angle DAC} \\cdot \\frac{\\sin \\angle CBE}{\\sin \\angle EBA} \\cdot \\frac{\\sin \\angle ACF}{\\sin \\angle FCB} = 1$.",
+    "Proving non-concurrency \u2014 showing that three given cevians do *not* meet at a single point by demonstrating the Ceva product does not equal 1."
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "topic_id": "dm_006",
+  "topic_name": "Logical Inference and Arguments",
+  "generated_at": "2026-05-13T20:11:48.627776+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to build truth tables and evaluate whether compound propositions are true or false. But logic isn't just about isolated statements \u2014 it's about reasoning from what you know to reach new conclusions. For example, if you know 'If it rains, the ground gets wet' and you can see the ground is dry, can you logically conclude it did not rain? The challenge is: how do you know whether a conclusion truly *follows* from the premises, and which rule of logic lets you get there?",
+  "concept": "A logical argument is a finite sequence of propositions where some, called premises, are used to justify a final proposition called the conclusion. An argument is called valid if whenever all premises are true, the conclusion must also be true \u2014 it cannot be the case that the premises are all true and the conclusion is false. Formally, an argument with premises $p_1, p_2, \\ldots, p_n$ and conclusion $q$ is valid if and only if the proposition $(p_1 \\land p_2 \\land \\cdots \\land p_n) \\to q$ is a tautology.",
+  "anatomy": "Every logical argument has three structural components you must identify. The premises are the assumed truths you are given \u2014 typically listed line by line, each labeled with a justification like 'Hypothesis' or 'Given.' The conclusion is the final statement being derived, usually marked with a $\\therefore$ symbol (meaning 'therefore'). The inference rules are named logical laws that justify each step connecting premises to conclusion; classic examples include Modus Ponens ($p, p \\to q \\vdash q$), Modus Tollens ($\\neg q, p \\to q \\vdash \\neg p$), Hypothetical Syllogism, and Disjunctive Syllogism. Each step in a formal proof must cite either a hypothesis or a named rule.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Premises: } (1)\\; p \\to q, \\quad (2)\\; p. \\quad \\text{Conclusion: } q.",
+      "description_latex": "We start by clearly identifying what we are given and what we need to derive. The two premises tell us there is a conditional and that its antecedent is true \u2014 this is the exact setup for the inference rule called Modus Ponens, so we should reach for that rule immediately.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Step 3: From (1) and (2) by Modus Ponens, conclude } q.",
+      "description_latex": "Modus Ponens states: if $p \\to q$ is true and $p$ is true, then $q$ must be true. We cite both premises by their line numbers so the justification is completely transparent \u2014 every step in a formal proof must name both the lines used and the rule applied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Validity check: Is } (p \\land (p \\to q)) \\to q \\text{ a tautology?}",
+      "description_latex": "To double-check any argument, we can form the single conditional whose antecedent is the conjunction of all premises and whose consequent is the conclusion. If this proposition is true in every row of a truth table, the argument is valid \u2014 and indeed $(p \\land (p \\to q)) \\to q$ is a well-known tautology, confirming our reasoning.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Premises: } (1)\\; \\neg q, \\quad (2)\\; p \\to q. \\quad \\text{Conclusion: } \\neg p.",
+      "description_latex": "Read the premises carefully: you have the negation of $q$ and a conditional $p \\to q$. Ask yourself which inference rule matches this pattern \u2014 one famous rule fires when you know a conditional is true and its consequent is false.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Step 3: By } \\underline{\\hspace{2cm}} \\text{ applied to lines (1) and (2), conclude } \\underline{\\hspace{2cm}}.",
+      "description_latex": "Name the inference rule being used here and write the conclusion it produces. Hint: the rule that says 'if $p \\to q$ is true but $q$ is false, then $p$ must be false' has a specific Latin name \u2014 write it and state the conclusion.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Validity check: Construct the truth table for } (\\neg q \\land (p \\to q)) \\to \\neg p.",
+      "description_latex": "Verify your answer by checking all four combinations of truth values for $p$ and $q$. If the whole conditional is true in every row, the argument is valid and your rule citation was correct.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the inference rule: Premises $p \\to q$ and $p$; Conclusion $q$.",
+      "answer_latex": "\\text{Modus Ponens}"
+    },
+    {
+      "prompt_latex": "Is the following argument valid? Premises: $p \\to q$, $q \\to r$. Conclusion: $p \\to r$. Name the rule that justifies it.",
+      "answer_latex": "\\text{Valid; Hypothetical Syllogism}"
+    },
+    {
+      "prompt_latex": "Construct a formal proof for the argument: Premises $(1)\\; p \\lor q$, $(2)\\; \\neg p$. Conclusion $q$.",
+      "answer_latex": "\\text{Step 3: By Disjunctive Syllogism on (1) and (2), conclude } q."
+    },
+    {
+      "prompt_latex": "Determine whether the following argument is valid by checking if $(p \\land (q \\to p)) \\to q$ is a tautology: Premises $p$, $q \\to p$; Conclusion $q$.",
+      "answer_latex": "\\text{Invalid \u2014 the conditional } (p \\land (q \\to p)) \\to q \\text{ is not a tautology (false when } p = T, q = F\\text{). This is the fallacy of affirming the consequent.}"
+    },
+    {
+      "prompt_latex": "Translate and evaluate: 'If the server is down, the website is unreachable. The website is reachable. Therefore, the server is not down.' Let $s$ = server is down, $w$ = website is unreachable. Write the premises and conclusion in propositional logic, name the inference rule, and state whether the argument is valid.",
+      "answer_latex": "\\text{Premises: } s \\to w,\\; \\neg w. \\text{ Conclusion: } \\neg s. \\text{ Rule: Modus Tollens. Valid.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse Modus Tollens with the fallacy of denying the antecedent: they see $\\neg p$ and $p \\to q$ and incorrectly conclude $\\neg q$, but Modus Tollens requires $\\neg q$ to conclude $\\neg p$ \u2014 always check which side of the conditional is negated.",
+    "Students treat an argument as valid simply because the conclusion happens to be true, rather than checking whether the truth of the conclusion is *forced* by the premises in every possible case \u2014 validity is about the relationship between premises and conclusion, not the truth of either alone.",
+    "When writing formal proofs, students write a conclusion without citing the specific line numbers and the rule name used at that step, producing a proof that cannot be verified \u2014 every inference step must explicitly name both the premises it draws on and the inference rule applied."
+  ],
+  "untested_variants": [
+    "Arguments involving universal instantiation or existential generalization from predicate logic, where the inference rules extend beyond propositional calculus.",
+    "Multi-step proofs requiring more than two distinct inference rules in sequence, such as combining Hypothetical Syllogism with Modus Tollens across three or more premises.",
+    "Identifying fallacies by name (affirming the consequent, denying the antecedent) in natural-language arguments rather than symbolic form.",
+    "Resolution-based proofs used in automated theorem proving, where clauses are converted to conjunctive normal form and resolved pairwise to derive a contradiction."
+  ]
+}

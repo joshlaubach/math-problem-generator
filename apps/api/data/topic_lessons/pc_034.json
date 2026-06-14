@@ -1,0 +1,76 @@
+{
+  "topic_id": "pc_034",
+  "topic_name": "Product-to-Sum and Sum-to-Product Formulas (H)",
+  "generated_at": "2026-05-12T23:49:05.775503+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to expand products like $\\sin A \\cos B$ using angle addition formulas, and you can combine sums like $\\sin x + \\sin y$ by factoring. But what happens when you need to integrate $\\sin(3x)\\cos(5x)$, or when a physics problem gives you a sum of two sine waves and you need a product form for interference calculations? Standard algebra won't bridge that gap \u2014 you need a specialized set of identities. Can you find a way to rewrite a product of trig functions as a sum, or a sum as a product, without guessing?",
+  "concept": "Product-to-sum and sum-to-product formulas are identities that convert between products of sines and cosines and sums (or differences) of sines and cosines. They are derived directly from the angle addition and subtraction formulas. The four product-to-sum formulas are: $\\sin A \\cos B = \\frac{1}{2}[\\sin(A+B)+\\sin(A-B)]$, $\\cos A \\sin B = \\frac{1}{2}[\\sin(A+B)-\\sin(A-B)]$, $\\cos A \\cos B = \\frac{1}{2}[\\cos(A-B)+\\cos(A+B)]$, and $\\sin A \\sin B = \\frac{1}{2}[\\cos(A-B)-\\cos(A+B)]$. The sum-to-product formulas are: $\\sin u + \\sin v = 2\\sin\\frac{u+v}{2}\\cos\\frac{u-v}{2}$ and $\\cos u + \\cos v = 2\\cos\\frac{u+v}{2}\\cos\\frac{u-v}{2}$.",
+  "anatomy": "Each product-to-sum formula has three structural parts: the product side, which is a product of two trig functions evaluated at angles $A$ and $B$; the coefficient $\\frac{1}{2}$, which always appears and comes from adding or subtracting the two angle-addition expansions; and the sum side, which contains two trig terms evaluated at the compound angles $A+B$ and $A-B$. The choice of sine or cosine on the sum side depends on which functions appear in the product \u2014 a $\\sin\\cos$ product yields sines, while a $\\cos\\cos$ or $\\sin\\sin$ product yields cosines. In sum-to-product formulas, the key structural elements are the half-angle arguments $\\frac{u+v}{2}$ (the average) and $\\frac{u-v}{2}$ (the half-difference), and the leading coefficient $2$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Write } \\sin(5x)\\cos(3x) \\text{ as a sum or difference.}",
+      "description_latex": "We identify which product-to-sum formula to use. Since we have $\\sin A \\cos B$, we use $\\sin A \\cos B = \\frac{1}{2}[\\sin(A+B)+\\sin(A-B)]$ with $A = 5x$ and $B = 3x$. Matching the pattern correctly before substituting is the most important first step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sin(5x)\\cos(3x) = \\frac{1}{2}[\\sin(5x+3x)+\\sin(5x-3x)]",
+      "description_latex": "We substitute $A = 5x$ and $B = 3x$ directly into the formula, replacing $A+B$ with $5x+3x$ and $A-B$ with $5x-3x$. Notice the $\\frac{1}{2}$ factor is written immediately \u2014 students often forget this crucial coefficient.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{1}{2}[\\sin(8x)+\\sin(2x)]",
+      "description_latex": "We simplify the compound angle expressions: $5x+3x = 8x$ and $5x-3x = 2x$. The final answer is a clean sum of two sine terms, which is much easier to work with in integration or further analysis.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Write } \\sin(7\\theta) - \\sin(3\\theta) \\text{ as a product.}",
+      "description_latex": "We need a sum-to-product formula. Since we have a difference of sines, we use $\\sin u - \\sin v = 2\\cos\\frac{u+v}{2}\\sin\\frac{u-v}{2}$ with $u = 7\\theta$ and $v = 3\\theta$. Setting up the correct formula and identifying $u$ and $v$ is the key first step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 2\\cos\\!\\left(\\frac{7\\theta+3\\theta}{2}\\right)\\sin\\!\\left(\\frac{7\\theta-3\\theta}{2}\\right)",
+      "description_latex": "We substitute $u = 7\\theta$ and $v = 3\\theta$ into the formula, writing out the half-angle arguments $\\frac{u+v}{2}$ and $\\frac{u-v}{2}$ before simplifying. Notice that a cosine and sine appear together, which is the correct pattern for a difference of sines.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now simplify $\\frac{7\\theta+3\\theta}{2}$ and $\\frac{7\\theta-3\\theta}{2}$ and write the final product form. What is the simplified answer?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Use a product-to-sum formula to rewrite } \\cos(4x)\\cos(2x).",
+      "answer_latex": "\\frac{1}{2}[\\cos(2x)+\\cos(6x)]"
+    },
+    {
+      "prompt_latex": "\\text{Use a product-to-sum formula to rewrite } \\sin(3x)\\sin(x).",
+      "answer_latex": "\\frac{1}{2}[\\cos(2x)-\\cos(4x)]"
+    },
+    {
+      "prompt_latex": "\\text{Use a sum-to-product formula to rewrite } \\cos(5\\theta)+\\cos(3\\theta).",
+      "answer_latex": "2\\cos(4\\theta)\\cos(\\theta)"
+    },
+    {
+      "prompt_latex": "\\text{Verify the identity: } \\frac{\\sin(5x)-\\sin(3x)}{\\cos(5x)+\\cos(3x)} = \\tan(x).",
+      "answer_latex": "\\text{Applying sum-to-product to numerator and denominator: } \\frac{2\\cos(4x)\\sin(x)}{2\\cos(4x)\\cos(x)} = \\frac{\\sin x}{\\cos x} = \\tan(x)"
+    },
+    {
+      "prompt_latex": "\\text{Two sound waves are modeled by } f(t) = \\cos(440\\pi t) \\text{ and } g(t) = \\cos(480\\pi t). \\text{ Write } f(t)+g(t) \\text{ in product form and identify the beat frequency (the coefficient inside the slowly varying cosine).}",
+      "answer_latex": "f(t)+g(t) = 2\\cos(460\\pi t)\\cos(20\\pi t); \\text{ beat frequency} = \\frac{20\\pi}{2\\pi} = 10 \\text{ Hz}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget the $\\frac{1}{2}$ coefficient on the right side of every product-to-sum formula, writing $\\sin A \\cos B = \\sin(A+B)+\\sin(A-B)$ instead of $\\frac{1}{2}[\\sin(A+B)+\\sin(A-B)]$. Always write the $\\frac{1}{2}$ first before substituting the angles.",
+    "When using $\\sin\\sin$ product-to-sum, students write $+\\cos(A+B)$ instead of $-\\cos(A+B)$, confusing it with the $\\cos\\cos$ formula. Remember: $\\sin A \\sin B = \\frac{1}{2}[\\cos(A-B) - \\cos(A+B)]$ \u2014 the sign between the two cosines is always negative for a sine-sine product.",
+    "In sum-to-product formulas, students swap the half-angle arguments or forget to halve them entirely, writing $2\\sin(u+v)\\cos(u-v)$ instead of $2\\sin\\frac{u+v}{2}\\cos\\frac{u-v}{2}$. The arguments inside the resulting product are always the average and the half-difference, not the raw sum and difference."
+  ],
+  "untested_variants": [
+    "Using product-to-sum formulas to evaluate definite integrals such as $\\int_0^{\\pi} \\sin(3x)\\cos(x)\\,dx$, where the conversion to a sum makes integration straightforward.",
+    "Applying product-to-sum formulas to triple products, such as rewriting $\\sin A \\cos B \\sin C$ by first converting the pair $\\sin A \\cos B$ and then combining with the third factor.",
+    "Solving trigonometric equations that require a sum-to-product conversion, such as $\\sin(5x)+\\sin(x) = 0$, where the product form reveals the solution set directly.",
+    "Deriving the product-to-sum formulas from scratch by adding and subtracting the angle addition and subtraction identities, which tests deeper conceptual understanding rather than formula application."
+  ]
+}
