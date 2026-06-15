@@ -1,0 +1,91 @@
+{
+  "topic_id": "c2_025",
+  "topic_name": "Power Series and Radius of Convergence",
+  "generated_at": "2026-05-13T00:26:16.974170+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to sum a finite list of numbers, and you've even seen geometric series like $\\sum_{n=0}^{\\infty} x^n = \\frac{1}{1-x}$ converge to a nice closed form \u2014 but only when $|x| < 1$. Now imagine replacing that fixed ratio $x$ with an entire function: what if instead of numbers we summed terms built from powers of $(x - a)$, each with its own coefficient? The question that should immediately bother you is: for which values of $x$ does that infinite sum even make sense?",
+  "concept": "A power series is an infinite series whose terms are powers of a variable, allowing us to represent functions as 'infinite polynomials.' Formally, a power series centered at $a$ is $\\sum_{n=0}^{\\infty} c_n (x-a)^n$, where $c_n$ are constants called coefficients and $a$ is the center. Every power series converges on an interval around $a$ whose half-length $R \\geq 0$ is called the radius of convergence; outside that interval the series diverges.",
+  "anatomy": "The key parts of a power series $\\sum_{n=0}^{\\infty} c_n (x-a)^n$ are: the coefficients $c_n$, which scale each term and are usually found as a sequence of numbers; the center $a$, which is the single point around which the series is built (if $a=0$ the series is centered at the origin); the variable expression $(x-a)^n$, which is the $n$-th power of the displacement from the center; the radius of convergence $R$, a non-negative number (or $\\infty$) such that the series converges absolutely for $|x-a| < R$ and diverges for $|x-a| > R$; and the interval of convergence, the set of all $x$ values where the series converges, including any endpoints that must be checked separately.",
+  "worked_example": [
+    {
+      "expression_latex": "\\sum_{n=0}^{\\infty} \\frac{(-1)^n}{3^n} (x-2)^n",
+      "description_latex": "We want to find the radius of convergence of this power series centered at $a = 2$. The tool we reach for is the Ratio Test: compute $L = \\lim_{n \\to \\infty} \\left| \\frac{a_{n+1}}{a_n} \\right|$ and the series converges absolutely when $L < 1$, which will tell us exactly how large $|x-2|$ can be.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left| \\frac{a_{n+1}}{a_n} \\right| = \\left| \\frac{(-1)^{n+1}}{3^{n+1}}(x-2)^{n+1} \\cdot \\frac{3^n}{(-1)^n (x-2)^n} \\right| = \\frac{|x-2|}{3}",
+      "description_latex": "We write out the ratio of consecutive terms and simplify by canceling matching factors of $(-1)^n$ in absolute value, one power of $(x-2)$, and one factor of $3^n$. Notice how cleanly the ratio reduces to $\\frac{|x-2|}{3}$, which is independent of $n$ \u2014 this happens because both numerator and denominator grow geometrically at the same rate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L = \\lim_{n \\to \\infty} \\frac{|x-2|}{3} = \\frac{|x-2|}{3}",
+      "description_latex": "Since the ratio has no remaining $n$ dependence, the limit is just the ratio itself. The Ratio Test says the series converges absolutely whenever $L < 1$, so we set $\\frac{|x-2|}{3} < 1$, which gives $|x-2| < 3$, meaning the radius of convergence is $R = 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Interval to check: } |x-2| < 3 \\implies -1 < x < 5; \\text{ check endpoints } x = -1 \\text{ and } x = 5",
+      "description_latex": "The radius of convergence guarantees behavior strictly inside and outside, but the endpoints $x = -1$ and $x = 5$ sit exactly on the boundary where the Ratio Test is inconclusive ($L = 1$), so we must substitute them back and test the resulting constant series separately. At $x = 5$: the series becomes $\\sum (-1)^n/3^n \\cdot 3^n = \\sum (-1)^n$, which diverges. At $x = -1$: the series becomes $\\sum (1/3^n) \\cdot 3^n = \\sum 1$, which also diverges.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R = 3, \\quad \\text{Interval of convergence: } (-1,\\, 5)",
+      "description_latex": "Since both endpoints cause divergence, neither is included in the interval of convergence. We report the radius $R = 3$ and the open interval $(-1, 5)$ as the complete answer \u2014 always state both, because the radius alone does not tell your reader what happens at the boundary.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\sum_{n=1}^{\\infty} \\frac{n}{4^n} x^n",
+      "description_latex": "We want the radius of convergence of this power series centered at $a = 0$. Set up the Ratio Test by writing the ratio $\\left|\\frac{a_{n+1}}{a_n}\\right|$ with consecutive terms. Remember to include both the coefficient $\\frac{n}{4^n}$ and the power $x^n$ in each term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left| \\frac{a_{n+1}}{a_n} \\right| = \\left| \\frac{(n+1) x^{n+1}}{4^{n+1}} \\cdot \\frac{4^n}{n x^n} \\right| = \\frac{n+1}{4n} |x|",
+      "description_latex": "The ratio simplifies to $\\frac{n+1}{4n}|x|$. Now take the limit as $n \\to \\infty$ and set the result less than 1 to find the radius of convergence. What does $\\lim_{n\\to\\infty} \\frac{n+1}{4n}$ equal, and therefore what is $R$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "R = 4, \\quad \\text{check endpoints } x = \\pm 4",
+      "description_latex": "Good \u2014 the limit gives $\\frac{1}{4}|x| < 1$, so $R = 4$. Now substitute $x = 4$ and $x = -4$ into the original series and decide whether each resulting series converges or diverges, then state the full interval of convergence.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Interval of convergence: } (-4,\\, 4)",
+      "description_latex": "At $x = 4$ the series becomes $\\sum \\frac{n \\cdot 4^n}{4^n} = \\sum n$, which diverges. At $x = -4$ the series becomes $\\sum \\frac{n(-4)^n}{4^n} = \\sum n(-1)^n$, which also diverges because the terms don't approach zero. So both endpoints are excluded and the interval of convergence is the open interval $(-4, 4)$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the radius of convergence of $\\sum_{n=0}^{\\infty} 5^n x^n$.",
+      "answer_latex": "R = \\dfrac{1}{5}"
+    },
+    {
+      "prompt_latex": "Find the radius of convergence and interval of convergence of $\\sum_{n=0}^{\\infty} \\frac{(x+1)^n}{n+1}$.",
+      "answer_latex": "R = 1, \\text{ interval of convergence } [-2,\\, 0)"
+    },
+    {
+      "prompt_latex": "Find the radius of convergence of $\\sum_{n=1}^{\\infty} \\frac{n^2}{2^n}(x-3)^n$.",
+      "answer_latex": "R = 2"
+    },
+    {
+      "prompt_latex": "Find the interval of convergence of $\\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n}}{n!}$. (Hint: treat $x^{2n}$ carefully in the Ratio Test.)",
+      "answer_latex": "(-\\infty,\\, \\infty)"
+    },
+    {
+      "prompt_latex": "A function $f$ is represented by the power series $\\sum_{n=1}^{\\infty} \\frac{(x-4)^n}{n \\cdot 6^n}$. Find the full interval of convergence and determine whether $f(10)$ is defined by this series.",
+      "answer_latex": "\\text{Interval of convergence: } [-2,\\, 10); \\text{ } f(10) \\text{ is NOT defined by this series since } x = 10 \\text{ is excluded.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to check the endpoints after finding $R$ and simply report the open interval $|x-a| < R$ as the final answer. The Ratio Test is inconclusive exactly at $|x-a| = R$, so you must substitute each endpoint separately and test convergence with another method like the $p$-series test or the Divergence Test.",
+    "When applying the Ratio Test to $\\sum c_n (x-a)^n$, students confuse the limit $L$ with the radius and write $R = L$ rather than solving $L < 1$ for $|x-a|$. The correct step is to set $L = \\lim_{n\\to\\infty}|c_{n+1}/c_n| \\cdot |x-a| < 1$, then isolate $|x-a|$ to read off $R = 1/\\lim_{n\\to\\infty}|c_{n+1}/c_n|$.",
+    "Students treat the power series $\\sum c_n (x-a)^{2n}$ as if the exponent were $n$ instead of $2n$, getting a radius that is off by a square root. In the Ratio Test the factor $|x-a|^{2(n+1)}/|x-a|^{2n} = |x-a|^2$ appears, so the condition becomes $|x-a|^2 < 1/L_0$, giving $|x-a| < 1/\\sqrt{L_0}$ \u2014 not $1/L_0$."
+  ],
+  "untested_variants": [
+    "Using the Root Test (Cauchy-Hadamard formula $R = 1/\\limsup_{n\\to\\infty} |c_n|^{1/n}$) instead of the Ratio Test to find the radius of convergence, which is necessary when the ratio $|c_{n+1}/c_n|$ does not have a limit.",
+    "Power series whose coefficients involve factorials in both numerator and denominator, such as $\\sum \\frac{(2n)!}{(n!)^2} x^n$, where careful factorial cancellation is required in the Ratio Test.",
+    "Finding the radius of convergence and then differentiating or integrating the power series term-by-term to represent a new function, verifying that $R$ remains the same for the derived series.",
+    "Power series centered at a non-real complex number, or identifying the power series representation of a given elementary function (like $e^x$, $\\sin x$, or $\\ln(1+x)$) and then determining where that known series converges."
+  ]
+}

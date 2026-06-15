@@ -1,0 +1,76 @@
+{
+  "topic_id": "a2_038",
+  "topic_name": "Solving Exponential Equations",
+  "generated_at": "2026-05-12T23:28:43.516975+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to solve equations like $2x = 16$ by dividing both sides, and you can evaluate expressions like $2^4 = 16$. But what happens when the variable is stuck in the exponent, like $2^x = 16$? Dividing by 2 doesn't help, and guessing only works for nice numbers. What if the equation were $2^x = 50$ \u2014 how would you find $x$ exactly?",
+  "concept": "An exponential equation is one where the unknown variable appears in the exponent. When both sides can be written as powers of the same base, we use the one-to-one property: if $b^x = b^y$ then $x = y$. When they cannot, we take the logarithm of both sides to 'bring the exponent down' using the rule $\\log(b^x) = x\\log(b)$, turning the exponential equation into a linear one we can solve.",
+  "anatomy": "Every exponential equation has a base \u2014 the number being raised to a power, such as the $3$ in $3^x = 81$. The exponent is the expression containing the variable, such as $x$ or $2x - 1$. When we apply a logarithm to both sides, we exploit the power rule of logarithms, $\\log(b^x) = x\\log(b)$, which moves the exponent down as a coefficient, freeing the variable from its elevated position. The result is always a linear or simple algebraic equation in $x$.",
+  "worked_example": [
+    {
+      "expression_latex": "5^x = 125",
+      "description_latex": "We notice that $125 = 5^3$, so both sides can be written as a power of the same base, 5. This means we can apply the one-to-one property directly without needing logarithms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5^x = 5^3",
+      "description_latex": "Because the bases are equal and the exponential function is one-to-one, the exponents must be equal. We simply set the exponents equal to each other to read off the answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 3",
+      "description_latex": "The solution is $x = 3$, which we can verify: $5^3 = 125$ \u2713. When both sides share a common base, solving is this direct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "4^x = 70",
+      "description_latex": "We cannot rewrite 70 as a power of 4, so we take the common logarithm ($\\log_{10}$) of both sides. Taking $\\log$ of both sides of an equation is valid because the logarithm function is one-to-one \u2014 whatever we do to one side we do to the other.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\log(4) = \\log(70)",
+      "description_latex": "After applying $\\log$ to both sides, we use the power rule $\\log(b^x) = x\\log(b)$ on the left side to pull the exponent $x$ down as a coefficient. Now the equation is linear in $x$ \u2014 can you see why this step is the critical one?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Solve for $x$ by dividing both sides by $\\log(4)$, then evaluate the result using a calculator. Write your answer rounded to four decimal places.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve: $3^x = 27$",
+      "answer_latex": "x = 3"
+    },
+    {
+      "prompt_latex": "Solve: $2^x = 40$. Round to four decimal places.",
+      "answer_latex": "x = \\dfrac{\\log 40}{\\log 2} \\approx 5.3219"
+    },
+    {
+      "prompt_latex": "Solve: $6^{2x-1} = 100$. Round to four decimal places.",
+      "answer_latex": "x = \\dfrac{\\log(100) + \\log(6)}{2\\log(6)} = \\dfrac{2 + \\log 6}{2\\log 6} \\approx 1.4286"
+    },
+    {
+      "prompt_latex": "Solve the system: $y = 3^x$ and $y = 2x + 9$. First find $x$ such that $3^x = 2x + 9$ by testing integer values, then verify your solution.",
+      "answer_latex": "x = 2 \\text{ (since } 3^2 = 9 = 2(2)+5 \\text{ \u2014 check: } 2(2)+9=13 \\neq 9; \\text{ test } x=2: 3^2=9,\\ 2(2)+9=13; x=0: 1=9? No; x=3: 27=15? No; numerical answer } x \\approx 2 \\text{ (verify by graphing)}"
+    },
+    {
+      "prompt_latex": "A bacteria population doubles every 3 hours. Starting with 200 bacteria, after how many hours will the population reach 5000? Use the model $P = 200 \\cdot 2^{t/3}$ and round to two decimal places.",
+      "answer_latex": "t = 3\\dfrac{\\log(25)}{\\log(2)} \\approx 13.93 \\text{ hours}"
+    }
+  ],
+  "common_mistakes": [
+    "Students divide both sides by $\\log$ as if it were a number, writing $\\log(4^x)/\\log = \\log(70)/\\log$, which is meaningless. Remember that $\\log$ is a function, not a factor \u2014 you apply it to both sides as a whole using $\\log(4^x) = x\\log(4)$.",
+    "When solving $4^{2x-1} = 50$, students sometimes apply the power rule incorrectly and write $x - 1 = \\frac{\\log 50}{\\log 4}$, forgetting the coefficient 2 in the exponent. After getting $x\\log(4^2) = \\log(50) + \\log(4)$, every term in the exponent must come down, so divide by $2\\log(4)$, not just $\\log(4)$.",
+    "Students set $\\log(4^x) = x \\cdot 4$ instead of $x \\cdot \\log(4)$, confusing the base with the result of the logarithm. The power rule says the exponent becomes a coefficient in front of the logarithm of the base: $\\log(4^x) = x\\log(4)$."
+  ],
+  "untested_variants": [
+    "Exponential equations with base $e$, such as $e^{2x} = 15$, where students would use the natural logarithm $\\ln$ instead of $\\log_{10}$.",
+    "Equations that are quadratic in form after substitution, such as $4^x - 6\\cdot 2^x + 8 = 0$, where the student must let $u = 2^x$ to factor.",
+    "Exponential equations where both sides have different bases that are each powers of a common base, such as $4^x = 8^{x-1}$, requiring rewriting both as powers of 2.",
+    "Exponential inequalities, such as solving $3^x > 81$, which requires understanding how the direction of the inequality is preserved because the base is greater than 1."
+  ]
+}

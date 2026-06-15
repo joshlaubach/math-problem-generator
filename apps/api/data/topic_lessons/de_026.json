@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_026",
+  "topic_name": "Linear Independence and the Wronskian",
+  "generated_at": "2026-05-13T20:01:56.991462+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know that a second-order linear ODE like $y'' + p(t)y' + q(t)y = 0$ has a general solution built from two particular solutions $y_1$ and $y_2$. You write $y = c_1 y_1 + c_2 y_2$ and feel confident \u2014 but here's the catch: what if $y_1 = 3y_2$? Then you only really have one solution wearing two names, and you can never satisfy arbitrary initial conditions. How do we rigorously test whether two (or more) solutions are genuinely independent of each other?",
+  "concept": "Two functions are linearly independent if neither is a constant multiple of the other \u2014 more generally, no non-trivial linear combination of them equals zero. The Wronskian gives us an algebraic test: for functions $y_1, y_2$, it is the determinant $W(y_1, y_2) = \\begin{vmatrix} y_1 & y_2 \\\\ y_1' & y_2' \\end{vmatrix} = y_1 y_2' - y_2 y_1'$. If $W \\neq 0$ on an interval, the functions are linearly independent there.",
+  "anatomy": "The Wronskian $W(y_1, y_2)(t) = y_1 y_2' - y_2 y_1'$ has several distinct parts worth naming. The functions $y_1$ and $y_2$ are the candidate solutions being tested. Their derivatives $y_1'$ and $y_2'$ fill the second row of the determinant matrix, capturing how the functions change. The cross-product structure $y_1 y_2' - y_2 y_1'$ is the $2 \\times 2$ determinant itself, and the key output is the scalar value $W(t)$: if $W(t_0) \\neq 0$ for even one point $t_0$ in the interval, the pair forms a fundamental set of solutions, meaning the general solution $y = c_1 y_1 + c_2 y_2$ is complete.",
+  "worked_example": [
+    {
+      "expression_latex": "y_1 = e^{2t}, \\quad y_2 = e^{-3t}",
+      "description_latex": "We are given two candidate solutions to a second-order linear ODE and want to verify they are linearly independent by computing the Wronskian. Setting up the Wronskian requires us to first identify each function and its derivative before forming the determinant.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_1' = 2e^{2t}, \\quad y_2' = -3e^{-3t}",
+      "description_latex": "We differentiate each function with respect to $t$. These derivatives will fill the second row of our $2 \\times 2$ Wronskian matrix, and getting them right is essential because an error here propagates through the entire calculation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W(y_1, y_2) = \\begin{vmatrix} e^{2t} & e^{-3t} \\\\ 2e^{2t} & -3e^{-3t} \\end{vmatrix}",
+      "description_latex": "We arrange the functions in the first row and their derivatives in the second row to form the Wronskian determinant matrix. The structure places $y_1, y_2$ on top and $y_1', y_2'$ below, so the cross-product subtraction produces the correct signed area interpretation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = e^{2t}(-3e^{-3t}) - e^{-3t}(2e^{2t}) = -3e^{-t} - 2e^{-t} = -5e^{-t}",
+      "description_latex": "Expanding the determinant as $y_1 y_2' - y_2 y_1'$, we multiply along the diagonals and subtract. We combine like terms to get $-5e^{-t}$, which is a clean exponential expression that we can now evaluate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = -5e^{-t} \\neq 0 \\text{ for all } t",
+      "description_latex": "Since $e^{-t} > 0$ for all real $t$, the Wronskian is never zero, which confirms that $y_1 = e^{2t}$ and $y_2 = e^{-3t}$ are linearly independent on $(-\\infty, \\infty)$. This means $y = c_1 e^{2t} + c_2 e^{-3t}$ is a valid general solution to the corresponding ODE.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y_1 = \\cos(3t), \\quad y_2 = \\sin(3t)",
+      "description_latex": "We want to test whether these two functions are linearly independent using the Wronskian. Start by writing down $y_1'$ and $y_2'$ \u2014 differentiate $\\cos(3t)$ and $\\sin(3t)$ with respect to $t$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_1' = -3\\sin(3t), \\quad y_2' = 3\\cos(3t)",
+      "description_latex": "These are the correct derivatives using the chain rule. Now you need to set up and evaluate the full Wronskian determinant $W = y_1 y_2' - y_2 y_1'$ by substituting all four pieces.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $W(\\cos(3t), \\sin(3t)) = y_1 y_2' - y_2 y_1'$ by substituting the expressions above. Simplify completely and state whether the two functions are linearly independent, justifying your answer based on the value of $W$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute $W(e^t, e^{-t})$ and determine whether the functions are linearly independent.",
+      "answer_latex": "W = -2 \\neq 0$, so they are linearly independent."
+    },
+    {
+      "prompt_latex": "Compute $W(t, t^2)$ and determine whether the functions are linearly independent.",
+      "answer_latex": "W = t^2 - 2t^2 + t^2$... more carefully: $W = t(2t) - t^2(1) = 2t^2 - t^2 = t^2$. Since $W = t^2 \\neq 0$ for $t \\neq 0$, they are linearly independent on any interval not containing $t = 0$."
+    },
+    {
+      "prompt_latex": "Show that $y_1 = 2\\sin(t)$ and $y_2 = 6\\sin(t)$ are linearly dependent using the Wronskian.",
+      "answer_latex": "W = 2\\sin(t)(6\\cos(t)) - 6\\sin(t)(2\\cos(t)) = 12\\sin(t)\\cos(t) - 12\\sin(t)\\cos(t) = 0$, confirming linear dependence."
+    },
+    {
+      "prompt_latex": "Given that $y_1 = e^t \\cos(2t)$ and $y_2 = e^t \\sin(2t)$ are solutions to $y'' - 2y' + 5y = 0$, compute the Wronskian and verify they form a fundamental set of solutions.",
+      "answer_latex": "W = e^t\\cos(2t)\\cdot e^t(\\cos(2t) + 2\\sin(2t)) \\cdot(-1\\text{ terms}) \\Rightarrow W = 2e^{2t} \\neq 0$, confirming a fundamental set."
+    },
+    {
+      "prompt_latex": "Three functions $y_1 = 1$, $y_2 = t$, $y_3 = t^2$ are proposed as solutions to a third-order ODE. Compute the $3 \\times 3$ Wronskian $W(1, t, t^2)$ and determine linear independence.",
+      "answer_latex": "W = \\begin{vmatrix} 1 & t & t^2 \\\\ 0 & 1 & 2t \\\\ 0 & 0 & 2 \\end{vmatrix} = 1 \\cdot(1 \\cdot 2 - 2t \\cdot 0) = 2 \\neq 0$, so the functions are linearly independent."
+    }
+  ],
+  "common_mistakes": [
+    "Students often place the derivatives in the first row and the original functions in the second row, reversing the standard setup. The correct matrix has $y_1, y_2$ (or more functions) in the top row and $y_1', y_2'$ in the bottom row; swapping them changes the sign of $W$ but more importantly reflects a misunderstanding of the definition.",
+    "Students conclude that $W = 0$ at a single point means the functions are linearly dependent everywhere. In fact, for general functions this is not valid \u2014 linear dependence requires $W = 0$ on the entire interval, and for solutions to a linear ODE specifically, Abel's theorem guarantees $W$ is either identically zero or never zero, so a single zero does imply dependence only in that ODE solution context.",
+    "When computing $W = y_1 y_2' - y_2 y_1'$, students frequently multiply $y_1 \\cdot y_1'$ (pairing the function with its own derivative) instead of crossing: $y_1$ with $y_2'$ and $y_2$ with $y_1'$. Always follow the determinant rule: main diagonal product minus off-diagonal product."
+  ],
+  "untested_variants": [
+    "Using Abel's theorem to find the Wronskian at an arbitrary point $t$ from its value at $t_0$ via $W(t) = W(t_0)\\exp\\!\\left(-\\int_{t_0}^t p(s)\\,ds\\right)$, without directly computing derivatives.",
+    "Testing linear independence of three or more functions that are not monomials or simple exponentials, such as $\\{e^t, te^t, t^2 e^t\\}$, using the full $3 \\times 3$ Wronskian determinant expansion.",
+    "Determining linear independence over a restricted interval where a function like $t^n$ or $\\ln t$ may cause the Wronskian to equal zero at an endpoint, and discussing what that means for the fundamental set.",
+    "Connecting the Wronskian directly to the method of variation of parameters, where $W$ appears in the denominator of the formulas for $u_1'$ and $u_2'$, requiring students to recognize why $W \\neq 0$ is a prerequisite for the method to work."
+  ]
+}

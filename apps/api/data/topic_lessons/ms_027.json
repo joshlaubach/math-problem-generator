@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_027",
+  "topic_name": "Poisson Regression and Count Data",
+  "generated_at": "2026-05-14T01:03:41.734238+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to use linear regression to model a continuous response variable, and you've seen logistic regression handle binary outcomes. But what happens when your response variable is a count \u2014 the number of accidents at an intersection, the number of emails received per hour, or the number of disease cases in a region? A standard linear model can predict negative counts, which is nonsensical, and the variance of counts typically grows with the mean, violating the constant-variance assumption of ordinary regression. So how do we build a regression model that respects the non-negative, integer nature of count data?",
+  "concept": "Poisson regression is a generalized linear model (GLM) designed for count response variables. The response $Y_i$ is assumed to follow a Poisson distribution with mean $\\mu_i$, and we model the log of that mean as a linear function of predictors: $\\log(\\mu_i) = \\beta_0 + \\beta_1 x_{i1} + \\cdots + \\beta_p x_{ip}$. The log link guarantees that $\\mu_i = e^{\\beta_0 + \\beta_1 x_{i1} + \\cdots + \\beta_p x_{ip}} > 0$ for any real-valued coefficients.",
+  "anatomy": "Poisson regression has four key structural pieces. First, the random component: $Y_i \\sim \\text{Poisson}(\\mu_i)$, meaning $P(Y_i = y) = e^{-\\mu_i}\\mu_i^y / y!$ with $E[Y_i] = \\text{Var}(Y_i) = \\mu_i$. Second, the systematic component: the linear predictor $\\eta_i = \\beta_0 + \\beta_1 x_{i1} + \\cdots +\\beta_p x_{ip}$, which lives on the real line. Third, the link function: $g(\\mu_i) = \\log(\\mu_i)$, connecting mean to predictor. Fourth, the offset term $\\log(t_i)$, added when observations have different exposure times or areas, giving $\\log(\\mu_i) = \\log(t_i) + \\eta_i$ so that the model targets a rate rather than a raw count.",
+  "worked_example": [
+    {
+      "expression_latex": "Y_i \\sim \\text{Poisson}(\\mu_i), \\quad \\log(\\mu_i) = \\beta_0 + \\beta_1 x_i",
+      "description_latex": "We start by stating the model: each count $Y_i$ is Poisson-distributed with mean $\\mu_i$, and we link the log of that mean to a single predictor $x_i$ through coefficients $\\beta_0$ and $\\beta_1$. This log link is the reason the model automatically keeps $\\mu_i$ positive for any real values of the coefficients.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ell(\\beta_0, \\beta_1) = \\sum_{i=1}^{n} \\left[ y_i (\\beta_0 + \\beta_1 x_i) - e^{\\beta_0 + \\beta_1 x_i} - \\log(y_i!) \\right]",
+      "description_latex": "We write the log-likelihood by substituting $\\mu_i = e^{\\beta_0 + \\beta_1 x_i}$ into the Poisson log-likelihood $\\sum_i [y_i \\log \\mu_i - \\mu_i - \\log(y_i!)]$. Notice that the $\\log(y_i!)$ terms are constants with respect to $\\beta$, so they don't affect the maximization.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial \\ell}{\\partial \\beta_1} = \\sum_{i=1}^{n} x_i \\left( y_i - e^{\\beta_0 + \\beta_1 x_i} \\right) = 0",
+      "description_latex": "Setting the score equation for $\\beta_1$ equal to zero gives a clean interpretation: the weighted residuals $y_i - \\mu_i$ must be orthogonal to the predictor $x_i$. Because this equation is nonlinear in $\\beta_1$, there is no closed-form solution and we rely on iteratively reweighted least squares (IRLS) in practice.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\mu}_i = e^{\\hat{\\beta}_0 + \\hat{\\beta}_1 x_i}",
+      "description_latex": "Once the IRLS algorithm converges to $\\hat{\\beta}_0$ and $\\hat{\\beta}_1$, we back-transform through the exponential to obtain fitted counts $\\hat{\\mu}_i$. For example, if $\\hat{\\beta}_0 = 1.2$ and $\\hat{\\beta}_1 = 0.3$ and $x_i = 2$, then $\\hat{\\mu}_i = e^{1.2 + 0.6} = e^{1.8} \\approx 6.05$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e^{\\hat{\\beta}_1} = \\text{multiplicative change in } \\hat{\\mu} \\text{ per one-unit increase in } x",
+      "description_latex": "The key interpretation of $\\hat{\\beta}_1$ is on the multiplicative scale: increasing $x$ by one unit multiplies the expected count by $e^{\\hat{\\beta}_1}$. So if $\\hat{\\beta}_1 = 0.3$, then $e^{0.3} \\approx 1.35$, meaning a one-unit increase in $x$ is associated with a 35% increase in the expected count.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "Y_i \\sim \\text{Poisson}(\\mu_i), \\quad \\log(\\mu_i) = \\beta_0 + \\beta_1 x_i, \\quad \\hat{\\beta}_0 = 0.5,\\; \\hat{\\beta}_1 = 0.4",
+      "description_latex": "Suppose we have fit a Poisson regression model and obtained the estimates above, where $x_i$ is the number of years of experience for employee $i$ and $Y_i$ is the number of reports filed per month. Our goal is to find the predicted count for an employee with $x = 3$ years of experience and to interpret $\\hat{\\beta}_1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\mu} = e^{0.5 + 0.4 \\times 3} = e^{1.7}",
+      "description_latex": "We plug $x = 3$ into the linear predictor to get $\\eta = 0.5 + 1.2 = 1.7$, then exponentiate. Calculate $e^{1.7}$ to obtain the predicted number of reports, rounding to two decimal places.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "e^{\\hat{\\beta}_1} = e^{0.4} \\approx 1.492",
+      "description_latex": "Now interpret $\\hat{\\beta}_1 = 0.4$ by exponentiating it. Each additional year of experience multiplies the expected number of reports by $e^{0.4} \\approx 1.49$, which means roughly a 49% increase per year \u2014 this is the multiplicative rate ratio interpretation central to Poisson regression.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Is a one-unit increase in } x \\text{ associated with an increase or decrease in } \\hat{\\mu}\\text{, and by what percentage?}",
+      "description_latex": "State in a complete sentence whether $\\hat{\\beta}_1 = 0.4$ implies an increase or decrease in the expected count, and compute the exact percentage change using $100(e^{0.4} - 1)$. This step tests whether you can fluently translate from the log scale back to a meaningful statement about counts.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A Poisson regression model gives $\\hat{\\beta}_0 = 2.0$ and no other predictors. What is the predicted mean count $\\hat{\\mu}$?",
+      "answer_latex": "\\hat{\\mu} = e^{2.0} \\approx 7.389"
+    },
+    {
+      "prompt_latex": "A fitted Poisson model is $\\log(\\hat{\\mu}) = 1.1 + 0.25 x$. Find the predicted count when $x = 4$ and interpret $e^{0.25}$ in words.",
+      "answer_latex": "\\hat{\\mu} = e^{1.1 + 1.0} = e^{2.1} \\approx 8.17; \\quad e^{0.25} \\approx 1.284, \\text{ so each one-unit increase in } x \\text{ multiplies the expected count by about 1.28 (a 28\\% increase)}"
+    },
+    {
+      "prompt_latex": "Write the Poisson log-likelihood for a single observation $y$ with mean $\\mu = e^{\\beta_0 + \\beta_1 x}$. Then find $\\partial \\ell / \\partial \\beta_0$.",
+      "answer_latex": "\\ell = y(\\beta_0 + \\beta_1 x) - e^{\\beta_0 + \\beta_1 x} - \\log(y!); \\quad \\frac{\\partial \\ell}{\\partial \\beta_0} = y - e^{\\beta_0 + \\beta_1 x} = y - \\mu"
+    },
+    {
+      "prompt_latex": "A Poisson model with offset is fit to hospital data: $\\log(\\mu_i) = \\log(t_i) + \\beta_0 + \\beta_1 x_i$, where $t_i$ is the number of patient-days and $x_i$ indicates a treatment group ($x=1$) vs. control ($x=0$). If $\\hat{\\beta}_0 = -3.2$ and $\\hat{\\beta}_1 = -0.6$, find the estimated event rate (events per patient-day) for the treatment group and interpret $e^{\\hat{\\beta}_1}$.",
+      "answer_latex": "\\text{Rate for treatment: } e^{-3.2 - 0.6} = e^{-3.8} \\approx 0.0224 \\text{ events/patient-day}; \\quad e^{-0.6} \\approx 0.549, \\text{ so treatment reduces the event rate to about 55\\% of the control rate}"
+    },
+    {
+      "prompt_latex": "A city records the number of potholes $Y$ repaired on $n=3$ streets: $y_1=5, y_2=8, y_3=3$ with no predictors. Write the Poisson log-likelihood $\\ell(\\mu)$ for an intercept-only model, find the MLE $\\hat{\\mu}$, and verify it equals $\\bar{y}$.",
+      "answer_latex": "\\ell(\\mu) = (y_1+y_2+y_3)\\log\\mu - 3\\mu - \\text{const}; \\quad \\frac{d\\ell}{d\\mu} = \\frac{16}{\\mu} - 3 = 0 \\Rightarrow \\hat{\\mu} = \\frac{16}{3} = \\bar{y} \\approx 5.33"
+    }
+  ],
+  "common_mistakes": [
+    "Students often interpret $\\hat{\\beta}_1$ as an additive effect on the count, saying 'a one-unit increase in $x$ increases the count by $\\hat{\\beta}_1$.' In Poisson regression, $\\hat{\\beta}_1$ is the additive effect on the *log* mean, so the correct interpretation is multiplicative: the expected count is multiplied by $e^{\\hat{\\beta}_1}$.",
+    "When computing a predicted count, students frequently forget to exponentiate the linear predictor, reporting $\\hat{\\eta} = \\hat{\\beta}_0 + \\hat{\\beta}_1 x$ as if it were the predicted count. Always apply the inverse link: $\\hat{\\mu} = e^{\\hat{\\eta}}$, because the model equation is $\\log(\\mu) = \\eta$, not $\\mu = \\eta$.",
+    "Students often omit the offset term $\\log(t_i)$ when observations have different exposure periods, effectively assuming all units were observed for the same duration. Failing to include the offset means the model is fitting total counts instead of rates, leading to biased coefficient estimates whenever exposure varies across observations."
+  ],
+  "untested_variants": [
+    "Overdispersion and quasi-Poisson regression: when $\\text{Var}(Y_i) > \\mu_i$ in real data, students must recognize overdispersion, introduce a dispersion parameter, and adjust standard errors accordingly \u2014 a scenario not covered by any practice problem above.",
+    "Goodness-of-fit testing using the Pearson chi-squared statistic or the residual deviance $D = 2\\sum_i [y_i \\log(y_i/\\hat{\\mu}_i) - (y_i - \\hat{\\mu}_i)]$ to assess model fit \u2014 comparing deviances of nested Poisson models is not practiced above.",
+    "Zero-inflated Poisson (ZIP) models, where excess zeros arise from a separate structural mechanism (e.g., a person who never drinks cannot report any drinks), requiring a mixture of a point mass at zero and a Poisson distribution.",
+    "Negative binomial regression as an alternative to Poisson when overdispersion is severe, including interpretation of the dispersion parameter $r$ and comparison with Poisson via likelihood ratio tests."
+  ]
+}

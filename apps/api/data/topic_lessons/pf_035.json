@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_035",
+  "topic_name": "Common Proof Mistakes and How to Avoid Them",
+  "generated_at": "2026-05-13T20:21:28.001454+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know that a valid proof must be logically airtight \u2014 every claim needs justification, and the reasoning must flow from hypotheses to conclusion. But students who understand proof logic perfectly still lose points constantly, because the mistake isn't in the logic: it's in how the argument is written. Have you ever written 'let $n$ be even, so $n = 2k$... therefore $n^2$ is even' and gotten it marked wrong, even though your idea was correct? The question is: what specific writing and reasoning habits silently undermine an otherwise good proof?",
+  "concept": "A proof mistake is any error \u2014 logical, structural, or stylistic \u2014 that makes an argument invalid, circular, or unconvincing, even if the intended idea is correct. Formally, a proof of $P \\Rightarrow Q$ must start from $P$ alone, introduce variables and definitions precisely, apply only justified inference steps, and conclude exactly $Q$; any deviation from this chain constitutes a proof error. The most common failures are assuming what you want to prove, using undefined variables, proving the wrong statement, and skipping justification for non-obvious steps.",
+  "anatomy": "Every proof has five structural components where mistakes cluster: the **setup** (declaring what you assume and what you must show), the **variable introduction** (naming objects with explicit quantification, e.g. 'let $n \\in \\mathbb{Z}$'), the **chain of justified steps** (each line follows from the previous by a named rule or theorem), the **conclusion** (a sentence explicitly stating that the goal has been reached), and the **scope of generality** (confirming the argument works for all cases, not just a specific example). A flaw in any one of these five components can invalidate an otherwise clever argument.",
+  "worked_example": [
+    {
+      "expression_latex": "\\textbf{Flawed proof attempt:} \\text{ Claim: If } n^2 \\text{ is even, then } n \\text{ is even.} \\\\ \\text{Proof: Let } n \\text{ be even, so } n = 2k. \\text{ Then } n^2 = 4k^2 = 2(2k^2), \\text{ which is even.} \\square",
+      "description_latex": "This 'proof' has a fatal flaw called circular reasoning, also known as assuming the conclusion: the claim we need to prove is 'if $n^2$ is even then $n$ is even,' but the proof opens by assuming '$n$ is even' \u2014 precisely what we were supposed to deduce. Noticing this mistake requires carefully checking whether your opening assumption matches the hypothesis $P$, not the conclusion $Q$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Correct approach (contrapositive):} \\\\ \\text{Proof: We prove the contrapositive: if } n \\text{ is odd, then } n^2 \\text{ is odd.} \\\\ \\text{Assume } n \\text{ is odd, so } n = 2k+1 \\text{ for some } k \\in \\mathbb{Z}.",
+      "description_latex": "We pivot to the contrapositive $\\neg Q \\Rightarrow \\neg P$ because it lets us assume something about $n$ directly, breaking the circularity. Notice that we immediately define $k$ with its type ($k \\in \\mathbb{Z}$) \u2014 this is variable introduction done correctly, because a reader should never encounter a symbol that hasn't been declared.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^2 = (2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1",
+      "description_latex": "We expand algebraically and factor out a 2, leaving remainder 1. Writing the result in the form $2m + 1$ where $m = 2k^2 + 2k \\in \\mathbb{Z}$ is not optional decoration \u2014 it is the direct application of the definition of odd, and without naming $m$ explicitly the justification is incomplete.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Since } 2k^2 + 2k \\in \\mathbb{Z}, \\text{ we have } n^2 = 2(2k^2+2k)+1, \\text{ so } n^2 \\text{ is odd.} \\\\ \\text{The contrapositive is proved, hence if } n^2 \\text{ is even, then } n \\text{ is even.} \\square",
+      "description_latex": "The conclusion does two things: it states that $n^2$ satisfies the definition of odd, and it explicitly reconnects to the original claim via the contrapositive equivalence. This final sentence is commonly omitted by students, which leaves the reader unable to confirm that the correct statement was actually proved \u2014 always close the loop.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\textbf{Claim: For all } n \\in \\mathbb{Z}, \\text{ if } n \\equiv 1 \\pmod{3}, \\text{ then } n^2 \\equiv 1 \\pmod{3}.",
+      "description_latex": "We are given a direct implication to prove. The first move is always to set up the proof correctly: state what you assume and what you must show, then introduce a variable with its type and the meaning of the hypothesis.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } n \\equiv 1 \\pmod{3}. \\text{ By definition, } n = 3k + 1 \\text{ for some } k \\in \\mathbb{Z}.",
+      "description_latex": "We translate the modular hypothesis into an explicit algebraic form. This step is already provided \u2014 your job is to carry the algebra forward correctly in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Expand $n^2 = (3k+1)^2$, simplify, and rewrite the result in the form $3m + 1$ for some $m \\in \\mathbb{Z}$, clearly identifying what $m$ equals. This is the key step: you must both compute correctly AND apply the definition of congruence, naming your integer $m$ explicitly.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Therefore } n^2 \\equiv 1 \\pmod{3}. \\square",
+      "description_latex": "Once $m$ is named and shown to be an integer, this conclusion follows directly from the definition. Notice how the final line restates the exact goal from the claim \u2014 always match the conclusion to what was promised.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the mistake in this proof. Claim: $\\sqrt{2}$ is irrational. Proof: Suppose $\\sqrt{2}$ is irrational. Then it cannot be written as $p/q$. Therefore $\\sqrt{2}$ is irrational. $\\square$",
+      "answer_latex": "\\text{The proof is circular: it assumes the conclusion (}\\sqrt{2}\\text{ is irrational) as the hypothesis, then restates it as the conclusion. A correct proof assumes }\\sqrt{2} = p/q\\text{ with }\\gcd(p,q)=1\\text{ and derives a contradiction.}"
+    },
+    {
+      "prompt_latex": "Identify and fix the variable-introduction error: Claim: For all integers $n$, if $n$ is odd then $3n$ is odd. Flawed proof: $3n = 3(2k+1) = 6k+3 = 2(3k+1)+1$, which is odd. $\\square$",
+      "answer_latex": "\\text{The variable }k\\text{ is used without being introduced or quantified. Fix: Begin with 'Assume }n\\text{ is odd, so }n = 2k+1\\text{ for some }k \\in \\mathbb{Z}\\text{.' The rest of the algebra is then correct.}"
+    },
+    {
+      "prompt_latex": "A student claims to prove 'for all $n \\in \\mathbb{Z}$, $n^2 + n$ is even' by checking $n=1$: $1+1=2$, $n=2$: $4+2=6$, $n=3$: $9+3=12$. All even, so the statement is true. What mistake is this, and how do you fix it?",
+      "answer_latex": "\\text{This is proof by example: checking finitely many cases does not prove a universal statement. Fix: factor }n^2+n = n(n+1)\\text{ and argue that one of }n\\text{ or }n+1\\text{ is always even, so their product is even for all }n \\in \\mathbb{Z}."
+    },
+    {
+      "prompt_latex": "Find all mistakes in this proof and write a corrected version. Claim: If $a \\mid b$ and $b \\mid c$, then $a \\mid c$. Flawed proof: $a \\mid b$ means $b = ak$, and $b \\mid c$ means $c = bk$. So $c = a(k^2)$, hence $a \\mid c$. $\\square$",
+      "answer_latex": "\\text{Two mistakes: (1) the same letter }k\\text{ is reused for two different integers, making the step }c = bk = (ak)k = ak^2\\text{ invalid since the two }k\\text{'s need not be equal. (2) No type declaration. Fix: write }b = ak_1\\text{ and }c = bk_2\\text{ for some }k_1, k_2 \\in \\mathbb{Z}\\text{, so }c = bk_2 = (ak_1)k_2 = a(k_1 k_2)\\text{, and }k_1 k_2 \\in \\mathbb{Z}."
+    },
+    {
+      "prompt_latex": "A student writes the following to prove that for all real $x$, $x^2 \\geq 0$: 'We know $x^2 \\geq 0$ because squaring is always non-negative.' Is this a valid proof? Identify the logical error and write a complete, correct proof.",
+      "answer_latex": "\\text{The student's argument is circular: 'squaring is always non-negative' is exactly the claim being proved, restated informally. A correct proof considers two cases: if }x \\geq 0\\text{ then }x^2 = x \\cdot x \\geq 0\\text{; if }x < 0\\text{ then }x^2 = (-|x|)^2 = |x|^2 \\geq 0\\text{. In both cases }x^2 \\geq 0."
+    }
+  ],
+  "common_mistakes": [
+    "Students assume the conclusion somewhere in the middle of the proof rather than at the start (circular reasoning). This often happens when working backwards and forgetting to reverse the logic: always check that your opening line uses only the stated hypothesis $P$, never $Q$.",
+    "Students reuse the same variable name (e.g., $k$) for two independently chosen integers in the same proof, such as writing $b = ak$ and $c = bk$ when the two multiples are different. This makes algebraic substitutions invalid; the fix is to use distinct names like $k_1$ and $k_2$, each declared with '$\\in \\mathbb{Z}$'.",
+    "Students prove a special case or a slightly different statement than what was claimed \u2014 for example, proving '$n^2$ is even implies $n$ is even for $n$ prime' instead of for all integers, or proving the converse instead of the original implication. The fix is to read the claim's quantifier and direction carefully before writing a single word of the proof."
+  ],
+  "untested_variants": [
+    "Proofs where the mistake is an incorrect use of 'if and only if' \u2014 proving only one direction of a biconditional and claiming both directions are done.",
+    "Proofs that fail because an existential quantifier is handled as a universal one, for example treating 'there exists an integer $n$ such that...' as if the argument must work for every integer.",
+    "Proofs in which the error is a missing case in a case-based argument, such as forgetting the case $n = 0$ in a proof about all integers or omitting the case where a set is empty.",
+    "Errors specific to proof by contradiction where the student negates the wrong part of the statement, for example negating only the conclusion of an implication instead of the full statement."
+  ]
+}

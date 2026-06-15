@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_032",
+  "topic_name": "Primes and the Fundamental Theorem of Arithmetic",
+  "generated_at": "2026-05-13T20:14:22.202791+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to multiply numbers together \u2014 for instance, $12 = 3 \\times 4$ or $12 = 2 \\times 6$. But here's something strange: no matter how you break $12$ apart, you always end up using the same prime building blocks: $2, 2,$ and $3$. Why is that? And what exactly makes a number 'prime' in the first place? Can every positive integer greater than 1 be broken down this way, and is the breakdown always unique?",
+  "concept": "A prime number is a whole number greater than 1 whose only positive divisors are 1 and itself. A composite number is any integer greater than 1 that is not prime. Formally, $p > 1$ is prime if $p = ab$ with $a, b \\in \\mathbb{Z}^+$ implies $a = 1$ or $b = 1$. The Fundamental Theorem of Arithmetic states that every integer $n > 1$ can be written as a product of primes in a way that is unique up to the order of the factors.",
+  "anatomy": "The Fundamental Theorem has two distinct guarantees worth naming separately. The existence part says every integer $n > 1$ has at least one prime factorization, written $n = p_1^{e_1} p_2^{e_2} \\cdots p_k^{e_k}$, where each $p_i$ is a prime base and each $e_i \\geq 1$ is an exponent (also called the multiplicity of that prime in the factorization). The uniqueness part says this representation is unique: no two different multisets of primes multiply to the same integer. The unit $1$ is intentionally excluded \u2014 it is neither prime nor composite \u2014 because including it would destroy uniqueness ($6 = 2 \\times 3 = 1 \\times 2 \\times 3 = \\ldots$).",
+  "worked_example": [
+    {
+      "expression_latex": "n = 360",
+      "description_latex": "We want to find the prime factorization of $360$. Our strategy is to repeatedly divide by the smallest prime that goes in evenly, starting with $2$, until we reach $1$. This systematic approach guarantees we won't accidentally skip a prime factor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "360 = 2 \\times 180 = 2 \\times 2 \\times 90 = 2 \\times 2 \\times 2 \\times 45",
+      "description_latex": "We divide by $2$ three times: $360 \\div 2 = 180$, $180 \\div 2 = 90$, $90 \\div 2 = 45$. Now $45$ is odd, so $2$ no longer divides it \u2014 we move to the next prime, which is $3$. Each division strips away one prime factor, and we record it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "45 = 3 \\times 15 = 3 \\times 3 \\times 5",
+      "description_latex": "Dividing $45$ by $3$ gives $15$, and dividing $15$ by $3$ gives $5$. Since $5$ is itself prime (its only divisors are $1$ and $5$), the division process terminates here. We have now identified all prime factors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "360 = 2^3 \\times 3^2 \\times 5^1",
+      "description_latex": "We collect repeated primes using exponent notation: three factors of $2$, two factors of $3$, and one factor of $5$. This is the unique prime factorization of $360$ \u2014 the Fundamental Theorem guarantees no other combination of primes multiplies to $360$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "n = 252",
+      "description_latex": "We want the prime factorization of $252$. Start by dividing by $2$ as many times as possible. Notice that $252 \\div 2 = 126$ and $126 \\div 2 = 63$. Since $63$ is odd, we cannot divide by $2$ again.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "252 = 2^2 \\times 63, \\quad 63 = \\, ?",
+      "description_latex": "Now factor $63$ completely by dividing by the next relevant primes ($3$, then $5$, then $7$, etc.). What is the full prime factorization of $63$? Write it as a product of primes with exponents.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "252 = 2^2 \\times 3^2 \\times 7",
+      "description_latex": "Putting it all together: $63 = 3^2 \\times 7$, so $252 = 2^2 \\times 3^2 \\times 7$. You can verify by multiplying: $4 \\times 9 \\times 7 = 252$. The Fundamental Theorem guarantees this is the one and only prime factorization of $252$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Is $37$ prime or composite? Justify your answer.",
+      "answer_latex": "37 \\text{ is prime. Its only divisors are } 1 \\text{ and } 37 \\text{ (check all primes up to } \\lfloor\\sqrt{37}\\rfloor = 6\\text{: } 2, 3, 5 \\text{ none divide } 37\\text{).}"
+    },
+    {
+      "prompt_latex": "Find the prime factorization of $180$.",
+      "answer_latex": "180 = 2^2 \\times 3^2 \\times 5"
+    },
+    {
+      "prompt_latex": "Find the prime factorization of $1764$.",
+      "answer_latex": "1764 = 2^2 \\times 3^2 \\times 7^2"
+    },
+    {
+      "prompt_latex": "Using prime factorizations, find $\\gcd(360, 252)$ and $\\text{lcm}(360, 252)$.",
+      "answer_latex": "\\gcd(360, 252) = 2^2 \\times 3^2 = 36; \\quad \\text{lcm}(360, 252) = 2^3 \\times 3^2 \\times 5 \\times 7 = 2520"
+    },
+    {
+      "prompt_latex": "A rectangular floor measures $84$ cm by $126$ cm. You want to tile it with identical square tiles (whole cm side lengths) leaving no gaps. What is the largest possible tile size, and how many tiles do you need?",
+      "answer_latex": "\\gcd(84, 126) = 42 \\text{ cm (largest tile side)}; \\text{ number of tiles} = \\frac{84 \\times 126}{42^2} = \\frac{10584}{1764} = 6"
+    }
+  ],
+  "common_mistakes": [
+    "Students often include $1$ as a prime factor, writing, for example, $6 = 1 \\times 2 \\times 3$. The number $1$ is defined as a unit, not a prime, precisely so that prime factorizations remain unique \u2014 remember to start your list of primes at $2$.",
+    "When checking whether a number $n$ is prime, students test divisibility all the way up to $n-1$ instead of stopping at $\\lfloor\\sqrt{n}\\rfloor$. If $n$ has a factor greater than $\\sqrt{n}$, its paired factor must be less than $\\sqrt{n}$ and would have been caught already, so checking up to $\\lfloor\\sqrt{n}\\rfloor$ is sufficient.",
+    "Students sometimes stop factoring too early, leaving a composite number in their factorization \u2014 for example, writing $360 = 8 \\times 45$ and stopping there. Always verify that every factor in your final answer is itself prime; if any factor is composite, it must be broken down further."
+  ],
+  "untested_variants": [
+    "Proving that the set of primes is infinite (Euclid's proof by contradiction), which requires constructing $p_1 p_2 \\cdots p_k + 1$ and arguing about its prime factors.",
+    "Using prime factorizations to determine the number of positive divisors of an integer via the formula $\\tau(n) = (e_1+1)(e_2+1)\\cdots(e_k+1)$.",
+    "Applying the Fundamental Theorem to rational numbers \u2014 showing that every positive rational $p/q$ in lowest terms has a unique representation using primes with possibly negative exponents.",
+    "Prime factorization in other number systems or modular contexts, such as determining whether a given number is a perfect square or perfect cube by inspecting the parity of exponents in its factorization."
+  ]
+}

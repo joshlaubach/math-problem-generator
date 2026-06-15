@@ -1,0 +1,86 @@
+{
+  "topic_id": "geo_081",
+  "topic_name": "Permutations and Combinations",
+  "generated_at": "2026-05-12T23:16:41.799741+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to count outcomes in simple situations \u2014 like flipping a coin or rolling a die. But what if you need to count the number of ways to arrange 5 books on a shelf, or choose a 3-person committee from a club of 10? Suddenly, multiplying a few numbers isn't enough. The question is: does the ORDER in which you select things matter, or not?",
+  "concept": "Permutations count arrangements where order matters; combinations count selections where order does not. Formally, the number of permutations of $r$ items chosen from $n$ distinct items is $P(n, r) = \\frac{n!}{(n-r)!}$, and the number of combinations is $C(n, r) = \\frac{n!}{r!(n-r)!}$. The key difference: selecting Alice then Bob is a different permutation from Bob then Alice, but it is the same combination.",
+  "anatomy": "Both formulas share the same structural parts. The value $n$ is the total pool size \u2014 the number of distinct items available to choose from. The value $r$ is the selection size \u2014 how many items you are actually picking. The expression $n!$ (n-factorial) means $n \\times (n-1) \\times (n-2) \\times \\cdots \\times 1$, and it counts all ways to arrange all $n$ items. The factor $(n-r)!$ in the denominator of $P(n,r)$ cancels the arrangements of items you did NOT choose, while the extra $r!$ in $C(n,r)$ additionally cancels the internal orderings of the chosen items, collapsing all $r!$ arrangements of the same group into one.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Problem: How many ways can a club of 8 members elect a President, Vice-President, and Secretary?}",
+      "description_latex": "We first ask whether order matters here. Because President, VP, and Secretary are distinct roles, the person elected President and the person elected VP hold different positions \u2014 so arrangement matters, and we use a permutation. We identify $n = 8$ (total members) and $r = 3$ (roles to fill).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(8, 3) = \\frac{8!}{(8-3)!} = \\frac{8!}{5!}",
+      "description_latex": "We apply the permutation formula $P(n,r) = \\frac{n!}{(n-r)!}$. The $5!$ in the denominator cancels the factorial tail we do not need, leaving only the top three factors of $8!$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{8!}{5!} = \\frac{8 \\times 7 \\times 6 \\times 5!}{5!} = 8 \\times 7 \\times 6",
+      "description_latex": "The $5!$ terms cancel cleanly, which is exactly what the formula is designed to do \u2014 you are left multiplying only the $r = 3$ factors that represent your sequential choices from a shrinking pool.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "8 \\times 7 \\times 6 = 336",
+      "description_latex": "There are 336 different ways the club can fill those three officer positions. Notice how each step reduced the available pool by one because once someone is chosen for a role they cannot hold another.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: A teacher chooses 4 students from a class of 15 to form a study group. How many groups are possible?}",
+      "description_latex": "Start by deciding which formula to use. A study group has no internal ranking \u2014 choosing {Ana, Ben, Cal, Dee} is the same group regardless of the order they were picked. Because order does NOT matter, we use a combination with $n = 15$ and $r = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C(15, 4) = \\frac{15!}{4!(15-4)!} = \\frac{15!}{4! \\cdot 11!}",
+      "description_latex": "We substitute into the combination formula $C(n,r) = \\frac{n!}{r!(n-r)!}$. The $11!$ cancels the lower factorial tail and the $4!$ removes the overcounting of arrangements within the chosen group.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Simplify the expression by canceling $11!$ from numerator and denominator, then compute the remaining product in the numerator and divide by $4! = 24$. What is $C(15, 4)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "C(15,4) = \\frac{15 \\times 14 \\times 13 \\times 12}{4!} = \\frac{32{,}760}{24} = 1{,}365",
+      "description_latex": "After canceling $11!$, the numerator becomes $15 \\times 14 \\times 13 \\times 12 = 32{,}760$, and dividing by $24$ gives $1{,}365$ possible study groups.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate: P(5, 2)",
+      "answer_latex": "20"
+    },
+    {
+      "prompt_latex": "A playlist has 9 songs. How many ways can you arrange 4 of them in order for a radio segment?",
+      "answer_latex": "P(9,4) = 3{,}024"
+    },
+    {
+      "prompt_latex": "A committee of 3 people is chosen from 10 candidates. How many different committees are possible?",
+      "answer_latex": "C(10,3) = 120"
+    },
+    {
+      "prompt_latex": "A lock requires a 3-digit code where digits are chosen from $\\{1, 2, 3, 4, 5, 6\\}$ without repetition and the order matters. How many codes are possible? Then find the probability that a randomly guessed code is correct.",
+      "answer_latex": "P(6,3) = 120 \\text{ codes}; \\text{ probability} = \\frac{1}{120}"
+    },
+    {
+      "prompt_latex": "A basketball coach must select 5 starters from a roster of 12 players. Two specific players (the team captains) must always be included. How many different starting lineups are possible?",
+      "answer_latex": "C(10,3) = 120"
+    }
+  ],
+  "common_mistakes": [
+    "Students use a permutation when the problem calls for a combination (or vice versa) because they skip the 'does order matter?' check. The fix is to always ask: would swapping two chosen items create a genuinely different outcome? If yes, use $P$; if no, use $C$.",
+    "Students forget to divide by $r!$ when using the combination formula, effectively computing $P(n,r)$ instead of $C(n,r)$. Remember that $C(n,r) = \\frac{P(n,r)}{r!}$ \u2014 the extra $r!$ in the denominator is what collapses all the rearrangements of the same group into one.",
+    "Students mishandle the factorial cancellation and compute the full factorial in both numerator and denominator, leading to arithmetic errors with very large numbers. Instead, cancel $(n-r)!$ immediately to reduce the numerator to just $r$ multiplied terms before doing any arithmetic."
+  ],
+  "untested_variants": [
+    "Permutations with repeated elements, such as counting arrangements of the letters in the word MISSISSIPPI using the formula $\\frac{n!}{n_1! \\cdot n_2! \\cdots}$.",
+    "Circular permutations, where objects are arranged in a ring and the formula becomes $(n-1)!$ rather than $n!$.",
+    "Problems requiring both a combination AND a permutation in sequence, such as choosing a 3-person group from 10 and then arranging those 3 people in a line.",
+    "Using combinations to compute geometric probability or sample-space sizes in multi-stage experiments involving cards or dice."
+  ]
+}

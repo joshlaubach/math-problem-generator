@@ -1,0 +1,76 @@
+{
+  "topic_id": "pc_019",
+  "topic_name": "Solving Exponential and Logarithmic Equations",
+  "generated_at": "2026-05-12T23:44:31.880085+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to solve linear and quadratic equations, and you've learned what exponential and logarithmic functions look like. But what happens when the variable is trapped in an exponent, like in $3^{2x-1} = 81$, or locked inside a logarithm, like in $\\log_2(x+3) = 5$? Your usual algebraic moves \u2014 adding, factoring, dividing \u2014 won't free it. So how do you isolate a variable when it's sitting in the exponent or inside a log?",
+  "concept": "Solving exponential and logarithmic equations means using the inverse relationship between exponents and logarithms to isolate the variable. If $b^x = y$, then $x = \\log_b(y)$, and vice versa. The key principle is that applying a logarithm to both sides of an exponential equation (or exponentiating both sides of a logarithmic equation) \"undoes\" the operation, bringing the variable down to a level where ordinary algebra can finish the job.",
+  "anatomy": "Every exponential equation has a base $b$ (a positive number not equal to 1), an exponent expression (often a linear expression in the variable, like $2x - 1$), and a result value on the other side. Every logarithmic equation has a base $b$, an argument (the expression inside the log, which must be positive), and a value the log equals. The solver's job is to identify which form the equation is in, then apply the matching inverse: take $\\log_b$ of both sides to undo an exponential, or rewrite $\\log_b(\\text{argument}) = c$ as $b^c = \\text{argument}$ to undo a logarithm.",
+  "worked_example": [
+    {
+      "expression_latex": "3^{2x-1} = 81",
+      "description_latex": "We start by recognizing that 81 is a power of 3, specifically $3^4$. Rewriting both sides with the same base lets us use the one-to-one property of exponential functions: if $b^u = b^v$, then $u = v$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3^{2x-1} = 3^4",
+      "description_latex": "Since the bases are now equal and exponential functions are one-to-one, the exponents must be equal. We set the exponent expressions equal to each other: $2x - 1 = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x - 1 = 4 \\implies x = \\frac{5}{2}",
+      "description_latex": "Adding 1 to both sides gives $2x = 5$, and dividing by 2 gives the solution $x = \\frac{5}{2}$. You can verify by substituting back: $3^{2(5/2)-1} = 3^4 = 81$ \u2713.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\log_3(2x + 1) = 4",
+      "description_latex": "We have a logarithmic equation where the log base 3 of an expression equals 4. To isolate the argument $2x+1$, we rewrite the equation in exponential form using the definition $\\log_b(A) = c \\iff b^c = A$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x + 1 = 3^4 = 81",
+      "description_latex": "Rewriting in exponential form converts $\\log_3(2x+1) = 4$ into $3^4 = 2x+1$, which equals $81 = 2x+1$. Now you have a simple linear equation to solve \u2014 can you finish it?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = 40",
+      "description_latex": "Subtracting 1 gives $2x = 80$, so $x = 40$. Always check that the argument of the original log is positive: $2(40)+1 = 81 > 0$ \u2713.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve: } 2^x = 32",
+      "answer_latex": "x = 5"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\log_4(x) = 3",
+      "answer_latex": "x = 64"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } 5^{3x} = 125",
+      "answer_latex": "x = 1"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\log_2(x+5) + \\log_2(x-3) = 6",
+      "answer_latex": "x = 11"
+    },
+    {
+      "prompt_latex": "A bacterial culture doubles every hour. If the initial population is 500, after how many hours $t$ will the population reach 16{,}000? Set up and solve the equation $500 \\cdot 2^t = 16000$.",
+      "answer_latex": "t = 5 \\text{ hours}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to check that the argument of a logarithm is positive in the original equation after solving, which can allow extraneous solutions to slip through. For example, solving $\\log(x+2) + \\log(x-1) = \\log(4)$ might produce a negative value of $x$ that makes one log undefined \u2014 always substitute your answer back and verify the domain.",
+    "When taking the logarithm of both sides of an exponential equation like $5^x = 7$, students incorrectly write $x = \\log 5 / 7$ instead of $x = \\log 7 / \\log 5$. Remember that $\\log(5^x) = x \\log 5$, so dividing both sides by $\\log 5$ gives $x = \\frac{\\log 7}{\\log 5}$, not $\\log(7/5)$.",
+    "When rewriting a logarithmic equation in exponential form, students sometimes confuse which quantity is the base and which is the exponent. In $\\log_b(A) = c$, the base is $b$, the exponent is $c$, and the result is $A$, giving $b^c = A$ \u2014 NOT $c^b = A$ or $A^c = b$."
+  ],
+  "untested_variants": [
+    "Equations requiring the change-of-base formula to evaluate or compare logarithms with non-standard bases, such as $\\log_6(x) = \\log_6(2) + \\log_6(x-1)$ combined with a verification step using $\\ln$ or $\\log_{10}$.",
+    "Exponential equations where the bases cannot be matched and require taking the natural log of both sides, producing irrational solutions like $x = \\frac{\\ln 7}{\\ln 5}$, which must then be approximated with a calculator.",
+    "Systems of equations involving one exponential and one logarithmic equation that must be solved simultaneously, requiring substitution.",
+    "Logarithmic equations that after combining logs produce a quadratic, such as $\\log_2(x) + \\log_2(x-6) = 4$, where factoring is needed and one root must be rejected as extraneous."
+  ]
+}

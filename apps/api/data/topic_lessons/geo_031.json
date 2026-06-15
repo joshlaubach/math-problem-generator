@@ -1,0 +1,76 @@
+{
+  "topic_id": "geo_031",
+  "topic_name": "Triangle Congruence: SSS and SAS",
+  "generated_at": "2026-05-12T23:02:09.133595+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that two triangles are congruent when they are exactly the same shape and size \u2014 every side and every angle matches up perfectly. But measuring all six parts of a triangle every time would be tedious. What if you only knew a few measurements? The question is: can you guarantee two triangles are congruent by checking just three carefully chosen parts, and if so, which three?",
+  "concept": "Triangle congruence shortcuts let us prove two triangles identical without measuring every part. The Side-Side-Side (SSS) postulate states that if all three pairs of corresponding sides are equal \u2014 $AB = DE$, $BC = EF$, $AC = DF$ \u2014 then $\\triangle ABC \\cong \\triangle DEF$. The Side-Angle-Side (SAS) postulate states that if two pairs of corresponding sides and the included angle between them are equal, the triangles are congruent.",
+  "anatomy": "Both postulates share key structural ideas worth naming precisely. In SSS, the three corresponding sides are the only ingredients; the word 'corresponding' means they sit opposite the same-labeled vertices in the congruence statement. In SAS, the included angle is the angle formed by the two sides being compared \u2014 it must sit directly between those sides, not beside or opposite them. The congruence statement itself, such as $\\triangle ABC \\cong \\triangle DEF$, encodes vertex correspondence: $A$ matches $D$, $B$ matches $E$, and $C$ matches $F$, so side $AB$ corresponds to side $DE$, and so on.",
+  "worked_example": [
+    {
+      "expression_latex": "\\triangle PQR \\text{ and } \\triangle XYZ \\text{ with } PQ = XY = 5,\\; QR = YZ = 7,\\; PR = XZ = 6",
+      "description_latex": "We are given all three pairs of side lengths for the two triangles, so we should check whether SSS applies. Notice that every side in $\\triangle PQR$ has a matching side of equal length in $\\triangle XYZ$, and the vertex labels tell us exactly which sides correspond to which.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "PQ = XY,\\quad QR = YZ,\\quad PR = XZ",
+      "description_latex": "We list the three side equalities explicitly because SSS requires all three corresponding pairs to be equal \u2014 confirming even one missing pair would break the postulate. All three conditions are satisfied here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore\\; \\triangle PQR \\cong \\triangle XYZ \\quad (\\text{SSS})",
+      "description_latex": "Because all three pairs of corresponding sides are congruent, we can conclude the triangles are congruent by the SSS postulate. Writing '(SSS)' as the justification tells your reader exactly which postulate you used and why no further information is needed.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\triangle ABC \\text{ and } \\triangle DEF \\text{ with } AB = DE = 4,\\; BC = EF = 9,\\; \\angle B = \\angle E = 55^\\circ",
+      "description_latex": "We have two pairs of equal sides and an equal angle. Before applying any postulate, we must decide whether the angle is the included angle \u2014 that is, whether it sits directly between the two given sides in each triangle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\angle B \\text{ is between sides } AB \\text{ and } BC;\\quad \\angle E \\text{ is between sides } DE \\text{ and } EF",
+      "description_latex": "Check which sides share vertex $B$ in $\\triangle ABC$: they are $AB$ and $BC$, which are exactly the two sides we know. Since $\\angle B$ sits between our two known sides, it qualifies as the included angle. Confirm the same is true for $\\angle E$ in $\\triangle DEF$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write the congruence statement and name the postulate that justifies it. Which postulate applies here \u2014 SSS or SAS \u2014 and how do you write the full conclusion using proper triangle notation?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\triangle ABC \\text{ has } AB=3,\\, BC=5,\\, AC=7 \\text{ and } \\triangle DEF \\text{ has } DE=3,\\, EF=5,\\, DF=7. \\text{ Are the triangles congruent? If so, state the postulate.}",
+      "answer_latex": "\\triangle ABC \\cong \\triangle DEF \\text{ by SSS}"
+    },
+    {
+      "prompt_latex": "\\text{Given } KL = NP = 8,\\; LM = PQ = 11,\\; \\text{and } \\angle L = \\angle P = 40^\\circ. \\text{ Prove or disprove: } \\triangle KLM \\cong \\triangle NPQ.",
+      "answer_latex": "\\triangle KLM \\cong \\triangle NPQ \\text{ by SAS (}\\angle L \\text{ is included between } KL \\text{ and } LM\\text{)}"
+    },
+    {
+      "prompt_latex": "\\text{In the figure, } M \\text{ is the midpoint of } \\overline{AC} \\text{ and } \\overline{BD}. \\text{ Name the postulate that proves } \\triangle ABM \\cong \\triangle CDM.",
+      "answer_latex": "\\text{SAS: } AM = CM,\\; BM = DM \\text{ (midpoint), and } \\angle AMB = \\angle CMD \\text{ (vertical angles)}"
+    },
+    {
+      "prompt_latex": "\\text{Two triangles share a common side } \\overline{PR}. \\text{ You also know } PQ = PS \\text{ and } QR = SR. \\text{ Which postulate proves } \\triangle PQR \\cong \\triangle PSR, \\text{ and what role does the shared side play?}",
+      "answer_latex": "\\text{SSS: } PQ=PS,\\; QR=SR,\\; PR=PR \\text{ (reflexive property \u2014 the shared side counts as a pair of equal corresponding sides)}"
+    },
+    {
+      "prompt_latex": "\\text{A surveyor measures two plots of land. Plot 1 has boundary sides of } 120\\text{ m and }95\\text{ m} \\text{ meeting at an angle of }62^\\circ. \\text{ Plot 2 has boundary sides of }95\\text{ m and }120\\text{ m} \\text{ meeting at an angle of }62^\\circ. \\text{ Must the plots be the same shape and size? Justify.}",
+      "answer_latex": "\\text{Yes \u2014 SAS applies: both plots have sides } 120\\text{ m and }95\\text{ m} \\text{ with included angle }62^\\circ, \\text{ so the triangular plots are congruent.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply SAS when the known angle is NOT between the two known sides \u2014 for example, knowing two sides and an angle that is opposite one of them. This is the SSA arrangement, which does NOT guarantee congruence; always verify the angle is the included angle by checking that both given sides share the angle's vertex.",
+    "When writing the congruence statement, students mix up the vertex correspondence \u2014 writing $\\triangle ABC \\cong \\triangle EDF$ when the correct match is $\\triangle ABC \\cong \\triangle DEF$. The order of vertices in the statement must mirror which vertices actually correspond, because side and angle equalities are read directly from that order.",
+    "Students forget to invoke the reflexive property for a shared side, listing only two pairs of equal sides and leaving SSS incomplete. Whenever two triangles share a side or a diagonal, that segment is automatically equal to itself ($\\overline{PR} = \\overline{PR}$), and you must state it explicitly as the third pair of congruent sides."
+  ],
+  "untested_variants": [
+    "Coordinate geometry proofs where students must use the distance formula to compute side lengths and then apply SSS or SAS \u2014 the practice problems use given measurements, not coordinates.",
+    "Problems involving overlapping triangles where the shared segment or angle requires careful identification before the postulate can be applied.",
+    "Multi-step proofs where SSS or SAS is used as a mid-proof step to establish congruence, and then CPCTC (Corresponding Parts of Congruent Triangles are Congruent) is used to conclude something about a specific side or angle.",
+    "Algebraic problems where side lengths or angle measures are expressed as expressions (e.g., $2x + 3$ and $x + 7$) that must be set equal and solved before the congruence postulate can be applied."
+  ]
+}

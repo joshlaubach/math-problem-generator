@@ -1,0 +1,81 @@
+{
+  "topic_id": "c2_027",
+  "topic_name": "Applications of Taylor Series (H)",
+  "generated_at": "2026-05-13T00:26:15.464278+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to compute Taylor series for functions like $e^x$, $\\sin x$, and $\\ln(1+x)$. But what do you actually do with them once you have them? For instance, how would you evaluate $\\int_0^1 e^{-x^2}\\,dx$ to six decimal places, when no elementary antiderivative exists? Or how would you compute $\\lim_{x\\to 0}\\frac{\\sin x - x}{x^3}$ without repeatedly applying L'H\u00f4pital's rule? Taylor series turn these seemingly impossible problems into straightforward arithmetic \u2014 but you need to know the techniques.",
+  "concept": "A Taylor series is not just a representation of a function \u2014 it is a computational tool. Once a function is expressed as a power series, you can integrate it term by term, differentiate it term by term, substitute expressions into it, and use it to resolve indeterminate limits, all because power series behave like infinitely long polynomials inside their radius of convergence. Formally, if $f(x) = \\sum_{n=0}^{\\infty} c_n x^n$ converges on $(-R, R)$, then $\\int f(x)\\,dx = \\sum_{n=0}^{\\infty} \\frac{c_n}{n+1}x^{n+1} + C$ and $f'(x) = \\sum_{n=1}^{\\infty} n\\,c_n x^{n-1}$, both also valid on $(-R, R)$.",
+  "anatomy": "Every application of a Taylor series involves four identifiable components: the base series, which is a known Maclaurin series such as $e^u = \\sum_{n=0}^{\\infty}\\frac{u^n}{n!}$; the substitution, which replaces the series variable $u$ with a specific expression like $-x^2$; the resulting adapted series, which is the term-by-term rewrite after substitution; and the operation applied, which is one of four actions \u2014 termwise integration, termwise differentiation, limit evaluation (canceling leading terms), or numerical approximation with a truncated partial sum and an error bound from the alternating series estimation theorem.",
+  "worked_example": [
+    {
+      "expression_latex": "\\int_0^1 e^{-x^2}\\,dx",
+      "description_latex": "We want to integrate $e^{-x^2}$, which has no elementary antiderivative. Our plan is to replace $e^{-x^2}$ with its Maclaurin series by substituting $u = -x^2$ into the known series $e^u = \\sum_{n=0}^{\\infty}\\frac{u^n}{n!}$, which gives us a polynomial-like expression we can integrate term by term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e^{-x^2} = \\sum_{n=0}^{\\infty} \\frac{(-x^2)^n}{n!} = \\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n}}{n!} = 1 - x^2 + \\frac{x^4}{2!} - \\frac{x^6}{3!} + \\cdots",
+      "description_latex": "We substitute $-x^2$ for $u$ in the exponential series and simplify $(-x^2)^n = (-1)^n x^{2n}$. This adapted series converges for all $x$, so we are free to integrate it term by term over $[0,1]$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^1 e^{-x^2}\\,dx = \\int_0^1 \\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n}}{n!}\\,dx = \\sum_{n=0}^{\\infty} \\frac{(-1)^n}{n!} \\cdot \\frac{x^{2n+1}}{2n+1}\\Bigg|_0^1",
+      "description_latex": "We integrate term by term, applying $\\int x^{2n}\\,dx = \\frac{x^{2n+1}}{2n+1}$ to each term. Evaluating from 0 to 1 is clean because $1^{2n+1} = 1$ and $0^{2n+1} = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\sum_{n=0}^{\\infty} \\frac{(-1)^n}{n!(2n+1)} = 1 - \\frac{1}{3} + \\frac{1}{10} - \\frac{1}{42} + \\frac{1}{216} - \\cdots",
+      "description_latex": "The resulting series is alternating with terms decreasing in absolute value toward zero, so the alternating series estimation theorem guarantees that truncating after any term gives an error no larger than the first omitted term. Using the first five terms gives $\\approx 0.74683$, accurate to within $\\frac{1}{1320} \\approx 0.00076$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\lim_{x \\to 0} \\frac{\\sin x - x}{x^3}",
+      "description_latex": "We want to evaluate this limit. Plugging in $x=0$ gives $\\frac{0}{0}$, and applying L'H\u00f4pital three times is tedious. Instead, we will substitute the Maclaurin series for $\\sin x = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\cdots$ into the numerator and simplify.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\sin x - x}{x^3} = \\frac{\\left(x - \\frac{x^3}{6} + \\frac{x^5}{120} - \\cdots\\right) - x}{x^3} = \\frac{-\\frac{x^3}{6} + \\frac{x^5}{120} - \\cdots}{x^3}",
+      "description_latex": "After substituting the series, the $x$ terms cancel exactly in the numerator, leaving leading term $-\\frac{x^3}{6}$. Now cancel the $x^3$ in the denominator by dividing each term of the numerator by $x^3$. What expression do you get, and what is its limit as $x \\to 0$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\lim_{x \\to 0}\\frac{\\sin x - x}{x^3} = -\\frac{1}{6}",
+      "description_latex": "After dividing through by $x^3$, every remaining term except $-\\frac{1}{6}$ still carries a positive power of $x$ and vanishes as $x \\to 0$, giving the limit $-\\frac{1}{6}$ cleanly and immediately.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use the Maclaurin series for $\\cos x$ to write out the first four nonzero terms of the series for $\\cos(x^2)$.",
+      "answer_latex": "\\cos(x^2) = 1 - \\frac{x^4}{2!} + \\frac{x^8}{4!} - \\frac{x^{12}}{6!} + \\cdots"
+    },
+    {
+      "prompt_latex": "Evaluate $\\lim_{x \\to 0} \\dfrac{1 - \\cos x}{x^2}$ using Taylor series.",
+      "answer_latex": "\\dfrac{1}{2}"
+    },
+    {
+      "prompt_latex": "Use the Taylor series for $\\ln(1+x) = x - \\dfrac{x^2}{2} + \\dfrac{x^3}{3} - \\cdots$ to write $\\int_0^{0.5} \\ln(1+x)\\,dx$ as an infinite series, then approximate it to within $0.001$.",
+      "answer_latex": "\\sum_{n=1}^{\\infty}\\frac{(-1)^{n+1}}{n(n+1)}\\left(\\tfrac{1}{2}\\right)^{n+1} \\approx 0.1178 \\text{ (using first three terms)}"
+    },
+    {
+      "prompt_latex": "By integrating the geometric series $\\dfrac{1}{1+t^2} = \\sum_{n=0}^{\\infty}(-1)^n t^{2n}$ term by term from $0$ to $x$, derive the Maclaurin series for $\\arctan x$ and use it to write a series equal to $\\dfrac{\\pi}{4}$.",
+      "answer_latex": "\\arctan x = \\sum_{n=0}^{\\infty}\\frac{(-1)^n x^{2n+1}}{2n+1},\\quad \\frac{\\pi}{4} = 1 - \\frac{1}{3} + \\frac{1}{5} - \\frac{1}{7} + \\cdots"
+    },
+    {
+      "prompt_latex": "A physicist approximates $e^{-x}$ by the polynomial $1 - x + \\dfrac{x^2}{2}$ for small $x > 0$. Find the maximum value of $x$ on $(0, 0.5]$ for which this approximation is guaranteed accurate to within $0.01$, using the alternating series remainder estimate.",
+      "answer_latex": "\\text{Error} \\leq \\frac{x^3}{6} \\leq 0.01 \\Rightarrow x \\leq (0.06)^{1/3} \\approx 0.3915"
+    }
+  ],
+  "common_mistakes": [
+    "Students substitute into the series but forget to raise the entire substituted expression to the $n$th power: for example, writing $\\cos(x^2) = \\sum \\frac{(-1)^n x^2}{(2n)!}$ instead of $\\sum \\frac{(-1)^n (x^2)^{2n}}{(2n)!} = \\sum \\frac{(-1)^n x^{4n}}{(2n)!}$. Always apply the exponent to the full substituted expression.",
+    "When using a truncated series to approximate an integral or limit, students forget to verify that the series is alternating and decreasing before applying the alternating series error bound \u2014 the bound only applies when both conditions hold. For non-alternating remainder terms, you must use the Taylor remainder formula $|R_n(x)| \\leq \\frac{M|x|^{n+1}}{(n+1)!}$ instead.",
+    "When evaluating limits using series, students cancel $x^k$ from numerator and denominator before confirming the numerator actually starts at degree $k$, sometimes dividing by $x^3$ when the leading numerator term is $x^2$, which sends the limit to infinity incorrectly. Always write out enough terms of the numerator first to identify the true lowest-degree nonzero term."
+  ],
+  "untested_variants": [
+    "Using Taylor series to evaluate limits of the form $\\lim_{x \\to 0}\\frac{e^x - 1 - x - x^2/2}{x^3}$, where two substituted series must be combined before cancellation.",
+    "Finding the sum of a numerical series by recognizing it as a Taylor series evaluated at a specific point, e.g., identifying $\\sum_{n=0}^{\\infty}\\frac{(-1)^n \\pi^{2n+1}}{4^{2n+1}(2n+1)!}$ as $\\sin(\\pi/4)$.",
+    "Using Taylor series to approximate solutions to differential equations, for example finding the first several terms of the power series solution to $y' = e^{-x^2}$ with initial condition $y(0) = 0$.",
+    "Multiplying two Taylor series together term by term, such as computing the first four terms of $e^x \\cos x$ by multiplying the series for $e^x$ and $\\cos x$."
+  ]
+}

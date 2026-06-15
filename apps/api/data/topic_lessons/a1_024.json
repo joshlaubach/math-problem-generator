@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_024",
+  "topic_name": "Writing Equations in Standard Form",
+  "generated_at": "2026-05-12T22:38:44.067499+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to write a linear equation in slope-intercept form, $y = mx + b$, which is great for graphing. But imagine a contractor who charges a flat fee plus an hourly rate \u2014 their client wants the equation arranged so both the labor and material costs appear neatly on the same side of the equation, without any fractions. Slope-intercept form would leave a messy decimal coefficient, but there's another form that keeps everything as clean integers. How do you rewrite a linear equation so that both variables are on the same side and all coefficients are whole numbers?",
+  "concept": "Standard form is simply a way of arranging a linear equation so both variables sit on the left side and the constant sits on the right. Formally, standard form is written $Ax + By = C$, where $A$, $B$, and $C$ are integers, $A \\geq 0$, and the greatest common factor of $A$, $B$, and $C$ is 1. This form is especially useful for quickly finding intercepts and for representing real-world constraints.",
+  "anatomy": "In the standard form equation $Ax + By = C$, there are four distinct parts to know. The coefficient $A$ is the integer multiplied by $x$ and must be non-negative (so we never write $-3x + 2y = 5$; we'd flip signs). The coefficient $B$ is the integer multiplied by $y$. The constant $C$ is the integer on the right-hand side, representing a fixed total or constraint. Finally, the condition that $\\gcd(A, B, C) = 1$ means the three integers share no common factor greater than 1 \u2014 in other words, the equation is fully reduced, just like a simplified fraction.",
+  "worked_example": [
+    {
+      "expression_latex": "y = \\tfrac{3}{2}x - 4",
+      "description_latex": "We start with this slope-intercept equation and our goal is to rewrite it in standard form $Ax + By = C$ with integer coefficients and no fractions. The first obstacle is the fraction $\\tfrac{3}{2}$, so we will eliminate it by multiplying every term on both sides by 2.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2y = 3x - 8",
+      "description_latex": "After multiplying every term by 2, the fraction disappears and all coefficients are now integers. Notice we multiplied ALL three terms \u2014 $y$, $\\tfrac{3}{2}x$, and $-4$ \u2014 to keep the equation balanced.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-3x + 2y = -8",
+      "description_latex": "We move the $x$-term to the left side by subtracting $3x$ from both sides, giving us the form $Ax + By = C$. However, $A = -3$ is negative, which violates the standard form convention that $A \\geq 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3x - 2y = 8",
+      "description_latex": "We multiply the entire equation by $-1$ to make $A$ positive. This flips every sign: $-3x$ becomes $3x$, $2y$ becomes $-2y$, and $-8$ becomes $8$. Now $A = 3$, $B = -2$, $C = 8$, and $\\gcd(3, 2, 8) = 1$, so the equation is fully in standard form.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y = -\\tfrac{2}{5}x + 3",
+      "description_latex": "We want to convert this slope-intercept equation to standard form. The fraction $\\tfrac{2}{5}$ tells us we should multiply every term by 5 to clear the denominator. Doing that gives $5y = -2x + 15$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now move the $x$-term to the left side by adding $2x$ to both sides. What equation do you get? Make sure to check whether $A$ is positive before declaring it standard form.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "2x + 5y = 15",
+      "description_latex": "We arrive at $2x + 5y = 15$. Here $A = 2 > 0$, all coefficients are integers, and $\\gcd(2, 5, 15) = 1$, confirming this is correct standard form. Notice no further sign adjustment was needed because $A$ was already positive.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Rewrite $y = 2x - 5$ in standard form.",
+      "answer_latex": "2x - y = 5"
+    },
+    {
+      "prompt_latex": "Rewrite $y = -3x + 7$ in standard form.",
+      "answer_latex": "3x + y = 7"
+    },
+    {
+      "prompt_latex": "Rewrite $y = \\tfrac{4}{3}x - 2$ in standard form.",
+      "answer_latex": "4x - 3y = 6"
+    },
+    {
+      "prompt_latex": "A line passes through the points $(1, 5)$ and $(3, 9)$. Write its equation in standard form.",
+      "answer_latex": "2x - y = -3"
+    },
+    {
+      "prompt_latex": "A school store sells notebooks for $\\$2$ each and pens for $\\$1.50$ each. A student spends exactly $\\$12$. Write an equation in standard form relating the number of notebooks $x$ and pens $y$ the student could buy.",
+      "answer_latex": "4x + 3y = 24"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to multiply every term by the LCD when clearing fractions \u2014 for example, multiplying $y = \\tfrac{1}{3}x + 2$ by 3 only on the fraction term to get $y = x + 2$ instead of the correct $3y = x + 6$. Always distribute the multiplication to all terms on both sides.",
+    "Students leave $A$ negative, writing something like $-2x + 5y = 10$ and calling it standard form. The convention requires $A \\geq 0$, so multiply the entire equation by $-1$ whenever the $x$-coefficient is negative.",
+    "Students do not check whether $\\gcd(A, B, C) = 1$ and leave a reducible equation such as $4x + 6y = 8$ instead of simplifying to $2x + 3y = 4$. Always divide through by the greatest common factor of all three integers as a final step."
+  ],
+  "untested_variants": [
+    "Converting from point-slope form $y - y_1 = m(x - x_1)$ directly to standard form (the practice problems only start from slope-intercept form or two points).",
+    "Standard form equations where the constant $C = 0$, such as lines through the origin like $3x - 4y = 0$.",
+    "Determining whether two standard form equations represent the same line (identifying equivalent equations by checking if one is a scalar multiple of the other).",
+    "Using standard form to quickly find both intercepts and then graphing the line from those intercepts alone, without converting back to slope-intercept form."
+  ]
+}

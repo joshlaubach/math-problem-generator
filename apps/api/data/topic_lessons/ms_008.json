@@ -1,0 +1,86 @@
+{
+  "topic_id": "ms_008",
+  "topic_name": "Complete Sufficient Statistics",
+  "generated_at": "2026-05-14T01:01:37.071521+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know that a sufficient statistic $T(X)$ captures all the information in the data about a parameter $\\theta$, and you've seen how the Rao-Blackwell theorem lets you improve an estimator by conditioning on a sufficient statistic. But here's the catch: Rao-Blackwell only guarantees uniqueness of the improved estimator if the sufficient statistic is *complete*. What exactly is completeness, and why does it guarantee that there is only one unbiased estimator that is a function of a sufficient statistic \u2014 and how do you prove a statistic has this property?",
+  "concept": "A sufficient statistic $T(X)$ is called **complete** if no nontrivial function of it can have expectation zero for all parameter values. Formally, $T(X)$ is complete for the family $\\{P_\\theta : \\theta \\in \\Omega\\}$ if, for any measurable function $g$, the condition $E_\\theta[g(T)] = 0$ for all $\\theta \\in \\Omega$ implies $g(T) = 0$ almost surely for all $\\theta$. Completeness rules out any 'hidden' structure in $T$ that could be exploited to construct a nonzero unbiased estimator of zero.",
+  "anatomy": "Three structural parts define completeness. First, the **statistic** $T(X)$: the candidate sufficient statistic whose distribution family we are interrogating. Second, the **test function** $g$: any measurable function of $T$ whose expectation we set to zero \u2014 this is the object we are trying to show must vanish. Third, the **parameter space** $\\Omega$: the condition $E_\\theta[g(T)] = 0$ must hold for *every* $\\theta \\in \\Omega$, so a larger or richer parameter space makes completeness easier to establish, while a restricted parameter space can destroy it. The Lehmann-Scheff\u00e9 theorem then connects these pieces: a complete sufficient statistic immediately yields the unique UMVUE by the Rao-Blackwell procedure.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Bernoulli}(\\theta), \\quad \\theta \\in (0,1), \\quad T = \\sum_{i=1}^n X_i",
+      "description_latex": "We begin by identifying the model and the candidate statistic. We already know that $T = \\sum_{i=1}^n X_i$ is sufficient for $\\theta$ by the factorization theorem, so our only job now is to verify completeness by testing whether any function $g(T)$ with zero expectation must itself be zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T \\sim \\text{Binomial}(n, \\theta), \\quad E_\\theta[g(T)] = \\sum_{t=0}^{n} g(t) \\binom{n}{t} \\theta^t (1-\\theta)^{n-t} = 0 \\text{ for all } \\theta \\in (0,1)",
+      "description_latex": "We write out the expectation explicitly using the Binomial pmf. Notice that this sum must equal zero for every value of $\\theta$ in the open interval $(0,1)$, which is a very strong constraint \u2014 it forces the polynomial in $\\theta$ on the left to be the zero polynomial.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{t=0}^{n} g(t) \\binom{n}{t} \\theta^t (1-\\theta)^{n-t} = (1-\\theta)^n \\sum_{t=0}^{n} g(t) \\binom{n}{t} \\left(\\frac{\\theta}{1-\\theta}\\right)^t = 0",
+      "description_latex": "We factor out $(1-\\theta)^n$, which is never zero on $(0,1)$, so we can divide it away. Setting $u = \\theta/(1-\\theta)$, which ranges over all positive reals as $\\theta$ ranges over $(0,1)$, we see that $\\sum_{t=0}^n g(t)\\binom{n}{t} u^t = 0$ for all $u > 0$. This is a polynomial in $u$ that is identically zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(t)\\binom{n}{t} = 0 \\text{ for } t = 0, 1, \\ldots, n \\implies g(t) = 0 \\text{ for all } t = 0, 1, \\ldots, n",
+      "description_latex": "A polynomial that is identically zero must have all its coefficients equal to zero. Since $\\binom{n}{t} > 0$ for every $t$, we conclude $g(t) = 0$ for each possible value of $T$. This is exactly the definition of completeness: the only function $g$ satisfying $E_\\theta[g(T)] = 0$ for all $\\theta$ is the zero function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T = \\sum_{i=1}^n X_i \\text{ is a complete sufficient statistic for } \\theta \\in (0,1)",
+      "description_latex": "We have verified both sufficiency (from the factorization theorem) and completeness (from the polynomial argument above), so $T$ is a complete sufficient statistic. By the Lehmann-Scheff\u00e9 theorem, any unbiased estimator that is a function of $T$ is automatically the unique UMVUE for its estimand.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Poisson}(\\lambda), \\quad \\lambda > 0, \\quad T = \\sum_{i=1}^n X_i \\sim \\text{Poisson}(n\\lambda)",
+      "description_latex": "We want to show that $T = \\sum_{i=1}^n X_i$ is a complete sufficient statistic for $\\lambda$. Sufficiency follows from the factorization theorem. To check completeness, suppose $g$ is a function with $E_\\lambda[g(T)] = 0$ for all $\\lambda > 0$. We write out this expectation using the Poisson pmf for $T$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_\\lambda[g(T)] = e^{-n\\lambda} \\sum_{t=0}^{\\infty} g(t) \\frac{(n\\lambda)^t}{t!} = 0 \\text{ for all } \\lambda > 0",
+      "description_latex": "This is the explicit form of the zero-expectation condition. Notice that $e^{-n\\lambda}$ is never zero, so we can factor it out and focus on the remaining power series. Your task: explain why the condition $\\sum_{t=0}^{\\infty} g(t) \\frac{(n\\lambda)^t}{t!} = 0$ for all $\\lambda > 0$ forces each coefficient to be zero, and then write the conclusion about $g(t)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "g(t) = 0 \\text{ for all } t = 0, 1, 2, \\ldots \\implies T \\text{ is complete sufficient for } \\lambda",
+      "description_latex": "Since the power series $\\sum_{t=0}^\\infty g(t)\\frac{(n\\lambda)^t}{t!}$ is identically zero as a function of $\\lambda$, all its coefficients $g(t)/t!$ must vanish, giving $g(t)=0$ for every $t$. This confirms completeness, so by Lehmann-Scheff\u00e9, any unbiased estimator based on $T$ is the unique UMVUE.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim \\text{Binomial}(n, \\theta)$ with $\\theta \\in (0,1)$ known $n$. State the definition of completeness for the statistic $T = X$ and identify what family of distributions $T$ ranges over.",
+      "answer_latex": "$T = X$ is complete if $E_\\theta[g(T)] = 0$ for all $\\theta \\in (0,1)$ implies $g(t) = 0$ for $t = 0,1,\\ldots,n$; the family is $\\{\\text{Binomial}(n,\\theta) : \\theta \\in (0,1)\\}$."
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} \\text{Exponential}(\\theta)$ with density $f(x;\\theta) = \\theta e^{-\\theta x}$, $x > 0$, $\\theta > 0$. Show that $T = \\sum_{i=1}^n X_i$ is a complete sufficient statistic.",
+      "answer_latex": "$T \\sim \\text{Gamma}(n, \\theta)$. Setting $E_\\theta[g(T)] = \\frac{\\theta^n}{\\Gamma(n)}\\int_0^\\infty g(t)t^{n-1}e^{-\\theta t}\\,dt = 0$ for all $\\theta > 0$ means the Laplace transform of $g(t)t^{n-1}$ is identically zero, so $g(t) = 0$ a.e., confirming completeness."
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} N(\\mu, \\sigma^2)$ with $\\sigma^2$ known and $\\mu \\in \\mathbb{R}$. Show that $T = \\bar{X}$ is a complete sufficient statistic for $\\mu$.",
+      "answer_latex": "$T = \\bar{X} \\sim N(\\mu, \\sigma^2/n)$. If $E_\\mu[g(\\bar{X})] = 0$ for all $\\mu$, this is the convolution $(g * \\phi)(\\mu) = 0$ where $\\phi$ is a Gaussian kernel; uniqueness of the Fourier transform forces $g = 0$ a.e., so $T$ is complete."
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} N(\\mu,\\sigma^2)$ with both $\\mu \\in \\mathbb{R}$ and $\\sigma^2 > 0$ unknown. The complete sufficient statistic is $T = (\\bar{X}, S^2)$ where $S^2 = \\frac{1}{n-1}\\sum(X_i-\\bar{X})^2$. Use the Lehmann-Scheff\u00e9 theorem to identify the UMVUE of $\\mu^2 + \\sigma^2$.",
+      "answer_latex": "We need an unbiased estimator that is a function of $(\\bar{X}, S^2)$. Since $E[\\bar{X}^2] = \\mu^2 + \\sigma^2/n$ and $E[S^2] = \\sigma^2$, the estimator $\\hat{\\delta} = \\bar{X}^2 - S^2/n + S^2 = \\bar{X}^2 + S^2(1 - 1/n)$ is unbiased for $\\mu^2 + \\sigma^2$ and is the unique UMVUE."
+    },
+    {
+      "prompt_latex": "Consider $X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} \\text{Uniform}(0,\\theta)$, $\\theta > 0$. The statistic $T = X_{(n)} = \\max_i X_i$ is sufficient. Determine whether $T$ is complete by checking if $E_\\theta[g(T)] = 0$ for all $\\theta > 0$ implies $g = 0$ a.e.",
+      "answer_latex": "$T$ has pdf $f_T(t;\\theta) = nt^{n-1}/\\theta^n$ on $(0,\\theta)$. Then $E_\\theta[g(T)] = \\frac{n}{\\theta^n}\\int_0^\\theta g(t)t^{n-1}\\,dt = 0$ for all $\\theta > 0$. Differentiating with respect to $\\theta$ gives $g(\\theta)\\theta^{n-1} = 0$ for all $\\theta > 0$, so $g(\\theta) = 0$ a.e. Thus $T = X_{(n)}$ is complete sufficient."
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse sufficiency with completeness, thinking that proving $T$ is sufficient is enough to apply Lehmann-Scheff\u00e9. In fact, completeness is a separate and additional condition: you must show that $E_\\theta[g(T)] = 0$ for all $\\theta$ forces $g = 0$ almost surely, which requires its own argument.",
+    "When setting up $E_\\theta[g(T)] = 0$, students forget that the condition must hold for *all* $\\theta$ in the parameter space, not just a specific value. A function $g$ that makes the expectation zero at one point but not everywhere does not violate completeness; the universal quantifier over $\\Omega$ is what provides the leverage to conclude $g = 0$.",
+    "Students incorrectly conclude that the completeness argument is finished once they factor out a term like $e^{-n\\lambda}$ or $(1-\\theta)^n$ and are left with a power series or polynomial equal to zero for all parameter values. They must explicitly invoke the fact that a power series or polynomial identically equal to zero has all coefficients equal to zero \u2014 and state this step clearly \u2014 before concluding $g(t) = 0$."
+  ],
+  "untested_variants": [
+    "Proving that a statistic is *not* complete by constructing an explicit nonzero function $g$ with $E_\\theta[g(T)] = 0$ for all $\\theta$, such as for $T = (X_{(1)}, X_{(n)})$ when the parameter space is restricted.",
+    "Applying completeness in the context of curved exponential families (e.g., $N(\\theta, \\theta^2)$), where the natural sufficient statistic is no longer complete because the parameter space is a curve rather than an open set.",
+    "Using the Basu theorem, which states that a complete sufficient statistic is independent of every ancillary statistic, to prove independence of specific statistics such as $\\bar{X}$ and $S^2$ in the normal model.",
+    "Verifying completeness for multiparameter exponential families using the general theorem that the natural sufficient statistic of a full-rank exponential family is complete, rather than doing the integral/series argument by hand."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_004",
+  "topic_name": "Predicates and Quantifiers",
+  "generated_at": "2026-05-13T20:11:42.536067+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to work with propositions like 'It is raining' or 'The number 5 is odd' \u2014 statements that are simply true or false. But what happens when you want to say something like 'Every student in this class passed the exam' or 'There exists a number greater than 100 that is prime'? These aren't fixed true/false statements \u2014 their truth depends on *who* or *what* you're talking about, and you need a way to express 'for all' and 'there exists' precisely. How do we turn a vague phrase like 'some integer is negative' into a rigorous logical statement?",
+  "concept": "A predicate is a property or condition that becomes a proposition once you plug in a specific value. Formally, $P(x)$ denotes a predicate with variable $x$; it has no truth value until $x$ is specified. Quantifiers bind that variable: the universal quantifier $\\forall x\\, P(x)$ asserts $P(x)$ is true for every $x$ in the domain, while the existential quantifier $\\exists x\\, P(x)$ asserts $P(x)$ is true for at least one $x$ in the domain.",
+  "anatomy": "Every quantified statement has four identifiable parts. First, the quantifier itself \u2014 either $\\forall$ (universal, meaning 'for all') or $\\exists$ (existential, meaning 'there exists'). Second, the bound variable, such as $x$, which acts as a placeholder ranging over a domain. Third, the domain of discourse \u2014 the set of values $x$ is allowed to take, for example the integers $\\mathbb{Z}$ or the real numbers $\\mathbb{R}$; this is sometimes written explicitly as $\\forall x \\in \\mathbb{Z}$ or left implicit. Fourth, the predicate body $P(x)$ \u2014 the condition that is tested for each value of $x$. Misreading any one of these four parts typically leads to a completely different statement.",
+  "worked_example": [
+    {
+      "expression_latex": "P(x): x^2 > 0, \\quad \\text{domain: } \\mathbb{R}",
+      "description_latex": "We start by identifying the predicate. Here $P(x)$ is the condition '$x^2 > 0$', which is neither true nor false on its own \u2014 it depends entirely on the value of $x$ we choose. Before attaching any quantifier, it is essential to state the domain, which here is all real numbers $\\mathbb{R}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\forall x \\in \\mathbb{R},\\; P(x)",
+      "description_latex": "Now we attach the universal quantifier, producing the claim 'For every real number $x$, $x^2 > 0$.' To evaluate this we must ask: is there even one real number where the predicate fails? Yes \u2014 when $x = 0$, $x^2 = 0$, which is not greater than zero, so this universal statement is actually FALSE.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\exists x \\in \\mathbb{R},\\; P(x)",
+      "description_latex": "Switching to the existential quantifier, the statement now claims 'There exists at least one real number $x$ such that $x^2 > 0$.' We only need one witness \u2014 for example $x = 3$ gives $9 > 0$ \u2014 so this existential statement is TRUE. Notice how the same predicate body can yield opposite truth values depending solely on which quantifier you use.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\neg(\\forall x\\, P(x)) \\equiv \\exists x,\\; \\neg P(x)",
+      "description_latex": "This step illustrates the negation rule for quantifiers: to negate a universal statement, you flip $\\forall$ to $\\exists$ and negate the predicate body. So 'Not every real number satisfies $x^2 > 0$' becomes 'There exists a real number where $x^2 \\leq 0$', and indeed $x = 0$ is exactly that counterexample. This rule is the quantifier analogue of De Morgan's law.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "Q(x): x + 3 > 7, \\quad \\text{domain: } \\mathbb{Z}",
+      "description_latex": "We are given the predicate $Q(x)$ which says '$x + 3 > 7$', equivalently $x > 4$, over the integers. Before evaluating any quantified statement, note that $Q(x)$ is true for integers like $5, 6, 7, \\ldots$ and false for integers like $0, 1, 2, 3, 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\forall x \\in \\mathbb{Z},\\; Q(x)",
+      "description_latex": "Consider the universal claim 'For every integer $x$, $x + 3 > 7$.' Determine whether this statement is true or false, and if it is false, provide a specific counterexample integer.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\neg(\\exists x \\in \\mathbb{Z},\\; Q(x)) \\equiv \\forall x \\in \\mathbb{Z},\\; \\neg Q(x)",
+      "description_latex": "Apply the negation rule: the negation of an existential statement flips $\\exists$ to $\\forall$ and negates the predicate body. Write out $\\neg Q(x)$ explicitly in words, then decide whether the resulting universal statement is true or false over $\\mathbb{Z}$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $P(x)$ be '$x$ is even', with domain $\\{2, 4, 6\\}$. Is $\\forall x\\, P(x)$ true or false?",
+      "answer_latex": "\\text{True \u2014 every element of } \\{2, 4, 6\\} \\text{ is even.}"
+    },
+    {
+      "prompt_latex": "Let $Q(x)$ be '$x^2 = x$', with domain $\\mathbb{Z}$. Determine the truth value of $\\exists x \\in \\mathbb{Z},\\; Q(x)$ and provide a witness.",
+      "answer_latex": "\\text{True; witnesses are } x = 0 \\text{ (since } 0^2 = 0\\text{) and } x = 1 \\text{ (since } 1^2 = 1\\text{).}"
+    },
+    {
+      "prompt_latex": "Write the negation of $\\forall x \\in \\mathbb{R},\\; (x^2 \\geq 0)$ using correct quantifier notation, then determine its truth value.",
+      "answer_latex": "\\exists x \\in \\mathbb{R},\\; (x^2 < 0); \\text{ this is FALSE since squares of real numbers are never negative.}"
+    },
+    {
+      "prompt_latex": "Using both a quantifier and a propositional connective, express: 'For every integer $n$, $n$ is either even or odd.' Then write its negation in simplified form.",
+      "answer_latex": "\\forall n \\in \\mathbb{Z},\\; (E(n) \\lor O(n)); \\text{ negation: } \\exists n \\in \\mathbb{Z},\\; (\\neg E(n) \\land \\neg O(n))"
+    },
+    {
+      "prompt_latex": "A database stores student records. Let $P(s)$ mean 'student $s$ has submitted all assignments' and $F(s)$ mean 'student $s$ will fail'. Translate the sentence 'Every student who has not submitted all assignments will fail' into a quantified logical expression.",
+      "answer_latex": "\\forall s,\\; (\\neg P(s) \\rightarrow F(s))"
+    }
+  ],
+  "common_mistakes": [
+    "Students often negate $\\forall x\\, P(x)$ as $\\forall x\\, \\neg P(x)$ instead of the correct $\\exists x\\, \\neg P(x)$; remember that disproving a universal claim only requires finding ONE counterexample, not showing the predicate fails everywhere.",
+    "Students forget that the domain of discourse changes the truth value of a quantified statement \u2014 for example $\\forall x,\\; x > 0$ is false over $\\mathbb{Z}$ but can be true over $\\mathbb{Z}^+$; always state or check the domain before evaluating.",
+    "Students treat a predicate $P(x)$ as if it already has a truth value, writing things like '$P(x)$ is true' without specifying $x$ or attaching a quantifier; a predicate is only a proposition once a value is substituted or a quantifier binds the variable."
+  ],
+  "untested_variants": [
+    "Nested quantifiers such as $\\forall x\\, \\exists y,\\; P(x, y)$ versus $\\exists y\\, \\forall x,\\; P(x, y)$ and how swapping quantifier order changes meaning.",
+    "Translating multiply-quantified English sentences like 'Every person has a best friend' into formal logic with two-variable predicates.",
+    "Uniqueness quantification expressed as $\\exists! x,\\; P(x)$ meaning 'there exists exactly one $x$ satisfying $P$', and how to unpack it into standard quantifiers.",
+    "Evaluating quantified statements over finite domains by exhaustive checking, including truth tables extended to predicates."
+  ]
+}

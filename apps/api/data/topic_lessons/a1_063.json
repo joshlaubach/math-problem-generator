@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_063",
+  "topic_name": "Simplifying Radical Expressions",
+  "generated_at": "2026-05-12T22:48:43.652525+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to square a number \u2014 for example, $5^2 = 25$ \u2014 so you might expect that simplifying $\\sqrt{50}$ just means finding what number squared equals 50. But 50 isn't a perfect square, so there's no whole-number answer. How do we write $\\sqrt{50}$ in its simplest, most useful form?",
+  "concept": "Simplifying a radical expression means rewriting it so no perfect-square factor remains under the radical sign. Formally, we use the product property of square roots: $\\sqrt{a \\cdot b} = \\sqrt{a} \\cdot \\sqrt{b}$ for $a, b \\geq 0$. We factor the radicand into a perfect-square part and a leftover part, take the square root of the perfect square out front, and leave the rest inside the radical.",
+  "anatomy": "Every radical expression has three structural parts: the radical symbol $\\sqrt{\\phantom{x}}$ itself (which signals the square-root operation), the radicand \u2014 the expression sitting inside the radical, such as the 50 in $\\sqrt{50}$ \u2014 and the coefficient, the number multiplied in front of the radical symbol (which starts as 1 if nothing is written). When we simplify, we split the radicand into a perfect-square factor and a remaining factor, extract the square root of the perfect-square factor to become (or multiply into) the coefficient, and keep the remaining factor as the new radicand.",
+  "worked_example": [
+    {
+      "expression_latex": "\\sqrt{72}",
+      "description_latex": "We start by identifying the largest perfect-square factor of 72. Listing factor pairs of 72 \u2014 $(1,72), (2,36), (4,18), (6,12), (8,9)$ \u2014 we see that 36 is the largest perfect square that divides 72, so we rewrite the radicand as $72 = 36 \\cdot 2$. Choosing the largest perfect-square factor in one step keeps our work clean and avoids having to simplify multiple times.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{36 \\cdot 2}",
+      "description_latex": "Now we apply the product property of square roots, $\\sqrt{a \\cdot b} = \\sqrt{a} \\cdot \\sqrt{b}$, to split the radical into two separate radicals: $\\sqrt{36} \\cdot \\sqrt{2}$. This is legal because both factors are non-negative, and it lets us deal with the perfect square and the leftover piece independently.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{36} \\cdot \\sqrt{2}",
+      "description_latex": "We evaluate $\\sqrt{36} = 6$ because $6^2 = 36$, and we leave $\\sqrt{2}$ alone because 2 has no perfect-square factors other than 1. Multiplying, the coefficient 6 moves in front of the radical sign.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "6\\sqrt{2}",
+      "description_latex": "This is our simplified form. We can verify it is fully simplified by checking that the new radicand, 2, has no perfect-square factors other than 1 \u2014 and indeed it does not, so we are done.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\sqrt{48}",
+      "description_latex": "We want to simplify $\\sqrt{48}$. The first move is to find the largest perfect-square factor of 48. Think about which perfect squares \u2014 4, 9, 16, 25, 36 \u2014 divide evenly into 48. You should find that 16 is the largest one, giving us $48 = 16 \\cdot 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{16 \\cdot 3}",
+      "description_latex": "Using the product property, split this into $\\sqrt{16} \\cdot \\sqrt{3}$. Now evaluate the perfect-square radical and write the fully simplified expression. What do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "4\\sqrt{3}",
+      "description_latex": "The simplified form is $4\\sqrt{3}$, because $\\sqrt{16} = 4$ and $\\sqrt{3}$ cannot be simplified further since 3 has no perfect-square factors. Always double-check your radicand at the end to confirm no perfect-square factor is hiding inside.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Simplify: } \\sqrt{25}",
+      "answer_latex": "5"
+    },
+    {
+      "prompt_latex": "\\text{Simplify: } \\sqrt{45}",
+      "answer_latex": "3\\sqrt{5}"
+    },
+    {
+      "prompt_latex": "\\text{Simplify: } \\sqrt{200}",
+      "answer_latex": "10\\sqrt{2}"
+    },
+    {
+      "prompt_latex": "\\text{Simplify: } 3\\sqrt{12} + \\sqrt{27}",
+      "answer_latex": "9\\sqrt{3}"
+    },
+    {
+      "prompt_latex": "\\text{A square garden has area } 98 \\text{ ft}^2. \\text{ Write the side length in simplified radical form.}",
+      "answer_latex": "7\\sqrt{2} \\text{ ft}"
+    }
+  ],
+  "common_mistakes": [
+    "Students choose a perfect-square factor that is not the largest one \u2014 for example, writing $\\sqrt{72} = \\sqrt{4 \\cdot 18} = 2\\sqrt{18}$ and stopping, when $\\sqrt{18}$ can still be simplified. Always check whether the remaining radicand contains another perfect-square factor, or start by finding the largest perfect-square factor from the beginning.",
+    "Students incorrectly apply the product property to a sum inside the radical, writing $\\sqrt{9 + 16} = \\sqrt{9} + \\sqrt{16} = 3 + 4 = 7$ instead of the correct $\\sqrt{25} = 5$. The product property works only for multiplication under the radical, never for addition or subtraction.",
+    "When a coefficient already exists in front of the radical \u2014 for instance, simplifying $5\\sqrt{8}$ \u2014 students forget to multiply the existing coefficient by the new one extracted from the radical, writing $5\\sqrt{8} = 2\\sqrt{2}$ instead of the correct $5 \\cdot 2\\sqrt{2} = 10\\sqrt{2}$. Remember: the extracted square root multiplies whatever coefficient is already there."
+  ],
+  "untested_variants": [
+    "Simplifying radical expressions that contain variables under the radical, such as $\\sqrt{x^6}$ or $\\sqrt{50x^4}$, where students must apply exponent rules alongside the product property.",
+    "Simplifying cube roots or higher-index radicals, such as $\\sqrt[3]{54}$, which requires identifying perfect-cube factors rather than perfect-square factors.",
+    "Rationalizing the denominator of a fraction like $\\dfrac{5}{\\sqrt{3}}$, which combines simplification with multiplying by a strategic form of 1.",
+    "Simplifying radical expressions that require the quotient property of radicals, such as $\\sqrt{\\dfrac{25}{8}}$, where the radicand is itself a fraction."
+  ]
+}

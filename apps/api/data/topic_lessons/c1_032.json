@@ -1,0 +1,91 @@
+{
+  "topic_id": "c1_032",
+  "topic_name": "Numerical Integration: Trapezoidal and Simpson's Rules (H)",
+  "generated_at": "2026-05-13T00:12:30.660077+00:00",
+  "course_name": "Calculus I",
+  "hook": "You know how to compute definite integrals exactly when an antiderivative exists \u2014 for instance, $\\int_0^1 x^2\\,dx = \\frac{1}{3}$. But what happens when you face something like $\\int_0^1 e^{-x^2}\\,dx$, which has no elementary antiderivative? Engineers and scientists encounter integrals like this constantly and still need accurate numerical answers. How can we systematically approximate a definite integral to whatever precision we need, even when the Fundamental Theorem of Calculus leaves us empty-handed?",
+  "concept": "Numerical integration replaces the exact antiderivative with a geometric approximation built from simple shapes. The Trapezoidal Rule approximates the area under $f$ on $[a,b]$ with $n$ trapezoids: $T_n = \\frac{h}{2}\\bigl[f(x_0)+2f(x_1)+\\cdots+2f(x_{n-1})+f(x_n)\\bigr]$, where $h=\\frac{b-a}{n}$. Simpson's Rule pairs trapezoids with parabolas for higher accuracy: $S_n = \\frac{h}{3}\\bigl[f(x_0)+4f(x_1)+2f(x_2)+4f(x_3)+\\cdots+4f(x_{n-1})+f(x_n)\\bigr]$, requiring $n$ to be even.",
+  "anatomy": "Both rules share the same skeleton: $n$ is the number of subintervals (must be even for Simpson's), $h = \\frac{b-a}{n}$ is the uniform step size or subinterval width, and $x_k = a + kh$ for $k = 0, 1, \\ldots, n$ are the equally-spaced nodes. The Trapezoidal Rule has a coefficient pattern of $1, 2, 2, \\ldots, 2, 1$ multiplying the function values \u2014 the interior nodes are doubled because each interior trapezoid contributes two shared edges. Simpson's Rule has the alternating pattern $1, 4, 2, 4, 2, \\ldots, 4, 1$ \u2014 interior nodes at odd indices get coefficient 4 (from the parabolic fit) and interior nodes at even indices get coefficient 2 (shared between adjacent parabolic panels).",
+  "worked_example": [
+    {
+      "expression_latex": "\\int_1^3 \\frac{1}{x}\\,dx \\approx T_4",
+      "description_latex": "We want to approximate $\\int_1^3 \\frac{1}{x}\\,dx$ using the Trapezoidal Rule with $n=4$ subintervals. Even though $\\ln x$ is the exact antiderivative here, this is a perfect warm-up because we can check our accuracy against the true value $\\ln 3 \\approx 1.0986$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h = \\frac{3-1}{4} = 0.5, \\quad x_0=1,\\; x_1=1.5,\\; x_2=2,\\; x_3=2.5,\\; x_4=3",
+      "description_latex": "We compute the step size $h$ by dividing the interval length by $n$, then list every node $x_k = 1 + 0.5k$. Getting the nodes right is critical \u2014 every subsequent calculation depends on these values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x_0)=1,\\quad f(x_1)=\\tfrac{2}{3},\\quad f(x_2)=\\tfrac{1}{2},\\quad f(x_3)=\\tfrac{2}{5},\\quad f(x_4)=\\tfrac{1}{3}",
+      "description_latex": "We evaluate $f(x)=\\frac{1}{x}$ at each node. Notice that the endpoints $x_0$ and $x_4$ will each get coefficient $1$, while $x_1, x_2, x_3$ will each get coefficient $2$ in the Trapezoidal Rule.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T_4 = \\frac{0.5}{2}\\Bigl[1 + 2\\cdot\\tfrac{2}{3} + 2\\cdot\\tfrac{1}{2} + 2\\cdot\\tfrac{2}{5} + \\tfrac{1}{3}\\Bigr]",
+      "description_latex": "We plug into the Trapezoidal Rule formula, applying the $1,2,2,2,1$ coefficient pattern. The overall factor is $\\frac{h}{2} = \\frac{0.5}{2} = 0.25$, which scales the weighted sum of function values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T_4 = 0.25\\Bigl[1 + \\tfrac{4}{3} + 1 + \\tfrac{4}{5} + \\tfrac{1}{3}\\Bigr] = 0.25\\cdot\\tfrac{67}{15} \\approx 1.1167",
+      "description_latex": "After combining the fractions we get approximately $1.1167$, which overshoots the true value $\\ln 3 \\approx 1.0986$ by about $0.018$ \u2014 a reasonable error for only four trapezoids, and it overestimates because $1/x$ is concave down on $[1,3]$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\int_0^2 e^{x}\\,dx \\approx S_4",
+      "description_latex": "We will approximate $\\int_0^2 e^x\\,dx$ using Simpson's Rule with $n=4$. Since $n=4$ is even, Simpson's Rule is valid. The exact value is $e^2 - 1 \\approx 6.3891$, which we can use to check our approximation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h = \\frac{2-0}{4} = 0.5, \\quad x_0=0,\\; x_1=0.5,\\; x_2=1,\\; x_3=1.5,\\; x_4=2",
+      "description_latex": "We compute $h$ and list the nodes exactly as we did for the Trapezoidal Rule \u2014 the node setup is identical regardless of which rule we apply.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate $e^x$ at each node and assemble the Simpson's Rule formula $S_4 = \\frac{h}{3}[f(x_0)+4f(x_1)+2f(x_2)+4f(x_3)+f(x_4)]$, carefully applying the alternating $1,4,2,4,1$ coefficient pattern. What do you get for $S_4$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "S_4 = \\frac{0.5}{3}\\bigl[1 + 4e^{0.5} + 2e + 4e^{1.5} + e^2\\bigr] \\approx \\frac{0.5}{3}(38.3398) \\approx 6.3900",
+      "description_latex": "The answer $S_4 \\approx 6.3900$ is extremely close to the exact value $6.3891$ \u2014 Simpson's Rule achieves remarkable accuracy even with only four subintervals because it fits parabolas rather than straight lines to the curve.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use the Trapezoidal Rule with $n=2$ to approximate $\\int_0^2 x^2\\,dx$.",
+      "answer_latex": "T_2 = \\frac{1}{2}[0 + 2(1) + 4] = 3"
+    },
+    {
+      "prompt_latex": "Use the Trapezoidal Rule with $n=4$ to approximate $\\int_0^{\\pi} \\sin x\\,dx$. Round to four decimal places.",
+      "answer_latex": "T_4 = \\frac{\\pi/4}{2}\\bigl[0+2\\sin(\\pi/4)+2\\sin(\\pi/2)+2\\sin(3\\pi/4)+0\\bigr] \\approx 1.8961"
+    },
+    {
+      "prompt_latex": "Use Simpson's Rule with $n=4$ to approximate $\\int_1^3 \\frac{1}{x}\\,dx$. Round to four decimal places.",
+      "answer_latex": "S_4 = \\frac{0.5}{3}\\bigl[1+4(\\tfrac{2}{3})+2(\\tfrac{1}{2})+4(\\tfrac{2}{5})+\\tfrac{1}{3}\\bigr] \\approx 1.0989"
+    },
+    {
+      "prompt_latex": "The Trapezoidal Rule error bound states $|E_T| \\le \\frac{(b-a)^3}{12n^2}\\max|f''(x)|$. For $\\int_0^1 e^x\\,dx$ approximated by $T_n$, find the minimum $n$ that guarantees $|E_T| < 0.0001$.",
+      "answer_latex": "f''(x)=e^x \\le e^1 \\text{ on } [0,1],\\; \\frac{e}{12n^2}<0.0001 \\Rightarrow n > \\sqrt{\\frac{e}{0.0012}} \\approx 47.6,\\; \\text{so } n=48"
+    },
+    {
+      "prompt_latex": "A river's cross-section is measured at 5 equally-spaced points (every 2 meters): depths are $0, 3, 5, 4, 0$ meters. Use Simpson's Rule to approximate the cross-sectional area of the river.",
+      "answer_latex": "S_4 = \\frac{2}{3}[0+4(3)+2(5)+4(4)+0] = \\frac{2}{3}(42) = 28 \\text{ m}^2"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that Simpson's Rule requires $n$ to be even, and blindly apply it with an odd number of subintervals \u2014 always verify $n$ is even before using the $1,4,2,4,\\ldots,4,1$ pattern, or the formula is undefined.",
+    "Students misapply the coefficient pattern by doubling the endpoint values: the pattern is $1,2,2,\\ldots,2,1$ for the Trapezoidal Rule and $1,4,2,\\ldots,4,1$ for Simpson's Rule, meaning the first and last values always carry coefficient 1, never 2 or 4.",
+    "Students compute $h = \\frac{b-a}{n}$ correctly but then use $n+1$ nodes while still dividing by $n$ in the prefactor \u2014 remember there are $n+1$ nodes (from $x_0$ to $x_n$) but only $n$ subintervals, and the prefactor is $\\frac{h}{2}$ for Trapezoidal and $\\frac{h}{3}$ for Simpson's, not $\\frac{h}{n}$ or any other variant."
+  ],
+  "untested_variants": [
+    "Using the Simpson's 3/8 Rule (a variant requiring $n$ divisible by 3 with coefficients $1,3,3,2,3,3,\\ldots,1$) which appears in some engineering textbooks.",
+    "Applying error bound formulas for Simpson's Rule, $|E_S| \\le \\frac{(b-a)^5}{180n^4}\\max|f^{(4)}(x)|$, to determine the minimum $n$ needed for a prescribed accuracy \u2014 the practice problems only cover the Trapezoidal error bound.",
+    "Approximating integrals from a table of values where the nodes are not equally spaced, requiring a modified approach rather than the standard uniform-$h$ formulas.",
+    "Comparing the signed errors of the Trapezoidal and Midpoint Rules and explaining geometrically why they bracket the true value when $f$ is concave (a conceptual question often appearing on exams but not practiced here)."
+  ]
+}

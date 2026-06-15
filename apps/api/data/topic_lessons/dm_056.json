@@ -1,0 +1,86 @@
+{
+  "topic_id": "dm_056",
+  "topic_name": "Tree Traversals",
+  "generated_at": "2026-05-13T20:16:37.364402+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to build and draw binary trees, labeling each node with data and connecting parents to children. But once you have a tree in memory, how do you actually visit every node in a useful order \u2014 say, to print every value, evaluate an arithmetic expression, or copy the structure? The order in which you visit nodes is not obvious from the picture alone, and different visiting orders produce completely different outputs from the same tree. Which order should you choose, and how do you systematically guarantee you never skip or repeat a node?",
+  "concept": "A tree traversal is a systematic rule for visiting every node in a rooted tree exactly once. In plain English, it is a recipe that tells you: before processing a node, should you look at its subtrees first, or process the node itself first? Formally, for a binary tree with root $r$, left subtree $L$, and right subtree $R$, the three classical depth-first traversals are: preorder ($r \\to L \\to R$), inorder ($L \\to r \\to R$), and postorder ($L \\to R \\to r$), each defined recursively on every subtree.",
+  "anatomy": "Every depth-first traversal has three structural components that are rearranged to produce different orderings. The root visit is the moment you process (e.g., print or record) the current node $r$. The left recursive call is the complete traversal of the left subtree $L$, which itself obeys the same rule all the way down. The right recursive call is the complete traversal of the right subtree $R$. Preorder places the root visit first, inorder places it between the two recursive calls, and postorder places it last \u2014 the three components are identical; only their sequence changes.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Tree: root } = 4,\\; \\text{left child } = 2 \\;(\\text{leaves } 1,\\, 3),\\; \\text{right child } = 6 \\;(\\text{leaves } 5,\\, 7)",
+      "description_latex": "We begin by clearly drawing the tree so every node and edge is visible before we touch any traversal. Our binary tree has root 4, its left child is 2 with leaves 1 (left) and 3 (right), and its right child is 6 with leaves 5 (left) and 7 (right) \u2014 seven nodes in total, perfectly balanced.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Preorder } (r \\to L \\to R): \\quad 4,\\, 2,\\, 1,\\, 3,\\, 6,\\, 5,\\, 7",
+      "description_latex": "In preorder we visit the root first, then recurse left, then recurse right. Starting at 4 we record it immediately, then dive into the left subtree rooted at 2 (record 2, then 1, then 3), and finally the right subtree rooted at 6 (record 6, then 5, then 7). Notice that each parent always appears before its own children \u2014 this is why preorder is ideal for copying or serializing a tree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Inorder } (L \\to r \\to R): \\quad 1,\\, 2,\\, 3,\\, 4,\\, 5,\\, 6,\\, 7",
+      "description_latex": "In inorder we fully exhaust the left subtree, visit the root, then exhaust the right subtree at every level. Because our tree is a binary search tree, the inorder result is the sorted sequence $1, 2, 3, 4, 5, 6, 7$ \u2014 this is the key property that makes inorder traversal so powerful for BSTs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Postorder } (L \\to R \\to r): \\quad 1,\\, 3,\\, 2,\\, 5,\\, 7,\\, 6,\\, 4",
+      "description_latex": "In postorder every subtree is fully processed before its root, so leaves appear first and the overall root appears last. We visit 1, then 3, then their parent 2; then 5, then 7, then their parent 6; finally the root 4. This order is essential for expression-tree evaluation and for safely deleting a tree, because children are handled before parents.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Tree: root } = A,\\; A.\\text{left} = B\\,(\\text{leaves } D,\\, E),\\; A.\\text{right} = C\\,(\\text{leaf } F,\\text{ no right child})",
+      "description_latex": "Here is a slightly asymmetric tree with six nodes. The root is $A$, its left child is $B$ with leaves $D$ and $E$, and its right child is $C$ which has only one child: leaf $F$ on the left. Take a moment to sketch this before proceeding.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Preorder}: \\quad A,\\, B,\\, D,\\, E,\\, C,\\, F",
+      "description_latex": "We work through preorder together: visit $A$ first, dive left to $B$ (record $B$, then leaf $D$, then leaf $E$), come back up to the right subtree rooted at $C$ (record $C$, then its only child $F$). This gives the sequence $A, B, D, E, C, F$ \u2014 confirm each step matches the rule root before children.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now produce the INORDER traversal of the same tree. Remember inorder means left subtree fully first, then the root of each subtree, then right subtree \u2014 apply this rule recursively at every node and write the complete sequence of six labels.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\textbf{Postorder}: \\quad D,\\, E,\\, B,\\, F,\\, C,\\, A",
+      "description_latex": "Finally, postorder processes both subtrees of each node before the node itself. Leaves $D$ and $E$ appear before $B$; leaf $F$ appears before $C$; and the root $A$ is printed last. Compare your inorder answer with this postorder to see how radically the same tree produces different sequences under different rules.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A tree has only a single node with value $X$ and no children. Write its preorder, inorder, and postorder traversals.",
+      "answer_latex": "\\text{All three traversals: } X"
+    },
+    {
+      "prompt_latex": "Given the binary tree with root $5$, left child $3$ (leaves $1$ and $4$), and right child $8$ (leaf $7$ on left, no right child), write the inorder traversal.",
+      "answer_latex": "1,\\, 3,\\, 4,\\, 5,\\, 7,\\, 8"
+    },
+    {
+      "prompt_latex": "For the same tree (root $5$, left subtree $3$-$1$-$4$, right subtree $8$-$7$), write the postorder traversal.",
+      "answer_latex": "1,\\, 4,\\, 3,\\, 7,\\, 8,\\, 5"
+    },
+    {
+      "prompt_latex": "The inorder traversal of a BST yields $2,\\, 4,\\, 6,\\, 8,\\, 10$. If the root is $6$ and the tree is a complete binary tree, identify the root, its left child, and its right child, then write the preorder traversal.",
+      "answer_latex": "\\text{Root } = 6,\\; \\text{left child} = 4\\,(\\text{leaves }2,\\,5\\text{ \u2014 wait, leaves }2\\text{ and }5),\\;\\text{but with values }2,4,6,8,10:\\; \\text{Preorder: } 6,\\, 4,\\, 2,\\, 8,\\, 10"
+    },
+    {
+      "prompt_latex": "An arithmetic expression tree represents $(3 + 5) \\times (2 - 4)$. The root is $\\times$, its left child is $+$ with leaves $3$ and $5$, and its right child is $-$ with leaves $2$ and $4$. Write the postorder traversal and explain what sequence of operations it encodes.",
+      "answer_latex": "3,\\, 5,\\, +,\\, 2,\\, 4,\\, -,\\, \\times \\quad (\\text{postfix / RPN: evaluate } 3+5 \\text{ first, then } 2-4, \\text{ then multiply the results})"
+    }
+  ],
+  "common_mistakes": [
+    "Students often apply the traversal rule to the root but then revert to a left-to-right level-by-level (breadth-first) read for the rest of the tree \u2014 the fix is to remember that each recursive call restarts the same rule at the subtree's own root, not at the next level of the original tree.",
+    "In postorder, students frequently output the root of a subtree immediately after finishing the left subtree, forgetting to fully process the right subtree first \u2014 always check: left done? right done? only then output the root.",
+    "When a node has only one child, students sometimes skip the missing child entirely and move on, causing them to visit nodes in the wrong order \u2014 even if a left or right subtree is empty, the rule still 'visits' it (as a no-op), so the position of that missing child still matters for which side of the parent you are on."
+  ],
+  "untested_variants": [
+    "Level-order (breadth-first) traversal using a queue, which the practice problems do not cover at all.",
+    "Reconstructing the original tree from two given traversal sequences (e.g., given preorder and inorder, rebuild the tree), a common exam problem not addressed here.",
+    "Traversal of general rooted trees (nodes with more than two children) using the eldest-child/next-sibling representation.",
+    "Iterative (non-recursive, stack-based) implementation of inorder or postorder traversal, which requires explicitly managing the call stack."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_058",
+  "topic_name": "Generalized Eigenvectors and the Jordan Form (H)",
+  "generated_at": "2026-05-13T20:10:34.210896+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that a matrix with $n$ linearly independent eigenvectors can be diagonalized: $A = PDP^{-1}$ where $D$ is diagonal. But what happens when an eigenvalue has algebraic multiplicity greater than its geometric multiplicity \u2014 when there simply aren't enough eigenvectors to fill out a basis? For example, the matrix $A = \\begin{pmatrix} 3 & 1 \\\\ 0 & 3 \\end{pmatrix}$ has eigenvalue $\\lambda = 3$ with algebraic multiplicity 2, but only a one-dimensional eigenspace, so diagonalization fails. How can we still find a 'nice' basis that makes $A$ as simple as possible?",
+  "concept": "When a matrix cannot be diagonalized, we extend the notion of eigenvector by looking at vectors killed by higher powers of $(A - \\lambda I)$. A vector $v \\neq 0$ is a **generalized eigenvector** of $A$ corresponding to $\\lambda$ if $(A - \\lambda I)^k v = 0$ for some positive integer $k$. The smallest such $k$ is the **level** of $v$. Ordinary eigenvectors are level-1 generalized eigenvectors. Collecting generalized eigenvectors into chains gives a basis in which $A$ takes **Jordan normal form**: block-diagonal with Jordan blocks $J_k(\\lambda)$ having $\\lambda$ on the diagonal and $1$s on the superdiagonal.",
+  "anatomy": "A Jordan block of size $m$ for eigenvalue $\\lambda$ is $J_m(\\lambda) = \\begin{pmatrix} \\lambda & 1 & 0 & \\cdots & 0 \\\\ 0 & \\lambda & 1 & \\cdots & 0 \\\\ \\vdots & & \\ddots & \\ddots & \\vdots \\\\ 0 & 0 & \\cdots & \\lambda & 1 \\\\ 0 & 0 & \\cdots & 0 & \\lambda \\end{pmatrix}$. The **diagonal entries** all equal $\\lambda$, the **superdiagonal entries** are all $1$, and every other entry is $0$. A **Jordan chain** of length $m$ is a sequence $v_1, v_2, \\ldots, v_m$ where $(A-\\lambda I)v_1 = 0$ (so $v_1$ is a true eigenvector), and $(A - \\lambda I)v_k = v_{k-1}$ for $k \\geq 2$; each $v_k$ is a level-$k$ generalized eigenvector. The full Jordan form $J$ is a block-diagonal matrix whose blocks are these Jordan blocks, and the **change-of-basis matrix** $P$ has the Jordan chain vectors as its columns.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 3 & 1 \\\\ 0 & 3 \\end{pmatrix}",
+      "description_latex": "We start by identifying the eigenvalues of $A$. The characteristic polynomial is $\\det(A - \\lambda I) = (3 - \\lambda)^2$, so $\\lambda = 3$ is the only eigenvalue with algebraic multiplicity 2. This is the matrix from our opening problem, and our goal is to find its Jordan form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ker(A - 3I) = \\ker\\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}",
+      "description_latex": "We compute the eigenspace by finding the null space of $A - 3I$. Row-reducing shows that only vectors of the form $\\begin{pmatrix} t \\\\ 0 \\end{pmatrix}$ satisfy $(A-3I)v = 0$, giving a one-dimensional eigenspace \u2014 meaning geometric multiplicity is 1, strictly less than the algebraic multiplicity of 2, confirming the matrix is not diagonalizable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "v_1 = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}, \\quad (A - 3I)v_2 = v_1 \\implies \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix} v_2 = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}",
+      "description_latex": "We choose the eigenvector $v_1 = \\begin{pmatrix}1\\\\0\\end{pmatrix}$ as the start of our Jordan chain, and then we must find a level-2 generalized eigenvector $v_2$ satisfying $(A-3I)v_2 = v_1$. This equation is the heart of building a Jordan chain: each step asks 'what vector maps to the previous one under $A - \\lambda I$?'",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "v_2 = \\begin{pmatrix} 0 \\\\ 1 \\end{pmatrix}, \\quad P = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix} = I",
+      "description_latex": "Solving $\\begin{pmatrix}0&1\\\\0&0\\end{pmatrix}v_2 = \\begin{pmatrix}1\\\\0\\end{pmatrix}$ gives $v_2 = \\begin{pmatrix}0\\\\1\\end{pmatrix}$. The change-of-basis matrix $P$ has these Jordan chain vectors as its columns in order: $v_1$ first (the eigenvector), then $v_2$ (the generalized eigenvector). Here $P = I$, which is a special coincidence for this particular matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "J = P^{-1}AP = \\begin{pmatrix} 3 & 1 \\\\ 0 & 3 \\end{pmatrix} = J_2(3)",
+      "description_latex": "We confirm that $P^{-1}AP$ yields the Jordan block $J_2(3)$: a $2\\times 2$ block with $3$s on the diagonal and a single $1$ on the superdiagonal. In general, the number of Jordan blocks for $\\lambda$ equals the geometric multiplicity of $\\lambda$, and the sizes of the blocks are determined by the dimensions of the generalized eigenspaces $\\ker(A-\\lambda I)^k$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 2 & 1 & 0 \\\\ 0 & 2 & 1 \\\\ 0 & 0 & 2 \\end{pmatrix}",
+      "description_latex": "We want to find the Jordan form of $B$ and a Jordan chain for eigenvalue $\\lambda = 2$. First, notice that $B - 2I$ has $1$s on the superdiagonal and zeros elsewhere, so $\\lambda = 2$ has algebraic multiplicity 3. The rank of $B - 2I$ is 2, so the null space is one-dimensional, meaning there is exactly one Jordan block of size 3.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "v_1 \\in \\ker(B - 2I), \\quad v_1 = \\begin{pmatrix} 1 \\\\ 0 \\\\ 0 \\end{pmatrix}",
+      "description_latex": "We pick the eigenvector $v_1 = \\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix}$ as the base of our chain. Now you need to find $v_2$ satisfying $(B - 2I)v_2 = v_1$, and then $v_3$ satisfying $(B-2I)v_3 = v_2$. Write out the system for $v_2$ and solve it.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "v_2 = \\begin{pmatrix} 0 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad v_3 = \\begin{pmatrix} 0 \\\\ 0 \\\\ 1 \\end{pmatrix}, \\quad P = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 1 \\end{pmatrix}",
+      "description_latex": "With the full Jordan chain $v_1, v_2, v_3$ found, the change-of-basis matrix $P$ has these vectors as columns. Now use this to state the Jordan form $J = P^{-1}BP$: what does a single Jordan block of size 3 for $\\lambda = 2$ look like?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "J = J_3(2) = \\begin{pmatrix} 2 & 1 & 0 \\\\ 0 & 2 & 1 \\\\ 0 & 0 & 2 \\end{pmatrix}",
+      "description_latex": "The Jordan form is the single block $J_3(2)$, confirming that $B$ itself was already in Jordan form. This is actually a useful check: any matrix whose Jordan form equals itself is already a Jordan block or a direct sum of Jordan blocks.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the Jordan form of $A = \\begin{pmatrix} 5 & 0 \\\\ 0 & 5 \\end{pmatrix}$.",
+      "answer_latex": "$J = \\begin{pmatrix} 5 & 0 \\\\ 0 & 5 \\end{pmatrix}$, i.e., two $1\\times 1$ Jordan blocks $J_1(5)$."
+    },
+    {
+      "prompt_latex": "Find the Jordan form of $A = \\begin{pmatrix} 4 & 1 \\\\ 0 & 4 \\end{pmatrix}$ and find a Jordan chain basis.",
+      "answer_latex": "$J = J_2(4) = \\begin{pmatrix}4&1\\\\0&4\\end{pmatrix}$; chain: $v_1 = \\begin{pmatrix}1\\\\0\\end{pmatrix}$, $v_2 = \\begin{pmatrix}0\\\\1\\end{pmatrix}$."
+    },
+    {
+      "prompt_latex": "The matrix $A = \\begin{pmatrix} 1 & 1 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 2 \\end{pmatrix}$ has eigenvalues $\\lambda_1 = 1$ (alg. mult. 2, geom. mult. 1) and $\\lambda_2 = 2$ (mult. 1). Write down its Jordan form.",
+      "answer_latex": "$J = \\begin{pmatrix} 1 & 1 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 2 \\end{pmatrix}$, i.e., one $J_2(1)$ block and one $J_1(2)$ block."
+    },
+    {
+      "prompt_latex": "Let $A$ be a $4\\times 4$ nilpotent matrix (i.e., $A^4 = 0$) with $\\text{rank}(A) = 2$, $\\text{rank}(A^2) = 1$, $\\text{rank}(A^3) = 0$. Determine the Jordan form of $A$ over $\\mathbb{C}$.",
+      "answer_latex": "$J = \\begin{pmatrix} 0&1&0&0\\\\0&0&1&0\\\\0&0&0&0\\\\0&0&0&0 \\end{pmatrix}$, i.e., one $J_3(0)$ block and one $J_1(0)$ block."
+    },
+    {
+      "prompt_latex": "A linear operator $T$ on $\\mathbb{C}^3$ satisfies $T^2 = T$ (i.e., $T$ is a projection) and $\\text{rank}(T) = 2$. Without computing any matrix, determine the Jordan form of $T$.",
+      "answer_latex": "Since $T^2 = T$, the minimal polynomial divides $x(x-1)$, so $T$ is diagonalizable with eigenvalues $0$ and $1$. With $\\text{rank}(T)=2$, there are 2 eigenvalue-$1$ eigenvectors and 1 eigenvalue-$0$ eigenvector, giving $J = \\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&0\\end{pmatrix}$."
+    }
+  ],
+  "common_mistakes": [
+    "Students often put the Jordan chain vectors in the wrong order as columns of $P$, placing the generalized eigenvector before the true eigenvector. This is wrong because the Jordan block structure requires that the eigenvector comes first; reversing the order changes $P^{-1}AP$ to a matrix with $1$s on the subdiagonal instead of the superdiagonal, which is not standard Jordan form.",
+    "When an eigenvalue has geometric multiplicity greater than 1, students often try to form one long Jordan chain instead of separate shorter chains for each independent eigenvector. The correct approach is to start a new Jordan chain from each linearly independent eigenvector, since the number of Jordan blocks always equals the geometric multiplicity of the eigenvalue.",
+    "Students confuse algebraic multiplicity with the size of the single Jordan block, assuming a multiplicity-3 eigenvalue must give one $3\\times 3$ block. In reality, the block sizes are determined by the dimensions of the kernels of $(A-\\lambda I)^k$ for increasing $k$; a multiplicity-3 eigenvalue could give three $1\\times 1$ blocks (if diagonalizable), one $1\\times 1$ and one $2\\times 2$ block, or one $3\\times 3$ block depending on the matrix."
+  ],
+  "untested_variants": [
+    "Computing the Jordan form of a $4\\times 4$ or larger matrix with two distinct non-diagonalizable eigenvalues, requiring multiple Jordan chains of different lengths.",
+    "Using the Jordan form to compute $A^n$ or $e^{At}$ by writing $A = P J P^{-1}$ and exploiting the nilpotent structure of a Jordan block.",
+    "Finding the Jordan form from only the characteristic polynomial and minimal polynomial, without explicitly constructing the generalized eigenvectors.",
+    "Determining whether two given matrices are similar by comparing their Jordan forms, which requires computing and matching all Jordan block sizes and eigenvalues."
+  ]
+}

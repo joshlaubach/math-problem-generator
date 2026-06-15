@@ -9,8 +9,8 @@ import { MathText } from '@/components/MathText'
 import { MathInput } from '@/components/MathInput'
 import { useTutorSession } from '@/hooks/useTutorSession'
 import type { WhiteboardHandle, WhiteboardMessage, WbMessage } from '@/components/Whiteboard'
-import type { StudentToolbarHandle } from '@/components/StudentToolbar'
 import { ShowMyWorkPanel } from '@/components/ShowMyWorkPanel'
+import { VoiceIndicator, type VoiceIndicatorState } from '@/components/VoiceIndicator'
 
 // ── Dynamic imports ────────────────────────────────────────────────────────────
 
@@ -29,9 +29,20 @@ const Whiteboard = dynamic(
   }
 )
 
-const StudentToolbar = dynamic(
-  () => import('@/components/StudentToolbar').then(m => m.StudentToolbar),
-  { ssr: false }
+const MathWhiteboard = dynamic(
+  () => import('@/components/MathWhiteboard').then(m => m.MathWhiteboard),
+  {
+    ssr: false,
+    loading: () => (
+      <div style={{
+        position: 'absolute', inset: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        color: 'var(--text-muted)', fontSize: 12,
+      }}>
+        Loading canvas…
+      </div>
+    ),
+  }
 )
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
@@ -52,7 +63,15 @@ function CountdownTimer({
   )
 }
 
-function MessageBubble({ role, content }: { role: 'student' | 'tutor' | 'system'; content: string }) {
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://localhost:8000'
+
+function MessageBubble({
+  role, content, onSpeak,
+}: {
+  role: 'student' | 'tutor' | 'system'
+  content: string
+  onSpeak?: () => void
+}) {
   if (role === 'system') {
     return (
       <div style={{ textAlign: 'center', fontSize: 11, color: 'var(--text-muted)', padding: '4px 0' }}>
@@ -62,7 +81,7 @@ function MessageBubble({ role, content }: { role: 'student' | 'tutor' | 'system'
   }
   const isStudent = role === 'student'
   return (
-    <div style={{ display: 'flex', justifyContent: isStudent ? 'flex-end' : 'flex-start' }}>
+    <div style={{ display: 'flex', justifyContent: isStudent ? 'flex-end' : 'flex-start', gap: 4, alignItems: 'flex-end' }}>
       <div style={{
         maxWidth: '85%', padding: '8px 12px',
         borderRadius: isStudent ? '12px 12px 2px 12px' : '12px 12px 12px 2px',
@@ -71,11 +90,21 @@ function MessageBubble({ role, content }: { role: 'student' | 'tutor' | 'system'
         border: `1px solid ${isStudent ? 'transparent' : 'var(--border)'}`,
         fontSize: 13, lineHeight: 1.6,
       }}>
-        {isStudent
-          ? <span style={{ whiteSpace: 'pre-wrap' }}>{content}</span>
-          : <MathText latex={content} prose />
-        }
+        <MathText latex={content} prose />
       </div>
+      {!isStudent && onSpeak && (
+        <button
+          onClick={onSpeak}
+          title="Play audio"
+          style={{
+            background: 'none', border: 'none', cursor: 'pointer',
+            fontSize: 12, color: 'var(--text-muted)', padding: '2px 4px', flexShrink: 0,
+            lineHeight: 1,
+          }}
+        >
+          ▶
+        </button>
+      )}
     </div>
   )
 }
@@ -230,18 +259,16 @@ function ExamModeBanner({ onAccept, onDecline }: { onAccept: () => void; onDecli
 
 export default function TutorSessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
-  const { getToken, userId } = useAuth()
+  const { getToken } = useAuth()
   const wbRef = useRef<WhiteboardHandle>(null)
-  const studentToolbarRef = useRef<StudentToolbarHandle>(null)
-  const workAreaRef = useRef<HTMLDivElement>(null)
-  const leftCanvasRef = useRef<HTMLDivElement>(null)
+  const leftPanelRef = useRef<HTMLDivElement>(null)
 
   const {
     state, problem, messages, hintLevel, maxHints,
     secondsRemaining, inGracePeriod, summary,
     lastError, currentIndex, totalProblems,
     examModeProposed, examModeActive,
-    whiteboardMessages, ragMatch, defaultInputMode,
+    whiteboardMessages, ragMatch,
     connectToSession, sendText, submitAnswer, requestHint,
     walkMeThrough, goingTooFast, nextProblem, acceptExamMode,
     endSession, sendCanvasSnapshot, sendRagSearch, sendStudentWork,
@@ -252,12 +279,24 @@ export default function TutorSessionPage() {
   const [answerText, setAnswerText] = useState('')
   const [inputText, setInputText] = useState('')
   const [showEndConfirm, setShowEndConfirm] = useState(false)
-  const [workMode, setWorkMode] = useState<'draw' | 'steps'>('steps')
-  const [isMobile, setIsMobile] = useState(false)
-  const [workAreaWidth, setWorkAreaWidth] = useState(460)
-  const [leftCanvasHeight, setLeftCanvasHeight] = useState(600)
+  const [showSteps, setShowSteps] = useState(false)
+  const [voiceMode, setVoiceMode] = useState(false)
+  const [inputMode, setInputMode] = useState<'chat' | 'answer'>('chat')
+
+  // Left-panel vertical split: fraction of (panel - header) given to tutor whiteboard
+  const [splitRatio, setSplitRatio] = useState(0.55)
+  const [leftPanelHeight, setLeftPanelHeight] = useState(600)
+
   const wbMsgCountRef = useRef(0)
   const messagesEndRef = useRef<HTMLDivElement>(null)
+  const dragState = useRef<{ startY: number; startRatio: number } | null>(null)
+  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
+  const audioChunksRef = useRef<Blob[]>([])
+  const [voiceState, setVoiceState] = useState<'idle' | 'recording' | 'transcribing'>('idle')
+  const [isSpeaking, setIsSpeaking] = useState(false)
+  const currentAudioRef = useRef<HTMLAudioElement | null>(null)
+  const lastTutorMsgCountRef = useRef(0)
+  const prevVoiceModeRef = useRef(false)
 
   // Sync global theme
   useEffect(() => {
@@ -268,38 +307,13 @@ export default function TutorSessionPage() {
     return () => obs.disconnect()
   }, [])
 
-  // Mobile detection
+  // Measure left panel height
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth <= 768)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
-
-  // Sync work mode from topic default_input_mode (fires once on session_ready)
-  useEffect(() => {
-    setWorkMode(defaultInputMode === 'drawing' ? 'draw' : 'steps')
-  }, [defaultInputMode])
-
-  // Measure work area width for StudentToolbar canvas sizing
-  useEffect(() => {
-    const el = workAreaRef.current
-    if (!el) return
-    const obs = new ResizeObserver(entries => {
-      const w = entries[0]?.contentRect.width
-      if (w && w > 0) setWorkAreaWidth(Math.floor(w))
-    })
-    obs.observe(el)
-    return () => obs.disconnect()
-  }, [])
-
-  // Measure left panel canvas height for Whiteboard visibleHeight
-  useEffect(() => {
-    const el = leftCanvasRef.current
+    const el = leftPanelRef.current
     if (!el) return
     const obs = new ResizeObserver(entries => {
       const h = entries[0]?.contentRect.height
-      if (h && h > 0) setLeftCanvasHeight(Math.floor(h))
+      if (h && h > 0) setLeftPanelHeight(Math.floor(h))
     })
     obs.observe(el)
     return () => obs.disconnect()
@@ -352,6 +366,110 @@ export default function TutorSessionPage() {
     setInputText('')
   }, [inputText, sendText])
 
+  const speakText = useCallback(async (text: string) => {
+    // Stop any currently playing TTS before starting a new one
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause()
+      currentAudioRef.current = null
+      setIsSpeaking(false)
+    }
+    const token = await getToken()
+    if (!token) return
+    try {
+      const resp = await fetch(`${API_BASE}/tutor/synthesize`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      })
+      if (!resp.ok) return
+      const blob = await resp.blob()
+      const url = URL.createObjectURL(blob)
+      const audio = new Audio(url)
+      currentAudioRef.current = audio
+      setIsSpeaking(true)
+      audio.play()
+      audio.onended = () => {
+        URL.revokeObjectURL(url)
+        if (currentAudioRef.current === audio) {
+          currentAudioRef.current = null
+          setIsSpeaking(false)
+        }
+      }
+      audio.onerror = () => {
+        if (currentAudioRef.current === audio) {
+          currentAudioRef.current = null
+          setIsSpeaking(false)
+        }
+      }
+    } catch { setIsSpeaking(false) }
+  }, [getToken])
+
+  // Sync spoken-message count when voice mode is first enabled (avoid replaying old messages);
+  // stop any playing audio when voice mode is turned off
+  useEffect(() => {
+    if (voiceMode && !prevVoiceModeRef.current) {
+      lastTutorMsgCountRef.current = messages.filter(m => m.role === 'tutor').length
+    }
+    if (!voiceMode && prevVoiceModeRef.current) {
+      currentAudioRef.current?.pause()
+      currentAudioRef.current = null
+      setIsSpeaking(false)
+    }
+    prevVoiceModeRef.current = voiceMode
+  }, [voiceMode]) // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Auto-play new tutor messages in voice mode
+  useEffect(() => {
+    if (!voiceMode) return
+    const tutorMsgs = messages.filter(m => m.role === 'tutor')
+    if (tutorMsgs.length > lastTutorMsgCountRef.current) {
+      lastTutorMsgCountRef.current = tutorMsgs.length
+      speakText(tutorMsgs[tutorMsgs.length - 1].content)
+    }
+  }, [messages, voiceMode, speakText])
+
+  const toggleVoice = useCallback(async () => {
+    if (voiceState === 'recording') {
+      mediaRecorderRef.current?.stop()
+      return
+    }
+    if (voiceState !== 'idle') return
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' })
+      audioChunksRef.current = []
+      recorder.ondataavailable = e => { if (e.data.size > 0) audioChunksRef.current.push(e.data) }
+      recorder.onstop = async () => {
+        stream.getTracks().forEach(t => t.stop())
+        setVoiceState('transcribing')
+        const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
+        const token = await getToken()
+        if (!token) { setVoiceState('idle'); return }
+        const form = new FormData()
+        form.append('file', blob, 'voice.webm')
+        try {
+          const resp = await fetch(`${API_BASE}/tutor/transcribe`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` },
+            body: form,
+          })
+          const data = await resp.json()
+          if (data.text) {
+            if (voiceMode) {
+              sendText(data.text)  // voice mode: send immediately, no text field
+            } else {
+              setInputText(prev => prev + (prev ? ' ' : '') + data.text)
+            }
+          }
+        } catch { /* silent */ }
+        setVoiceState('idle')
+      }
+      recorder.start()
+      mediaRecorderRef.current = recorder
+      setVoiceState('recording')
+    } catch { setVoiceState('idle') }
+  }, [voiceState, voiceMode, getToken, sendText])
+
   const handleSubmitAnswer = useCallback(() => {
     const a = answerText.trim()
     if (!a) return
@@ -359,7 +477,7 @@ export default function TutorSessionPage() {
     setAnswerText('')
   }, [answerText, submitAnswer])
 
-  // Snapshot routing — whiteboard surface triggers annotation; scratchpad is chat-only
+  // Snapshot routing: tutor whiteboard → annotation; student canvas → chat-only
   const sendWhiteboardSnapshot = useCallback((imageB64: string) => {
     sendCanvasSnapshot(imageB64, 'whiteboard')
   }, [sendCanvasSnapshot])
@@ -367,6 +485,34 @@ export default function TutorSessionPage() {
   const sendScratchpadSnapshot = useCallback((imageB64: string) => {
     sendCanvasSnapshot(imageB64, 'scratchpad')
   }, [sendCanvasSnapshot])
+
+  // Drag-to-resize the left panel split
+  const handleDragStart = useCallback((e: React.MouseEvent) => {
+    e.preventDefault()
+    dragState.current = { startY: e.clientY, startRatio: splitRatio }
+
+    const HEADER_H = 44
+    const onMove = (ev: MouseEvent) => {
+      if (!dragState.current || !leftPanelRef.current) return
+      const panelH = leftPanelRef.current.getBoundingClientRect().height - HEADER_H
+      const dy = ev.clientY - dragState.current.startY
+      const newRatio = Math.min(0.85, Math.max(0.15, dragState.current.startRatio + dy / panelH))
+      setSplitRatio(newRatio)
+    }
+    const onUp = () => {
+      dragState.current = null
+      document.removeEventListener('mousemove', onMove)
+      document.removeEventListener('mouseup', onUp)
+    }
+    document.addEventListener('mousemove', onMove)
+    document.addEventListener('mouseup', onUp)
+  }, [splitRatio])
+
+  // Derived heights (total left panel minus 44px header)
+  const HEADER_H = 44
+  const splitAreaH = Math.max(200, leftPanelHeight - HEADER_H)
+  const tutorH = Math.floor(splitAreaH * splitRatio)
+  const studentH = splitAreaH - tutorH - 14  // 14px for drag handle
 
   // ── Session end / summary ────────────────────────────────────────────────────
   if ((state === 'ended' || state === 'timeout' || state === 'solved') && summary) {
@@ -416,17 +562,27 @@ export default function TutorSessionPage() {
   // ── Active session ───────────────────────────────────────────────────────────
   const isThinking = state === 'thinking'
 
+  const voiceIndicatorState: VoiceIndicatorState =
+    voiceState === 'recording' ? 'recording'
+    : voiceState === 'transcribing' ? 'transcribing'
+    : isSpeaking ? 'speaking'
+    : isThinking ? 'thinking'
+    : 'idle'
+
   return (
     <div style={{
       display: 'flex', height: '100vh', overflow: 'hidden',
       background: 'var(--bg)', color: 'var(--text)',
     }}>
 
-      {/* ── Left: Whiteboard (65%) ─────────────────────────────────────────── */}
-      <div style={{ flex: '0 0 65%', display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+      {/* ── Left: split whiteboard (65%) ───────────────────────────────────── */}
+      <div
+        ref={leftPanelRef}
+        style={{ flex: '0 0 65%', display: 'flex', flexDirection: 'column', minWidth: 0 }}
+      >
         {/* Header bar */}
         <div style={{
-          height: 44, flexShrink: 0, display: 'flex', alignItems: 'center',
+          height: HEADER_H, flexShrink: 0, display: 'flex', alignItems: 'center',
           padding: '0 12px', gap: 10,
           borderBottom: '1px solid var(--border)',
           background: theme === 'dark' ? '#161b22' : '#f6f7fb',
@@ -462,13 +618,53 @@ export default function TutorSessionPage() {
           </div>
         </div>
 
-        {/* Canvas — fills remaining height */}
-        <div ref={leftCanvasRef} style={{ flex: 1, position: 'relative', minHeight: 0, overflow: 'hidden' }}>
+        {/* Tutor whiteboard — top portion */}
+        <div style={{ height: tutorH, flexShrink: 0, position: 'relative', overflow: 'hidden' }}>
           <Whiteboard
             ref={wbRef}
             theme={theme}
-            visibleHeight={Math.max(400, leftCanvasHeight - 40)}
+            visibleHeight={Math.max(161, tutorH - 39)}
             onSnapshot={sendWhiteboardSnapshot}
+          />
+        </div>
+
+        {/* Drag handle */}
+        <div
+          onMouseDown={handleDragStart}
+          title="Drag to resize panels"
+          style={{
+            height: 14, flexShrink: 0, cursor: 'row-resize',
+            background: theme === 'dark' ? '#1c2128' : '#eef0f8',
+            borderTop: '1px solid var(--border)',
+            borderBottom: '1px solid var(--border)',
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            gap: 3,
+            userSelect: 'none',
+          }}
+        >
+          {[0,1,2,3,4].map(i => (
+            <div key={i} style={{
+              width: 4, height: 4, borderRadius: '50%',
+              background: theme === 'dark' ? '#484f58' : '#9aa0b4',
+            }} />
+          ))}
+        </div>
+
+        {/* Student canvas — MathWhiteboard (bottom portion) */}
+        <div style={{ flex: '1 1 0', minHeight: 0, position: 'relative', overflow: 'hidden' }}>
+          {/* Section label */}
+          <div style={{
+            position: 'absolute', top: 6, left: 60, zIndex: 20,
+            fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
+            color: theme === 'dark' ? '#30363d' : '#c8cde0',
+            pointerEvents: 'none',
+          }}>
+            Your work
+          </div>
+          <MathWhiteboard
+            mode="session"
+            theme={theme}
+            onSnapshot={sendScratchpadSnapshot}
           />
         </div>
       </div>
@@ -480,11 +676,24 @@ export default function TutorSessionPage() {
       }}>
         {/* Sidebar header */}
         <div style={{
-          height: 44, flexShrink: 0, display: 'flex', alignItems: 'center',
-          padding: '0 12px', borderBottom: '1px solid var(--border)',
+          height: HEADER_H, flexShrink: 0, display: 'flex', alignItems: 'center',
+          padding: '0 12px', gap: 8, borderBottom: '1px solid var(--border)',
           background: theme === 'dark' ? '#161b22' : '#f6f7fb',
         }}>
           <span style={{ fontWeight: 600, fontSize: 13 }}>Chat</span>
+          <button
+            onClick={() => setVoiceMode(v => !v)}
+            title={voiceMode ? 'Voice mode on — click to disable' : 'Enable voice mode'}
+            style={{
+              background: voiceMode ? 'var(--caramel)' : 'none',
+              border: `1px solid ${voiceMode ? 'var(--caramel)' : 'var(--border)'}`,
+              borderRadius: 6, padding: '3px 8px', cursor: 'pointer',
+              fontSize: 11, color: voiceMode ? '#fff' : 'var(--text-muted)',
+              fontWeight: 600,
+            }}
+          >
+            🎤 {voiceMode ? 'Voice on' : 'Voice'}
+          </button>
           <button
             onClick={() => setShowEndConfirm(true)}
             style={{
@@ -514,7 +723,7 @@ export default function TutorSessionPage() {
               Problem {currentIndex + 1}{totalProblems > 1 ? ` of ${totalProblems}` : ''}
             </div>
             <div style={{ fontSize: 13, lineHeight: 1.6 }}>
-              <MathText latex={problem.statement} />
+              <MathText latex={problem.statement} prose />
             </div>
           </div>
         )}
@@ -538,7 +747,7 @@ export default function TutorSessionPage() {
               </span>
             </div>
             <div style={{ fontSize: 11, color: 'var(--text-muted)', lineHeight: 1.4 }}>
-              <MathText latex={ragMatch.statement_latex} />
+              <MathText latex={ragMatch.statement_latex} prose />
             </div>
           </div>
         )}
@@ -550,7 +759,12 @@ export default function TutorSessionPage() {
           display: 'flex', flexDirection: 'column', gap: 8,
         }}>
           {messages.map((m, i) => (
-            <MessageBubble key={i} role={m.role} content={m.content} />
+            <MessageBubble
+              key={i}
+              role={m.role}
+              content={m.content}
+              onSpeak={m.role === 'tutor' ? () => speakText(m.content) : undefined}
+            />
           ))}
           {isThinking && (
             <div style={{ fontSize: 12, color: 'var(--text-muted)', fontStyle: 'italic' }}>
@@ -581,106 +795,123 @@ export default function TutorSessionPage() {
           <button onClick={nextProblem} style={chipStyle(false)}>Next problem</button>
         </div>
 
-        {/* ── Student work area ────────────────────────────────────────────── */}
+        {/* Show My Work — collapsible LaTeX step entry */}
         <div style={{ flexShrink: 0, borderTop: '1px solid var(--border)' }}>
-          {/* Tab strip */}
-          <div style={{
-            display: 'flex', borderBottom: '1px solid var(--border)',
-            background: theme === 'dark' ? '#161b22' : '#f6f7fb',
-          }}>
-            {(['draw', 'steps'] as const).map(mode => {
-              const active = workMode === mode
-              return (
-                <button
-                  key={mode}
-                  onClick={() => setWorkMode(mode)}
-                  style={{
-                    flex: 1, padding: '6px 0', fontSize: 11, fontWeight: 600,
-                    border: 'none', cursor: 'pointer', letterSpacing: '0.04em',
-                    background: active ? 'var(--surface)' : 'transparent',
-                    color: active ? 'var(--caramel)' : 'var(--text-muted)',
-                    borderBottom: active ? '2px solid var(--caramel)' : '2px solid transparent',
-                    transition: 'color 120ms, border-color 120ms',
-                  }}
-                >
-                  {mode === 'draw' ? '✏ Draw' : '∑ Steps'}
-                </button>
-              )
-            })}
-          </div>
-
-          {/* Content — 200px fixed */}
-          <div ref={workAreaRef} style={{ height: 200, overflow: 'hidden' }}>
-            {workMode === 'draw' && isMobile && (
-              <div style={{
-                height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center',
-                flexDirection: 'column', gap: 8, padding: '0 24px', textAlign: 'center',
-              }}>
-                <span style={{ fontSize: 24 }}>🖥</span>
-                <span style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.5 }}>
-                  Drawing works best on desktop. Switch to Steps to continue on this device.
-                </span>
-              </div>
-            )}
-            {workMode === 'draw' && !isMobile && (
-              <StudentToolbar
-                ref={studentToolbarRef}
-                theme={theme}
-                width={workAreaWidth}
-                height={164}
-                onSnapshot={sendScratchpadSnapshot}
-              />
-            )}
-            {workMode === 'steps' && (
-              <div style={{ height: '100%', overflowY: 'auto', padding: '8px 12px' }}>
-                <ShowMyWorkPanel theme={theme} onSubmit={sendStudentWork} />
-              </div>
-            )}
-          </div>
+          <button
+            onClick={() => setShowSteps(s => !s)}
+            style={{
+              width: '100%', padding: '6px 12px', fontSize: 11, fontWeight: 600,
+              border: 'none', cursor: 'pointer', letterSpacing: '0.04em',
+              background: showSteps
+                ? theme === 'dark' ? '#1c2128' : '#f0f2f8'
+                : 'transparent',
+              color: showSteps ? 'var(--caramel)' : 'var(--text-muted)',
+              borderBottom: showSteps ? '1px solid var(--border)' : 'none',
+              display: 'flex', alignItems: 'center', gap: 6,
+              textAlign: 'left',
+            }}
+          >
+            <span>{showSteps ? '▾' : '▸'}</span>
+            <span>∑ Show My Work</span>
+          </button>
+          {showSteps && (
+            <div style={{ height: 160, overflowY: 'auto', padding: '8px 12px' }}>
+              <ShowMyWorkPanel theme={theme} onSubmit={sendStudentWork} />
+            </div>
+          )}
         </div>
 
-        {/* Answer input */}
-        {problem && (
-          <div style={{ padding: '6px 12px', flexShrink: 0, display: 'flex', gap: 6 }}>
-            <div style={{ flex: 1 }}>
-              <MathInput
-                value={answerText}
-                onChange={setAnswerText}
-                placeholder="Your answer…"
-              />
+        {/* Unified input area */}
+        <div style={{ padding: '6px 12px 12px', flexShrink: 0 }}>
+          {/* Voice agent indicator */}
+          {voiceMode && (
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '2px 0 6px' }}>
+              <VoiceIndicator state={voiceIndicatorState} size={44} />
             </div>
-            <button
-              onClick={handleSubmitAnswer}
-              disabled={!answerText.trim() || isThinking}
-              className="btn-caramel"
-              style={{ padding: '8px 14px', fontSize: 13, flexShrink: 0, justifyContent: 'center' }}
-            >
-              Submit
-            </button>
-          </div>
-        )}
+          )}
 
-        {/* Chat input */}
-        <div style={{ padding: '6px 12px 12px', flexShrink: 0, display: 'flex', gap: 6 }}>
-          <input
-            value={inputText}
-            onChange={e => setInputText(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), handleSendText())}
-            placeholder="Message your tutor…"
-            style={{
-              flex: 1, padding: '8px 12px', borderRadius: 8, fontSize: 13,
-              border: '1px solid var(--border)', background: 'var(--surface)',
-              color: 'var(--text)', outline: 'none',
-            }}
-          />
-          <button
-            onClick={handleSendText}
-            disabled={!inputText.trim() || isThinking}
-            className="btn-caramel"
-            style={{ padding: '8px 14px', fontSize: 13, flexShrink: 0, justifyContent: 'center' }}
-          >
-            →
-          </button>
+          {/* Mode tabs — only when a problem is active */}
+          {problem && (
+            <div style={{ display: 'flex', gap: 4, marginBottom: 6 }}>
+              {(['chat', 'answer'] as const).map(m => (
+                <button
+                  key={m}
+                  onClick={() => setInputMode(m)}
+                  style={{
+                    flex: 1, padding: '5px 0', borderRadius: 6, fontSize: 11, fontWeight: 600,
+                    border: `1px solid ${inputMode === m ? 'var(--caramel)' : 'var(--border)'}`,
+                    background: inputMode === m
+                      ? (theme === 'dark' ? 'rgba(196,151,106,0.15)' : 'rgba(196,151,106,0.1)')
+                      : 'transparent',
+                    color: inputMode === m ? 'var(--caramel)' : 'var(--text-muted)',
+                    cursor: 'pointer',
+                  }}
+                >
+                  {m === 'chat' ? 'Message' : 'Submit Answer'}
+                </button>
+              ))}
+            </div>
+          )}
+
+          {/* Answer input */}
+          {problem && inputMode === 'answer' && (
+            <div style={{ display: 'flex', gap: 6 }}>
+              <div style={{ flex: 1 }}>
+                <MathInput
+                  value={answerText}
+                  onChange={setAnswerText}
+                  placeholder="Your answer…"
+                />
+              </div>
+              <button
+                onClick={handleSubmitAnswer}
+                disabled={!answerText.trim() || isThinking}
+                className="btn-caramel"
+                style={{ padding: '8px 14px', fontSize: 13, flexShrink: 0, justifyContent: 'center' }}
+              >
+                Submit
+              </button>
+            </div>
+          )}
+
+          {/* Chat input */}
+          {(!problem || inputMode === 'chat') && (
+            <div style={{ display: 'flex', gap: 6 }}>
+              <button
+                onClick={toggleVoice}
+                disabled={voiceState === 'transcribing'}
+                title={voiceState === 'recording' ? 'Stop recording' : 'Record voice message'}
+                style={{
+                  flexShrink: 0, width: 36, borderRadius: 8, fontSize: 13, fontWeight: 700,
+                  border: `1px solid ${voiceState === 'recording' ? 'var(--terracotta)' : 'var(--border)'}`,
+                  background: voiceState === 'recording' ? 'var(--terracotta)' : 'var(--surface)',
+                  color: voiceState === 'recording' ? '#fff' : 'var(--text-muted)',
+                  cursor: voiceState === 'transcribing' ? 'default' : 'pointer',
+                }}
+              >
+                {voiceState === 'transcribing' ? '…' : voiceState === 'recording' ? '■' : '⏺'}
+              </button>
+              <input
+                value={inputText}
+                onChange={e => setInputText(e.target.value)}
+                onKeyDown={e => e.key === 'Enter' && !e.shiftKey && (e.preventDefault(), handleSendText())}
+                placeholder={voiceMode ? 'Or type a message…' : 'Message your tutor…'}
+                style={{
+                  flex: 1, padding: '8px 12px', borderRadius: 8, fontSize: 13,
+                  border: '1px solid var(--border)', background: 'var(--surface)',
+                  color: 'var(--text)', outline: 'none',
+                }}
+              />
+              <button
+                onClick={handleSendText}
+                disabled={!inputText.trim() || isThinking}
+                className="btn-caramel"
+                style={{ padding: '8px 14px', fontSize: 13, flexShrink: 0, justifyContent: 'center' }}
+              >
+                →
+              </button>
+            </div>
+          )}
         </div>
       </div>
 

@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_026",
+  "topic_name": "Expected Value and Linearity of Expectation",
+  "generated_at": "2026-05-13T20:23:43.488355+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to find the probability of a single event, like rolling a 6 on a die. But what if someone asks: 'On average, how many times will you roll a die before you see a 6?' or 'If you flip 10 coins, what's the average number of heads?' These questions aren't asking for a probability \u2014 they're asking for an expected value, and trying to compute it by listing every possible outcome quickly becomes overwhelming. So how can we calculate averages over random processes without drowning in casework?",
+  "concept": "Expected value is the long-run average outcome of a random experiment. Informally, if you repeated the experiment many times, the average result would converge to the expected value. Formally, for a discrete random variable $X$ taking values $x_1, x_2, \\ldots, x_n$ with probabilities $p_1, p_2, \\ldots, p_n$, the expected value is $E[X] = \\sum_{i} x_i p_i$. The key power tool is Linearity of Expectation: $E[X + Y] = E[X] + E[Y]$, which holds even when $X$ and $Y$ are dependent.",
+  "anatomy": "Every expected value problem has three structural pieces to identify. First, the random variable $X$ itself \u2014 the quantity you are averaging, such as 'number of heads' or 'sum of dice.' Second, the indicator random variables: when using linearity, you decompose $X = X_1 + X_2 + \\cdots + X_n$ where each $X_i$ equals 1 if a simple event occurs and 0 otherwise, so $E[X_i] = P(\\text{event } i \\text{ occurs})$. Third, the linearity step itself: you replace $E[X_1 + X_2 + \\cdots + X_n]$ with $E[X_1] + E[X_2] + \\cdots + E[X_n]$, sidestepping any need to track dependencies.",
+  "worked_example": [
+    {
+      "expression_latex": "X = \\text{number of heads in 8 fair coin flips}",
+      "description_latex": "We define our random variable clearly before computing anything. Here $X$ counts the total heads across all 8 flips, and we want $E[X]$. Rather than listing all $2^8 = 256$ outcomes and weighting each by its probability, we will use linearity of expectation to break this into 8 tiny, easy problems.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "X = X_1 + X_2 + \\cdots + X_8, \\quad X_i = \\begin{cases} 1 & \\text{if flip } i \\text{ is heads} \\\\ 0 & \\text{otherwise} \\end{cases}",
+      "description_latex": "We decompose $X$ into indicator random variables, one per flip. Each $X_i$ is called an indicator because it 'indicates' whether a specific simple event happened \u2014 it is always 0 or 1. This decomposition is valid because adding up 8 indicators, each counting a single heads, gives the total number of heads.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[X_i] = 1 \\cdot P(\\text{flip } i = H) + 0 \\cdot P(\\text{flip } i = T) = \\frac{1}{2}",
+      "description_latex": "For any single fair flip, the probability of heads is $\\frac{1}{2}$, so $E[X_i] = \\frac{1}{2}$. Notice that $E[X_i] = P(X_i = 1)$ \u2014 this is a general fact about indicator variables that makes them so convenient, because computing a probability is often much easier than computing a full expected value.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[X] = E[X_1] + E[X_2] + \\cdots + E[X_8] = 8 \\cdot \\frac{1}{2} = 4",
+      "description_latex": "By linearity of expectation, we simply add the eight individual expected values \u2014 no need to worry about whether the flips are independent or check any conditions. The result $E[X] = 4$ tells us that on average, 8 fair flips produce 4 heads, which matches our intuition perfectly.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A standard die is rolled 5 times. Find the expected sum.}",
+      "description_latex": "We want $E[S]$ where $S$ is the total sum of 5 rolls. We define indicator-style variables $S = D_1 + D_2 + D_3 + D_4 + D_5$, where $D_i$ is the value shown on roll $i$. By linearity, $E[S] = E[D_1] + E[D_2] + E[D_3] + E[D_4] + E[D_5] = 5 \\cdot E[D_1]$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[D_i] = \\frac{1+2+3+4+5+6}{6} = \\frac{21}{6} = \\frac{7}{2}",
+      "description_latex": "Each face of a fair die appears with equal probability $\\frac{1}{6}$, so the expected value of a single roll is the simple average of the six faces. We compute this as the sum of all face values divided by 6, giving $\\frac{7}{2} = 3.5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply linearity of expectation to finish: multiply $E[D_i]$ by the number of rolls to find $E[S]$. What is the expected sum of 5 rolls?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A fair coin is flipped 20 times. What is the expected number of heads?",
+      "answer_latex": "10"
+    },
+    {
+      "prompt_latex": "Two standard dice are rolled. What is the expected value of their sum?",
+      "answer_latex": "7"
+    },
+    {
+      "prompt_latex": "A box contains 5 red and 3 blue balls. You draw 4 balls without replacement. What is the expected number of red balls drawn?",
+      "answer_latex": "\\dfrac{5}{2}"
+    },
+    {
+      "prompt_latex": "In a group of 30 people, each pair independently shakes hands with probability $\\frac{1}{3}$. What is the expected total number of handshakes?",
+      "answer_latex": "\\dfrac{\\binom{30}{2}}{3} = \\dfrac{435}{3} = 145"
+    },
+    {
+      "prompt_latex": "A carnival game gives you a prize worth $\\$k^2$ if you roll exactly $k$ on a fair six-sided die. What is the expected value of your prize in dollars?",
+      "answer_latex": "\\dfrac{1+4+9+16+25+36}{6} = \\dfrac{91}{6} \\approx 15.17"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply linearity of expectation only when events are independent, believing it requires independence. In reality, $E[X+Y] = E[X] + E[Y]$ holds for ALL random variables regardless of dependence \u2014 the power of linearity is precisely that you never need to check whether the $X_i$ are related.",
+    "When computing $E[X_i]$ for an indicator variable, students multiply the probability by some value other than 1, treating it like a weighted average instead of using the fact that $E[X_i] = P(X_i = 1)$ directly. Since an indicator is always 0 or 1, its expected value equals exactly the probability of the event it indicates.",
+    "Students forget to clearly define what their random variable represents before decomposing it, then mix up whether they're summing indicators over events, trials, or objects. Always name $X$ explicitly first, then write $X = X_1 + X_2 + \\cdots + X_n$ with a precise description of what each $X_i$ counts, so the decomposition is unambiguous."
+  ],
+  "untested_variants": [
+    "Geometric distribution expected value: computing the expected number of trials until the first success (e.g., expected number of rolls to get a 6), which requires summing an infinite series rather than a finite indicator decomposition.",
+    "Expected value of a minimum or maximum of random variables, such as finding $E[\\min(D_1, D_2)]$ for two dice rolls, where indicator decomposition requires expressing the min through complementary events.",
+    "Conditional expectation problems, where you must compute $E[X \\mid \\text{some event}]$ and possibly use the law of total expectation $E[X] = E[E[X \\mid Y]]$.",
+    "Expected value problems involving continuous random variables with a probability density function, requiring integration rather than discrete summation."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "pf_027",
+  "topic_name": "Proving Inequalities (AM-GM, Cauchy-Schwarz)",
+  "generated_at": "2026-05-13T20:20:15.774628+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to verify that $2 + 3 \\geq 2\\sqrt{6}$ by plugging in numbers, but what if someone asks you to prove that for ALL positive reals $a$ and $b$, we have $\\frac{a+b}{2} \\geq \\sqrt{ab}$? You can't check every pair of numbers \u2014 you need a argument that works universally. And once you have that, can you tackle something harder, like proving $a^2 + b^2 + c^2 \\geq ab + bc + ca$ for all reals? What structural tool would let you do that?",
+  "concept": "Inequality proofs use known algebraic identities or previously established results to show one expression is always at least as large as another. The two most powerful tools are the AM-GM inequality \u2014 for positive reals $a_1, \\ldots, a_n$, we have $\\frac{a_1 + \\cdots + a_n}{n} \\geq (a_1 \\cdots a_n)^{1/n}$ \u2014 and the Cauchy-Schwarz inequality: for real sequences, $(\\sum_{i=1}^n a_i b_i)^2 \\leq (\\sum_{i=1}^n a_i^2)(\\sum_{i=1}^n b_i^2)$. Both equalities hold under specific conditions.",
+  "anatomy": "In AM-GM, the left side $\\frac{a_1 + \\cdots + a_n}{n}$ is the arithmetic mean (the average), and the right side $(a_1 \\cdots a_n)^{1/n}$ is the geometric mean (the $n$-th root of the product). The equality condition is $a_1 = a_2 = \\cdots = a_n$. In Cauchy-Schwarz, $(\\sum a_i b_i)^2$ is the squared inner product of two sequences, while $(\\sum a_i^2)$ and $(\\sum b_i^2)$ are their squared norms; equality holds when the sequences are proportional, i.e., $a_i = \\lambda b_i$ for some constant $\\lambda$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: For all } a, b > 0, \\quad \\frac{a+b}{2} \\geq \\sqrt{ab}.",
+      "description_latex": "We want to prove the two-variable AM-GM inequality from scratch. The key strategy is to reduce the inequality to something we can verify directly \u2014 specifically, we want to show this is equivalent to a perfect square being nonnegative, which is always true.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{a+b}{2} \\geq \\sqrt{ab} \\iff a + b \\geq 2\\sqrt{ab} \\iff a - 2\\sqrt{ab} + b \\geq 0",
+      "description_latex": "Since $a, b > 0$, we can multiply both sides by 2 without flipping the inequality, and then rearrange. We are rewriting the inequality in a form that reveals its hidden structure \u2014 notice the expression on the right looks like it might be a perfect square.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a - 2\\sqrt{ab} + b = (\\sqrt{a})^2 - 2\\sqrt{a}\\sqrt{b} + (\\sqrt{b})^2 = (\\sqrt{a} - \\sqrt{b})^2",
+      "description_latex": "We recognize the expression as the expansion of a squared binomial. Since $a, b > 0$, the terms $\\sqrt{a}$ and $\\sqrt{b}$ are real, so this is a perfect square of a real number, which is always greater than or equal to zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(\\sqrt{a} - \\sqrt{b})^2 \\geq 0 \\text{ for all real } \\sqrt{a}, \\sqrt{b}, \\text{ with equality iff } \\sqrt{a} = \\sqrt{b}, \\text{ i.e., } a = b.",
+      "description_latex": "Any real number squared is nonnegative, so the inequality holds universally. Tracing back through our equivalences, the original AM-GM inequality is proven, and equality occurs precisely when $a = b$, confirming the equality condition.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: For all reals } a, b, c, \\quad a^2 + b^2 + c^2 \\geq ab + bc + ca.",
+      "description_latex": "We want to prove this symmetric inequality. A useful strategy is to write the left side minus the right side and show the difference is nonnegative. Let's compute $a^2 + b^2 + c^2 - ab - bc - ca$ and look for a way to express it as a sum of squares.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a^2 + b^2 + c^2 - ab - bc - ca = \\frac{1}{2}\\left[(a-b)^2 + (b-c)^2 + (c-a)^2\\right]",
+      "description_latex": "This algebraic identity is the heart of the proof. To verify it, expand the right side: $(a-b)^2 + (b-c)^2 + (c-a)^2 = 2a^2 + 2b^2 + 2c^2 - 2ab - 2bc - 2ca$, and dividing by 2 gives the left side. Once you have this identity, explain why it immediately proves the inequality.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now complete the proof: use the identity above to conclude that $a^2 + b^2 + c^2 - ab - bc - ca \\geq 0$, state your reasoning carefully, and identify exactly when equality holds.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use AM-GM to prove that for $x > 0$, we have $x + \\frac{1}{x} \\geq 2$.",
+      "answer_latex": "By AM-GM applied to $x$ and $\\frac{1}{x}$: $\\frac{x + \\frac{1}{x}}{2} \\geq \\sqrt{x \\cdot \\frac{1}{x}} = 1$, so $x + \\frac{1}{x} \\geq 2$, with equality iff $x = 1$."
+    },
+    {
+      "prompt_latex": "Use AM-GM to prove that for positive reals $a, b, c$, we have $\\frac{a+b+c}{3} \\geq \\sqrt[3]{abc}$. (Hint: The two-variable case says $\\frac{u+v}{2}\\geq\\sqrt{uv}$; apply it carefully in two stages.)",
+      "answer_latex": "Let $m = \\frac{a+b}{2} \\geq \\sqrt{ab}$. Then $\\frac{a+b+c}{3} = \\frac{2m+c}{3}$. By AM-GM on $m, m, c$: $\\frac{m+m+c}{3} \\geq (m^2 c)^{1/3} \\geq (ab \\cdot c)^{1/3} = (abc)^{1/3}$."
+    },
+    {
+      "prompt_latex": "Use the Cauchy-Schwarz inequality to prove that for real numbers $a, b, c, d$, $(ac + bd)^2 \\leq (a^2 + b^2)(c^2 + d^2)$, and state the equality condition.",
+      "answer_latex": "This is Cauchy-Schwarz with $n=2$: $(a_1 b_1 + a_2 b_2)^2 \\leq (a_1^2+a_2^2)(b_1^2+b_2^2)$, with $a_1=a, a_2=b, b_1=c, b_2=d$. Equality holds iff $(a,b) = \\lambda(c,d)$ for some scalar $\\lambda$, i.e., $ad = bc$."
+    },
+    {
+      "prompt_latex": "For positive reals $a$ and $b$ with $a + b = 1$, use AM-GM to find the minimum value of $\\left(a + \\frac{1}{a}\\right)\\left(b + \\frac{1}{b}\\right)$ and prove your answer is indeed the minimum.",
+      "answer_latex": "By AM-GM, $a + \\frac{1}{a} \\geq 2$ and $b + \\frac{1}{b} \\geq 2$, so the product is $\\geq 4$. More precisely, with $a+b=1$: $\\left(a+\\frac{1}{a}\\right)\\left(b+\\frac{1}{b}\\right) = 1 + \\frac{a}{b}+\\frac{b}{a} + \\frac{1}{ab}$. Since $a+b=1$, $ab \\leq \\frac{1}{4}$ by AM-GM, so $\\frac{1}{ab} \\geq 4$ and $\\frac{a}{b}+\\frac{b}{a} \\geq 2$, giving minimum $\\frac{25}{4}$, achieved at $a=b=\\frac{1}{2}$."
+    },
+    {
+      "prompt_latex": "A farmer has 120 meters of fencing to enclose a rectangular plot. Use AM-GM to prove rigorously that the area is maximized when the plot is a square, and state the maximum area.",
+      "answer_latex": "Let the sides be $x$ and $y$ with $2x+2y=120$, so $x+y=60$. By AM-GM, $\\frac{x+y}{2} \\geq \\sqrt{xy}$, giving $30 \\geq \\sqrt{xy}$, hence $xy \\leq 900$. Equality holds iff $x = y = 30$, a square. The maximum area is $900$ square meters."
+    }
+  ],
+  "common_mistakes": [
+    "Students apply AM-GM to expressions that are not all positive: for instance, applying $\\frac{a+b}{2} \\geq \\sqrt{ab}$ when $a$ or $b$ could be negative. The geometric mean $\\sqrt{ab}$ is only real when $ab \\geq 0$, and AM-GM requires all terms to be strictly positive; always verify the sign conditions before applying the inequality.",
+    "When using Cauchy-Schwarz, students sometimes write $(\\sum a_i b_i)^2 \\leq (\\sum a_i)^2 (\\sum b_i)^2$ instead of the correct $(\\sum a_i b_i)^2 \\leq (\\sum a_i^2)(\\sum b_i^2)$ \u2014 forgetting the squares inside the sums. Remember that Cauchy-Schwarz involves the sum of squares of each sequence, not the square of their sums.",
+    "After completing the equality analysis, students often forget to verify or state when equality holds, losing credit for an incomplete proof. For AM-GM, equality requires all terms to be equal; for Cauchy-Schwarz, it requires proportionality between the two sequences \u2014 always close your proof by identifying this condition explicitly."
+  ],
+  "untested_variants": [
+    "Proving the weighted AM-GM inequality: for positive reals $a, b$ and weights $\\lambda, 1-\\lambda$ with $\\lambda \\in (0,1)$, showing $\\lambda a + (1-\\lambda)b \\geq a^\\lambda b^{1-\\lambda}$.",
+    "Using Cauchy-Schwarz in the Engel form (also called Titu's lemma): $\\frac{a_1^2}{b_1} + \\frac{a_2^2}{b_2} + \\cdots + \\frac{a_n^2}{b_n} \\geq \\frac{(a_1+\\cdots+a_n)^2}{b_1+\\cdots+b_n}$ for positive $b_i$.",
+    "Proving the power mean inequality, which generalizes AM-GM by comparing the $r$-th power mean $M_r = \\left(\\frac{a^r + b^r}{2}\\right)^{1/r}$ for different values of $r$.",
+    "Combining AM-GM with substitution to prove Nesbitt's inequality: for positive $a,b,c$, $\\frac{a}{b+c}+\\frac{b}{a+c}+\\frac{c}{a+b} \\geq \\frac{3}{2}$."
+  ]
+}

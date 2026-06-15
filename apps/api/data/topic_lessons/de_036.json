@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_036",
+  "topic_name": "Dirac Delta Function and Impulse Problems (H)",
+  "generated_at": "2026-05-13T20:03:02.738879+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve initial value problems using Laplace transforms when the forcing function is something smooth like $e^{at}$ or $\\sin(\\omega t)$. But what happens when a system receives an instantaneous, concentrated jolt \u2014 like a hammer strike on a beam, or a sudden voltage spike in a circuit \u2014 where the force is essentially infinite for an infinitesimally short time yet delivers a finite total impulse? The tools you have can't describe a 'function' that is zero everywhere except at one instant where it's infinite. So how do we model and solve differential equations driven by such impulse forces?",
+  "concept": "The Dirac delta 'function' $\\delta(t - a)$ is not a function in the classical sense but a distribution that models a unit impulse concentrated at $t = a$. Informally, $\\delta(t-a) = 0$ for $t \\neq a$, yet $\\int_{-\\infty}^{\\infty} \\delta(t-a)\\,dt = 1$. Its defining property is the sifting property: $\\int_{-\\infty}^{\\infty} f(t)\\,\\delta(t-a)\\,dt = f(a)$ for any continuous $f$. Its Laplace transform is $\\mathcal{L}\\{\\delta(t-a)\\} = e^{-as}$ for $a \\geq 0$.",
+  "anatomy": "An impulse problem has several key components. The delta function $\\delta(t - a)$ has a shift parameter $a \\geq 0$, which locates the instant of the impulse on the time axis \u2014 this determines where the factor $e^{-as}$ appears in the transform domain. The coefficient in front of $\\delta(t-a)$, say $k\\,\\delta(t-a)$, represents the magnitude (strength) of the impulse, and it scales the transform to $k\\,e^{-as}$. In the IVP itself, the left-hand side is a linear differential operator $L[y] = ay'' + by' + cy$ whose characteristic polynomial $P(s) = as^2 + bs + c$ becomes the denominator after transforming. The solution is then assembled by performing a partial-fraction decomposition on $\\frac{e^{-as}}{P(s)}$ (plus initial-condition terms) and inverting each piece, often producing terms involving the unit step function $u(t-a)$ multiplied by a shifted response.",
+  "worked_example": [
+    {
+      "expression_latex": "y'' + 4y = \\delta(t - \\pi), \\quad y(0) = 0,\\; y'(0) = 0",
+      "description_latex": "We begin by reading the problem carefully: there is a unit impulse at $t = \\pi$ and the system starts from rest. Because the forcing function is $\\delta(t-\\pi)$, we know its Laplace transform will contribute the factor $e^{-\\pi s}$, which signals that our final answer will involve a time-shifted term activated at $t = \\pi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "s^2 Y(s) - s\\cdot 0 - 0 + 4Y(s) = e^{-\\pi s}",
+      "description_latex": "We apply the Laplace transform to both sides, using $\\mathcal{L}\\{y''\\} = s^2 Y - sy(0) - y'(0)$ and the key formula $\\mathcal{L}\\{\\delta(t-\\pi)\\} = e^{-\\pi s}$. Since both initial conditions are zero, the left side simplifies cleanly to $(s^2+4)Y(s)$, which makes the algebra much easier.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Y(s) = \\frac{e^{-\\pi s}}{s^2 + 4}",
+      "description_latex": "Solving for $Y(s)$ is straightforward: we factor out $e^{-\\pi s}$ and recognize the remaining factor $\\frac{1}{s^2+4}$ as the transform of $\\frac{1}{2}\\sin(2t)$, which is the impulse response of the unforced system. The $e^{-\\pi s}$ factor tells us this response will be switched on and time-shifted to start at $t = \\pi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Y(s) = e^{-\\pi s} \\cdot \\frac{1}{s^2 + 4} = e^{-\\pi s} \\cdot \\frac{1}{2}\\cdot\\frac{2}{s^2+4}",
+      "description_latex": "We rewrite $\\frac{1}{s^2+4}$ as $\\frac{1}{2}\\cdot\\frac{2}{s^2+4}$ so that the inverse transform formula $\\mathcal{L}^{-1}\\left\\{\\frac{2}{s^2+4}\\right\\} = \\sin(2t)$ is immediately recognizable. This small algebraic adjustment is essential before applying the second shifting theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y(t) = \\frac{1}{2}\\sin(2(t-\\pi))\\,u(t-\\pi)",
+      "description_latex": "By the second shifting theorem, $\\mathcal{L}^{-1}\\{e^{-as}F(s)\\} = f(t-a)u(t-a)$, so we replace $t$ with $t-\\pi$ in $\\frac{1}{2}\\sin(2t)$ and multiply by the unit step $u(t-\\pi)$. Physically this says the system remains at rest until $t=\\pi$, at which point the impulse kicks it into sinusoidal oscillation \u2014 a satisfying interpretation that matches our intuition about a sudden strike.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y'' + 3y' + 2y = 5\\delta(t-1), \\quad y(0)=0,\\; y'(0)=0",
+      "description_latex": "We start by taking the Laplace transform of both sides. Since the initial conditions are zero, the left side transforms to $(s^2+3s+2)Y(s)$ and the right side transforms using $\\mathcal{L}\\{5\\delta(t-1)\\} = 5e^{-s}$. Solving for $Y(s)$ gives us the following expression.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Y(s) = \\frac{5e^{-s}}{s^2+3s+2} = \\frac{5e^{-s}}{(s+1)(s+2)}",
+      "description_latex": "Factor the denominator as $(s+1)(s+2)$ and now perform a partial fraction decomposition on $\\frac{5}{(s+1)(s+2)}$ \u2014 write it as $\\frac{A}{s+1}+\\frac{B}{s+2}$ and find $A$ and $B$. This is the key algebraic step before you can invert the transform.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "Y(s) = 5e^{-s}\\left(\\frac{1}{s+1} - \\frac{1}{s+2}\\right) \\implies y(t) = 5\\left(e^{-(t-1)} - e^{-2(t-1)}\\right)u(t-1)",
+      "description_latex": "With $A=5$ and $B=-5$ (so that $\\frac{5}{(s+1)(s+2)} = \\frac{5}{s+1}-\\frac{5}{s+2}$), we apply the second shifting theorem to each term: $\\mathcal{L}^{-1}\\{e^{-s}/(s+a)\\} = e^{-a(t-1)}u(t-1)$, giving the final answer above. Notice the system is silent for $t<1$ and then decays exponentially after the impulse \u2014 this makes physical sense for an overdamped system.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $\\mathcal{L}\\{3\\delta(t-4)\\}$.",
+      "answer_latex": "3e^{-4s}"
+    },
+    {
+      "prompt_latex": "Solve the IVP: $y'' + 9y = \\delta(t-2)$, $y(0)=0$, $y'(0)=0$.",
+      "answer_latex": "y(t) = \\dfrac{1}{3}\\sin(3(t-2))\\,u(t-2)"
+    },
+    {
+      "prompt_latex": "Solve the IVP: $y'' + 2y' + 5y = \\delta(t-1)$, $y(0)=0$, $y'(0)=0$.",
+      "answer_latex": "y(t) = \\dfrac{1}{2}e^{-(t-1)}\\sin(2(t-1))\\,u(t-1)"
+    },
+    {
+      "prompt_latex": "Solve the IVP: $y'' + 4y = \\delta(t) + \\delta(t-\\pi)$, $y(0)=1$, $y'(0)=0$. (Hint: treat each delta function and the non-zero initial conditions separately in the transform.)",
+      "answer_latex": "y(t) = \\cos(2t) + \\dfrac{1}{2}\\sin(2t) + \\dfrac{1}{2}\\sin(2(t-\\pi))\\,u(t-\\pi)"
+    },
+    {
+      "prompt_latex": "A mass-spring system with unit mass, spring constant $k=4$, and no damping is at rest. A hammer delivers an impulse of magnitude $6$ at time $t=3$. Write the IVP modeling this system and solve for the position $y(t)$ for all $t\\geq 0$.",
+      "answer_latex": "\\text{IVP: }y''+4y=6\\delta(t-3),\\; y(0)=0,\\; y'(0)=0;\\qquad y(t)=3\\sin(2(t-3))\\,u(t-3)"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to apply the second shifting theorem correctly, writing $f(t)u(t-a)$ instead of $f(t-a)u(t-a)$ \u2014 remember that $e^{-as}F(s)$ inverts to $f(t-a)u(t-a)$, meaning you must replace every $t$ inside $f$ with $t-a$, not just attach the step function.",
+    "When initial conditions are non-zero, students sometimes discard the terms $sy(0)+y'(0)$ from $\\mathcal{L}\\{y''\\}$, incorrectly treating the problem as if it started from rest \u2014 always write out $(s^2Y - sy(0) - y'(0))$ in full before substituting the given values.",
+    "Students often misidentify $\\mathcal{L}\\{\\delta(t)\\}=e^{-0\\cdot s}=1$ versus $\\mathcal{L}\\{\\delta(t-a)\\}=e^{-as}$, and confuse the sign in the exponent when $a$ appears in the denominator's partial fractions \u2014 keep the shift parameter $a$ from the delta function and the exponential decay rates from the characteristic roots conceptually separate."
+  ],
+  "untested_variants": [
+    "Impulse problems where the coefficient of the delta function is itself a function of $t$ (e.g., $t\\,\\delta(t-2)$), requiring the sifting property to evaluate before transforming.",
+    "Systems of two coupled ODEs driven by a single Dirac delta impulse, where matrix methods or simultaneous Laplace equations must be used.",
+    "Problems with non-zero initial conditions combined with both a regular forcing function (e.g., $\\sin t$) and a delta function term on the right-hand side simultaneously.",
+    "Impulse response problems where the student is asked to find the Green's function (impulse response function $h(t)$) of a general second-order operator and use convolution to express the solution for an arbitrary forcing function."
+  ]
+}

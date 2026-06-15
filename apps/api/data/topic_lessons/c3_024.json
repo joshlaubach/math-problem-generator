@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_024",
+  "topic_name": "Applications: Area, Volume, Mass, and Center of Mass",
+  "generated_at": "2026-05-13T00:36:02.478615+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to use a single integral to find the area under a curve or the volume of a solid of revolution. But what if the region isn't bounded by a simple function of one variable, or the solid doesn't have any rotational symmetry? What if you need to find not just the volume of a lamina but also its center of mass when the density varies from point to point? These questions demand the full power of double and triple integrals, and the question is: how do we set up and interpret these integrals to extract real physical and geometric information?",
+  "concept": "Multiple integrals let us accumulate a quantity \u2014 area, volume, mass, or a weighted position \u2014 over a two- or three-dimensional region by integrating a function over that region. Formally, for a region $R$ in the plane with density $\\rho(x,y)$, the mass is $m = \\iint_R \\rho(x,y)\\,dA$, and the center of mass coordinates are $\\bar{x} = \\frac{1}{m}\\iint_R x\\,\\rho(x,y)\\,dA$ and $\\bar{y} = \\frac{1}{m}\\iint_R y\\,\\rho(x,y)\\,dA$. Setting $\\rho = 1$ recovers area and volume formulas.",
+  "anatomy": "Every application integral in this topic has four structural pieces you must identify before writing anything down. First, the integrand: the function being accumulated, such as $1$ for area/volume, $\\rho(x,y)$ for mass, or $x\\,\\rho(x,y)$ for the first moment about the $y$-axis. Second, the region of integration $R$ (or $E$ in 3D): the geometric domain, described by inequalities that become your limits. Third, the area element $dA = dx\\,dy$ (or volume element $dV = dx\\,dy\\,dz$), which determines the order and type of integration. Fourth, the normalization factor $m$ that divides the moment integrals to produce center-of-mass coordinates $\\bar{x}$ and $\\bar{y}$.",
+  "worked_example": [
+    {
+      "expression_latex": "R: 0 \\le x \\le 2,\\quad 0 \\le y \\le x,\\quad \\rho(x,y) = x + y",
+      "description_latex": "We are given a triangular lamina bounded by $y=0$, $x=2$, and $y=x$, with density $\\rho(x,y)=x+y$. Before writing any integral, we sketch the region and confirm the variable bounds: for each fixed $x$ in $[0,2]$, $y$ runs from $0$ to $x$. Identifying the region clearly is the most important step because wrong limits produce a completely wrong answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m = \\int_0^2 \\int_0^x (x+y)\\,dy\\,dx",
+      "description_latex": "We set up the mass integral $m = \\iint_R \\rho\\,dA$ by inserting the density and attaching the correct iterated limits. The inner integral runs over $y$ first (from $0$ to $x$) because the $y$-bounds depend on $x$, and the outer integral then sweeps $x$ from $0$ to $2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m = \\int_0^2 \\left[xy + \\frac{y^2}{2}\\right]_0^x dx = \\int_0^2 \\left(x^2 + \\frac{x^2}{2}\\right)dx = \\int_0^2 \\frac{3x^2}{2}\\,dx",
+      "description_latex": "We evaluate the inner integral by treating $x$ as a constant and antidifferentiating with respect to $y$: $\\int_0^x(x+y)\\,dy = xy + y^2/2\\big|_0^x = x^2 + x^2/2 = 3x^2/2$. This collapses the double integral into a single integral in $x$, which is now straightforward to handle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m = \\left[\\frac{x^3}{2}\\right]_0^2 = \\frac{8}{2} = 4",
+      "description_latex": "Integrating $3x^2/2$ with respect to $x$ gives $x^3/2$, and evaluating from $0$ to $2$ yields $m=4$. This is the total mass of the lamina, and we will use it as the denominator when computing center-of-mass coordinates.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{1}{4}\\int_0^2\\int_0^x x(x+y)\\,dy\\,dx = \\frac{1}{4}\\int_0^2\\frac{5x^3}{6}\\,dx = \\frac{1}{4}\\cdot\\frac{5}{6}\\cdot 4 = \\frac{5}{6}",
+      "description_latex": "To find $\\bar{x}$ we replace the integrand with $x\\rho = x(x+y)$, divide by $m=4$, and repeat the same iterated integration process. The inner integral gives $x\\cdot(x^2+x^2/2)=5x^3/6$, the outer integral gives $5x^4/24\\big|_0^2=20/6$, and dividing by $4$ yields $\\bar{x}=5/6$. Notice that $\\bar{x}<1$, which makes geometric sense because the density is higher near the origin.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "R: 0 \\le x \\le 1,\\quad x^2 \\le y \\le x,\\quad \\rho(x,y) = 6x",
+      "description_latex": "We have a lamina over the region bounded by $y=x^2$ and $y=x$ on $[0,1]$, with density $\\rho=6x$. Start by writing the mass integral with the correct limits: the lower bound on $y$ is the parabola $y=x^2$ and the upper bound is the line $y=x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m = \\int_0^1 \\int_{x^2}^{x} 6x\\,dy\\,dx",
+      "description_latex": "Here is the correctly set-up mass integral. Now evaluate the inner integral with respect to $y$, remembering that $6x$ is constant with respect to $y$, and simplify the result into a single integral in $x$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "m = \\int_0^1 6x(x - x^2)\\,dx = \\int_0^1 (6x^2 - 6x^3)\\,dx = \\left[2x^3 - \\frac{3x^4}{2}\\right]_0^1 = \\frac{1}{2}",
+      "description_latex": "The inner integral gives $6x(x-x^2)=6x^2-6x^3$, and integrating from $0$ to $1$ produces $m=1/2$. Now use this mass to set up and evaluate $\\bar{y} = \\frac{1}{m}\\iint_R y\\rho\\,dA$; write the full iterated integral and compute the answer.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\bar{y} = 2\\int_0^1\\int_{x^2}^{x} 6xy\\,dy\\,dx = 2\\int_0^1 3x(x^2-x^4)\\,dx = 2\\cdot\\frac{3}{10} = \\frac{3}{5}",
+      "description_latex": "Multiplying the integrand by $y$ and dividing by $m=1/2$ (equivalently multiplying by $2$) gives the $y$-coordinate of the center of mass as $\\bar{y}=3/5$. This result sits above the midpoint $y=1/2$ of the region's height, which makes sense because the density $6x$ is heavier toward $x=1$ where the region is tallest.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the area of the region $R$ bounded by $0 \\le x \\le 3$ and $0 \\le y \\le 2$ using a double integral.",
+      "answer_latex": "A = \\iint_R dA = \\int_0^3\\int_0^2 dy\\,dx = 6"
+    },
+    {
+      "prompt_latex": "Find the volume under $f(x,y) = 4 - x - y$ over the region $0 \\le x \\le 1$, $0 \\le y \\le 1$.",
+      "answer_latex": "V = \\int_0^1\\int_0^1 (4-x-y)\\,dy\\,dx = 3"
+    },
+    {
+      "prompt_latex": "A lamina occupies the region $0 \\le x \\le 2$, $0 \\le y \\le 3$ with density $\\rho(x,y) = xy$. Find its total mass.",
+      "answer_latex": "m = \\int_0^2\\int_0^3 xy\\,dy\\,dx = 9"
+    },
+    {
+      "prompt_latex": "Find the center of mass of the lamina bounded by $y=0$, $y=\\sqrt{x}$, and $x=4$ with uniform density $\\rho=1$.",
+      "answer_latex": "m = \\frac{16}{3},\\quad \\bar{x} = \\frac{12}{5},\\quad \\bar{y} = \\frac{3}{8}"
+    },
+    {
+      "prompt_latex": "A thin plate covers the triangular region with vertices $(0,0)$, $(2,0)$, $(0,2)$ and has density $\\rho(x,y)=x+2y$. Find the total mass and the $x$-coordinate of the center of mass.",
+      "answer_latex": "m = \\frac{8}{3},\\quad \\bar{x} = \\frac{3}{4}"
+    }
+  ],
+  "common_mistakes": [
+    "Students swap the roles of the inner and outer limits, writing $\\int_0^x\\int_0^2$ instead of $\\int_0^2\\int_0^x$ for a region where $y$ runs from $0$ to $x$ and $x$ runs from $0$ to $2$. Always identify which variable's bounds depend on the other variable \u2014 those variable-expression limits must be on the inner integral.",
+    "When computing center of mass, students divide $\\iint x\\,dA$ by the area instead of the mass, or forget to divide at all. Remember: moments must be normalized by $m = \\iint\\rho\\,dA$, not by the geometric area, and $\\rho=1$ only when the lamina is explicitly uniform.",
+    "Students forget to include the density function $\\rho(x,y)$ in the moment integrands, writing $\\iint x\\,dA$ instead of $\\iint x\\,\\rho(x,y)\\,dA$ for $M_y$. The moment integrand is always $x\\rho$ (or $y\\rho$), not just $x$ (or $y$), unless the problem states $\\rho=1$."
+  ],
+  "untested_variants": [
+    "Triple integrals for the mass and center of mass of a three-dimensional solid with a variable density function $\\rho(x,y,z)$.",
+    "Converting a double integral to polar coordinates to find the area or mass of a circular or annular region.",
+    "Using a double integral to find the moment of inertia $I_x = \\iint y^2\\,\\rho\\,dA$ or $I_y = \\iint x^2\\,\\rho\\,dA$ rather than the center of mass.",
+    "Reversing the order of integration when the original iterated integral is difficult to evaluate (e.g., an integrand like $e^{y^2}$ that has no elementary antiderivative in the given order)."
+  ]
+}

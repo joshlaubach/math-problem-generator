@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_011",
+  "topic_name": "Quadratic Inequalities",
+  "generated_at": "2026-05-12T23:19:47.579265+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to solve quadratic equations like $x^2 - x - 6 = 0$ by factoring to get $x = 3$ or $x = -2$. But what if a problem asks you: for which values of $x$ is $x^2 - x - 6 < 0$? The equation gave you two exact points, but the inequality is asking about an entire region of the number line. How do you figure out which values of $x$ actually make that expression negative?",
+  "concept": "A quadratic inequality asks where a quadratic expression is greater than, less than, greater than or equal to, or less than or equal to zero (or another value). Formally, it has the form $ax^2 + bx + c < 0$, $ax^2 + bx + c > 0$, $\\leq 0$, or $\\geq 0$, where $a \\neq 0$. The solution is not a pair of points but an interval (or union of intervals) on the number line where the parabola lies below or above the $x$-axis.",
+  "anatomy": "Every quadratic inequality has four key parts to identify before solving: the quadratic expression $ax^2 + bx + c$ (the parabola whose position relative to the $x$-axis you are analyzing), the leading coefficient $a$ (which tells you whether the parabola opens upward or downward, flipping the logic of which region satisfies the inequality), the critical numbers (the roots $x_1$ and $x_2$ found by solving $ax^2 + bx + c = 0$, which divide the number line into test intervals), and the inequality symbol ($<$, $>$, $\\leq$, $\\geq$) which determines whether the critical numbers themselves are included in the solution and whether you want the region above or below the $x$-axis.",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 - x - 6 < 0",
+      "description_latex": "We start by writing the inequality in standard form with zero on one side, which is already done here. Our goal is to find all $x$-values where the parabola $y = x^2 - x - 6$ dips below the $x$-axis, because that is exactly where the expression is negative.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 - x - 6 = 0 \\implies (x-3)(x+2) = 0 \\implies x = 3 \\text{ or } x = -2",
+      "description_latex": "We temporarily replace the inequality with an equals sign and solve the resulting equation to find the critical numbers. These two roots, $x = -2$ and $x = 3$, are the only places where the parabola crosses the $x$-axis, so they are the boundaries that split the number line into regions we need to test.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Intervals: } (-\\infty, -2), \\quad (-2, 3), \\quad (3, +\\infty)",
+      "description_latex": "The two critical numbers divide the entire number line into three intervals. Because a continuous parabola can only change its sign at a root, the expression $x^2 - x - 6$ keeps a consistent sign (all positive or all negative) throughout each interval, so testing one point per interval is enough to decide the whole interval.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c} \\text{Interval} & \\text{Test Point} & x^2 - x - 6 \\\\ \\hline (-\\infty,-2) & x=-3 & 9+3-6=6>0 \\\\ (-2,\\,3) & x=0 & 0-0-6=-6<0 \\\\ (3,+\\infty) & x=4 & 16-4-6=6>0 \\end{array}",
+      "description_latex": "We pick a convenient test point inside each interval and evaluate the expression. We are looking for intervals where the result is negative (less than zero), and the middle interval $(-2, 3)$ is the only one that produces a negative value, so that is where the inequality is satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Solution: } -2 < x < 3 \\quad \\text{or in interval notation} \\quad (-2, 3)",
+      "description_latex": "Because the inequality is strict ($<$ not $\\leq$), the endpoints $x = -2$ and $x = 3$ make the expression equal to zero, not less than zero, so we exclude them and use open parentheses. The complete solution is the open interval $(-2, 3)$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^2 + 2x - 8 \\geq 0",
+      "description_latex": "We want to find all $x$-values where the parabola $y = x^2 + 2x - 8$ is on or above the $x$-axis. First, let's find the critical numbers by solving $x^2 + 2x - 8 = 0$. Factoring gives $(x+4)(x-2) = 0$, so the critical numbers are $x = -4$ and $x = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Intervals: } (-\\infty, -4), \\quad (-4, 2), \\quad (2, +\\infty)",
+      "description_latex": "The critical numbers create three intervals. Choose a test point in each interval \u2014 for example $x = -5$, $x = 0$, and $x = 3$ \u2014 and evaluate the expression to decide which intervals satisfy $\\geq 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Complete the sign analysis: evaluate $x^2 + 2x - 8$ at each test point and record whether the result is positive or negative. Then identify which intervals (including any endpoints) give a value $\\geq 0$ and write the solution in interval notation.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve: $(x-1)(x-5) < 0$",
+      "answer_latex": "1 < x < 5"
+    },
+    {
+      "prompt_latex": "Solve: $x^2 - 4 \\leq 0$",
+      "answer_latex": "-2 \\leq x \\leq 2"
+    },
+    {
+      "prompt_latex": "Solve: $x^2 + 5x + 6 > 0$",
+      "answer_latex": "x < -3 \\text{ or } x > -2"
+    },
+    {
+      "prompt_latex": "Solve: $-x^2 + 4x - 3 \\geq 0$",
+      "answer_latex": "1 \\leq x \\leq 3"
+    },
+    {
+      "prompt_latex": "A ball is launched upward and its height in feet is given by $h(t) = -16t^2 + 48t$. During which time interval is the ball above 32 feet? Set up and solve the inequality $-16t^2 + 48t > 32$.",
+      "answer_latex": "1 < t < 2 \\text{ (seconds)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students find the roots $x = r_1$ and $x = r_2$ and immediately write $r_1 < x < r_2$ without testing intervals, forgetting that when the leading coefficient is negative the parabola opens downward, which can flip which region satisfies the inequality. Always verify by testing a point from each interval.",
+    "When the inequality symbol is $\\leq$ or $\\geq$, students use open parentheses in their interval notation instead of closed brackets, effectively excluding the critical numbers from the solution. Remember: strict inequalities ($<$ or $>$) use open parentheses, while non-strict inequalities ($\\leq$ or $\\geq$) use closed brackets at the critical numbers.",
+    "Students assume the solution to a quadratic inequality is always a single interval between the two roots, writing something like $-3 < x < 1$ for every problem. When the parabola opens upward and the inequality asks for $> 0$, the solution is actually two separate rays (a union of intervals), such as $x < -3$ or $x > 1$, and recognizing which shape the solution takes requires checking the sign in each region."
+  ],
+  "untested_variants": [
+    "Quadratic inequalities with no real roots, where the discriminant is negative, so the parabola never crosses the $x$-axis and the solution is either all real numbers or the empty set (e.g., $x^2 + x + 5 > 0$).",
+    "Quadratic inequalities that must first be rearranged before finding critical numbers, such as $x^2 + 3x > 10$ where students must move all terms to one side before any analysis.",
+    "Quadratic inequalities involving a perfect square, such as $(x-3)^2 \\leq 0$, which has exactly one solution point rather than an interval.",
+    "Solving a quadratic inequality and then graphing the solution on a number line, including correct use of open versus closed circles at the endpoints."
+  ]
+}

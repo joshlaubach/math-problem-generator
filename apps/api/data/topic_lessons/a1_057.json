@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_057",
+  "topic_name": "Solving by Completing the Square",
+  "generated_at": "2026-05-12T22:47:14.664980+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to solve equations like $x^2 - 9 = 0$ by taking square roots, and you can factor equations like $x^2 + 5x + 6 = 0$ when the numbers cooperate. But what happens when you face something like $x^2 + 6x + 1 = 0$, which doesn't factor neatly over the integers? Is there a method that works every single time, no matter how messy the numbers are?",
+  "concept": "Completing the square is a technique that rewrites any quadratic expression into the form $(x + h)^2 = k$, so you can solve it with a square root. Every quadratic $x^2 + bx + c = 0$ can be transformed this way by adding and subtracting the magic number $\\left(\\frac{b}{2}\\right)^2$, which turns the $x^2 + bx$ part into a perfect square trinomial.",
+  "anatomy": "The key structural pieces of completing the square are: the original quadratic $x^2 + bx + c$; the leading coefficient (which must be 1 before you begin); the linear coefficient $b$, which drives everything; the completing term $\\left(\\frac{b}{2}\\right)^2$, the specific value you add to both sides; the perfect square trinomial $x^2 + bx + \\left(\\frac{b}{2}\\right)^2$, which factors into $\\left(x + \\frac{b}{2}\\right)^2$; and the resulting constant $k$ on the right-hand side, which you then take the square root of.",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 + 6x + 1 = 0",
+      "description_latex": "We start with the equation as written. The left side does not factor over the integers, so we will use completing the square. Our first move is to isolate the variable terms by subtracting 1 from both sides.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 + 6x = -1",
+      "description_latex": "Now we identify $b = 6$ and compute the completing term: $\\left(\\frac{6}{2}\\right)^2 = 9$. We add 9 to BOTH sides of the equation \u2014 adding to only one side would change the equation, so balance requires us to do it to both.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 + 6x + 9 = -1 + 9 \\quad \\Longrightarrow \\quad (x + 3)^2 = 8",
+      "description_latex": "The left side is now a perfect square trinomial because we chose the completing term specifically to make it one \u2014 $x^2 + 6x + 9 = (x+3)^2$. On the right, $-1 + 9 = 8$, giving us the clean form $(x+3)^2 = 8$ that we can solve with square roots.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x + 3 = \\pm\\sqrt{8} = \\pm 2\\sqrt{2}",
+      "description_latex": "Taking the square root of both sides introduces the $\\pm$ symbol because both a positive and a negative value square to give 8. We simplify $\\sqrt{8} = \\sqrt{4 \\cdot 2} = 2\\sqrt{2}$ to leave the answer in simplest radical form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = -3 + 2\\sqrt{2} \\quad \\text{or} \\quad x = -3 - 2\\sqrt{2}",
+      "description_latex": "Finally, we subtract 3 from both sides to isolate $x$, splitting the $\\pm$ into two separate solutions. These are the exact solutions; if a decimal approximation were needed you could evaluate each, but this radical form is completely simplified.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^2 - 4x - 3 = 0 \\quad \\Longrightarrow \\quad x^2 - 4x = 3",
+      "description_latex": "We move the constant to the right side so only the variable terms remain on the left. Here $b = -4$, so the completing term will be $\\left(\\frac{-4}{2}\\right)^2 = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Add the completing term 4 to both sides, then factor the left side as a perfect square and simplify the right side. Write the equation in the form $(x + h)^2 = k$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "(x-2)^2 = 7 \\quad \\Longrightarrow \\quad x - 2 = \\pm\\sqrt{7}",
+      "description_latex": "We take the square root of both sides, remembering the $\\pm$, because both signs produce 7 when squared.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Isolate $x$ by adding 2 to both sides and write out both final solutions.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve by completing the square: $x^2 + 4x = 0$",
+      "answer_latex": "x = 0 \\text{ or } x = -4"
+    },
+    {
+      "prompt_latex": "Solve by completing the square: $x^2 - 8x + 7 = 0$",
+      "answer_latex": "x = 7 \\text{ or } x = 1"
+    },
+    {
+      "prompt_latex": "Solve by completing the square: $x^2 + 10x + 3 = 0$",
+      "answer_latex": "x = -5 + \\sqrt{22} \\text{ or } x = -5 - \\sqrt{22}"
+    },
+    {
+      "prompt_latex": "Solve by completing the square: $3x^2 - 12x + 6 = 0$",
+      "answer_latex": "x = 2 + \\sqrt{2} \\text{ or } x = 2 - \\sqrt{2}"
+    },
+    {
+      "prompt_latex": "A rectangular garden has a length that is 6 meters more than its width. If the area of the garden is 11 square meters, use completing the square to find the exact width.",
+      "answer_latex": "w = -3 + \\sqrt{20} = -3 + 2\\sqrt{5} \\text{ meters}"
+    }
+  ],
+  "common_mistakes": [
+    "Students add the completing term $\\left(\\frac{b}{2}\\right)^2$ to the left side but forget to add it to the right side as well, destroying the equality. Fix: treat it as a balance \u2014 whatever you add to one side, you must add to the other.",
+    "When the linear coefficient $b$ is negative, students compute $\\frac{b}{2}$ correctly but then forget to square it (keeping it negative), giving a negative completing term. Fix: remember that squaring always produces a non-negative result, so $\\left(\\frac{-6}{2}\\right)^2 = (-3)^2 = 9$, never $-9$.",
+    "Students try to complete the square when the leading coefficient is not 1, skipping the required first step of dividing the entire equation by that coefficient. Fix: always divide through by the leading coefficient before identifying $b$ and finding the completing term."
+  ],
+  "untested_variants": [
+    "Completing the square when the equation has no real solutions (the result is $(x+h)^2 = k$ where $k < 0$), introducing complex or imaginary roots.",
+    "Using completing the square to convert a quadratic function $f(x) = x^2 + bx + c$ into vertex form $f(x) = (x-h)^2 + k$ in a graphing or optimization context.",
+    "Completing the square in a quadratic with fractional coefficients, such as $x^2 + 3x - \\frac{1}{2} = 0$, where the completing term is a non-integer fraction.",
+    "Applying completing the square as the derivation step for the quadratic formula, requiring students to complete the square on the general form $ax^2 + bx + c = 0$."
+  ]
+}

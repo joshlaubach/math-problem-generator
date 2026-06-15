@@ -1,0 +1,81 @@
+{
+  "topic_id": "pt_005",
+  "topic_name": "The Weak Law of Large Numbers",
+  "generated_at": "2026-05-14T01:00:02.996941+00:00",
+  "course_name": "Probability Theory",
+  "hook": "You already know that the expected value $\\mu = E[X]$ tells you the long-run average of a random variable in theory. But suppose you actually flip a fair coin 10,000 times \u2014 how confident should you be that the proportion of heads is close to $0.5$? You have no tool yet to quantify how that empirical average behaves as the number of trials grows large. Can we prove, rigorously, that the sample mean must eventually settle near $\\mu$?",
+  "concept": "The Weak Law of Large Numbers (WLLN) formalizes the intuition that averaging many independent trials washes out randomness. Formally, if $X_1, X_2, \\ldots$ are i.i.d. random variables with mean $\\mu$ and finite variance $\\sigma^2$, then for every $\\varepsilon > 0$, $P\\!\\left(\\left|\\bar{X}_n - \\mu\\right| > \\varepsilon\\right) \\to 0$ as $n \\to \\infty$, where $\\bar{X}_n = \\tfrac{1}{n}\\sum_{i=1}^n X_i$ is the sample mean. This is called convergence in probability.",
+  "anatomy": "The WLLN has four essential components worth naming precisely. The sample mean $\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i$ is the object converging \u2014 it is a random variable for each fixed $n$. The population mean $\\mu = E[X_i]$ is the deterministic target. The tolerance $\\varepsilon > 0$ is any fixed positive number you choose, no matter how small, representing your acceptable deviation from $\\mu$. Finally, the probability statement $P(|\\bar{X}_n - \\mu| > \\varepsilon)$ measures the chance the sample mean strays beyond that tolerance, and the law asserts this probability goes to zero as the sample size $n$ grows without bound.",
+  "worked_example": [
+    {
+      "expression_latex": "\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i, \\quad E[\\bar{X}_n] = \\mu, \\quad \\operatorname{Var}(\\bar{X}_n) = \\frac{\\sigma^2}{n}",
+      "description_latex": "We begin by computing the mean and variance of the sample mean itself. Because the $X_i$ are i.i.d., linearity of expectation gives $E[\\bar{X}_n] = \\mu$, and independence makes the variance of the sum equal to $n\\sigma^2$, so dividing by $n^2$ yields $\\operatorname{Var}(\\bar{X}_n) = \\sigma^2/n$. These two facts are the only inputs the proof will need.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P\\!\\left(\\left|\\bar{X}_n - \\mu\\right| > \\varepsilon\\right) \\leq \\frac{\\operatorname{Var}(\\bar{X}_n)}{\\varepsilon^2}",
+      "description_latex": "We apply Chebyshev's Inequality, which states that for any random variable $Y$ with finite mean and variance, $P(|Y - E[Y]| > \\varepsilon) \\leq \\operatorname{Var}(Y)/\\varepsilon^2$. Here we set $Y = \\bar{X}_n$, so the left side is exactly the probability we want to bound. This step is the key link between a variance calculation and a probability statement.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P\\!\\left(\\left|\\bar{X}_n - \\mu\\right| > \\varepsilon\\right) \\leq \\frac{\\sigma^2}{n\\varepsilon^2}",
+      "description_latex": "Substituting $\\operatorname{Var}(\\bar{X}_n) = \\sigma^2/n$ into the Chebyshev bound gives us this explicit inequality. Notice that the right-hand side depends only on $\\sigma^2$, $n$, and $\\varepsilon$ \u2014 all known quantities \u2014 so we now have a concrete upper bound on the probability of a large deviation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{n \\to \\infty} \\frac{\\sigma^2}{n\\varepsilon^2} = 0 \\implies \\lim_{n \\to \\infty} P\\!\\left(\\left|\\bar{X}_n - \\mu\\right| > \\varepsilon\\right) = 0",
+      "description_latex": "Since $\\sigma^2$ and $\\varepsilon$ are fixed constants, the bound $\\sigma^2/(n\\varepsilon^2)$ tends to zero as $n \\to \\infty$. Because the probability is squeezed between $0$ and a quantity going to $0$, the Squeeze Theorem forces the probability itself to zero. This completes the proof: $\\bar{X}_n$ converges in probability to $\\mu$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\text{ i.i.d., } E[X_i] = 3, \\operatorname{Var}(X_i) = 9. \\text{ Find an upper bound on } P(|\\bar{X}_{100} - 3| > 0.5).",
+      "description_latex": "We want to bound the probability that the sample mean of 100 observations strays more than $0.5$ from the true mean of $3$. The natural tool here is Chebyshev's Inequality applied to $\\bar{X}_{100}$, so first compute the variance of the sample mean.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\operatorname{Var}(\\bar{X}_{100}) = \\frac{9}{100} = 0.09",
+      "description_latex": "Using the formula $\\operatorname{Var}(\\bar{X}_n) = \\sigma^2/n$, we substitute $\\sigma^2 = 9$ and $n = 100$ to get $0.09$. Now apply Chebyshev's Inequality with $\\varepsilon = 0.5$ to obtain the bound \u2014 what do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(|\\bar{X}_{100} - 3| > 0.5) \\leq \\frac{0.09}{(0.5)^2} = \\frac{0.09}{0.25} = 0.36",
+      "description_latex": "The Chebyshev bound gives us $\\sigma^2/(n\\varepsilon^2) = 0.09/0.25 = 0.36$, so there is at most a $36\\%$ chance of deviating by more than $0.5$. Notice this bound is quite loose \u2014 Chebyshev is general-purpose \u2014 but it is valid without knowing the specific distribution of the $X_i$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X_1, X_2, \\ldots$ be i.i.d. with $E[X_i] = 5$ and $\\operatorname{Var}(X_i) = 4$. Write down the value of $\\lim_{n\\to\\infty} P(|\\bar{X}_n - 5| > 0.1)$.",
+      "answer_latex": "0"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n$ be i.i.d. with mean $\\mu = 2$ and variance $\\sigma^2 = 16$. Use Chebyshev's Inequality to find an upper bound on $P(|\\bar{X}_{64} - 2| > 1)$.",
+      "answer_latex": "\\dfrac{16}{64 \\cdot 1^2} = 0.25"
+    },
+    {
+      "prompt_latex": "Suppose $X_1, \\ldots, X_n$ are i.i.d. Bernoulli$(0.4)$ random variables, so $\\operatorname{Var}(X_i) = 0.24$. How large must $n$ be so that $P(|\\bar{X}_n - 0.4| > 0.05) \\leq 0.01$?",
+      "answer_latex": "n \\geq \\dfrac{0.24}{0.01 \\times (0.05)^2} = 9600"
+    },
+    {
+      "prompt_latex": "Let $X_i$ be i.i.d. with $E[X_i] = \\mu$ and $E[X_i^2] = 10$, and suppose $\\mu^2 = 6$. Using Chebyshev's Inequality, find an upper bound on $P(|\\bar{X}_{50} - \\mu| > 0.4)$.",
+      "answer_latex": "\\operatorname{Var}(X_i) = 10 - 6 = 4, \\text{ so the bound is } \\dfrac{4}{50 \\times 0.16} = 0.5"
+    },
+    {
+      "prompt_latex": "A factory measures the weight of items off a production line. Historical data shows weights have mean $500\\text{ g}$ and standard deviation $20\\text{ g}$. A quality inspector averages $n = 400$ items. Using the WLLN framework, find the minimum $n$ (keeping $\\varepsilon = 2\\text{ g}$) needed to guarantee the Chebyshev bound on $P(|\\bar{X}_n - 500| > 2)$ is at most $5\\%$.",
+      "answer_latex": "n \\geq \\dfrac{400}{0.05 \\times 4} = 2000"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse convergence in probability with almost sure convergence: the WLLN only guarantees $P(|\\bar{X}_n - \\mu| > \\varepsilon) \\to 0$ for each fixed $\\varepsilon$, not that the sample path itself eventually stays near $\\mu$ forever \u2014 that stronger statement is the Strong Law. Always check which mode of convergence a question asks about.",
+    "Students forget to divide $\\sigma^2$ by $n$ when computing $\\operatorname{Var}(\\bar{X}_n)$, writing $\\operatorname{Var}(\\bar{X}_n) = \\sigma^2$ instead of $\\sigma^2/n$. This error inflates the Chebyshev bound by a factor of $n$, making the law appear much weaker than it is \u2014 always remember the variance shrinks as sample size grows.",
+    "Students treat the Chebyshev bound $\\sigma^2/(n\\varepsilon^2)$ as an equality rather than an upper bound, concluding the exact probability equals this value. The inequality $P(|\\bar{X}_n - \\mu| > \\varepsilon) \\leq \\sigma^2/(n\\varepsilon^2)$ can be very conservative; the actual probability may be far smaller, especially for well-behaved distributions."
+  ],
+  "untested_variants": [
+    "Applying the WLLN to functions of the sample mean (the Continuous Mapping Theorem), for example showing that $\\bar{X}_n^2$ converges in probability to $\\mu^2$.",
+    "Computing the minimum sample size $n$ required to simultaneously bound the probability over multiple tolerances $\\varepsilon_1$ and $\\varepsilon_2$ (a two-constraint version of the bound-inversion problem).",
+    "Using the WLLN in the context of Monte Carlo estimation to justify that a sample average approximates an integral, including error analysis via the Chebyshev bound on the estimator.",
+    "Verifying whether the WLLN applies when the i.i.d. assumption is relaxed to pairwise uncorrelated random variables with uniformly bounded variances (the Chebyshev WLLN variant)."
+  ]
+}

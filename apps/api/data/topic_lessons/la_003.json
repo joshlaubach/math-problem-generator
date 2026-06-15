@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_003",
+  "topic_name": "Vector Equations and Span",
+  "generated_at": "2026-05-13T20:05:14.954829+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to solve systems of linear equations by working with rows of numbers \u2014 but what if we reframed the entire problem in terms of arrows in space? Suppose you have two vectors $\\mathbf{v}_1 = \\begin{bmatrix}1\\\\2\\end{bmatrix}$ and $\\mathbf{v}_2 = \\begin{bmatrix}3\\\\1\\end{bmatrix}$, and someone hands you a target vector $\\mathbf{b} = \\begin{bmatrix}5\\\\4\\end{bmatrix}$ and asks: can you build $\\mathbf{b}$ by scaling and adding $\\mathbf{v}_1$ and $\\mathbf{v}_2$? You might not even know what that question really means yet \u2014 so what does it mean to 'build' one vector from others, and when is it possible?",
+  "concept": "A vector equation asks whether a target vector $\\mathbf{b}$ can be written as a linear combination $x_1\\mathbf{v}_1 + x_2\\mathbf{v}_2 + \\cdots + x_k\\mathbf{v}_k$ for some scalars $x_1, \\ldots, x_k$. The set of ALL possible linear combinations you can form from a collection of vectors $\\{\\mathbf{v}_1, \\ldots, \\mathbf{v}_k\\}$ is called their span, written $\\text{Span}\\{\\mathbf{v}_1, \\ldots, \\mathbf{v}_k\\}$. Geometrically, the span is the region of space you can 'reach' using those vectors as building blocks.",
+  "anatomy": "A vector equation $x_1\\mathbf{v}_1 + x_2\\mathbf{v}_2 = \\mathbf{b}$ has three distinct kinds of objects worth naming carefully. The vectors $\\mathbf{v}_1, \\mathbf{v}_2$ are the direction vectors (or generating vectors) \u2014 they are fixed and given to you. The scalars $x_1, x_2$ are the weights (or coefficients) \u2014 these are the unknowns you solve for, and they tell you how much of each direction vector to include. The vector $\\mathbf{b}$ is the target vector \u2014 the specific output you are trying to produce. Asking whether $\\mathbf{b} \\in \\text{Span}\\{\\mathbf{v}_1, \\mathbf{v}_2\\}$ is exactly the same as asking whether the corresponding system of linear equations (obtained by matching components) has a solution.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Is } \\mathbf{b} = \\begin{bmatrix}5\\\\4\\end{bmatrix} \\in \\text{Span}\\left\\{\\mathbf{v}_1 = \\begin{bmatrix}1\\\\2\\end{bmatrix},\\ \\mathbf{v}_2 = \\begin{bmatrix}3\\\\1\\end{bmatrix}\\right\\}?",
+      "description_latex": "We are asking whether scalars $x_1$ and $x_2$ exist so that $x_1\\mathbf{v}_1 + x_2\\mathbf{v}_2 = \\mathbf{b}$. This is the central question of span: can the target be reached as a weighted combination of the given vectors?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x_1\\begin{bmatrix}1\\\\2\\end{bmatrix} + x_2\\begin{bmatrix}3\\\\1\\end{bmatrix} = \\begin{bmatrix}5\\\\4\\end{bmatrix} \\implies \\begin{cases} x_1 + 3x_2 = 5 \\\\ 2x_1 + x_2 = 4 \\end{cases}",
+      "description_latex": "We convert the vector equation into a system of scalar equations by matching the top components together and the bottom components together. Each row of the vector equation gives you one ordinary equation in $x_1$ and $x_2$, which is exactly the linear system you already know how to handle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left[\\begin{array}{cc|c}1 & 3 & 5\\\\2 & 1 & 4\\end{array}\\right] \\xrightarrow{R_2 \\leftarrow R_2 - 2R_1} \\left[\\begin{array}{cc|c}1 & 3 & 5\\\\0 & -5 & -6\\end{array}\\right]",
+      "description_latex": "We write the augmented matrix and row-reduce to determine whether a solution exists. Subtracting twice the first row from the second eliminates $x_1$ from the second equation, giving us a triangular system we can solve by back-substitution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x_2 = \\frac{-6}{-5} = \\frac{6}{5}, \\quad x_1 = 5 - 3\\cdot\\frac{6}{5} = 5 - \\frac{18}{5} = \\frac{7}{5}",
+      "description_latex": "Back-substituting gives unique values for both weights, which means the system is consistent \u2014 a solution exists. Because we found specific scalars $x_1 = \\tfrac{7}{5}$ and $x_2 = \\tfrac{6}{5}$, we have confirmed that $\\mathbf{b}$ is indeed in the span.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{7}{5}\\begin{bmatrix}1\\\\2\\end{bmatrix} + \\frac{6}{5}\\begin{bmatrix}3\\\\1\\end{bmatrix} = \\begin{bmatrix}7/5 + 18/5\\\\14/5 + 6/5\\end{bmatrix} = \\begin{bmatrix}5\\\\4\\end{bmatrix} = \\mathbf{b} \\checkmark",
+      "description_latex": "We verify by plugging the weights back in: the linear combination indeed produces $\\mathbf{b}$, so $\\mathbf{b} \\in \\text{Span}\\{\\mathbf{v}_1, \\mathbf{v}_2\\}$. Always verify \u2014 it catches arithmetic errors and deepens your geometric intuition about what 'being in the span' truly means.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Is } \\mathbf{b} = \\begin{bmatrix}2\\\\3\\\\1\\end{bmatrix} \\in \\text{Span}\\left\\{\\mathbf{v}_1 = \\begin{bmatrix}1\\\\0\\\\2\\end{bmatrix},\\ \\mathbf{v}_2 = \\begin{bmatrix}0\\\\1\\\\-1\\end{bmatrix}\\right\\}?",
+      "description_latex": "We want to know whether $x_1\\mathbf{v}_1 + x_2\\mathbf{v}_2 = \\mathbf{b}$ has a solution. Start by writing the augmented matrix for the corresponding linear system, matching each component of the vector equation to a row.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left[\\begin{array}{cc|c}1 & 0 & 2\\\\0 & 1 & 3\\\\2 & -1 & 1\\end{array}\\right]",
+      "description_latex": "Here is the augmented matrix. The first two rows already look like they give $x_1 = 2$ and $x_2 = 3$, but we must check whether the third row is consistent with those values. Row-reduce this matrix to see whether the system is consistent \u2014 specifically, eliminate the entries in the third row.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "R_3 \\leftarrow R_3 - 2R_1 + R_2 \\implies \\left[\\begin{array}{cc|c}1 & 0 & 2\\\\0 & 1 & 3\\\\0 & 0 & 0\\end{array}\\right] \\implies \\text{consistent} \\implies \\mathbf{b} \\in \\text{Span}\\{\\mathbf{v}_1, \\mathbf{v}_2\\}",
+      "description_latex": "After row reduction the third row becomes all zeros, meaning no contradiction arises and the system is consistent. Because the system has a solution ($x_1=2, x_2=3$), the target vector $\\mathbf{b}$ is in the span of the two given vectors.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write $\\mathbf{b} = \\begin{bmatrix}4\\\\6\\end{bmatrix}$ as a linear combination of $\\mathbf{v}_1 = \\begin{bmatrix}1\\\\0\\end{bmatrix}$ and $\\mathbf{v}_2 = \\begin{bmatrix}0\\\\1\\end{bmatrix}$. What are $x_1$ and $x_2$?",
+      "answer_latex": "x_1 = 4,\\ x_2 = 6,\\text{ so } \\mathbf{b} = 4\\mathbf{v}_1 + 6\\mathbf{v}_2"
+    },
+    {
+      "prompt_latex": "Determine whether $\\mathbf{b} = \\begin{bmatrix}3\\\\5\\end{bmatrix}$ is in $\\text{Span}\\left\\{\\begin{bmatrix}1\\\\2\\end{bmatrix}, \\begin{bmatrix}2\\\\1\\end{bmatrix}\\right\\}$. If yes, find the weights.",
+      "answer_latex": "x_1 = \\frac{7}{3},\\ x_2 = \\frac{1}{3};\\text{ yes, } \\mathbf{b} \\in \\text{Span}\\{\\mathbf{v}_1,\\mathbf{v}_2\\}"
+    },
+    {
+      "prompt_latex": "Determine whether $\\mathbf{b} = \\begin{bmatrix}1\\\\2\\\\3\\end{bmatrix}$ is in $\\text{Span}\\left\\{\\begin{bmatrix}1\\\\1\\\\0\\end{bmatrix}, \\begin{bmatrix}0\\\\1\\\\2\\end{bmatrix}\\right\\}$.",
+      "answer_latex": "\\text{Row reduction yields a contradiction in row 3; } \\mathbf{b} \\notin \\text{Span}\\{\\mathbf{v}_1,\\mathbf{v}_2\\}"
+    },
+    {
+      "prompt_latex": "For what value(s) of $h$ is $\\mathbf{b} = \\begin{bmatrix}2\\\\h\\end{bmatrix}$ in $\\text{Span}\\left\\{\\begin{bmatrix}1\\\\3\\end{bmatrix}, \\begin{bmatrix}2\\\\6\\end{bmatrix}\\right\\}$? (Hint: these two vectors are linearly dependent \u2014 think about what their span looks like geometrically.)",
+      "answer_latex": "\\text{Span}\\{\\mathbf{v}_1,\\mathbf{v}_2\\} \\text{ is the line } y = 3x,\\text{ so } \\mathbf{b} \\in \\text{Span iff } h = 6"
+    },
+    {
+      "prompt_latex": "A paint mixer produces colors by combining Red ($R$), Blue ($B$), and Yellow ($Y$) pigments. In RGB-like coordinates, $R=\\begin{bmatrix}1\\\\0\\\\0\\end{bmatrix}$, $B=\\begin{bmatrix}0\\\\0\\\\1\\end{bmatrix}$. Can the mixer produce every color in $\\mathbb{R}^3$, or are some colors outside its span? Describe the span geometrically.",
+      "answer_latex": "\\text{Span}\\{R,B\\} \\text{ is the } xz\\text{-plane in }\\mathbb{R}^3;\\text{ colors with nonzero second coordinate (e.g., green/yellow tones) are unreachable.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often convert the vector equation to a system of equations but forget to include ALL component equations \u2014 in $\\mathbb{R}^3$, three rows must be matched, not just two. If you drop a row, you may incorrectly conclude $\\mathbf{b}$ is in the span when the omitted equation would create a contradiction; always write one equation per component.",
+    "When row reduction produces a row of zeros on the left side but a nonzero entry on the right (e.g., $[0\\ 0\\ |\\ 5]$), some students mistakenly call the system consistent. This row says $0 = 5$, which is impossible \u2014 a row of that form means the system is inconsistent and $\\mathbf{b}$ is NOT in the span.",
+    "Students sometimes confuse the span of two parallel (scalar-multiple) vectors with the span of two independent vectors. If $\\mathbf{v}_2 = c\\mathbf{v}_1$, the span is only a line through the origin, not a plane \u2014 always check for linear dependence before assuming two vectors span a two-dimensional region."
+  ],
+  "untested_variants": [
+    "Determining whether three or more vectors span all of $\\mathbb{R}^3$, which requires checking that the coefficient matrix has a pivot in every row (a question about whether the system is consistent for EVERY possible $\\mathbf{b}$, not just one specific target).",
+    "Parametric descriptions of a span \u2014 expressing $\\text{Span}\\{\\mathbf{v}_1, \\mathbf{v}_2\\}$ as a set using a parameter, such as $\\{s\\mathbf{v}_1 + t\\mathbf{v}_2 : s, t \\in \\mathbb{R}\\}$, and identifying the resulting geometric object (plane, line, or point) from that parametric form.",
+    "Problems where the weights $x_1, x_2$ must be non-negative (conic combinations), which arises in optimization and data science contexts but is NOT the standard definition of span used in linear algebra.",
+    "Connecting span to the column space of a matrix \u2014 recognizing that asking whether $\\mathbf{b} \\in \\text{Span}\\{\\mathbf{v}_1, \\ldots, \\mathbf{v}_k\\}$ is identical to asking whether $\\mathbf{b}$ is in the column space of the matrix $A = [\\mathbf{v}_1\\ \\cdots\\ \\mathbf{v}_k]$, and using that language."
+  ]
+}

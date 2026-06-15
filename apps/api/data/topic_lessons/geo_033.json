@@ -1,0 +1,91 @@
+{
+  "topic_id": "geo_033",
+  "topic_name": "Using Congruent Triangles in Proofs",
+  "generated_at": "2026-05-12T23:02:24.664274+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to prove two triangles are congruent using shortcuts like SAS, ASA, AAS, SSS, and HL. But here's the real power those shortcuts unlock: once you know two triangles are congruent, every single pair of corresponding parts \u2014 sides and angles \u2014 must be equal too. So if a geometry problem asks you to prove that two line segments or two angles are equal, and you can spot two triangles hiding in the figure, could proving the triangles congruent first be the secret shortcut to finishing the proof?",
+  "concept": "Using congruent triangles in proofs means treating triangle congruence as a bridge: you first prove two triangles are congruent using a congruence shortcut, and then you extract the specific pair of sides or angles you need using the principle CPCTC \u2014 Corresponding Parts of Congruent Triangles are Congruent. Formally, if $\\triangle ABC \\cong \\triangle DEF$, then every pair of corresponding parts satisfies $AB = DE$, $BC = EF$, $AC = DF$, $\\angle A = \\angle D$, $\\angle B = \\angle E$, and $\\angle C = \\angle F$.",
+  "anatomy": "Every proof of this type has four structural components. First, the given information establishes the known sides, angles, or midpoints you can mark on the diagram. Second, the setup steps build toward a congruence shortcut by identifying shared sides (using the Reflexive Property, e.g., $\\overline{AC} \\cong \\overline{AC}$) or vertical angles. Third, the congruence statement names the two triangles in corresponding order, for example $\\triangle ABD \\cong \\triangle CBD$ by SAS, and must list vertices so that matched positions correspond. Fourth, the CPCTC conclusion extracts exactly the part the problem asked you to prove, citing CPCTC as the justification.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Given: } M \\text{ is the midpoint of } \\overline{AC},\\ \\overline{BM} \\perp \\overline{AC}.\\ \\text{Prove: } \\overline{AB} \\cong \\overline{CB}.",
+      "description_latex": "We begin by reading the goal carefully \u2014 we need to prove two segments congruent, but no single theorem directly says $AB = CB$. The strategy is to identify two triangles, $\\triangle ABM$ and $\\triangle CBM$, that share side $\\overline{BM}$ and see whether we have enough information to prove them congruent first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\overline{AM} \\cong \\overline{CM} \\quad (\\text{Definition of midpoint})",
+      "description_latex": "Because $M$ is the midpoint of $\\overline{AC}$, it divides that segment into two equal halves, giving us $AM = CM$. This is our first pair of congruent corresponding parts, which will serve as the 'S' in our SAS argument.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\angle BMA \\cong \\angle BMC = 90^\\circ \\quad (\\overline{BM} \\perp \\overline{AC})",
+      "description_latex": "Since $\\overline{BM}$ is perpendicular to $\\overline{AC}$, it forms right angles at $M$, so both $\\angle BMA$ and $\\angle BMC$ measure $90\u00b0$ and are therefore congruent to each other. This gives us the included angle between our two pairs of sides, completing the 'A' in SAS.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\overline{BM} \\cong \\overline{BM} \\quad (\\text{Reflexive Property})",
+      "description_latex": "The segment $\\overline{BM}$ is shared by both triangles, so it is congruent to itself by the Reflexive Property. This is the second 'S' we need, and together with $AM = CM$ and the right angles, we now have Side-Angle-Side for both triangles.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\triangle ABM \\cong \\triangle CBM \\quad (\\text{SAS}) \\implies \\overline{AB} \\cong \\overline{CB} \\quad (\\text{CPCTC})",
+      "description_latex": "We conclude $\\triangle ABM \\cong \\triangle CBM$ by SAS, and since congruent triangles have all corresponding parts congruent, we can now state $\\overline{AB} \\cong \\overline{CB}$ by CPCTC \u2014 exactly what the problem asked us to prove. Notice that without first proving the triangles congruent, we would have had no valid path to this conclusion.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Given: } \\overline{AB} \\parallel \\overline{CD},\\ \\overline{AB} \\cong \\overline{CD}.\\ \\text{Prove: } \\angle BAC \\cong \\angle DCA.",
+      "description_latex": "Our goal is to prove two angles equal, so we look for triangles containing those angles \u2014 here $\\triangle ABC$ and $\\triangle CDA$ share the diagonal $\\overline{AC}$. Read the given information and decide which congruence shortcut (SSS, SAS, ASA, AAS) you expect to use before writing any steps.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\overline{AC} \\cong \\overline{AC} \\quad (\\text{Reflexive Property})",
+      "description_latex": "The diagonal $\\overline{AC}$ is shared by both triangles, so it is congruent to itself. This gives us one pair of congruent sides to work with as we build toward the congruence shortcut.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Because $\\overline{AB} \\parallel \\overline{CD}$, what relationship do the alternate interior angles $\\angle BAC$ and $\\angle DCA$ have? State this relationship as a step in the proof, giving the correct reason, and then decide what congruence shortcut this gives you together with $AB \\cong CD$ and $AC \\cong CA$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\triangle ABC \\cong \\triangle CDA \\quad (\\text{SAS}) \\implies \\angle BAC \\cong \\angle DCA \\quad (\\text{CPCTC})",
+      "description_latex": "With SAS established, we conclude the triangles are congruent and extract the angle pair by CPCTC, completing the proof. Make sure the vertex order in your congruence statement places $\\angle BAC$ and $\\angle DCA$ in matching positions so CPCTC applies correctly.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Given } \\triangle PQR \\cong \\triangle STU \\text{ with } PQ = 7,\\ QR = 9,\\ PR = 11. \\text{ Find } SU.",
+      "answer_latex": "SU = 11 \\quad (\\text{CPCTC: } PR \\leftrightarrow SU)"
+    },
+    {
+      "prompt_latex": "\\text{Given: } \\overline{WX} \\cong \\overline{YZ},\\ \\overline{WZ} \\cong \\overline{YX}.\\ \\text{Prove: } \\angle W \\cong \\angle Y \\text{ in quadrilateral } WXYZ \\text{ using diagonal } \\overline{WY}.",
+      "answer_latex": "\\triangle WXY \\cong \\triangle YZW\\ (\\text{SSS}),\\ \\text{so}\\ \\angle W \\cong \\angle Y\\ (\\text{CPCTC})"
+    },
+    {
+      "prompt_latex": "\\text{Given: } \\angle ABD \\cong \\angle CBD,\\ \\overline{BD} \\text{ bisects } \\angle ABC,\\ \\overline{BD} \\perp \\overline{AC}.\\ \\text{Prove: } \\overline{AD} \\cong \\overline{CD}.",
+      "answer_latex": "\\triangle ABD \\cong \\triangle CBD\\ (\\text{AAS}),\\ \\text{so}\\ \\overline{AD} \\cong \\overline{CD}\\ (\\text{CPCTC})"
+    },
+    {
+      "prompt_latex": "\\text{Given: } \\overline{EF} \\cong \\overline{GH},\\ \\overline{EH} \\cong \\overline{GF},\\ \\text{and } \\angle FEH = 40^\\circ.\\ \\text{Find } m\\angle HGF \\text{ and justify using a triangle congruence proof.}",
+      "answer_latex": "\\triangle EFH \\cong \\triangle GHF\\ (\\text{SSS}),\\ \\text{so}\\ \\angle FEH \\cong \\angle HGF\\ (\\text{CPCTC}),\\ m\\angle HGF = 40^\\circ"
+    },
+    {
+      "prompt_latex": "\\text{A surveyor marks two points } A \\text{ and } B \\text{ on opposite sides of a river. She locates point } C \\text{ so that } \\overline{AC} \\perp \\overline{AB},\\ \\text{then finds point } D \\text{ on } \\overline{AC} \\text{ such that } M \\text{ (midpoint of } \\overline{AB}\\text{) lies on } \\overline{DC} \\text{ with } \\angle DMA = \\angle CMB.\\ \\text{Prove that } DC = AB.",
+      "answer_latex": "\\triangle DMA \\cong \\triangle CMB\\ (\\text{ASA}),\\ \\text{so}\\ DM = CM\\ \\text{and}\\ AM = BM\\ (\\text{CPCTC}),\\ \\text{giving}\\ DC = DM + MC = AM + MB = AB"
+    }
+  ],
+  "common_mistakes": [
+    "Students write a congruence statement like $\\triangle ABC \\cong \\triangle EFD$ with vertices in mismatched order and then incorrectly apply CPCTC \u2014 for example, claiming $AB \\cong EF$ when the correct correspondence is $AB \\cong EF$ only if $A \\leftrightarrow E$ and $B \\leftrightarrow F$. Always recheck that the vertex order in your congruence statement reflects the actual matching of corresponding angles before citing CPCTC.",
+    "Students jump straight to CPCTC without first fully establishing the triangle congruence, writing something like 'the sides look equal, so by CPCTC...' without citing SSS, SAS, ASA, AAS, or HL as the reason the triangles are congruent. Remember that CPCTC is only valid as a final step after a complete, justified congruence statement appears in the proof.",
+    "Students forget to use the Reflexive Property for shared sides or angles, leaving a gap in their SAS or SSS argument \u2014 for instance, failing to state $\\overline{AC} \\cong \\overline{AC}$ when diagonal $\\overline{AC}$ is common to both triangles. Any time two triangles share a side or angle, explicitly write it as a step in the proof with 'Reflexive Property' as the justification."
+  ],
+  "untested_variants": [
+    "Proofs involving two pairs of congruent triangles in sequence, where the conclusion of the first CPCTC step becomes given information used to prove a second pair of triangles congruent.",
+    "Proofs on the coordinate plane where students must compute distances using the distance formula to establish SSS before applying CPCTC to conclude angle equality.",
+    "Proofs using the Hypotenuse-Leg (HL) theorem in right triangles, where students must first identify or prove the right angle before setting up the congruence.",
+    "Proofs in which the triangles overlap and share an interior angle rather than a full side, requiring students to correctly identify and justify the shared angle using the Reflexive Property before applying ASA or AAS."
+  ]
+}

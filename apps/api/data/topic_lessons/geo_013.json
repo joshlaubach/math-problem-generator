@@ -1,0 +1,86 @@
+{
+  "topic_id": "geo_013",
+  "topic_name": "Proving Segment and Angle Relationships",
+  "generated_at": "2026-05-12T22:56:03.266335+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that if two segments are each equal to the same length, they must be equal to each other \u2014 that feels obvious. But in geometry, 'obvious' is never enough: a proof demands that every single claim be backed by a named property, definition, or theorem. So how do you build a watertight argument that, say, $\\overline{AC} \\cong \\overline{BD}$ given only a diagram and a few marked congruences \u2014 and justify every line with a reason?",
+  "concept": "Proving segment and angle relationships means constructing a logical sequence of statements \u2014 each supported by a geometric reason \u2014 that leads from given information to a desired conclusion. Formally, a two-column proof lists statements in one column and their justifications (definitions, postulates, or theorems such as the Segment Addition Postulate, Angle Addition Postulate, or the properties of equality and congruence) in the other, so that the truth of each line follows necessarily from what came before.",
+  "anatomy": "Every segment/angle proof has four structural components. The **givens** are the facts handed to you (e.g., $M$ is the midpoint of $\\overline{AB}$). The **statements** are the mathematical claims you assert, written with precise notation ($AM = MB$, $\\angle 1 \\cong \\angle 3$, etc.). The **reasons** are the named justifications \u2014 these include definitions (Definition of Midpoint, Definition of Angle Bisector), postulates (Segment Addition Postulate, Angle Addition Postulate), and properties of equality (Reflexive, Symmetric, Transitive, Substitution, Addition, Subtraction). Finally, the **conclusion** is the final statement you were asked to prove, which must appear as the last line of the proof.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Given: } M \\text{ is the midpoint of } \\overline{AC}, \\text{ and } N \\text{ is the midpoint of } \\overline{BC}. \\text{ Prove: } 2 \\cdot AM = AC.",
+      "description_latex": "We begin by reading the given information carefully and setting up what we know. The midpoint $M$ of $\\overline{AC}$ tells us something specific about how $M$ divides the segment, so our first statement will come directly from the definition of midpoint.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Statement 1: } AM = MC \\quad \\text{Reason: Definition of Midpoint}",
+      "description_latex": "Because $M$ is the midpoint of $\\overline{AC}$, it divides $\\overline{AC}$ into two equal halves, so $AM = MC$ by definition. This is our anchor \u2014 every subsequent step will build on this equality.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Statement 2: } AM + MC = AC \\quad \\text{Reason: Segment Addition Postulate}",
+      "description_latex": "The Segment Addition Postulate tells us that if $M$ is between $A$ and $C$, then the two smaller pieces add up to the whole segment. We need this step so we can replace $MC$ with $AM$ in the next move.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Statement 3: } AM + AM = AC \\quad \\text{Reason: Substitution Property of Equality}",
+      "description_latex": "Since Statement 1 tells us $MC = AM$, we substitute $AM$ in place of $MC$ in Statement 2. Substitution is one of the most frequently used algebraic properties in proofs \u2014 when two quantities are equal, you can always swap one for the other.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Statement 4: } 2 \\cdot AM = AC \\quad \\text{Reason: Simplification (Distributive Property)}",
+      "description_latex": "Adding $AM + AM$ is the same as $2 \\cdot AM$, so we simplify. This final statement is exactly what we were asked to prove, so the proof is complete \u2014 every line has a named reason and the chain of logic is unbroken.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Given: } \\overrightarrow{BD} \\text{ bisects } \\angle ABC, \\text{ and } m\\angle ABD = 35\u00b0. \\text{ Prove: } m\\angle ABC = 70\u00b0.",
+      "description_latex": "We are told that ray $BD$ bisects angle $ABC$. Our first move is always to translate the given geometric fact into an equation using the relevant definition \u2014 here, the Definition of Angle Bisector.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Statement 1: } m\\angle ABD = m\\angle DBC \\quad \\text{Reason: Definition of Angle Bisector}",
+      "description_latex": "An angle bisector divides an angle into two congruent (equal-measure) angles, so $m\\angle ABD = m\\angle DBC$. This is a direct translation of the definition into a usable equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the Angle Addition Postulate and the given value $m\\angle ABD = 35\u00b0$ to write Statement 2 and Statement 3, leading to $m\\angle ABC = 70\u00b0$. Write the statement and its reason for each line.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Given: } AB = 12 \\text{ and } BC = 12. \\text{ Name the property that justifies } AB = BC.",
+      "answer_latex": "\\text{Transitive Property of Equality (or Substitution Property)}"
+    },
+    {
+      "prompt_latex": "\\text{Given: } M \\text{ is the midpoint of } \\overline{PQ} \\text{ and } PM = 7. \\text{ Find } PQ \\text{ and write the two-line proof justifying your answer.}",
+      "answer_latex": "PQ = 14; \\text{ Step 1: } PM = MQ \\text{ (Def. of Midpoint)}; \\text{ Step 2: } PM + MQ = PQ \\text{ (Seg. Add. Post.)}; \\text{ Step 3: } 7 + 7 = PQ \\text{ (Substitution)} \\Rightarrow PQ = 14"
+    },
+    {
+      "prompt_latex": "\\text{Given: } \\overrightarrow{KM} \\text{ bisects } \\angle JKL \\text{ and } m\\angle JKM = 42\u00b0. \\text{ Prove: } m\\angle JKL = 84\u00b0.",
+      "answer_latex": "m\\angle JKM = m\\angle MKL = 42\u00b0 \\text{ (Def. Angle Bisector)}; m\\angle JKM + m\\angle MKL = m\\angle JKL \\text{ (Angle Add. Post.)}; 42 + 42 = 84\u00b0 \\text{ (Substitution)} \\Rightarrow m\\angle JKL = 84\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{Given: } AB = CD. \\text{ Prove: } AC = BD, \\text{ where } B \\text{ is between } A \\text{ and } C, \\text{ and } C \\text{ is between } B \\text{ and } D \\text{ on a line.}",
+      "answer_latex": "AB + BC = AC \\text{ and } BC + CD = BD \\text{ (Seg. Add. Post.)}; AB = CD \\text{ (Given)}; AB + BC = BC + CD \\text{ (Substitution)}; AC = BD \\text{ (Substitution / Transitive Property)}"
+    },
+    {
+      "prompt_latex": "\\text{A city planner places a fountain } F \\text{ exactly halfway between City Hall } (C) \\text{ and the Library } (L). \\text{ The Library is also halfway between the fountain and a Park } (P). \\text{ If } CP = 120 \\text{ m, prove that } FL = LP.",
+      "answer_latex": "CF = FL \\text{ (Def. Midpoint); } FL = LP \\text{ (Def. Midpoint); both equal } 30 \\text{ m since } CF + FL + LP = 120 \\Rightarrow FL = LP = 30 \\text{ m}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write 'CPCTC' or 'given' as a reason for every line rather than citing the specific property (e.g., Segment Addition Postulate or Definition of Midpoint) that actually justifies the statement \u2014 always ask yourself which named rule forces this particular equation to be true.",
+    "Students confuse the Reflexive Property (a segment or angle equals itself, used when a side or angle is shared in two triangles) with the Symmetric Property (if $a = b$ then $b = a$) \u2014 the Reflexive Property requires the exact same geometric object appearing in two places, not just two equal quantities.",
+    "Students skip the Segment Addition Postulate or Angle Addition Postulate step, jumping directly from a midpoint or bisector definition to the final equation \u2014 the postulate is a required intermediate step because you must formally establish that the parts sum to the whole before substituting values."
+  ],
+  "untested_variants": [
+    "Proofs involving the Supplement Theorem or Complement Theorem (e.g., proving two angles are supplementary given information about a linear pair).",
+    "Three-column proofs or flow proofs where the format differs from the standard two-column structure.",
+    "Proofs that require the Congruent Supplements Theorem or Congruent Complements Theorem as a reason (angles supplementary or complementary to the same angle are congruent to each other).",
+    "Algebraic proofs of segment relationships where the side lengths are given as expressions in $x$ (e.g., $AM = 3x - 1$, $MC = x + 5$) and students must both solve for $x$ and justify each algebraic step with a property of equality."
+  ]
+}

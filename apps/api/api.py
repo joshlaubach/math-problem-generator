@@ -11,6 +11,8 @@ Exposes endpoints for:
 
 from __future__ import annotations
 import os
+import re
+import logging
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
@@ -68,10 +70,9 @@ from session_quota import (
     get_problems_used,
     get_problems_used_today,
     get_reset_date,
-    TUTOR_HOUR_LIMITS,
+    ABUSE_CEILING_HOURS_PER_MONTH,
     PROBLEM_MONTH_LIMITS,
     FREE_DAILY_PROBLEM_LIMIT,
-    PAID_TIERS,
 )
 from auth_dependencies import (
     get_current_user,
@@ -104,7 +105,13 @@ def _rate_key(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
-limiter = Limiter(key_func=_rate_key)
+# SECURITY (H4): back the limiter with Redis when available so limits are shared
+# across Railway replicas and survive restarts; falls back to in-memory storage
+# (dev/test, or if Redis is unreachable).
+limiter = Limiter(
+    key_func=_rate_key,
+    storage_uri=os.getenv("REDIS_URL") or "memory://",
+)
 
 
 # Configuration (can be overridden with environment variables)
@@ -406,6 +413,24 @@ class HintResponse(BaseModel):
     hint_type: str = Field(default="educational", description="Type of hint (educational, strategic, etc.)")
 
 
+class CheckAnswerRequest(BaseModel):
+    """Request to grade a student's answer against the canonical answer."""
+
+    student_answer: str = Field(..., max_length=2000)
+    correct_answer: str = Field(..., max_length=2000)
+    answer_type: Optional[str] = Field(default=None, description="numeric | expression")
+    problem_id: Optional[str] = Field(default=None, max_length=200)
+
+
+class CheckAnswerResponse(BaseModel):
+    """Grading verdict. `is_correct` is decided by SymPy equivalence, not a
+    string compare, so equivalent forms (1/2 == 0.5 == \\frac{1}{2}) are
+    accepted and non-equivalent forms (\\sqrt{2} != 2) are not."""
+
+    is_correct: bool
+    correct_answer: str
+
+
 # ============================================================================
 # Phase 7: Teacher Analytics Models
 # ============================================================================
@@ -596,6 +621,91 @@ class AssignmentStatsResponse(BaseModel):
 # ============================================================================
 
 
+def _validate_production_config() -> None:
+    """
+    Fail-loud production readiness checks, run once at startup.
+
+    When USE_DATABASE=true (i.e., production):
+    - the database must be reachable and the schema present (hard fail), and
+    - the lesson store should not be empty (loud warning — sessions would
+      silently regenerate all 866 lessons at LLM cost and latency; run
+      scripts/migrate_lessons_to_db.py).
+    Also warns when REDIS_URL is unset in DB mode: live sessions then reside
+    in process memory only and every deploy drops active tutoring sessions.
+    """
+    import logging
+    import os
+    from config import USE_DATABASE
+
+    log = logging.getLogger("startup")
+
+    if not USE_DATABASE:
+        return
+
+    # 1. Create any missing tables (idempotent), then verify the DB is usable.
+    #    SQLAlchemy owns the schema — the Prisma schema is not applied at runtime.
+    try:
+        from db_session import init_db, get_session
+        from db_models import TopicLessonRecord
+        init_db()
+        db = get_session()
+        try:
+            db.query(TopicLessonRecord).count()
+        finally:
+            db.close()
+    except Exception as exc:
+        raise RuntimeError(
+            "USE_DATABASE=true but the database is unreachable or could not be "
+            f"initialised — refusing to serve traffic: {exc}"
+        ) from exc
+
+    # 2. Lesson store must not be empty in prod
+    from agents.lesson_store import lesson_count
+    db_lessons, file_lessons = lesson_count()
+    if db_lessons == 0:
+        log.error(
+            "LESSON STORE EMPTY: 0 lessons in Postgres (%d on local disk). "
+            "Production will regenerate every lesson on demand at LLM cost. "
+            "Run: python scripts/migrate_lessons_to_db.py", file_lessons,
+        )
+    else:
+        log.info("Lesson store: %d lessons in DB (%d on disk)", db_lessons, file_lessons)
+
+    # 3. Redis strongly recommended in prod
+    if not os.getenv("REDIS_URL"):
+        log.warning(
+            "REDIS_URL not set with USE_DATABASE=true: live tutor sessions are "
+            "in-memory only — every deploy/restart drops active sessions, and "
+            "rate limits are per-process rather than shared across replicas."
+        )
+
+    # 4. SECURITY: refuse to boot prod without secrets that fail OPEN if unset.
+    #    Stripe webhook secret (C1) — without it the webhook would be forgeable.
+    if not os.getenv("STRIPE_WEBHOOK_SECRET"):
+        raise RuntimeError(
+            "STRIPE_WEBHOOK_SECRET is not set. The Stripe webhook would be "
+            "unverifiable (forgeable payment events) — refusing to serve traffic."
+        )
+
+    # 5. SECURITY (L3): FRONTEND_URL must be a real origin in prod, otherwise CORS
+    #    silently falls back to localhost and the deployed app can't call the API.
+    frontend = os.getenv("FRONTEND_URL", "")
+    if not frontend or frontend.startswith("http://localhost") or frontend.startswith("http://127.0.0.1"):
+        raise RuntimeError(
+            "FRONTEND_URL must be set to the production origin (got "
+            f"{frontend!r}) — refusing to serve traffic with a localhost CORS origin."
+        )
+
+    # 6. SECURITY (M5): Clerk auth in prod requires issuer/JWKS configuration.
+    if os.getenv("AUTH_PROVIDER") == "clerk" and not (
+        os.getenv("CLERK_FRONTEND_API") or os.getenv("CLERK_JWKS_URL")
+    ):
+        raise RuntimeError(
+            "AUTH_PROVIDER=clerk but neither CLERK_FRONTEND_API nor CLERK_JWKS_URL "
+            "is set — cannot verify tokens. Refusing to serve traffic."
+        )
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Manage application startup and shutdown."""
@@ -606,6 +716,7 @@ async def lifespan(app: FastAPI):
     except Exception:
         # Tests expect a clean slate; ignore if file missing
         pass
+    _validate_production_config()
     # Initialise Redis session store (no-op if REDIS_URL not set)
     from ws_session import init_redis
     await init_redis()
@@ -675,6 +786,31 @@ app.add_middleware(
     allow_headers=["Content-Type", "Authorization", "X-API-Key"],
 )
 
+
+@app.middleware("http")
+async def _security_headers(request: Request, call_next):
+    """SECURITY (M1): defense-in-depth response headers on the API too."""
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.setdefault(
+        "Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload"
+    )
+    return response
+
+
+@app.exception_handler(Exception)
+async def _generic_exception_handler(request: Request, exc: Exception):
+    """
+    SECURITY (L2): catch-all so an unhandled error returns a generic 500 with no
+    stack trace, file path, or internal message. HTTPExceptions are handled by
+    FastAPI's own handler and keep their intended status/detail.
+    """
+    logging.getLogger("api").exception("Unhandled error on %s %s", request.method, request.url.path)
+    from fastapi.responses import JSONResponse
+    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
+
 # Default: teacher endpoints open when TEACHER_API_KEY is None; can be tightened per-client
 app.state.allow_public_teacher_endpoints = True
 
@@ -722,15 +858,14 @@ async def get_my_quota(user: AuthUser = Depends(require_student)):
     problem_limit = PROBLEM_MONTH_LIMITS.get(user.tier, PROBLEM_MONTH_LIMITS["free"])
     problems_today = get_problems_used_today(user.id, today) if user.tier == "free" else None
 
-    tutor_info = None
-    if user.tier in PAID_TIERS:
-        hours_used = get_tutor_hours_used(user.id, year_month)
-        hour_limit = TUTOR_HOUR_LIMITS[user.tier]
-        tutor_info = {
-            "used_hours": round(hours_used, 2),
-            "limit_hours": hour_limit,
-            "allowed": hours_used < hour_limit,
-        }
+    # Tutor access is credits-only (see /credits/balance for purchasable credits).
+    # Hours here report only the flat anti-abuse ceiling, same for every tier.
+    hours_used = get_tutor_hours_used(user.id, year_month)
+    tutor_info = {
+        "used_hours": round(hours_used, 2),
+        "limit_hours": ABUSE_CEILING_HOURS_PER_MONTH,
+        "allowed": hours_used < ABUSE_CEILING_HOURS_PER_MONTH,
+    }
 
     return {
         "tier": user.tier,
@@ -748,6 +883,22 @@ async def get_my_quota(user: AuthUser = Depends(require_student)):
     }
 
 
+@app.get("/me/reviews")
+async def get_my_reviews(user: AuthUser = Depends(require_student)):
+    """
+    Spaced-repetition topics due for review (next_review_at <= now), soonest
+    first. Surfaces the SRS schedule the adaptive engine writes at session end.
+    """
+    from progress_store import due_for_review
+    from topic_registry import TOPIC_REGISTRY
+
+    due = due_for_review(user.id, limit=20)
+    for item in due:
+        meta = TOPIC_REGISTRY.get(item["topic_id"])
+        item["topic_name"] = meta.topic_name if meta else item["topic_id"]
+    return {"due": due, "count": len(due)}
+
+
 @app.get("/me/progress")
 async def get_my_progress(user: AuthUser = Depends(require_student)):
     """
@@ -760,8 +911,6 @@ async def get_my_progress(user: AuthUser = Depends(require_student)):
       a       → 85% accuracy at difficulty 4-5
       mastery → 90%+ accuracy at difficulty 5-6
     """
-    from tracking import load_attempts
-
     GOAL_THRESHOLDS = {
         "pass":    {"accuracy": 0.65, "min_difficulty": 2},
         "b":       {"accuracy": 0.75, "min_difficulty": 3},
@@ -772,10 +921,9 @@ async def get_my_progress(user: AuthUser = Depends(require_student)):
     goal = getattr(user, "learning_goal", None) or "b"
     threshold = GOAL_THRESHOLDS.get(goal, GOAL_THRESHOLDS["b"])
 
-    # Load recent attempts for this user
+    # Load this user's attempts via the repository (handles DB vs JSONL).
     try:
-        all_attempts = load_attempts()
-        user_attempts = [a for a in all_attempts if a.user_id == user.id]
+        user_attempts = list(get_attempt_repository().list_attempts_by_user(user.id))
     except Exception:
         user_attempts = []
 
@@ -827,7 +975,54 @@ async def get_my_progress(user: AuthUser = Depends(require_student)):
         },
         "topics": topics_progress,
         "session_credits": _get_credit_balance(user.id),
+        "streak": _compute_day_streak(user_attempts),
     }
+
+
+def _compute_day_streak(attempts) -> dict:
+    """Consecutive-day practice streak from attempt timestamps (UTC).
+
+    Returns {current, longest, active_today}. The current streak counts back
+    from today, or from yesterday if the student hasn't practiced yet today
+    (so an active streak isn't shown as broken until a full day is missed).
+    Never raises.
+    """
+    from datetime import timezone, timedelta
+
+    dates = set()
+    for a in attempts:
+        ts = getattr(a, "timestamp", None)
+        if ts is None:
+            continue
+        if isinstance(ts, str):
+            try:
+                ts = datetime.fromisoformat(ts)
+            except ValueError:
+                continue
+        try:
+            dates.add(ts.date())
+        except AttributeError:
+            continue
+
+    if not dates:
+        return {"current": 0, "longest": 0, "active_today": False}
+
+    today = datetime.now(timezone.utc).date()
+    active_today = today in dates
+
+    ordered = sorted(dates)
+    longest = run = 1
+    for prev, cur in zip(ordered, ordered[1:]):
+        run = run + 1 if (cur - prev).days == 1 else 1
+        longest = max(longest, run)
+
+    current = 0
+    cursor = today if active_today else today - timedelta(days=1)
+    while cursor in dates:
+        current += 1
+        cursor -= timedelta(days=1)
+
+    return {"current": current, "longest": longest, "active_today": active_today}
 
 
 def _get_credit_balance(user_id: str) -> dict:
@@ -870,6 +1065,40 @@ async def get_topics():
         }
         for t in topics
     ]
+
+
+# Internal QA / bookkeeping fields that must never be sent to the client — they
+# leak the answer machinery and would render as raw "SYMPY_VERIFIED" rows in the
+# student solution panel.
+_SOLUTION_INTERNAL_KEYS = frozenset({
+    "final_answer_latex",      # duplicates the separately-shown final_answer
+    "full_solution_latex",     # flattened raw string; `steps` is the clean form
+    "sympy_verified",
+    "verification_details",
+})
+
+
+def _student_facing_solution(solution: Optional[dict]) -> dict:
+    """Strip internal verification metadata from a solution dict, leaving only
+    the student-facing worked steps. Returns {} when there is no solution."""
+    if not solution:
+        return {}
+    return {
+        k: v for k, v in solution.items()
+        if k not in _SOLUTION_INTERNAL_KEYS and v is not None
+    }
+
+
+_APPROX_RE = re.compile(r"^\$?\\?approx\s*|^≈\s*")
+
+def _strip_approx(s: str) -> str:
+    """Remove leading \\approx / ≈ markers from a final_answer string.
+
+    LLMs sometimes prefix decimal answers with \\approx (e.g. '$\\approx 3.14$').
+    This makes the answer unparseable by SymPy and looks wrong in the UI.
+    """
+    s = _APPROX_RE.sub("", s.strip()).strip("$").strip()
+    return s
 
 
 @app.get("/generate", response_model=ProblemResponse)
@@ -932,6 +1161,7 @@ async def generate_problem(
             )
 
         problem_dict = problem_to_dict(problem)
+        student_solution = _student_facing_solution(problem_dict.get("solution"))
         word_problem_prompt = problem.metadata.get("word_problem_prompt") if hasattr(problem, 'metadata') else None
         if user is not None:
             record_problem(user.id, problem.id, source="bank")
@@ -942,8 +1172,8 @@ async def generate_problem(
             difficulty=problem.difficulty,
             prompt_latex=problem.prompt_latex,
             answer_type=problem.answer_type,
-            final_answer=str(problem.final_answer),
-            solution=problem_dict.get("solution", {}),
+            final_answer=_strip_approx(str(problem.final_answer)),
+            solution=student_solution,
             calculator_mode=problem.calculator_mode,
             word_problem_prompt=word_problem_prompt,
             concept_ids=problem.concept_ids,
@@ -984,9 +1214,12 @@ async def generate_problem(
         course_id=topic_meta.course_id,
         difficulty=difficulty,
         prompt_latex=generated.statement,
-        answer_type="expression",
-        final_answer=generated.answer,
-        solution={"steps": [{"expression_latex": s.step, "description_latex": s.explanation} for s in generated.worked_steps]},
+        answer_type=generated.answer_type,
+        final_answer=_strip_approx(generated.answer),
+        solution={
+            "steps": [{"expression_latex": s.step, "description_latex": s.explanation} for s in generated.worked_steps],
+            **({"proof_rows": generated.proof_rows} if generated.proof_rows else {}),
+        },
         calculator_mode=calculator_mode,
         word_problem_prompt=None,
         concept_ids=[],
@@ -1035,6 +1268,75 @@ async def record_attempt(
         timestamp=attempt.timestamp,
         is_correct=attempt.is_correct,
     )
+
+
+@app.post("/check-answer", response_model=CheckAnswerResponse)
+@limiter.limit("30/minute")
+async def check_answer(
+    request: Request,
+    body: CheckAnswerRequest,
+    user: AuthUser = Depends(require_student),
+):
+    """Grade a student's answer with SymPy equivalence.
+
+    This is the source of truth for correctness — the client must not decide
+    it with a string compare. CAS verification is cheap and synchronous (no
+    LLM), so the practice loop can call it on every submission.
+    """
+    from answer_check import answers_equivalent
+
+    is_correct = answers_equivalent(
+        body.student_answer, body.correct_answer, body.answer_type
+    )
+    return CheckAnswerResponse(is_correct=is_correct, correct_answer=body.correct_answer)
+
+
+# ── Public landing-page demo (no auth, no quota) ────────────────────────────────
+# Lets a prospective student solve one real, CAS-graded problem before signing up.
+# Rate-limited per IP; no problem is persisted.
+
+_DEMO_FALLBACK = {
+    "id": "demo-fallback",
+    "prompt_latex": "Solve for $x$: $2x + 3 = 11$",
+    "answer_type": "numeric",
+    "final_answer": "4",
+    "solution": {"steps": [
+        {"description_latex": "Subtract $3$ from both sides", "expression_latex": "2 x = 8"},
+        {"description_latex": "Divide both sides by $2$", "expression_latex": "x = 4"},
+    ]},
+}
+
+
+@app.get("/demo/problem")
+@limiter.limit("30/minute")
+async def demo_problem(request: Request):
+    """Return one public sample problem for the landing page. No auth, no quota."""
+    import random
+    try:
+        generator = get_generator_for_topic("alg1_linear_solve_one_var")
+        problem = generator.generate(random.choice([1, 2]), "none")
+        problem_dict = problem_to_dict(problem)
+        return {
+            "id": problem.id,
+            "prompt_latex": problem.prompt_latex,
+            "answer_type": problem.answer_type,
+            "final_answer": _strip_approx(str(problem.final_answer)),
+            "solution": _student_facing_solution(problem_dict.get("solution")),
+        }
+    except Exception:
+        return _DEMO_FALLBACK
+
+
+@app.post("/demo/check-answer", response_model=CheckAnswerResponse)
+@limiter.limit("30/minute")
+async def demo_check_answer(request: Request, body: CheckAnswerRequest):
+    """Public CAS grading for the landing-page demo. Same engine as /check-answer."""
+    from answer_check import answers_equivalent
+
+    is_correct = answers_equivalent(
+        body.student_answer, body.correct_answer, body.answer_type
+    )
+    return CheckAnswerResponse(is_correct=is_correct, correct_answer=body.correct_answer)
 
 
 @app.get("/user/{user_id}/stats/{topic_id}", response_model=UserStatsResponse)
@@ -1205,6 +1507,7 @@ async def get_my_recommended_difficulty(
 
 @app.post("/users/me/confirm-age", status_code=status.HTTP_200_OK)
 async def confirm_age(
+    request: Request,
     user: AuthUser = Depends(get_unverified_clerk_user),
     user_repo=Depends(get_user_repository),
 ):
@@ -1212,9 +1515,10 @@ async def confirm_age(
     Mark the authenticated user as having confirmed they are 13 or older.
 
     Called once from the /onboarding page after the user checks the age
-    confirmation checkbox. Sets age_confirmed=True on the user record.
-    Uses get_unverified_clerk_user so that users who haven't confirmed age
-    yet can still reach this endpoint without hitting a 403 loop.
+    confirmation checkbox. Sets age_confirmed=True on the user record and
+    writes an immutable consent-log entry (M4) with timestamp + IP for
+    compliance records. Uses get_unverified_clerk_user so users who haven't
+    confirmed age yet can still reach this endpoint without a 403 loop.
 
     Returns:
         {"ok": true, "age_confirmed": true}
@@ -1222,7 +1526,78 @@ async def confirm_age(
     if not user.age_confirmed:
         user.age_confirmed = True
         user_repo.update_user(user)
+    _log_consent_event(
+        user.id, "age_confirmed_13plus",
+        request.client.host if request.client else None,
+        request.headers.get("user-agent"),
+    )
     return {"ok": True, "age_confirmed": True}
+
+
+@app.delete("/users/me", status_code=status.HTTP_200_OK)
+async def delete_my_account(user: AuthUser = Depends(require_student)):
+    """
+    SECURITY/PRIVACY (M7): permanently hard-delete the authenticated user's
+    account and all associated data — transcripts, progress, credits, parent
+    links (both directions), quota/served events, flagged content — and the
+    user row itself. This is a real DELETE, not a soft-delete flag.
+
+    The immutable consent_log is intentionally retained (compliance record of
+    the age attestation), keyed by user_id; it contains no tutoring content.
+    Documented in the privacy policy.
+    """
+    from config import USE_DATABASE
+    if not USE_DATABASE:
+        return {"ok": True, "deleted": True, "note": "dev mode (no database)"}
+
+    from db_session import get_session as _get_db
+    from db_models import (
+        TutorSessionRecord, ProgressRecord, SessionCreditRecord,
+        ParentLinkRecord, QuotaEventRecord, FlaggedContentRecord, UserRecord,
+    )
+    from sqlalchemy import or_
+
+    db = _get_db()
+    try:
+        uid = user.id
+        db.query(TutorSessionRecord).filter(TutorSessionRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(ProgressRecord).filter(ProgressRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(SessionCreditRecord).filter(SessionCreditRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(QuotaEventRecord).filter(QuotaEventRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(FlaggedContentRecord).filter(FlaggedContentRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(ParentLinkRecord).filter(
+            or_(ParentLinkRecord.student_id == uid, ParentLinkRecord.parent_id == uid)
+        ).delete(synchronize_session=False)
+        db.query(UserRecord).filter(UserRecord.id == uid).delete(synchronize_session=False)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    finally:
+        db.close()
+    return {"ok": True, "deleted": True}
+
+
+def _log_consent_event(user_id: str, event: str, ip: Optional[str], user_agent: Optional[str]) -> None:
+    """Write an immutable consent attestation row (M4). Best-effort."""
+    from config import USE_DATABASE
+    if not USE_DATABASE:
+        return
+    try:
+        from db_models import ConsentLogRecord
+        from db_session import get_session as _get_db
+        from uuid import uuid4
+        db = _get_db()
+        try:
+            db.add(ConsentLogRecord(
+                id=str(uuid4()), user_id=user_id, event=event,
+                ip_address=ip, user_agent=(user_agent or "")[:255],
+            ))
+            db.commit()
+        finally:
+            db.close()
+    except Exception:
+        logging.getLogger("api").exception("Failed to write consent log for %s", user_id)
 
 
 class GoalRequest(BaseModel):
@@ -2173,26 +2548,18 @@ async def get_topic_lesson(topic_id: str):
     """
     Return a structured JSON lesson for a topic, generating on first request.
 
-    Caches to apps/api/data/topic_lessons/{topic_id}.json.
+    Cache lives in the lesson store (Postgres in prod, data/topic_lessons/
+    files in dev — see agents/lesson_store.py).
     Returns the 8-section schema: hook, concept, anatomy, worked_example,
     partial_example, practice_problems, common_mistakes, untested_variants.
     """
-    import json
     from datetime import datetime, timezone
-    from config import DATA_DIR
     from topic_registry import TOPIC_REGISTRY, COURSE_REGISTRY
+    from agents.lesson_store import get_lesson, save_lesson
 
-    lessons_dir = DATA_DIR / "topic_lessons"
-    lessons_dir.mkdir(parents=True, exist_ok=True)
-    cache_path = lessons_dir / f"{topic_id}.json"
-
-    if cache_path.exists():
-        try:
-            data = json.loads(cache_path.read_text())
-            # Serve cached — but flag if it was a fallback stub so client can retry
-            return data
-        except Exception:
-            pass  # Corrupt cache — regenerate
+    cached = get_lesson(topic_id)
+    if cached is not None:
+        return cached
 
     topic_meta = TOPIC_REGISTRY.get(topic_id)
     if not topic_meta:
@@ -2219,7 +2586,7 @@ async def get_topic_lesson(topic_id: str):
         "generated_at": datetime.now(timezone.utc).isoformat(),
         **lesson,
     }
-    cache_path.write_text(json.dumps(result, indent=2))
+    save_lesson(topic_id, result)
     return result
 
 

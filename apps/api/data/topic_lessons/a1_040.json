@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_040",
+  "topic_name": "Comparing Linear and Exponential Models",
+  "generated_at": "2026-05-12T22:43:21.474616+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know that linear functions grow by adding the same amount each step, and that exponential functions grow by multiplying by the same factor each step. But what happens when someone hands you a table of values or a real-world scenario and asks you to decide which model fits \u2014 or to compare how two different quantities grow side by side? Can you tell whether a population that starts at 50 and triples every year will ever overtake one that starts at 1000 and grows by 200 per year, and if so, when?",
+  "concept": "Comparing linear and exponential models means deciding which type of function better describes a relationship and analyzing how their long-run behaviors differ. A linear model has the form $f(x) = mx + b$, adding a constant amount $m$ per unit, while an exponential model has the form $g(x) = a \\cdot b^x$, multiplying by a constant ratio $b$ each unit. The key insight is that exponential growth eventually dominates any linear growth, no matter how large the linear slope.",
+  "anatomy": "When comparing the two models, four components matter most. The initial value is $b$ in the linear model and $a$ in the exponential model \u2014 what each function outputs at $x = 0$. The rate of change is the slope $m$ (constant additive change) for the linear model versus the growth factor $b$ (constant multiplicative ratio) for the exponential model. The crossover point is the $x$-value where $f(x) = g(x)$, marking when one model overtakes the other. Finally, long-run behavior describes which quantity ultimately grows faster as $x$ increases without bound.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 200x + 500 \\quad \\text{and} \\quad g(x) = 500 \\cdot 1.5^x",
+      "description_latex": "We are given a linear model $f$ that starts at 500 and adds 200 each year, and an exponential model $g$ that starts at 500 and grows by 50% each year. Notice both start at the same initial value of 500, so at $x = 0$ neither has an advantage \u2014 we need to compare how they grow beyond that point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c} x & f(x)=200x+500 & g(x)=500\\cdot1.5^x \\\\ \\hline 0 & 500 & 500 \\\\ 2 & 900 & 1{,}125 \\\\ 4 & 1{,}300 & 2{,}531 \\\\ 6 & 1{,}700 & 5{,}695 \\\\ 8 & 2{,}100 & 12{,}814 \\end{array}",
+      "description_latex": "Building a table of values lets us see the difference concretely. Even though $f$ gains a fixed 400 every two years, $g$ keeps multiplying, so by $x = 6$ the exponential model is already more than three times as large as the linear model \u2014 and the gap widens dramatically after that.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{From } x=0 \\text{ to } x=1: \\quad \\Delta f = 200 \\text{ (constant)}, \\quad \\frac{g(1)}{g(0)} = \\frac{750}{500} = 1.5 \\text{ (constant ratio)}",
+      "description_latex": "This step identifies the type of model from the pattern of change: $f$ has a constant difference of 200, confirming it is linear, while $g$ has a constant ratio of 1.5, confirming it is exponential. Checking differences versus ratios is your go-to method when identifying models from tables.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "200x + 500 = 500 \\cdot 1.5^x \\implies x \\approx 1.13",
+      "description_latex": "To find the crossover point we set the two functions equal. This equation cannot be solved with basic algebra alone, so we use the table or a graph to find that the curves intersect near $x \\approx 1.13$. For $x > 1.13$, the exponential model exceeds the linear model and will never fall behind again.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{As } x \\to \\infty, \\quad g(x) = 500 \\cdot 1.5^x \\gg f(x) = 200x + 500",
+      "description_latex": "We conclude by stating the long-run behavior: because exponential functions grow without bound at an accelerating rate while linear functions grow at a steady pace, $g(x)$ will always eventually outpace $f(x)$, no matter how large the slope $m$ is. This is a universal property \u2014 exponential growth always wins in the long run.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{array}{c|c} x & y \\\\ \\hline 0 & 8 \\\\ 1 & 24 \\\\ 2 & 72 \\\\ 3 & 216 \\end{array}",
+      "description_latex": "We are given a table and need to determine whether it represents a linear or exponential model, then write its equation. Start by checking differences: compute $24 - 8$, $72 - 24$, and $216 - 72$ to see if they are constant.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "The differences are not constant, so now check ratios. Divide each output by the previous one: $\\frac{24}{8}$, $\\frac{72}{24}$, $\\frac{216}{72}$. What do you notice about these ratios, and what does that tell you about the type of model?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "g(x) = 8 \\cdot 3^x",
+      "description_latex": "Because each ratio equals 3, the table is exponential with initial value $a = 8$ and growth factor $b = 3$, giving the model $g(x) = 8 \\cdot 3^x$. Using this model, we can now predict any future value \u2014 for instance, $g(5) = 8 \\cdot 3^5 = 1{,}944$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now suppose a second quantity is modeled by $f(x) = 150x + 8$. At what whole-number value of $x$ does $g(x)$ first exceed $f(x)$? Build a small table comparing both models to find the crossover.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A linear model starts at 10 and increases by 5 each step. An exponential model starts at 10 with a growth factor of 2. Which model is larger at $x = 3$?",
+      "answer_latex": "\\text{Exponential: } g(3)=80 > f(3)=25"
+    },
+    {
+      "prompt_latex": "Identify whether each table is linear or exponential, and write the equation.\\quad (a)\\; \\begin{array}{c|c} x & y \\\\ \\hline 0 & 6 \\\\ 1 & 12 \\\\ 2 & 18 \\\\ 3 & 24 \\end{array} \\qquad (b)\\; \\begin{array}{c|c} x & y \\\\ \\hline 0 & 6 \\\\ 1 & 12 \\\\ 2 & 24 \\\\ 3 & 48 \\end{array}",
+      "answer_latex": "(a)\\; f(x)=6x+6 \\text{ (linear)}; \\quad (b)\\; g(x)=6 \\cdot 2^x \\text{ (exponential)}"
+    },
+    {
+      "prompt_latex": "Two savings plans both start with $\\$100$. Plan A adds $\\$40$ per month. Plan B grows at $20\\%$ per month. Write a model for each and determine which plan has more money after 6 months.",
+      "answer_latex": "A(6)=100+40(6)=\\$340; \\quad B(6)=100\\cdot1.2^6\\approx\\$298.60; \\quad \\text{Plan A is greater at } x=6"
+    },
+    {
+      "prompt_latex": "Given $f(x)=300x+100$ and $g(x)=100\\cdot 2^x$, find the smallest whole-number $x$ at which $g(x) > f(x)$ by building a table for $x = 0, 1, 2, \\ldots, 6$.",
+      "answer_latex": "x=5: g(5)=3200 > f(5)=1600; \\text{ first crossover at } x=5"
+    },
+    {
+      "prompt_latex": "A city's population can be modeled linearly as $P_L(t)=2000t+50{,}000$ or exponentially as $P_E(t)=50{,}000\\cdot 1.04^t$, where $t$ is years. In one sentence, explain which model predicts a larger population in the very long run and why, without computing specific values.",
+      "answer_latex": "P_E(t) \\text{ is larger in the long run because exponential growth (multiplying by } 1.04 \\text{ each year) eventually outpaces any constant additive increase.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often check only differences when identifying a model from a table and conclude it is linear without also checking ratios; if differences are not constant, you must check ratios before ruling out an exponential model.",
+    "When comparing the two models, students assume the one with the larger initial value will always stay ahead; in reality, an exponential model with a smaller starting value can overtake a linear model with a larger starting value once the growth factor takes effect past the crossover point.",
+    "Students sometimes confuse the growth factor $b$ in $g(x) = a \\cdot b^x$ with a percent increase, writing $b = 20$ when the growth rate is 20% \u2014 the correct growth factor is $b = 1.20$, not 20, which would represent a 1900% increase per step."
+  ],
+  "untested_variants": [
+    "Comparing a decreasing (decay) exponential model to a decreasing linear model, and determining when the exponential quantity first falls below the linear quantity.",
+    "Given two exponential models with different bases and initial values (no linear model involved), determining which grows faster and finding a crossover point.",
+    "Using logarithms or algebraic techniques to solve the crossover equation $mx + b = a \\cdot c^x$ exactly, rather than estimating from a table or graph.",
+    "Identifying the better-fit model for a real data set that contains slight irregularities (not perfectly linear or exponential), requiring residual analysis or reasoning about which model is 'closer'."
+  ]
+}

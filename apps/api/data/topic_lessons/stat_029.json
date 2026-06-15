@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_029",
+  "topic_name": "Confidence Intervals via the t-Distribution (H)",
+  "generated_at": "2026-05-13T20:31:27.612226+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to build a confidence interval for a population mean when the population standard deviation $\\sigma$ is known, using the formula $\\bar{x} \\pm z^* \\cdot \\frac{\\sigma}{\\sqrt{n}}$. But here's the problem: in real life, you almost never know $\\sigma$. When you replace $\\sigma$ with the sample standard deviation $s$, you introduce extra uncertainty \u2014 and the normal distribution no longer gives you accurate critical values. So how do you account for that extra uncertainty and still build a valid interval?",
+  "concept": "When $\\sigma$ is unknown and you estimate it with $s$, the standardized statistic $\\frac{\\bar{x} - \\mu}{s/\\sqrt{n}}$ no longer follows a standard normal distribution \u2014 it follows a $t$-distribution with $n-1$ degrees of freedom. The $t$-distribution is bell-shaped and symmetric like the normal, but has heavier tails, which makes the critical value $t^*$ larger than $z^*$, giving us a wider (more honest) interval: $\\bar{x} \\pm t^* \\cdot \\frac{s}{\\sqrt{n}}$.",
+  "anatomy": "The confidence interval $\\bar{x} \\pm t^* \\cdot \\frac{s}{\\sqrt{n}}$ has four named parts. The center $\\bar{x}$ is the sample mean, your point estimate of $\\mu$. The critical value $t^*$ is the value from the $t$-distribution with $df = n - 1$ degrees of freedom that cuts off the desired confidence level in the middle (for a 95% interval, $t^*$ leaves 2.5% in each tail). The quantity $s$ is the sample standard deviation, which replaces the unknown $\\sigma$. Finally, $\\frac{s}{\\sqrt{n}}$ is the standard error of the mean, measuring how much $\\bar{x}$ typically varies from sample to sample.",
+  "worked_example": [
+    {
+      "expression_latex": "n = 16, \\quad \\bar{x} = 24.5, \\quad s = 4.0, \\quad \\text{confidence level} = 95\\%",
+      "description_latex": "We are given a sample of size $n = 16$ with sample mean $\\bar{x} = 24.5$ and sample standard deviation $s = 4.0$, and we want a 95% confidence interval. Because $\\sigma$ is unknown, we must use the $t$-distribution rather than the standard normal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "df = n - 1 = 16 - 1 = 15",
+      "description_latex": "The degrees of freedom for a one-sample $t$-interval is always $n - 1$, because one degree of freedom is used up when we compute $s$ from the data. Here $df = 15$, and this determines which $t$-distribution we look up.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t^* = 2.131 \\quad (t\\text{-table: } df=15, \\text{ two-tailed } 95\\%)",
+      "description_latex": "From the $t$-table with $df = 15$ and a 95% confidence level, the critical value is $t^* = 2.131$. Notice this is larger than the corresponding $z^* = 1.960$, reflecting the extra uncertainty from estimating $\\sigma$ with $s$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "SE = \\frac{s}{\\sqrt{n}} = \\frac{4.0}{\\sqrt{16}} = \\frac{4.0}{4} = 1.0",
+      "description_latex": "We compute the standard error of the mean by dividing the sample standard deviation by the square root of the sample size. This tells us how much the sample mean $\\bar{x}$ is expected to vary around the true $\\mu$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "CI: \\quad 24.5 \\pm 2.131 \\times 1.0 = (22.369,\\ 26.631)",
+      "description_latex": "We assemble the interval as $\\bar{x} \\pm t^* \\cdot SE = 24.5 \\pm 2.131$, giving the interval $(22.369, 26.631)$. We interpret this by saying: we are 95% confident that the true population mean $\\mu$ lies between $22.369$ and $26.631$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "n = 25, \\quad \\bar{x} = 108, \\quad s = 15, \\quad \\text{confidence level} = 90\\%",
+      "description_latex": "A sample of $n = 25$ measurements has mean $\\bar{x} = 108$ and standard deviation $s = 15$. We want to construct a 90% confidence interval for $\\mu$. Because $\\sigma$ is unknown, we will use the $t$-distribution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "df = 24, \\quad t^* = 1.711, \\quad SE = \\frac{15}{\\sqrt{25}} = 3.0",
+      "description_latex": "The degrees of freedom are $df = 25 - 1 = 24$. The critical value from the $t$-table for 90% confidence with $df = 24$ is $t^* = 1.711$. The standard error is $SE = \\frac{15}{\\sqrt{25}} = 3.0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now put it all together: compute the margin of error $t^* \\times SE$ and write out the full confidence interval $(\\bar{x} - ME,\\ \\bar{x} + ME)$. What is the 90% confidence interval for $\\mu$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A sample has $n = 10$, $\\bar{x} = 50$, $s = 5$. The $t^*$ value for a 95\\% CI with $df = 9$ is $2.262$. Compute the 95\\% confidence interval for $\\mu$.",
+      "answer_latex": "\\left(50 - 2.262 \\cdot \\frac{5}{\\sqrt{10}},\\ 50 + 2.262 \\cdot \\frac{5}{\\sqrt{10}}\\right) \\approx (46.42,\\ 53.58)"
+    },
+    {
+      "prompt_latex": "A nutritionist records the daily sugar intake (in grams) for $n = 20$ adults: $\\bar{x} = 72$, $s = 18$. Using $t^* = 2.093$ for a 95\\% CI ($df = 19$), construct the 95\\% confidence interval for the population mean daily sugar intake.",
+      "answer_latex": "72 \\pm 2.093 \\cdot \\frac{18}{\\sqrt{20}} \\approx 72 \\pm 8.42 = (63.58,\\ 80.42)"
+    },
+    {
+      "prompt_latex": "A sample of $n = 36$ observations gives $\\bar{x} = 200$ and $s = 30$. The critical value for a 99\\% CI with $df = 35$ is $t^* = 2.724$. Find the 99\\% confidence interval for $\\mu$.",
+      "answer_latex": "200 \\pm 2.724 \\cdot \\frac{30}{\\sqrt{36}} = 200 \\pm 13.62 = (186.38,\\ 213.62)"
+    },
+    {
+      "prompt_latex": "A researcher wants the margin of error for a 95\\% CI to be no more than $4$ units. She knows from a pilot study that $s \\approx 12$, and uses $t^* \\approx 2.0$ as an approximation. What is the minimum sample size she should use?",
+      "answer_latex": "ME \\leq 4 \\Rightarrow 2.0 \\cdot \\frac{12}{\\sqrt{n}} \\leq 4 \\Rightarrow \\sqrt{n} \\geq 6 \\Rightarrow n \\geq 36"
+    },
+    {
+      "prompt_latex": "A quality control engineer measures the breaking strength (in kg) of $n = 12$ cables: $\\bar{x} = 340$, $s = 24$. The $t^*$ value for a 90\\% CI with $df = 11$ is $1.796$. Construct the 90\\% CI and explain what it means in context.",
+      "answer_latex": "340 \\pm 1.796 \\cdot \\frac{24}{\\sqrt{12}} \\approx 340 \\pm 12.44 = (327.56,\\ 352.44);\\text{ we are 90\\% confident the true mean breaking strength is between }327.56\\text{ kg and }352.44\\text{ kg.}"
+    }
+  ],
+  "common_mistakes": [
+    "Using a $z^*$ critical value (like $1.96$) instead of $t^*$ when $\\sigma$ is unknown. Since $s$ introduces extra variability, the $t^*$ value is always larger than $z^*$ for the same confidence level, and using $z^*$ produces an interval that is too narrow and overconfident. Always check whether you know $\\sigma$ \u2014 if you're using $s$, you must use the $t$-table.",
+    "Using $df = n$ instead of $df = n - 1$ when looking up $t^*$. The correct degrees of freedom for a one-sample $t$-interval is $n - 1$ because estimating $s$ from the data costs one degree of freedom. Using the wrong $df$ gives the wrong critical value, and the error is largest for small samples where adjacent rows of the $t$-table differ substantially.",
+    "Forgetting to divide $s$ by $\\sqrt{n}$ \u2014 that is, using $s$ alone as the margin of error instead of the standard error $\\frac{s}{\\sqrt{n}}$. The margin of error is $t^* \\cdot \\frac{s}{\\sqrt{n}}$, not $t^* \\cdot s$. Skipping the $\\sqrt{n}$ step produces an interval that is far too wide and does not shrink as the sample grows."
+  ],
+  "untested_variants": [
+    "Paired $t$-intervals, where you first compute the differences $d_i = x_{1i} - x_{2i}$ for matched pairs and then apply the one-sample $t$-interval to the differences \u2014 the practice problems only cover the one-sample setting with raw data.",
+    "Choosing between a $z$-interval and a $t$-interval based on a stated problem scenario (e.g., when the problem says $\\sigma$ is known vs. unknown or when $n$ is very large) \u2014 the practice problems always tell students to use $t^*$ directly.",
+    "Interpreting or critiquing the conditions for a $t$-interval (normality of the population, independence of observations, randomness of the sample) rather than computing the interval itself.",
+    "Using technology (calculator or software output) to read off a $t$-interval and interpret it, rather than computing the interval from summary statistics by hand using the formula."
+  ]
+}

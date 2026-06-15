@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_042",
+  "topic_name": "Review of Matrices and Eigenvalues",
+  "generated_at": "2026-05-13T20:03:25.485471+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve a single first-order linear ODE like $x' = ax$, whose solution is the exponential $x(t) = e^{at}x_0$. Now imagine you have a whole system: two or more interacting quantities, each changing at a rate that depends on the others. To solve $\\mathbf{x}' = A\\mathbf{x}$, where $A$ is a matrix, you need to find special directions in which the system behaves just like that scalar case \u2014 and those directions are hidden inside the eigenvalues and eigenvectors of $A$. But do you remember how to actually find them?",
+  "concept": "An eigenvalue of a square matrix $A$ is a scalar $\\lambda$ such that multiplying $A$ by some nonzero vector $\\mathbf{v}$ just stretches or flips it: $A\\mathbf{v} = \\lambda\\mathbf{v}$. The vector $\\mathbf{v}$ is called an eigenvector. Formally, $\\lambda$ satisfies the characteristic equation $\\det(A - \\lambda I) = 0$, and for each such $\\lambda$ the eigenvectors are the nonzero solutions of $(A - \\lambda I)\\mathbf{v} = \\mathbf{0}$.",
+  "anatomy": "Every eigenvalue problem has four key ingredients. The matrix $A$ (an $n \\times n$ array of coefficients) acts on vectors. The identity matrix $I$ (same size as $A$, ones on the diagonal, zeros elsewhere) is needed to form the shift $A - \\lambda I$. The characteristic polynomial $p(\\lambda) = \\det(A - \\lambda I)$ is a degree-$n$ polynomial whose roots are the eigenvalues $\\lambda_1, \\lambda_2, \\ldots$. Finally, for each eigenvalue the null space of $(A - \\lambda I)$ \u2014 found by row reduction \u2014 yields the eigenvectors $\\mathbf{v}$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 3 & 1 \\\\ 1 & 3 \\end{pmatrix}",
+      "description_latex": "We start by writing down the matrix whose eigenvalues we need. This $2 \\times 2$ matrix will produce a degree-2 characteristic polynomial, so we expect exactly two eigenvalues (counting multiplicity).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(A - \\lambda I) = \\det\\begin{pmatrix} 3-\\lambda & 1 \\\\ 1 & 3-\\lambda \\end{pmatrix} = (3-\\lambda)^2 - 1 = 0",
+      "description_latex": "We form $A - \\lambda I$ by subtracting $\\lambda$ from every diagonal entry, then set its determinant to zero. For a $2 \\times 2$ matrix the determinant is simply the product of the diagonal minus the product of the off-diagonal entries, giving $(3-\\lambda)^2 - 1 = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(3-\\lambda)^2 - 1 = 0 \\implies \\lambda^2 - 6\\lambda + 8 = 0 \\implies (\\lambda-4)(\\lambda-2) = 0 \\implies \\lambda_1 = 4,\\ \\lambda_2 = 2",
+      "description_latex": "Expanding and factoring the characteristic polynomial gives us two distinct real eigenvalues. Distinct real eigenvalues are the easiest case and will correspond to two linearly independent eigenvectors \u2014 exactly what we need for a general solution to $\\mathbf{x}' = A\\mathbf{x}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_1 = 4:\\quad (A - 4I)\\mathbf{v} = \\begin{pmatrix} -1 & 1 \\\\ 1 & -1 \\end{pmatrix}\\mathbf{v} = \\mathbf{0} \\implies \\mathbf{v}_1 = \\begin{pmatrix} 1 \\\\ 1 \\end{pmatrix}",
+      "description_latex": "To find the eigenvector for $\\lambda_1 = 4$, we substitute back into $(A - \\lambda I)\\mathbf{v} = \\mathbf{0}$ and row-reduce. Both rows say $-v_1 + v_2 = 0$, so $v_1 = v_2$; we pick the simplest nonzero representative $\\mathbf{v}_1 = (1,1)^T$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_2 = 2:\\quad (A - 2I)\\mathbf{v} = \\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}\\mathbf{v} = \\mathbf{0} \\implies \\mathbf{v}_2 = \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}",
+      "description_latex": "Repeating for $\\lambda_2 = 2$, both rows reduce to $v_1 + v_2 = 0$, so $v_2 = -v_1$; the simplest choice is $\\mathbf{v}_2 = (1,-1)^T$. Notice that $\\mathbf{v}_1$ and $\\mathbf{v}_2$ are orthogonal here \u2014 a special bonus of symmetric matrices \u2014 but in general eigenvectors for distinct eigenvalues are merely linearly independent.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}",
+      "description_latex": "We want to find the eigenvalues and eigenvectors of $B$. Our first move is always to write down the characteristic equation, so we compute $\\det(B - \\lambda I)$ and set it equal to zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(B - \\lambda I) = (1-\\lambda)^2 - 4 = \\lambda^2 - 2\\lambda - 3 = (\\lambda - 3)(\\lambda + 1) = 0",
+      "description_latex": "Here is the characteristic polynomial already expanded for you. Notice it factors nicely \u2014 go ahead and read off the two eigenvalues $\\lambda_1$ and $\\lambda_2$ from the factors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find the eigenvector corresponding to $\\lambda = 3$: form the matrix $B - 3I$, row-reduce the system $(B-3I)\\mathbf{v} = \\mathbf{0}$, and write down the simplest nonzero eigenvector $\\mathbf{v}_1$. This is the core step \u2014 make sure you set up the homogeneous system correctly before solving.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Repeat the process for $\\lambda = -1$: form $B - (-1)I = B + I$, row-reduce, and state the eigenvector $\\mathbf{v}_2$. Check your answer by verifying that $B\\mathbf{v}_2 = -1 \\cdot \\mathbf{v}_2$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute $\\det\\begin{pmatrix} 5-\\lambda & 0 \\\\ 0 & 3-\\lambda \\end{pmatrix}$ and find the eigenvalues of $\\begin{pmatrix} 5 & 0 \\\\ 0 & 3 \\end{pmatrix}$.",
+      "answer_latex": "\\lambda_1 = 5,\\ \\lambda_2 = 3"
+    },
+    {
+      "prompt_latex": "Find all eigenvalues of $A = \\begin{pmatrix} 2 & 3 \\\\ 0 & -1 \\end{pmatrix}$.",
+      "answer_latex": "\\lambda_1 = 2,\\ \\lambda_2 = -1"
+    },
+    {
+      "prompt_latex": "Find the eigenvalues and a corresponding eigenvector for each eigenvalue of $A = \\begin{pmatrix} 4 & -2 \\\\ 1 & 1 \\end{pmatrix}$.",
+      "answer_latex": "\\lambda_1 = 3,\\ \\mathbf{v}_1 = \\begin{pmatrix}2\\\\1\\end{pmatrix};\\quad \\lambda_2 = 2,\\ \\mathbf{v}_2 = \\begin{pmatrix}1\\\\1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "The matrix $A = \\begin{pmatrix} 0 & 1 \\\\ -6 & -5 \\end{pmatrix}$ arises from writing the second-order ODE $y'' + 5y' + 6y = 0$ as a first-order system. Find the eigenvalues of $A$ and explain what they tell you about the ODE's solutions.",
+      "answer_latex": "\\lambda_1 = -2,\\ \\lambda_2 = -3;\\ \\text{both negative real, so solutions decay exponentially: } y = c_1 e^{-2t} + c_2 e^{-3t}"
+    },
+    {
+      "prompt_latex": "Find the eigenvalues of the $3 \\times 3$ upper-triangular matrix $A = \\begin{pmatrix} 2 & 5 & -3 \\\\ 0 & -1 & 4 \\\\ 0 & 0 & 7 \\end{pmatrix}$.",
+      "answer_latex": "\\lambda_1 = 2,\\ \\lambda_2 = -1,\\ \\lambda_3 = 7"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to subtract $\\lambda$ from the diagonal entries only \u2014 they mistakenly subtract $\\lambda$ from every entry in the matrix. Remember that $A - \\lambda I$ only modifies the main diagonal, because $I$ has zeros everywhere off the diagonal.",
+    "After finding eigenvalues, students try to solve $(A - \\lambda I)\\mathbf{v} = \\mathbf{0}$ but then divide both sides by the determinant (which is zero!) or treat the system as if it has a unique solution. The whole point is that $\\det(A - \\lambda I) = 0$ makes the system underdetermined, so you must row-reduce and express the solution as a free-parameter family, then pick a convenient nonzero representative.",
+    "Students write $\\mathbf{v} = \\mathbf{0}$ as an eigenvector because it trivially satisfies $A\\mathbf{v} = \\lambda\\mathbf{v}$. By definition, eigenvectors must be nonzero \u2014 the zero vector is excluded precisely because it satisfies the equation for any $\\lambda$, giving no information about the matrix."
+  ],
+  "untested_variants": [
+    "Complex conjugate eigenvalue pairs (e.g., $\\lambda = \\alpha \\pm \\beta i$) and extracting real-valued eigenvectors from them \u2014 needed when $\\Delta < 0$ in the characteristic polynomial.",
+    "Repeated (defective) eigenvalues where the eigenspace is one-dimensional and a generalized eigenvector must be found by solving $(A - \\lambda I)\\mathbf{w} = \\mathbf{v}$.",
+    "Finding eigenvalues of a $3 \\times 3$ non-triangular matrix, which requires expanding a $3 \\times 3$ determinant using cofactor expansion and solving a cubic characteristic polynomial.",
+    "Determining whether a matrix is diagonalizable by checking if the geometric multiplicity equals the algebraic multiplicity for each repeated eigenvalue."
+  ]
+}

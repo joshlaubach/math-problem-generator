@@ -1,0 +1,86 @@
+{
+  "topic_id": "geo_071",
+  "topic_name": "Surface Area of Pyramids and Cones",
+  "generated_at": "2026-05-12T23:13:51.257354+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to find the area of triangles and circles, and you've used those skills to find the area of flat shapes. But what happens when a shape folds up into a three-dimensional pyramid or cone? If you wanted to wrap a pyramid-shaped gift box or paint the outside of a cone-shaped party hat, how much material would you actually need? You can't just measure the base \u2014 you need to account for every slanted face, and figuring out exactly how to do that is today's challenge.",
+  "concept": "Surface area is the total area of all the outer faces of a 3D shape, as if you unfolded it flat into a net. For a pyramid, the surface area is the area of the polygonal base plus the areas of all the triangular lateral faces. For a cone, it is the area of the circular base plus the area of the curved lateral surface. Formally, for a regular pyramid: $SA = B + \\frac{1}{2}Pl$, where $B$ is the base area, $P$ is the base perimeter, and $l$ is the slant height. For a cone: $SA = \\pi r^2 + \\pi r l$, where $r$ is the radius and $l$ is the slant height.",
+  "anatomy": "Both formulas share a critical element called the slant height, denoted $l$, which is the distance measured along the face from the apex (the tip of the pyramid or cone) down to the midpoint of a base edge (for a pyramid) or to the edge of the base circle (for a cone). This is NOT the same as the vertical height $h$, which goes straight down through the interior. For a pyramid, $B$ is the base area computed using the appropriate polygon formula, and $P$ is its perimeter. For a cone, $\\pi r^2$ is the base disk and $\\pi r l$ is the unrolled lateral surface, which flattens into a sector of a circle.",
+  "worked_example": [
+    {
+      "expression_latex": "SA_{\\text{pyramid}} = B + \\frac{1}{2}Pl",
+      "description_latex": "We start by writing the surface area formula for a regular pyramid. Here $B$ is the area of the square base, $P$ is the perimeter of that base, and $l$ is the slant height \u2014 identifying these three quantities before plugging in numbers keeps us from mixing up slant height and vertical height.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B = 6^2 = 36 \\text{ cm}^2, \\quad P = 4 \\times 6 = 24 \\text{ cm}, \\quad l = 5 \\text{ cm}",
+      "description_latex": "Our pyramid has a square base with side length 6 cm and a slant height of 5 cm, so we compute each piece separately. The base area uses the square formula $s^2$, the perimeter is just four times the side length, and the slant height is given directly \u2014 notice we are NOT using the vertical height here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "SA = 36 + \\frac{1}{2}(24)(5)",
+      "description_latex": "Now we substitute our values into the formula. The term $\\frac{1}{2}Pl$ accounts for all four triangular lateral faces at once, because each face has area $\\frac{1}{2} \\times \\text{base} \\times l$ and summing their bases gives the full perimeter $P$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "SA = 36 + 60 = 96 \\text{ cm}^2",
+      "description_latex": "We compute $\\frac{1}{2}(24)(5) = 60$ and add it to the base area of 36 to get the total surface area of 96 cm\u00b2. Always include units squared, since surface area is a two-dimensional measurement even though the shape is three-dimensional.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "SA_{\\text{cone}} = \\pi r^2 + \\pi r l",
+      "description_latex": "We want the surface area of a cone with radius $r = 4$ cm and slant height $l = 9$ cm. We begin by writing the cone surface area formula \u2014 the first term is the circular base and the second is the lateral (curved) surface.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "SA = \\pi (4)^2 + \\pi (4)(9)",
+      "description_latex": "We substitute $r = 4$ and $l = 9$ into the formula. Notice that both terms contain $\\pi$, which means we can factor it out to simplify our calculation in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Factor out $\\pi$ and simplify the arithmetic inside the parentheses to find the exact surface area. What do you get when you combine $\\pi(16) + \\pi(36)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "SA = 52\\pi \\approx 163.36 \\text{ cm}^2",
+      "description_latex": "The exact answer is $52\\pi$ cm\u00b2, and using $\\pi \\approx 3.14$ gives approximately 163.36 cm\u00b2. Leaving the answer in terms of $\\pi$ is exact and often preferred unless a decimal approximation is requested.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the surface area of a cone with radius $r = 3$ cm and slant height $l = 5$ cm. Leave your answer in terms of $\\pi$.",
+      "answer_latex": "SA = \\pi(3)^2 + \\pi(3)(5) = 9\\pi + 15\\pi = 24\\pi \\text{ cm}^2"
+    },
+    {
+      "prompt_latex": "A regular square pyramid has a base side length of $8$ m and a slant height of $10$ m. Find its total surface area.",
+      "answer_latex": "SA = 8^2 + \\frac{1}{2}(4 \\times 8)(10) = 64 + 160 = 224 \\text{ m}^2"
+    },
+    {
+      "prompt_latex": "Find the lateral surface area only (not including the base) of a cone with radius $r = 6$ in and slant height $l = 13$ in. Leave your answer in terms of $\\pi$.",
+      "answer_latex": "\\text{Lateral SA} = \\pi r l = \\pi(6)(13) = 78\\pi \\text{ in}^2"
+    },
+    {
+      "prompt_latex": "A regular triangular pyramid has an equilateral triangle base with side length $6$ ft. The slant height of each triangular face is $8$ ft, and the area of the equilateral base is $9\\sqrt{3}$ ft$^2$. Find the total surface area.",
+      "answer_latex": "SA = 9\\sqrt{3} + \\frac{1}{2}(3 \\times 6)(8) = 9\\sqrt{3} + 72 \\approx 87.59 \\text{ ft}^2"
+    },
+    {
+      "prompt_latex": "An ice cream waffle cone has a radius of $3.5$ cm and a vertical height of $12$ cm. First find the slant height using the Pythagorean theorem, then find the total surface area of the cone. Round to the nearest tenth.",
+      "answer_latex": "l = \\sqrt{3.5^2 + 12^2} = \\sqrt{12.25 + 144} = \\sqrt{156.25} = 12.5 \\text{ cm}; \\quad SA = \\pi(3.5)^2 + \\pi(3.5)(12.5) = 12.25\\pi + 43.75\\pi = 56\\pi \\approx 175.9 \\text{ cm}^2"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use the vertical height $h$ in place of the slant height $l$ in both formulas. The vertical height goes straight down through the interior of the shape and is always shorter than the slant height; if the problem gives $h$, you must first use the Pythagorean theorem $l = \\sqrt{r^2 + h^2}$ (for a cone) or $l = \\sqrt{h^2 + (s/2)^2}$ (for a pyramid) before applying the surface area formula.",
+    "Students forget to include the base area and compute only the lateral surface area, or they include the base when the problem explicitly asks for lateral surface area only. Read the problem carefully: 'total surface area' always means base plus lateral faces, while 'lateral surface area' means the slanted faces alone.",
+    "When computing the lateral area of a pyramid, students multiply $\\frac{1}{2} \\times l$ by just one side length instead of the full perimeter $P$. Remember that $\\frac{1}{2}Pl$ is a shortcut that sums the areas of ALL lateral triangular faces at once, so $P$ must be the complete perimeter of the base polygon."
+  ],
+  "untested_variants": [
+    "Finding the surface area of a cone where only the diameter (not the radius) is given, requiring students to halve it before applying the formula.",
+    "Finding the surface area of a regular hexagonal pyramid, where computing the base area requires using the formula $B = \\frac{3\\sqrt{3}}{2}s^2$ rather than a simple square or triangle.",
+    "Finding the slant height of a pyramid or cone given the total surface area and one other dimension, requiring students to work backwards by solving an algebraic equation.",
+    "Finding the surface area of a composite solid that combines a cone or pyramid with a cylinder or prism (for example, a rocket shape), where students must identify which faces are interior and should not be counted."
+  ]
+}

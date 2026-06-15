@@ -42,9 +42,38 @@ export function MathInput({
     import('mathlive').then(() => {
       if (destroyed) return;
       const el = document.createElement('math-field') as MathFieldElement;
+
+      const isDark = document.documentElement.dataset.theme === 'dark';
+
+      // Theme-aware so the field doesn't render as a white box in dark mode.
+      // color-scheme: dark is the key property that tells MathLive's Shadow DOM
+      // to render math content (brackets, sqrt bars, etc.) in dark colors.
+      const darkStyles = isDark ? [
+        'color-scheme:dark',
+        'color:#e6edf3',
+        'background:#161b22',
+        '--caret-color:#d29922',
+        '--selection-background-color:rgba(210,153,34,0.25)',
+        '--selection-color:#e6edf3',
+        '--smart-fence-color:#d29922',
+        '--placeholder-color:#6e7681',
+      ] : [
+        'color:var(--text)',
+        'background:var(--surface)',
+        '--caret-color:var(--caramel)',
+        '--selection-background-color:var(--caramel-dim)',
+      ];
+
       el.setAttribute(
         'style',
-        'width:100%;font-size:1.1em;padding:6px 8px;border:1px solid #d1d5db;border-radius:6px;background:#fff;',
+        [
+          'width:100%',
+          'font-size:1.1em',
+          'padding:6px 8px',
+          'border:1px solid var(--border)',
+          'border-radius:6px',
+          ...darkStyles,
+        ].join(';'),
       );
       if (placeholder) el.setAttribute('placeholder', `\\text{${placeholder}}`);
       if (readOnly) el.setAttribute('read-only', '');

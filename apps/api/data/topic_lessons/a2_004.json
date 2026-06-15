@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_004",
+  "topic_name": "Piecewise Functions",
+  "generated_at": "2026-05-12T23:18:12.737576+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to graph a straight line like $y = 2x + 1$ and you know that functions assign exactly one output to each input. But what happens when a situation behaves differently depending on where you are? For example, a parking garage charges $\\$3$ per hour for the first 2 hours, then $\\$1$ per hour after that \u2014 the rule literally changes mid-problem. How would you write a single function that captures both rules at once?",
+  "concept": "A piecewise function is a function defined by different formulas on different parts of its domain. In plain English, you follow one rule when $x$ is in one region and a different rule when $x$ is somewhere else. Formally, a piecewise function is written as $f(x) = \\begin{cases} \\text{formula}_1 & \\text{if condition}_1 \\\\ \\text{formula}_2 & \\text{if condition}_2 \\end{cases}$, where each formula applies only over its stated interval.",
+  "anatomy": "A piecewise function has three key components repeated for each piece: the formula (such as $2x+1$ or $-x+4$), which is the actual algebraic rule; the condition (such as $x < 0$ or $x \\geq 2$), which is the inequality describing the portion of the domain where that formula applies; and the boundary value, the specific $x$-value where one piece ends and the next begins. At a boundary, you must determine whether each piece uses an open circle (strict inequality, $<$ or $>$) or a closed circle (inclusive inequality, $\\leq$ or $\\geq$) on its graph.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = \\begin{cases} 2x + 1 & \\text{if } x < 1 \\\\ -x + 4 & \\text{if } x \\geq 1 \\end{cases}",
+      "description_latex": "Here is the full piecewise function we will evaluate and graph. Notice it has two pieces separated at the boundary $x = 1$: the first formula $2x+1$ is used whenever $x$ is strictly less than 1, and the second formula $-x+4$ is used whenever $x$ is 1 or greater.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(0) = 2(0) + 1 = 1",
+      "description_latex": "To evaluate at $x = 0$, we first ask: which condition does $x = 0$ satisfy? Since $0 < 1$, we use the first formula $2x+1$, giving $f(0) = 1$. Always check the condition before plugging in \u2014 using the wrong formula is the most common error.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(1) = -(1) + 4 = 3",
+      "description_latex": "At $x = 1$, we check: $1 < 1$ is false, but $1 \\geq 1$ is true, so we use $-x+4$. This gives $f(1) = 3$. The boundary value $x = 1$ belongs to the second piece because of the $\\geq$ symbol.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{At } x=1: \\text{ open circle on } (1,\\, 2(1)+1) = (1, 3) \\text{ for piece 1; closed circle on } (1, 3) \\text{ for piece 2}",
+      "description_latex": "When graphing, the boundary $x = 1$ gets an open circle on the first piece because the condition is strict ($x < 1$ means $x = 1$ is excluded), and a closed circle on the second piece because $x \\geq 1$ includes $x = 1$. Notice both circles happen to land at the same $y$-value of 3, so the graph is connected here \u2014 but that won't always be the case.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(3) = -(3) + 4 = 1",
+      "description_latex": "For $x = 3$, the condition $x \\geq 1$ is satisfied, so we use $-x + 4 = 1$. Plotting a few points on each piece and connecting them with straight lines (since both pieces are linear) completes the graph \u2014 two rays meeting at the boundary.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = \\begin{cases} -2x + 5 & \\text{if } x \\leq 2 \\\\ x - 1 & \\text{if } x > 2 \\end{cases}",
+      "description_latex": "We want to evaluate $g(2)$ and $g(5)$. Start by identifying the boundary of this function \u2014 it is $x = 2$. For each input, you will need to decide which piece applies before substituting.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(2) = -2(2) + 5 = 1",
+      "description_latex": "Since $2 \\leq 2$ is true, we use the first formula. $g(2) = -2(2)+5 = 1$. Notice that if the condition had been $x < 2$, we would have used the second formula instead \u2014 the inequality symbol determines which piece owns the boundary.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find $g(5)$. First decide which condition $x = 5$ satisfies, then substitute into the correct formula and simplify. Write out your reasoning before computing.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Describe what happens at $x = 2$ on the graph: which piece gets a closed circle and which gets an open circle at $x = 2$, and at what $y$-value does each circle sit? Explain why the two circles are at different heights, meaning the graph has a jump here.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Given } f(x) = \\begin{cases} 3x & \\text{if } x < 0 \\\\ x + 4 & \\text{if } x \\geq 0 \\end{cases}, \\text{ find } f(-2) \\text{ and } f(0).",
+      "answer_latex": "f(-2) = -6,\\quad f(0) = 4"
+    },
+    {
+      "prompt_latex": "\\text{Given } h(x) = \\begin{cases} x^2 & \\text{if } x < 2 \\\\ 2x - 1 & \\text{if } x \\geq 2 \\end{cases}, \\text{ find } h(2) \\text{ and } h(-3).",
+      "answer_latex": "h(2) = 3,\\quad h(-3) = 9"
+    },
+    {
+      "prompt_latex": "\\text{Write a piecewise function whose graph has slope } 1 \\text{ for } x \\leq 0 \\text{ and slope } -2 \\text{ for } x > 0, \\text{ passing through the origin on each piece.}",
+      "answer_latex": "f(x) = \\begin{cases} x & \\text{if } x \\leq 0 \\\\ -2x & \\text{if } x > 0 \\end{cases}"
+    },
+    {
+      "prompt_latex": "\\text{Find all values of } x \\text{ such that } f(x) = 4, \\text{ where } f(x) = \\begin{cases} 2x - 2 & \\text{if } x < 3 \\\\ -x + 7 & \\text{if } x \\geq 3 \\end{cases}.",
+      "answer_latex": "x = 3 \\text{ (from piece 2) and } x = 3 \\text{ is the boundary; also } x = 3 \\text{ from piece 1 is excluded. Solutions: } x = 3"
+    },
+    {
+      "prompt_latex": "A phone plan charges $\\$0.10$ per minute for the first 30 minutes of a call and $\\$0.05$ per minute after that. Write a piecewise function $C(m)$ for the total cost in dollars of a call lasting $m$ minutes, then find the cost of a 50-minute call.",
+      "answer_latex": "C(m) = \\begin{cases} 0.10m & \\text{if } 0 \\leq m \\leq 30 \\\\ 3 + 0.05(m-30) & \\text{if } m > 30 \\end{cases};\\quad C(50) = \\$4.00"
+    }
+  ],
+  "common_mistakes": [
+    "Students plug an $x$-value into the wrong formula without checking which condition it satisfies first \u2014 for example, evaluating $f(1)$ using $x < 1$ when $x = 1$ actually belongs to the $x \\geq 1$ piece. Always test the inequality condition before substituting.",
+    "Students put the closed circle on the wrong piece at a boundary: a closed circle belongs to whichever piece's condition uses $\\leq$ or $\\geq$, and an open circle belongs to the piece using strict $<$ or $>$. Mixing these up causes the graph to misrepresent which piece actually includes the boundary point.",
+    "When a problem asks for all $x$ such that $f(x) = k$, students solve the equation in only one piece and forget to check the other piece \u2014 or they find a solution algebraically but don't verify it falls within that piece's stated domain interval, accepting an answer that isn't valid."
+  ],
+  "untested_variants": [
+    "Piecewise functions with three or more pieces, such as $f(x) = \\begin{cases} x+1 & x < -1 \\\\ 2 & -1 \\leq x < 2 \\\\ -x+4 & x \\geq 2 \\end{cases}$, which require checking multiple boundary points.",
+    "Graphing a piecewise function from scratch on a coordinate plane and identifying domain and range from the resulting graph.",
+    "Piecewise functions involving absolute value or quadratic pieces, such as $f(x) = \\begin{cases} x^2 & x < 0 \\\\ \\sqrt{x} & x \\geq 0 \\end{cases}$.",
+    "Determining whether a piecewise function is continuous at its boundary by checking whether the left-hand value and right-hand value are equal at the boundary point."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_034",
+  "topic_name": "Stokes' Theorem",
+  "generated_at": "2026-05-13T19:58:57.539327+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to use Green's Theorem to convert a line integral around a closed curve in the plane into a double integral over the region it encloses. But what happens when your curve isn't sitting flat in the xy-plane \u2014 what if it's a loop twisting through three-dimensional space, bounding some curved surface like a soap film stretched across a wire frame? You can compute the line integral directly, but parametrizing a 3D curve and grinding through the algebra can be brutal. Is there a higher-dimensional version of Green's Theorem that lets us trade that painful line integral for a surface integral instead?",
+  "concept": "Stokes' Theorem is exactly that generalization: it says the line integral of a vector field $\\mathbf{F}$ around a closed, oriented curve $C$ equals the flux of the curl of $\\mathbf{F}$ through any oriented surface $S$ bounded by $C$. Formally, if $\\mathbf{F}$ has continuous partial derivatives on an open region containing $S$, then $\\oint_C \\mathbf{F} \\cdot d\\mathbf{r} = \\iint_S (\\nabla \\times \\mathbf{F}) \\cdot d\\mathbf{S}$, where the orientation of $C$ and $S$ are linked by the right-hand rule.",
+  "anatomy": "Stokes' Theorem has four key components you must identify before computing. First, $C$ is the oriented boundary curve \u2014 a closed loop in 3D space whose direction is determined by curling your right-hand fingers in the direction of traversal so your thumb points in the direction of the surface's outward normal. Second, $S$ is any oriented surface bounded by $C$ \u2014 the theorem is remarkable because you can choose $S$ to make computation easiest. Third, $\\nabla \\times \\mathbf{F}$ is the curl of $\\mathbf{F}$, computed as the determinant-style cross product $\\nabla \\times \\mathbf{F} = \\left(\\frac{\\partial F_3}{\\partial y} - \\frac{\\partial F_2}{\\partial z}\\right)\\mathbf{i} - \\left(\\frac{\\partial F_3}{\\partial x} - \\frac{\\partial F_1}{\\partial z}\\right)\\mathbf{j} + \\left(\\frac{\\partial F_2}{\\partial x} - \\frac{\\partial F_1}{\\partial y}\\right)\\mathbf{k}$. Fourth, $d\\mathbf{S} = \\mathbf{n}\\,dS$ is the oriented surface area element, the unit normal $\\mathbf{n}$ times the scalar area element $dS$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\oint_C \\mathbf{F} \\cdot d\\mathbf{r}, \\quad \\mathbf{F} = (-y^2,\\, x,\\, z^2), \\quad C: \\text{the circle } x^2+y^2=1 \\text{ in the plane } z=1, \\text{ traversed counterclockwise viewed from above}",
+      "description_latex": "We want to evaluate this line integral, but instead of parametrizing $C$ directly we'll apply Stokes' Theorem. We identify $C$ as the unit circle at height $z=1$, and we choose $S$ to be the flat disk $x^2+y^2 \\leq 1$, $z=1$, with upward normal $\\mathbf{n} = \\mathbf{k}$, since the counterclockwise orientation of $C$ (viewed from above) is consistent with the right-hand rule pointing upward.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\nabla \\times \\mathbf{F} = \\begin{vmatrix} \\mathbf{i} & \\mathbf{j} & \\mathbf{k} \\\\ \\partial_x & \\partial_y & \\partial_z \\\\ -y^2 & x & z^2 \\end{vmatrix} = (0-0)\\mathbf{i} - (0-0)\\mathbf{j} + (1-(-2y))\\mathbf{k} = (1+2y)\\mathbf{k}",
+      "description_latex": "We compute the curl of $\\mathbf{F}$ using the symbolic determinant. The $\\mathbf{i}$-component is $\\frac{\\partial z^2}{\\partial y} - \\frac{\\partial x}{\\partial z} = 0$, the $\\mathbf{j}$-component is $-(\\frac{\\partial z^2}{\\partial x} - \\frac{\\partial(-y^2)}{\\partial z}) = 0$, and the $\\mathbf{k}$-component is $\\frac{\\partial x}{\\partial x} - \\frac{\\partial(-y^2)}{\\partial y} = 1+2y$. This tells us the rotational tendency of $\\mathbf{F}$ points entirely in the $z$-direction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\iint_S (\\nabla \\times \\mathbf{F}) \\cdot d\\mathbf{S} = \\iint_S (1+2y)\\mathbf{k} \\cdot \\mathbf{k}\\, dA = \\iint_D (1+2y)\\, dA",
+      "description_latex": "Since $S$ is flat with normal $\\mathbf{n} = \\mathbf{k}$, the dot product $(\\nabla \\times \\mathbf{F}) \\cdot \\mathbf{n}$ simply picks out the $z$-component of the curl, which is $1+2y$. The surface integral reduces to an ordinary double integral over the unit disk $D: x^2+y^2 \\leq 1$ in the $xy$-plane.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\iint_D (1+2y)\\,dA = \\iint_D 1\\,dA + 2\\iint_D y\\,dA = \\pi(1)^2 + 2 \\cdot 0 = \\pi",
+      "description_latex": "We split the integral into two parts. The first part, $\\iint_D 1\\,dA$, is just the area of the unit disk, which equals $\\pi$. The second part, $2\\iint_D y\\,dA$, vanishes because $y$ is an odd function and the disk is symmetric about the $x$-axis, so the positive and negative contributions cancel exactly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\oint_C \\mathbf{F} \\cdot d\\mathbf{r} = \\pi",
+      "description_latex": "By Stokes' Theorem the line integral equals the surface integral we just computed, giving the clean answer $\\pi$. Notice how choosing the flat disk as our surface made the problem tractable \u2014 we never had to write down a single parametrization of the curve $C$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\oint_C \\mathbf{F} \\cdot d\\mathbf{r}, \\quad \\mathbf{F} = (z,\\, x,\\, y), \\quad C: \\text{boundary of the triangle with vertices } (1,0,0),(0,1,0),(0,0,1), \\text{ oriented counterclockwise viewed from above}",
+      "description_latex": "We apply Stokes' Theorem, choosing $S$ to be the triangular planar surface in the plane $x+y+z=1$ bounded by $C$. First, let's compute the curl $\\nabla \\times \\mathbf{F}$ for $\\mathbf{F} = (z, x, y)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\nabla \\times \\mathbf{F} = \\left(\\frac{\\partial y}{\\partial y}-\\frac{\\partial x}{\\partial z}\\right)\\mathbf{i} - \\left(\\frac{\\partial y}{\\partial x}-\\frac{\\partial z}{\\partial z}\\right)\\mathbf{j} + \\left(\\frac{\\partial x}{\\partial x}-\\frac{\\partial z}{\\partial y}\\right)\\mathbf{k} = \\mathbf{i} + \\mathbf{j} + \\mathbf{k}",
+      "description_latex": "The curl works out to the constant vector $(1,1,1)$. Now we need the outward normal to the triangular surface lying in the plane $x+y+z=1$. The normal to this plane is proportional to the gradient of $x+y+z$, which is $(1,1,1)$, and the unit normal consistent with the given orientation is $\\mathbf{n} = \\frac{1}{\\sqrt{3}}(1,1,1)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now set up and evaluate the surface integral $\\iint_S (\\nabla \\times \\mathbf{F}) \\cdot d\\mathbf{S}$. Recall that for a surface $z = 1-x-y$ over the projection $D$ in the $xy$-plane, we have $d\\mathbf{S} = (-z_x, -z_y, 1)\\,dA = (1,1,1)\\,dA$. Compute the dot product $(\\nabla \\times \\mathbf{F}) \\cdot (1,1,1)$ and integrate over the projected triangular region $D$, then state the final answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use Stokes' Theorem to verify that $\\oint_C \\mathbf{F} \\cdot d\\mathbf{r} = 0$ when $\\mathbf{F} = \\nabla f$ for $f(x,y,z)=xyz$ and $C$ is any smooth closed curve.",
+      "answer_latex": "\\nabla \\times (\\nabla f) = \\mathbf{0} \\Rightarrow \\oint_C \\mathbf{F}\\cdot d\\mathbf{r} = \\iint_S \\mathbf{0}\\cdot d\\mathbf{S} = 0"
+    },
+    {
+      "prompt_latex": "Let $\\mathbf{F} = (-y, x, 0)$ and let $C$ be the circle $x^2+y^2=4$ in the plane $z=0$, traversed counterclockwise when viewed from above. Use Stokes' Theorem to evaluate $\\oint_C \\mathbf{F}\\cdot d\\mathbf{r}$.",
+      "answer_latex": "8\\pi"
+    },
+    {
+      "prompt_latex": "Use Stokes' Theorem to evaluate $\\oint_C \\mathbf{F}\\cdot d\\mathbf{r}$ where $\\mathbf{F} = (y^2, x, z)$ and $C$ is the boundary of the portion of the paraboloid $z = 4-x^2-y^2$ above the $xy$-plane, oriented counterclockwise when viewed from above.",
+      "answer_latex": "-16\\pi"
+    },
+    {
+      "prompt_latex": "Let $\\mathbf{F} = (y-z,\\, z-x,\\, x-y)$ and let $S$ be the upper hemisphere $x^2+y^2+z^2=1$, $z\\geq 0$ with upward normal. Use Stokes' Theorem by switching to the flat disk $D: x^2+y^2\\leq 1$, $z=0$ (same boundary) and evaluate $\\iint_S (\\nabla\\times\\mathbf{F})\\cdot d\\mathbf{S}$.",
+      "answer_latex": "-2\\pi"
+    },
+    {
+      "prompt_latex": "A fluid has velocity field $\\mathbf{v} = (xz,\\, yz,\\, xy)$. A wire loop $C$ is the triangle with vertices $(2,0,0)$, $(0,2,0)$, $(0,0,2)$ oriented counterclockwise when viewed from the first octant. Use Stokes' Theorem to find the circulation $\\oint_C \\mathbf{v}\\cdot d\\mathbf{r}$.",
+      "answer_latex": "0"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to check orientation consistency between the curve $C$ and the surface normal $\\mathbf{n}$: if you flip the surface normal to point the other way, the sign of the entire integral flips, giving the wrong sign on the final answer. Always apply the right-hand rule \u2014 curl the fingers of your right hand in the direction of traversal of $C$ and confirm your thumb points in the direction of $\\mathbf{n}$.",
+    "When projecting the surface integral onto the $xy$-plane for a surface $z = g(x,y)$, students often write $d\\mathbf{S} = \\mathbf{n}\\,dS$ correctly but then forget that the formula gives $d\\mathbf{S} = (-g_x, -g_y, 1)\\,dA$ for upward normals, and they accidentally use just $dA$ without the factor from the tilted surface. Make sure to dot the curl with the full vector $(-g_x, -g_y, 1)$, not just the $z$-component.",
+    "Students sometimes apply Stokes' Theorem when $\\mathbf{F}$ is not differentiable everywhere on $S$, such as when there is a singularity inside the surface. Stokes' Theorem requires that all partial derivatives of $\\mathbf{F}$ are continuous on an open set containing $S$, so always check the domain of $\\mathbf{F}$ before converting the line integral to a surface integral."
+  ],
+  "untested_variants": [
+    "Applying Stokes' Theorem on a M\u00f6bius-strip-like non-orientable surface, or discussing why the theorem requires orientability.",
+    "Using Stokes' Theorem in reverse: given a surface integral of a curl, convert it to a line integral when the line integral is easier (as opposed to the more common direction of converting the line integral to a surface integral).",
+    "Surfaces with holes or handles where the boundary $C$ consists of multiple disjoint oriented curves, requiring careful sign and orientation bookkeeping for each component.",
+    "Verifying Stokes' Theorem numerically by computing both the line integral and the surface integral independently and confirming they are equal, testing both computational paths at once."
+  ]
+}

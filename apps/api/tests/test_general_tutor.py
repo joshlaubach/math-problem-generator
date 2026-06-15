@@ -29,7 +29,7 @@ os.environ.setdefault("USE_DATABASE", "false")
 
 
 def _make_paid_student():
-    """A student on a paid tier (passes the PAID_TIERS gate)."""
+    """A student on a paid practice tier (tier does NOT gate tutoring — credits do)."""
     from users_models import User
     return User(
         id="paid-student-001",
@@ -40,6 +40,32 @@ def _make_paid_student():
         is_active=True,
         tier="student",
     )
+
+
+def _make_free_student():
+    """A free-tier student — must still have full tutor access via credits."""
+    from users_models import User
+    return User(
+        id="free-student-001",
+        email="free@test.com",
+        password_hash="",
+        role="student",
+        created_at=datetime.utcnow(),
+        is_active=True,
+        tier="free",
+    )
+
+
+@pytest.fixture()
+def free_tutor_client(reset_user_repo):
+    """Test client authenticated as a FREE-tier student."""
+    from fastapi.testclient import TestClient
+    from api import app
+    from auth_dependencies import require_student
+
+    app.dependency_overrides[require_student] = _make_free_student
+    yield TestClient(app)
+    app.dependency_overrides.pop(require_student, None)
 
 
 @pytest.fixture()
@@ -68,6 +94,55 @@ def _make_problem(statement="Solve $x+1=5$", answer="4"):
             Distractor(answer="6", mistake="Arithmetic error"),
         ],
     )
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+# Credits-only tutor access (launch decision 2026-06-12)
+# ─────────────────────────────────────────────────────────────────────────────
+
+class TestCreditsOnlyAccess:
+    """Tier must play no role in tutor access — credits are the only gate."""
+
+    def test_free_tier_can_create_session(self, free_tutor_client):
+        """Regression: free-tier users were blocked with 403 by the old
+        PAID_TIERS gate. Tutor sessions are credits-only now."""
+        resp = free_tutor_client.post("/tutor/session/create", json={
+            "class_name": "Algebra I",
+            "unit_names": ["Linear Equations"],
+            "topic_ids": ["alg1_linear_one_step"],
+            "freeform_topics": [],
+            "why": "homework",
+            "notes": "",
+            "session_type": "1hr",
+        })
+        assert resp.status_code == 200, resp.text
+        assert "session_id" in resp.json()
+
+    def test_check_tutor_quota_no_longer_raises_for_free_tier(self):
+        """check_tutor_quota used to raise ValueError for non-paid tiers."""
+        from session_quota import check_tutor_quota, ABUSE_CEILING_HOURS_PER_MONTH
+        allowed, used, limit = check_tutor_quota("nonexistent-user", "free", 1.0)
+        assert allowed is True
+        assert limit == ABUSE_CEILING_HOURS_PER_MONTH
+
+    def test_abuse_ceiling_is_flat_across_tiers(self):
+        from session_quota import check_tutor_quota
+        results = {
+            tier: check_tutor_quota("nonexistent-user", tier, 1.0)[2]
+            for tier in ("free", "student", "honors", "classroom-student")
+        }
+        assert len(set(results.values())) == 1, f"Ceiling differs by tier: {results}"
+
+    def test_has_available_credit_true_without_database(self):
+        """No-DB dev/test mode mirrors consume_credit's mock behavior."""
+        from credit_router import has_available_credit
+        assert has_available_credit("any-user") is True
+
+    def test_all_bundles_purchasable_by_any_tier(self):
+        """The 3pack/5pack 'paid tiers only' restriction is gone — packs are
+        the revenue model, anyone may buy them."""
+        from credit_router import BUNDLES
+        assert all(b["tiers"] == "all" for b in BUNDLES.values())
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -144,28 +219,17 @@ class TestSessionCreate:
         })
         assert resp.status_code == 422
 
-    def test_unpaid_tier_rejected(self, reset_user_repo):
-        """Free-tier students cannot create sessions."""
-        from fastapi.testclient import TestClient
-        from api import app
-        from auth_dependencies import require_student
-        from users_models import User
-
-        def free_student():
-            return User(
-                id="free-001", email="free@test.com", password_hash="",
-                role="student", created_at=datetime.utcnow(),
-                is_active=True, tier="free",
-            )
-
-        app.dependency_overrides[require_student] = free_student
-        client = TestClient(app)
-        resp = client.post("/tutor/session/create", json={
-            "class_name": "Algebra I",
-            "session_type": "1hr",
-        })
-        app.dependency_overrides.pop(require_student, None)
-        assert resp.status_code == 403
+    def test_no_credits_rejected_with_402(self, free_tutor_client):
+        """Session creation preflight: a student with NO available credits gets
+        a friendly 402 pointing at /pricing (tier is irrelevant — the old
+        free-tier 403 gate is gone)."""
+        with patch("credit_router.has_available_credit", return_value=False):
+            resp = free_tutor_client.post("/tutor/session/create", json={
+                "class_name": "Algebra I",
+                "session_type": "1hr",
+            })
+        assert resp.status_code == 402
+        assert "credit" in resp.json()["detail"].lower()
 
 
 # ─────────────────────────────────────────────────────────────────────────────

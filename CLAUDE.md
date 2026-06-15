@@ -90,7 +90,7 @@ cd apps/web && npm run lint
 
 ### Database
 
-Schema is owned by **Prisma** (`apps/web/prisma/schema.prisma`). SQLAlchemy models in `apps/api/db_models.py` mirror it for the Python side — keep both in sync when making schema changes.
+Schema is owned by **SQLAlchemy** (`apps/api/db_models.py`), created/updated via `db_session.init_db()` (create_all) at API startup. The Prisma schema (`apps/web/prisma/schema.prisma`) is **reference only** — the web app does not query Prisma (all data flows through the FastAPI client), several Prisma models diverge structurally from the live tables, and `prisma migrate` must NOT be run against the production database. (Ownership decision 2026-06-12; see PLAN.md.)
 
 Core hierarchy: `Course → Unit → Topic → Problem`. Progress and SRS state live in `Progress` (per user + topic). Classroom/assignment features use `Classroom`, `ClassroomMembership`, `Assignment`, `AssignmentSubmission`.
 

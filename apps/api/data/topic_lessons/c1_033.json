@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_033",
+  "topic_name": "Area Between Curves",
+  "generated_at": "2026-05-13T00:12:19.381043+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find the area under a single curve by computing $\\int_a^b f(x)\\,dx$. But what if you want the area of a region sandwiched between two curves \u2014 say, the region between a parabola opening upward and a line crossing it? The single-integral formula only measures area down to the $x$-axis, so it can't directly capture the gap between two functions. How do you find the area of a region that floats entirely above the $x$-axis, bounded on top by one curve and on the bottom by another?",
+  "concept": "The area between two curves measures the size of a region bounded above by one function and below by another over a shared interval. Formally, if $f(x) \\geq g(x)$ on $[a, b]$, the area is $A = \\int_a^b [f(x) - g(x)]\\,dx$. Subtracting $g$ from $f$ at every $x$ gives the vertical height of the region at that slice, and integrating sums all those infinitely thin vertical strips across the interval.",
+  "anatomy": "The formula $A = \\int_a^b [f(x) - g(x)]\\,dx$ has four distinct components: the upper function $f(x)$, which forms the top boundary of the region; the lower function $g(x)$, which forms the bottom boundary; the limits of integration $a$ and $b$, which are the left and right boundaries \u2014 often found by solving $f(x) = g(x)$ to locate intersection points; and the integrand $f(x) - g(x)$, which represents the vertical height of each infinitely thin rectangular strip being summed.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x+2, \\quad g(x) = x^2",
+      "description_latex": "We want to find the area of the region enclosed between the line $f(x) = x+2$ and the parabola $g(x) = x^2$. Before we can set up the integral, we need to know where the two curves meet, since those intersection points will become our limits of integration.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 = x+2 \\implies x^2 - x - 2 = 0 \\implies (x-2)(x+1) = 0 \\implies x = -1,\\; x = 2",
+      "description_latex": "We find the intersection points by setting $f(x) = g(x)$ and solving. Factoring gives $x = -1$ and $x = 2$, so our interval is $[-1, 2]$. On this interval we should verify that the line lies above the parabola \u2014 checking $x=0$ gives $f(0) = 2 > g(0) = 0$, confirming $f(x) \\geq g(x)$ throughout.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\int_{-1}^{2} \\left[(x+2) - x^2\\right]dx",
+      "description_latex": "Because the line is the upper function and the parabola is the lower function on $[-1, 2]$, we subtract $g(x)$ from $f(x)$ inside the integral. This difference represents the height of each vertical strip, and integrating accumulates those strip areas across the entire enclosed region.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\left[\\frac{x^2}{2} + 2x - \\frac{x^3}{3}\\right]_{-1}^{2}",
+      "description_latex": "We integrate term by term: the antiderivative of $x$ is $\\frac{x^2}{2}$, the antiderivative of $2$ is $2x$, and the antiderivative of $x^2$ is $\\frac{x^3}{3}$. Now we evaluate this antiderivative at the upper limit $x=2$ and subtract its value at the lower limit $x=-1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\left(2 + 4 - \\frac{8}{3}\\right) - \\left(\\frac{1}{2} - 2 + \\frac{1}{3}\\right) = \\frac{9}{2}",
+      "description_latex": "Evaluating at $x=2$ gives $2 + 4 - \\frac{8}{3} = \\frac{10}{3}$, and at $x=-1$ gives $\\frac{1}{2} - 2 + \\frac{1}{3} = -\\frac{7}{6}$. Subtracting, $A = \\frac{10}{3} - (-\\frac{7}{6}) = \\frac{20}{6} + \\frac{7}{6} = \\frac{27}{6} = \\frac{9}{2}$, so the enclosed area is $\\frac{9}{2}$ square units.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = 4 - x^2, \\quad g(x) = x^2 - 4",
+      "description_latex": "We want the area enclosed between $f(x) = 4 - x^2$ (a downward parabola) and $g(x) = x^2 - 4$ (an upward parabola). The first task is to find where these two curves intersect so we can identify the limits of integration.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4 - x^2 = x^2 - 4 \\implies 8 = 2x^2 \\implies x = \\pm 2",
+      "description_latex": "Setting $f(x) = g(x)$ and solving gives the intersection points $x = -2$ and $x = 2$. Checking $x = 0$ confirms $f(0) = 4 > g(0) = -4$, so $f$ is the upper function on $[-2, 2]$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Set up and evaluate the definite integral $\\int_{-2}^{2} [f(x) - g(x)]\\,dx$. Simplify the integrand first, then find the antiderivative and apply the Fundamental Theorem of Calculus to get the exact area.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the area between $f(x) = 3$ and $g(x) = x^2 - 1$ on the interval $[-2, 2]$.",
+      "answer_latex": "A = \\frac{32}{3}"
+    },
+    {
+      "prompt_latex": "Find the area of the region enclosed between $f(x) = x$ and $g(x) = x^2$.",
+      "answer_latex": "A = \\frac{1}{6}"
+    },
+    {
+      "prompt_latex": "Find the area of the region enclosed between $f(x) = \\sqrt{x}$ and $g(x) = x^2$.",
+      "answer_latex": "A = \\frac{1}{3}"
+    },
+    {
+      "prompt_latex": "Find the area enclosed by $f(x) = \\sin x$ and $g(x) = \\cos x$ on the interval $\\left[\\frac{\\pi}{4}, \\frac{5\\pi}{4}\\right]$.",
+      "answer_latex": "A = 2\\sqrt{2}"
+    },
+    {
+      "prompt_latex": "A farmer wants to fence a field whose boundary is described by two curves: the top edge follows $y = 6x - x^2$ and the bottom edge follows $y = x$. Find the total enclosed area of the field.",
+      "answer_latex": "A = \\frac{125}{6}"
+    }
+  ],
+  "common_mistakes": [
+    "Students subtract in the wrong order \u2014 placing the lower function minus the upper function inside the integral \u2014 which produces a negative area. Always identify which curve is on top by testing a point in the interior of the interval, then write $\\int_a^b [\\text{upper} - \\text{lower}]\\,dx$.",
+    "Students use fixed limits like $0$ and some guess instead of solving $f(x) = g(x)$ to find the actual intersection points. If the limits are wrong the integral computes area for the wrong interval, so always solve for intersections first and use those as your limits $a$ and $b$.",
+    "When two curves cross inside an interval (so neither is always on top), students integrate the signed difference across the whole interval instead of splitting at the crossing point and integrating each sub-region separately. You must break the integral at every crossing point and apply $\\int [\\text{upper} - \\text{lower}]\\,dx$ piece by piece."
+  ],
+  "untested_variants": [
+    "Area between two curves expressed as functions of $y$ (integrating along the $y$-axis), where the formula becomes $\\int_c^d [f(y) - g(y)]\\,dy$.",
+    "Regions bounded by three or more curves simultaneously, requiring the student to identify which curve is on top in each sub-interval.",
+    "Problems where the two curves cross multiple times within the given interval, requiring the integral to be split into three or more pieces with different upper/lower assignments.",
+    "Area problems where one or both boundaries involve absolute value functions such as $f(x) = |x - 1|$, requiring a piecewise analysis before setting up the integral."
+  ]
+}

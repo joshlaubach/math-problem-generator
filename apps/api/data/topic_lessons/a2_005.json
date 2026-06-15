@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_005",
+  "topic_name": "Solving Absolute Value Equations and Inequalities",
+  "generated_at": "2026-05-12T23:18:12.879970+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to solve equations like $2x - 3 = 7$ \u2014 you isolate $x$ and get one answer. But what happens when someone asks you to solve $|2x - 3| = 7$? Those absolute value bars change everything, because a number inside them could be positive or negative and still produce the same result. How do you find all the solutions when the expression inside could have gone either direction?",
+  "concept": "Absolute value measures distance from zero, so $|a| = k$ means $a$ is exactly $k$ units away from zero \u2014 which happens in two directions. Formally, for $k \\geq 0$, the equation $|X| = k$ splits into two cases: $X = k$ or $X = -k$. For inequalities, $|X| < k$ means $-k < X < k$ (one connected interval), while $|X| > k$ means $X < -k$ or $X > k$ (two separate rays).",
+  "anatomy": "Every absolute value equation or inequality has three structural parts worth naming: the **absolute value expression** (the quantity inside the bars, such as $2x - 3$, which is the expression whose distance from zero we are measuring), the **comparison value** $k$ (the non-negative number on the other side of the equation or inequality, representing the target distance), and the **case split** (the step where you replace one absolute value equation or inequality with two ordinary ones, choosing the correct direction \u2014 equality, 'less than' gives an 'and' compound, or 'greater than' gives an 'or' compound).",
+  "worked_example": [
+    {
+      "expression_latex": "|3x - 6| = 9",
+      "description_latex": "We start by identifying our absolute value expression ($3x - 6$) and our comparison value ($9$). Because $9 > 0$, this equation has solutions, and we know we must set up two cases: the expression inside equals $9$, or it equals $-9$. This is the fundamental case-split step \u2014 the inside could be positive or negative and still give us a distance of $9$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3x - 6 = 9 \\quad \\text{or} \\quad 3x - 6 = -9",
+      "description_latex": "We write both equations side by side. The word 'or' is critical here \u2014 we are not saying both must be true at the same time, but rather that either one could be true. Now we solve each linear equation independently using the same algebra skills we already have.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3x = 15 \\quad \\text{or} \\quad 3x = -3",
+      "description_latex": "Adding $6$ to both sides of each equation gives us $3x = 15$ on the left and $3x = -3$ on the right. We are just isolating the $x$-term the same way we always do, treating each case as its own separate problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 5 \\quad \\text{or} \\quad x = -1",
+      "description_latex": "Dividing both sides of each equation by $3$ gives us our two solutions, $x = 5$ and $x = -1$. You can verify these by substituting back: $|3(5) - 6| = |9| = 9$ \u2713 and $|3(-1) - 6| = |-9| = 9$ \u2713. Both check out, confirming that a single absolute value equation can have exactly two solutions.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "|2x + 1| < 7",
+      "description_latex": "We have an absolute value inequality of the 'less than' type. Recall that $|X| < k$ means the expression is within a distance of $k$ from zero, which translates to a compound 'and' inequality. We will rewrite this without absolute value bars using that rule.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-7 < 2x + 1 < 7",
+      "description_latex": "The absolute value inequality becomes the three-part compound inequality $-7 < 2x + 1 < 7$. This is the key structural step \u2014 we sandwiched the expression between $-7$ and $7$ because the distance from zero must be less than $7$ in both directions. Now we need to isolate $x$ in all three parts simultaneously.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Subtract $1$ from all three parts of the inequality to isolate the $x$-term. What do you get after performing this step?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now divide all three parts by $2$ to solve for $x$, and write your final answer both as a compound inequality and in interval notation. This is the complete solution \u2014 what is it?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve: } |x| = 4",
+      "answer_latex": "x = 4 \\text{ or } x = -4"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } |2x - 5| = 11",
+      "answer_latex": "x = 8 \\text{ or } x = -3"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } |3x + 2| \\leq 10",
+      "answer_latex": "-4 \\leq x \\leq \\dfrac{8}{3}, \\text{ i.e., } \\left[-4,\\, \\dfrac{8}{3}\\right]"
+    },
+    {
+      "prompt_latex": "\\text{Solve and graph: } |4x - 1| > 7",
+      "answer_latex": "x < -\\dfrac{3}{2} \\text{ or } x > 2, \\text{ i.e., } \\left(-\\infty, -\\dfrac{3}{2}\\right) \\cup \\left(2, \\infty\\right)"
+    },
+    {
+      "prompt_latex": "\\text{A factory's machine must cut boards to } 24 \\text{ inches, with an acceptable error of at most } 0.05 \\text{ inches. Write and solve an absolute value inequality to find the acceptable range of board lengths } L.",
+      "answer_latex": "|L - 24| \\leq 0.05 \\implies 23.95 \\leq L \\leq 24.05 \\text{ inches}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to set up the negative case and write only $2x - 3 = 7$, missing the second solution $2x - 3 = -7$. Remember: absolute value always produces two cases, and omitting the negative case loses half the answer.",
+    "When solving $|x + 2| > 5$, students write $-5 < x + 2 > 5$ (the 'sandwich' form used for 'less than') instead of correctly splitting into $x + 2 < -5$ or $x + 2 > 5$. The rule is: 'less than' gives a connected 'and' sandwich, while 'greater than' gives a separated 'or' statement \u2014 they are opposites.",
+    "Students solve an equation like $|x - 3| = -2$ by setting up two cases and getting answers, not noticing that the right side is negative. Since absolute value is always non-negative, $|X| = k$ has no solution when $k < 0$, and you should write 'no solution' immediately without splitting into cases."
+  ],
+  "untested_variants": [
+    "Absolute value equations where the absolute value expression appears on both sides, such as $|2x - 1| = |x + 4|$, requiring a case analysis where the interiors are equal or opposite in sign.",
+    "Absolute value inequalities involving a negative comparison value that require recognizing 'all real numbers' as the solution, such as $|5x - 2| > -3$, which is always true.",
+    "Compound absolute value expressions or equations with two separate absolute value terms, such as $|x - 1| + |x + 3| = 6$, which require a piecewise or interval analysis approach.",
+    "Absolute value equations embedded in a system of equations or combined with a quadratic, such as solving $|x^2 - 4| = 5$, where the case split leads to a quadratic equation in each branch."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_013",
+  "topic_name": "Bayesian Point Estimation and Credible Intervals",
+  "generated_at": "2026-05-14T01:01:54.051627+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to compute a maximum likelihood estimate \u2014 a single number that best fits your data. You've also seen that Bayesian inference produces a full posterior distribution $p(\\theta \\mid x)$ rather than just one number. But how do you actually report a Bayesian answer? Can you extract a point estimate from a distribution, and can you build an interval that genuinely reflects your posterior uncertainty? The tools for doing exactly that are Bayesian point estimation and credible intervals \u2014 and they work very differently from their frequentist counterparts.",
+  "concept": "A Bayesian point estimate is a single-number summary of the posterior distribution $p(\\theta \\mid x)$: common choices are the posterior mean $E[\\theta \\mid x]$, the posterior median, and the posterior mode (MAP estimate). A $100(1-\\alpha)\\%$ credible interval $[a, b]$ satisfies $P(a \\leq \\theta \\leq b \\mid x) = 1 - \\alpha$, meaning the parameter lies in that interval with exactly that posterior probability \u2014 a direct probability statement about $\\theta$ that frequentist confidence intervals cannot make.",
+  "anatomy": "Bayesian point estimation and credible intervals have several named parts worth distinguishing. The posterior mean $E[\\theta \\mid x] = \\int \\theta\\, p(\\theta \\mid x)\\, d\\theta$ minimises posterior expected squared-error loss. The MAP (maximum a posteriori) estimate $\\hat{\\theta}_{MAP} = \\arg\\max_\\theta p(\\theta \\mid x)$ minimises zero-one loss and equals the mode of the posterior. The equal-tailed credible interval places probability $\\alpha/2$ in each tail, giving bounds $(q_{\\alpha/2}, q_{1-\\alpha/2})$ where $q_p$ is the $p$-th posterior quantile. The highest posterior density (HPD) interval is the shortest interval containing $1-\\alpha$ posterior probability, useful when the posterior is skewed.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1,\\dots,X_n \\mid \\theta \\sim \\text{Bernoulli}(\\theta),\\quad \\theta \\sim \\text{Beta}(\\alpha_0, \\beta_0)",
+      "description_latex": "We set up a Beta-Binomial conjugate model because the Beta prior is conjugate to the Bernoulli likelihood, which means the posterior will be another Beta distribution \u2014 making every downstream calculation clean and exact. Here $\\alpha_0$ and $\\beta_0$ encode our prior beliefs about how often successes occur.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\theta \\mid x_1,\\dots,x_n \\sim \\text{Beta}\\!\\left(\\alpha_0 + \\sum_{i=1}^n x_i,\\; \\beta_0 + n - \\sum_{i=1}^n x_i\\right)",
+      "description_latex": "Applying Bayes' theorem with the conjugate pair, the posterior is Beta with updated parameters: the prior successes $\\alpha_0$ are augmented by the observed successes $s = \\sum x_i$, and the prior failures $\\beta_0$ are augmented by the observed failures $n - s$. This updating rule is the core payoff of conjugacy.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\theta}_{\\text{mean}} = \\frac{\\alpha_0 + s}{\\alpha_0 + \\beta_0 + n}, \\qquad \\hat{\\theta}_{\\text{MAP}} = \\frac{\\alpha_0 + s - 1}{\\alpha_0 + \\beta_0 + n - 2}",
+      "description_latex": "The posterior mean uses the Beta identity $E[\\theta] = \\alpha/(\\alpha+\\beta)$ with the updated parameters, and it minimises posterior expected squared error. The MAP estimate uses the Beta mode formula $(\\alpha-1)/(\\alpha+\\beta-2)$, valid when $\\alpha,\\beta > 1$; notice they agree only when the prior is symmetric and the data are balanced.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{With } \\alpha_0=2,\\; \\beta_0=2,\\; n=10,\\; s=7:\\quad \\theta\\mid x \\sim \\text{Beta}(9,5)",
+      "description_latex": "Plugging in concrete numbers \u2014 a weak symmetric prior favouring neither outcome, then observing 7 successes in 10 trials \u2014 gives a Beta(9, 5) posterior. We now have a fully specified distribution from which we can read off any summary we need.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\theta}_{\\text{mean}} = \\frac{9}{14} \\approx 0.643,\\quad \\hat{\\theta}_{\\text{MAP}} = \\frac{8}{12} \\approx 0.667,\\quad 95\\%\\text{ equal-tailed CI}: \\left(q_{0.025}^{\\text{Beta}(9,5)},\\, q_{0.975}^{\\text{Beta}(9,5)}\\right) \\approx (0.383, 0.884)",
+      "description_latex": "The posterior mean $9/14$ shrinks the MLE $7/10 = 0.7$ toward the prior mean $0.5$ because the prior contributes 4 pseudo-observations. The 95% equal-tailed credible interval is obtained from the 2.5th and 97.5th percentiles of the Beta(9,5) distribution, and we can genuinely say there is a 95% posterior probability that $\\theta$ lies in $(0.383, 0.884)$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1,\\dots,X_n \\mid \\lambda \\sim \\text{Poisson}(\\lambda),\\quad \\lambda \\sim \\text{Gamma}(\\alpha_0, \\beta_0)",
+      "description_latex": "We have a Gamma-Poisson conjugate model. Recall that the Gamma prior is conjugate to the Poisson likelihood, so the posterior will be another Gamma distribution. Here $\\alpha_0$ represents prior pseudo-counts and $\\beta_0$ is the prior rate parameter.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda \\mid x_1,\\dots,x_n \\sim \\text{Gamma}\\!\\left(\\alpha_0 + \\sum_{i=1}^n x_i,\\; \\beta_0 + n\\right)",
+      "description_latex": "The posterior updates the shape by adding total observed counts and the rate by adding the number of observations. Now use the Gamma distribution's mean formula $E[\\lambda] = \\text{shape}/\\text{rate}$ to find the posterior mean point estimate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "With $\\alpha_0 = 3$, $\\beta_0 = 1$, $n = 5$, and $\\sum x_i = 12$: write down the posterior distribution explicitly, then compute the posterior mean $\\hat{\\lambda}_{\\text{mean}}$ and the MAP estimate using the Gamma mode formula $\\hat{\\lambda}_{\\text{MAP}} = (\\text{shape}-1)/\\text{rate}$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the same posterior, state what probability statement is made by the 90% equal-tailed credible interval, and write the symbolic expression $(q_{0.05}, q_{0.95})$ for its bounds \u2014 explain in one sentence why this interval is a direct probability statement about $\\lambda$ rather than about the estimator.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $\\theta \\mid x \\sim \\text{Beta}(4, 2)$, compute the posterior mean and the MAP estimate.",
+      "answer_latex": "\\hat{\\theta}_{\\text{mean}} = \\dfrac{4}{6} = \\dfrac{2}{3};\\quad \\hat{\\theta}_{\\text{MAP}} = \\dfrac{3}{4}"
+    },
+    {
+      "prompt_latex": "You observe $n=20$ Bernoulli trials with $s=14$ successes. Using a $\\text{Beta}(1,1)$ (uniform) prior, find the posterior distribution, the posterior mean, and the 95\\% equal-tailed credible interval bounds symbolically.",
+      "answer_latex": "\\theta\\mid x \\sim \\text{Beta}(15,7);\\quad \\hat{\\theta}_{\\text{mean}} = \\dfrac{15}{22};\\quad \\text{CI} = \\left(q_{0.025}^{\\text{Beta}(15,7)},\\, q_{0.975}^{\\text{Beta}(15,7)}\\right)"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\dots,X_n \\mid \\lambda \\sim \\text{Poisson}(\\lambda)$ with prior $\\lambda \\sim \\text{Gamma}(2, 1)$. After observing $n=8$ observations with $\\sum x_i = 24$, find the posterior mean and MAP estimate of $\\lambda$.",
+      "answer_latex": "\\lambda\\mid x \\sim \\text{Gamma}(26, 9);\\quad \\hat{\\lambda}_{\\text{mean}} = \\dfrac{26}{9} \\approx 2.89;\\quad \\hat{\\lambda}_{\\text{MAP}} = \\dfrac{25}{9} \\approx 2.78"
+    },
+    {
+      "prompt_latex": "Suppose $\\theta \\mid x \\sim \\text{Beta}(\\alpha, \\beta)$. Show that the posterior mean can be written as a weighted average of the prior mean and the MLE $\\hat{\\theta}_{MLE} = s/n$, identifying the weights explicitly in terms of $\\alpha_0, \\beta_0, n$.",
+      "answer_latex": "\\hat{\\theta}_{\\text{mean}} = \\dfrac{\\alpha_0+\\beta_0}{\\alpha_0+\\beta_0+n}\\cdot\\dfrac{\\alpha_0}{\\alpha_0+\\beta_0} + \\dfrac{n}{\\alpha_0+\\beta_0+n}\\cdot\\dfrac{s}{n};\\text{ weights are }\\dfrac{\\alpha_0+\\beta_0}{\\alpha_0+\\beta_0+n}\\text{ and }\\dfrac{n}{\\alpha_0+\\beta_0+n}"
+    },
+    {
+      "prompt_latex": "A factory produces widgets; the defect rate $\\theta$ is unknown. A quality engineer uses a $\\text{Beta}(2,10)$ prior (reflecting historical low defect rates) and inspects 50 widgets, finding 8 defective. Report the posterior mean, MAP estimate, and interpret the 95\\% equal-tailed credible interval in plain language.",
+      "answer_latex": "\\theta\\mid x\\sim\\text{Beta}(10,52);\\quad \\hat{\\theta}_{\\text{mean}}=\\dfrac{10}{62}\\approx 0.161;\\quad \\hat{\\theta}_{\\text{MAP}}=\\dfrac{9}{60}=0.15;\\quad\\text{Interpretation: there is a 95\\% posterior probability that the true defect rate lies in }\\left(q_{0.025},q_{0.975}\\right)\\text{ of Beta}(10,52)"
+    }
+  ],
+  "common_mistakes": [
+    "Students often interpret a 95% Bayesian credible interval exactly like a frequentist confidence interval, saying 'if we repeated the experiment many times, 95% of such intervals would contain $\\theta$.' That is the frequentist statement; the Bayesian statement is simply $P(a \\leq \\theta \\leq b \\mid x) = 0.95$, a direct probability about the parameter given the observed data. Fix: always condition on the data you have and treat $\\theta$ as a random variable with a posterior.",
+    "Students confuse the MAP estimate with the posterior mean, especially for symmetric distributions where they coincide \u2014 then apply the wrong formula in asymmetric cases. The MAP uses the mode formula $(\\alpha-1)/(\\alpha+\\beta-2)$ for a Beta, while the mean uses $\\alpha/(\\alpha+\\beta)$; these differ whenever the posterior is skewed. Fix: always identify which loss function you are minimising before computing: squared error gives the mean, zero-one loss gives the mode.",
+    "When constructing an equal-tailed credible interval, students sometimes report the posterior mean $\\pm$ some multiple of the posterior standard deviation, borrowing the frequentist normal-approximation habit. This is only appropriate asymptotically and fails badly for skewed posteriors like Beta or Gamma with small sample sizes. Fix: use exact posterior quantiles $q_{\\alpha/2}$ and $q_{1-\\alpha/2}$ computed from the known posterior distribution rather than a normal approximation."
+  ],
+  "untested_variants": [
+    "Highest Posterior Density (HPD) intervals, where the goal is the shortest interval of a given credible level, requiring numerical optimisation for asymmetric posteriors \u2014 none of the practice problems ask for HPD computation.",
+    "Normal-Normal conjugate model (known variance, unknown mean) and the resulting Bayesian point estimates and credible intervals in that setting, which differ structurally from the Beta-Binomial and Gamma-Poisson cases practised here.",
+    "Loss-function derivations showing formally why the posterior mean minimises expected squared-error loss and the posterior median minimises expected absolute-error loss \u2014 the practice problems use these results but do not ask students to derive them.",
+    "Bayesian point estimation under asymmetric loss functions such as LINEX loss, where the optimal estimate is neither the mean nor the median and requires solving $E[e^{c(\\theta - \\hat{\\theta})} \\mid x] = 1$."
+  ]
+}

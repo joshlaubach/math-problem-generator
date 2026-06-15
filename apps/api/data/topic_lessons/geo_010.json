@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_010",
+  "topic_name": "Biconditional Statements",
+  "generated_at": "2026-05-12T22:55:58.272530+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to write conditional statements like 'If a shape is a square, then it has four equal sides.' You've also learned about converses \u2014 flipping the hypothesis and conclusion. But what happens when BOTH the conditional and its converse are true at the same time? Can we write that as a single, more powerful statement? The question is: how do we combine 'If P then Q' and 'If Q then P' into one elegant sentence?",
+  "concept": "A biconditional statement merges a conditional and its converse into one statement using the phrase 'if and only if.' In plain English, it says two things are absolutely equivalent \u2014 each one guarantees the other. Formally, the biconditional $P \\leftrightarrow Q$ (read '$P$ if and only if $Q$') is true when $P$ and $Q$ have the same truth value \u2014 both true or both false \u2014 and is false when they differ.",
+  "anatomy": "A biconditional $P \\leftrightarrow Q$ has two named components: the left side $P$ (called the hypothesis or first condition) and the right side $Q$ (called the conclusion or second condition). The connective 'if and only if' (sometimes abbreviated 'iff') is the structural heart of the statement, and it actually bundles two conditionals: the forward conditional $P \\rightarrow Q$ and the reverse conditional $Q \\rightarrow P$. Both of these embedded conditionals must be true for the biconditional to hold.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Conditional: If an angle measures } 90^\\circ, \\text{ then it is a right angle.}",
+      "description_latex": "We start by identifying our original conditional statement. The hypothesis $P$ is 'an angle measures $90^\\circ$' and the conclusion $Q$ is 'it is a right angle.' Before writing a biconditional, we need to check whether this conditional is actually true \u2014 and it is, by definition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Converse: If an angle is a right angle, then it measures } 90^\\circ.",
+      "description_latex": "Next, we write the converse by swapping the hypothesis and conclusion. Now $Q$ becomes the hypothesis and $P$ becomes the conclusion. We must verify this converse is also true \u2014 and indeed, every right angle measures exactly $90^\\circ$, so the converse holds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Since both are true, we can write the biconditional.}",
+      "description_latex": "Because both the conditional $P \\rightarrow Q$ and its converse $Q \\rightarrow P$ are true, we have the green light to combine them. This is the critical checkpoint: a biconditional is only valid when BOTH directions are true.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Biconditional: An angle measures } 90^\\circ \\text{ if and only if it is a right angle.}",
+      "description_latex": "We write the biconditional by joining $P$ and $Q$ with 'if and only if.' Notice the statement works equally well in either direction \u2014 knowing the angle is $90^\\circ$ tells you it's a right angle, and knowing it's a right angle tells you it's $90^\\circ$. That two-way guarantee is exactly what makes this a biconditional.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Given: \"A polygon is a triangle if and only if it has exactly three sides.\"}",
+      "description_latex": "We are starting with a biconditional statement and our job is to break it apart into its two component conditionals. First, identify $P$: 'a polygon is a triangle,' and $Q$: 'it has exactly three sides.'",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Forward conditional } (P \\rightarrow Q): \\text{ If a polygon is a triangle, then it has exactly three sides.}",
+      "description_latex": "The forward conditional is extracted by reading the biconditional in the standard 'If P, then Q' direction. This step is done for you \u2014 notice we simply place $P$ as the hypothesis and $Q$ as the conclusion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write the converse conditional $(Q \\rightarrow P)$ by reversing the roles: make $Q$ the hypothesis and $P$ the conclusion. Write it as a complete 'If...then...' sentence.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Write the biconditional for: } P = \\text{\"two lines are parallel\"}, \\; Q = \\text{\"they never intersect.\"}",
+      "answer_latex": "\\text{Two lines are parallel if and only if they never intersect.}"
+    },
+    {
+      "prompt_latex": "\\text{Separate into two conditionals: \"A number is even if and only if it is divisible by 2.\"}",
+      "answer_latex": "P \\rightarrow Q\\text{: If a number is even, then it is divisible by 2.} \\\\ Q \\rightarrow P\\text{: If a number is divisible by 2, then it is even.}"
+    },
+    {
+      "prompt_latex": "\\text{Determine the truth value of: \"} x + 3 = 7 \\text{ if and only if } x = 5\\text{.\"}",
+      "answer_latex": "\\text{False. When } x = 4, \\; x+3=7 \\text{ is true but } x=5 \\text{ is false, so the biconditional fails.}"
+    },
+    {
+      "prompt_latex": "\\text{Write the biconditional, then construct a truth table for } P \\leftrightarrow Q \\text{ using all four combinations of T/F for } P \\text{ and } Q.",
+      "answer_latex": "\\begin{array}{c|c|c} P & Q & P \\leftrightarrow Q \\\\ \\hline T & T & T \\\\ T & F & F \\\\ F & T & F \\\\ F & F & T \\end{array}"
+    },
+    {
+      "prompt_latex": "\\text{A sign reads: \"You may enter the lab if and only if you have a hall pass.\" A student has a hall pass but is not allowed in. Is the sign's statement violated? Explain using the definition of a biconditional.}",
+      "answer_latex": "\\text{Yes. The biconditional } P \\leftrightarrow Q \\text{ requires that } P \\rightarrow Q \\text{ holds. Here } P \\text{ (has pass) is true but } Q \\text{ (allowed in) is false, making } P \\leftrightarrow Q \\text{ false \u2014 the statement is violated.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write a biconditional even when only the original conditional is true but the converse is false \u2014 for example, writing 'A shape is a square if and only if it has four sides' without checking that 'four sides' does NOT guarantee a square. Fix: always verify both the conditional AND its converse before combining them into a biconditional.",
+    "Students confuse the biconditional $P \\leftrightarrow Q$ with a conjunction $P \\land Q$, thinking it means 'P and Q are both true.' In reality, $P \\leftrightarrow Q$ is also true when both are false \u2014 it only requires matching truth values. Fix: remember the biconditional tests for equal truth values, not for both being true.",
+    "When separating a biconditional into its two conditionals, students sometimes write the same conditional twice instead of reversing the hypothesis and conclusion for the converse. Fix: label which part is $P$ and which is $Q$ first, then deliberately swap their positions for the second conditional."
+  ],
+  "untested_variants": [
+    "Using biconditionals with negations, such as determining the truth value of $\\neg P \\leftrightarrow \\neg Q$ and comparing it to the original $P \\leftrightarrow Q$ (the contrapositive relationship within biconditionals).",
+    "Identifying whether a real-world definition in geometry (such as the definition of a perpendicular bisector) can be rewritten as a valid biconditional, and explaining why good definitions always form true biconditionals.",
+    "Evaluating biconditionals in algebraic contexts where the solution set has multiple values, such as $x^2 = 9 \\leftrightarrow x = 3$, and discussing why this biconditional is false.",
+    "Chained biconditionals or using biconditional statements within a formal two-column proof as a reason to justify a step."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_060",
+  "topic_name": "Parametric Equations and Curves",
+  "generated_at": "2026-05-12T23:57:31.153452+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to graph curves like $y = x^2$ or the unit circle $x^2 + y^2 = 1$ by thinking of $y$ as a function of $x$. But what if you wanted to describe the path of a projectile, where both the horizontal position and the vertical position each change independently over time? You can't write $y$ as a simple function of $x$ for many real-world paths \u2014 the curve might loop back on itself, reverse direction, or move in a way that has nothing to do with 'input-output.' How can we describe a curve that encodes not just shape, but also direction and motion?",
+  "concept": "A parametric equation describes a curve by expressing both $x$ and $y$ as separate functions of a third variable, called the parameter, usually $t$. Instead of one equation linking $x$ and $y$, you write $x = f(t)$ and $y = g(t)$, and as $t$ varies over some interval, the point $(f(t), g(t))$ traces a path in the plane. This lets you capture direction, speed, and position along a curve in a way that a single Cartesian equation cannot.",
+  "anatomy": "A parametric curve has three essential components. The parameter $t$ is the independent driving variable \u2014 it often represents time but can be any quantity; it ranges over a specified interval such as $0 \\le t \\le 2\\pi$. The component equations $x = f(t)$ and $y = g(t)$ are the two parametric equations, each giving one coordinate as a function of $t$. Together, a specific value of $t$ produces an ordered pair $(x, y)$ called a point on the curve, and the collection of all such points as $t$ sweeps its interval is the parametric curve itself. The direction of traversal \u2014 the order in which points are visited as $t$ increases \u2014 is called the orientation of the curve.",
+  "worked_example": [
+    {
+      "expression_latex": "x = 2t - 1, \\quad y = t^2, \\quad -2 \\le t \\le 2",
+      "description_latex": "We are given a parametric curve and want to sketch it and then eliminate the parameter to find the equivalent Cartesian equation. Start by building a table of values: when $t = -2, -1, 0, 1, 2$, compute the corresponding $(x, y)$ pairs to understand the shape before doing any algebra.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c} t & x = 2t-1 & y = t^2 \\\\ \\hline -2 & -5 & 4 \\\\ -1 & -3 & 1 \\\\ 0 & -1 & 0 \\\\ 1 & 1 & 1 \\\\ 2 & 3 & 4 \\end{array}",
+      "description_latex": "Plotting the points $(-5,4), (-3,1), (-1,0), (1,1), (3,4)$ in order reveals a parabolic shape, and the arrow of increasing $t$ tells us the curve moves from left to right \u2014 that is the orientation. Notice the curve passes through a minimum at $(-1, 0)$, which corresponds to $t = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 2t - 1 \\implies t = \\frac{x+1}{2}",
+      "description_latex": "To eliminate the parameter and get a Cartesian equation, we solve one of the simpler component equations for $t$. The equation for $x$ is linear in $t$, making it the easiest choice \u2014 we isolate $t$ to get $t = \\frac{x+1}{2}$, which we will substitute into the $y$ equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = t^2 = \\left(\\frac{x+1}{2}\\right)^2 = \\frac{(x+1)^2}{4}",
+      "description_latex": "Substituting our expression for $t$ into $y = t^2$ gives the Cartesian equation $y = \\frac{(x+1)^2}{4}$, which is a parabola with vertex at $(-1, 0)$ opening upward \u2014 exactly what our table of values suggested. Note that the original interval $-2 \\le t \\le 2$ restricts $x$ to $-5 \\le x \\le 3$, so the Cartesian equation alone doesn't capture that restriction; parametric form carries more information.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x = 3\\cos t, \\quad y = 3\\sin t, \\quad 0 \\le t \\le 2\\pi",
+      "description_latex": "We want to eliminate the parameter and identify this curve. A helpful strategy when you see $\\cos t$ and $\\sin t$ in the component equations is to isolate each trig function and then apply the Pythagorean identity $\\cos^2 t + \\sin^2 t = 1$. Start by solving each equation for $\\cos t$ and $\\sin t$ individually.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\cos t = \\frac{x}{3}, \\quad \\sin t = \\frac{y}{3}",
+      "description_latex": "Dividing the first equation by 3 gives $\\cos t = x/3$, and dividing the second by 3 gives $\\sin t = y/3$. Now you need to substitute both of these into the Pythagorean identity to eliminate $t$ entirely \u2014 go ahead and do that.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Apply the identity $\\cos^2 t + \\sin^2 t = 1$ by substituting $\\cos t = x/3$ and $\\sin t = y/3$, then simplify to write the Cartesian equation of this curve. What familiar curve does this describe, and what is its radius?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Create a table of values for $t = -1, 0, 1, 2$ and plot the parametric curve $x = t + 1,\\ y = 2t$.",
+      "answer_latex": "Points: $(0,-2),\\ (1,0),\\ (2,2),\\ (3,4)$; the curve is the line $y = 2(x-1)$."
+    },
+    {
+      "prompt_latex": "Eliminate the parameter from $x = t - 3,\\ y = t^2 + 1$ and write the Cartesian equation.",
+      "answer_latex": "$y = (x+3)^2 + 1$"
+    },
+    {
+      "prompt_latex": "Eliminate the parameter from $x = 4\\cos t,\\ y = 2\\sin t,\\ 0 \\le t \\le 2\\pi$ and identify the curve.",
+      "answer_latex": "$\\dfrac{x^2}{16} + \\dfrac{y^2}{4} = 1$; this is an ellipse with semi-major axis $a = 4$ along the $x$-axis and semi-minor axis $b = 2$."
+    },
+    {
+      "prompt_latex": "A projectile is launched so that its position is $x = 50t$ and $y = 80t - 16t^2$, where $t$ is in seconds and distances are in feet. Eliminate the parameter to find $y$ as a function of $x$, then determine the maximum height reached.",
+      "answer_latex": "$y = \\dfrac{80x}{50} - 16\\left(\\dfrac{x}{50}\\right)^2 = \\dfrac{8x}{5} - \\dfrac{4x^2}{625}$; maximum height is $100$ ft, occurring at $t = 2.5$ s (i.e., $x = 125$ ft)."
+    },
+    {
+      "prompt_latex": "Find a set of parametric equations for the line passing through $(1, 4)$ with slope $-2$, using $t$ as the parameter such that $(x, y) = (1, 4)$ when $t = 0$.",
+      "answer_latex": "$x = 1 + t,\\ y = 4 - 2t$ (other valid parameterizations exist as long as the direction vector is parallel to $(1, -2)$)."
+    }
+  ],
+  "common_mistakes": [
+    "Students drop the orientation of the curve after eliminating the parameter, forgetting that two parametric curves can trace the same Cartesian path in opposite directions. Always note the direction of increasing $t$ as part of the answer.",
+    "When the parameter interval is restricted (e.g., $0 \\le t \\le \\pi$ instead of $0 \\le t \\le 2\\pi$), students report the full Cartesian curve rather than just the portion traced. Always check the endpoints of the $t$-interval and restrict the Cartesian equation accordingly.",
+    "Students confuse which equation to solve for $t$ first and sometimes try to isolate $t$ from the harder equation (e.g., a quadratic), leading to messy $\\pm$ cases. Always look at both component equations first and solve for $t$ from the simpler (often linear) one to avoid introducing extraneous solutions."
+  ],
+  "untested_variants": [
+    "Converting a given Cartesian equation into parametric form using a chosen substitution (the reverse process from what is practiced above).",
+    "Parametric curves defined by trigonometric functions with different coefficients inside the argument, such as $x = \\cos(2t),\\ y = \\sin(3t)$ (Lissajous figures), which do not simplify to standard conic sections.",
+    "Finding the slope of a parametric curve at a specific point using $dy/dx = (dy/dt)/(dx/dt)$, which requires calculus and is not covered in this lesson.",
+    "Parametric equations where the parameter is an angle in a polar-style setup, requiring conversion between polar and parametric forms."
+  ]
+}

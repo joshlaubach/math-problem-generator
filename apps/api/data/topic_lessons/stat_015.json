@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_015",
+  "topic_name": "Experimental Design: Control, Randomization, Replication",
+  "generated_at": "2026-05-13T20:43:32.904263+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know that experiments are used to test whether a treatment causes an effect \u2014 for example, whether a new drug reduces blood pressure. But here's a problem: suppose you give the drug to 10 people who also happen to start exercising more during the study. Did the drug work, or was it the exercise? You don't have a fair way to answer that yet. How do researchers design experiments so that the effect they observe can actually be attributed to the treatment they intended to study?",
+  "concept": "Experimental design is the structure researchers use to ensure that an experiment produces trustworthy, cause-and-effect conclusions. The three foundational principles are control (eliminating or holding constant outside influences), randomization (using chance to assign subjects to groups), and replication (repeating the experiment on enough subjects so that results are reliable). Together, these principles allow a researcher to conclude that a difference in outcomes is due to the treatment, not to lurking variables or chance.",
+  "anatomy": "Every well-designed experiment contains the following structural parts: the experimental units (the subjects or objects being studied), the explanatory variable (the treatment being applied, also called the independent variable), the response variable (the outcome being measured, the dependent variable), the treatment group (the units that receive the active treatment), the control group (the units that receive no treatment or a placebo, serving as the comparison baseline), and the randomization mechanism (the process \u2014 such as a coin flip or random number generator \u2014 that assigns units to groups without bias). Replication refers to the number of experimental units per group, often denoted $n$, which must be large enough to detect a real effect.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Goal: Test whether fertilizer X increases tomato yield.}",
+      "description_latex": "We begin by clearly stating the research question and identifying the explanatory and response variables. Here the explanatory variable is whether fertilizer X is applied and the response variable is tomato yield (pounds per plant), which forces us to think about what we need to measure and what we need to control.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Experimental units: 40 identical tomato plants in 40 identical pots.}",
+      "description_latex": "Control means holding all variables other than the treatment constant, so we choose plants of the same species and age, use identical soil amounts, and keep all plants in the same greenhouse \u2014 this way any difference in yield between groups can be attributed to the fertilizer and not to different growing conditions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Randomization: Assign plants 1\u201340 randomly; plants with numbers 1\u201320 get fertilizer X, plants 21\u201340 get plain water.}",
+      "description_latex": "We use a random number generator (or draw numbered slips) to assign the 40 plants to two groups of $n = 20$ each, because randomization distributes unknown lurking variables \u2014 like slight differences in pot position or light exposure \u2014 roughly equally between groups, preventing systematic bias.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Replication: } n = 20 \\text{ plants per group}",
+      "description_latex": "Having 20 plants in each group (rather than, say, 2) is replication \u2014 it means that random variation in individual plants averages out, so if we observe a consistent difference in yield between the two groups, it is far less likely to be a fluke of one unusual plant.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Conclusion structure: Compare mean yield of treatment group vs. control group.}",
+      "description_latex": "At the end of the experiment, because we controlled outside variables, randomized assignment, and replicated across 20 plants per group, any statistically meaningful difference in mean yield between the groups gives us valid evidence that fertilizer X caused the change \u2014 this is the power that proper experimental design provides.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Goal: Test whether listening to classical music improves students' quiz scores.}",
+      "description_latex": "We start by identifying the treatment (listening to classical music during study) and the response variable (quiz score out of 100). We recruit 60 students and want to split them into a treatment group and a control group \u2014 the control group will study in silence so we have a fair comparison baseline.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Control variables: same study material, same study duration (30 min), same quiz.}",
+      "description_latex": "We hold constant everything except the music \u2014 study material, duration, and environment \u2014 so that the only systematic difference between groups is whether classical music is playing. This is the principle of control at work, and it is what lets us isolate the effect of music.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now describe how you would apply randomization and replication to this experiment. Specifically: how would you assign the 60 students to the two groups, how many students would be in each group, and why does group size matter for the reliability of your conclusions?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Result: Compare mean quiz scores between music group and silent group.}",
+      "description_latex": "After the experiment, comparing the two group means tells us whether the music treatment had an effect \u2014 and because we controlled outside variables and randomized assignment, we can make a cause-and-effect claim rather than just observing a correlation.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A researcher assigns 30 patients to a drug group and 30 patients to a placebo group by flipping a coin for each patient. Which principle of experimental design does coin-flipping represent?",
+      "answer_latex": "\\text{Randomization \u2014 using chance to assign subjects to groups removes systematic bias.}"
+    },
+    {
+      "prompt_latex": "An experiment tests whether a new reading program raises test scores. The treatment group uses the new program; the control group uses the standard curriculum. Identify: (a) the explanatory variable, (b) the response variable, and (c) one variable the researcher should control.",
+      "answer_latex": "\\text{(a) Reading program type (new vs. standard)} \\\\ \\text{(b) Test score} \\\\ \\text{(c) One of: class size, teacher, prior reading level, study time, etc.}"
+    },
+    {
+      "prompt_latex": "A study uses only 4 experimental units per group. Explain which principle this violates and what consequence this has for the study's conclusions.",
+      "answer_latex": "\\text{Replication \u2014 with only } n=4 \\text{ per group, individual variation dominates and results are unreliable; increasing } n \\text{ reduces the influence of random chance on the outcome.}"
+    },
+    {
+      "prompt_latex": "An experiment on sleep deprivation assigns all night-owl participants to the sleep-deprived group and all early-risers to the well-rested group. A significant difference in reaction time is observed. Why can we NOT conclude that sleep deprivation caused slower reaction times? Which principle was violated?",
+      "answer_latex": "\\text{Randomization was violated \u2014 sleep preference (a lurking variable) was confounded with the treatment, so the observed difference could be due to natural chronotype differences rather than sleep deprivation itself.}"
+    },
+    {
+      "prompt_latex": "A coffee company tests two roasting methods (A and B) on flavor rating (1\u201310). They have 80 coffee samples. Design a controlled, randomized, replicated experiment: state how many samples go in each group, how you assign them, and one variable you must control.",
+      "answer_latex": "\\text{40 samples per group (replication); assign by random number generator or random draw (randomization); control one of: bean origin, bean age, water temperature, taster, brewing method (control).}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the control group with 'controlling variables': the control group is a specific group of subjects receiving no treatment (or a placebo) for comparison, while controlling variables means holding outside factors constant for ALL groups \u2014 these are two distinct concepts and conflating them leads to poorly described experimental designs.",
+    "Students forget that randomization must occur at the assignment stage, not the recruitment stage: choosing only volunteers for one group and non-volunteers for another is not random assignment, even if participants were recruited randomly, because it introduces systematic differences between groups that bias the results.",
+    "Students treat any small experiment as adequately replicated just because there is more than one subject: replication requires enough experimental units per group so that random individual variation averages out \u2014 a group of 3 or 4 is rarely sufficient, and students should always consider whether $n$ is large enough to detect a real effect reliably."
+  ],
+  "untested_variants": [
+    "Completely randomized design vs. randomized block design: the practice problems do not ask students to block subjects by a known lurking variable (e.g., blocking by gender) and then randomize within blocks to reduce variability.",
+    "Double-blind and single-blind experiments: the lesson covers the idea of a placebo in a control group but does not test whether students can explain why blinding (hiding treatment assignment from subjects and/or experimenters) is necessary to prevent bias from expectations.",
+    "Matched-pairs design: a specific form of replication where each subject receives both treatments in random order (or subjects are paired by similarity) \u2014 this design appears on exams but is not addressed in the practice problems above.",
+    "Identifying confounding variables in a described experiment and explaining how redesigning the experiment with proper randomization would eliminate the confound \u2014 a common free-response exam task not covered by the multiple-choice style problems here."
+  ]
+}

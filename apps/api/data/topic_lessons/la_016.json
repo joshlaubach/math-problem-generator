@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_016",
+  "topic_name": "Definition and Axioms of a Vector Space",
+  "generated_at": "2026-05-13T20:06:25.530299+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to add vectors in $\\mathbb{R}^2$ and scale them by real numbers \u2014 for example, $(1,2) + (3,4) = (4,6)$ and $3(1,2) = (3,6)$. But what if someone handed you a completely different set of objects, like polynomials or matrices, and claimed those could also be 'vectors'? You'd have no way to check their claim because you have no precise rule for what makes something a vector space. So: what are the minimal rules that any collection of objects must satisfy before we're allowed to call it a vector space?",
+  "concept": "A vector space is any set $V$ whose elements (called vectors) can be added together and scaled by numbers from a field $F$, as long as those two operations obey eight specific axioms. Formally, a vector space over a field $F$ is a set $V$ equipped with vector addition $+: V \\times V \\to V$ and scalar multiplication $\\cdot: F \\times V \\to V$ satisfying the eight axioms of closure, commutativity, associativity, additive identity, additive inverses, scalar identity, and two distributive laws.",
+  "anatomy": "A vector space $(V, F, +, \\cdot)$ has four named components: the underlying set $V$ (the collection of objects called vectors, e.g. $\\mathbb{R}^n$, polynomials, matrices); the scalar field $F$ (the number system providing scalars, typically $\\mathbb{R}$ or $\\mathbb{C}$); vector addition $+$ (a binary operation sending two vectors to a vector); and scalar multiplication $\\cdot$ (an operation sending a scalar $c \\in F$ and a vector $\\mathbf{v} \\in V$ to another vector $c\\mathbf{v} \\in V$). The eight axioms then constrain exactly how these two operations must behave: four axioms govern addition (making $V$ a commutative group), and four govern scalar multiplication and its interaction with addition.",
+  "worked_example": [
+    {
+      "expression_latex": "V = \\mathbb{R}^2, \\quad F = \\mathbb{R}, \\quad (x_1, y_1) + (x_2, y_2) = (x_1+x_2,\\, y_1+y_2), \\quad c(x,y) = (cx, cy)",
+      "description_latex": "We start by identifying all four components of the proposed vector space: the set $V = \\mathbb{R}^2$, the field $F = \\mathbb{R}$, and the two operations defined component-wise. Naming these explicitly is the essential first step \u2014 you cannot verify the axioms until you know precisely what the operations do.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Closure of } +: (x_1,y_1)+(x_2,y_2) = (x_1+x_2, y_1+y_2) \\in \\mathbb{R}^2 \\checkmark",
+      "description_latex": "Closure under addition requires that adding any two elements of $V$ produces another element of $V$. Since the sum of two real numbers is still a real number, each component of the result is real, so the sum lands back in $\\mathbb{R}^2$ \u2014 closure holds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Additive identity: } \\mathbf{0} = (0,0), \\quad (x,y)+(0,0)=(x,y) \\checkmark",
+      "description_latex": "The additive identity axiom demands a special vector $\\mathbf{0} \\in V$ such that $\\mathbf{v} + \\mathbf{0} = \\mathbf{v}$ for every $\\mathbf{v}$. In $\\mathbb{R}^2$ the zero vector $(0,0)$ plays this role, and component-wise addition immediately confirms it \u2014 this is why the zero vector is defined as a tuple of zeros rather than any other choice.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Distributivity over vector addition: } c\\bigl((x_1,y_1)+(x_2,y_2)\\bigr) = c(x_1+x_2, y_1+y_2) = (cx_1+cx_2,\\, cy_1+cy_2) = c(x_1,y_1)+c(x_2,y_2) \\checkmark",
+      "description_latex": "One of the two distributive axioms states $c(\\mathbf{u}+\\mathbf{v}) = c\\mathbf{u} + c\\mathbf{v}$. We expand both sides using the component-wise definitions and see they agree \u2014 this confirms scalar multiplication distributes over vector addition, which is what allows scaling to interact sensibly with sums.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{All eight axioms verified} \\implies \\mathbb{R}^2 \\text{ is a vector space over } \\mathbb{R}.",
+      "description_latex": "After checking all eight axioms (the remaining ones \u2014 commutativity, associativity, additive inverses, scalar identity $1\\cdot\\mathbf{v}=\\mathbf{v}$, and distributivity over scalar addition \u2014 follow similarly from properties of real numbers), we can conclude that $\\mathbb{R}^2$ is indeed a vector space. The conclusion is only valid once every axiom has been addressed; a single failure disqualifies the structure.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "V = \\{\\text{polynomials of degree} \\leq 1\\} = \\{a + bx : a,b \\in \\mathbb{R}\\}, \\quad F = \\mathbb{R}",
+      "description_latex": "We want to check whether the set of polynomials of degree at most 1 forms a vector space over $\\mathbb{R}$, using the standard operations: $(a+bx)+(c+dx) = (a+c)+(b+d)x$ and $k(a+bx) = ka + kbx$. Let's start by identifying the set and the field \u2014 this step is already done for you.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(a+bx)+(c+dx) = (a+c)+(b+d)x \\in V \\checkmark, \\quad k(a+bx) = ka+(kb)x \\in V \\checkmark",
+      "description_latex": "Verify closure for both operations: we need to check that the sum of two degree-$\\leq 1$ polynomials is still degree $\\leq 1$, and that scaling a degree-$\\leq 1$ polynomial keeps it in $V$. Both follow immediately because the results have the form $A + Bx$ with real coefficients \u2014 closure is confirmed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify the additive identity for this space: what polynomial $\\mathbf{0}(x) = a + bx$ satisfies $(a+bx) + \\mathbf{0}(x) = a+bx$ for every $a,b$? State $\\mathbf{0}(x)$ explicitly, and then write down the additive inverse $-(a+bx)$ that satisfies $(a+bx) + (-(a+bx)) = \\mathbf{0}(x)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{All eight axioms hold} \\implies V \\text{ is a vector space over } \\mathbb{R}.",
+      "description_latex": "Once you have confirmed the identity and inverses (and the remaining axioms, which inherit from the real-number properties of coefficients), you can state the conclusion. The key insight is that any set of polynomials of bounded degree inherits its vector-space structure directly from the field of its coefficients.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "List all eight axioms of a vector space by name (e.g. 'closure under addition', 'scalar identity', etc.). No proof required.",
+      "answer_latex": "\\text{(1) Closure under addition, (2) Commutativity of addition, (3) Associativity of addition, (4) Additive identity, (5) Additive inverses, (6) Closure under scalar multiplication, (7) Distributivity } c(\\mathbf{u}+\\mathbf{v})=c\\mathbf{u}+c\\mathbf{v}, \\text{ (8) Distributivity } (c+d)\\mathbf{v}=c\\mathbf{v}+d\\mathbf{v}, \\text{ plus scalar identity } 1\\cdot\\mathbf{v}=\\mathbf{v}."
+    },
+    {
+      "prompt_latex": "Verify the additive inverse axiom for $V = \\mathbb{R}^3$ with standard operations: given $\\mathbf{v} = (x,y,z)$, find $-\\mathbf{v}$ and confirm $\\mathbf{v} + (-\\mathbf{v}) = \\mathbf{0}$.",
+      "answer_latex": "-\\mathbf{v} = (-x,-y,-z); \\quad (x,y,z)+(-x,-y,-z) = (0,0,0) = \\mathbf{0} \\checkmark"
+    },
+    {
+      "prompt_latex": "Let $V = \\mathbb{R}^2$ with the modified addition $(x_1,y_1) \\oplus (x_2,y_2) = (x_1+x_2,\\, 0)$ and standard scalar multiplication. Show that $V$ with $\\oplus$ is NOT a vector space by identifying which axiom fails.",
+      "answer_latex": "\\text{The additive inverse axiom fails: we need } (x,y)\\oplus(-x,w)=(0,0) \\text{ for some } w, \\text{ but } (x,y)\\oplus(u,v)=(x+u,0)\\neq(0,0) \\text{ when } y\\neq 0. \\text{ Alternatively, commutativity holds but } \\mathbf{0}=(0,0) \\text{ requires } y=0, \\text{ so } (x,y) \\text{ with } y\\neq 0 \\text{ has no identity \u2014 additive identity axiom fails for the whole space.}"
+    },
+    {
+      "prompt_latex": "Let $V = M_{2\\times 2}(\\mathbb{R})$ (the set of all $2\\times 2$ real matrices) with standard matrix addition and scalar multiplication. Using your knowledge of matrix algebra, determine whether $V$ is a vector space over $\\mathbb{R}$ and justify by naming which field properties imply each vector-space axiom.",
+      "answer_latex": "\\text{Yes. Each axiom follows from matrix algebra: commutativity } A+B=B+A, \\text{ associativity } (A+B)+C=A+(B+C), \\text{ zero matrix } \\mathbf{0} \\text{ as additive identity, } -A \\text{ as inverse, and scalar distributivity from real-number distributivity. All eight axioms hold, so } M_{2\\times 2}(\\mathbb{R}) \\text{ is a vector space.}"
+    },
+    {
+      "prompt_latex": "A student claims the set $V = \\{(x,y)\\in\\mathbb{R}^2 : x \\geq 0\\}$ (the right half-plane including the $y$-axis) with standard operations is a vector space. Determine whether the claim is correct and cite the specific axiom that is satisfied or violated.",
+      "answer_latex": "\\text{The claim is FALSE. The additive inverse axiom fails: for } \\mathbf{v}=(1,0)\\in V, \\text{ its inverse must be } (-1,0), \\text{ but } -1<0 \\text{ so } (-1,0)\\notin V. \\text{ Equivalently, closure under scalar multiplication fails for negative scalars: } (-1)(1,0)=(-1,0)\\notin V."
+    }
+  ],
+  "common_mistakes": [
+    "Students often try to verify only a few 'obvious' axioms (like closure and commutativity) and skip the rest, assuming the others are automatic \u2014 in fact all eight must be checked, because exotic operations can satisfy some axioms while violating others, and a single failure disqualifies the entire structure.",
+    "Students confuse the zero vector $\\mathbf{0}\\in V$ with the scalar zero $0\\in F$: the axiom $\\mathbf{v}+\\mathbf{0}=\\mathbf{v}$ uses the additive identity of $V$, not the number zero, and in non-standard vector spaces (e.g. functions or polynomials) these are very different objects \u2014 always identify the zero vector explicitly as an element of $V$.",
+    "When a set fails to be a vector space, students frequently say 'it fails closure' without specifying which operation \u2014 always state whether closure under addition or closure under scalar multiplication fails, because these are separate axioms with separate counterexamples (e.g. a set can be closed under addition but not under multiplication by negative scalars)."
+  ],
+  "untested_variants": [
+    "Verifying that the set of all continuous functions $f:[0,1]\\to\\mathbb{R}$ with pointwise addition and scalar multiplication is a vector space \u2014 this requires arguing that sums and scalar multiples of continuous functions are continuous.",
+    "Showing that a vector space over the field $\\mathbb{C}$ (complex scalars) satisfies all axioms, and explaining why $\\mathbb{R}^2$ can be viewed as a vector space over $\\mathbb{C}$ or why it cannot, depending on how scalar multiplication is defined.",
+    "Proving from the axioms alone (without coordinates) that the zero vector $\\mathbf{0}$ is unique, i.e. deriving uniqueness of the additive identity as a theorem rather than an axiom.",
+    "Checking whether the set of all $n\\times n$ invertible matrices under standard matrix addition and scalar multiplication is a vector space \u2014 it is not (it fails closure under addition), and the counterexample requires constructing two invertible matrices whose sum is singular."
+  ]
+}

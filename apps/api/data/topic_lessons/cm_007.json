@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_007",
+  "topic_name": "Modular Arithmetic and Residues",
+  "generated_at": "2026-05-13T20:22:07.285017+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to divide integers and compute remainders \u2014 for instance, when you divide 17 by 5 you get remainder 2. But what if you needed to find the last two digits of $7^{100}$, or determine whether $2^{1000} - 1$ is divisible by 7, without ever computing those enormous numbers directly? Ordinary arithmetic breaks down because the numbers are astronomically large. How can we reason about remainders and divisibility in a systematic, algebraic way?",
+  "concept": "Modular arithmetic is a system where we care only about remainders after division by a fixed positive integer called the modulus. We say $a \\equiv b \\pmod{m}$ (read '$a$ is congruent to $b$ mod $m$') if $m$ divides $a - b$, i.e., $a - b = km$ for some integer $k$. Equivalently, $a$ and $b$ leave the same remainder when divided by $m$. The set of possible remainders $\\{0, 1, 2, \\ldots, m-1\\}$ forms the complete residue system mod $m$.",
+  "anatomy": "Every modular congruence $a \\equiv b \\pmod{m}$ has three named parts: the modulus $m$, which is the positive integer we are dividing by; the residue $r$ (also called the remainder), which is the unique integer in $\\{0, 1, \\ldots, m-1\\}$ that is congruent to $a$; and the congruence relation $\\equiv$ itself, which behaves like an equals sign in that it respects addition, subtraction, and multiplication \u2014 meaning if $a \\equiv b$ and $c \\equiv d$ then $a+c \\equiv b+d$ and $ac \\equiv bd$, all mod $m$. These closure properties under arithmetic operations are what make modular arithmetic so powerful.",
+  "worked_example": [
+    {
+      "expression_latex": "7^{100} \\pmod{5}",
+      "description_latex": "We want to find the remainder when $7^{100}$ is divided by 5. The first step is to reduce the base modulo 5, because if $a \\equiv b \\pmod{m}$ then $a^n \\equiv b^n \\pmod{m}$. Since $7 = 5 + 2$, we have $7 \\equiv 2 \\pmod{5}$, so $7^{100} \\equiv 2^{100} \\pmod{5}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2^1 \\equiv 2,\\quad 2^2 \\equiv 4,\\quad 2^3 \\equiv 3,\\quad 2^4 \\equiv 1 \\pmod{5}",
+      "description_latex": "Next we look for a pattern (called the order of 2 mod 5) by computing small powers of 2 mod 5. Notice that $2^4 \\equiv 1 \\pmod{5}$, which means the powers of 2 repeat with period 4. Identifying this cycle is the key insight that lets us handle arbitrarily large exponents.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "100 = 4 \\times 25, \\quad \\text{so} \\quad 2^{100} = (2^4)^{25} \\equiv 1^{25} \\pmod{5}",
+      "description_latex": "Because the cycle length is 4 and $100$ is exactly divisible by 4, we can write $2^{100} = (2^4)^{25}$. Since $2^4 \\equiv 1 \\pmod 5$, the entire expression collapses to $1^{25} = 1$. This is why finding the period first is so efficient.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "7^{100} \\equiv 2^{100} \\equiv 1 \\pmod{5}",
+      "description_latex": "Combining our steps: the residue of $7^{100}$ mod 5 is $\\boxed{1}$, meaning $7^{100}$ ends in either a 1 or a 6 in decimal (since those are the single-digit multiples of 1 mod 5). This shows how modular arithmetic gives us exact information about remainders without touching the original large number.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "3^{2025} \\pmod{7}",
+      "description_latex": "We want to find the remainder when $3^{2025}$ is divided by 7. Start by reducing the base: since $3 < 7$, the base is already its own residue, so we compute powers of 3 mod 7 looking for a repeating cycle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3^1 \\equiv 3,\\; 3^2 \\equiv 2,\\; 3^3 \\equiv 6,\\; 3^4 \\equiv 4,\\; 3^5 \\equiv 5,\\; 3^6 \\equiv 1 \\pmod{7}",
+      "description_latex": "Here are the first six powers of 3 mod 7. The cycle length (order of 3 mod 7) is 6, because $3^6 \\equiv 1 \\pmod{7}$. Now you need to use this cycle to reduce the exponent 2025 \u2014 what is the remainder when 2025 is divided by 6, and what does that tell you about $3^{2025} \\pmod{7}$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "3^{2025} \\equiv 3^3 \\equiv 6 \\pmod{7}",
+      "description_latex": "Since $2025 = 6 \\times 337 + 3$, we have $3^{2025} = (3^6)^{337} \\cdot 3^3 \\equiv 1^{337} \\cdot 6 \\equiv 6 \\pmod{7}$, so the answer is $\\boxed{6}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the remainder when $123$ is divided by $7$.",
+      "answer_latex": "4"
+    },
+    {
+      "prompt_latex": "Find the last digit of $3^{47}$ (i.e., compute $3^{47} \\pmod{10}$).",
+      "answer_latex": "7"
+    },
+    {
+      "prompt_latex": "Compute $17^{50} \\pmod{9}$.",
+      "answer_latex": "1"
+    },
+    {
+      "prompt_latex": "Find the remainder when $1! + 2! + 3! + \\cdots + 100!$ is divided by $12$.",
+      "answer_latex": "9"
+    },
+    {
+      "prompt_latex": "A clock currently shows 3:00. What time will it show after exactly $10^{100}$ hours? (Give the hour, between 1 and 12.)",
+      "answer_latex": "7"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that the congruence $a \\equiv b \\pmod{m}$ does NOT mean $a = b$; they write $7 \\equiv 2 \\pmod 5$ and then substitute $7 = 2$ in later arithmetic, causing errors. Remember: the $\\equiv$ symbol only means equal remainders, not equal values.",
+    "When computing $a^n \\pmod m$, students find the cycle length $d$ (so $a^d \\equiv 1$) and then conclude $a^n \\equiv a^{n \\bmod d} \\pmod m$, but forget the edge case where $n \\bmod d = 0$ \u2014 they write $a^0 = 0$ instead of $a^0 = 1$. Always remember that $a^0 \\equiv 1$ when the cycle resets.",
+    "Students try to cancel a common factor $c$ from $ca \\equiv cb \\pmod m$ and conclude $a \\equiv b \\pmod m$, which is only valid when $\\gcd(c, m) = 1$. For example, $6 \\equiv 12 \\pmod 6$ but dividing by 6 gives $1 \\equiv 2 \\pmod 6$, which is false; the correct statement after cancelling 6 is $1 \\equiv 2 \\pmod 1$. Always check that the factor you cancel is coprime to the modulus."
+  ],
+  "untested_variants": [
+    "Chinese Remainder Theorem problems: finding a number that simultaneously satisfies two or more congruences with different moduli, such as $x \\equiv 2 \\pmod 3$ and $x \\equiv 3 \\pmod 5$.",
+    "Modular inverses and linear congruences: solving equations of the form $ax \\equiv b \\pmod m$ for $x$ using the extended Euclidean algorithm or Fermat's Little Theorem.",
+    "Wilson's Theorem and its applications: using the fact that $(p-1)! \\equiv -1 \\pmod p$ for prime $p$ to evaluate expressions or test primality.",
+    "Modular arithmetic with negative residues: strategically choosing a negative representative (e.g., $9 \\equiv -1 \\pmod{10}$) to simplify power computations like $9^{53} \\pmod{10}$."
+  ]
+}

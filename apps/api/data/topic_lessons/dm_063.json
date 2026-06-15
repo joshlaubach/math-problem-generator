@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_063",
+  "topic_name": "Finite State Machines (H)",
+  "generated_at": "2026-05-13T20:17:19.210804+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to use truth tables and Boolean expressions to describe logical conditions at a single moment in time. But what if a system needs to remember what happened before \u2014 like a vending machine that only dispenses a drink after it has received exactly the right amount of money in sequence? A single Boolean expression cannot capture this history-dependent behaviour. How can we model a system whose output depends not just on its current input, but on everything that has happened to it so far?",
+  "concept": "A Finite State Machine (FSM) is a mathematical model for a system that can be in exactly one of a finite number of internal conditions (called states) at any given moment, and that transitions between states based on inputs. Formally, an FSM is a 5-tuple $M = (Q, \\Sigma, \\delta, q_0, F)$, where $Q$ is a finite set of states, $\\Sigma$ is a finite input alphabet, $\\delta: Q \\times \\Sigma \\rightarrow Q$ is the transition function, $q_0 \\in Q$ is the start state, and $F \\subseteq Q$ is the set of accepting (final) states.",
+  "anatomy": "Every FSM has five named components. The state set $Q = \\{q_0, q_1, \\ldots, q_n\\}$ lists every possible internal configuration of the machine. The input alphabet $\\Sigma$ (for example $\\{0, 1\\}$) is the set of symbols the machine can read. The transition function $\\delta(q, a)$ tells you exactly which state to move to when you are in state $q$ and read input symbol $a$; it is often displayed as a transition table or a directed-graph state diagram where labelled arrows show each transition. The start state $q_0$ is where the machine begins before reading any input. The accepting states $F$ are the states in which the machine 'accepts' the input string processed so far \u2014 strings that leave the machine in an accepting state are recognised by the FSM.",
+  "worked_example": [
+    {
+      "expression_latex": "M = (\\{q_0, q_1, q_2\\},\\; \\{0,1\\},\\; \\delta,\\; q_0,\\; \\{q_2\\})",
+      "description_latex": "We begin by clearly stating what our FSM is designed to do: accept all binary strings that end in '11' (two consecutive 1s). We choose three states \u2014 $q_0$ for 'no progress', $q_1$ for 'just read one 1', and $q_2$ for 'just read two 1s in a row' \u2014 and declare $q_0$ the start state and $q_2$ the sole accepting state. Naming the states according to their meaning before building the transition table keeps the logic transparent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|cc} \\delta & 0 & 1 \\\\ \\hline q_0 & q_0 & q_1 \\\\ q_1 & q_0 & q_2 \\\\ q_2 & q_0 & q_2 \\end{array}",
+      "description_latex": "Now we build the transition table by reasoning through each case: from $q_0$, a 0 keeps us at $q_0$ (still no progress), while a 1 moves us to $q_1$. From $q_1$ (one 1 seen), a 0 resets progress back to $q_0$, while another 1 advances us to $q_2$. From $q_2$ (two 1s seen), a 0 breaks the streak so we return to $q_0$, but a 1 keeps us in $q_2$ since we still have at least two consecutive 1s ending the string read so far.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Trace } w = 1011: \\quad q_0 \\xrightarrow{1} q_1 \\xrightarrow{0} q_0 \\xrightarrow{1} q_1 \\xrightarrow{1} q_2",
+      "description_latex": "To check whether the string $w = 1011$ is accepted, we trace it symbol by symbol starting from $q_0$, applying $\\delta$ at each step. After reading all four symbols we land in $q_2$, which belongs to $F$, so the machine accepts $w = 1011$ \u2014 this makes sense because the string does indeed end in '11'.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Trace } w = 101: \\quad q_0 \\xrightarrow{1} q_1 \\xrightarrow{0} q_0 \\xrightarrow{1} q_1",
+      "description_latex": "For $w = 101$ the trace ends in $q_1$, which is not an accepting state, so the machine rejects this string. This confirms the FSM correctly distinguishes strings ending in '11' from those that do not, even when they share a common prefix.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "M = (\\{q_0, q_1\\},\\; \\{0,1\\},\\; \\delta,\\; q_0,\\; \\{q_1\\})",
+      "description_latex": "We want an FSM that accepts all binary strings containing at least one '1'. We use two states: $q_0$ meaning 'no 1 seen yet' and $q_1$ meaning 'at least one 1 has been seen'. The start state is $q_0$ and the accepting state is $q_1$, since the machine should accept exactly when a 1 has appeared somewhere in the input.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|cc} \\delta & 0 & 1 \\\\ \\hline q_0 & ? & ? \\\\ q_1 & ? & ? \\end{array}",
+      "description_latex": "Complete the transition table by reasoning about each cell: from $q_0$, what should happen on input 0 (no 1 yet, stays the same) and on input 1 (a 1 is seen for the first time)? From $q_1$ (a 1 already seen), does reading any further symbol change the fact that a 1 has appeared?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Trace } w = 001: \\quad q_0 \\xrightarrow{0} \\underline{\\phantom{q_0}} \\xrightarrow{0} \\underline{\\phantom{q_0}} \\xrightarrow{1} \\underline{\\phantom{q_1}}",
+      "description_latex": "Using the completed transition table, trace the string $w = 001$ step by step, filling in the state reached after each symbol, and state whether the machine accepts or rejects $w$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "An FSM has $Q = \\{q_0, q_1\\}$, $\\Sigma = \\{a, b\\}$, start state $q_0$, accepting states $F = \\{q_0\\}$, and transitions $\\delta(q_0, a) = q_1$, $\\delta(q_0, b) = q_0$, $\\delta(q_1, a) = q_0$, $\\delta(q_1, b) = q_1$. Does the machine accept the string $w = aba$?",
+      "answer_latex": "\\text{Trace: } q_0 \\xrightarrow{a} q_1 \\xrightarrow{b} q_1 \\xrightarrow{a} q_0.\\; q_0 \\in F,\\text{ so } w = aba \\text{ is accepted.}"
+    },
+    {
+      "prompt_latex": "Construct a transition table for an FSM over $\\Sigma = \\{0,1\\}$ that accepts exactly those strings whose length is a multiple of 3 (including the empty string).",
+      "answer_latex": "\\text{Use } Q = \\{q_0, q_1, q_2\\},\\; F = \\{q_0\\},\\text{ with } \\delta(q_i, 0) = \\delta(q_i, 1) = q_{(i+1)\\bmod 3} \\text{ for } i = 0,1,2."
+    },
+    {
+      "prompt_latex": "Design an FSM over $\\Sigma = \\{0,1\\}$ that accepts all strings containing the substring $01$. State all five components of the FSM and give its transition table.",
+      "answer_latex": "Q = \\{q_0, q_1, q_2\\},\\; q_0 \\text{ start},\\; F=\\{q_2\\};\\; \\delta(q_0,0)=q_1,\\delta(q_0,1)=q_0,\\delta(q_1,0)=q_1,\\delta(q_1,1)=q_2,\\delta(q_2,0)=q_2,\\delta(q_2,1)=q_2."
+    },
+    {
+      "prompt_latex": "An FSM $M$ over $\\Sigma=\\{0,1\\}$ has the transition table below. List all strings of length exactly 2 that are accepted by $M$, where $q_0$ is the start state and $F = \\{q_1\\}$: $\\delta(q_0,0)=q_1,\\; \\delta(q_0,1)=q_2,\\; \\delta(q_1,0)=q_0,\\; \\delta(q_1,1)=q_1,\\; \\delta(q_2,0)=q_2,\\; \\delta(q_2,1)=q_0$.",
+      "answer_latex": "\\text{Traces: }00\\to q_1\\text{(accept)},\\;01\\to q_1\\text{(accept)},\\;10\\to q_2\\text{(reject)},\\;11\\to q_0\\text{(reject)}.\\text{ Accepted: }\\{00, 01\\}."
+    },
+    {
+      "prompt_latex": "A turnstile starts locked. It accepts a coin (input $C$) to unlock, and a push (input $P$) to turn and re-lock. Any push while locked or coin while unlocked leaves the state unchanged. Model this as an FSM with states $\\{\\text{Locked}, \\text{Unlocked}\\}$, writing the full 5-tuple and transition table. Does the input sequence $C, P, P$ end in an accepting state if $F = \\{\\text{Locked}\\}$?",
+      "answer_latex": "\\delta(\\text{Locked},C)=\\text{Unlocked},\\;\\delta(\\text{Locked},P)=\\text{Locked},\\;\\delta(\\text{Unlocked},C)=\\text{Unlocked},\\;\\delta(\\text{Unlocked},P)=\\text{Locked}.\\;\\text{Trace }CPP:\\text{Locked}\\to\\text{Unlocked}\\to\\text{Locked}\\to\\text{Locked};\\;\\text{ends in Locked}\\in F,\\text{ accepted.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often apply the transition function to a whole string at once instead of one symbol at a time, skipping intermediate states and arriving at a wrong final state. Fix: always process exactly one symbol per step, recording the current state after each individual transition.",
+    "When checking acceptance, students sometimes declare a string accepted if it ever passes through an accepting state during the trace, rather than checking only the state after the last symbol is read. Fix: acceptance is determined solely by the state reached after reading the entire input string \u2014 intermediate visits to $F$ are irrelevant.",
+    "Students frequently confuse the transition function $\\delta$ with an output function, thinking the machine 'outputs' something at each step; in a basic (Deterministic) FSM there is no output \u2014 the machine simply moves between states, and 'acceptance' is a property of the final state, not a produced value. Fix: remember that $\\delta: Q \\times \\Sigma \\rightarrow Q$ returns a state, not a symbol or a Boolean value."
+  ],
+  "untested_variants": [
+    "Constructing the FSM for the complement of a given language (swapping accepting and non-accepting states) and proving correctness.",
+    "Building an FSM that recognises the intersection or union of two languages using the product construction on two given FSMs.",
+    "Converting a Non-deterministic Finite Automaton (NFA) with $\\varepsilon$-transitions into an equivalent DFA using the subset construction algorithm.",
+    "Proving that a given language is not regular by applying the Pumping Lemma for regular languages."
+  ]
+}

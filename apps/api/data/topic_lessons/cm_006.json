@@ -1,0 +1,86 @@
+{
+  "topic_id": "cm_006",
+  "topic_name": "Divisibility and GCD Tricks",
+  "generated_at": "2026-05-13T20:42:40.571966+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You know how to check if a number is divisible by 2 or 5 just by glancing at its last digit \u2014 that's a divisibility trick you've been using for years. But what if someone asks: what is the largest number that divides both 252 and 180? You could list every single factor of each and compare, but with large numbers that becomes painfully slow. Is there a smarter, faster way to find the Greatest Common Divisor without brute force?",
+  "concept": "The Greatest Common Divisor (GCD) of two integers is the largest positive integer that divides both of them exactly. Formally, $\\gcd(a, b)$ is the largest integer $d$ such that $d \\mid a$ and $d \\mid b$. The Euclidean Algorithm makes this fast: repeatedly replace the larger number with the remainder when divided by the smaller, stopping when the remainder is zero \u2014 the last nonzero remainder is the GCD.",
+  "anatomy": "The Euclidean Algorithm has three structural parts you must keep straight. First, the dividend and divisor: at each step you write $a = qb + r$, where $a$ is the dividend, $b$ is the divisor, $q$ is the quotient, and $r$ is the remainder satisfying $0 \\leq r < b$. Second, the replacement rule: the pair $(a, b)$ is replaced by $(b, r)$ at every step, shrinking the numbers. Third, the termination condition: when $r = 0$, the algorithm stops and the current divisor $b$ is $\\gcd(a, b)$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\gcd(252, 180)",
+      "description_latex": "We want to find the greatest common divisor of 252 and 180. Rather than listing all factors, we apply the Euclidean Algorithm, which guarantees we reach the answer in a small number of steps because the remainder strictly decreases each time.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "252 = 1 \\cdot 180 + 72",
+      "description_latex": "We divide the larger number (252) by the smaller (180): 180 goes into 252 once with a remainder of 72. The key insight is that $\\gcd(252, 180) = \\gcd(180, 72)$ \u2014 the GCD is preserved when we shift to the new pair \u2014 so we now work with 180 and 72.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "180 = 2 \\cdot 72 + 36",
+      "description_latex": "Now we divide 180 by 72: 72 goes into 180 twice (giving 144) with a remainder of 36. Again we apply the replacement rule, so $\\gcd(180, 72) = \\gcd(72, 36)$, and we continue with the pair 72 and 36.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "72 = 2 \\cdot 36 + 0",
+      "description_latex": "We divide 72 by 36 and get a remainder of exactly 0. This is the termination condition \u2014 when the remainder hits zero, we stop, and the divisor at this step is our answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\gcd(252, 180) = 36",
+      "description_latex": "Since the last nonzero remainder (equivalently, the divisor when the remainder became 0) is 36, we conclude $\\gcd(252, 180) = 36$. You can verify: $252 = 7 \\times 36$ and $180 = 5 \\times 36$, and no larger number divides both.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\gcd(374, 154)",
+      "description_latex": "We want $\\gcd(374, 154)$. Start the Euclidean Algorithm by dividing 374 by 154. We get $374 = 2 \\cdot 154 + 66$, so the problem reduces to $\\gcd(154, 66)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "154 = 2 \\cdot 66 + 22",
+      "description_latex": "Next, divide 154 by 66: 66 fits twice (giving 132) with remainder 22, so $\\gcd(154, 66) = \\gcd(66, 22)$. The numbers are shrinking quickly \u2014 now apply one more division.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Divide 66 by 22 and find the remainder. Write the equation in the form $66 = q \\cdot 22 + r$, then state what $\\gcd(374, 154)$ equals and why the algorithm stops here.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $\\gcd(48, 18)$ using the Euclidean Algorithm.",
+      "answer_latex": "6"
+    },
+    {
+      "prompt_latex": "Find $\\gcd(315, 135)$.",
+      "answer_latex": "45"
+    },
+    {
+      "prompt_latex": "Find $\\gcd(1001, 77)$ and use it to determine whether $\\dfrac{1001}{77}$ is an integer.",
+      "answer_latex": "$\\gcd(1001,77)=77$, so yes, $\\dfrac{1001}{77} = 13$"
+    },
+    {
+      "prompt_latex": "Two integers $a$ and $b$ satisfy $\\gcd(a,b) = 12$ and $\\text{lcm}(a,b) = 360$. If $a = 36$, find $b$. (Hint: use $\\gcd(a,b)\\cdot\\text{lcm}(a,b) = a \\cdot b$.)",
+      "answer_latex": "120"
+    },
+    {
+      "prompt_latex": "A band director wants to arrange 120 trumpet players and 84 trombone players into rows, with each row containing only one instrument type and every row the same length. What is the greatest possible row length?",
+      "answer_latex": "12"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes replace the pair $(a, b)$ with $(a, r)$ instead of $(b, r)$ \u2014 they keep the original dividend instead of shifting down. Remember: both numbers change at every step; the old divisor becomes the new dividend.",
+    "When the remainder is 0 at the very first step (meaning $b \\mid a$ already), students report the GCD as 0 instead of $b$. The answer is always the last *nonzero* value in the divisor position, so if $a = q \\cdot b + 0$, then $\\gcd(a, b) = b$.",
+    "Students confuse $\\gcd(a,b) \\cdot \\text{lcm}(a,b) = a \\cdot b$ with $\\gcd(a,b) + \\text{lcm}(a,b) = a + b$, leading to wrong answers when a problem mixes GCD and LCM. The correct identity is multiplicative: $\\gcd(a,b) \\cdot \\text{lcm}(a,b) = a \\cdot b$, and it holds only for two numbers, not three."
+  ],
+  "untested_variants": [
+    "Extended Euclidean Algorithm: finding integers $x$ and $y$ such that $ax + by = \\gcd(a, b)$ (B\u00e9zout's identity), which appears in modular inverse problems.",
+    "GCD of three or more integers, computed by iterating $\\gcd(a,b,c) = \\gcd(\\gcd(a,b),c)$, which requires understanding why the pairwise approach generalizes.",
+    "Divisibility rules for composite moduli such as 8, 11, or 12, where students must combine digit-sum tricks with multi-digit inspection rather than applying the Euclidean Algorithm.",
+    "Using $\\gcd$ to simplify algebraic fractions or to prove that two expressions are relatively prime in a proof-based competition context."
+  ]
+}

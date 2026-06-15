@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_067",
+  "topic_name": "Measures of Center and Spread",
+  "generated_at": "2026-05-12T23:36:31.828271+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to find the average of a set of numbers, and you've probably heard words like 'median' and 'range' before. But imagine two classes both scored an average of 75% on a test \u2014 does that mean the classes performed the same way? One class might have everyone clustered near 75%, while the other has half the students failing and half acing it. How do we mathematically describe not just where data is centered, but how spread out it really is?",
+  "concept": "Measures of center tell us where the 'middle' of a data set lives, while measures of spread tell us how far the data stretches from that center. Formally, the three main measures of center are the mean $\\bar{x} = \\frac{\\sum x_i}{n}$, the median (middle value when data is ordered), and the mode (most frequent value); the main measures of spread are the range $R = x_{\\max} - x_{\\min}$, the interquartile range $IQR = Q_3 - Q_1$, and the standard deviation $s = \\sqrt{\\frac{\\sum(x_i - \\bar{x})^2}{n-1}}$.",
+  "anatomy": "Each statistic has distinct components worth naming precisely. For the mean, $\\sum x_i$ is the sum of all data values and $n$ is the count of values. For the median, you must first order the data; if $n$ is odd the median is the single middle value, and if $n$ is even it is the average of the two middle values. The IQR uses $Q_1$ (the median of the lower half) and $Q_3$ (the median of the upper half). For standard deviation, $(x_i - \\bar{x})$ is called a deviation from the mean, squaring it makes all deviations positive, summing and dividing by $n-1$ gives the variance $s^2$, and the square root returns units to their original scale.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Data set: } 4, 7, 7, 9, 13, 15, 20",
+      "description_latex": "We start by listing the data in order \u2014 it's already sorted here, which is essential before finding the median or quartiles. Confirm there are $n = 7$ values, which tells us the median will be a single middle value at position $\\frac{7+1}{2} = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{4+7+7+9+13+15+20}{7} = \\frac{75}{7} \\approx 10.7",
+      "description_latex": "To find the mean, we sum all values and divide by $n = 7$. Notice the mean ($10.7$) is pulled slightly above the median by the larger values \u2014 this is how outliers affect the mean more than the median.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Median} = 9, \\quad Q_1 = 7, \\quad Q_3 = 15",
+      "description_latex": "The 4th value is $9$, so the median is $9$. The lower half is $\\{4, 7, 7\\}$ with median $Q_1 = 7$, and the upper half is $\\{13, 15, 20\\}$ with median $Q_3 = 15$. We split the data at the median and do not include the median itself in either half.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R = 20 - 4 = 16, \\quad IQR = Q_3 - Q_1 = 15 - 7 = 8",
+      "description_latex": "The range uses only the two extreme values and is sensitive to outliers, while the IQR captures the spread of the middle 50% of data and is resistant to outliers. Here the IQR of $8$ tells us the central half of the data spans an 8-unit interval.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "s = \\sqrt{\\frac{(4-10.7)^2+(7-10.7)^2+(7-10.7)^2+(9-10.7)^2+(13-10.7)^2+(15-10.7)^2+(20-10.7)^2}{6}} \\approx \\sqrt{\\frac{175.43}{6}} \\approx 5.41",
+      "description_latex": "Standard deviation measures the typical distance each data point sits from the mean, and we divide by $n - 1 = 6$ (not $n$) because we are estimating a population parameter from a sample \u2014 this is called Bessel's correction and makes our estimate slightly larger to account for sampling variability. A standard deviation of about $5.41$ means values typically stray roughly $5$ units from the mean.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data set: } 3, 8, 8, 12, 14, 17, 17, 22",
+      "description_latex": "We have $n = 8$ values already in order. Because $n$ is even, the median will be the average of the 4th and 5th values. Identify those two middle values before proceeding.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Median} = \\frac{12 + 14}{2} = 13",
+      "description_latex": "The 4th value is $12$ and the 5th is $14$, so the median is $13$. Now split the data into a lower half $\\{3, 8, 8, 12\\}$ and upper half $\\{14, 17, 17, 22\\}$ \u2014 the median itself is not included in either half when $n$ is even.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Find $Q_1$ and $Q_3$ by computing the median of each half, then calculate the $IQR = Q_3 - Q_1$. Remember: each half contains 4 values, so you'll average the 2nd and 3rd values within each half.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the mean $\\bar{x}$ of the full data set, then explain in one sentence whether the mean or median better represents the center of this data and why.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find the mean, median, and range of: } 5, 10, 10, 15, 20",
+      "answer_latex": "\\bar{x} = 12, \\; \\text{Median} = 10, \\; R = 15"
+    },
+    {
+      "prompt_latex": "\\text{Find } Q_1, Q_3, \\text{ and } IQR \\text{ for: } 2, 5, 7, 9, 11, 14, 18, 20",
+      "answer_latex": "Q_1 = 6, \\; Q_3 = 16, \\; IQR = 10"
+    },
+    {
+      "prompt_latex": "\\text{A data set has values } 6, 6, 8, 10, 20. \\text{ Compute the sample standard deviation } s \\text{ (round to two decimal places).}",
+      "answer_latex": "s \\approx 5.57"
+    },
+    {
+      "prompt_latex": "\\text{A data set has mean } \\bar{x} = 50 \\text{ and standard deviation } s = 8. \\text{ A new value of } 90 \\text{ is added. Without fully recalculating, explain whether the new mean will be greater than, less than, or equal to } 50, \\text{ and whether the new } s \\text{ will increase or decrease. Then verify by computing the new mean for the original set } \\{42, 46, 50, 54, 58\\}.",
+      "answer_latex": "\\text{New } \\bar{x} = \\frac{250+90}{6} = 56.\\overline{6} > 50; \\text{ new } s \\text{ increases because } 90 \\text{ is far from the mean.}"
+    },
+    {
+      "prompt_latex": "\\text{A teacher reports that the class median on a quiz is } 78 \\text{ and the IQR is } 6. \\text{ A student says the class must have done well because the scores are close together. Another says we can't tell without the mean. Who is more correct, and what does an IQR of 6 actually tell us?}",
+      "answer_latex": "\\text{The first student is more correct: } IQR = 6 \\text{ means the middle 50\\% of scores span only 6 points, indicating the bulk of scores are tightly clustered. The mean would reveal skew but the IQR alone does describe spread of the central data.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often include the median itself in both halves when computing $Q_1$ and $Q_3$ for an odd-sized data set, which shifts one or both quartiles and produces an incorrect IQR \u2014 the fix is to exclude the median value entirely from both halves before finding each quartile.",
+    "When computing standard deviation, students frequently divide by $n$ instead of $n - 1$ for a sample, confusing population standard deviation $\\sigma$ with sample standard deviation $s$ \u2014 for Algebra II problems using a sample, always use $n - 1$ in the denominator unless the problem explicitly says 'population'.",
+    "Students sometimes average the two middle values when $n$ is odd (treating it like the even case) instead of simply selecting the single middle value \u2014 always check whether $n$ is odd or even first: if odd, the median is the $\\frac{n+1}{2}$-th value with no averaging needed."
+  ],
+  "untested_variants": [
+    "Finding the mean, median, or standard deviation from a frequency table or grouped data where individual values are not listed explicitly.",
+    "Using standard deviation to identify outliers via the rule that any value more than $2s$ from the mean is considered unusual, and applying this threshold to a given data set.",
+    "Computing the effect on the mean and standard deviation when every data value is multiplied by a constant or shifted by a constant (linear transformations of data sets).",
+    "Comparing two data sets using their five-number summaries (minimum, $Q_1$, median, $Q_3$, maximum) displayed as parallel box plots and drawing conclusions about shape, center, and spread simultaneously."
+  ]
+}

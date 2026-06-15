@@ -1,0 +1,91 @@
+{
+  "topic_id": "pc_071",
+  "topic_name": "Introduction to the Derivative (H)",
+  "generated_at": "2026-05-13T00:02:37.594071+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to find the slope of a straight line using the formula $m = \\frac{y_2 - y_1}{x_2 - x_1}$. But what happens when the function is a curve, like $f(x) = x^2$? The slope is different at every single point, so the two-point formula seems useless. How can we find the exact slope of a curve at just one point?",
+  "concept": "The derivative gives us the instantaneous rate of change of a function at a single point \u2014 essentially the slope of the tangent line at that point. We find it by imagining a second point sliding infinitely close to the first. Formally, the derivative of $f$ at $x$ is defined as $f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}$, provided this limit exists.",
+  "anatomy": "The definition $f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}$ has several key parts: $f(x+h)$ is the function evaluated at a point shifted by a small amount $h$; $f(x+h) - f(x)$ is the change in output (rise); $h$ is the change in input (run), so the entire fraction $\\frac{f(x+h)-f(x)}{h}$ is the slope of the secant line connecting two nearby points; and the $\\lim_{h \\to 0}$ collapses that secant slope into the tangent slope as the two points merge.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^2, \\quad f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}",
+      "description_latex": "We start by writing the limit definition of the derivative for our function $f(x) = x^2$. This sets up the structure we will work through: we need to evaluate the function at $x + h$, subtract the original function value, divide by $h$, and then take the limit as $h$ approaches zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{h \\to 0} \\frac{(x+h)^2 - x^2}{h}",
+      "description_latex": "We substitute $f(x+h) = (x+h)^2$ and $f(x) = x^2$ directly into the formula. Notice we have NOT expanded anything yet \u2014 we first want to make the substitution cleanly so we can see the full numerator before simplifying.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{h \\to 0} \\frac{x^2 + 2xh + h^2 - x^2}{h}",
+      "description_latex": "Now we expand $(x+h)^2 = x^2 + 2xh + h^2$ and subtract $x^2$ from the numerator. The $x^2$ terms cancel, which is crucial \u2014 this cancellation always happens in these problems and it's what lets us factor out $h$ next.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{h \\to 0} \\frac{h(2x + h)}{h} = \\lim_{h \\to 0} (2x + h)",
+      "description_latex": "We factor $h$ out of the numerator and cancel it with the $h$ in the denominator. This step is valid because $h \\neq 0$ in a limit \u2014 $h$ is approaching zero but never equals zero, so division by $h$ is legal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 2x",
+      "description_latex": "Finally, we evaluate the limit by substituting $h = 0$, giving $f'(x) = 2x$. This tells us the slope of the tangent line to the parabola $y = x^2$ at any $x$ value \u2014 for example, the tangent at $x = 3$ has slope $2(3) = 6$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = 3x^2 - 5, \\quad f'(x) = \\lim_{h \\to 0} \\frac{f(x+h) - f(x)}{h}",
+      "description_latex": "We write the limit definition of the derivative for $f(x) = 3x^2 - 5$. The constant $-5$ will be interesting to watch \u2014 think about what happens to it when we subtract $f(x)$ from $f(x+h)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{h \\to 0} \\frac{[3(x+h)^2 - 5] - [3x^2 - 5]}{h}",
+      "description_latex": "We substitute $f(x+h) = 3(x+h)^2 - 5$ and $f(x) = 3x^2 - 5$ into the numerator. Notice the $-5$ terms will cancel \u2014 now expand and simplify the numerator completely, then factor out $h$ and evaluate the limit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Expand $3(x+h)^2$, cancel like terms, factor out $h$ from the numerator, cancel the $h$ in the denominator, and then take the limit as $h \\to 0$. What do you get for $f'(x)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f'(x) = 6x",
+      "description_latex": "The answer is $f'(x) = 6x$. Notice the constant $-5$ completely disappeared \u2014 constants always vanish when you subtract $f(x+h) - f(x)$, which makes geometric sense because a vertical shift doesn't change slope.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use the limit definition to find $f'(x)$ for $f(x) = 5x$.",
+      "answer_latex": "f'(x) = 5"
+    },
+    {
+      "prompt_latex": "Use the limit definition to find $f'(x)$ for $f(x) = x^2 + 4x$.",
+      "answer_latex": "f'(x) = 2x + 4"
+    },
+    {
+      "prompt_latex": "Use the limit definition to find $f'(x)$ for $f(x) = 2x^2 - 3x + 1$.",
+      "answer_latex": "f'(x) = 4x - 3"
+    },
+    {
+      "prompt_latex": "Find the slope of the tangent line to $f(x) = x^2 - 6x$ at the point where $x = 4$. First find $f'(x)$ using the limit definition, then evaluate.",
+      "answer_latex": "f'(x) = 2x - 6, \\text{ so the slope at } x = 4 \\text{ is } f'(4) = 2"
+    },
+    {
+      "prompt_latex": "A ball's height in meters is given by $h(t) = -4.9t^2 + 20t$. Use the limit definition to find $h'(t)$, which represents the ball's instantaneous velocity, and determine the velocity at $t = 2$ seconds.",
+      "answer_latex": "h'(t) = -9.8t + 20, \\text{ so } h'(2) = 0.4 \\text{ m/s}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to subtract the entire $f(x)$ when the function has multiple terms, writing $f(x+h) - f(x)$ as only the first term minus the original. Always wrap each function value in brackets \u2014 write $[f(x+h)] - [f(x)]$ \u2014 so you distribute the subtraction sign correctly across every term.",
+    "After expanding and simplifying the numerator, students try to evaluate the limit immediately by substituting $h = 0$ before factoring out and canceling the $h$ in the denominator. Since $\\frac{0}{0}$ is indeterminate, you must first factor $h$ from the numerator and cancel it with the denominator, then substitute $h = 0$.",
+    "Students expand $(x+h)^2$ incorrectly as $x^2 + h^2$, omitting the middle cross term $2xh$. The correct expansion is $(x+h)^2 = x^2 + 2xh + h^2$, and that $2xh$ term is the one that survives after cancellation \u2014 without it, you will get a wrong answer every time."
+  ],
+  "untested_variants": [
+    "Finding the derivative of a function with $x$ in the denominator, such as $f(x) = \\frac{1}{x}$, which requires multiplying numerator and denominator by a conjugate-style expression rather than simple polynomial expansion.",
+    "Finding the derivative of a square root function like $f(x) = \\sqrt{x}$ using the limit definition, which requires rationalizing the numerator by multiplying by the conjugate $\\frac{\\sqrt{x+h}+\\sqrt{x}}{\\sqrt{x+h}+\\sqrt{x}}$.",
+    "Using the derivative to write the equation of the tangent line in slope-intercept or point-slope form, not just computing the slope value.",
+    "Interpreting the derivative as an average rate of change over a given interval versus an instantaneous rate of change at a single point, and distinguishing between the two in a real-world context."
+  ]
+}

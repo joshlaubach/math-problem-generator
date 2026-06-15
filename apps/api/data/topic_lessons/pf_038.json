@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_038",
+  "topic_name": "Reading and Presenting Research-Level Mathematics (H)",
+  "generated_at": "2026-05-13T20:21:50.290148+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You have spent months learning how to write clean proofs, use quantifiers correctly, and build logical arguments from scratch. Now imagine opening a journal article in algebra or analysis and encountering a theorem whose proof spans two pages, references four earlier lemmas, and uses notation you have never seen before. You can parse each individual sentence, yet the global argument feels impenetrable. How do mathematicians actually read and present work at this level \u2014 and what strategies transform confusion into comprehension?",
+  "concept": "Reading research-level mathematics is an active, iterative skill: you alternate between the big picture (what is the theorem claiming, and why should it be true?) and fine-grained verification (does each logical step actually follow?). Formally, a research proof is a finite sequence of justified claims $P_1, P_2, \\ldots, P_n$ where $P_n$ is the theorem's conclusion, each $P_i$ follows from axioms, definitions, or previously established results, and every non-trivial implication $P_i \\Rightarrow P_{i+1}$ carries an explicit or recoverable justification.",
+  "anatomy": "A research-level proof has several identifiable structural components. The theorem statement contains hypotheses (the assumptions that must hold) and a conclusion (what is being guaranteed). The proof preamble often introduces notation, fixes variables, or reduces the general case to a special one. The body consists of lemmas or claims \u2014 labeled sub-results proved inline or by reference \u2014 connected by logical transitions such as 'it follows that,' 'by construction,' or 'without loss of generality.' The closing line (often 'therefore $P_n$ holds' or the $\\square$ symbol) signals that the conclusion has been reached. When presenting, each of these components must be visibly distinct so an audience can track the argument's architecture.",
+  "worked_example": [
+    {
+      "expression_latex": "\\textbf{Theorem (Cantor):} \\text{ For every set } S, \\text{ there is no surjection } f: S \\to \\mathcal{P}(S).",
+      "description_latex": "Before reading a single line of the proof, your first task is to decode the theorem statement precisely. Here you identify the hypothesis (any set $S$ and any function $f: S \\to \\mathcal{P}(S)$) and the conclusion (no such $f$ can be surjective), so you know exactly what the argument must establish and what it is allowed to assume.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume for contradiction that } f: S \\to \\mathcal{P}(S) \\text{ is surjective. Define } D = \\{ x \\in S : x \\notin f(x) \\}.",
+      "description_latex": "Next, identify the proof strategy: this is a proof by contradiction that constructs a 'diagonal' set $D$. Recognizing the strategy early \u2014 before verifying every detail \u2014 gives you a mental scaffold; you know the argument will derive a contradiction from the surjectivity of $f$, and the set $D$ is the tool built to produce that contradiction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Since } f \\text{ is surjective and } D \\subseteq S, \\exists\\, d \\in S \\text{ such that } f(d) = D.",
+      "description_latex": "This step exercises the hypothesis: surjectivity means every subset of $S$, including the diagonal set $D$, is in the range of $f$. Notice how the author is 'cashing in' the assumption precisely here \u2014 this is the moment to pause and confirm the step is valid by checking the definition of surjectivity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d \\in D \\iff d \\in f(d) = D \\iff d \\notin f(d) = D, \\text{ a contradiction.}",
+      "description_latex": "Now you verify the logical contradiction: by the definition of $D$, the element $d$ belongs to $D$ if and only if $d \\notin f(d)$, but $f(d) = D$, so membership in $D$ is equivalent to non-membership in $D$. When presenting this to an audience, you would slow down here and display each biconditional on its own line, because this is the crux of the argument and the most likely point of confusion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\text{ No surjection } f: S \\to \\mathcal{P}(S) \\text{ exists.} \\quad \\square",
+      "description_latex": "The closing line restates the conclusion in the exact language of the theorem and marks the proof as complete with $\\square$. When presenting, this restatement is not redundant \u2014 it reconnects the contradiction back to the original claim, ensuring the audience knows the proof goal has been met and not merely that 'something went wrong.'",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\textbf{Claim:} \\text{ If } \\{a_n\\} \\text{ is a convergent sequence in } \\mathbb{R}, \\text{ then } \\{a_n\\} \\text{ is bounded.}",
+      "description_latex": "Start by identifying the structure: the hypothesis is that $\\lim_{n\\to\\infty} a_n = L$ exists for some $L \\in \\mathbb{R}$, and the conclusion is that there exists $M > 0$ with $|a_n| \\leq M$ for all $n$. Before writing a word of proof, you should name the strategy \u2014 here we use the definition of convergence with $\\varepsilon = 1$ to control the tail of the sequence, then handle the finite initial segment separately.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Choose } \\varepsilon = 1. \\text{ Then } \\exists\\, N \\in \\mathbb{N} \\text{ such that for all } n > N, |a_n - L| < 1, \\text{ hence } |a_n| < |L| + 1.",
+      "description_latex": "This step applies the definition of convergence with the specific choice $\\varepsilon = 1$ and uses the triangle inequality $|a_n| \\leq |a_n - L| + |L| < 1 + |L|$ to bound the tail. Notice how the author makes the choice of $\\varepsilon$ visible \u2014 in a presentation you would announce this choice out loud before invoking convergence.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now complete the proof: define an explicit bound $M$ that works for ALL $n$ (not just the tail $n > N$), explain why the finitely many terms $a_1, a_2, \\ldots, a_N$ do not cause a problem, and write the concluding sentence that connects your bound back to the claim. This is the key structural step that turns a tail-bound into a global bound.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Read the following one-line 'proof sketch' and identify which structural component is missing: 'Proof: Let $\\varepsilon > 0$. Then $|f(x) - L| < \\varepsilon$. $\\square$'",
+      "answer_latex": "\\text{The proof is missing the construction that produces a } \\delta > 0 \\text{ satisfying } |x - c| < \\delta \\Rightarrow |f(x) - L| < \\varepsilon; \\text{ the hypothesis on } x \\text{ is never invoked.}"
+    },
+    {
+      "prompt_latex": "A classmate presents the proof that $\\sqrt{2}$ is irrational by assuming $\\sqrt{2} = p/q$ in lowest terms, then deriving $2 \\mid p$ and $2 \\mid q$. They write the final line as: 'This is a contradiction.' Rewrite the final line as it should appear in a research-level proof, making the contradiction explicit.",
+      "answer_latex": "\\text{Since } 2 \\mid p \\text{ and } 2 \\mid q, \\text{ we have } \\gcd(p,q) \\geq 2, \\text{ contradicting the assumption that } p/q \\text{ is in lowest terms (i.e., } \\gcd(p,q)=1\\text{)}. \\therefore \\sqrt{2} \\notin \\mathbb{Q}. \\quad \\square"
+    },
+    {
+      "prompt_latex": "You are reading a proof of the statement: 'Every finite non-empty subset of $\\mathbb{R}$ has a maximum.' The proof reads: 'By induction on $|S|$. Base case $|S|=1$: the single element is the maximum. Inductive step: assume true for sets of size $k$; let $|S|=k+1$, write $S = T \\cup \\{a\\}$ with $|T|=k$...' What should the next sentence logically be, and why?",
+      "answer_latex": "\\text{By the inductive hypothesis, } T \\text{ has a maximum, call it } m. \\text{ Then } \\max(S) = \\max(m, a), \\text{ which exists since } \\mathbb{R} \\text{ is totally ordered.}"
+    },
+    {
+      "prompt_latex": "A research paper states Lemma 3.2 without proof, citing [Rudin, Thm 3.17]. You are presenting this paper and a listener asks why Lemma 3.2 is true. Describe the strategy a good presenter uses, referencing the distinction between accepting a result and verifying it.",
+      "answer_latex": "\\text{A good presenter (1) states the precise content of Lemdin 3.2, (2) explains its role in the current argument (why it is needed), (3) gives an intuitive reason it is plausible, and (4) directs the audience to the cited source for the full verification \u2014 distinguishing between accepting a well-established result as a black box and the independent task of verifying it from first principles.}"
+    },
+    {
+      "prompt_latex": "You are reading a proof that uses the phrase 'without loss of generality (WLOG), assume $a \\leq b$.' The theorem concerns two arbitrary real numbers $a, b$. Explain in one or two sentences what logical obligation the author has implicitly accepted by writing WLOG, and what would make such a WLOG claim invalid.",
+      "answer_latex": "\\text{By writing WLOG, the author claims the case } a > b \\text{ is symmetric \u2014 i.e., swapping } a \\text{ and } b \\text{ yields an identical argument. The claim is invalid if the proof uses an asymmetric property of } a \\text{ or } b \\text{ (e.g., } a \\text{ appears in a role } b \\text{ does not), so that the swapped version genuinely requires separate justification.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students treat every cited lemma as a black box they must re-derive on the spot, causing them to lose the global thread of the argument. The fix is to first accept cited results provisionally, map out the proof's overall architecture, and only then return to verify individual sub-results.",
+    "When presenting, students read their written proof aloud verbatim rather than narrating the logical flow. This fails the audience because dense symbolic sentences are incomprehensible when spoken; instead, a presenter should announce the strategy, gesture to the key construction, and then point to the symbolic line as confirmation.",
+    "Students conflate 'I cannot immediately verify this step' with 'this step is wrong,' and either stall indefinitely or silently skip it. The correct approach is to annotate the step with a question mark, continue reading to see if the surrounding context clarifies it, and look up the relevant definition or theorem only after completing a first pass."
+  ],
+  "untested_variants": [
+    "Reading and annotating a proof that uses non-standard or field-specific notation (e.g., homological algebra's commutative diagrams or Dirac bra-ket notation in functional analysis) where decoding notation is itself the primary challenge.",
+    "Presenting a proof that contains a genuine gap or error, and communicating to an audience both what the intended argument is and precisely where and why it fails.",
+    "Converting an informal research-level sketch (a paragraph of intuition with no formal quantifiers) into a fully rigorous proof, filling in all implicit steps.",
+    "Evaluating two competing proofs of the same theorem for clarity, efficiency, and generalizability \u2014 a comparative critical analysis rather than a reading or presentation task."
+  ]
+}

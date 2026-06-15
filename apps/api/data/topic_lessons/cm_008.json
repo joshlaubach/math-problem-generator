@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_008",
+  "topic_name": "Diophantine Equations",
+  "generated_at": "2026-05-13T20:22:09.209807+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to solve equations like $2x + 3y = 10$ over the real numbers \u2014 there are infinitely many real solutions lying on a line. But what if you're told that $x$ and $y$ must both be integers? Suddenly, the problem becomes much harder: most points on that line have fractional coordinates, and you need to hunt for the rare integer ones. Can you find all integer solutions to $2x + 3y = 10$, and prove you haven't missed any?",
+  "concept": "A Diophantine equation is an equation (or system of equations) where we restrict the variables to integer values \u2014 sometimes non-negative integers. In plain English, we're asking: which whole-number inputs satisfy this relationship? Formally, a linear Diophantine equation has the form $ax + by = c$ where $a, b, c \\in \\mathbb{Z}$, and we seek all pairs $(x, y) \\in \\mathbb{Z}^2$ satisfying it. The key fact is that integer solutions exist if and only if $\\gcd(a, b) \\mid c$.",
+  "anatomy": "A linear Diophantine equation $ax + by = c$ has five key components: the coefficients $a$ and $b$ (the integer multipliers of each unknown), the constant $c$ (the target value on the right-hand side), the unknowns $x$ and $y$ (restricted to integers), and the greatest common divisor $d = \\gcd(a, b)$ (which controls whether solutions exist at all). When solutions exist, there is also the general solution structure: a particular solution $(x_0, y_0)$ plus a homogeneous family $\\left(x_0 + \\frac{b}{d}t,\\; y_0 - \\frac{a}{d}t\\right)$ parameterized by any integer $t$.",
+  "worked_example": [
+    {
+      "expression_latex": "3x + 5y = 11",
+      "description_latex": "We want all integer solutions to $3x + 5y = 11$. The very first thing to check is whether solutions can even exist: we compute $\\gcd(3, 5) = 1$, and since $1 \\mid 11$, solutions are guaranteed to exist \u2014 so we proceed to find one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3(1) + 5(1) = 8 \\quad \\Rightarrow \\quad 3(2) + 5(1) = 11",
+      "description_latex": "We hunt for a particular solution $(x_0, y_0)$ by inspection or trial. Trying $y = 1$: $3x = 11 - 5 = 6$, so $x = 2$. We verify: $3(2) + 5(1) = 6 + 5 = 11$ \u2713. This gives our particular solution $(x_0, y_0) = (2, 1)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 2 + 5t, \\quad y = 1 - 3t, \\quad t \\in \\mathbb{Z}",
+      "description_latex": "The general solution to $ax + by = c$ when $\\gcd(a,b) = 1$ is obtained by adding any solution to the homogeneous equation $ax + by = 0$. The homogeneous solutions are $x = 5t, y = -3t$ for integer $t$ (since $3(5t) + 5(-3t) = 0$), so the complete general solution is $x = 2 + 5t$, $y = 1 - 3t$ for any integer $t$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t = 0: (2,1),\\quad t=1: (7,-2),\\quad t=-1: (-3,4)",
+      "description_latex": "We verify that these solutions are correct by substituting back: $3(7) + 5(-2) = 21 - 10 = 11$ \u2713, and $3(-3) + 5(4) = -9 + 20 = 11$ \u2713. This confirms our general solution is correct, and every integer $t$ gives a valid solution \u2014 so there are infinitely many solutions.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "4x + 6y = 10",
+      "description_latex": "We start by checking existence: compute $\\gcd(4, 6) = 2$. Since $2 \\mid 10$, solutions exist. We divide the entire equation through by $\\gcd(4,6) = 2$ to reduce it to the simpler equivalent equation $2x + 3y = 5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x + 3y = 5 \\quad \\Rightarrow \\quad (x_0, y_0) = ?",
+      "description_latex": "Now find a particular solution to $2x + 3y = 5$ by inspection or trial. Try small values of $y$ and see when $2x = 5 - 3y$ gives an integer value for $x$. What is a particular solution $(x_0, y_0)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = x_0 + \\frac{3}{1}\\,t, \\quad y = y_0 - \\frac{2}{1}\\,t, \\quad t \\in \\mathbb{Z}",
+      "description_latex": "Using your particular solution, write the general solution. For $2x + 3y = 5$ with $\\gcd(2,3) = 1$, the general solution has the form $x = x_0 + 3t$, $y = y_0 - 2t$. Substitute your particular solution and simplify to state the complete family of solutions.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Does $6x + 9y = 20$ have integer solutions? Justify your answer.",
+      "answer_latex": "No, because $\\gcd(6,9) = 3$ and $3 \\nmid 20$."
+    },
+    {
+      "prompt_latex": "Find all integer solutions to $5x + 3y = 1$.",
+      "answer_latex": "x = 2 + 3t,\\; y = -3 - 5t \\text{ for any } t \\in \\mathbb{Z}"
+    },
+    {
+      "prompt_latex": "Find all integer solutions to $12x + 8y = 4$.",
+      "answer_latex": "Divide by 4: $3x + 2y = 1$. General solution: $x = 1 + 2t,\\; y = -1 - 3t$ for any $t \\in \\mathbb{Z}$."
+    },
+    {
+      "prompt_latex": "Find all non-negative integer solutions to $3x + 7y = 30$.",
+      "answer_latex": "General solution: $x = 10 - 7t,\\; y = 0 + 3t$. Non-negative: $t = 0 \\Rightarrow (10,0)$; $t = 1 \\Rightarrow (3,3)$. So $(10,0)$ and $(3,3)$."
+    },
+    {
+      "prompt_latex": "A store sells notebooks for $\\$7$ and pens for $\\$3$. You spend exactly $\\$41$. How many ways can you make this purchase using non-negative integer quantities of each item?",
+      "answer_latex": "Solve $7n + 3p = 41$. General solution: $n = 2 + 3t,\\; p = 9 - 7t$. Non-negative: $t = 0 \\Rightarrow (2,9)$; $t = 1 \\Rightarrow (5,2)$. Two ways: 2 notebooks and 9 pens, or 5 notebooks and 2 pens."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to check whether $\\gcd(a,b) \\mid c$ before solving, then waste time searching for a particular solution to an equation that has no integer solutions at all \u2014 always check divisibility first.",
+    "When $\\gcd(a,b) = d > 1$, students write the general solution using the original coefficients $a$ and $b$ instead of the reduced coefficients $a/d$ and $b/d$, producing a family that misses most solutions \u2014 always divide through by the GCD before reading off the step sizes.",
+    "Students find one particular solution and report it as the only answer, forgetting that linear Diophantine equations with a solution always have infinitely many solutions parameterized by an integer $t$ \u2014 a single solution is just the starting point, not the complete answer."
+  ],
+  "untested_variants": [
+    "Using the Extended Euclidean Algorithm to systematically find a particular solution when the coefficients are large (e.g., $143x + 77y = 11$) rather than finding one by inspection.",
+    "Diophantine equations in three or more variables, such as $2x + 3y + 5z = 7$, where the solution set is a parameterized family with two free integer parameters.",
+    "Non-linear Diophantine equations, such as Pythagorean triples ($x^2 + y^2 = z^2$) or Pell's equation ($x^2 - 2y^2 = 1$), which require fundamentally different techniques.",
+    "Counting the number of non-negative integer solutions to $ax + by = c$ as a combinatorial problem, or determining whether the count is zero, finite, or infinite based on the signs and values of $a$, $b$, $c$."
+  ]
+}

@@ -8,7 +8,7 @@ with JSON serialization for complex fields.
 from datetime import datetime
 from typing import Optional, Literal
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy import String, Integer, Boolean, Float, DateTime, Text, Index, ForeignKey
+from sqlalchemy import String, Integer, Boolean, Float, DateTime, Text, Index, ForeignKey, JSON
 
 
 class Base(DeclarativeBase):
@@ -610,7 +610,8 @@ class SessionCreditRecord(Base):
     user_id: Mapped[str] = mapped_column(String(255), index=True)
     used_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime, index=True)
-    purchase_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    # Indexed for the M6 idempotency lookup (replayed Stripe webhooks).
+    purchase_id: Mapped[Optional[str]] = mapped_column(String(255), nullable=True, index=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     def __repr__(self) -> str:
@@ -686,8 +687,12 @@ class ParentLinkRecord(Base):
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
     parent_id: Mapped[str] = mapped_column(String(255), index=True)
     student_id: Mapped[str] = mapped_column(String(255), index=True)
-    link_code: Mapped[str] = mapped_column(String(12), unique=True, index=True)
+    # Widened for a full-entropy token (H2); was String(12).
+    link_code: Mapped[str] = mapped_column(String(64), unique=True, index=True)
     confirmed: Mapped[bool] = mapped_column(Boolean, default=False)
+    # H2: codes expire and lock out after repeated bad redemption attempts.
+    expires_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    failed_attempts: Mapped[int] = mapped_column(Integer, default=0)
     created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
 
     __table_args__ = (
@@ -698,6 +703,100 @@ class ParentLinkRecord(Base):
         return f"<ParentLinkRecord(parent_id={self.parent_id}, student_id={self.student_id})>"
 
 
+
+
+class QuotaEventRecord(Base):
+    """
+    One usage event: a tutor session end, a generated/served problem, or a TTS
+    synthesis. Durable home for session_quota in production (the JSONL log is
+    dev-only and ephemeral on Railway). Also the source of per-student
+    served-problem dedup for the bank-first queue.
+    Read/write through session_quota.py, never directly.
+    """
+
+    __tablename__ = "quota_events"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    type: Mapped[str] = mapped_column(String(20), index=True)  # tutor_session|problem|served|tts
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    problem_id: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    session_id: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    duration_hours: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    chars: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    source: Mapped[Optional[str]] = mapped_column(String(10), nullable=True)  # bank|live
+    year_month: Mapped[str] = mapped_column(String(7), index=True)
+    date: Mapped[str] = mapped_column(String(10), index=True)
+    timestamp: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    __table_args__ = (
+        Index("idx_quota_user_type_ym", "user_id", "type", "year_month"),
+        Index("idx_quota_user_type_date", "user_id", "type", "date"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<QuotaEventRecord(type={self.type}, user_id={self.user_id})>"
+
+
+class FlaggedContentRecord(Base):
+    """
+    A student message the moderation screen flagged (H3). Reviewable by admins
+    via the transcript view; the highest-priority category is self_harm.
+    """
+
+    __tablename__ = "flagged_content"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    session_id: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    category: Mapped[str] = mapped_column(String(40), index=True)
+    excerpt: Mapped[str] = mapped_column(Text)
+    reviewed: Mapped[bool] = mapped_column(Boolean, default=False)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+
+    def __repr__(self) -> str:
+        return f"<FlaggedContentRecord(user_id={self.user_id}, category={self.category})>"
+
+
+class ConsentLogRecord(Base):
+    """
+    Immutable audit trail of age/consent attestations (M4). One row per
+    /users/me/confirm-age call, with timestamp + IP for compliance records.
+    """
+
+    __tablename__ = "consent_log"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    event: Mapped[str] = mapped_column(String(40))  # e.g. "age_confirmed_13plus"
+    ip_address: Mapped[Optional[str]] = mapped_column(String(64), nullable=True)
+    user_agent: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<ConsentLogRecord(user_id={self.user_id}, event={self.event})>"
+
+
+class TopicLessonRecord(Base):
+    """
+    Cached structured lesson for one topic (8-section JSON schema: hook,
+    concept, anatomy, worked_example, partial_example, practice_problems,
+    common_mistakes, untested_variants).
+
+    Durable home for lessons in production — the file cache under
+    data/topic_lessons/ is a dev-only fallback (ephemeral on Railway).
+    Read/write through agents.lesson_store, never directly.
+    """
+
+    __tablename__ = "topic_lessons"
+
+    topic_id: Mapped[str] = mapped_column(String(255), primary_key=True)
+    content: Mapped[dict] = mapped_column(JSON)
+    schema_version: Mapped[int] = mapped_column(Integer, default=1)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<TopicLessonRecord(topic_id={self.topic_id})>"
 
 
 class StudentConceptError(Base):

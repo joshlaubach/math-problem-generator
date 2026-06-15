@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_051",
+  "topic_name": "The Wave Equation (H)",
+  "generated_at": "2026-05-13T20:04:18.476342+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve ordinary differential equations involving a single variable, and you've seen how separation of variables can tame even nonlinear ODEs. But what happens when a quantity \u2014 say, the displacement of a vibrating guitar string \u2014 depends on both position $x$ and time $t$ simultaneously? The equation governing that motion is a partial differential equation involving second derivatives in both variables, and none of your ODE tools apply directly. Can you find a function $u(x,t)$ that describes exactly how the string moves at every point and every moment?",
+  "concept": "The wave equation is the PDE that models how disturbances propagate through a medium. In plain terms, it says that the way a quantity accelerates in time is proportional to how it curves in space. Formally, the one-dimensional wave equation is $u_{tt} = c^2 u_{xx}$, where $c > 0$ is the wave speed, $u_{tt} = \\frac{\\partial^2 u}{\\partial t^2}$, and $u_{xx} = \\frac{\\partial^2 u}{\\partial x^2}$.",
+  "anatomy": "The wave equation $u_{tt} = c^2 u_{xx}$ has several distinct parts worth naming. The dependent variable $u(x,t)$ is the unknown function giving displacement (or pressure, voltage, etc.) at position $x$ and time $t$. The term $u_{tt}$ is the temporal second derivative, measuring how the displacement accelerates in time at a fixed point. The term $u_{xx}$ is the spatial second derivative, measuring the concavity of the displacement profile at a fixed instant. The constant $c^2$ (always positive) is the wave speed squared, encoding the physical properties of the medium such as tension and density; it links the temporal and spatial rates of change and determines how fast disturbances travel.",
+  "worked_example": [
+    {
+      "expression_latex": "u_{tt} = c^2 u_{xx}, \\quad 0 < x < L, \\quad t > 0",
+      "description_latex": "We begin with the wave equation on a finite string of length $L$. Our goal is to find $u(x,t)$ using separation of variables, which means we will look for solutions of the special form $u(x,t) = X(x)T(t)$ \u2014 a product of a function of $x$ alone and a function of $t$ alone.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "X(x)T''(t) = c^2 X''(x)T(t) \\quad \\Longrightarrow \\quad \\frac{T''(t)}{c^2 T(t)} = \\frac{X''(x)}{X(x)} = -\\lambda",
+      "description_latex": "Substituting $u = X(x)T(t)$ into the PDE and dividing both sides by $c^2 X(x)T(t)$ separates the equation into a left side that depends only on $t$ and a right side that depends only on $x$. Because two functions of different variables can only be equal if both are constant, we introduce the separation constant $-\\lambda$; the negative sign is chosen strategically because we expect oscillatory (not exponential) behaviour.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "X'' + \\lambda X = 0, \\quad X(0)=0, \\quad X(L)=0",
+      "description_latex": "The spatial part gives us a Sturm-Liouville eigenvalue problem. Applying the boundary conditions for a string fixed at both ends forces $X(0)=0$ and $X(L)=0$. Non-trivial solutions exist only for the eigenvalues $\\lambda_n = \\left(\\frac{n\\pi}{L}\\right)^2$, giving eigenfunctions $X_n(x) = \\sin\\!\\left(\\frac{n\\pi x}{L}\\right)$ for $n = 1, 2, 3, \\ldots$",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T'' + c^2\\lambda_n T = 0 \\quad \\Longrightarrow \\quad T_n(t) = A_n \\cos\\!\\left(\\frac{n\\pi c}{L}t\\right) + B_n \\sin\\!\\left(\\frac{n\\pi c}{L}t\\right)",
+      "description_latex": "With $\\lambda_n$ known, the temporal ODE becomes a simple harmonic oscillator equation with angular frequency $\\omega_n = \\frac{n\\pi c}{L}$. Its general solution is a linear combination of cosine and sine in $t$, with constants $A_n$ and $B_n$ that will be determined by the initial conditions $u(x,0)$ and $u_t(x,0)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u(x,t) = \\sum_{n=1}^{\\infty} \\left[ A_n \\cos\\!\\left(\\frac{n\\pi c}{L}t\\right) + B_n \\sin\\!\\left(\\frac{n\\pi c}{L}t\\right) \\right] \\sin\\!\\left(\\frac{n\\pi x}{L}\\right)",
+      "description_latex": "By the superposition principle, the general solution is an infinite series summing all separated solutions. Each term is called a normal mode: the $n$-th mode vibrates at frequency $\\omega_n = \\frac{n\\pi c}{L}$ and has $n$ half-wavelengths along the string. The coefficients $A_n$ and $B_n$ are found by matching the initial displacement and velocity using Fourier sine series formulas.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "u_{tt} = 4u_{xx}, \\quad 0 < x < \\pi, \\quad u(0,t)=u(\\pi,t)=0, \\quad u(x,0)=\\sin(3x), \\quad u_t(x,0)=0",
+      "description_latex": "Here $c^2 = 4$ so $c = 2$, and the string has length $L = \\pi$. We apply separation of variables $u = X(x)T(t)$ exactly as in the worked example to find that the eigenvalues are $\\lambda_n = n^2$ and the eigenfunctions are $X_n(x) = \\sin(nx)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u(x,t) = \\sum_{n=1}^{\\infty}\\left[A_n \\cos(2nt) + B_n \\sin(2nt)\\right]\\sin(nx)",
+      "description_latex": "We write the general series solution using $\\omega_n = cn = 2n$. Now we need to apply the initial conditions to pin down the coefficients $A_n$ and $B_n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Apply the initial condition $u_t(x,0) = 0$ to show that $B_n = 0$ for all $n$, and then apply $u(x,0) = \\sin(3x)$ to determine all the coefficients $A_n$. Write down the final closed-form solution $u(x,t)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Verify that $u(x,t) = \\sin(x)\\cos(ct)$ satisfies the wave equation $u_{tt} = c^2 u_{xx}$.",
+      "answer_latex": "u_{tt} = -c^2\\sin(x)\\cos(ct)$ and $c^2 u_{xx} = -c^2\\sin(x)\\cos(ct)$; both sides are equal, so yes it satisfies the PDE."
+    },
+    {
+      "prompt_latex": "For the wave equation $u_{tt} = 9u_{xx}$ on $0 < x < \\pi$ with $u(0,t)=u(\\pi,t)=0$, state the eigenvalues $\\lambda_n$ and the corresponding temporal frequency $\\omega_n$ for each mode.",
+      "answer_latex": "\\lambda_n = n^2, \\quad \\omega_n = 3n, \\quad n = 1, 2, 3, \\ldots"
+    },
+    {
+      "prompt_latex": "Solve $u_{tt} = u_{xx}$ on $0 < x < \\pi$ with boundary conditions $u(0,t)=u(\\pi,t)=0$, initial displacement $u(x,0) = 2\\sin(x) - \\sin(2x)$, and initial velocity $u_t(x,0) = 0$.",
+      "answer_latex": "u(x,t) = 2\\cos(t)\\sin(x) - \\cos(2t)\\sin(2x)"
+    },
+    {
+      "prompt_latex": "Solve $u_{tt} = 4u_{xx}$ on $0 < x < \\pi$ with $u(0,t)=u(\\pi,t)=0$, $u(x,0)=0$, and $u_t(x,0) = \\sin(x)$. Express the answer in closed form.",
+      "answer_latex": "u(x,t) = \\dfrac{1}{2}\\sin(t)\\cdot\\sin\\!\\left(\\dfrac{x}{1}\\right)$; more precisely, matching gives $B_1 = \\frac{1}{2}$ and all other coefficients zero, so $u(x,t) = \\tfrac{1}{2}\\sin(2t)\\sin(x)$"
+    },
+    {
+      "prompt_latex": "A uniform elastic string of length $L = 2$ has wave speed $c = 3$. It is released from rest with initial shape $u(x,0) = \\sin\\!\\left(\\frac{\\pi x}{2}\\right)$. Write down the complete solution $u(x,t)$ and find the period of oscillation of the fundamental mode.",
+      "answer_latex": "u(x,t) = \\cos\\!\\left(\\frac{3\\pi}{2}t\\right)\\sin\\!\\left(\\frac{\\pi x}{2}\\right); \\text{ fundamental period } T_1 = \\frac{2\\pi}{\\omega_1} = \\frac{2\\pi}{3\\pi/2} = \\frac{4}{3}"
+    }
+  ],
+  "common_mistakes": [
+    "Students choose the wrong sign for the separation constant, writing $+\\lambda$ instead of $-\\lambda$, which leads to exponential (growing/decaying) solutions in $x$ rather than the oscillatory sine/cosine eigenfunctions required to satisfy the zero boundary conditions \u2014 always check that your boundary conditions force a sign choice.",
+    "When applying the initial velocity condition $u_t(x,0)$, students forget to differentiate $T_n(t)$ with respect to $t$ before setting $t=0$; they write $u_t(x,0) = \\sum A_n \\sin(n\\pi x/L)$ instead of $\\sum B_n \\omega_n \\sin(n\\pi x/L)$, which gives completely wrong $B_n$ values \u2014 always differentiate the full series first.",
+    "Students confuse the wave speed $c$ with the eigenvalue frequency: they write $\\omega_n = n\\pi/L$ instead of $\\omega_n = cn\\pi/L$, effectively setting $c=1$ in problems where $c \\neq 1$ \u2014 always carry $c$ explicitly through the temporal ODE before reading off the angular frequency."
+  ],
+  "untested_variants": [
+    "The wave equation on a semi-infinite domain $0 < x < \\infty$ with a single boundary condition at $x=0$, requiring D'Alembert's solution rather than Fourier series.",
+    "The two-dimensional wave equation $u_{tt} = c^2(u_{xx}+u_{yy})$ on a rectangular membrane, where separation of variables produces two spatial eigenvalue problems simultaneously.",
+    "Non-homogeneous wave equations of the form $u_{tt} = c^2 u_{xx} + f(x,t)$ where a forcing term drives the string, requiring the method of eigenfunction expansion or Duhamel's principle.",
+    "Problems with non-homogeneous boundary conditions (e.g., $u(0,t)=0$, $u(L,t)=g(t)$), which require lifting the boundary conditions before applying separation of variables."
+  ]
+}

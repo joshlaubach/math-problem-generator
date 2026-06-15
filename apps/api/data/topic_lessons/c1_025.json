@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_025",
+  "topic_name": "Newton's Method (H)",
+  "generated_at": "2026-05-13T00:10:43.637044+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find where a function equals zero when it factors nicely \u2014 but what do you do with something like $x^3 - 2x - 5 = 0$, which has no clean rational roots? You could graph it and squint, or use the quadratic formula for simpler cases, but there is no general algebraic formula for degree-5 polynomials or equations like $\\cos(x) = x$. So how do mathematicians find roots of arbitrary equations to any desired precision?",
+  "concept": "Newton's Method is an iterative numerical technique that uses the tangent line of a function to produce better and better approximations to a root. Starting from an initial guess $x_0$, each new approximation is found by following the tangent line to where it crosses the $x$-axis: $x_{n+1} = x_n - \\dfrac{f(x_n)}{f'(x_n)}$. Each iteration typically doubles the number of correct decimal digits.",
+  "anatomy": "The iterative formula $x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$ has four distinct components: the current approximation $x_n$ (your starting point for this step), the function value $f(x_n)$ (how far the curve is from zero at that point), the derivative $f'(x_n)$ (the slope of the tangent line at that point), and the correction term $\\frac{f(x_n)}{f'(x_n)}$ (how far you slide along the tangent line to hit the $x$-axis). The subscript $n$ counts which iteration you are on, beginning at $n = 0$.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^3 - 2x - 5, \\quad x_0 = 2",
+      "description_latex": "We want to approximate a root of $f(x) = x^3 - 2x - 5$. Checking $f(2) = 8 - 4 - 5 = -1 < 0$ and $f(3) = 27 - 6 - 5 = 16 > 0$ tells us there is a root between 2 and 3, so $x_0 = 2$ is a reasonable starting guess \u2014 Newton's Method works best when you begin close to the actual root.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 3x^2 - 2",
+      "description_latex": "Before we can iterate, we need $f'(x)$ because it appears in every step of the formula. Differentiating $x^3 - 2x - 5$ term by term gives $f'(x) = 3x^2 - 2$, and we should keep this expression ready to evaluate at each $x_n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x_1 = x_0 - \\frac{f(x_0)}{f'(x_0)} = 2 - \\frac{(8 - 4 - 5)}{(12 - 2)} = 2 - \\frac{-1}{10} = 2.1",
+      "description_latex": "Plugging $x_0 = 2$ into the Newton's Method formula, we compute $f(2) = -1$ and $f'(2) = 10$, so the correction term is $-1/10 = -0.1$. Subtracting a negative correction moves us to the right toward the root, giving $x_1 = 2.1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x_2 = x_1 - \\frac{f(x_1)}{f'(x_1)} = 2.1 - \\frac{(9.261 - 4.2 - 5)}{(13.23 - 2)} = 2.1 - \\frac{0.061}{11.23} \\approx 2.0946",
+      "description_latex": "Now we repeat the process with $x_1 = 2.1$: we get $f(2.1) = (2.1)^3 - 2(2.1) - 5 \\approx 0.061$ and $f'(2.1) = 3(2.1)^2 - 2 \\approx 11.23$, so the correction is tiny because we are already very close. After just two iterations we have four-decimal accuracy: the actual root is approximately $2.0946$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = x^2 - 7, \\quad x_0 = 3",
+      "description_latex": "We will use Newton's Method to approximate $\\sqrt{7}$, which is the positive root of $f(x) = x^2 - 7$. We start at $x_0 = 3$ because $3^2 = 9$ is close to 7, and we first need to find $f'(x)$ to set up the iteration formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 2x",
+      "description_latex": "Differentiating gives $f'(x) = 2x$. Now write down the specific Newton's Method formula for this function by substituting $f(x_n) = x_n^2 - 7$ and $f'(x_n) = 2x_n$ into $x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $x_1$ by substituting $x_0 = 3$ into the formula $x_{n+1} = x_n - \\frac{x_n^2 - 7}{2x_n}$. Show your arithmetic for $f(3)$ and $f'(3)$ separately, then combine to get $x_1$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now perform one more iteration: use $x_1$ that you just found to compute $x_2 = x_1 - \\frac{x_1^2 - 7}{2x_1}$. Round to four decimal places and compare to the known value $\\sqrt{7} \\approx 2.6458$ to see how accurate two iterations are.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For $f(x) = x^2 - 3$ with $x_0 = 2$, compute one iteration of Newton's Method to find $x_1$.",
+      "answer_latex": "x_1 = 2 - \\frac{4-3}{4} = 2 - \\frac{1}{4} = 1.75"
+    },
+    {
+      "prompt_latex": "For $f(x) = x^3 - x - 1$ with $x_0 = 1.5$, compute $x_1$ using Newton's Method. (Recall $f'(x) = 3x^2 - 1$.)",
+      "answer_latex": "x_1 = 1.5 - \\frac{(3.375 - 1.5 - 1)}{(6.75 - 1)} = 1.5 - \\frac{0.875}{5.75} \\approx 1.3478"
+    },
+    {
+      "prompt_latex": "Starting from $x_0 = 1$, perform two iterations of Newton's Method on $f(x) = x^3 - 2$ to approximate $\\sqrt[3]{2}$. Give $x_2$ to four decimal places.",
+      "answer_latex": "x_1 = 1 - \\frac{-1}{3} \\approx 1.3333, \\quad x_2 \\approx 1.3333 - \\frac{(2.3704-2)}{5.3333} \\approx 1.2639"
+    },
+    {
+      "prompt_latex": "Use Newton's Method with $x_0 = 1$ to find the $x$-coordinate of the intersection of $y = e^x$ and $y = 3x$. That is, apply one iteration to $f(x) = e^x - 3x$ (using your knowledge that $\\frac{d}{dx}e^x = e^x$) and give $x_1$.",
+      "answer_latex": "f'(x) = e^x - 3, \\quad x_1 = 1 - \\frac{e - 3}{e - 3} = 1 - 1 = 0"
+    },
+    {
+      "prompt_latex": "A civil engineer needs to find when a bridge cable described by $h(t) = t^5 - 3t + 1$ first reaches height zero for $t > 0$. Starting from $x_0 = 1$, perform one Newton's Method iteration on $h$ (using $h'(t) = 5t^4 - 3$) to estimate that root.",
+      "answer_latex": "h(1) = 1 - 3 + 1 = -1, \\quad h'(1) = 5 - 3 = 2, \\quad x_1 = 1 - \\frac{-1}{2} = 1.5"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to compute $f'(x_n)$ fresh at each new $x_n$, instead reusing $f'(x_0)$ throughout \u2014 this breaks the method because the tangent slope changes at every point, and you must re-evaluate the derivative at the current iterate $x_n$.",
+    "Students subtract in the wrong direction by computing $x_{n+1} = x_n + \\frac{f(x_n)}{f'(x_n)}$ instead of subtracting, which moves away from the root rather than toward it \u2014 double-check the minus sign in $x_{n+1} = x_n - \\frac{f(x_n)}{f'(x_n)}$ every time.",
+    "Students apply Newton's Method without checking that $f'(x_n) \\neq 0$: if the tangent line is horizontal at some iterate, the method is undefined (division by zero), and the iteration will fail or diverge \u2014 always verify that the derivative is nonzero at your current approximation."
+  ],
+  "untested_variants": [
+    "Applying Newton's Method to transcendental equations involving trigonometric functions, such as finding a root of $f(x) = \\sin(x) - x/2$, which requires evaluating $\\cos(x)$ as the derivative.",
+    "Analyzing convergence failure: choosing a bad initial guess $x_0$ that causes the iterates to cycle or diverge, and explaining geometrically why the tangent line leads away from the root.",
+    "Using Newton's Method to solve optimization problems by finding critical points \u2014 applying the method to $f'(x) = 0$ (i.e., iterating with $f'$ and $f''$) rather than to $f(x) = 0$ directly.",
+    "Deriving the Newton's Method formula from scratch by writing the equation of the tangent line at $(x_n, f(x_n))$ and solving for its $x$-intercept, rather than just applying the formula."
+  ]
+}

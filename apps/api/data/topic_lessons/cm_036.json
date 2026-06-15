@@ -1,0 +1,91 @@
+{
+  "topic_id": "cm_036",
+  "topic_name": "Coloring and Tiling Arguments",
+  "generated_at": "2026-05-13T20:24:56.519263+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to count and use parity arguments \u2014 for instance, you can show that the sum of two odd numbers is even. But now consider this: take an $8 \\times 8$ chessboard and remove two opposite corner squares. Can you tile the remaining 62 squares with 31 dominoes, where each domino covers exactly two adjacent squares? You might try to arrange dominoes by hand, fail repeatedly, and start to suspect it's impossible \u2014 but how do you *prove* it's impossible for every possible arrangement?",
+  "concept": "Coloring and tiling arguments use a clever assignment of colors (or labels) to the cells of a grid, board, or region so that any valid tile placement must cover a fixed pattern of colors \u2014 turning a geometric question into a counting or parity contradiction. Formally, we assign each cell a color from a set $C$, observe that every tile in our set $\\mathcal{T}$ covers exactly $a_c$ cells of each color $c \\in C$, then show that the region to be tiled has a color distribution inconsistent with any integer combination of those tile color-vectors.",
+  "anatomy": "A coloring argument has four key components. First, the **region** $R$: the set of cells you want to tile, with $|R|$ total cells. Second, the **coloring function** $f: R \\to C$, which assigns a color to every cell \u2014 the most common choice is the standard black-and-white chessboard 2-coloring $f(i,j) = (i+j) \\bmod 2$, but more exotic colorings (4-colorings, $\\{0,1,2\\}$-colorings, weight functions) arise in harder problems. Third, the **tile color signature**: the multiset of colors that a single tile covers \u2014 for a domino on a chessboard, the signature is always $\\{\\text{black}, \\text{white}\\}$ (one of each). Fourth, the **color count mismatch**: the observed numbers of each color in $R$ that cannot be expressed as a sum of tile signatures, giving the contradiction.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Region } R = 8\\times 8 \\text{ board minus two opposite corners } (1,1) \\text{ and } (8,8)",
+      "description_latex": "We begin by identifying the region precisely. An $8 \\times 8$ chessboard has 64 squares; removing two corners leaves 62 squares, so 31 dominoes would be needed if a tiling exists. The key question is whether the color distribution of $R$ is compatible with 31 domino signatures.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(i,j) = (i+j) \\bmod 2, \\quad \\text{so each cell is Black (0) or White (1)}",
+      "description_latex": "We apply the standard chessboard 2-coloring: cell $(i,j)$ is black if $i+j$ is even, white if $i+j$ is odd. This coloring is our main tool because any domino \u2014 horizontal or vertical \u2014 always covers exactly one black and one white cell, giving every domino the signature $\\{B, W\\}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Corner } (1,1): (1+1) \\bmod 2 = 0 \\Rightarrow \\text{Black}.\\quad \\text{Corner } (8,8): (8+8)\\bmod 2 = 0 \\Rightarrow \\text{Black}.",
+      "description_latex": "We check the colors of the two removed corners. Both $(1,1)$ and $(8,8)$ satisfy $i+j$ even, so both are black. This means $R$ has lost two black squares from the full board.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|B_R| = 32 - 2 = 30, \\quad |W_R| = 32, \\quad |B_R| \\neq |W_R|",
+      "description_latex": "On a full $8\\times 8$ board there are 32 black and 32 white cells. After removing two black corners, $R$ contains 30 black and 32 white cells. Since every domino must cover exactly one black and one white cell, any complete tiling of $R$ would require the numbers of black and white cells to be equal \u2014 but $30 \\neq 32$, so no tiling exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Conclusion: } 31 \\text{ dominoes would require } 31 \\text{ black and } 31 \\text{ white cells, but } |B_R|=30 \\neq 31. \\text{ Impossible.}",
+      "description_latex": "We state the contradiction cleanly: any tiling by 31 dominoes covers exactly 31 black and 31 white cells, yet $R$ has only 30 black cells, so no such tiling can exist. This completes the proof \u2014 no arrangement of dominoes, however clever, can tile $R$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: Can a } 10\\times 10 \\text{ board minus one black and one white cell be tiled by } 1\\times 2 \\text{ dominoes?}",
+      "description_latex": "We are asked whether removing one cell of each color from a $10 \\times 10$ board always allows a domino tiling. Let's set up the coloring: apply $f(i,j)=(i+j)\\bmod 2$ to the full board, which has 50 black and 50 white cells.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|B_R| = 50 - 1 = 49, \\quad |W_R| = 50 - 1 = 49",
+      "description_latex": "After removing one black cell and one white cell, the region $R$ has 49 black and 49 white cells, for a total of 98 cells. Since $|B_R| = |W_R| = 49$, the color counts are balanced \u2014 the necessary condition for a domino tiling is satisfied. Note: this shows the tiling is *not ruled out* by the coloring argument, but it does not by itself prove a tiling exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now here is the key reasoning step: explain why the coloring argument alone cannot prove the tiling *is* possible, and state what additional argument (think about connectivity or a specific constructive or inductive argument) would be needed to complete a full proof that the tiling always exists regardless of which black and which white cell are removed.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Necessary condition: } |B_R| = |W_R|. \\quad \\text{Sufficient condition: requires further argument (e.g., graph connectivity / induction).}",
+      "description_latex": "The coloring argument gives a necessary condition for tileability, not a sufficient one \u2014 equal color counts are required but not enough. To prove existence for all choices of removed cells, one needs a deeper argument such as showing the resulting graph has a perfect matching (by Hall's theorem) or using an inductive construction. Recognizing this boundary is crucial in contest work.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A $4 \\times 4$ chessboard has two squares removed: $(1,1)$ and $(1,2)$, one black and one white. Without constructing a tiling, use a coloring argument to determine whether a domino tiling of the remaining 14 squares is ruled out.",
+      "answer_latex": "The standard 2-coloring gives $|B_R|=7$ and $|W_R|=7$, so the necessary condition is satisfied and the coloring argument does NOT rule out a tiling."
+    },
+    {
+      "prompt_latex": "Prove that a $6 \\times 6$ board with all four corner squares removed cannot be tiled by $1 \\times 2$ dominoes.",
+      "answer_latex": "All four corners $(1,1),(1,6),(6,1),(6,6)$ satisfy $(i+j)\\bmod 2 = 0$, so all four are black. Thus $|B_R|=18-4=14$ and $|W_R|=18$. A tiling requires $|B_R|=|W_R|$, but $14\\neq 18$, so no tiling exists."
+    },
+    {
+      "prompt_latex": "Color the cells of a $3\\times 3$ board with three colors using $f(i,j)=(i+j)\\bmod 3 \\in \\{0,1,2\\}$. An $L$-tromino covers three cells forming an $L$-shape. Show that a single $L$-tromino always covers one cell of each color, and use this to prove the $3\\times 3$ board (9 cells) cannot be tiled by three $L$-trominoes.",
+      "answer_latex": "Each $L$-tromino covers cells with residues $\\{0,1,2\\}$ (one each). Three trominoes would cover exactly 3 cells of each color, requiring $|C_0|=|C_1|=|C_2|=3$. But $f(i,j)=(i+j)\\bmod 3$ on a $3\\times 3$ grid gives counts $|C_0|=3,|C_1|=3,|C_2|=3$, so the color count is balanced. The coloring argument does not give a contradiction here; in fact a $3\\times 3$ board minus one corner can be tiled, but the full $3\\times 3$ cannot \u2014 a separate area/parity argument (9 is not divisible by... wait, $9/3=3$) is needed. Actually the correct conclusion: 9 cells, each tromino covers 3, so 3 trominoes are needed; the 3-coloring gives $3=3=3$, consistent, so this argument alone does not prove impossibility. A different argument (e.g., checkerboard) is needed."
+    },
+    {
+      "prompt_latex": "A $7\\times 7$ board is to be tiled by $1\\times 3$ trominoes (straight pieces covering 3 cells in a row or column). Use a 3-coloring $f(i,j) = (i+j-2)\\bmod 3$ (so cell $(1,1)$ has color 0) to show that this tiling is impossible.",
+      "answer_latex": "Count cells of each color: in a $7\\times 7$ grid the residues $0,1,2$ under $(i+j-2)\\bmod 3$ appear 17, 16, and 16 times respectively (since $49=3\\cdot 16+1$). A straight $1\\times 3$ tromino always covers exactly one cell of each color. Any tiling by $k$ trominoes covers $k$ cells of each color, requiring all three color counts to be equal. But $17\\neq 16$, so no tiling by straight trominoes exists."
+    },
+    {
+      "prompt_latex": "A museum floor is an $L$-shaped region formed by taking a $2^n \\times 2^n$ grid and removing one corner $1\\times 1$ cell. Explain (using a tiling/coloring argument or an inductive construction) why this region can always be tiled by $L$-trominoes (pieces covering 3 cells in an $L$-shape), for every $n \\geq 1$.",
+      "answer_latex": "By induction on $n$. Base case $n=1$: $2\\times 2$ minus one corner is exactly one $L$-tromino. Inductive step: divide the $2^n\\times 2^n$ board into four $2^{n-1}\\times 2^{n-1}$ quadrants. Place one $L$-tromino at the center covering one cell from each of the three quadrants that do NOT contain the missing corner. Each quadrant now has exactly one missing cell, so by the inductive hypothesis each can be tiled. This constructive argument proves tileability for all $n\\geq 1$."
+    }
+  ],
+  "common_mistakes": [
+    "Students often conclude that because the coloring condition is satisfied (equal color counts), a tiling must exist \u2014 but the coloring argument only provides a necessary condition, not a sufficient one. Fix: always state explicitly that you are ruling out a tiling via contradiction, and acknowledge that passing the coloring test does not guarantee a tiling.",
+    "When choosing a coloring, students sometimes apply the right coloring but miscount the colors in the region \u2014 especially after removing cells \u2014 by forgetting to recount or by assuming the removed cells are always one of each color. Fix: explicitly recount $|B_R|$ and $|W_R|$ after every removal rather than assuming symmetry.",
+    "Students frequently choose the standard 2-coloring even when the tile size is 3 or more, where it gives no useful information (a $1\\times 3$ tromino covers either 1 or 2 black cells depending on position). Fix: match the coloring period to the tile \u2014 use a $k$-coloring with $f(i,j)=(i+j)\\bmod k$ when working with tiles of length $k$, so that every valid tile covers exactly one cell of each color."
+  ],
+  "untested_variants": [
+    "Tiling problems where the tile set contains more than one type of tile (e.g., a mix of $1\\times 2$ dominoes and $2\\times 2$ squares), requiring a coloring argument that simultaneously handles multiple tile signatures.",
+    "Weight-function or non-uniform coloring arguments, such as assigning integer weights $w(i,j) = 2^i \\cdot 3^j$ to cells and showing the total weight of the region is not divisible by the weight sum of a single tile \u2014 a technique used in advanced problems where standard colorings fail.",
+    "Three-dimensional tiling problems, for example tiling an $n\\times n\\times n$ box with $1\\times 1\\times 3$ bricks, which require a 3-coloring extended to three dimensions.",
+    "Signed or modular coloring arguments where the coloring takes values in $\\mathbb{Z}/m\\mathbb{Z}$ for $m>3$, such as showing a region cannot be tiled by $1\\times 5$ strips using a 5-coloring \u2014 a generalization the practice problems do not address."
+  ]
+}

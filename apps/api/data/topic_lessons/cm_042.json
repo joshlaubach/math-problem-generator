@@ -1,0 +1,91 @@
+{
+  "topic_id": "cm_042",
+  "topic_name": "Mock Competitions and Problem Sets",
+  "generated_at": "2026-05-13T20:25:41.891781+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You've mastered individual techniques \u2014 modular arithmetic, combinatorics, geometric inequalities \u2014 but solving a single practice problem is very different from performing under competition conditions. You know how to factor a polynomial or count arrangements, yet when a timed mock exam drops five problems in front of you with no hints, how do you decide where to start, how long to spend on each, and when to cut your losses and move on? Here's a question to sit with: if you can solve Problem 3 of a five-problem set perfectly but spend 40 of your 60 minutes on it, have you competed well?",
+  "concept": "A mock competition is a timed, full-length simulation of a real contest used to build both mathematical skill and strategic judgment. Formally, if a competition has $n$ problems worth point values $p_1, p_2, \\ldots, p_n$ and you have time $T$, your goal is to maximize $\\sum_{i \\in S} p_i$ over a chosen subset $S$ of problems, subject to $\\sum_{i \\in S} t_i \\leq T$ where $t_i$ is your time on problem $i$ \u2014 a constrained optimization over your own abilities.",
+  "anatomy": "A mock competition problem set has four key structural components: the **problem ordering**, which on most contests (AMC, AIME, MATHCOUNTS) progresses from easiest to hardest and signals where to invest time; the **point or scoring scheme**, such as the AMC's $+6$ for correct, $0$ for blank, $-1.5$ for wrong, which determines whether guessing is rational; the **time budget** $T$ (e.g., 75 minutes for 30 AMC problems), which forces allocation decisions; and the **difficulty tier** of each problem, roughly classified as early ($1$\u2013$10$), middle ($11$\u2013$20$), and late ($21$\u2013$30$) on a 30-problem exam, each tier demanding a different strategy.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{AMC 10: } 30 \\text{ problems}, 75 \\text{ min}, \\text{scoring: } +6, 0, -1.5",
+      "description_latex": "We begin by reading the rules before touching a single problem, because the scoring system completely changes our strategy. On the AMC, a blank answer scores $0$ while a wrong answer costs $1.5$ points, so we should only guess when we can eliminate at least two of five choices, since $\\frac{1}{3} \\cdot 6 > 1.5$ tips the expected value positive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Target pace: } \\frac{75}{30} = 2.5 \\text{ min/problem on average}",
+      "description_latex": "Computing the average time per problem gives us a pace anchor, but we should deliberately underspend on early problems and bank that time for the middle tier. If problems 1\u201310 take only 1.5 minutes each, we save $10$ minutes to redistribute, which can be the difference between attempting problem 20 or not.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Pass threshold: if } t_i > 4 \\text{ min on problems } 1\\text{\u2013}15, \\text{ mark and move on}",
+      "description_latex": "Setting a personal 'cut rule' for each difficulty tier keeps you from hemorrhaging time on a single problem. If you've spent 4 minutes on an early-tier problem without a clear path, circling it and moving forward almost always improves your total score, because the time can recover two or three solvable problems later in the set.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Expected score (no guessing, 18 correct, 0 blank, 12 wrong)} = 18(6) + 0 - 12(1.5) = 108 - 18 = 90",
+      "description_latex": "Let's compute a realistic score to make the stakes concrete \u2014 if you attempt all 30 problems, get 18 right and 12 wrong, you score $90$. But if you had left those 12 wrong answers blank, you'd score $108$. This $18$-point swing illustrates why disciplined blanking on uncertain answers is a learnable skill, not timidity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Post-mock review: for each missed problem, classify as } \\{\\text{conceptual gap, careless, time pressure}\\}",
+      "description_latex": "The review phase is where mock competitions earn their keep \u2014 every missed or skipped problem should be tagged with a root cause so your next study session targets the right skill. A 'time pressure' tag means you need more speed drills; a 'conceptual gap' tag sends you back to content review; a 'careless' tag demands a written checklist of your own most common arithmetic or notation errors.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{AIME: } 15 \\text{ problems}, 3 \\text{ hours}, \\text{integer answers } 000\\text{\u2013}999, \\text{ no penalty for wrong}",
+      "description_latex": "We start by noting that the AIME has no guessing penalty, which changes the strategy from the AMC entirely \u2014 you should always write an answer, even if uncertain, since a wrong integer answer costs $0$ points. Read the rules and identify the scoring structure before planning your time allocation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Time budget: } \\frac{180}{15} = 12 \\text{ min/problem average}",
+      "description_latex": "Compute the average time per problem to establish your pace anchor, then decide how to redistribute time across the three difficulty tiers (problems 1\u20135, 6\u201310, 11\u201315). Your target should be to finish problems 1\u20135 well under 12 minutes each so you have a cushion for the harder problems.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now here is the key strategic decision: suppose after 90 minutes you have solved problems 1\u20137 confidently and are stuck on problem 8. Should you spend the remaining 90 minutes only on problem 8, or should you skip to problems 9\u201315 to find any that might be more tractable for your skill set? Write out the expected-score argument for each choice, assuming you estimate a 30% chance of solving problem 8 in 90 minutes and a 50% chance of solving at least one of problems 9\u201312 in the same time.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Post-AIME review: tag each problem with } \\{\\text{solved, solved-with-error, attempted, skipped}\\}",
+      "description_latex": "After the mock, categorize every problem honestly \u2014 'solved-with-error' is especially valuable data because it pinpoints the exact moment your approach was correct but execution failed, often careless algebra or a missed case that a targeted checklist can prevent next time.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "An AMC 10 has 30 problems worth $+6$ for correct and $-1.5$ for wrong. A student answers 20 correctly, leaves 5 blank, and gets 5 wrong. What is her score?",
+      "answer_latex": "20(6) + 5(0) + 5(-1.5) = 120 - 7.5 = 112.5"
+    },
+    {
+      "prompt_latex": "On an AMC 8 (25 problems, 40 minutes, $+1$ for correct, $0$ otherwise), a student can solve the first 18 problems in 32 minutes. If the remaining 8 problems each have a $\\frac{1}{5}$ chance of a correct random guess, what is the expected total score?",
+      "answer_latex": "18 + 8 \\cdot \\frac{1}{5} = 18 + 1.6 = 19.6"
+    },
+    {
+      "prompt_latex": "A student has 20 minutes left in a mock AIME and two unsolved problems. She estimates an 40\\% chance of solving problem A and a 60\\% chance of solving problem B if she devotes all remaining time to one of them. Each correct answer is worth 1 point. Which problem maximizes expected score, and by how much?",
+      "answer_latex": "\\text{Choose problem B; expected gain } = 0.60 - 0.40 = 0.20 \\text{ points}"
+    },
+    {
+      "prompt_latex": "In a 5-problem olympiad (problems worth 7 points each, 4.5 hours total), a student spends time $t_1, t_2, t_3, t_4, t_5$ in hours. She solves problems 1, 2, 4 completely and scores $\\frac{4}{7}$ of the points on problem 3, nothing on problem 5. Express her total score and, given $t_1+t_2+t_3+t_4+t_5 = 4.5$, write the constraint she violated if $t_3 + t_5 = 3$ hours while $t_1+t_2+t_4 = 1.5$ hours. Was time allocation optimal?",
+      "answer_latex": "\\text{Score} = 7+7+4+7 = 25 \\text{ out of } 35; \\text{ spending } 3 \\text{ hr on } \\{3,5\\} \\text{ for only } 4 \\text{ pts is suboptimal vs. reinforcing problems } 1,2,4."
+    },
+    {
+      "prompt_latex": "After a mock AMC 12, a student reviews 8 missed problems and classifies them: 3 as conceptual gaps, 3 as careless errors, and 2 as time-pressure skips. She has 5 hours of study time before the next mock. If fixing a conceptual gap takes 1.5 hr of content review and fixing a careless-error pattern takes 0.5 hr of drill, and she must address all careless errors first (since they are quickest wins), how many conceptual gaps can she fully address with the remaining time?",
+      "answer_latex": "3(0.5) = 1.5 \\text{ hr on careless errors; remaining } = 3.5 \\text{ hr}; \\lfloor 3.5/1.5 \\rfloor = 2 \\text{ conceptual gaps}"
+    }
+  ],
+  "common_mistakes": [
+    "Students treat every problem as equally worth their time regardless of difficulty tier \u2014 spending 15 minutes on problem 22 of an AMC while problems 14\u201318 remain untouched. Fix this by setting a hard per-problem time cap for each tier before the exam begins and honoring it.",
+    "Students misapply the guessing strategy by guessing randomly on all skipped AMC problems, not accounting for the $-1.5$ penalty \u2014 random guessing among all 5 choices has expected value $\\frac{1}{5}(6) + \\frac{4}{5}(-1.5) = 1.2 - 1.2 = 0$, so it breaks exactly even and is only beneficial when at least one choice is eliminated.",
+    "Students skip the post-mock review entirely and simply note their score, missing the entire diagnostic value of the exercise \u2014 every missed problem carries information about a specific skill gap, and without classifying errors by type the same mistakes recur on the next mock."
+  ],
+  "untested_variants": [
+    "Two-stage competitions (e.g., AMC \u2192 AIME) where the score on the first exam determines eligibility for the second, requiring a different threshold-targeting strategy not addressed in these problems.",
+    "Team rounds (e.g., MATHCOUNTS Team Round or ARML Team Round) where optimal strategy involves dividing problems among teammates based on individual strengths, introducing a collaborative allocation dimension.",
+    "Competitions with partial credit scoring (e.g., HMMT or PUMAC proof rounds) where the calculus of 'how complete does my solution need to be to earn meaningful points' differs entirely from all-or-nothing integer-answer formats.",
+    "Speed rounds with tiebreaker rules (e.g., MATHCOUNTS Countdown Round) where the fastest correct answer wins and buzzing incorrectly has social or structural consequences beyond a point penalty."
+  ]
+}

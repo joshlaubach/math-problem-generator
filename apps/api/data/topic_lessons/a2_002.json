@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_002",
+  "topic_name": "Parent Functions and Transformations",
+  "generated_at": "2026-05-12T23:16:58.805005+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to graph a straight line using slope and y-intercept, and you can shift a point around the coordinate plane with ease. But what happens when someone hands you $g(x) = -2|x - 3| + 5$ and asks you to graph it instantly \u2014 without making a table of values? You don't have a clean formula for that yet, because you haven't learned how a single 'parent' shape gets stretched, flipped, and slid into any position. How do mathematicians read a transformed function the way a musician reads sheet music \u2014 translating symbols directly into a picture?",
+  "concept": "A parent function is the simplest, most 'plain' version of a family of functions \u2014 the baseline shape before any modifications. A transformation is any change applied to that parent that shifts, stretches, compresses, or reflects its graph. Formally, if $f(x)$ is the parent function, then $g(x) = a \\cdot f(x - h) + k$ is a transformation of $f$, where the parameters $a$, $h$, and $k$ control exactly how the graph moves and changes shape.",
+  "anatomy": "The transformed function $g(x) = a \\cdot f(x - h) + k$ has four distinct components you must identify separately. The parent function $f(x)$ defines the base shape (for linear functions, $f(x) = x$, giving a diagonal line through the origin). The vertical stretch/reflection factor $a$ scales the graph vertically \u2014 if $|a| > 1$ it stretches, if $0 < |a| < 1$ it compresses, and if $a$ is negative the graph flips upside-down over the x-axis. The horizontal shift $h$ moves the graph left or right (crucially, $x - h$ means shift RIGHT by $h$, which many students find counterintuitive). Finally, the vertical shift $k$ moves the graph straight up (positive $k$) or down (negative $k$).",
+  "worked_example": [
+    {
+      "expression_latex": "g(x) = 2(x - 4) + 1",
+      "description_latex": "Our goal is to describe every transformation applied to the linear parent function $f(x) = x$ in order to produce $g(x) = 2(x-4)+1$. We start by matching the expression to the template $a \\cdot f(x-h)+k$, so we can read off each parameter one at a time rather than trying to interpret the whole thing at once.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = 2, \\quad h = 4, \\quad k = 1",
+      "description_latex": "Comparing $g(x) = 2(x-4)+1$ to $a \\cdot f(x-h)+k$, we identify $a=2$ (the coefficient in front), $h=4$ (the number being subtracted inside the parentheses), and $k=1$ (the constant added at the end). Always isolate the parameter inside the function argument first \u2014 $(x-4)$ means $h=+4$, not $-4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Vertical stretch by factor } 2; \\text{ shift right } 4; \\text{ shift up } 1",
+      "description_latex": "Now we translate each parameter into plain English: $a=2$ means every output is multiplied by 2, making the line steeper (vertical stretch by 2); $h=4$ means the graph slides 4 units to the right; and $k=1$ means the graph slides 1 unit upward. The order matters \u2014 we describe the stretch before the shifts.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Key point on parent: } (0,0) \\xrightarrow{\\text{shift}} (0+4,\\; 0 \\cdot 2+1) = (4, 1)",
+      "description_latex": "To quickly graph $g$, we track where the parent's most recognizable point goes. The origin $(0,0)$ on $f(x)=x$ maps to $(0+h,\\; a\\cdot 0 + k) = (4, 1)$ \u2014 this becomes the new 'anchor point' of the transformed line, confirming our transformations are correct.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Slope of } g(x) = 2(x-4)+1 \\text{ is } 2; \\text{ passes through } (4,1)",
+      "description_latex": "For linear functions, $a$ is also the slope of the transformed line, so we can immediately draw the graph: start at $(4,1)$ and use slope $2$ (rise 2, run 1) to plot additional points. This shows how the transformation framework and the slope-intercept framework agree \u2014 they're two ways of reading the same line.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = -\\tfrac{1}{2}(x + 3) - 2",
+      "description_latex": "We want to identify all transformations of $f(x) = x$ embedded in $g(x) = -\\frac{1}{2}(x+3)-2$. First, rewrite the inside so it matches the form $(x - h)$: note that $(x+3) = (x-(-3))$, so $h = -3$. This rewriting step is the most important one \u2014 it prevents sign errors on the horizontal shift.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = -\\tfrac{1}{2}, \\quad h = -3, \\quad k = -2",
+      "description_latex": "With the expression in standard form, read off the three parameters: $a = -\\frac{1}{2}$, $h = -3$, and $k = -2$. Now describe in words what each parameter does to the parent graph \u2014 pay special attention to what the negative sign on $a$ tells you.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Anchor point: } (0,0) \\to (-3, -2)",
+      "description_latex": "The origin of the parent function shifts to $(h, k) = (-3, -2)$, giving us the anchor point of $g$. From here, use the slope $a = -\\frac{1}{2}$ to sketch the line \u2014 try plotting one more point using rise $-1$, run $2$ to confirm your sketch matches a reflected, compressed line.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the parent function and describe all transformations: $g(x) = x + 5$",
+      "answer_latex": "Parent: $f(x)=x$; vertical shift up $5$ units (no stretch or horizontal shift)"
+    },
+    {
+      "prompt_latex": "Identify $a$, $h$, and $k$, then describe each transformation: $g(x) = 3(x - 2) + 7$",
+      "answer_latex": "$a=3, h=2, k=7$; vertical stretch by factor $3$, shift right $2$, shift up $7$"
+    },
+    {
+      "prompt_latex": "Write the equation of the linear function whose parent is $f(x)=x$, reflected over the x-axis, compressed vertically by $\\frac{1}{3}$, shifted left $4$ units, and shifted down $6$ units.",
+      "answer_latex": "$g(x) = -\\dfrac{1}{3}(x+4) - 6$"
+    },
+    {
+      "prompt_latex": "The function $g(x) = -4(x+1)-3$ is graphed. A second function $h(x)$ is $g(x)$ shifted right $5$ units and up $2$ units. Write the equation of $h(x)$ in the form $a(x-h)+k$.",
+      "answer_latex": "$h(x) = -4(x-4)-1$"
+    },
+    {
+      "prompt_latex": "A plumber charges a flat fee plus an hourly rate. Her pricing is modeled by $C(t) = 85t + 60$. Rewrite this in transformation form $a(t - h)+k$ with an appropriate $h=0$ and identify what each transformation parameter represents in context.",
+      "answer_latex": "$C(t)=85(t-0)+60$; $a=85$ is the hourly rate (vertical stretch/slope), $k=60$ is the flat fee (vertical shift), and $h=0$ means no horizontal shift \u2014 billing starts at $t=0$"
+    }
+  ],
+  "common_mistakes": [
+    "Students read $(x - h)$ and conclude the horizontal shift is in the direction of the sign they see, writing a shift LEFT when the formula shows $(x-3)$. The fix: always say 'the graph shifts in the OPPOSITE direction of the sign inside' \u2014 $(x-3)$ shifts RIGHT by 3, because you need $x=3$ to make the expression zero.",
+    "When $a$ is negative, students describe only a reflection and forget there may also be a vertical stretch or compression. For example, $a = -3$ means BOTH a reflection over the x-axis AND a vertical stretch by factor 3 \u2014 always check $|a|$ separately from the sign of $a$.",
+    "Students confuse the anchor point formula and shift the origin by $(h, k)$ but then apply the slope incorrectly, using the original parent slope of $1$ instead of the transformed slope $a$. Remember: for linear functions $a$ plays a dual role \u2014 it is both the transformation factor AND the slope of the new line."
+  ],
+  "untested_variants": [
+    "Graphing a transformed absolute value parent function $f(x)=|x|$ using the same $a(x-h)+k$ framework \u2014 the practice problems only use linear parents.",
+    "Working backwards from a graph to write the transformation equation, where students must read $a$, $h$, and $k$ from a plotted line without any equation given.",
+    "Applying a sequence of transformations in a specified order and determining whether order matters (e.g., does shifting before stretching give the same result as stretching before shifting?).",
+    "Composing two successive transformations algebraically \u2014 for example, finding the single equation that represents applying $g(x)=2x+1$ to the output of $f(x)=x-3$."
+  ]
+}

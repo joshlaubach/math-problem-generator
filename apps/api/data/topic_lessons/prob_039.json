@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_039",
+  "topic_name": "Probability in Everyday Decision Making",
+  "generated_at": "2026-05-13T20:28:51.283656+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to compute probabilities for simple events \u2014 a coin flip, drawing a card, rolling a die. But real decisions rarely look like that. When a doctor tells you a test is '95% accurate,' should you panic? When an airline overbooks a flight, how do they decide how many extra tickets to sell? The gap is turning raw probability numbers into actual decisions, and the question is: how do you weigh uncertainty against real-world costs and consequences?",
+  "concept": "Probability-based decision making means choosing the action that minimizes risk or maximizes benefit by computing the expected value of each option. In plain English: you multiply each possible outcome's value by its probability, then sum to get a single number you can compare across choices. Formally, the expected value of a random variable $X$ with outcomes $x_1, x_2, \\ldots, x_n$ and probabilities $p_1, p_2, \\ldots, p_n$ is $E[X] = \\sum_{i=1}^{n} x_i \\, p_i$, and the rational decision is the one with the highest (or lowest, if measuring cost) expected value.",
+  "anatomy": "A probability-based decision problem has four named components: the action set \u2014 the list of distinct choices available to the decision-maker; the outcome space \u2014 all possible results for each action, each assigned a numerical value (gain, loss, utility, or cost); the probability distribution \u2014 the likelihood $p_i$ attached to each outcome, which must satisfy $\\sum p_i = 1$ for each action; and the expected value $E[X] = \\sum x_i p_i$ \u2014 the weighted average payoff that serves as the single comparison number. The decision rule is then to select the action with the optimal expected value.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Action A: carry umbrella. Action B: don't carry umbrella.}",
+      "description_latex": "We first lay out the decision clearly by naming every action available. Here a commuter must decide whether to carry an umbrella given a 40% chance of rain, so we label the two actions before assigning any numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Payoffs: Rain (}p=0.4\\text{): A} = -1,\\; \\text{B} = -10.\\quad \\text{No rain (}p=0.6\\text{): A} = -1,\\; \\text{B} = 0.",
+      "description_latex": "Next we assign numerical values to every outcome. Carrying an umbrella always costs a minor inconvenience of $-1$ (effort), while getting caught without one in the rain costs $-10$ (misery), and staying dry without one costs nothing; assigning numbers forces vague preferences into a form we can compute.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[A] = (-1)(0.4) + (-1)(0.6) = -0.4 - 0.6 = -1",
+      "description_latex": "We compute the expected value of Action A by multiplying each payoff by its probability and summing. Every scenario leads to the same $-1$ cost for carrying the umbrella, so the weighted sum is simply $-1$, which is our baseline to beat.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[B] = (-10)(0.4) + (0)(0.6) = -4 + 0 = -4",
+      "description_latex": "Now we compute the expected value of Action B by the same method. The rain penalty of $-10$ occurs with probability $0.4$, contributing $-4$ to the average, while the dry outcome contributes nothing, giving an expected cost of $-4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[A] = -1 > E[B] = -4 \\implies \\text{Choose Action A (carry umbrella)}",
+      "description_latex": "We compare the two expected values and select the action with the higher (less negative) value. Because $-1 > -4$, carrying the umbrella is the rational choice \u2014 it avoids a large expected loss, even though there is a 60% chance the umbrella turns out unnecessary.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A factory can run inspection (cost }\\$200\\text{) or skip it.}\\\\\\text{Defect probability} = 0.15.\\; \\text{Recall cost if defect reaches market} = \\$2000.",
+      "description_latex": "We read the problem carefully and identify two actions: inspect or skip. Before computing anything, note that the inspection eliminates recall risk entirely (it catches defects), while skipping leaves a 15% chance of a costly recall \u2014 this asymmetry is what makes the expected-value comparison meaningful.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[\\text{Inspect}] = -200",
+      "description_latex": "The inspection cost is certain, so its expected value is simply $-200$ with no probability weighting needed. This is your baseline \u2014 now you need to find the expected cost of skipping to see which action is cheaper on average.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $E[\\text{Skip}]$ by multiplying each outcome's cost by its probability and summing. Remember there are two outcomes: a defect (probability $0.15$, cost $\\$2000$) and no defect (probability $0.85$, cost $\\$0$). What is $E[\\text{Skip}]$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compare $E[\\text{Inspect}]$ and $E[\\text{Skip}]$ and state which action the factory should choose, explaining in one sentence why the expected-value criterion justifies that choice.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A lottery ticket costs \\$2. It pays \\$10 with probability $0.1$ and nothing otherwise. Compute $E[\\text{net gain}]$ for buying the ticket.",
+      "answer_latex": "E[\\text{net gain}] = (10-2)(0.1) + (-2)(0.9) = 0.8 - 1.8 = -1.0"
+    },
+    {
+      "prompt_latex": "You can take Route A (always 30 min) or Route B (20 min with probability $0.6$, 50 min with probability $0.4$). Which route has the lower expected travel time?",
+      "answer_latex": "E[A]=30,\\; E[B]=20(0.6)+50(0.4)=12+20=32.\\; \\text{Choose Route A.}"
+    },
+    {
+      "prompt_latex": "A tech company offers two bonuses: Bonus X pays \\$5000 with certainty. Bonus Y pays \\$12000 with probability $0.35$ and \\$0 otherwise. Which has the higher expected value, and by how much?",
+      "answer_latex": "E[X]=5000,\\; E[Y]=12000(0.35)=4200.\\; \\text{Bonus X is higher by }\\$800."
+    },
+    {
+      "prompt_latex": "An insurance policy costs \\$150 per year. Without it, there is a $0.03$ probability of a \\$6000 loss and a $0.97$ probability of no loss. Using expected value, determine whether buying the insurance is the rational choice and compute the expected savings (or extra cost) from insuring.",
+      "answer_latex": "E[\\text{uninsured loss}]=6000(0.03)=180.\\; \\text{Policy costs }150<180,\\; \\text{so buy insurance; saves }E=\\$30 \\text{ per year.}"
+    },
+    {
+      "prompt_latex": "A physician recommends a treatment that cures a disease (value $+100$ quality-adjusted life days) with probability $0.7$, has no effect with probability $0.2$, and causes a serious side effect (value $-60$ days) with probability $0.1$. The alternative is no treatment (value $0$). Should the patient choose treatment based on expected value?",
+      "answer_latex": "E[\\text{treat}]=100(0.7)+0(0.2)+(-60)(0.1)=70-6=64>0=E[\\text{no treat}].\\; \\text{Yes, choose treatment.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to subtract the cost of an action from the payoffs, computing expected revenue instead of expected net gain. For example, a lottery ticket paying $10 with probability 0.1 has expected net gain $(10-2)(0.1)+(-2)(0.9)=-1$, not $10(0.1)=1$. Always define payoffs as net values before multiplying by probabilities.",
+    "Students treat the probability of the 'good' outcome as the sole basis for a decision \u2014 choosing whichever action has the higher probability of success \u2014 without weighting by the magnitude of each outcome. A 90% chance of gaining $1 is worse than a 10% chance of gaining $100; expected value exists precisely to account for both dimensions simultaneously.",
+    "When there are more than two outcomes, students sometimes let the probabilities sum to more than 1 by accidentally double-counting a scenario or forgetting a complementary event. Always verify that all probabilities across outcomes for a single action sum to exactly $\\sum p_i = 1$ before computing $E[X]$."
+  ],
+  "untested_variants": [
+    "Decision trees with sequential choices and conditional probabilities, where an initial decision changes the probability distribution over later outcomes (e.g., deciding to gather information before a second decision).",
+    "Utility-based decisions where the payoff function is nonlinear (e.g., risk-averse agents using $u(x)=\\sqrt{x}$), so maximizing expected utility differs from maximizing expected monetary value.",
+    "Problems involving the Law of Total Expectation, where you compute $E[X]$ by conditioning on a partition of the sample space: $E[X] = E[X|A]P(A) + E[X|A^c]P(A^c)$.",
+    "Multi-action decision problems under uncertainty where probabilities are themselves unknown (minimax or maximin criteria instead of expected value)."
+  ]
+}

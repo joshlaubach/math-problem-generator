@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_058",
+  "topic_name": "Minimum Spanning Trees: Kruskal's and Prim's Algorithms",
+  "generated_at": "2026-05-13T20:16:45.345490+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to represent networks as graphs with weighted edges \u2014 think of cities connected by roads where each road has a travel cost. Now suppose you want to connect all cities using the minimum total road cost, without any redundant loops. You know spanning trees exist, but how do you find the one with the smallest total weight efficiently? Which edges do you keep, and which do you discard?",
+  "concept": "A minimum spanning tree (MST) of a connected, weighted, undirected graph is a spanning tree whose total edge weight is as small as possible. Formally, given a graph $G = (V, E)$ with weight function $w: E \\to \\mathbb{R}$, an MST is a tree $T \\subseteq E$ such that $T$ connects all $|V|$ vertices and $\\sum_{e \\in T} w(e)$ is minimized. Every MST has exactly $|V| - 1$ edges.",
+  "anatomy": "Both MST algorithms share key structural ingredients: the vertex set $V$ and edge set $E$ of the input graph, a weight $w(e)$ on each edge $e$, and the growing tree $T$ that eventually becomes the MST. Kruskal's algorithm sorts all edges by weight and uses a disjoint-set (union-find) structure to track which vertices are already connected, adding an edge only when it joins two different components. Prim's algorithm maintains a single growing component and a priority queue (or cut) of crossing edges \u2014 edges with exactly one endpoint inside the current tree \u2014 always selecting the minimum-weight crossing edge to expand the tree.",
+  "worked_example": [
+    {
+      "expression_latex": "V = \\{A,B,C,D\\},\\quad E = \\{AB{=}1,\\, AC{=}4,\\, BC{=}2,\\, BD{=}5,\\, CD{=}3\\}",
+      "description_latex": "We start by writing down the full graph so every edge and its weight is visible. Having all edges listed in one place lets us apply Kruskal's algorithm systematically: we will sort them and process them in order from lightest to heaviest.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Sorted edges: } AB{=}1,\\; BC{=}2,\\; CD{=}3,\\; AC{=}4,\\; BD{=}5",
+      "description_latex": "Kruskal's first step is to sort all edges by non-decreasing weight. This ordering guarantees that whenever we are forced to choose an edge to add, we are always picking the cheapest available option that does not create a cycle \u2014 this greedy choice is safe because any MST must include the minimum-weight edge crossing any cut.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Add } AB{=}1:\\; T = \\{AB\\},\\quad \\text{Components: } \\{A,B\\},\\{C\\},\\{D\\}",
+      "description_latex": "We take the lightest edge $AB = 1$. Since $A$ and $B$ are in different components, adding it cannot form a cycle, so we include it in $T$ and merge the two components. The union-find structure now records $A$ and $B$ as connected.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Add } BC{=}2:\\; T = \\{AB, BC\\},\\quad \\text{Components: } \\{A,B,C\\},\\{D\\}",
+      "description_latex": "The next lightest edge is $BC = 2$. Node $B$ is in component $\\{A,B\\}$ and $C$ is alone, so they are in different components \u2014 no cycle is formed and we add it. We now have a path connecting $A$, $B$, and $C$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Add } CD{=}3:\\; T = \\{AB, BC, CD\\},\\quad w(T) = 1+2+3 = 6",
+      "description_latex": "Edge $CD = 3$ connects component $\\{A,B,C\\}$ to the isolated vertex $D$, so we add it \u2014 all four vertices are now connected with $|V|-1 = 3$ edges and we stop. The next candidate $AC = 4$ would connect $A$ and $C$, which are already in the same component and would form a cycle, so it is correctly rejected. The MST has total weight $6$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "V=\\{P,Q,R,S\\},\\; E=\\{PQ{=}3,\\,PR{=}6,\\,QR{=}2,\\,QS{=}5,\\,RS{=}4\\}",
+      "description_latex": "Here is a new weighted graph with four vertices. We will apply Prim's algorithm starting from vertex $P$. Recall that Prim's always picks the minimum-weight edge that has exactly one endpoint inside the current tree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Start at } P.\\; \\text{Crossing edges: } PQ{=}3,\\, PR{=}6.\\; \\text{Add } PQ{=}3.\\; T=\\{PQ\\}",
+      "description_latex": "We initialize the tree with just vertex $P$ and look at all edges leaving $P$. The minimum crossing edge is $PQ = 3$, so we add it and bring $Q$ into the tree. The tree now contains $\\{P, Q\\}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now the tree contains $\\{P, Q\\}$. List all crossing edges (edges with exactly one endpoint in $\\{P,Q\\}$), identify the minimum, add it to $T$, and update the component. Which edge do you add next, and what does $T$ look like afterward?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Continue Prim's algorithm for the remaining step(s) until all four vertices are included. Write down the complete MST edge set $T$ and compute the total weight $w(T)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A graph has edges $\\{AB{=}2, AC{=}5, BC{=}3\\}$. List the edges of the MST found by Kruskal's algorithm and give its total weight.",
+      "answer_latex": "MST = \\{AB{=}2,\\, BC{=}3\\},\\quad w(T) = 5"
+    },
+    {
+      "prompt_latex": "Apply Kruskal's algorithm to the graph with $V=\\{1,2,3,4\\}$ and edges $\\{12{=}4,\\,13{=}1,\\,14{=}7,\\,23{=}2,\\,24{=}5,\\,34{=}6\\}$. List the edges added in order and state the total MST weight.",
+      "answer_latex": "Add\\; 13{=}1,\\; 23{=}2,\\; 12{=}4\\; (\\text{skip}),\\; 24{=}5.\\quad T=\\{13,23,24\\},\\quad w(T)=8"
+    },
+    {
+      "prompt_latex": "Apply Prim's algorithm starting from vertex $A$ to the graph $V=\\{A,B,C,D\\}$, $E=\\{AB{=}3,\\,AC{=}1,\\,BC{=}4,\\,BD{=}2,\\,CD{=}5\\}$. List the edges added in order.",
+      "answer_latex": "Add\\; AC{=}1,\\; BD{=}2\\; (\\text{via } B),\\; AB{=}3.\\quad T=\\{AC,BD,AB\\},\\quad w(T)=6"
+    },
+    {
+      "prompt_latex": "A connected weighted graph has 5 vertices and 7 edges. After running Kruskal's algorithm, an edge $e$ with $w(e)=8$ is the last edge considered before the algorithm terminates. Explain why $e$ must be in every MST of this graph, and state how many edges the MST contains.",
+      "answer_latex": "The MST contains $|V|-1 = 4$ edges. Edge $e$ is added as the 4th edge, meaning at that moment it is the minimum-weight edge connecting two different components \u2014 by the cut property, any minimum spanning tree must include the minimum crossing edge of that cut, so $e$ belongs to every MST."
+    },
+    {
+      "prompt_latex": "A telecommunications company must lay cable to connect 5 offices. The installation costs (in thousands) between pairs of offices are: $AB{=}6,\\,AC{=}1,\\,AD{=}5,\\,AE{=}4,\\,BC{=}5,\\,BD{=}3,\\,CD{=}2,\\,CE{=}6,\\,DE{=}4$. Use Kruskal's algorithm to find the minimum total installation cost.",
+      "answer_latex": "Sorted:\\; AC{=}1,\\,CD{=}2,\\,BD{=}3,\\,AE{=}4,\\,DE{=}4,\\ldots\\; Add\\; AC,\\,CD,\\,BD,\\,AE.\\quad T=\\{AC,CD,BD,AE\\},\\quad w(T)=10 \\text{ thousand}"
+    }
+  ],
+  "common_mistakes": [
+    "In Kruskal's algorithm, students sometimes add an edge that connects two vertices already in the same component, accidentally creating a cycle. The fix is to always check \u2014 using a union-find or by inspection \u2014 that the two endpoints of a candidate edge belong to different components before adding it.",
+    "When running Prim's algorithm, students often forget to update the set of crossing edges after each new vertex is added, missing cheaper edges that become available once new neighbors are reachable. After every vertex joins the tree, you must re-examine all its incident edges and include any that cross the current tree boundary.",
+    "Students frequently confuse the goal of finding a spanning tree with minimum total weight with finding the single shortest path between two vertices; these are different problems. The MST connects all $|V|$ vertices with $|V|-1$ edges and minimizes the sum of all edge weights in the tree, not the distance between any particular pair."
+  ],
+  "untested_variants": [
+    "Graphs that contain edges with equal weights, where tie-breaking rules affect which MST is produced but not whether the result is optimal \u2014 students must recognize that multiple MSTs of the same weight can exist.",
+    "Proving correctness of the greedy choice using the Cut Property or Cycle Property, which requires students to write a formal argument rather than execute the algorithm on a specific graph.",
+    "Applying Prim's algorithm with an explicit binary min-heap or Fibonacci heap implementation and analyzing the resulting time complexities $O(E \\log V)$ versus $O(E + V \\log V)$.",
+    "Finding the maximum spanning tree (the spanning tree with the largest total weight) by reversing the edge ordering in Kruskal's algorithm or always choosing the maximum crossing edge in Prim's."
+  ]
+}

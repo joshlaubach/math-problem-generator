@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_041",
+  "topic_name": "Interior and Exterior Angles of Polygons",
+  "generated_at": "2026-05-12T23:05:13.179793+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that the angles of any triangle sum to $180\u00b0$, and you've probably used that fact dozens of times. But what happens when a polygon has 5 sides? Or 10? Or 100? There's no obvious way to just 'see' the answer, and adding more sides seems to make the problem explode in complexity. Can you figure out the sum of interior angles of a 12-sided polygon without measuring every single angle?",
+  "concept": "A polygon's interior angles are the angles formed inside the figure at each vertex, and its exterior angles are formed by extending each side beyond a vertex. For any convex polygon with $n$ sides, the sum of interior angles is $(n-2) \times 180\u00b0$, and \u2014 remarkably \u2014 the sum of all exterior angles (one at each vertex) is always exactly $360\u00b0$, no matter how many sides the polygon has.",
+  "anatomy": "The key components are: $n$, the number of sides (and vertices) of the polygon; the factor $(n-2)$, which counts how many non-overlapping triangles you can divide the polygon into by drawing diagonals from one vertex; the interior angle sum formula $(n-2) \times 180\u00b0$; the individual interior angle of a regular polygon, $\frac{(n-2) \times 180\u00b0}{n}$, found by dividing equally among all $n$ angles; and the exterior angle at each vertex, which is the supplement of its interior angle, so interior $+$ exterior $= 180\u00b0$ at every single vertex.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Find the sum of interior angles of a hexagon } (n = 6)",
+      "description_latex": "We start by identifying $n$, the number of sides. A hexagon has 6 sides, so $n = 6$. We plug directly into the interior angle sum formula $(n-2) \\times 180\u00b0$, because this formula works for any convex polygon by counting the triangles it can be split into.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(6 - 2) \\times 180\u00b0 = 4 \\times 180\u00b0",
+      "description_latex": "We subtract 2 from the number of sides first, giving us 4. This tells us that a hexagon can be divided into exactly 4 triangles from a single interior vertex, and since each triangle contributes $180\u00b0$, we multiply $4 \\times 180\u00b0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4 \\times 180\u00b0 = 720\u00b0",
+      "description_latex": "The product gives us $720\u00b0$, which is the total sum of all interior angles of any hexagon, regular or irregular. You can verify this by dividing a hexagon into triangles yourself \u2014 you'll always get exactly 4.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Each interior angle of a regular hexagon} = \\frac{720\u00b0}{6} = 120\u00b0",
+      "description_latex": "Because a regular hexagon has all angles equal, we divide the total sum by the number of angles, $n = 6$. This gives each interior angle as $120\u00b0$, which you might recognize from honeycombs and floor tiles \u2014 a satisfying real-world check.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find each interior angle of a regular octagon } (n = 8)",
+      "description_latex": "Our goal is to find one interior angle of a regular octagon. We start with the interior angle sum formula $(n-2) \\times 180\u00b0$ with $n = 8$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(8 - 2) \\times 180\u00b0 = 6 \\times 180\u00b0 = 1080\u00b0",
+      "description_latex": "We apply the formula: subtracting 2 gives 6, and multiplying by $180\u00b0$ gives a total interior angle sum of $1080\u00b0$. This part is shown for you \u2014 make sure you see why we use $n - 2 = 6$ triangles.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now divide the total sum by the number of angles to find each individual interior angle of the regular octagon. What is $\\frac{1080\u00b0}{8}$? Write the value of each interior angle.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find the sum of interior angles of a pentagon } (n = 5).",
+      "answer_latex": "(5-2) \\times 180\u00b0 = 540\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{Find each interior angle of a regular nonagon } (n = 9).",
+      "answer_latex": "\\frac{(9-2) \\times 180\u00b0}{9} = \\frac{1260\u00b0}{9} = 140\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{The sum of interior angles of a polygon is } 1440\u00b0. \\text{ How many sides does it have?}",
+      "answer_latex": "(n-2) \\times 180 = 1440 \\Rightarrow n - 2 = 8 \\Rightarrow n = 10 \\text{ sides}"
+    },
+    {
+      "prompt_latex": "\\text{In a regular hexagon, find the measure of each exterior angle, then verify that all exterior angles sum to } 360\u00b0.",
+      "answer_latex": "\\text{Each interior angle} = 120\u00b0,\\ \\text{each exterior angle} = 180\u00b0 - 120\u00b0 = 60\u00b0,\\ 6 \\times 60\u00b0 = 360\u00b0 \\checkmark"
+    },
+    {
+      "prompt_latex": "\\text{A tile designer wants to use a single regular polygon to tile a floor with no gaps. She knows this is only possible if each interior angle divides evenly into } 360\u00b0. \\text{ Show that a regular hexagon works but a regular heptagon } (n=7) \\text{ does not.}",
+      "answer_latex": "\\text{Hexagon: each angle} = 120\u00b0,\\ 360\u00b0 \\div 120\u00b0 = 3 \\checkmark;\\ \\text{Heptagon: each angle} \\approx 128.57\u00b0,\\ 360\u00b0 \\div 128.57\u00b0 \\approx 2.8 \\text{ (not a whole number)} \\times"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write the formula as $n \\times 180\u00b0$ instead of $(n-2) \\times 180\u00b0$, forgetting to subtract 2. The fix is to remember that the formula counts triangles formed inside the polygon, and you always get two fewer triangles than sides \u2014 so the subtraction of 2 is essential, not optional.",
+    "When finding each angle of a regular polygon, students sometimes stop after computing the total interior angle sum and report that as the answer for one angle. Always check whether the problem asks for the total sum or for a single angle \u2014 if it says 'each angle,' you must divide the sum by $n$.",
+    "Students frequently confuse exterior angles with supplementary angles and assume the exterior angle sum changes with the number of sides. In reality, the sum of one exterior angle per vertex is always $360\u00b0$ for any convex polygon \u2014 only the size of each individual exterior angle changes, not the total."
+  ],
+  "untested_variants": [
+    "Finding a missing interior angle in an irregular polygon when all other angles are given numerically \u2014 requires setting up and solving a linear equation using the interior angle sum.",
+    "Problems involving exterior angles where the student must find the number of sides from a single exterior angle of a regular polygon, using the relationship $\\text{each exterior angle} = \\frac{360\u00b0}{n}$.",
+    "Applying interior angle sums to algebraic expressions, such as when angles are given as expressions like $(3x + 10)\u00b0$ and the student must solve for $x$.",
+    "Non-convex (concave) polygons, where the standard interior angle sum formula still applies technically but the notion of 'exterior angle' becomes more nuanced and the visual intuition of triangle-splitting breaks down."
+  ]
+}

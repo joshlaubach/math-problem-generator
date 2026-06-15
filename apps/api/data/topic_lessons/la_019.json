@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_019",
+  "topic_name": "Null Space and Column Space",
+  "generated_at": "2026-05-13T20:06:45.946842+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to solve a system of linear equations $Ax = b$ and check whether a solution exists. But here is something deeper: what if you asked not just 'does a solution exist?' but 'what is the complete set of all inputs $x$ that map to the zero vector?' or 'what is the complete set of all outputs $Ax$ that the matrix can possibly produce?' These two questions define two fundamental subspaces attached to every matrix, and understanding them tells you almost everything about what the matrix does geometrically and algebraically. Can you describe these two spaces precisely and find them for a given matrix?",
+  "concept": "The **null space** of a matrix $A$ is the set of all vectors $x$ satisfying $Ax = 0$ \u2014 it captures every input that gets 'collapsed' to zero. The **column space** is the set of all possible outputs $Ax$ \u2014 equivalently, all linear combinations of the columns of $A$. Formally, for an $m \\times n$ matrix $A$: $\\text{Nul}(A) = \\{x \\in \\mathbb{R}^n : Ax = 0\\}$ and $\\text{Col}(A) = \\{Ax : x \\in \\mathbb{R}^n\\} = \\text{span of the columns of } A$. Both are subspaces of their respective ambient spaces.",
+  "anatomy": "For an $m \\times n$ matrix $A$, the null space lives in the **domain** $\\mathbb{R}^n$ (where inputs come from), while the column space lives in the **codomain** $\\mathbb{R}^m$ (where outputs land). The null space is found by solving the homogeneous system $Ax = 0$; its **dimension is the nullity**, equal to the number of free variables after row reduction. The column space is spanned by the **pivot columns** of $A$ (not the reduced matrix \u2014 the original columns corresponding to pivot positions); its **dimension is the rank**. The Rank-Nullity Theorem ties them together: $\\text{rank}(A) + \\text{nullity}(A) = n$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 1 & 2 & -1 \\\\ 2 & 4 & -2 \\end{pmatrix}",
+      "description_latex": "We start with a concrete $2 \\times 3$ matrix $A$. Our goal is to find both $\\text{Nul}(A)$ and $\\text{Col}(A)$, so we will row-reduce the augmented matrix $[A \\mid 0]$ for the null space, and inspect pivot columns for the column space.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[A \\mid 0] = \\begin{pmatrix} 1 & 2 & -1 & 0 \\\\ 2 & 4 & -2 & 0 \\end{pmatrix} \\xrightarrow{R_2 \\leftarrow R_2 - 2R_1} \\begin{pmatrix} 1 & 2 & -1 & 0 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "We row-reduce the augmented matrix $[A \\mid 0]$. Subtracting twice row 1 from row 2 eliminates the second row entirely, leaving us with one pivot in column 1. Columns 2 and 3 are therefore free-variable columns, meaning $x_2$ and $x_3$ are free parameters.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x_1 = -2x_2 + x_3, \\quad x_2 = s, \\quad x_3 = t \\quad (s, t \\in \\mathbb{R})",
+      "description_latex": "From the single equation $x_1 + 2x_2 - x_3 = 0$ we solve for the pivot variable: $x_1 = -2x_2 + x_3$. We name the free variables $s = x_2$ and $t = x_3$ to make the parametric structure explicit, which is the standard way to describe infinitely many solutions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Nul}(A) = \\text{span}\\left\\{ \\begin{pmatrix} -2 \\\\ 1 \\\\ 0 \\end{pmatrix},\\ \\begin{pmatrix} 1 \\\\ 0 \\\\ 1 \\end{pmatrix} \\right\\}",
+      "description_latex": "We write the general solution as $x = s(-2,1,0)^T + t(1,0,1)^T$, so the null space is the span of these two vectors in $\\mathbb{R}^3$. The nullity is 2, which makes sense: we have 3 columns and rank 1, so the Rank-Nullity Theorem gives $1 + 2 = 3$. \u2713",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Col}(A) = \\text{span}\\left\\{ \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} \\right\\}",
+      "description_latex": "For the column space we look back at the original matrix $A$: column 1 corresponds to the only pivot position, so the column space is spanned by the first column of $A$, which is $(1,2)^T$. This is a line through the origin in $\\mathbb{R}^2$, and its dimension (rank) is 1.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 1 & 0 & -3 \\\\ 0 & 1 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "This $3 \\times 3$ matrix is already in reduced row echelon form, which saves us the row-reduction work. Notice there are pivot positions in columns 1 and 2, and column 3 is a free-variable column. Our task is to find $\\text{Nul}(B)$ and $\\text{Col}(B)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x_1 = 3x_3,\\quad x_2 = -2x_3,\\quad x_3 = t",
+      "description_latex": "Reading directly from the RREF, the two pivot equations give $x_1 - 3x_3 = 0$ and $x_2 + 2x_3 = 0$. We solve for pivot variables in terms of the free variable $x_3 = t$ to set up the parametric description of the null space.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now it is your turn: write $\\text{Nul}(B)$ as the span of a single vector by substituting $t = 1$ and collecting the components of $x = (x_1, x_2, x_3)^T$. What vector spans the null space?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Finally, identify $\\text{Col}(B)$: look at the original matrix $B$ and select the columns that correspond to pivot positions. Write $\\text{Col}(B)$ as the span of those specific original columns \u2014 be careful not to use the RREF columns here.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 2 & 4 \\\\ 1 & 2 \\end{pmatrix}$. Find $\\text{Nul}(A)$ and state its dimension.",
+      "answer_latex": "\\text{Nul}(A) = \\text{span}\\left\\{\\begin{pmatrix}-2\\\\1\\end{pmatrix}\\right\\},\\quad \\text{nullity} = 1"
+    },
+    {
+      "prompt_latex": "Find a basis for $\\text{Col}(A)$ where $A = \\begin{pmatrix} 1 & 3 & 1 \\\\ 2 & 6 & 4 \\end{pmatrix}$.",
+      "answer_latex": "\\text{Col}(A) = \\text{span}\\left\\{\\begin{pmatrix}1\\\\2\\end{pmatrix},\\begin{pmatrix}1\\\\4\\end{pmatrix}\\right\\},\\text{ using pivot columns 1 and 3 of } A"
+    },
+    {
+      "prompt_latex": "For $A = \\begin{pmatrix} 1 & 2 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}$, find $\\text{Nul}(A)$, $\\text{Col}(A)$, and verify the Rank-Nullity Theorem.",
+      "answer_latex": "\\text{Nul}(A)=\\text{span}\\{(-2,1,0)^T\\},\\; \\text{Col}(A)=\\text{span}\\{(1,0,0)^T,(0,1,0)^T\\};\\; \\text{rank }2 + \\text{nullity }1 = 3\\;\\checkmark"
+    },
+    {
+      "prompt_latex": "Suppose $A$ is a $4 \\times 6$ matrix with $\\text{rank}(A) = 3$. Determine the dimensions of $\\text{Nul}(A)$ and $\\text{Col}(A)$, and state which ambient spaces each subspace lives in.",
+      "answer_latex": "\\dim\\text{Nul}(A)=3\\text{ (in }\\mathbb{R}^6\\text{)},\\quad \\dim\\text{Col}(A)=3\\text{ (in }\\mathbb{R}^4\\text{)}"
+    },
+    {
+      "prompt_latex": "A linear transformation $T:\\mathbb{R}^4\\to\\mathbb{R}^3$ has the property that $T(x)=0$ for every vector of the form $x = s(1,0,-1,0)^T + t(0,1,0,-1)^T$. If the standard matrix of $T$ has rank 2, find a basis for $\\text{Col}(T)$ in $\\mathbb{R}^3$ and explain why it cannot span all of $\\mathbb{R}^3$.",
+      "answer_latex": "\\text{Nul}(T)\\text{ has dimension 2, so rank}=4-2=2;\\; \\text{Col}(T)\\text{ has dimension 2, so it is a plane in }\\mathbb{R}^3\\text{ and cannot span all of }\\mathbb{R}^3\\text{ (which needs dimension 3)}."
+    }
+  ],
+  "common_mistakes": [
+    "Students often take the pivot columns of the row-reduced matrix (RREF) as a basis for the column space instead of going back to the corresponding columns of the original matrix $A$. The RREF columns have the same pivot structure but are different vectors and do NOT span the same space as $\\text{Col}(A)$; always return to the original matrix to pick your basis vectors.",
+    "When writing the null space, students sometimes include the free-variable columns themselves as basis vectors rather than constructing the solution vectors correctly from the parametric equations. To fix this, substitute $t = 1, s = 0$ (and vice versa) into the full solution vector $(x_1, x_2, \\ldots, x_n)^T$ \u2014 not just the free-variable slots \u2014 to get each basis vector.",
+    "Students often confuse which ambient space each subspace lives in: $\\text{Nul}(A)$ is a subspace of $\\mathbb{R}^n$ (the domain, with $n$ = number of columns), while $\\text{Col}(A)$ is a subspace of $\\mathbb{R}^m$ (the codomain, with $m$ = number of rows). Mixing these up leads to dimension errors and nonsensical geometric claims about the transformation."
+  ],
+  "untested_variants": [
+    "Finding the null space and column space of a matrix with complex entries or entries from a finite field $\\mathbb{F}_p$, where row reduction follows different arithmetic rules.",
+    "Determining whether a specific vector $b$ lies in $\\text{Col}(A)$ by augmenting and row-reducing $[A \\mid b]$ \u2014 this connects column space membership directly to consistency of a linear system.",
+    "Computing the null space of a product $AB$ and comparing it to $\\text{Nul}(B)$, which tests understanding of how null spaces compose under matrix multiplication.",
+    "Finding a basis for the left null space $\\text{Nul}(A^T)$ (also called the left null space or cokernel) and relating its dimension to $m - \\text{rank}(A)$ via the full four-subspace picture."
+  ]
+}

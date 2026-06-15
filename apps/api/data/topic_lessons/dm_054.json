@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_054",
+  "topic_name": "Network Flows (H)",
+  "generated_at": "2026-05-13T20:16:24.732786+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to model relationships as graphs with vertices and edges. Now imagine those edges are pipes carrying water, each with a limited capacity \u2014 how much total flow can you push from a source to a sink? You might try adding up capacities naively, but bottlenecks and multiple paths make this surprisingly tricky. What is the maximum amount of flow that can travel through the network at once?",
+  "concept": "A network flow problem models movement through a directed graph where each edge has a capacity constraint. Formally, a flow network is a directed graph $G = (V, E)$ with a capacity function $c: E \\to \\mathbb{R}_{\\geq 0}$, a source $s \\in V$, and a sink $t \\in V$. A valid flow $f: E \\to \\mathbb{R}_{\\geq 0}$ satisfies capacity constraints $0 \\leq f(e) \\leq c(e)$ for every edge, and flow conservation at every vertex except $s$ and $t$.",
+  "anatomy": "A flow network has four key structural components. The source $s$ is the unique vertex where flow originates, and the sink $t$ is where it terminates; all other vertices are internal. Each directed edge $(u,v)$ carries a capacity $c(u,v)$ (the maximum allowed flow) and an actual flow value $f(u,v)$. Flow conservation states that for every internal vertex $v$, the total incoming flow equals the total outgoing flow: $\\sum_{u} f(u,v) = \\sum_{w} f(v,w)$. The value of a flow is $|f| = \\sum_{v} f(s,v)$, the total flow leaving the source. An augmenting path is a directed path from $s$ to $t$ in the residual graph along which more flow can be pushed.",
+  "worked_example": [
+    {
+      "expression_latex": "G: s \\to a \\text{ (cap 3)},\\ s \\to b \\text{ (cap 2)},\\ a \\to t \\text{ (cap 2)},\\ b \\to t \\text{ (cap 3)},\\ a \\to b \\text{ (cap 1)}",
+      "description_latex": "We start by writing down the network clearly, listing every directed edge and its capacity. Before touching any algorithm, it is essential to identify the source $s$, the sink $t$, and all intermediate vertices, because flow conservation applies to every vertex except these two.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Path 1: } s \\to a \\to t,\\quad \\text{bottleneck} = \\min(3, 2) = 2",
+      "description_latex": "We find an augmenting path from $s$ to $t$ in the current residual graph \u2014 here $s \\to a \\to t$ \u2014 and identify its bottleneck capacity, which is the minimum capacity along the path. We send 2 units of flow along this path, updating $f(s,a) = 2$ and $f(a,t) = 2$, because we can never exceed any single edge's capacity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Path 2: } s \\to b \\to t,\\quad \\text{bottleneck} = \\min(2, 3) = 2",
+      "description_latex": "With the residual graph updated, we find another augmenting path $s \\to b \\to t$ with bottleneck 2, so we send 2 more units: $f(s,b) = 2$ and $f(b,t) = 2$. Notice that after this step the edge $s \\to a$ still has 1 unit of residual capacity, but $a \\to t$ is saturated, so we cannot simply push more flow along $s \\to a \\to t$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Path 3: } s \\to a \\to b \\to t,\\quad \\text{bottleneck} = \\min(1, 1, 1) = 1",
+      "description_latex": "In the residual graph, $s \\to a$ has residual capacity 1, $a \\to b$ has residual capacity 1, and $b \\to t$ has residual capacity 1, so the path $s \\to a \\to b \\to t$ is augmenting with bottleneck 1. We push 1 more unit, giving $f(s,a) = 3$, $f(a,b) = 1$, $f(b,t) = 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|f| = f(s,a) + f(s,b) = 3 + 2 = 5",
+      "description_latex": "No augmenting path exists in the residual graph now, so we have found the maximum flow. The total flow value is computed by summing the flow out of the source: $|f| = 3 + 2 = 5$ units, which we can verify by checking that the same total arrives at the sink: $f(a,t) + f(b,t) = 2 + 3 = 5$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "G: s \\to a \\text{ (cap 4)},\\ s \\to b \\text{ (cap 3)},\\ a \\to t \\text{ (cap 3)},\\ b \\to t \\text{ (cap 2)},\\ a \\to b \\text{ (cap 2)}",
+      "description_latex": "Here is a new flow network. We begin by identifying all edges and capacities. The source is $s$, the sink is $t$, and vertices $a$ and $b$ are internal nodes subject to flow conservation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Path 1: } s \\to a \\to t,\\quad \\text{bottleneck} = \\min(4,3) = 3,\\quad |f| = 3",
+      "description_latex": "We send 3 units along $s \\to a \\to t$, saturating edge $a \\to t$. The residual capacities are now: $r(s,a) = 1$, $r(a,t) = 0$, and all other edges unchanged.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find a second augmenting path from $s$ to $t$ in the residual graph. What is the path, what is its bottleneck, and what is the updated total flow $|f|$ after sending flow along it? Remember to check all available residual edges, including $a \\to b$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "After exhausting all augmenting paths, state the maximum flow value $|f|$ and verify it by confirming the total flow into the sink $t$ equals the total flow out of the source $s$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A network has only one path from $s$ to $t$: $s \\to v \\to t$ with capacities $c(s,v) = 5$ and $c(v,t) = 3$. What is the maximum flow?",
+      "answer_latex": "|f|_{\\max} = 3"
+    },
+    {
+      "prompt_latex": "Find the maximum flow in the network: $s \\to a$ (cap 4), $s \\to b$ (cap 3), $a \\to t$ (cap 2), $b \\to t$ (cap 4), $a \\to b$ (cap 1).",
+      "answer_latex": "|f|_{\\max} = 6"
+    },
+    {
+      "prompt_latex": "A flow network has edges $s \\to a$ (cap 5), $s \\to b$ (cap 5), $a \\to c$ (cap 3), $b \\to c$ (cap 4), $a \\to t$ (cap 2), $c \\to t$ (cap 5), $b \\to t$ (cap 1)$. Find the maximum flow from $s$ to $t$.",
+      "answer_latex": "|f|_{\\max} = 8"
+    },
+    {
+      "prompt_latex": "Identify a minimum cut in the network $s \\to a$ (cap 3), $s \\to b$ (cap 2), $a \\to t$ (cap 2), $b \\to t$ (cap 2), $a \\to b$ (cap 1), and verify the Max-Flow Min-Cut theorem by confirming the cut capacity equals the maximum flow.",
+      "answer_latex": "\\text{Min-cut: } \\{(a,t),(b,t)\\},\\text{ capacity } = 2+2 = 4 = |f|_{\\max}"
+    },
+    {
+      "prompt_latex": "A city water system connects a reservoir $s$ to a distribution centre $t$ via pipes with the following capacities (in megalitres per hour): $s \\to p$ (cap 6), $s \\to q$ (cap 4), $p \\to t$ (cap 5), $q \\to t$ (cap 3), $p \\to q$ (cap 2). What is the maximum flow of water that can reach the distribution centre per hour?",
+      "answer_latex": "|f|_{\\max} = 8 \\text{ megalitres per hour}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to update the residual graph after each augmenting path, especially failing to add the reverse (backward) edge with capacity equal to the flow sent. Without backward edges, the algorithm cannot 'undo' poor early choices and will miss augmenting paths that require rerouting flow.",
+    "When computing the bottleneck of an augmenting path, students sometimes use the total capacity of an edge rather than the remaining residual capacity. Always use $r(u,v) = c(u,v) - f(u,v)$ for forward edges and $r(v,u) = f(u,v)$ for backward edges in the residual graph.",
+    "Students sometimes compute the flow value by summing over all edges rather than just the edges leaving the source (or entering the sink). The correct formula is $|f| = \\sum_{v:(s,v)\\in E} f(s,v) - \\sum_{v:(v,s)\\in E} f(v,s)$, and double-counting internal edges gives an inflated and incorrect answer."
+  ],
+  "untested_variants": [
+    "Networks with multiple sources and multiple sinks, which require adding a super-source and super-sink with infinite-capacity edges before applying standard max-flow algorithms.",
+    "Applying the Edmonds-Karp algorithm (BFS-based augmenting path selection) and analysing its time complexity $O(VE^2)$, rather than just finding the numeric max-flow value.",
+    "Problems that ask students to construct all minimum cuts of a network and relate them to the structure of the residual graph after max-flow is achieved.",
+    "Flow networks with both lower and upper bounds on edge capacities (lower-bounded flows), which require a more involved feasibility construction before optimisation."
+  ]
+}

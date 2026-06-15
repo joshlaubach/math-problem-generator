@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_021",
+  "topic_name": "Elimination Method for Linear Systems",
+  "generated_at": "2026-05-13T20:01:19.744987+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve a single linear ODE like $x'' + 3x' + 2x = 0$ by finding its characteristic equation. Now imagine you have two interacting quantities \u2014 say, two populations or two connected tanks \u2014 described by a coupled system like $x' = 2x + y$ and $y' = x + 2y$. You can't solve either equation alone because each one depends on the other. So how do you untangle them into something you already know how to handle?",
+  "concept": "The elimination method converts a system of coupled linear ODEs into a single higher-order ODE in one unknown, which you can then solve with familiar techniques. Formally, given a system $x' = a_{11}x + a_{12}y$ and $y' = a_{21}x + a_{22}y$, you use one equation to express $y$ in terms of $x$ and its derivatives, substitute into the other equation, and obtain a single ODE solely in $x(t)$, which you solve first, then back-substitute to find $y(t)$.",
+  "anatomy": "The elimination method has four structural parts: the original coupled system, which consists of two (or more) first-order ODEs sharing dependent variables $x(t)$ and $y(t)$; the operator step, where you apply differentiation to one equation to raise its order so that a variable can be algebraically eliminated; the reduced single-variable ODE, a higher-order equation in just one unknown whose characteristic equation you can analyze; and the back-substitution stage, where you plug your solution for the first variable directly into one of the original equations to recover the second variable without solving another ODE from scratch.",
+  "worked_example": [
+    {
+      "expression_latex": "x' = x + y, \\quad y' = 4x + y",
+      "description_latex": "We start with the given system and plan to eliminate $y$ so we are left with a single ODE in $x$ alone. Identify which equation is simpler to solve for $y$: from the first equation, $y = x' - x$, which gives us $y$ purely in terms of $x$ and its derivative.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = x' - x \\quad \\Rightarrow \\quad y' = x'' - x'",
+      "description_latex": "We differentiate our expression for $y$ with respect to $t$ to get $y'$, because the second original equation involves $y'$ and we need everything in terms of $x$. This is the operator step: by differentiating once, we raise the order and open the door to substitution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x'' - x' = 4x + (x' - x)",
+      "description_latex": "Now substitute both $y = x' - x$ and $y' = x'' - x'$ into the second equation $y' = 4x + y$. Every $y$ has been replaced by expressions involving only $x$, so we have successfully decoupled the system into one equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x'' - 2x' - 3x = 0",
+      "description_latex": "Collect like terms: $x'' - x' = 4x + x' - x$ simplifies to $x'' - 2x' - 3x = 0$. This is a standard second-order linear ODE with constant coefficients, and its characteristic equation is $r^2 - 2r - 3 = (r-3)(r+1) = 0$, giving roots $r = 3$ and $r = -1$, so $x(t) = c_1 e^{3t} + c_2 e^{-t}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = x' - x = (3c_1 e^{3t} - c_2 e^{-t}) - (c_1 e^{3t} + c_2 e^{-t}) = 2c_1 e^{3t} - 2c_2 e^{-t}",
+      "description_latex": "Back-substitute $x(t)$ into $y = x' - x$ to find $y(t)$ without solving a new ODE. Notice that $y$ shares the same exponential modes $e^{3t}$ and $e^{-t}$ as $x$, which is always expected: both variables in a coupled linear system are built from the same characteristic roots.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x' = 3x - 2y, \\quad y' = 2x - y",
+      "description_latex": "We want to eliminate $y$ from this system. From the first equation, solve for $y$: $2y = 3x - x'$, so $y = \\frac{3x - x'}{2}$. This sets up everything we need for the next steps.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y' = \\frac{3x' - x''}{2}",
+      "description_latex": "Differentiate the expression for $y$ to obtain $y'$, then substitute both $y$ and $y'$ into the second equation $y' = 2x - y$. Simplify and collect all terms on one side to form a single ODE in $x$. What second-order ODE do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x'' - 2x' + x = 0 \\quad \\Rightarrow \\quad x(t) = (c_1 + c_2 t)e^{t}",
+      "description_latex": "The characteristic equation $r^2 - 2r + 1 = (r-1)^2 = 0$ gives a repeated root $r = 1$, so $x(t) = (c_1 + c_2 t)e^t$. Now use $y = \\frac{3x - x'}{2}$ to find $y(t)$ \u2014 carry out the back-substitution and write the final expression for $y(t)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve the system $x' = 2x,\\ y' = 3y$ by inspection (the equations are already decoupled). Write the general solution.",
+      "answer_latex": "x(t) = c_1 e^{2t},\\quad y(t) = c_2 e^{3t}"
+    },
+    {
+      "prompt_latex": "Use the elimination method to solve: $x' = x + y,\\quad y' = -x + y$.",
+      "answer_latex": "x(t) = e^{t}(c_1 \\cos t + c_2 \\sin t),\\quad y(t) = e^{t}(-c_1 \\sin t + c_2 \\cos t)"
+    },
+    {
+      "prompt_latex": "Use the elimination method to solve: $x' = y,\\quad y' = -4x$.",
+      "answer_latex": "x(t) = c_1 \\cos 2t + c_2 \\sin 2t,\\quad y(t) = -2c_1 \\sin 2t + 2c_2 \\cos 2t"
+    },
+    {
+      "prompt_latex": "Solve the initial value problem using elimination: $x' = x + 2y,\\quad y' = 3x + 2y$ with $x(0) = 1,\\ y(0) = 0$.",
+      "answer_latex": "x(t) = \\frac{2}{5}e^{-t} + \\frac{3}{5}e^{4t},\\quad y(t) = \\frac{3}{10}e^{-t}(-1) + \\frac{3}{10}\\cdot 2e^{4t} = -\\frac{3}{10}e^{-t} + \\frac{3}{5}e^{4t}"
+    },
+    {
+      "prompt_latex": "Two brine tanks are connected so that the amount of salt $x(t)$ in tank 1 and $y(t)$ in tank 2 satisfy $x' = -x + y$ and $y' = x - y$. Use elimination to find $x(t)$ and $y(t)$ in general, and describe the long-term behavior of the salt amounts.",
+      "answer_latex": "x(t) = c_1 + c_2 e^{-2t},\\quad y(t) = c_1 - c_2 e^{-2t};\\text{ as } t\\to\\infty,\\ x\\to c_1\\text{ and }y\\to c_1,\\text{ so both tanks reach the same salt level.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to differentiate the expression for $y$ before substituting into the second equation, substituting the undifferentiated $y$ in place of $y'$. This produces a first-order ODE that is lower-order than it should be and loses solutions \u2014 always differentiate once more after solving for $y$.",
+    "After finding $x(t)$, students solve the original system again from scratch to find $y(t)$, sometimes introducing an extra independent constant instead of using back-substitution. Remember that $y(t)$ must be recovered by plugging $x(t)$ into an algebraic expression like $y = x' - x$; the constants in $y$ are not free but are determined by those in $x$.",
+    "Students apply the characteristic equation only to the reduced ODE but then incorrectly assume $y(t)$ has different exponential modes from $x(t)$. Because both variables come from the same coupled system, they always share the same set of characteristic roots \u2014 if $e^{3t}$ appears in $x$, it must also appear in $y$, and a mismatch signals an algebra error in the back-substitution."
+  ],
+  "untested_variants": [
+    "Systems of three or more first-order equations requiring elimination across three variables, which produces a third-order reduced ODE.",
+    "Non-homogeneous linear systems such as $x' = x + y + e^{2t},\\ y' = 4x + y$, where the reduced single-variable ODE has a nonzero forcing term and requires the method of undetermined coefficients or variation of parameters after elimination.",
+    "Systems where the elimination process yields a reduced ODE with complex or repeated characteristic roots that also carry initial conditions requiring solving for specific constants $c_1$ and $c_2$.",
+    "Using operator notation $D = d/dt$ to perform elimination systematically by treating the system as a matrix-operator equation and computing a determinant, rather than solving algebraically by hand."
+  ]
+}

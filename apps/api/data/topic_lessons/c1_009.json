@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_009",
+  "topic_name": "Product and Quotient Rules",
+  "generated_at": "2026-05-13T19:57:58.927315+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to differentiate $f(x) = x^3$ and $g(x) = \\sin x$ individually \u2014 no problem. But what happens when two functions are multiplied together or divided, like $h(x) = x^3 \\sin x$ or $k(x) = \\frac{x^3}{\\sin x}$? Your instinct might be to just differentiate each piece separately, but that turns out to be wrong in a very specific and painful way. So how do we actually differentiate products and quotients of functions?",
+  "concept": "When two functions are combined by multiplication or division, we need special rules that account for how both functions are changing simultaneously. The **Product Rule** states that if $h(x) = f(x)g(x)$, then $h'(x) = f'(x)g(x) + f(x)g'(x)$. The **Quotient Rule** states that if $k(x) = \\frac{f(x)}{g(x)}$, then $k'(x) = \\frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^2}$.",
+  "anatomy": "In the Product Rule $h'(x) = f'(x)g(x) + f(x)g'(x)$, the two functions $f(x)$ and $g(x)$ are called the **factors**, and the rule produces two terms: each term differentiates exactly one factor while leaving the other intact, then sums them. In the Quotient Rule $k'(x) = \\frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^2}$, $f(x)$ is the **numerator function**, $g(x)$ is the **denominator function**, the top of the result is a difference (note the minus sign, not a plus), and $[g(x)]^2$ is the square of the original denominator \u2014 a common source of errors.",
+  "worked_example": [
+    {
+      "expression_latex": "h(x) = x^2 \\cos x",
+      "description_latex": "We want to find $h'(x)$ where the function is a product of $f(x) = x^2$ and $g(x) = \\cos x$. We identify these two factors first, because the Product Rule requires us to differentiate each one separately before combining.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 2x, \\quad g'(x) = -\\sin x",
+      "description_latex": "We compute the derivative of each factor on its own: the power rule gives $f'(x) = 2x$, and the standard derivative of cosine gives $g'(x) = -\\sin x$. Having these ready before applying the Product Rule keeps the work organized and reduces errors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h'(x) = f'(x)g(x) + f(x)g'(x) = 2x \\cos x + x^2(-\\sin x)",
+      "description_latex": "Now we apply the Product Rule template: differentiate the first factor and multiply by the second (untouched), then add the first factor (untouched) multiplied by the derivative of the second. Notice how each term has exactly one derivative and one original function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h'(x) = 2x \\cos x - x^2 \\sin x",
+      "description_latex": "We simplify by writing $+x^2(-\\sin x)$ as $-x^2 \\sin x$. This is the final answer \u2014 you could also factor out $x$ to write $x(2\\cos x - x\\sin x)$, but either form is correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "k(x) = \\frac{x^3}{e^x}",
+      "description_latex": "We want to differentiate $k(x)$ using the Quotient Rule. We begin by identifying the numerator function $f(x) = x^3$ and the denominator function $g(x) = e^x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 3x^2, \\quad g'(x) = e^x",
+      "description_latex": "Here are the derivatives of each piece: the power rule gives $f'(x) = 3x^2$, and since $e^x$ is its own derivative, $g'(x) = e^x$. Make sure you have both of these before moving forward.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the Quotient Rule $k'(x) = \\frac{f'(x)g(x) - f(x)g'(x)}{[g(x)]^2}$ by substituting in all four pieces. Write out the full unsimplified expression \u2014 pay close attention to the minus sign in the numerator and what goes in the denominator.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "k'(x) = \\frac{x^2(3 - x)}{e^x}",
+      "description_latex": "After substituting, you should have $\\frac{3x^2 e^x - x^3 e^x}{e^{2x}}$. We simplify by factoring $e^x$ from the numerator and canceling with $e^{2x}$ in the denominator to get $\\frac{x^2(3-x)}{e^x}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find } h'(x) \\text{ where } h(x) = x^4 \\cdot e^x",
+      "answer_latex": "h'(x) = 4x^3 e^x + x^4 e^x = x^3 e^x(4 + x)"
+    },
+    {
+      "prompt_latex": "\\text{Find } f'(x) \\text{ where } f(x) = (3x^2 + 1)\\sin x",
+      "answer_latex": "f'(x) = 6x \\sin x + (3x^2 + 1)\\cos x"
+    },
+    {
+      "prompt_latex": "\\text{Find } g'(x) \\text{ where } g(x) = \\frac{x^2 + 1}{x - 3}",
+      "answer_latex": "g'(x) = \\frac{(x-3)(2x) - (x^2+1)(1)}{(x-3)^2} = \\frac{x^2 - 6x - 1}{(x-3)^2}"
+    },
+    {
+      "prompt_latex": "\\text{Find } y' \\text{ where } y = \\frac{\\ln x}{x^2}, \\text{ then find the equation of the tangent line at } x = 1",
+      "answer_latex": "y' = \\frac{1 - 2\\ln x}{x^3}; \\text{ at } x=1: y'(1) = 1, \\; y(1) = 0, \\text{ so tangent line is } y = x - 1"
+    },
+    {
+      "prompt_latex": "\\text{The position of a particle is } s(t) = t^2 e^{-t}. \\text{ Find the velocity } v(t) = s'(t) \\text{ and determine when the particle is momentarily at rest for } t > 0.",
+      "answer_latex": "v(t) = e^{-t}(2t - t^2) = te^{-t}(2 - t); \\text{ at rest when } t = 2"
+    }
+  ],
+  "common_mistakes": [
+    "Students treat the Product Rule like linearity and write $(fg)' = f'g'$, multiplying the two derivatives together instead of using the correct formula $f'g + fg'$. Remember: you differentiate one factor at a time while holding the other fixed, and then add the two resulting terms.",
+    "In the Quotient Rule, students write the numerator as $f'g + fg'$ (using a plus sign, as in the Product Rule) instead of the required minus sign $f'g - fg'$. A helpful memory device is that the numerator of the Quotient Rule is a difference \u2014 'low d-high minus high d-low' \u2014 which reflects the fact that making the denominator bigger shrinks the quotient.",
+    "Students forget to square the denominator in the Quotient Rule, writing $\\frac{f'g - fg'}{g}$ instead of $\\frac{f'g - fg'}{g^2}$. The denominator must be $[g(x)]^2$ \u2014 the square of the original bottom function, not its derivative."
+  ],
+  "untested_variants": [
+    "Differentiating a product of three functions, such as $h(x) = x^2 e^x \\sin x$, which requires applying the Product Rule iteratively or using an extended version $(fgh)' = f'gh + fg'h + fgh'$.",
+    "Using the Quotient Rule when the numerator is a constant, such as $f(x) = \\frac{5}{x^2 + 1}$, where students should recognize this is equivalent to applying the chain rule or rewriting as $5(x^2+1)^{-1}$.",
+    "Finding higher-order derivatives using the Product or Quotient Rule, such as computing $h''(x)$ for $h(x) = x e^x$, which requires applying the rule a second time to the result.",
+    "Combining the Product or Quotient Rule with the Chain Rule in the same problem, such as differentiating $f(x) = e^{x^2} \\ln(3x)$ or $g(x) = \\frac{\\sin(x^2)}{x+1}$."
+  ]
+}

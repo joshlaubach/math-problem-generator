@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_005",
+  "topic_name": "How to Read and Write Mathematics",
+  "generated_at": "2026-05-13T20:18:00.227962+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to solve equations and work with numbers, but mathematics is also a language with its own grammar, symbols, and rules for constructing arguments. When you read a theorem like 'For all integers $n$, if $n$ is even then $n^2$ is even,' do you know exactly what claim is being made, what you would need to assume, and what you would need to show? The gap between doing calculations and writing rigorous mathematics is about precision: knowing how every symbol, quantifier, and logical connective shapes the meaning of a statement. Can you translate that theorem into a logical structure and plan a proof from it?",
+  "concept": "Reading and writing mathematics means parsing and producing statements with unambiguous logical meaning. Every mathematical sentence has a precise structure built from quantifiers ($\\forall$, $\\exists$), logical connectives ($\\Rightarrow$, $\\land$, $\\lor$, $\\lnot$, $\\iff$), and variables ranging over specified sets, so that its truth or falsity is determinate. Formally, a mathematical statement is a well-formed proposition whose meaning is fixed by its quantifier scope, the domain of each variable, and the connectives linking its parts.",
+  "anatomy": "A mathematical statement has four structural layers worth naming precisely. The **domain of discourse** is the set over which variables range, e.g., 'let $n \\in \\mathbb{Z}$.' The **quantifier** ($\\forall$ meaning 'for every element of the domain' or $\\exists$ meaning 'there exists at least one element') determines how many cases the claim covers. The **hypothesis** (also called antecedent) is the condition introduced after 'if,' written $P(n)$, that you are allowed to assume. The **conclusion** (consequent) is the statement $Q(n)$ you must establish, connected to the hypothesis by the implication arrow $P(n) \\Rightarrow Q(n)$. Together these form the logical skeleton $\\forall n \\in D,\\; P(n) \\Rightarrow Q(n)$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Statement: } \\forall n \\in \\mathbb{Z},\\; n \\text{ is odd} \\Rightarrow n^2 \\text{ is odd}",
+      "description_latex": "We begin by identifying the domain, quantifier, hypothesis, and conclusion. The domain is $\\mathbb{Z}$ (all integers), the universal quantifier $\\forall$ tells us the claim must hold for every integer, the hypothesis $P(n)$ is '$n$ is odd,' and the conclusion $Q(n)$ is '$n^2$ is odd.' Naming these parts tells us exactly what to assume and what to prove.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } n \\text{ is odd, so } n = 2k + 1 \\text{ for some } k \\in \\mathbb{Z}",
+      "description_latex": "Because the statement is a universal implication, a direct proof starts by assuming the hypothesis for an arbitrary element of the domain. Writing $n = 2k+1$ is not a guess \u2014 it is the formal definition of an odd integer, and introducing $k \\in \\mathbb{Z}$ makes the variable precise so every subsequent step is logically grounded.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^2 = (2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2 + 2k) + 1",
+      "description_latex": "We substitute the definition into the expression we want to analyze and expand algebraically. The goal is to rewrite $n^2$ in the form $2m + 1$ for some integer $m$, because that is precisely the definition of an odd integer \u2014 every algebraic step is in service of matching a formal definition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Let } m = 2k^2 + 2k \\in \\mathbb{Z}. \\text{ Then } n^2 = 2m + 1.",
+      "description_latex": "We name the integer $m = 2k^2 + 2k$ explicitly to show it is an integer (a sum and product of integers is an integer), which is required to legitimately invoke the definition. Good mathematical writing always justifies why a new object has the claimed type before using it in a conclusion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore n^2 \\text{ is odd.} \\quad \\blacksquare",
+      "description_latex": "We state the conclusion in the same language used in the original claim, matching the hypothesis-conclusion structure we identified in step one, and mark the end of the proof. The $\\blacksquare$ (or QED) is a notational convention signaling that every logical obligation of the statement has been discharged.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Statement: } \\forall x \\in \\mathbb{R},\\; x > 2 \\Rightarrow x^2 > 4",
+      "description_latex": "Start by reading the statement carefully. The domain is $\\mathbb{R}$, the quantifier is $\\forall$, so we identify the hypothesis $P(x)$: '$x > 2$,' and the conclusion $Q(x)$: '$x^2 > 4$.' For a direct proof, we assume $P(x)$ and derive $Q(x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } x > 2. \\text{ Since } x > 2 > 0, \\text{ multiplying both sides of } x > 2 \\text{ by } x \\text{ gives } x^2 > 2x.",
+      "description_latex": "We use the assumption and the fact that $x$ is positive to justify multiplying an inequality \u2014 note that the sign of $x$ matters here. This step shows why reading the domain carefully ($x \\in \\mathbb{R}$ with $x > 2$ implies $x > 0$) shapes which algebraic moves are legal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now complete the argument: use the fact that $x > 2$ again to show $2x > 4$, then chain the inequalities $x^2 > 2x > 4$ to conclude $x^2 > 4$. Write out each inequality step and identify which assumption you are using at each moment.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore x^2 > 4. \\quad \\blacksquare",
+      "description_latex": "The proof closes by restating the conclusion $Q(x)$ in the exact language of the original statement, confirming that the logical obligation \u2014 deriving the consequent from the antecedent for an arbitrary element of the domain \u2014 has been fulfilled.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the domain, quantifier, hypothesis, and conclusion in the statement: $\\forall n \\in \\mathbb{N},\\; n \\geq 1 \\Rightarrow n^2 \\geq 1$.",
+      "answer_latex": "\\text{Domain: } \\mathbb{N};\\; \\text{Quantifier: } \\forall;\\; \\text{Hypothesis: } n \\geq 1;\\; \\text{Conclusion: } n^2 \\geq 1"
+    },
+    {
+      "prompt_latex": "Translate into symbolic logic: 'There exists an even integer whose square is divisible by 4.'",
+      "answer_latex": "\\exists n \\in \\mathbb{Z},\\; (2 \\mid n) \\land (4 \\mid n^2)"
+    },
+    {
+      "prompt_latex": "Write the negation of $\\forall x \\in \\mathbb{R},\\; x^2 \\geq 0$ in correct logical form, then state whether the original or its negation is true.",
+      "answer_latex": "\\text{Negation: } \\exists x \\in \\mathbb{R},\\; x^2 < 0.\\; \\text{The original statement is true.}"
+    },
+    {
+      "prompt_latex": "Prove the following statement by writing a complete, logically structured argument: $\\forall m, n \\in \\mathbb{Z},\\; (m \\text{ even and } n \\text{ even}) \\Rightarrow m + n \\text{ even}$.",
+      "answer_latex": "\\text{Assume } m = 2j,\\, n = 2k \\text{ for } j,k\\in\\mathbb{Z}.\\; m+n = 2j+2k = 2(j+k).\\; j+k\\in\\mathbb{Z},\\text{ so } m+n \\text{ is even.} \\blacksquare"
+    },
+    {
+      "prompt_latex": "A student writes: 'Let $n = 4$. Then $n$ is even and $n^2 = 16$ is even, so for all integers $n$, if $n$ is even then $n^2$ is even.' Identify every logical flaw in this argument and rewrite the opening line correctly.",
+      "answer_latex": "\\text{Flaw: a single example does not prove a universal statement. Correct opening: Assume } n \\in \\mathbb{Z} \\text{ is arbitrary and } n \\text{ is even, so } n = 2k \\text{ for some } k \\in \\mathbb{Z}."
+    }
+  ],
+  "common_mistakes": [
+    "Students often treat a universal statement $\\forall x, P(x)$ as if it were proved by checking one or two examples, failing to recognize that a universal quantifier requires the argument to work for an arbitrary, unspecified element of the domain. The fix is to always begin a universal proof with 'Let $x$ be an arbitrary element of the domain' before assuming anything else.",
+    "When writing implications, students frequently confuse the direction: they prove $Q(n) \\Rightarrow P(n)$ (the converse) when the statement asks for $P(n) \\Rightarrow Q(n)$, because they work backwards from the conclusion. The fix is to parse the hypothesis and conclusion before writing a single line of proof, then confirm at the start that you are assuming the hypothesis, not the conclusion.",
+    "Students write $\\exists x \\in \\mathbb{Z}, x^2 = 2$ thinking the existential quantifier just means 'sometimes,' without checking whether such an object actually exists in the specified domain. The fix is to remember that proving an existential statement requires explicitly constructing or naming the object and verifying it satisfies every condition \u2014 absence of a valid example means the statement is false."
+  ],
+  "untested_variants": [
+    "Statements involving nested quantifiers such as $\\forall x \\in \\mathbb{R},\\; \\exists y \\in \\mathbb{R},\\; y > x$, where students must parse the order of quantifiers and understand how swapping them changes meaning.",
+    "Writing the contrapositive $\\lnot Q(n) \\Rightarrow \\lnot P(n)$ of a given implication and using it as the basis for an indirect proof strategy.",
+    "Biconditional statements of the form $P(n) \\iff Q(n)$, which require proving both the forward and backward implications separately and labeling each direction clearly.",
+    "Translating English mathematical prose containing implicit quantifiers (e.g., 'a prime greater than 2 is odd') into fully explicit symbolic form with domain and quantifier written out."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_044",
+  "topic_name": "Factoring GCF",
+  "generated_at": "2026-05-12T22:44:27.040016+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to multiply using the distributive property \u2014 for example, $3(x + 4) = 3x + 12$. But what if someone hands you $3x + 12$ and asks you to reverse that process? You need a way to 'un-distribute' and rewrite a sum as a product. The key tool is finding the Greatest Common Factor, but how do you find it, and what do you do with it once you have it?",
+  "concept": "Factoring out the GCF means rewriting a polynomial as a product by pulling out the largest factor shared by every term. Formally, if every term of a polynomial contains a common factor $k$, then we write the polynomial as $k \\cdot (\\text{remaining polynomial})$. The Greatest Common Factor (GCF) is the largest integer and the highest power of each variable that divides evenly into every term.",
+  "anatomy": "When factoring the GCF from a polynomial like $6x^3 + 9x^2$, there are three key components to identify: the numerical GCF (the largest integer dividing all coefficients \u2014 here, $\\gcd(6,9) = 3$), the variable GCF (the lowest power of each shared variable present in every term \u2014 here, $x^2$ because both terms have at least $x^2$), and the remaining polynomial inside the parentheses (found by dividing each original term by the full GCF \u2014 here, $2x + 3$). The final factored form combines all three parts: $3x^2(2x + 3)$.",
+  "worked_example": [
+    {
+      "expression_latex": "12x^3 - 8x^2 + 4x",
+      "description_latex": "We start by identifying the GCF of all three terms. For the coefficients, $\\gcd(12, 8, 4) = 4$. For the variable part, every term contains at least one factor of $x$, so the variable GCF is $x^1$. Putting these together, the overall GCF is $4x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4x\\left(\\frac{12x^3}{4x} - \\frac{8x^2}{4x} + \\frac{4x}{4x}\\right)",
+      "description_latex": "We factor out $4x$ by dividing each term by $4x$. Dividing term by term is the safest strategy \u2014 it keeps you from losing or misplacing terms. We write $4x$ out front and place the results of each division inside the parentheses.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4x(3x^2 - 2x + 1)",
+      "description_latex": "Simplifying each division gives $12x^3 \\div 4x = 3x^2$, $8x^2 \\div 4x = 2x$, and $4x \\div 4x = 1$. Notice that the last term becomes $1$, not $0$ \u2014 a very common error is to drop this term entirely, so always include it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Check: } 4x(3x^2 - 2x + 1) = 12x^3 - 8x^2 + 4x \\checkmark",
+      "description_latex": "Always verify your answer by redistributing: multiply $4x$ back through the parentheses and confirm you recover the original polynomial. If you get back exactly what you started with, your factoring is correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "18x^4 + 24x^3 - 6x^2",
+      "description_latex": "We need to factor this three-term polynomial by finding and pulling out the GCF. Start by looking at the numerical GCF of the coefficients $18$, $24$, and $6$, and then decide what power of $x$ is shared by every term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{GCF} = 6x^2",
+      "description_latex": "The numerical GCF of $18$, $24$, and $6$ is $6$, and every term has at least $x^2$, so the full GCF is $6x^2$. Now divide each term of the original polynomial by $6x^2$ to find what goes inside the parentheses.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the fully factored form: factor out $6x^2$ and fill in the trinomial inside the parentheses by computing $18x^4 \\div 6x^2$, $24x^3 \\div 6x^2$, and $-6x^2 \\div 6x^2$. What is the complete factored expression?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Factor: } 5x + 15",
+      "answer_latex": "5(x + 3)"
+    },
+    {
+      "prompt_latex": "\\text{Factor: } 14x^3 - 7x^2",
+      "answer_latex": "7x^2(2x - 1)"
+    },
+    {
+      "prompt_latex": "\\text{Factor: } 9a^4 + 12a^3 - 6a^2",
+      "answer_latex": "3a^2(3a^2 + 4a - 2)"
+    },
+    {
+      "prompt_latex": "\\text{Factor completely: } 4x^2(x+3) - 8x(x+3)",
+      "answer_latex": "4x(x+3)(x - 2)"
+    },
+    {
+      "prompt_latex": "A rectangular garden has an area given by $10w^2 + 15w$ square feet, where $w$ is the width in feet. Factor this expression to write the area as a product of the width and the length.",
+      "answer_latex": "5w(2w + 3)"
+    }
+  ],
+  "common_mistakes": [
+    "Students factor out a common factor that is NOT the greatest one \u2014 for example, writing $2x(6x^2 - 4x + 2)$ instead of $4x(3x^2 - 2x + 1)$ for $12x^3 - 8x^2 + 4x$. The fix is to always double-check whether the terms inside the parentheses still share a common factor; if they do, you haven't pulled out the GCF yet.",
+    "When a term is exactly equal to the GCF, students drop it entirely from inside the parentheses instead of writing $1$ \u2014 for example, factoring $4x^2 + 4x$ as $4x(x)$ and forgetting the $+1$, giving $4x(x)$ instead of $4x(x+1)$. Always remember that any number divided by itself equals $1$, so that term must appear inside the parentheses.",
+    "Students choose the wrong variable power for the GCF by using the highest power instead of the lowest \u2014 for example, pulling out $x^3$ from $x^3 + x^2$ instead of the correct $x^2$. The rule is to use the smallest (lowest) exponent of a variable that appears across all terms, because that is the highest power guaranteed to divide every term."
+  ],
+  "untested_variants": [
+    "Factoring the GCF from a polynomial with four or more terms as a first step before applying factoring by grouping.",
+    "Factoring out a binomial GCF, such as rewriting $3x(x-2) + 5(x-2)$ as $(x-2)(3x+5)$.",
+    "Factoring the GCF from a polynomial involving two variables, such as $12x^2y^3 - 8xy^2 + 4x^2y$.",
+    "Factoring out a negative GCF, such as writing $-3x^2 + 9x$ as $-3x(x - 3)$, where sign management inside the parentheses is the central challenge."
+  ]
+}

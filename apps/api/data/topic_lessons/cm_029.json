@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_029",
+  "topic_name": "Arithmetic and Geometric Series Tricks",
+  "generated_at": "2026-05-13T20:24:01.273812+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to add up a short list of numbers, and you've probably seen the formula $S = \\frac{n}{2}(a_1 + a_n)$ for an arithmetic series. But what happens when a competition problem asks you to compute $\\sum_{k=1}^{100} k^2$, or hands you a sum like $3 + 6 + 12 + \\cdots + 3 \\cdot 2^{99}$ and expects an answer in seconds \u2014 with no calculator? The standard formulas get you partway there, but contest problems are designed to punish slow arithmetic and reward elegant shortcuts. Can you find the sum of a geometric series with a messy ratio, or collapse a telescoping sum before the clock runs out?",
+  "concept": "An arithmetic series is the sum of terms with a constant difference $d$ between consecutive terms, and a geometric series is the sum of terms with a constant ratio $r$. The key formulas are: arithmetic partial sum $S_n = \\frac{n}{2}(2a_1 + (n-1)d)$, and geometric partial sum $S_n = a_1 \\cdot \\frac{1 - r^n}{1 - r}$ for $r \\neq 1$. Contest tricks exploit these structures \u2014 multiplying through by $r$, differentiating generating functions, or recognizing hidden telescoping \u2014 to avoid brute-force computation.",
+  "anatomy": "Every series trick has identifiable moving parts. In a geometric series $a_1 + a_1 r + a_1 r^2 + \\cdots + a_1 r^{n-1}$, the first term $a_1$ scales the entire sum, the common ratio $r$ controls how fast terms grow or shrink, and the number of terms $n$ determines the exponent on $r$ in the closed form. The signature contest technique \u2014 multiply-and-subtract \u2014 works by writing $S = a_1 + a_1 r + \\cdots + a_1 r^{n-1}$, then writing $rS = a_1 r + a_1 r^2 + \\cdots + a_1 r^n$, so that $S - rS$ collapses to just two terms: the first term of $S$ and the last term of $rS$.",
+  "worked_example": [
+    {
+      "expression_latex": "S = 2 + 6 + 18 + 54 + \\cdots + 2 \\cdot 3^{9}",
+      "description_latex": "We identify this as a geometric series with first term $a_1 = 2$, common ratio $r = 3$, and $n = 10$ terms (since the last term is $2 \\cdot 3^9$, covering exponents $0$ through $9$). Recognizing these three parameters before doing any arithmetic is the essential first step, because every subsequent move depends on them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = 2 + 6 + 18 + \\cdots + 2\\cdot 3^9 \\quad \\Rightarrow \\quad 3S = 6 + 18 + 54 + \\cdots + 2\\cdot 3^{10}",
+      "description_latex": "We apply the multiply-and-subtract trick: multiply both sides of the equation for $S$ by the common ratio $r = 3$, shifting every term one position to the right. Notice that the new sum $3S$ shares all its interior terms with $S$ \u2014 this deliberate overlap is exactly what makes the cancellation work.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S - 3S = 2 - 2\\cdot 3^{10}",
+      "description_latex": "Subtracting $3S$ from $S$ causes every middle term to cancel, leaving only the very first term of $S$ minus the very last term of $3S$. This is the payoff of the trick: a sum of ten terms collapses instantly into a simple expression with just two terms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-2S = 2(1 - 3^{10}) \\quad \\Rightarrow \\quad S = \\frac{2(3^{10} - 1)}{2} = 3^{10} - 1",
+      "description_latex": "Dividing both sides by $-2$ gives us $S = 3^{10} - 1$. Since $3^{10} = 59049$, the final answer is $S = 59048$. Notice how the formula $S_n = a_1 \\cdot \\frac{r^n - 1}{r - 1}$ produces the same result: $2 \\cdot \\frac{3^{10}-1}{2} = 3^{10} - 1$, confirming our derivation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "S = 5 + 10 + 20 + 40 + \\cdots + 5 \\cdot 2^{7}",
+      "description_latex": "We want the sum of a geometric series. Begin by identifying the first term $a_1 = 5$, the common ratio $r = 2$, and the number of terms. Since the last term is $5 \\cdot 2^7$, the exponents run from $0$ to $7$, giving $n = 8$ terms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S - 2S = 5 - 5 \\cdot 2^{8}",
+      "description_latex": "After multiplying through by $r = 2$ to get $2S$, we subtract to collapse the interior terms. You should write out $S$ and $2S$ side by side and confirm that exactly the right terms cancel \u2014 this step tests whether you truly see why the trick works.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now solve for $S$ from the equation $-S = 5 - 5 \\cdot 2^8$. Simplify your answer completely, then compute the numerical value using $2^8 = 256$. What is $S$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the sum $S = 1 + 2 + 4 + 8 + \\cdots + 2^{9}$.",
+      "answer_latex": "S = 2^{10} - 1 = 1023"
+    },
+    {
+      "prompt_latex": "Compute $\\displaystyle\\sum_{k=1}^{50}(3k - 1)$.",
+      "answer_latex": "S = 3 \\cdot \\frac{50 \\cdot 51}{2} - 50 = 3825 - 50 = 3775"
+    },
+    {
+      "prompt_latex": "Find the sum of the geometric series $4 - 2 + 1 - \\tfrac{1}{2} + \\cdots$ for the first $8$ terms.",
+      "answer_latex": "S_8 = 4 \\cdot \\frac{1 - (-\\tfrac{1}{2})^8}{1-(-\\tfrac{1}{2})} = \\frac{4(1 - \\tfrac{1}{256})}{\\tfrac{3}{2}} = \\frac{8}{3}\\cdot\\frac{255}{256} = \\frac{85}{32}"
+    },
+    {
+      "prompt_latex": "The first term of an arithmetic sequence is $7$ and the common difference is $3$. The first term of a geometric sequence is $1$ and the common ratio is $2$. Compute the sum of the first $10$ terms of the arithmetic sequence minus the sum of the first $5$ terms of the geometric sequence.",
+      "answer_latex": "S_{\\text{arith}} = \\tfrac{10}{2}(14 + 27) = 205,\\quad S_{\\text{geo}} = 2^5 - 1 = 31,\\quad 205 - 31 = 174"
+    },
+    {
+      "prompt_latex": "A ball is dropped from a height of $16$ meters. After each bounce it rises to $\\tfrac{3}{4}$ of its previous height. What is the total distance traveled by the ball when it hits the ground for the $5$th time? (Count the initial drop as the first descent.)",
+      "answer_latex": "\\text{Total} = 16 + 2\\cdot16\\cdot\\tfrac{3}{4}\\cdot\\frac{1-(\\tfrac{3}{4})^4}{1-\\tfrac{3}{4}} = 16 + 96\\left(1 - \\tfrac{81}{256}\\right) = 16 + 96\\cdot\\tfrac{175}{256} = 16 + \\tfrac{525}{8} = \\tfrac{653}{8} \\text{ m}"
+    }
+  ],
+  "common_mistakes": [
+    "Students miscount the number of terms $n$ in a geometric series, writing $n = 9$ for a series ending in $a_1 r^9$ instead of $n = 10$. Remember: if the exponents on $r$ run from $0$ to $m$, there are $m+1$ terms, not $m$.",
+    "When the common ratio is negative (e.g., $r = -\\tfrac{1}{2}$), students write $1 - r = 1 - (-\\tfrac{1}{2}) = \\tfrac{1}{2}$ instead of $\\tfrac{3}{2}$, forgetting to subtract a negative. Always re-check the denominator $1 - r$ by plugging $r$ in explicitly.",
+    "In the multiply-and-subtract trick, students forget to multiply the first term $a_1$ when forming $rS$, writing $rS = r \\cdot a_2 + r \\cdot a_3 + \\cdots$ instead of $rS = a_1 r + a_1 r^2 + \\cdots$. The entire series \u2014 including the first term \u2014 must be multiplied by $r$."
+  ],
+  "untested_variants": [
+    "Arithmetico-geometric series of the form $\\sum_{k=1}^{n} k \\cdot r^k$, where you must differentiate a geometric series or use repeated multiply-and-subtract to handle the extra factor of $k$.",
+    "Infinite geometric series and their sums $S_\\infty = \\frac{a_1}{1-r}$ for $|r| < 1$, including problems that convert repeating decimals to fractions using this formula.",
+    "Telescoping series where each term factors as $f(k+1) - f(k)$, requiring recognition of the collapsing structure rather than application of the arithmetic or geometric formulas.",
+    "Problems involving the sum of squares $\\sum_{k=1}^{n} k^2 = \\frac{n(n+1)(2n+1)}{6}$ or sum of cubes, which require formulas beyond the standard arithmetic series toolkit."
+  ]
+}

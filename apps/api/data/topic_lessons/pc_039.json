@@ -1,0 +1,91 @@
+{
+  "topic_id": "pc_039",
+  "topic_name": "Dot Product and Projections",
+  "generated_at": "2026-05-12T23:50:55.593845+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to add vectors and scale them by constants, and you've used the Pythagorean theorem to find magnitudes. But imagine you need to know how much of one vector 'points in the same direction' as another \u2014 for example, a physics problem asks how much of a 60-newton force actually moves a box along a ramp, not perpendicular to it. You can find the magnitude of each force vector, but you have no tool yet to measure how much two vectors 'agree' in direction. How do we turn two vectors into a single number that captures their directional relationship?",
+  "concept": "The dot product takes two vectors and produces a scalar (a plain number) that measures how much the vectors align. In plain English: multiply corresponding components and add the results. Formally, if $\\mathbf{u} = \\langle u_1, u_2 \\rangle$ and $\\mathbf{v} = \\langle v_1, v_2 \\rangle$, then $\\mathbf{u} \\cdot \\mathbf{v} = u_1 v_1 + u_2 v_2$. Equivalently, $\\mathbf{u} \\cdot \\mathbf{v} = |\\mathbf{u}||\\mathbf{v}|\\cos\\theta$, where $\\theta$ is the angle between the vectors.",
+  "anatomy": "The dot product formula $\\mathbf{u} \\cdot \\mathbf{v} = u_1 v_1 + u_2 v_2 = |\\mathbf{u}||\\mathbf{v}|\\cos\\theta$ has several distinct parts worth naming. The component form uses $u_1, v_1$ (the $x$-components) and $u_2, v_2$ (the $y$-components), multiplied in matching pairs and summed. The magnitude-angle form uses $|\\mathbf{u}|$ and $|\\mathbf{v}|$, the lengths of each vector, and $\\theta$, the angle between them when placed tail-to-tail. The scalar projection of $\\mathbf{u}$ onto $\\mathbf{v}$ is $\\text{comp}_{\\mathbf{v}}\\mathbf{u} = \\frac{\\mathbf{u}\\cdot\\mathbf{v}}{|\\mathbf{v}|}$, while the vector projection is $\\text{proj}_{\\mathbf{v}}\\mathbf{u} = \\frac{\\mathbf{u}\\cdot\\mathbf{v}}{|\\mathbf{v}|^2}\\mathbf{v}$, which is the scalar projection scaled into a vector pointing along $\\mathbf{v}$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{u} = \\langle 3, -1 \\rangle, \\quad \\mathbf{v} = \\langle 4, 2 \\rangle",
+      "description_latex": "We start by identifying our two vectors. Our goal is to find $\\mathbf{u} \\cdot \\mathbf{v}$, the angle between them, and then the vector projection of $\\mathbf{u}$ onto $\\mathbf{v}$. Having everything labeled before computing prevents mix-ups between components.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{u} \\cdot \\mathbf{v} = (3)(4) + (-1)(2) = 12 - 2 = 10",
+      "description_latex": "We apply the component definition by multiplying matching components and summing: $x$-components give $(3)(4) = 12$ and $y$-components give $(-1)(2) = -2$. Adding these gives a dot product of $10$, which is positive, already hinting that the vectors point in roughly the same general direction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|\\mathbf{u}| = \\sqrt{3^2 + (-1)^2} = \\sqrt{10}, \\quad |\\mathbf{v}| = \\sqrt{4^2 + 2^2} = \\sqrt{20} = 2\\sqrt{5}",
+      "description_latex": "To find the angle between the vectors, we need both magnitudes. We use the standard distance formula $|\\mathbf{w}| = \\sqrt{w_1^2 + w_2^2}$ for each vector separately. These magnitudes will appear in the denominator of both the angle formula and the projection formula, so computing them now saves work later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\cos\\theta = \\frac{\\mathbf{u}\\cdot\\mathbf{v}}{|\\mathbf{u}||\\mathbf{v}|} = \\frac{10}{\\sqrt{10}\\cdot 2\\sqrt{5}} = \\frac{10}{2\\sqrt{50}} = \\frac{10}{10\\sqrt{2}} = \\frac{1}{\\sqrt{2}}, \\quad \\theta = 45\u00b0",
+      "description_latex": "We rearrange the magnitude-angle formula $\\mathbf{u}\\cdot\\mathbf{v} = |\\mathbf{u}||\\mathbf{v}|\\cos\\theta$ to isolate $\\cos\\theta$ and substitute our known values. The denominator simplifies because $\\sqrt{10}\\cdot 2\\sqrt{5} = 2\\sqrt{50} = 10\\sqrt{2}$, giving $\\cos\\theta = \\frac{1}{\\sqrt{2}}$, so the angle between the vectors is exactly $45\u00b0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{proj}_{\\mathbf{v}}\\mathbf{u} = \\frac{\\mathbf{u}\\cdot\\mathbf{v}}{|\\mathbf{v}|^2}\\mathbf{v} = \\frac{10}{20}\\langle 4, 2 \\rangle = \\frac{1}{2}\\langle 4, 2 \\rangle = \\langle 2, 1 \\rangle",
+      "description_latex": "The vector projection of $\\mathbf{u}$ onto $\\mathbf{v}$ tells us the component of $\\mathbf{u}$ that lies exactly along the direction of $\\mathbf{v}$. We use $|\\mathbf{v}|^2 = 20$ in the denominator (not $|\\mathbf{v}|$) because the formula needs to produce a vector, and dividing by $|\\mathbf{v}|^2$ then multiplying by $\\mathbf{v}$ achieves the correct scaling. The result $\\langle 2, 1 \\rangle$ is a vector pointing in the same direction as $\\mathbf{v}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{a} = \\langle 1, 3 \\rangle, \\quad \\mathbf{b} = \\langle -2, 4 \\rangle",
+      "description_latex": "We want to find the vector projection of $\\mathbf{a}$ onto $\\mathbf{b}$. The formula is $\\text{proj}_{\\mathbf{b}}\\mathbf{a} = \\frac{\\mathbf{a}\\cdot\\mathbf{b}}{|\\mathbf{b}|^2}\\mathbf{b}$, so let's start by computing the dot product $\\mathbf{a}\\cdot\\mathbf{b}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{a}\\cdot\\mathbf{b} = (1)(-2) + (3)(4) = -2 + 12 = 10",
+      "description_latex": "The dot product comes out to $10$. Now you need to compute $|\\mathbf{b}|^2$, the squared magnitude of $\\mathbf{b}$, to complete the projection formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $|\\mathbf{b}|^2 = (-2)^2 + 4^2$, then substitute everything into $\\text{proj}_{\\mathbf{b}}\\mathbf{a} = \\frac{10}{|\\mathbf{b}|^2}\\mathbf{b}$ to find the final vector projection. What do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{proj}_{\\mathbf{b}}\\mathbf{a} = \\frac{10}{20}\\langle -2, 4 \\rangle = \\langle -1, 2 \\rangle",
+      "description_latex": "Since $|\\mathbf{b}|^2 = 4 + 16 = 20$, the scalar coefficient is $\\frac{10}{20} = \\frac{1}{2}$, and multiplying through gives $\\langle -1, 2 \\rangle$. Notice this result points in the same direction as $\\mathbf{b}$ (it is exactly $\\frac{1}{2}\\mathbf{b}$), which is always a good sanity check for projections.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $\\mathbf{u}\\cdot\\mathbf{v}$ given $\\mathbf{u} = \\langle 2, 5 \\rangle$ and $\\mathbf{v} = \\langle -1, 3 \\rangle$.",
+      "answer_latex": "\\mathbf{u}\\cdot\\mathbf{v} = (2)(-1) + (5)(3) = -2 + 15 = 13"
+    },
+    {
+      "prompt_latex": "Find the angle $\\theta$ between $\\mathbf{p} = \\langle 1, 0 \\rangle$ and $\\mathbf{q} = \\langle 1, 1 \\rangle$. Give your answer in degrees.",
+      "answer_latex": "\\theta = 45\u00b0"
+    },
+    {
+      "prompt_latex": "Find $\\text{proj}_{\\mathbf{v}}\\mathbf{u}$ given $\\mathbf{u} = \\langle 6, 2 \\rangle$ and $\\mathbf{v} = \\langle 3, 0 \\rangle$.",
+      "answer_latex": "\\text{proj}_{\\mathbf{v}}\\mathbf{u} = \\langle 6, 0 \\rangle"
+    },
+    {
+      "prompt_latex": "Vectors $\\mathbf{r} = \\langle 2, k \\rangle$ and $\\mathbf{s} = \\langle 3, -6 \\rangle$ are orthogonal. Find $k$.",
+      "answer_latex": "k = 1"
+    },
+    {
+      "prompt_latex": "A force $\\mathbf{F} = \\langle 5, 3 \\rangle$ (in newtons) moves an object along displacement $\\mathbf{d} = \\langle 4, 0 \\rangle$ (in meters). The work done is $W = \\mathbf{F}\\cdot\\mathbf{d}$. Find the work done and explain what the dot product is measuring physically.",
+      "answer_latex": "W = \\mathbf{F}\\cdot\\mathbf{d} = (5)(4)+(3)(0) = 20 \\text{ joules; only the horizontal component of force contributes to work along the horizontal displacement.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often try to compute $\\mathbf{u} \\cdot \\mathbf{v}$ and get a vector instead of a scalar by forgetting to add the products, writing $\\langle u_1 v_1, u_2 v_2 \\rangle$ instead of $u_1 v_1 + u_2 v_2$. Remember: the dot product always returns a single number, not a vector.",
+    "When using $\\cos\\theta = \\frac{\\mathbf{u}\\cdot\\mathbf{v}}{|\\mathbf{u}||\\mathbf{v}|}$, students sometimes divide by $|\\mathbf{u}| + |\\mathbf{v}|$ (adding magnitudes) instead of $|\\mathbf{u}||\\mathbf{v}|$ (multiplying them). The denominator is always the product of the two magnitudes.",
+    "In the vector projection formula $\\text{proj}_{\\mathbf{v}}\\mathbf{u} = \\frac{\\mathbf{u}\\cdot\\mathbf{v}}{|\\mathbf{v}|^2}\\mathbf{v}$, students frequently use $|\\mathbf{v}|$ (the magnitude itself) in the denominator rather than $|\\mathbf{v}|^2$ (the squared magnitude). Using $|\\mathbf{v}|$ gives the scalar projection, not the vector projection \u2014 always square the magnitude in the denominator when you need a vector result."
+  ],
+  "untested_variants": [
+    "Finding the scalar projection (component) $\\text{comp}_{\\mathbf{v}}\\mathbf{u} = \\frac{\\mathbf{u}\\cdot\\mathbf{v}}{|\\mathbf{v}|}$ as a signed number, and interpreting whether it is positive or negative based on the angle.",
+    "Working with three-dimensional vectors $\\mathbf{u} = \\langle u_1, u_2, u_3 \\rangle$ where the dot product gains a third term $u_1 v_1 + u_2 v_2 + u_3 v_3$.",
+    "Using the dot product to decompose a vector into parallel and perpendicular components: $\\mathbf{u} = \\text{proj}_{\\mathbf{v}}\\mathbf{u} + (\\mathbf{u} - \\text{proj}_{\\mathbf{v}}\\mathbf{u})$, and verifying the perpendicular component is orthogonal to $\\mathbf{v}$.",
+    "Proving or applying the property that $\\mathbf{u}\\cdot\\mathbf{u} = |\\mathbf{u}|^2$, or using algebraic properties of the dot product such as distributivity $\\mathbf{u}\\cdot(\\mathbf{v}+\\mathbf{w}) = \\mathbf{u}\\cdot\\mathbf{v} + \\mathbf{u}\\cdot\\mathbf{w}$ in multi-step proofs."
+  ]
+}

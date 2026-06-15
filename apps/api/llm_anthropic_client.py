@@ -5,13 +5,19 @@ Uses claude-sonnet-4-6 by default (configured via ANTHROPIC_MODEL env var).
 All API calls are wrapped with exponential backoff (1s / 2s / 4s, max 3 retries).
 
 Phase 12: this client replaces llm_openai_client.py once Anthropic is fully stable.
+
+Prompt caching: _call_with_backoff and call_with_images both accept a structured
+`system` parameter (list[dict] content blocks with cache_control) in addition to
+the legacy plain-string form.  The Anthropic API requires the beta header
+"prompt-caching-2024-07-31" when structured system blocks with cache_control are used.
+Plain-string callers are unaffected — they follow the existing path unchanged.
 """
 
 from __future__ import annotations
 
 import asyncio
 import time
-from typing import Optional
+from typing import Optional, Union
 
 from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL, LLM_API_TIMEOUT, LLM_MAX_TOKENS
 
@@ -29,10 +35,17 @@ def _get_client():
         ) from e
 
 
+def _uses_cache_control(system: Union[str, list, None]) -> bool:
+    """Return True if system is a structured list containing cache_control blocks."""
+    if not isinstance(system, list):
+        return False
+    return any(isinstance(b, dict) and "cache_control" in b for b in system)
+
+
 async def call_with_images(
     text_prompt: str,
     images: list[dict],
-    system: Optional[str] = None,
+    system: Union[str, list, None] = None,
     max_tokens: int = 2048,
     retries: int = 3,
 ) -> str:
@@ -42,7 +55,8 @@ async def call_with_images(
     Args:
         text_prompt: The instruction / question appended after the image(s).
         images: List of {"data": base64_str, "media_type": "image/jpeg"|"image/png"|...}.
-        system: Optional system prompt.
+        system: Optional system prompt — plain str or structured list[dict] with
+                cache_control blocks (from build_system_prompt(cacheable=True)).
         max_tokens: Max tokens in the response.
         retries: Retry attempts (exponential backoff: 1s / 2s / 4s).
 
@@ -67,6 +81,9 @@ async def call_with_images(
     messages = [{"role": "user", "content": content}]
     last_exc: Optional[Exception] = None
 
+    # Use cache-enabled beta header when structured system blocks are present
+    use_cache = _uses_cache_control(system)
+
     for attempt in range(retries):
         try:
             kwargs: dict = {
@@ -76,6 +93,8 @@ async def call_with_images(
             }
             if system:
                 kwargs["system"] = system
+            if use_cache:
+                kwargs["extra_headers"] = {"anthropic-beta": "prompt-caching-2024-07-31"}
             response = await client.messages.create(**kwargs)
             return response.content[0].text  # type: ignore[index]
         except Exception as exc:
@@ -91,16 +110,21 @@ async def call_with_images(
 
 async def _call_with_backoff(
     messages: list[dict],
-    system: Optional[str] = None,
+    system: Union[str, list, None] = None,
     max_tokens: int = LLM_MAX_TOKENS,
     retries: int = 3,
 ) -> str:
     """
     Call the Anthropic API with exponential backoff.
 
+    Supports both plain-string system prompts (legacy) and structured system
+    content blocks with cache_control (from build_system_prompt(cacheable=True)).
+    When structured blocks are detected, the prompt-caching beta header is added.
+
     Args:
         messages: List of {role, content} dicts.
-        system: Optional system prompt.
+        system: Optional system prompt — plain str or structured list[dict] with
+                cache_control blocks (from build_system_prompt(cacheable=True)).
         max_tokens: Max tokens in the response.
         retries: Max retry attempts (default 3).
 
@@ -113,6 +137,9 @@ async def _call_with_backoff(
     client = _get_client()
     delays = [1, 2, 4]
 
+    # Use cache-enabled beta header when structured system blocks are present
+    use_cache = _uses_cache_control(system)
+
     last_exc: Optional[Exception] = None
     for attempt in range(retries):
         try:
@@ -123,6 +150,8 @@ async def _call_with_backoff(
             }
             if system:
                 kwargs["system"] = system
+            if use_cache:
+                kwargs["extra_headers"] = {"anthropic-beta": "prompt-caching-2024-07-31"}
 
             response = await client.messages.create(**kwargs)
             return response.content[0].text  # type: ignore[index]

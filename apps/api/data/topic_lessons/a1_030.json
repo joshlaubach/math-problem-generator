@@ -1,0 +1,86 @@
+{
+  "topic_id": "a1_030",
+  "topic_name": "Solving by Elimination",
+  "generated_at": "2026-05-12T22:40:14.716066+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to solve systems of equations by graphing or substitution, but what happens when both equations look messy \u2014 no variable is already isolated, and substitution would create ugly fractions? Consider the system $3x + 2y = 16$ and $5x - 2y = 8$. You could substitute, but there's a faster path. What if you could make one entire variable disappear just by combining the two equations together?",
+  "concept": "Elimination (also called the addition method) is a technique where you add or subtract two equations to cancel out one variable, leaving a single equation in one unknown. Formally, if adding $a_1x + b_1y = c_1$ and $a_2x + b_2y = c_2$ produces $0y$ (because $b_1 + b_2 = 0$), then you eliminate $y$ and solve the resulting one-variable equation for $x$, then back-substitute to find $y$.",
+  "anatomy": "A successful elimination setup has four key parts: the two original equations written in standard form ($Ax + By = C$), the elimination target (the variable you choose to eliminate), the multipliers (constants you scale one or both equations by so that the chosen variable's coefficients become opposites, e.g., $+2$ and $-2$), and the resulting one-variable equation produced after adding the scaled equations. Recognizing opposites \u2014 coefficient pairs like $+3$ and $-3$ \u2014 is the engine of the whole method.",
+  "worked_example": [
+    {
+      "expression_latex": "\\begin{cases} 3x + 2y = 16 \\\\ 5x - 2y = 8 \\end{cases}",
+      "description_latex": "We start by writing both equations clearly in standard form and looking for a variable whose coefficients are already opposites. Notice that $+2y$ and $-2y$ are opposites, so adding the equations will immediately eliminate $y$ \u2014 no scaling needed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(3x + 2y) + (5x - 2y) = 16 + 8 \\implies 8x = 24",
+      "description_latex": "We add the left sides together and the right sides together. The $+2y$ and $-2y$ cancel to zero, leaving $8x = 24$. This is exactly why we call it elimination: one variable vanishes completely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\frac{24}{8} = 3",
+      "description_latex": "Dividing both sides of $8x = 24$ by $8$ gives $x = 3$. We now know the $x$-coordinate of the solution, but we still need $y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3(3) + 2y = 16 \\implies 9 + 2y = 16 \\implies 2y = 7 \\implies y = \\frac{7}{2}",
+      "description_latex": "We substitute $x = 3$ back into either original equation \u2014 here the first one \u2014 and solve for $y$. Subtracting $9$ from both sides gives $2y = 7$, so $y = \\tfrac{7}{2}$. Always substitute into an original equation, not the combined one, to avoid carrying forward any arithmetic errors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Solution: } \\left(3,\\ \\frac{7}{2}\\right)",
+      "description_latex": "The solution is the ordered pair $(3, \\tfrac{7}{2})$. You can verify by plugging both values into both original equations: $3(3) + 2(\\tfrac{7}{2}) = 9 + 7 = 16$ \u2713 and $5(3) - 2(\\tfrac{7}{2}) = 15 - 7 = 8$ \u2713.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{cases} 2x + 3y = 12 \\\\ 4x - 3y = 6 \\end{cases}",
+      "description_latex": "Here are the two equations. Before doing anything, scan the coefficients of both variables. Notice that $+3y$ and $-3y$ are already opposites, so we can eliminate $y$ by adding the equations directly \u2014 no scaling required.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "6x = 18 \\implies x = 3",
+      "description_latex": "Adding the two equations eliminates $y$ and gives $6x = 18$, so $x = 3$. This step is done for you \u2014 make sure you see how the $+3y$ and $-3y$ zeroed out.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $x = 3$ into one of the original equations and solve for $y$. Show every algebraic step and write your answer as an ordered pair.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve by elimination: } \\begin{cases} x + y = 7 \\\\ x - y = 3 \\end{cases}",
+      "answer_latex": "(5,\\ 2)"
+    },
+    {
+      "prompt_latex": "\\text{Solve by elimination: } \\begin{cases} 3x + 2y = 11 \\\\ 3x - 4y = -7 \\end{cases}",
+      "answer_latex": "(1,\\ 4)"
+    },
+    {
+      "prompt_latex": "\\text{Solve by elimination: } \\begin{cases} 2x + 5y = 1 \\\\ 3x - 2y = 8 \\end{cases}",
+      "answer_latex": "(2,\\ -\\tfrac{3}{5})"
+    },
+    {
+      "prompt_latex": "\\text{Solve by elimination: } \\begin{cases} \\tfrac{1}{2}x + y = 4 \\\\ 2x - 3y = 6 \\end{cases}",
+      "answer_latex": "(\\tfrac{18}{7},\\ \\tfrac{19}{14})"
+    },
+    {
+      "prompt_latex": "\\text{A school store sells pencils for }\\$0.25\\text{ and pens for }\\$0.75.\\text{ A student buys 10 items and spends }\\$4.50.\\text{ How many of each did they buy?}",
+      "answer_latex": "6\\text{ pencils and }4\\text{ pens}"
+    }
+  ],
+  "common_mistakes": [
+    "Students add only the variable terms and forget to add the constants on the right-hand side, writing $8x = 16$ instead of $8x = 24$. Remember: whatever you do to the left side must be done to the right side too, so add both right-hand constants together.",
+    "When multiplying an equation to create opposite coefficients, students multiply only the term containing the target variable and leave the other terms unchanged \u2014 for example, scaling $2x + 3y = 10$ by $-2$ but writing $-4x + 3y = 10$ instead of $-4x - 6y = -20$. Every term in the entire equation, including the constant on the right, must be multiplied by the same factor.",
+    "After finding one variable's value, students substitute back into the combined (added) equation rather than one of the originals, which can produce a trivially true statement like $0 = 0$ and gives no information about the second variable. Always back-substitute into one of the original two equations to find the remaining unknown."
+  ],
+  "untested_variants": [
+    "Systems where both equations require scaling by different multipliers before any coefficients become opposites (e.g., multiplying one equation by 3 and the other by 2), which demands managing two separate scaling steps simultaneously.",
+    "Systems that yield a contradiction after elimination (e.g., $0 = 5$), indicating no solution \u2014 parallel lines \u2014 and requiring the student to interpret the algebraic result geometrically.",
+    "Systems that reduce to $0 = 0$ after elimination, indicating infinitely many solutions \u2014 the same line \u2014 and requiring the student to express the solution set parametrically.",
+    "Three-variable systems ($x$, $y$, $z$) where elimination must be applied twice in sequence to reduce to a single equation, a structure not introduced in this lesson."
+  ]
+}

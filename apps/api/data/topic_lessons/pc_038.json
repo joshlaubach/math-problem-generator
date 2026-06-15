@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_038",
+  "topic_name": "Vectors in the Plane",
+  "generated_at": "2026-05-12T23:50:36.583405+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to work with numbers and angles, and you can place points on a coordinate plane with ease. But what happens when a quantity has both a size and a direction \u2014 like a 50 mph wind blowing northeast, or a force pushing an object at an angle? A single number can't capture that. How do we represent and calculate with quantities that carry both magnitude and direction simultaneously?",
+  "concept": "A vector is a mathematical object that captures both a magnitude (size) and a direction, unlike a plain number (scalar) which has only magnitude. Formally, a vector $\\mathbf{v}$ in the plane is an ordered pair $\\langle a, b \\rangle$ called component form, where $a$ is the horizontal component and $b$ is the vertical component. Geometrically it is drawn as a directed arrow from an initial point to a terminal point.",
+  "anatomy": "Every planar vector $\\mathbf{v} = \\langle a, b \\rangle$ has four key parts worth naming. The horizontal component $a$ tells how far the vector moves in the $x$-direction, and the vertical component $b$ tells how far it moves in the $y$-direction. The magnitude (or length) $\\|\\mathbf{v}\\| = \\sqrt{a^2 + b^2}$ is the scalar size of the vector. The direction angle $\\theta$ satisfies $\\tan\\theta = b/a$ and describes the angle the vector makes with the positive $x$-axis. The unit vector $\\hat{\\mathbf{v}} = \\mathbf{v}/\\|\\mathbf{v}\\|$ has magnitude 1 and preserves only the direction.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{v} = \\langle 3, -4 \\rangle",
+      "description_latex": "We start with the vector given in component form. The first component $3$ tells us the vector moves 3 units to the right, and the second component $-4$ tells us it moves 4 units downward. Identifying these components is always the first step before computing anything else.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\|\\mathbf{v}\\| = \\sqrt{3^2 + (-4)^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5",
+      "description_latex": "To find the magnitude we apply the distance formula to the components, which comes directly from the Pythagorean theorem \u2014 the vector's arrow is the hypotenuse of a right triangle with legs $|a|$ and $|b|$. Squaring each component, adding, and taking the square root gives $\\|\\mathbf{v}\\| = 5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\mathbf{v}} = \\frac{\\mathbf{v}}{\\|\\mathbf{v}\\|} = \\frac{\\langle 3, -4 \\rangle}{5} = \\left\\langle \\frac{3}{5},\\, -\\frac{4}{5} \\right\\rangle",
+      "description_latex": "The unit vector in the direction of $\\mathbf{v}$ is found by dividing each component by the magnitude. This scales the arrow down to length 1 while keeping it pointing in exactly the same direction, which is useful whenever we only care about direction and not size.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\theta = \\arctan\\!\\left(\\frac{-4}{3}\\right) \\approx -53.1^\\circ",
+      "description_latex": "Because the vector lies in Quadrant IV (positive $x$, negative $y$), we compute $\\theta = \\arctan(b/a) = \\arctan(-4/3)$. A calculator gives approximately $-53.1^\\circ$, which we can also express as $306.9^\\circ$ measured counterclockwise from the positive $x$-axis \u2014 both descriptions locate the same direction.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{u} = \\langle -5, 12 \\rangle",
+      "description_latex": "We are given the vector $\\mathbf{u} = \\langle -5, 12 \\rangle$ and want to find its magnitude and unit vector. Start by recognizing that $a = -5$ and $b = 12$, so the vector points left and upward, placing it in Quadrant II.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\|\\mathbf{u}\\| = \\sqrt{(-5)^2 + 12^2} = \\sqrt{25 + 144} = \\sqrt{169} = 13",
+      "description_latex": "Applying the magnitude formula, we square each component, add, and take the square root. Notice the $(-5)^2$ must be treated carefully \u2014 squaring a negative component always yields a positive value, so no sign errors sneak in here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find the unit vector $\\hat{\\mathbf{u}}$ by dividing each component of $\\mathbf{u}$ by its magnitude $13$. What is $\\hat{\\mathbf{u}}$ in component form?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Finally, find the direction angle $\\theta$ that $\\mathbf{u}$ makes with the positive $x$-axis. Since $\\mathbf{u}$ is in Quadrant II, remember to adjust your calculator's result appropriately. What is $\\theta$ to the nearest tenth of a degree?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the magnitude of $\\mathbf{v} = \\langle 6, 8 \\rangle$.",
+      "answer_latex": "\\|\\mathbf{v}\\| = 10"
+    },
+    {
+      "prompt_latex": "Find the unit vector in the direction of $\\mathbf{w} = \\langle 1, -\\sqrt{3} \\rangle$.",
+      "answer_latex": "\\hat{\\mathbf{w}} = \\left\\langle \\dfrac{1}{2},\\, -\\dfrac{\\sqrt{3}}{2} \\right\\rangle"
+    },
+    {
+      "prompt_latex": "Given $\\mathbf{a} = \\langle 4, -3 \\rangle$ and $\\mathbf{b} = \\langle -1, 5 \\rangle$, find $2\\mathbf{a} - \\mathbf{b}$ and its magnitude.",
+      "answer_latex": "2\\mathbf{a} - \\mathbf{b} = \\langle 9, -11 \\rangle,\\quad \\|2\\mathbf{a} - \\mathbf{b}\\| = \\sqrt{202}"
+    },
+    {
+      "prompt_latex": "A vector $\\mathbf{v}$ has magnitude $8$ and direction angle $150^\\circ$. Write $\\mathbf{v}$ in component form $\\langle a, b \\rangle$.",
+      "answer_latex": "\\mathbf{v} = \\langle -4\\sqrt{3},\\, 4 \\rangle"
+    },
+    {
+      "prompt_latex": "A pilot heads an aircraft due east at 400 mph (airspeed) while a wind blows from the south at 50 mph. Write each as a vector and find the magnitude and direction angle of the resultant velocity.",
+      "answer_latex": "\\text{Resultant} = \\langle 400, 50 \\rangle,\\quad \\|\\mathbf{r}\\| = \\sqrt{162500} \\approx 403.1 \\text{ mph},\\quad \\theta \\approx 7.1^\\circ \\text{ north of east}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to square the negative sign when computing magnitude, writing $\\sqrt{(-5)^2 + 12^2}$ correctly but then evaluating $(-5)^2$ as $-25$ instead of $25$. Always square first, then apply the negative: $(-5)^2 = 25$.",
+    "When finding a direction angle in Quadrant II or III, students use $\\theta = \\arctan(b/a)$ directly without adjusting, because a calculator's arctan output is restricted to $(-90^\\circ, 90^\\circ)$. The fix is to always check which quadrant the vector lies in and add $180^\\circ$ when the terminal side is in Quadrant II or III.",
+    "Students try to add or subtract the magnitudes of two vectors instead of adding the corresponding components separately. Vector addition is component-wise \u2014 $\\mathbf{u} + \\mathbf{v} = \\langle u_1 + v_1,\\, u_2 + v_2 \\rangle$ \u2014 and the magnitude of the sum is generally not the sum of the magnitudes."
+  ],
+  "untested_variants": [
+    "Finding the component form of a vector given only its initial point and terminal point (not already written as $\\langle a, b \\rangle$), which requires computing $\\langle x_2 - x_1,\\, y_2 - y_1 \\rangle$.",
+    "Expressing a vector as a linear combination of the standard unit vectors $\\mathbf{i}$ and $\\mathbf{j}$, for example writing $\\langle 3, -4 \\rangle$ as $3\\mathbf{i} - 4\\mathbf{j}$.",
+    "Dot product of two vectors and using it to determine whether two vectors are orthogonal or to find the angle between them.",
+    "Decomposing a vector into parallel and perpendicular components relative to another given vector (vector projection)."
+  ]
+}

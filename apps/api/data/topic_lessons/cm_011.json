@@ -1,0 +1,76 @@
+{
+  "topic_id": "cm_011",
+  "topic_name": "Quadratic Residues (H)",
+  "generated_at": "2026-05-13T20:22:20.786006+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to solve linear congruences like $2x \\equiv 3 \\pmod{7}$ by finding modular inverses. But what happens when the unknown is squared? For example, does $x^2 \\equiv 3 \\pmod{7}$ have any solution at all \u2014 and if so, how many? You might try all residues mod 7 by hand, but for a prime like $p = 101$ that brute force becomes painful. The deep question is: given an integer $a$ and a prime $p$, how do we quickly decide whether $x^2 \\equiv a \\pmod{p}$ is solvable?",
+  "concept": "A quadratic residue is an integer that is a perfect square modulo some prime. Formally, given an odd prime $p$ and an integer $a$ with $\\gcd(a, p) = 1$, we say $a$ is a quadratic residue mod $p$ (QR) if the congruence $x^2 \\equiv a \\pmod{p}$ has a solution; otherwise $a$ is a quadratic non-residue (QNR). Among the $p-1$ nonzero residues mod $p$, exactly $\\frac{p-1}{2}$ are QRs and $\\frac{p-1}{2}$ are QNRs.",
+  "anatomy": "The central tool for this topic is the Legendre symbol $\\left(\\frac{a}{p}\\right)$, which encodes the quadratic residue status of $a$ modulo the odd prime $p$. The numerator $a$ is called the top (or argument), and $p$ in the denominator is always an odd prime (the modulus). The symbol equals $+1$ if $a$ is a QR mod $p$, $-1$ if $a$ is a QNR mod $p$, and $0$ if $p \\mid a$. Euler's criterion gives a computable formula: $\\left(\\frac{a}{p}\\right) \\equiv a^{(p-1)/2} \\pmod{p}$. The key structural property is multiplicativity: $\\left(\\frac{ab}{p}\\right) = \\left(\\frac{a}{p}\\right)\\left(\\frac{b}{p}\\right)$, which lets us factor complicated symbols into simpler ones.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Is } x^2 \\equiv 5 \\pmod{11} \\text{ solvable?}",
+      "description_latex": "We want to evaluate $\\left(\\frac{5}{11}\\right)$ using Euler's criterion. The criterion says this equals $5^{(11-1)/2} = 5^5 \\pmod{11}$, so we need to compute $5^5 \\bmod 11$. This is the key reduction: checking solvability becomes a modular exponentiation problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5^2 = 25 \\equiv 3,\\quad 5^4 \\equiv 3^2 = 9,\\quad 5^5 \\equiv 9 \\cdot 5 = 45 \\equiv 1 \\pmod{11}",
+      "description_latex": "We compute $5^5 \\pmod{11}$ by repeated squaring to keep numbers small. Since $5^5 \\equiv 1 \\pmod{11}$, Euler's criterion tells us $\\left(\\frac{5}{11}\\right) = 1$, meaning $5$ IS a quadratic residue mod 11.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\equiv 4 \\pmod{11} \\text{ since } 4^2 = 16 \\equiv 5 \\pmod{11}",
+      "description_latex": "We can verify by checking $x = 4$: indeed $4^2 = 16 = 11 + 5 \\equiv 5 \\pmod{11}$, confirming the solution. Note that $x \\equiv -4 \\equiv 7 \\pmod{11}$ is the second solution, since nonzero QRs mod an odd prime always have exactly two square roots.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Compute } \\left(\\frac{6}{13}\\right)",
+      "description_latex": "We want to determine whether 6 is a quadratic residue mod 13. Rather than using Euler's criterion directly on 6, we exploit multiplicativity: $\\left(\\frac{6}{13}\\right) = \\left(\\frac{2}{13}\\right)\\left(\\frac{3}{13}\\right)$. This lets us handle 2 and 3 separately, which is often easier.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left(\\frac{2}{13}\\right) = 2^{(13-1)/2} = 2^6 = 64 \\equiv 64 - 4\\cdot 13 = 12 \\equiv -1 \\pmod{13}",
+      "description_latex": "We evaluate $\\left(\\frac{2}{13}\\right)$ using Euler's criterion: $2^6 = 64 = 4 \\cdot 13 + 12 \\equiv -1 \\pmod{13}$, so $\\left(\\frac{2}{13}\\right) = -1$ (2 is a QNR mod 13). Now you need to find $\\left(\\frac{3}{13}\\right)$ the same way \u2014 apply Euler's criterion to 3 modulo 13.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left(\\frac{3}{13}\\right) = 3^{6} \\pmod{13} = \\,?",
+      "description_latex": "Apply Euler's criterion: compute $3^6 \\pmod{13}$ using repeated squaring, then determine whether the result is $+1$ or $-1$ mod 13. Use your answer to find the final value of $\\left(\\frac{6}{13}\\right)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Is $x^2 \\equiv 2 \\pmod{7}$ solvable? List all solutions mod 7, or state none exist.",
+      "answer_latex": "No solution. $\\left(\\frac{2}{7}\\right) = 2^3 = 8 \\equiv 1 \\pmod 7$... wait: $2^3=8\\equiv 1$, so $\\left(\\frac{2}{7}\\right)=1$, meaning solvable. Solutions: $x\\equiv 3,4\\pmod{7}$."
+    },
+    {
+      "prompt_latex": "Compute $\\left(\\frac{10}{13}\\right)$ using multiplicativity and Euler's criterion.",
+      "answer_latex": "$\\left(\\frac{10}{13}\\right)=\\left(\\frac{2}{13}\\right)\\left(\\frac{5}{13}\\right)=(-1)(1)=-1$, so 10 is a QNR mod 13."
+    },
+    {
+      "prompt_latex": "How many quadratic residues are there modulo 17? List them.",
+      "answer_latex": "There are $\\frac{17-1}{2}=8$ quadratic residues mod 17: $\\{1,2,4,8,9,13,15,16\\}$."
+    },
+    {
+      "prompt_latex": "Find all primes $p$ with $5 < p < 30$ for which $x^2 \\equiv -1 \\pmod{p}$ is solvable.",
+      "answer_latex": "$x^2\\equiv -1\\pmod p$ is solvable iff $p\\equiv 1\\pmod 4$. Primes between 5 and 30: 7,11,13,17,19,23,29. Those $\\equiv 1\\pmod 4$: $p\\in\\{13,17,29\\}$."
+    },
+    {
+      "prompt_latex": "A spy uses a code where the secret key $k$ satisfies $k^2 \\equiv 7 \\pmod{23}$ and $1\\le k \\le 11$. Find $k$.",
+      "answer_latex": "$\\left(\\frac{7}{23}\\right)=7^{11}\\pmod{23}$. Computing: $7^2=49\\equiv 3$, $7^4\\equiv 9$, $7^8\\equiv 81\\equiv 12$, $7^{11}=7^8\\cdot7^2\\cdot7\\equiv 12\\cdot3\\cdot7=252\\equiv 252-10\\cdot23=22\\equiv -1$. Wait \u2014 recompute: $7^{11}\\equiv -1$ means 7 is a QNR mod 23, so no solution exists and the code is invalid."
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the value of the Legendre symbol with the actual solution $x$: $\\left(\\frac{a}{p}\\right) = 1$ only tells you a solution exists \u2014 it does NOT give you $x$. You must find $x$ separately, for example by trying small values or using a square-root algorithm.",
+    "When applying multiplicativity, students sometimes write $\\left(\\frac{a+b}{p}\\right) = \\left(\\frac{a}{p}\\right)+\\left(\\frac{b}{p}\\right)$, incorrectly treating the Legendre symbol as additive. The correct rule is multiplicative only: $\\left(\\frac{ab}{p}\\right) = \\left(\\frac{a}{p}\\right)\\left(\\frac{b}{p}\\right)$.",
+    "Students forget that Euler's criterion gives $a^{(p-1)/2} \\equiv \\pm 1 \\pmod{p}$, and mistakenly interpret a result of $p-1$ as '$+1$ because it reduces nicely.' Remember that $p-1 \\equiv -1 \\pmod p$, so a result of $p-1$ means the Legendre symbol is $-1$ (a QNR), not $+1$."
+  ],
+  "untested_variants": [
+    "Using the Law of Quadratic Reciprocity to evaluate Legendre symbols $\\left(\\frac{p}{q}\\right)$ by swapping the roles of two distinct odd primes, which is needed when both $p$ and $q$ are large primes.",
+    "Computing square roots modulo a prime explicitly (e.g., via the Tonelli\u2013Shanks algorithm or the formula $x \\equiv a^{(p+1)/4} \\pmod p$ when $p \\equiv 3 \\pmod 4$), not just determining whether they exist.",
+    "Quadratic residues modulo composite numbers $n = pq$, including the Jacobi symbol and the subtlety that a Jacobi symbol of $+1$ does not guarantee a solution exists.",
+    "Counting or summing problems involving quadratic residues, such as proving $\\sum_{a=1}^{p-1}\\left(\\frac{a}{p}\\right) = 0$ or computing the number of solutions to $x^2 + y^2 \\equiv c \\pmod p$."
+  ]
+}

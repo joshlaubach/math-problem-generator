@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_046",
+  "topic_name": "Factoring Trinomials (a\u22601)",
+  "generated_at": "2026-05-12T22:44:25.734564+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to factor trinomials like $x^2 + 5x + 6 = (x+2)(x+3)$ by finding two numbers that multiply to 6 and add to 5. But what happens when the leading coefficient isn't 1, like $2x^2 + 7x + 3$? The simple 'find two numbers' trick breaks down because you now have to account for that 2 out front in a more careful way. How do we systematically crack open a trinomial like $6x^2 - 11x - 10$?",
+  "concept": "Factoring a trinomial with leading coefficient $a \\neq 1$ means rewriting $ax^2 + bx + c$ as a product of two binomials $(px + q)(rx + s)$ where $p \\cdot r = a$ and $q \\cdot s = c$. The most reliable method is the AC method: multiply $a$ and $c$, find two numbers that multiply to $ac$ and add to $b$, then split the middle term and factor by grouping.",
+  "anatomy": "In the trinomial $ax^2 + bx + c$, the leading coefficient $a$ is the number multiplying $x^2$ and is the source of the extra complexity. The middle coefficient $b$ is what the two split pieces must add to. The constant term $c$ provides the product constraint alongside $a$: the AC product $ac$ is the target product for your factor search. Once you find two numbers $m$ and $n$ with $m \\cdot n = ac$ and $m + n = b$, you rewrite $bx$ as $mx + nx$, creating four terms that you then factor by grouping into two binomial factors.",
+  "worked_example": [
+    {
+      "expression_latex": "2x^2 + 7x + 3",
+      "description_latex": "We start by identifying $a = 2$, $b = 7$, and $c = 3$. The first thing we do in the AC method is compute the product $ac = 2 \\cdot 3 = 6$, because this single number replaces the more complex search we'd face otherwise.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m \\cdot n = 6 \\quad \\text{and} \\quad m + n = 7",
+      "description_latex": "We need two numbers that multiply to 6 and add to 7. Listing factor pairs of 6: $(1,6)$ adds to 7 \u2014 that's our pair! Both numbers are positive because $ac$ is positive and $b$ is positive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x^2 + 1x + 6x + 3",
+      "description_latex": "We split the middle term $7x$ into $1x + 6x$ using our two numbers. The order matters here: it's helpful to place the term whose coefficient shares a common factor with the leading term first, but either order will work as long as grouping is applied correctly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x(2x + 1) + 3(2x + 1)",
+      "description_latex": "We group the first two terms and factor out $x$, then group the last two terms and factor out $3$. Notice that both groups reveal the same binomial factor $(2x + 1)$ \u2014 this is the sign that our split was correct.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(2x + 1)(x + 3)",
+      "description_latex": "We factor out the common binomial $(2x + 1)$ to get our final answer. You can verify by expanding: $(2x+1)(x+3) = 2x^2 + 6x + x + 3 = 2x^2 + 7x + 3$ \u2713",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "3x^2 - 10x - 8",
+      "description_latex": "We identify $a = 3$, $b = -10$, $c = -8$, so $ac = 3 \\cdot (-8) = -24$. We need two numbers that multiply to $-24$ and add to $-10$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m \\cdot n = -24, \\quad m + n = -10",
+      "description_latex": "Find the two numbers that satisfy these conditions. Think about factor pairs of 24 where one is positive and one is negative (since the product is negative), and check which pair has a sum of $-10$. What are your two numbers $m$ and $n$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "3x^2 + 2x - 12x - 8",
+      "description_latex": "Using $m = 2$ and $n = -12$, we split the middle term to get four terms. Now group and factor: pull out a common factor from the first pair and a common factor from the second pair.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Complete the factoring by grouping. What common binomial factor do you see, and what is the fully factored form of $3x^2 - 10x - 8$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Factor: } 2x^2 + 5x + 2",
+      "answer_latex": "(2x + 1)(x + 2)"
+    },
+    {
+      "prompt_latex": "\\text{Factor: } 3x^2 + 11x + 6",
+      "answer_latex": "(3x + 2)(x + 3)"
+    },
+    {
+      "prompt_latex": "\\text{Factor: } 4x^2 - 4x - 3",
+      "answer_latex": "(2x - 3)(2x + 1)"
+    },
+    {
+      "prompt_latex": "\\text{Factor completely: } 6x^3 - 14x^2 - 12x",
+      "answer_latex": "2x(3x + 2)(x - 3)"
+    },
+    {
+      "prompt_latex": "\\text{The area of a rectangle is } 6x^2 + 11x + 4. \\text{ Write expressions for two possible side lengths.}",
+      "answer_latex": "(2x + 1)(3x + 4) \\text{ or } (3x + 1)(2x + 4)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that the AC method requires multiplying $a \\cdot c$, not just looking for factors of $c$ alone \u2014 this mistake produces factor pairs that will never give the correct middle term when $a \\neq 1$. Always compute $ac$ first before searching for your number pair.",
+    "When splitting the middle term, students sometimes find the right numbers $m$ and $n$ but then write incorrect groupings \u2014 for example, pairing the first and third terms instead of consecutive terms \u2014 which prevents a common binomial from appearing. Always rewrite as four consecutive terms and group the first two and last two.",
+    "Students frequently forget to check for a greatest common factor (GCF) before applying the AC method, leading to unnecessarily large numbers in the $ac$ product and a much harder search. Always factor out any GCF from all terms as the very first step."
+  ],
+  "untested_variants": [
+    "Trinomials where $a$ is negative, such as $-2x^2 + 5x + 3$, requiring students to first factor out $-1$ before proceeding.",
+    "Trinomials in two variables, such as $6x^2 + 7xy - 3y^2$, where the constant term involves a second variable.",
+    "Factoring trinomials where the result is a perfect square binomial squared, such as $4x^2 + 12x + 9 = (2x+3)^2$.",
+    "Setting a factored trinomial equal to zero and solving the resulting quadratic equation, combining factoring with the zero-product property."
+  ]
+}

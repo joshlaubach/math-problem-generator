@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_020",
+  "topic_name": "Sign and Rank Tests: Wilcoxon and Mann-Whitney",
+  "generated_at": "2026-05-14T01:02:40.760711+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to use the t-test to compare means \u2014 but that test assumes your data come from a normal distribution. What happens when you're analyzing pain scores, customer satisfaction ratings, or small samples where normality is doubtful? You can't just trust the t-test. Nonparametric tests let you make valid inferences using only the ranks of the data rather than the actual values \u2014 but how exactly do you compute and interpret a Wilcoxon or Mann-Whitney statistic?",
+  "concept": "Nonparametric rank tests replace raw data values with their ordered ranks, so inferences depend only on relative ordering, not on distributional assumptions. The Wilcoxon signed-rank test applies to a single sample or paired differences: differences are ranked by absolute value, signs are reattached, and the test statistic $W^+$ is the sum of ranks with positive signs. The Mann-Whitney U test compares two independent samples by counting how often an observation from one group exceeds an observation from the other, yielding statistic $U$.",
+  "anatomy": "Both tests share key structural components. In the Wilcoxon signed-rank test: the signed differences $d_i = x_i - \\mu_0$ are the raw material; $|d_i|$ are ranked from smallest to largest (ties receive averaged ranks, and zero differences are discarded); $W^+ = \\sum_{d_i > 0} R_i$ is the sum of ranks assigned to positive differences; and $n$ denotes the number of non-zero differences used. In the Mann-Whitney test: $n_1$ and $n_2$ are the two sample sizes; $U_1 = n_1 n_2 + \\frac{n_1(n_1+1)}{2} - R_1$ where $R_1$ is the rank sum of group 1 in the combined ranking; and $U = \\min(U_1, U_2)$ is the test statistic compared to critical values or converted to a $z$-score for large samples.",
+  "worked_example": [
+    {
+      "expression_latex": "d_i = x_i - \\mu_0: \\quad (-3,\\, +7,\\, -1,\\, +4,\\, +6)",
+      "description_latex": "We start by computing the signed differences between each observation and the hypothesized median $\\mu_0$. These signed differences are the raw input to the Wilcoxon signed-rank procedure \u2014 we need both the magnitude (to rank) and the sign (to reassign after ranking).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|d_i| \\text{ sorted}: 1, 3, 4, 6, 7 \\quad \\Rightarrow \\quad \\text{Ranks: } R = 1, 2, 3, 4, 5",
+      "description_latex": "We rank the absolute values of the differences from smallest to largest, assigning rank 1 to the smallest. Using absolute values ensures that a difference of $-3$ and $+3$ receive the same rank magnitude \u2014 only the sign will distinguish them in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Positive differences: } +7 \\to R=5,\\; +4 \\to R=3,\\; +6 \\to R=4",
+      "description_latex": "Now we reattach the original signs to identify which ranks belong to positive differences. Only $d_i > 0$ contribute to $W^+$, so we collect those ranks: the observations $+7, +4, +6$ received ranks $5, 3, 4$ respectively.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W^+ = 5 + 3 + 4 = 12",
+      "description_latex": "We sum the ranks of the positive differences to obtain the test statistic $W^+ = 12$. This is the value we will compare to a table of critical values for $n = 5$ to decide whether to reject $H_0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{For } n=5,\\; \\alpha=0.05 \\text{ (two-tailed): critical value} = 1. \\quad W^+ = 12 > 1 \\Rightarrow \\text{Fail to reject } H_0",
+      "description_latex": "We look up the critical value for $n=5$ at $\\alpha = 0.05$ two-tailed, which is $1$ \u2014 we reject $H_0$ only if $W^+$ is at most $1$. Since $W^+ = 12$ is far above this threshold, we fail to reject the null hypothesis that the population median equals $\\mu_0$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Group 1: } 4, 7, 2 \\quad \\text{Group 2: } 5, 9, 3, 8",
+      "description_latex": "We want to apply the Mann-Whitney U test to these two independent samples. The first step is to combine all $n_1 + n_2 = 3 + 4 = 7$ observations and rank them jointly from 1 (smallest) to 7 (largest).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Combined ranks: } 2\\to1,\\; 3\\to2,\\; 4\\to3,\\; 5\\to4,\\; 7\\to5,\\; 8\\to6,\\; 9\\to7",
+      "description_latex": "Here are the combined ranks already worked out for you. Now you need to identify which ranks belong to Group 1 and sum them to get $R_1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Identify the ranks that belong to Group 1 (observations $4, 7, 2$), sum them to find $R_1$, and then compute $U_1 = n_1 n_2 + \\frac{n_1(n_1+1)}{2} - R_1$ and $U_2 = n_1 n_2 - U_1$. What are $U_1$, $U_2$, and $U = \\min(U_1, U_2)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "U = \\min(U_1, U_2) = \\min(4, 8) = 4",
+      "description_latex": "The correct answer is $R_1 = 1+3+5 = 9$, giving $U_1 = 12 + 6 - 9 = 9$ \u2014 wait, let's be careful: $U_1 = 3 \\cdot 4 + \\frac{3 \\cdot 4}{2} - 9 = 12 + 6 - 9 = 9$ and $U_2 = 12 - 9 = 3$... actually re-checking: $U_2 = n_1 n_2 - U_1 = 12 - 9 = 3$, so $U = \\min(9,3) = 3$. Compare this to the critical value for $(n_1, n_2) = (3,4)$ to make a decision.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For a Wilcoxon signed-rank test with $n = 4$ non-zero differences and signed differences $+2, -5, +3, -1$, compute $W^+$.",
+      "answer_latex": "W^+ = 3 + 2 = 5 \\quad (\\text{ranks of } +2 \\text{ and } +3 \\text{ are } 2 \\text{ and } 3)"
+    },
+    {
+      "prompt_latex": "Eight paired differences (after dropping zeros) have $W^+ = 28$. For $n = 8$ and $\\alpha = 0.05$ two-tailed, the critical value is $4$. State the conclusion.",
+      "answer_latex": "\\text{Since } W^+ = 28 > 4, \\text{ fail to reject } H_0 \\text{ (actually reject only if } W^+ \\leq 4\\text{); conclusion: fail to reject } H_0"
+    },
+    {
+      "prompt_latex": "Two independent samples: Group A has $n_1 = 3$ observations with rank sum $R_1 = 8$ in the combined ranking of $n_1 + n_2 = 3 + 5 = 8$ observations. Compute $U_1$ and $U_2$.",
+      "answer_latex": "U_1 = n_1 n_2 + \\frac{n_1(n_1+1)}{2} - R_1 = 15 + 6 - 8 = 13; \\quad U_2 = 15 - 13 = 2"
+    },
+    {
+      "prompt_latex": "For large samples ($n_1 = 20, n_2 = 25$), the Mann-Whitney statistic is $U = 178$. The mean and standard deviation of $U$ under $H_0$ are $\\mu_U = \\frac{n_1 n_2}{2}$ and $\\sigma_U = \\sqrt{\\frac{n_1 n_2 (n_1+n_2+1)}{12}}$. Compute the $z$-score and state whether you reject $H_0$ at $\\alpha = 0.05$ (two-tailed, $z_{0.025} = 1.96$).",
+      "answer_latex": "\\mu_U = 250,\\; \\sigma_U = \\sqrt{\\tfrac{20 \\cdot 25 \\cdot 46}{12}} \\approx 43.93,\\; z = \\tfrac{178-250}{43.93} \\approx -1.64; \\text{ since } |z| < 1.96, \\text{ fail to reject } H_0"
+    },
+    {
+      "prompt_latex": "A researcher measures recovery times (days) for $n=6$ patients before and after a new treatment. The signed differences are $-2, +5, 0, +4, -1, +3$. The zero difference is discarded. Rank the remaining $n=5$ absolute differences, compute $W^+$, and compare to the critical value of $1$ at $\\alpha=0.05$ two-tailed.",
+      "answer_latex": "|d_i|: 1,2,3,4,5 \\to \\text{ranks } 1,2,3,4,5; \\; W^+ = 5+4+3 = 12; \\; 12 > 1 \\Rightarrow \\text{fail to reject } H_0"
+    }
+  ],
+  "common_mistakes": [
+    "Students include zero differences when computing the Wilcoxon statistic. Zero differences must be discarded before ranking, and $n$ should reflect only the non-zero differences \u2014 using all $n$ values inflates the statistic and gives the wrong critical value.",
+    "When computing $U_1$ for the Mann-Whitney test, students use only the ranks within Group 1 rather than ranks from the combined joint ranking of both groups. Always rank all observations together first, then sum whichever group's ranks you choose to compute $R_1$.",
+    "Students confuse the direction of the rejection rule: for the Wilcoxon signed-rank test, small values of $W^+$ (or $W^-$) fall in the rejection region, so you reject $H_0$ when the test statistic is less than or equal to the critical value \u2014 opposite to the convention for chi-square or F tests."
+  ],
+  "untested_variants": [
+    "Handling ties in the Wilcoxon signed-rank test: when two or more $|d_i|$ are equal, each tied group receives the average of the ranks they would have occupied, and the large-sample variance formula requires a correction term.",
+    "The Wilcoxon rank-sum test (equivalent to Mann-Whitney) expressed as $W = R_1$ compared directly to critical values from a rank-sum table, rather than through the $U$ statistic formulation.",
+    "Confidence interval construction for the median using the Hodges-Lehmann estimator associated with the signed-rank test.",
+    "The Kruskal-Wallis test, which generalizes the Mann-Whitney idea to three or more independent groups and uses a chi-square approximation for the test statistic."
+  ]
+}

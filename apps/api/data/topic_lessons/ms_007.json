@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_007",
+  "topic_name": "The Cram\u00e9r-Rao Lower Bound",
+  "generated_at": "2026-05-14T01:01:10.086365+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know that unbiased estimators are desirable \u2014 they hit the true parameter on average. You've also seen that some estimators have smaller variance than others, making them more precise. But here's the gap: is there a fundamental limit to how precise any unbiased estimator can possibly be, no matter how clever you are? Can you always do better with a new estimator, or is there a floor you simply cannot go below?",
+  "concept": "The Cram\u00e9r-Rao Lower Bound (CRLB) sets an absolute minimum on the variance of any unbiased estimator of a parameter. In plain English: no matter what unbiased estimator you invent, its variance cannot be smaller than $1/I(\\theta)$, where $I(\\theta)$ is the Fisher information. Formally, if $\\hat{\\theta}$ is any unbiased estimator of $\\theta$, then $\\text{Var}(\\hat{\\theta}) \\geq \\frac{1}{I(\\theta)}$.",
+  "anatomy": "The CRLB has three structural pieces worth naming precisely. First, the score function $s(X;\\theta) = \\frac{\\partial}{\\partial \\theta} \\ln f(X;\\theta)$ measures how sensitively the log-likelihood responds to $\\theta$ at each observation. Second, the Fisher information $I(\\theta) = E\\left[\\left(\\frac{\\partial}{\\partial \\theta} \\ln f(X;\\theta)\\right)^2\\right]$ is the expected squared score, quantifying how much information the data carries about $\\theta$; under regularity conditions it equals $-E\\left[\\frac{\\partial^2}{\\partial \\theta^2} \\ln f(X;\\theta)\\right]$. Third, the bound itself $1/I(\\theta)$ \u2014 or $1/(nI_1(\\theta))$ for an i.i.d. sample of size $n$ \u2014 is the minimum achievable variance, and an estimator that actually achieves this bound is called efficient.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Bernoulli}(p), \\quad f(x;p) = p^x(1-p)^{1-x}",
+      "description_latex": "We start by identifying our model: each observation is a Bernoulli trial with unknown success probability $p$. Writing down the pmf explicitly is the necessary first step because everything in the CRLB derivation flows from the likelihood.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ln f(x;p) = x\\ln p + (1-x)\\ln(1-p)",
+      "description_latex": "Taking the log of the pmf converts the product structure into a sum, which is far easier to differentiate. Notice that this is the log-likelihood for a single observation, which is what we need before computing the score.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial}{\\partial p}\\ln f(x;p) = \\frac{x}{p} - \\frac{1-x}{1-p}",
+      "description_latex": "We differentiate the log-likelihood with respect to $p$ to obtain the score function for one observation. This derivative captures the direction and magnitude of change in log-likelihood as $p$ shifts, and squaring its expectation gives us the Fisher information.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "I_1(p) = E\\left[\\left(\\frac{x}{p} - \\frac{1-x}{1-p}\\right)^2\\right] = \\frac{1}{p(1-p)}",
+      "description_latex": "We compute the Fisher information for a single observation by taking the expected value of the squared score. Using $E[X] = p$ and $E[X^2] = p$ (since $X$ is Bernoulli) the algebra simplifies cleanly to $1/[p(1-p)]$, which grows large when $p$ is near 0 or 1 \u2014 intuitively those extreme cases are highly informative about $p$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{CRLB} = \\frac{1}{n\\, I_1(p)} = \\frac{p(1-p)}{n}",
+      "description_latex": "For an i.i.d. sample of size $n$, Fisher information adds up to $nI_1(p)$, so the lower bound on variance becomes $p(1-p)/n$. Crucially, the sample proportion $\\hat{p} = \\bar{X}$ has exactly this variance, so it is an efficient estimator \u2014 it achieves the CRLB.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} \\text{Poisson}(\\lambda), \\quad f(x;\\lambda) = \\frac{e^{-\\lambda}\\lambda^x}{x!}",
+      "description_latex": "We want to find the CRLB for estimating $\\lambda$ from a Poisson sample. Start by writing the log-likelihood for a single observation: $\\ln f(x;\\lambda) = -\\lambda + x\\ln\\lambda - \\ln(x!)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial}{\\partial \\lambda}\\ln f(x;\\lambda) = -1 + \\frac{x}{\\lambda}",
+      "description_latex": "The score for one observation is obtained by differentiating the log-likelihood with respect to $\\lambda$. Now use this score to compute the Fisher information $I_1(\\lambda) = E\\left[\\left(-1 + X/\\lambda\\right)^2\\right]$ \u2014 expand the square and use $E[X] = \\lambda$, $\\text{Var}(X) = \\lambda$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $I_1(\\lambda)$ by expanding $E\\left[\\left(-1 + X/\\lambda\\right)^2\\right]$ and simplifying using the mean and variance of a Poisson distribution. What do you get, and therefore what is the CRLB for estimating $\\lambda$ from $n$ observations?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{CRLB} = \\frac{\\lambda}{n}; \\quad \\hat{\\lambda} = \\bar{X} \\text{ achieves this bound since } \\text{Var}(\\bar{X}) = \\lambda/n",
+      "description_latex": "The Fisher information is $I_1(\\lambda) = 1/\\lambda$, giving a CRLB of $\\lambda/n$. Because $\\bar{X}$ is unbiased for $\\lambda$ and has variance exactly $\\lambda/n$, it is an efficient estimator \u2014 this is the confirmation step that closes the argument.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim N(\\mu, \\sigma^2)$ with $\\sigma^2$ known. Show that the Fisher information for $\\mu$ in one observation is $I_1(\\mu) = 1/\\sigma^2$.",
+      "answer_latex": "\\ln f(x;\\mu) = -\\frac{(x-\\mu)^2}{2\\sigma^2} + C, \\quad \\frac{\\partial}{\\partial\\mu}\\ln f = \\frac{x-\\mu}{\\sigma^2}, \\quad I_1(\\mu) = E\\left[\\frac{(X-\\mu)^2}{\\sigma^4}\\right] = \\frac{\\sigma^2}{\\sigma^4} = \\frac{1}{\\sigma^2}"
+    },
+    {
+      "prompt_latex": "For $X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} N(\\mu,\\sigma^2)$ with $\\sigma^2$ known, state the CRLB for unbiased estimators of $\\mu$ and verify that $\\bar{X}$ is efficient.",
+      "answer_latex": "\\text{CRLB} = \\frac{1}{n I_1(\\mu)} = \\frac{\\sigma^2}{n}; \\quad \\text{Var}(\\bar{X}) = \\frac{\\sigma^2}{n} = \\text{CRLB}, \\text{ so } \\bar{X} \\text{ is efficient.}"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} \\text{Exp}(\\lambda)$, so $f(x;\\lambda)=\\lambda e^{-\\lambda x}$ for $x>0$. Find the CRLB for unbiased estimators of $\\lambda$.",
+      "answer_latex": "\\ln f = \\ln\\lambda - \\lambda x, \\quad \\frac{\\partial}{\\partial\\lambda}\\ln f = \\frac{1}{\\lambda}-x, \\quad I_1(\\lambda)=E\\left[\\left(\\frac{1}{\\lambda}-X\\right)^2\\right]=\\frac{1}{\\lambda^2}, \\quad \\text{CRLB}=\\frac{\\lambda^2}{n}"
+    },
+    {
+      "prompt_latex": "Using the alternative formula $I_1(\\theta) = -E\\left[\\frac{\\partial^2}{\\partial\\theta^2}\\ln f(X;\\theta)\\right]$, recompute the Fisher information for the $\\text{Bernoulli}(p)$ model and confirm it equals $1/[p(1-p)]$.",
+      "answer_latex": "\\frac{\\partial^2}{\\partial p^2}\\ln f = -\\frac{x}{p^2} - \\frac{1-x}{(1-p)^2}, \\quad -E\\left[\\cdot\\right] = \\frac{E[X]}{p^2}+\\frac{1-E[X]}{(1-p)^2} = \\frac{1}{p}+\\frac{1}{1-p} = \\frac{1}{p(1-p)} \\checkmark"
+    },
+    {
+      "prompt_latex": "A reliability engineer models component lifetimes as $\\text{Exp}(\\lambda)$ and records $n=25$ lifetimes with sample mean $\\bar{x}=4$ hours. The MLE is $\\hat{\\lambda}=1/\\bar{x}$. Find the CRLB for estimating $\\lambda$ at $\\lambda=0.25$, and comment on whether you would trust $\\hat{\\lambda}$ to be close to efficient.",
+      "answer_latex": "\\text{CRLB} = \\frac{\\lambda^2}{n} = \\frac{(0.25)^2}{25} = 0.0025. \\text{ The MLE } \\hat{\\lambda}=1/\\bar{X} \\text{ is not unbiased (it's asymptotically efficient), so the CRLB does not formally apply, but for large } n \\text{ its variance approaches the CRLB.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that the CRLB applies only to unbiased estimators and incorrectly use it to evaluate biased estimators like $\\hat{\\sigma}^2 = \\frac{1}{n}\\sum(X_i-\\bar{X})^2$; the fix is to always verify unbiasedness before invoking the bound.",
+    "When computing Fisher information from an i.i.d. sample, students use $I_1(\\theta)$ (single-observation information) as the full sample information instead of $nI_1(\\theta)$, leading to a bound that is $n$ times too large; remember the CRLB for a sample of size $n$ is $1/[nI_1(\\theta)]$.",
+    "Students differentiate the likelihood $f(x;\\theta)$ directly rather than the log-likelihood $\\ln f(x;\\theta)$ when computing the score, which makes the calculation far harder and error-prone; using the log-likelihood is not just a shortcut \u2014 it is the standard definition of the score function."
+  ],
+  "untested_variants": [
+    "The multiparameter CRLB using the Fisher information matrix $\\mathbf{I}(\\boldsymbol{\\theta})$, where the bound becomes a matrix inequality $\\text{Cov}(\\hat{\\boldsymbol{\\theta}}) \\succeq \\mathbf{I}(\\boldsymbol{\\theta})^{-1}$.",
+    "The CRLB for estimating a function of a parameter $g(\\theta)$, where the bound takes the form $[g'(\\theta)]^2 / I(\\theta)$, requiring the chain-rule adjustment to the numerator.",
+    "Verifying whether a given estimator is efficient by computing its variance analytically and checking equality with the CRLB, particularly in models like the Uniform$(0,\\theta)$ where regularity conditions fail and the CRLB does not apply.",
+    "Using the CRLB in the context of censored or truncated data, where the log-likelihood and corresponding Fisher information take more complex forms than in complete-data problems."
+  ]
+}

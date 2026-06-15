@@ -1,0 +1,81 @@
+{
+  "topic_id": "c3_013",
+  "topic_name": "Functions of Several Variables and Level Curves",
+  "generated_at": "2026-05-13T00:32:03.720578+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to graph a function like $f(x) = x^2$ as a curve in the plane, where one input produces one output. But what if temperature at a point on a metal plate depends on both its $x$-coordinate and its $y$-coordinate? Now you have a function $T(x, y)$ \u2014 two inputs, one output \u2014 and the simple 2D graph is no longer enough. How do we visualize and reason about functions that take multiple inputs?",
+  "concept": "A function of several variables assigns a single real-number output to each ordered pair (or tuple) of inputs. Formally, a function of two variables is a rule $f: D \\subseteq \\mathbb{R}^2 \\to \\mathbb{R}$ that assigns to each point $(x, y)$ in its domain $D$ exactly one value $f(x,y) \\in \\mathbb{R}$. The graph of $f$ lives in three dimensions as the surface $z = f(x,y)$, and a level curve is a 2D slice of that surface at a fixed height $z = k$, defined by $f(x,y) = k$.",
+  "anatomy": "For a function of two variables $f(x,y)$, there are four key structural parts to identify. The independent variables $x$ and $y$ are the inputs, each ranging over some subset of $\\mathbb{R}$. The dependent variable $z = f(x,y)$ is the output. The domain $D$ is the set of all input pairs $(x,y)$ for which $f$ is defined \u2014 often restricted by conditions like denominators being nonzero or expressions under square roots being nonnegative. A level curve is a curve in the $xy$-plane obtained by setting $f(x,y) = k$ for a constant $k$; different values of $k$ produce a family of curves called a contour map, which encodes the shape of the surface without needing 3D space.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x, y) = \\sqrt{9 - x^2 - y^2}",
+      "description_latex": "We begin by identifying the function and asking: for which pairs $(x,y)$ is this expression defined? Since we have a square root, the expression inside must be nonnegative, so we need $9 - x^2 - y^2 \\geq 0$. This is the foundational domain question you must ask first whenever a formula involves square roots, logarithms, or fractions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "9 - x^2 - y^2 \\geq 0 \\implies x^2 + y^2 \\leq 9",
+      "description_latex": "Rearranging the inequality gives us $x^2 + y^2 \\leq 9$, which you should recognize as the set of all points inside or on a circle of radius $3$ centered at the origin. So the domain is the closed disk $D = \\{(x,y) : x^2 + y^2 \\leq 9\\}$ \u2014 every point in or on that circle is a valid input.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x,y) = k \\implies \\sqrt{9 - x^2 - y^2} = k \\implies x^2 + y^2 = 9 - k^2",
+      "description_latex": "To find the level curves, we set $f(x,y)$ equal to a constant $k$ and solve. Squaring both sides of $\\sqrt{9-x^2-y^2} = k$ gives $9 - x^2 - y^2 = k^2$, which rearranges to $x^2 + y^2 = 9 - k^2$. This tells us every level curve is a circle centered at the origin \u2014 the radius changes depending on what height $k$ we choose.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "k = 0: \\; x^2+y^2=9, \\quad k=1: \\; x^2+y^2=8, \\quad k=2: \\; x^2+y^2=5, \\quad k=3: \\; x^2+y^2=0",
+      "description_latex": "Plugging in specific values of $k$ (which must satisfy $0 \\leq k \\leq 3$ for the output to be real and nonnegative) produces a family of concentric circles with shrinking radii. Notice that as $k$ increases toward $3$, the circles shrink to a point \u2014 corresponding to the top of the hemispherical surface. This contour map reveals the dome shape of the surface without ever drawing in 3D.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x, y) = \\ln(x + y - 1)",
+      "description_latex": "We want to find the domain of $g$ and sketch its level curves. Start by asking: what condition must hold for the logarithm to be defined? Remember that $\\ln(u)$ requires $u > 0$ strictly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x + y - 1 > 0 \\implies x + y > 1",
+      "description_latex": "The domain is the half-plane where $x + y > 1$, which lies above the line $x + y = 1$ in the $xy$-plane. Now set $g(x,y) = k$ and solve for the relationship between $x$ and $y$ to find the level curves.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Set $\\ln(x + y - 1) = k$ and solve for $x + y$ in terms of $k$. What family of curves do you get, and how does the curve shift as $k$ increases? Write out the equation of a general level curve and describe its geometric shape.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $f(2, -1)$ for $f(x,y) = 3x^2 - xy + 4$.",
+      "answer_latex": "f(2,-1) = 3(4) - (2)(-1) + 4 = 12 + 2 + 4 = 18"
+    },
+    {
+      "prompt_latex": "Find and describe the domain of $f(x,y) = \\dfrac{1}{x^2 - y}$.",
+      "answer_latex": "D = \\{(x,y) : y \\neq x^2\\}, \\text{ all points not on the parabola } y = x^2"
+    },
+    {
+      "prompt_latex": "Find the level curves of $f(x,y) = x^2 + 4y^2$ for $k = 0, 1, 4$, and describe their shape.",
+      "answer_latex": "k=0: \\text{the origin } (0,0); \\quad k=1: \\text{ellipse } x^2 + 4y^2 = 1; \\quad k=4: \\text{ellipse } x^2 + 4y^2 = 4"
+    },
+    {
+      "prompt_latex": "Find the domain of $f(x,y) = \\sqrt{y - x^2} + \\ln(1 - x^2 - y^2)$, expressing it as a set and describing it geometrically.",
+      "answer_latex": "D = \\{(x,y) : y \\geq x^2 \\text{ and } x^2 + y^2 < 1\\}, \\text{ the region inside the unit disk above (or on) the parabola } y = x^2"
+    },
+    {
+      "prompt_latex": "A weather map shows the air pressure (in millibars) modeled by $P(x,y) = 1000 - 2x^2 - 3y^2$. Describe the shape of the isobars (level curves of $P$) and explain what it means meteorologically when the isobars are close together versus far apart.",
+      "answer_latex": "\\text{Isobars are ellipses } 2x^2 + 3y^2 = 1000 - k; \\text{ closely spaced isobars indicate a steep pressure gradient (strong wind), widely spaced isobars indicate gentle gradient (light wind).}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write the domain of $f(x,y) = \\sqrt{9 - x^2 - y^2}$ as $x^2 + y^2 < 9$ (strict inequality), forgetting that $\\sqrt{0} = 0$ is perfectly valid; the correct domain uses $\\leq$ and includes the boundary circle.",
+    "When drawing level curves, students sometimes confuse the level curve $f(x,y) = k$ (a 2D curve in the $xy$-plane) with the 3D trace obtained by cutting the surface with a vertical plane; level curves are always drawn in the input plane at the corresponding height, not on the surface itself.",
+    "Students frequently assume that if $f(x,y) = k$ simplifies to, say, $x^2 + y^2 = 9 - k^2$, then all values of $k$ are valid \u2014 but they must also check that $k$ lies in the range of $f$. For $f(x,y) = \\sqrt{9-x^2-y^2}$, only $k \\in [0,3]$ produces real level curves; a value like $k = 4$ gives $x^2+y^2 = -7$, which has no solutions."
+  ],
+  "untested_variants": [
+    "Functions of three variables $f(x,y,z)$ and their level surfaces $f(x,y,z) = k$ in $\\mathbb{R}^3$, such as finding the level surfaces of $f(x,y,z) = x^2 + y^2 + z^2$.",
+    "Reading and interpreting a given contour map (numerical grid or diagram) to estimate function values, identify maxima/minima, and determine where the function increases most steeply \u2014 the graphical literacy direction.",
+    "Domains of functions involving both a square root and a logarithm where the two constraints produce a non-obvious intersection region requiring simultaneous inequalities with curved boundaries.",
+    "Parametric or implicitly defined surfaces, and level curves of functions that are not expressible in a simple closed form, such as $f(x,y) = xe^y - ye^x$."
+  ]
+}

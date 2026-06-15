@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_008",
+  "topic_name": "Polynomial Functions and End Behavior",
+  "generated_at": "2026-05-12T23:41:16.225641+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to evaluate a polynomial like $f(x) = 2x^3 - 5x^2 + x - 7$ at specific values \u2014 plug in a number and calculate. But what happens to $f(x)$ when $x$ grows toward positive or negative infinity? You can't just 'plug in infinity,' and yet graphs of polynomials clearly head off in definite directions at their edges. What determines whether a polynomial rises or falls at each end, and can we figure that out without graphing every point?",
+  "concept": "End behavior describes what happens to $f(x)$ as $x \\to +\\infty$ or $x \\to -\\infty$. Informally, it tells you which direction each 'tail' of the graph points. Formally, the end behavior of a polynomial is determined entirely by its leading term $a_n x^n$: for very large $|x|$, all lower-degree terms become negligible, so the polynomial behaves like $a_n x^n$. The two controlling factors are the sign of the leading coefficient $a_n$ and whether the degree $n$ is even or odd.",
+  "anatomy": "A polynomial in standard form $f(x) = a_n x^n + a_{n-1}x^{n-1} + \\cdots + a_1 x + a_0$ has four parts that matter for end behavior. The degree $n$ is the highest exponent and controls symmetry of the tails: an even degree means both tails go the same direction, while an odd degree means they go opposite directions. The leading coefficient $a_n$ is the number multiplying $x^n$; if $a_n > 0$ the right tail rises, and if $a_n < 0$ the right tail falls. The leading term $a_n x^n$ is the single expression that dominates as $|x| \\to \\infty$. The remaining terms $a_{n-1}x^{n-1} + \\cdots + a_0$ are lower-degree terms that become irrelevant at the extremes.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = -3x^4 + 7x^2 - 2x + 1",
+      "description_latex": "We start by identifying the leading term, which is the term with the highest power of $x$. Here the leading term is $-3x^4$, giving us a degree of $4$ (even) and a leading coefficient of $-3$ (negative). These two pieces of information are all we need to determine the end behavior.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Degree: } n = 4 \\text{ (even)} \\quad a_n = -3 < 0",
+      "description_latex": "Because the degree is even, both tails of the graph behave the same way \u2014 they either both rise or both fall. We then look at the sign of the leading coefficient to decide which: since $a_n = -3 < 0$, both tails will fall (point downward). Think of it like flipping $x^4$ upside down.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{As } x \\to +\\infty,\\; f(x) \\to -\\infty \\qquad \\text{As } x \\to -\\infty,\\; f(x) \\to -\\infty",
+      "description_latex": "We write the end behavior using limit notation. As $x$ grows large in either direction, $-3x^4$ dominates and drives the output to $-\\infty$. This tells us graphically that both ends of the curve fall downward, like an upside-down parabola but with degree 4.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Verify with a large value: } f(10) = -3(10)^4 + 7(10)^2 - 2(10) + 1 = -30{,}000 + 700 - 20 + 1 = -29{,}319",
+      "description_latex": "A quick sanity check confirms our prediction: plugging in $x = 10$ gives a large negative number, consistent with $f(x) \\to -\\infty$ as $x \\to +\\infty$. Notice how the lower-degree terms ($700 - 20 + 1 = 681$) are tiny compared to the $-30{,}000$ from the leading term, which is exactly why we can ignore them for end behavior.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = 5x^3 - 2x^2 + 9",
+      "description_latex": "We want to determine the end behavior of $g(x)$. Our first task is always to identify the leading term \u2014 the term with the largest exponent. Here the leading term is $5x^3$, so the degree is $3$ (odd) and the leading coefficient is $5$ (positive).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Degree: } n = 3 \\text{ (odd)} \\quad a_n = 5 > 0",
+      "description_latex": "Because the degree is odd, the two tails go in opposite directions. Because $a_n > 0$, the right tail rises. Now use these two facts to write the complete end behavior: what does $g(x)$ approach as $x \\to +\\infty$, and what does it approach as $x \\to -\\infty$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{As } x \\to +\\infty,\\; g(x) \\to +\\infty \\qquad \\text{As } x \\to -\\infty,\\; g(x) \\to -\\infty",
+      "description_latex": "The right tail rises to $+\\infty$ and the left tail falls to $-\\infty$, just like a standard $x^3$ curve scaled by $5$. This is the classic 'rises left-to-right' end behavior for an odd-degree polynomial with a positive leading coefficient.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the degree, leading coefficient, and end behavior of $f(x) = 4x^2 - 3x + 1$.",
+      "answer_latex": "Degree $2$ (even), leading coefficient $4 > 0$; as $x \\to \\pm\\infty,\\; f(x) \\to +\\infty$"
+    },
+    {
+      "prompt_latex": "Describe the end behavior of $h(x) = -7x^3 + 4x^2 - x + 6$.",
+      "answer_latex": "As $x \\to +\\infty,\\; h(x) \\to -\\infty$ and as $x \\to -\\infty,\\; h(x) \\to +\\infty$"
+    },
+    {
+      "prompt_latex": "A polynomial has degree $5$ and leading coefficient $-2$. Without knowing any other terms, state its end behavior.",
+      "answer_latex": "As $x \\to +\\infty,\\; f(x) \\to -\\infty$ and as $x \\to -\\infty,\\; f(x) \\to +\\infty$"
+    },
+    {
+      "prompt_latex": "Let $p(x) = (x-1)^2(x+3)(2x-5)$. Without expanding fully, determine the degree, leading coefficient, and end behavior.",
+      "answer_latex": "Degree $4$, leading coefficient $1 \\cdot 1 \\cdot 2 = 2 > 0$; as $x \\to \\pm\\infty,\\; p(x) \\to +\\infty$"
+    },
+    {
+      "prompt_latex": "A company models its profit in thousands of dollars by $P(x) = -0.5x^4 + 20x^3 - 100x^2$, where $x$ is years since founding. What does the end behavior tell you about the long-term outlook, and is this model realistic for very large $x$?",
+      "answer_latex": "Since the degree is $4$ (even) and the leading coefficient is $-0.5 < 0$, $P(x) \\to -\\infty$ as $x \\to +\\infty$, meaning the model predicts unlimited losses long-term. This is not realistic, illustrating that polynomial models should only be trusted near the data they were built from."
+    }
+  ],
+  "common_mistakes": [
+    "Students often determine end behavior using the constant term or the term with the largest coefficient, rather than the term with the highest degree. For example, in $f(x) = 100 - 3x^5$ they focus on $100$ or confuse 'largest number' with 'leading term.' Always identify the term with the highest exponent first.",
+    "When the degree is even and the leading coefficient is negative, students frequently write that the tails go in opposite directions (reasoning that 'negative flips it'). A negative leading coefficient on an even-degree polynomial flips both tails downward together; only an odd degree creates opposite-direction tails.",
+    "Students writing end behavior sometimes drop the negative sign when $x \\to -\\infty$ is raised to an odd power. For instance, for $f(x) = 2x^3$, they correctly say the right tail rises but also say the left tail rises, forgetting that $(-\\text{large})^3$ is a large negative number, so the left tail must fall."
+  ],
+  "untested_variants": [
+    "Determining end behavior when the polynomial is given in completely factored form with more than three factors and non-integer leading coefficients, requiring careful multiplication to find the true leading term.",
+    "Working backwards: given a description of end behavior (e.g., 'rises to the left, falls to the right'), identifying all possible combinations of degree and leading coefficient sign that could produce it.",
+    "Comparing the end behavior of two polynomials of the same degree but different leading coefficients to determine which grows faster as $x \\to +\\infty$ (connecting end behavior to rate of growth).",
+    "Polynomials written in non-standard order (e.g., $f(x) = 9 - 4x + x^6 - 2x^3$) where students must first identify the highest-degree term before it is visually obvious."
+  ]
+}

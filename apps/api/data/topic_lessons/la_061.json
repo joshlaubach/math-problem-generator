@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_061",
+  "topic_name": "Rational Canonical Form (H)",
+  "generated_at": "2026-05-13T20:10:48.802352+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that every linear operator on a complex vector space has a Jordan canonical form, which breaks the operator into Jordan blocks corresponding to eigenvalues. But what happens when you are working over the real numbers, or more generally over a field where a polynomial like $x^2 + 1$ has no roots? Jordan form fails because it requires all eigenvalues to live in the field. Can we find a canonical matrix form that works over *any* field, even when eigenvalues don't exist?",
+  "concept": "Rational canonical form is a canonical matrix representation for a linear operator that works over any field, using only the minimal and characteristic polynomials \u2014 no eigenvalues required. Formally, given a linear operator $T$ on a finite-dimensional vector space $V$ over a field $F$, the rational canonical form decomposes $V$ as a direct sum of $T$-cyclic subspaces whose annihilating polynomials $f_1 \\mid f_2 \\mid \\cdots \\mid f_k$ (the invariant factors) satisfy each $f_i$ divides $f_{i+1}$, and to each $f_i$ we associate a companion matrix $C(f_i)$.",
+  "anatomy": "The key components of rational canonical form are: the **invariant factors** $f_1, f_2, \\ldots, f_k$, which are monic polynomials in $F[x]$ satisfying the divisibility chain $f_1 \\mid f_2 \\mid \\cdots \\mid f_k$; the **companion matrix** $C(f)$ of a monic polynomial $f(x) = x^n + a_{n-1}x^{n-1} + \\cdots + a_0$, which is the $n \\times n$ matrix with $1$'s on the subdiagonal, the negatives of the coefficients $-a_0, -a_1, \\ldots, -a_{n-1}$ in the last column, and zeros elsewhere; the **cyclic decomposition** of $V = Z(v_1, T) \\oplus \\cdots \\oplus Z(v_k, T)$ where each cyclic subspace $Z(v_i, T)$ has the basis $\\{v_i, Tv_i, T^2v_i, \\ldots\\}$; and the **minimal polynomial** $m_T$, which equals the largest invariant factor $f_k$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 0 & 0 & 1 \\\\ 1 & 0 & -3 \\\\ 0 & 1 & 3 \\end{pmatrix}",
+      "description_latex": "We want to find the rational canonical form of this $3 \\times 3$ matrix over $\\mathbb{Q}$. Our strategy is to compute the characteristic polynomial $\\chi_A(x)$ and the minimal polynomial $m_A(x)$, because together they determine the invariant factors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\chi_A(x) = \\det(xI - A) = x^3 - 3x^2 + 3x - 1 = (x-1)^3",
+      "description_latex": "We compute the characteristic polynomial by expanding $\\det(xI - A)$. The result $(x-1)^3$ tells us the only eigenvalue is $1$ with algebraic multiplicity $3$, and the invariant factors must multiply to $(x-1)^3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(A - I)^2 = \\begin{pmatrix} -1 & 0 & 1 \\\\ 1 & -1 & -2 \\\\ 0 & 1 & 2 \\end{pmatrix}^2 = \\begin{pmatrix} 1 & -1 & -1 \\\\ -2 & 2 & 2 \\\\ 1 & -1 & -1 \\end{pmatrix} \\neq 0, \\quad (A-I)^3 = 0",
+      "description_latex": "To find the minimal polynomial $m_A(x)$, we test whether $(A - I)^k = 0$ for $k = 1, 2, 3$. Since $(A-I)^2 \\neq 0$ but $(A-I)^3 = 0$, the minimal polynomial is $m_A(x) = (x-1)^3$, which equals the characteristic polynomial.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Invariant factors: } f_1 = (x-1)^3, \\quad \\text{since } f_1 = \\chi_A = m_A",
+      "description_latex": "When the minimal polynomial equals the characteristic polynomial, there is only one invariant factor, namely $f_1 = (x-1)^3$. This means the cyclic decomposition has a single summand, and the rational canonical form is just the single companion matrix $C((x-1)^3)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C((x-1)^3) = C(x^3 - 3x^2 + 3x - 1) = \\begin{pmatrix} 0 & 0 & 1 \\\\ 1 & 0 & -3 \\\\ 0 & 1 & 3 \\end{pmatrix}",
+      "description_latex": "We build the companion matrix of $f(x) = x^3 - 3x^2 + 3x - 1$ by placing $1$'s on the subdiagonal and putting the negatives of the coefficients $(-(-1), -(3), -(-3)) = (1, -3, 3)$ in the last column. Interestingly, the rational canonical form of $A$ is $A$ itself in this case!",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 1 & 1 & 0 \\\\ 0 & 1 & 0 \\\\ 0 & 0 & 2 \\end{pmatrix}",
+      "description_latex": "We want the rational canonical form of $B$ over $\\mathbb{Q}$. First, compute the characteristic polynomial $\\chi_B(x) = \\det(xI - B)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\chi_B(x) = (x-1)^2(x-2)",
+      "description_latex": "The characteristic polynomial factors as $(x-1)^2(x-2)$, so the invariant factors $f_1, \\ldots, f_k$ must satisfy $f_1 \\cdots f_k = (x-1)^2(x-2)$ and $f_i \\mid f_{i+1}$. Now determine the minimal polynomial $m_B(x)$ by checking whether $(B - I)(B - 2I) = 0$ or not, and use this to identify the invariant factors.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Invariant factors: } f_1 = (x-1), \\; f_2 = (x-1)(x-2); \\quad \\text{RCF} = \\begin{pmatrix} C(x-1) & 0 \\\\ 0 & C((x-1)(x-2)) \\end{pmatrix}",
+      "description_latex": "Since $(B-I)(B-2I) = 0$, the minimal polynomial is $(x-1)(x-2)$, forcing the invariant factors to be $f_1 = (x-1)$ and $f_2 = (x-1)(x-2)$. Now write out the explicit $3 \\times 3$ rational canonical form matrix by replacing each invariant factor with its companion matrix.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write the companion matrix $C(f)$ for $f(x) = x^2 - 5x + 6$.",
+      "answer_latex": "C(f) = \\begin{pmatrix} 0 & -6 \\\\ 1 & 5 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A $3 \\times 3$ matrix $A$ over $\\mathbb{Q}$ has characteristic polynomial $\\chi_A(x) = x^3 - x = x(x-1)(x+1)$. Show that the minimal polynomial must equal the characteristic polynomial and write the rational canonical form of $A$.",
+      "answer_latex": "\\text{Since } \\chi_A \\text{ is squarefree, } m_A = \\chi_A = x^3 - x, \\text{ and RCF} = C(x^3-x) = \\begin{pmatrix} 0 & 0 & 0 \\\\ 1 & 0 & 1 \\\\ 0 & 1 & 0 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A linear operator on a $4$-dimensional space over $\\mathbb{Q}$ has characteristic polynomial $(x-2)^4$ and minimal polynomial $(x-2)^2$. Find all possible sets of invariant factors and write all possible rational canonical forms.",
+      "answer_latex": "\\text{Invariant factors must be } f_1 = (x-2)^2,\\, f_2 = (x-2)^2 \\text{ (the only option dividing } m \\text{ and multiplying to } \\chi\\text{), giving RCF} = \\begin{pmatrix} C((x-2)^2) & 0 \\\\ 0 & C((x-2)^2) \\end{pmatrix} = \\begin{pmatrix} 0 & -4 & 0 & 0 \\\\ 1 & 4 & 0 & 0 \\\\ 0 & 0 & 0 & -4 \\\\ 0 & 0 & 1 & 4 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $A$ be a $4 \\times 4$ real matrix with characteristic polynomial $(x^2+1)^2$ and minimal polynomial $(x^2+1)^2$. Write the rational canonical form of $A$ over $\\mathbb{R}$, and explain why the Jordan form of $A$ over $\\mathbb{R}$ does not exist.",
+      "answer_latex": "\\text{RCF} = C((x^2+1)^2) = C(x^4+2x^2+1) = \\begin{pmatrix} 0 & 0 & 0 & -1 \\\\ 1 & 0 & 0 & 0 \\\\ 0 & 1 & 0 & -2 \\\\ 0 & 0 & 1 & 0 \\end{pmatrix}; \\text{ Jordan form fails because } x^2+1 \\text{ has no real roots.}"
+    },
+    {
+      "prompt_latex": "Two $3 \\times 3$ matrices over $\\mathbb{Q}$ are similar if and only if they have the same rational canonical form. Given $A$ with invariant factors $\\{x-1, (x-1)(x+1)\\}$ and $B$ with invariant factors $\\{(x-1)^2(x+1)\\}$, determine whether $A$ and $B$ are similar and find their respective characteristic polynomials.",
+      "answer_latex": "A \\text{ and } B \\text{ are NOT similar (different invariant factors); } \\chi_A = (x-1)^2(x+1),\\; \\chi_B = (x-1)^2(x+1) \\text{ (same } \\chi \\text{, but different minimal polynomials: } m_A = (x-1)(x+1),\\; m_B = (x-1)^2(x+1)\\text{)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the placement of coefficients in the companion matrix, putting them in the first row instead of the last column with the wrong signs. Remember: for $f(x) = x^n + a_{n-1}x^{n-1} + \\cdots + a_0$, the last column of $C(f)$ is $(-a_0, -a_1, \\ldots, -a_{n-1})^T$ and the $1$'s go on the subdiagonal.",
+    "A frequent error is assuming that if the characteristic polynomial factors as $\\prod_i p_i(x)^{n_i}$, the invariant factors must each be one of these prime power factors. In reality, the invariant factors can be products of prime powers from different irreducibles \u2014 what is required is only the divisibility chain $f_1 \\mid f_2 \\mid \\cdots \\mid f_k$ and that $\\prod f_i = \\chi_T$.",
+    "Students often forget that the minimal polynomial must equal the *largest* invariant factor $f_k$, not just divide the characteristic polynomial. This means when you pick invariant factors consistent with $\\chi_T$, you must verify that your chosen $f_k$ actually equals the minimal polynomial you computed \u2014 if they disagree, your factoring into invariant factors is wrong."
+  ],
+  "untested_variants": [
+    "Computing the rational canonical form for operators on vector spaces over finite fields $\\mathbb{F}_p$, where arithmetic is modular.",
+    "Finding the change-of-basis matrix $P$ such that $P^{-1}AP$ equals the rational canonical form, rather than just identifying the form itself.",
+    "Using the Smith normal form of the matrix $xI - A$ over $F[x]$ (the polynomial ring) as the systematic algorithm for reading off the invariant factors.",
+    "Relating the rational canonical form to the Jordan canonical form when the field is algebraically closed, by factoring each invariant factor into linear factors and comparing block structures."
+  ]
+}

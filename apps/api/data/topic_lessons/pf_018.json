@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_018",
+  "topic_name": "Proving Properties of Functions",
+  "generated_at": "2026-05-13T20:42:46.488454+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to describe a function and check whether it maps inputs to outputs. But can you *prove* that a function is injective (one-to-one) or surjective (onto) using a rigorous argument? For example, suppose someone claims that $f: \\mathbb{Z} \\to \\mathbb{Z}$ defined by $f(n) = 2n + 3$ is injective and surjective \u2014 you might believe them, but how would you actually write a proof that convinces a skeptic? What logical structure do you need to build that argument from scratch?",
+  "concept": "A function $f: A \\to B$ has two key properties worth proving. It is **injective** (one-to-one) if distinct inputs always produce distinct outputs: $f(a_1) = f(a_2) \\Rightarrow a_1 = a_2$. It is **surjective** (onto) if every element of $B$ is hit by some input: $\\forall b \\in B,\\, \\exists a \\in A$ such that $f(a) = b$. A function that is both is called **bijective**. Proving these properties requires writing structured logical arguments, not just checking examples.",
+  "anatomy": "Every proof of injectivity has three structural components: the **assumption** (assume $f(a_1) = f(a_2)$ for arbitrary $a_1, a_2 \\in A$), the **algebraic deduction** (manipulate the equation to isolate $a_1$ and $a_2$), and the **conclusion** ($a_1 = a_2$, confirming no two distinct inputs share an output). Every proof of surjectivity also has three parts: the **setup** (let $b \\in B$ be arbitrary), the **witness construction** (explicitly find or build an $a \\in A$ with $f(a) = b$), and the **verification** (confirm that your constructed $a$ actually satisfies $f(a) = b$).",
+  "worked_example": [
+    {
+      "expression_latex": "f: \\mathbb{R} \\to \\mathbb{R},\\quad f(x) = 3x - 5",
+      "description_latex": "We want to prove that $f$ is injective. The strategy for every injectivity proof is the same: assume $f(x_1) = f(x_2)$ for two arbitrary real numbers $x_1$ and $x_2$, then show that this forces $x_1 = x_2$. This assumption is our starting point \u2014 we are not assuming $x_1 = x_2$ already; we are trying to *deduce* it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x_1) = f(x_2) \\implies 3x_1 - 5 = 3x_2 - 5",
+      "description_latex": "We substitute the definition of $f$ into the assumption. Both sides of the equation $f(x_1) = f(x_2)$ are replaced by the formula $3x - 5$ applied to $x_1$ and $x_2$ respectively. This turns an abstract statement about the function into a concrete algebraic equation we can manipulate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3x_1 - 5 = 3x_2 - 5 \\implies 3x_1 = 3x_2 \\implies x_1 = x_2",
+      "description_latex": "We now perform standard algebra: add 5 to both sides to get $3x_1 = 3x_2$, then divide both sides by 3. The result $x_1 = x_2$ is exactly what we needed to conclude, so the proof of injectivity is complete.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Surjectivity: let } b \\in \\mathbb{R}.\\text{ Set } a = \\frac{b+5}{3}.",
+      "description_latex": "To prove surjectivity we must show every $b \\in \\mathbb{R}$ is achieved. The key move is to *construct the witness* $a$ by solving $f(a) = b$ for $a$ algebraically: $3a - 5 = b$ gives $a = \\frac{b+5}{3}$. Since $b \\in \\mathbb{R}$, this $a$ is a perfectly valid real number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(a) = 3\\cdot\\frac{b+5}{3} - 5 = (b+5) - 5 = b \\quad \\checkmark",
+      "description_latex": "We verify the witness works by plugging $a = \\frac{b+5}{3}$ back into $f$ and confirming we get $b$. This verification step is essential \u2014 just constructing $a$ is not enough; you must demonstrate it satisfies $f(a) = b$. Since every $b$ is achieved, $f$ is surjective, and therefore bijective.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g: \\mathbb{R} \\to \\mathbb{R},\\quad g(x) = 5x + 2",
+      "description_latex": "We want to prove $g$ is injective. Recall the template: assume $g(x_1) = g(x_2)$ for arbitrary $x_1, x_2 \\in \\mathbb{R}$, substitute the definition of $g$, and deduce $x_1 = x_2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(x_1) = g(x_2) \\implies 5x_1 + 2 = 5x_2 + 2",
+      "description_latex": "We have substituted the definition of $g$ into the assumption. Now finish the algebra: subtract 2 from both sides and then divide by 5. What do you conclude?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Surjectivity: let } b \\in \\mathbb{R}.",
+      "description_latex": "To prove surjectivity, we need to find a real number $a$ such that $g(a) = b$. Solve the equation $5a + 2 = b$ for $a$, state your witness explicitly, and verify it satisfies $g(a) = b$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore\\, g \\text{ is bijective.}",
+      "description_latex": "Since you have shown $g$ is both injective and surjective, you can conclude it is bijective. Make sure your proof explicitly states this final conclusion \u2014 leaving it implicit is a common gap in student write-ups.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove that $f: \\mathbb{R} \\to \\mathbb{R}$ defined by $f(x) = x + 7$ is injective.",
+      "answer_latex": "Assume $f(x_1) = f(x_2)$. Then $x_1 + 7 = x_2 + 7$, so $x_1 = x_2$. Hence $f$ is injective."
+    },
+    {
+      "prompt_latex": "Prove that $f: \\mathbb{R} \\to \\mathbb{R}$ defined by $f(x) = 4x - 1$ is surjective.",
+      "answer_latex": "Let $b \\in \\mathbb{R}$. Set $a = \\frac{b+1}{4} \\in \\mathbb{R}$. Then $f(a) = 4\\cdot\\frac{b+1}{4} - 1 = b+1-1 = b$. Since $b$ was arbitrary, $f$ is surjective."
+    },
+    {
+      "prompt_latex": "Prove that $h: \\mathbb{R} \\to \\mathbb{R}$ defined by $h(x) = -2x + 6$ is bijective.",
+      "answer_latex": "Injective: Assume $h(x_1)=h(x_2)$, so $-2x_1+6=-2x_2+6$, giving $x_1=x_2$. Surjective: Given $b\\in\\mathbb{R}$, set $a=\\frac{6-b}{2}$; then $h(a)=-2\\cdot\\frac{6-b}{2}+6=-(6-b)+6=b$. Hence $h$ is bijective."
+    },
+    {
+      "prompt_latex": "Let $f: A \\to B$ and $g: B \\to C$ both be injective. Prove that the composition $g \\circ f: A \\to C$ is injective.",
+      "answer_latex": "Assume $(g\\circ f)(a_1) = (g\\circ f)(a_2)$, i.e., $g(f(a_1)) = g(f(a_2))$. Since $g$ is injective, $f(a_1) = f(a_2)$. Since $f$ is injective, $a_1 = a_2$. Hence $g\\circ f$ is injective."
+    },
+    {
+      "prompt_latex": "A cryptographer designs an encoding function $f: \\{0,1,\\ldots,25\\} \\to \\{0,1,\\ldots,25\\}$ by $f(x) = (3x + 2) \\bmod 26$. Show that $f$ is injective by proving: if $f(x_1) \\equiv f(x_2) \\pmod{26}$ and $x_1, x_2 \\in \\{0,\\ldots,25\\}$, then $x_1 = x_2$. (Use the fact that $\\gcd(3,26)=1$ so 3 is invertible mod 26.)",
+      "answer_latex": "Assume $3x_1+2 \\equiv 3x_2+2 \\pmod{26}$. Then $3x_1 \\equiv 3x_2 \\pmod{26}$. Since $\\gcd(3,26)=1$, we can multiply both sides by $3^{-1}\\equiv 9\\pmod{26}$ to get $x_1 \\equiv x_2 \\pmod{26}$. Since both lie in $\\{0,\\ldots,25\\}$, we conclude $x_1 = x_2$, so $f$ is injective."
+    }
+  ],
+  "common_mistakes": [
+    "Students prove injectivity by assuming $x_1 = x_2$ and showing $f(x_1) = f(x_2)$ \u2014 this is the *wrong direction*. You must start by assuming $f(x_1) = f(x_2)$ and deduce $x_1 = x_2$; the mistake is essentially proving the converse of what is required.",
+    "When proving surjectivity, students state 'let $a = \\frac{b+5}{3}$' but never verify that $f(a) = b$. Constructing the witness is only half the job \u2014 you must always substitute back and confirm the equation holds, or the proof is incomplete.",
+    "Students confuse 'not injective' with 'injective fails because the formula looks nonlinear,' and conversely assume every linear function is automatically surjective onto $\\mathbb{R}$ without checking the codomain. For example, $f: \\mathbb{R} \\to \\mathbb{R}^2$ defined by $f(x) = (x, 0)$ is injective but not surjective, so always check both domain and codomain carefully before writing your proof."
+  ],
+  "untested_variants": [
+    "Proving that a function defined on a finite set (e.g., a function between two finite sets given by a table or explicit list) is or is not a bijection by checking every element.",
+    "Disproving injectivity or surjectivity by constructing an explicit counterexample, such as showing $f(x) = x^2$ is neither injective nor surjective as a map $\\mathbb{R} \\to \\mathbb{R}$.",
+    "Proving that the composition of two surjective functions is surjective, or that if $g \\circ f$ is surjective then $g$ must be surjective.",
+    "Proving properties of functions defined on sets other than $\\mathbb{R}$, such as functions on power sets, functions between sets of sequences, or functions involving modular arithmetic beyond the word-problem introduction above."
+  ]
+}

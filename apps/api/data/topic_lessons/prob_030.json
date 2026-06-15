@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_030",
+  "topic_name": "Joint Distributions (Discrete)",
+  "generated_at": "2026-05-13T20:27:51.909847+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to work with a single random variable \u2014 you can find probabilities like $P(X = 3)$ and compute expectations. But what happens when two random variables interact? Suppose you roll two dice and care about both outcomes simultaneously, or you survey a person and record both their age group and income bracket. A single probability distribution cannot capture the relationship between two variables at once. How do we describe the full probabilistic behavior of two discrete random variables together?",
+  "concept": "A joint distribution describes the probability of two discrete random variables simultaneously taking on specific values. Informally, it tells you 'how likely is it that $X = x$ AND $Y = y$ at the same time?' Formally, the joint probability mass function (PMF) is the function $p(x, y) = P(X = x, Y = y)$ defined for all pairs $(x, y)$, satisfying $p(x,y) \\geq 0$ for all $(x,y)$ and $\\sum_{x}\\sum_{y} p(x,y) = 1$.",
+  "anatomy": "A joint PMF has several key components. The outcome pairs $(x, y)$ are the sample points, where $x$ ranges over the support of $X$ and $y$ over the support of $Y$. The joint probability $p(x,y) = P(X=x, Y=y)$ is the probability assigned to each pair. The joint distribution is often displayed as a two-way table where rows index values of $X$, columns index values of $Y$, and each cell holds $p(x,y)$. The marginal PMF of $X$ is obtained by summing across all $y$: $p_X(x) = \\sum_{y} p(x,y)$, and similarly $p_Y(y) = \\sum_{x} p(x,y)$ gives the marginal for $Y$. These marginals recover the individual distributions from the joint.",
+  "worked_example": [
+    {
+      "expression_latex": "p(x,y) \\text{ defined by the table below:}",
+      "description_latex": "We are given two random variables $X \\in \\{1,2\\}$ and $Y \\in \\{0,1,2\\}$ whose joint distribution is presented as a table with cells $p(x,y)$. Our first task is to understand the setup: the table has 2 rows (for $x=1,2$) and 3 columns (for $y=0,1,2$), and each cell gives the probability that both outcomes occur simultaneously.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|ccc} & y=0 & y=1 & y=2 \\\\ \\hline x=1 & 0.1 & 0.2 & 0.2 \\\\ x=2 & 0.3 & 0.1 & 0.1 \\end{array}",
+      "description_latex": "Here is the full joint PMF table. Before doing anything else, we verify it is a valid distribution by checking that all probabilities are non-negative (they are) and that they sum to 1: $0.1+0.2+0.2+0.3+0.1+0.1 = 1.0$. This verification step is essential \u2014 a table that doesn't sum to 1 cannot be a valid PMF.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p_X(1) = \\sum_{y=0}^{2} p(1,y) = 0.1 + 0.2 + 0.2 = 0.5",
+      "description_latex": "To find the marginal PMF of $X$, we sum each row across all columns. For $x=1$, we add the probabilities in row 1: $p(1,0)+p(1,1)+p(1,2) = 0.1+0.2+0.2 = 0.5$. This gives $P(X=1)=0.5$, telling us the probability that $X=1$ regardless of what value $Y$ takes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p_Y(0) = \\sum_{x=1}^{2} p(x,0) = 0.1 + 0.3 = 0.4",
+      "description_latex": "To find the marginal PMF of $Y$, we sum each column across all rows. For $y=0$, we add $p(1,0)+p(2,0) = 0.1+0.3 = 0.4$. This means $P(Y=0)=0.4$, obtained by 'marginalizing out' $X$ \u2014 we no longer care which value $X$ took, only that $Y=0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[X] = \\sum_{x} x \\cdot p_X(x) = 1(0.5) + 2(0.5) = 1.5",
+      "description_latex": "Once we have the marginal PMF, we can compute expectations exactly as we would for a single random variable. Using $p_X(1)=0.5$ and $p_X(2)=0.5$, the expected value of $X$ is $E[X] = 1 \\cdot 0.5 + 2 \\cdot 0.5 = 1.5$. Notice that we only needed the marginal to find $E[X]$ \u2014 the full joint distribution was not required for this particular calculation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{array}{c|cc} & y=1 & y=2 \\\\ \\hline x=0 & 0.3 & 0.1 \\\\ x=1 & 0.2 & 0.4 \\end{array}",
+      "description_latex": "We are given this joint PMF table for $X \\in \\{0,1\\}$ and $Y \\in \\{1,2\\}$. Start by verifying the table is valid: check that all entries are non-negative and that the four probabilities sum to exactly 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p_Y(y) = \\sum_{x} p(x,y) \\text{ for } y = 1, 2",
+      "description_latex": "Now compute the marginal PMF of $Y$ by summing each column. For each value of $y$, add up all entries in that column. What are $p_Y(1)$ and $p_Y(2)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "E[Y] = \\sum_{y} y \\cdot p_Y(y) = 1 \\cdot p_Y(1) + 2 \\cdot p_Y(2)",
+      "description_latex": "Using the marginal PMF of $Y$ you just computed, plug the values into the expectation formula. What is $E[Y]$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "E[Y] = 1(0.5) + 2(0.5) = 1.5",
+      "description_latex": "We see that $p_Y(1) = 0.3+0.2 = 0.5$ and $p_Y(2) = 0.1+0.4 = 0.5$, giving $E[Y] = 1(0.5)+2(0.5) = 1.5$. The marginal PMF is what connects the joint distribution back to the individual behavior of $Y$ alone.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A joint PMF is given by $p(1,1)=0.2,\\, p(1,2)=0.3,\\, p(2,1)=0.4,\\, p(2,2)=0.1$. Verify that this is a valid joint PMF.",
+      "answer_latex": "0.2+0.3+0.4+0.1 = 1.0 \\geq 0 \\text{ for all entries, so it is valid.}"
+    },
+    {
+      "prompt_latex": "Using the joint PMF from Problem 1, find the marginal PMF of $X$: compute $p_X(1)$ and $p_X(2)$.",
+      "answer_latex": "p_X(1) = 0.2+0.3 = 0.5, \\quad p_X(2) = 0.4+0.1 = 0.5"
+    },
+    {
+      "prompt_latex": "A joint PMF for $(X,Y)$ with $X \\in \\{0,1,2\\}$ and $Y \\in \\{0,1\\}$ has $p(0,0)=0.1,\\, p(0,1)=0.2,\\, p(1,0)=0.3,\\, p(1,1)=0.1,\\, p(2,0)=0.1,\\, p(2,1)=0.2$. Find $p_Y(0)$ and $p_Y(1)$.",
+      "answer_latex": "p_Y(0) = 0.1+0.3+0.1 = 0.5, \\quad p_Y(1) = 0.2+0.1+0.2 = 0.5"
+    },
+    {
+      "prompt_latex": "Using the joint PMF from Problem 3, compute $E[X]$ using the marginal PMF of $X$.",
+      "answer_latex": "p_X(0)=0.3,\\, p_X(1)=0.4,\\, p_X(2)=0.3, \\text{ so } E[X] = 0(0.3)+1(0.4)+2(0.3) = 1.0"
+    },
+    {
+      "prompt_latex": "A factory produces items that can be defective ($X=1$) or good ($X=0$), and each item can be large ($Y=1$) or small ($Y=0$). From historical data: 5\\% of items are defective and large, 15\\% are defective and small, 20\\% are good and large, and 60\\% are good and small. Write the joint PMF table, find the marginal probability that an item is defective, and find the marginal probability that an item is large.",
+      "answer_latex": "\\begin{array}{c|cc} & y=0 & y=1 \\\\ \\hline x=0 & 0.60 & 0.20 \\\\ x=1 & 0.15 & 0.05 \\end{array}, \\quad p_X(1)=0.20,\\quad p_Y(1)=0.25"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to verify that the joint PMF sums to 1, and then use an invalid table to compute marginals that are also wrong. Always add all cell values first and confirm the total equals exactly 1 before proceeding.",
+    "When computing a marginal PMF of $X$, students sum down a column (fixing $x$) instead of summing across a row (fixing $x$ and varying $y$). Remember: $p_X(x) = \\sum_y p(x,y)$ sums over all values of the OTHER variable $y$, not over $x$.",
+    "Students confuse $p(x,y)$ (the joint probability) with $p_X(x)$ (the marginal probability), using a single cell of the table where a row or column sum is required. For example, writing $P(X=1) = p(1,0)$ instead of $p_X(1) = \\sum_y p(1,y)$. The marginal always requires a sum, never just a single cell."
+  ],
+  "untested_variants": [
+    "Computing $P(X > Y)$ or other joint events that require summing specific subsets of cells from the joint table, rather than full rows or columns.",
+    "Finding the conditional PMF $p_{X|Y}(x|y) = p(x,y)/p_Y(y)$ and computing conditional expectations $E[X | Y = y]$.",
+    "Determining whether two discrete random variables are independent by checking whether $p(x,y) = p_X(x) \\cdot p_Y(y)$ holds for all pairs $(x,y)$.",
+    "Working backwards: given marginal distributions and an independence assumption, constructing the joint PMF from scratch."
+  ]
+}

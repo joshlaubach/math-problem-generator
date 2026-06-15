@@ -1,0 +1,76 @@
+{
+  "topic_id": "a1_047",
+  "topic_name": "Factoring Special Cases",
+  "generated_at": "2026-05-12T22:44:25.843291+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to expand $(a+b)^2 = a^2 + 2ab + b^2$ and $(a+b)(a-b) = a^2 - b^2$. But what happens when you're handed the expanded form \u2014 say $x^2 - 16$ or $x^2 + 10x + 25$ \u2014 and you need to work backwards to find the factored form? Standard factoring methods can feel slow and clunky here. Is there a shortcut that takes advantage of these special structures?",
+  "concept": "Some polynomials have recognizable patterns that let you factor them instantly, without trial and error. The two main special cases are the **difference of squares**, $a^2 - b^2 = (a+b)(a-b)$, and the **perfect square trinomial**, $a^2 + 2ab + b^2 = (a+b)^2$ or $a^2 - 2ab + b^2 = (a-b)^2$. Spotting these patterns means you can factor in one step.",
+  "anatomy": "In the difference of squares $a^2 - b^2$, the two terms are $a^2$ (the first perfect square) and $b^2$ (the second perfect square), separated by subtraction \u2014 the minus sign is essential; a sum of squares does not factor over the integers. In a perfect square trinomial like $a^2 + 2ab + b^2$, the three components are $a^2$ (first square), $b^2$ (last square), and $2ab$ (the middle term, which must equal exactly twice the product of $a$ and $b$). Confirming the middle term is the critical check that separates a true perfect square trinomial from a lookalike.",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 - 49",
+      "description_latex": "We start by asking whether this fits the difference of squares pattern $a^2 - b^2$. We can write $x^2 = x^2$ and $49 = 7^2$, so both terms are perfect squares connected by subtraction \u2014 the pattern matches perfectly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 - 49 = (x)^2 - (7)^2",
+      "description_latex": "We identify $a = x$ and $b = 7$ by taking the square root of each term. This step makes the structure visible and sets us up to apply the formula directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x+7)(x-7)",
+      "description_latex": "Applying the formula $a^2 - b^2 = (a+b)(a-b)$ with $a = x$ and $b = 7$ gives us the factored form immediately. You can verify by expanding: $(x+7)(x-7) = x^2 - 49$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^2 + 12x + 36",
+      "description_latex": "We want to check whether this is a perfect square trinomial. First, notice that $x^2 = (x)^2$ and $36 = 6^2$, so both end terms are perfect squares. Now we need to verify the middle term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2ab = 2 \\cdot x \\cdot 6 = 12x \\checkmark",
+      "description_latex": "With $a = x$ and $b = 6$, we compute $2ab$ and compare it to the actual middle term $12x$ to confirm the pattern holds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the perfect square trinomial formula $a^2 + 2ab + b^2 = (a+b)^2$ using $a = x$ and $b = 6$ to write the fully factored form. What do you get?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Factor: } x^2 - 25",
+      "answer_latex": "(x+5)(x-5)"
+    },
+    {
+      "prompt_latex": "\\text{Factor: } x^2 - 14x + 49",
+      "answer_latex": "(x-7)^2"
+    },
+    {
+      "prompt_latex": "\\text{Factor: } 4x^2 - 81",
+      "answer_latex": "(2x+9)(2x-9)"
+    },
+    {
+      "prompt_latex": "\\text{Factor completely: } 3x^2 - 75",
+      "answer_latex": "3(x+5)(x-5)"
+    },
+    {
+      "prompt_latex": "\\text{A square garden has area } (x^2 + 16x + 64) \\text{ square feet. Write the side length as a factored expression, then find the side length when } x = 2.",
+      "answer_latex": "\\text{Side} = (x+8) \\text{ ft}; \\text{ when } x=2, \\text{ side} = 10 \\text{ ft}"
+    }
+  ],
+  "common_mistakes": [
+    "Students try to factor a sum of squares like $x^2 + 49$ into $(x+7)(x-7)$, but this is wrong \u2014 the difference of squares pattern requires subtraction, and a sum of two squares cannot be factored over the integers.",
+    "When factoring $4x^2 - 81$, students write $a = 4x$ instead of $a = 2x$, forgetting that they need the square root of $4x^2$, which is $2x$, not $4x$; always take the square root of the coefficient too.",
+    "Students skip checking the middle term and assume any trinomial with perfect square endpoints is a perfect square trinomial \u2014 for example, $x^2 + 8x + 9$ looks like it could be $(x+3)^2$, but $2(x)(3) = 6x \\neq 8x$, so it is not a perfect square and must be factored by other methods."
+  ],
+  "untested_variants": [
+    "Factoring a difference of squares where the variable has an exponent greater than 2, such as $x^4 - 16$, which requires recognizing it as $(x^2)^2 - 4^2$ and then factoring again.",
+    "Perfect square trinomials with a leading coefficient other than 1, such as $9x^2 + 24x + 16$, where students must identify $a = 3x$ and $b = 4$.",
+    "Factoring special cases embedded inside a larger expression, such as finding the zeros of $f(x) = x^2 - 100$ by factoring and then solving the resulting equation.",
+    "Recognizing that a four-term polynomial can be grouped to reveal a difference of squares, such as $x^3 + x^2 - 4x - 4$ grouped as $x^2(x+1) - 4(x+1) = (x^2-4)(x+1)$."
+  ]
+}

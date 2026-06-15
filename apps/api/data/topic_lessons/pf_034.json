@@ -1,0 +1,81 @@
+{
+  "topic_id": "pf_034",
+  "topic_name": "Introduction to Rings and Fields (H)",
+  "generated_at": "2026-05-13T20:21:04.775965+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how integers behave: you can add, subtract, and multiply them, and familiar laws like $a(b+c) = ab+ac$ always hold. You've also seen fields like $\\mathbb{Q}$ or $\\mathbb{R}$ where you can divide freely. But what happens when you study a system where multiplication exists but division might fail \u2014 or where $2 \\times 3 = 0$ even though neither $2$ nor $3$ is zero? What is the minimal algebraic 'rulebook' that captures the essence of addition and multiplication together, and how do rings and fields differ?",
+  "concept": "A ring is a set $R$ equipped with two binary operations, addition and multiplication, such that $(R, +)$ is an abelian group, multiplication is associative, and multiplication distributes over addition. A field is a commutative ring $F$ in which every nonzero element has a multiplicative inverse \u2014 so division is always possible. Formally, $(R, +, \\cdot)$ is a ring if: (1) $(R,+)$ is an abelian group, (2) $a(bc)=(ab)c$ for all $a,b,c\\in R$, and (3) $a(b+c)=ab+ac$ and $(b+c)a=ba+ca$ for all $a,b,c\\in R$.",
+  "anatomy": "A ring $(R, +, \\cdot)$ has two operations: the addition $+$, which must make $R$ an abelian group (giving an additive identity $0$, additive inverses $-a$, and commutativity $a+b=b+a$), and the multiplication $\\cdot$, which must be associative and distribute over addition. A ring may optionally have a multiplicative identity $1$ (making it a unital ring), and multiplication may or may not be commutative. A field $F$ is a unital commutative ring with the extra structure that for every $a \\neq 0$ there exists $a^{-1} \\in F$ satisfying $a \\cdot a^{-1} = 1$; this multiplicative inverse is the key ingredient absent from general rings.",
+  "worked_example": [
+    {
+      "expression_latex": "(\\mathbb{Z}, +, \\cdot)",
+      "description_latex": "We start by verifying the most familiar example: the integers. To check it is a ring we need $(\\mathbb{Z}, +)$ to be an abelian group \u2014 addition is commutative, associative, $0$ is the identity, and $-n$ is the inverse of $n$ \u2014 so this condition is satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a(bc) = (ab)c \\quad \\text{and} \\quad a(b+c) = ab+ac \\text{ for all } a,b,c \\in \\mathbb{Z}",
+      "description_latex": "Next we verify the multiplicative axioms for $\\mathbb{Z}$. Multiplication of integers is associative and distributes over addition (both left and right), which you can confirm from the standard properties of integer arithmetic, so $\\mathbb{Z}$ is indeed a ring.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbb{Z} \\text{ is NOT a field because } 2 \\in \\mathbb{Z} \\text{ but } 2^{-1} = \\tfrac{1}{2} \\notin \\mathbb{Z}",
+      "description_latex": "To decide whether $\\mathbb{Z}$ is a field we ask: does every nonzero element have a multiplicative inverse inside $\\mathbb{Z}$? The integer $2$ would need $\\frac{1}{2}$ as its inverse, but $\\frac{1}{2}$ is not an integer, so the field axiom fails and $\\mathbb{Z}$ is a ring but not a field.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(\\mathbb{Q}, +, \\cdot) \\text{ is a field: for } \\tfrac{p}{q} \\neq 0,\\; \\left(\\tfrac{p}{q}\\right)^{-1} = \\tfrac{q}{p} \\in \\mathbb{Q}",
+      "description_latex": "By contrast, $\\mathbb{Q}$ is a field because every nonzero rational $\\frac{p}{q}$ (with $p \\neq 0$) has the rational inverse $\\frac{q}{p}$, and all the ring axioms are inherited from ordinary arithmetic. This shows the key upgrade from ring to field is the guaranteed existence of multiplicative inverses.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbb{Z}_5 = \\{0,1,2,3,4\\} \\text{ with addition and multiplication modulo } 5",
+      "description_latex": "We want to determine whether $\\mathbb{Z}_5$ is a ring, and if so whether it is a field. The first step is to check that $(\\mathbb{Z}_5, +)$ is an abelian group: addition mod $5$ is commutative, associative, $0$ is the additive identity, and the inverse of $k$ is $5-k$ (e.g., the inverse of $3$ is $2$), so this is satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Multiplication mod } 5 \\text{ is associative and distributes over addition}",
+      "description_latex": "We also need to confirm the ring axioms for multiplication. Multiplication of residues mod $5$ inherits associativity and distributivity from the integers, so $\\mathbb{Z}_5$ is a ring. These two checks together confirm all ring axioms hold.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now determine whether $\\mathbb{Z}_5$ is a field by finding the multiplicative inverse of each nonzero element $1, 2, 3, 4$ in $\\mathbb{Z}_5$. For each $a$, find $b$ such that $ab \\equiv 1 \\pmod{5}$, and state clearly whether every nonzero element has an inverse and hence whether $\\mathbb{Z}_5$ is a field.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "List all the ring axioms that $(\\mathbb{R}, +, \\cdot)$ must satisfy, and confirm that $\\mathbb{R}$ is a field.",
+      "answer_latex": "$(\\mathbb{R},+)$ is an abelian group; multiplication is associative; distributivity holds. $\\mathbb{R}$ is a field because every nonzero $a \\in \\mathbb{R}$ has inverse $a^{-1} = 1/a \\in \\mathbb{R}$."
+    },
+    {
+      "prompt_latex": "Is $(\\mathbb{Z}_6, +, \\cdot)$ a ring? Is it a field? Justify by finding a nonzero element with no multiplicative inverse.",
+      "answer_latex": "It is a ring (abelian group under $+$ mod $6$, multiplication associative and distributive). It is NOT a field: $2 \\cdot 3 = 6 \\equiv 0 \\pmod{6}$, so $2$ has no inverse in $\\mathbb{Z}_6$."
+    },
+    {
+      "prompt_latex": "Consider the set $2\\mathbb{Z} = \\{\\ldots, -4,-2,0,2,4,\\ldots\\}$ of even integers with standard addition and multiplication. Is $2\\mathbb{Z}$ a ring? Does it have a multiplicative identity?",
+      "answer_latex": "$2\\mathbb{Z}$ is a ring: it is closed under addition and multiplication, $(2\\mathbb{Z},+)$ is an abelian group, and associativity and distributivity hold. It does NOT have a multiplicative identity because $1 \\notin 2\\mathbb{Z}$."
+    },
+    {
+      "prompt_latex": "Let $R = \\mathbb{Z}_p$ where $p$ is prime. Using Bezout's identity (previously studied), prove that every nonzero element of $\\mathbb{Z}_p$ has a multiplicative inverse, so $\\mathbb{Z}_p$ is a field.",
+      "answer_latex": "For $a \\not\\equiv 0 \\pmod{p}$, $\\gcd(a,p)=1$, so by Bezout's identity there exist $s,t \\in \\mathbb{Z}$ with $as+pt=1$. Reducing mod $p$ gives $as \\equiv 1 \\pmod{p}$, so $s \\bmod p$ is the inverse of $a$. Since every nonzero element has an inverse, $\\mathbb{Z}_p$ is a field."
+    },
+    {
+      "prompt_latex": "The set $\\mathbb{Q}(\\sqrt{2}) = \\{a + b\\sqrt{2} : a,b \\in \\mathbb{Q}\\}$ with ordinary addition and multiplication of real numbers. Verify closure under multiplication, and show that every nonzero element has an inverse in $\\mathbb{Q}(\\sqrt{2})$, making it a field.",
+      "answer_latex": "Closure: $(a+b\\sqrt{2})(c+d\\sqrt{2}) = (ac+2bd)+(ad+bc)\\sqrt{2} \\in \\mathbb{Q}(\\sqrt{2})$. Inverse: $\\frac{1}{a+b\\sqrt{2}} = \\frac{a-b\\sqrt{2}}{a^2-2b^2}$; since $a+b\\sqrt{2}\\neq 0$ implies $a^2-2b^2\\neq 0$ (as $\\sqrt{2}$ is irrational), this lies in $\\mathbb{Q}(\\sqrt{2})$. Hence $\\mathbb{Q}(\\sqrt{2})$ is a field."
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to verify BOTH distributive laws \u2014 $a(b+c)=ab+ac$ AND $(b+c)a=ba+ca$ \u2014 when checking a ring, assuming commutativity of multiplication holds when it may not. In a non-commutative ring these are two separate requirements, so always check both unless commutativity is already established.",
+    "When checking whether a ring is a field, students sometimes assume that the absence of zero divisors (elements $a,b\\neq 0$ with $ab=0$) is sufficient to guarantee a field; this is not true in general (e.g., $\\mathbb{Z}$ has no zero divisors but is not a field). The field condition requires every nonzero element to explicitly have a multiplicative inverse inside the set.",
+    "Students confuse the additive identity $0$ with the multiplicative identity $1$ when verifying ring axioms, sometimes claiming a ring must have a multiplicative identity. A ring need not have a multiplicative identity (a 'unity'); the existence of $1 \\in R$ is an additional axiom that defines a unital ring, and omitting this distinction leads to incorrectly classifying sets like $2\\mathbb{Z}$ as not being rings."
+  ],
+  "untested_variants": [
+    "Verifying ring or field axioms for matrix rings such as $M_2(\\mathbb{R})$, including the explicit non-commutativity of matrix multiplication and the existence of non-invertible nonzero matrices (zero divisors).",
+    "Polynomial rings $R[x]$ \u2014 determining whether $\\mathbb{Z}[x]$ or $\\mathbb{Q}[x]$ is a ring or field, including the discussion of units and irreducibility.",
+    "Quotient rings of the form $\\mathbb{Z}[x]/(f(x))$ and deciding when such a quotient is a field by checking whether $f(x)$ is irreducible.",
+    "Subrings and subfields \u2014 given a ring $R$ and a subset $S$, applying the subring test (closure under subtraction and multiplication) to determine whether $S$ is itself a ring."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "ms_001",
+  "topic_name": "Statistical Models and Sufficient Statistics",
+  "generated_at": "2026-05-14T01:00:51.511302+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to compute sample means and variances from data, and you understand that these statistics summarize information about a population parameter. But here is the subtle question: when you compute the sample mean $\\bar{X}$ from a normal sample, are you throwing any information away? Could someone reconstruct everything useful about the unknown parameter $\\mu$ from $\\bar{X}$ alone, without ever seeing the original $n$ data points? This is the question that the theory of sufficient statistics is designed to answer.",
+  "concept": "A sufficient statistic captures all the information in the data about an unknown parameter \u2014 nothing useful is lost by reducing the data to that statistic. Formally, a statistic $T(X_1,\\ldots,X_n)$ is sufficient for a parameter $\\theta$ if the conditional distribution of the sample $(X_1,\\ldots,X_n)$ given $T = t$ does not depend on $\\theta$ for any value of $t$. Equivalently, by the Fisher\u2013Neyman Factorization Theorem, $T$ is sufficient for $\\theta$ if and only if the joint density (or pmf) factors as $f(\\mathbf{x};\\theta) = g(T(\\mathbf{x}),\\theta)\\,h(\\mathbf{x})$.",
+  "anatomy": "The Factorization Theorem splits the joint likelihood $f(\\mathbf{x};\\theta)$ into exactly two multiplicative parts. The factor $g(T(\\mathbf{x}),\\theta)$ is the parameter-dependent part: it depends on the data only through the candidate sufficient statistic $T(\\mathbf{x})$ and on the parameter $\\theta$, so it carries all information about $\\theta$. The factor $h(\\mathbf{x})$ is the parameter-free part: it depends only on the observed data $\\mathbf{x}$ and is completely free of $\\theta$, acting as a normalizing remainder that contains no information about the parameter. Identifying which piece is which is the core skill when applying the theorem.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1,\\ldots,X_n \\stackrel{\\text{iid}}{\\sim} \\text{Bernoulli}(p), \\quad f(\\mathbf{x};p) = \\prod_{i=1}^n p^{x_i}(1-p)^{1-x_i}",
+      "description_latex": "We start by writing the joint pmf of the full sample as a product of individual Bernoulli pmfs. Each observation $x_i$ is either 0 or 1, and the joint pmf is simply the product over all $n$ trials, which is the standard first step whenever we want to apply the Factorization Theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(\\mathbf{x};p) = p^{\\sum_{i=1}^n x_i}(1-p)^{n - \\sum_{i=1}^n x_i}",
+      "description_latex": "We collect the exponents by combining all the $p$ terms and all the $(1-p)$ terms, recognizing that the total power of $p$ is just $\\sum x_i$. This algebraic step is crucial because it reveals that the joint pmf depends on the data only through the single quantity $\\sum_{i=1}^n x_i$, which suggests that sum is our candidate sufficient statistic.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(\\mathbf{x};p) = \\underbrace{p^{T}(1-p)^{n-T}}_{g(T,p)} \\cdot \\underbrace{1}_{h(\\mathbf{x})}, \\quad T = \\sum_{i=1}^n x_i",
+      "description_latex": "We now explicitly identify the two factors required by the Factorization Theorem: $g(T, p) = p^T(1-p)^{n-T}$ depends on the data only through $T$ and depends on $p$, while $h(\\mathbf{x}) = 1$ is a constant that does not involve $p$ at all. Since a valid factorization exists, the Factorization Theorem guarantees that $T = \\sum_{i=1}^n X_i$ is sufficient for $p$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(X_1,\\ldots,X_n) = \\sum_{i=1}^n X_i \\text{ is sufficient for } p.",
+      "description_latex": "We state the conclusion clearly: the sample sum (equivalently, the sample proportion $\\bar{X} = T/n$) is a sufficient statistic for $p$. Intuitively, once you know the total number of successes, no further look at the individual outcomes can tell you anything more about $p$ that you do not already have.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1,\\ldots,X_n \\stackrel{\\text{iid}}{\\sim} \\text{Poisson}(\\lambda), \\quad f(\\mathbf{x};\\lambda) = \\prod_{i=1}^n \\frac{e^{-\\lambda}\\lambda^{x_i}}{x_i!}",
+      "description_latex": "We write the joint pmf as a product of individual Poisson pmfs. This is the starting point \u2014 always write the full joint likelihood before attempting to factor it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(\\mathbf{x};\\lambda) = e^{-n\\lambda}\\,\\lambda^{\\sum_{i=1}^n x_i} \\cdot \\frac{1}{\\prod_{i=1}^n x_i!}",
+      "description_latex": "We simplify the product by combining the $e^{-\\lambda}$ terms into $e^{-n\\lambda}$ and the $\\lambda^{x_i}$ terms into $\\lambda^{\\sum x_i}$, then collect the factorial terms into the second factor. Notice how the data and the parameter are beginning to separate into two distinct pieces.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify $g(T,\\lambda)$ and $h(\\mathbf{x})$ explicitly by labeling which factor depends on $\\lambda$ (and only through $T$) and which factor is free of $\\lambda$. Then state what the sufficient statistic $T$ is and invoke the Factorization Theorem to justify your conclusion.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\stackrel{\\text{iid}}{\\sim} \\text{Bernoulli}(p)$. Without any calculation, state a sufficient statistic for $p$ and give a one-sentence justification.",
+      "answer_latex": "T = \\sum_{i=1}^n X_i \\text{ is sufficient for } p, \\text{ because the joint pmf factors through } T \\text{ as shown by the Factorization Theorem.}"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\stackrel{\\text{iid}}{\\sim} \\text{Exponential}(\\theta)$ with pdf $f(x;\\theta)=\\theta e^{-\\theta x}$ for $x>0$. Use the Factorization Theorem to find a sufficient statistic for $\\theta$.",
+      "answer_latex": "f(\\mathbf{x};\\theta)=\\theta^n e^{-\\theta\\sum x_i}\\cdot 1, \\text{ so } T=\\sum_{i=1}^n X_i \\text{ is sufficient for } \\theta."
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\stackrel{\\text{iid}}{\\sim} N(\\mu,\\sigma^2)$ with $\\sigma^2$ known. Write the joint pdf and use the Factorization Theorem to show that $\\bar{X}$ (equivalently $\\sum X_i$) is sufficient for $\\mu$.",
+      "answer_latex": "f(\\mathbf{x};\\mu)=(2\\pi\\sigma^2)^{-n/2}\\exp\\!\\left(-\\frac{\\sum(x_i-\\mu)^2}{2\\sigma^2}\\right)=\\exp\\!\\left(-\\frac{n(\\bar{x}-\\mu)^2}{2\\sigma^2}\\right)\\cdot(2\\pi\\sigma^2)^{-n/2}\\exp\\!\\left(-\\frac{\\sum(x_i-\\bar{x})^2}{2\\sigma^2}\\right), \\text{ so } T=\\bar{X} \\text{ is sufficient for } \\mu."
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\stackrel{\\text{iid}}{\\sim} N(\\mu,\\sigma^2)$ with both $\\mu$ and $\\sigma^2$ unknown. Show that the pair $T=(\\sum X_i,\\, \\sum X_i^2)$ is jointly sufficient for $(\\mu,\\sigma^2)$ by applying the Factorization Theorem.",
+      "answer_latex": "f(\\mathbf{x};\\mu,\\sigma^2)=(2\\pi\\sigma^2)^{-n/2}\\exp\\!\\left(-\\frac{\\sum x_i^2 - 2\\mu\\sum x_i + n\\mu^2}{2\\sigma^2}\\right)\\cdot 1, \\text{ which depends on the data only through } (\\sum x_i, \\sum x_i^2), \\text{ so that pair is jointly sufficient.}"
+    },
+    {
+      "prompt_latex": "A quality-control engineer observes $n=5$ independent counts of defects per unit, modeled as $\\text{Poisson}(\\lambda)$. The observed values are $3,1,4,1,5$. (a) Identify a sufficient statistic for $\\lambda$. (b) Compute its observed value. (c) Explain in plain language why no other function of the data could give a more precise estimate of $\\lambda$ than one based on this statistic.",
+      "answer_latex": "\\text{(a) } T=\\sum_{i=1}^5 X_i \\text{ is sufficient for } \\lambda. \\quad \\text{(b) } t=3+1+4+1+5=14. \\quad \\text{(c) By sufficiency, the conditional distribution of the sample given } T=14 \\text{ does not depend on } \\lambda, \\text{ so all information about } \\lambda \\text{ in the data is captured by } T."
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse a sufficient statistic with a complete or minimal sufficient statistic, treating any function of a sufficient statistic as automatically sufficient in all senses. In fact, the full data vector $\\mathbf{X}$ is always trivially sufficient, but it is not minimal; the Factorization Theorem tells you about sufficiency only, not minimality \u2014 keep these concepts separate.",
+    "When applying the Factorization Theorem, students frequently allow $h(\\mathbf{x})$ to contain $\\theta$, incorrectly absorbing parameter-dependent terms into what should be the parameter-free factor. If $h(\\mathbf{x})$ contains $\\theta$ in any form, the factorization is invalid \u2014 scan $h$ explicitly for every occurrence of the parameter before concluding.",
+    "Students sometimes conclude that the sample mean $\\bar{X}$ and the sample sum $\\sum X_i$ are different sufficient statistics, treating them as distinct answers. Because $\\bar{X} = \\frac{1}{n}\\sum X_i$ is a one-to-one function of $\\sum X_i$, they carry identical information and are both valid sufficient statistics \u2014 any invertible transformation of a sufficient statistic is also sufficient."
+  ],
+  "untested_variants": [
+    "Finding sufficient statistics for parameters of the Uniform$(0,\\theta)$ distribution, where the sufficient statistic is the order statistic $X_{(n)} = \\max_i X_i$ rather than a sum, requiring careful handling of indicator functions in the likelihood.",
+    "Applying the concept of minimal sufficiency using the Lehmann\u2013Scheff\u00e9 ratio criterion, where students must check whether the ratio $f(\\mathbf{x};\\theta)/f(\\mathbf{y};\\theta)$ is free of $\\theta$ if and only if $T(\\mathbf{x}) = T(\\mathbf{y})$.",
+    "Verifying sufficiency directly from the definition using conditional distributions \u2014 computing $P(\\mathbf{X}=\\mathbf{x} \\mid T=t)$ and confirming it is free of $\\theta$ \u2014 rather than using the Factorization Theorem shortcut.",
+    "Exponential family structure and its automatic implication of sufficient statistics, where students identify the natural parameter and natural sufficient statistic from the canonical form $\\exp(\\eta(\\theta)T(\\mathbf{x}) - B(\\theta))h(\\mathbf{x})$."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_016",
+  "topic_name": "Variation of Parameters",
+  "generated_at": "2026-05-13T20:00:58.911028+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve second-order linear equations with constant coefficients when the right-hand side is zero, and you've likely used undetermined coefficients to handle right-hand sides like polynomials or exponentials. But what happens when the forcing function is something like $\\tan(x)$ or $\\ln(x)$ \u2014 functions that don't fit the neat families that undetermined coefficients requires? Is there a more general method that works for any continuous forcing function?",
+  "concept": "Variation of parameters is a method for finding a particular solution to a nonhomogeneous ODE by allowing the constants in the homogeneous solution to become functions of $x$. Formally, given $y'' + P(x)y' + Q(x)y = f(x)$ with homogeneous solutions $y_1$ and $y_2$, we seek $y_p = u_1(x)y_1 + u_2(x)y_2$ where $u_1$ and $u_2$ are determined by the system $u_1'y_1 + u_2'y_2 = 0$ and $u_1'y_1' + u_2'y_2' = f(x)$.",
+  "anatomy": "The method has several key structural pieces. The Wronskian $W = y_1 y_2' - y_2 y_1'$ is the determinant of the coefficient matrix in the linear system and measures the independence of $y_1$ and $y_2$; it must be nonzero. The two unknown functions $u_1'$ and $u_2'$ are found by Cramer's rule: $u_1' = -\\frac{y_2 f}{W}$ and $u_2' = \\frac{y_1 f}{W}$. Finally, $u_1$ and $u_2$ are obtained by integrating these expressions, and the particular solution is assembled as $y_p = u_1 y_1 + u_2 y_2$.",
+  "worked_example": [
+    {
+      "expression_latex": "y'' + y = \\tan(x)",
+      "description_latex": "We begin by identifying the homogeneous equation $y'' + y = 0$, whose general solution is $y_h = C_1 \\cos(x) + C_2 \\sin(x)$. This gives us our two fundamental solutions $y_1 = \\cos(x)$ and $y_2 = \\sin(x)$, which will form the backbone of the variation of parameters formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = y_1 y_2' - y_2 y_1' = \\cos(x)\\cos(x) - \\sin(x)(-\\sin(x)) = \\cos^2(x) + \\sin^2(x) = 1",
+      "description_latex": "Next we compute the Wronskian of $y_1$ and $y_2$. The Wronskian must be nonzero everywhere we want our solution to be valid; here it equals $1$ for all $x$, which is ideal and confirms that $\\cos(x)$ and $\\sin(x)$ are genuinely independent solutions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_1' = -\\frac{y_2 f}{W} = -\\frac{\\sin(x)\\tan(x)}{1} = -\\frac{\\sin^2(x)}{\\cos(x)}, \\quad u_2' = \\frac{y_1 f}{W} = \\frac{\\cos(x)\\tan(x)}{1} = \\sin(x)",
+      "description_latex": "We apply Cramer's rule to solve the linear system for $u_1'$ and $u_2'$, plugging in $f(x) = \\tan(x)$ and $W = 1$. Notice that $u_2'$ simplifies beautifully, while $u_1'$ requires a bit more care when we integrate it in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_1 = -\\int \\frac{\\sin^2 x}{\\cos x}\\,dx = \\int \\frac{\\cos^2 x - 1}{\\cos x}\\,dx = \\sin(x) - \\ln|\\sec x + \\tan x|, \\quad u_2 = \\int \\sin(x)\\,dx = -\\cos(x)",
+      "description_latex": "We integrate both expressions to find $u_1$ and $u_2$, omitting constants of integration since we only need one particular solution. For $u_1$, we rewrite $\\sin^2 x = 1 - \\cos^2 x$ in the numerator, which splits the integral into a simple $\\sin x$ piece and a standard secant integral.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_p = u_1 y_1 + u_2 y_2 = \\bigl(\\sin x - \\ln|\\sec x + \\tan x|\\bigr)\\cos x + (-\\cos x)\\sin x = -\\cos(x)\\ln|\\sec x + \\tan x|",
+      "description_latex": "Finally, we assemble the particular solution $y_p = u_1 y_1 + u_2 y_2$ and simplify. The $\\sin x \\cos x$ terms cancel, leaving a compact form that could never have been guessed by undetermined coefficients, illustrating exactly why variation of parameters is so powerful.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y'' - y = e^x / x",
+      "description_latex": "We solve the homogeneous equation $y'' - y = 0$, which has characteristic equation $r^2 - 1 = 0$, giving $r = \\pm 1$. Therefore $y_1 = e^x$ and $y_2 = e^{-x}$, and we proceed to compute the Wronskian.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = y_1 y_2' - y_2 y_1' = e^x(-e^{-x}) - e^{-x}(e^x) = -1 - 1 = -2",
+      "description_latex": "The Wronskian is $W = -2$, a nonzero constant, confirming independence. Now use Cramer's rule with $f(x) = e^x/x$ and $W = -2$ to write down the formulas for $u_1'$ and $u_2'$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write out $u_1' = -\\frac{y_2 f}{W}$ and $u_2' = \\frac{y_1 f}{W}$, substitute $y_1, y_2, f, W$, and simplify each expression as far as possible before integrating.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now integrate your simplified expressions for $u_1'$ and $u_2'$ to find $u_1$ and $u_2$, then write down the complete particular solution $y_p = u_1 e^x + u_2 e^{-x}$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find a particular solution to $y'' + 4y = \\sec(2x)$ given that $y_1 = \\cos(2x)$ and $y_2 = \\sin(2x)$.",
+      "answer_latex": "y_p = \\frac{1}{4}\\cos(2x)\\ln|\\cos(2x)| + \\frac{x}{2}\\sin(2x)"
+    },
+    {
+      "prompt_latex": "Find a particular solution to $y'' - 2y' + y = \\dfrac{e^x}{x^2}$ given that $y_1 = e^x$ and $y_2 = xe^x$.",
+      "answer_latex": "y_p = -e^x \\ln|x| - e^x"
+    },
+    {
+      "prompt_latex": "Find a particular solution to $y'' + y = \\csc(x)$ given $y_1 = \\cos(x)$ and $y_2 = \\sin(x)$.",
+      "answer_latex": "y_p = -x\\cos(x) + \\sin(x)\\ln|\\sin(x)|"
+    },
+    {
+      "prompt_latex": "Find the general solution to $x^2 y'' - 2xy' + 2y = x^3 \\ln(x)$, given that $y_1 = x$ and $y_2 = x^2$ solve the associated homogeneous Euler equation. (Hint: divide through by $x^2$ first to put the equation in standard form.)",
+      "answer_latex": "y = C_1 x + C_2 x^2 + x^3\\!\\left(\\frac{\\ln x}{3} - \\frac{1}{9}\\right)"
+    },
+    {
+      "prompt_latex": "A mass-spring system satisfies $y'' + \\omega^2 y = F_0 \\cos(\\omega t)$ (resonance). Use variation of parameters with $y_1 = \\cos(\\omega t)$, $y_2 = \\sin(\\omega t)$ to find the particular solution and explain what happens to the amplitude over time.",
+      "answer_latex": "y_p = \\dfrac{F_0}{2\\omega}\\,t\\sin(\\omega t); \\text{ amplitude grows without bound (resonance)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to put the equation in standard form $y'' + P(x)y' + Q(x)y = f(x)$ before reading off $f(x)$. If you divide by a leading coefficient only halfway through, you use the wrong forcing function in Cramer's rule and every subsequent step is incorrect; always divide through completely first.",
+    "When computing the Wronskian, students mix up the formula and write $W = y_1 y_1' - y_2 y_2'$ instead of $W = y_1 y_2' - y_2 y_1'$. Remember the Wronskian is a $2\\times2$ determinant with the functions in the first row and their derivatives in the second, evaluated along the main diagonal minus the off-diagonal.",
+    "Students carry constants of integration when computing $u_1$ and $u_2$. Since we are building a particular solution, any additive constants would just reproduce terms from the homogeneous solution and are redundant; always drop the constants of integration at the integration step."
+  ],
+  "untested_variants": [
+    "Variation of parameters applied to third-order equations, where the linear system for $u_1', u_2', u_3'$ is $3 \\times 3$ and requires a $3\\times 3$ Wronskian.",
+    "Systems of first-order equations solved by a matrix variation of parameters formula $\\mathbf{x}_p = \\Phi(t)\\int \\Phi^{-1}(t)\\mathbf{g}(t)\\,dt$, where $\\Phi$ is the fundamental matrix.",
+    "Equations where the homogeneous solutions involve repeated roots (e.g., $y_1 = e^{rx}$, $y_2 = xe^{rx}$) combined with a forcing function that requires integration by parts multiple times.",
+    "Variable-coefficient equations (beyond Euler equations) where the homogeneous solutions are known special functions such as Bessel functions or Legendre polynomials."
+  ]
+}

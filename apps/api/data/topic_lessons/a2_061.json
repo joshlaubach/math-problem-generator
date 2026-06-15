@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_061",
+  "topic_name": "Sample Spaces and Basic Counting Principles",
+  "generated_at": "2026-05-12T23:35:00.202325+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to list outcomes for a single coin flip \u2014 heads or tails \u2014 and maybe even two flips. But what happens when a restaurant offers 4 appetizers, 6 entrees, and 3 desserts, and you want to know how many distinct three-course meals are possible? Listing every combination by hand would take forever. How can we count all possible outcomes without ever writing them all down?",
+  "concept": "A sample space is the complete set of all possible outcomes of an experiment, often written as $S$. The Fundamental Counting Principle (also called the Multiplication Principle) tells us that if one event can occur in $m$ ways and a second independent event can occur in $n$ ways, then together they can occur in $m \\times n$ ways \u2014 and this extends to any number of independent stages: $m_1 \\times m_2 \\times \\cdots \\times m_k$ total outcomes.",
+  "anatomy": "Every counting problem built on the Fundamental Counting Principle has three key parts. First, the stages (or tasks) \u2014 each independent decision or event in the process, such as choosing an appetizer, then an entree, then a dessert. Second, the number of choices per stage, written $m_1, m_2, \\ldots, m_k$, which tells us how many options are available at each step. Third, the product $m_1 \\times m_2 \\times \\cdots \\times m_k$, which gives the total size of the sample space $|S|$. Identifying each stage separately before multiplying is what prevents errors.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Stages: (shirt color)} \\times \\text{(pant style)} \\times \\text{(shoe type)}",
+      "description_latex": "We begin by breaking the outfit problem into its independent stages. A student owns 5 shirts, 3 pairs of pants, and 2 pairs of shoes, and we want to count every possible outfit. Identifying the stages first \u2014 shirt, then pants, then shoes \u2014 ensures we don't accidentally combine or skip choices.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m_1 = 5, \\quad m_2 = 3, \\quad m_3 = 2",
+      "description_latex": "Next, we record the number of choices available at each stage. Here $m_1 = 5$ shirt options, $m_2 = 3$ pant options, and $m_3 = 2$ shoe options. Writing these out explicitly before multiplying keeps our reasoning organized and makes it easy to spot if we missed a stage.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|S| = m_1 \\times m_2 \\times m_3 = 5 \\times 3 \\times 2",
+      "description_latex": "Now we apply the Fundamental Counting Principle by multiplying the choices at every stage together. We multiply \u2014 not add \u2014 because for every shirt choice there are 3 pant choices, and for each of those there are 2 shoe choices, branching the possibilities at every level.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|S| = 30",
+      "description_latex": "Carrying out the multiplication gives us 30 distinct outfits in the sample space. This means if you were to list every possible outfit by hand, you would write exactly 30 combinations \u2014 the Counting Principle let us find that number in one calculation instead.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Stages: (coin flip)} \\times \\text{(die roll)} \\times \\text{(card suit)}",
+      "description_latex": "We are told an experiment involves flipping a fair coin, rolling a standard 6-sided die, and drawing a card and recording only its suit (hearts, diamonds, clubs, spades). Start by listing the three independent stages, which we've already done above.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m_1 = 2, \\quad m_2 = 6, \\quad m_3 = 4",
+      "description_latex": "A coin has 2 outcomes, a die has 6 faces, and there are 4 suits \u2014 so we record $m_1 = 2$, $m_2 = 6$, $m_3 = 4$. These values come directly from carefully reading what each stage can produce.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the Fundamental Counting Principle: write the product $m_1 \\times m_2 \\times m_3$ and compute the total number of outcomes in the sample space $|S|$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A spinner has 4 equal sections and a bag contains 3 differently colored marbles. If you spin the spinner and then draw one marble, how many outcomes are in the sample space?",
+      "answer_latex": "|S| = 4 \\times 3 = 12"
+    },
+    {
+      "prompt_latex": "A license plate consists of 3 letters (A\u2013Z, 26 options each) followed by 3 digits (0\u20139, 10 options each). How many distinct license plates are possible?",
+      "answer_latex": "|S| = 26^3 \\times 10^3 = 17{,}576{,}000"
+    },
+    {
+      "prompt_latex": "A quiz has 5 true/false questions. How many different ways can a student answer the entire quiz?",
+      "answer_latex": "|S| = 2^5 = 32"
+    },
+    {
+      "prompt_latex": "A password must be exactly 4 characters long. The first character must be one of 26 letters, and the remaining 3 characters must each be one of 10 digits. If no restrictions on repeating are placed, how many passwords are possible? Then determine the probability that a randomly generated password starts with the letter A.",
+      "answer_latex": "|S| = 26 \\times 10^3 = 26{,}000; \\quad P(\\text{starts with A}) = \\dfrac{1{,}000}{26{,}000} = \\dfrac{1}{26}"
+    },
+    {
+      "prompt_latex": "A school cafeteria offers 3 soups, 5 sandwiches, 4 sides, and 2 drinks. A student picks one item from each category. A health inspector randomly selects one complete meal to inspect. How many meals are in the sample space, and what is the probability the inspector selects a meal that includes a specific soup and a specific drink?",
+      "answer_latex": "|S| = 3 \\times 5 \\times 4 \\times 2 = 120; \\quad P(\\text{specific soup and drink}) = \\dfrac{5 \\times 4}{120} = \\dfrac{20}{120} = \\dfrac{1}{6}"
+    }
+  ],
+  "common_mistakes": [
+    "Students add the number of choices across stages instead of multiplying \u2014 for example, writing $4 + 3 = 7$ instead of $4 \\times 3 = 12$. Remember: addition counts 'one or the other,' while multiplication counts 'one and then the other,' which is what independent sequential stages require.",
+    "When a stage has only one option (for example, a coin flip where heads is required), students sometimes omit that stage entirely and forget to include the factor of 1, or worse, they factor in 0 and get a product of 0. Every stage contributes a factor, even if that factor is 1.",
+    "Students forget to account for repeated choices being allowed \u2014 for example, treating a 4-digit PIN as having $10 \\times 9 \\times 8 \\times 7$ outcomes when repetition is permitted, giving $10^4 = 10{,}000$ instead of $5{,}040$. Always check whether the problem says 'with replacement' or 'without replacement' before deciding whether each stage's count stays the same or decreases."
+  ],
+  "untested_variants": [
+    "Problems where one stage's number of choices depends on a previous stage (dependent stages), requiring students to adjust $m_k$ based on earlier selections \u2014 for example, counting arrangements where no two adjacent stages share the same color.",
+    "Using the Counting Principle to build a tree diagram and then list the actual sample space explicitly, rather than just computing its size.",
+    "Counting problems that mix the Fundamental Counting Principle with combinations or permutations \u2014 for instance, a password where the first 2 characters are chosen in order from a set with no repetition, and the remainder are free.",
+    "Problems involving at-least-one or complementary counting, where the student must compute the total sample space and subtract unwanted outcomes to find how many outcomes satisfy a condition."
+  ]
+}

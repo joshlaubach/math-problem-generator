@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_028",
+  "topic_name": "Sequences and Convergence Proofs",
+  "generated_at": "2026-05-13T20:20:32.395684+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know what it means for a sequence of numbers to 'get closer and closer' to some value \u2014 intuitively, the terms $a_n = 1/n$ are approaching $0$ as $n$ grows. But intuition is not proof: how do you rigorously guarantee that no matter how small a tolerance someone demands, the sequence will eventually stay within that tolerance of the limit? The informal picture breaks down the moment someone asks you to prove it for a sequence like $a_n = (3n^2 + 1)/(n^2 - 2)$, where it's not even obvious what the limit should be. Can you write a watertight argument that a sequence converges to a specific value?",
+  "concept": "A sequence $(a_n)$ converges to a real number $L$ if, for every prescribed error tolerance, the terms of the sequence eventually stay within that tolerance of $L$ \u2014 and they stay there permanently. Formally, we say $\\lim_{n \\to \\infty} a_n = L$ if for every $\\varepsilon > 0$ there exists $N \\in \\mathbb{N}$ such that for all $n > N$, $|a_n - L| < \\varepsilon$.",
+  "anatomy": "Every convergence proof has five key ingredients. First, the sequence $(a_n)$, the list of real numbers whose behaviour we are analysing. Second, the proposed limit $L$, the target value we claim the sequence approaches. Third, the tolerance $\\varepsilon > 0$, an arbitrary positive number chosen by an 'adversary' that we must accommodate. Fourth, the threshold index $N$, a natural number we must explicitly construct (usually in terms of $\\varepsilon$) that marks where the sequence 'settles down'. Fifth, the distance expression $|a_n - L|$, the algebraic quantity we must bound strictly below $\\varepsilon$ for all $n > N$; this is where the real work of the proof lives.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\lim_{n \\to \\infty} \\frac{2n+1}{n} = 2",
+      "description_latex": "We begin by identifying the sequence and the proposed limit. Notice that $a_n = (2n+1)/n = 2 + 1/n$, so the extra $1/n$ term is what separates $a_n$ from $2$, and we expect this to shrink to nothing \u2014 but we must prove it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left| a_n - 2 \\right| = \\left| \\frac{2n+1}{n} - 2 \\right| = \\left| \\frac{1}{n} \\right| = \\frac{1}{n}",
+      "description_latex": "We compute the distance expression $|a_n - L|$ explicitly. Simplifying the algebra first \u2014 before we introduce $\\varepsilon$ \u2014 gives us a clean formula to work with; here we see that the distance is exactly $1/n$, which is simple enough to bound directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{1}{n} < \\varepsilon \\iff n > \\frac{1}{\\varepsilon}",
+      "description_latex": "We now do the 'scratch work': we solve the inequality $|a_n - 2| < \\varepsilon$ for $n$ to discover what threshold $N$ will work. This step is done on the side and is not yet the formal proof \u2014 it tells us we should choose $N$ to be any natural number greater than $1/\\varepsilon$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Let } N = \\left\\lceil \\frac{1}{\\varepsilon} \\right\\rceil + 1 \\text{ (or any } N \\in \\mathbb{N} \\text{ with } N > 1/\\varepsilon\\text{)}",
+      "description_latex": "We state our choice of $N$ explicitly in terms of $\\varepsilon$; using the ceiling function ensures $N$ is a natural number. This is the moment we 'reveal our secret' \u2014 in a real analysis proof, $N$ must be a concrete object, not just a vague promise that one exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n > N > \\frac{1}{\\varepsilon} \\implies \\frac{1}{n} < \\varepsilon \\implies |a_n - 2| < \\varepsilon",
+      "description_latex": "Finally, we run the formal argument: for any $n > N$, the chain of inequalities closes the proof. Every step follows from our choice of $N$ and the algebra we computed earlier, so we have shown that for every $\\varepsilon > 0$ there is an $N$ such that $|a_n - 2| < \\varepsilon$ for all $n > N$, which is exactly the definition of convergence.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\lim_{n \\to \\infty} \\frac{5n-3}{n+1} = 5",
+      "description_latex": "We want to prove this limit using the $\\varepsilon$-$N$ definition. Your first task is to simplify the distance expression $|a_n - 5|$ algebraically \u2014 combine the fractions and simplify completely before introducing $\\varepsilon$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left| \\frac{5n-3}{n+1} - 5 \\right| = \\frac{8}{n+1}",
+      "description_latex": "Here is the simplified distance: $|a_n - 5| = 8/(n+1)$. Notice the distance is now a clean rational expression. You should verify this algebra yourself by combining $(5n-3)/(n+1) - 5$ over a common denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now do the scratch work and then write the formal proof. You need to: (1) solve $8/(n+1) < \\varepsilon$ for $n$ to find what $N$ should be, (2) state your explicit choice of $N$ in terms of $\\varepsilon$, and (3) write the closing chain of inequalities showing $n > N \\implies |a_n - 5| < \\varepsilon$. What is your choice of $N$, and how does the argument close?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove from the $\\varepsilon$-$N$ definition that $\\displaystyle\\lim_{n\\to\\infty} \\frac{1}{n^2} = 0$.",
+      "answer_latex": "Choose $N > 1/\\sqrt{\\varepsilon}$. Then $n > N \\implies n^2 > 1/\\varepsilon \\implies 1/n^2 < \\varepsilon$, so $|a_n - 0| < \\varepsilon$."
+    },
+    {
+      "prompt_latex": "Prove from the $\\varepsilon$-$N$ definition that $\\displaystyle\\lim_{n\\to\\infty} \\frac{4n+3}{2n-1} = 2$.",
+      "answer_latex": "$|a_n - 2| = 5/(2n-1)$; choose $N > (5/\\varepsilon + 1)/2$, then for $n > N$ we get $2n - 1 > 5/\\varepsilon$, so $5/(2n-1) < \\varepsilon$."
+    },
+    {
+      "prompt_latex": "Prove from the $\\varepsilon$-$N$ definition that $\\displaystyle\\lim_{n\\to\\infty} \\frac{n^2}{n^2+1} = 1$.",
+      "answer_latex": "$|a_n - 1| = 1/(n^2+1) < 1/n^2$; choose $N > 1/\\sqrt{\\varepsilon}$, then $n > N \\implies 1/n^2 < \\varepsilon \\implies |a_n - 1| < \\varepsilon$."
+    },
+    {
+      "prompt_latex": "Suppose $(a_n) \\to L$ and $(b_n) \\to M$. Using only the $\\varepsilon$-$N$ definition (not the limit laws), prove that $(a_n + b_n) \\to L + M$.",
+      "answer_latex": "Given $\\varepsilon > 0$, choose $N_1$ with $|a_n - L| < \\varepsilon/2$ for $n > N_1$ and $N_2$ with $|b_n - M| < \\varepsilon/2$ for $n > N_2$. Set $N = \\max(N_1, N_2)$; then $|(a_n+b_n)-(L+M)| \\le |a_n-L| + |b_n-M| < \\varepsilon/2 + \\varepsilon/2 = \\varepsilon$."
+    },
+    {
+      "prompt_latex": "A lab instrument produces measurements $a_n = 3 + (-1)^n / n$. A technician claims the instrument converges to a reading of $3$. Write a rigorous $\\varepsilon$-$N$ proof confirming or refuting this claim.",
+      "answer_latex": "$|a_n - 3| = 1/n$; choose $N > 1/\\varepsilon$. For all $n > N$, $|a_n - 3| = 1/n < 1/N < \\varepsilon$, confirming the instrument converges to $3$."
+    }
+  ],
+  "common_mistakes": [
+    "Choosing $N$ after the $\\varepsilon$ is introduced but then writing the proof as if $N$ is fixed beforehand: students sometimes say 'let $N = 5$' and check a single case rather than expressing $N$ as a function of $\\varepsilon$. Fix: always write $N$ explicitly in terms of $\\varepsilon$, e.g., $N = \\lceil 1/\\varepsilon \\rceil$, so the argument works for every possible tolerance.",
+    "Forgetting that $N$ must be a natural number: students write $N = 1/\\varepsilon$ and forget this may not be an integer, which technically violates the definition requiring $N \\in \\mathbb{N}$. Fix: use the ceiling function $N = \\lceil 1/\\varepsilon \\rceil$ or add $1$ to round up safely.",
+    "Proving the inequality $|a_n - L| < \\varepsilon$ only for the $N$ they chose rather than for all $n > N$: a student might verify the inequality at $n = N+1$ and stop, missing that the definition requires the bound to hold for every $n > N$ without exception. Fix: always write 'for all $n > N$, ...' and make sure your inequality chain depends only on $n > N$, not on a specific value of $n$."
+  ],
+  "untested_variants": [
+    "Proving divergence of a sequence (i.e., showing no real number $L$ satisfies the $\\varepsilon$-$N$ definition), such as showing $a_n = (-1)^n$ does not converge.",
+    "Proving convergence using the Squeeze Theorem rather than a direct $\\varepsilon$-$N$ construction, for example showing $\\sin(n)/n \\to 0$.",
+    "Proving that every convergent sequence is bounded, which requires manipulating the definition to extract a uniform bound rather than an asymptotic one.",
+    "Subsequences and the result that if $(a_n) \\to L$ then every subsequence $(a_{n_k}) \\to L$, and using this to prove divergence via two subsequences with different limits."
+  ]
+}

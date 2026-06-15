@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_029",
+  "topic_name": "Schr\u00f6der-Bernstein Theorem (H)",
+  "generated_at": "2026-05-13T20:14:25.290364+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know that two finite sets have the same size when you can pair up their elements with a perfect one-to-one correspondence. You've also seen that some infinite sets, like the natural numbers and the integers, can be matched bijectively. But now imagine you can build an injection from set $A$ into set $B$, and a separate injection from $B$ into $A$ \u2014 yet you cannot immediately see how to combine them into a single bijection. Can you always conclude that $|A| = |B|$?",
+  "concept": "The Schr\u00f6der-Bernstein Theorem says: yes, you can always draw that conclusion. Informally, if each set 'fits inside' the other, they must be the same size. Formally: if there exist injections $f: A \\to B$ and $g: B \\to A$, then there exists a bijection $h: A \\to B$, and we write $|A| = |B|$.",
+  "anatomy": "The theorem has four key structural pieces. First, the two injections: $f: A \\to B$ (which embeds $A$ into $B$) and $g: B \\to A$ (which embeds $B$ into $A$); neither needs to be surjective on its own. Second, the constructed bijection $h: A \\to B$, which is built by partitioning $A$ into two disjoint classes. Third, the $A$-chain partition: for each $a \\in A$, you trace the sequence $a, g^{-1}(a), f^{-1}(g^{-1}(a)), \\ldots$ backwards through alternating applications of $g^{-1}$ and $f^{-1}$ until the chain either terminates in $A$, terminates in $B$, or loops infinitely. Fourth, the case-split definition of $h$: $h(a) = f(a)$ when the chain through $a$ terminates in $A$ or is infinite, and $h(a) = g^{-1}(a)$ when the chain terminates in $B$.",
+  "worked_example": [
+    {
+      "expression_latex": "f: [0,1] \\to [0,1], \\quad f(x) = \\tfrac{x}{2} + \\tfrac{1}{4}",
+      "description_latex": "We want to show $|[0,1]| = |[0,1]|$ (trivially true, but let's rehearse the machinery) by building explicit injections. Define $f(x) = x/2 + 1/4$, which maps $[0,1]$ into $(1/4, 3/4) \\subset [0,1]$. This is injective because it is strictly increasing, so $f(x_1) = f(x_2) \\Rightarrow x_1 = x_2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g: [0,1] \\to [0,1], \\quad g(y) = \\tfrac{y}{2}",
+      "description_latex": "Now define the second injection $g(y) = y/2$, mapping $[0,1]$ into $[0, 1/2] \\subset [0,1]$. Again this is strictly increasing, hence injective. We now have $f: A \\hookrightarrow B$ and $g: B \\hookrightarrow A$ with $A = B = [0,1]$, exactly the hypothesis of Schr\u00f6der-Bernstein.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C_0 = [0,1] \\setminus g(B) = [0,1] \\setminus [0,\\tfrac{1}{2}] = (\\tfrac{1}{2}, 1]",
+      "description_latex": "To apply the theorem's construction, let $C_0$ be the set of elements of $A$ that are NOT in the image of $g$, meaning they have no $g$-preimage at all. Here $g(B) = [0, 1/2]$, so $C_0 = (1/2, 1]$. These elements can only be handled by $f$, because $g^{-1}$ does not exist for them \u2014 this is the starting seed of the chain construction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C_n = g(f(C_{n-1})), \\quad C = \\bigcup_{n=0}^{\\infty} C_n",
+      "description_latex": "We inductively define $C_n = g(f(C_{n-1}))$, propagating the 'tainted' elements through one round of $f$ then $g$. The union $C = \\bigcup_{n \\ge 0} C_n$ collects every element of $A$ whose backward chain eventually reaches $C_0$. All elements in $C$ will use $f$, while elements outside $C$ will use $g^{-1}$, and this split is precisely what prevents $h$ from clashing or missing anything.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h(x) = \\begin{cases} f(x) & x \\in C \\\\ g^{-1}(x) & x \\notin C \\end{cases}",
+      "description_latex": "The bijection $h$ is defined piecewise: on $C$ we use $f$ (the safe direction for chain-terminators), and on $A \\setminus C$ we use $g^{-1}$ (valid because every $x \\notin C$ is guaranteed to lie in $g(B)$, making $g^{-1}(x)$ well-defined). The Schr\u00f6der-Bernstein proof shows this $h$ is both injective and surjective, completing the argument that $|A| = |B|$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } |\\mathbb{N}| = |\\mathbb{Z}|",
+      "description_latex": "We will prove this using Schr\u00f6der-Bernstein by exhibiting two injections, one in each direction, rather than constructing a bijection directly. Start by identifying the two sets: $A = \\mathbb{N} = \\{0,1,2,\\ldots\\}$ and $B = \\mathbb{Z}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f: \\mathbb{N} \\to \\mathbb{Z}, \\quad f(n) = n",
+      "description_latex": "The first injection $f$ simply includes $\\mathbb{N}$ inside $\\mathbb{Z}$ via the identity. This is clearly injective because $f(m) = f(n)$ implies $m = n$. We need you to supply the second injection going the other way.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Define an injection $g: \\mathbb{Z} \\to \\mathbb{N}$. Your function must assign a distinct natural number to every integer (both positive and negative). Write down an explicit formula for $g(z)$ and verify it is injective.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore\\; |\\mathbb{N}| = |\\mathbb{Z}| \\text{ by Schr\u00f6der-Bernstein}",
+      "description_latex": "Once both injections are verified, the Schr\u00f6der-Bernstein Theorem immediately guarantees a bijection $h: \\mathbb{N} \\to \\mathbb{Z}$ exists \u2014 you do not need to construct $h$ explicitly. The existence of the two injections is sufficient to conclude the sets have equal cardinality.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the Schr\u00f6der-Bernstein Theorem: if $f: A \\to B$ and $g: B \\to A$ are both \\underline{\\hspace{1cm}}, then there exists a \\underline{\\hspace{1cm}} $h: A \\to B$.",
+      "answer_latex": "injective (one-to-one); bijection (bijective function)"
+    },
+    {
+      "prompt_latex": "Use Schr\u00f6der-Bernstein to show $|(0,1)| = |\\mathbb{R}|$ by finding explicit injections $f:(0,1)\\to\\mathbb{R}$ and $g:\\mathbb{R}\\to(0,1)$.",
+      "answer_latex": "One valid pair: $f(x)=x$ (inclusion), $g(t)=\\tfrac{1}{1+e^{-t}}$ (the logistic function, which maps $\\mathbb{R}$ into $(0,1)$). Both are injective, so Schr\u00f6der-Bernstein gives $|(0,1)|=|\\mathbb{R}|$."
+    },
+    {
+      "prompt_latex": "Show that $|\\mathbb{N} \\times \\mathbb{N}| = |\\mathbb{N}|$ using Schr\u00f6der-Bernstein by constructing two explicit injections.",
+      "answer_latex": "Take $f: \\mathbb{N} \\to \\mathbb{N}\\times\\mathbb{N}$ by $f(n)=(n,0)$ (injective), and $g:\\mathbb{N}\\times\\mathbb{N}\\to\\mathbb{N}$ by $g(m,n)=2^m 3^n$ (injective by unique factorization). Schr\u00f6der-Bernstein then gives $|\\mathbb{N}\\times\\mathbb{N}|=|\\mathbb{N}|$."
+    },
+    {
+      "prompt_latex": "Let $A = [0,1]$ and $B = [0,1)$. Use Schr\u00f6der-Bernstein (not an explicit bijection) to prove $|A|=|B|$.",
+      "answer_latex": "Define $f:A\\to B$ by $f(x)=x/2$ (maps into $[0,1/2)\\subset B$, injective) and $g:B\\to A$ by $g(x)=x$ (inclusion, injective since $B\\subset A$). Two injections exist, so Schr\u00f6der-Bernstein gives $|[0,1]|=|[0,1)|$."
+    },
+    {
+      "prompt_latex": "A library has a catalogue $C$ of books and an archive $D$ of digital files. A librarian shows there is an injective tagging $f:C\\to D$ and an injective scan $g:D\\to C$. A new librarian claims this is not enough to guarantee a perfect pairing between books and files \u2014 they insist an explicit bijection must be exhibited. Is the new librarian correct? Justify with the relevant theorem.",
+      "answer_latex": "No, the new librarian is incorrect. By the Schr\u00f6der-Bernstein Theorem, the existence of injections $f:C\\to D$ and $g:D\\to C$ is sufficient to guarantee $|C|=|D|$, meaning a bijection must exist, even if it is not explicitly constructed."
+    }
+  ],
+  "common_mistakes": [
+    "Students assume the two injections $f$ and $g$ must be inverses of each other, writing $g = f^{-1}$. This is wrong: $f$ and $g$ are completely independent functions; neither needs to be surjective, and they can be defined by entirely different formulas.",
+    "Students try to 'compose' $f$ and $g$ directly to get the bijection $h = f \\circ g^{-1}$, forgetting that $g^{-1}$ may not be defined on all of $A$ (since $g$ need not be surjective). The correct construction requires the chain-partition of $A$ into $C$ and $A\\setminus C$ before deciding which function to use at each point.",
+    "Students conclude that because Schr\u00f6der-Bernstein guarantees a bijection exists, any particular function they can write down (such as $f$ itself) must already be that bijection. In reality, $f$ is only an injection; the bijection $h$ is a new, explicitly constructed function, and in many cases $f$ is not surjective and therefore cannot serve as $h$."
+  ],
+  "untested_variants": [
+    "Applying Schr\u00f6der-Bernstein to compare the cardinality of the power set $\\mathcal{P}(\\mathbb{N})$ with the set of real numbers $\\mathbb{R}$, requiring injections involving binary representations or Cantor's diagonal argument.",
+    "Using Schr\u00f6der-Bernstein in the context of ordinal or cardinal arithmetic to show that $\\aleph_0 + \\aleph_0 = \\aleph_0$ or $\\aleph_0 \\cdot \\aleph_0 = \\aleph_0$ by constructing the relevant injections formally.",
+    "Proving that Schr\u00f6der-Bernstein fails for surjections \u2014 that is, constructing an example where surjections $f: A \\twoheadrightarrow B$ and $g: B \\twoheadrightarrow A$ exist but $|A| \\ne |B|$ is impossible (and explaining why the theorem's hypotheses are specifically about injections).",
+    "Walking through the full formal proof of the Schr\u00f6der-Bernstein Theorem, including verifying that the piecewise-defined $h$ is both injective and surjective via the chain-decomposition argument, rather than merely applying the theorem as a black box."
+  ]
+}

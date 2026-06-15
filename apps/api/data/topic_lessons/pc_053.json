@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_053",
+  "topic_name": "Introduction to Probability",
+  "generated_at": "2026-05-12T23:55:44.236250+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to count outcomes using combinations and permutations. Now imagine you're drawing a single card from a standard 52-card deck \u2014 you can list all the possible cards, and you know how many are hearts. But how do you turn that counting knowledge into a number that measures *how likely* something is to happen? That's the gap probability fills, and it's the question we're about to answer.",
+  "concept": "Probability is a number between 0 and 1 that measures how likely an event is to occur. In plain English, you count the outcomes you care about and divide by all possible outcomes. Formally, for a sample space $S$ of equally likely outcomes and an event $A$, the probability of $A$ is $P(A) = \\dfrac{|A|}{|S|}$, where $|A|$ is the number of outcomes in $A$ and $|S|$ is the total number of outcomes in $S$.",
+  "anatomy": "Every probability problem has three structural parts you must identify. First, the **sample space** $S$ is the complete set of all possible outcomes \u2014 for a single die, $S = \\{1, 2, 3, 4, 5, 6\\}$ and $|S| = 6$. Second, the **event** $A$ is the specific subset of outcomes you want \u2014 rolling an even number gives $A = \\{2, 4, 6\\}$ and $|A| = 3$. Third, the **probability** $P(A)$ is the ratio $\\dfrac{|A|}{|S|}$, which always satisfies $0 \\leq P(A) \\leq 1$, where $P(A) = 0$ means impossible and $P(A) = 1$ means certain.",
+  "worked_example": [
+    {
+      "expression_latex": "S = \\{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\\}",
+      "description_latex": "We begin by identifying the sample space. Ten cards are numbered 1 through 10, so every equally likely outcome is listed here, and we note that $|S| = 10$. Writing out $S$ explicitly ensures we don't miss or double-count any outcomes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\{2, 4, 6, 8, 10\\}",
+      "description_latex": "Next, we define event $A$ as drawing a card with an even number. We scan through $S$ and list every even value, which gives us exactly 5 outcomes, so $|A| = 5$. Being systematic here prevents errors \u2014 it's easy to miss a value if you just count in your head.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A) = \\frac{|A|}{|S|} = \\frac{5}{10}",
+      "description_latex": "Now we apply the probability formula by placing the count of favorable outcomes over the count of total outcomes. This fraction represents the proportion of the sample space that satisfies our event, which is the core idea of classical probability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A) = \\frac{1}{2} = 0.5",
+      "description_latex": "We simplify the fraction to its lowest terms and note that 0.5 makes intuitive sense \u2014 exactly half the cards are even, so there's an equal chance of drawing an even or odd card. Always check that your answer falls in $[0,1]$ as a quick sanity check.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "S = \\{\\text{all 52 cards}\\},\\quad |S| = 52",
+      "description_latex": "We're finding the probability of drawing a face card (Jack, Queen, or King) from a standard 52-card deck. The sample space is all 52 cards, so $|S| = 52$ \u2014 this first step is done for you.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "There are 4 suits and each suit has 3 face cards (J, Q, K). Identify event $A$ and determine $|A|$, the total number of face cards in the deck.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(A) = \\frac{|A|}{|S|} = \\frac{12}{52} = \\frac{3}{13}",
+      "description_latex": "Using $|A| = 12$ (there are $4 \\times 3 = 12$ face cards) and $|S| = 52$, we apply the formula and simplify by dividing numerator and denominator by 4 to get the final probability $\\dfrac{3}{13}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A fair six-sided die is rolled once. Find the probability of rolling a 3.",
+      "answer_latex": "P(\\text{rolling a 3}) = \\dfrac{1}{6}"
+    },
+    {
+      "prompt_latex": "A bag contains 4 red marbles, 3 blue marbles, and 3 green marbles. One marble is drawn at random. Find the probability of drawing a blue marble.",
+      "answer_latex": "P(\\text{blue}) = \\dfrac{3}{10}"
+    },
+    {
+      "prompt_latex": "A fair six-sided die is rolled once. Find the probability of rolling a number greater than 4.",
+      "answer_latex": "P(\\text{greater than 4}) = \\dfrac{2}{6} = \\dfrac{1}{3}"
+    },
+    {
+      "prompt_latex": "A committee of 2 people is chosen at random from a group of 5: Alice, Bob, Carlos, Dana, and Eve. Find the probability that the committee includes Alice.",
+      "answer_latex": "P(\\text{Alice included}) = \\dfrac{\\binom{4}{1}}{\\binom{5}{2}} = \\dfrac{4}{10} = \\dfrac{2}{5}"
+    },
+    {
+      "prompt_latex": "A student randomly guesses on a 4-question true/false quiz. What is the probability the student gets all 4 questions correct?",
+      "answer_latex": "P(\\text{all correct}) = \\dfrac{1}{2^4} = \\dfrac{1}{16}"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes write $P(A) = \\dfrac{|S|}{|A|}$ \u2014 flipping numerator and denominator \u2014 which gives a number greater than 1 and is not a valid probability. Always place the number of favorable outcomes on top: $P(A) = \\dfrac{|A|}{|S|}$.",
+    "When listing the sample space for multi-step situations (like two coin flips), students often forget that order can matter and list only 3 outcomes $\\{HH, HT, TT\\}$ instead of the correct 4 $\\{HH, HT, TH, TT\\}$, making the denominator wrong. Make sure every distinct sequence is counted separately.",
+    "Students confuse 'probability of NOT $A$' with 'probability of $A$' and forget to use the complement rule. If the event you want is hard to count directly, remember $P(A^c) = 1 - P(A)$, so $P(A) = 1 - P(A^c)$ \u2014 this is often the fastest path to the answer."
+  ],
+  "untested_variants": [
+    "Problems involving the complement rule $P(A^c) = 1 - P(A)$, where computing the probability directly is inefficient and students must work through the complement instead.",
+    "Probability problems involving permutations in the sample space, such as finding the probability that a randomly arranged 4-letter sequence spells a specific word.",
+    "Problems combining probability with the addition rule for mutually exclusive or overlapping events, such as $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.",
+    "Geometric probability problems where the sample space is a continuous region (area or length) rather than a finite set of discrete outcomes."
+  ]
+}

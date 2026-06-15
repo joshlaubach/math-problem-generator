@@ -13,7 +13,6 @@ export type TutorSessionState =
   | 'discovering'  // legacy open-ended topic detection
   | 'ready'
   | 'thinking'
-  | 'in_lesson'    // tutor is narrating a lesson
   | 'solved'
   | 'ended'
   | 'timeout'
@@ -153,6 +152,9 @@ export function useTutorSession(): TutorSessionHook {
     preSessionId?: string
   } | null>(null)
   const countdownRef = useRef<ReturnType<typeof setInterval> | null>(null)
+  // Tracks whether the session reached a terminal state (ended/solved/timeout)
+  // so onclose doesn't overwrite it with 'error' via stale closure state
+  const sessionTerminatedRef = useRef(false)
 
   const [state, setState] = useState<TutorSessionState>('idle')
   const [problem, setProblem] = useState<TutorProblem | null>(null)
@@ -280,19 +282,13 @@ export function useTutorSession(): TutorSessionHook {
         ...prev,
         { role: 'tutor', content: msg.text as string, timestamp: Date.now() },
       ])
-      setState(prev => prev === 'in_lesson' ? 'in_lesson' : 'ready')
+      setState('ready')
     }
 
-    // ── Lesson mode ──────────────────────────────────────────────────────────
-    else if (type === 'lesson_start') {
-      setState('in_lesson')
-      setMessages(prev => [
-        ...prev,
-        { role: 'system', content: '— Lesson mode —', timestamp: Date.now() },
-      ])
-    }
-    else if (type === 'lesson_end') {
-      setState('ready')
+    // ── Lesson mode (state-only protocol events; no student-visible label) ───
+    else if (type === 'lesson_start' || type === 'lesson_end') {
+      // Intentionally no UI state: the lesson reads as a normal tutor message.
+      // Exposing a mode label here would break the human-tutor illusion.
     }
 
     // ── Answer result ────────────────────────────────────────────────────────
@@ -330,11 +326,9 @@ export function useTutorSession(): TutorSessionHook {
     }
     else if (type === 'exam_mode_active') {
       setExamModeProposed(false)
+      // No chat-stream label: the persistent EXAM MODE header badge is the
+      // student-facing indicator (see session page header).
       setExamModeActive(true)
-      setMessages(prev => [
-        ...prev,
-        { role: 'system', content: '— Exam mode active —', timestamp: Date.now() },
-      ])
     }
 
     // ── Whiteboard ───────────────────────────────────────────────────────────
@@ -372,6 +366,7 @@ export function useTutorSession(): TutorSessionHook {
     // ── Session end ──────────────────────────────────────────────────────────
     else if (type === 'session_end' || type === 'session_timeout') {
       stopCountdown()
+      sessionTerminatedRef.current = true
       setSummary(msg.summary as SessionSummary)
       setState(type === 'session_timeout' ? 'timeout' : 'ended')
     }
@@ -412,8 +407,10 @@ export function useTutorSession(): TutorSessionHook {
 
   // ── WS open ─────────────────────────────────────────────────────────────────
 
-  const openWs = useCallback((url: string) => {
-    const ws = new WebSocket(url)
+  // SECURITY (M3): the auth token is sent via the Sec-WebSocket-Protocol header
+  // (as ["bearer", token]), never in the URL — URLs leak into logs/history.
+  const openWs = useCallback((url: string, token: string) => {
+    const ws = new WebSocket(url, ['bearer', token])
     wsRef.current = ws
     ws.onmessage = (event) => handleMessage(event.data as string)
 
@@ -432,22 +429,24 @@ export function useTutorSession(): TutorSessionHook {
           const p = connectParamsRef.current
           if (p.preSessionId) {
             // Phase 4: reconnect to known session
-            openWs(`${API_WS_BASE}/ws/tutor/${p.preSessionId}?token=${encodeURIComponent(p.token)}`)
+            openWs(`${API_WS_BASE}/ws/tutor/${p.preSessionId}`, p.token)
           } else {
             openWs(
               `${API_WS_BASE}/ws/tutor/${crypto.randomUUID()}` +
-              `?token=${encodeURIComponent(p.token)}` +
-              `&difficulty=${p.difficulty}` +
+              `?difficulty=${p.difficulty}` +
               `&session_type=${p.sessionType}` +
               (p.topicId ? `&topic_id=${encodeURIComponent(p.topicId)}` : '') +
-              (p.tutorName ? `&tutor_name=${encodeURIComponent(p.tutorName)}` : '')
+              (p.tutorName ? `&tutor_name=${encodeURIComponent(p.tutorName)}` : ''),
+              p.token
             )
           }
         }, delay)
       } else {
-        const s = wsRef.current ? 'idle' : state
-        if (s !== 'solved' && s !== 'ended' && s !== 'timeout') {
-          setState(NO_RECONNECT_CODES.has(event.code) ? 'error' : 'ended')
+        if (!sessionTerminatedRef.current) {
+          const s = wsRef.current ? 'idle' : state
+          if (s !== 'solved' && s !== 'ended' && s !== 'timeout') {
+            setState(NO_RECONNECT_CODES.has(event.code) ? 'error' : 'ended')
+          }
         }
         stopCountdown()
       }
@@ -476,6 +475,7 @@ export function useTutorSession(): TutorSessionHook {
     setExamModeActive(false)
     setCurrentIndex(0)
     setTotalProblems(0)
+    sessionTerminatedRef.current = false
   }, [])
 
   // ── Public API ──────────────────────────────────────────────────────────────
@@ -489,7 +489,7 @@ export function useTutorSession(): TutorSessionHook {
     }
     setState('connecting')
     resetState()
-    openWs(`${API_WS_BASE}/ws/tutor/${sessionId}?token=${encodeURIComponent(token)}`)
+    openWs(`${API_WS_BASE}/ws/tutor/${sessionId}`, token)
   }, [openWs, resetState])
 
   /** Legacy: connect without a pre-created session. */
@@ -506,12 +506,11 @@ export function useTutorSession(): TutorSessionHook {
     resetState()
     const url =
       `${API_WS_BASE}/ws/tutor/${crypto.randomUUID()}` +
-      `?token=${encodeURIComponent(token)}` +
-      `&difficulty=${difficulty}` +
+      `?difficulty=${difficulty}` +
       `&session_type=${sessionType}` +
       (topicId ? `&topic_id=${encodeURIComponent(topicId)}` : '') +
       (tutorName ? `&tutor_name=${encodeURIComponent(tutorName)}` : '')
-    openWs(url)
+    openWs(url, token)
   }, [openWs, resetState])
 
   const _send = useCallback((payload: object) => {
@@ -583,7 +582,7 @@ export function useTutorSession(): TutorSessionHook {
       ...prev,
       { role: 'student', content: `My work: ${stepsLatex}`, timestamp: Date.now() },
     ])
-    setState(prev => prev === 'in_lesson' ? 'in_lesson' : 'thinking')
+    setState('thinking')
   }, [_send])
 
   useEffect(() => {

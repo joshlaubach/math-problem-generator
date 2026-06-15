@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_004",
+  "topic_name": "Implications and Equivalences",
+  "generated_at": "2026-05-13T20:17:49.160046+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to work with basic logic statements like 'It is raining' being true or false. But mathematics constantly builds more complex claims: 'If a number is divisible by 4, then it is divisible by 2' \u2014 and you might want to know whether that works in reverse too. Can you always flip an implication around and still have a true statement? What exactly is the difference between saying two things imply each other versus saying they are logically equivalent?",
+  "concept": "An implication (also called a conditional) is a compound statement of the form 'if $P$, then $Q$,' written $P \\Rightarrow Q$, which is false only when $P$ is true and $Q$ is false. A biconditional, or equivalence, written $P \\Leftrightarrow Q$, means both $P \\Rightarrow Q$ and $Q \\Rightarrow P$ hold simultaneously \u2014 that is, $P$ and $Q$ always have the same truth value.",
+  "anatomy": "In the implication $P \\Rightarrow Q$, the statement $P$ is called the hypothesis (or antecedent) \u2014 it is the condition being assumed \u2014 while $Q$ is the conclusion (or consequent) \u2014 the claim that must follow. Three related conditionals arise from any implication: the converse $Q \\Rightarrow P$ (hypothesis and conclusion swapped), the contrapositive $\\lnot Q \\Rightarrow \\lnot P$ (both negated and swapped, always logically equivalent to the original), and the inverse $\\lnot P \\Rightarrow \\lnot Q$ (both negated but not swapped, logically equivalent to the converse). The biconditional $P \\Leftrightarrow Q$ is often read 'P if and only if Q' and is sometimes abbreviated 'P iff Q.'",
+  "worked_example": [
+    {
+      "expression_latex": "P: n \\text{ is even}, \\quad Q: n^2 \\text{ is even}",
+      "description_latex": "We begin by clearly identifying the hypothesis $P$ and conclusion $Q$ of the implication we want to analyze. Naming them explicitly makes it easy to form the converse, contrapositive, and inverse without confusion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Original: } P \\Rightarrow Q, \\quad \\text{i.e., } n \\text{ even} \\Rightarrow n^2 \\text{ even}",
+      "description_latex": "The original implication says that if $n$ is even, then $n^2$ must be even. We can verify this is true: writing $n = 2k$ gives $n^2 = 4k^2 = 2(2k^2)$, which is even. So $P \\Rightarrow Q$ is a true statement.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Contrapositive: } \\lnot Q \\Rightarrow \\lnot P, \\quad \\text{i.e., } n^2 \\text{ odd} \\Rightarrow n \\text{ odd}",
+      "description_latex": "The contrapositive is formed by negating both parts and swapping them: $\\lnot Q \\Rightarrow \\lnot P$. Because the contrapositive is always logically equivalent to the original, this statement is also true \u2014 confirming that if $n^2$ is odd, $n$ must be odd.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Converse: } Q \\Rightarrow P, \\quad \\text{i.e., } n^2 \\text{ even} \\Rightarrow n \\text{ even}",
+      "description_latex": "The converse swaps hypothesis and conclusion without negating anything. Notice that the converse is NOT automatically true just because the original is \u2014 you must check it separately. In this case the converse is actually true, but that is a lucky coincidence we must prove independently.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P \\Leftrightarrow Q \\text{ holds here because both } P \\Rightarrow Q \\text{ and } Q \\Rightarrow P \\text{ are true.}",
+      "description_latex": "Since both the implication and its converse are true, we can upgrade to a biconditional: $n$ is even if and only if $n^2$ is even. This is the strongest possible relationship between two statements \u2014 they are logically equivalent in this context.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P: x > 3, \\quad Q: x > 1",
+      "description_latex": "We are given the hypothesis $P$ and conclusion $Q$. Our task is to analyze the implication $P \\Rightarrow Q$ and determine whether a biconditional holds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Original: } x > 3 \\Rightarrow x > 1 \\quad \\text{(True, since 3 > 1)}",
+      "description_latex": "The original implication is true because any number greater than 3 is automatically greater than 1. We verify this by checking the logic directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write the converse $Q \\Rightarrow P$ in plain terms and determine whether it is true or false. Provide a counterexample if it is false, and state whether $P \\Leftrightarrow Q$ holds.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write the implication $P \\Rightarrow Q$ in 'if...then' form, where $P$: 'it is snowing' and $Q$: 'it is cold.' Then state the contrapositive.",
+      "answer_latex": "\\text{Implication: If it is snowing, then it is cold.} \\\\ \\text{Contrapositive: If it is not cold, then it is not snowing.}"
+    },
+    {
+      "prompt_latex": "For the statement 'If $n$ is divisible by 6, then $n$ is divisible by 3,' write the converse and determine whether the converse is true or false. Give a counterexample if false.",
+      "answer_latex": "\\text{Converse: If } n \\text{ is divisible by 3, then } n \\text{ is divisible by 6.} \\\\ \\text{False; counterexample: } n = 3 \\text{ is divisible by 3 but not by 6.}"
+    },
+    {
+      "prompt_latex": "Construct the truth table for $P \\Rightarrow Q$ and for $P \\Leftrightarrow Q$, then identify in which rows (in terms of truth values of $P$ and $Q$) the two compound statements differ.",
+      "answer_latex": "P \\Rightarrow Q \\text{ is false only when } P=T, Q=F. \\\\ P \\Leftrightarrow Q \\text{ is false when } P \\neq Q \\text{ (i.e., rows } (T,F) \\text{ and } (F,T)\\text{). They differ in the row } P=F, Q=T."
+    },
+    {
+      "prompt_latex": "Let $P$: '$|x| < 2$' and $Q$: '$-2 < x < 2$.' Determine whether $P \\Rightarrow Q$, whether $Q \\Rightarrow P$, and hence whether $P \\Leftrightarrow Q$ holds over the real numbers.",
+      "answer_latex": "P \\Rightarrow Q: \\text{ True (definition of absolute value).} \\\\ Q \\Rightarrow P: \\text{ True (same reason).} \\\\ \\therefore P \\Leftrightarrow Q \\text{ holds; the statements are logically equivalent.}"
+    },
+    {
+      "prompt_latex": "A programmer writes: 'A function returns an error if and only if the input is null.' Express this as a biconditional with statements $P$ and $Q$, write both component implications in plain English, and explain what goes wrong logically if only one direction is true.",
+      "answer_latex": "P: \\text{the input is null.} \\quad Q: \\text{the function returns an error.} \\\\ P \\Leftrightarrow Q \\text{ means: (1) If input is null, function returns error; (2) If function returns error, input is null.} \\\\ \\text{If only (1) holds, errors could occur for non-null inputs; the 'iff' guarantee breaks down.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often treat an implication and its converse as automatically equivalent, assuming that because $P \\Rightarrow Q$ is true, $Q \\Rightarrow P$ must also be true. These are logically independent claims, and you must verify each direction separately before claiming a biconditional.",
+    "A frequent error is confusing the contrapositive $\\lnot Q \\Rightarrow \\lnot P$ with the inverse $\\lnot P \\Rightarrow \\lnot Q$: students negate both parts but forget to swap them, or swap without negating. Remember that only the contrapositive is guaranteed equivalent to the original implication; keep the mantra 'negate AND swap' for the contrapositive.",
+    "Students often misread a false implication: they think $P \\Rightarrow Q$ is false whenever $Q$ is false, but the implication is only false in the specific case where $P$ is true and $Q$ is false. When $P$ is false, the implication is vacuously true regardless of $Q$, which feels counterintuitive but is essential to the formal definition."
+  ],
+  "untested_variants": [
+    "Nested or chained implications such as $(P \\Rightarrow Q) \\Rightarrow R$, including their truth tables and how to interpret them in a proof context.",
+    "Using implications within formal proof strategies, specifically proof by contrapositive \u2014 writing a full proof that exploits the equivalence $P \\Rightarrow Q \\equiv \\lnot Q \\Rightarrow \\lnot P$.",
+    "Quantified implications of the form $\\forall x,\\, P(x) \\Rightarrow Q(x)$ and how universal quantification interacts with finding counterexamples to converses.",
+    "Logical equivalence established via algebraic manipulation of propositions using laws such as De Morgan's laws, rather than directly by truth table or checking both directions."
+  ]
+}

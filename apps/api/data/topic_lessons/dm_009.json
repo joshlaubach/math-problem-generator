@@ -1,0 +1,86 @@
+{
+  "topic_id": "dm_009",
+  "topic_name": "Set Identities and Proofs",
+  "generated_at": "2026-05-13T20:12:28.536300+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to work with sets \u2014 unions, intersections, complements, and differences. You can compute $A \\cup B$ or $A \\cap B$ for specific sets, and you can draw Venn diagrams to check your intuition. But what happens when you need to prove that two set expressions are always equal, no matter what sets you plug in? For example, is it always true that $A \\cup (B \\cap C) = (A \\cup B) \\cap (A \\cup C)$, and if so, how would you rigorously prove it?",
+  "concept": "A set identity is an equation between two set expressions that holds for every possible choice of sets. In plain English, both sides always describe exactly the same collection of elements, regardless of what the sets contain. Formally, we say $X = Y$ as sets if and only if $X \\subseteq Y$ and $Y \\subseteq X$ \u2014 meaning every element of $X$ is in $Y$ and vice versa. Proofs of set identities typically use either element-chasing (showing membership equivalence), algebraic manipulation using known laws, or membership tables.",
+  "anatomy": "A set identity proof has three structural components worth naming carefully. The left-hand side (LHS) and right-hand side (RHS) are the two set expressions you are trying to prove equal \u2014 for instance $A \\cup (B \\cap C)$ and $(A \\cup B) \\cap (A \\cup C)$. The element-chasing method works by picking an arbitrary element $x$ and using logical equivalences: the membership rules for $\\cup$ (which requires $x \\in A$ OR $x \\in B$), for $\\cap$ (which requires $x \\in A$ AND $x \\in B$), and for complement $A^c$ (which requires $x \\notin A$). Each arrow in the proof is a biconditional $\\iff$ linking membership statements, ensuring the argument works in both directions simultaneously.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Prove: } A \\cup (B \\cap C) = (A \\cup B) \\cap (A \\cup C)",
+      "description_latex": "This is the Distributive Law for sets, and our goal is to show both sides contain exactly the same elements. We will use element-chasing: we pick an arbitrary element $x$ and show $x \\in$ LHS if and only if $x \\in$ RHS, so every step must be a biconditional.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\in A \\cup (B \\cap C) \\iff x \\in A \\text{ or } x \\in B \\cap C",
+      "description_latex": "We unpack the definition of union: $x$ belongs to $A \\cup S$ exactly when $x \\in A$ or $x \\in S$. Here $S = B \\cap C$, so membership in the LHS reduces to the condition '$x \\in A$ or $x \\in B \\cap C$.' This is a direct application of the union definition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\iff x \\in A \\text{ or } (x \\in B \\text{ and } x \\in C)",
+      "description_latex": "Now we unpack the intersection: $x \\in B \\cap C$ means $x \\in B$ AND $x \\in C$ by definition. So the full condition becomes '$x \\in A$, or both $x \\in B$ and $x \\in C$.' We have now expressed everything purely in terms of simple membership in $A$, $B$, and $C$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\iff (x \\in A \\text{ or } x \\in B) \\text{ and } (x \\in A \\text{ or } x \\in C)",
+      "description_latex": "This step applies the Distributive Law of logic: $P \\lor (Q \\land R) \\iff (P \\lor Q) \\land (P \\lor R)$. This is the logical heart of the proof \u2014 we are distributing the 'or $A$' across the conjunction, which is valid because logical 'or' distributes over 'and.' It's worth pausing here to verify this logical equivalence with a truth table if it isn't immediately obvious.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\iff x \\in (A \\cup B) \\text{ and } x \\in (A \\cup C) \\iff x \\in (A \\cup B) \\cap (A \\cup C)",
+      "description_latex": "We re-wrap each piece using the definition of union in reverse: '$x \\in A$ or $x \\in B$' is exactly $x \\in A \\cup B$, and similarly for the second part. Then the 'and' of two membership statements is exactly the definition of intersection, giving us $x \\in (A \\cup B) \\cap (A \\cup C)$, which is the RHS. Since every step was a biconditional, the identity is proved in both directions simultaneously.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Prove: } A \\cap (A \\cup B) = A \\quad \\text{(Absorption Law)}",
+      "description_latex": "We want to show these two sets are equal using element-chasing. We pick an arbitrary element $x$ and will show $x \\in A \\cap (A \\cup B)$ if and only if $x \\in A$. Let's start by unpacking the left side.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\in A \\cap (A \\cup B) \\iff x \\in A \\text{ and } x \\in (A \\cup B) \\iff x \\in A \\text{ and } (x \\in A \\text{ or } x \\in B)",
+      "description_latex": "We unpack the intersection and then the union definitions step by step, just as in the worked example. Notice we now have the logical form $P \\land (P \\lor Q)$ where $P$ stands for '$x \\in A$' and $Q$ stands for '$x \\in B$.' Your task is to simplify this logical expression to show it is equivalent to just $x \\in A$, and explain why using a known logical law.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\iff x \\in A",
+      "description_latex": "Since the chain of biconditionals connects $x \\in A \\cap (A \\cup B)$ to $x \\in A$, write a one-sentence conclusion stating what this proves about the two sets, and identify by name the logical law that justified your simplification in the previous step.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use a membership table to verify the Complement Law: $A \\cup A^c = U$, where $U$ is the universal set.",
+      "answer_latex": "For every element $x$, either $x \\in A$ or $x \\notin A$, so $x \\in A \\cup A^c$ always. The table has a column for $x \\in A$ (T/F) and one for $x \\in A^c$ (the opposite), and $x \\in A \\cup A^c$ is always T, confirming $A \\cup A^c = U$."
+    },
+    {
+      "prompt_latex": "Prove using element-chasing: $A \\cap (B \\cup C) = (A \\cap B) \\cup (A \\cap C)$.",
+      "answer_latex": "$x \\in A \\cap (B \\cup C) \\iff x \\in A \\text{ and } (x \\in B \\text{ or } x \\in C) \\iff (x \\in A \\text{ and } x \\in B) \\text{ or } (x \\in A \\text{ and } x \\in C) \\iff x \\in (A \\cap B) \\cup (A \\cap C)$, using the logical distributive law $P \\land (Q \\lor R) \\iff (P \\land Q) \\lor (P \\land R)$."
+    },
+    {
+      "prompt_latex": "Prove using element-chasing: $(A^c)^c = A$.",
+      "answer_latex": "$x \\in (A^c)^c \\iff x \\notin A^c \\iff \\lnot(x \\notin A) \\iff x \\in A$. Each step applies the definition of complement, and the double negation law in logic gives $(A^c)^c = A$."
+    },
+    {
+      "prompt_latex": "Prove De Morgan's Law: $(A \\cup B)^c = A^c \\cap B^c$.",
+      "answer_latex": "$x \\in (A \\cup B)^c \\iff x \\notin A \\cup B \\iff \\lnot(x \\in A \\lor x \\in B) \\iff (x \\notin A) \\land (x \\notin B) \\iff x \\in A^c \\land x \\in B^c \\iff x \\in A^c \\cap B^c$, applying De Morgan's Law of logic at the key step."
+    },
+    {
+      "prompt_latex": "A software system filters user requests: let $A$ be the set of requests that pass Filter 1 and $B$ be those that pass Filter 2. The set of requests blocked by at least one filter is $(A \\cap B)^c$. Use a set identity to show this equals $A^c \\cup B^c$, and explain what this means for the filtering system.",
+      "answer_latex": "By De Morgan's Law, $(A \\cap B)^c = A^c \\cup B^c$. Proof: $x \\in (A \\cap B)^c \\iff \\lnot(x \\in A \\land x \\in B) \\iff x \\notin A \\lor x \\notin B \\iff x \\in A^c \\cup B^c$. In practice this means a request is blocked by the combined system if and only if it is blocked by Filter 1 OR blocked by Filter 2 (or both)."
+    }
+  ],
+  "common_mistakes": [
+    "Students write single-direction implications ($\\Rightarrow$) instead of biconditionals ($\\iff$) when element-chasing, proving only $X \\subseteq Y$ but not $Y \\subseteq X$. To fix this, always ask yourself after each step: 'does this equivalence go both ways?' and use $\\iff$ only when you can justify both directions.",
+    "Students confuse De Morgan's Law for sets with its logical form and write $(A \\cup B)^c = A^c \\cup B^c$ (union stays union) instead of the correct $(A \\cup B)^c = A^c \\cap B^c$ (union becomes intersection). Remember: complementing a union flips the operation to intersection, and vice versa.",
+    "When using the algebraic manipulation method, students apply a set law incorrectly by treating set difference $A \\setminus B$ as if it obeys the same identities as $A \\cap B^c$ without first rewriting it \u2014 for example, distributing $A \\setminus (B \\cup C)$ directly without converting to $A \\cap (B \\cup C)^c$ first. Always rewrite set difference as intersection with a complement before applying identity laws."
+  ],
+  "untested_variants": [
+    "Proofs involving set difference identities, such as showing $A \\setminus (B \\cap C) = (A \\setminus B) \\cup (A \\setminus C)$, which require rewriting $\\setminus$ as intersection with complement before proceeding.",
+    "Proofs using the algebraic/equational method only \u2014 manipulating one side of the identity step by step using named laws (Idempotent, Domination, Identity Laws) without ever mentioning an arbitrary element $x$.",
+    "Three-set identities involving all three set operations simultaneously, such as proving $(A \\cup B) \\setminus C = (A \\setminus C) \\cup (B \\setminus C)$, which combine distributivity and De Morgan reasoning in one proof.",
+    "Disproving a claimed identity by constructing a specific counterexample \u2014 for instance, showing that $A \\cup (B \\cap C) \\neq (A \\cup B) \\cap C$ in general by exhibiting concrete sets $A$, $B$, $C$ for which the two sides differ."
+  ]
+}

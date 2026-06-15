@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_035",
+  "topic_name": "Transformations of Random Variables (H)",
+  "generated_at": "2026-05-13T20:28:04.846716+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find the distribution of a single random variable, and you've worked with joint distributions of $(X, Y)$. But what happens when you form a new random variable $Z = X + Y$, or $Z = X/Y$, or $Z = \\max(X, Y)$? You can describe $X$ and $Y$ perfectly, yet the distribution of $Z$ is a completely new object that requires a systematic transformation technique to find. How do we derive the PDF or CDF of a function of one or more random variables?",
+  "concept": "A transformation of a random variable is the process of finding the distribution of $Z = g(X)$ (or $Z = g(X,Y)$) given the distribution of $X$ (or the joint distribution of $X$ and $Y$). For a monotone differentiable function $g$, the PDF of $Z$ is given by the change-of-variables formula: $f_Z(z) = f_X(g^{-1}(z)) \\left|\\frac{d}{dz} g^{-1}(z)\\right|$, which accounts for how $g$ stretches or compresses probability mass.",
+  "anatomy": "The transformation formula has four key components: the original PDF $f_X(x)$, which supplies the probability density at the source; the inverse function $g^{-1}(z)$, which maps a value of $Z$ back to the corresponding value of $X$; the Jacobian (or derivative term) $\\left|\\frac{d}{dz} g^{-1}(z)\\right|$, which corrects for how the transformation stretches the scale and ensures the new density still integrates to 1; and the support of $Z$, the transformed range of values that $Z$ can actually take, which must be re-derived from the support of $X$ through $g$.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Uniform}(0,1), \\quad Z = -\\ln X",
+      "description_latex": "We start by clearly stating the problem: $X$ is uniform on $(0,1)$ so $f_X(x) = 1$ for $0 < x < 1$, and we want the PDF of $Z = -\\ln X$. Because $\\ln$ is strictly decreasing on $(0,1)$, the transformation $g(x) = -\\ln x$ is strictly increasing and one-to-one, so we can safely apply the change-of-variables formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z = -\\ln x \\implies x = e^{-z}, \\quad \\frac{dx}{dz} = -e^{-z}",
+      "description_latex": "We find the inverse mapping by solving for $x$ in terms of $z$: if $z = -\\ln x$ then $x = e^{-z}$. We then differentiate this inverse with respect to $z$ to get the Jacobian factor, $\\frac{dx}{dz} = -e^{-z}$, which we will take in absolute value to keep the density non-negative.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Support: } x \\in (0,1) \\implies z = -\\ln x \\in (0, \\infty)",
+      "description_latex": "We must find the support of $Z$ by running the support of $X$ through the transformation. As $x$ decreases from 1 to 0, $-\\ln x$ increases from 0 to $\\infty$, so $Z$ takes values in $(0, \\infty)$. Getting the support right is just as important as the formula, because the PDF equals zero outside this range.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_Z(z) = f_X(e^{-z}) \\cdot \\left|{-e^{-z}}\\right| = 1 \\cdot e^{-z} = e^{-z}, \\quad z > 0",
+      "description_latex": "We now apply the change-of-variables formula: substitute $g^{-1}(z) = e^{-z}$ into $f_X$, giving $f_X(e^{-z}) = 1$, and multiply by the absolute value of the Jacobian $|{-e^{-z}}| = e^{-z}$. The resulting density $f_Z(z) = e^{-z}$ for $z > 0$ is exactly the Exponential$(1)$ distribution \u2014 a beautiful result showing that a log-transformation of a Uniform variable produces an Exponential variable.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Uniform}(0,2), \\quad Z = X^2",
+      "description_latex": "We want to find the PDF of $Z = X^2$ where $f_X(x) = 1/2$ for $0 < x < 2$. Since $x > 0$ on the support, $g(x) = x^2$ is strictly increasing and one-to-one, so the change-of-variables formula applies directly. Our first task is to find the inverse function and compute its derivative.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z = x^2 \\implies x = \\sqrt{z}, \\quad \\frac{dx}{dz} = \\frac{1}{2\\sqrt{z}}, \\quad z \\in (0, 4)",
+      "description_latex": "Here we invert the transformation and compute the Jacobian, and we also find the support of $Z$ by noting that $x \\in (0,2)$ maps to $z \\in (0,4)$. Make sure you understand why the upper limit becomes 4 before moving on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the change-of-variables formula: substitute $x = \\sqrt{z}$ into $f_X$, multiply by the absolute value of the Jacobian $\\frac{1}{2\\sqrt{z}}$, and write down $f_Z(z)$ with its correct support. What is $f_Z(z)$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim \\text{Uniform}(0,1)$ and $Z = 2X + 3$. Find the PDF $f_Z(z)$ and state its support.",
+      "answer_latex": "f_Z(z) = \\tfrac{1}{2} \\text{ for } z \\in (3, 5), \\text{ zero otherwise}"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Exponential}(\\lambda)$ with PDF $f_X(x) = \\lambda e^{-\\lambda x}$ for $x > 0$. Find the PDF of $Z = 3X$.",
+      "answer_latex": "f_Z(z) = \\frac{\\lambda}{3} e^{-\\lambda z/3} \\text{ for } z > 0, \\text{ i.e., } Z \\sim \\text{Exponential}(\\lambda/3)"
+    },
+    {
+      "prompt_latex": "Let $X$ have PDF $f_X(x) = 2x$ for $0 < x < 1$. Find the PDF of $Z = X^3$.",
+      "answer_latex": "f_Z(z) = \\frac{2}{3} z^{-1/3} \\text{ for } 0 < z < 1"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Normal}(0,1)$ with PDF $f_X(x) = \\frac{1}{\\sqrt{2\\pi}} e^{-x^2/2}$. Use the CDF method (not the change-of-variables formula) to find the PDF of $Z = X^2$, carefully handling the fact that $g(x) = x^2$ is not one-to-one on $\\mathbb{R}$.",
+      "answer_latex": "f_Z(z) = \\frac{1}{\\sqrt{2\\pi z}} e^{-z/2} \\text{ for } z > 0, \\text{ which is a Chi-squared distribution with 1 degree of freedom}"
+    },
+    {
+      "prompt_latex": "The lifetime $X$ (in hours) of a lightbulb follows $X \\sim \\text{Exponential}(1)$. An engineer records the measurement in days instead: $Z = X/24$. Find the PDF of $Z$ and compute $P(Z > 1)$, the probability the bulb lasts more than one day.",
+      "answer_latex": "f_Z(z) = 24 e^{-24z} \\text{ for } z > 0; \\quad P(Z > 1) = e^{-24} \\approx 3.78 \\times 10^{-11}"
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting to transform the support: students correctly compute $f_Z(z)$ using the formula but leave the support as $(0,1)$ or copy it from $X$ instead of running the original support through $g$. Always ask: what values does $Z = g(X)$ actually take when $X$ ranges over its support?",
+    "Dropping the absolute value on the Jacobian: when the inverse function $g^{-1}(z)$ has a negative derivative (because $g$ is decreasing), students sometimes substitute a negative Jacobian directly, yielding a negative density. The fix is to always write $\\left|\\frac{d}{dz}g^{-1}(z)\\right|$ and evaluate the absolute value before multiplying.",
+    "Applying the one-to-one formula when the transformation is not one-to-one: for functions like $g(x) = x^2$ on all of $\\mathbb{R}$, two values of $X$ map to the same $Z$, so you must use the CDF method or sum contributions from each branch. Using the change-of-variables formula blindly in this setting gives an incorrect density that does not integrate to 1."
+  ],
+  "untested_variants": [
+    "Transformations of two continuous random variables using the two-dimensional Jacobian, e.g. finding the joint PDF of $Z_1 = X + Y$ and $Z_2 = X - Y$ given a joint PDF $f_{X,Y}(x,y)$.",
+    "Transformations of discrete random variables using the probability mass function directly (PMF substitution), such as finding the distribution of $Z = X^2$ when $X$ is a discrete uniform variable.",
+    "Finding the distribution of the minimum or maximum of independent random variables, e.g. $Z = \\min(X_1, X_2, \\ldots, X_n)$, using the survival function approach.",
+    "Using the moment-generating function (MGF) or characteristic function technique to identify the distribution of a sum $Z = X + Y$ of independent random variables, rather than the direct change-of-variables or convolution approach."
+  ]
+}

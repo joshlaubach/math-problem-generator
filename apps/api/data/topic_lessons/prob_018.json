@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_018",
+  "topic_name": "Variance and Standard Deviation",
+  "generated_at": "2026-05-13T20:26:43.752590+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find the expected value $E[X]$ of a discrete random variable \u2014 it tells you where the distribution is centered. But two distributions can have the exact same mean and look completely different: one might be tightly clustered around that mean, while another is wildly spread out. How do we measure that spread? And why can't we just average the deviations $X - \\mu$ directly?",
+  "concept": "Variance measures how far a random variable typically strays from its mean. Because deviations $(X - \\mu)$ average to zero, we square them first. The variance is $\\text{Var}(X) = E[(X-\\mu)^2] = \\sum_x (x-\\mu)^2 \\cdot P(X=x)$, and the standard deviation is $\\sigma = \\sqrt{\\text{Var}(X)}$, which restores the original units.",
+  "anatomy": "The formula $\\text{Var}(X) = \\sum_x (x - \\mu)^2 \\cdot P(X=x)$ has three key components. First, $(x - \\mu)$ is the deviation of each outcome from the mean $\\mu = E[X]$, telling you how far that value is from center. Second, squaring it to get $(x-\\mu)^2$ eliminates cancellation between positive and negative deviations and penalizes large departures more heavily. Third, multiplying by $P(X=x)$ weights each squared deviation by how likely it is, so rare extreme values contribute less than frequent moderate ones. The standard deviation $\\sigma = \\sqrt{\\text{Var}(X)}$ simply rescales back to the original units of $X$.",
+  "worked_example": [
+    {
+      "expression_latex": "X: \\quad P(X=1)=0.2,\\; P(X=2)=0.5,\\; P(X=3)=0.3",
+      "description_latex": "We start with a discrete random variable $X$ whose full probability distribution is given. Before computing variance, we must first know the mean $\\mu = E[X]$, because every squared deviation is measured from it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mu = E[X] = 1(0.2) + 2(0.5) + 3(0.3) = 0.2 + 1.0 + 0.9 = 2.1",
+      "description_latex": "We compute the mean using the standard expected-value formula. This value $\\mu = 2.1$ is the center of the distribution and will be subtracted from each outcome in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(1-2.1)^2 = 1.21, \\quad (2-2.1)^2 = 0.01, \\quad (3-2.1)^2 = 0.81",
+      "description_latex": "We compute each squared deviation $(x - \\mu)^2$. Notice that the outcome $x=2$ is very close to the mean so its squared deviation is tiny, while $x=1$ is farther away and contributes a much larger value of $1.21$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Var}(X) = 1.21(0.2) + 0.01(0.5) + 0.81(0.3) = 0.242 + 0.005 + 0.243 = 0.490",
+      "description_latex": "We weight each squared deviation by its probability and sum the results. This is the key step: we are computing $E[(X-\\mu)^2]$, a weighted average of squared distances, so outcomes with higher probability have more influence on the final variance.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sigma = \\sqrt{\\text{Var}(X)} = \\sqrt{0.490} \\approx 0.700",
+      "description_latex": "Taking the square root gives the standard deviation, which is back in the same units as $X$ itself. A standard deviation of about $0.70$ tells us a typical outcome is roughly $0.70$ units away from the mean of $2.1$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X: \\quad P(X=0)=0.4,\\; P(X=2)=0.4,\\; P(X=4)=0.2",
+      "description_latex": "Here is a new distribution. Before finding variance, we need the mean. The expected value is $\\mu = 0(0.4) + 2(0.4) + 4(0.2) = 0 + 0.8 + 0.8 = 1.6$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(0-1.6)^2 = 2.56, \\quad (2-1.6)^2 = 0.16, \\quad (4-1.6)^2 = 5.76",
+      "description_latex": "The squared deviations from $\\mu = 1.6$ have been computed for you. Now you need to weight each one by its probability and sum them to find $\\text{Var}(X)$. Remember, you are computing $E[(X-\\mu)^2] = \\sum_x (x-\\mu)^2 \\cdot P(X=x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute the variance: multiply each squared deviation by its corresponding probability, then add the three terms together. What is $\\text{Var}(X)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find the standard deviation $\\sigma = \\sqrt{\\text{Var}(X)}$. Give your answer rounded to three decimal places.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A random variable $X$ takes value $0$ with probability $0.5$ and value $4$ with probability $0.5$. Find $\\text{Var}(X)$.",
+      "answer_latex": "\\text{Var}(X) = 4"
+    },
+    {
+      "prompt_latex": "Let $X$ have distribution: $P(X=1)=0.3$, $P(X=3)=0.4$, $P(X=5)=0.3$. Find $\\text{Var}(X)$ and $\\sigma$.",
+      "answer_latex": "\\text{Var}(X) = 2.4, \\quad \\sigma = \\sqrt{2.4} \\approx 1.549"
+    },
+    {
+      "prompt_latex": "Use the shortcut formula $\\text{Var}(X) = E[X^2] - (E[X])^2$ to find the variance of $X$ where $P(X=2)=0.5$, $P(X=4)=0.3$, $P(X=6)=0.2$.",
+      "answer_latex": "E[X] = 3.4,\\; E[X^2] = 12.4,\\; \\text{Var}(X) = 12.4 - 11.56 = 0.84"
+    },
+    {
+      "prompt_latex": "A random variable $X$ has $E[X] = 5$ and $E[X^2] = 31$. A new variable is defined as $Y = 3X - 2$. Find $\\text{Var}(Y)$.",
+      "answer_latex": "\\text{Var}(X) = 31 - 25 = 6, \\quad \\text{Var}(Y) = 3^2 \\cdot \\text{Var}(X) = 9 \\cdot 6 = 54"
+    },
+    {
+      "prompt_latex": "A game pays $\\$0$ with probability $0.6$, $\\$5$ with probability $0.3$, and $\\$20$ with probability $0.1$. Find the standard deviation of your winnings and interpret what it tells you about the risk of the game.",
+      "answer_latex": "\\mu = 3.50,\\; E[X^2] = 47.5,\\; \\text{Var}(X) = 47.5 - 12.25 = 35.25,\\; \\sigma \\approx \\$5.94 \\text{ (typical winnings deviate about }\\$5.94\\text{ from the mean)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to compute the mean first and instead compute $\\sum x^2 \\cdot P(X=x)$ alone, mistaking $E[X^2]$ for the variance. The variance requires subtracting $\\mu^2$: $\\text{Var}(X) = E[X^2] - (E[X])^2$, or equivalently weighting $(x-\\mu)^2$, not $x^2$.",
+    "When using the definition formula, students sometimes forget to square the deviation and instead compute $\\sum (x - \\mu) \\cdot P(X=x)$, which always equals zero. You must square each deviation before multiplying by the probability: the key quantity is $(x - \\mu)^2 \\cdot P(X=x)$.",
+    "Students frequently report $\\text{Var}(X)$ as the standard deviation without taking the square root, or conversely report $\\sigma^2$ when asked for $\\sigma$. Always re-read the question: variance is $\\sigma^2$ in squared units, while standard deviation is $\\sigma = \\sqrt{\\text{Var}(X)}$ in the original units."
+  ],
+  "untested_variants": [
+    "Variance of a linear transformation $Y = aX + b$, using the rule $\\text{Var}(aX+b) = a^2\\text{Var}(X)$ \u2014 only the worked example mentions this indirectly.",
+    "Variance of the sum of two independent random variables using $\\text{Var}(X+Y) = \\text{Var}(X) + \\text{Var}(Y)$.",
+    "Finding variance when the distribution is given as a formula, such as $P(X=k) = \\frac{1}{n}$ for $k = 1, 2, \\ldots, n$ (uniform discrete distribution).",
+    "Using variance to compare the riskiness or consistency of two different distributions that share the same mean."
+  ]
+}

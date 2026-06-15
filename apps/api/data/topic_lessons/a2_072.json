@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_072",
+  "topic_name": "Margin of Error and Confidence Intervals (H)",
+  "generated_at": "2026-05-12T23:38:00.394046+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to calculate the mean of a sample \u2014 add up the values and divide by how many there are. But here's the problem: if you survey 100 students about their daily screen time, you get one mean; survey a different 100 students and you'll get a slightly different mean. So which one is 'right'? Can we ever trust a single sample to tell us something true about an entire population? Today we'll learn how statisticians quantify exactly how uncertain a sample estimate is \u2014 and the tool they use is called a confidence interval.",
+  "concept": "A confidence interval is a range of values, built from sample data, that is designed to capture the true population parameter with a specified level of confidence. In plain English, instead of saying 'the average is exactly 14.2,' we say 'we're 95% confident the true average is somewhere between 12.8 and 15.6.' Formally, a 95% confidence interval is written as $\\bar{x} \\pm ME$, where $\\bar{x}$ is the sample mean and $ME$ is the margin of error \u2014 the half-width of the interval.",
+  "anatomy": "The confidence interval $\\bar{x} \\pm ME$ has three key components worth naming precisely. First, the sample mean $\\bar{x}$ is the center of the interval \u2014 your best single-point estimate of the population mean $\\mu$. Second, the margin of error $ME = z^* \\cdot \\frac{\\sigma}{\\sqrt{n}}$ is the radius of the interval, where $z^*$ is the critical value (determined by your confidence level \u2014 for 95% confidence, $z^* \\approx 1.96$, and for 90% confidence, $z^* \\approx 1.645$), $\\sigma$ is the population standard deviation, and $n$ is the sample size. Third, the confidence level (typically 90%, 95%, or 99%) tells you how often this method produces intervals that actually contain the true parameter across many repeated samples.",
+  "worked_example": [
+    {
+      "expression_latex": "\\bar{x} = 82, \\quad \\sigma = 10, \\quad n = 25, \\quad \\text{confidence level} = 95\\%",
+      "description_latex": "We're given that a sample of 25 students scored an average of 82 on an exam, the population standard deviation is 10, and we want a 95% confidence interval. Before computing anything, we identify all the ingredients: the sample mean $\\bar{x} = 82$, the standard deviation $\\sigma = 10$, the sample size $n = 25$, and the critical value $z^* = 1.96$ for a 95% confidence level.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "ME = z^* \\cdot \\frac{\\sigma}{\\sqrt{n}} = 1.96 \\cdot \\frac{10}{\\sqrt{25}}",
+      "description_latex": "We plug our values into the margin of error formula. Notice we must compute $\\sqrt{n} = \\sqrt{25} = 5$ first, because the standard deviation of a sample mean (called the standard error) shrinks as the sample size grows \u2014 larger samples give us more precise estimates.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "ME = 1.96 \\cdot \\frac{10}{5} = 1.96 \\cdot 2 = 3.92",
+      "description_latex": "Simplifying step by step: $\\frac{10}{5} = 2$, then $1.96 \\times 2 = 3.92$. This means our interval will extend $3.92$ points in both directions from the sample mean \u2014 that's our uncertainty range.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{CI} = \\bar{x} \\pm ME = 82 \\pm 3.92 = (78.08,\\ 85.92)",
+      "description_latex": "We now construct the interval by subtracting and adding the margin of error to the sample mean: $82 - 3.92 = 78.08$ and $82 + 3.92 = 85.92$. We are 95% confident that the true mean exam score for the entire population falls between $78.08$ and $85.92$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\bar{x} = 45, \\quad \\sigma = 12, \\quad n = 36, \\quad \\text{confidence level} = 90\\%",
+      "description_latex": "A researcher samples 36 households and finds a mean weekly grocery spend of $45, with a known population standard deviation of $12. We want to build a 90% confidence interval. For 90% confidence, the critical value is $z^* = 1.645$. We have everything we need \u2014 let's compute the margin of error first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "ME = 1.645 \\cdot \\frac{12}{\\sqrt{36}} = 1.645 \\cdot \\frac{12}{6} = 1.645 \\cdot 2",
+      "description_latex": "We substitute the values into the margin of error formula and simplify the standard error $\\frac{\\sigma}{\\sqrt{n}} = \\frac{12}{6} = 2$. Now finish evaluating the margin of error by multiplying $1.645 \\times 2$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{CI} = 45 \\pm ME",
+      "description_latex": "Using your value for $ME$ from the previous step, write out the full confidence interval by computing the lower bound $45 - ME$ and the upper bound $45 + ME$, and state the interval in the form $(lower,\\ upper)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A sample has $\\bar{x} = 50$, $\\sigma = 8$, and $n = 16$. The critical value is $z^* = 1.96$. Compute the margin of error.",
+      "answer_latex": "ME = 1.96 \\cdot \\frac{8}{\\sqrt{16}} = 1.96 \\cdot 2 = 3.92"
+    },
+    {
+      "prompt_latex": "Using $\\bar{x} = 50$, $\\sigma = 8$, $n = 16$, and $z^* = 1.96$, state the full 95\\% confidence interval.",
+      "answer_latex": "(46.08,\\ 53.92)"
+    },
+    {
+      "prompt_latex": "A 95\\% confidence interval for a population mean is reported as $(31.4,\\ 44.6)$. What is the sample mean $\\bar{x}$ and what is the margin of error?",
+      "answer_latex": "\\bar{x} = \\frac{31.4 + 44.6}{2} = 38, \\quad ME = \\frac{44.6 - 31.4}{2} = 6.6"
+    },
+    {
+      "prompt_latex": "A researcher wants to reduce the margin of error from a 95\\% confidence interval by half. If the original sample size was $n = 100$, what new sample size is required? (Assume $\\sigma$ and $z^*$ stay the same.)",
+      "answer_latex": "\\text{Since } ME \\propto \\frac{1}{\\sqrt{n}}, \\text{ halving } ME \\text{ requires } \\sqrt{n} \\text{ to double, so } n = 400"
+    },
+    {
+      "prompt_latex": "A polling company surveys 400 likely voters and finds that 52\\% support a candidate. The margin of error for a 95\\% confidence interval for a proportion is $ME = z^* \\cdot \\sqrt{\\frac{\\hat{p}(1-\\hat{p})}{n}}$, where $\\hat{p} = 0.52$ and $z^* = 1.96$. Compute the confidence interval and determine whether we can be 95\\% confident that more than half the population supports this candidate.",
+      "answer_latex": "ME = 1.96 \\cdot \\sqrt{\\frac{0.52 \\cdot 0.48}{400}} = 1.96 \\cdot 0.025 = 0.049; \\text{ CI} = (0.471,\\ 0.569). \\text{ Since } 0.5 \\text{ is inside the interval, we cannot be 95\\% confident.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to take the square root of $n$ before dividing, computing $\\frac{\\sigma}{n}$ instead of $\\frac{\\sigma}{\\sqrt{n}}$ \u2014 always check that you're using the standard error $\\frac{\\sigma}{\\sqrt{n}}$, not just the standard deviation divided by $n$.",
+    "Students confuse the confidence level with the probability that a specific computed interval contains the true mean, saying '95% chance $\\mu$ is in this interval' \u2014 the correct interpretation is that 95% of all intervals constructed this way will contain $\\mu$; for any one interval, $\\mu$ either is or isn't in it.",
+    "Students mix up $z^*$ values for different confidence levels, often using $z^* = 1.96$ for a 90% interval instead of $z^* = 1.645$ \u2014 always identify the confidence level first and look up or recall the corresponding critical value before computing."
+  ],
+  "untested_variants": [
+    "Computing a confidence interval for a population proportion using $ME = z^* \\cdot \\sqrt{\\frac{\\hat{p}(1-\\hat{p})}{n}}$ when $\\hat{p}$ is not close to 0.5.",
+    "Using a $t^*$ critical value instead of $z^*$ when the population standard deviation $\\sigma$ is unknown and must be estimated from the sample standard deviation $s$.",
+    "Working backwards from a desired margin of error and confidence level to determine the minimum required sample size $n = \\left(\\frac{z^* \\cdot \\sigma}{ME}\\right)^2$ when $\\sigma$ is given.",
+    "Interpreting and comparing two overlapping confidence intervals to decide whether there is a statistically significant difference between two population means."
+  ]
+}

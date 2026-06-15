@@ -27,6 +27,9 @@ const CALC_LABELS: Record<CalculatorMode, string> = {
 const HONORS_FULL_TIERS    = new Set(['honors', 'classroom-student'])
 const HONORS_PARTIAL_TIERS = new Set(['student'])
 
+// Students get one retry before the solution is revealed.
+const MAX_ATTEMPTS = 2
+
 // ── Calculator badge ──────────────────────────────────────────────────────────
 function CalculatorBadge({ mode }: { mode: CalculatorMode }) {
   if (mode === 'none') return null
@@ -160,11 +163,16 @@ export default function PracticePage() {
 
   const [phase, setPhase]         = useState<Phase>('setup')
   const [difficulty, setDifficulty] = useState(3)
+  const [recommended, setRecommended] = useState<number | undefined>(undefined)
   const [rightTab, setRightTab]   = useState<RightTab>('hints')
   const [problem, setProblem]     = useState<ProblemResponse | null>(null)
   const [result, setResult]       = useState<{ isCorrect: boolean; answer: string } | null>(null)
   const [error, setError]         = useState<string | null>(null)
   const [sessionStats, setSessionStats] = useState({ attempted: 0, correct: 0 })
+  const [attempts, setAttempts]   = useState(0)
+  const [wrongFeedback, setWrongFeedback] = useState<string | null>(null)
+  const [checking, setChecking]   = useState(false)
+  const didSeedDifficulty = useRef(false)
   const [calcMode, setCalcMode]   = useState<CalculatorMode>('none')
   const [isHonors, setIsHonors]   = useState(false)
   const [calcOpen, setCalcOpen]   = useState(false)
@@ -187,6 +195,23 @@ export default function PracticePage() {
     }).catch(() => {})
   }, [topicId, searchParams])
 
+  // Adaptive difficulty: seed the selector from the student's mastery once.
+  useEffect(() => {
+    getToken().then(token => {
+      if (!token) return
+      api.getMyRecommendation(token, topicId)
+        .then(r => {
+          const rec = Math.max(1, Math.min(6, Math.round(r.recommended_difficulty)))
+          setRecommended(rec)
+          if (!didSeedDifficulty.current) {
+            didSeedDifficulty.current = true
+            setDifficulty(rec)
+          }
+        })
+        .catch(() => {})
+    })
+  }, [topicId, getToken])
+
   const honorsBlocked = isHonors && !HONORS_FULL_TIERS.has(userTier) && !HONORS_PARTIAL_TIERS.has(userTier)
 
   async function startProblem() {
@@ -203,6 +228,8 @@ export default function PracticePage() {
       })
       setProblem(p)
       setAnswerValue('')
+      setAttempts(0)
+      setWrongFeedback(null)
       startTimeRef.current = Date.now()
       setPhase('active')
       setRightTab('hints')
@@ -217,12 +244,8 @@ export default function PracticePage() {
     }
   }
 
-  async function handleAnswer(answer: string, timeTakenSeconds: number) {
+  async function recordAttempt(isCorrect: boolean, timeTakenSeconds: number) {
     if (!problem) return
-    const isCorrect = normalizeAnswer(answer) === normalizeAnswer(problem.final_answer)
-    setResult({ isCorrect, answer })
-    setPhase('reviewing')
-    setSessionStats(s => ({ attempted: s.attempted + 1, correct: s.correct + (isCorrect ? 1 : 0) }))
     try {
       const token = await getToken()
       await api.submitAttempt(token ?? '', {
@@ -235,6 +258,55 @@ export default function PracticePage() {
         time_taken_seconds: timeTakenSeconds,
       })
     } catch { /* fire-and-forget */ }
+  }
+
+  async function handleAnswer(answer: string, timeTakenSeconds: number) {
+    if (!problem || checking) return
+    setChecking(true)
+    setWrongFeedback(null)
+
+    // Grade server-side with SymPy equivalence — the source of truth. Fall back
+    // to the local string compare only if the request fails (offline/500).
+    let isCorrect: boolean
+    try {
+      const token = await getToken()
+      const res = await api.checkAnswer(token ?? '', {
+        student_answer: answer,
+        correct_answer: problem.final_answer,
+        answer_type: problem.answer_type,
+        problem_id: problem.id,
+      })
+      isCorrect = res.is_correct
+    } catch {
+      isCorrect = normalizeAnswer(answer) === normalizeAnswer(problem.final_answer)
+    }
+
+    const usedAttempts = attempts + 1
+    setAttempts(usedAttempts)
+
+    // Wrong, but a retry remains → keep them in the problem instead of revealing.
+    if (!isCorrect && usedAttempts < MAX_ATTEMPTS) {
+      setWrongFeedback('Not quite — take another look and try again.')
+      setChecking(false)
+      return
+    }
+
+    // Resolved: correct, or out of attempts.
+    setResult({ isCorrect, answer })
+    setPhase('reviewing')
+    setSessionStats(s => ({ attempted: s.attempted + 1, correct: s.correct + (isCorrect ? 1 : 0) }))
+    setChecking(false)
+    recordAttempt(isCorrect, timeTakenSeconds)
+  }
+
+  function revealSolution() {
+    if (!problem) return
+    // Student gave up after the retry — count it as one incorrect attempt.
+    setResult({ isCorrect: false, answer: answerValue })
+    setPhase('reviewing')
+    setSessionStats(s => ({ attempted: s.attempted + 1, correct: s.correct }))
+    setWrongFeedback(null)
+    recordAttempt(false, Math.round((Date.now() - startTimeRef.current) / 1000))
   }
 
   function handleTeacherReveal() {
@@ -265,7 +337,11 @@ export default function PracticePage() {
             </h1>
             <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexWrap: 'wrap' }}>
               <p style={{ fontSize: 14, color: 'var(--text-dim)', margin: 0 }}>
-                {sessionStats.attempted === 0
+                {phase === 'loading'
+                  ? 'Generating your problem…'
+                  : phase === 'active'
+                  ? 'Problem ready — enter your answer below.'
+                  : sessionStats.attempted === 0
                   ? 'Choose a difficulty and start your first problem.'
                   : `${sessionStats.correct} of ${sessionStats.attempted} correct this session`}
               </p>
@@ -332,7 +408,7 @@ export default function PracticePage() {
               {/* Setup */}
               {phase === 'setup' && (
                 <div className="warm-card-static" style={{ padding: 28, animation: 'viewIn 0.4s cubic-bezier(0.16,1,0.3,1) both' }}>
-                  <DifficultySelector value={difficulty} onChange={setDifficulty} />
+                  <DifficultySelector value={difficulty} onChange={setDifficulty} recommended={recommended} />
                   {error && (
                     <div style={{
                       marginTop: 16, borderRadius: 8,
@@ -387,6 +463,9 @@ export default function PracticePage() {
                     disabled={phase === 'reviewing'}
                     answerValue={answerValue}
                     onAnswerChange={setAnswerValue}
+                    feedback={wrongFeedback}
+                    onReveal={wrongFeedback ? revealSolution : undefined}
+                    checking={checking}
                   />
 
                   {phase === 'reviewing' && result && (
@@ -394,7 +473,7 @@ export default function PracticePage() {
                       problem={problem}
                       isCorrect={result.isCorrect}
                       studentAnswer={result.answer}
-                      onNext={() => setPhase('setup')}
+                      onNext={() => { setWrongFeedback(null); setAttempts(0); setPhase('setup') }}
                     />
                   )}
 

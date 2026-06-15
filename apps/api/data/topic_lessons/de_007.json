@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_007",
+  "topic_name": "Population Growth and Decay Models",
+  "generated_at": "2026-05-13T20:00:13.359017+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve simple differential equations like $\\frac{dy}{dx} = ky$, and you've seen exponential functions like $e^{kt}$ appear in algebra. But suppose a wildlife biologist tells you that a deer population grows at a rate proportional to its current size, starting with 200 deer and doubling every 5 years \u2014 can you write an equation that predicts the population at any future time, and determine when it will exceed 10,000? The gap is connecting a real-world rate description to a differential equation, solving it, and interpreting the constants meaningfully.",
+  "concept": "Population growth and decay models describe situations where a quantity changes at a rate proportional to how much of it currently exists. Formally, if $P(t)$ is the population at time $t$, the model is the first-order linear ODE $\\frac{dP}{dt} = kP$, where $k$ is the proportionality constant. When $k > 0$ the population grows; when $k < 0$ it decays. The general solution is $P(t) = P_0 e^{kt}$, where $P_0 = P(0)$ is the initial population.",
+  "anatomy": "The model $\\frac{dP}{dt} = kP$ has four key components. The dependent variable $P(t)$ is the population (or any decaying/growing quantity) at time $t$, the independent variable. The growth/decay rate constant $k$ (units: $1/\\text{time}$) encodes whether the process grows ($k > 0$) or decays ($k < 0$) and how fast. The initial condition $P_0 = P(0)$ anchors the solution to a specific scenario. In the solution $P(t) = P_0 e^{kt}$, the factor $e^{kt}$ is the exponential kernel that drives all growth or decay behavior over time.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dP}{dt} = kP, \\quad P(0) = 500",
+      "description_latex": "We start by writing the governing ODE: the rate of change of the population is proportional to the population itself, with proportionality constant $k$. The initial condition $P(0) = 500$ tells us the population at time zero is 500, which we will use later to pin down $P_0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dP}{P} = k\\,dt \\implies \\ln|P| = kt + C \\implies P(t) = Ae^{kt}",
+      "description_latex": "We separate variables by dividing both sides by $P$ and multiplying by $dt$, then integrate each side. The left side gives $\\ln|P|$ and the right gives $kt + C$; exponentiating both sides and absorbing $e^C$ into a single constant $A$ produces the general solution $P(t) = Ae^{kt}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(0) = Ae^{k \\cdot 0} = A = 500 \\implies P(t) = 500e^{kt}",
+      "description_latex": "Applying the initial condition at $t = 0$ immediately gives $A = 500$, so the solution becomes $P(t) = 500e^{kt}$. We still need a second piece of information to determine $k$, which comes from any other known value of $P$ at a specific time.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(3) = 1500 \\implies 500e^{3k} = 1500 \\implies e^{3k} = 3 \\implies k = \\frac{\\ln 3}{3}",
+      "description_latex": "Suppose we are told the population triples to 1500 after 3 years. Substituting $t = 3$ and $P = 1500$ into $P(t) = 500e^{kt}$, we divide both sides by 500 to isolate the exponential, then take the natural logarithm of both sides to solve for $k = \\frac{\\ln 3}{3} \\approx 0.366$ per year.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(t) = 500e^{(\\ln 3 / 3)\\,t}",
+      "description_latex": "Substituting the computed value of $k$ back into the solution gives the fully determined model $P(t) = 500e^{(\\ln 3/3)t}$. This single formula now lets us predict the population at any future time or find when the population reaches any target value by solving for $t$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dP}{dt} = kP, \\quad P(0) = 200, \\quad P(5) = 400",
+      "description_latex": "A bacterial culture starts at 200 cells and doubles to 400 in 5 hours. We write the standard proportional-growth ODE with the two pieces of data as conditions. The general solution after separating variables and integrating is $P(t) = 200e^{kt}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "200e^{5k} = 400",
+      "description_latex": "We apply the second condition $P(5) = 400$ by substituting $t = 5$ into $P(t) = 200e^{kt}$. Now solve this equation for $k$ \u2014 take the natural log of both sides after simplifying the left side, and write your answer in exact form.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(t) = 200e^{(\\ln 2 / 5)\\,t}",
+      "description_latex": "With $k = \\frac{\\ln 2}{5}$ determined, we substitute back to write the complete model. Using this model, find the time $t$ at which the population reaches 1000 cells by setting $P(t) = 1000$ and solving for $t$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A population satisfies $\\frac{dP}{dt} = 0.04P$ with $P(0) = 300$. Write the explicit solution $P(t)$.",
+      "answer_latex": "P(t) = 300e^{0.04t}"
+    },
+    {
+      "prompt_latex": "A population starts at $P_0 = 1000$ and grows to $2000$ in $6$ years. Find the exact growth constant $k$.",
+      "answer_latex": "k = \\dfrac{\\ln 2}{6}"
+    },
+    {
+      "prompt_latex": "A radioactive substance decays according to $\\frac{dA}{dt} = kA$. If $A(0) = 80$ grams and $A(10) = 20$ grams, find $k$ and write the complete solution $A(t)$.",
+      "answer_latex": "k = \\dfrac{\\ln(1/4)}{10} = -\\dfrac{\\ln 4}{10}, \\quad A(t) = 80e^{-(\\ln 4/10)\\,t}"
+    },
+    {
+      "prompt_latex": "A population grows proportionally with $k = \\frac{\\ln 5}{8}$ and $P(0) = 100$. At what time $t$ does the population first exceed $750$?",
+      "answer_latex": "t = \\dfrac{8\\ln(7.5)}{\\ln 5} \\approx 12.43 \\text{ (same time units)}"
+    },
+    {
+      "prompt_latex": "A town's population in 2010 was $45{,}000$ and in 2020 was $54{,}000$. Assuming proportional growth, estimate the population in 2035 and find the doubling time.",
+      "answer_latex": "P(2035) = 45000\\,e^{1.5\\ln(6/5)} \\approx 70{,}148; \\quad T_{\\text{double}} = \\dfrac{\\ln 2}{\\ln(6/5)/10} \\approx 31.1 \\text{ years}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the sign of $k$ by forcing $k > 0$ even for decay, then writing $P(t) = P_0 e^{kt}$ with a positive $k$ when the quantity is shrinking \u2014 the fix is to let the data determine $k$'s sign automatically when you solve $e^{k t_1} = P_1/P_0$; if $P_1 < P_0$ then $\\ln(P_1/P_0)$ is negative and $k$ comes out negative on its own.",
+    "When finding $k$ from a doubling or halving condition, students sometimes write $e^{kT} = 2P_0$ instead of $e^{kT} = 2$, forgetting to divide both sides by $P_0$ before taking the logarithm \u2014 always isolate the exponential first so that $P_0$ cancels cleanly.",
+    "Students substitute a calendar year (e.g., $t = 2020$) directly into the model instead of measuring $t$ as elapsed time from the reference year \u2014 always define $t = 0$ at the starting observation and use elapsed time (e.g., $t = 10$ for a decade later) throughout the calculation."
+  ],
+  "untested_variants": [
+    "Finding the half-life or doubling time as a standalone formula $T = \\ln 2 / |k|$ and explaining why it is independent of the initial population.",
+    "Problems where two populations grow at different rates and students must find when the two populations are equal (intersection of two exponential models).",
+    "Logistic growth models $\\frac{dP}{dt} = kP\\left(1 - \\frac{P}{M}\\right)$ where the carrying capacity $M$ limits unbounded growth.",
+    "Newton's Law of Cooling as a decay model $\\frac{dT}{dt} = k(T - T_{\\text{env}})$, which requires a substitution to convert it into the standard proportional-decay form before solving."
+  ]
+}

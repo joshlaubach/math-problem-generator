@@ -19,6 +19,12 @@ interface ProgressData {
   summary: { topics_attempted: number; topics_complete: number; topics_needing_review: number }
   topics: { topic_id: string; total_attempts: number; accuracy: number; complete: boolean; needs_review: boolean }[]
   session_credits: { available: number | null; expiring_soon: number; next_expiry: string | null }
+  streak?: { current: number; longest: number; active_today: boolean }
+}
+
+// Pretty-print a topic_id when we have no human name for it yet.
+function prettifyTopicId(id: string): string {
+  return id.replace(/^[a-z0-9]+_/i, '').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
 }
 
 interface QuotaData {
@@ -48,21 +54,24 @@ function deriveCourses(topics: LegacyTopicMetadata[]) {
 // ── Animated counter ──────────────────────────────────────────────────────────
 function AnimatedStat({ target, suffix = '' }: { target: number; suffix?: string }) {
   const [value, setValue] = useState(0)
-  const ref = useRef(false)
+  const fromRef = useRef(0)
 
+  // Re-animate whenever the target changes — the real values arrive after the
+  // async progress fetch, so a one-shot animation would freeze on the initial 0.
   useEffect(() => {
-    if (ref.current) return
-    ref.current = true
+    const from = fromRef.current
     const duration = 900
     const start = performance.now()
+    let raf = 0
     function easeOut(t: number) { return 1 - Math.pow(1 - t, 3) }
     function tick(now: number) {
       const progress = Math.min((now - start) / duration, 1)
-      setValue(Math.round(target * easeOut(progress)))
-      if (progress < 1) requestAnimationFrame(tick)
+      setValue(Math.round(from + (target - from) * easeOut(progress)))
+      if (progress < 1) raf = requestAnimationFrame(tick)
+      else fromRef.current = target
     }
-    const timeout = setTimeout(() => requestAnimationFrame(tick), 350)
-    return () => clearTimeout(timeout)
+    const timeout = setTimeout(() => { raf = requestAnimationFrame(tick) }, 350)
+    return () => { clearTimeout(timeout); cancelAnimationFrame(raf) }
   }, [target])
 
   return <>{value}{suffix}</>
@@ -110,6 +119,52 @@ function ProgressRing({ pct, color, label, sub }: { pct: number; color: string; 
   )
 }
 
+// ── Streak banner ─────────────────────────────────────────────────────────────
+function StreakBanner({ streak }: { streak: { current: number; longest: number; active_today: boolean } }) {
+  const { current, longest, active_today } = streak
+  const hasStreak = current > 0
+
+  return (
+    <div style={{
+      display: 'flex', alignItems: 'center', gap: 16,
+      padding: '16px 20px', borderRadius: 14, marginBottom: 24,
+      border: '1px solid var(--border)',
+      background: hasStreak
+        ? 'linear-gradient(120deg, var(--caramel-dim), var(--surface2))'
+        : 'var(--surface2)',
+    }}>
+      <div style={{
+        fontSize: 30, lineHeight: 1, flexShrink: 0,
+        filter: hasStreak ? 'none' : 'grayscale(1) opacity(0.5)',
+      }} aria-hidden>
+        🔥
+      </div>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{
+          fontFamily: 'var(--font-fraunces), Georgia, serif',
+          fontSize: 18, fontWeight: 600, color: 'var(--text)', lineHeight: 1.2,
+        }}>
+          {hasStreak
+            ? `${current}-day streak`
+            : 'Start a streak today'}
+        </div>
+        <div style={{ fontSize: 13, color: 'var(--text-dim)', marginTop: 2 }}>
+          {!hasStreak
+            ? 'Solve a problem today to begin your streak.'
+            : active_today
+              ? `Nice — you're in today. ${longest > current ? `Best: ${longest} days.` : 'This is your best streak yet!'}`
+              : 'Practice today to keep it alive.'}
+        </div>
+      </div>
+      {hasStreak && !active_today && (
+        <Link href="/catalog" className="btn-caramel" style={{ textDecoration: 'none', flexShrink: 0, padding: '8px 16px', fontSize: 13 }}>
+          Practice →
+        </Link>
+      )}
+    </div>
+  )
+}
+
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function DashboardPage() {
   const { user, isLoaded } = useUser()
@@ -153,6 +208,7 @@ export default function DashboardPage() {
     : null
   const problemsUsed = quota?.problems.used ?? null
   const goalLabel = GOAL_LABELS[progress?.goal ?? ''] ?? null
+  const topicName = (id: string) => topics.find(t => t.topic_id === id)?.topic_name ?? prettifyTopicId(id)
 
   return (
     <>
@@ -174,6 +230,9 @@ export default function DashboardPage() {
             ? `${quota.problems.used} problem${quota.problems.used !== 1 ? 's' : ''} solved this month · resets ${quota.resets_at}`
             : 'Track your progress across all courses.'}
         </p>
+
+        {/* Streak */}
+        {progress?.streak && <StreakBanner streak={progress.streak} />}
 
         {/* Stats */}
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12, marginBottom: 40 }}>
@@ -260,7 +319,7 @@ export default function DashboardPage() {
                   <ProgressRing
                     pct={Math.round(t.accuracy * 100)}
                     color="var(--terracotta)"
-                    label={t.topic_id}
+                    label={topicName(t.topic_id)}
                     sub={`${t.total_attempts} attempts · ${Math.round(t.accuracy * 100)}% accuracy`}
                   />
                 </div>

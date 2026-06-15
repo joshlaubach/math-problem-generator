@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_035",
+  "topic_name": "Law of Sines",
+  "generated_at": "2026-05-12T23:49:08.972758+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to solve a right triangle using SOH-CAH-TOA \u2014 as long as you have a right angle to anchor everything. But what happens when someone tells you a triangle has angles of 40\u00b0, 75\u00b0, and 65\u00b0, and one side of length 12, and asks you to find the remaining sides? There's no right angle anywhere, so your familiar tools break down. How do you find missing sides and angles in any triangle, not just right ones?",
+  "concept": "The Law of Sines is a powerful relationship that holds in every triangle \u2014 right, acute, or obtuse. In plain English, it says that each side of a triangle is proportional to the sine of the angle directly opposite it. Formally, for a triangle with sides $a$, $b$, $c$ opposite to angles $A$, $B$, $C$ respectively, we have $\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C}$, or equivalently $\\frac{\\sin A}{a} = \\frac{\\sin B}{b} = \\frac{\\sin C}{c}$.",
+  "anatomy": "The Law of Sines has three matched pairs, each consisting of a side and its opposite angle. The side $a$ is always opposite angle $A$, side $b$ is always opposite angle $B$, and side $c$ is always opposite angle $C$ \u2014 the pairing is the structural heart of the law. When you set up a proportion, you only ever use two of these three pairs at a time, forming an equation with exactly one unknown. The law applies when you know at least one complete side-angle pair (AAS or ASA configurations), or in the ambiguous case (SSA).",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Given: } A = 40\u00b0,\\ B = 75\u00b0,\\ a = 12. \\text{ Find } b.",
+      "description_latex": "We are given two angles and the side opposite one of them \u2014 this is the AAS case \u2014 which is exactly the setup where the Law of Sines shines. Before writing any proportion, notice that we have a complete pair: side $a = 12$ is opposite angle $A = 40\u00b0$, so we can anchor our proportion to that pair and solve for $b$ opposite $B = 75\u00b0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{a}{\\sin A} = \\frac{b}{\\sin B} \\quad \\Longrightarrow \\quad \\frac{12}{\\sin 40\u00b0} = \\frac{b}{\\sin 75\u00b0}",
+      "description_latex": "We write the Law of Sines using only the two pairs that involve the known and unknown quantities, substituting the given values directly. Notice we deliberately leave out the third pair involving $c$ and $C$ since those are not needed here \u2014 using only two pairs keeps the equation solvable with one unknown.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b = \\frac{12 \\cdot \\sin 75\u00b0}{\\sin 40\u00b0}",
+      "description_latex": "We isolate $b$ by cross-multiplying, moving $\\sin 75\u00b0$ to the numerator and $\\sin 40\u00b0$ to the denominator. This algebraic step is straightforward, but it is important to keep the angle paired with the side it came from \u2014 $\\sin 75\u00b0$ stays with $b$'s pair and $\\sin 40\u00b0$ stays with $a$'s pair.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b = \\frac{12 \\times 0.9659}{0.6428} \\approx \\frac{11.591}{0.6428} \\approx 18.03",
+      "description_latex": "Evaluating the sines with a calculator gives $\\sin 75\u00b0 \\approx 0.9659$ and $\\sin 40\u00b0 \\approx 0.6428$, and dividing yields $b \\approx 18.03$. This result makes sense geometrically: because $B = 75\u00b0$ is larger than $A = 40\u00b0$, the side opposite the bigger angle should indeed be longer than $a = 12$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Given: } B = 50\u00b0,\\ C = 65\u00b0,\\ b = 20. \\text{ Find } c.",
+      "description_latex": "We have two angles and the side opposite one of them (AAS). Start by identifying the two pairs we will use: side $b = 20$ is opposite $B = 50\u00b0$, and we want side $c$ opposite $C = 65\u00b0$. Set up the Law of Sines proportion using only these two pairs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{20}{\\sin 50\u00b0} = \\frac{c}{\\sin 65\u00b0}",
+      "description_latex": "This is the correct proportion with values substituted. Now isolate $c$ by cross-multiplying \u2014 write the expression for $c$ in terms of the known quantities before reaching for a calculator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Cross-multiply to isolate $c$: write $c = \\dfrac{20 \\cdot \\sin 65\u00b0}{\\sin 50\u00b0}$ and then evaluate using your calculator to find the numerical value of $c$. Round your answer to two decimal places.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "In triangle $ABC$, $A = 30\u00b0$, $B = 90\u00b0$, and $a = 8$. Use the Law of Sines to find $b$.",
+      "answer_latex": "b = 16"
+    },
+    {
+      "prompt_latex": "In triangle $ABC$, $A = 55\u00b0$, $C = 70\u00b0$, and $a = 15$. Find $c$.",
+      "answer_latex": "c \\approx 17.22"
+    },
+    {
+      "prompt_latex": "In triangle $ABC$, $A = 42\u00b0$, $B = 63\u00b0$, and $b = 24$. Find $a$.",
+      "answer_latex": "a \\approx 17.99"
+    },
+    {
+      "prompt_latex": "In triangle $ABC$, $B = 48\u00b0$, $C = 31\u00b0$, and $b = 50$. Find the remaining angle $A$ and then find side $a$.",
+      "answer_latex": "A = 101\u00b0,\\ a \\approx 66.44"
+    },
+    {
+      "prompt_latex": "Two fire lookout stations are 30 miles apart. Station $A$ spots a fire at an angle of $52\u00b0$ from the line connecting the stations, and Station $B$ spots the same fire at an angle of $63\u00b0$ from that same line. How far is the fire from Station $A$?",
+      "answer_latex": "\\approx 36.20 \\text{ miles}"
+    }
+  ],
+  "common_mistakes": [
+    "Students pair a side with the wrong angle \u2014 for example, using $\\frac{a}{\\sin B}$ instead of $\\frac{a}{\\sin A}$. The fix is to always double-check that each side is matched with the angle that sits directly across from it in the triangle.",
+    "When asked to find a missing angle using the inverse sine, students forget that $\\sin^{-1}$ only returns values in $[0\u00b0, 90\u00b0]$, so they miss the obtuse solution $180\u00b0 - \\theta$ in the ambiguous (SSA) case. Always check whether the supplement of the calculator's answer also produces a valid triangle before concluding there is only one answer.",
+    "Students set up the proportion and then cross-multiply incorrectly, placing both sines in the numerator or both sides in the numerator. Remember that cross-multiplication flips the fraction on one side: from $\\frac{a}{\\sin A} = \\frac{b}{\\sin B}$ you get $a \\cdot \\sin B = b \\cdot \\sin A$, so isolating $b$ gives $b = \\frac{a \\cdot \\sin B}{\\sin A}$."
+  ],
+  "untested_variants": [
+    "The ambiguous case (SSA): given two sides and an angle opposite one of them, determining whether zero, one, or two triangles exist \u2014 and finding all solutions when two exist.",
+    "Using the Law of Sines to find a missing angle rather than a missing side, which requires applying $\\sin^{-1}$ and checking for the obtuse supplement.",
+    "Problems where you must first use the triangle angle-sum property ($A + B + C = 180\u00b0$) to find a missing angle before you can even apply the Law of Sines \u2014 for instance when given all three angles but needing to compute one of them.",
+    "Combining the Law of Sines with the area formula $\\text{Area} = \\frac{1}{2}ab\\sin C$ to find the area of an oblique triangle after solving for unknown sides."
+  ]
+}

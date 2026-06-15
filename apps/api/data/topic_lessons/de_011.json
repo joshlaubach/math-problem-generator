@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_011",
+  "topic_name": "Improved Euler and Runge-Kutta Methods (H)",
+  "generated_at": "2026-05-13T20:48:16.085897+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know Euler's method: march forward with slope $f(x_n, y_n)$ and update $y_{n+1} = y_n + h f(x_n, y_n)$. It works, but it only uses the slope at the left endpoint of each interval, so the approximation can drift badly for even moderate step sizes. What if you could somehow use slope information from both ends of the interval \u2014 or even from the middle \u2014 to get a much more accurate answer without shrinking $h$? The question is: how do we systematically combine multiple slope evaluations within one step to dramatically reduce error?",
+  "concept": "Both the Improved Euler (Heun's) method and the classical Runge-Kutta (RK4) method are higher-order one-step methods that reduce local truncation error by averaging several slope evaluations within each step. Improved Euler is a second-order method (error $O(h^2)$ per step), and it works by computing a predictor slope $k_1 = f(x_n, y_n)$, then a corrector slope $k_2 = f(x_n + h, y_n + h k_1)$, and averaging: $y_{n+1} = y_n + \frac{h}{2}(k_1 + k_2)$. RK4 is a fourth-order method that similarly uses four slope evaluations and a weighted average to achieve $O(h^4)$ local error.",
+  "anatomy": "In both methods the key building blocks are called stages, often labeled $k_1, k_2, k_3, k_4$. Each $k_i$ is a slope value (an evaluation of $f$) computed at a specific point inside the current interval $[x_n, x_n + h]$. The step size $h$ controls the width of each interval. In Improved Euler, $k_1$ is the left-endpoint slope and $k_2$ is the slope at the predicted right endpoint; the update uses the arithmetic mean $\tfrac{1}{2}(k_1+k_2)$. In RK4, $k_1$ is the left slope, $k_2$ and $k_3$ are midpoint slopes (each slightly corrected), and $k_4$ is the right-endpoint slope; the weighted average $\tfrac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)$ gives the effective slope for the step.",
+  "worked_example": [
+    {
+      "expression_latex": "y' = f(x,y) = x + y, \\quad y(0) = 1, \\quad h = 0.2, \\text{ one step of Improved Euler to find } y(0.2)",
+      "description_latex": "We start by identifying everything we need: the ODE gives us $f(x,y) = x+y$, the initial condition gives us $x_0 = 0$ and $y_0 = 1$, and the step size is $h = 0.2$. Our goal is to apply the Improved Euler formula one time to estimate $y(0.2)$, which is more accurate than a plain Euler step because we will average two slopes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "k_1 = f(x_0, y_0) = f(0, 1) = 0 + 1 = 1",
+      "description_latex": "We compute $k_1$, the slope at the left endpoint of the interval. This is exactly the same slope Euler's method would use, so nothing surprising yet \u2014 the improvement comes in the next stage.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "k_2 = f(x_0 + h,\\; y_0 + h k_1) = f(0.2,\\; 1 + 0.2 \\cdot 1) = f(0.2, 1.2) = 0.2 + 1.2 = 1.4",
+      "description_latex": "We compute $k_2$ by first taking a full Euler step using $k_1$ to get a predicted $y$-value at $x = 0.2$, then evaluating $f$ there. This predicted point is not our final answer \u2014 it is only used to get a better slope estimate at the right end of the interval.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_1 = y_0 + \\frac{h}{2}(k_1 + k_2) = 1 + \\frac{0.2}{2}(1 + 1.4) = 1 + 0.1 \\times 2.4 = 1.24",
+      "description_latex": "We now take the corrector step, averaging $k_1$ and $k_2$ to get the effective slope, and advance from $y_0$. The average slope $1.2$ is more representative of the true slope over $[0, 0.2]$ than either endpoint alone, which is why Improved Euler is second-order accurate. For comparison, plain Euler gives $y_1 = 1 + 0.2(1) = 1.2$, while the exact solution $y = 2e^x - x - 1$ gives $y(0.2) \\approx 1.2428$, so our answer $1.24$ is already noticeably closer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y' = 2xy, \\quad y(0) = 1, \\quad h = 0.1, \\text{ one Improved Euler step to approximate } y(0.1)",
+      "description_latex": "We are applying Improved Euler to $f(x,y) = 2xy$ with $x_0 = 0$, $y_0 = 1$, $h = 0.1$. Let us work through the two stages systematically.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "k_1 = f(0, 1) = 2(0)(1) = 0",
+      "description_latex": "The first stage is straightforward: $k_1 = f(x_0, y_0) = 2 \\cdot 0 \\cdot 1 = 0$. Notice that the slope is zero here because $x_0 = 0$, so a plain Euler step would predict no change at all \u2014 this is exactly where the corrector stage becomes crucial.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute $k_2 = f(x_0 + h,\\; y_0 + h k_1)$. Substitute $x_0 = 0$, $h = 0.1$, $y_0 = 1$, and $k_1 = 0$ to find the predicted point, then evaluate $f$ there. What is $k_2$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Finally, use the Improved Euler update $y_1 = y_0 + \\frac{h}{2}(k_1 + k_2)$ with your value of $k_2$ to find the approximation for $y(0.1)$. Remember that $k_1 = 0$, so the formula simplifies nicely.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Apply one step of Improved Euler to $y' = y$, $y(0) = 1$, with $h = 0.1$. Find $y_1$.",
+      "answer_latex": "y_1 = 1 + \\frac{0.1}{2}(1 + 1.1) = 1.105"
+    },
+    {
+      "prompt_latex": "Use Improved Euler with $h = 0.5$ and one step to approximate $y(0.5)$ for $y' = x - y$, $y(0) = 2$.",
+      "answer_latex": "k_1 = 0 - 2 = -2,\\; k_2 = f(0.5,\\, 2 + 0.5(-2)) = f(0.5, 1) = -0.5,\\; y_1 = 2 + 0.25(-2 + (-0.5)) = 2 - 0.625 = 1.375"
+    },
+    {
+      "prompt_latex": "For $y' = x^2 + y^2$, $y(0) = 0$, $h = 0.2$, perform two steps of Improved Euler to approximate $y(0.4)$.",
+      "answer_latex": "\\text{Step 1: } k_1=0,\\; k_2=f(0.2,0)=0.04,\\; y_1=0+0.1(0+0.04)=0.004. \\quad \\text{Step 2: } k_1=f(0.2,0.004)\\approx0.040016,\\; k_2=f(0.4,0.004+0.2(0.040016))\\approx f(0.4,0.012)\\approx0.160144,\\; y_2\\approx0.004+0.1(0.040016+0.160144)\\approx0.024"
+    },
+    {
+      "prompt_latex": "The classical RK4 formulas are $k_1 = f(x_n,y_n)$, $k_2 = f\\!\\left(x_n+\\tfrac{h}{2}, y_n + \\tfrac{h}{2}k_1\\right)$, $k_3 = f\\!\\left(x_n+\\tfrac{h}{2}, y_n+\\tfrac{h}{2}k_2\\right)$, $k_4 = f(x_n+h, y_n+hk_3)$, and $y_{n+1} = y_n + \\tfrac{h}{6}(k_1+2k_2+2k_3+k_4)$. Apply one RK4 step to $y' = y$, $y(0) = 1$, with $h = 0.2$. Compare your answer to $e^{0.2} \\approx 1.22140$.",
+      "answer_latex": "k_1=1,\\; k_2=1.1,\\; k_3=1.1,\\; k_4=1.22;\\; y_1=1+\\tfrac{0.2}{6}(1+2.2+2.2+1.22)=1+\\tfrac{0.2}{6}(6.62)\\approx1.22067 \\text{ (exact to 4 d.p. shows RK4 accuracy)}"
+    },
+    {
+      "prompt_latex": "A population satisfies $\\frac{dP}{dt} = 0.3P\\left(1 - \\frac{P}{100}\\right)$, $P(0) = 10$. Using Improved Euler with $h = 1$, estimate $P(1)$ and $P(2)$.",
+      "answer_latex": "\\text{Step 1: } k_1=0.3(10)(0.9)=2.7,\\; k_2=f(1,12.7)=0.3(12.7)(1-0.127)\\approx3.322,\\; P_1\\approx10+0.5(2.7+3.322)=13.011. \\quad \\text{Step 2: } k_1\\approx3.312,\\; k_2=f(2,16.323)\\approx4.076,\\; P_2\\approx13.011+0.5(3.312+4.076)\\approx16.705"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use the predicted $y$-value $y_0 + h k_1$ as their final answer for $y_1$ instead of averaging it with the corrector step. Remember: the predicted value is only an intermediate tool to evaluate $k_2$; your final update must use the averaged slope $\\frac{1}{2}(k_1+k_2)$.",
+    "When computing $k_2$ in Improved Euler (or $k_2, k_3$ in RK4), students forget to advance the $x$-argument along with $y$, evaluating $f(x_n, y_0 + hk_1)$ instead of the correct $f(x_n + h, y_0 + hk_1)$. Always update both arguments of $f$ at each stage.",
+    "In RK4, students mistakenly weight all four $k$-values equally as $\\frac{1}{4}(k_1+k_2+k_3+k_4)$ rather than applying the correct weights $\\frac{1}{6}(k_1+2k_2+2k_3+k_4)$. The doubled weights on the midpoint stages $k_2$ and $k_3$ are essential to the fourth-order accuracy of the method."
+  ],
+  "untested_variants": [
+    "Applying RK4 over multiple steps and comparing the global accumulated error against the exact solution for a solvable ODE \u2014 the practice problems only ask for one RK4 step.",
+    "Systems of two first-order ODEs solved by Improved Euler or RK4, where each stage requires simultaneous evaluation of two component functions.",
+    "Adaptive step-size control, where the step $h$ is automatically reduced when the estimated error between Improved Euler and Euler (or RK4 and RK2) exceeds a tolerance.",
+    "Using RK4 to solve a second-order ODE that has been rewritten as a first-order system, such as a spring-mass or pendulum equation."
+  ]
+}

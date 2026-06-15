@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_013",
+  "topic_name": "Proof by Contrapositive",
+  "generated_at": "2026-05-13T20:12:45.548143+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to prove a statement $p \\Rightarrow q$ directly: assume $p$ is true and show $q$ must follow. But sometimes the direct route is a dead end \u2014 assuming $p$ gives you almost nothing useful to work with. For example, how would you prove: 'If $n^2$ is odd, then $n$ is odd'? Starting from '$n^2$ is odd' seems to lead nowhere fast. Is there a smarter way to attack this?",
+  "concept": "Proof by contrapositive reframes an implication so it becomes easier to prove. The key logical fact is that $p \\Rightarrow q$ is logically equivalent to its contrapositive $\\neg q \\Rightarrow \\neg p$: both statements are true or false together, always. So instead of proving 'if $p$ then $q$,' you assume $q$ is false and prove $p$ must be false \u2014 and that counts as a complete, rigorous proof of the original statement.",
+  "anatomy": "Every proof by contrapositive has three structural parts. First, the **original implication** $p \\Rightarrow q$, where $p$ is the hypothesis and $q$ is the conclusion \u2014 you must clearly identify both before doing anything else. Second, the **contrapositive** $\\neg q \\Rightarrow \\neg p$, formed by negating both $p$ and $q$ and swapping their roles; correctly negating each component (especially quantified or compound statements) is the most error-prone step. Third, the **direct proof of the contrapositive**: you now assume $\\neg q$ is true and derive $\\neg p$ through standard logical steps, exactly as you would in any direct proof.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: For all integers } n, \\text{ if } n^2 \\text{ is odd, then } n \\text{ is odd.}",
+      "description_latex": "We begin by identifying the structure of the implication. Here $p$ is '$n^2$ is odd' and $q$ is '$n$ is odd.' A direct approach \u2014 starting from '$n^2$ is odd' \u2014 is awkward because it's hard to extract information about $n$ from information about $n^2$ directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Contrapositive: If } n \\text{ is not odd (i.e., } n \\text{ is even), then } n^2 \\text{ is not odd (i.e., } n^2 \\text{ is even).}",
+      "description_latex": "We form the contrapositive $\\neg q \\Rightarrow \\neg p$ by negating both parts and swapping them. The negation of '$n$ is odd' is '$n$ is even,' and the negation of '$n^2$ is odd' is '$n^2$ is even.' Notice the contrapositive starts from information about $n$ \u2014 this is much easier to work with.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } n \\text{ is even. Then } n = 2k \\text{ for some integer } k.",
+      "description_latex": "We now begin a direct proof of the contrapositive by assuming $\\neg q$: that $n$ is even. By definition of evenness, $n = 2k$ for some integer $k$. This is the standard way to 'unpack' the assumption so we can compute with it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^2 = (2k)^2 = 4k^2 = 2(2k^2)",
+      "description_latex": "We square both sides of $n = 2k$ and factor the result. Since $2k^2$ is an integer, this shows $n^2$ is equal to $2$ times an integer, which is exactly the definition of an even number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore n^2 \\text{ is even. Since the contrapositive is proven, the original claim holds.} \\quad \\blacksquare",
+      "description_latex": "We conclude that $n^2$ is even, which is exactly $\\neg p$. Because we have proven $\\neg q \\Rightarrow \\neg p$, logical equivalence guarantees the original statement $p \\Rightarrow q$ is also true \u2014 the proof is complete.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: For all integers } n, \\text{ if } 3n + 5 \\text{ is even, then } n \\text{ is odd.}",
+      "description_latex": "Let's set up a proof by contrapositive. The original implication has $p$: '$3n+5$ is even' and $q$: '$n$ is odd.' Think about why starting from '$3n+5$ is even' is awkward, and recognize that a contrapositive approach will be cleaner.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Contrapositive: If } n \\text{ is even, then } 3n + 5 \\text{ is odd.}",
+      "description_latex": "We negate both $p$ and $q$ and swap their roles. The negation of '$n$ is odd' is '$n$ is even,' and the negation of '$3n+5$ is even' is '$3n+5$ is odd.' Always write out the contrapositive explicitly before proceeding.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now assume $n$ is even, so $n = 2k$ for some integer $k$. Substitute into $3n + 5$ and simplify the expression completely \u2014 show every arithmetic step \u2014 then determine whether the result fits the definition of an odd number.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore 3n+5 \\text{ is odd, so by contrapositive, the original claim is proved.} \\quad \\blacksquare",
+      "description_latex": "Once you've shown $3n + 5$ is odd under the assumption that $n$ is even, the contrapositive is established, and you should explicitly state that the original implication follows by logical equivalence.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Prove by contrapositive: For all integers } n, \\text{ if } n^2 \\text{ is even, then } n \\text{ is even.}",
+      "answer_latex": "\\text{Contrapositive: If } n \\text{ is odd, then } n^2 \\text{ is odd. Assume } n = 2k+1. \\text{ Then } n^2 = 4k^2+4k+1 = 2(2k^2+2k)+1, \\text{ which is odd.} \\quad \\blacksquare"
+    },
+    {
+      "prompt_latex": "\\text{Prove by contrapositive: For all integers } a, b, \\text{ if } ab \\text{ is odd, then both } a \\text{ and } b \\text{ are odd.}",
+      "answer_latex": "\\text{Contrapositive: If } a \\text{ is even or } b \\text{ is even, then } ab \\text{ is even. WLOG assume } a = 2k. \\text{ Then } ab = 2(kb), \\text{ which is even.} \\quad \\blacksquare"
+    },
+    {
+      "prompt_latex": "\\text{Prove by contrapositive: For all real numbers } x, \\text{ if } x^2 - 5x + 6 \\neq 0, \\text{ then } x \\neq 2 \\text{ and } x \\neq 3.",
+      "answer_latex": "\\text{Contrapositive: If } x = 2 \\text{ or } x = 3, \\text{ then } x^2 - 5x + 6 = 0. \\text{ Check: } 4-10+6=0 \\text{ and } 9-15+6=0. \\text{ Both work.} \\quad \\blacksquare"
+    },
+    {
+      "prompt_latex": "\\text{Prove by contrapositive: For all integers } n, \\text{ if } n^2 \\text{ is not divisible by } 3, \\text{ then } n \\text{ is not divisible by } 3. \\text{ (Use the definition: } 3 \\mid n \\text{ iff } n = 3k \\text{ for some integer } k\\text{.)}",
+      "answer_latex": "\\text{Contrapositive: If } 3 \\mid n \\text{ then } 3 \\mid n^2. \\text{ Assume } n = 3k. \\text{ Then } n^2 = 9k^2 = 3(3k^2), \\text{ so } 3 \\mid n^2. \\quad \\blacksquare"
+    },
+    {
+      "prompt_latex": "\\text{A software function returns an error code only when the input is invalid. Formally: if the output is not an error, then the input was valid. Write the contrapositive and prove: if the input is invalid (modeled as } x < 0\\text{), then the output is negative (modeled as } f(x) = x - 1 < 0\\text{).}",
+      "answer_latex": "\\text{Contrapositive of original: if input is invalid, output is an error. Here: assume } x < 0. \\text{ Then } f(x) = x - 1 < 0 - 1 = -1 < 0, \\text{ confirming an error state.} \\quad \\blacksquare"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the contrapositive $\\neg q \\Rightarrow \\neg p$ with the inverse $\\neg p \\Rightarrow \\neg q$ or the converse $q \\Rightarrow p$, neither of which is logically equivalent to the original \u2014 always negate BOTH parts AND swap them.",
+    "Students forget to explicitly state they are proving the contrapositive and never connect the completed proof back to the original implication, leaving the argument logically incomplete \u2014 always end with a sentence like 'Since the contrapositive is proven, the original statement follows.'",
+    "When the hypothesis or conclusion involves a compound statement (e.g., '$a$ is even AND $b$ is even'), students negate it incorrectly \u2014 the negation of '$a$ is even and $b$ is even' is '$a$ is odd OR $b$ is odd' by De Morgan's Law, not '$a$ is odd and $b$ is odd.'"
+  ],
+  "untested_variants": [
+    "Proofs by contrapositive involving rational and irrational numbers, for example: 'If $x$ is irrational, then $\\sqrt{x}$ is irrational,' where negating 'irrational' requires careful use of the definition of rationality.",
+    "Contrapositive proofs in the context of set theory, such as: 'If $A \\cap B = \\emptyset$, then no element of $A$ belongs to $B$,' requiring contrapositive reasoning with set membership and quantifiers.",
+    "Combining proof by contrapositive with proof by cases, where the negated hypothesis splits into two or more sub-cases each of which must be handled separately.",
+    "Contrapositive proofs for biconditional statements ($p \\Leftrightarrow q$), which require proving both $p \\Rightarrow q$ and $q \\Rightarrow p$ by contrapositive, doubling the structural complexity."
+  ]
+}

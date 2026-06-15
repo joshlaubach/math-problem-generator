@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_017",
+  "topic_name": "Expected Value",
+  "generated_at": "2026-05-13T20:26:39.656841+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find the average of a list of numbers \u2014 just add them up and divide by how many there are. But what if you're about to roll a die, and someone asks: 'On average, what number will you roll?' You can't just average the outcomes 1 through 6 without thinking carefully, and things get even trickier when the outcomes aren't equally likely. How do you compute the 'long-run average' of a random variable when different outcomes have different probabilities?",
+  "concept": "The expected value of a discrete random variable is its probability-weighted average \u2014 the value you'd expect to get if you repeated the random experiment an enormous number of times and averaged all the results. Formally, if $X$ takes values $x_1, x_2, \\ldots, x_n$ with probabilities $P(X = x_i)$, the expected value is $E(X) = \\sum_{i=1}^{n} x_i \\cdot P(X = x_i)$.",
+  "anatomy": "The formula $E(X) = \\sum_{i} x_i \\cdot P(X = x_i)$ has three key components. The outcomes $x_i$ are the specific numerical values the random variable $X$ can take \u2014 these form the 'support' of the distribution. The weights $P(X = x_i)$ are the probabilities assigned to each outcome, which must satisfy $\\sum_i P(X = x_i) = 1$. The product $x_i \\cdot P(X = x_i)$ is each outcome's contribution to the overall average, scaled by how likely it is, and the $\\sum$ operator accumulates all those weighted contributions into one number.",
+  "worked_example": [
+    {
+      "expression_latex": "X: \\quad x = 1 \\text{ with } P = 0.5, \\quad x = 2 \\text{ with } P = 0.3, \\quad x = 5 \\text{ with } P = 0.2",
+      "description_latex": "We start by clearly laying out the distribution: a random variable $X$ can take the value 1 with probability 0.5, the value 2 with probability 0.3, and the value 5 with probability 0.2. Before computing anything, it's worth checking that $0.5 + 0.3 + 0.2 = 1$, confirming this is a valid probability distribution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E(X) = x_1 \\cdot P(X=x_1) + x_2 \\cdot P(X=x_2) + x_3 \\cdot P(X=x_3)",
+      "description_latex": "We write out the definition of expected value as a sum of terms, one for each possible outcome. Each term is the outcome's value multiplied by its probability \u2014 this structure ensures that more likely outcomes contribute more to the average.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E(X) = (1)(0.5) + (2)(0.3) + (5)(0.2)",
+      "description_latex": "Now we substitute the actual values and probabilities from our distribution into the formula. Notice that the outcome 5 is large but rare, while 1 is small but common \u2014 the multiplication by probability will balance these effects.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E(X) = 0.5 + 0.6 + 1.0 = 2.1",
+      "description_latex": "We compute each product separately \u2014 $1 \\times 0.5 = 0.5$, $2 \\times 0.3 = 0.6$, $5 \\times 0.2 = 1.0$ \u2014 then sum them to get $E(X) = 2.1$. Notice that 2.1 doesn't have to be one of the possible values of $X$; the expected value is a long-run average, not a guaranteed outcome.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X: \\quad x = 0 \\text{ with } P = 0.4, \\quad x = 3 \\text{ with } P = 0.35, \\quad x = 10 \\text{ with } P = 0.25",
+      "description_latex": "Here is a new random variable $X$. First, verify this is a valid distribution by checking that all probabilities sum to 1: $0.4 + 0.35 + 0.25 = 1$. Good \u2014 we're ready to apply the expected value formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E(X) = (0)(0.4) + (3)(0.35) + (10)(0.25)",
+      "description_latex": "We've already substituted the values and probabilities into the formula for you. Each term is an outcome times its probability \u2014 notice that the outcome 0 contributes nothing to the sum regardless of its probability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute each product and add the three terms together to find $E(X)$. What is the expected value of $X$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A random variable $X$ takes the value 4 with probability 1 (it is a constant). Find $E(X)$.",
+      "answer_latex": "E(X) = 4"
+    },
+    {
+      "prompt_latex": "A fair six-sided die is rolled. Let $X$ be the outcome. Find $E(X)$, given that each of the values 1, 2, 3, 4, 5, 6 has probability $\\frac{1}{6}$.",
+      "answer_latex": "E(X) = \\dfrac{1+2+3+4+5+6}{6} = \\dfrac{21}{6} = 3.5"
+    },
+    {
+      "prompt_latex": "A random variable $X$ has the distribution: $P(X = -2) = 0.3$, $P(X = 0) = 0.5$, $P(X = 4) = 0.2$. Find $E(X)$.",
+      "answer_latex": "E(X) = (-2)(0.3) + (0)(0.5) + (4)(0.2) = -0.6 + 0 + 0.8 = 0.2"
+    },
+    {
+      "prompt_latex": "A random variable $X$ has $E(X) = 3$. A new random variable is defined as $Y = 2X + 5$. Using the linearity of expectation \u2014 $E(aX + b) = aE(X) + b$ \u2014 find $E(Y)$.",
+      "answer_latex": "E(Y) = 2(3) + 5 = 11"
+    },
+    {
+      "prompt_latex": "A carnival game costs $\\$2$ to play. You roll a fair four-sided die (faces 1\u20134). If you roll a 4, you win $\\$6$; otherwise you win nothing. Let $X$ be your net gain (winnings minus cost). Set up the distribution of $X$ and find $E(X)$. Should you play?",
+      "answer_latex": "P(X = 4) = \\tfrac{1}{4},\\ P(X = -2) = \\tfrac{3}{4};\\quad E(X) = (4)(\\tfrac{1}{4}) + (-2)(\\tfrac{3}{4}) = 1 - 1.5 = -0.50. \\text{ No \u2014 you lose } \\$0.50 \\text{ on average.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes forget to multiply each outcome by its probability and instead just average the outcomes: writing $E(X) = \\frac{1+2+5}{3}$ instead of $\\sum x_i P(X=x_i)$. This only works when all outcomes are equally likely \u2014 always weight by probability.",
+    "When an outcome is 0, students often drop its term entirely and forget it exists. While $0 \\times P(X=0) = 0$ contributes nothing numerically, omitting that outcome when verifying $\\sum P = 1$ can hide an error in the distribution setup.",
+    "Students sometimes confuse the expected value with the most likely outcome (the mode) or the middle outcome (the median), and are surprised that $E(X)$ can be a value $X$ never actually takes (like 3.5 for a die). Expected value is a long-run average, not a prediction of any single outcome."
+  ],
+  "untested_variants": [
+    "Expected value of a function of a random variable, i.e., computing $E(g(X))$ using the formula $\\sum g(x_i) P(X = x_i)$ \u2014 the law of the unconscious statistician.",
+    "Expected value of the sum of two random variables, $E(X + Y)$, using linearity of expectation when $X$ and $Y$ are given as a joint distribution table.",
+    "Finding a missing probability in a distribution given that $E(X)$ equals a specified value \u2014 reversing the calculation to solve for an unknown $p$.",
+    "Expected value involving an infinite discrete distribution, such as the geometric distribution $E(X) = \\frac{1}{p}$, where the sum requires recognizing a series."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_023",
+  "topic_name": "Row Space and Column Space",
+  "generated_at": "2026-05-13T20:07:06.214500+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to row-reduce a matrix and find its null space. You've also seen that a matrix represents a linear transformation. But here's a question you probably can't answer yet: given a matrix $A$, which vectors $\\mathbf{b}$ can actually be written as $A\\mathbf{x}$ for some $\\mathbf{x}$? In other words, what is the 'reach' of $A$ as a transformation, and how do the rows of $A$ constrain the solutions? These questions are exactly what the row space and column space are designed to answer.",
+  "concept": "The column space of a matrix $A$ is the set of all linear combinations of its columns \u2014 it tells you every vector that $A$ can output. The row space is the set of all linear combinations of its rows. Formally, for an $m \\times n$ matrix $A$ with columns $\\mathbf{a}_1, \\ldots, \\mathbf{a}_n$, the column space is $\\text{Col}(A) = \\{A\\mathbf{x} : \\mathbf{x} \\in \\mathbb{R}^n\\} \\subseteq \\mathbb{R}^m$, and the row space is $\\text{Row}(A) = \\text{Col}(A^T) \\subseteq \\mathbb{R}^n$.",
+  "anatomy": "Every matrix has four fundamental subspaces, and two of them live here. The column space $\\text{Col}(A)$ lives in $\\mathbb{R}^m$ (the output space), and its dimension is the rank $r$ of $A$. The row space $\\text{Row}(A)$ lives in $\\mathbb{R}^n$ (the input space), and its dimension also equals $r$ \u2014 this shared dimension is the Rank Theorem. A basis for $\\text{Col}(A)$ is found by identifying the pivot columns of $A$ itself (not of the row-reduced form), while a basis for $\\text{Row}(A)$ is given by the nonzero rows of the row echelon form of $A$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\\\ 1 & 0 & 1 \\end{pmatrix}",
+      "description_latex": "We start with the matrix $A$ and our goal is to find bases for both $\\text{Col}(A)$ and $\\text{Row}(A)$. Before doing any computation, notice that rows 1 and 2 look suspiciously related \u2014 row 2 is exactly twice row 1, which suggests there will be fewer independent directions than there are rows.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A \\xrightarrow{R_2 \\leftarrow R_2 - 2R_1} \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 0 & 0 \\\\ 1 & 0 & 1 \\end{pmatrix} \\xrightarrow{R_3 \\leftarrow R_3 - R_1} \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 0 & 0 \\\\ 0 & -2 & -2 \\end{pmatrix} \\xrightarrow{R_2 \\leftrightarrow R_3} \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & -2 & -2 \\\\ 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "We row-reduce $A$ to row echelon form (REF) using elementary row operations. We are doing this because the REF reveals which columns are pivot columns and gives us the nonzero rows we need for the row space basis \u2014 it doesn't change the row space, but it does compress it into its most readable form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Row}(A) = \\text{span}\\left\\{ \\begin{pmatrix} 1 \\\\ 2 \\\\ 3 \\end{pmatrix}, \\begin{pmatrix} 0 \\\\ -2 \\\\ -2 \\end{pmatrix} \\right\\}",
+      "description_latex": "A basis for $\\text{Row}(A)$ consists of the nonzero rows of the REF, read as vectors in $\\mathbb{R}^3$. These two vectors are linearly independent because neither is a scalar multiple of the other, so $\\dim(\\text{Row}(A)) = 2$, confirming that the rank of $A$ is $r = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{pivot columns of } A: \\text{ columns 1 and 2} \\implies \\text{Col}(A) = \\text{span}\\left\\{ \\begin{pmatrix} 1 \\\\ 2 \\\\ 1 \\end{pmatrix}, \\begin{pmatrix} 2 \\\\ 4 \\\\ 0 \\end{pmatrix} \\right\\}",
+      "description_latex": "The pivot positions in the REF are in columns 1 and 2, so we go back to the original matrix $A$ and take columns 1 and 2 as our basis vectors for $\\text{Col}(A)$. It is critical to use the original columns of $A$, not the columns of the row-reduced matrix, because row operations change the column space but preserve which columns are linearly independent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\dim(\\text{Row}(A)) = \\dim(\\text{Col}(A)) = 2 = \\text{rank}(A)",
+      "description_latex": "We verify the Rank Theorem: the row space and column space always have the same dimension, which equals the rank $r$ of $A$. This is a powerful consistency check \u2014 if you ever get different dimensions for the row and column space of the same matrix, you have made an error somewhere in your row reduction or basis identification.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 1 & 3 & 1 \\\\ 2 & 6 & 4 \\\\ 1 & 3 & 2 \\end{pmatrix}",
+      "description_latex": "We want to find bases for $\\text{Col}(B)$ and $\\text{Row}(B)$. Your first step is always to row-reduce $B$ to row echelon form so you can identify pivots and nonzero rows. Notice that column 2 looks like 3 times column 1 in the top two rows \u2014 a hint that column 2 may not be a pivot column.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B \\sim \\begin{pmatrix} 1 & 3 & 1 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 1 \\end{pmatrix} \\sim \\begin{pmatrix} 1 & 3 & 1 \\\\ 0 & 0 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "Here is the completed row echelon form of $B$. The pivots appear in columns 1 and 3, not column 2 \u2014 column 2 is a free column. Using this REF, identify the basis for $\\text{Row}(B)$ by reading off the nonzero rows as vectors.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Col}(B) = \\text{span}\\left\\{ \\mathbf{b}_1, \\mathbf{b}_3 \\right\\} = \\text{span}\\left\\{ \\begin{pmatrix} 1 \\\\ 2 \\\\ 1 \\end{pmatrix}, \\begin{pmatrix} 1 \\\\ 4 \\\\ 2 \\end{pmatrix} \\right\\}",
+      "description_latex": "Since the pivot columns are columns 1 and 3, we take the first and third columns of the original matrix $B$ to form a basis for $\\text{Col}(B)$. Now state the rank of $B$ and verify that $\\dim(\\text{Row}(B))$ matches the answer you found in the previous step.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 2 & 4 \\\\ 1 & 2 \\end{pmatrix}$. Find a basis for $\\text{Col}(A)$ and state $\\dim(\\text{Col}(A))$.",
+      "answer_latex": "\\text{Col}(A) = \\text{span}\\left\\{\\begin{pmatrix}2\\\\1\\end{pmatrix}\\right\\},\\ \\dim(\\text{Col}(A)) = 1"
+    },
+    {
+      "prompt_latex": "Find a basis for $\\text{Row}(A)$ and $\\text{Col}(A)$ where $A = \\begin{pmatrix} 1 & 0 & 2 \\\\ 0 & 1 & -1 \\\\ 2 & 1 & 3 \\end{pmatrix}$.",
+      "answer_latex": "\\text{Row}(A): \\left\\{(1,0,2),\\ (0,1,-1)\\right\\};\\ \\text{Col}(A): \\left\\{\\begin{pmatrix}1\\\\0\\\\2\\end{pmatrix},\\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix}\\right\\},\\ \\text{rank}=2"
+    },
+    {
+      "prompt_latex": "Determine whether $\\mathbf{b} = \\begin{pmatrix} 1 \\\\ 3 \\\\ 5 \\end{pmatrix}$ is in $\\text{Col}(A)$ where $A = \\begin{pmatrix} 1 & 2 \\\\ 1 & 2 \\\\ 1 & 2 \\end{pmatrix}$.",
+      "answer_latex": "\\text{Col}(A) = \\text{span}\\left\\{\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}\\right\\}.\\ \\mathbf{b} = \\begin{pmatrix}1\\\\3\\\\5\\end{pmatrix}\\notin\\text{Col}(A)\\text{ since }\\mathbf{b}\\text{ is not a scalar multiple of }\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}."
+    },
+    {
+      "prompt_latex": "For $A = \\begin{pmatrix} 1 & 2 & 0 & 1 \\\\ 0 & 0 & 1 & 3 \\\\ 1 & 2 & 1 & 4 \\end{pmatrix}$, find bases for $\\text{Row}(A)$ and $\\text{Col}(A)$, and use the Rank-Nullity Theorem to determine $\\dim(\\text{Null}(A))$.",
+      "answer_latex": "\\text{rank}(A)=2;\\ \\text{Row basis: }\\{(1,2,0,1),(0,0,1,3)\\};\\ \\text{Col basis: }\\left\\{\\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix},\\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix}\\right\\};\\ \\dim(\\text{Null}(A))=4-2=2"
+    },
+    {
+      "prompt_latex": "A data scientist represents a dataset as a $5 \\times 4$ matrix $A$ where each column is a feature and each row is an observation. After row reduction, only 2 pivot columns emerge. Interpret $\\text{Col}(A)$ and $\\text{Row}(A)$ in context: what do their dimensions tell the scientist about the dataset?",
+      "answer_latex": "\\dim(\\text{Col}(A))=2:\\text{ the dataset's output (observation) space has only 2 independent directions, so the 5 observations lie in a 2D subspace of }\\mathbb{R}^5.\\ \\dim(\\text{Row}(A))=2:\\text{ only 2 of the 4 features are truly independent; the other 2 are redundant linear combinations.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often read the basis for $\\text{Col}(A)$ from the pivot columns of the row-reduced matrix rather than the original matrix $A$. Row operations change the column vectors, so you must always return to $A$ to extract the actual pivot column vectors \u2014 the REF only tells you which column numbers are pivots.",
+    "Students sometimes confuse the dimension of $\\text{Col}(A)$ (which is the rank $r$, a number between 0 and $\\min(m,n)$) with the number of columns $n$ of $A$. The column space is spanned by $n$ columns, but its dimension can be much smaller if those columns are linearly dependent \u2014 always row-reduce to count pivots rather than counting columns.",
+    "When asked for a basis for $\\text{Row}(A)$, students sometimes list the nonzero rows of the original matrix instead of the row echelon form. The original rows may be linearly dependent; it is the nonzero rows of the REF that are guaranteed to be linearly independent and thus form a valid basis."
+  ],
+  "untested_variants": [
+    "Finding a basis for the row space or column space of a matrix with complex or fractional entries, where row reduction requires careful arithmetic with fractions.",
+    "Proving that $\\text{Row}(A) = \\text{Row}(\\tilde{A})$ (the row space is preserved under row operations) as a theoretical proof-based question rather than a computational one.",
+    "Finding the column space of a non-square matrix $A$ and then determining whether the system $A\\mathbf{x} = \\mathbf{b}$ is consistent for a given $\\mathbf{b}$ by checking membership in $\\text{Col}(A)$ via augmented-matrix methods.",
+    "Using the relationship between the column space of $A$ and the left null space of $A$ (i.e., $\\text{Col}(A)^\\perp = \\text{Null}(A^T)$) to find the orthogonal complement of $\\text{Col}(A)$."
+  ]
+}

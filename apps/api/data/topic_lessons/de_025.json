@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_025",
+  "topic_name": "Limit Cycles and the Poincar\u00e9-Bendixson Theorem (H)",
+  "generated_at": "2026-05-13T20:02:07.642877+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You know how to find equilibrium points of a system like $\\dot{x} = f(x,y)$, $\\dot{y} = g(x,y)$, and you can classify them as stable spirals, saddles, or centers using linearization. But what happens to a trajectory that doesn't head toward an equilibrium and doesn't escape to infinity \u2014 where does it go? It turns out some systems have closed, isolated orbits called limit cycles that trap nearby trajectories forever, and the Poincar\u00e9\u2013Bendixson theorem gives you a powerful way to prove they exist. How can we rigorously guarantee a closed orbit exists without ever finding it explicitly?",
+  "concept": "A limit cycle is an isolated closed orbit in the phase plane: nearby trajectories spiral toward it (stable limit cycle) or away from it (unstable limit cycle), distinguishing it from the non-isolated closed orbits around a center. The Poincar\u00e9\u2013Bendixson theorem states: if a trajectory of a planar autonomous system remains in a closed, bounded region $D$ that contains no equilibrium points, then that trajectory must either be a closed orbit itself or spiral toward one \u2014 guaranteeing a periodic orbit exists in $D$.",
+  "anatomy": "The theorem has four structural ingredients you must identify in any application. First, the trapping region $D$: a closed, bounded subset of the plane (often an annular region) that you construct explicitly. Second, the flow-inward condition: you verify that on every part of the boundary $\\partial D$, the vector field $(f, g)$ points strictly into $D$, so no trajectory can escape. Third, the no-equilibrium condition: you confirm that $f(x,y)$ and $g(x,y)$ have no simultaneous zeros inside $D$, because an equilibrium inside $D$ would allow trajectories to converge to a fixed point rather than a cycle. Fourth, the guaranteed periodic orbit: the conclusion that at least one limit cycle lives inside $D$, though the theorem does not tell you how many or exactly where.",
+  "worked_example": [
+    {
+      "expression_latex": "\\dot{x} = x - y - x(x^2+y^2), \\quad \\dot{y} = x + y - y(x^2+y^2)",
+      "description_latex": "We begin by writing the system and switching to polar coordinates using $r^2 = x^2 + y^2$. This is the first strategic move: polar form will expose the radial dynamics cleanly, letting us read off how $r$ grows or shrinks without having to reason about the full two-dimensional flow directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\dot{r} = r - r^3 = r(1 - r^2), \\quad \\dot{\\theta} = 1",
+      "description_latex": "Computing $r\\dot{r} = x\\dot{x} + y\\dot{y}$ and substituting, we get $r\\dot{r} = r^2 - r^4$, so $\\dot{r} = r(1-r^2)$. The angular equation $\\dot{\\theta} = 1$ tells us trajectories always rotate counterclockwise, which rules out equilibria away from the origin and confirms the motion is genuinely rotational.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D = \\{(x,y) : r_1^2 \\le x^2+y^2 \\le r_2^2\\}, \\quad r_1 = \\tfrac{1}{2},\\; r_2 = 2",
+      "description_latex": "We construct the trapping annulus $D$ by choosing inner radius $r_1 < 1$ and outer radius $r_2 > 1$. The unit circle $r=1$ is our candidate limit cycle, so we want $D$ to surround it without containing any equilibrium \u2014 the origin is excluded because the inner circle has $r_1 = 1/2 > 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{On } r = \\tfrac{1}{2}: \\; \\dot{r} = \\tfrac{1}{2}\\!\\left(1 - \\tfrac{1}{4}\\right) = \\tfrac{3}{8} > 0; \\quad \\text{On } r = 2: \\; \\dot{r} = 2(1-4) = -6 < 0",
+      "description_latex": "We verify the flow-inward condition on both boundary circles. On the inner circle $r = 1/2$, the radius is increasing ($\\dot{r} > 0$), so trajectories move outward \u2014 into $D$. On the outer circle $r = 2$, the radius is decreasing ($\\dot{r} < 0$), so trajectories move inward \u2014 also into $D$. This confirms no trajectory can escape the annulus.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = 1 \\text{ is a stable limit cycle in } D",
+      "description_latex": "Since $D$ is closed and bounded, contains no equilibria (the only equilibrium is the origin at $r=0$, which lies outside $D$), and the vector field points inward on $\\partial D$, the Poincar\u00e9\u2013Bendixson theorem guarantees a periodic orbit in $D$. We can verify directly that $r=1$ is exactly that orbit, and because $\\dot{r} > 0$ for $r < 1$ and $\\dot{r} < 0$ for $r > 1$, it is a stable limit cycle.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\dot{x} = -y + x(1 - x^2 - y^2), \\quad \\dot{y} = x + y(1 - x^2 - y^2)",
+      "description_latex": "We want to apply Poincar\u00e9\u2013Bendixson to show this system has a limit cycle. Start by converting to polar coordinates. Compute $r\\dot{r} = x\\dot{x} + y\\dot{y}$ and simplify \u2014 you should find an expression involving only $r$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\dot{r} = r(1 - r^2)",
+      "description_latex": "After substitution, we obtain $\\dot{r} = r(1 - r^2)$ and $\\dot{\\theta} = 1$. Now construct an annular trapping region $D = \\{r_1 \\le r \\le r_2\\}$ with $r_1 < 1 < r_2$, and verify the flow-inward condition by evaluating the sign of $\\dot{r}$ on each boundary circle. What signs do you get on $r = r_1$ and $r = r_2$, and why do they confirm trapping?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{No equilibria in } D \\text{ since origin is at } r=0 \\notin D; \\text{ hence a limit cycle exists in } D",
+      "description_latex": "Because all three hypotheses of Poincar\u00e9\u2013Bendixson are satisfied \u2014 bounded trapping region, flow pointing inward on the boundary, and no equilibria inside \u2014 we conclude a closed orbit must exist in $D$. State which specific orbit it is and classify its stability using the sign of $\\dot{r}$ on either side.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For the system $\\dot{r} = r(4 - r^2)$, $\\dot{\\theta} = 1$ in polar form, identify the limit cycle and classify it as stable or unstable.",
+      "answer_latex": "r = 2 \\text{ is a stable limit cycle (}\\dot{r}>0 \\text{ for } r<2,\\; \\dot{r}<0 \\text{ for } r>2\\text{)}"
+    },
+    {
+      "prompt_latex": "Verify that the annulus $D = \\{1 \\le r \\le 3\\}$ is a trapping region for the system $\\dot{r} = r(2-r)(r-1) - r\\sin^2\\theta$... \\textit{Simplified version:} for $\\dot{r} = (2-r)(r-1)$, $\\dot{\\theta}=1$, show that $D = \\{\\tfrac{1}{2} \\le r \\le 3\\}$ is a trapping region and conclude a limit cycle exists.",
+      "answer_latex": "\\dot{r}|_{r=1/2} = (2-\\tfrac{1}{2})(\\tfrac{1}{2}-1) = -\\tfrac{3}{4}<0 \\;(\\text{inward}); \\; \\dot{r}|_{r=3}=(2-3)(3-1)=-2<0\\;(\\text{inward}); \\text{ no equilibria in } D \\Rightarrow \\text{limit cycle exists}"
+    },
+    {
+      "prompt_latex": "Consider $\\dot{x} = y$, $\\dot{y} = -x + y(1-3x^2-2y^2)$. Show that the annular region $D = \\{\\tfrac{1}{4} \\le x^2+y^2 \\le 4\\}$ is positively invariant by computing $\\frac{d}{dt}(x^2+y^2)$ on the boundary circles, and state what the Poincar\u00e9\u2013Bendixson theorem then guarantees.",
+      "answer_latex": "\\frac{d}{dt}r^2 = 2y^2(1-3x^2-2y^2);\\text{ on }r=\\tfrac{1}{2}: \\text{boundary analysis shows entry into }D;\\text{ on }r=2: \\text{same; no equilibria in }D\\Rightarrow\\text{ at least one closed orbit in }D"
+    },
+    {
+      "prompt_latex": "The van der Pol equation $\\ddot{x} - \\mu(1-x^2)\\dot{x} + x = 0$ with $\\mu > 0$ can be written as a system $\\dot{x} = y$, $\\dot{y} = -x + \\mu(1-x^2)y$. Using Bendixson's negative criterion (divergence test), show there is no closed orbit entirely contained in the region $|x| < 1$, $y \\in \\mathbb{R}$.",
+      "answer_latex": "\\nabla\\cdot F = \\frac{\\partial}{\\partial x}(y)+\\frac{\\partial}{\\partial y}(\\mu(1-x^2)y) = \\mu(1-x^2) > 0 \\text{ for } |x|<1, \\text{ so Bendixson's criterion rules out closed orbits in that strip}"
+    },
+    {
+      "prompt_latex": "A predator-prey model (modified Lotka\u2013Volterra) satisfies $\\dot{r} = r(r^2-1)(4-r^2)$ in polar form with $\\dot{\\theta}=1$. Find all limit cycles, classify each as stable or unstable, and describe the long-term behavior of trajectories starting at $r=0.5$, $r=1.5$, $r=3$, and $r=5$.",
+      "answer_latex": "r=1\\text{ unstable limit cycle},\\; r=2\\text{ stable limit cycle};\\; r=0.5\\to 0,\\; r=1.5\\to 2,\\; r=3\\to 2,\\; r=5\\to\\infty"
+    }
+  ],
+  "common_mistakes": [
+    "Students often choose a trapping region that contains the origin (an equilibrium), then incorrectly invoke Poincar\u00e9\u2013Bendixson \u2014 the theorem requires NO equilibria inside $D$, so you must always use an annulus or verify the equilibrium count; a disk centered at the origin typically fails this check.",
+    "When verifying flow-inward on the boundary, students check only one boundary circle and forget the other, or check $\\dot{r}$ has the right sign but interpret it backwards: $\\dot{r} < 0$ on the outer boundary means the radius decreases (inward, correct), while $\\dot{r} > 0$ on the inner boundary means the radius increases (also inward into the annulus) \u2014 mix these signs up and the trapping argument collapses.",
+    "Students confuse a limit cycle with a center: a center has a whole family of closed orbits filling a neighborhood, none of which are isolated, whereas a limit cycle is isolated and nearby non-closed trajectories spiral toward or away from it; linearization showing purely imaginary eigenvalues indicates a possible center but cannot confirm or deny a limit cycle \u2014 this requires a global argument like Poincar\u00e9\u2013Bendixson."
+  ],
+  "untested_variants": [
+    "Applying the Dulac criterion (finding a function $h(x,y)$ so that $\\nabla \\cdot (hF)$ has one sign) to rule out limit cycles in a given region \u2014 the practice problems only use Bendixson's special case $h=1$.",
+    "Systems with multiple limit cycles coexisting (e.g., two concentric stable limit cycles with an unstable one between them), requiring construction of nested annular trapping regions and analysis of each boundary.",
+    "Using index theory (Poincar\u00e9 index of equilibria) to constrain whether a limit cycle can exist, for example proving a limit cycle must encircle equilibria whose indices sum to $+1$.",
+    "Applying Poincar\u00e9\u2013Bendixson in the context of a specific biological or chemical model (e.g., Brusselator or glycolysis oscillator) where the trapping region must be constructed from conservation-law-type estimates rather than from polar coordinates."
+  ]
+}

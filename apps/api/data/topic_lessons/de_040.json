@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_040",
+  "topic_name": "Bessel's Equation and Bessel Functions (H)",
+  "generated_at": "2026-05-13T20:03:21.083037+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve differential equations using power series around ordinary points, finding recurrence relations and building solutions term by term. But what happens when the equation has a singular point right at the origin \u2014 the very place you want to expand around? Bessel's equation, which appears in heat flow in cylinders, vibrating drumheads, and electromagnetic waveguides, does exactly this: it has a regular singular point at $x = 0$, so ordinary power series fail. Can you still find a series solution, and what do those solutions actually look like?",
+  "concept": "Bessel's equation is a second-order linear ODE with a regular singular point at the origin. The standard form is $x^2 y'' + x y' + (x^2 - \\nu^2) y = 0$, where $\\nu \\geq 0$ is a parameter called the order. The solutions, called Bessel functions of the first kind $J_\\nu(x)$ and of the second kind $Y_\\nu(x)$, are found via the Frobenius method and form a fundamental set on $(0, \\infty)$.",
+  "anatomy": "Bessel's equation $x^2 y'' + x y' + (x^2 - \\nu^2) y = 0$ has four distinct structural pieces. The parameter $\\nu$ (the order) controls the shape of the solution and appears squared as $\\nu^2$; when $\\nu$ is a non-negative integer $n$, we call these integer-order Bessel functions. The term $x^2 y''$ and $xy'$ together form the Euler-type part that creates the regular singular point at $x = 0$. The term $x^2 y$ is the perturbation away from a pure Euler equation that mixes in oscillatory behavior. The Bessel function of the first kind of order $\\nu$ is $J_\\nu(x) = \\sum_{m=0}^{\\infty} \\frac{(-1)^m}{m!\\,\\Gamma(m+\\nu+1)} \\left(\\frac{x}{2}\\right)^{2m+\\nu}$, where the Gamma function $\\Gamma$ generalizes the factorial to non-integer orders.",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 y'' + x y' + (x^2 - n^2) y = 0, \\quad n = 0",
+      "description_latex": "We begin with the integer-order case $n = 0$, so the equation becomes $x^2 y'' + x y' + x^2 y = 0$. Because $x = 0$ is a regular singular point, we use the Frobenius method and assume a solution of the form $y = \\sum_{m=0}^{\\infty} a_m x^{m+r}$, where $r$ is the indicial exponent we must determine.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r(r-1) + r - n^2 = 0 \\implies r^2 - n^2 = 0 \\implies r = \\pm n",
+      "description_latex": "Substituting the Frobenius series into the ODE and collecting the lowest-power term gives the indicial equation $r^2 - n^2 = 0$. For $n = 0$ this yields $r = 0$ (a repeated root), which tells us our first solution will be a standard power series $y = \\sum a_m x^m$ and that the second solution will involve a logarithm \u2014 but we focus on $J_0$ first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_m = \\frac{-a_{m-2}}{m^2}, \\quad m \\geq 2, \\quad a_1 = 0",
+      "description_latex": "Substituting $y = \\sum_{m=0}^\\infty a_m x^m$ into $x^2 y'' + xy' + x^2 y = 0$ and matching powers of $x$, the odd-indexed coefficients all vanish ($a_1 = 0$ forces $a_{2k+1} = 0$ for all $k$), and for even indices the recurrence relation is $a_m = -a_{m-2}/m^2$. This tells us each term is determined by the term two steps back, driving the alternating signs that give Bessel functions their oscillatory character.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_{2m} = \\frac{(-1)^m}{2^{2m}(m!)^2} a_0",
+      "description_latex": "Iterating the recurrence $a_{2m} = -a_{2m-2}/(2m)^2$ starting from $a_0$, we get $a_2 = -a_0/4$, $a_4 = a_0/64$, and in general $a_{2m} = (-1)^m a_0 / [2^{2m}(m!)^2]$. Setting $a_0 = 1$ gives the standard normalization for $J_0(x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "J_0(x) = \\sum_{m=0}^{\\infty} \\frac{(-1)^m}{(m!)^2} \\left(\\frac{x}{2}\\right)^{2m} = 1 - \\frac{x^2}{4} + \\frac{x^4}{64} - \\cdots",
+      "description_latex": "Writing $a_{2m} = (-1)^m / [2^{2m}(m!)^2]$ in the form $(x/2)^{2m}/(m!)^2$ gives us the Bessel function of the first kind of order zero $J_0(x)$. This series converges for all $x$, and $J_0(0) = 1$, confirming our normalization choice and showing that $J_0$ behaves like a damped cosine wave for large $x$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^2 y'' + x y' + (x^2 - 1) y = 0",
+      "description_latex": "We now derive $J_1(x)$, the Bessel function of order $n = 1$. The indicial equation gives $r = \\pm 1$; we take the larger root $r = 1$ and assume $y = \\sum_{m=0}^\\infty a_m x^{m+1}$. Substituting into the ODE and collecting terms, we find that $a_1 = 0$ and even-indexed coefficients also vanish, leaving only the odd powers in the series.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_m = \\frac{-a_{m-2}}{m(m+2)}, \\quad m \\geq 2",
+      "description_latex": "After substituting the Frobenius series with $r = 1$ and matching powers, the recurrence relation turns out to be $a_m = -a_{m-2}/[m(m+2)]$. Use this recurrence starting from $a_0 = 1/2$ (the standard normalization for $J_1$) to write out the first three nonzero coefficients $a_0, a_2, a_4$ explicitly.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "J_1(x) = \\sum_{m=0}^{\\infty} \\frac{(-1)^m}{m!\\,(m+1)!} \\left(\\frac{x}{2}\\right)^{2m+1}",
+      "description_latex": "Assembling the pattern from your coefficients, you should recognize that $a_{2m} = (-1)^m / [2^{2m+1} m! (m+1)!]$, which yields the closed-form series for $J_1(x)$ shown here. Notice that $J_1(0) = 0$ and the leading term is $x/2$, consistent with the Frobenius solution having $r = 1$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write down the first three nonzero terms of $J_0(x)$ from its series definition.",
+      "answer_latex": "J_0(x) = 1 - \\dfrac{x^2}{4} + \\dfrac{x^4}{64} - \\cdots"
+    },
+    {
+      "prompt_latex": "Verify that $y = J_0(x)$ satisfies $x^2 y'' + x y' + x^2 y = 0$ by substituting the first two nonzero terms of the series.",
+      "answer_latex": "\\text{Substituting } y \\approx 1 - x^2/4 \\text{ gives residual } O(x^4), \\text{ confirming the equation is satisfied to that order.}"
+    },
+    {
+      "prompt_latex": "Find the indicial equation and its roots for the ODE $x^2 y'' + x y' + (x^2 - 4) y = 0$.",
+      "answer_latex": "r^2 - 4 = 0, \\text{ so } r = \\pm 2"
+    },
+    {
+      "prompt_latex": "Using the general Bessel function series $J_\\nu(x) = \\sum_{m=0}^{\\infty} \\frac{(-1)^m}{m!\\,\\Gamma(m+\\nu+1)}\\left(\\frac{x}{2}\\right)^{2m+\\nu}$, write the first two nonzero terms of $J_2(x)$.",
+      "answer_latex": "J_2(x) = \\dfrac{x^2}{8} - \\dfrac{x^4}{96} + \\cdots"
+    },
+    {
+      "prompt_latex": "Use the recurrence relation $J_{\\nu-1}(x) + J_{\\nu+1}(x) = \\dfrac{2\\nu}{x} J_\\nu(x)$ to express $J_2(x)$ in terms of $J_0(x)$ and $J_1(x)$.",
+      "answer_latex": "J_2(x) = \\dfrac{2}{x} J_1(x) - J_0(x)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that the indicial equation for Bessel's equation of order $\\nu$ is $r^2 - \\nu^2 = 0$, not $r^2 + \\nu^2 = 0$; the sign error comes from confusing $-\\nu^2$ in the ODE with the sign in the recurrence. Always expand $x^2 y''$ and $xy'$ carefully before reading off the indicial equation.",
+    "When the two indicial roots $r = n$ and $r = -n$ differ by an integer (i.e., $\\nu = n$ is a positive integer), students assume both roots give independent Frobenius series solutions. In fact, the root $r = -n$ leads to a series that either breaks down or reproduces $J_n$, and the true second solution $Y_n(x)$ involves a logarithmic term; failing to account for this gives an incomplete general solution.",
+    "Students misplace the factorial in the coefficient formula, writing $(2m)!$ instead of $2^{2m}(m!)^2$ (or equivalently $m!\\,\\Gamma(m+\\nu+1)$). These are equal only for $\\nu = 0$ and even then with a factor of 2; always derive the coefficient from the recurrence rather than guessing a factorial pattern."
+  ],
+  "untested_variants": [
+    "Deriving the second solution $Y_n(x)$ (Bessel function of the second kind) for integer order $n$, including the logarithmic term and its normalization.",
+    "Applying the Frobenius method to the modified Bessel equation $x^2 y'' + x y' - (x^2 + \\nu^2)y = 0$, whose solutions $I_\\nu(x)$ and $K_\\nu(x)$ are real-valued and non-oscillatory.",
+    "Using the orthogonality relation $\\int_0^1 x J_\\nu(\\alpha_{\\nu,m} x) J_\\nu(\\alpha_{\\nu,k} x)\\,dx = 0$ for $m \\neq k$ (where $\\alpha_{\\nu,m}$ are zeros of $J_\\nu$) to expand a function in a Bessel series.",
+    "Reducing a general equation such as $y'' + \\frac{1-2a}{x} y' + \\left(b^2 c^2 x^{2c-2} + \\frac{a^2 - \\nu^2 c^2}{x^2}\\right)y = 0$ to Bessel's equation via a substitution, a technique needed for many applied problems."
+  ]
+}

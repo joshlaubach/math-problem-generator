@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_011",
+  "topic_name": "Deductive Reasoning",
+  "generated_at": "2026-05-12T22:56:01.766505+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that if two lines are parallel, then alternate interior angles are equal \u2014 that's a fact you've memorized. But imagine a detective who doesn't just memorize facts; they chain them together: 'The suspect was in Paris, Paris is in France, therefore the suspect was in France.' In geometry, we do the same thing \u2014 we chain accepted truths to reach brand-new conclusions. So here's the challenge: if you know $\\angle A \\cong \\angle B$ and $\\angle B \\cong \\angle C$, can you prove $\\angle A \\cong \\angle C$ without just saying 'it's obvious'?",
+  "concept": "Deductive reasoning is the process of drawing a conclusion that must be true by applying a general rule to a specific situation. In plain English, you start with things you already know are true (your givens and definitions) and follow the logical rules step-by-step until you reach a guaranteed conclusion. Formally, if we accept premises $p$ and the conditional $p \\Rightarrow q$, then we must accept $q$ \u2014 this pattern is called the Law of Detachment, and it is the engine of every geometric proof.",
+  "anatomy": "A deductive argument in geometry has four structural parts. The **premises** are the statements already known to be true \u2014 these include given information, definitions, postulates, and previously proved theorems. The **conditional** is an if-then statement of the form $p \\Rightarrow q$ that connects one truth to another. The **conclusion** is the new statement $q$ that follows necessarily from applying the conditional to the premise. Finally, the **justification** is the explicit reason \u2014 a theorem name, postulate, or definition \u2014 that licenses each step, making the argument verifiable rather than just persuasive.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Given: } m\\angle 1 + m\\angle 2 = 90^\\circ \\text{ and } m\\angle 2 = 35^\\circ",
+      "description_latex": "We start by writing down everything we are told is true \u2014 these are our premises, and in deductive reasoning we treat them as absolute starting points. Notice we have not done any work yet; we are simply identifying what facts we are allowed to use.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m\\angle 1 + 35^\\circ = 90^\\circ",
+      "description_latex": "We apply the Substitution Property of Equality: because we know $m\\angle 2 = 35^\\circ$, we are legally allowed to replace $m\\angle 2$ with $35^\\circ$ anywhere it appears. This is a deductive step \u2014 we used a general property (substitution) applied to our specific premise to get a new true statement.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m\\angle 1 = 90^\\circ - 35^\\circ = 55^\\circ",
+      "description_latex": "We apply the Subtraction Property of Equality, subtracting $35^\\circ$ from both sides. Every algebraic property you use in a proof is itself a deductive rule \u2014 you're not just solving an equation, you're citing a law that guarantees the new equation is true.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\angle 1 \\text{ and } \\angle 2 \\text{ are complementary angles}",
+      "description_latex": "Our conclusion follows from the definition of complementary angles: two angles are complementary if and only if their measures sum to $90^\\circ$. Because we deductively established $m\\angle 1 + m\\angle 2 = 90^\\circ$, this label is not a guess \u2014 it is a necessary consequence of our chain of reasoning.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Given: } \\angle A \\cong \\angle B \\text{ and } \\angle B \\cong \\angle C. \\text{ Prove: } \\angle A \\cong \\angle C",
+      "description_latex": "Read the given information carefully and identify which theorem or property might connect these two facts. We are told two separate congruence relationships both involving $\\angle B$, so think about what happens when the same angle appears in two different congruence statements.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\angle A \\cong \\angle B \\text{ and } \\angle B \\cong \\angle C \\Rightarrow \\angle A \\cong \\angle C",
+      "description_latex": "Write the complete deductive step and name the property that justifies it. What single property of congruence lets you 'chain' two congruence statements together like links in a logical chain?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Justification: Transitive Property of Congruence}",
+      "description_latex": "The Transitive Property states that if $a \\cong b$ and $b \\cong c$, then $a \\cong c$. Naming this property is not optional decoration \u2014 in a formal proof, the justification is what converts your claim from an opinion into a proven fact.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Given: If it is a square, then it has four right angles. Figure } ABCD \\text{ is a square. What can you conclude? Name the law used.}",
+      "answer_latex": "\\text{Figure } ABCD \\text{ has four right angles; Law of Detachment}"
+    },
+    {
+      "prompt_latex": "\\text{Given: } p \\Rightarrow q \\text{ and } q \\Rightarrow r. \\text{ What can you conclude about } p \\text{ and } r\\text{? Name the law.}",
+      "answer_latex": "p \\Rightarrow r; \\text{ Law of Syllogism}"
+    },
+    {
+      "prompt_latex": "\\text{Given: } m\\angle X = m\\angle Y \\text{ and } m\\angle Y = 47^\\circ. \\text{ Prove: } m\\angle X = 47^\\circ. \\text{ Name the property used.}",
+      "answer_latex": "m\\angle X = 47^\\circ; \\text{ Transitive Property of Equality}"
+    },
+    {
+      "prompt_latex": "\\text{Given: Lines } \\ell \\parallel m \\text{, and a transversal creates } \\angle 1 \\text{ and } \\angle 2 \\text{ as co-interior (same-side interior) angles. If } m\\angle 1 = 3x + 10 \\text{ and } m\\angle 2 = 5x - 2 \\text{, use deductive reasoning to find } x.",
+      "answer_latex": "(3x+10)+(5x-2)=180^\\circ \\Rightarrow 8x+8=180 \\Rightarrow x=21.5"
+    },
+    {
+      "prompt_latex": "\\text{A doctor reasons: 'All patients with condition } P \\text{ have symptom } S\\text{. Patient Maria has condition } P\\text{. Therefore, Maria has symptom } S\\text{.'} \\text{ Identify the premise, the conditional, and the conclusion in this deductive argument.}",
+      "answer_latex": "\\text{Premise: Maria has condition } P\\text{; Conditional: } P \\Rightarrow S\\text{; Conclusion: Maria has symptom } S"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse deductive reasoning with inductive reasoning, writing 'I noticed a pattern in several examples, so it must be true' \u2014 this is induction, not deduction. Fix: deductive reasoning requires a general rule (a definition, postulate, or theorem) applied to your specific case, not just examples.",
+    "Students write a correct conclusion but skip the justification, thinking the step is 'obvious.' In deductive reasoning every step must cite the exact property or theorem that makes it true, because the justification is what makes the argument logically airtight rather than just persuasive.",
+    "Students misapply the Law of Detachment by running it backwards: they see that the conclusion $q$ is true and assume the hypothesis $p$ must also be true. The conditional $p \\Rightarrow q$ only guarantees $q$ when you know $p$ \u2014 knowing $q$ tells you nothing about $p$ (this reversal is the fallacy of affirming the consequent)."
+  ],
+  "untested_variants": [
+    "Identifying whether a given argument is deductive or inductive when it is presented in paragraph form without explicit if-then structure.",
+    "Using the Law of Syllogism across three or more conditionals chained together (e.g., $p \\Rightarrow q$, $q \\Rightarrow r$, $r \\Rightarrow s$) to reach a conclusion that skips multiple steps.",
+    "Writing a two-column proof that requires deductive steps involving the Triangle Angle Sum Theorem or exterior angle relationships, combining deductive reasoning with earlier geometry content.",
+    "Identifying a logical fallacy (such as denying the hypothesis or affirming the consequent) within a flawed deductive argument and explaining specifically why the conclusion does not follow."
+  ]
+}
