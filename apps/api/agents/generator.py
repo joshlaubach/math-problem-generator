@@ -212,6 +212,43 @@ def _extract_json(raw: str) -> dict | None:
     return None
 
 
+_GEO_PROOF_KEYWORDS = frozenset({
+    "two-column", "two column", "paragraph proof", "flow proof",
+    "geometric proof", "geometry proof",
+})
+
+_GEO_PROOF_UNIT_KEYWORDS = frozenset({
+    "proof", "proofs", "proving triangles", "congruence proof",
+})
+
+_DM_PROOF_KEYWORDS = frozenset({
+    "direct proof", "proof by contradiction", "proof by contrapositive",
+    "mathematical induction", "proof by induction", "strong induction",
+    "intro to proof", "introduction to proof", "introduction to proofs",
+    "logic and proof", "proof techniques",
+})
+
+
+def _is_geo_proof_topic(inp: GeneratorInput) -> bool:
+    """True for geometry two-column / fill-in-blank proof topics."""
+    course_low = inp.course.lower()
+    unit_low = inp.unit.lower()
+    topic_low = inp.topic.lower()
+    if "geometry" not in course_low:
+        return False
+    combined = topic_low + " " + unit_low
+    return (
+        any(kw in combined for kw in _GEO_PROOF_KEYWORDS)
+        or any(kw in unit_low for kw in _GEO_PROOF_UNIT_KEYWORDS)
+    )
+
+
+def _is_dm_proof_topic(inp: GeneratorInput) -> bool:
+    """True for discrete-math / intro-to-proofs topics (direct proof, induction, etc.)."""
+    combined = (inp.topic + " " + inp.unit + " " + inp.course).lower()
+    return any(kw in combined for kw in _DM_PROOF_KEYWORDS)
+
+
 async def _generate_mode_b(inp: GeneratorInput) -> GeneratedProblem:
     """
     Mode B: full LLM answer-first generation with SymPy post-verification.
@@ -226,9 +263,20 @@ async def _generate_mode_b(inp: GeneratorInput) -> GeneratedProblem:
             "Set it in apps/api/.env."
         )
 
+    is_geo_proof = _is_geo_proof_topic(inp)
+    is_dm_proof = _is_dm_proof_topic(inp)
+    is_proof = is_geo_proof or is_dm_proof
+
+    if is_geo_proof:
+        prompt = _build_proof_prompt(inp)
+    elif is_dm_proof:
+        prompt = _build_dm_proof_prompt(inp)
+    else:
+        prompt = _build_mode_b_prompt(inp)
+
     for attempt in range(3):
         raw = await _call_with_backoff(
-            messages=[{"role": "user", "content": _build_mode_b_prompt(inp)}],
+            messages=[{"role": "user", "content": prompt}],
             system=_MODE_B_SYSTEM,
             max_tokens=2000,
         )
@@ -238,10 +286,15 @@ async def _generate_mode_b(inp: GeneratorInput) -> GeneratedProblem:
             continue
 
         statement = data.get("statement", "")
-        answer = data.get("answer", "")
+        answer = str(data.get("answer", "")).strip()
         if not statement or not answer:
             continue
+        # Strip \approx or ≈ prefix that LLMs sometimes add to decimal answers.
+        # The canonical answer must be a parseable value, not an approximation marker.
+        answer = re.sub(r"^\\?approx\s*|^≈\s*|^\$?\\?approx\s*\$?", "", answer).strip("$").strip()
 
+        default_answer_type = "text" if is_geo_proof else "expression"
+        answer_type = data.get("answer_type", default_answer_type)
         worked_steps = [
             WorkedStep(step=s["step"], explanation=s["explanation"])
             for s in data.get("worked_steps", [])
@@ -254,18 +307,44 @@ async def _generate_mode_b(inp: GeneratorInput) -> GeneratedProblem:
             if isinstance(d, dict) and "answer" in d and "mistake" in d
         ]
 
-        # Answer-first generation: Claude chose the answer before writing the problem,
-        # so the answer is correct by construction. No SymPy gate needed.
-        return GeneratedProblem(
-            statement=statement,
-            answer=answer,
-            worked_steps=worked_steps,
-            hint_ladder=(hint_ladder + ["", "", "", ""])[:4],
-            distractors=(distractors + [
+        # Proof rows — structured table, only for geometry two-column proofs.
+        proof_rows: list[dict] | None = None
+        if is_geo_proof:
+            raw_rows = data.get("proof_rows", [])
+            if raw_rows and isinstance(raw_rows, list):
+                proof_rows = [
+                    {"stmt": r.get("stmt", r.get("statement", "")),
+                     "reason": r.get("reason", "")}
+                    for r in raw_rows if isinstance(r, dict)
+                ]
+
+        if is_geo_proof:
+            default_distractors = [
+                Distractor(answer="Reflexive Property", mistake="confused with self-reference"),
+                Distractor(answer="Substitution Property", mistake="confused substitution with equality operation"),
+                Distractor(answer="Transitive Property", mistake="confused with chained equality"),
+            ]
+        elif is_dm_proof:
+            default_distractors = [
+                Distractor(answer="0", mistake="attempted numerical answer for a proof step"),
+                Distractor(answer="Not enough information", mistake="gave up instead of identifying the step"),
+                Distractor(answer="QED", mistake="named the proof conclusion rather than a specific step"),
+            ]
+        else:
+            default_distractors = [
                 Distractor(answer="0", mistake="Arithmetic error"),
                 Distractor(answer="1", mistake="Conceptual error"),
                 Distractor(answer="-1", mistake="Sign error"),
-            ])[:3],
+            ]
+
+        return GeneratedProblem(
+            statement=statement,
+            answer=answer,
+            answer_type=answer_type,
+            proof_rows=proof_rows,
+            worked_steps=worked_steps,
+            hint_ladder=(hint_ladder + ["", "", "", ""])[:4],
+            distractors=(distractors + default_distractors)[:3],
         )
 
     raise RuntimeError(
@@ -281,6 +360,116 @@ _MODE_B_SYSTEM = (
 )
 
 
+def _build_proof_prompt(inp: GeneratorInput) -> str:
+    return f"""Generate a geometry two-column proof fill-in-the-blank problem at difficulty {inp.conceptual_diff}/5.
+Topic: {inp.topic} ({inp.unit}, {inp.course})
+
+Step 1 — Choose the MISSING REASON first. It must be a named geometric property or theorem (e.g. "Subtraction Property of Equality", "Vertical Angles Theorem", "Definition of Midpoint"). This becomes the "answer".
+
+Step 2 — Invent a geometric scenario that naturally requires that property at one step of the proof.
+
+Step 3 — Write 4–7 proof steps. Exactly ONE step must have "___" as its reason. All other steps must have real reasons. All statements must be complete (never put "?" in a statement).
+
+Step 4 — Write the setup text (given info + what to prove) as the "statement" field.
+
+Step 5 — Write the closing question as: "Which property or theorem justifies the step where [paraphrase the blank row's statement]?"
+
+LaTeX: ALL math must be inside $...$. No bare math symbols outside dollar signs.
+
+Return this exact JSON — proof_rows is the structured table data:
+
+{{
+  "statement": "Given [SETUP TEXT]. [CLOSING QUESTION]",
+  "proof_rows": [
+    {{"stmt": "$\\\\angle 1 \\\\cong \\\\angle 2$", "reason": "Given"}},
+    {{"stmt": "$m\\\\angle 1 = m\\\\angle 2$", "reason": "Definition of Congruent Angles"}},
+    {{"stmt": "$m\\\\angle 1 + m\\\\angle 3 = 180°$", "reason": "Linear Pair Postulate"}},
+    {{"stmt": "$m\\\\angle 2 + m\\\\angle 3 = 180°$", "reason": "___"}},
+    {{"stmt": "$\\\\angle 2$ and $\\\\angle 3$ are supplementary", "reason": "Definition of Supplementary Angles"}}
+  ],
+  "answer": "Substitution Property of Equality",
+  "answer_type": "text",
+  "worked_steps": [{{"step": "substitution", "explanation": "Since $m\\\\angle 1 = m\\\\angle 2$, replace $m\\\\angle 1$ with $m\\\\angle 2$ in the linear pair equation."}}],
+  "hint_ladder": ["Think about what justifies replacing one equal expression with another.", "We know $m\\\\angle 1 = m\\\\angle 2$ from step 2.", "We are putting $m\\\\angle 2$ in place of $m\\\\angle 1$.", "The property name involves 'substitution'..."],
+  "distractors": [
+    {{"answer": "Transitive Property of Equality", "mistake": "confused substitution with transitivity"}},
+    {{"answer": "Reflexive Property of Equality", "mistake": "reflexive involves self-equality, not replacement"}},
+    {{"answer": "Addition Property of Equality", "mistake": "no addition operation occurs in this step"}}
+  ]
+}}
+
+Now generate a completely different proof — different geometric scenario, different missing reason. Do NOT copy the example above."""
+
+
+def _build_dm_proof_prompt(inp: GeneratorInput) -> str:
+    return f"""Generate a discrete mathematics proof sub-question at difficulty {inp.conceptual_diff}/5.
+Topic: {inp.topic} ({inp.unit}, {inp.course})
+
+Your job: ask ONE specific, checkable question about a KEY STEP in a proof. The question must have a DEFINITE answer — not "write a full proof."
+
+Choose the proof technique based on the topic:
+  - Direct Proof: assume hypothesis, derive conclusion algebraically
+  - Proof by Contrapositive: prove ¬Q → ¬P instead of P → Q
+  - Proof by Contradiction: assume ¬(conclusion), derive a contradiction
+  - Mathematical Induction: base case + inductive step
+
+ANSWER TYPES — pick the one that fits:
+  A) "expression" — algebraic step (e.g., "expand $n^2$ given $n = 2k+1$"). Answer is a LaTeX expression checkable by SymPy.
+  B) "text" — name/describe a logical step (e.g., "what assumption begins the proof?" or "state the inductive hypothesis"). Answer is a short English phrase.
+
+LaTeX: ALL math in $...$. No bare symbols outside dollar signs.
+
+Example A — Direct Proof, answer_type "expression":
+{{
+  "statement": "To prove that if $n$ is odd then $n^2$ is odd, write $n = 2k+1$ and expand $n^2$. What is $n^2$ in terms of $k$?",
+  "answer": "$4k^2 + 4k + 1$",
+  "answer_type": "expression",
+  "worked_steps": [
+    {{"step": "$n = 2k+1$", "explanation": "Definition of odd integer"}},
+    {{"step": "$n^2 = (2k+1)^2$", "explanation": "Square both sides"}},
+    {{"step": "$n^2 = 4k^2 + 4k + 1$", "explanation": "Expand using FOIL"}}
+  ],
+  "hint_ladder": [
+    "Substitute the definition of an odd number for $n$.",
+    "Write $n = 2k+1$ for some integer $k$, then compute $n^2$.",
+    "Use $(a+b)^2 = a^2 + 2ab + b^2$.",
+    "$(2k+1)^2 = 4k^2 + 4k + 1$"
+  ],
+  "distractors": [
+    {{"answer": "$4k^2 + 1$", "mistake": "forgot the middle term $4k$ when expanding"}},
+    {{"answer": "$2k^2 + 2k + 1$", "mistake": "did not square the 2 in $2k$"}},
+    {{"answer": "$4k^2 + 2k + 1$", "mistake": "used $2k$ instead of $4k$ for the cross term"}}
+  ]
+}}
+
+Example B — Proof by Contradiction, answer_type "text":
+{{
+  "statement": "You want to prove that $\\\\sqrt{{2}}$ is irrational by contradiction. What assumption do you make at the very start of the proof?",
+  "answer": "Assume $\\\\sqrt{{2}}$ is rational",
+  "answer_type": "text",
+  "worked_steps": [
+    {{"step": "Assume $\\\\sqrt{{2}} = \\\\frac{{p}}{{q}}$ in lowest terms", "explanation": "The contradicting assumption — rational means expressible as a fraction"}},
+    {{"step": "$2 = \\\\frac{{p^2}}{{q^2}}$, so $p^2 = 2q^2$", "explanation": "Squaring both sides"}},
+    {{"step": "$p$ is even → $q$ is even — contradicts lowest-terms", "explanation": "Both numerator and denominator share factor 2"}}
+  ],
+  "hint_ladder": [
+    "Proof by contradiction starts by assuming the OPPOSITE of what you want to prove.",
+    "You want to prove $\\\\sqrt{{2}}$ is irrational, so assume it is...",
+    "Assume $\\\\sqrt{{2}}$ is rational — it can be written as a fraction $p/q$.",
+    "Assume $\\\\sqrt{{2}} = \\\\frac{{p}}{{q}}$ where $\\\\gcd(p,q) = 1$."
+  ],
+  "distractors": [
+    {{"answer": "Assume $\\\\sqrt{{2}}$ is irrational", "mistake": "assumed the conclusion instead of its negation"}},
+    {{"answer": "Assume $p^2 = 2q^2$", "mistake": "jumped to a derived equation rather than the opening assumption"}},
+    {{"answer": "Assume $\\\\sqrt{{2}}$ is an integer", "mistake": "confused rational with integer"}}
+  ]
+}}
+
+Now generate a COMPLETELY DIFFERENT problem for topic "{inp.topic}" in "{inp.unit}".
+Use a different proof technique and a different mathematical statement than the examples above.
+Do NOT copy the examples."""
+
+
 # Calculator tier instructions — prepended to Mode B prompt so Claude generates
 # problems that are genuinely unsolvable without the specified tool.
 _CALC_TIER_INSTRUCTIONS: dict[str, str] = {
@@ -292,20 +481,26 @@ _CALC_TIER_INSTRUCTIONS: dict[str, str] = {
     ),
     "scientific": (
         "Calculator policy: SCIENTIFIC CALCULATOR REQUIRED. "
-        "The problem must be genuinely unsolvable without one. "
-        "Include at least one of: trig of a non-special angle (e.g. sin 52 degrees), "
-        "log or ln of a non-trivial value (e.g. log 7.3), or e raised to a non-integer exponent. "
-        "The answer must be an irrational decimal, NOT expressible in clean closed form. "
+        "CRITICAL — answer-first workflow for calculator problems:\n"
+        "  1. Pick a decimal answer to 4 places FIRST (e.g. 3.3324). Write it down.\n"
+        "  2. Build a problem whose EXACT computation produces that number.\n"
+        "  3. Verify each worked_step computation matches your chosen answer.\n"
+        "  4. The 'answer' field must be ONLY the bare decimal (e.g. '3.3324'), no \\approx prefix.\n"
+        "The problem must be genuinely unsolvable without a scientific calculator. "
+        "Include at least one of: trig of a non-special angle (e.g. sin 52°), "
+        "log or ln of a non-trivial value, or e raised to a non-integer exponent. "
         "Add the instruction: 'Give your answer to 4 decimal places.'"
     ),
     "graphing": (
         "Calculator policy: GRAPHING CALCULATOR REQUIRED. "
+        "CRITICAL — answer-first workflow:\n"
+        "  1. Pick the decimal answer first (e.g. 2.714).\n"
+        "  2. The 'answer' field must be the bare decimal, no \\approx prefix.\n"
         "The problem must require one of: "
         "(a) finding zeros of a degree-3+ polynomial with no rational roots; "
         "(b) finding the intersection of two non-linear or transcendental curves; "
         "(c) locating a local maximum or minimum numerically from a graph; "
         "(d) evaluating a definite integral that has no elementary antiderivative. "
-        "The answer is a decimal approximation. "
         "Add the instruction: 'Use a graphing calculator. Round to 3 significant figures.'"
     ),
     "cas": (

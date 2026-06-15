@@ -86,7 +86,7 @@ export interface UnitIntro {
 // ─── Curriculum types (new DB-based endpoints) ───────────────────────────────
 
 export type CalculatorMode = 'none' | 'scientific' | 'graphing' | 'cas';
-export type AnswerType = 'numeric' | 'expression';
+export type AnswerType = 'numeric' | 'expression' | 'text' | 'proof_reason';
 export type UserTier = 'free' | 'basic' | 'student' | 'honors' | 'classroom-student';
 
 export interface EducationLevelResponse {
@@ -155,7 +155,11 @@ export interface ProblemResponse {
   prompt_latex: string;
   answer_type: AnswerType;
   final_answer: string;
-  solution: Record<string, unknown> | null;
+  solution: {
+    steps?: Array<{ expression_latex?: string; description_latex?: string }>;
+    proof_rows?: Array<{ stmt: string; reason: string }>;
+    [key: string]: unknown;
+  } | null;
   calculator_mode: CalculatorMode;
   word_problem_prompt: string | null;
   concept_ids: string[];
@@ -193,6 +197,18 @@ export interface HintResponse {
   problem_id: string;
   hint: string;
   hint_type: string | null;
+}
+
+export interface CheckAnswerRequest {
+  student_answer: string;
+  correct_answer: string;
+  answer_type?: AnswerType;
+  problem_id?: string;
+}
+
+export interface CheckAnswerResponse {
+  is_correct: boolean;
+  correct_answer: string;
 }
 
 export interface UserStatsResponse {
@@ -289,6 +305,10 @@ export const api = {
 
   getHint: (token: string, body: HintRequest): Promise<HintResponse> =>
     req('/hint', token, { method: 'POST', body: JSON.stringify(body) }),
+
+  // Server-side SymPy equivalence grading — the source of truth for correctness.
+  checkAnswer: (token: string, body: CheckAnswerRequest): Promise<CheckAnswerResponse> =>
+    req('/check-answer', token, { method: 'POST', body: JSON.stringify(body) }),
 
   // User
   getMe: (token: string): Promise<UserResponse> =>

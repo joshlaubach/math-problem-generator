@@ -160,6 +160,22 @@ def _verify_equation(lhs: sp.Expr, rhs: sp.Expr, expected_solution: int) -> tupl
         return False, f"Solver error: {str(e)}"
 
 
+def _elimination_step(term: sp.Expr) -> str:
+    """
+    Describe eliminating ``term`` from one side by applying the inverse
+    operation, phrased with a positive magnitude so the wording reads
+    naturally.
+
+    A negative term is removed by *adding* its absolute value — e.g. the
+    constant ``-7`` yields "Add 7 to both sides", not the confusing and
+    technically backwards "Subtract -7 from both sides".
+    """
+    coeff = term if term.is_number else term.as_coeff_Mul()[0]
+    if coeff.is_negative:
+        return f"Add ${latex(-term)}$ to both sides"
+    return f"Subtract ${latex(term)}$ from both sides"
+
+
 def _construct_solution_steps(
     difficulty: int,
     lhs: sp.Expr,
@@ -191,17 +207,23 @@ def _construct_solution_steps(
             new_rhs = rhs - const_term
             steps.append(SolutionStep(
                 index=step_index,
-                description_latex=f"Subtract ${latex(const_term)}$ from both sides",
+                description_latex=_elimination_step(const_term),
                 expression_latex=latex(Eq(x, new_rhs))
             ))
             step_index += 1
         
         # Step 2: Simplify (showing final answer)
-        steps.append(SolutionStep(
-            index=step_index,
-            description_latex="Simplify",
-            expression_latex=latex(Eq(x, x0))
-        ))
+        # Only add a separate "Simplify" step when the previous step didn't
+        # already land on x = x0. SymPy auto-simplifies, so the divide/subtract
+        # step usually produces the final value and a trailing "Simplify" would
+        # just repeat it.
+        final_eq_latex = latex(Eq(x, x0))
+        if not steps or steps[-1].expression_latex != final_eq_latex:
+            steps.append(SolutionStep(
+                index=step_index,
+                description_latex="Simplify",
+                expression_latex=final_eq_latex
+            ))
     
     elif difficulty == 2:
         # Form: a*x + b = c
@@ -215,7 +237,7 @@ def _construct_solution_steps(
             current_lhs = current_lhs - const_term
             steps.append(SolutionStep(
                 index=step_index,
-                description_latex=f"Subtract ${latex(const_term)}$ from both sides",
+                description_latex=_elimination_step(const_term),
                 expression_latex=latex(Eq(current_lhs, current_rhs))
             ))
             step_index += 1
@@ -233,11 +255,17 @@ def _construct_solution_steps(
             step_index += 1
         
         # Step 3: Simplify
-        steps.append(SolutionStep(
-            index=step_index,
-            description_latex="Simplify",
-            expression_latex=latex(Eq(x, x0))
-        ))
+        # Only add a separate "Simplify" step when the previous step didn't
+        # already land on x = x0. SymPy auto-simplifies, so the divide/subtract
+        # step usually produces the final value and a trailing "Simplify" would
+        # just repeat it.
+        final_eq_latex = latex(Eq(x, x0))
+        if not steps or steps[-1].expression_latex != final_eq_latex:
+            steps.append(SolutionStep(
+                index=step_index,
+                description_latex="Simplify",
+                expression_latex=final_eq_latex
+            ))
     
     elif difficulty == 3:
         # Form: a*x + b = c*x + d
@@ -252,7 +280,7 @@ def _construct_solution_steps(
         new_rhs = rhs_const
         steps.append(SolutionStep(
             index=step_index,
-            description_latex=f"Subtract ${latex(rhs_coeff * x)}$ from both sides",
+            description_latex=_elimination_step(rhs_coeff * x),
             expression_latex=latex(Eq(new_lhs, new_rhs))
         ))
         step_index += 1
@@ -266,7 +294,7 @@ def _construct_solution_steps(
             new_rhs = current_rhs - lhs_const
             steps.append(SolutionStep(
                 index=step_index,
-                description_latex=f"Subtract ${latex(lhs_const)}$ from both sides",
+                description_latex=_elimination_step(lhs_const),
                 expression_latex=latex(Eq(new_lhs, new_rhs))
             ))
             step_index += 1
@@ -284,11 +312,17 @@ def _construct_solution_steps(
             step_index += 1
         
         # Final: show answer
-        steps.append(SolutionStep(
-            index=step_index,
-            description_latex="Simplify",
-            expression_latex=latex(Eq(x, x0))
-        ))
+        # Only add a separate "Simplify" step when the previous step didn't
+        # already land on x = x0. SymPy auto-simplifies, so the divide/subtract
+        # step usually produces the final value and a trailing "Simplify" would
+        # just repeat it.
+        final_eq_latex = latex(Eq(x, x0))
+        if not steps or steps[-1].expression_latex != final_eq_latex:
+            steps.append(SolutionStep(
+                index=step_index,
+                description_latex="Simplify",
+                expression_latex=final_eq_latex
+            ))
     
     else:  # difficulty == 4
         # Form: (p/q)*x + b = (r/s)*x + d (similar to difficulty 3)
@@ -303,7 +337,7 @@ def _construct_solution_steps(
         new_rhs = rhs_const
         steps.append(SolutionStep(
             index=step_index,
-            description_latex=f"Subtract ${latex(rhs_coeff * x)}$ from both sides",
+            description_latex=_elimination_step(rhs_coeff * x),
             expression_latex=latex(Eq(new_lhs, new_rhs))
         ))
         step_index += 1
@@ -317,7 +351,7 @@ def _construct_solution_steps(
             new_rhs = current_rhs - lhs_const
             steps.append(SolutionStep(
                 index=step_index,
-                description_latex=f"Subtract ${latex(lhs_const)}$ from both sides",
+                description_latex=_elimination_step(lhs_const),
                 expression_latex=latex(Eq(new_lhs, new_rhs))
             ))
             step_index += 1
@@ -335,11 +369,17 @@ def _construct_solution_steps(
             step_index += 1
         
         # Final: show answer
-        steps.append(SolutionStep(
-            index=step_index,
-            description_latex="Simplify",
-            expression_latex=latex(Eq(x, x0))
-        ))
+        # Only add a separate "Simplify" step when the previous step didn't
+        # already land on x = x0. SymPy auto-simplifies, so the divide/subtract
+        # step usually produces the final value and a trailing "Simplify" would
+        # just repeat it.
+        final_eq_latex = latex(Eq(x, x0))
+        if not steps or steps[-1].expression_latex != final_eq_latex:
+            steps.append(SolutionStep(
+                index=step_index,
+                description_latex="Simplify",
+                expression_latex=final_eq_latex
+            ))
     
     return steps
 
@@ -413,7 +453,7 @@ def generate_linear_equation_problem(
         topic_id="alg1_linear_solve_one_var",
         difficulty=difficulty,
         calculator_mode=calculator_mode,
-        prompt_latex=f"Solve for $x$: {prompt_latex}",
+        prompt_latex=f"Solve for $x$: ${prompt_latex}$",
         answer_type="numeric",
         final_answer=x0,
         metadata={"solution": solution},

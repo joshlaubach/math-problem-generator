@@ -111,6 +111,49 @@ body {
 .katex-display { overflow-x: auto; padding: 4px 0; }
 
 /* ─────────────────────────────────────────
+   MathLive styling — dark mode contrast
+   MathLive uses Shadow DOM so only CSS custom
+   properties and inherited props reach inside.
+───────────────────────────────────────── */
+[data-theme="dark"] math-field {
+  /* Tells browser + MathLive to render in dark mode */
+  color-scheme: dark;
+  /* Inherited into Shadow DOM */
+  color: #e6edf3 !important;
+  caret-color: #d29922 !important;
+  background: #161b22 !important;
+  /* MathLive CSS custom properties */
+  --caret-color: #d29922;
+  --selection-background-color: rgba(210, 153, 34, 0.25);
+  --selection-color: #e6edf3;
+  --smart-fence-color: #d29922;
+  --smart-fence-opacity: 0.7;
+  --highlight-color: rgba(210, 153, 34, 0.15);
+  --placeholder-color: #6e7681;
+}
+
+/* LaTeX autocomplete popover — rendered outside Shadow DOM */
+.ML__popover {
+  --popover-bg: #1c2128;
+  --popover-text: #e6edf3;
+  --popover-highlight: rgba(210, 153, 34, 0.15);
+  --popover-highlight-text: #d29922;
+  background: var(--surface2, #1c2128) !important;
+  border: 1px solid var(--border, #30363d) !important;
+  color: var(--text, #e6edf3) !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5) !important;
+}
+
+.ML__popover .ML__popover-item {
+  color: var(--text, #e6edf3) !important;
+}
+.ML__popover .ML__popover-item:hover,
+.ML__popover .ML__popover-item[data-selected] {
+  background: rgba(210, 153, 34, 0.15) !important;
+  color: #d29922 !important;
+}
+
+/* ─────────────────────────────────────────
    Keyframe animations
 ───────────────────────────────────────── */
 
@@ -183,6 +226,30 @@ body {
 @keyframes ringFill {
   from { stroke-dashoffset: var(--ring-circumference, 220); }
   to   { stroke-dashoffset: var(--ring-offset, 0); }
+}
+
+/* Calculator panel tab transitions — vertical so it feels like physical expansion */
+@keyframes calcSlideInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes calcSlideInDown {
+  from { opacity: 0; transform: translateY(-18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.calc-panel-enter-up {
+  animation: calcSlideInUp 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.calc-panel-enter-down {
+  animation: calcSlideInDown 0.22s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Mafs graphing canvas — smaller axis numbers, subtler grid */
+.mafs-calc-wrapper text {
+  font-size: 9px !important;
+}
+.mafs-calc-wrapper line {
+  stroke-opacity: 0.35 !important;
 }
 
 /* ─────────────────────────────────────────

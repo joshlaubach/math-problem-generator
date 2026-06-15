@@ -11,6 +11,7 @@ Exposes endpoints for:
 
 from __future__ import annotations
 import os
+import re
 import logging
 from contextlib import asynccontextmanager
 from datetime import datetime
@@ -410,6 +411,24 @@ class HintResponse(BaseModel):
     problem_id: str
     hint: str
     hint_type: str = Field(default="educational", description="Type of hint (educational, strategic, etc.)")
+
+
+class CheckAnswerRequest(BaseModel):
+    """Request to grade a student's answer against the canonical answer."""
+
+    student_answer: str = Field(..., max_length=2000)
+    correct_answer: str = Field(..., max_length=2000)
+    answer_type: Optional[str] = Field(default=None, description="numeric | expression")
+    problem_id: Optional[str] = Field(default=None, max_length=200)
+
+
+class CheckAnswerResponse(BaseModel):
+    """Grading verdict. `is_correct` is decided by SymPy equivalence, not a
+    string compare, so equivalent forms (1/2 == 0.5 == \\frac{1}{2}) are
+    accepted and non-equivalent forms (\\sqrt{2} != 2) are not."""
+
+    is_correct: bool
+    correct_answer: str
 
 
 # ============================================================================
@@ -892,8 +911,6 @@ async def get_my_progress(user: AuthUser = Depends(require_student)):
       a       → 85% accuracy at difficulty 4-5
       mastery → 90%+ accuracy at difficulty 5-6
     """
-    from tracking import load_attempts
-
     GOAL_THRESHOLDS = {
         "pass":    {"accuracy": 0.65, "min_difficulty": 2},
         "b":       {"accuracy": 0.75, "min_difficulty": 3},
@@ -904,10 +921,9 @@ async def get_my_progress(user: AuthUser = Depends(require_student)):
     goal = getattr(user, "learning_goal", None) or "b"
     threshold = GOAL_THRESHOLDS.get(goal, GOAL_THRESHOLDS["b"])
 
-    # Load recent attempts for this user
+    # Load this user's attempts via the repository (handles DB vs JSONL).
     try:
-        all_attempts = load_attempts()
-        user_attempts = [a for a in all_attempts if a.user_id == user.id]
+        user_attempts = list(get_attempt_repository().list_attempts_by_user(user.id))
     except Exception:
         user_attempts = []
 
@@ -959,7 +975,54 @@ async def get_my_progress(user: AuthUser = Depends(require_student)):
         },
         "topics": topics_progress,
         "session_credits": _get_credit_balance(user.id),
+        "streak": _compute_day_streak(user_attempts),
     }
+
+
+def _compute_day_streak(attempts) -> dict:
+    """Consecutive-day practice streak from attempt timestamps (UTC).
+
+    Returns {current, longest, active_today}. The current streak counts back
+    from today, or from yesterday if the student hasn't practiced yet today
+    (so an active streak isn't shown as broken until a full day is missed).
+    Never raises.
+    """
+    from datetime import timezone, timedelta
+
+    dates = set()
+    for a in attempts:
+        ts = getattr(a, "timestamp", None)
+        if ts is None:
+            continue
+        if isinstance(ts, str):
+            try:
+                ts = datetime.fromisoformat(ts)
+            except ValueError:
+                continue
+        try:
+            dates.add(ts.date())
+        except AttributeError:
+            continue
+
+    if not dates:
+        return {"current": 0, "longest": 0, "active_today": False}
+
+    today = datetime.now(timezone.utc).date()
+    active_today = today in dates
+
+    ordered = sorted(dates)
+    longest = run = 1
+    for prev, cur in zip(ordered, ordered[1:]):
+        run = run + 1 if (cur - prev).days == 1 else 1
+        longest = max(longest, run)
+
+    current = 0
+    cursor = today if active_today else today - timedelta(days=1)
+    while cursor in dates:
+        current += 1
+        cursor -= timedelta(days=1)
+
+    return {"current": current, "longest": longest, "active_today": active_today}
 
 
 def _get_credit_balance(user_id: str) -> dict:
@@ -1002,6 +1065,40 @@ async def get_topics():
         }
         for t in topics
     ]
+
+
+# Internal QA / bookkeeping fields that must never be sent to the client — they
+# leak the answer machinery and would render as raw "SYMPY_VERIFIED" rows in the
+# student solution panel.
+_SOLUTION_INTERNAL_KEYS = frozenset({
+    "final_answer_latex",      # duplicates the separately-shown final_answer
+    "full_solution_latex",     # flattened raw string; `steps` is the clean form
+    "sympy_verified",
+    "verification_details",
+})
+
+
+def _student_facing_solution(solution: Optional[dict]) -> dict:
+    """Strip internal verification metadata from a solution dict, leaving only
+    the student-facing worked steps. Returns {} when there is no solution."""
+    if not solution:
+        return {}
+    return {
+        k: v for k, v in solution.items()
+        if k not in _SOLUTION_INTERNAL_KEYS and v is not None
+    }
+
+
+_APPROX_RE = re.compile(r"^\$?\\?approx\s*|^≈\s*")
+
+def _strip_approx(s: str) -> str:
+    """Remove leading \\approx / ≈ markers from a final_answer string.
+
+    LLMs sometimes prefix decimal answers with \\approx (e.g. '$\\approx 3.14$').
+    This makes the answer unparseable by SymPy and looks wrong in the UI.
+    """
+    s = _APPROX_RE.sub("", s.strip()).strip("$").strip()
+    return s
 
 
 @app.get("/generate", response_model=ProblemResponse)
@@ -1064,6 +1161,7 @@ async def generate_problem(
             )
 
         problem_dict = problem_to_dict(problem)
+        student_solution = _student_facing_solution(problem_dict.get("solution"))
         word_problem_prompt = problem.metadata.get("word_problem_prompt") if hasattr(problem, 'metadata') else None
         if user is not None:
             record_problem(user.id, problem.id, source="bank")
@@ -1074,8 +1172,8 @@ async def generate_problem(
             difficulty=problem.difficulty,
             prompt_latex=problem.prompt_latex,
             answer_type=problem.answer_type,
-            final_answer=str(problem.final_answer),
-            solution=problem_dict.get("solution", {}),
+            final_answer=_strip_approx(str(problem.final_answer)),
+            solution=student_solution,
             calculator_mode=problem.calculator_mode,
             word_problem_prompt=word_problem_prompt,
             concept_ids=problem.concept_ids,
@@ -1116,9 +1214,12 @@ async def generate_problem(
         course_id=topic_meta.course_id,
         difficulty=difficulty,
         prompt_latex=generated.statement,
-        answer_type="expression",
-        final_answer=generated.answer,
-        solution={"steps": [{"expression_latex": s.step, "description_latex": s.explanation} for s in generated.worked_steps]},
+        answer_type=generated.answer_type,
+        final_answer=_strip_approx(generated.answer),
+        solution={
+            "steps": [{"expression_latex": s.step, "description_latex": s.explanation} for s in generated.worked_steps],
+            **({"proof_rows": generated.proof_rows} if generated.proof_rows else {}),
+        },
         calculator_mode=calculator_mode,
         word_problem_prompt=None,
         concept_ids=[],
@@ -1167,6 +1268,75 @@ async def record_attempt(
         timestamp=attempt.timestamp,
         is_correct=attempt.is_correct,
     )
+
+
+@app.post("/check-answer", response_model=CheckAnswerResponse)
+@limiter.limit("30/minute")
+async def check_answer(
+    request: Request,
+    body: CheckAnswerRequest,
+    user: AuthUser = Depends(require_student),
+):
+    """Grade a student's answer with SymPy equivalence.
+
+    This is the source of truth for correctness — the client must not decide
+    it with a string compare. CAS verification is cheap and synchronous (no
+    LLM), so the practice loop can call it on every submission.
+    """
+    from answer_check import answers_equivalent
+
+    is_correct = answers_equivalent(
+        body.student_answer, body.correct_answer, body.answer_type
+    )
+    return CheckAnswerResponse(is_correct=is_correct, correct_answer=body.correct_answer)
+
+
+# ── Public landing-page demo (no auth, no quota) ────────────────────────────────
+# Lets a prospective student solve one real, CAS-graded problem before signing up.
+# Rate-limited per IP; no problem is persisted.
+
+_DEMO_FALLBACK = {
+    "id": "demo-fallback",
+    "prompt_latex": "Solve for $x$: $2x + 3 = 11$",
+    "answer_type": "numeric",
+    "final_answer": "4",
+    "solution": {"steps": [
+        {"description_latex": "Subtract $3$ from both sides", "expression_latex": "2 x = 8"},
+        {"description_latex": "Divide both sides by $2$", "expression_latex": "x = 4"},
+    ]},
+}
+
+
+@app.get("/demo/problem")
+@limiter.limit("30/minute")
+async def demo_problem(request: Request):
+    """Return one public sample problem for the landing page. No auth, no quota."""
+    import random
+    try:
+        generator = get_generator_for_topic("alg1_linear_solve_one_var")
+        problem = generator.generate(random.choice([1, 2]), "none")
+        problem_dict = problem_to_dict(problem)
+        return {
+            "id": problem.id,
+            "prompt_latex": problem.prompt_latex,
+            "answer_type": problem.answer_type,
+            "final_answer": _strip_approx(str(problem.final_answer)),
+            "solution": _student_facing_solution(problem_dict.get("solution")),
+        }
+    except Exception:
+        return _DEMO_FALLBACK
+
+
+@app.post("/demo/check-answer", response_model=CheckAnswerResponse)
+@limiter.limit("30/minute")
+async def demo_check_answer(request: Request, body: CheckAnswerRequest):
+    """Public CAS grading for the landing-page demo. Same engine as /check-answer."""
+    from answer_check import answers_equivalent
+
+    is_correct = answers_equivalent(
+        body.student_answer, body.correct_answer, body.answer_type
+    )
+    return CheckAnswerResponse(is_correct=is_correct, correct_answer=body.correct_answer)
 
 
 @app.get("/user/{user_id}/stats/{topic_id}", response_model=UserStatsResponse)

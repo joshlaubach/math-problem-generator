@@ -60,6 +60,10 @@ class GeneratedProblem(BaseModel):
     worked_steps: list[WorkedStep]
     hint_ladder: list[str] = Field(..., min_length=4, max_length=4)
     distractors: list[Distractor] = Field(..., min_length=3, max_length=3)
+    # "expression" (default), "numeric", "text" (proof reasons / theorem names)
+    answer_type: str = "expression"
+    # Two-column proof rows: [{"stmt": "...", "reason": "..."}, ...], reason "___" = blank
+    proof_rows: Optional[list[dict]] = None
     # Bank identity: set when the problem came from / was persisted to the
     # problem bank. Drives per-student served-problem dedup. None for
     # ephemeral problems (uploads, dev without persistence).

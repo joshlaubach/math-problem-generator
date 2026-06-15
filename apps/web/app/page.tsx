@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { MathText } from '@/components/MathText'
+import { DemoProblem } from '@/components/DemoProblem'
 
 export default function HomePage() {
   return (
@@ -45,21 +46,9 @@ export default function HomePage() {
           Adaptive problem generation, step-by-step hints, and a curriculum that knows what you need to learn next — unlike a chat window that forgets you the moment you close it.
         </p>
 
-        {/* Hero LaTeX */}
-        <div style={{
-          background: 'var(--surface)',
-          border: '1px solid var(--border)',
-          borderRadius: 12,
-          padding: '20px 28px',
-          marginBottom: 36,
-          display: 'inline-block',
-          animation: 'fadeUp 0.5s 0.3s both',
-          boxShadow: '0 4px 24px var(--caramel-dim)',
-        }}>
-          <div style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--caramel)', marginBottom: 8, fontWeight: 600 }}>
-            Beautifully rendered mathematics
-          </div>
-          <MathText latex="\int_0^\infty e^{-x^2}\,dx = \frac{\sqrt{\pi}}{2}" />
+        {/* Hero interactive demo — solve one real, CAS-graded problem, no signup */}
+        <div style={{ marginBottom: 36, animation: 'fadeUp 0.5s 0.3s both' }}>
+          <DemoProblem />
         </div>
 
         {/* CTAs */}

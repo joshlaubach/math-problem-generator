@@ -53,64 +53,57 @@ export function SolutionExplainer({ problem, isCorrect, studentAnswer, onNext }:
             fontSize: 15,
             color: 'var(--text)',
           }}>
-            <MathText latex={problem.final_answer} inline />
+            {problem.answer_type === 'text' || problem.answer_type === 'proof_reason'
+              ? <span>{problem.final_answer}</span>
+              : <MathText latex={problem.final_answer} inline />
+            }
           </div>
         </div>
 
-        {/* Worked solution */}
-        {problem.solution && Object.keys(problem.solution).length > 0 && (
-          <div>
-            <div className="card-eyebrow">Solution</div>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-              {Object.entries(problem.solution).map(([key, val]) => {
-                // Array of step objects: { expression_latex, description_latex }
-                if (Array.isArray(val)) {
-                  return (
-                    <div key={key} style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-                      {(val as { expression_latex?: string; description_latex?: string }[]).map((step, i) => (
-                        <div key={i} style={{
-                          borderRadius: 7, background: 'var(--surface2)',
-                          padding: '10px 14px', fontSize: 14,
-                          display: 'flex', flexDirection: 'column', gap: 4,
-                        }}>
-                          {step.expression_latex && (
-                            <div style={{ fontWeight: 500, color: 'var(--text)' }}>
-                              <MathText latex={step.expression_latex} prose />
-                            </div>
-                          )}
-                          {step.description_latex && (
-                            <div style={{ fontSize: 13, color: 'var(--text-dim)' }}>
-                              <MathText latex={step.description_latex} prose />
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  )
-                }
-                // Scalar value
-                return (
-                  <div
-                    key={key}
-                    style={{
-                      borderRadius: 7, background: 'var(--surface2)',
-                      padding: '9px 14px', fontSize: 14,
-                      color: 'var(--text-dim)', display: 'flex', gap: 8, alignItems: 'baseline',
-                    }}
-                  >
-                    <span style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--text-muted)', flexShrink: 0 }}>
-                      {key}
-                    </span>
-                    {typeof val === 'string'
-                      ? val.includes('\\') ? <MathText latex={val} inline /> : <span>{val}</span>
-                      : <span>{String(val)}</span>
-                    }
+        {/* Worked solution — render only the structured steps. Never iterate the
+            whole solution object: it may carry internal fields (final_answer_latex,
+            sympy_verified, verification_details) that must not reach the student. */}
+        {(() => {
+          const steps = Array.isArray((problem.solution as { steps?: unknown } | null)?.steps)
+            ? ((problem.solution as { steps: { expression_latex?: string; description_latex?: string }[] }).steps)
+            : []
+          if (steps.length === 0) return null
+          return (
+            <div>
+              <div className="card-eyebrow">Solution</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+                {steps.map((step, i) => (
+                  <div key={i} style={{
+                    borderRadius: 7, background: 'var(--surface2)',
+                    padding: '10px 14px', fontSize: 14,
+                    display: 'flex', flexDirection: 'column', gap: 4,
+                  }}>
+                    {/* Description is prose ("Divide both sides by $-3$"); the
+                        expression is a bare LaTeX equation, so render it as math. */}
+                    {step.description_latex && (
+                      <div style={{ fontSize: 13, color: 'var(--text-dim)' }}>
+                        <MathText latex={step.description_latex} prose />
+                      </div>
+                    )}
+                    {step.expression_latex && (
+                      <div style={{ fontWeight: 500, color: 'var(--text)' }}>
+                        {/* Prose mode for steps with embedded $...$ (DM proofs, mixed text+math).
+                            Plain text for single words with no math operators (e.g. "substitution").
+                            Inline math for pure LaTeX expressions (algebra/calculus). */}
+                        {step.expression_latex.includes('$')
+                          ? <MathText latex={step.expression_latex} prose />
+                          : /^[a-zA-Z\s]+$/.test(step.expression_latex.trim())
+                            ? <span>{step.expression_latex}</span>
+                            : <MathText latex={step.expression_latex} inline />
+                        }
+                      </div>
+                    )}
                   </div>
-                )
-              })}
+                ))}
+              </div>
             </div>
-          </div>
-        )}
+          )
+        })()}
 
         {/* Next button */}
         <button
