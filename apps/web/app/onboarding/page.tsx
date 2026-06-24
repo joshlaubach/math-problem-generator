@@ -1,11 +1,12 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth, useUser } from '@clerk/nextjs'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 
 type Goal = 'pass' | 'b' | 'a' | 'mastery'
+type AgeStatus = 'confirmed' | 'minor' | 'blocked' | null
 
 interface GoalOption {
   id: Goal
@@ -51,22 +52,50 @@ const GOALS: GoalOption[] = [
   },
 ]
 
+function computeAge(dob: string): number | null {
+  try {
+    const birth = new Date(dob)
+    if (isNaN(birth.getTime())) return null
+    const today = new Date()
+    let age = today.getFullYear() - birth.getFullYear()
+    const m = today.getMonth() - birth.getMonth()
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--
+    return age
+  } catch {
+    return null
+  }
+}
+
 export default function OnboardingPage() {
   const { getToken } = useAuth()
   const { user } = useUser()
   const router = useRouter()
+  const searchParams = useSearchParams()
 
   const [step, setStep] = useState<1 | 2>(1)
-  const [ageChecked, setAgeChecked] = useState(false)
+  const [dob, setDob] = useState('')
   const [tosChecked, setTosChecked] = useState(false)
   const [selectedGoal, setSelectedGoal] = useState<Goal | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [ageStatus, setAgeStatus] = useState<AgeStatus>(null)
+  const [refCode, setRefCode] = useState('')
 
-  const canProceedStep1 = ageChecked && tosChecked
+  useEffect(() => {
+    const ref = searchParams.get('ref')
+    if (ref) setRefCode(ref.toUpperCase().trim())
+  }, [searchParams])
+
+  const age = computeAge(dob)
+  const dobValid = dob.length === 10 && age !== null && age >= 0 && age <= 120
+  const canProceedStep1 = dobValid && tosChecked
 
   async function handleStep1() {
     if (!canProceedStep1) return
+    if (age !== null && age < 13) {
+      setAgeStatus('blocked')
+      return
+    }
     setLoading(true)
     setError(null)
     try {
@@ -75,12 +104,21 @@ export default function OnboardingPage() {
       const resp = await fetch(`${apiBase}/users/me/confirm-age`, {
         method: 'POST',
         headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ date_of_birth: dob }),
       })
+      const body = await resp.json().catch(() => ({}))
       if (!resp.ok) {
-        const body = await resp.json().catch(() => ({}))
-        throw new Error((body as { detail?: string }).detail ?? 'Request failed')
+        const detail = (body as { detail?: { message?: string } | string }).detail
+        if (typeof detail === 'object' && detail?.message) throw new Error(detail.message)
+        throw new Error(typeof detail === 'string' ? detail : 'Request failed')
       }
-      setStep(2)
+      const result = body as { status: string }
+      if (result.status === 'minor') {
+        setAgeStatus('minor')
+      } else {
+        setAgeStatus('confirmed')
+        setStep(2)
+      }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
@@ -104,12 +142,76 @@ export default function OnboardingPage() {
         const body = await resp.json().catch(() => ({}))
         throw new Error((body as { detail?: string }).detail ?? 'Failed to save goal')
       }
+      // Apply referral code if the user entered one (silently ignore errors —
+      // don't block onboarding if the code is already used or invalid).
+      if (refCode.trim()) {
+        try {
+          await fetch(`${apiBase}/referral/use`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code: refCode.trim() }),
+          })
+        } catch {
+          // intentionally silent
+        }
+      }
       router.push('/dashboard')
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {
       setLoading(false)
     }
+  }
+
+  // ── Hard block: under 13 ──────────────────────────────────────────────────
+  if (ageStatus === 'blocked') {
+    return (
+      <CenteredCard>
+        <Logo />
+        <div style={{ textAlign: 'center', padding: '8px 0 16px' }}>
+          <div style={{ fontSize: 36, marginBottom: 16 }}>🚫</div>
+          <h1 style={{
+            fontFamily: 'var(--font-fraunces), Georgia, serif',
+            fontSize: 22, fontWeight: 700, color: 'var(--text)', marginBottom: 12,
+          }}>
+            Age requirement not met
+          </h1>
+          <p style={{ fontSize: 14, color: 'var(--text-dim)', lineHeight: 1.6 }}>
+            Gradient requires students to be at least 13 years old. We&apos;re not able to create an account for you at this time.
+          </p>
+        </div>
+      </CenteredCard>
+    )
+  }
+
+  // ── Minor: parent consent required ───────────────────────────────────────
+  if (ageStatus === 'minor') {
+    return (
+      <CenteredCard>
+        <Logo />
+        <h1 style={{
+          fontFamily: 'var(--font-fraunces), Georgia, serif',
+          fontSize: 22, fontWeight: 700, color: 'var(--text)', marginBottom: 12,
+        }}>
+          Parent consent required
+        </h1>
+        <p style={{ fontSize: 14, color: 'var(--text-dim)', lineHeight: 1.65, marginBottom: 20 }}>
+          Because you&apos;re under 18, a parent or guardian needs to complete a short consent form before your account is activated.
+        </p>
+        <div style={{
+          background: 'var(--caramel-dim)', border: '1px solid rgba(196,151,106,0.3)',
+          borderRadius: 10, padding: '14px 16px', marginBottom: 20,
+          fontSize: 13, color: 'var(--text)', lineHeight: 1.6,
+        }}>
+          <strong>Next step:</strong> Ask a parent or guardian to go to{' '}
+          <span style={{ color: 'var(--caramel)', fontWeight: 600 }}>gradient.app/parent-consent</span>{' '}
+          and enter your email address to complete the authorization.
+        </div>
+        <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.5 }}>
+          Once they complete the form, you&apos;ll be able to sign in and start your first session.
+        </p>
+      </CenteredCard>
+    )
   }
 
   return (
@@ -126,22 +228,7 @@ export default function OnboardingPage() {
         boxShadow: '0 4px 32px rgba(0,0,0,0.06)',
         transition: 'max-width 0.2s',
       }}>
-        {/* Logo */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
-          <div style={{
-            width: 32, height: 32, borderRadius: 8, background: 'var(--caramel)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center',
-            fontSize: 16, color: '#fff',
-          }}>
-            ✦
-          </div>
-          <span style={{
-            fontFamily: 'var(--font-fraunces), Georgia, serif',
-            fontSize: 18, fontWeight: 600, color: 'var(--text)',
-          }}>
-            Gradient
-          </span>
-        </div>
+        <Logo />
 
         {/* Step indicator */}
         <div style={{ display: 'flex', gap: 6, marginBottom: 28 }}>
@@ -154,7 +241,7 @@ export default function OnboardingPage() {
           ))}
         </div>
 
-        {/* ── Step 1: Age + ToS ── */}
+        {/* ── Step 1: DOB + ToS ── */}
         {step === 1 && (
           <>
             <h1 style={{
@@ -165,29 +252,60 @@ export default function OnboardingPage() {
             </h1>
             {user?.firstName && (
               <p style={{ fontSize: 14, color: 'var(--text-dim)', marginBottom: 20 }}>
-                Welcome, {user.firstName}! Before you start, we need two confirmations.
+                Welcome, {user.firstName}! We need your date of birth and agreement to our terms.
               </p>
             )}
 
-            {/* Age */}
-            <label style={{
-              display: 'flex', alignItems: 'flex-start', gap: 12,
-              cursor: 'pointer', marginBottom: 16,
-              padding: '14px 16px', borderRadius: 10,
-              border: `1px solid ${ageChecked ? 'rgba(196,151,106,0.4)' : 'var(--border)'}`,
-              background: ageChecked ? 'var(--caramel-dim)' : 'var(--surface2)',
-              transition: 'all 0.15s',
-            }}>
+            {/* DOB */}
+            <div style={{ marginBottom: 16 }}>
+              <label style={{
+                display: 'block', fontSize: 13, fontWeight: 500,
+                color: 'var(--text-dim)', marginBottom: 6,
+              }}>
+                Date of birth
+              </label>
               <input
-                type="checkbox"
-                checked={ageChecked}
-                onChange={e => setAgeChecked(e.target.checked)}
-                style={{ marginTop: 2, width: 16, height: 16, accentColor: 'var(--caramel)', flexShrink: 0 }}
+                type="date"
+                value={dob}
+                onChange={e => { setDob(e.target.value); setError(null) }}
+                max={new Date().toISOString().split('T')[0]}
+                style={{
+                  width: '100%', padding: '10px 12px', borderRadius: 8,
+                  border: `1px solid ${dobValid ? 'rgba(196,151,106,0.4)' : 'var(--border)'}`,
+                  background: 'var(--surface2)', color: 'var(--text)',
+                  fontSize: 14, outline: 'none', boxSizing: 'border-box',
+                }}
               />
-              <span style={{ fontSize: 14, color: 'var(--text)', lineHeight: 1.55 }}>
-                I confirm that I am <strong>13 years of age or older</strong>. If I am under 18, a parent or guardian has consented to my use of this platform.
-              </span>
-            </label>
+              {dob && age !== null && age < 13 && (
+                <p style={{ fontSize: 12, color: 'var(--terracotta)', marginTop: 4 }}>
+                  You must be at least 13 to create an account.
+                </p>
+              )}
+            </div>
+
+            {/* Referral code (optional) */}
+            <div style={{ marginBottom: 16 }}>
+              <label style={{
+                display: 'block', fontSize: 13, fontWeight: 500,
+                color: 'var(--text-dim)', marginBottom: 6,
+              }}>
+                Referral code <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>(optional)</span>
+              </label>
+              <input
+                type="text"
+                value={refCode}
+                onChange={e => setRefCode(e.target.value.toUpperCase().trim())}
+                placeholder="e.g. AB3D7F"
+                maxLength={8}
+                style={{
+                  width: '100%', padding: '10px 12px', borderRadius: 8,
+                  border: '1px solid var(--border)',
+                  background: 'var(--surface2)', color: 'var(--text)',
+                  fontSize: 14, outline: 'none', boxSizing: 'border-box',
+                  letterSpacing: '0.1em', fontFamily: 'monospace',
+                }}
+              />
+            </div>
 
             {/* ToS */}
             <label style={{
@@ -209,7 +327,9 @@ export default function OnboardingPage() {
                 <Link href="/terms" target="_blank" style={{ color: 'var(--caramel)', textDecoration: 'underline' }}>Terms of Service</Link>{' '}
                 and{' '}
                 <Link href="/privacy" target="_blank" style={{ color: 'var(--caramel)', textDecoration: 'underline' }}>Privacy Policy</Link>.
-                I understand that my learning data will be collected and used as described.
+                {age !== null && age >= 13 && age < 18 && (
+                  <> If I am under 18, a parent or guardian has consented to my use of this platform.</>
+                )}
               </span>
             </label>
 
@@ -217,7 +337,7 @@ export default function OnboardingPage() {
 
             <button
               onClick={handleStep1}
-              disabled={!canProceedStep1 || loading}
+              disabled={!canProceedStep1 || loading || (dob !== '' && age !== null && age < 13)}
               className="btn-caramel"
               style={{ width: '100%', justifyContent: 'center', padding: '12px', fontSize: 14, opacity: canProceedStep1 ? 1 : 0.5 }}
             >
@@ -260,7 +380,6 @@ export default function OnboardingPage() {
                       boxShadow: active ? `0 0 0 3px ${g.color}22` : 'none',
                     }}
                   >
-                    {/* Radio dot */}
                     <div style={{
                       width: 18, height: 18, borderRadius: '50%', flexShrink: 0, marginTop: 2,
                       border: `2px solid ${active ? g.color : 'var(--border)'}`,
@@ -270,7 +389,6 @@ export default function OnboardingPage() {
                     }}>
                       {active && <div style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff' }} />}
                     </div>
-
                     <div style={{ flex: 1 }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
                         <span style={{ fontSize: 15, fontWeight: 600, color: active ? g.color : 'var(--text)' }}>
@@ -321,6 +439,43 @@ export default function OnboardingPage() {
             </button>
           </>
         )}
+      </div>
+    </div>
+  )
+}
+
+function Logo() {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 28 }}>
+      <div style={{
+        width: 32, height: 32, borderRadius: 8, background: 'var(--caramel)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 16, color: '#fff',
+      }}>
+        ✦
+      </div>
+      <span style={{
+        fontFamily: 'var(--font-fraunces), Georgia, serif',
+        fontSize: 18, fontWeight: 600, color: 'var(--text)',
+      }}>
+        Gradient
+      </span>
+    </div>
+  )
+}
+
+function CenteredCard({ children }: { children: React.ReactNode }) {
+  return (
+    <div style={{
+      minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center',
+      background: 'var(--bg)', padding: '24px 16px',
+    }}>
+      <div style={{
+        background: 'var(--surface)', borderRadius: 16, border: '1px solid var(--border)',
+        padding: '40px 36px', maxWidth: 440, width: '100%',
+        boxShadow: '0 4px 32px rgba(0,0,0,0.06)',
+      }}>
+        {children}
       </div>
     </div>
   )

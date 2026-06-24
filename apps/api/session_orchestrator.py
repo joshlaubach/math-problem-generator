@@ -77,9 +77,9 @@ class SessionDeps:
     """
     generate_tutor_response: Callable[..., Awaitable[tuple[str, bool]]]
     handle_going_too_fast: Callable[[Any], Awaitable[str]]
-    check_exam_readiness: Callable[[Any], bool]
-    get_exam_mode_proposal: Callable[[Any], Awaitable[str]]
-    get_exam_start_message: Callable[[Any], Awaitable[str]]
+    check_quiz_readiness: Callable[[Any], bool]
+    get_quiz_proposal: Callable[[Any], Awaitable[str]]
+    get_quiz_start_message: Callable[[Any], Awaitable[str]]
     check_answer: Callable[[str, str], Awaitable[Any]]
     get_hint: Callable[..., Awaitable[str]]
     log_event: Callable[..., Any]
@@ -99,7 +99,140 @@ async def handle(session: Any, user: Any, raw: dict, deps: SessionDeps) -> Handl
     return await handler(session, user, raw, deps)
 
 
-# ── In-session adaptive difficulty (L2-3) ────────────────────────────────────
+# ── Lesson-cycle cascade (Phase 1.6) ─────────────────────────────────────────
+
+LESSON_CASCADE_THRESHOLD = 3  # lesson cycles on one concept before cascade fires
+
+
+def _concept_key(session) -> str:
+    """Stable key for the current concept — prefer the active problem's topic_id."""
+    problem = getattr(session, "problem", None)
+    if problem and getattr(problem, "topic_id", None):
+        return problem.topic_id
+    return getattr(session, "topic_id", "") or ""
+
+
+def _get_intro_scene(topic_id: str) -> Optional[list]:
+    """Return the pre-authored intro scene for a topic, or None (never raises)."""
+    if not topic_id:
+        return None
+    try:
+        from agents.intro_scenes import INTRO_SCENES
+        scene = INTRO_SCENES.get(topic_id)
+        if scene:
+            return scene
+        # Fallback: check for an intro_scene stored in the lesson cache
+        from agents.lesson_store import get_lesson
+        lesson = get_lesson(topic_id) or {}
+        return lesson.get("intro_scene")
+    except Exception:
+        return None
+
+
+def _prereq_names(topic_id: str) -> list[str]:
+    """First-degree prerequisite concept names for a topic (best-effort; never raises)."""
+    if not topic_id:
+        return []
+    try:
+        from concepts import get_concepts_for_topic, get_concept
+        seen: set[str] = set()
+        names: list[str] = []
+        for concept in get_concepts_for_topic(topic_id):
+            for prereq_id in concept.prerequisites:
+                if prereq_id not in seen:
+                    seen.add(prereq_id)
+                    try:
+                        names.append(get_concept(prereq_id).name)
+                    except Exception:
+                        pass
+        return names
+    except Exception:
+        return []
+
+
+async def _maybe_lesson_cascade(session, deps) -> Optional[HandlerResult]:
+    """
+    Track lesson cycles for the current concept and fire a cascade at
+    LESSON_CASCADE_THRESHOLD cycles:
+      - exam < 8h away → honesty close (end session, no blame)
+      - otherwise      → prerequisite back-up message + flag in session_summary
+    Returns None when below the threshold (no cascade yet).
+    """
+    key = _concept_key(session)
+    counts = getattr(session, "concept_lesson_counts", {}) or {}
+    count = counts.get(key, 0) + 1
+    counts[key] = count
+    session.concept_lesson_counts = counts
+
+    if count < LESSON_CASCADE_THRESHOLD:
+        deps.update_session(session)
+        return None
+
+    # Only fire the cascade exactly at the threshold, not on every subsequent lesson
+    if count > LESSON_CASCADE_THRESHOLD:
+        deps.update_session(session)
+        return None
+
+    res = HandlerResult()
+
+    # ── Check exam proximity ──────────────────────────────────────────────────
+    exam_dt_str = getattr(session, "exam_datetime", None)
+    is_exam_soon = False
+    if exam_dt_str:
+        try:
+            from datetime import datetime, timezone
+            exam_dt = datetime.fromisoformat(exam_dt_str)
+            if exam_dt.tzinfo is None:
+                exam_dt = exam_dt.replace(tzinfo=timezone.utc)
+            hours_away = (exam_dt - datetime.now(timezone.utc)).total_seconds() / 3600
+            is_exam_soon = 0 < hours_away < 8
+        except Exception:
+            pass
+
+    if is_exam_soon:
+        # Honesty close — warm, direct, no blame
+        closing = (
+            "I want to be straight with you: we've been through this concept a few times "
+            "today and it's not clicking yet — and that's completely okay. But it's also "
+            "not going to click in the next few hours before your exam. The most useful "
+            "thing you can do right now is get a good night's sleep. Rest genuinely helps "
+            "your brain consolidate what it's absorbed today. You've worked hard — come "
+            "back tomorrow and it'll feel different."
+        )
+        session.conversation.append({"role": "tutor", "content": closing})
+        deps.update_session(session)
+        res.send("agent_text", text=closing)
+        res.end_session = "student_end"
+        return res
+
+    # ── Prerequisite back-up ──────────────────────────────────────────────────
+    prereqs = _prereq_names(key)
+    if prereqs:
+        back_up_msg = (
+            f"We've hit this same wall a few times now, and I think the real gap "
+            f"is underneath the current material — specifically {prereqs[0]}. "
+            f"I'd suggest stepping back and making sure that's solid first. "
+            f"Want me to shift us there?"
+        )
+    else:
+        back_up_msg = (
+            "We've revisited this concept a few times and I think there's a gap "
+            "underneath it that's holding things up. It might help to take a short "
+            "break and come back to some prerequisite material before pushing further."
+        )
+
+    session.conversation.append({"role": "tutor", "content": back_up_msg})
+    session.session_summary.append({
+        "type": "concept_flagged",
+        "topic_id": key,
+        "note": f"Needed {LESSON_CASCADE_THRESHOLD}+ explanation cycles — prerequisite review recommended",
+    })
+    deps.update_session(session)
+    res.send("agent_text", text=back_up_msg)
+    return res
+
+
+# ── In-session adaptive difficulty (L2-3) ─────────────────────────────────────
 
 # Streak thresholds: N correct in a row raises difficulty, M wrong lowers it.
 CORRECT_STREAK_TO_RAISE = 3
@@ -167,6 +300,11 @@ async def _student_text(session, user, raw, deps) -> HandlerResult:
         deps.update_session(session)
         return res.send("agent_text", text=verdict.response)
 
+    # Walkthrough branch: when the student is narrating steps after a wrong answer,
+    # route to the dedicated walkthrough handler instead of the normal Socratic turn.
+    if getattr(session, "walkthrough_active", False):
+        return await _walkthrough_step(session, user, raw, deps)
+
     deps.log_event(session_id=session.session_id, user_id=user.id,
                    topic_id=session.topic_id, difficulty=session.difficulty,
                    event_type="student_question", payload={"text": text})
@@ -182,11 +320,62 @@ async def _student_text(session, user, raw, deps) -> HandlerResult:
     deps.update_session(session)
 
     if entered_lesson:
+        # Emit intro diagram once on the very first lesson cycle for this concept (Phase 1.7)
+        key = _concept_key(session)
+        counts = getattr(session, "concept_lesson_counts", {}) or {}
+        if counts.get(key, 0) == 0:
+            scene = _get_intro_scene(key)
+            if scene:
+                res.send("wb_write", scene=scene)
         res.send("lesson_start", topic=session.class_name)
     res.send("agent_text", text=reply)
     if entered_lesson:
         res.send("lesson_end")
+        cascade = await _maybe_lesson_cascade(session, deps)
+        if cascade:
+            res.messages.extend(cascade.messages)
+            if cascade.end_session:
+                res.end_session = cascade.end_session
     return res
+
+
+async def _walkthrough_step(session, user, raw, deps) -> HandlerResult:
+    """Handle one student-narrated step during step-walkthrough mode.
+
+    The student is walking through their work one step at a time after a wrong answer.
+    We inject a STEP_WALKTHROUGH context bracket so the LLM either affirms the step
+    ("okay, keep going") or flags it ("wait — look at that") without revealing the error.
+    """
+    res = HandlerResult()
+    text = str(raw.get("text", "")).strip()
+    if not text:
+        return res
+
+    deps.log_event(
+        session_id=session.session_id, user_id=user.id,
+        topic_id=session.topic_id, difficulty=session.difficulty,
+        event_type="walkthrough_step", payload={"text": text},
+    )
+    session.conversation.append({"role": "student", "content": text})
+
+    context = (
+        "[STEP WALKTHROUGH: The student is narrating their solution one step at a time "
+        "after a wrong answer. This is one narrated step. If the step is correct, reply "
+        "'okay, keep going' and ask what they did next (2 sentences max). If the step "
+        "contains the error, say 'wait — look at that' and ask one focused question about "
+        "what they computed — do NOT state what is wrong, do NOT show the correct version. "
+        "End with exactly one question.]"
+    )
+    walkthrough_prompt = f"{context} Student: {text}"
+
+    try:
+        reply, _ = await deps.generate_tutor_response(session, walkthrough_prompt)
+    except Exception:
+        reply = "Okay, keep going — what did you do next?"
+
+    session.conversation.append({"role": "tutor", "content": reply})
+    deps.update_session(session)
+    return res.send("agent_text", text=reply)
 
 
 async def _answer_submit(session, user, raw, deps) -> HandlerResult:
@@ -195,15 +384,36 @@ async def _answer_submit(session, user, raw, deps) -> HandlerResult:
     if not student_answer or session.problem is None:
         return res
 
+    # Any answer submission exits walkthrough mode. A fresh wrong answer below
+    # re-activates it when the new severity is careless or method.
+    session.walkthrough_active = False
+
     result = await deps.check_answer(student_answer, session.problem.answer)
+
+    # Classify severity for wrong answers before sending answer_result so the
+    # frontend gets severity in the same message that signals incorrect.
+    severity: Optional[str] = None
+    if not result.correct:
+        from agents.severity import classify_severity
+        try:
+            severity = await classify_severity(
+                student_answer,
+                session.problem.answer,
+                getattr(session.problem, "worked_steps", None) or [],
+            )
+        except Exception:
+            pass
+
     deps.log_event(session_id=session.session_id, user_id=user.id,
                    topic_id=session.topic_id, difficulty=session.difficulty,
                    event_type="answer_attempt",
-                   payload={"answer": student_answer, "correct": result.correct})
+                   payload={"answer": student_answer, "correct": result.correct,
+                            "severity": severity})
 
     res.send("answer_result", correct=result.correct,
              equivalent_form=result.equivalent_form,
-             partial_credit_reason=result.partial_credit_reason)
+             partial_credit_reason=result.partial_credit_reason,
+             severity=severity)
 
     # In-session adaptive difficulty: update streaks and maybe prefetch the
     # next problem at a new difficulty in the background
@@ -216,24 +426,96 @@ async def _answer_submit(session, user, raw, deps) -> HandlerResult:
                        topic_id=session.topic_id, difficulty=session.difficulty,
                        event_type="correct", payload={"answer": student_answer})
 
+        # ── Soft session close at problem boundary ────────────────────────────
+        # time_budget_exhausted is set by the timer when max_duration elapses;
+        # we end here (at a natural boundary) rather than advancing mid-problem.
+        if getattr(session, "time_budget_exhausted", False):
+            closing = (
+                "That's our time for today — great work getting through that one. "
+                "I'll send you a session summary by email!"
+            )
+            session.conversation.append({"role": "tutor", "content": closing})
+            deps.update_session(session)
+            res.send("agent_text", text=closing)
+            res.end_session = "timeout"
+            return res
+
         if (not session.exam_mode and not session.exam_mode_proposed
-                and deps.check_exam_readiness(session)):
+                and deps.check_quiz_readiness(session)):
             session.exam_mode_proposed = True
-            proposal = await deps.get_exam_mode_proposal(session)
+            proposal = await deps.get_quiz_proposal(session)
             session.conversation.append({"role": "tutor", "content": proposal})
             deps.update_session(session)
-            res.send("exam_mode_propose", message=proposal)
+            res.send("quiz_propose", message=proposal)
         else:
             res.advance = Advance(source_label="solved", exhausted_reason="solved")
     else:
         session.attempts.append(student_answer)
-        session.consecutive_no_progress += 1
-        try:
-            followup, _ = await deps.generate_tutor_response(
-                session, f"I submitted '{student_answer}' but it was wrong."
+
+        # ── Board routing by severity ─────────────────────────────────────────
+        # careless  → no board change, no red highlight (student knows the method)
+        # method    → mark incorrect + open a new section for the correct approach
+        # fundamental → clear board and start fresh (wb_clear saves a snapshot)
+        # None/unknown → mark incorrect only (safe default)
+        if severity == "careless":
+            pass  # no board change
+        elif severity == "method":
+            res.send("wb_mark_incorrect")
+            res.send("wb_new_section", label="Let's try the right method")
+        elif severity == "fundamental":
+            res.send("wb_clear", snapshot=True)
+        else:
+            res.send("wb_mark_incorrect")
+
+        # ── Escalation gating ─────────────────────────────────────────────────
+        # careless slips don't count toward the lesson-mode escalation threshold.
+        # fundamental gaps skip straight to lesson mode on the followup message.
+        if severity != "careless":
+            session.consecutive_no_progress += 1
+        if severity == "fundamental":
+            from agents.tutor_engine import ESCALATION_THRESHOLD
+            session.consecutive_no_progress = max(
+                session.consecutive_no_progress, ESCALATION_THRESHOLD
             )
+
+        # ── Step-walkthrough activation ───────────────────────────────────────
+        # Careless and method errors keep the board legible and the student
+        # knows (or nearly knows) the method — narrating steps surfaces the slip
+        # without the tutor pointing it out directly.
+        if severity in ("careless", "method"):
+            session.walkthrough_active = True
+
+        # ── Followup response ─────────────────────────────────────────────────
+        # Thread a bracketed context hint into the student message so the tutor
+        # LLM adjusts its tone without changing its EDGE framing.
+        context_hint = {
+            "careless": (
+                "The student made a small slip but knows the method. "
+                "Do NOT reveal the error. Ask them to narrate their steps one at a time."
+            ),
+            "method": (
+                "The student used the wrong procedure. "
+                "Redirect them toward the correct technique without revealing the answer."
+            ),
+            "fundamental": (
+                "The student has a fundamental gap. "
+                "Prepare to teach the underlying concept from scratch."
+            ),
+        }.get(severity or "", "")
+
+        followup_prompt = (
+            f"I submitted '{student_answer}' but it was wrong."
+            + (f" [Context: {context_hint}]" if context_hint else "")
+        )
+
+        try:
+            followup, _ = await deps.generate_tutor_response(session, followup_prompt)
         except Exception:
-            followup = "That's not quite right. What step do you think went differently?"
+            followup = (
+                "Let me see — walk me through what you did, step by step."
+                if severity == "careless"
+                else "That's not quite right. What step do you think went differently?"
+            )
         session.conversation.append({"role": "tutor", "content": followup})
         deps.update_session(session)
         res.send("agent_text", text=followup)
@@ -280,9 +562,21 @@ async def _walk_me_through(session, user, raw, deps) -> HandlerResult:
     )
     session.conversation.append({"role": "tutor", "content": reply})
     deps.update_session(session)
+    # Intro diagram on first lesson cycle for this concept (Phase 1.7)
+    key = _concept_key(session)
+    counts = getattr(session, "concept_lesson_counts", {}) or {}
+    if counts.get(key, 0) == 0:
+        scene = _get_intro_scene(key)
+        if scene:
+            res.send("wb_write", scene=scene)
     res.send("lesson_start", topic=session.class_name)
     res.send("agent_text", text=reply)
     res.send("lesson_end")
+    cascade = await _maybe_lesson_cascade(session, deps)
+    if cascade:
+        res.messages.extend(cascade.messages)
+        if cascade.end_session:
+            res.end_session = cascade.end_session
     return res
 
 
@@ -299,15 +593,15 @@ async def _next_problem(session, user, raw, deps) -> HandlerResult:
     return res
 
 
-async def _exam_mode_accept(session, user, raw, deps) -> HandlerResult:
+async def _quiz_accept(session, user, raw, deps) -> HandlerResult:
     res = HandlerResult()
     session.exam_mode_proposed = False
     session.exam_mode = True
     res.send("wb_clear", snapshot=True)
-    start_msg = await deps.get_exam_start_message(session)
+    start_msg = await deps.get_quiz_start_message(session)
     session.conversation.append({"role": "tutor", "content": start_msg})
     deps.update_session(session)
-    res.send("exam_mode_active")
+    res.send("quiz_active")
     res.send("agent_text", text=start_msg)
     res.advance = Advance(source_label="exam_start", exhausted_reason="student_end")
     return res
@@ -400,7 +694,7 @@ _HANDLERS: dict[str, Callable[..., Awaitable[HandlerResult]]] = {
     "walk_me_through": _walk_me_through,
     "going_too_fast": _going_too_fast,
     "next_problem": _next_problem,
-    "exam_mode_accept": _exam_mode_accept,
+    "quiz_accept": _quiz_accept,
     "wb_student_work": _wb_student_work,
     "student_canvas_snapshot": _student_canvas_snapshot,
     "image_drop": _image_drop,

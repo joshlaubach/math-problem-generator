@@ -763,21 +763,21 @@ class TestTutorEngineResponse:
 
 class TestExamMode:
     def test_readiness_not_met_below_threshold(self):
-        from agents.tutor_engine import check_exam_readiness, READINESS_THRESHOLD
+        from agents.tutor_engine import check_quiz_readiness, READINESS_THRESHOLD
         session = _make_session(current_index=READINESS_THRESHOLD - 1)
-        assert check_exam_readiness(session) is False
+        assert check_quiz_readiness(session) is False
 
     def test_readiness_met_requires_clean_bullets(self):
-        from agents.tutor_engine import check_exam_readiness, READINESS_THRESHOLD
+        from agents.tutor_engine import check_quiz_readiness, READINESS_THRESHOLD
         # index at threshold, but all bullets mention hints → NOT ready
         session = _make_session(
             current_index=READINESS_THRESHOLD,
             session_summary=["Used 3 hints", "Needed hints again", "Still used a hint"],
         )
-        assert check_exam_readiness(session) is False
+        assert check_quiz_readiness(session) is False
 
     def test_readiness_met_with_clean_bullets(self):
-        from agents.tutor_engine import check_exam_readiness, READINESS_THRESHOLD
+        from agents.tutor_engine import check_quiz_readiness, READINESS_THRESHOLD
         # index at threshold; bullets contain "solved"/"correct" but NOT "hint"
         session = _make_session(
             current_index=READINESS_THRESHOLD,
@@ -787,21 +787,21 @@ class TestExamMode:
                 "Solved independently",
             ],
         )
-        assert check_exam_readiness(session) is True
+        assert check_quiz_readiness(session) is True
 
     @pytest.mark.anyio
-    async def test_get_exam_mode_proposal_string(self):
-        from agents.tutor_engine import get_exam_mode_proposal
+    async def test_get_quiz_proposal_string(self):
+        from agents.tutor_engine import get_quiz_proposal
         session = _make_session(current_index=3)
-        msg = await get_exam_mode_proposal(session)
+        msg = await get_quiz_proposal(session)
         assert isinstance(msg, str)
         assert len(msg) > 20
 
     @pytest.mark.anyio
-    async def test_get_exam_start_message_string(self):
-        from agents.tutor_engine import get_exam_start_message
+    async def test_get_quiz_start_message_string(self):
+        from agents.tutor_engine import get_quiz_start_message
         session = _make_session()
-        msg = await get_exam_start_message(session)
+        msg = await get_quiz_start_message(session)
         assert isinstance(msg, str)
         assert len(msg) > 10
 

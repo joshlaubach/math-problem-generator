@@ -473,9 +473,9 @@ def count_recent_clean_solves(session: Any) -> int:
     return clean_count
 
 
-def check_exam_readiness(session: Any) -> bool:
+def check_quiz_readiness(session: Any) -> bool:
     """
-    Returns True if the student has shown consistent readiness for exam mode:
+    Returns True if the student has shown consistent readiness for Quiz Me:
     solved the last READINESS_THRESHOLD problems with no hints and no wrong attempts.
 
     This is a heuristic based on session_summary + current problem state.
@@ -486,15 +486,13 @@ def check_exam_readiness(session: Any) -> bool:
     return count_recent_clean_solves(session) >= READINESS_THRESHOLD
 
 
-async def get_exam_mode_proposal(session: Any) -> str:
-    """
-    Return the tutor message proposing to enter exam mode.
-    """
+async def get_quiz_proposal(session: Any) -> str:
+    """Return the tutor message proposing Quiz Me mode."""
     clean = count_recent_clean_solves(session) or READINESS_THRESHOLD
     return (
         f"You've been crushing these, {clean_count_desc(clean)} in a row with no help. "
-        f"I think you're ready to be tested without any support. "
-        "Want to try exam mode? I'll clear the board and give you problems without hints. "
+        "I think you're ready to go without any support. "
+        "Want to try Quiz Me? I'll clear the board and give you problems without hints. "
         "Say yes when you're ready, or just keep going as normal."
     )
 
@@ -503,9 +501,9 @@ def clean_count_desc(n: int) -> str:
     return f"{n} problem{'s' if n != 1 else ''}"
 
 
-async def get_exam_start_message(session: Any) -> str:
-    """Return the message that plays when exam mode begins."""
+async def get_quiz_start_message(session: Any) -> str:
+    """Return the message that plays when Quiz Me mode begins."""
     return (
-        "Exam mode, let's see what you've got. "
+        "Quiz Me — let's see what you've got. "
         "Board cleared. No hints, no help. Just you and the problems. Good luck!"
     )

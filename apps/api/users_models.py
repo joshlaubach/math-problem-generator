@@ -52,6 +52,7 @@ class User:
     is_teacher: bool = False
     learning_goal: Optional[str] = None
     parent_monitor: bool = False
+    date_of_birth: Optional[str] = None  # ISO date "YYYY-MM-DD"
 
     @staticmethod
     def generate_id() -> str:

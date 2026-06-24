@@ -65,6 +65,7 @@ from ws_session import (
     get_session,
     is_in_grace_period,
     seconds_remaining,
+    update_session,
 )
 
 router = APIRouter(tags=["tutor"])
@@ -72,14 +73,36 @@ router = APIRouter(tags=["tutor"])
 
 # ── Auth helper ───────────────────────────────────────────────────────────────
 
-async def _authenticate_ws_token(token: Optional[str]) -> User:
+async def _authenticate_ws_token(token: Optional[str], session_id: Optional[str] = None) -> User:
     """
     Validate a bearer token passed as a query param.
-    Supports both JWT (AUTH_PROVIDER=jwt) and Clerk (AUTH_PROVIDER=clerk).
+    Supports both JWT (AUTH_PROVIDER=jwt), Clerk (AUTH_PROVIDER=clerk),
+    and short-lived guest tokens (Phase 2.2).
     Raises ValueError with a human-readable message on failure.
     """
     if not token:
         raise ValueError("Missing auth token")
+
+    # ── Guest token fast-path ─────────────────────────────────────────────────
+    payload = decode_access_token(token, secret_key=JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+    if payload and payload.get("guest") is True:
+        guest_id = payload.get("guest_id")
+        token_session_id = payload.get("session_id")
+        if not guest_id:
+            raise ValueError("Malformed guest token")
+        if session_id and token_session_id and token_session_id != session_id:
+            raise ValueError("Guest token does not match this session")
+        # Synthetic User — no DB record
+        return User(
+            id=guest_id,
+            email="guest@demo",
+            password_hash="",
+            role="student",
+            created_at=datetime.now(timezone.utc),
+            is_active=True,
+            age_confirmed=True,
+            tier="free",
+        )
 
     user_repo = get_user_repository()
 
@@ -168,7 +191,7 @@ async def _end_session_early(ws: WebSocket, credit_id: Optional[str]) -> None:
         pass
 
 async def _end_session(
-    ws: WebSocket,
+    ws: Optional[WebSocket],
     session: TutorSession,
     reason: Literal["solved", "student_end", "disconnect", "timeout", "server_error"] = "student_end",
 ) -> None:
@@ -176,6 +199,7 @@ async def _end_session(
     from credit_router import restore_credit
     from ws_session import within_restore_window
 
+    is_demo = getattr(session, "session_tier", "basic") == "demo"
     started = session.started_at
     duration_seconds = (datetime.now(timezone.utc) - started).total_seconds()
 
@@ -218,6 +242,28 @@ async def _end_session(
         session_id=session.session_id,
         duration_hours=duration_hours,
     )
+
+    # Demo sessions: skip all persistence, send a simplified summary, and exit
+    if is_demo:
+        summary = {
+            "hints_used": hints_used,
+            "attempts": session.current_index + (1 if session.attempts or is_correct else 0),
+            "correct": is_correct,
+            "reward": 0,
+            "duration_seconds": round(duration_seconds, 1),
+            "ai_summary": [],
+            "topics_covered": [],
+            "per_topic_performance": {},
+            "practice_problems": [],
+            "problems_solved": session.current_index + (1 if is_correct else 0),
+            "queue_total": _queue_length(session),
+            "demo": True,
+        }
+        msg_type = "session_timeout" if reason == "timeout" else "session_end"
+        if ws is not None:
+            await _send(ws, type=msg_type, summary=summary)
+        delete_session(session.session_id)
+        return
 
     # Update cross-session misconception tracking based on wrong attempts
     if session.attempts:
@@ -330,7 +376,8 @@ async def _end_session(
     }
 
     msg_type = "session_timeout" if reason == "timeout" else "session_end"
-    await _send(ws, type=msg_type, summary=summary)
+    if ws is not None:
+        await _send(ws, type=msg_type, summary=summary)
     delete_session(session.session_id)
 
     # Clean up any uploaded files for this session (Phase 3)
@@ -435,18 +482,54 @@ async def _compress_conversation(session: TutorSession) -> None:
 
 # ── Timeout background task ───────────────────────────────────────────────────
 
+# Keyed by session_id; value is the asyncio Task running _run_disconnect_timer.
+# Cancelled when the student reconnects before the 10-min grace expires.
+_disconnect_timers: dict[str, asyncio.Task] = {}
+
+_SAFETY_CAP_SECONDS = 1800  # 30 min beyond nominal end before forcing a hard close
+
+
 async def _run_session_timer(
     session_id: str,
     websocket: WebSocket,
     max_duration_seconds: int,
 ) -> None:
     """
-    Async background task that manages session time limits.
-    Sends a 10-minute warning at nominal end, then auto-ends at grace period expiry.
+    Async background task managing session time limits.
+
+    For demo sessions (session_tier="demo"):
+      - At 25min: send demo_warning
+      - At 30min: send demo_expired and hard-end
+
+    For normal sessions:
+      Phase 1: sleep until 10 min before nominal end, send time_warning.
+      Phase 2: sleep through the 10-min grace period, then set
+               TutorSession.time_budget_exhausted so the orchestrator closes
+               cleanly at the next problem boundary (post-solve).
+      Phase 3: if the session is still alive _SAFETY_CAP_SECONDS later, hard-end
+               it — prevents runaway sessions from never reaching a boundary.
+
     Cancelled via task.cancel() when the session ends normally.
     """
     try:
-        # Sleep until 10 minutes before nominal end
+        # ── Demo session timer ────────────────────────────────────────────────
+        session = get_session(session_id)
+        if session is not None and getattr(session, "session_tier", "basic") == "demo":
+            await asyncio.sleep(max(0, max_duration_seconds - 300))  # warn at 25min
+            await _send(websocket, type="demo_warning",
+                        message="You have 5 minutes left in your free demo session.")
+            await asyncio.sleep(300)
+            session = get_session(session_id)
+            if session is not None:
+                await _send(websocket, type="demo_expired")
+                await _end_session(websocket, session, reason="timeout")
+            try:
+                await websocket.close(code=1000)
+            except Exception:
+                pass
+            return
+
+        # ── Phase 1: 10-min warning ───────────────────────────────────────────
         warning_delay = max(0, max_duration_seconds - GRACE_PERIOD_SECONDS)
         await asyncio.sleep(warning_delay)
 
@@ -456,8 +539,23 @@ async def _run_session_timer(
 
         await _send(websocket, type="time_warning", minutes_remaining=10)
 
-        # Sleep through the grace period
+        # ── Phase 2: soft budget exhaustion ───────────────────────────────────
         await asyncio.sleep(GRACE_PERIOD_SECONDS)
+
+        session = get_session(session_id)
+        if session is None:
+            return
+
+        session.time_budget_exhausted = True
+        update_session(session)
+        # Notify the frontend so it can show a "wrapping up after this problem"
+        # indicator — the session doesn't end here, just at the next boundary.
+        await _send(websocket, type="session_budget_exhausted")
+
+        # ── Phase 3: absolute safety cap ──────────────────────────────────────
+        # If the student is still mid-problem after _SAFETY_CAP_SECONDS, hard-end
+        # regardless (e.g., a very long stumble, or frontend never reached boundary).
+        await asyncio.sleep(_SAFETY_CAP_SECONDS)
 
         session = get_session(session_id)
         if session is None:
@@ -471,6 +569,27 @@ async def _run_session_timer(
 
     except asyncio.CancelledError:
         pass  # Normal — cancelled when session ends cleanly
+
+
+async def _run_disconnect_timer(session_id: str) -> None:
+    """
+    10-min grace timer started when a student's WS drops unexpectedly.
+    If the student reconnects before it fires, it is cancelled by
+    _run_reconnect_session. If it fires, the session is ended (credit
+    restored since reason="disconnect") and cleaned up.
+    """
+    try:
+        await asyncio.sleep(GRACE_PERIOD_SECONDS)
+        session = get_session(session_id)
+        if session is None:
+            return  # Already cleaned up by another path
+        if session.disconnected_at is None:
+            return  # Reconnect already cleared the flag
+        await _end_session(None, session, reason="disconnect")
+    except asyncio.CancelledError:
+        pass  # Normal — reconnect cancelled this
+    finally:
+        _disconnect_timers.pop(session_id, None)
 
 
 # ── Problem-queue helpers ─────────────────────────────────────────────────────
@@ -684,37 +803,40 @@ async def _run_general_session(
     from credit_router import consume_credit, restore_credit
     from ws_session import update_session
 
-    # ── 1. Credit check (tutor access is credits-only; tier plays no role) ────
-    credit_id = consume_credit(user.id)
-    if credit_id is None:
-        await _close_with_error(
-            websocket, 4029,
-            "No session credits available. Purchase credits at /credits/checkout."
-        )
-        return
-    session.credit_id = credit_id
+    is_demo = getattr(session, "session_tier", "basic") == "demo"
 
-    # ── 2. Anti-abuse ceiling (flat, generous — credits are the real quota) ───
-    requested_hours = 1.0 if session.session_type == "1hr" else 2.0
-    allowed, used_hours, limit_hours = check_tutor_quota(
-        user.id, user.tier, requested_hours
-    )
-    if not allowed:
-        restore_credit(credit_id)
-        await _close_with_error(
-            websocket, 4029,
-            f"Monthly tutor limit reached ({used_hours:.1f}/{limit_hours:.0f} hrs used). "
-            "Limit resets on the 1st of next month."
+    # ── 1. Credit check (skipped for demo sessions) ───────────────────────────
+    if not is_demo:
+        credit_id = consume_credit(user.id, kind=session.session_type)
+        if credit_id is None:
+            await _close_with_error(
+                websocket, 4029,
+                "No session credits available. Purchase credits at /credits/checkout."
+            )
+            return
+        session.credit_id = credit_id
+
+        # ── 2. Anti-abuse ceiling (flat, generous — credits are the real quota)
+        requested_hours = 1.0 if session.session_type == "1hr" else 2.0
+        allowed, used_hours, limit_hours = check_tutor_quota(
+            user.id, user.tier, requested_hours
         )
-        return
+        if not allowed:
+            restore_credit(credit_id)
+            await _close_with_error(
+                websocket, 4029,
+                f"Monthly tutor limit reached ({used_hours:.1f}/{limit_hours:.0f} hrs used). "
+                "Limit resets on the 1st of next month."
+            )
+            return
 
     # ── 4. Build problem queue ─────────────────────────────────────────────────
     await _send(websocket, type="session_loading", message="Building your problem set…")
 
     from agents.tutor_engine import (
         build_problem_queue, get_opening_message, generate_tutor_response,
-        handle_going_too_fast, check_exam_readiness,
-        get_exam_mode_proposal, get_exam_start_message,
+        handle_going_too_fast, check_quiz_readiness,
+        get_quiz_proposal, get_quiz_start_message,
     )
 
     # Build queue (skip if uploads already set uploaded_problems)
@@ -836,9 +958,29 @@ async def _run_general_session(
     )
 
     # ── 9. Message loop ────────────────────────────────────────────────────────
-    # Thin transport: receive → orchestrator.handle() → send messages → honor
-    # advance/end control actions. All business logic lives in
-    # session_orchestrator; this loop owns only WebSocket framing and lifecycle.
+    await _run_message_loop(websocket, session_id, user, timer_task)
+
+
+# ── Shared message loop ───────────────────────────────────────────────────────
+
+async def _run_message_loop(
+    websocket: WebSocket,
+    session_id: str,
+    user,
+    timer_task: asyncio.Task,
+) -> None:
+    """
+    Receive → orchestrate → send loop shared by new and reconnected sessions.
+
+    On WebSocketDisconnect: soft disconnect — marks disconnected_at, keeps the
+    session alive in Redis, and starts a 10-min timer. Reconnect cancels the
+    timer; expiry ends the session and restores the credit.
+    On server error: hard end (credit always restored).
+    """
+    from agents.tutor_engine import (
+        generate_tutor_response, handle_going_too_fast,
+        check_quiz_readiness, get_quiz_proposal, get_quiz_start_message,
+    )
     from agents.tutor_guide import looks_like_correction
 
     try:
@@ -850,9 +992,6 @@ async def _run_general_session(
                 break
 
             # ── SECURITY (H1): message rate limits ───────────────────────────
-            # Credits gate session START; without these a single session could
-            # send unlimited LLM-backed messages. Per-session hard cap + a
-            # per-user sliding window (shared across replicas via Redis).
             session.message_count += 1
             if session.message_count > MAX_MESSAGES_PER_SESSION:
                 timer_task.cancel()
@@ -875,9 +1014,9 @@ async def _run_general_session(
             deps = session_orchestrator.SessionDeps(
                 generate_tutor_response=generate_tutor_response,
                 handle_going_too_fast=handle_going_too_fast,
-                check_exam_readiness=check_exam_readiness,
-                get_exam_mode_proposal=get_exam_mode_proposal,
-                get_exam_start_message=get_exam_start_message,
+                check_quiz_readiness=check_quiz_readiness,
+                get_quiz_proposal=get_quiz_proposal,
+                get_quiz_start_message=get_quiz_start_message,
                 check_answer=check_answer,
                 get_hint=get_hint,
                 log_event=log_event,
@@ -898,8 +1037,6 @@ async def _run_general_session(
                 )
 
             # Background-generate the next problem at a new difficulty (L2-3).
-            # Fire-and-forget; if it isn't ready by the next advance, the queue
-            # is used instead and difficulty shifts one problem later.
             if result.prefetch is not None:
                 asyncio.create_task(
                     _prefetch_problem(session, result.prefetch.conceptual_diff)
@@ -925,10 +1062,15 @@ async def _run_general_session(
         timer_task.cancel()
         session = get_session(session_id)
         if session is not None:
-            await _end_session(websocket, session, reason="disconnect")
+            # Phase 1.5: soft disconnect — keep session alive for 10 min.
+            # Reconnect cancels the timer; expiry ends the session.
+            session.disconnected_at = datetime.now(timezone.utc)
+            update_session(session)
+            task = asyncio.create_task(_run_disconnect_timer(session_id))
+            _disconnect_timers[session_id] = task
     except Exception:
         # Unhandled server-side failure: always restore the credit (our fault)
-        logger.exception("Server error in general session %s", session_id)
+        logger.exception("Server error in session %s", session_id)
         timer_task.cancel()
         session = get_session(session_id)
         if session is not None:
@@ -937,6 +1079,84 @@ async def _run_general_session(
             await websocket.close(code=1011)
         except Exception:
             pass
+
+
+# ── Reconnect session ─────────────────────────────────────────────────────────
+
+async def _run_reconnect_session(
+    websocket: WebSocket,
+    session_id: str,
+    session: TutorSession,
+    user,
+    calculator_mode: str = "none",
+) -> None:
+    """
+    Resume a session after a WebSocket drop (disconnected_at is set on `session`).
+    Cancels the pending disconnect timer, clears the flag, sends session_ready
+    with remaining time + a short resume line, then re-enters the message loop.
+    """
+    from agents.tutor_engine import generate_tutor_response
+
+    # Cancel the pending end-session timer
+    pending = _disconnect_timers.pop(session_id, None)
+    if pending:
+        pending.cancel()
+
+    # Clear disconnect flag
+    session.disconnected_at = None
+    update_session(session)
+
+    # Compute remaining time so the frontend's countdown is accurate
+    elapsed = (datetime.now(timezone.utc) - session.started_at).total_seconds()
+    nominal_remaining = max(0, int(session.max_duration_seconds - elapsed))
+    # Total remaining = nominal + grace (what the frontend countdown shows)
+    seconds_remaining_total = max(0, int(session.max_duration_seconds + GRACE_PERIOD_SECONDS - elapsed))
+
+    current_problem = _problem_from_queue_or_uploads(session)
+    problem_payload = None
+    if current_problem:
+        problem_payload = {
+            "statement": current_problem.statement,
+            "answer_type": "expression",
+            "hint_ladder_length": len(current_problem.hint_ladder),
+        }
+
+    total = _queue_length(session)
+    await _send(
+        websocket,
+        type="session_ready",
+        session_id=session_id,
+        problem=problem_payload,
+        session_type=session.session_type,
+        max_duration_seconds=session.max_duration_seconds,
+        grace_period_seconds=GRACE_PERIOD_SECONDS,
+        seconds_remaining=seconds_remaining_total,
+        index=session.current_index,
+        total=total,
+        is_reconnect=True,
+    )
+
+    # Brief resume line from the tutor
+    try:
+        resume_msg, _ = await generate_tutor_response(
+            session,
+            "[RECONNECT: The student just reconnected after a brief disconnect. "
+            "Give a warm one-sentence welcome back — acknowledge the drop without "
+            "making it a big deal, then remind them where we left off.]",
+        )
+    except Exception:
+        resume_msg = "Hey, you're back — let's pick up where we left off!"
+
+    session.conversation.append({"role": "tutor", "content": resume_msg})
+    update_session(session)
+    await _send(websocket, type="agent_text", text=resume_msg)
+
+    # Restart the session timer with remaining time
+    timer_task = asyncio.create_task(
+        _run_session_timer(session_id, websocket, nominal_remaining)
+    )
+
+    await _run_message_loop(websocket, session_id, user, timer_task)
 
 
 # ── Legacy session ─────────────────────────────────────────────────────────────
@@ -957,7 +1177,7 @@ async def _run_legacy_session(
     """
     # ── 2. Credit check (tutor access is credits-only; tier plays no role) ────
     from credit_router import consume_credit, restore_credit
-    credit_id = consume_credit(user.id)
+    credit_id = consume_credit(user.id, kind=session_type)
     if credit_id is None:
         await _close_with_error(
             websocket, 4029,
@@ -1322,17 +1542,21 @@ async def tutor_ws(
 
     await websocket.accept(subprotocol=accept_subprotocol)
 
-    # Auth
+    # Auth (pass session_id so guest tokens are validated against the right session)
     try:
-        user = await _authenticate_ws_token(token)
+        user = await _authenticate_ws_token(token, session_id=session_id)
     except ValueError as exc:
         await _close_with_error(websocket, 4001, str(exc))
         return
 
-    # Route: if session was pre-created via /tutor/session/create, use general flow
+    # Route: pre-created session (Phase 4 general flow, or reconnect)
     existing = get_session(session_id)
     if existing is not None and existing.user_id == user.id:
-        await _run_general_session(websocket, session_id, existing, user, calculator_mode)
+        if existing.disconnected_at is not None:
+            # Phase 1.5: student is reconnecting after a WS drop
+            await _run_reconnect_session(websocket, session_id, existing, user, calculator_mode)
+        else:
+            await _run_general_session(websocket, session_id, existing, user, calculator_mode)
     else:
         # Legacy flow (discovery via query param)
         await _run_legacy_session(

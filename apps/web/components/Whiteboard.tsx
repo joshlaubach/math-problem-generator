@@ -81,15 +81,15 @@ function mkTC(theme: 'light' | 'dark'): WbTC {
 
 // ── Layout constants (constraints 1, 3) ──────────────────────────────────────
 
-const GAP = 24    // vertical gap between blocks (was 14)
+const GAP = 28    // vertical gap between blocks (was 14)
 const PAD = 32    // left/right padding inside doc (was 12)
 
 // Generous approximate heights — layout manager handles exact overlap
 const BLOCK_H: Record<string, number> = {
-  latex:      90,
+  latex:      120,  // increased from 90; display-mode KaTeX can be tall
   plot:       220,
   divider:    52,
-  annotation: 60,
+  annotation: 70,
 }
 
 // ── Cursor animation style (constraint 8) ────────────────────────────────────
@@ -114,6 +114,7 @@ export type WbMessage =
   | { type: 'wb_clear';          snapshot?: boolean }
   | { type: 'wb_new_section';    label: string }
   | { type: 'wb_annotate_student'; latex?: string; label?: string; x_hint?: 'left' | 'center' | 'right'; color?: 'correction' | 'confirmation' | 'neutral' }
+  | { type: 'wb_mark_incorrect' }
 
 export interface WhiteboardHandle {
   writeBlock(latex: string, opts?: { display?: boolean }): void
@@ -369,6 +370,7 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
 
     // Mutable cursor
     const nextYRef = useRef(PAD)
+    const lastAnnotationEndYRef = useRef<number>(0)  // prevents annotation stacking
 
     // Stable ref to current blocks (for annotateStudentWork to read without deps)
     const blocksRef = useRef<Block[]>([])
@@ -569,6 +571,7 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
       }
       setBlocks([])
       nextYRef.current = PAD
+      lastAnnotationEndYRef.current = 0
       layoutManagerRef.current.clear()   // constraint 2: reset registry on clear
       setDocHeight(visibleHeight)
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -627,6 +630,13 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
         yOff = nextYRef.current
       }
 
+      // Prevent stacking: advance past the bottom of the previous annotation
+      const annH = BLOCK_H.annotation
+      const safeY = lastAnnotationEndYRef.current > 0
+        ? Math.max(yOff, lastAnnotationEndYRef.current + GAP)
+        : yOff
+      lastAnnotationEndYRef.current = safeY + annH
+
       setBlocks(prev => [...prev, {
         id: `ann-${Date.now()}`,
         kind: 'annotation' as const,
@@ -634,7 +644,7 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
         label: annotation.label ?? 'AI Note',
         color: annotation.color ?? 'neutral',
         xOffset: xOff,
-        yOffset: yOff,
+        yOffset: safeY,
       }])
     }, [])
 
@@ -669,6 +679,9 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
           annotateStudentWork({ latex: m.latex, label: m.label, color: m.color })
           return
         }
+        case 'wb_mark_incorrect':
+          markIncorrect()
+          return
         case 'whiteboard': {
           const m = msg as WhiteboardMessage
           if (m.action === 'clear')                { clearBoard(); return }
@@ -684,7 +697,7 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
           return
         }
       }
-    }, [writeBlock, zoomTo, clearBoard, newSection, appendBlock, annotateStudentWork])
+    }, [writeBlock, zoomTo, clearBoard, newSection, appendBlock, annotateStudentWork, markIncorrect])
 
     useImperativeHandle(ref, () => ({
       writeBlock,
@@ -742,7 +755,7 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
             textTransform: 'uppercase', letterSpacing: '0.07em',
             marginRight: 2,
           }}>
-            Whiteboard
+            Tutor
           </span>
           <div style={{ flex: 1 }} />
 

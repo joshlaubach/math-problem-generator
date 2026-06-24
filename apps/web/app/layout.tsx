@@ -1,26 +1,23 @@
 import type { Metadata } from 'next'
-import { STIX_Two_Text, DM_Sans } from 'next/font/google'
+import { Fraunces, Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 import { Sidebar } from '@/components/Sidebar'
 import { BottomNav } from '@/components/BottomNav'
-import { MathBackground } from '@/components/MathBackground'
 import './globals.css'
 
-// Content layer — TeX's Computer Modern equivalent (headings, course names, lesson text)
-const stixTwo = STIX_Two_Text({
+// Heading / display layer — warm humanist serif (brand voice, course names, lesson headings)
+const fraunces = Fraunces({
   subsets: ['latin'],
   variable: '--font-fraunces',
+  axes: ['opsz'],
   display: 'swap',
-  weight: ['400', '500', '600', '700'],
-  style: ['normal', 'italic'],
 })
 
-// UI layer — clean geometric sans (nav, metadata, badges, buttons, inputs)
-const dmSans = DM_Sans({
+// UI layer — clean variable sans (nav, badges, buttons, inputs, body text)
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-instrument',
   display: 'swap',
-  axes: ['opsz'],
 })
 
 export const metadata: Metadata = {
@@ -39,11 +36,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           }}
         />
       </head>
-      <body className={`${stixTwo.variable} ${dmSans.variable} font-body antialiased`}>
+      <body className={`${fraunces.variable} ${inter.variable} font-body antialiased`}>
         <ClerkProvider>
-          {/* Fixed decorative background — blobs + floating symbols */}
-          <MathBackground />
-
           {/* App shell: sidebar + main content */}
           <div className="app-shell">
             <Sidebar />

@@ -110,6 +110,7 @@ class CheckAnswerResult(BaseModel):
     correct: bool
     equivalent_form: bool
     partial_credit_reason: Optional[str] = None
+    severity: Optional[Literal["careless", "method", "fundamental"]] = None
 
 
 # ---------------------------------------------------------------------------

@@ -209,14 +209,23 @@ async def redeem_parent_link(
 
         record.parent_id = user.id
         record.confirmed = True
-        db.commit()
 
-        # Get student email
+        # Unlock the minor's account now that a parent has consented
         from users_repository import DBUserRepository
         user_repo = DBUserRepository(lambda: db)
         student = user_repo.get_user_by_id(record.student_id)
-        student_email = student.email if student else "unknown"
+        if student and not student.age_confirmed:
+            student.age_confirmed = True
+            user_repo.update_user(student)
+            db.add(ConsentLogRecord(
+                id=str(uuid4()), user_id=student.id,
+                event="parent_consent_granted",
+                ip_address=request.client.host if request.client else None,
+                user_agent=request.headers.get("user-agent", "")[:255],
+            ))
+        db.commit()
 
+        student_email = student.email if student else "unknown"
         return {"ok": True, "student_email": student_email}
     except HTTPException:
         raise

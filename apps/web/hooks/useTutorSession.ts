@@ -9,14 +9,15 @@ export type SessionType = '1hr' | '2hr'
 export type TutorSessionState =
   | 'idle'
   | 'connecting'
-  | 'loading'      // building problem queue
-  | 'discovering'  // legacy open-ended topic detection
+  | 'loading'         // building problem queue
+  | 'discovering'     // legacy open-ended topic detection
   | 'ready'
   | 'thinking'
   | 'solved'
   | 'ended'
   | 'timeout'
   | 'error'
+  | 'reconnecting'    // WS dropped; auto-retrying every 5s for up to 10 min
 
 export interface TutorProblem {
   statement: string
@@ -51,7 +52,7 @@ export interface TopicOption {
 }
 
 export interface WhiteboardWsMessage {
-  type: 'whiteboard' | 'wb_write' | 'wb_clear' | 'wb_new_section' | 'wb_zoom' | 'wb_annotate_student'
+  type: 'whiteboard' | 'wb_write' | 'wb_clear' | 'wb_new_section' | 'wb_zoom' | 'wb_annotate_student' | 'wb_mark_incorrect'
   action?: 'write' | 'plot' | 'clear'
   latex?: string
   label?: string
@@ -91,8 +92,11 @@ export interface TutorSessionHook {
   pendingTopicConfirm: { topic_id: string; topic_name: string; mode: string; message: string } | null
   topicPicklist: TopicOption[] | null
   // Exam mode
-  examModeProposed: boolean
-  examModeActive: boolean
+  quizProposed: boolean
+  quizActive: boolean
+  // Demo session
+  demoWarning: boolean
+  demoExpired: boolean
   // Whiteboard
   whiteboardMessages: WhiteboardWsMessage[]
   // RAG
@@ -110,7 +114,7 @@ export interface TutorSessionHook {
   walkMeThrough: () => void
   goingTooFast: () => void
   nextProblem: () => void
-  acceptExamMode: () => void
+  acceptQuiz: () => void
   endSession: () => void
   disconnect: () => void
   // Legacy discovery
@@ -128,7 +132,9 @@ export interface TutorSessionHook {
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
-const MAX_RECONNECT_ATTEMPTS = 3
+// 10 min / 5s = 120 attempts to mirror the backend's 10-min disconnect window
+const MAX_RECONNECT_ATTEMPTS = 120
+const RECONNECT_INTERVAL_MS = 5000
 const GRACE_PERIOD_SECONDS = 600
 
 const API_WS_BASE = (
@@ -172,8 +178,10 @@ export function useTutorSession(): TutorSessionHook {
     topic_id: string; topic_name: string; mode: string; message: string
   } | null>(null)
   const [topicPicklist, setTopicPicklist] = useState<TopicOption[] | null>(null)
-  const [examModeProposed, setExamModeProposed] = useState(false)
-  const [examModeActive, setExamModeActive] = useState(false)
+  const [quizProposed, setQuizProposed] = useState(false)
+  const [quizActive, setQuizActive] = useState(false)
+  const [demoWarning, setDemoWarning] = useState(false)
+  const [demoExpired, setDemoExpired] = useState(false)
   const [scratchpadHasWork, setScratchpadHasWork] = useState(false)
   const [whiteboardMessages, setWhiteboardMessages] = useState<WhiteboardWsMessage[]>([])
   const [ragMatch, setRagMatch] = useState<RagMatch | null>(null)
@@ -181,9 +189,13 @@ export function useTutorSession(): TutorSessionHook {
 
   // ── Countdown ───────────────────────────────────────────────────────────────
 
-  const startCountdown = useCallback((totalSeconds: number, graceSeconds: number) => {
+  const startCountdown = useCallback((
+    totalSeconds: number,
+    graceSeconds: number,
+    startFrom?: number,   // override for reconnect (actual remaining incl. grace)
+  ) => {
     if (countdownRef.current) clearInterval(countdownRef.current)
-    setSecondsRemaining(totalSeconds + graceSeconds)
+    setSecondsRemaining(startFrom ?? totalSeconds + graceSeconds)
     countdownRef.current = setInterval(() => {
       setSecondsRemaining(prev => {
         if (prev === null || prev <= 0) return 0
@@ -223,12 +235,21 @@ export function useTutorSession(): TutorSessionHook {
         setMaxHints(p.hint_ladder_length)
       }
       if (msg.default_input_mode) setDefaultInputMode(msg.default_input_mode as string)
+      const isReconnect = msg.is_reconnect as boolean | undefined
       setState('ready')
       const maxDur = (msg.max_duration_seconds as number) ?? 3600
       const graceDur = (msg.grace_period_seconds as number) ?? GRACE_PERIOD_SECONDS
-      startCountdown(maxDur, graceDur)
+      const secondsRemaining = msg.seconds_remaining as number | undefined
+      startCountdown(maxDur, graceDur, secondsRemaining)
       setCurrentIndex((msg.index as number) ?? 0)
       setTotalProblems((msg.total as number) ?? 1)
+      reconnectCountRef.current = 0  // successful (re)connect resets retry counter
+      if (isReconnect) {
+        setMessages(prev => [
+          ...prev,
+          { role: 'system', content: 'Reconnected — picking up where we left off.', timestamp: Date.now() },
+        ])
+      }
 
       // Legacy: narrate worked_example steps
       const workedExample = msg.worked_example as Array<{expression_latex: string; description_latex: string}> | undefined
@@ -317,24 +338,24 @@ export function useTutorSession(): TutorSessionHook {
     }
 
     // ── Exam mode ────────────────────────────────────────────────────────────
-    else if (type === 'exam_mode_propose') {
-      setExamModeProposed(true)
+    else if (type === 'quiz_propose') {
+      setQuizProposed(true)
       setMessages(prev => [
         ...prev,
         { role: 'tutor', content: msg.message as string, timestamp: Date.now() },
       ])
     }
-    else if (type === 'exam_mode_active') {
-      setExamModeProposed(false)
+    else if (type === 'quiz_active') {
+      setQuizProposed(false)
       // No chat-stream label: the persistent EXAM MODE header badge is the
       // student-facing indicator (see session page header).
-      setExamModeActive(true)
+      setQuizActive(true)
     }
 
     // ── Whiteboard ───────────────────────────────────────────────────────────
     else if (type === 'whiteboard' || type === 'wb_write' || type === 'wb_clear'
              || type === 'wb_new_section' || type === 'wb_zoom'
-             || type === 'wb_annotate_student') {
+             || type === 'wb_annotate_student' || type === 'wb_mark_incorrect') {
       setWhiteboardMessages(prev => [...prev, msg as unknown as WhiteboardWsMessage])
     }
 
@@ -358,6 +379,18 @@ export function useTutorSession(): TutorSessionHook {
         {
           role: 'system',
           content: `Your session ends in ${msg.minutes_remaining} minutes.`,
+          timestamp: Date.now(),
+        },
+      ])
+    }
+
+    // ── Soft budget exhaustion (Phase 1.4) ───────────────────────────────────
+    else if (type === 'session_budget_exhausted') {
+      setMessages(prev => [
+        ...prev,
+        {
+          role: 'system',
+          content: "Time's up after this problem — wrapping up once you're done.",
           timestamp: Date.now(),
         },
       ])
@@ -399,6 +432,14 @@ export function useTutorSession(): TutorSessionHook {
       ])
     }
 
+    // ── Demo events ──────────────────────────────────────────────────────────
+    else if (type === 'demo_warning') {
+      setDemoWarning(true)
+    }
+    else if (type === 'demo_expired') {
+      setDemoExpired(true)
+    }
+
     // ── Error ────────────────────────────────────────────────────────────────
     else if (type === 'error') {
       setLastError(msg.message as string)
@@ -416,19 +457,26 @@ export function useTutorSession(): TutorSessionHook {
 
     ws.onclose = (event) => {
       const params = connectParamsRef.current
-      const shouldReconnect =
+      const canRetry =
         !NO_RECONNECT_CODES.has(event.code) &&
-        reconnectCountRef.current < MAX_RECONNECT_ATTEMPTS &&
+        !sessionTerminatedRef.current &&
         params !== null
 
-      if (shouldReconnect) {
+      if (canRetry && reconnectCountRef.current < MAX_RECONNECT_ATTEMPTS) {
+        // First attempt → show reconnecting banner; subsequent → keep showing it
+        if (reconnectCountRef.current === 0) {
+          setState('reconnecting')
+          setMessages(prev => [
+            ...prev,
+            { role: 'system', content: 'Connection lost — reconnecting…', timestamp: Date.now() },
+          ])
+        }
         reconnectCountRef.current++
-        const delay = 1000 * Math.pow(2, reconnectCountRef.current - 1)
         setTimeout(() => {
           if (!connectParamsRef.current) return
           const p = connectParamsRef.current
           if (p.preSessionId) {
-            // Phase 4: reconnect to known session
+            // Phase 1.5: reconnect to the same known session (backend keeps it alive 10 min)
             openWs(`${API_WS_BASE}/ws/tutor/${p.preSessionId}`, p.token)
           } else {
             openWs(
@@ -440,12 +488,21 @@ export function useTutorSession(): TutorSessionHook {
               p.token
             )
           }
-        }, delay)
+        }, RECONNECT_INTERVAL_MS)
       } else {
+        // Exhausted retries or terminal close
         if (!sessionTerminatedRef.current) {
-          const s = wsRef.current ? 'idle' : state
-          if (s !== 'solved' && s !== 'ended' && s !== 'timeout') {
-            setState(NO_RECONNECT_CODES.has(event.code) ? 'error' : 'ended')
+          if (NO_RECONNECT_CODES.has(event.code)) {
+            setState('error')
+          } else if (reconnectCountRef.current >= MAX_RECONNECT_ATTEMPTS) {
+            // 10 min elapsed without reconnect — treat as session ended
+            setState('ended')
+            setMessages(prev => [
+              ...prev,
+              { role: 'system', content: 'Session ended after being disconnected for too long.', timestamp: Date.now() },
+            ])
+          } else {
+            setState('ended')
           }
         }
         stopCountdown()
@@ -471,8 +528,8 @@ export function useTutorSession(): TutorSessionHook {
     setScratchpadHasWork(false)
     setWhiteboardMessages([])
     setDefaultInputMode('latex')
-    setExamModeProposed(false)
-    setExamModeActive(false)
+    setQuizProposed(false)
+    setQuizActive(false)
     setCurrentIndex(0)
     setTotalProblems(0)
     sessionTerminatedRef.current = false
@@ -537,9 +594,9 @@ export function useTutorSession(): TutorSessionHook {
   const walkMeThrough = useCallback(() => _send({ type: 'walk_me_through' }), [_send])
   const goingTooFast = useCallback(() => _send({ type: 'going_too_fast' }), [_send])
   const nextProblem = useCallback(() => _send({ type: 'next_problem' }), [_send])
-  const acceptExamMode = useCallback(() => {
-    setExamModeProposed(false)
-    _send({ type: 'exam_mode_accept' })
+  const acceptQuiz = useCallback(() => {
+    setQuizProposed(false)
+    _send({ type: 'quiz_accept' })
   }, [_send])
   const endSession = useCallback(() => _send({ type: 'session_end' }), [_send])
 
@@ -596,10 +653,10 @@ export function useTutorSession(): TutorSessionHook {
     state, problem, messages, hintLevel, maxHints, secondsRemaining, inGracePeriod,
     isCorrect, summary, lastError, currentIndex, totalProblems,
     pendingTopicConfirm, topicPicklist,
-    examModeProposed, examModeActive,
+    quizProposed, quizActive, demoWarning, demoExpired,
     whiteboardMessages, ragMatch,
     connectToSession, connect, sendText, submitAnswer, requestHint,
-    walkMeThrough, goingTooFast, nextProblem, acceptExamMode,
+    walkMeThrough, goingTooFast, nextProblem, acceptQuiz,
     endSession, disconnect, acceptTopic, rejectTopic,
     scratchpadHasWork, setScratchpadHasWork,
     sendCanvasSnapshot, sendImageDrop, sendRagSearch, sendStudentWork,

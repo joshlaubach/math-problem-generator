@@ -137,8 +137,8 @@ class TestContentModeration:
 
         deps = so.SessionDeps(
             generate_tutor_response=gen, handle_going_too_fast=gen,
-            check_exam_readiness=lambda s: False, get_exam_mode_proposal=gen,
-            get_exam_start_message=gen, check_answer=gen, get_hint=gen,
+            check_quiz_readiness=lambda s: False, get_quiz_proposal=gen,
+            get_quiz_start_message=gen, check_answer=gen, get_hint=gen,
             log_event=lambda **k: None, update_session=lambda s: None,
             looks_like_correction=lambda r: False,
         )

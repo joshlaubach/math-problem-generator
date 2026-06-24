@@ -88,6 +88,18 @@ class TutorSession:
     session_tier: str = "basic"          # "basic" | "premium" — gates drawing recognition + RAG
     is_first_ever_session: bool = False  # True when user has no prior TutorSessionRecord rows;
                                          # gates the diagnostic protocol in should_inject_deep()
+    walkthrough_active: bool = False     # True when student is narrating steps one-by-one
+                                         # after a careless/method wrong answer; routes
+                                         # student_text to the walkthrough handler
+    time_budget_exhausted: bool = False  # Set by the timer when max_duration elapses;
+                                         # session ends at the next problem boundary
+                                         # (post-solve) instead of mid-problem.
+    disconnected_at: Optional[datetime] = None  # Set when WS drops; cleared on
+                                                 # reconnect; signals the 10-min
+                                                 # disconnect timer to end if not cleared.
+    # ── Phase 1.6 modality-cascade fields ────────────────────────────────────
+    concept_lesson_counts: dict = field(default_factory=dict)  # topic_id → # of lesson cycles
+    exam_datetime: Optional[str] = None  # ISO datetime string; set when why="test_prep"
 
 
 # ---------------------------------------------------------------------------
@@ -116,8 +128,11 @@ async def init_redis() -> None:
 
 def _session_to_dict(session: TutorSession) -> dict:
     d = asdict(session)
-    # datetime → ISO string
+    # datetime fields → ISO strings
     d["started_at"] = session.started_at.isoformat()
+    d["disconnected_at"] = (
+        session.disconnected_at.isoformat() if session.disconnected_at is not None else None
+    )
     # GeneratedProblem → dict already via asdict
     return d
 
@@ -125,6 +140,10 @@ def _session_to_dict(session: TutorSession) -> dict:
 def _session_from_dict(d: dict) -> TutorSession:
     d = dict(d)
     d["started_at"] = datetime.fromisoformat(d["started_at"])
+    if d.get("disconnected_at"):
+        d["disconnected_at"] = datetime.fromisoformat(d["disconnected_at"])
+    else:
+        d["disconnected_at"] = None
     # Re-hydrate GeneratedProblem (may be None for pending sessions)
     from agents.schemas import GeneratedProblem as GP
     if isinstance(d.get("problem"), dict):
@@ -183,6 +202,7 @@ def create_pending_session(
     why: Optional[str] = None,
     notes: str = "",
     mode: str = "practice",
+    exam_datetime: Optional[str] = None,
 ) -> TutorSession:
     """Create a pre-session stub (no problem yet) from the intake form.
 
@@ -207,6 +227,7 @@ def create_pending_session(
         freeform_topics=freeform_topics or [],
         why=why,
         notes=notes,
+        exam_datetime=exam_datetime,
     )
     _sessions[session_id] = session
     _sync_to_redis(session)

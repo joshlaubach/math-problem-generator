@@ -337,6 +337,9 @@ class UserRecord(Base):
     learning_goal: Mapped[Optional[str]] = mapped_column(String(20), nullable=True)  # 'pass'|'b'|'a'|'mastery'
     parent_monitor: Mapped[bool] = mapped_column(Boolean, default=False)
 
+    # Age verification (Phase 2): ISO date string "YYYY-MM-DD", nullable for legacy rows
+    date_of_birth: Mapped[Optional[str]] = mapped_column(String(10), nullable=True)
+
     def __repr__(self) -> str:
         return f"<UserRecord(id={self.id}, email={self.email}, role={self.role}, tier={self.tier})>"
 
@@ -402,6 +405,7 @@ def user_record_to_model(record: UserRecord) -> User:
         is_teacher=record.is_teacher,
         learning_goal=record.learning_goal,
         parent_monitor=record.parent_monitor,
+        date_of_birth=getattr(record, "date_of_birth", None),
     )
 
 
@@ -421,6 +425,7 @@ def user_model_to_record(user: User) -> UserRecord:
         is_teacher=user.is_teacher,
         learning_goal=getattr(user, "learning_goal", None),
         parent_monitor=getattr(user, "parent_monitor", False),
+        date_of_birth=getattr(user, "date_of_birth", None),
     )
 
 
@@ -608,6 +613,8 @@ class SessionCreditRecord(Base):
 
     id: Mapped[str] = mapped_column(String(36), primary_key=True)
     user_id: Mapped[str] = mapped_column(String(255), index=True)
+    # "1hr" or "2hr" — typed product; must match session_type at consume time.
+    kind: Mapped[str] = mapped_column(String(10), default="1hr", index=True)
     used_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
     expires_at: Mapped[datetime] = mapped_column(DateTime, index=True)
     # Indexed for the M6 idempotency lookup (replayed Stripe webhooks).
@@ -797,6 +804,121 @@ class TopicLessonRecord(Base):
 
     def __repr__(self) -> str:
         return f"<TopicLessonRecord(topic_id={self.topic_id})>"
+
+
+class ExamAttemptRecord(Base):
+    """
+    One student exam attempt. Problems and graded results are stored as JSON
+    so the schema doesn't need to mirror the problem structure.
+
+    Credit is consumed at submit time (not at start), so credit_id is nullable
+    until the student submits.
+    """
+
+    __tablename__ = "exam_attempts"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    # "sat_math" | "ap_calc_ab" | "ap_calc_bc" | "ap_statistics" | "custom"
+    template_id: Mapped[str] = mapped_column(String(50), index=True)
+    # Full template config used to generate this attempt
+    template_json: Mapped[dict] = mapped_column(JSON)
+    # Generated problems: [{index, statement, answer, answer_type, worked_steps, topic_id, topic_name}]
+    problems_json: Mapped[list] = mapped_column(JSON)
+    # Student answers keyed by problem index (string key): {"0": "3x+2", ...}
+    answers_json: Mapped[dict] = mapped_column(JSON, default=dict)
+    start_time: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+    # Null means untimed
+    time_limit_minutes: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    submitted_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    score: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    problems_attempted: Mapped[int] = mapped_column(Integer, default=0)
+    problems_correct: Mapped[int] = mapped_column(Integer, default=0)
+    integrity_flag_count: Mapped[int] = mapped_column(Integer, default=0)
+    # Exam credit consumed on submit
+    credit_id: Mapped[Optional[str]] = mapped_column(String(36), nullable=True)
+    # AI-generated closing paragraph on weak concepts (populated after submit)
+    review_summary: Mapped[Optional[str]] = mapped_column(Text, nullable=True)
+
+    __table_args__ = (
+        Index("idx_exam_user_start", "user_id", "start_time"),
+    )
+
+    def __repr__(self) -> str:
+        return f"<ExamAttemptRecord(id={self.id}, user={self.user_id}, template={self.template_id})>"
+
+
+class ExamIntegrityEventRecord(Base):
+    """
+    One integrity event logged during an exam attempt.
+
+    Events surface to Josh in the admin review view; no automated action is
+    taken. Flagging is informational, not accusatory.
+    """
+
+    __tablename__ = "exam_integrity_events"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    attempt_id: Mapped[str] = mapped_column(String(36), index=True)
+    # "tab_blur" | "tab_focus" | "paste" | "timing_anomaly"
+    event_type: Mapped[str] = mapped_column(String(30), index=True)
+    problem_index: Mapped[Optional[int]] = mapped_column(Integer, nullable=True)
+    elapsed_seconds: Mapped[Optional[float]] = mapped_column(Float, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+
+    def __repr__(self) -> str:
+        return f"<ExamIntegrityEventRecord(attempt={self.attempt_id}, type={self.event_type})>"
+
+
+class ReferralRecord(Base):
+    """One referral code per user. Created lazily on first GET /referral/me."""
+
+    __tablename__ = "referrals"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(255), unique=True, index=True)
+    code: Mapped[str] = mapped_column(String(12), unique=True, index=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<ReferralRecord(user_id={self.user_id}, code={self.code})>"
+
+
+class ReferralUsageRecord(Base):
+    """Tracks when a user signs up via a referral code and when they first pay."""
+
+    __tablename__ = "referral_usages"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    code: Mapped[str] = mapped_column(String(12), index=True)
+    # Each user can only be referred once (unique constraint).
+    referred_user_id: Mapped[str] = mapped_column(String(255), unique=True, index=True)
+    # Set by the Stripe webhook on the referred user's first Stripe payment.
+    first_paid_at: Mapped[Optional[datetime]] = mapped_column(DateTime, nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow)
+
+    def __repr__(self) -> str:
+        return f"<ReferralUsageRecord(code={self.code}, referred={self.referred_user_id})>"
+
+
+class RewardRecord(Base):
+    """A free 1hr credit granted as a loyalty or referral reward."""
+
+    __tablename__ = "rewards"
+
+    id: Mapped[str] = mapped_column(String(36), primary_key=True)
+    user_id: Mapped[str] = mapped_column(String(255), index=True)
+    reason: Mapped[str] = mapped_column(String(20))   # "paid_5" | "referral_3"
+    milestone: Mapped[int] = mapped_column(Integer)   # 5, 10, 15... or 3, 6, 9...
+    credit_id: Mapped[Optional[str]] = mapped_column(String(36), nullable=True)
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+
+    __table_args__ = (
+        Index("idx_reward_user_reason_milestone", "user_id", "reason", "milestone", unique=True),
+    )
+
+    def __repr__(self) -> str:
+        return f"<RewardRecord(user_id={self.user_id}, reason={self.reason}, milestone={self.milestone})>"
 
 
 class StudentConceptError(Base):

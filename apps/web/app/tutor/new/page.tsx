@@ -163,6 +163,7 @@ function TutorNewForm() {
   const [unitIds,      setUnitIds]      = useState<string[]>([])
   const [topicIds,     setTopicIds]     = useState<string[]>([])
   const [why,          setWhy]          = useState<string[]>([])
+  const [examDatetime, setExamDatetime] = useState<string>('')
   const [notes,        setNotes]        = useState('')
   const [freeformDesc, setFreeformDesc] = useState('')
   const [sessionType,  setSessionType]  = useState<'1hr' | '2hr'>('1hr')
@@ -251,6 +252,9 @@ function TutorNewForm() {
         why: why.length > 0 ? why.join(',') : undefined,
         notes: [notes, isOther ? freeformDesc : ''].filter(Boolean).join('\n\n').trim(),
         session_type: sessionType,
+        exam_datetime: (why.includes('test_prep') && examDatetime)
+          ? new Date(examDatetime).toISOString()
+          : undefined,
       }
 
       // Step 1: Create session
@@ -423,6 +427,27 @@ function TutorNewForm() {
                 ))}
               </div>
             </Section>
+
+            {/* ── Exam date/time (test_prep only) ──────────────────────── */}
+            {why.includes('test_prep') && (
+              <Section>
+                <FieldLabel optional>When is the exam?</FieldLabel>
+                <input
+                  type="datetime-local"
+                  value={examDatetime}
+                  onChange={e => setExamDatetime(e.target.value)}
+                  style={{
+                    background: 'var(--surface)', color: 'var(--text)',
+                    border: '1px solid var(--border)', borderRadius: 6,
+                    padding: '8px 10px', fontSize: 13, width: '100%',
+                    boxSizing: 'border-box',
+                  }}
+                />
+                <div style={{ fontSize: 11, color: 'var(--text-muted)', marginTop: 4 }}>
+                  If your exam is tonight or tomorrow, I'll be honest with you about what's realistic.
+                </div>
+              </Section>
+            )}
 
             {/* ── Notes ────────────────────────────────────────────────── */}
             <Section>

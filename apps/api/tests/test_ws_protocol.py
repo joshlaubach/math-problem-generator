@@ -61,6 +61,7 @@ def ws_harness(monkeypatch, tmp_path):
     import ws_router
     import agents.tutor_engine as te
     import agents.session_summarizer as ss
+    import agents.severity as severity_module
     import session_quota
     from fastapi.testclient import TestClient
     from api import app
@@ -71,7 +72,7 @@ def ws_harness(monkeypatch, tmp_path):
     monkeypatch.setattr(session_quota, "_uses_database", lambda: False)
 
     # Auth: bypass JWT, return a known user
-    async def fake_auth(token):
+    async def fake_auth(token, session_id=None):
         return _user()
     monkeypatch.setattr(ws_router, "_authenticate_ws_token", fake_auth)
 
@@ -81,6 +82,7 @@ def ws_harness(monkeypatch, tmp_path):
         entered_lesson=False,
         exam_ready=False,
         answer_correct=False,
+        severity=None,  # None → wb_mark_incorrect default; set to override
     )
 
     async def fake_build_queue(session):
@@ -125,18 +127,22 @@ def ws_harness(monkeypatch, tmp_path):
     async def fake_summarize(**kwargs):
         return {"bullets": [], "per_topic_performance": {}, "practice_problems": []}
 
+    async def fake_classify_severity(student_answer, canonical_answer, worked_steps):
+        return state.severity
+
     monkeypatch.setattr(te, "build_problem_queue", fake_build_queue)
     monkeypatch.setattr(te, "get_opening_message", fake_opening)
     monkeypatch.setattr(te, "generate_tutor_response", fake_generate)
     monkeypatch.setattr(te, "handle_going_too_fast", fake_too_fast)
-    monkeypatch.setattr(te, "check_exam_readiness", fake_exam_ready)
-    monkeypatch.setattr(te, "get_exam_mode_proposal", fake_exam_proposal)
-    monkeypatch.setattr(te, "get_exam_start_message", fake_exam_start)
+    monkeypatch.setattr(te, "check_quiz_readiness", fake_exam_ready)
+    monkeypatch.setattr(te, "get_quiz_proposal", fake_exam_proposal)
+    monkeypatch.setattr(te, "get_quiz_start_message", fake_exam_start)
     monkeypatch.setattr(ws_router, "check_answer", fake_check_answer)
     monkeypatch.setattr(ws_router, "get_hint", fake_get_hint)
     monkeypatch.setattr(ws_router, "_compress_conversation", fake_compress)
     monkeypatch.setattr(ws_router, "_send_session_report_email", fake_report_email)
     monkeypatch.setattr(ss, "summarize_session", fake_summarize)
+    monkeypatch.setattr(severity_module, "classify_severity", fake_classify_severity)
 
     created: list[str] = []
 
@@ -229,11 +235,44 @@ class TestAnswerSubmit:
             _drain_connect(ws)
             ws.send_json({"type": "answer_submit", "answer": "wrong"})
             result = ws.receive_json()
+            # No ANTHROPIC_API_KEY in tests → severity=None → wb_mark_incorrect sent
+            wb_mark = ws.receive_json()
             followup = ws.receive_json()
         assert result["type"] == "answer_result"
         assert result["correct"] is False
         assert "equivalent_form" in result and "partial_credit_reason" in result
+        assert wb_mark["type"] == "wb_mark_incorrect"
         assert followup == {"type": "agent_text", "text": "FOLLOWUP_Q"}
+
+    def test_careless_wrong_no_board_change(self, ws_harness):
+        """Careless severity → no wb_mark_incorrect; just answer_result + agent_text."""
+        ws_harness.state.answer_correct = False
+        ws_harness.state.severity = "careless"
+        ws_harness.state.reply = "WALKTHROUGH_PROMPT"
+        with ws_harness.connect() as ws:
+            _drain_connect(ws)
+            ws.send_json({"type": "answer_submit", "answer": "wrong"})
+            result = ws.receive_json()
+            followup = ws.receive_json()
+        assert result["type"] == "answer_result"
+        assert result["correct"] is False
+        assert result.get("severity") == "careless"
+        assert followup == {"type": "agent_text", "text": "WALKTHROUGH_PROMPT"}
+
+    def test_careless_wrong_then_walkthrough_routes(self, ws_harness):
+        """After a careless wrong answer, student_text routes through walkthrough handler."""
+        ws_harness.state.answer_correct = False
+        ws_harness.state.severity = "careless"
+        ws_harness.state.reply = "STEP_REPLY"
+        with ws_harness.connect() as ws:
+            _drain_connect(ws)
+            ws.send_json({"type": "answer_submit", "answer": "wrong"})
+            ws.receive_json()  # answer_result
+            ws.receive_json()  # agent_text (walkthrough prompt)
+            # Session is now in walkthrough mode — next student_text is a step narration
+            ws.send_json({"type": "student_text", "text": "First I multiplied both sides by 3"})
+            step_reply = ws.receive_json()
+        assert step_reply["type"] == "agent_text"
 
     def test_correct_answer_advances(self, ws_harness):
         ws_harness.state.answer_correct = True
@@ -259,7 +298,27 @@ class TestAnswerSubmit:
             result = ws.receive_json()
             propose = ws.receive_json()
         assert result["type"] == "answer_result"
-        assert propose == {"type": "exam_mode_propose", "message": "EXAM_PROPOSAL"}
+        assert propose == {"type": "quiz_propose", "message": "EXAM_PROPOSAL"}
+
+    def test_budget_exhausted_ends_at_problem_boundary(self, ws_harness):
+        """time_budget_exhausted → correct solve sends closing message then session_timeout."""
+        from ws_session import get_session, update_session
+        ws_harness.state.answer_correct = True
+        ws_harness.state.exam_ready = False
+        with ws_harness.connect() as ws:
+            _drain_connect(ws)
+            # Simulate the timer having set the flag
+            session = get_session("ws-sess-1")
+            session.time_budget_exhausted = True
+            update_session(session)
+            ws.send_json({"type": "answer_submit", "answer": "4"})
+            result = ws.receive_json()
+            closing = ws.receive_json()
+            end = ws.receive_json()
+        assert result["type"] == "answer_result"
+        assert result["correct"] is True
+        assert closing["type"] == "agent_text"
+        assert end["type"] == "session_timeout"
 
 
 # ── hint_request ──────────────────────────────────────────────────────────────
@@ -281,8 +340,8 @@ class TestHintRequest:
             # Enter exam mode first
             ws_harness.state.exam_ready = True
             ws_harness.state.answer_correct = True
-            ws.send_json({"type": "exam_mode_accept"})
-            # Drain exam-entry messages: wb_clear, exam_mode_active, agent_text, wb_new_section, next_problem
+            ws.send_json({"type": "quiz_accept"})
+            # Drain exam-entry messages: wb_clear, quiz_active, agent_text, wb_new_section, next_problem
             for _ in range(5):
                 ws.receive_json()
             ws.send_json({"type": "hint_request"})
@@ -331,20 +390,20 @@ class TestSkipProblem:
         assert nxt["problem"]["statement"] == "PROBLEM_TWO"
 
 
-# ── exam_mode_accept ──────────────────────────────────────────────────────────
+# ── quiz_accept ──────────────────────────────────────────────────────────
 
 class TestExamModeAccept:
     def test_exam_entry_sequence(self, ws_harness):
         with ws_harness.connect() as ws:
             _drain_connect(ws)
-            ws.send_json({"type": "exam_mode_accept"})
+            ws.send_json({"type": "quiz_accept"})
             clear = ws.receive_json()
             active = ws.receive_json()
             start_text = ws.receive_json()
             section = ws.receive_json()
             nxt = ws.receive_json()
         assert clear["type"] == "wb_clear" and clear["snapshot"] is True
-        assert active["type"] == "exam_mode_active"
+        assert active["type"] == "quiz_active"
         assert start_text == {"type": "agent_text", "text": "EXAM_START"}
         assert section["type"] == "wb_new_section"
         assert nxt["type"] == "next_problem"
@@ -396,8 +455,43 @@ class TestExamProposalFlow:
             _drain_connect(ws)
             ws.send_json({"type": "answer_submit", "answer": "4"})
             assert ws.receive_json()["type"] == "answer_result"
-            assert ws.receive_json()["type"] == "exam_mode_propose"
+            assert ws.receive_json()["type"] == "quiz_propose"
             # Accept
-            ws.send_json({"type": "exam_mode_accept"})
+            ws.send_json({"type": "quiz_accept"})
             assert ws.receive_json()["type"] == "wb_clear"
-            assert ws.receive_json()["type"] == "exam_mode_active"
+            assert ws.receive_json()["type"] == "quiz_active"
+
+
+# ── Reconnect flow ─────────────────────────────────────────────────────────────
+
+class TestReconnect:
+    def test_reconnect_sends_session_ready_and_resume_text(self, ws_harness):
+        """disconnected_at set → reconnect routes to session_ready + agent_text (no session_loading)."""
+        from datetime import datetime, timezone
+        from ws_session import get_session, update_session
+        from fastapi.testclient import TestClient
+        from api import app
+
+        ws_harness.state.reply = "Welcome back!"
+
+        # First connect: normal session start; set disconnected_at before WS close
+        # so the server's WebSocketDisconnect handler keeps the session alive.
+        with ws_harness.connect() as ws:
+            _drain_connect(ws)
+            session = get_session("ws-sess-1")
+            session.disconnected_at = datetime.now(timezone.utc)
+            update_session(session)
+        # WS closes → soft disconnect fires → disconnected_at stays set
+
+        # Reconnect: raw TestClient connect (no create_pending_session — session exists)
+        client = TestClient(app)
+        with client.websocket_connect(
+            "/ws/tutor/ws-sess-1", subprotocols=["bearer", "t"]
+        ) as ws:
+            ready = ws.receive_json()   # session_ready (no session_loading on reconnect)
+            resume = ws.receive_json()  # agent_text (resume line from tutor)
+
+        assert ready["type"] == "session_ready"
+        assert ready.get("is_reconnect") is True
+        assert isinstance(ready.get("seconds_remaining"), int)
+        assert resume["type"] == "agent_text"

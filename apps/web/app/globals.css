@@ -6,26 +6,55 @@
 
 /* ─────────────────────────────────────────
    Design tokens — light mode (default)
-   Graph-paper warmth + mathematical ink
+   Warm cream canvas + mathematical ink
 ───────────────────────────────────────── */
 :root {
-  --bg:            #f7f8fc;
+  /* Canvas */
+  --bg:            #FBF8F3;
   --surface:       #ffffff;
-  --surface2:      #f0f2f8;
-  --surface3:      #e8eaf2;
-  --border:        #dce0ee;
-  --border2:       #c4cade;
-  --text:          #0f1623;
-  --text-dim:      #4a5472;
-  --text-muted:    #8a96b4;
-  --caramel:       #b8860b;
-  --caramel-dim:   rgba(184, 134, 11, 0.1);
-  --caramel-glow:  rgba(184, 134, 11, 0.25);
-  --forest:        #1a6b45;
-  --forest-dim:    rgba(26, 107, 69, 0.1);
-  --terracotta:    #b83232;
-  --terra-dim:     rgba(184, 50, 50, 0.1);
+  --surface2:      #F4F1EA;
+  --surface3:      #EBE7DE;
+  --border:        #E7E0D6;
+  --border2:       #D4C9BC;
   --sidebar-w:     240px;
+
+  /* Ink */
+  --text:          #26221D;
+  --text-dim:      #5C5349;
+  --text-muted:    #6E6457;   /* was #8a96b4 — 2.96:1 FAIL → 5.80:1 ✓ */
+
+  /* Primary — slate teal (buttons, links, nav, focus) */
+  --primary:       #155E63;
+  --primary-hover: #114B4F;
+
+  /* Gold — two tiers; scarcity is the point */
+  --brand-gold:    #B8860B;   /* logo + ≥24px bold headings ONLY */
+  --action-gold:   #8A6A0E;   /* buttons, links, small text — 5.06:1 on white ✓ */
+  --amber:         #B45309;   /* warm stat accent */
+
+  /* Caramel alias → action-gold (fixes button + link WCAG failures in one pass) */
+  --caramel:       var(--action-gold);
+  --caramel-dim:   rgba(138, 106, 14, 0.1);
+  --caramel-glow:  rgba(138, 106, 14, 0.25);
+
+  /* Semantic feedback — always pair with an icon, never color-alone */
+  --forest:        #1A6B45;
+  --forest-dim:    rgba(26, 107, 69, 0.1);
+  --success:       #1A6B45;   /* correct — 6.50:1 on white ✓ */
+  --not-yet:       #B5451F;   /* wrong answer — 5.47:1 on white ✓ */
+  --terracotta:    #b83232;   /* system errors only */
+  --terra-dim:     rgba(184, 50, 50, 0.1);
+
+  /* 8px spacing scale */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  24px;
+  --space-6:  32px;
+  --space-7:  40px;
+  --space-8:  48px;
+  --space-9:  64px;
 
   /* Level accent colors — light mode (ink on graph paper) */
   --algebra-color:    #b45309;
@@ -47,23 +76,25 @@
 }
 
 /* ─────────────────────────────────────────
-   Dark mode — 3Blue1Brown palette
-   Deep navy canvas + glowing math objects
+   Dark mode — warm charcoal canvas
+   Charcoal warmth + glowing math objects
 ───────────────────────────────────────── */
 [data-theme="dark"] {
-  --bg:            #0d1117;
-  --surface:       #161b22;
-  --surface2:      #1c2128;
-  --surface3:      #21262d;
-  --border:        #30363d;
-  --border2:       #484f58;
-  --text:          #e6edf3;
-  --text-dim:      #8b949e;
-  --text-muted:    #6e7681;
+  --bg:            #16130F;
+  --surface:       #211D18;
+  --surface2:      #2A2520;
+  --surface3:      #332E28;
+  --border:        #3D3830;
+  --border2:       #524B42;
+  --text:          #F2EDE4;
+  --text-dim:      #ADA59C;
+  --text-muted:    #9C9082;   /* was #6e7681 — 3.77:1 FAIL → 6.65:1 ✓ */
   --caramel:       #d29922;
   --caramel-dim:   rgba(210, 153, 34, 0.12);
   --caramel-glow:  rgba(210, 153, 34, 0.28);
   --forest-dim:    rgba(63, 185, 80, 0.1);
+  --success:       #34d399;   /* bright emerald on dark canvas */
+  --not-yet:       #D4634A;   /* warm coral, readable on dark bg */
 
   /* Level accent colors — dark mode (glowing Manim objects) */
   --algebra-color:    #fbbf24;
@@ -92,6 +123,8 @@ html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--text);
+  font-size: 16px;
+  line-height: 1.5;
   transition: background 0.4s, color 0.4s;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -103,7 +136,7 @@ body {
 ::-webkit-scrollbar              { width: 6px; height: 6px; }
 ::-webkit-scrollbar-track        { background: transparent; }
 ::-webkit-scrollbar-thumb        { background: var(--border2); border-radius: 3px; }
-::-webkit-scrollbar-thumb:hover  { background: var(--caramel); }
+::-webkit-scrollbar-thumb:hover  { background: var(--primary); }
 
 /* ─────────────────────────────────────────
    KaTeX overrides — warm tones
@@ -119,9 +152,9 @@ body {
   /* Tells browser + MathLive to render in dark mode */
   color-scheme: dark;
   /* Inherited into Shadow DOM */
-  color: #e6edf3 !important;
+  color: #F2EDE4 !important;
   caret-color: #d29922 !important;
-  background: #161b22 !important;
+  background: #211D18 !important;
   /* MathLive CSS custom properties */
   --caret-color: #d29922;
   --selection-background-color: rgba(210, 153, 34, 0.25);
@@ -134,13 +167,13 @@ body {
 
 /* LaTeX autocomplete popover — rendered outside Shadow DOM */
 .ML__popover {
-  --popover-bg: #1c2128;
-  --popover-text: #e6edf3;
+  --popover-bg: #2A2520;
+  --popover-text: #F2EDE4;
   --popover-highlight: rgba(210, 153, 34, 0.15);
   --popover-highlight-text: #d29922;
-  background: var(--surface2, #1c2128) !important;
-  border: 1px solid var(--border, #30363d) !important;
-  color: var(--text, #e6edf3) !important;
+  background: var(--surface2, #2A2520) !important;
+  border: 1px solid var(--border, #3D3830) !important;
+  color: var(--text, #F2EDE4) !important;
   box-shadow: 0 4px 16px rgba(0,0,0,0.5) !important;
 }
 
@@ -156,32 +189,6 @@ body {
 /* ─────────────────────────────────────────
    Keyframe animations
 ───────────────────────────────────────── */
-
-/* Floating math symbols */
-@keyframes floatSym {
-  0%    { opacity: 0; transform: translateY(0)       rotate(var(--r0, 0deg))   scale(1); }
-  6%    { opacity: var(--alpha, 0.05); }
-  94%   { opacity: var(--alpha, 0.05); }
-  100%  { opacity: 0; transform: translateY(-105vh)  rotate(var(--r2, 20deg))  scale(0.8); }
-}
-
-/* Blob morphing */
-@keyframes blob1 {
-  0%    { transform: translate(0,0)     scale(1);    border-radius: 60% 40% 55% 45%/50% 60% 40% 50%; }
-  33%   { transform: translate(70px,50px)  scale(1.1);  border-radius: 40% 60% 45% 55%/60% 40% 60% 40%; }
-  66%   { transform: translate(-30px,90px) scale(0.95); border-radius: 55% 45% 60% 40%/45% 55% 45% 55%; }
-  100%  { transform: translate(0,0)     scale(1);    border-radius: 60% 40% 55% 45%/50% 60% 40% 50%; }
-}
-@keyframes blob2 {
-  0%    { transform: translate(0,0)       scale(1);    border-radius: 40% 60% 60% 40%/55% 45% 55% 45%; }
-  50%   { transform: translate(-55px,-75px) scale(1.12); border-radius: 60% 40% 40% 60%/45% 55% 45% 55%; }
-  100%  { transform: translate(0,0)       scale(1);    border-radius: 40% 60% 60% 40%/55% 45% 55% 45%; }
-}
-@keyframes blob3 {
-  0%    { transform: translate(0,0)       rotate(0deg);   opacity: 0.03; }
-  50%   { transform: translate(100px,-70px) rotate(180deg); opacity: 0.06; }
-  100%  { transform: translate(0,0)       rotate(360deg); opacity: 0.03; }
-}
 
 /* Page / card entrance */
 @keyframes viewIn {
@@ -280,7 +287,7 @@ body {
   z-index: 10;
 }
 [data-theme="dark"] .app-sidebar {
-  border-right-color: rgba(88, 196, 221, 0.08);
+  border-right-color: rgba(210, 180, 140, 0.1);
 }
 
 .app-main {
@@ -291,11 +298,11 @@ body {
   min-width: 0;
 }
 
-/* Coordinate grid — the 3B1B signature */
+/* Coordinate grid */
 [data-theme="dark"] .app-main {
   background-image:
-    linear-gradient(rgba(88, 196, 221, 0.045) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(88, 196, 221, 0.045) 1px, transparent 1px);
+    linear-gradient(rgba(210, 180, 140, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(210, 180, 140, 0.04) 1px, transparent 1px);
   background-size: 48px 48px;
 }
 [data-theme="light"] .app-main {
@@ -328,8 +335,8 @@ body {
   pointer-events: none;
 }
 [data-theme="dark"] .page-cover {
-  background: linear-gradient(160deg, rgba(88, 196, 221, 0.07) 0%, rgba(192, 132, 252, 0.03) 50%, transparent 80%);
-  border-bottom-color: rgba(88, 196, 221, 0.12);
+  background: linear-gradient(160deg, rgba(210, 180, 140, 0.07) 0%, rgba(192, 132, 252, 0.03) 50%, transparent 80%);
+  border-bottom-color: rgba(210, 180, 140, 0.12);
 }
 [data-theme="light"] .page-cover {
   background: linear-gradient(160deg, rgba(14, 116, 144, 0.06) 0%, transparent 70%);
@@ -377,7 +384,7 @@ body {
   color: var(--caramel);
 }
 [data-theme="dark"] .display-heading {
-  text-shadow: 0 0 80px rgba(88, 196, 221, 0.08);
+  text-shadow: 0 0 80px rgba(210, 180, 140, 0.1);
 }
 .section-heading {
   font-size: 18px;
@@ -404,8 +411,8 @@ body {
 }
 .warm-card:hover {
   border-color: var(--caramel);
-  box-shadow: 0 10px 28px var(--caramel-dim), 0 2px 8px rgba(0,0,0,0.04);
-  transform: translateY(-3px);
+  box-shadow: 0 6px 20px var(--caramel-dim), 0 2px 6px rgba(0,0,0,0.04);
+  transform: translateY(-2px);
 }
 .warm-card-static {
   background: var(--surface);
@@ -452,8 +459,8 @@ body {
 }
 .course-card:hover {
   border-color: var(--card-accent, var(--caramel));
-  box-shadow: 0 12px 36px var(--card-glow, var(--caramel-dim)), 0 2px 8px rgba(0,0,0,0.06);
-  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 8px 28px var(--card-glow, var(--caramel-dim)), 0 2px 6px rgba(0,0,0,0.06);
+  transform: translateY(-2px);
   background: var(--surface);
 }
 .course-card:hover::before { transform: scaleX(1); }
@@ -523,7 +530,7 @@ body {
   transition: opacity 0.3s;
   pointer-events: none;
 }
-.stat-card:hover { border-color: var(--caramel); box-shadow: 0 8px 24px var(--caramel-dim); transform: translateY(-3px); }
+.stat-card:hover { border-color: var(--caramel); box-shadow: 0 6px 18px var(--caramel-dim); transform: translateY(-2px); }
 .stat-card:hover::after { opacity: 1; }
 
 .stat-value {
@@ -692,9 +699,9 @@ body {
   transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Solution banner */
-.result-correct { background: rgba(45,106,79,0.08); border-bottom: 1px solid rgba(45,106,79,0.2); }
-.result-wrong   { background: rgba(193,68,14,0.08);  border-bottom: 1px solid rgba(193,68,14,0.18); }
+/* Solution banner — use semantic tokens, never color-alone */
+.result-correct { background: color-mix(in srgb, var(--success) 8%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--success) 20%, transparent); }
+.result-wrong   { background: color-mix(in srgb, var(--not-yet) 8%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--not-yet) 18%, transparent); }
 
 /* Sidebar nav */
 .nav-item {
@@ -1033,10 +1040,26 @@ body {
 }
 
 /* ─────────────────────────────────────────
+   Reduced motion
+───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ─────────────────────────────────────────
    Utility
 ───────────────────────────────────────── */
 @layer utilities {
-  .text-balance { text-wrap: balance; }
-  .font-display  { font-family: var(--font-fraunces), Georgia, serif; }
+  .text-balance  { text-wrap: balance; }
+  .font-display  {
+    font-family: var(--font-fraunces), Newsreader, Georgia, serif;
+    font-optical-sizing: auto;
+  }
   .font-body     { font-family: var(--font-instrument), system-ui, sans-serif; }
+  .font-reading  { font-size: 18px; line-height: 1.55; max-width: 70ch; }
 }

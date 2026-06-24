@@ -38,6 +38,11 @@ def _session(**over):
         exam_mode=False, exam_mode_proposed=False, tutor_name="Josh",
         correct_streak=0, wrong_streak=0, target_diff=0,
         prefetched=None, prefetch_in_flight=False,
+        walkthrough_active=False,
+        time_budget_exhausted=False,
+        concept_lesson_counts={},
+        exam_datetime=None,
+        session_summary=[],
     )
     for k, v in over.items():
         setattr(s, k, v)
@@ -46,7 +51,8 @@ def _session(**over):
 
 def _deps(**over):
     async def gen(session, message, force_lesson=False):
-        return ("LESSON" if force_lesson else "REPLY", force_lesson)
+        el = force_lesson or over.get("_entered_lesson", False)
+        return ("LESSON" if el else "REPLY", el)
 
     async def too_fast(session):
         return "SLOW"
@@ -67,9 +73,9 @@ def _deps(**over):
     d = so.SessionDeps(
         generate_tutor_response=gen,
         handle_going_too_fast=too_fast,
-        check_exam_readiness=lambda s: over.get("_exam_ready", False),
-        get_exam_mode_proposal=proposal,
-        get_exam_start_message=exam_start,
+        check_quiz_readiness=lambda s: over.get("_exam_ready", False),
+        get_quiz_proposal=proposal,
+        get_quiz_start_message=exam_start,
         check_answer=check,
         get_hint=hint,
         log_event=lambda **k: None,
@@ -119,7 +125,7 @@ class TestDispatch:
         s = _session()
         res = await so.handle(s, _USER, {"type": "answer_submit", "answer": "4"},
                               _deps(_correct=True, _exam_ready=True))
-        assert [m.type for m in res.messages] == ["answer_result", "exam_mode_propose"]
+        assert [m.type for m in res.messages] == ["answer_result", "quiz_propose"]
         assert res.advance is None
         assert s.exam_mode_proposed is True
 
@@ -129,13 +135,16 @@ class TestDispatch:
                               _deps(_correct=True, _exam_ready=True))
         # Already proposed → advance instead of re-proposing
         assert res.advance is not None
-        assert all(m.type != "exam_mode_propose" for m in res.messages)
+        assert all(m.type != "quiz_propose" for m in res.messages)
 
     async def test_wrong_answer_records_attempt_and_followup(self):
         s = _session()
         res = await so.handle(s, _USER, {"type": "answer_submit", "answer": "9"},
                               _deps(_correct=False))
-        assert [m.type for m in res.messages] == ["answer_result", "agent_text"]
+        # No ANTHROPIC_API_KEY in tests → severity=None → wb_mark_incorrect is sent
+        assert [m.type for m in res.messages] == [
+            "answer_result", "wb_mark_incorrect", "agent_text"
+        ]
         assert s.attempts == ["9"]
         assert s.consecutive_no_progress == 1
 
@@ -164,8 +173,8 @@ class TestDispatch:
 
     async def test_exam_accept_sequence(self):
         s = _session()
-        res = await so.handle(s, _USER, {"type": "exam_mode_accept"}, _deps())
-        assert [m.type for m in res.messages] == ["wb_clear", "exam_mode_active", "agent_text"]
+        res = await so.handle(s, _USER, {"type": "quiz_accept"}, _deps())
+        assert [m.type for m in res.messages] == ["wb_clear", "quiz_active", "agent_text"]
         assert res.advance.source_label == "exam_start"
         assert s.exam_mode is True
         assert s.exam_mode_proposed is False
@@ -179,6 +188,56 @@ class TestDispatch:
     async def test_going_too_fast(self):
         res = await so.handle(_session(), _USER, {"type": "going_too_fast"}, _deps())
         assert res.messages[0].payload["text"] == "SLOW"
+
+    async def test_careless_wrong_sets_walkthrough_active(self, monkeypatch):
+        import agents.severity as severity_module
+        async def fake_classify(*a, **k):
+            return "careless"
+        monkeypatch.setattr(severity_module, "classify_severity", fake_classify)
+        s = _session()
+        res = await so.handle(s, _USER, {"type": "answer_submit", "answer": "5"}, _deps(_correct=False))
+        assert s.walkthrough_active is True
+        # careless → no board message, just answer_result + agent_text
+        assert [m.type for m in res.messages] == ["answer_result", "agent_text"]
+
+    async def test_method_wrong_sets_walkthrough_active(self, monkeypatch):
+        import agents.severity as severity_module
+        async def fake_classify(*a, **k):
+            return "method"
+        monkeypatch.setattr(severity_module, "classify_severity", fake_classify)
+        s = _session()
+        await so.handle(s, _USER, {"type": "answer_submit", "answer": "5"}, _deps(_correct=False))
+        assert s.walkthrough_active is True
+
+    async def test_fundamental_wrong_does_not_set_walkthrough_active(self, monkeypatch):
+        import agents.severity as severity_module
+        async def fake_classify(*a, **k):
+            return "fundamental"
+        monkeypatch.setattr(severity_module, "classify_severity", fake_classify)
+        s = _session()
+        await so.handle(s, _USER, {"type": "answer_submit", "answer": "5"}, _deps(_correct=False))
+        assert s.walkthrough_active is False
+
+    async def test_walkthrough_step_routes_student_text(self):
+        s = _session(walkthrough_active=True)
+        res = await so.handle(s, _USER, {"type": "student_text", "text": "I multiplied both sides by 2"}, _deps())
+        # In walkthrough mode the response is just agent_text (no lesson wrapping)
+        assert [m.type for m in res.messages] == ["agent_text"]
+
+    async def test_answer_submit_clears_walkthrough(self):
+        s = _session(walkthrough_active=True)
+        await so.handle(s, _USER, {"type": "answer_submit", "answer": "4"}, _deps(_correct=True))
+        assert s.walkthrough_active is False
+
+    async def test_budget_exhausted_ends_on_correct_solve(self):
+        s = _session(time_budget_exhausted=True)
+        res = await so.handle(s, _USER, {"type": "answer_submit", "answer": "4"}, _deps(_correct=True))
+        # Must close the session (not advance to next problem)
+        assert res.end_session == "timeout"
+        assert res.advance is None
+        # Sends answer_result + closing agent_text
+        assert [m.type for m in res.messages] == ["answer_result", "agent_text"]
+        assert s.is_solved is True
 
 
 @pytest.mark.asyncio
@@ -238,3 +297,78 @@ class TestStreakAdaptation:
         await self._submit(s, False)
         res = await self._submit(s, False)
         assert res.prefetch is None  # already at floor
+
+
+class TestLessonCascade:
+    """Phase 1.6: cascade after LESSON_CASCADE_THRESHOLD lesson cycles on one concept."""
+
+    def _run(self, coro):
+        import asyncio
+        return asyncio.run(coro)
+
+    def test_cascade_not_before_threshold(self):
+        s = _session(concept_lesson_counts={"t1": 1})  # becomes 2 — below threshold
+        res = self._run(so.handle(
+            s, _USER, {"type": "student_text", "text": "explain"}, _deps(_entered_lesson=True)
+        ))
+        assert res.end_session is None
+        assert not any(
+            "sleep" in (m.payload.get("text") or "")
+            for m in res.messages if m.type == "agent_text"
+        )
+
+    def test_cascade_prereq_at_threshold(self):
+        # concept_lesson_counts starts at 2, so this is the 3rd cycle
+        s = _session(concept_lesson_counts={"t1": 2})
+        res = self._run(so.handle(
+            s, _USER, {"type": "student_text", "text": "explain"}, _deps(_entered_lesson=True)
+        ))
+        assert res.end_session is None  # no exam → no honesty close
+        # Last agent_text should mention stepping back / prerequisite
+        texts = [m.payload.get("text", "") for m in res.messages if m.type == "agent_text"]
+        last = texts[-1].lower()
+        assert "same wall" in last or "gap" in last or "stepping back" in last or "prerequisite" in last
+        # Concept should be flagged in session summary
+        assert any(e.get("type") == "concept_flagged" for e in s.session_summary)
+
+    def test_cascade_honesty_close_exam_soon(self):
+        from datetime import datetime, timezone, timedelta
+        exam_in_6h = (datetime.now(timezone.utc) + timedelta(hours=6)).isoformat()
+        s = _session(concept_lesson_counts={"t1": 2}, exam_datetime=exam_in_6h)
+        res = self._run(so.handle(
+            s, _USER, {"type": "student_text", "text": "explain"}, _deps(_entered_lesson=True)
+        ))
+        assert res.end_session == "student_end"
+        texts = [m.payload.get("text", "") for m in res.messages if m.type == "agent_text"]
+        last = texts[-1].lower()
+        assert "sleep" in last or "rest" in last
+
+    def test_cascade_no_honesty_close_exam_far(self):
+        from datetime import datetime, timezone, timedelta
+        exam_in_48h = (datetime.now(timezone.utc) + timedelta(hours=48)).isoformat()
+        s = _session(concept_lesson_counts={"t1": 2}, exam_datetime=exam_in_48h)
+        res = self._run(so.handle(
+            s, _USER, {"type": "student_text", "text": "explain"}, _deps(_entered_lesson=True)
+        ))
+        assert res.end_session is None  # far away → prereq suggestion, not honesty close
+
+    def test_cascade_does_not_repeat(self):
+        # At count 4, 5, etc., no additional cascade message
+        s = _session(concept_lesson_counts={"t1": 3})  # already at threshold
+        res = self._run(so.handle(
+            s, _USER, {"type": "student_text", "text": "explain"}, _deps(_entered_lesson=True)
+        ))
+        # No cascade fires (count becomes 4, above threshold, skipped)
+        assert res.end_session is None
+        texts = [m.payload.get("text", "") for m in res.messages if m.type == "agent_text"]
+        # Should be exactly the lesson reply, not a cascade message after it
+        assert len(texts) == 1
+
+    def test_walk_me_through_counts_as_lesson_cycle(self):
+        s = _session(concept_lesson_counts={"t1": 2})
+        res = self._run(so.handle(
+            s, _USER, {"type": "walk_me_through"}, _deps()
+        ))
+        # walk_me_through always force_lesson=True → 3rd cycle → cascade fires
+        assert res.end_session is None  # no exam
+        assert any(e.get("type") == "concept_flagged" for e in s.session_summary)

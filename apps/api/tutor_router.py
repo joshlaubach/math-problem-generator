@@ -11,10 +11,11 @@ POST /tutor/synthesize        — ElevenLabs TTS (Phase 3)
 from __future__ import annotations
 
 import os
+from datetime import date, datetime, timedelta, timezone
 from typing import Literal, Optional
 from uuid import uuid4
 
-from fastapi import APIRouter, Depends, File, HTTPException, UploadFile
+from fastapi import APIRouter, Depends, File, HTTPException, Request, UploadFile
 from fastapi.responses import StreamingResponse
 from pydantic import BaseModel, Field
 
@@ -71,6 +72,7 @@ class SessionCreateRequest(BaseModel):
     why: Optional[str] = Field(default=None)
     notes: str = Field(default="", max_length=2000)
     session_type: Literal["1hr", "2hr"] = "1hr"
+    exam_datetime: Optional[str] = Field(default=None, description="ISO datetime of upcoming exam (test_prep sessions)")
 
 
 class SessionCreateResponse(BaseModel):
@@ -93,10 +95,10 @@ async def create_tutor_session(
     from credit_router import has_available_credit
     from ws_session import create_pending_session, SESSION_TYPES
 
-    if not has_available_credit(user.id):
+    if not has_available_credit(user.id, kind=body.session_type):
         raise HTTPException(
             status_code=402,
-            detail="No session credits available. Purchase a session at /pricing to get started.",
+            detail=f"No {body.session_type} session credits available. Purchase a session at /pricing to get started.",
         )
 
     if body.session_type not in SESSION_TYPES:
@@ -125,11 +127,110 @@ async def create_tutor_session(
             why=body.why,
             notes=body.notes,
             mode=mode,
+            exam_datetime=body.exam_datetime,
         )
     except ValueError as exc:
         raise HTTPException(status_code=409, detail=str(exc))
 
     return SessionCreateResponse(session_id=session_id)
+
+
+# ---------------------------------------------------------------------------
+# Guest demo session (Phase 2.2)
+# One free 30-min session per week per IP, no account required, DOB ≥ 13
+# ---------------------------------------------------------------------------
+
+GUEST_SESSION_DURATION = 1800  # 30 minutes
+GUEST_TOKEN_GRACE = 300        # extra 5 min on token expiry for network lag
+GUEST_DEMO_RATE_WINDOW = 7 * 24 * 3600  # 1 per week per IP
+
+
+class GuestSessionRequest(BaseModel):
+    date_of_birth: str  # ISO date "YYYY-MM-DD"
+
+
+class GuestSessionResponse(BaseModel):
+    guest_token: str
+    session_id: str
+
+
+def _guest_compute_age(dob_str: str) -> Optional[int]:
+    try:
+        dob = date.fromisoformat(dob_str)
+        today = date.today()
+        age = today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+        return age
+    except Exception:
+        return None
+
+
+@router.post("/guest-session", response_model=GuestSessionResponse, status_code=201)
+async def create_guest_session(
+    body: GuestSessionRequest,
+    request: Request,
+):
+    """
+    Create a 30-minute free demo tutor session without requiring a user account.
+
+    Rate limit: 1 per week per IP.
+    Requires date_of_birth ≥ 13 years (under-13 hard blocked).
+    Returns a short-lived guest JWT and a pre-created session_id.
+    """
+    import rate_limit as _rl
+    from config import JWT_SECRET_KEY, JWT_ALGORITHM
+    from auth_utils import create_access_token
+    from ws_session import create_pending_session
+
+    # ── Age gate ─────────────────────────────────────────────────────────────
+    age = _guest_compute_age(body.date_of_birth)
+    if age is None:
+        raise HTTPException(status_code=422, detail="Invalid date_of_birth. Use YYYY-MM-DD.")
+    if age < 13:
+        raise HTTPException(status_code=403, detail="You must be 13 or older to start a session.")
+
+    # ── Rate limit: 1 per week per IP ────────────────────────────────────────
+    client_ip = request.client.host if request.client else "unknown"
+    allowed, _ = _rl.hit(f"guest_demo:{client_ip}", 1, GUEST_DEMO_RATE_WINDOW)
+    if not allowed:
+        raise HTTPException(
+            status_code=429,
+            detail="Free sessions are limited to once per week. Come back next week, or create a free account to continue.",
+        )
+
+    # ── Create session ────────────────────────────────────────────────────────
+    guest_id = f"guest_{uuid4().hex[:16]}"
+    session_id = str(uuid4())
+    try:
+        session = create_pending_session(
+            session_id=session_id,
+            user_id=guest_id,
+            session_type="1hr",  # slot type; max_duration overridden below
+            class_name="",
+            why="demo",
+            mode="practice",
+        )
+        # Override duration for demo (30 min)
+        session.max_duration_seconds = GUEST_SESSION_DURATION
+        session.session_tier = "demo"
+        from ws_session import update_session
+        update_session(session)
+    except ValueError as exc:
+        raise HTTPException(status_code=409, detail=str(exc))
+
+    # ── Mint guest JWT ────────────────────────────────────────────────────────
+    guest_token = create_access_token(
+        data={
+            "guest": True,
+            "guest_id": guest_id,
+            "session_id": session_id,
+            "dob": body.date_of_birth,
+        },
+        secret_key=JWT_SECRET_KEY,
+        algorithm=JWT_ALGORITHM,
+        expires_delta=timedelta(seconds=GUEST_SESSION_DURATION + GUEST_TOKEN_GRACE),
+    )
+
+    return GuestSessionResponse(guest_token=guest_token, session_id=session_id)
 
 
 # ---------------------------------------------------------------------------

@@ -838,6 +838,10 @@ app.include_router(credit_router)
 from tutor_router import router as tutor_router
 app.include_router(tutor_router)
 
+# Voice WebSocket — Deepgram streaming STT proxy
+from voice_ws import router as voice_ws_router
+app.include_router(voice_ws_router)
+
 # Email (session reports + reminders)
 from email_router import router as email_router
 app.include_router(email_router)
@@ -845,6 +849,14 @@ app.include_router(email_router)
 # Parent monitoring
 from parent_router import router as parent_router
 app.include_router(parent_router)
+
+# Exam Mode (Phase 4)
+from exam_router import router as exam_router
+app.include_router(exam_router)
+
+# Rewards / Referral (Phase 5)
+from referral_router import router as referral_router
+app.include_router(referral_router)
 
 
 @app.get("/me/quota")
@@ -1505,33 +1517,64 @@ async def get_my_recommended_difficulty(
     )
 
 
+class AgeConfirmRequest(BaseModel):
+    date_of_birth: str  # ISO date "YYYY-MM-DD"
+
+
+def _compute_age(dob_str: str) -> Optional[int]:
+    """Return age in years from ISO date string, or None if unparseable."""
+    from datetime import date
+    try:
+        dob = date.fromisoformat(dob_str)
+        today = date.today()
+        return today.year - dob.year - ((today.month, today.day) < (dob.month, dob.day))
+    except Exception:
+        return None
+
+
 @app.post("/users/me/confirm-age", status_code=status.HTTP_200_OK)
 async def confirm_age(
+    body: AgeConfirmRequest,
     request: Request,
     user: AuthUser = Depends(get_unverified_clerk_user),
     user_repo=Depends(get_user_repository),
 ):
     """
-    Mark the authenticated user as having confirmed they are 13 or older.
+    Enforce DOB-based age gate:
+    - <13: hard block (400); account stays locked
+    - 13–17: store DOB, keep age_confirmed=False; parent consent required
+    - 18+: store DOB, set age_confirmed=True
 
-    Called once from the /onboarding page after the user checks the age
-    confirmation checkbox. Sets age_confirmed=True on the user record and
-    writes an immutable consent-log entry (M4) with timestamp + IP for
-    compliance records. Uses get_unverified_clerk_user so users who haven't
-    confirmed age yet can still reach this endpoint without a 403 loop.
-
-    Returns:
-        {"ok": true, "age_confirmed": true}
+    Writes an immutable consent-log entry (M4) in all cases.
+    Uses get_unverified_clerk_user so users who haven't confirmed yet can reach this.
     """
-    if not user.age_confirmed:
+    ip = request.client.host if request.client else None
+    ua = request.headers.get("user-agent")
+
+    age = _compute_age(body.date_of_birth)
+    if age is None:
+        raise HTTPException(status_code=422, detail="Invalid date_of_birth format. Use YYYY-MM-DD.")
+
+    if age < 13:
+        _log_consent_event(user.id, "age_blocked_under_13", ip, ua)
+        raise HTTPException(
+            status_code=400,
+            detail={"status": "blocked", "reason": "too_young",
+                    "message": "You must be 13 or older to use Gradient."},
+        )
+
+    # Store DOB on user record
+    user.date_of_birth = body.date_of_birth  # type: ignore[attr-defined]
+    if age >= 18:
         user.age_confirmed = True
         user_repo.update_user(user)
-    _log_consent_event(
-        user.id, "age_confirmed_13plus",
-        request.client.host if request.client else None,
-        request.headers.get("user-agent"),
-    )
-    return {"ok": True, "age_confirmed": True}
+        _log_consent_event(user.id, "age_confirmed_adult", ip, ua)
+        return {"ok": True, "status": "confirmed", "age_confirmed": True}
+    else:
+        # 13–17: store DOB but keep locked; parent must complete consent
+        user_repo.update_user(user)
+        _log_consent_event(user.id, "age_confirmed_minor_pending_parent", ip, ua)
+        return {"ok": True, "status": "minor", "age_confirmed": False, "parent_required": True}
 
 
 @app.delete("/users/me", status_code=status.HTTP_200_OK)

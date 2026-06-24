@@ -1,13 +1,14 @@
 'use client'
 
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import { useParams } from 'next/navigation'
+import { useParams, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { useAuth } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
 import { MathText } from '@/components/MathText'
 import { MathInput } from '@/components/MathInput'
 import { useTutorSession } from '@/hooks/useTutorSession'
+import { useVoicePipeline } from '@/hooks/useVoicePipeline'
 import type { WhiteboardHandle, WhiteboardMessage, WbMessage } from '@/components/Whiteboard'
 import { ShowMyWorkPanel } from '@/components/ShowMyWorkPanel'
 import { VoiceIndicator, type VoiceIndicatorState } from '@/components/VoiceIndicator'
@@ -220,7 +221,7 @@ function SessionEndScreen({
   )
 }
 
-function ExamModeBanner({ onAccept, onDecline }: { onAccept: () => void; onDecline: () => void }) {
+function QuizMeBanner({ onAccept, onDecline }: { onAccept: () => void; onDecline: () => void }) {
   return (
     <div style={{
       background: 'var(--caramel)', color: '#fff',
@@ -228,7 +229,7 @@ function ExamModeBanner({ onAccept, onDecline }: { onAccept: () => void; onDecli
       display: 'flex', justifyContent: 'space-between', alignItems: 'center',
       fontSize: 13, flexShrink: 0,
     }}>
-      <span>Tutor is proposing exam mode — ready to go solo?</span>
+      <span>Ready to be quizzed? No hints, just you and the problems.</span>
       <div style={{ display: 'flex', gap: 6 }}>
         <button
           onClick={onAccept}
@@ -259,6 +260,8 @@ function ExamModeBanner({ onAccept, onDecline }: { onAccept: () => void; onDecli
 
 export default function TutorSessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
+  const searchParams = useSearchParams()
+  const guestToken = searchParams.get('guest_token')
   const { getToken } = useAuth()
   const wbRef = useRef<WhiteboardHandle>(null)
   const leftPanelRef = useRef<HTMLDivElement>(null)
@@ -267,12 +270,14 @@ export default function TutorSessionPage() {
     state, problem, messages, hintLevel, maxHints,
     secondsRemaining, inGracePeriod, summary,
     lastError, currentIndex, totalProblems,
-    examModeProposed, examModeActive,
+    quizProposed, quizActive, demoWarning, demoExpired,
     whiteboardMessages, ragMatch,
     connectToSession, sendText, submitAnswer, requestHint,
-    walkMeThrough, goingTooFast, nextProblem, acceptExamMode,
+    walkMeThrough, goingTooFast, nextProblem, acceptQuiz,
     endSession, sendCanvasSnapshot, sendRagSearch, sendStudentWork,
   } = useTutorSession()
+
+  const isReconnecting = state === 'reconnecting'
 
   const [theme, setTheme] = useState<'light' | 'dark'>('light')
   const [exportUrl, setExportUrl] = useState<string | null>(null)
@@ -290,13 +295,139 @@ export default function TutorSessionPage() {
   const wbMsgCountRef = useRef(0)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const dragState = useRef<{ startY: number; startRatio: number } | null>(null)
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null)
-  const audioChunksRef = useRef<Blob[]>([])
-  const [voiceState, setVoiceState] = useState<'idle' | 'recording' | 'transcribing'>('idle')
   const [isSpeaking, setIsSpeaking] = useState(false)
   const currentAudioRef = useRef<HTMLAudioElement | null>(null)
+  // Sentence-by-sentence TTS queue
+  const audioQueueRef = useRef<HTMLAudioElement[]>([])
+  const isPlayingQueueRef = useRef(false)
   const lastTutorMsgCountRef = useRef(0)
   const prevVoiceModeRef = useRef(false)
+
+  // ── Sentence-by-sentence TTS ───────────────────────────────────────────────
+
+  /** Split tutor text into sentences without breaking inside $...$ LaTeX spans. */
+  const splitIntoSentences = useCallback((text: string): string[] => {
+    const parts: string[] = []
+    let current = ''
+    let inMath = false
+    let i = 0
+    while (i < text.length) {
+      const c = text[i]
+      if (c === '$') { inMath = !inMath; current += c; i++; continue }
+      if (!inMath && (c === '.' || c === '!' || c === '?')) {
+        current += c
+        const next = text[i + 1]
+        const afterNext = text[i + 2]
+        if (!next || (next === ' ' && afterNext && /[A-Z"''“‘]/.test(afterNext))) {
+          const s = current.trim()
+          if (s.length > 2) parts.push(s)
+          current = ''; i += 2; continue
+        }
+      }
+      current += c; i++
+    }
+    const tail = current.trim()
+    if (tail.length > 2) parts.push(tail)
+    return parts.length > 0 ? parts : [text]
+  }, [])
+
+  const playNextInQueue = useCallback(() => {
+    if (audioQueueRef.current.length === 0) {
+      isPlayingQueueRef.current = false
+      setIsSpeaking(false)
+      return
+    }
+    isPlayingQueueRef.current = true
+    setIsSpeaking(true)
+    const audio = audioQueueRef.current.shift()!
+    currentAudioRef.current = audio
+    audio.play().catch(() => {})
+    audio.onended = () => {
+      if (currentAudioRef.current === audio) currentAudioRef.current = null
+      playNextInQueue()
+    }
+    audio.onerror = () => {
+      if (currentAudioRef.current === audio) currentAudioRef.current = null
+      playNextInQueue()
+    }
+  }, [])
+
+  const enqueueAudio = useCallback((audio: HTMLAudioElement) => {
+    audioQueueRef.current.push(audio)
+    if (!isPlayingQueueRef.current) playNextInQueue()
+  }, [playNextInQueue])
+
+  /** Stop all current and queued audio (barge-in or voice mode off). */
+  const stopAllAudio = useCallback(() => {
+    if (currentAudioRef.current) {
+      currentAudioRef.current.pause()
+      currentAudioRef.current = null
+    }
+    audioQueueRef.current = []
+    isPlayingQueueRef.current = false
+    setIsSpeaking(false)
+  }, [])
+
+  /** Synthesize text sentence-by-sentence, enqueue each for sequential play. */
+  const synthesizeAndQueue = useCallback(async (text: string) => {
+    const sentences = splitIntoSentences(text)
+    const token = await getToken()
+    if (!token) return
+    for (const sentence of sentences) {
+      if (!sentence.trim()) continue
+      try {
+        const resp = await fetch(`${API_BASE}/tutor/synthesize`, {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ text: sentence }),
+        })
+        if (!resp.ok) continue
+        const blob = await resp.blob()
+        const url = URL.createObjectURL(blob)
+        const audio = new Audio(url)
+        audio.onended = () => URL.revokeObjectURL(url)
+        audio.onerror = () => URL.revokeObjectURL(url)
+        enqueueAudio(audio)
+      } catch { /* skip sentence on network error */ }
+    }
+  }, [splitIntoSentences, getToken, enqueueAudio])
+
+  // ── Voice pipeline (open-mic, streaming Deepgram) ──────────────────────────
+  // playFillerRef allows handleTranscript to call playFiller before the hook
+  // instance is in scope (React hooks must be called at the top level).
+  const playFillerRef = useRef<() => void>(() => {})
+
+  const handleTranscript = useCallback((text: string) => {
+    playFillerRef.current()   // play filler immediately on speech_final
+    sendText(text)
+  }, [sendText])
+
+  const handleBargeIn = useCallback(() => {
+    stopAllAudio()
+  }, [stopAllAudio])
+
+  // Fetch a fresh token when voice mode is enabled; pass it to the pipeline hook.
+  const [voiceToken, setVoiceToken] = useState('')
+  useEffect(() => {
+    if (!voiceMode) { setVoiceToken(''); return }
+    let cancelled = false
+    getToken().then(t => { if (!cancelled) setVoiceToken(t ?? '') })
+    return () => { cancelled = true }
+  }, [voiceMode, getToken])
+
+  const voicePipeline = useVoicePipeline({
+    sessionId,
+    token: voiceToken,
+    apiBase: API_BASE,
+    enabled: voiceMode && !!voiceToken,
+    onTranscript: handleTranscript,
+    onBargeIn: handleBargeIn,
+  })
+
+  // Keep playFillerRef in sync so handleTranscript can call it
+  useEffect(() => {
+    playFillerRef.current = voicePipeline.playFiller
+  }, [voicePipeline.playFiller])
 
   // Sync global theme
   useEffect(() => {
@@ -326,13 +457,17 @@ export default function TutorSessionPage() {
     wbMsgCountRef.current = whiteboardMessages.length
   }, [whiteboardMessages])
 
-  // Connect on mount
+  // Connect on mount — guest sessions use the URL token directly; authed sessions use Clerk
   useEffect(() => {
     let cancelled = false
-    getToken().then(token => {
-      if (!token || cancelled) return
-      connectToSession(sessionId, token)
-    })
+    if (guestToken) {
+      connectToSession(sessionId, guestToken)
+    } else {
+      getToken().then(token => {
+        if (!token || cancelled) return
+        connectToSession(sessionId, token)
+      })
+    }
     return () => { cancelled = true }
   }, [sessionId]) // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -366,43 +501,11 @@ export default function TutorSessionPage() {
     setInputText('')
   }, [inputText, sendText])
 
+  /** Play a single tutor message aloud (triggered by the ▶ button on a bubble). */
   const speakText = useCallback(async (text: string) => {
-    // Stop any currently playing TTS before starting a new one
-    if (currentAudioRef.current) {
-      currentAudioRef.current.pause()
-      currentAudioRef.current = null
-      setIsSpeaking(false)
-    }
-    const token = await getToken()
-    if (!token) return
-    try {
-      const resp = await fetch(`${API_BASE}/tutor/synthesize`, {
-        method: 'POST',
-        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text }),
-      })
-      if (!resp.ok) return
-      const blob = await resp.blob()
-      const url = URL.createObjectURL(blob)
-      const audio = new Audio(url)
-      currentAudioRef.current = audio
-      setIsSpeaking(true)
-      audio.play()
-      audio.onended = () => {
-        URL.revokeObjectURL(url)
-        if (currentAudioRef.current === audio) {
-          currentAudioRef.current = null
-          setIsSpeaking(false)
-        }
-      }
-      audio.onerror = () => {
-        if (currentAudioRef.current === audio) {
-          currentAudioRef.current = null
-          setIsSpeaking(false)
-        }
-      }
-    } catch { setIsSpeaking(false) }
-  }, [getToken])
+    stopAllAudio()
+    await synthesizeAndQueue(text)
+  }, [stopAllAudio, synthesizeAndQueue])
 
   // Sync spoken-message count when voice mode is first enabled (avoid replaying old messages);
   // stop any playing audio when voice mode is turned off
@@ -411,64 +514,58 @@ export default function TutorSessionPage() {
       lastTutorMsgCountRef.current = messages.filter(m => m.role === 'tutor').length
     }
     if (!voiceMode && prevVoiceModeRef.current) {
-      currentAudioRef.current?.pause()
-      currentAudioRef.current = null
-      setIsSpeaking(false)
+      stopAllAudio()
     }
     prevVoiceModeRef.current = voiceMode
-  }, [voiceMode]) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [voiceMode, stopAllAudio]) // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Auto-play new tutor messages in voice mode
+  // Auto-play new tutor messages in voice mode (sentence-by-sentence)
   useEffect(() => {
     if (!voiceMode) return
     const tutorMsgs = messages.filter(m => m.role === 'tutor')
     if (tutorMsgs.length > lastTutorMsgCountRef.current) {
       lastTutorMsgCountRef.current = tutorMsgs.length
-      speakText(tutorMsgs[tutorMsgs.length - 1].content)
+      synthesizeAndQueue(tutorMsgs[tutorMsgs.length - 1].content)
     }
-  }, [messages, voiceMode, speakText])
+  }, [messages, voiceMode, synthesizeAndQueue])
 
-  const toggleVoice = useCallback(async () => {
-    if (voiceState === 'recording') {
-      mediaRecorderRef.current?.stop()
-      return
-    }
-    if (voiceState !== 'idle') return
+  // In voice mode, the open-mic pipeline handles recording automatically.
+  // The mic button is only meaningful in non-voice-mode for dictating text.
+  const [pttState, setPttState] = useState<'idle' | 'recording' | 'transcribing'>('idle')
+  const pttRecorderRef = useRef<MediaRecorder | null>(null)
+  const pttChunksRef = useRef<Blob[]>([])
+
+  const togglePTT = useCallback(async () => {
+    if (voiceMode) return   // open-mic handles this
+    if (pttState === 'recording') { pttRecorderRef.current?.stop(); return }
+    if (pttState !== 'idle') return
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
       const recorder = new MediaRecorder(stream, { mimeType: 'audio/webm' })
-      audioChunksRef.current = []
-      recorder.ondataavailable = e => { if (e.data.size > 0) audioChunksRef.current.push(e.data) }
+      pttChunksRef.current = []
+      recorder.ondataavailable = e => { if (e.data.size > 0) pttChunksRef.current.push(e.data) }
       recorder.onstop = async () => {
         stream.getTracks().forEach(t => t.stop())
-        setVoiceState('transcribing')
-        const blob = new Blob(audioChunksRef.current, { type: 'audio/webm' })
+        setPttState('transcribing')
+        const blob = new Blob(pttChunksRef.current, { type: 'audio/webm' })
         const token = await getToken()
-        if (!token) { setVoiceState('idle'); return }
+        if (!token) { setPttState('idle'); return }
         const form = new FormData()
         form.append('file', blob, 'voice.webm')
         try {
           const resp = await fetch(`${API_BASE}/tutor/transcribe`, {
-            method: 'POST',
-            headers: { Authorization: `Bearer ${token}` },
-            body: form,
+            method: 'POST', headers: { Authorization: `Bearer ${token}` }, body: form,
           })
           const data = await resp.json()
-          if (data.text) {
-            if (voiceMode) {
-              sendText(data.text)  // voice mode: send immediately, no text field
-            } else {
-              setInputText(prev => prev + (prev ? ' ' : '') + data.text)
-            }
-          }
+          if (data.text) setInputText(prev => prev + (prev ? ' ' : '') + data.text)
         } catch { /* silent */ }
-        setVoiceState('idle')
+        setPttState('idle')
       }
       recorder.start()
-      mediaRecorderRef.current = recorder
-      setVoiceState('recording')
-    } catch { setVoiceState('idle') }
-  }, [voiceState, voiceMode, getToken, sendText])
+      pttRecorderRef.current = recorder
+      setPttState('recording')
+    } catch { setPttState('idle') }
+  }, [pttState, voiceMode, getToken])
 
   const handleSubmitAnswer = useCallback(() => {
     const a = answerText.trim()
@@ -515,6 +612,44 @@ export default function TutorSessionPage() {
   const studentH = splitAreaH - tutorH - 14  // 14px for drag handle
 
   // ── Session end / summary ────────────────────────────────────────────────────
+  if (demoExpired) {
+    return (
+      <div style={{
+        minHeight: '100vh', background: 'var(--bg)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        padding: 24,
+      }}>
+        <div style={{
+          background: 'var(--surface)', borderRadius: 16, border: '1px solid var(--border)',
+          padding: '40px 36px', maxWidth: 420, width: '100%', textAlign: 'center',
+          boxShadow: '0 4px 32px rgba(0,0,0,0.08)',
+        }}>
+          <div style={{ fontSize: 36, marginBottom: 16 }}>✦</div>
+          <h2 style={{
+            fontFamily: 'var(--font-fraunces), Georgia, serif',
+            fontSize: 24, fontWeight: 700, color: 'var(--text)', marginBottom: 12,
+          }}>
+            Your free session has ended
+          </h2>
+          <p style={{ fontSize: 14, color: 'var(--text-dim)', lineHeight: 1.7, marginBottom: 28 }}>
+            You just had a 30-minute session with a patient, real AI math tutor. A full session is up to 2 hours.
+          </p>
+          <Link href="/sign-up" className="btn-caramel" style={{
+            display: 'block', textDecoration: 'none', textAlign: 'center',
+            padding: '13px 24px', fontSize: 15, fontWeight: 600, marginBottom: 12,
+          }}>
+            Create a free account →
+          </Link>
+          <Link href="/pricing" style={{
+            display: 'block', fontSize: 13, color: 'var(--text-dim)', textDecoration: 'none',
+          }}>
+            See session pricing
+          </Link>
+        </div>
+      </div>
+    )
+  }
+
   if ((state === 'ended' || state === 'timeout' || state === 'solved') && summary) {
     return (
       <div style={{ minHeight: '100vh', background: 'var(--bg)', overflowY: 'auto' }}>
@@ -524,6 +659,7 @@ export default function TutorSessionPage() {
   }
 
   // ── Loading / connecting ─────────────────────────────────────────────────────
+  // 'reconnecting' intentionally excluded — the session UI stays visible with a banner
   if (state === 'idle' || state === 'connecting' || state === 'loading') {
     return (
       <div style={{
@@ -562,9 +698,12 @@ export default function TutorSessionPage() {
   // ── Active session ───────────────────────────────────────────────────────────
   const isThinking = state === 'thinking'
 
+  // Combine pipeline state with page-level TTS and LLM states.
+  // Pipeline knows: idle | recording | transcribing
+  // Page knows: thinking (Claude generating) | speaking (TTS playing)
   const voiceIndicatorState: VoiceIndicatorState =
-    voiceState === 'recording' ? 'recording'
-    : voiceState === 'transcribing' ? 'transcribing'
+    voicePipeline.voiceState === 'recording' ? 'recording'
+    : voicePipeline.voiceState === 'transcribing' ? 'transcribing'
     : isSpeaking ? 'speaking'
     : isThinking ? 'thinking'
     : 'idle'
@@ -592,7 +731,7 @@ export default function TutorSessionPage() {
             display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13,
           }}>✦</div>
           <span style={{ fontWeight: 600, fontSize: 13 }}>Whiteboard</span>
-          {examModeActive && (
+          {quizActive && (
             <span style={{
               fontSize: 10, fontWeight: 700, color: '#fff',
               background: 'var(--terracotta)', padding: '2px 7px', borderRadius: 10,
@@ -651,21 +790,34 @@ export default function TutorSessionPage() {
         </div>
 
         {/* Student canvas — MathWhiteboard (bottom portion) */}
-        <div style={{ flex: '1 1 0', minHeight: 0, position: 'relative', overflow: 'hidden' }}>
-          {/* Section label */}
+        <div style={{ flex: '1 1 0', minHeight: 0, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+          {/* Visible section header — distinguishes student scratch from tutor canvas */}
           <div style={{
-            position: 'absolute', top: 6, left: 60, zIndex: 20,
-            fontSize: 9, fontWeight: 700, letterSpacing: '0.06em', textTransform: 'uppercase',
-            color: theme === 'dark' ? '#30363d' : '#c8cde0',
-            pointerEvents: 'none',
+            height: 26, flexShrink: 0, display: 'flex', alignItems: 'center',
+            padding: '0 10px', gap: 8,
+            background: theme === 'dark' ? '#1c2128' : '#eef0f8',
+            borderBottom: `1px solid ${theme === 'dark' ? '#30363d' : '#d8dce8'}`,
           }}>
-            Your work
+            <span style={{
+              fontSize: 10, fontWeight: 700, letterSpacing: '0.07em', textTransform: 'uppercase',
+              color: theme === 'dark' ? '#8b949e' : '#6c7289',
+            }}>
+              Your scratch work
+            </span>
+            <span style={{
+              marginLeft: 'auto', fontSize: 10,
+              color: theme === 'dark' ? '#484f58' : '#9aa0b4',
+            }}>
+              Draw here · tutor can see your work
+            </span>
           </div>
-          <MathWhiteboard
-            mode="session"
-            theme={theme}
-            onSnapshot={sendScratchpadSnapshot}
-          />
+          <div style={{ flex: '1 1 0', minHeight: 0, position: 'relative' }}>
+            <MathWhiteboard
+              mode="session"
+              theme={theme}
+              onSnapshot={sendScratchpadSnapshot}
+            />
+          </div>
         </div>
       </div>
 
@@ -707,11 +859,41 @@ export default function TutorSessionPage() {
         </div>
 
         {/* Exam mode banner */}
-        {examModeProposed && (
-          <ExamModeBanner
-            onAccept={acceptExamMode}
+        {quizProposed && (
+          <QuizMeBanner
+            onAccept={acceptQuiz}
             onDecline={() => { /* dismiss without accepting */ }}
           />
+        )}
+
+        {/* Demo warning banner */}
+        {demoWarning && !demoExpired && (
+          <div style={{
+            background: 'var(--caramel)', color: '#fff',
+            padding: '8px 14px', fontSize: 13, flexShrink: 0,
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          }}>
+            <span>5 minutes left in your free demo session.</span>
+            <Link href="/sign-up" style={{
+              color: '#fff', fontWeight: 700, fontSize: 12,
+              border: '1px solid rgba(255,255,255,0.6)', padding: '3px 10px',
+              borderRadius: 6, textDecoration: 'none',
+            }}>
+              Create account →
+            </Link>
+          </div>
+        )}
+
+        {/* Reconnecting banner */}
+        {isReconnecting && (
+          <div style={{
+            background: 'var(--caramel)', color: '#fff',
+            padding: '6px 12px', fontSize: 12, flexShrink: 0,
+            display: 'flex', alignItems: 'center', gap: 8,
+          }}>
+            <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>↻</span>
+            Reconnecting — your session is saved
+          </div>
         )}
 
         {/* Current problem */}
@@ -780,7 +962,7 @@ export default function TutorSessionPage() {
           display: 'flex', flexWrap: 'wrap', gap: 5,
           borderTop: '1px solid var(--border)',
         }}>
-          {!examModeActive && (
+          {!quizActive && (
             <button
               onClick={() => requestHint()}
               disabled={hintLevel >= maxHints}
@@ -877,20 +1059,22 @@ export default function TutorSessionPage() {
           {/* Chat input */}
           {(!problem || inputMode === 'chat') && (
             <div style={{ display: 'flex', gap: 6 }}>
-              <button
-                onClick={toggleVoice}
-                disabled={voiceState === 'transcribing'}
-                title={voiceState === 'recording' ? 'Stop recording' : 'Record voice message'}
-                style={{
-                  flexShrink: 0, width: 36, borderRadius: 8, fontSize: 13, fontWeight: 700,
-                  border: `1px solid ${voiceState === 'recording' ? 'var(--terracotta)' : 'var(--border)'}`,
-                  background: voiceState === 'recording' ? 'var(--terracotta)' : 'var(--surface)',
-                  color: voiceState === 'recording' ? '#fff' : 'var(--text-muted)',
-                  cursor: voiceState === 'transcribing' ? 'default' : 'pointer',
-                }}
-              >
-                {voiceState === 'transcribing' ? '…' : voiceState === 'recording' ? '■' : '⏺'}
-              </button>
+              {!voiceMode && (
+                <button
+                  onClick={togglePTT}
+                  disabled={pttState === 'transcribing'}
+                  title={pttState === 'recording' ? 'Stop recording' : 'Record voice message'}
+                  style={{
+                    flexShrink: 0, width: 36, borderRadius: 8, fontSize: 13, fontWeight: 700,
+                    border: `1px solid ${pttState === 'recording' ? 'var(--terracotta)' : 'var(--border)'}`,
+                    background: pttState === 'recording' ? 'var(--terracotta)' : 'var(--surface)',
+                    color: pttState === 'recording' ? '#fff' : 'var(--text-muted)',
+                    cursor: pttState === 'transcribing' ? 'default' : 'pointer',
+                  }}
+                >
+                  {pttState === 'transcribing' ? '…' : pttState === 'recording' ? '■' : '⏺'}
+                </button>
+              )}
               <input
                 value={inputText}
                 onChange={e => setInputText(e.target.value)}

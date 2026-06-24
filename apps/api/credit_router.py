@@ -1,12 +1,12 @@
 """
 Session credit management — purchase, balance, and Stripe webhook.
 
-Bundles (any authenticated student can buy any bundle — tutor access is
-credits-only as of 2026-06-12; subscription tiers gate practice, not tutoring):
-  single  → 1 credit  @ $40
-  3pack   → 3 credits @ $99
-  5pack   → 5 credits @ $149
+Session products (pay-per-session, no subscription):
+  1hr   → 1 credit  @ $20  (1-hour session)
+  2hr   → 1 credit  @ $35  (2-hour session)
+  5x1hr → 5 credits @ $90  (five 1-hour sessions, best value)
 
+Credits are typed — a 1hr credit can only start a 1hr session and vice versa.
 Credits expire 6 months after purchase.
 One credit is consumed at the start of each tutor session.
 If a session fails within 2 minutes, the credit is automatically restored.
@@ -33,9 +33,13 @@ router = APIRouter(prefix="/credits", tags=["credits"])
 # ---------------------------------------------------------------------------
 
 BUNDLES: dict[str, dict] = {
-    "single": {"credits": 1, "price_usd": 40, "tiers": "all"},
-    "3pack":  {"credits": 3, "price_usd": 99, "tiers": "all"},
-    "5pack":  {"credits": 5, "price_usd": 149, "tiers": "all"},
+    # Tutoring session credits
+    "1hr":         {"credits": 1, "price_usd": 20, "kind": "1hr",         "tiers": "all"},
+    "2hr":         {"credits": 1, "price_usd": 35, "kind": "2hr",         "tiers": "all"},
+    "5x1hr":       {"credits": 5, "price_usd": 90, "kind": "1hr",         "tiers": "all"},
+    # Exam credits (consumed at submit)
+    "exam_custom": {"credits": 1, "price_usd": 5,  "kind": "exam_custom", "tiers": "all"},
+    "exam_preset": {"credits": 1, "price_usd": 8,  "kind": "exam_preset", "tiers": "all"},
 }
 
 CREDIT_EXPIRY_DAYS = 183  # ~6 months
@@ -56,19 +60,25 @@ def _get_stripe():
     return _stripe
 
 
-def _available_credits(user_id: str, session) -> list[SessionCreditRecord]:
-    """Return all unused, non-expired credits for a user, oldest first."""
+def _available_credits(
+    user_id: str, session, kind: Optional[str] = None
+) -> list[SessionCreditRecord]:
+    """Return all unused, non-expired credits for a user, oldest first.
+
+    Pass kind="1hr" or kind="2hr" to filter by session type.
+    """
     now = datetime.now(timezone.utc)
-    return (
+    q = (
         session.query(SessionCreditRecord)
         .filter(
             SessionCreditRecord.user_id == user_id,
             SessionCreditRecord.used_at.is_(None),
             SessionCreditRecord.expires_at > now,
         )
-        .order_by(SessionCreditRecord.expires_at.asc())
-        .all()
     )
+    if kind is not None:
+        q = q.filter(SessionCreditRecord.kind == kind)
+    return q.order_by(SessionCreditRecord.expires_at.asc()).all()
 
 
 def _expiring_soon(credits: list[SessionCreditRecord]) -> int:
@@ -88,13 +98,15 @@ def _next_expiry(credits: list[SessionCreditRecord]) -> Optional[str]:
 # ---------------------------------------------------------------------------
 
 class BalanceResponse(BaseModel):
-    available: int
-    expiring_soon: int   # within 30 days
+    available: int          # total across all kinds (backward compat)
+    available_1hr: int
+    available_2hr: int
+    expiring_soon: int      # within 30 days, across all kinds
     next_expiry: Optional[str]
 
 
 class CheckoutRequest(BaseModel):
-    bundle: str          # "single" | "3pack" | "5pack"
+    bundle: str          # "1hr" | "2hr" | "5x1hr"
     success_url: str     # redirect after payment
     cancel_url: str
 
@@ -110,15 +122,19 @@ def get_balance(
 ):
     """Return the authenticated student's current session credit balance."""
     if not _uses_database():
-        return BalanceResponse(available=0, expiring_soon=0, next_expiry=None)
+        return BalanceResponse(available=0, available_1hr=0, available_2hr=0, expiring_soon=0, next_expiry=None)
 
     session = get_session()
     try:
-        credits = _available_credits(user.id, session)
+        credits_1hr = _available_credits(user.id, session, kind="1hr")
+        credits_2hr = _available_credits(user.id, session, kind="2hr")
+        all_credits = sorted(credits_1hr + credits_2hr, key=lambda c: c.expires_at)
         return BalanceResponse(
-            available=len(credits),
-            expiring_soon=_expiring_soon(credits),
-            next_expiry=_next_expiry(credits),
+            available=len(all_credits),
+            available_1hr=len(credits_1hr),
+            available_2hr=len(credits_2hr),
+            expiring_soon=_expiring_soon(all_credits),
+            next_expiry=_next_expiry(all_credits),
         )
     finally:
         session.close()
@@ -129,15 +145,20 @@ def create_checkout(
     body: CheckoutRequest,
     user: User = Depends(require_student),
 ):
-    """Create a Stripe Checkout Session for a credit bundle."""
+    """Create a Stripe Checkout Session for a session credit bundle."""
     bundle = BUNDLES.get(body.bundle)
     if not bundle:
-        raise HTTPException(status_code=422, detail=f"Unknown bundle: {body.bundle}. Must be one of {list(BUNDLES)}")
+        raise HTTPException(
+            status_code=422,
+            detail=f"Unknown bundle: {body.bundle}. Must be one of {list(BUNDLES)}",
+        )
 
     price_id_env = {
-        "single": "STRIPE_TUTOR_SINGLE_PRICE_ID",
-        "3pack":  "STRIPE_TUTOR_3PACK_PRICE_ID",
-        "5pack":  "STRIPE_TUTOR_5PACK_PRICE_ID",
+        "1hr":         "STRIPE_SESSION_1HR_PRICE_ID",
+        "2hr":         "STRIPE_SESSION_2HR_PRICE_ID",
+        "5x1hr":       "STRIPE_SESSION_5X1HR_PRICE_ID",
+        "exam_custom": "STRIPE_EXAM_CUSTOM_PRICE_ID",
+        "exam_preset": "STRIPE_EXAM_PRESET_PRICE_ID",
     }[body.bundle]
 
     price_id = os.getenv(price_id_env, "")
@@ -157,6 +178,7 @@ def create_checkout(
             "user_id": user.id,
             "bundle": body.bundle,
             "credits": str(bundle["credits"]),
+            "kind": bundle["kind"],
         },
         customer_email=user.email,
     )
@@ -200,13 +222,14 @@ async def stripe_webhook(
 
 
 def _handle_checkout_completed(checkout_session) -> None:
-    """Grant credits to the user after a successful checkout."""
+    """Grant typed credits to the user after a successful checkout."""
     if not _uses_database():
         return
 
     meta = checkout_session.get("metadata", {})
     user_id = meta.get("user_id")
     credits_count = int(meta.get("credits", 0))
+    kind = meta.get("kind", "1hr")  # default "1hr" for legacy webhooks
     purchase_id = checkout_session.get("id")
 
     if not user_id or credits_count <= 0:
@@ -230,10 +253,14 @@ def _handle_checkout_completed(checkout_session) -> None:
             record = SessionCreditRecord(
                 id=str(uuid4()),
                 user_id=user_id,
+                kind=kind,
                 expires_at=expires_at,
                 purchase_id=purchase_id,
             )
             db.add(record)
+        db.commit()
+        # Check for loyalty and referral reward milestones.
+        _maybe_grant_rewards(user_id, kind, db)
         db.commit()
     except Exception:
         db.rollback()
@@ -242,13 +269,95 @@ def _handle_checkout_completed(checkout_session) -> None:
         db.close()
 
 
+def _maybe_grant_rewards(user_id: str, kind: str, db) -> None:
+    """
+    After a purchase is persisted, check whether the user has crossed a
+    loyalty or referral reward milestone and grant a free 1hr credit if so.
+
+    Loyalty   — every 5 paid tutoring-session purchases (kind 1hr|2hr)
+    Referral  — after 3 paid referrals, the referrer earns a free session
+    Both are idempotent: the RewardRecord unique index blocks double-grants.
+    """
+    from db_models import ReferralRecord, ReferralUsageRecord, RewardRecord
+
+    def _grant(recipient_id: str, reason: str, milestone: int) -> None:
+        from db_models import RewardRecord as _R
+        existing = (
+            db.query(_R)
+            .filter(_R.user_id == recipient_id, _R.reason == reason, _R.milestone == milestone)
+            .first()
+        )
+        if existing:
+            return
+        credit_id = str(uuid4())
+        free_expires = datetime.now(timezone.utc) + timedelta(days=CREDIT_EXPIRY_DAYS)
+        db.add(SessionCreditRecord(
+            id=credit_id,
+            user_id=recipient_id,
+            kind="1hr",
+            expires_at=free_expires,
+            purchase_id=None,
+        ))
+        db.add(_R(
+            id=str(uuid4()),
+            user_id=recipient_id,
+            reason=reason,
+            milestone=milestone,
+            credit_id=credit_id,
+        ))
+
+    # ── Loyalty: every 5 paid tutoring-session purchases ─────────────────────
+    if kind in ("1hr", "2hr"):
+        paid_count = (
+            db.query(SessionCreditRecord.purchase_id)
+            .filter(
+                SessionCreditRecord.user_id == user_id,
+                SessionCreditRecord.kind.in_(["1hr", "2hr"]),
+                SessionCreditRecord.purchase_id.isnot(None),
+            )
+            .distinct()
+            .count()
+        )
+        if paid_count > 0 and paid_count % 5 == 0:
+            _grant(user_id, "paid_5", paid_count)
+
+    # ── Referral: mark referred user's first payment, check referrer ──────────
+    usage = (
+        db.query(ReferralUsageRecord)
+        .filter(
+            ReferralUsageRecord.referred_user_id == user_id,
+            ReferralUsageRecord.first_paid_at.is_(None),
+        )
+        .first()
+    )
+    if usage:
+        usage.first_paid_at = datetime.now(timezone.utc)
+        ref_record = (
+            db.query(ReferralRecord)
+            .filter(ReferralRecord.code == usage.code)
+            .first()
+        )
+        if ref_record and ref_record.user_id != user_id:
+            paid_referrals = (
+                db.query(ReferralUsageRecord)
+                .filter(
+                    ReferralUsageRecord.code == usage.code,
+                    ReferralUsageRecord.first_paid_at.isnot(None),
+                )
+                .count()
+            )
+            if paid_referrals > 0 and paid_referrals % 3 == 0:
+                _grant(ref_record.user_id, "referral_3", paid_referrals)
+
+
 # ---------------------------------------------------------------------------
 # Internal helpers used by ws_router / tutor_router
 # ---------------------------------------------------------------------------
 
-def has_available_credit(user_id: str) -> bool:
+def has_available_credit(user_id: str, kind: str = "1hr") -> bool:
     """
-    Preflight: does the user have at least one unused, unexpired credit?
+    Preflight: does the user have at least one unused, unexpired credit of the
+    given kind?
 
     Used by /tutor/session/create for a friendly intake-form error. Does NOT
     consume anything — consumption happens at WebSocket connect. Returns True
@@ -259,16 +368,16 @@ def has_available_credit(user_id: str) -> bool:
 
     db = get_session()
     try:
-        return len(_available_credits(user_id, db)) > 0
+        return len(_available_credits(user_id, db, kind=kind)) > 0
     finally:
         db.close()
 
 
-def consume_credit(user_id: str) -> Optional[str]:
+def consume_credit(user_id: str, kind: str = "1hr") -> Optional[str]:
     """
-    Soft-lock the oldest available credit for a session.
+    Soft-lock the oldest available credit of the given kind for a session.
 
-    Returns the credit ID on success, None if no credits available.
+    Returns the credit ID on success, None if no matching credit is available.
     Sets used_at to NOW — call restore_credit() if session fails within 2 min.
     """
     if not _uses_database():
@@ -276,7 +385,7 @@ def consume_credit(user_id: str) -> Optional[str]:
 
     db = get_session()
     try:
-        credits = _available_credits(user_id, db)
+        credits = _available_credits(user_id, db, kind=kind)
         if not credits:
             return None
         credit = credits[0]
