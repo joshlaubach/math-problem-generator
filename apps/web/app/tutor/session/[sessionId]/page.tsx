@@ -12,6 +12,7 @@ import { useVoicePipeline } from '@/hooks/useVoicePipeline'
 import type { WhiteboardHandle, WhiteboardMessage, WbMessage } from '@/components/Whiteboard'
 import { ShowMyWorkPanel } from '@/components/ShowMyWorkPanel'
 import { VoiceIndicator, type VoiceIndicatorState } from '@/components/VoiceIndicator'
+import { AudioCheck } from '@/components/AudioCheck'
 
 // ── Dynamic imports ────────────────────────────────────────────────────────────
 
@@ -288,6 +289,13 @@ export default function TutorSessionPage() {
   const [voiceMode, setVoiceMode] = useState(false)
   const [inputMode, setInputMode] = useState<'chat' | 'answer'>('chat')
 
+  // Audio check — runs in parallel with problem-set generation
+  // null = not started, 'pending' = in progress, 'passed'/'skipped'/'failed' = resolved
+  const [audioCheckResult, setAudioCheckResult] = useState<null | 'pending' | 'passed' | 'skipped' | 'failed'>(null)
+  const [audioCheckToken, setAudioCheckToken] = useState<string | null>(null)
+  const [voiceDisabled, setVoiceDisabled] = useState(false)
+  const audioCheckStartedRef = useRef(false)
+
   // Left-panel vertical split: fraction of (panel - header) given to tutor whiteboard
   const [splitRatio, setSplitRatio] = useState(0.55)
   const [leftPanelHeight, setLeftPanelHeight] = useState(600)
@@ -437,6 +445,19 @@ export default function TutorSessionPage() {
     obs.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] })
     return () => obs.disconnect()
   }, [])
+
+  // Start audio check once the session enters the 'loading' phase (problem generation).
+  // We use a ref to guard against double-fire under StrictMode.
+  useEffect(() => {
+    if (state !== 'loading' || audioCheckStartedRef.current) return
+    audioCheckStartedRef.current = true
+    setAudioCheckResult('pending')
+    if (guestToken) {
+      setAudioCheckToken(guestToken)
+    } else {
+      getToken().then(t => setAudioCheckToken(t ?? null))
+    }
+  }, [state]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Measure left panel height
   useEffect(() => {
@@ -659,19 +680,38 @@ export default function TutorSessionPage() {
   }
 
   // ── Loading / connecting ─────────────────────────────────────────────────────
-  // 'reconnecting' intentionally excluded — the session UI stays visible with a banner
-  if (state === 'idle' || state === 'connecting' || state === 'loading') {
+  // Hold the session UI until the audio check resolves so the student doesn't
+  // miss it. 'reconnecting' is intentionally excluded — session UI stays visible.
+  const showingAudioCheck = audioCheckResult === 'pending'
+  if (state === 'idle' || state === 'connecting' || state === 'loading' || showingAudioCheck) {
+    const isLoading = state === 'loading' || showingAudioCheck
     return (
       <div style={{
         minHeight: '100vh', background: 'var(--bg)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        flexDirection: 'column', gap: 12, color: 'var(--text-muted)', fontSize: 14,
+        flexDirection: 'column', gap: isLoading ? 24 : 12,
+        color: 'var(--text-muted)', fontSize: 14,
       }}>
         <div style={{
           width: 36, height: 36, borderRadius: 8, background: 'var(--caramel)',
           display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 18,
         }}>✦</div>
-        {state === 'loading' ? 'Building your problem set…' : 'Connecting to your tutor…'}
+        <div style={{ fontSize: 14, color: 'var(--text-muted)' }}>
+          {isLoading ? 'Building your problem set…' : 'Connecting to your tutor…'}
+        </div>
+
+        {/* Audio check card — shown while problems load, holds session until done */}
+        {showingAudioCheck && (
+          <AudioCheck
+            token={audioCheckToken}
+            apiBase={API_BASE}
+            theme={theme}
+            onComplete={result => {
+              setAudioCheckResult(result)
+              if (result !== 'passed') setVoiceDisabled(true)
+            }}
+          />
+        )}
       </div>
     )
   }
@@ -834,17 +874,24 @@ export default function TutorSessionPage() {
         }}>
           <span style={{ fontWeight: 600, fontSize: 13 }}>Chat</span>
           <button
-            onClick={() => setVoiceMode(v => !v)}
-            title={voiceMode ? 'Voice mode on — click to disable' : 'Enable voice mode'}
+            onClick={() => { if (!voiceDisabled) setVoiceMode(v => !v) }}
+            title={
+              voiceDisabled ? 'Mic unavailable — type your answers'
+              : voiceMode ? 'Voice mode on — click to disable'
+              : 'Enable voice mode'
+            }
             style={{
-              background: voiceMode ? 'var(--caramel)' : 'none',
-              border: `1px solid ${voiceMode ? 'var(--caramel)' : 'var(--border)'}`,
-              borderRadius: 6, padding: '3px 8px', cursor: 'pointer',
-              fontSize: 11, color: voiceMode ? '#fff' : 'var(--text-muted)',
+              background: voiceDisabled ? 'none' : voiceMode ? 'var(--caramel)' : 'none',
+              border: `1px solid ${voiceDisabled ? 'var(--border)' : voiceMode ? 'var(--caramel)' : 'var(--border)'}`,
+              borderRadius: 6, padding: '3px 8px',
+              cursor: voiceDisabled ? 'default' : 'pointer',
+              fontSize: 11,
+              color: voiceDisabled ? 'var(--text-muted)' : voiceMode ? '#fff' : 'var(--text-muted)',
               fontWeight: 600,
+              opacity: voiceDisabled ? 0.45 : 1,
             }}
           >
-            🎤 {voiceMode ? 'Voice on' : 'Voice'}
+            🎤 {voiceDisabled ? 'No mic' : voiceMode ? 'Voice on' : 'Voice'}
           </button>
           <button
             onClick={() => setShowEndConfirm(true)}
@@ -893,6 +940,20 @@ export default function TutorSessionPage() {
           }}>
             <span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>↻</span>
             Reconnecting — your session is saved
+          </div>
+        )}
+
+        {/* Voice-off banner — shown when audio check was skipped or failed */}
+        {voiceDisabled && !isReconnecting && (
+          <div style={{
+            padding: '5px 12px', flexShrink: 0,
+            background: theme === 'dark' ? '#1c2128' : '#eef0f8',
+            borderBottom: '1px solid var(--border)',
+            display: 'flex', alignItems: 'center', gap: 6,
+            fontSize: 11, color: 'var(--text-muted)',
+          }}>
+            <span>🎤</span>
+            <span>Voice off — type your answers below</span>
           </div>
         )}
 
