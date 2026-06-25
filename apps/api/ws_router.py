@@ -38,6 +38,7 @@ from agents.schemas import GeneratorInput, HintRequest
 from agents.socratic import respond as socratic_respond
 import session_orchestrator
 import rate_limit
+from llm_anthropic_client import LLMTimeoutError
 
 # SECURITY (H1): WebSocket message ceilings. A 2-hour session of genuine
 # back-and-forth is well under these; they exist to bound a scripted flood.
@@ -1068,6 +1069,26 @@ async def _run_message_loop(
             update_session(session)
             task = asyncio.create_task(_run_disconnect_timer(session_id))
             _disconnect_timers[session_id] = task
+    except LLMTimeoutError:
+        # The AI tutor did not respond in time — restore the credit and close
+        # gracefully so the student knows this is our fault, not theirs.
+        logger.error("LLM timeout in session %s — ending session and refunding credit", session_id)
+        timer_task.cancel()
+        session = get_session(session_id)
+        if session is not None:
+            try:
+                await _send(
+                    websocket,
+                    type="error",
+                    message="The tutor is taking too long to respond. Your session credit has been restored. Please try again.",
+                )
+            except Exception:
+                pass
+            await _end_session(websocket, session, reason="server_error")
+        try:
+            await websocket.close(code=1011)
+        except Exception:
+            pass
     except Exception:
         # Unhandled server-side failure: always restore the credit (our fault)
         logger.exception("Server error in session %s", session_id)

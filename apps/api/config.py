@@ -137,6 +137,16 @@ SESSION_TOKEN_BUDGET: int = int(os.getenv("SESSION_TOKEN_BUDGET", "50000"))
 ANTHROPIC_FALLBACK_MODEL: str = os.getenv("ANTHROPIC_FALLBACK_MODEL", "claude-haiku-4-5-20251001")
 
 # ============================================================================
+# Observability
+# ============================================================================
+
+# Sentry DSN — set in production via environment variable; empty = Sentry disabled
+SENTRY_DSN: Optional[str] = os.getenv("SENTRY_DSN", None)
+
+# Deployment environment label surfaced in Sentry issues and structured logs
+ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+
+# ============================================================================
 # Authentication Settings (Phase 7+)
 # ============================================================================
 

@@ -25,7 +25,7 @@ from slowapi import Limiter, _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.util import get_remote_address
 
-from config import DEFAULT_ATTEMPT_JSONL_PATH, USE_DATABASE, TEACHER_API_KEY, ADMIN_API_KEY, FRONTEND_URL
+from config import DEFAULT_ATTEMPT_JSONL_PATH, USE_DATABASE, TEACHER_API_KEY, ADMIN_API_KEY, FRONTEND_URL, SENTRY_DSN, ENVIRONMENT
 from generators import get_generator_for_topic, list_registered_topics
 from repositories import AttemptRepository, ProblemRepository
 from repo_factory import get_attempt_repository as factory_get_attempt_repository, get_problem_repository as factory_get_problem_repository
@@ -84,6 +84,43 @@ from auth_dependencies import (
 )
 from users_models import User as AuthUser
 from abuse_guard import check_and_record as _abuse_check
+
+# ============================================================================
+# Observability — Sentry + structured logging
+# ============================================================================
+
+# Structured JSON logging (Railway captures stdout; structured logs enable
+# log-based queries and Sentry breadcrumbs without a separate log shipper).
+_log_handler = logging.StreamHandler()
+try:
+    from pythonjsonlogger import jsonlogger
+    _log_handler.setFormatter(jsonlogger.JsonFormatter(
+        fmt="%(asctime)s %(name)s %(levelname)s %(message)s"
+    ))
+except ImportError:
+    pass  # falls back to plain text if python-json-logger isn't installed yet
+logging.basicConfig(level=logging.INFO, handlers=[_log_handler])
+
+# Sentry — initialised once at import time; no-op when SENTRY_DSN is absent.
+if SENTRY_DSN:
+    try:
+        import sentry_sdk
+        from sentry_sdk.integrations.fastapi import FastApiIntegration
+        from sentry_sdk.integrations.sqlalchemy import SqlAlchemyIntegration
+
+        sentry_sdk.init(
+            dsn=SENTRY_DSN,
+            environment=ENVIRONMENT,
+            integrations=[FastApiIntegration(), SqlAlchemyIntegration()],
+            # 10 % of transactions captured for performance monitoring.
+            # Raise to 1.0 in staging to get full traces.
+            traces_sample_rate=0.1,
+            # Don't send student answers or request bodies to Sentry.
+            send_default_pii=False,
+        )
+        logging.getLogger("startup").info("Sentry initialised (environment=%s)", ENVIRONMENT)
+    except Exception as _sentry_err:
+        logging.getLogger("startup").warning("Sentry init failed: %s", _sentry_err)
 
 
 def _rate_key(request: Request) -> str:
@@ -699,6 +736,19 @@ def _validate_production_config() -> None:
             "unverifiable (forgeable payment events) — refusing to serve traffic."
         )
 
+    # 5. SECURITY: teacher/admin API keys must be set in production.
+    #    When None, the old API-key endpoints are unauthenticated.
+    if not os.getenv("TEACHER_API_KEY"):
+        raise RuntimeError(
+            "TEACHER_API_KEY must be set in production. "
+            "Generate one with: python -c \"import secrets; print(secrets.token_urlsafe(32))\""
+        )
+    if not os.getenv("ADMIN_API_KEY"):
+        raise RuntimeError(
+            "ADMIN_API_KEY must be set in production. "
+            "Generate one with: python -c \"import secrets; print(secrets.token_urlsafe(32))\""
+        )
+
     # 5. SECURITY (L3): FRONTEND_URL must be a real origin in prod, otherwise CORS
     #    silently falls back to localhost and the deployed app can't call the API.
     frontend = os.getenv("FRONTEND_URL", "")
@@ -848,6 +898,24 @@ app.add_middleware(
 
 
 @app.middleware("http")
+async def _request_id(request: Request, call_next):
+    """Attach a UUID request ID to every request for log correlation and Sentry."""
+    request_id = str(uuid4())
+    request.state.request_id = request_id
+    # Propagate into Sentry scope so all events from this request are correlated.
+    if SENTRY_DSN:
+        try:
+            import sentry_sdk
+            with sentry_sdk.new_scope() as scope:
+                scope.set_tag("request_id", request_id)
+        except Exception:
+            pass
+    response = await call_next(request)
+    response.headers["X-Request-ID"] = request_id
+    return response
+
+
+@app.middleware("http")
 async def _security_headers(request: Request, call_next):
     """SECURITY (M1): defense-in-depth response headers on the API too."""
     response = await call_next(request)
@@ -867,9 +935,17 @@ async def _generic_exception_handler(request: Request, exc: Exception):
     stack trace, file path, or internal message. HTTPExceptions are handled by
     FastAPI's own handler and keep their intended status/detail.
     """
-    logger.exception("Unhandled error on %s %s", request.method, request.url.path)
+    request_id = getattr(request.state, "request_id", "unknown")
+    logging.getLogger("api").exception(
+        "Unhandled error on %s %s (request_id=%s)",
+        request.method, request.url.path, request_id,
+        # Never log request body — may contain student answers or PII.
+    )
     from fastapi.responses import JSONResponse
-    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "Internal server error", "request_id": request_id},
+    )
 
 # Default: teacher endpoints open when TEACHER_API_KEY is None; can be tightened per-client
 app.state.allow_public_teacher_endpoints = True
@@ -1177,8 +1253,14 @@ def _strip_approx(s: str) -> str:
 @limiter.limit("5/minute")
 async def generate_problem(
     request: Request,
-    topic_id: Optional[str] = Query(None, description="Topic ID from /topics"),
-    topic: Optional[str] = Query(None, description="Alias for topic_id"),
+    topic_id: Optional[str] = Query(
+        None, description="Topic ID from /topics",
+        max_length=100, pattern=r'^[a-z][a-z0-9_]*$',
+    ),
+    topic: Optional[str] = Query(
+        None, description="Alias for topic_id (deprecated)",
+        max_length=100, pattern=r'^[a-z][a-z0-9_]*$',
+    ),
     difficulty: int = Query(
         ..., ge=1, le=6, description="Difficulty level (1-6)"
     ),

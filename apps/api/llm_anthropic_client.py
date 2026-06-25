@@ -26,6 +26,14 @@ from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL, ANTHROPIC_FALLBACK_MODEL,
 
 _logger = logging.getLogger("llm")
 
+
+class LLMTimeoutError(Exception):
+    """Raised when an Anthropic API call exceeds LLM_API_TIMEOUT seconds.
+
+    Callers (ws_router, agents) should catch this to trigger credit refunds or
+    graceful session termination rather than leaving the user with a hung UI.
+    """
+
 # Last successful call's output token count. Read by session orchestrator for budget tracking.
 # Updated under GIL — safe for single-threaded asyncio use.
 _last_output_tokens: int = 0
