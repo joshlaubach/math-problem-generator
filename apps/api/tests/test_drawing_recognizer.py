@@ -159,7 +159,6 @@ class TestParseResponse:
 class TestRecognizeAndAnnotate:
     """End-to-end tests of recognize_and_annotate with mocked LLM."""
 
-    @pytest.mark.anyio
     async def test_success_with_annotation(self):
         mock_response = json.dumps({
             "chat_text": "I see you drew a triangle. What property are you using?",
@@ -185,7 +184,6 @@ class TestRecognizeAndAnnotate:
         assert result["annotation"] is not None
         assert result["annotation"]["color"] == "correction"
 
-    @pytest.mark.anyio
     async def test_success_null_annotation(self):
         mock_response = json.dumps({
             "chat_text": "Interesting — what were you trying to show here?",
@@ -205,7 +203,6 @@ class TestRecognizeAndAnnotate:
         assert result["annotation"] is None
         assert result["chat_text"] != ""
 
-    @pytest.mark.anyio
     async def test_missing_api_key_returns_fallback(self):
         with patch("config.ANTHROPIC_API_KEY", ""):
             from agents.drawing_recognizer import recognize_and_annotate
@@ -217,7 +214,6 @@ class TestRecognizeAndAnnotate:
         assert "walk me through" in result["chat_text"].lower()
         assert result["annotation"] is None
 
-    @pytest.mark.anyio
     async def test_llm_exception_returns_fallback(self):
         with patch("config.ANTHROPIC_API_KEY", "fake-key"):
             with patch(
@@ -233,7 +229,6 @@ class TestRecognizeAndAnnotate:
         assert "walk me through" in result["chat_text"].lower()
         assert result["annotation"] is None
 
-    @pytest.mark.anyio
     async def test_llm_returns_garbage_returns_fallback(self):
         with patch("config.ANTHROPIC_API_KEY", "fake-key"):
             with patch(
@@ -249,7 +244,6 @@ class TestRecognizeAndAnnotate:
         assert "walk me through" in result["chat_text"].lower()
         assert result["annotation"] is None
 
-    @pytest.mark.anyio
     async def test_tutor_name_used_in_fallback(self):
         """Fallback message is the same regardless of tutor_name (current impl)."""
         with patch("config.ANTHROPIC_API_KEY", ""):

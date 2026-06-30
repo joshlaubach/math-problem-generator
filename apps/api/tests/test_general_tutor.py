@@ -392,7 +392,6 @@ class TestSessionUpload:
 # ─────────────────────────────────────────────────────────────────────────────
 
 class TestDocumentExtractor:
-    @pytest.mark.anyio
     async def test_extract_problems_from_image(self, tmp_path):
         """extract_problems with a PNG calls call_with_images and parses result."""
         from agents.document_extractor import extract_problems
@@ -416,7 +415,6 @@ class TestDocumentExtractor:
         assert result[0]["number"] == 1
         assert "x^2" in result[0]["statement_latex"]
 
-    @pytest.mark.anyio
     async def test_extract_handles_llm_json_wrapped_in_fences(self, tmp_path):
         """LLM sometimes wraps JSON in markdown fences; extractor strips them."""
         from agents.document_extractor import extract_problems
@@ -433,7 +431,6 @@ class TestDocumentExtractor:
                 result = await extract_problems([img_path])
         assert len(result) == 1
 
-    @pytest.mark.anyio
     async def test_extract_handles_empty_problems_array(self, tmp_path):
         from agents.document_extractor import extract_problems
         img_path = tmp_path / "blank.png"
@@ -447,7 +444,6 @@ class TestDocumentExtractor:
                 result = await extract_problems([img_path])
         assert result == []
 
-    @pytest.mark.anyio
     async def test_extract_handles_malformed_llm_response(self, tmp_path):
         """Garbage JSON from LLM → returns [] without raising."""
         from agents.document_extractor import extract_problems
@@ -462,14 +458,12 @@ class TestDocumentExtractor:
                 result = await extract_problems([img_path])
         assert result == []
 
-    @pytest.mark.anyio
     async def test_extract_empty_list_returns_empty(self):
         """No file paths → skip Vision call, return []."""
         from agents.document_extractor import extract_problems
         result = await extract_problems([])
         assert result == []
 
-    @pytest.mark.anyio
     async def test_extract_no_api_key_returns_empty(self, tmp_path):
         """Missing ANTHROPIC_API_KEY → returns [] without calling Vision."""
         from agents.document_extractor import extract_problems
@@ -482,7 +476,6 @@ class TestDocumentExtractor:
         mock_call.assert_not_called()
         assert result == []
 
-    @pytest.mark.anyio
     async def test_extract_oversized_file_skipped(self, tmp_path):
         """Files larger than _MAX_FILE_BYTES are skipped (no Vision call)."""
         import agents.document_extractor as doc_ext
@@ -543,7 +536,6 @@ def _make_session(
 
 
 class TestTutorEngineOpening:
-    @pytest.mark.anyio
     async def test_opening_no_uploads(self):
         from agents.tutor_engine import get_opening_message
         msg = await get_opening_message(
@@ -556,7 +548,6 @@ class TestTutorEngineOpening:
         assert isinstance(msg, str)
         assert len(msg) > 20
 
-    @pytest.mark.anyio
     async def test_opening_with_uploads(self):
         from agents.tutor_engine import get_opening_message
         msg = await get_opening_message(
@@ -569,7 +560,6 @@ class TestTutorEngineOpening:
         assert isinstance(msg, str)
         assert "3" in msg or "problem" in msg.lower()
 
-    @pytest.mark.anyio
     async def test_opening_test_prep_variant(self):
         from agents.tutor_engine import get_opening_message
         msg = await get_opening_message(
@@ -582,7 +572,6 @@ class TestTutorEngineOpening:
         assert isinstance(msg, str)
         assert len(msg) > 10
 
-    @pytest.mark.anyio
     async def test_opening_all_why_variants(self):
         from agents.tutor_engine import get_opening_message
         for why in ["learn_concept", "homework", "test_prep", "grade_improvement", "get_ahead", "other"]:
@@ -597,7 +586,6 @@ class TestTutorEngineOpening:
 
 
 class TestTutorEngineQueueBuild:
-    @pytest.mark.anyio
     async def test_queue_empty_when_uploads_present(self):
         """If uploaded_problems exist, problem_queue should NOT be populated."""
         from agents.tutor_engine import build_problem_queue
@@ -607,7 +595,6 @@ class TestTutorEngineQueueBuild:
         mock_gen.assert_not_called()
         assert result == []
 
-    @pytest.mark.anyio
     async def test_queue_built_from_topic_ids(self):
         """With no uploads, queue is built via generate() for each topic_id."""
         from agents.tutor_engine import build_problem_queue
@@ -622,7 +609,6 @@ class TestTutorEngineQueueBuild:
 
         assert len(result) > 0
 
-    @pytest.mark.anyio
     async def test_queue_built_from_freeform_topics(self):
         """Freeform topics also generate problems."""
         from agents.tutor_engine import build_problem_queue
@@ -636,7 +622,6 @@ class TestTutorEngineQueueBuild:
             result = await build_problem_queue(session)
         assert len(result) > 0
 
-    @pytest.mark.anyio
     async def test_queue_gen_failure_is_swallowed(self):
         """If generate() raises, build_problem_queue returns [] without crashing."""
         from agents.tutor_engine import build_problem_queue
@@ -646,7 +631,6 @@ class TestTutorEngineQueueBuild:
             result = await build_problem_queue(session)
         assert isinstance(result, list)
 
-    @pytest.mark.anyio
     async def test_queue_unknown_topic_id_skipped(self):
         """Topic IDs not in registry are silently skipped."""
         from agents.tutor_engine import build_problem_queue
@@ -659,7 +643,6 @@ class TestTutorEngineQueueBuild:
 
 
 class TestTutorEngineResponse:
-    @pytest.mark.anyio
     async def test_socratic_mode_returns_tuple(self):
         """Normal student message → Socratic response."""
         from agents.tutor_engine import generate_tutor_response
@@ -678,7 +661,6 @@ class TestTutorEngineResponse:
         assert len(reply) > 0
         assert escalated is False
 
-    @pytest.mark.anyio
     async def test_force_lesson_escalates(self):
         """force_lesson=True should route to lesson mode."""
         from agents.tutor_engine import generate_tutor_response
@@ -698,7 +680,6 @@ class TestTutorEngineResponse:
         assert escalated is True
         assert "walk" in reply.lower() or len(reply) > 0
 
-    @pytest.mark.anyio
     async def test_auto_escalation_after_threshold(self):
         """consecutive_no_progress >= ESCALATION_THRESHOLD triggers lesson."""
         from agents.tutor_engine import generate_tutor_response, ESCALATION_THRESHOLD
@@ -715,7 +696,6 @@ class TestTutorEngineResponse:
 
         assert escalated is True
 
-    @pytest.mark.anyio
     async def test_no_problem_returns_gracefully(self):
         """session.problem is None → returns a helpful message, doesn't crash."""
         from agents.tutor_engine import generate_tutor_response
@@ -728,7 +708,6 @@ class TestTutorEngineResponse:
         assert len(reply) > 0
         assert escalated is False
 
-    @pytest.mark.anyio
     async def test_going_too_fast_returns_string(self):
         """handle_going_too_fast returns a non-empty string."""
         from agents.tutor_engine import handle_going_too_fast
@@ -743,7 +722,6 @@ class TestTutorEngineResponse:
         assert isinstance(msg, str)
         assert len(msg) > 10
 
-    @pytest.mark.anyio
     async def test_going_too_fast_no_problem_ok(self):
         """handle_going_too_fast when no current problem doesn't crash."""
         from agents.tutor_engine import handle_going_too_fast
@@ -789,7 +767,6 @@ class TestExamMode:
         )
         assert check_quiz_readiness(session) is True
 
-    @pytest.mark.anyio
     async def test_get_quiz_proposal_string(self):
         from agents.tutor_engine import get_quiz_proposal
         session = _make_session(current_index=3)
@@ -797,7 +774,6 @@ class TestExamMode:
         assert isinstance(msg, str)
         assert len(msg) > 20
 
-    @pytest.mark.anyio
     async def test_get_quiz_start_message_string(self):
         from agents.tutor_engine import get_quiz_start_message
         session = _make_session()
@@ -827,7 +803,6 @@ def _mock_anthropic_response(text: str):
 
 
 class TestSessionSummarizer:
-    @pytest.mark.anyio
     async def test_legacy_mode_returns_list_when_no_api_key(self):
         """Without API key, legacy mode (topics_covered=None) must return a list."""
         from agents.session_summarizer import summarize_session
@@ -846,7 +821,6 @@ class TestSessionSummarizer:
         assert isinstance(result, list)
         assert len(result) >= 1
 
-    @pytest.mark.anyio
     async def test_extended_mode_returns_dict_when_no_api_key(self):
         """Without API key, extended mode returns a dict with all 3 keys."""
         from agents.session_summarizer import summarize_session
@@ -867,7 +841,6 @@ class TestSessionSummarizer:
         assert "per_topic_performance" in result
         assert "practice_problems" in result
 
-    @pytest.mark.anyio
     async def test_extended_mode_with_llm_response(self):
         """With mocked LLM, extended mode parses and returns all 3 sections."""
         from agents.session_summarizer import summarize_session
@@ -900,7 +873,6 @@ class TestSessionSummarizer:
         assert len(result["bullets"]) == 2
         assert "Integration by Parts" in result["per_topic_performance"]
 
-    @pytest.mark.anyio
     async def test_extended_mode_per_topic_performance_values(self):
         """Performance values must be: strong / needs_work / attempted."""
         from agents.session_summarizer import summarize_session
@@ -933,7 +905,6 @@ class TestSessionSummarizer:
         for val in result["per_topic_performance"].values():
             assert val in valid, f"Unexpected performance value: {val!r}"
 
-    @pytest.mark.anyio
     async def test_extended_mode_malformed_llm_response_degrades_gracefully(self):
         """Malformed JSON from LLM falls back to fallback dict — doesn't raise."""
         from agents.session_summarizer import summarize_session
@@ -957,7 +928,6 @@ class TestSessionSummarizer:
         assert isinstance(result, dict)
         assert "bullets" in result
 
-    @pytest.mark.anyio
     async def test_extended_mode_practice_no_file_references(self):
         """Practice problems in summary must NOT reference filenames or uploads."""
         from agents.session_summarizer import summarize_session
@@ -990,7 +960,6 @@ class TestSessionSummarizer:
             assert ".pdf" not in p
             assert "upload" not in p.lower()
 
-    @pytest.mark.anyio
     async def test_extended_mode_empty_conversation(self):
         """Empty conversation should produce a valid dict summary."""
         from agents.session_summarizer import summarize_session
@@ -1009,7 +978,6 @@ class TestSessionSummarizer:
         assert isinstance(result, dict)
         assert "bullets" in result
 
-    @pytest.mark.anyio
     async def test_llm_exception_during_summarize_falls_back(self):
         """If the Anthropic call raises, summarize_session returns fallback dict."""
         from agents.session_summarizer import summarize_session

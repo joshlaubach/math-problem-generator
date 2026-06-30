@@ -41,14 +41,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r apps/api/requirements.txt
     
-    - name: Collect tests (verify imports)
-      env:
-        TEACHER_API_KEY: test-teacher-key
-        ADMIN_API_KEY: test-admin-key
-      run: |
-        cd apps/api
-        python -m pytest tests/ --collect-only -q 2>&1 | head -80
-
     - name: Run tests with pytest
       env:
         TEACHER_API_KEY: test-teacher-key
