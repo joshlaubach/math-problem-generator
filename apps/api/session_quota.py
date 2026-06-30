@@ -50,6 +50,11 @@ def _ensure_data_dir() -> None:
     QUOTA_LOG_PATH.parent.mkdir(parents=True, exist_ok=True)
 
 
+def reset_for_testing() -> None:
+    """Delete the quota JSONL file. Call from test fixtures for isolation."""
+    QUOTA_LOG_PATH.unlink(missing_ok=True)
+
+
 def _load_records_jsonl() -> list[dict]:
     _ensure_data_dir()
     if not QUOTA_LOG_PATH.exists():

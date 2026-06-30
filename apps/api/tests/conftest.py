@@ -19,7 +19,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 @pytest.fixture(autouse=True, scope="function")
 def reset_rate_limiter():
-    """Reset rate limiter and abuse guard before each test to prevent 429 cross-test bleed."""
+    """Reset rate limiter, abuse guard, and session quota before each test to prevent 429 cross-test bleed."""
     try:
         import rate_limit
         rate_limit.reset_for_testing()
@@ -30,6 +30,11 @@ def reset_rate_limiter():
         from api import limiter
         reset_for_testing()
         limiter._storage.reset()
+    except Exception:
+        pass
+    try:
+        from session_quota import reset_for_testing as reset_quota
+        reset_quota()
     except Exception:
         pass
     yield
