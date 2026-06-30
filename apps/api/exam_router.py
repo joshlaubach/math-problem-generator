@@ -447,7 +447,7 @@ def get_exam(attempt_id: str, user: User = Depends(require_student)):
     )
 
 
-@router.post("/{attempt_id}/event", status_code=204)
+@router.post("/{attempt_id}/event", status_code=204, response_model=None)
 def log_integrity_event(
     attempt_id: str,
     body: IntegrityEventRequest,

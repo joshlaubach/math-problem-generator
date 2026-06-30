@@ -313,7 +313,7 @@ async def dismiss_flag(
         session.close()
 
 
-@router.delete("/flagged/{flag_id}", status_code=204)
+@router.delete("/flagged/{flag_id}", status_code=204, response_model=None)
 async def delete_flagged_problem(
     flag_id: str,
     admin: User = Depends(require_admin),
