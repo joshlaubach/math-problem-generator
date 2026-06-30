@@ -159,15 +159,37 @@ def weak_topics(user_id: str, topic_ids: list[str]) -> list[tuple[str, float]]:
     has touched before and shown weakness on (mastery < WEAK_TOPIC_THRESHOLD).
     Used to enrich the session-start history briefing. Never raises.
     """
-    weak: list[tuple[str, float]] = []
-    for tid in topic_ids:
-        try:
-            record = get_progress(user_id, tid)
-        except Exception:
-            continue
-        if record is not None and record["mastery_score"] < WEAK_TOPIC_THRESHOLD:
-            weak.append((tid, record["mastery_score"]))
-    return weak
+    if not topic_ids:
+        return []
+    try:
+        if _uses_database():
+            from db_models import ProgressRecord
+            from db_session import get_session
+            db = get_session()
+            try:
+                rows = db.query(ProgressRecord).filter(
+                    ProgressRecord.user_id == user_id,
+                    ProgressRecord.topic_id.in_(topic_ids),
+                ).all()
+            finally:
+                db.close()
+            return [
+                (r.topic_id, r.mastery_score)
+                for r in rows
+                if r.mastery_score < WEAK_TOPIC_THRESHOLD
+            ]
+        # JSONL fallback — still per-topic but only called in dev
+        weak: list[tuple[str, float]] = []
+        for tid in topic_ids:
+            try:
+                record = get_progress(user_id, tid)
+            except Exception:
+                continue
+            if record is not None and record["mastery_score"] < WEAK_TOPIC_THRESHOLD:
+                weak.append((tid, record["mastery_score"]))
+        return weak
+    except Exception:
+        return []
 
 
 # ── Write ──────────────────────────────────────────────────────────────────────
@@ -188,13 +210,40 @@ def apply_session_results(user_id: str, performance_by_topic_id: dict[str, str])
     """
     now = datetime.now(timezone.utc)
 
+    # Batch-read all affected topics at once to avoid N+1 queries
+    topic_ids = list(performance_by_topic_id.keys())
+    progress_map: dict = {}
+    if _uses_database() and topic_ids:
+        try:
+            from db_models import ProgressRecord
+            from db_session import get_session
+            db = get_session()
+            try:
+                rows = db.query(ProgressRecord).filter(
+                    ProgressRecord.user_id == user_id,
+                    ProgressRecord.topic_id.in_(topic_ids),
+                ).all()
+                for r in rows:
+                    progress_map[r.topic_id] = {
+                        "mastery_score": r.mastery_score,
+                        "current_conceptual_diff": r.current_conceptual_diff,
+                        "current_computational_diff": r.current_computational_diff,
+                        "streak": r.streak,
+                    }
+            finally:
+                db.close()
+        except Exception:
+            pass
+
     for topic_id, grade in performance_by_topic_id.items():
         delta = _PERFORMANCE_DELTAS.get(str(grade).lower())
         if delta is None:
             continue
         delta = _clamp(delta, -MAX_SESSION_DELTA, MAX_SESSION_DELTA)
 
-        current = get_progress(user_id, topic_id) or {
+        current = progress_map.get(topic_id) or (
+            None if not _uses_database() else None
+        ) or get_progress(user_id, topic_id) or {
             "mastery_score": 0.0,
             "current_conceptual_diff": 1,
             "current_computational_diff": 1,

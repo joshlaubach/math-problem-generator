@@ -6,7 +6,6 @@ import Link from 'next/link'
 import { useAuth } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
 import { MathText } from '@/components/MathText'
-import { MathInput } from '@/components/MathInput'
 import { useTutorSession } from '@/hooks/useTutorSession'
 import { useVoicePipeline } from '@/hooks/useVoicePipeline'
 import type { WhiteboardHandle, WhiteboardMessage, WbMessage } from '@/components/Whiteboard'
@@ -45,6 +44,11 @@ const MathWhiteboard = dynamic(
       </div>
     ),
   }
+)
+
+const MathInput = dynamic(
+  () => import('@/components/MathInput').then(m => m.MathInput),
+  { ssr: false, loading: () => <input type="text" style={{ padding: '6px 10px', borderRadius: 6, border: '1px solid var(--border)', width: '100%' }} /> }
 )
 
 // ── Sub-components ─────────────────────────────────────────────────────────────
@@ -272,7 +276,7 @@ export default function TutorSessionPage() {
     secondsRemaining, inGracePeriod, summary,
     lastError, currentIndex, totalProblems,
     quizProposed, quizActive, demoWarning, demoExpired,
-    whiteboardMessages, ragMatch,
+    whiteboardMessages, ragMatch, isOffline,
     connectToSession, sendText, submitAnswer, requestHint,
     walkMeThrough, goingTooFast, nextProblem, acceptQuiz,
     endSession, sendCanvasSnapshot, sendRagSearch, sendStudentWork,
@@ -928,6 +932,17 @@ export default function TutorSessionPage() {
             }}>
               Create account →
             </Link>
+          </div>
+        )}
+
+        {/* Offline banner */}
+        {isOffline && (
+          <div style={{
+            background: '#c0392b', color: '#fff',
+            padding: '6px 12px', fontSize: 12, flexShrink: 0,
+            display: 'flex', alignItems: 'center', gap: 8,
+          }}>
+            No internet connection — your session is paused
           </div>
         )}
 

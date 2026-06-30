@@ -94,6 +94,9 @@ class TutorSession:
     time_budget_exhausted: bool = False  # Set by the timer when max_duration elapses;
                                          # session ends at the next problem boundary
                                          # (post-solve) instead of mid-problem.
+    output_tokens_used: int = 0          # Cumulative output tokens this session;
+                                         # when >= SESSION_TOKEN_BUDGET, sets
+                                         # time_budget_exhausted=True
     disconnected_at: Optional[datetime] = None  # Set when WS drops; cleared on
                                                  # reconnect; signals the 10-min
                                                  # disconnect timer to end if not cleared.
@@ -172,6 +175,9 @@ def create_session(
 ) -> TutorSession:
     if session_id in _sessions:
         raise ValueError(f"Session {session_id!r} already exists")
+    for existing in _sessions.values():
+        if existing.user_id == user_id:
+            raise ValueError("already_active")
     session = TutorSession(
         session_id=session_id,
         user_id=user_id,

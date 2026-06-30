@@ -666,7 +666,7 @@ def _expression_complexity(latex_text: str) -> int:
 
 
 # Simple in-memory TTS cache: (text, voice_id, speed, stability) → bytes
-@functools.lru_cache(maxsize=100)
+@functools.lru_cache(maxsize=500)
 def _tts_cached(text: str, voice_id: str, speed: float = 0.90, stability: float = 0.55) -> bytes:
     """Cached ElevenLabs synthesis — same text+voice+settings returns cached bytes."""
     elevenlabs_key = os.getenv("ELEVENLABS_API_KEY", "")

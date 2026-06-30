@@ -4,12 +4,12 @@ on:
   push:
     branches: [ main, develop ]
     paths:
-      - 'backend/**'
+      - 'apps/api/**'
       - '.github/workflows/backend-ci.yml'
   pull_request:
     branches: [ main, develop ]
     paths:
-      - 'backend/**'
+      - 'apps/api/**'
 
 jobs:
   test:
@@ -31,23 +31,29 @@ jobs:
       uses: actions/cache@v3
       with:
         path: ~/.cache/pip
-        key: ${{ runner.os }}-pip-${{ hashFiles('backend/requirements.txt') }}
+        key: ${{ runner.os }}-pip-${{ hashFiles('apps/api/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
     
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install -r backend/requirements.txt
+        pip install -r apps/api/requirements.txt
     
     - name: Run tests with pytest
+      env:
+        TEACHER_API_KEY: test-teacher-key
+        ADMIN_API_KEY: test-admin-key
       run: |
-        cd backend
+        cd apps/api
         pytest tests/ -v --tb=short
     
     - name: Run tests with coverage
+      env:
+        TEACHER_API_KEY: test-teacher-key
+        ADMIN_API_KEY: test-admin-key
       run: |
-        cd backend
+        cd apps/api
         pip install pytest-cov
         pytest tests/ --cov=. --cov-report=xml --cov-report=term-missing
     
@@ -55,7 +61,7 @@ jobs:
       uses: codecov/codecov-action@v3
       if: matrix.python-version == '3.11'
       with:
-        files: ./backend/coverage.xml
+        files: ./apps/api/coverage.xml
         flags: backend
         fail_ci_if_error: false
 
@@ -77,17 +83,17 @@ jobs:
     
     - name: Check code formatting with black
       run: |
-        cd backend
+        cd apps/api
         black --check . || true
     
     - name: Check imports with isort
       run: |
-        cd backend
+        cd apps/api
         isort --check-only . || true
     
     - name: Lint with flake8
       run: |
-        cd backend
+        cd apps/api
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics || true
 
   build-docker:
@@ -101,30 +107,33 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
     
-    - name: Build Docker image
+    - name: Log in to Container Registry
+      uses: docker/login-action@v2
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build and push Docker image
       uses: docker/build-push-action@v4
       with:
         context: .
         file: ./Dockerfile
-        push: false
-        tags: math-problem-generator:latest
+        push: ${{ github.ref == 'refs/heads/main' }}
+        tags: ghcr.io/${{ github.repository }}/backend:latest
         cache-from: type=gha
         cache-to: type=gha,mode=max
-    
-    # Uncomment below to push to registry
-    # - name: Log in to Container Registry
-    #   uses: docker/login-action@v2
-    #   with:
-    #     registry: ghcr.io
-    #     username: ${{ github.actor }}
-    #     password: ${{ secrets.GITHUB_TOKEN }}
-    # 
-    # - name: Push Docker image
-    #   uses: docker/build-push-action@v4
-    #   with:
-    #     context: .
-    #     file: ./Dockerfile
-    #     push: true
-    #     tags: ghcr.io/${{ github.repository }}/backend:latest
-    #     cache-from: type=gha
-    #     cache-to: type=gha,mode=max
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-docker
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Deploy to Railway
+      uses: bervproject/railway-deploy@v1.2.0
+      with:
+        railway-token: ${{ secrets.RAILWAY_TOKEN }}
+        service: api

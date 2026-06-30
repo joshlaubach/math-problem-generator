@@ -1,7 +1,7 @@
 """
 Document extractor — Claude Vision extraction of math problems from uploaded files.
 
-Accepts image files (JPEG, PNG, GIF, WebP) and PDFs (converted to images via PyMuPDF).
+Accepts image files (JPEG, PNG, GIF, WebP) and PDFs (text extracted via pdfplumber).
 Returns a list of structured problem dicts: {number, statement_latex, points}.
 
 Files are kept in DATA_DIR/session_uploads/<session_id>/ during the session and
@@ -71,14 +71,25 @@ async def extract_problems(file_paths: list[Path | str]) -> list[dict]:
         return []
 
     images = _load_images(file_paths)
-    if not images:
-        logger.info("No valid images to extract from")
+    pdf_text = _load_pdf_texts(file_paths)
+
+    if not images and not pdf_text:
+        logger.info("No valid content to extract from")
         return []
+
+    prompt = _EXTRACTOR_PROMPT
+    if pdf_text:
+        prompt = (
+            "The following text was extracted from a PDF document:\n\n"
+            + pdf_text
+            + "\n\n"
+            + _EXTRACTOR_PROMPT
+        )
 
     from llm_anthropic_client import call_with_images
     try:
         raw = await call_with_images(
-            text_prompt=_EXTRACTOR_PROMPT,
+            text_prompt=prompt,
             images=images[:_MAX_IMAGES],
             system=_EXTRACTOR_SYSTEM,
             max_tokens=2048,
@@ -119,7 +130,7 @@ def _load_images(file_paths: list[Path | str]) -> list[dict]:
             if img:
                 result.append(img)
         elif suffix == ".pdf":
-            result.extend(_pdf_to_images(path))
+            pass  # PDFs handled separately via _load_pdf_texts (text extraction)
         else:
             logger.debug("Unsupported upload type ignored: %s", suffix)
         if len(result) >= _MAX_IMAGES:
@@ -140,37 +151,37 @@ def _load_raw(path: Path, media_type: str) -> Optional[dict]:
         return None
 
 
-def _pdf_to_images(pdf_path: Path) -> list[dict]:
+def _load_pdf_texts(file_paths: list[Path | str]) -> str:
     """
-    Convert the first N pages of a PDF to PNG images using PyMuPDF.
-    Returns [] and logs a warning if PyMuPDF is not installed.
+    Extract text from any PDF files in file_paths using pdfplumber (MIT license).
+    Returns a single string of all extracted text, or "" if no PDFs or pdfplumber not installed.
     """
     try:
-        import fitz  # PyMuPDF
+        import pdfplumber
     except ImportError:
         logger.warning(
-            "PyMuPDF not installed — PDF extraction disabled. "
-            "Install with: pip install pymupdf"
+            "pdfplumber not installed — PDF text extraction disabled. "
+            "Install with: pip install pdfplumber"
         )
-        return []
+        return ""
 
-    images: list[dict] = []
-    try:
-        doc = fitz.open(str(pdf_path))
-        for page_num in range(min(len(doc), _MAX_PDF_PAGES)):
-            page = doc[page_num]
-            # 2× zoom for readable resolution; PNG for lossless
-            pix = page.get_pixmap(matrix=fitz.Matrix(2, 2))
-            png_bytes = pix.tobytes("png")
-            if len(png_bytes) <= _MAX_FILE_BYTES:
-                images.append({
-                    "data": base64.b64encode(png_bytes).decode(),
-                    "media_type": "image/png",
-                })
-        doc.close()
-    except Exception as exc:
-        logger.error("PDF → image conversion failed for %s: %s", pdf_path, exc)
-    return images
+    texts: list[str] = []
+    for fp in file_paths:
+        path = Path(fp)
+        if path.suffix.lower() != ".pdf":
+            continue
+        try:
+            with pdfplumber.open(str(path)) as pdf:
+                page_texts = [
+                    p.extract_text() or ""
+                    for p in pdf.pages[:_MAX_PDF_PAGES]
+                ]
+            extracted = "\n".join(t for t in page_texts if t.strip())
+            if extracted.strip():
+                texts.append(extracted)
+        except Exception as exc:
+            logger.error("PDF text extraction failed for %s: %s", path, exc)
+    return "\n\n".join(texts)
 
 
 def _parse_response(raw: str) -> list[dict]:

@@ -101,6 +101,8 @@ export interface TutorSessionHook {
   whiteboardMessages: WhiteboardWsMessage[]
   // RAG
   ragMatch: RagMatch | null
+  // Offline state
+  isOffline: boolean
   // Student work
   defaultInputMode: string   // "latex" | "drawing" | "mixed"
   // Actions
@@ -186,6 +188,7 @@ export function useTutorSession(): TutorSessionHook {
   const [whiteboardMessages, setWhiteboardMessages] = useState<WhiteboardWsMessage[]>([])
   const [ragMatch, setRagMatch] = useState<RagMatch | null>(null)
   const [defaultInputMode, setDefaultInputMode] = useState('latex')
+  const [isOffline, setIsOffline] = useState(false)
 
   // ── Countdown ───────────────────────────────────────────────────────────────
 
@@ -643,6 +646,24 @@ export function useTutorSession(): TutorSessionHook {
   }, [_send])
 
   useEffect(() => {
+    const handleOffline = () => setIsOffline(true)
+    const handleOnline = () => {
+      setIsOffline(false)
+      // Trigger reconnect if session is active
+      const params = connectParamsRef.current
+      if (params && wsRef.current?.readyState !== WebSocket.OPEN) {
+        openWs(wsRef.current?.url ?? '', params.token)
+      }
+    }
+    window.addEventListener('offline', handleOffline)
+    window.addEventListener('online', handleOnline)
+    return () => {
+      window.removeEventListener('offline', handleOffline)
+      window.removeEventListener('online', handleOnline)
+    }
+  }, [openWs])
+
+  useEffect(() => {
     return () => {
       stopCountdown()
       wsRef.current?.close(1000)
@@ -660,6 +681,6 @@ export function useTutorSession(): TutorSessionHook {
     endSession, disconnect, acceptTopic, rejectTopic,
     scratchpadHasWork, setScratchpadHasWork,
     sendCanvasSnapshot, sendImageDrop, sendRagSearch, sendStudentWork,
-    defaultInputMode,
+    defaultInputMode, isOffline,
   }
 }

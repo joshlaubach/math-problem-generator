@@ -1238,7 +1238,7 @@ async def _run_legacy_session(
                 await _end_session_early(websocket, credit_id)
                 return
             if msg_type == "student_text":
-                text = str(raw.get("text", "")).strip()
+                text = str(raw.get("text", "")).strip()[:2000]
                 if not text:
                     continue
                 discovery_conversation.append({"role": "student", "content": text})
@@ -1329,18 +1329,24 @@ async def _run_legacy_session(
     except Exception:
         _is_first = False
 
-    session = create_session(
-        session_id=session_id,
-        user_id=user.id,
-        topic_id=resolved_topic_id,
-        difficulty=difficulty,
-        session_type=session_type,
-        problem=problem,
-        credit_id=credit_id,
-        mode=resolved_mode,
-        tutor_name=safe_tutor_name,
-        history_briefing=history_briefing,
-    )
+    try:
+        session = create_session(
+            session_id=session_id,
+            user_id=user.id,
+            topic_id=resolved_topic_id,
+            difficulty=difficulty,
+            session_type=session_type,
+            problem=problem,
+            credit_id=credit_id,
+            mode=resolved_mode,
+            tutor_name=safe_tutor_name,
+            history_briefing=history_briefing,
+        )
+    except ValueError as _ve:
+        if "already_active" in str(_ve):
+            await websocket.close(4029, "You already have an active session. Please end your existing session first.")
+            return
+        raise
     session.is_first_ever_session = _is_first
 
     _legacy_meta = TOPIC_REGISTRY.get(resolved_topic_id or "")
@@ -1407,7 +1413,7 @@ async def _run_legacy_session(
                 continue
 
             if msg_type == "student_text":
-                text = str(raw.get("text", "")).strip()
+                text = str(raw.get("text", "")).strip()[:2000]
                 if not text:
                     continue
                 log_event(session_id=session_id, user_id=user.id, topic_id=topic_id,

@@ -43,6 +43,9 @@ def log_event(
     reward: Optional[float] = None,
 ) -> None:
     """Append one event record to data/rl_events.jsonl."""
+    import os
+    if os.getenv("ENABLE_RL_LOG", "false").lower() != "true":
+        return
     _ensure_data_dir()
     record = {
         "session_id": session_id,

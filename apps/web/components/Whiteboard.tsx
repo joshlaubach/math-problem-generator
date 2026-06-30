@@ -5,7 +5,7 @@
  *
  * Layer stack (bottom → top):
  *   0. CSS dot-grid background
- *   1. Tutor layer — GSAP-animated KaTeX/geometry blocks + section dividers (z-index 5)
+ *   1. Tutor layer — Framer Motion-animated KaTeX/geometry blocks + section dividers (z-index 5)
  *   2. Student layer — Fabric.js freehand canvas (z-index 10)
  *
  * Phase-2 constraint system (all 10):
@@ -17,8 +17,8 @@
  *   6. Student layer aware   — annotateStudentWork() reads Fabric bboxes via layout manager
  *   7. Color constants       — TUTOR_INK / STUDENT_INK / CORRECTION_INK never swapped
  *   8. Cursor presence       — pulsing ◆ at nextY for 400ms before each write
- *   9. Pointer-before-write  — GSAP outline flash on referenced block before annotation
- *  10. Write speed           — GSAP duration = clamp(charCount * 0.04, 0.3, 2.0) seconds
+ *   9. Pointer-before-write  — Framer Motion outline flash on referenced block before annotation
+ *  10. Write speed           — Framer Motion duration = clamp(charCount * 0.04, 0.3, 2.0) seconds
  */
 
 import {
@@ -201,18 +201,12 @@ const LatexItem = memo(function LatexItem({
     const duration = Math.max(0.3, Math.min(2.0, block.latex.length * 0.04))
     const fallback = setTimeout(() => { if (el) el.style.opacity = '1' }, duration * 1000 + 300)
 
-    ;(async () => {
-      try {
-        const gsap = (await import('gsap')).default
-        clearTimeout(fallback)
-        gsap.fromTo(el,
-          { opacity: 0, y: 8 },
-          { opacity: 1, y: 0, duration, ease: 'power2.out' },
-        )
-      } catch {
-        if (el) el.style.opacity = '1'
-      }
-    })()
+    import('framer-motion').then(({ animate }) => {
+      clearTimeout(fallback)
+      animate(el, { opacity: [0, 1], y: [8, 0] }, { duration, ease: 'easeOut' })
+    }).catch(() => {
+      if (el) el.style.opacity = '1'
+    })
 
     return () => clearTimeout(fallback)
   }, []) // eslint-disable-line react-hooks/exhaustive-deps
@@ -221,21 +215,18 @@ const LatexItem = memo(function LatexItem({
   useEffect(() => {
     if (!highlighted || !ref.current) return
     const el = ref.current
-    ;(async () => {
-      try {
-        const gsap = (await import('gsap')).default
-        gsap.fromTo(el,
-          { boxShadow: '0 0 0 0px rgba(196,151,106,0)' },
-          {
-            boxShadow: '0 0 0 2px rgba(196,151,106,0.85)',
-            duration: 0.15,
-            yoyo: true,
-            repeat: 3,
-            ease: 'power1.inOut',
-          },
-        )
-      } catch { /* ok */ }
-    })()
+    import('framer-motion').then(({ animate }) => {
+      // 4-step yoyo flash: 0→2px→0→2px→0, each step 0.15s = 0.6s total
+      animate(el, {
+        boxShadow: [
+          '0 0 0 0px rgba(196,151,106,0)',
+          '0 0 0 2px rgba(196,151,106,0.85)',
+          '0 0 0 0px rgba(196,151,106,0)',
+          '0 0 0 2px rgba(196,151,106,0.85)',
+          '0 0 0 0px rgba(196,151,106,0)',
+        ],
+      }, { duration: 0.6, ease: 'easeInOut' })
+    }).catch(() => { /* ok */ })
   }, [highlighted])
 
   return (

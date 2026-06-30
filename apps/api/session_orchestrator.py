@@ -284,7 +284,7 @@ def _apply_streak(session, correct: bool) -> Optional[Prefetch]:
 
 async def _student_text(session, user, raw, deps) -> HandlerResult:
     res = HandlerResult()
-    text = str(raw.get("text", "")).strip()
+    text = str(raw.get("text", "")).strip()[:2000]
     if not text:
         return res  # empty text → no-op
 
@@ -316,6 +316,16 @@ async def _student_text(session, user, raw, deps) -> HandlerResult:
 
     if deps.looks_like_correction(reply):
         session.soft_error_count += 1
+
+    # Per-session token budget tracking
+    try:
+        from llm_anthropic_client import _last_output_tokens
+        from config import SESSION_TOKEN_BUDGET
+        session.output_tokens_used = getattr(session, "output_tokens_used", 0) + _last_output_tokens
+        if session.output_tokens_used >= SESSION_TOKEN_BUDGET:
+            session.time_budget_exhausted = True
+    except Exception:
+        pass
 
     deps.update_session(session)
 

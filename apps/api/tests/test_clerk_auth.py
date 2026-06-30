@@ -25,6 +25,9 @@ from fastapi.testclient import TestClient
 # Helpers
 # ---------------------------------------------------------------------------
 
+_ADULT_DOB = {"date_of_birth": "1990-01-01"}  # age = 35+, always returns age_confirmed=True
+
+
 def _make_clerk_payload(sub: str = "user_clerk_test_001") -> dict:
     """Minimal Clerk-style JWT payload for mocking."""
     return {
@@ -86,6 +89,7 @@ class TestClerkJITProvisioning:
             # Confirm age first (bypasses age check)
             resp = clerk_client.post(
                 "/users/me/confirm-age",
+                json=_ADULT_DOB,
                 headers={"Authorization": "Bearer fake-clerk-token"},
             )
             assert resp.status_code == 200, resp.text
@@ -109,6 +113,7 @@ class TestClerkJITProvisioning:
             # Confirm age
             clerk_client.post(
                 "/users/me/confirm-age",
+                json=_ADULT_DOB,
                 headers={"Authorization": "Bearer fake-clerk-token"},
             )
 
@@ -157,6 +162,7 @@ class TestAgeGate:
 
             resp = clerk_client.post(
                 "/users/me/confirm-age",
+                json=_ADULT_DOB,
                 headers={"Authorization": "Bearer fake-clerk-token"},
             )
             # Must succeed even though user has age_confirmed=False
@@ -173,6 +179,7 @@ class TestAgeGate:
             for _ in range(2):
                 resp = clerk_client.post(
                     "/users/me/confirm-age",
+                    json=_ADULT_DOB,
                     headers={"Authorization": "Bearer fake-clerk-token"},
                 )
                 assert resp.status_code == 200
@@ -222,6 +229,7 @@ class TestInactiveClerkUser:
             # Provision user and confirm age
             clerk_client.post(
                 "/users/me/confirm-age",
+                json=_ADULT_DOB,
                 headers={"Authorization": "Bearer fake-token"},
             )
 

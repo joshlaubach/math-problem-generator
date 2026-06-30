@@ -256,6 +256,7 @@ async def _generate_mode_b(inp: GeneratorInput) -> GeneratedProblem:
     """
     from llm_anthropic_client import _call_with_backoff
     from config import ANTHROPIC_API_KEY
+    from agents.verifier import verify as _verify
 
     if not ANTHROPIC_API_KEY:
         raise RuntimeError(
@@ -317,6 +318,19 @@ async def _generate_mode_b(inp: GeneratorInput) -> GeneratedProblem:
                      "reason": r.get("reason", "")}
                     for r in raw_rows if isinstance(r, dict)
                 ]
+
+        # SymPy verification — skip for proof topics (SymPy can't verify prose proofs)
+        if not is_proof:
+            try:
+                vresult = await _verify(
+                    prompt_latex=statement,
+                    candidate_answer=answer,
+                    problem_type=answer_type if answer_type in ("equation", "numeric", "algebraic", "inequality") else "algebraic",
+                )
+                if not vresult.verified:
+                    continue  # retry with a fresh LLM generation
+            except Exception:
+                pass  # verifier error → accept the problem anyway
 
         if is_geo_proof:
             default_distractors = [

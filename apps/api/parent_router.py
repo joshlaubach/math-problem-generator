@@ -216,6 +216,7 @@ async def redeem_parent_link(
         student = user_repo.get_user_by_id(record.student_id)
         if student and not student.age_confirmed:
             student.age_confirmed = True
+            student.date_of_birth = None  # DOB no longer needed after parent consent
             user_repo.update_user(student)
             db.add(ConsentLogRecord(
                 id=str(uuid4()), user_id=student.id,

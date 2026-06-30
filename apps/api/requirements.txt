@@ -1,3 +1,9 @@
+# Error Tracking
+sentry-sdk[fastapi]>=2.0
+
+# Logging
+python-json-logger>=2.0
+
 # Core Web Framework
 fastapi==0.104.1
 uvicorn[standard]==0.24.0
@@ -28,7 +34,8 @@ requests==2.31.0
 sympy==1.12
 
 # Document extraction (Phase 3: PDF upload → Claude Vision)
-pymupdf>=1.23.0
+# pdfplumber (MIT) replaces PyMuPDF (AGPL-3.0, incompatible with commercial SaaS)
+pdfplumber>=0.11
 
 # LLM Integration
 anthropic>=0.40.0  # Claude API — primary LLM provider (see ADR-002)

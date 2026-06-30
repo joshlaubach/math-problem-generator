@@ -65,6 +65,7 @@ We share data with vendors who help us operate the Service, including:
 | Clerk, Inc. | Authentication and identity management | clerk.com/privacy |
 | Stripe, Inc. | Payment processing | stripe.com/privacy |
 | Anthropic, PBC | AI problem and content generation | anthropic.com/privacy |
+| Deepgram, Inc. | Voice-to-text transcription (voice mode only) | deepgram.com/privacy |
 
 These providers are contractually prohibited from using your data for purposes other than providing services to us.
 

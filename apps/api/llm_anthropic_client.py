@@ -16,10 +16,19 @@ Plain-string callers are unaffected — they follow the existing path unchanged.
 from __future__ import annotations
 
 import asyncio
+import logging
 import time
 from typing import Optional, Union
 
-from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL, LLM_API_TIMEOUT, LLM_MAX_TOKENS
+import httpx
+
+from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL, ANTHROPIC_FALLBACK_MODEL, LLM_API_TIMEOUT, LLM_MAX_TOKENS
+
+_logger = logging.getLogger("llm")
+
+# Last successful call's output token count. Read by session orchestrator for budget tracking.
+# Updated under GIL — safe for single-threaded asyncio use.
+_last_output_tokens: int = 0
 
 
 def _get_client():
@@ -28,7 +37,7 @@ def _get_client():
         import anthropic
         if not ANTHROPIC_API_KEY:
             raise ValueError("ANTHROPIC_API_KEY is not set. Check your .env file.")
-        return anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY)
+        return anthropic.AsyncAnthropic(api_key=ANTHROPIC_API_KEY, timeout=httpx.Timeout(LLM_API_TIMEOUT))
     except ImportError as e:
         raise ImportError(
             "anthropic package is not installed. Run: pip install anthropic"
@@ -95,8 +104,16 @@ async def call_with_images(
                 kwargs["system"] = system
             if use_cache:
                 kwargs["extra_headers"] = {"anthropic-beta": "prompt-caching-2024-07-31"}
-            response = await client.messages.create(**kwargs)
+            response = await asyncio.wait_for(
+                client.messages.create(**kwargs),
+                timeout=LLM_API_TIMEOUT,
+            )
             return response.content[0].text  # type: ignore[index]
+        except asyncio.TimeoutError:
+            last_exc = RuntimeError(f"LLM call timed out after {LLM_API_TIMEOUT}s")
+            if attempt < retries - 1:
+                delay = delays[min(attempt, len(delays) - 1)]
+                await asyncio.sleep(delay)
         except Exception as exc:
             last_exc = exc
             if attempt < retries - 1:
@@ -135,6 +152,7 @@ async def _call_with_backoff(
         Exception: if all retries are exhausted.
     """
     client = _get_client()
+    global _last_output_tokens
     delays = [1, 2, 4]
 
     # Use cache-enabled beta header when structured system blocks are present
@@ -153,14 +171,54 @@ async def _call_with_backoff(
             if use_cache:
                 kwargs["extra_headers"] = {"anthropic-beta": "prompt-caching-2024-07-31"}
 
-            response = await client.messages.create(**kwargs)
+            _t0 = time.monotonic()
+            response = await asyncio.wait_for(
+                client.messages.create(**kwargs),
+                timeout=LLM_API_TIMEOUT,
+            )
+            _duration_ms = int((time.monotonic() - _t0) * 1000)
+            _last_output_tokens = getattr(response.usage, "output_tokens", 0)
+            _logger.info(
+                "llm_call",
+                extra={
+                    "model": ANTHROPIC_MODEL,
+                    "input_tokens": getattr(response.usage, "input_tokens", 0),
+                    "output_tokens": _last_output_tokens,
+                    "duration_ms": _duration_ms,
+                },
+            )
             return response.content[0].text  # type: ignore[index]
 
+        except asyncio.TimeoutError:
+            last_exc = RuntimeError(f"LLM call timed out after {LLM_API_TIMEOUT}s")
+            if attempt < retries - 1:
+                delay = delays[min(attempt, len(delays) - 1)]
+                await asyncio.sleep(delay)
         except Exception as exc:
             last_exc = exc
             if attempt < retries - 1:
                 delay = delays[min(attempt, len(delays) - 1)]
                 await asyncio.sleep(delay)
+
+    # After primary model exhaustion, try fallback model once before giving up
+    if ANTHROPIC_FALLBACK_MODEL and ANTHROPIC_FALLBACK_MODEL != ANTHROPIC_MODEL:
+        try:
+            _logger.warning("degraded_mode", extra={"fallback_model": ANTHROPIC_FALLBACK_MODEL})
+            fallback_kwargs: dict = {
+                "model": ANTHROPIC_FALLBACK_MODEL,
+                "max_tokens": max_tokens,
+                "messages": messages,
+            }
+            if system:
+                fallback_kwargs["system"] = system
+            response = await asyncio.wait_for(
+                client.messages.create(**fallback_kwargs),
+                timeout=LLM_API_TIMEOUT,
+            )
+            _last_output_tokens = getattr(response.usage, "output_tokens", 0)
+            return response.content[0].text  # type: ignore[index]
+        except Exception:
+            pass
 
     raise RuntimeError(
         f"Anthropic API failed after {retries} retries. Last error: {last_exc}"

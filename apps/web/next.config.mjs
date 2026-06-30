@@ -1,3 +1,5 @@
+import { withSentryConfig } from "@sentry/nextjs";
+
 /** @type {import('next').NextConfig} */
 const securityHeaders = [
   { key: 'X-Frame-Options', value: 'DENY' },
@@ -6,9 +8,20 @@ const securityHeaders = [
   { key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' },
   // microphone=(self): voice tutoring needs the mic on our own origin.
   { key: 'Permissions-Policy', value: 'geolocation=(), microphone=(self), camera=()' },
-  // CSP intentionally deferred until the CalculatorWidget eval (M2) is removed,
-  // so we don't have to allow 'unsafe-eval'. Add Content-Security-Policy here
-  // once mathjs replaces new Function().
+  {
+    key: 'Content-Security-Policy',
+    value: [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline'",
+      "style-src 'self' 'unsafe-inline'",
+      "img-src 'self' data: blob:",
+      "connect-src 'self' wss: https://api.clerk.com https://clerk.gradient.app https://api.elevenlabs.io https://api.deepgram.com",
+      "media-src 'self' blob:",
+      "font-src 'self'",
+      "frame-src 'none'",
+      "worker-src 'self' blob:",
+    ].join('; '),
+  },
 ];
 
 const nextConfig = {
@@ -18,4 +31,8 @@ const nextConfig = {
   },
 };
 
-export default nextConfig;
+export default withSentryConfig(nextConfig, {
+  silent: true,
+  org: process.env.SENTRY_ORG,
+  project: process.env.SENTRY_PROJECT,
+});

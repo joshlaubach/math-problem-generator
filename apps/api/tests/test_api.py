@@ -239,7 +239,7 @@ class TestUserStats:
     def test_stats_for_user_with_no_attempts(self, client):
         """Test stats endpoint when user has no attempts."""
         response = client.get(
-            "/user/unknown_user/stats/alg1_linear_solve_one_var"
+            "/user/test-student-api/stats/alg1_linear_solve_one_var"
         )
         assert response.status_code == 200
         stats = response.json()
@@ -274,7 +274,7 @@ class TestUserStats:
     def test_stats_correct_fields(self, client):
         """Test that stats response has all required fields."""
         response = client.get(
-            "/user/some_user/stats/alg1_linear_solve_one_var"
+            "/user/test-student-api/stats/alg1_linear_solve_one_var"
         )
         stats = response.json()
         assert "user_id" in stats
@@ -291,11 +291,11 @@ class TestDifficultyRecommendation:
     def test_recommend_for_new_user(self, client):
         """Test recommendation for user with no history."""
         response = client.get(
-            "/user/new_user/recommend/alg1_linear_solve_one_var"
+            "/user/test-student-api/recommend/alg1_linear_solve_one_var"
         )
         assert response.status_code == 200
         rec = response.json()
-        assert rec["user_id"] == "new_user"
+        assert rec["user_id"] == "test-student-api"
         assert rec["topic_id"] == "alg1_linear_solve_one_var"
         assert "recommended_difficulty" in rec
         assert "difficulty_range" in rec
@@ -326,11 +326,11 @@ class TestDifficultyRecommendation:
 
     def test_recommend_after_failures(self, client):
         """Test that recommendation decreases after failures."""
-        # Record failed attempts at difficulty 3
+        # Record failed attempts at difficulty 3 for the authenticated user
         for i in range(5):
             request_data = {
-                "user_id": "student_2",
-                "problem_id": f"prob_{i}",
+                "user_id": "test-student-api",
+                "problem_id": f"prob_fail_{i}",
                 "topic_id": "alg1_linear_solve_one_var",
                 "course_id": "alg1",
                 "difficulty": 3,
@@ -338,9 +338,9 @@ class TestDifficultyRecommendation:
             }
             client.post("/attempt", json=request_data)
 
-        # Get recommendation
+        # Get recommendation for authenticated user
         response = client.get(
-            "/user/student_2/recommend/alg1_linear_solve_one_var"
+            "/user/test-student-api/recommend/alg1_linear_solve_one_var"
         )
         assert response.status_code == 200
         rec = response.json()
@@ -350,8 +350,9 @@ class TestDifficultyRecommendation:
     def test_recommendation_includes_reason(self, client):
         """Test that recommendation response includes a reason."""
         response = client.get(
-            "/user/some_user/recommend/alg1_linear_solve_one_var"
+            "/user/test-student-api/recommend/alg1_linear_solve_one_var"
         )
+        assert response.status_code == 200
         rec = response.json()
         assert isinstance(rec["reason"], str)
         assert len(rec["reason"]) > 0
@@ -365,4 +366,6 @@ class TestHealthCheck:
         response = client.get("/health")
         assert response.status_code == 200
         data = response.json()
-        assert data["status"] == "ok"
+        assert data["status"] in ("ok", "degraded")
+        assert "db" in data
+        assert "redis" in data

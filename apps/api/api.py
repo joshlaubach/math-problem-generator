@@ -19,7 +19,7 @@ from pathlib import Path
 from typing import Optional, Union
 from uuid import uuid4
 
-from fastapi import FastAPI, HTTPException, Query, Depends, Header, Request, status, Response
+from fastapi import BackgroundTasks, FastAPI, HTTPException, Query, Depends, Header, Request, status, Response
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 from slowapi import Limiter, _rate_limit_exceeded_handler
@@ -639,6 +639,18 @@ def _validate_production_config() -> None:
 
     log = logging.getLogger("startup")
 
+    # SECURITY: API keys that fail open (unauthenticated access) when unset.
+    # Warn whenever RAILWAY_ENVIRONMENT is present — that's the production indicator.
+    if os.getenv("RAILWAY_ENVIRONMENT"):
+        if TEACHER_API_KEY is None:
+            log.warning(
+                "TEACHER_API_KEY is not set — teacher endpoints are unauthenticated in production"
+            )
+        if ADMIN_API_KEY is None:
+            log.warning(
+                "ADMIN_API_KEY is not set — admin endpoints are unauthenticated in production"
+            )
+
     if not USE_DATABASE:
         return
 
@@ -723,7 +735,21 @@ async def lifespan(app: FastAPI):
     # Sweep orphaned upload directories older than 24 h (Phase 3)
     _sweep_orphaned_uploads()
     yield
-    # Shutdown: cleanup if needed
+    # Shutdown: graceful session cleanup on SIGTERM / Railway deploy restart
+    try:
+        from ws_session import _sessions
+        from ws_router import _end_session as _ws_end_session
+        active_sessions = list(_sessions.values())
+        if active_sessions:
+            async def _shutdown_sessions() -> None:
+                for sess in active_sessions:
+                    try:
+                        await _ws_end_session(None, sess, reason="server_restart")
+                    except Exception:
+                        pass
+            await asyncio.wait_for(_shutdown_sessions(), timeout=5.0)
+    except Exception:
+        pass
 
 
 def _sweep_orphaned_uploads() -> None:
@@ -746,6 +772,40 @@ def _sweep_orphaned_uploads() -> None:
     except Exception:
         pass
 
+
+# ============================================================================
+# Error Tracking (Sentry)
+# ============================================================================
+
+_SENTRY_DSN = os.getenv("SENTRY_DSN")
+if _SENTRY_DSN:
+    import sentry_sdk
+    sentry_sdk.init(
+        dsn=_SENTRY_DSN,
+        traces_sample_rate=0.1,
+        environment=os.getenv("RAILWAY_ENVIRONMENT", "development"),
+    )
+
+# ============================================================================
+# Structured logging — JSON output for Railway log ingestion
+# ============================================================================
+
+try:
+    from pythonjsonlogger import jsonlogger as _jsonlogger
+    _log_handler = logging.StreamHandler()
+    _log_handler.setFormatter(
+        _jsonlogger.JsonFormatter("%(asctime)s %(levelname)s %(name)s %(message)s")
+    )
+    _log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+    logging.basicConfig(
+        level=getattr(logging, _log_level, logging.INFO),
+        handlers=[_log_handler],
+        force=True,
+    )
+except ImportError:
+    logging.basicConfig(level=logging.INFO)
+
+logger = logging.getLogger("api")
 
 # ============================================================================
 # FastAPI Application
@@ -807,7 +867,7 @@ async def _generic_exception_handler(request: Request, exc: Exception):
     stack trace, file path, or internal message. HTTPExceptions are handled by
     FastAPI's own handler and keep their intended status/detail.
     """
-    logging.getLogger("api").exception("Unhandled error on %s %s", request.method, request.url.path)
+    logger.exception("Unhandled error on %s %s", request.method, request.url.path)
     from fastapi.responses import JSONResponse
     return JSONResponse(status_code=500, content={"detail": "Internal server error"})
 
@@ -1164,7 +1224,8 @@ async def generate_problem(
         try:
             problem = generator.generate(difficulty, calculator_mode)
         except Exception as e:
-            raise HTTPException(status_code=400, detail=f"Generation failed: {str(e)}")
+            logger.exception("Problem generation failed for topic %s", effective_topic_id)
+            raise HTTPException(status_code=400, detail="Problem generation failed. Please try again.")
 
         if word_problem:
             tags = [t.strip() for t in context_tags.split(",")] if context_tags else []
@@ -1215,7 +1276,8 @@ async def generate_problem(
             calc_tier=calc_tier,
         ))
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Generation failed: {str(e)}")
+        logger.exception("Problem generation (Mode B) failed for topic %s", effective_topic_id)
+        raise HTTPException(status_code=400, detail="Problem generation failed. Please try again.")
 
     problem_id = str(uuid4())
     if user is not None:
@@ -1271,7 +1333,8 @@ async def record_attempt(
         attempt_repo = get_attempt_repository()
         attempt_repo.save_attempt(attempt)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to save attempt: {str(e)}")
+        logger.exception("Failed to save attempt for user %s", attempt.user_id)
+        raise HTTPException(status_code=500, detail="Something went wrong. Please try again.")
 
     return AttemptResponse(
         user_id=attempt.user_id,
@@ -1352,7 +1415,7 @@ async def demo_check_answer(request: Request, body: CheckAnswerRequest):
 
 
 @app.get("/user/{user_id}/stats/{topic_id}", response_model=UserStatsResponse)
-def get_user_stats(user_id: str, topic_id: str):
+def get_user_stats(user_id: str, topic_id: str, user: AuthUser = Depends(require_student)):
     """
     Get performance statistics for a user on a topic.
 
@@ -1363,6 +1426,8 @@ def get_user_stats(user_id: str, topic_id: str):
     Returns:
         UserStatsResponse with aggregated performance metrics.
     """
+    if user_id != user.id:
+        raise HTTPException(status_code=403, detail="Access denied")
     try:
         attempt_repo = get_attempt_repository()
         attempts = attempt_repo.list_attempts_by_user(user_id)
@@ -1383,7 +1448,7 @@ def get_user_stats(user_id: str, topic_id: str):
 
 
 @app.get("/user/{user_id}/recommend/{topic_id}", response_model=DifficultyRecommendationResponse)
-def recommend_difficulty(user_id: str, topic_id: str):
+def recommend_difficulty(user_id: str, topic_id: str, user: AuthUser = Depends(require_student)):
     """
     Get recommended difficulty for a user on a topic.
 
@@ -1394,6 +1459,8 @@ def recommend_difficulty(user_id: str, topic_id: str):
     Returns:
         DifficultyRecommendationResponse with recommended difficulty.
     """
+    if user_id != user.id:
+        raise HTTPException(status_code=403, detail="Access denied")
     try:
         attempt_repo = get_attempt_repository()
         attempts = attempt_repo.list_attempts_by_user(user_id)
@@ -1536,6 +1603,7 @@ def _compute_age(dob_str: str) -> Optional[int]:
 async def confirm_age(
     body: AgeConfirmRequest,
     request: Request,
+    background_tasks: BackgroundTasks,
     user: AuthUser = Depends(get_unverified_clerk_user),
     user_repo=Depends(get_user_repository),
 ):
@@ -1556,22 +1624,42 @@ async def confirm_age(
         raise HTTPException(status_code=422, detail="Invalid date_of_birth format. Use YYYY-MM-DD.")
 
     if age < 13:
+        # COPPA compliance: write audit log first, then erase all PII.
         _log_consent_event(user.id, "age_blocked_under_13", ip, ua)
+        # Hard-delete the UserRecord (contains name, email, DOB, IP from provisioning).
+        # ConsentLogRecord is intentionally retained — it has no PII beyond user_id.
+        from config import USE_DATABASE as _USE_DB
+        if _USE_DB:
+            from db_models import UserRecord as _UserRecord
+            from db_session import get_session as _get_db
+            _db = _get_db()
+            try:
+                _db.query(_UserRecord).filter(_UserRecord.id == user.id).delete(synchronize_session=False)
+                _db.commit()
+            except Exception:
+                _db.rollback()
+                logger.exception("COPPA: failed to delete UserRecord for %s", user.id)
+            finally:
+                _db.close()
+        # Async Clerk account deletion (non-blocking — fires after 400 response is sent).
+        if user.clerk_user_id:
+            background_tasks.add_task(_delete_clerk_account, user.clerk_user_id)
         raise HTTPException(
             status_code=400,
             detail={"status": "blocked", "reason": "too_young",
                     "message": "You must be 13 or older to use Gradient."},
         )
 
-    # Store DOB on user record
+    # Store DOB temporarily for age calculation, then null it out after confirmation
     user.date_of_birth = body.date_of_birth  # type: ignore[attr-defined]
     if age >= 18:
         user.age_confirmed = True
+        user.date_of_birth = None  # DOB no longer needed once confirmed
         user_repo.update_user(user)
         _log_consent_event(user.id, "age_confirmed_adult", ip, ua)
         return {"ok": True, "status": "confirmed", "age_confirmed": True}
     else:
-        # 13–17: store DOB but keep locked; parent must complete consent
+        # 13–17: retain DOB temporarily for parent consent; nulled after parent confirms
         user_repo.update_user(user)
         _log_consent_event(user.id, "age_confirmed_minor_pending_parent", ip, ua)
         return {"ok": True, "status": "minor", "age_confirmed": False, "parent_required": True}
@@ -1597,6 +1685,8 @@ async def delete_my_account(user: AuthUser = Depends(require_student)):
     from db_models import (
         TutorSessionRecord, ProgressRecord, SessionCreditRecord,
         ParentLinkRecord, QuotaEventRecord, FlaggedContentRecord, UserRecord,
+        AttemptRecord, ExamAttemptRecord, ClassroomMembershipRecord,
+        AssignmentSubmissionRecord, ReferralUsageRecord,
     )
     from sqlalchemy import or_
 
@@ -1611,6 +1701,11 @@ async def delete_my_account(user: AuthUser = Depends(require_student)):
         db.query(ParentLinkRecord).filter(
             or_(ParentLinkRecord.student_id == uid, ParentLinkRecord.parent_id == uid)
         ).delete(synchronize_session=False)
+        db.query(AttemptRecord).filter(AttemptRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(ExamAttemptRecord).filter(ExamAttemptRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(ClassroomMembershipRecord).filter(ClassroomMembershipRecord.student_id == uid).delete(synchronize_session=False)
+        db.query(AssignmentSubmissionRecord).filter(AssignmentSubmissionRecord.student_id == uid).delete(synchronize_session=False)
+        db.query(ReferralUsageRecord).filter(ReferralUsageRecord.referred_user_id == uid).delete(synchronize_session=False)
         db.query(UserRecord).filter(UserRecord.id == uid).delete(synchronize_session=False)
         db.commit()
     except Exception:
@@ -1618,6 +1713,11 @@ async def delete_my_account(user: AuthUser = Depends(require_student)):
         raise
     finally:
         db.close()
+
+    # Delete from Clerk (best-effort, non-blocking)
+    if user.clerk_user_id:
+        _delete_clerk_account(user.clerk_user_id)
+
     return {"ok": True, "deleted": True}
 
 
@@ -1640,7 +1740,28 @@ def _log_consent_event(user_id: str, event: str, ip: Optional[str], user_agent: 
         finally:
             db.close()
     except Exception:
-        logging.getLogger("api").exception("Failed to write consent log for %s", user_id)
+        logger.exception("Failed to write consent log for %s", user_id)
+
+
+def _delete_clerk_account(clerk_user_id: str) -> None:
+    """Best-effort background deletion of a Clerk account. Called after COPPA block."""
+    import httpx
+    import os as _os
+    secret = _os.getenv("CLERK_SECRET_KEY")
+    if not secret or not clerk_user_id:
+        return
+    try:
+        resp = httpx.delete(
+            f"https://api.clerk.com/v1/users/{clerk_user_id}",
+            headers={"Authorization": f"Bearer {secret}"},
+            timeout=10,
+        )
+        if resp.status_code not in (200, 404):
+            logger.warning(
+                "Clerk account deletion returned %s for %s", resp.status_code, clerk_user_id
+            )
+    except Exception:
+        logger.exception("Clerk account deletion failed for %s", clerk_user_id)
 
 
 class GoalRequest(BaseModel):
@@ -1812,7 +1933,8 @@ async def generate_hint(
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Failed to generate hint: {str(e)}")
+        logger.exception("Hint generation failed")
+        raise HTTPException(status_code=500, detail="Something went wrong. Please try again.")
 
 
 # ============================================================================
@@ -2048,10 +2170,8 @@ def get_student_concept_stats(
             total_attempts=sum(s.total_attempts for s in concept_stats_list),
         )
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error fetching concept stats: {str(e)}",
-        )
+        logger.exception("Error fetching concept stats for student")
+        raise HTTPException(status_code=500, detail="Something went wrong. Please try again.")
 
 
 @app.get("/teacher/concept_stats", response_model=CourseConceptHeatmapResponse)
@@ -2104,10 +2224,8 @@ def get_teacher_concept_stats(
             total_attempts=sum(s.total_attempts for s in concept_stats_list),
         )
     except Exception as e:
-        raise HTTPException(
-            status_code=500,
-            detail=f"Error fetching concept stats: {str(e)}",
-        )
+        logger.exception("Error fetching concept stats for teacher")
+        raise HTTPException(status_code=500, detail="Something went wrong. Please try again.")
 
 
 # ============================================================================
@@ -2582,8 +2700,21 @@ def export_concept_graph(format: str = Query("json", pattern="^(json|dot)$")):
 
 @app.get("/health")
 def health_check():
-    """Simple health check endpoint."""
-    return {"status": "ok"}
+    """Health check with DB and Redis depth checks."""
+    from sqlalchemy import text as _text
+    db_ok = False
+    try:
+        db = get_session()
+        db.execute(_text("SELECT 1"))
+        db_ok = True
+    except Exception:
+        pass
+
+    from ws_session import _redis_client
+    redis_ok = _redis_client is not None
+
+    status = "ok" if (db_ok and redis_ok) else "degraded"
+    return {"status": status, "db": db_ok, "redis": redis_ok}
 
 
 @app.get("/topics/{topic_id}/lesson")

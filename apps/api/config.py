@@ -130,6 +130,12 @@ LLM_API_TIMEOUT = 30
 # Maximum tokens for LLM responses
 LLM_MAX_TOKENS = 500
 
+# Per-session output token budget (protects against runaway sessions)
+SESSION_TOKEN_BUDGET: int = int(os.getenv("SESSION_TOKEN_BUDGET", "50000"))
+
+# Fallback model after 3 primary failures
+ANTHROPIC_FALLBACK_MODEL: str = os.getenv("ANTHROPIC_FALLBACK_MODEL", "claude-haiku-4-5-20251001")
+
 # ============================================================================
 # Authentication Settings (Phase 7+)
 # ============================================================================

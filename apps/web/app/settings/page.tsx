@@ -62,6 +62,31 @@ export default function SettingsPage() {
   const [redeemError, setRedeemError] = useState<string | null>(null)
   const [linkedStudents, setLinkedStudents] = useState<{student_id: string; linked_at: string}[]>([])
 
+  // ── Account deletion state ────────────────────────────────────────────────
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [deleteLoading, setDeleteLoading] = useState(false)
+  const [deleteError, setDeleteError] = useState<string | null>(null)
+
+  async function deleteAccount() {
+    setDeleteLoading(true)
+    setDeleteError(null)
+    try {
+      const token = await getToken()
+      const r = await fetch(`${apiBase}/users/me`, {
+        method: 'DELETE',
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      if (!r.ok) {
+        const d = await r.json().catch(() => ({}))
+        throw new Error((d as { detail?: string }).detail ?? 'Deletion failed')
+      }
+      window.location.href = '/'
+    } catch (err) {
+      setDeleteError(err instanceof Error ? err.message : 'Deletion failed')
+      setDeleteLoading(false)
+    }
+  }
+
   // Load current goal from progress endpoint
   useEffect(() => {
     getToken().then(async token => {
@@ -375,6 +400,60 @@ export default function SettingsPage() {
                   </Link>
                 </div>
               ))}
+            </div>
+          )}
+        </section>
+
+        {/* Danger zone */}
+        <section style={{
+          background: 'var(--surface)', border: '1px solid var(--terracotta)',
+          borderRadius: 12, padding: 20,
+        }}>
+          <h2 style={{ fontSize: 15, fontWeight: 700, marginBottom: 4, color: 'var(--terracotta)' }}>
+            Danger Zone
+          </h2>
+          <p style={{ fontSize: 13, color: 'var(--text-dim)', marginBottom: 14 }}>
+            Permanently delete your account and all associated data. This cannot be undone.
+          </p>
+          {!showDeleteConfirm ? (
+            <button
+              onClick={() => setShowDeleteConfirm(true)}
+              style={{
+                padding: '8px 16px', background: 'transparent', border: '1px solid var(--terracotta)',
+                borderRadius: 8, color: 'var(--terracotta)', fontSize: 13, fontWeight: 600,
+                cursor: 'pointer',
+              }}
+            >
+              Delete my account
+            </button>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              <p style={{ fontSize: 13, color: 'var(--terracotta)', fontWeight: 600, margin: 0 }}>
+                Are you sure? This will permanently delete all your data.
+              </p>
+              {deleteError && <p style={{ fontSize: 12, color: 'var(--terracotta)', margin: 0 }}>{deleteError}</p>}
+              <div style={{ display: 'flex', gap: 10 }}>
+                <button
+                  onClick={deleteAccount}
+                  disabled={deleteLoading}
+                  style={{
+                    padding: '8px 16px', background: 'var(--terracotta)', border: 'none',
+                    borderRadius: 8, color: '#fff', fontSize: 13, fontWeight: 600,
+                    cursor: deleteLoading ? 'not-allowed' : 'pointer', opacity: deleteLoading ? 0.7 : 1,
+                  }}
+                >
+                  {deleteLoading ? 'Deleting…' : 'Yes, delete everything'}
+                </button>
+                <button
+                  onClick={() => setShowDeleteConfirm(false)}
+                  style={{
+                    padding: '8px 16px', background: 'transparent', border: '1px solid var(--border)',
+                    borderRadius: 8, color: 'var(--text)', fontSize: 13, cursor: 'pointer',
+                  }}
+                >
+                  Cancel
+                </button>
+              </div>
             </div>
           )}
         </section>

@@ -28,8 +28,11 @@ def create_db_engine() -> Engine:
     return create_engine(
         DATABASE_URL,
         future=True,
-        echo=False,  # Set to True for SQL debugging
-        pool_pre_ping=True,  # Verify connections before using
+        echo=False,
+        pool_pre_ping=True,
+        pool_size=10,
+        max_overflow=20,
+        pool_timeout=30,
     )
 
 

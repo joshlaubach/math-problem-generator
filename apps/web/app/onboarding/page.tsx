@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useAuth, useUser } from '@clerk/nextjs'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
@@ -67,6 +67,14 @@ function computeAge(dob: string): number | null {
 }
 
 export default function OnboardingPage() {
+  return (
+    <Suspense>
+      <OnboardingContent />
+    </Suspense>
+  )
+}
+
+function OnboardingContent() {
   const { getToken } = useAuth()
   const { user } = useUser()
   const router = useRouter()
@@ -196,19 +204,21 @@ export default function OnboardingPage() {
           Parent consent required
         </h1>
         <p style={{ fontSize: 14, color: 'var(--text-dim)', lineHeight: 1.65, marginBottom: 20 }}>
-          Because you&apos;re under 18, a parent or guardian needs to complete a short consent form before your account is activated.
+          Because you&apos;re under 18, a parent or guardian needs to authorise your account before you can sign in.
         </p>
         <div style={{
           background: 'var(--caramel-dim)', border: '1px solid rgba(196,151,106,0.3)',
           borderRadius: 10, padding: '14px 16px', marginBottom: 20,
           fontSize: 13, color: 'var(--text)', lineHeight: 1.6,
         }}>
-          <strong>Next step:</strong> Ask a parent or guardian to go to{' '}
-          <span style={{ color: 'var(--caramel)', fontWeight: 600 }}>gradient.app/parent-consent</span>{' '}
-          and enter your email address to complete the authorization.
+          <strong>Next step:</strong> Ask a parent or guardian to email{' '}
+          <a href="mailto:joshlaubach.mathtutor@gmail.com" style={{ color: 'var(--caramel)', fontWeight: 600 }}>
+            joshlaubach.mathtutor@gmail.com
+          </a>{' '}
+          to activate your account.
         </div>
         <p style={{ fontSize: 12, color: 'var(--text-muted)', lineHeight: 1.5 }}>
-          Once they complete the form, you&apos;ll be able to sign in and start your first session.
+          Once your account is activated, you&apos;ll receive a confirmation and can sign in to start your first session.
         </p>
       </CenteredCard>
     )
@@ -443,6 +453,8 @@ export default function OnboardingPage() {
     </div>
   )
 }
+
+// ── Helper components ────────────────────────────────────────────────────────
 
 function Logo() {
   return (
