@@ -110,6 +110,7 @@ def _rate_key(request: Request) -> str:
 limiter = Limiter(
     key_func=_rate_key,
     storage_uri=os.getenv("REDIS_URL") or "memory://",
+    enabled=not os.getenv("TESTING", "").lower() in ("1", "true", "yes"),
 )
 
 

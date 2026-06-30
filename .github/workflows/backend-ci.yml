@@ -45,14 +45,16 @@ jobs:
       env:
         TEACHER_API_KEY: test-teacher-key
         ADMIN_API_KEY: test-admin-key
+        TESTING: "true"
       run: |
         cd apps/api
         pytest tests/ -v --tb=short
-    
+
     - name: Run tests with coverage
       env:
         TEACHER_API_KEY: test-teacher-key
         ADMIN_API_KEY: test-admin-key
+        TESTING: "true"
       run: |
         cd apps/api
         pip install pytest-cov
