@@ -27,9 +27,9 @@ jobs:
       working-directory: apps/web
       run: npm install --legacy-peer-deps
 
-    - name: Lint
+    - name: Type check
       working-directory: apps/web
-      run: npm run lint
+      run: npx tsc --noEmit
 
     - name: Build
       working-directory: apps/web
