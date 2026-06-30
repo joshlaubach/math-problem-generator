@@ -187,7 +187,9 @@ class TestLinearGeneratorIntegration:
         # Verify structure
         assert problem.difficulty == 2
         assert solution.sympy_verified
-        assert len(solution.steps) >= 2
+        # The constant-elimination step is skipped when b == 0 (a*x + 0 = c),
+        # so a difficulty-2 solution can be as short as the single divide step.
+        assert len(solution.steps) >= 1
         
         # Verify final answer exists
         assert problem.final_answer is not None
