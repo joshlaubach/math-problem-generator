@@ -41,10 +41,10 @@ def db_session():
 
 
 @pytest.fixture(scope="function")
-def client(db_session):
+def client(db_session, monkeypatch):
     """Create test client with overridden dependencies."""
     from fastapi.testclient import TestClient
-    
+
     # Override get_session
     def get_test_session():
         db = TestingSessionLocal()
@@ -52,9 +52,15 @@ def client(db_session):
             yield db
         finally:
             db.close()
-    
+
     app.dependency_overrides[get_session] = get_test_session
-    
+
+    # These tests send an empty X-API-Key ("Mock auth") and expect the
+    # no-auth-configured path; disable teacher auth regardless of CI env.
+    monkeypatch.delenv("TEACHER_API_KEY", raising=False)
+    import api as api_module
+    monkeypatch.setattr(api_module, "TEACHER_API_KEY", None)
+
     client = TestClient(app)
     yield client
     app.dependency_overrides.clear()

@@ -16,8 +16,11 @@ from tracking import Attempt
 
 
 @pytest.fixture
-def client():
-    """Fixture for FastAPI test client."""
+def client(monkeypatch):
+    """Fixture for FastAPI test client with teacher auth disabled."""
+    monkeypatch.delenv("TEACHER_API_KEY", raising=False)
+    import api as api_module
+    monkeypatch.setattr(api_module, "TEACHER_API_KEY", None)
     return TestClient(app)
 
 

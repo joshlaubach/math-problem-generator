@@ -73,12 +73,13 @@ def test_teacher_topic_stats_no_key_header(monkeypatch):
     assert response.status_code == 401
 
 
-def test_teacher_topic_stats_no_auth_required():
+def test_teacher_topic_stats_no_auth_required(monkeypatch):
     """Test /teacher/topic_stats is accessible without auth when TEACHER_API_KEY is None."""
-    # Assuming default config has TEACHER_API_KEY = None
-    from api import app
-    
-    client = TestClient(app)
+    monkeypatch.delenv("TEACHER_API_KEY", raising=False)
+    import api
+    monkeypatch.setattr(api, "TEACHER_API_KEY", None)
+
+    client = TestClient(api.app)
     
     response = client.get(
         "/teacher/topic_stats?topic_id=alg1_linear_solve_one_var"
@@ -132,11 +133,13 @@ def test_teacher_recent_attempts_requires_auth(monkeypatch):
     assert response.status_code == 200
 
 
-def test_teacher_endpoints_respond_with_correct_models():
+def test_teacher_endpoints_respond_with_correct_models(monkeypatch):
     """Test /teacher endpoints return correct response models."""
-    from api import app
-    
-    client = TestClient(app)
+    monkeypatch.delenv("TEACHER_API_KEY", raising=False)
+    import api
+    monkeypatch.setattr(api, "TEACHER_API_KEY", None)
+
+    client = TestClient(api.app)
     
     # /teacher/topic_stats
     response = client.get("/teacher/topic_stats?topic_id=alg1_linear_solve_one_var")

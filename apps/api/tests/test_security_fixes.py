@@ -29,6 +29,7 @@ class TestWebhookSignature:
 
     def test_bad_signature_rejected(self, client, monkeypatch):
         pytest.importorskip("stripe")  # signature verification needs the SDK
+        monkeypatch.setenv("STRIPE_SECRET_KEY", "sk_test_dummy")
         monkeypatch.setenv("STRIPE_WEBHOOK_SECRET", "whsec_test")
         resp = client.post(
             "/credits/webhook", content='{"type":"x"}',

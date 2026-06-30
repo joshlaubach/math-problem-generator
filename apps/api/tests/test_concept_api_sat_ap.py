@@ -213,6 +213,7 @@ def test_teacher_concept_stats_with_valid_api_key(
     monkeypatch.setattr(api, "factory_get_problem_repository", lambda: problem_repo)
     
     # Set a test teacher API key
+    monkeypatch.delenv("TEACHER_API_KEY", raising=False)
     monkeypatch.setattr(api, "TEACHER_API_KEY", "test_key_123")
     
     # Create test data
@@ -288,8 +289,9 @@ def test_teacher_concept_stats_aggregates_multiple_concepts(
     import api
     monkeypatch.setattr(api, "get_attempt_repository", lambda: attempt_repo)
     monkeypatch.setattr(api, "factory_get_problem_repository", lambda: problem_repo)
+    monkeypatch.delenv("TEACHER_API_KEY", raising=False)
     monkeypatch.setattr(api, "TEACHER_API_KEY", "test_key")
-    
+
     # Create problems for two concepts
     p1 = create_test_problem(
         "p1", "sat_math", "sat_linear", "sat_algebra", 2,
@@ -345,8 +347,9 @@ def test_teacher_concept_stats_response_structure(
     import api
     monkeypatch.setattr(api, "get_attempt_repository", lambda: attempt_repo)
     monkeypatch.setattr(api, "factory_get_problem_repository", lambda: problem_repo)
+    monkeypatch.delenv("TEACHER_API_KEY", raising=False)
     monkeypatch.setattr(api, "TEACHER_API_KEY", "test_key")
-    
+
     p = create_test_problem(
         "p1", "sat_math", "sat_linear", "sat_algebra", 2,
         "sat.algebra.linear_basics", ["sat.algebra.linear_basics"]

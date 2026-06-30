@@ -92,9 +92,10 @@ def test_get_client_passes_httpx_timeout():
     import anthropic
     import llm_anthropic_client
 
-    with patch("anthropic.AsyncAnthropic") as mock_cls:
-        mock_cls.return_value = MagicMock()
-        llm_anthropic_client._get_client()
-        call_kwargs = mock_cls.call_args.kwargs
-        assert "timeout" in call_kwargs, "AsyncAnthropic must receive a timeout kwarg"
-        assert isinstance(call_kwargs["timeout"], httpx.Timeout)
+    with patch.object(llm_anthropic_client, "ANTHROPIC_API_KEY", "test-key"):
+        with patch("anthropic.AsyncAnthropic") as mock_cls:
+            mock_cls.return_value = MagicMock()
+            llm_anthropic_client._get_client()
+            call_kwargs = mock_cls.call_args.kwargs
+            assert "timeout" in call_kwargs, "AsyncAnthropic must receive a timeout kwarg"
+            assert isinstance(call_kwargs["timeout"], httpx.Timeout)

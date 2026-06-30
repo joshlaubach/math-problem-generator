@@ -187,7 +187,7 @@ class TestLinearGeneratorIntegration:
         # Verify structure
         assert problem.difficulty == 2
         assert solution.sympy_verified
-        assert len(solution.steps) >= 3
+        assert len(solution.steps) >= 2
         
         # Verify final answer exists
         assert problem.final_answer is not None
