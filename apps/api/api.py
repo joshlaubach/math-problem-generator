@@ -9,7 +9,6 @@ Exposes endpoints for:
 - Generating hints with LLM
 """
 
-from __future__ import annotations
 import os
 import re
 import logging
