@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { useAuth } from '@clerk/nextjs'
 import dynamic from 'next/dynamic'
 import { MathText } from '@/components/MathText'
-import { useTutorSession } from '@/hooks/useTutorSession'
+import { useTutorSession, type WhiteboardWsMessage } from '@/hooks/useTutorSession'
 import { useVoicePipeline } from '@/hooks/useVoicePipeline'
 import type { WhiteboardHandle, WhiteboardMessage, WbMessage } from '@/components/Whiteboard'
 import { ShowMyWorkPanel } from '@/components/ShowMyWorkPanel'
@@ -288,7 +288,14 @@ export default function TutorSessionPage() {
     connectToSession, sendText, submitAnswer, requestHint,
     walkMeThrough, goingTooFast, nextProblem, acceptQuiz,
     endSession, sendCanvasSnapshot, sendRagSearch, sendStudentWork,
-  } = useTutorSession()
+    sendBargeIn, sendClientMetrics,
+  } = useTutorSession({
+    onAgentSentence: (s) => { synthSentenceRef.current(s.turn_id, s.idx, s.text) },
+    onTurnComplete: (turnId, _text) => { turnCompleteRef.current(turnId) },
+  })
+  // Refs let the handlers reference engine functions defined further down
+  const synthSentenceRef = useRef<(t: string, i: number, x: string) => void>(() => {})
+  const turnCompleteRef = useRef<(turnId: string | null) => void>(() => {})
 
   const isReconnecting = state === 'reconnecting'
 
@@ -317,100 +324,186 @@ export default function TutorSessionPage() {
   const dragState = useRef<{ startY: number; startRatio: number } | null>(null)
   const [isSpeaking, setIsSpeaking] = useState(false)
   const currentAudioRef = useRef<HTMLAudioElement | null>(null)
-  // Sentence-by-sentence TTS queue
-  const audioQueueRef = useRef<HTMLAudioElement[]>([])
-  const isPlayingQueueRef = useRef(false)
-  const lastTutorMsgCountRef = useRef(0)
   const prevVoiceModeRef = useRef(false)
+  const voiceModeRef = useRef(false)
+  useEffect(() => { voiceModeRef.current = voiceMode }, [voiceMode])
 
-  // ── Sentence-by-sentence TTS ───────────────────────────────────────────────
+  // ── Turn-based streaming audio engine (Phase 1.2/1.3/1.4) ──────────────────
+  //
+  // The backend streams agent_sentence frames as Claude generates; each frame
+  // is synthesized immediately (concurrent fetches) and played strictly in
+  // idx order. Whiteboard ops tagged {turn_id, sentence_idx} are buffered and
+  // released when their sentence starts playing (temporal contiguity).
+  //
+  // A generation counter makes barge-in airtight: bumping it orphans every
+  // in-flight fetch and queued clip of the interrupted turn — nothing from a
+  // stale generation may enqueue, play, or touch the board.
 
-  /** Split tutor text into sentences without breaking inside $...$ LaTeX spans. */
-  const splitIntoSentences = useCallback((text: string): string[] => {
-    const parts: string[] = []
-    let current = ''
-    let inMath = false
-    let i = 0
-    while (i < text.length) {
-      const c = text[i]
-      if (c === '$') { inMath = !inMath; current += c; i++; continue }
-      if (!inMath && (c === '.' || c === '!' || c === '?')) {
-        current += c
-        const next = text[i + 1]
-        const afterNext = text[i + 2]
-        if (!next || (next === ' ' && afterNext && /[A-Z"''“‘]/.test(afterNext))) {
-          const s = current.trim()
-          if (s.length > 2) parts.push(s)
-          current = ''; i += 2; continue
-        }
-      }
-      current += c; i++
-    }
-    const tail = current.trim()
-    if (tail.length > 2) parts.push(tail)
-    return parts.length > 0 ? parts : [text]
-  }, [])
-
-  const playNextInQueue = useCallback(() => {
-    if (audioQueueRef.current.length === 0) {
-      isPlayingQueueRef.current = false
-      setIsSpeaking(false)
-      return
-    }
-    isPlayingQueueRef.current = true
-    setIsSpeaking(true)
-    const audio = audioQueueRef.current.shift()!
-    currentAudioRef.current = audio
-    audio.play().catch(() => {})
-    audio.onended = () => {
-      if (currentAudioRef.current === audio) currentAudioRef.current = null
-      playNextInQueue()
-    }
-    audio.onerror = () => {
-      if (currentAudioRef.current === audio) currentAudioRef.current = null
-      playNextInQueue()
-    }
-  }, [])
-
-  const enqueueAudio = useCallback((audio: HTMLAudioElement) => {
-    audioQueueRef.current.push(audio)
-    if (!isPlayingQueueRef.current) playNextInQueue()
-  }, [playNextInQueue])
+  type TurnAudio = HTMLAudioElement | 'pending' | 'failed'
+  interface TurnState {
+    id: string
+    gen: number
+    audio: Map<number, TurnAudio>
+    nextToPlay: number
+    playing: boolean
+    maxIdx: number
+    complete: boolean
+    wbBuffer: Map<number, WhiteboardWsMessage[]>
+    marks: Record<string, number>
+  }
+  const genRef = useRef(0)
+  const turnRef = useRef<TurnState | null>(null)
+  const abortersRef = useRef<Set<AbortController>>(new Set())
+  // Marks captured between speech_final and the first agent_sentence
+  const pendingMarksRef = useRef<Record<string, number>>({})
+  const sendClientMetricsRef = useRef<(turnId: string, marks: Record<string, number>) => void>(() => {})
 
   /** Stop all current and queued audio (barge-in or voice mode off). */
   const stopAllAudio = useCallback(() => {
+    genRef.current += 1
+    for (const a of abortersRef.current) { try { a.abort() } catch { } }
+    abortersRef.current.clear()
     if (currentAudioRef.current) {
       currentAudioRef.current.pause()
       currentAudioRef.current = null
     }
-    audioQueueRef.current = []
-    isPlayingQueueRef.current = false
+    if (turnRef.current) turnRef.current.playing = false
     setIsSpeaking(false)
   }, [])
 
-  /** Synthesize text sentence-by-sentence, enqueue each for sequential play. */
-  const synthesizeAndQueue = useCallback(async (text: string) => {
-    const sentences = splitIntoSentences(text)
-    const token = await getToken()
-    if (!token) return
-    for (const sentence of sentences) {
-      if (!sentence.trim()) continue
-      try {
-        const resp = await fetch(`${API_BASE}/tutor/synthesize`, {
-          method: 'POST',
-          headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
-          body: JSON.stringify({ text: sentence }),
-        })
-        if (!resp.ok) continue
-        const blob = await resp.blob()
-        const url = URL.createObjectURL(blob)
-        const audio = new Audio(url)
-        audio.onended = () => URL.revokeObjectURL(url)
-        audio.onerror = () => URL.revokeObjectURL(url)
-        enqueueAudio(audio)
-      } catch { /* skip sentence on network error */ }
+  const flushWbThrough = useCallback((turn: TurnState, idx: number) => {
+    for (const [k, ops] of [...turn.wbBuffer.entries()].sort((a, b) => a[0] - b[0])) {
+      if (k > idx) continue
+      turn.wbBuffer.delete(k)
+      for (const op of ops) {
+        if (turn.marks.t_first_wb === undefined) turn.marks.t_first_wb = performance.now()
+        wbRef.current?.handleMessage(op as unknown as WhiteboardMessage | WbMessage)
+      }
     }
-  }, [splitIntoSentences, getToken, enqueueAudio])
+  }, [])
+
+  const finishTurnIfDone = useCallback((turn: TurnState) => {
+    if (!turn.complete) return
+    if (voiceModeRef.current && turn.gen === genRef.current && turn.nextToPlay <= turn.maxIdx) return
+    // Release any board ops still buffered (e.g. TTS failed for a sentence)
+    flushWbThrough(turn, Number.MAX_SAFE_INTEGER)
+    const t0 = turn.marks.t_speech_final
+    if (t0 !== undefined) {
+      const rel = (k: string) => (turn.marks[k] !== undefined ? Math.round(turn.marks[k] - t0) : undefined)
+      const out: Record<string, number> = {}
+      for (const [k, v] of Object.entries({
+        filler_ms: rel('t_filler'),
+        first_sentence_ms: rel('t_first_sentence'),
+        first_audio_ms: rel('t_first_audio'),
+        first_wb_ms: rel('t_first_wb'),
+        total_ms: Math.round(performance.now() - t0),
+      })) { if (v !== undefined) out[k] = v as number }
+      sendClientMetricsRef.current(turn.id, out)
+      turn.marks = {}  // send once
+    }
+  }, [flushWbThrough])
+
+  const tryPlay = useCallback((turn: TurnState) => {
+    if (turn.gen !== genRef.current || turn.playing || !voiceModeRef.current) return
+    while (turn.audio.get(turn.nextToPlay) === 'failed') {
+      flushWbThrough(turn, turn.nextToPlay)
+      turn.nextToPlay += 1
+    }
+    const entry = turn.audio.get(turn.nextToPlay)
+    if (!entry || entry === 'pending' || entry === 'failed') { finishTurnIfDone(turn); return }
+    const idx = turn.nextToPlay
+    turn.playing = true
+    currentAudioRef.current = entry
+    setIsSpeaking(true)
+    entry.onplay = () => {
+      if (turn.gen !== genRef.current) return
+      if (turn.marks.t_first_audio === undefined) turn.marks.t_first_audio = performance.now()
+      flushWbThrough(turn, idx)
+    }
+    const advance = () => {
+      if (currentAudioRef.current === entry) currentAudioRef.current = null
+      turn.playing = false
+      if (turn.gen !== genRef.current) return
+      turn.nextToPlay = idx + 1
+      setIsSpeaking(false)
+      tryPlay(turn)
+      finishTurnIfDone(turn)
+    }
+    entry.onended = advance
+    entry.onerror = advance
+    entry.play().catch(advance)
+  }, [flushWbThrough, finishTurnIfDone])
+
+  const beginTurn = useCallback((turnId: string): TurnState => {
+    let turn = turnRef.current
+    if (!turn || turn.id !== turnId) {
+      turn = {
+        id: turnId, gen: genRef.current, audio: new Map(), nextToPlay: 0,
+        playing: false, maxIdx: -1, complete: false, wbBuffer: new Map(),
+        marks: { ...pendingMarksRef.current },
+      }
+      pendingMarksRef.current = {}
+      turnRef.current = turn
+      wbRef.current?.resumeAnimations?.()
+    }
+    return turn
+  }, [])
+
+  const synthSentence = useCallback(async (turnId: string, idx: number, text: string) => {
+    const turn = beginTurn(turnId)
+    if (turn.marks.t_first_sentence === undefined) turn.marks.t_first_sentence = performance.now()
+    turn.maxIdx = Math.max(turn.maxIdx, idx)
+    if (!voiceModeRef.current) return
+    const gen = turn.gen
+    turn.audio.set(idx, 'pending')
+    const aborter = new AbortController()
+    abortersRef.current.add(aborter)
+    try {
+      const token = await getToken()
+      if (!token || gen !== genRef.current) { turn.audio.set(idx, 'failed'); return }
+      const resp = await fetch(`${API_BASE}/tutor/synthesize`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+        signal: aborter.signal,
+      })
+      if (!resp.ok || gen !== genRef.current) { turn.audio.set(idx, 'failed'); return }
+      const blob = await resp.blob()
+      if (gen !== genRef.current) { turn.audio.set(idx, 'failed'); return }
+      const url = URL.createObjectURL(blob)
+      const audio = new Audio(url)
+      const revoke = () => URL.revokeObjectURL(url)
+      audio.addEventListener('ended', revoke, { once: true })
+      audio.addEventListener('error', revoke, { once: true })
+      turn.audio.set(idx, audio)
+      tryPlay(turn)
+    } catch {
+      turn.audio.set(idx, 'failed')
+      if (gen === genRef.current) { tryPlay(turn); finishTurnIfDone(turn) }
+    } finally {
+      abortersRef.current.delete(aborter)
+    }
+  }, [beginTurn, getToken, tryPlay, finishTurnIfDone])
+
+  const handleTurnComplete = useCallback((turnId: string | null) => {
+    const turn = turnRef.current
+    if (!turnId || !turn || turn.id !== turnId) {
+      // Turn produced no sentences (or arrived unstreamed) — nothing buffered
+      return
+    }
+    turn.complete = true
+    if (!voiceModeRef.current) {
+      // Text mode: no narration to sync against — board renders immediately
+      flushWbThrough(turn, Number.MAX_SAFE_INTEGER)
+    }
+    finishTurnIfDone(turn)
+  }, [flushWbThrough, finishTurnIfDone])
+
+  useEffect(() => {
+    synthSentenceRef.current = synthSentence
+    turnCompleteRef.current = handleTurnComplete
+    sendClientMetricsRef.current = sendClientMetrics
+  }, [synthSentence, handleTurnComplete, sendClientMetrics])
 
   // ── Voice pipeline (open-mic, streaming Deepgram) ──────────────────────────
   // playFillerRef allows handleTranscript to call playFiller before the hook
@@ -418,13 +511,22 @@ export default function TutorSessionPage() {
   const playFillerRef = useRef<() => void>(() => {})
 
   const handleTranscript = useCallback((text: string) => {
+    pendingMarksRef.current = { t_speech_final: performance.now() }
     playFillerRef.current()   // play filler immediately on speech_final
+    pendingMarksRef.current.t_filler = performance.now()
     sendText(text)
   }, [sendText])
 
   const handleBargeIn = useCallback(() => {
     stopAllAudio()
-  }, [stopAllAudio])
+    wbRef.current?.pauseAnimations?.()
+    sendBargeIn()  // cancels the in-flight streaming turn server-side
+  }, [stopAllAudio, sendBargeIn])
+
+  /** Early duck (~120ms of sustained speech): quiet, but recoverable. */
+  const handleSpeechStart = useCallback(() => {
+    if (currentAudioRef.current) currentAudioRef.current.volume = 0.2
+  }, [])
 
   // Fetch a fresh token when voice mode is enabled; pass it to the pipeline hook.
   const [voiceToken, setVoiceToken] = useState('')
@@ -442,6 +544,7 @@ export default function TutorSessionPage() {
     enabled: voiceMode && !!voiceToken,
     onTranscript: handleTranscript,
     onBargeIn: handleBargeIn,
+    onSpeechStart: handleSpeechStart,
   })
 
   // Keep playFillerRef in sync so handleTranscript can call it
@@ -483,12 +586,34 @@ export default function TutorSessionPage() {
     return () => obs.disconnect()
   }, [])
 
-  // Forward new tutor whiteboard messages to Whiteboard.handleMessage
+  // Forward new tutor whiteboard messages to Whiteboard.handleMessage.
+  // Speech↔board sync (Phase 1.4): ops tagged {turn_id, sentence_idx} during a
+  // voice turn are buffered and released when their sentence starts playing.
+  // Untagged ops (hints, queue advances, legacy paths) render immediately.
   useEffect(() => {
     const newMsgs = whiteboardMessages.slice(wbMsgCountRef.current)
-    newMsgs.forEach(msg => wbRef.current?.handleMessage(msg as unknown as WhiteboardMessage | WbMessage))
     wbMsgCountRef.current = whiteboardMessages.length
-  }, [whiteboardMessages])
+    for (const msg of newMsgs) {
+      const turnId = (msg as { turn_id?: string }).turn_id
+      const sentenceIdx = (msg as { sentence_idx?: number }).sentence_idx
+      const turn = turnRef.current
+      if (
+        voiceModeRef.current && turnId && typeof sentenceIdx === 'number' &&
+        turn && turn.id === turnId && turn.gen === genRef.current
+      ) {
+        const bucket = turn.wbBuffer.get(sentenceIdx) ?? []
+        bucket.push(msg)
+        turn.wbBuffer.set(sentenceIdx, bucket)
+        // Op arrived after its sentence already started/passed — release now.
+        const started = turn.marks.t_first_audio !== undefined
+        if (turn.nextToPlay > sentenceIdx || (started && turn.nextToPlay >= sentenceIdx)) {
+          flushWbThrough(turn, turn.nextToPlay)
+        }
+      } else {
+        wbRef.current?.handleMessage(msg as unknown as WhiteboardMessage | WbMessage)
+      }
+    }
+  }, [whiteboardMessages, flushWbThrough])
 
   // Connect on mount — guest sessions use the URL token directly; authed sessions use Clerk
   useEffect(() => {
@@ -537,30 +662,39 @@ export default function TutorSessionPage() {
   /** Play a single tutor message aloud (triggered by the ▶ button on a bubble). */
   const speakText = useCallback(async (text: string) => {
     stopAllAudio()
-    await synthesizeAndQueue(text)
-  }, [stopAllAudio, synthesizeAndQueue])
+    const gen = genRef.current
+    try {
+      const token = await getToken()
+      if (!token || gen !== genRef.current) return
+      const resp = await fetch(`${API_BASE}/tutor/synthesize`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text }),
+      })
+      if (!resp.ok || gen !== genRef.current) return
+      const url = URL.createObjectURL(await resp.blob())
+      const audio = new Audio(url)
+      currentAudioRef.current = audio
+      setIsSpeaking(true)
+      const done = () => {
+        URL.revokeObjectURL(url)
+        if (currentAudioRef.current === audio) currentAudioRef.current = null
+        setIsSpeaking(false)
+      }
+      audio.onended = done
+      audio.onerror = done
+      audio.play().catch(done)
+    } catch { setIsSpeaking(false) }
+  }, [stopAllAudio, getToken])
 
-  // Sync spoken-message count when voice mode is first enabled (avoid replaying old messages);
-  // stop any playing audio when voice mode is turned off
+  // Stop any playing audio when voice mode is turned off. (Playback is now
+  // driven by agent_sentence frames, not by watching the messages array.)
   useEffect(() => {
-    if (voiceMode && !prevVoiceModeRef.current) {
-      lastTutorMsgCountRef.current = messages.filter(m => m.role === 'tutor').length
-    }
     if (!voiceMode && prevVoiceModeRef.current) {
       stopAllAudio()
     }
     prevVoiceModeRef.current = voiceMode
-  }, [voiceMode, stopAllAudio]) // eslint-disable-line react-hooks/exhaustive-deps
-
-  // Auto-play new tutor messages in voice mode (sentence-by-sentence)
-  useEffect(() => {
-    if (!voiceMode) return
-    const tutorMsgs = messages.filter(m => m.role === 'tutor')
-    if (tutorMsgs.length > lastTutorMsgCountRef.current) {
-      lastTutorMsgCountRef.current = tutorMsgs.length
-      synthesizeAndQueue(tutorMsgs[tutorMsgs.length - 1].content)
-    }
-  }, [messages, voiceMode, synthesizeAndQueue])
+  }, [voiceMode, stopAllAudio])
 
   // In voice mode, the open-mic pipeline handles recording automatically.
   // The mic button is only meaningful in non-voice-mode for dictating text.

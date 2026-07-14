@@ -9,9 +9,10 @@
  *   scene        → geometry scene (points, segments, polygons, circles, angles, vectors)
  */
 
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Mafs, Coordinates, Plot, Point, Polygon, Circle, Vector, Line, Text } from 'mafs'
 import 'mafs/core.css'
+import { strokeDrawOn } from './whiteboard/animate'
 
 // ── Geometry element types (exported so Whiteboard.tsx can type WS messages) ──
 
@@ -224,11 +225,20 @@ function computeBounds(elements: GeometryElement[]): {
 function GeometryScene({ elements, theme }: { elements: GeometryElement[]; theme: 'light' | 'dark' }) {
   const { xRange, yRange } = computeBounds(elements)
   const ink = theme === 'dark' ? '#c4976a' : '#2d6a4f'
+  const wrapRef = useRef<HTMLDivElement>(null)
+
+  // Manim-style draw-on: segments/polygons/circles trace along their length
+  useEffect(() => { strokeDrawOn(wrapRef.current) }, [elements])
+
+  const kinds = [...new Set(elements.map(e => e.kind))].join(', ')
 
   return (
     <>
       {theme === 'light' && <style>{LIGHT_STYLE}</style>}
       <div
+        ref={wrapRef}
+        role="img"
+        aria-label={`Geometry diagram with ${elements.length} element${elements.length === 1 ? '' : 's'}: ${kinds}`}
         className={theme === 'light' ? 'wb-mafs-light' : undefined}
         style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid var(--border)' }}
       >
@@ -345,10 +355,26 @@ export default function WhiteboardPlot({
     )
   }
 
+  return <FunctionPlot fn={fn} parsedFn={parsedFn} domain={domain} theme={theme} />
+}
+
+function FunctionPlot({ fn, parsedFn, domain, theme }: {
+  fn: string
+  parsedFn: (x: number) => number
+  domain: [number, number]
+  theme: 'light' | 'dark'
+}) {
+  const wrapRef = useRef<HTMLDivElement>(null)
+  // Draw the curve like a pen tracing it (skipped under prefers-reduced-motion)
+  useEffect(() => { strokeDrawOn(wrapRef.current) }, [fn, domain])
+
   return (
     <>
       {theme === 'light' && <style>{LIGHT_STYLE}</style>}
       <div
+        ref={wrapRef}
+        role="img"
+        aria-label={`Graph of ${fn} from x = ${domain[0]} to x = ${domain[1]}`}
         className={theme === 'light' ? 'wb-mafs-light' : undefined}
         style={{ borderRadius: 8, overflow: 'hidden', border: '1px solid var(--border)' }}
       >

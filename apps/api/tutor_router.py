@@ -667,42 +667,85 @@ def _expression_complexity(latex_text: str) -> int:
     return score
 
 
-# Simple in-memory TTS cache: (text, voice_id, speed, stability) → bytes
-@functools.lru_cache(maxsize=500)
-def _tts_cached(text: str, voice_id: str, speed: float = 0.90, stability: float = 0.55) -> bytes:
-    """Cached ElevenLabs synthesis — same text+voice+settings returns cached bytes."""
-    elevenlabs_key = os.getenv("ELEVENLABS_API_KEY", "")
-    if not elevenlabs_key:
-        raise HTTPException(status_code=503, detail="ElevenLabs API key not configured. Set ELEVENLABS_API_KEY.")
+# ── Async TTS with an async-safe cache ────────────────────────────────────────
+#
+# The old implementation used synchronous httpx.post under functools.lru_cache:
+# every synthesis blocked the entire event loop for up to 20s, freezing every
+# live tutoring session in the process (audit C3). All ElevenLabs/Deepgram I/O
+# now goes through a shared httpx.AsyncClient.
 
+import asyncio as _asyncio
+
+_TTS_CACHE: dict[tuple, bytes] = {}
+_TTS_CACHE_MAX = 500
+_TTS_CACHE_LOCK: Optional[_asyncio.Lock] = None
+_HTTP_CLIENT: Optional["httpx.AsyncClient"] = None  # type: ignore[name-defined]
+
+
+def _get_http_client():
+    """Lazily create the shared AsyncClient (created on first use, inside the loop)."""
+    global _HTTP_CLIENT
+    import httpx
+    if _HTTP_CLIENT is None or _HTTP_CLIENT.is_closed:
+        _HTTP_CLIENT = httpx.AsyncClient(timeout=20.0)
+    return _HTTP_CLIENT
+
+
+def _get_tts_lock() -> _asyncio.Lock:
+    global _TTS_CACHE_LOCK
+    if _TTS_CACHE_LOCK is None:
+        _TTS_CACHE_LOCK = _asyncio.Lock()
+    return _TTS_CACHE_LOCK
+
+
+def _elevenlabs_payload(text: str, speed: float, stability: float) -> dict:
     # Flash model by default: ~half the cost and lower latency than
     # multilingual_v2, quality is fine for tutoring speech (cost decision
     # 2026-06-12). Override with ELEVENLABS_MODEL for A/B.
     model_id = os.getenv("ELEVENLABS_MODEL", "eleven_flash_v2_5")
+    return {
+        "text": text,
+        "model_id": model_id,
+        "voice_settings": {
+            "stability": stability,
+            "similarity_boost": 0.80,
+            "style": 0.10,
+            "use_speaker_boost": True,
+            "speed": speed,
+        },
+    }
 
-    import httpx
-    resp = httpx.post(
+
+def _elevenlabs_headers() -> dict:
+    elevenlabs_key = os.getenv("ELEVENLABS_API_KEY", "")
+    if not elevenlabs_key:
+        raise HTTPException(status_code=503, detail="ElevenLabs API key not configured. Set ELEVENLABS_API_KEY.")
+    return {"xi-api-key": elevenlabs_key, "Content-Type": "application/json"}
+
+
+async def _tts_cached(text: str, voice_id: str, speed: float = 0.90, stability: float = 0.55) -> bytes:
+    """Async ElevenLabs synthesis with a bounded in-memory cache."""
+    key = (text, voice_id, speed, stability)
+    async with _get_tts_lock():
+        if key in _TTS_CACHE:
+            return _TTS_CACHE[key]
+
+    headers = _elevenlabs_headers()
+    client = _get_http_client()
+    resp = await client.post(
         f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}",
-        headers={
-            "xi-api-key": elevenlabs_key,
-            "Content-Type": "application/json",
-        },
-        json={
-            "text": text,
-            "model_id": model_id,
-            "voice_settings": {
-                "stability": stability,
-                "similarity_boost": 0.80,
-                "style": 0.10,
-                "use_speaker_boost": True,
-                "speed": speed,
-            },
-        },
-        timeout=20.0,
+        headers=headers,
+        json=_elevenlabs_payload(text, speed, stability),
     )
     if resp.status_code != 200:
         raise HTTPException(status_code=502, detail=f"ElevenLabs error: {resp.text[:200]}")
-    return resp.content
+
+    audio = resp.content
+    async with _get_tts_lock():
+        if len(_TTS_CACHE) >= _TTS_CACHE_MAX:
+            _TTS_CACHE.pop(next(iter(_TTS_CACHE)))
+        _TTS_CACHE[key] = audio
+    return audio
 
 
 class SynthesizeRequest(BaseModel):
@@ -730,16 +773,15 @@ async def transcribe_audio(
 
     content_type = file.content_type or "audio/webm"
 
-    import httpx
     try:
-        resp = httpx.post(
+        client = _get_http_client()
+        resp = await client.post(
             "https://api.deepgram.com/v1/listen?model=nova-2&smart_format=true",
             headers={
                 "Authorization": f"Token {deepgram_key}",
                 "Content-Type": content_type,
             },
             content=audio_bytes,
-            timeout=20.0,
         )
         if resp.status_code != 200:
             raise HTTPException(status_code=502, detail=f"Deepgram error: {resp.text[:200]}")
@@ -765,14 +807,19 @@ async def transcribe_audio(
 async def synthesize_speech(
     body: SynthesizeRequest,
     user: User = Depends(require_student),
+    stream: int = 0,
 ):
     """
-    Synthesize text to speech using ElevenLabs (default: eleven_multilingual_v2).
+    Synthesize text to speech using ElevenLabs (default: eleven_flash_v2_5).
 
     LaTeX is converted to spoken English, sentence breaks are inserted for natural
     pacing, then audio is synthesized with naturalness tuning. Dense math
     (iterated integrals, chain rules) is spoken slower and more steadily.
     Responses are cached (same processed text + voice + settings = same bytes).
+
+    ?stream=1 proxies ElevenLabs' chunked /stream endpoint so playback can begin
+    on the first audio bytes (uncached; used by the voice pipeline for the
+    first sentence of a turn).
 
     If LaTeX-to-speech conversion fails, this returns 502 and the client falls
     back to silent text — degraded speech (raw LaTeX tokens) is never synthesized.
@@ -804,6 +851,10 @@ async def synthesize_speech(
                    "Voice returns tomorrow; text tutoring is unaffected.",
         )
 
+    import time as _time
+    import metrics as _metrics
+
+    _t_l2s = _time.monotonic()
     try:
         spoken = await latex_to_speech(raw_text)
     except SpeechConversionError as exc:
@@ -811,6 +862,8 @@ async def synthesize_speech(
             status_code=502,
             detail=f"Voice unavailable for this message (math-to-speech failed): {exc}",
         )
+    _metrics.record_stage("server.latex_to_speech_ms",
+                          (_time.monotonic() - _t_l2s) * 1000)
     spoken = _add_sentence_breaks(spoken)
 
     # Slow-down rule: complex expressions get a steadier, slower read
@@ -819,12 +872,46 @@ async def synthesize_speech(
     else:
         speed, stability = 0.90, 0.55
 
+    # ── Streaming path: chunked passthrough, playback starts on first bytes ──
+    if stream:
+        headers = _elevenlabs_headers()
+        payload = _elevenlabs_payload(spoken, speed, stability)
+        client = _get_http_client()
+        record_tts_chars(user.id, len(raw_text))
+
+        async def _proxy():
+            _t0 = _time.monotonic()
+            first = True
+            try:
+                async with client.stream(
+                    "POST",
+                    f"https://api.elevenlabs.io/v1/text-to-speech/{voice_id}/stream",
+                    headers=headers,
+                    json=payload,
+                ) as resp:
+                    if resp.status_code != 200:
+                        return  # client falls back to silent text on short body
+                    async for chunk in resp.aiter_bytes():
+                        if first:
+                            first = False
+                            _metrics.record_stage(
+                                "server.tts_first_byte_ms",
+                                (_time.monotonic() - _t0) * 1000)
+                        yield chunk
+            except Exception:
+                return
+
+        return StreamingResponse(_proxy(), media_type="audio/mpeg")
+
+    # ── Buffered path (cacheable) ─────────────────────────────────────────────
+    _t_tts = _time.monotonic()
     try:
-        audio_bytes = _tts_cached(spoken, voice_id, speed, stability)
+        audio_bytes = await _tts_cached(spoken, voice_id, speed, stability)
     except HTTPException:
         raise
     except Exception as exc:
         raise HTTPException(status_code=502, detail=f"Speech synthesis failed: {exc}")
+    _metrics.record_stage("server.tts_ms", (_time.monotonic() - _t_tts) * 1000)
 
     record_tts_chars(user.id, len(raw_text))
 

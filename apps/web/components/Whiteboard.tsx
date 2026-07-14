@@ -32,6 +32,7 @@ import {
 } from 'react'
 import dynamic from 'next/dynamic'
 import { WhiteboardLayoutManager } from '../lib/whiteboard-layout-manager'
+import { katexGlyphs, motionOk, UNDERLINE_KEYFRAME } from './whiteboard/animate'
 import type { GeometryElement } from './WhiteboardPlot'
 
 // ── Dynamic imports (no SSR) ─────────────────────────────────────────────────
@@ -115,6 +116,7 @@ export type WbMessage =
   | { type: 'wb_new_section';    label: string }
   | { type: 'wb_annotate_student'; latex?: string; label?: string; x_hint?: 'left' | 'center' | 'right'; color?: 'correction' | 'confirmation' | 'neutral' }
   | { type: 'wb_mark_incorrect' }
+  | { type: 'wb_highlight'; target?: 'latest' }
 
 export interface WhiteboardHandle {
   writeBlock(latex: string, opts?: { display?: boolean }): void
@@ -130,6 +132,11 @@ export interface WhiteboardHandle {
     color?: 'correction' | 'confirmation' | 'neutral'
   }): void
   markIncorrect(): void
+  /** Underline-draw attention onto the most recent equation block. */
+  highlightLatest(): void
+  /** Freeze board animations (student barge-in) without losing state. */
+  pauseAnimations(): void
+  resumeAnimations(): void
 }
 
 export interface WhiteboardProps {
@@ -170,10 +177,12 @@ type BlockWithoutY =
 const LatexItem = memo(function LatexItem({
   block,
   highlighted,
+  underlined,
   theme,
 }: {
   block: LatexBlock
   highlighted?: boolean
+  underlined?: boolean
   theme: 'light' | 'dark'
 }) {
   const ref = useRef<HTMLDivElement>(null)
@@ -187,29 +196,51 @@ const LatexItem = memo(function LatexItem({
       setHtml(katex.renderToString(block.latex, {
         throwOnError: false,
         displayMode: block.display,
-        output: 'html',
+        // htmlAndMathml keeps a visually-hidden MathML twin in the DOM so
+        // screen readers can voice and navigate the equation (audit B1).
+        output: 'htmlAndMathml',
       }))
     } catch {
       setHtml(block.latex)
     }
   }, [block.latex, block.display])
 
-  // Constraint 10: write speed proportional to content length
+  // Constraint 10 + Phase 1.5: hand-written feel. Equations write on
+  // glyph-by-glyph (Manim-style); total duration still scales with length.
   useEffect(() => {
     const el = ref.current
-    if (!el) return
+    if (!el || !html) return
+    if (!motionOk()) { el.style.opacity = '1'; return }
     const duration = Math.max(0.3, Math.min(2.0, block.latex.length * 0.04))
-    const fallback = setTimeout(() => { if (el) el.style.opacity = '1' }, duration * 1000 + 300)
+    const fallback = setTimeout(() => { if (el) el.style.opacity = '1' }, duration * 1000 + 400)
 
-    import('framer-motion').then(({ animate }) => {
-      clearTimeout(fallback)
-      animate(el, { opacity: [0, 1], y: [8, 0] }, { duration, ease: 'easeOut' })
-    }).catch(() => {
-      if (el) el.style.opacity = '1'
-    })
+    ;(async () => {
+      try {
+        const gsap = (await import('gsap')).default
+        clearTimeout(fallback)
+        const glyphs = katexGlyphs(el)
+        if (glyphs.length > 1) {
+          el.style.opacity = '1'
+          gsap.fromTo(glyphs,
+            { opacity: 0, y: 5 },
+            {
+              opacity: 1, y: 0, duration: 0.22, ease: 'power2.out',
+              stagger: Math.min(0.055, duration / glyphs.length),
+            },
+          )
+        } else {
+          gsap.fromTo(el,
+            { opacity: 0, y: 8 },
+            { opacity: 1, y: 0, duration, ease: 'power2.out' },
+          )
+        }
+      } catch {
+        if (el) el.style.opacity = '1'
+      }
+    })()
 
     return () => clearTimeout(fallback)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [html]) // eslint-disable-line react-hooks/exhaustive-deps
 
   // Constraint 9: pointer-before-write — outline flash when this block is referenced
   useEffect(() => {
@@ -247,8 +278,17 @@ const LatexItem = memo(function LatexItem({
         pointerEvents: 'none',
         minHeight: 44,
       }}
-      dangerouslySetInnerHTML={{ __html: html }}
-    />
+    >
+      <div dangerouslySetInnerHTML={{ __html: html }} />
+      {underlined && (
+        <div style={{
+          height: 3, borderRadius: 2, marginTop: 6,
+          background: CORRECTION_INK,
+          transformOrigin: 'left center',
+          animation: motionOk() ? 'wb-underline-draw 0.45s cubic-bezier(.4,0,.2,1) both' : undefined,
+        }} />
+      )}
+    </div>
   )
 })
 
@@ -299,7 +339,7 @@ function AnnotationItem({ block, tc }: { block: AnnotationBlock; tc: WbTC }) {
       // eslint-disable-next-line @typescript-eslint/no-var-requires
       const katex = require('katex')
       setHtml(katex.renderToString(block.latex, {
-        throwOnError: false, displayMode: false, output: 'html',
+        throwOnError: false, displayMode: false, output: 'htmlAndMathml',
       }))
     } catch {
       setHtml(block.latex)
@@ -358,6 +398,7 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
     const [snapshot, setSnapshot]           = useState<string | null>(null)
     const [cursorY, setCursorY]             = useState<number | null>(null)   // constraint 8
     const [highlightedBlockId, setHighlightedBlockId] = useState<string | null>(null)  // constraint 9
+    const [underlinedBlockId, setUnderlinedBlockId] = useState<string | null>(null)     // wb_highlight
 
     // Mutable cursor
     const nextYRef = useRef(PAD)
@@ -576,6 +617,31 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
 
     // ── Constraint 5: mark last latex block as incorrect ─────────────────────
 
+    // wb_highlight: underline-draw attention onto the latest equation while
+    // the narration references it (speech↔board sync affordance).
+    const highlightLatest = useCallback(() => {
+      const lastLatex = blocksRef.current.slice().reverse().find(b => b.kind === 'latex')
+      if (!lastLatex) return
+      setUnderlinedBlockId(lastLatex.id)
+      setTimeout(() => {
+        setUnderlinedBlockId(prev => (prev === lastLatex.id ? null : prev))
+      }, 2200)
+    }, [])
+
+    // Barge-in board control: freeze/resume every GSAP-driven animation.
+    // globalTimeline is safe here — the whiteboard is the only GSAP consumer.
+    const pauseAnimations = useCallback(() => {
+      ;(async () => {
+        try { (await import('gsap')).default.globalTimeline.pause() } catch { /* ok */ }
+      })()
+    }, [])
+
+    const resumeAnimations = useCallback(() => {
+      ;(async () => {
+        try { (await import('gsap')).default.globalTimeline.resume() } catch { /* ok */ }
+      })()
+    }, [])
+
     const markIncorrect = useCallback(() => {
       setBlocks(prev => {
         const lastIdx = [...prev].reverse().findIndex(b => b.kind === 'latex')
@@ -673,6 +739,9 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
         case 'wb_mark_incorrect':
           markIncorrect()
           return
+        case 'wb_highlight':
+          highlightLatest()
+          return
         case 'whiteboard': {
           const m = msg as WhiteboardMessage
           if (m.action === 'clear')                { clearBoard(); return }
@@ -688,7 +757,7 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
           return
         }
       }
-    }, [writeBlock, zoomTo, clearBoard, newSection, appendBlock, annotateStudentWork, markIncorrect])
+    }, [writeBlock, zoomTo, clearBoard, newSection, appendBlock, annotateStudentWork, markIncorrect, highlightLatest])
 
     useImperativeHandle(ref, () => ({
       writeBlock,
@@ -700,7 +769,10 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
       exportPng: getSnapshot,
       annotateStudentWork,
       markIncorrect,
-    }), [writeBlock, newSection, zoomTo, clearBoard, getSnapshot, handleMessage, annotateStudentWork, markIncorrect])
+      highlightLatest,
+      pauseAnimations,
+      resumeAnimations,
+    }), [writeBlock, newSection, zoomTo, clearBoard, getSnapshot, handleMessage, annotateStudentWork, markIncorrect, highlightLatest, pauseAnimations, resumeAnimations])
 
     // ── Download ──────────────────────────────────────────────────────────────
 
@@ -725,8 +797,8 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
     return (
       <div data-theme={theme} style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
 
-        {/* Cursor keyframe animation (constraint 8) */}
-        <style>{CURSOR_KEYFRAME}</style>
+        {/* Cursor + underline keyframes (constraint 8 / wb_highlight) */}
+        <style>{CURSOR_KEYFRAME + UNDERLINE_KEYFRAME}</style>
 
         {/* ── Toolbar ── */}
         <div style={{
@@ -831,6 +903,7 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
                       key={block.id}
                       block={block}
                       highlighted={block.id === highlightedBlockId}
+                      underlined={block.id === underlinedBlockId}
                       theme={theme}
                     />
                   )

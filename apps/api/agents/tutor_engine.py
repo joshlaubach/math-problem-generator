@@ -144,6 +144,7 @@ async def generate_tutor_response(
     session: Any,
     student_message: str,
     force_lesson: bool = False,
+    on_sentence: Optional[Any] = None,
 ) -> tuple[str, bool]:
     """
     Generate the next tutor response.
@@ -152,6 +153,13 @@ async def generate_tutor_response(
     to socratic.respond (or _lesson_response) so all four gate conditions
     (consecutive_no_progress, anxiety, repeated wrong attempts, first session)
     are evaluated regardless of which path is taken.
+
+    Args:
+        on_sentence: optional async callback (idx, text). When provided, the
+            Socratic path streams from Claude and invokes it per completed
+            sentence so TTS can begin before generation finishes. Lesson mode
+            and fallbacks return unstreamed; the orchestrator re-emits their
+            sentences to keep the client protocol uniform.
 
     Returns:
         (response_text, entered_lesson_mode)
@@ -185,23 +193,51 @@ async def generate_tutor_response(
         )
         return response, True
 
-    # Socratic mode
+    socratic_kwargs = dict(
+        problem_statement=problem.statement,
+        conversation=session.conversation[:-1],  # exclude just-appended turn
+        student_message=student_message,
+        hint_ladder=problem.hint_ladder,
+        hint_level=session.hint_level,
+        wrong_attempts=session.attempts,
+        tutor_name=session.tutor_name,
+        session_summary=session.session_summary,
+        topic_id=session.topic_id,
+        history_briefing=session.history_briefing,
+        snippets=snippets,
+        topic_guidance=topic_guidance,
+        deep=deep,
+    )
+
+    # Socratic streaming path: sentences reach the client (and TTS) as they
+    # complete. Cancellation (barge-in) propagates; any other failure falls
+    # through to the non-streaming call below.
+    if on_sentence is not None:
+        import asyncio as _asyncio
+        try:
+            from agents.socratic import respond_stream
+            from sentences import SentenceAccumulator
+
+            acc = SentenceAccumulator()
+            idx = 0
+            async for delta in respond_stream(**socratic_kwargs):
+                for s in acc.feed(delta):
+                    await on_sentence(idx, _naturalize(s))
+                    idx += 1
+            for s in acc.flush():
+                await on_sentence(idx, _naturalize(s))
+                idx += 1
+            reply = _naturalize(acc.full_text.strip())
+            if reply:
+                return reply, False
+        except _asyncio.CancelledError:
+            raise
+        except Exception:
+            logger.warning("Streaming Socratic turn failed; falling back to non-streaming", exc_info=True)
+
+    # Socratic mode (non-streaming / fallback)
     try:
-        reply = await socratic_respond(
-            problem_statement=problem.statement,
-            conversation=session.conversation[:-1],  # exclude just-appended turn
-            student_message=student_message,
-            hint_ladder=problem.hint_ladder,
-            hint_level=session.hint_level,
-            wrong_attempts=session.attempts,
-            tutor_name=session.tutor_name,
-            session_summary=session.session_summary,
-            topic_id=session.topic_id,
-            history_briefing=session.history_briefing,
-            snippets=snippets,
-            topic_guidance=topic_guidance,
-            deep=deep,
-        )
+        reply = await socratic_respond(**socratic_kwargs)
         reply = _naturalize(reply)
     except Exception:
         reply = _SOCRATIC_FALLBACKS[len(session.conversation) % len(_SOCRATIC_FALLBACKS)]

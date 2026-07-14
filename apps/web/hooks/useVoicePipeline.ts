@@ -29,9 +29,12 @@ import type { VoiceIndicatorState } from '@/components/VoiceIndicator'
 // Calibrated for a typical indoor tutoring environment.
 const VAD_SPEECH_THRESHOLD = 0.015
 
-// Student must sustain speech for this many ms before barge-in fires.
-// Prevents "hmm" or a cough from cutting the tutor off.
-const BARGE_IN_SUSTAIN_MS = 500
+// Two-stage barge-in: at DUCK_MS of sustained speech the tutor's audio ducks
+// (quiet but alive — a cough recovers gracefully); at BARGE_IN_SUSTAIN_MS it
+// hard-stops and the turn is handed to the student. 300ms meets the
+// interruption-latency bar; the old 500ms read as the tutor ignoring you.
+const BARGE_IN_DUCK_MS = 120
+const BARGE_IN_SUSTAIN_MS = 300
 
 // After the last speech frame, wait this long before resetting to idle.
 // Deepgram's endpointing handles the actual utterance boundary — this is just
@@ -48,6 +51,8 @@ export interface UseVoicePipelineOptions {
   onTranscript: (text: string) => void
   /** Called when the energy VAD detects sustained student speech (barge-in). */
   onBargeIn: () => void
+  /** Optional: called ~120ms into sustained speech — duck tutor audio early. */
+  onSpeechStart?: () => void
 }
 
 export interface VoicePipelineHandle {
@@ -68,6 +73,7 @@ export function useVoicePipeline({
   enabled,
   onTranscript,
   onBargeIn,
+  onSpeechStart,
 }: UseVoicePipelineOptions): VoicePipelineHandle {
   const [voiceState, setVoiceState] = useState<VoiceIndicatorState>('idle')
   const [fillerReady, setFillerReady] = useState(false)
@@ -79,10 +85,12 @@ export function useVoicePipeline({
   const cleanupRef = useRef<(() => void) | null>(null)
   const onTranscriptRef = useRef(onTranscript)
   const onBargeInRef = useRef(onBargeIn)
+  const onSpeechStartRef = useRef(onSpeechStart)
 
   // Keep callback refs fresh without re-running the pipeline effect
   useEffect(() => { onTranscriptRef.current = onTranscript }, [onTranscript])
   useEffect(() => { onBargeInRef.current = onBargeIn }, [onBargeIn])
+  useEffect(() => { onSpeechStartRef.current = onSpeechStart }, [onSpeechStart])
 
   // ── Pre-synthesize filler clips ─────────────────────────────────────────────
   useEffect(() => {
@@ -139,6 +147,7 @@ export function useVoicePipeline({
     let analyser: AnalyserNode | null = null
     let vadTimer: ReturnType<typeof setTimeout> | null = null
     let bargeInTimer: ReturnType<typeof setTimeout> | null = null
+    let duckTimer: ReturnType<typeof setTimeout> | null = null
     let speechActive = false
     let deepgramReady = false
     let animFrameId: number | null = null
@@ -148,6 +157,7 @@ export function useVoicePipeline({
       if (animFrameId !== null) cancelAnimationFrame(animFrameId)
       if (vadTimer) clearTimeout(vadTimer)
       if (bargeInTimer) clearTimeout(bargeInTimer)
+      if (duckTimer) clearTimeout(duckTimer)
       if (workletNode) { try { workletNode.disconnect() } catch { } }
       if (analyser) { try { analyser.disconnect() } catch { } }
       if (stream) stream.getTracks().forEach(t => t.stop())
@@ -247,6 +257,7 @@ export function useVoicePipeline({
           } else if (msg.type === 'speech_final' && msg.text) {
             if (vadTimer) clearTimeout(vadTimer)
             if (bargeInTimer) clearTimeout(bargeInTimer)
+            if (duckTimer) { clearTimeout(duckTimer); duckTimer = null }
             speechActive = false
             setVoiceState('transcribing')
             onTranscriptRef.current(msg.text)
@@ -286,8 +297,12 @@ export function useVoicePipeline({
           if (vadTimer) { clearTimeout(vadTimer); vadTimer = null }
 
           if (!speechActive) {
-            // Sustained speech check: fire barge-in after BARGE_IN_SUSTAIN_MS
+            // Two-stage sustained-speech check: duck early, hard barge-in at 300ms
             if (!bargeInTimer) {
+              duckTimer = setTimeout(() => {
+                duckTimer = null
+                if (!cancelled) onSpeechStartRef.current?.()
+              }, BARGE_IN_DUCK_MS)
               bargeInTimer = setTimeout(() => {
                 bargeInTimer = null
                 if (!cancelled) {
@@ -299,7 +314,11 @@ export function useVoicePipeline({
             }
           }
         } else {
-          // Silence — cancel pending barge-in if not yet fired
+          // Silence — cancel pending duck/barge-in if not yet fired
+          if (duckTimer && !speechActive) {
+            clearTimeout(duckTimer)
+            duckTimer = null
+          }
           if (bargeInTimer && !speechActive) {
             clearTimeout(bargeInTimer)
             bargeInTimer = null

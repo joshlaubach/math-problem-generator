@@ -141,3 +141,54 @@ async def respond(
         system=system_prompt,
         max_tokens=300,
     )
+
+
+def respond_stream(
+    problem_statement: str,
+    conversation: list[dict],
+    student_message: str,
+    hint_ladder: list[str],
+    hint_level: int,
+    wrong_attempts: list[str],
+    tutor_name: str = "Josh",
+    session_summary: list[str] | None = None,
+    topic_id: str | None = None,
+    history_briefing: str = "",
+    snippets: list[str] | None = None,
+    topic_guidance: str | None = None,
+    deep: bool = False,
+):
+    """
+    Streaming variant of respond(): returns an async generator of text deltas.
+
+    Identical prompt assembly; used by the voice pipeline so TTS can start on
+    the first sentence while the rest is still generating.
+    """
+    from agents.prompt_assembler import build_system_prompt
+    from llm_anthropic_client import stream_text
+
+    concept_labels = labels_for_topic(topic_id) if topic_id else []
+    concept_section = (
+        _CONCEPT_SECTION.format(labels="\n".join(f"• {l}" for l in concept_labels[:30]))
+        if concept_labels else ""
+    )
+    history_section = f"\nPrior session context: {history_briefing}" if history_briefing else ""
+    tutor_section = f"You are {tutor_name}."
+
+    context = "\n".join(filter(None, [tutor_section, concept_section, history_section]))
+
+    system_prompt = build_system_prompt(
+        role="SOCRATIC",
+        context=context,
+        snippets=snippets,
+        topic_guidance=topic_guidance,
+        deep=deep,
+        cacheable=True,
+    )
+
+    messages = _build_messages(
+        problem_statement, conversation, student_message,
+        hint_ladder, hint_level, wrong_attempts,
+        session_summary or [],
+    )
+    return stream_text(messages=messages, system=system_prompt, max_tokens=300)

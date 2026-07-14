@@ -977,24 +977,151 @@ async def _run_message_loop(
     session alive in Redis, and starts a 10-min timer. Reconnect cancels the
     timer; expiry ends the session and restores the credit.
     On server error: hard end (credit always restored).
+
+    Turn concurrency (Phase 1.1): each inbound message is handled in its own
+    task while the loop keeps receiving, so a {"type": "barge_in"} frame can
+    cancel a turn that is still streaming from Claude. At most one turn runs
+    at a time — a second content message waits for the current turn.
     """
+    import contextlib
+
     from agents.tutor_engine import (
         generate_tutor_response, handle_going_too_fast,
         check_quiz_readiness, get_quiz_proposal, get_quiz_start_message,
     )
     from agents.tutor_guide import looks_like_correction
 
+    async def _emit_partial(msg: dict) -> None:
+        await _send(websocket, **msg)
+
+    async def _process_turn(session, raw) -> Optional[str]:
+        """One full orchestrator turn. Returns 'break' when the loop must end."""
+        deps = session_orchestrator.SessionDeps(
+            generate_tutor_response=generate_tutor_response,
+            handle_going_too_fast=handle_going_too_fast,
+            check_quiz_readiness=check_quiz_readiness,
+            get_quiz_proposal=get_quiz_proposal,
+            get_quiz_start_message=get_quiz_start_message,
+            check_answer=check_answer,
+            get_hint=get_hint,
+            log_event=log_event,
+            update_session=update_session,
+            looks_like_correction=looks_like_correction,
+            user_tier=user.tier,
+            emit_partial=_emit_partial,
+        )
+
+        result = await session_orchestrator.handle(session, user, raw, deps)
+
+        for msg in result.messages:
+            await _send(websocket, type=msg.type, **msg.payload)
+
+        # SECURITY (H3): a flagged message → persist for admin review + alert.
+        if result.flagged is not None:
+            _record_flagged_content(
+                user.id, session_id, result.flagged.category, result.flagged.excerpt
+            )
+
+        # Background-generate the next problem at a new difficulty (L2-3).
+        if result.prefetch is not None:
+            asyncio.create_task(
+                _prefetch_problem(session, result.prefetch.conceptual_diff)
+            )
+
+        if result.end_session is not None:
+            timer_task.cancel()
+            await _end_session(websocket, session, reason=result.end_session)
+            return "break"
+
+        if result.advance is not None:
+            has_next = await _advance_problem(
+                websocket, session, source_label=result.advance.source_label
+            )
+            if not has_next:
+                timer_task.cancel()
+                await _end_session(
+                    websocket, session, reason=result.advance.exhausted_reason
+                )
+                return "break"
+        return None
+
+    turn_task: Optional[asyncio.Task] = None
+
+    # Single reader: the ONLY place websocket.receive_json() is awaited, so it
+    # is never cancelled mid-frame (cancelling a transport receive corrupts
+    # the stream). Disconnects/errors arrive as sentinel queue items.
+    inbox: asyncio.Queue = asyncio.Queue()
+
+    async def _reader() -> None:
+        try:
+            while True:
+                inbox.put_nowait(("msg", await websocket.receive_json()))
+        except WebSocketDisconnect as exc:
+            inbox.put_nowait(("disconnect", exc))
+        except Exception as exc:
+            inbox.put_nowait(("error", exc))
+
+    reader_task = asyncio.create_task(_reader())
+
+    async def _abort_turn() -> None:
+        nonlocal turn_task
+        if turn_task is not None and not turn_task.done():
+            turn_task.cancel()
+            with contextlib.suppress(asyncio.CancelledError):
+                await turn_task
+        turn_task = None
+
+    def _reap_turn() -> bool:
+        """Collect a finished turn. Returns True when the loop must end.
+        Re-raises turn errors (LLMTimeoutError etc.) for the outer handlers."""
+        nonlocal turn_task
+        task, turn_task = turn_task, None
+        return task.result() == "break"
+
+    async def _next_inbox_item():
+        """Pop the next inbox item, racing turn completion when one is live.
+        Returns None when the finished turn says the loop must end."""
+        nonlocal turn_task
+        get_task = asyncio.create_task(inbox.get())
+        try:
+            while True:
+                waiting = {get_task}
+                if turn_task is not None and not turn_task.done():
+                    waiting.add(turn_task)
+                done, _ = await asyncio.wait(
+                    waiting, return_when=asyncio.FIRST_COMPLETED
+                )
+                if turn_task is not None and turn_task in done:
+                    if _reap_turn():  # raises turn errors for outer handlers
+                        return None
+                    continue  # turn done cleanly; keep waiting for a frame
+                return get_task.result()
+        finally:
+            if not get_task.done():
+                get_task.cancel()
+                with contextlib.suppress(asyncio.CancelledError):
+                    await get_task
+
     try:
         while True:
-            raw = await websocket.receive_json()
+            # ── 1. Next inbound frame (keeps receiving while a turn streams) ──
+            item = await _next_inbox_item()
+            if item is None:
+                break  # finished turn ended the session
+            kind, payload = item
+            if kind in ("disconnect", "error"):
+                raise payload
+            raw = payload
 
             session = get_session(session_id)
             if session is None:
+                await _abort_turn()
                 break
 
             # ── SECURITY (H1): message rate limits ───────────────────────────
             session.message_count += 1
             if session.message_count > MAX_MESSAGES_PER_SESSION:
+                await _abort_turn()
                 timer_task.cancel()
                 await _close_with_error(
                     websocket, 4029,
@@ -1011,55 +1138,22 @@ async def _run_message_loop(
                 )
                 continue
 
-            # Resolve dependencies from the (test-patchable) current module state
-            deps = session_orchestrator.SessionDeps(
-                generate_tutor_response=generate_tutor_response,
-                handle_going_too_fast=handle_going_too_fast,
-                check_quiz_readiness=check_quiz_readiness,
-                get_quiz_proposal=get_quiz_proposal,
-                get_quiz_start_message=get_quiz_start_message,
-                check_answer=check_answer,
-                get_hint=get_hint,
-                log_event=log_event,
-                update_session=update_session,
-                looks_like_correction=looks_like_correction,
-                user_tier=user.tier,
-            )
+            # ── 2. Barge-in: cancel the in-flight streaming turn ──────────────
+            if raw.get("type") == "barge_in":
+                await _abort_turn()
+                continue
 
-            result = await session_orchestrator.handle(session, user, raw, deps)
-
-            for msg in result.messages:
-                await _send(websocket, type=msg.type, **msg.payload)
-
-            # SECURITY (H3): a flagged message → persist for admin review + alert.
-            if result.flagged is not None:
-                _record_flagged_content(
-                    user.id, session_id, result.flagged.category, result.flagged.excerpt
-                )
-
-            # Background-generate the next problem at a new difficulty (L2-3).
-            if result.prefetch is not None:
-                asyncio.create_task(
-                    _prefetch_problem(session, result.prefetch.conceptual_diff)
-                )
-
-            if result.end_session is not None:
-                timer_task.cancel()
-                await _end_session(websocket, session, reason=result.end_session)
-                break
-
-            if result.advance is not None:
-                has_next = await _advance_problem(
-                    websocket, session, source_label=result.advance.source_label
-                )
-                if not has_next:
-                    timer_task.cancel()
-                    await _end_session(
-                        websocket, session, reason=result.advance.exhausted_reason
-                    )
+            # ── 3. Ordering: one turn at a time ───────────────────────────────
+            if turn_task is not None:
+                if not turn_task.done():
+                    await asyncio.wait({turn_task})
+                if _reap_turn():  # raises turn errors for outer handlers
                     break
 
+            turn_task = asyncio.create_task(_process_turn(session, raw))
+
     except WebSocketDisconnect:
+        await _abort_turn()
         timer_task.cancel()
         session = get_session(session_id)
         if session is not None:
@@ -1092,6 +1186,7 @@ async def _run_message_loop(
     except Exception:
         # Unhandled server-side failure: always restore the credit (our fault)
         logger.exception("Server error in session %s", session_id)
+        await _abort_turn()
         timer_task.cancel()
         session = get_session(session_id)
         if session is not None:
@@ -1100,6 +1195,11 @@ async def _run_message_loop(
             await websocket.close(code=1011)
         except Exception:
             pass
+    finally:
+        if not reader_task.done():
+            reader_task.cancel()
+            with contextlib.suppress(BaseException):
+                await reader_task
 
 
 # ── Reconnect session ─────────────────────────────────────────────────────────

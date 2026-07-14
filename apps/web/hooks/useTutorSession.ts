@@ -74,6 +74,20 @@ export interface RagMatch {
   problem_number: number
 }
 
+/** Streaming protocol (Phase 1.1): one spoken-sized chunk of the tutor's reply. */
+export interface AgentSentence {
+  turn_id: string
+  idx: number
+  text: string
+}
+
+export interface TutorSessionHandlers {
+  /** Fires per agent_sentence frame, before the final agent_text. */
+  onAgentSentence?: (s: AgentSentence) => void
+  /** Fires on the final agent_text of a streamed turn (turn boundary). */
+  onTurnComplete?: (turnId: string | null, fullText: string) => void
+}
+
 export interface TutorSessionHook {
   state: TutorSessionState
   problem: TutorProblem | null
@@ -130,6 +144,10 @@ export interface TutorSessionHook {
   sendImageDrop: (imageB64: string, mediaType: string) => void
   sendRagSearch: () => void
   sendStudentWork: (stepsLatex: string) => void
+  /** Cancel the tutor's in-flight streaming turn (student barge-in). */
+  sendBargeIn: () => void
+  /** Report client-side latency marks for a finished turn. */
+  sendClientMetrics: (turnId: string, marks: Record<string, number>) => void
 }
 
 // ── Constants ─────────────────────────────────────────────────────────────────
@@ -147,8 +165,10 @@ const NO_RECONNECT_CODES = new Set([1000, 4001, 4003, 4004, 4029])
 
 // ── Hook ──────────────────────────────────────────────────────────────────────
 
-export function useTutorSession(): TutorSessionHook {
+export function useTutorSession(handlers?: TutorSessionHandlers): TutorSessionHook {
   const wsRef = useRef<WebSocket | null>(null)
+  const handlersRef = useRef<TutorSessionHandlers | undefined>(handlers)
+  handlersRef.current = handlers
   const reconnectCountRef = useRef(0)
   const connectParamsRef = useRef<{
     topicId: string | null
@@ -300,6 +320,15 @@ export function useTutorSession(): TutorSessionHook {
       ])
     }
 
+    // ── Agent sentence (streaming: spoken-sized chunks before agent_text) ───
+    else if (type === 'agent_sentence') {
+      handlersRef.current?.onAgentSentence?.({
+        turn_id: msg.turn_id as string,
+        idx: msg.idx as number,
+        text: msg.text as string,
+      })
+    }
+
     // ── Agent text ───────────────────────────────────────────────────────────
     else if (type === 'agent_text') {
       setMessages(prev => [
@@ -307,6 +336,9 @@ export function useTutorSession(): TutorSessionHook {
         { role: 'tutor', content: msg.text as string, timestamp: Date.now() },
       ])
       setState('ready')
+      handlersRef.current?.onTurnComplete?.(
+        (msg.turn_id as string) ?? null, msg.text as string,
+      )
     }
 
     // ── Lesson mode (state-only protocol events; no student-visible label) ───
@@ -636,6 +668,14 @@ export function useTutorSession(): TutorSessionHook {
     _send({ type: 'rag_search' })
   }, [_send])
 
+  const sendBargeIn = useCallback(() => {
+    _send({ type: 'barge_in' })
+  }, [_send])
+
+  const sendClientMetrics = useCallback((turnId: string, marks: Record<string, number>) => {
+    _send({ type: 'client_metrics', turn_id: turnId, marks })
+  }, [_send])
+
   const sendStudentWork = useCallback((stepsLatex: string) => {
     _send({ type: 'wb_student_work', latex: stepsLatex })
     setMessages(prev => [
@@ -681,6 +721,7 @@ export function useTutorSession(): TutorSessionHook {
     endSession, disconnect, acceptTopic, rejectTopic,
     scratchpadHasWork, setScratchpadHasWork,
     sendCanvasSnapshot, sendImageDrop, sendRagSearch, sendStudentWork,
+    sendBargeIn, sendClientMetrics,
     defaultInputMode, isOffline,
   }
 }
