@@ -183,13 +183,40 @@ async def generate_tutor_response(
     deep = should_inject_deep(session, snippets)
     topic_guidance = select_topic_guidance(session)
 
+    # Skills discovery (Phase 2): probe the problem + message and load fine-
+    # grained expertise blocks. A match replaces the coarse topic guidance so
+    # context stays lean (≤2 skills, ≤1200 tokens, cache-stable bytes).
+    skills_text = None
+    try:
+        from skills import select_skills, skills_block as render_skills
+
+        selected = select_skills(session, student_message, problem.statement)
+        if selected:
+            skills_text = render_skills(selected)
+            topic_guidance = None
+            try:
+                from rl_logger import log_event
+                log_event(
+                    session_id=getattr(session, "session_id", ""),
+                    user_id=getattr(session, "user_id", ""),
+                    topic_id=getattr(session, "topic_id", "") or "",
+                    difficulty=getattr(session, "difficulty", 0) or 0,
+                    event_type="skills_loaded",
+                    payload={"skills": [s.id for s in selected]},
+                )
+            except Exception:
+                pass
+    except Exception:
+        logger.warning("Skill selection failed; continuing without skills", exc_info=True)
+
     should_teach = force_lesson or session.consecutive_no_progress >= ESCALATION_THRESHOLD
 
     if should_teach:
         session.consecutive_no_progress = 0
         response = await _lesson_response(
             session, student_message,
-            snippets=snippets, topic_guidance=topic_guidance, deep=deep,
+            snippets=snippets, topic_guidance=topic_guidance,
+            skills_block=skills_text, deep=deep,
         )
         return response, True
 
@@ -206,6 +233,7 @@ async def generate_tutor_response(
         history_briefing=session.history_briefing,
         snippets=snippets,
         topic_guidance=topic_guidance,
+        skills_block=skills_text,
         deep=deep,
     )
 
@@ -250,6 +278,7 @@ async def _lesson_response(
     student_message: str,
     snippets: Optional[list[str]] = None,
     topic_guidance: Optional[str] = None,
+    skills_block: Optional[str] = None,
     deep: bool = False,
 ) -> str:
     """
@@ -316,6 +345,7 @@ async def _lesson_response(
         context=context,
         snippets=snippets,
         topic_guidance=topic_guidance,
+        skills_block=skills_block,
         deep=deep,
         cacheable=True,
     )

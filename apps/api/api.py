@@ -784,6 +784,14 @@ async def lifespan(app: FastAPI):
     await init_redis()
     # Sweep orphaned upload directories older than 24 h (Phase 3)
     _sweep_orphaned_uploads()
+    # Probe MCP backends (Wolfram/GeoGebra) in the background — best-effort,
+    # never blocks startup; unconfigured backends stay on local fallbacks.
+    try:
+        import asyncio as _asyncio
+        import mcp_registry
+        _asyncio.create_task(mcp_registry.probe_all())
+    except Exception:
+        pass
     yield
     # Shutdown: graceful session cleanup on SIGTERM / Railway deploy restart
     try:

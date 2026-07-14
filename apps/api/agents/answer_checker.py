@@ -66,7 +66,24 @@ async def check(
     c_expr = _parse_answer_value(canonical)
 
     if s_expr is None or c_expr is None:
-        # Cannot parse — fall back to string comparison
+        # SymPy can't parse one side — exactly the case where a wrong "could
+        # not parse → incorrect" hurts most. Ask Wolfram (bounded, optional;
+        # Phase 3 MCP routing) before giving up.
+        try:
+            from mcp_registry import wolfram_is_equal
+            verdict = await wolfram_is_equal(student, canonical)
+        except Exception:
+            verdict = None
+        if verdict is True:
+            return CheckAnswerResult(
+                correct=True, equivalent_form=True,
+                partial_credit_reason="Verified equivalent by Wolfram|Alpha.",
+            )
+        if verdict is False:
+            return CheckAnswerResult(
+                correct=False, equivalent_form=False,
+                partial_credit_reason="Wolfram|Alpha judged the answers not equivalent.",
+            )
         return CheckAnswerResult(
             correct=False,
             equivalent_form=False,

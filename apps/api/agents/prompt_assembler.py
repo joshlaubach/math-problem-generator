@@ -39,6 +39,7 @@ def build_system_prompt(
     context: str = "",
     snippets: Optional[list[str]] = None,
     topic_guidance: Optional[str] = None,
+    skills_block: Optional[str] = None,
     deep: bool = False,
     cacheable: bool = True,
 ) -> "str | list[dict]":
@@ -59,10 +60,13 @@ def build_system_prompt(
     Returns:
         str if cacheable=False, else list[dict] Anthropic content blocks.
 
-    Cache layout (2 breakpoints):
+    Cache layout (up to 3 breakpoints — max 4 allowed):
         Block 0: CONSTITUTION + OUTPUT_CONSTRAINTS       [cache_control]
         Block 1: DEEP_GUIDE (only when deep=True)        [cache_control]
-        Block 2: ROLE_LAYER + topic_guidance + context + snippets  (no cache — dynamic)
+        Block 2: skills_block (when skills matched)      [cache_control]
+                 — bytes are deterministic per skill set (sorted by id),
+                 so repeated turns on the same problem hit the cache
+        Block 3: ROLE_LAYER + topic_guidance + context + snippets  (no cache — dynamic)
     """
     role_layer = ROLE_LAYERS.get(role, "")
     if not role_layer:
@@ -92,6 +96,8 @@ def build_system_prompt(
             guide = get_deep_guide()
             if guide:
                 parts.append(DEEP_GUIDE_HEADER + guide)
+        if skills_block:
+            parts.append(skills_block)
         parts.append(dynamic_suffix)
         return "\n\n".join(p for p in parts if p)
 
@@ -115,8 +121,16 @@ def build_system_prompt(
                 "cache_control": {"type": "ephemeral"},
             })
 
+    if skills_block:
+        # Skills breakpoint: stable bytes per selected-skill set (Phase 2)
+        blocks.append({
+            "type": "text",
+            "text": skills_block,
+            "cache_control": {"type": "ephemeral"},
+        })
+
     if dynamic_suffix.strip():
-        # Block 2 (or 1 when not deep): dynamic — never cache
+        # Final block: dynamic — never cache
         blocks.append({
             "type": "text",
             "text": dynamic_suffix,

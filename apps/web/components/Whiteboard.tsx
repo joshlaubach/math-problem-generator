@@ -91,6 +91,7 @@ const BLOCK_H: Record<string, number> = {
   plot:       220,
   divider:    52,
   annotation: 70,
+  image:      240,  // server-rendered constructions (GeoGebra via MCP)
 }
 
 // ── Cursor animation style (constraint 8) ────────────────────────────────────
@@ -117,6 +118,7 @@ export type WbMessage =
   | { type: 'wb_annotate_student'; latex?: string; label?: string; x_hint?: 'left' | 'center' | 'right'; color?: 'correction' | 'confirmation' | 'neutral' }
   | { type: 'wb_mark_incorrect' }
   | { type: 'wb_highlight'; target?: 'latest' }
+  | { type: 'wb_image'; image_b64: string; media_type?: string }
 
 export interface WhiteboardHandle {
   writeBlock(latex: string, opts?: { display?: boolean }): void
@@ -156,6 +158,7 @@ type PlotBlock = {
   fn?: string; domain?: [number, number]; scene?: GeometryElement[]; yOffset: number
 }
 type DividerBlock   = { id: string; kind: 'divider';    label: string; yOffset: number }
+type ImageBlock     = { id: string; kind: 'image';      src: string; yOffset: number }
 type AnnotationBlock = {
   id: string; kind: 'annotation'
   latex?: string; label?: string
@@ -164,13 +167,14 @@ type AnnotationBlock = {
   yOffset: number
 }
 
-type Block = LatexBlock | PlotBlock | DividerBlock | AnnotationBlock
+type Block = LatexBlock | PlotBlock | DividerBlock | AnnotationBlock | ImageBlock
 
 // Annotations are positioned independently — not through appendBlock
 type BlockWithoutY =
   | Omit<LatexBlock,   'yOffset'>
   | Omit<PlotBlock,    'yOffset'>
   | Omit<DividerBlock, 'yOffset'>
+  | Omit<ImageBlock,   'yOffset'>
 
 // ── LatexItem — GSAP fade-in, variable speed, pointer-flash (constraints 4, 9, 10) ──
 
@@ -742,6 +746,17 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
         case 'wb_highlight':
           highlightLatest()
           return
+        case 'wb_image': {
+          const m = msg as { type: 'wb_image'; image_b64: string; media_type?: string }
+          if (m.image_b64) {
+            appendBlock({
+              id: `img-${Date.now()}`,
+              kind: 'image',
+              src: `data:${m.media_type ?? 'image/png'};base64,${m.image_b64}`,
+            })
+          }
+          return
+        }
         case 'whiteboard': {
           const m = msg as WhiteboardMessage
           if (m.action === 'clear')                { clearBoard(); return }
@@ -927,6 +942,23 @@ export const Whiteboard = forwardRef<WhiteboardHandle, WhiteboardProps>(
                   )
                 if (block.kind === 'annotation')
                   return <AnnotationItem key={block.id} block={block} tc={tc} />
+                if (block.kind === 'image')
+                  return (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      key={block.id}
+                      src={block.src}
+                      alt="Rendered geometry construction"
+                      style={{
+                        position: 'absolute',
+                        left: PAD, top: block.yOffset,
+                        maxWidth: `calc(100% - ${PAD * 2}px)`,
+                        maxHeight: BLOCK_H.image,
+                        borderRadius: 8, border: '1px solid var(--border)',
+                        zIndex: 5, pointerEvents: 'none',
+                      }}
+                    />
+                  )
                 return null
               })}
 

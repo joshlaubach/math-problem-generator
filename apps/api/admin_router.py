@@ -671,3 +671,10 @@ async def latency_metrics(admin: "User" = Depends(require_admin)):
     """
     import metrics
     return {"stages": metrics.snapshot(), "window": 500}
+
+
+@router.get("/mcp/status")
+async def mcp_status(admin: "User" = Depends(require_admin)):
+    """Health/config of the MCP verification+visualization backends."""
+    import mcp_registry
+    return mcp_registry.status()

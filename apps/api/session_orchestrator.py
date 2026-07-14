@@ -236,6 +236,21 @@ def _concept_key(session) -> str:
     return getattr(session, "topic_id", "") or ""
 
 
+async def _emit_scene(res: HandlerResult, scene: list, turn_id: str) -> None:
+    """Route a geometry scene: GeoGebra (Phase 3 MCP, complex scenes, when
+    configured+healthy) → wb_image; otherwise the local Mafs wb_write path.
+    GeoGebra absent or failing must never break the flow."""
+    try:
+        from mcp_registry import maybe_render_scene
+        rendered = await maybe_render_scene(scene)
+    except Exception:
+        rendered = None
+    if rendered is not None:
+        res.send("wb_image", turn_id=turn_id, sentence_idx=0, **rendered)
+    else:
+        res.send("wb_write", scene=scene, turn_id=turn_id, sentence_idx=0)
+
+
 def _get_intro_scene(topic_id: str) -> Optional[list]:
     """Return the pre-authored intro scene for a topic, or None (never raises)."""
     if not topic_id:
@@ -461,7 +476,7 @@ async def _student_text(session, user, raw, deps) -> HandlerResult:
         if counts.get(key, 0) == 0:
             scene = _get_intro_scene(key)
             if scene:
-                res.send("wb_write", scene=scene, turn_id=turn_id, sentence_idx=0)
+                await _emit_scene(res, scene, turn_id)
         res.send("lesson_start", topic=session.class_name)
     res.send("agent_text", text=reply, turn_id=turn_id)
     if entered_lesson:
@@ -721,7 +736,7 @@ async def _walk_me_through(session, user, raw, deps) -> HandlerResult:
     if counts.get(key, 0) == 0:
         scene = _get_intro_scene(key)
         if scene:
-            res.send("wb_write", scene=scene, turn_id=turn_id, sentence_idx=0)
+            await _emit_scene(res, scene, turn_id)
     res.send("lesson_start", topic=session.class_name)
     res.send("agent_text", text=reply, turn_id=turn_id)
     res.send("lesson_end")

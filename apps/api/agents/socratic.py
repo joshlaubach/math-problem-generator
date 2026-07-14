@@ -86,6 +86,7 @@ async def respond(
     history_briefing: str = "",
     snippets: list[str] | None = None,
     topic_guidance: str | None = None,
+    skills_block: str | None = None,
     deep: bool = False,
 ) -> str:
     """
@@ -127,6 +128,7 @@ async def respond(
         context=context,
         snippets=snippets,
         topic_guidance=topic_guidance,
+        skills_block=skills_block,
         deep=deep,
         cacheable=True,
     )
@@ -156,6 +158,7 @@ def respond_stream(
     history_briefing: str = "",
     snippets: list[str] | None = None,
     topic_guidance: str | None = None,
+    skills_block: str | None = None,
     deep: bool = False,
 ):
     """
@@ -182,6 +185,7 @@ def respond_stream(
         context=context,
         snippets=snippets,
         topic_guidance=topic_guidance,
+        skills_block=skills_block,
         deep=deep,
         cacheable=True,
     )

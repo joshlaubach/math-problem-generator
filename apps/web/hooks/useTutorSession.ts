@@ -52,7 +52,7 @@ export interface TopicOption {
 }
 
 export interface WhiteboardWsMessage {
-  type: 'whiteboard' | 'wb_write' | 'wb_clear' | 'wb_new_section' | 'wb_zoom' | 'wb_annotate_student' | 'wb_mark_incorrect'
+  type: 'whiteboard' | 'wb_write' | 'wb_clear' | 'wb_new_section' | 'wb_zoom' | 'wb_annotate_student' | 'wb_mark_incorrect' | 'wb_highlight' | 'wb_image'
   action?: 'write' | 'plot' | 'clear'
   latex?: string
   label?: string
@@ -390,7 +390,8 @@ export function useTutorSession(handlers?: TutorSessionHandlers): TutorSessionHo
     // ── Whiteboard ───────────────────────────────────────────────────────────
     else if (type === 'whiteboard' || type === 'wb_write' || type === 'wb_clear'
              || type === 'wb_new_section' || type === 'wb_zoom'
-             || type === 'wb_annotate_student' || type === 'wb_mark_incorrect') {
+             || type === 'wb_annotate_student' || type === 'wb_mark_incorrect'
+             || type === 'wb_highlight' || type === 'wb_image') {
       setWhiteboardMessages(prev => [...prev, msg as unknown as WhiteboardWsMessage])
     }
 

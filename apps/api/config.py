@@ -147,6 +147,19 @@ SENTRY_DSN: Optional[str] = os.getenv("SENTRY_DSN", None)
 ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
 
 # ============================================================================
+# MCP Backends (Phase 3 — verification & visualization routing)
+# ============================================================================
+
+# Wolfram|Alpha verification fallback: set WOLFRAM_MCP_URL to speak MCP, or
+# just WOLFRAM_APP_ID to use the REST LLM API. Both empty = SymPy-only.
+WOLFRAM_APP_ID: Optional[str] = os.getenv("WOLFRAM_APP_ID", None)
+WOLFRAM_MCP_URL: Optional[str] = os.getenv("WOLFRAM_MCP_URL", None)
+
+# GeoGebra visualization backend (MCP). Empty = every scene renders locally
+# via Mafs — the designed default; the flow never depends on this.
+GEOGEBRA_MCP_URL: Optional[str] = os.getenv("GEOGEBRA_MCP_URL", None)
+
+# ============================================================================
 # Authentication Settings (Phase 7+)
 # ============================================================================
 
