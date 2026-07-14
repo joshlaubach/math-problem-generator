@@ -36,9 +36,10 @@ from fastapi import APIRouter, WebSocket, WebSocketDisconnect
 router = APIRouter(tags=["voice"])
 logger = logging.getLogger(__name__)
 
-# 800 ms of trailing silence in Deepgram triggers speech_final=true.
-# Matches the plan decision: "800ms sustained speech before interrupting."
-_DEEPGRAM_ENDPOINTING_MS = 800
+# Trailing-silence budget before Deepgram fires speech_final. 500 ms default
+# (was 800) — every ms here is dead air added to time-to-first-audio. Tunable
+# per deployment via env; the 300-600 ms band is the sweet spot for tutoring.
+_DEEPGRAM_ENDPOINTING_MS = int(os.getenv("DEEPGRAM_ENDPOINTING_MS", "500"))
 
 _DG_URL = (
     "wss://api.deepgram.com/v1/listen"

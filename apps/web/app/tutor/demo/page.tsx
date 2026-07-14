@@ -53,7 +53,16 @@ export default function DemoPage() {
         throw new Error(detail ?? 'Failed to start session')
       }
       const { guest_token, session_id } = body as { guest_token: string; session_id: string }
-      router.push(`/tutor/session/${session_id}?guest_token=${encodeURIComponent(guest_token)}`)
+      // Hand the token off via sessionStorage, never the URL — query strings
+      // land in browser history, referrers, and server access logs.
+      let storedOk = false
+      try {
+        sessionStorage.setItem(`guest_token:${session_id}`, guest_token)
+        storedOk = sessionStorage.getItem(`guest_token:${session_id}`) === guest_token
+      } catch { storedOk = false }
+      router.push(storedOk
+        ? `/tutor/session/${session_id}`
+        : `/tutor/session/${session_id}?guest_token=${encodeURIComponent(guest_token)}`)
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Something went wrong')
     } finally {

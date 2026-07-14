@@ -26,6 +26,14 @@ from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL, ANTHROPIC_FALLBACK_MODEL,
 
 _logger = logging.getLogger("llm")
 
+
+class LLMTimeoutError(Exception):
+    """Raised when an Anthropic API call exceeds LLM_API_TIMEOUT seconds.
+
+    Callers (ws_router, agents) should catch this to trigger credit refunds or
+    graceful session termination rather than leaving the user with a hung UI.
+    """
+
 # Last successful call's output token count. Read by session orchestrator for budget tracking.
 # Updated under GIL — safe for single-threaded asyncio use.
 _last_output_tokens: int = 0
@@ -223,6 +231,56 @@ async def _call_with_backoff(
     raise RuntimeError(
         f"Anthropic API failed after {retries} retries. Last error: {last_exc}"
     ) from last_exc
+
+
+async def stream_text(
+    messages: list[dict],
+    system: Union[str, list, None] = None,
+    max_tokens: int = LLM_MAX_TOKENS,
+):
+    """
+    Stream a Claude response as text deltas (async generator).
+
+    Same prompt-caching semantics as _call_with_backoff (structured system
+    blocks with cache_control get the beta header). No retry loop — streaming
+    callers surface errors immediately; the caller decides whether to fall
+    back to the non-streaming path.
+
+    Timeout model: LLM_API_TIMEOUT bounds the wait for EACH delta (a hung
+    stream raises LLMTimeoutError), not total generation time — a long
+    healthy stream must not be killed mid-sentence.
+    """
+    client = _get_client()
+    use_cache = _uses_cache_control(system)
+
+    kwargs: dict = {
+        "model": ANTHROPIC_MODEL,
+        "max_tokens": max_tokens,
+        "messages": messages,
+    }
+    if system:
+        kwargs["system"] = system
+    if use_cache:
+        kwargs["extra_headers"] = {"anthropic-beta": "prompt-caching-2024-07-31"}
+
+    try:
+        async with client.messages.stream(**kwargs) as stream:
+            agen = stream.text_stream.__aiter__()
+            while True:
+                try:
+                    delta = await asyncio.wait_for(
+                        agen.__anext__(), timeout=LLM_API_TIMEOUT
+                    )
+                except StopAsyncIteration:
+                    break
+                yield delta
+    except asyncio.TimeoutError:
+        logger.error(
+            "Anthropic stream stalled: no delta within %ss", LLM_API_TIMEOUT
+        )
+        raise LLMTimeoutError(
+            f"Anthropic API stream produced no output within {LLM_API_TIMEOUT}s"
+        )
 
 
 class AnthropicLLMClient:

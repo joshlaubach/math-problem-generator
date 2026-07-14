@@ -173,6 +173,18 @@ def _drain_connect(ws) -> list[dict]:
     return [ws.receive_json(), ws.receive_json(), ws.receive_json()]
 
 
+def _next_skipping_sentences(ws) -> tuple[list, dict]:
+    """Streaming protocol (Phase 1.1): tutor turns emit agent_sentence frames
+    before the final agent_text. Returns (sentences, first_non_sentence_msg)."""
+    sentences = []
+    while True:
+        msg = ws.receive_json()
+        if msg.get("type") == "agent_sentence":
+            sentences.append(msg)
+            continue
+        return sentences, msg
+
+
 # ── Connect handshake ────────────────────────────────────────────────────────
 
 class TestConnectHandshake:
@@ -198,8 +210,13 @@ class TestStudentText:
         with ws_harness.connect() as ws:
             _drain_connect(ws)
             ws.send_json({"type": "student_text", "text": "I'm stuck"})
-            msg = ws.receive_json()
-        assert msg == {"type": "agent_text", "text": "Here is a hint question?"}
+            sentences, msg = _next_skipping_sentences(ws)
+        assert msg["type"] == "agent_text"
+        assert msg["text"] == "Here is a hint question?"
+        assert msg.get("turn_id")
+        # Sentence frames precede agent_text and reassemble to the same reply
+        assert sentences and all(s["turn_id"] == msg["turn_id"] for s in sentences)
+        assert " ".join(s["text"] for s in sentences) == "Here is a hint question?"
 
     def test_lesson_wrapping(self, ws_harness):
         """When the engine escalates, agent_text is bracketed by lesson_start/lesson_end."""
@@ -208,11 +225,12 @@ class TestStudentText:
         with ws_harness.connect() as ws:
             _drain_connect(ws)
             ws.send_json({"type": "student_text", "text": "I don't get it"})
-            start = ws.receive_json()
+            _sentences, start = _next_skipping_sentences(ws)
             body = ws.receive_json()
             end = ws.receive_json()
         assert start["type"] == "lesson_start"
-        assert body == {"type": "agent_text", "text": "LESSON_CONTENT"}
+        assert body["type"] == "agent_text"
+        assert body["text"] == "LESSON_CONTENT"
         assert end["type"] == "lesson_end"
 
     def test_empty_text_ignored(self, ws_harness):
@@ -221,7 +239,7 @@ class TestStudentText:
             ws.send_json({"type": "student_text", "text": "   "})
             # No response to empty text; a subsequent real message still works
             ws.send_json({"type": "student_text", "text": "real"})
-            msg = ws.receive_json()
+            _sentences, msg = _next_skipping_sentences(ws)
         assert msg["type"] == "agent_text"
 
 
@@ -237,12 +255,13 @@ class TestAnswerSubmit:
             result = ws.receive_json()
             # No ANTHROPIC_API_KEY in tests → severity=None → wb_mark_incorrect sent
             wb_mark = ws.receive_json()
-            followup = ws.receive_json()
+            _sentences, followup = _next_skipping_sentences(ws)
         assert result["type"] == "answer_result"
         assert result["correct"] is False
         assert "equivalent_form" in result and "partial_credit_reason" in result
         assert wb_mark["type"] == "wb_mark_incorrect"
-        assert followup == {"type": "agent_text", "text": "FOLLOWUP_Q"}
+        assert followup["type"] == "agent_text"
+        assert followup["text"] == "FOLLOWUP_Q"
 
     def test_careless_wrong_no_board_change(self, ws_harness):
         """Careless severity → no wb_mark_incorrect; just answer_result + agent_text."""
@@ -253,11 +272,12 @@ class TestAnswerSubmit:
             _drain_connect(ws)
             ws.send_json({"type": "answer_submit", "answer": "wrong"})
             result = ws.receive_json()
-            followup = ws.receive_json()
+            _sentences, followup = _next_skipping_sentences(ws)
         assert result["type"] == "answer_result"
         assert result["correct"] is False
         assert result.get("severity") == "careless"
-        assert followup == {"type": "agent_text", "text": "WALKTHROUGH_PROMPT"}
+        assert followup["type"] == "agent_text"
+        assert followup["text"] == "WALKTHROUGH_PROMPT"
 
     def test_careless_wrong_then_walkthrough_routes(self, ws_harness):
         """After a careless wrong answer, student_text routes through walkthrough handler."""
@@ -357,11 +377,12 @@ class TestWalkMeThrough:
         with ws_harness.connect() as ws:
             _drain_connect(ws)
             ws.send_json({"type": "walk_me_through"})
-            start = ws.receive_json()
+            _sentences, start = _next_skipping_sentences(ws)
             body = ws.receive_json()
             end = ws.receive_json()
         assert start["type"] == "lesson_start"
-        assert body == {"type": "agent_text", "text": "LESSON_REPLY"}
+        assert body["type"] == "agent_text"
+        assert body["text"] == "LESSON_REPLY"
         assert end["type"] == "lesson_end"
 
 

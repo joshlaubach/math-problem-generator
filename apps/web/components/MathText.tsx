@@ -39,7 +39,7 @@ function renderProseHtml(text: string): string {
       katex.renderToString(mathSrc, {
         displayMode: isDisplay,
         throwOnError: false,
-        output: 'html',
+        output: 'htmlAndMathml',  // MathML twin = screen-reader-navigable math
         trust: false,      // SECURITY: never honor \href/\htmlData etc. (XSS)
         strict: 'ignore',
       })
@@ -86,7 +86,7 @@ export function MathText({ latex, inline = false, prose = false, className }: Ma
   const html = katex.renderToString(latex, {
     throwOnError: false,
     displayMode: !inline,
-    output: 'html',
+    output: 'htmlAndMathml',  // MathML twin = screen-reader-navigable math
     trust: false,      // SECURITY: never honor \href/\htmlData etc. (XSS)
     strict: 'ignore',
   });

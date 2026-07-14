@@ -659,3 +659,22 @@ async def quotas_overview(
         )
     finally:
         session.close()
+
+
+@router.get("/metrics/latency")
+async def latency_metrics(admin: "User" = Depends(require_admin)):
+    """Voice-loop latency percentiles (P50/P90/P95 per stage, in-memory window).
+
+    client.* stages are browser marks relative to speech_final; server.* are
+    backend stage timings. Beta targets: client.filler_ms P95 < 1000,
+    client.first_audio_ms P95 < 2500, client.first_wb_ms P95 < 3000.
+    """
+    import metrics
+    return {"stages": metrics.snapshot(), "window": 500}
+
+
+@router.get("/mcp/status")
+async def mcp_status(admin: "User" = Depends(require_admin)):
+    """Health/config of the MCP verification+visualization backends."""
+    import mcp_registry
+    return mcp_registry.status()

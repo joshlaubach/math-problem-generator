@@ -144,6 +144,7 @@ async def generate_tutor_response(
     session: Any,
     student_message: str,
     force_lesson: bool = False,
+    on_sentence: Optional[Any] = None,
 ) -> tuple[str, bool]:
     """
     Generate the next tutor response.
@@ -152,6 +153,13 @@ async def generate_tutor_response(
     to socratic.respond (or _lesson_response) so all four gate conditions
     (consecutive_no_progress, anxiety, repeated wrong attempts, first session)
     are evaluated regardless of which path is taken.
+
+    Args:
+        on_sentence: optional async callback (idx, text). When provided, the
+            Socratic path streams from Claude and invokes it per completed
+            sentence so TTS can begin before generation finishes. Lesson mode
+            and fallbacks return unstreamed; the orchestrator re-emits their
+            sentences to keep the client protocol uniform.
 
     Returns:
         (response_text, entered_lesson_mode)
@@ -175,33 +183,89 @@ async def generate_tutor_response(
     deep = should_inject_deep(session, snippets)
     topic_guidance = select_topic_guidance(session)
 
+    # Skills discovery (Phase 2): probe the problem + message and load fine-
+    # grained expertise blocks. A match replaces the coarse topic guidance so
+    # context stays lean (≤2 skills, ≤1200 tokens, cache-stable bytes).
+    skills_text = None
+    try:
+        from skills import select_skills, skills_block as render_skills
+
+        selected = select_skills(session, student_message, problem.statement)
+        if selected:
+            skills_text = render_skills(selected)
+            topic_guidance = None
+            try:
+                from rl_logger import log_event
+                log_event(
+                    session_id=getattr(session, "session_id", ""),
+                    user_id=getattr(session, "user_id", ""),
+                    topic_id=getattr(session, "topic_id", "") or "",
+                    difficulty=getattr(session, "difficulty", 0) or 0,
+                    event_type="skills_loaded",
+                    payload={"skills": [s.id for s in selected]},
+                )
+            except Exception:
+                pass
+    except Exception:
+        logger.warning("Skill selection failed; continuing without skills", exc_info=True)
+
     should_teach = force_lesson or session.consecutive_no_progress >= ESCALATION_THRESHOLD
 
     if should_teach:
         session.consecutive_no_progress = 0
         response = await _lesson_response(
             session, student_message,
-            snippets=snippets, topic_guidance=topic_guidance, deep=deep,
+            snippets=snippets, topic_guidance=topic_guidance,
+            skills_block=skills_text, deep=deep,
         )
         return response, True
 
-    # Socratic mode
+    socratic_kwargs = dict(
+        problem_statement=problem.statement,
+        conversation=session.conversation[:-1],  # exclude just-appended turn
+        student_message=student_message,
+        hint_ladder=problem.hint_ladder,
+        hint_level=session.hint_level,
+        wrong_attempts=session.attempts,
+        tutor_name=session.tutor_name,
+        session_summary=session.session_summary,
+        topic_id=session.topic_id,
+        history_briefing=session.history_briefing,
+        snippets=snippets,
+        topic_guidance=topic_guidance,
+        skills_block=skills_text,
+        deep=deep,
+    )
+
+    # Socratic streaming path: sentences reach the client (and TTS) as they
+    # complete. Cancellation (barge-in) propagates; any other failure falls
+    # through to the non-streaming call below.
+    if on_sentence is not None:
+        import asyncio as _asyncio
+        try:
+            from agents.socratic import respond_stream
+            from sentences import SentenceAccumulator
+
+            acc = SentenceAccumulator()
+            idx = 0
+            async for delta in respond_stream(**socratic_kwargs):
+                for s in acc.feed(delta):
+                    await on_sentence(idx, _naturalize(s))
+                    idx += 1
+            for s in acc.flush():
+                await on_sentence(idx, _naturalize(s))
+                idx += 1
+            reply = _naturalize(acc.full_text.strip())
+            if reply:
+                return reply, False
+        except _asyncio.CancelledError:
+            raise
+        except Exception:
+            logger.warning("Streaming Socratic turn failed; falling back to non-streaming", exc_info=True)
+
+    # Socratic mode (non-streaming / fallback)
     try:
-        reply = await socratic_respond(
-            problem_statement=problem.statement,
-            conversation=session.conversation[:-1],  # exclude just-appended turn
-            student_message=student_message,
-            hint_ladder=problem.hint_ladder,
-            hint_level=session.hint_level,
-            wrong_attempts=session.attempts,
-            tutor_name=session.tutor_name,
-            session_summary=session.session_summary,
-            topic_id=session.topic_id,
-            history_briefing=session.history_briefing,
-            snippets=snippets,
-            topic_guidance=topic_guidance,
-            deep=deep,
-        )
+        reply = await socratic_respond(**socratic_kwargs)
         reply = _naturalize(reply)
     except Exception:
         reply = _SOCRATIC_FALLBACKS[len(session.conversation) % len(_SOCRATIC_FALLBACKS)]
@@ -214,6 +278,7 @@ async def _lesson_response(
     student_message: str,
     snippets: Optional[list[str]] = None,
     topic_guidance: Optional[str] = None,
+    skills_block: Optional[str] = None,
     deep: bool = False,
 ) -> str:
     """
@@ -280,6 +345,7 @@ async def _lesson_response(
         context=context,
         snippets=snippets,
         topic_guidance=topic_guidance,
+        skills_block=skills_block,
         deep=deep,
         cacheable=True,
     )

@@ -23,29 +23,14 @@ _TRANSFORMATIONS = standard_transformations + (implicit_multiplication_applicati
 
 
 def _safe_parse(expr_str: str) -> sp.Expr | None:
-    """Parse a LaTeX-style or plain math string into a SymPy expression."""
-    # Normalise common LaTeX → SymPy substitutions
-    cleaned = (
-        expr_str
-        .replace("\\frac{", "(")
-        .replace("}{", ")/(")
-        .replace("}", ")")
-        .replace("\\cdot", "*")
-        .replace("^", "**")
-        .replace("\\ln", "log")
-        .replace("\\log", "log")
-        .replace("\\sin", "sin")
-        .replace("\\cos", "cos")
-        .replace("\\tan", "tan")
-        .replace("\\sqrt{", "sqrt(")
-        .replace("\\pi", "pi")
-        .replace("\\infty", "oo")
-        .strip()
-    )
-    try:
-        return parse_expr(cleaned, transformations=_TRANSFORMATIONS)
-    except Exception:
-        return None
+    """Parse a LaTeX-style or plain math string into a SymPy expression.
+
+    Delegates to latex_parse.latex_to_expr (shared with the answer checker),
+    which handles \\frac, \\sqrt, \\left/\\right, ^{...} and plain math.
+    """
+    from latex_parse import latex_to_expr
+
+    return latex_to_expr(expr_str)
 
 
 async def verify(
@@ -71,26 +56,37 @@ async def verify(
         VerifierResult(verified=True/False, reason=str)
     """
     if problem_type == "numeric":
-        return _verify_numeric(candidate_answer)
+        return await _verify_numeric(candidate_answer)
     if problem_type in ("equation", "algebraic"):
-        return _verify_algebraic(prompt_latex, candidate_answer)
+        return await _verify_algebraic(prompt_latex, candidate_answer)
     if problem_type == "inequality":
         return _verify_inequality(prompt_latex, candidate_answer)
 
     # Fallback: attempt algebraic, then numeric
-    result = _verify_algebraic(prompt_latex, candidate_answer)
+    result = await _verify_algebraic(prompt_latex, candidate_answer)
     if result.verified:
         return result
-    return _verify_numeric(candidate_answer)
+    return await _verify_numeric(candidate_answer)
 
 
-def _verify_numeric(answer: str) -> VerifierResult:
+async def _verify_numeric(answer: str) -> VerifierResult:
     """Check that the answer parses to a finite number."""
     expr = _safe_parse(answer)
     if expr is None:
+        # No more trust-on-parse-failure (audit C2): the highest hallucination-
+        # risk answers were exactly the ones skipping verification. Try
+        # Wolfram; if unavailable, fail verification so the generator's
+        # retry loop regenerates instead of shipping an unchecked problem.
+        verdict = await _wolfram_valid(answer)
+        if verdict is True:
+            return VerifierResult(
+                verified=True,
+                reason="Answer validated by Wolfram|Alpha (SymPy could not parse).",
+            )
         return VerifierResult(
-            verified=True,
-            reason="Answer could not be parsed symbolically — accepted on trust (answer-first generation)."
+            verified=False,
+            reason="Answer could not be parsed symbolically and no external "
+                   "verifier confirmed it — regenerate.",
         )
     try:
         val = float(expr.evalf())
@@ -107,7 +103,15 @@ def _verify_numeric(answer: str) -> VerifierResult:
         )
 
 
-def _verify_algebraic(prompt_latex: str, answer: str) -> VerifierResult:
+async def _wolfram_valid(expr: str):
+    try:
+        from mcp_registry import wolfram_expression_valid
+        return await wolfram_expression_valid(expr)
+    except Exception:
+        return None
+
+
+async def _verify_algebraic(prompt_latex: str, answer: str) -> VerifierResult:
     """
     Check algebraic correctness:
       - Parse the answer (e.g. "x = 5", "2x + 3", "(x+1)^2")
@@ -125,12 +129,19 @@ def _verify_algebraic(prompt_latex: str, answer: str) -> VerifierResult:
         if eq_result is not None:
             return eq_result
 
-    # Fallback: try to parse; if we can't, trust the LLM (answer-first generation).
+    # Fallback: try to parse; unparseable answers are no longer trusted.
     expr = _safe_parse(answer.split("=")[-1].strip() if "=" in answer else answer)
     if expr is None:
+        verdict = await _wolfram_valid(answer)
+        if verdict is True:
+            return VerifierResult(
+                verified=True,
+                reason="Answer validated by Wolfram|Alpha (SymPy could not parse).",
+            )
         return VerifierResult(
-            verified=True,
-            reason="Answer could not be parsed symbolically — accepted on trust (answer-first generation)."
+            verified=False,
+            reason="Answer could not be parsed symbolically and no external "
+                   "verifier confirmed it — regenerate.",
         )
     return VerifierResult(
         verified=True,

@@ -15,41 +15,20 @@ Correct equivalences verified:
 from __future__ import annotations
 
 import sympy as sp
-from sympy.parsing.sympy_parser import (
-    parse_expr,
-    standard_transformations,
-    implicit_multiplication_application,
-)
 
 from agents.schemas import CheckAnswerResult
+from latex_parse import latex_to_expr
 
-_TRANSFORMATIONS = standard_transformations + (implicit_multiplication_application,)
 _FLOAT_TOLERANCE = 1e-9
 
 
 def _parse(expr_str: str) -> sp.Expr | None:
-    """Parse a student or canonical answer string into a SymPy expression."""
-    cleaned = (
-        expr_str.strip()
-        .replace("^", "**")
-        .replace("\\cdot", "*")
-        .replace("\\times", "*")
-        .replace("\\ln", "log")
-        .replace("\\log", "log")
-        .replace("\\sin", "sin")
-        .replace("\\cos", "cos")
-        .replace("\\tan", "tan")
-        .replace("\\sqrt{", "sqrt(")
-        .replace("\\pi", "pi")
-        .replace("\\infty", "oo")
-    )
-    # Remove trailing '}' without matching '{' (leftover from LaTeX cleanup)
-    while "}" in cleaned and "{" not in cleaned:
-        cleaned = cleaned.replace("}", ")")
-    try:
-        return parse_expr(cleaned, transformations=_TRANSFORMATIONS)
-    except Exception:
-        return None
+    """Parse a student or canonical answer string into a SymPy expression.
+
+    Delegates to latex_parse.latex_to_expr, which handles MathLive LaTeX
+    (\\frac, \\sqrt, \\left/\\right, ^{...}) as well as plain math strings.
+    """
+    return latex_to_expr(expr_str)
 
 
 async def check(
@@ -87,7 +66,24 @@ async def check(
     c_expr = _parse_answer_value(canonical)
 
     if s_expr is None or c_expr is None:
-        # Cannot parse — fall back to string comparison
+        # SymPy can't parse one side — exactly the case where a wrong "could
+        # not parse → incorrect" hurts most. Ask Wolfram (bounded, optional;
+        # Phase 3 MCP routing) before giving up.
+        try:
+            from mcp_registry import wolfram_is_equal
+            verdict = await wolfram_is_equal(student, canonical)
+        except Exception:
+            verdict = None
+        if verdict is True:
+            return CheckAnswerResult(
+                correct=True, equivalent_form=True,
+                partial_credit_reason="Verified equivalent by Wolfram|Alpha.",
+            )
+        if verdict is False:
+            return CheckAnswerResult(
+                correct=False, equivalent_form=False,
+                partial_credit_reason="Wolfram|Alpha judged the answers not equivalent.",
+            )
         return CheckAnswerResult(
             correct=False,
             equivalent_form=False,

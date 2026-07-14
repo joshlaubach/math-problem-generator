@@ -22,8 +22,10 @@ refunds.
 """
 from __future__ import annotations
 
+import asyncio
 from dataclasses import dataclass, field
 from typing import Any, Awaitable, Callable, Optional
+from uuid import uuid4
 
 
 # ── Transport contract ───────────────────────────────────────────────────────
@@ -86,6 +88,128 @@ class SessionDeps:
     update_session: Callable[[Any], Any]
     looks_like_correction: Callable[[str], bool]
     user_tier: str = "free"
+    # Streaming voice pipeline (Phase 1.1): when set, the orchestrator emits
+    # agent_sentence messages through this callback as the reply generates,
+    # BEFORE the final agent_text. None (tests, legacy path) = exact old
+    # behavior — generate_tutor_response is called without the extra kwarg.
+    emit_partial: Optional[Callable[[dict], Awaitable[None]]] = None
+
+
+# ── Streaming helpers (Phase 1.1) ────────────────────────────────────────────
+
+def _new_turn_id() -> str:
+    return uuid4().hex[:12]
+
+
+def _make_sentence_emitter(deps: SessionDeps, turn_id: str, emitted: list[str]):
+    """Build the on_sentence callback handed to generate_tutor_response.
+
+    Returns None when the transport did not opt into streaming, so stubbed
+    generate_tutor_response fakes in tests are never called with the kwarg.
+    """
+    if deps.emit_partial is None:
+        return None
+
+    async def on_sentence(idx: int, text: str) -> None:
+        emitted.append(text)
+        await deps.emit_partial(
+            {"type": "agent_sentence", "turn_id": turn_id, "idx": idx, "text": text}
+        )
+
+    return on_sentence
+
+
+async def _generate_streaming(
+    session: Any,
+    deps: SessionDeps,
+    prompt: str,
+    turn_id: str,
+    *,
+    force_lesson: bool = False,
+) -> tuple[str, bool]:
+    """
+    Run deps.generate_tutor_response with sentence streaming when the
+    transport opted in. On cancellation (student barge-in) the partial reply
+    is committed to the conversation so context stays coherent, then the
+    CancelledError propagates to the transport.
+
+    Non-streamed replies (lesson mode, fallbacks) are re-emitted as
+    agent_sentence messages afterward so clients see one uniform protocol:
+    N agent_sentence messages, then the final agent_text.
+    """
+    import time as _time
+
+    emitted: list[str] = []
+    _t0 = _time.monotonic()
+    _first_sentence_at: list[float] = []
+
+    _inner = _make_sentence_emitter(deps, turn_id, emitted)
+    if _inner is None:
+        on_sentence = None
+    else:
+        async def on_sentence(idx: int, text: str) -> None:
+            if not _first_sentence_at:
+                _first_sentence_at.append(_time.monotonic())
+            await _inner(idx, text)
+
+    # Only pass the kwarg when the callee takes it — test stubs and patched
+    # fakes routinely have the plain (session, message, force_lesson) shape.
+    if on_sentence is not None:
+        import inspect
+
+        try:
+            params = inspect.signature(deps.generate_tutor_response).parameters
+            takes_kwarg = "on_sentence" in params or any(
+                p.kind is inspect.Parameter.VAR_KEYWORD for p in params.values()
+            )
+        except (TypeError, ValueError):
+            takes_kwarg = True
+        if not takes_kwarg:
+            on_sentence = None
+
+    try:
+        if on_sentence is not None:
+            reply, entered_lesson = await deps.generate_tutor_response(
+                session, prompt, force_lesson=force_lesson, on_sentence=on_sentence
+            )
+        else:
+            reply, entered_lesson = await deps.generate_tutor_response(
+                session, prompt, force_lesson=force_lesson
+            )
+    except asyncio.CancelledError:
+        partial = " ".join(emitted).strip()
+        if partial:
+            session.conversation.append({"role": "tutor", "content": partial})
+            deps.update_session(session)
+        raise
+
+    if deps.emit_partial is not None and not emitted and reply:
+        from sentences import split_sentences
+
+        for i, s in enumerate(split_sentences(reply)):
+            emitted.append(s)
+            await deps.emit_partial(
+                {"type": "agent_sentence", "turn_id": turn_id, "idx": i, "text": s}
+            )
+
+    if deps.emit_partial is not None:
+        try:
+            import metrics
+            total_ms = (_time.monotonic() - _t0) * 1000
+            metrics.record_stage("server.llm_total_ms", total_ms,
+                                 session_id=getattr(session, "session_id", None),
+                                 turn_id=turn_id)
+            if _first_sentence_at:
+                metrics.record_stage(
+                    "server.llm_first_sentence_ms",
+                    (_first_sentence_at[0] - _t0) * 1000,
+                    session_id=getattr(session, "session_id", None),
+                    turn_id=turn_id,
+                )
+        except Exception:
+            pass
+
+    return reply, entered_lesson
 
 
 # ── Dispatch ─────────────────────────────────────────────────────────────────
@@ -110,6 +234,21 @@ def _concept_key(session) -> str:
     if problem and getattr(problem, "topic_id", None):
         return problem.topic_id
     return getattr(session, "topic_id", "") or ""
+
+
+async def _emit_scene(res: HandlerResult, scene: list, turn_id: str) -> None:
+    """Route a geometry scene: GeoGebra (Phase 3 MCP, complex scenes, when
+    configured+healthy) → wb_image; otherwise the local Mafs wb_write path.
+    GeoGebra absent or failing must never break the flow."""
+    try:
+        from mcp_registry import maybe_render_scene
+        rendered = await maybe_render_scene(scene)
+    except Exception:
+        rendered = None
+    if rendered is not None:
+        res.send("wb_image", turn_id=turn_id, sentence_idx=0, **rendered)
+    else:
+        res.send("wb_write", scene=scene, turn_id=turn_id, sentence_idx=0)
 
 
 def _get_intro_scene(topic_id: str) -> Optional[list]:
@@ -310,7 +449,8 @@ async def _student_text(session, user, raw, deps) -> HandlerResult:
                    event_type="student_question", payload={"text": text})
     session.conversation.append({"role": "student", "content": text})
 
-    reply, entered_lesson = await deps.generate_tutor_response(session, text)
+    turn_id = _new_turn_id()
+    reply, entered_lesson = await _generate_streaming(session, deps, text, turn_id)
     session.conversation.append({"role": "tutor", "content": reply})
     session.consecutive_no_progress += 1  # reset on correct answer
 
@@ -336,9 +476,9 @@ async def _student_text(session, user, raw, deps) -> HandlerResult:
         if counts.get(key, 0) == 0:
             scene = _get_intro_scene(key)
             if scene:
-                res.send("wb_write", scene=scene)
+                await _emit_scene(res, scene, turn_id)
         res.send("lesson_start", topic=session.class_name)
-    res.send("agent_text", text=reply)
+    res.send("agent_text", text=reply, turn_id=turn_id)
     if entered_lesson:
         res.send("lesson_end")
         cascade = await _maybe_lesson_cascade(session, deps)
@@ -378,14 +518,17 @@ async def _walkthrough_step(session, user, raw, deps) -> HandlerResult:
     )
     walkthrough_prompt = f"{context} Student: {text}"
 
+    turn_id = _new_turn_id()
     try:
-        reply, _ = await deps.generate_tutor_response(session, walkthrough_prompt)
+        reply, _ = await _generate_streaming(session, deps, walkthrough_prompt, turn_id)
+    except asyncio.CancelledError:
+        raise
     except Exception:
         reply = "Okay, keep going — what did you do next?"
 
     session.conversation.append({"role": "tutor", "content": reply})
     deps.update_session(session)
-    return res.send("agent_text", text=reply)
+    return res.send("agent_text", text=reply, turn_id=turn_id)
 
 
 async def _answer_submit(session, user, raw, deps) -> HandlerResult:
@@ -420,10 +563,19 @@ async def _answer_submit(session, user, raw, deps) -> HandlerResult:
                    payload={"answer": student_answer, "correct": result.correct,
                             "severity": severity})
 
-    res.send("answer_result", correct=result.correct,
-             equivalent_form=result.equivalent_form,
-             partial_credit_reason=result.partial_credit_reason,
-             severity=severity)
+    async def _out(msg_type: str, **payload) -> None:
+        """Flush immediately on streaming transports so answer_result and
+        board routing reach the client BEFORE the followup sentences; queue
+        as before when the transport didn't opt into streaming."""
+        if deps.emit_partial is not None:
+            await deps.emit_partial({"type": msg_type, **payload})
+        else:
+            res.send(msg_type, **payload)
+
+    await _out("answer_result", correct=result.correct,
+               equivalent_form=result.equivalent_form,
+               partial_credit_reason=result.partial_credit_reason,
+               severity=severity)
 
     # In-session adaptive difficulty: update streaks and maybe prefetch the
     # next problem at a new difficulty in the background
@@ -470,12 +622,12 @@ async def _answer_submit(session, user, raw, deps) -> HandlerResult:
         if severity == "careless":
             pass  # no board change
         elif severity == "method":
-            res.send("wb_mark_incorrect")
-            res.send("wb_new_section", label="Let's try the right method")
+            await _out("wb_mark_incorrect")
+            await _out("wb_new_section", label="Let's try the right method")
         elif severity == "fundamental":
-            res.send("wb_clear", snapshot=True)
+            await _out("wb_clear", snapshot=True)
         else:
-            res.send("wb_mark_incorrect")
+            await _out("wb_mark_incorrect")
 
         # ── Escalation gating ─────────────────────────────────────────────────
         # careless slips don't count toward the lesson-mode escalation threshold.
@@ -518,8 +670,13 @@ async def _answer_submit(session, user, raw, deps) -> HandlerResult:
             + (f" [Context: {context_hint}]" if context_hint else "")
         )
 
+        turn_id = _new_turn_id()
         try:
-            followup, _ = await deps.generate_tutor_response(session, followup_prompt)
+            followup, _ = await _generate_streaming(
+                session, deps, followup_prompt, turn_id
+            )
+        except asyncio.CancelledError:
+            raise
         except Exception:
             followup = (
                 "Let me see — walk me through what you did, step by step."
@@ -528,7 +685,7 @@ async def _answer_submit(session, user, raw, deps) -> HandlerResult:
             )
         session.conversation.append({"role": "tutor", "content": followup})
         deps.update_session(session)
-        res.send("agent_text", text=followup)
+        res.send("agent_text", text=followup, turn_id=turn_id)
     return res
 
 
@@ -567,8 +724,9 @@ async def _hint_request(session, user, raw, deps) -> HandlerResult:
 async def _walk_me_through(session, user, raw, deps) -> HandlerResult:
     res = HandlerResult()
     session.conversation.append({"role": "student", "content": "Walk me through this."})
-    reply, _ = await deps.generate_tutor_response(
-        session, "Walk me through this.", force_lesson=True
+    turn_id = _new_turn_id()
+    reply, _ = await _generate_streaming(
+        session, deps, "Walk me through this.", turn_id, force_lesson=True
     )
     session.conversation.append({"role": "tutor", "content": reply})
     deps.update_session(session)
@@ -578,9 +736,9 @@ async def _walk_me_through(session, user, raw, deps) -> HandlerResult:
     if counts.get(key, 0) == 0:
         scene = _get_intro_scene(key)
         if scene:
-            res.send("wb_write", scene=scene)
+            await _emit_scene(res, scene, turn_id)
     res.send("lesson_start", topic=session.class_name)
-    res.send("agent_text", text=reply)
+    res.send("agent_text", text=reply, turn_id=turn_id)
     res.send("lesson_end")
     cascade = await _maybe_lesson_cascade(session, deps)
     if cascade:
@@ -693,6 +851,20 @@ async def _rag_search(session, user, raw, deps) -> HandlerResult:
     return HandlerResult().send("agent_text", text="Problem library search coming soon.")
 
 
+async def _client_metrics(session, user, raw, deps) -> HandlerResult:
+    """Browser-side latency marks for a finished voice turn (Phase 1.6)."""
+    try:
+        import metrics
+        metrics.record_client_marks(
+            session_id=session.session_id,
+            turn_id=str(raw.get("turn_id", ""))[:32],
+            marks=raw.get("marks") or {},
+        )
+    except Exception:
+        pass
+    return HandlerResult()
+
+
 async def _session_end(session, user, raw, deps) -> HandlerResult:
     return HandlerResult(end_session="student_end")
 
@@ -709,5 +881,6 @@ _HANDLERS: dict[str, Callable[..., Awaitable[HandlerResult]]] = {
     "student_canvas_snapshot": _student_canvas_snapshot,
     "image_drop": _image_drop,
     "rag_search": _rag_search,
+    "client_metrics": _client_metrics,
     "session_end": _session_end,
 }

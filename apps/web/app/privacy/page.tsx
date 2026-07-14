@@ -22,6 +22,9 @@ We collect data about your interactions with the Service, including:
 - Calculator usage events
 - Tutor session transcripts (for paid tiers)
 
+### 1.2a Voice Data
+If you enable voice mode in a tutor session, your microphone audio is streamed in real time to our transcription provider (Deepgram) to convert your speech to text. **Gradient does not store your voice recordings**, and your voice is never used to identify you, to train models, or for advertising. The resulting text transcript is handled like any other tutor-session message. You can always use the tutor without voice by typing instead.
+
 This data is used to power adaptive difficulty, progress tracking, and platform improvement.
 
 ### 1.3 Device and Technical Data
@@ -65,7 +68,10 @@ We share data with vendors who help us operate the Service, including:
 | Clerk, Inc. | Authentication and identity management | clerk.com/privacy |
 | Stripe, Inc. | Payment processing | stripe.com/privacy |
 | Anthropic, PBC | AI problem and content generation | anthropic.com/privacy |
-| Deepgram, Inc. | Voice-to-text transcription (voice mode only) | deepgram.com/privacy |
+| Deepgram, Inc. | Voice transcription (speech-to-text) during tutor sessions. Your audio is streamed for transcription in real time; Gradient does not store your voice recordings. | deepgram.com/privacy |
+| ElevenLabs, Inc. | Tutor speech synthesis (text-to-speech). Only the tutor's reply text is sent; your voice is never sent to ElevenLabs. | elevenlabs.io/privacy |
+| Resend, Inc. | Transactional email delivery (session reports, account notices) | resend.com/legal/privacy-policy |
+| Functional Software, Inc. (Sentry) | Error monitoring. Configured to exclude personal information and student answers from error reports. | sentry.io/privacy |
 
 These providers are contractually prohibited from using your data for purposes other than providing services to us.
 
