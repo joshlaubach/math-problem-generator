@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_016",
+  "topic_name": "Operations with Complex Numbers",
+  "generated_at": "2026-05-12T23:21:15.184310+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to add, subtract, and multiply polynomials like $(3 + 2x) + (1 - 5x)$ or $(2 + x)(3 - x)$. Complex numbers like $3 + 2i$ look almost identical \u2014 but there's one twist: $i^2 = -1$, which means squaring the imaginary unit doesn't just give you $i^2$, it collapses into a real number. So what actually happens when you multiply $(2 + 3i)(1 - 4i)$, and how do you simplify the result into the standard form $a + bi$?",
+  "concept": "Complex numbers extend the real numbers by introducing $i = \\sqrt{-1}$. A complex number has the standard form $a + bi$, where $a$ and $b$ are real numbers. You add, subtract, and multiply them just like binomials \u2014 combining like terms for addition/subtraction, and using distribution (FOIL) for multiplication \u2014 with the single extra rule that whenever $i^2$ appears, you replace it with $-1$.",
+  "anatomy": "Every complex number $a + bi$ has two parts: the real part $a$, which is an ordinary real number, and the imaginary part $b$, which is the coefficient of $i$ (note: $b$ itself is real, even though $bi$ is imaginary). The imaginary unit $i$ is defined by $i^2 = -1$ and is the structural engine of all simplification. When adding or subtracting, you treat real parts and imaginary parts as separate like-terms. When multiplying, the key action is applying the rule $i^2 = -1$ to eliminate any squared imaginary unit and fold the result back into $a + bi$ form.",
+  "worked_example": [
+    {
+      "expression_latex": "(3 + 2i) + (5 - 7i)",
+      "description_latex": "We start with addition, which is the most straightforward operation: simply group the real parts together and the imaginary parts together, just as you would collect like terms with a variable. There is no special rule needed here beyond recognizing that $3$ and $5$ are real parts, while $2i$ and $-7i$ are imaginary parts.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(3 + 5) + (2 - 7)i = 8 - 5i",
+      "description_latex": "Adding the real parts gives $3 + 5 = 8$, and adding the imaginary coefficients gives $2 + (-7) = -5$, so the result is $8 - 5i$. This is already in standard form $a + bi$ with $a = 8$ and $b = -5$, so we are done.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(2 + 3i)(1 - 4i)",
+      "description_latex": "Now we tackle multiplication, which requires distributing each term of the first factor across the second \u2014 exactly like FOIL for binomials. We will get four products: $2 \\cdot 1$, $2 \\cdot (-4i)$, $3i \\cdot 1$, and $3i \\cdot (-4i)$, and the last term will produce $i^2$, which is where the magic happens.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2(1) + 2(-4i) + 3i(1) + 3i(-4i) = 2 - 8i + 3i - 12i^2",
+      "description_latex": "After distributing, we have four terms. The first three are straightforward, but notice the last term is $-12i^2$. Because $i^2 = -1$, this term does not stay as $-12i^2$ \u2014 we must substitute $i^2 = -1$ immediately to convert it into a real number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2 - 8i + 3i - 12(-1) = 2 + 12 + (-8 + 3)i = 14 - 5i",
+      "description_latex": "Replacing $i^2$ with $-1$ turns $-12i^2$ into $+12$, which we add to the real part: $2 + 12 = 14$. Combining the imaginary parts gives $-8i + 3i = -5i$. The final answer in standard form is $14 - 5i$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "(4 - i)(3 + 2i)",
+      "description_latex": "We want to multiply these two complex numbers. Just like multiplying two binomials, we will use distribution (FOIL) to generate four products before simplifying.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4(3) + 4(2i) + (-i)(3) + (-i)(2i) = 12 + 8i - 3i - 2i^2",
+      "description_latex": "Here is the fully distributed result. Notice the term $-2i^2$ at the end \u2014 your job now is to substitute $i^2 = -1$, collect the real parts, collect the imaginary parts, and write the answer in standard form $a + bi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Replace $i^2$ with $-1$, then combine the real parts and the imaginary parts separately to write the final answer in the form $a + bi$. What do you get?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "(6 + 4i) + (2 - 9i)",
+      "answer_latex": "8 - 5i"
+    },
+    {
+      "prompt_latex": "(5 + 3i) - (2 - 7i)",
+      "answer_latex": "3 + 10i"
+    },
+    {
+      "prompt_latex": "(1 + 2i)(3 - i)",
+      "answer_latex": "5 + 5i"
+    },
+    {
+      "prompt_latex": "(2 - 3i)^2",
+      "answer_latex": "-5 - 12i"
+    },
+    {
+      "prompt_latex": "An electrical engineer models two impedances as $Z_1 = 4 + 3i$ ohms and $Z_2 = 1 - 2i$ ohms. Find the total impedance $Z_1 + Z_2$ and the product $Z_1 \\cdot Z_2$, expressing each in standard form.",
+      "answer_latex": "Z_1 + Z_2 = 5 + i; \\quad Z_1 \\cdot Z_2 = 10 - 5i"
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting to replace $i^2$ with $-1$ after multiplying: students leave the answer as something like $5 + 3i - 2i^2$ instead of substituting $i^2 = -1$ to get $7 + 3i$. Always scan your result for any $i^2$ term and replace it immediately.",
+    "Treating the imaginary parts as if they can be combined with real parts \u2014 for example, writing $(3 + 2i) + (4 + i) = 9i$ by adding all four numbers together. Remember that $3$ and $4$ are real (no $i$), so they can only combine with each other, never with $2i$ or $i$.",
+    "Sign errors when subtracting complex numbers: in $(5 + 3i) - (2 - 7i)$, students often forget to distribute the negative sign to the $-7i$, writing $5 + 3i - 2 - 7i$ instead of the correct $5 + 3i - 2 + 7i$. Always distribute the subtraction to both the real and imaginary parts of the second complex number."
+  ],
+  "untested_variants": [
+    "Division of complex numbers using the complex conjugate, for example simplifying $\\dfrac{3 + 2i}{1 - i}$ by multiplying numerator and denominator by the conjugate $1 + i$.",
+    "Higher powers of $i$ such as $i^3$, $i^4$, $i^{17}$, or $i^{100}$, which require recognizing the cyclic pattern $i, -1, -i, 1$ that repeats every four powers.",
+    "Multiplying three or more complex numbers together, such as $(1 + i)(2 - i)(3 + 2i)$, which requires two separate multiplication steps and careful tracking of intermediate results.",
+    "Problems where the answer is a purely real or purely imaginary number, such as $(3 + 4i)(3 - 4i) = 25$, testing whether students recognize conjugate pairs and their special product."
+  ]
+}

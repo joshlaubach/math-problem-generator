@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_049",
+  "topic_name": "Fourier Series (H)",
+  "generated_at": "2026-05-13T20:39:45.162227+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve ODEs and have seen how trigonometric functions like $\\sin(nx)$ and $\\cos(nx)$ form a natural family of periodic functions. But what if you need to represent an arbitrary, possibly discontinuous, periodic function \u2014 say, a square wave of voltage driving an electrical circuit \u2014 as a sum of sines and cosines? Your current toolkit lets you work with polynomials and exponentials, but it gives you no way to decompose a general periodic signal into its frequency components. How can we write any reasonable periodic function as an infinite trigonometric series?",
+  "concept": "A Fourier series represents a periodic function as an infinite sum of sines and cosines of increasing frequency. Formally, if $f(x)$ has period $2L$, its Fourier series is $f(x) = \\frac{a_0}{2} + \\sum_{n=1}^{\\infty}\\left[a_n \\cos\\!\\left(\\frac{n\\pi x}{L}\\right) + b_n \\sin\\!\\left(\\frac{n\\pi x}{L}\\right)\\right]$, where the coefficients $a_n$ and $b_n$ are computed by exploiting the orthogonality of the trig functions over one full period.",
+  "anatomy": "The Fourier series has several distinct structural parts. The constant term $\\frac{a_0}{2}$ is the average (DC) value of $f$ over one period and uses the cosine coefficient formula evaluated at $n=0$. The cosine coefficients are $a_n = \\frac{1}{L}\\int_{-L}^{L} f(x)\\cos\\!\\left(\\frac{n\\pi x}{L}\\right)dx$ for $n = 0, 1, 2, \\ldots$, capturing the even (symmetric) content of $f$. The sine coefficients are $b_n = \\frac{1}{L}\\int_{-L}^{L} f(x)\\sin\\!\\left(\\frac{n\\pi x}{L}\\right)dx$ for $n = 1, 2, 3, \\ldots$, capturing the odd (antisymmetric) content. The integer $n$ is the harmonic number, and $L$ is the half-period that sets the fundamental frequency $\\frac{\\pi}{L}$.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = \\begin{cases} 0, & -\\pi < x < 0 \\\\ 1, & 0 \\leq x < \\pi \\end{cases}, \\quad \\text{period } 2\\pi",
+      "description_latex": "We want to find the Fourier series of this step function on $[-\\pi, \\pi]$. Since the period is $2\\pi$, we identify $L = \\pi$, which simplifies the coefficient formulas to integrals over $[-\\pi, \\pi]$ with factors $\\frac{1}{\\pi}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_0 = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(x)\\,dx = \\frac{1}{\\pi}\\int_{0}^{\\pi} 1\\,dx = \\frac{1}{\\pi}\\cdot\\pi = 1",
+      "description_latex": "We compute $a_0$ first because it determines the average value of $f$. Since $f(x)=0$ on $(-\\pi,0)$, only the integral from $0$ to $\\pi$ contributes, giving $a_0 = 1$, so the constant term in the series is $\\frac{a_0}{2} = \\frac{1}{2}$, which is indeed the average of $0$ and $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_n = \\frac{1}{\\pi}\\int_{0}^{\\pi} \\cos(nx)\\,dx = \\frac{1}{\\pi}\\left[\\frac{\\sin(nx)}{n}\\right]_0^{\\pi} = \\frac{\\sin(n\\pi)}{n\\pi} = 0",
+      "description_latex": "For the cosine coefficients we integrate only over $[0,\\pi]$ where $f=1$. Because $\\sin(n\\pi)=0$ for every integer $n \\geq 1$, all cosine coefficients vanish \u2014 this makes sense intuitively because the function has no even symmetry about $x=0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_n = \\frac{1}{\\pi}\\int_{0}^{\\pi} \\sin(nx)\\,dx = \\frac{1}{\\pi}\\left[-\\frac{\\cos(nx)}{n}\\right]_0^{\\pi} = \\frac{1-\\cos(n\\pi)}{n\\pi} = \\frac{1-(-1)^n}{n\\pi}",
+      "description_latex": "The sine coefficients are nonzero only when $n$ is odd, since $1-(-1)^n = 2$ for odd $n$ and $0$ for even $n$. This means only odd harmonics appear in the series, which is characteristic of functions that jump between two values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x) = \\frac{1}{2} + \\frac{2}{\\pi}\\sum_{k=0}^{\\infty} \\frac{\\sin\\bigl((2k+1)x\\bigr)}{2k+1} = \\frac{1}{2} + \\frac{2}{\\pi}\\left(\\sin x + \\frac{\\sin 3x}{3} + \\frac{\\sin 5x}{5} + \\cdots\\right)",
+      "description_latex": "Substituting $n = 2k+1$ to pick out only odd terms, we arrive at the final Fourier series. Notice that the amplitudes $\\frac{2}{n\\pi}$ decrease as $n$ grows, so higher harmonics contribute less and less, and the series converges to $f(x)$ at all points where $f$ is continuous.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = x, \\quad -\\pi < x < \\pi, \\quad \\text{period } 2\\pi",
+      "description_latex": "We want the Fourier series of $f(x)=x$ on $[-\\pi,\\pi]$. First, notice that $f(x)=x$ is an odd function \u2014 meaning $f(-x)=-f(x)$ \u2014 so the product $f(x)\\cos(nx)$ is odd, which tells us immediately that all cosine coefficients $a_n = 0$ (including $a_0$) without any integration.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} x\\sin(nx)\\,dx = \\frac{2}{\\pi}\\int_{0}^{\\pi} x\\sin(nx)\\,dx",
+      "description_latex": "Since $x\\sin(nx)$ is an even function, we can simplify to twice the integral over $[0,\\pi]$. Now apply integration by parts with $u=x$ and $dv=\\sin(nx)\\,dx$ to evaluate this integral.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Complete the integration by parts to find $b_n$. You should get $b_n = \\frac{2}{\\pi}\\left[\\text{boundary term} + \\text{remaining integral}\\right]$; evaluate at the limits $0$ and $\\pi$ and simplify using $\\cos(n\\pi)=(-1)^n$ to obtain a closed-form expression for $b_n$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f(x) = 2\\sum_{n=1}^{\\infty} \\frac{(-1)^{n+1}}{n}\\sin(nx) = 2\\left(\\sin x - \\frac{\\sin 2x}{2} + \\frac{\\sin 3x}{3} - \\cdots\\right)",
+      "description_latex": "The completed series contains all harmonics with alternating signs, because every $b_n$ is nonzero. This is the classical Fourier sine series for $f(x)=x$, and at $x=\\frac{\\pi}{2}$ it yields the famous Leibniz formula $\\frac{\\pi}{4} = 1 - \\frac{1}{3} + \\frac{1}{5} - \\cdots$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the values of $a_0$, $a_n$ ($n\\geq1$), and $b_n$ for the function $f(x) = 3$, $-\\pi < x < \\pi$ (period $2\\pi$), without performing any integration.",
+      "answer_latex": "a_0 = 6,\\quad a_n = 0 \\text{ for } n\\geq1,\\quad b_n = 0 \\text{ for all } n\\geq1"
+    },
+    {
+      "prompt_latex": "Find the Fourier series of $f(x) = \\begin{cases} -1, & -\\pi < x < 0 \\\\ 1, & 0 \\leq x < \\pi \\end{cases}$ (period $2\\pi$).",
+      "answer_latex": "f(x) = \\frac{4}{\\pi}\\sum_{k=0}^{\\infty}\\frac{\\sin\\bigl((2k+1)x\\bigr)}{2k+1} = \\frac{4}{\\pi}\\!\\left(\\sin x + \\frac{\\sin 3x}{3} + \\frac{\\sin 5x}{5}+\\cdots\\right)"
+    },
+    {
+      "prompt_latex": "Find the Fourier series of $f(x) = x^2$ on $-\\pi < x < \\pi$ (period $2\\pi$). Use the fact that $\\int_{-\\pi}^{\\pi} x^2 \\cos(nx)\\,dx = \\frac{4\\pi(-1)^n}{n^2}$ for $n\\geq1$.",
+      "answer_latex": "f(x) = \\frac{\\pi^2}{3} + 4\\sum_{n=1}^{\\infty}\\frac{(-1)^n}{n^2}\\cos(nx)"
+    },
+    {
+      "prompt_latex": "The Fourier series of $f(x)=x^2$ on $(-\\pi,\\pi)$ is $\\frac{\\pi^2}{3}+4\\sum_{n=1}^{\\infty}\\frac{(-1)^n}{n^2}\\cos(nx)$. By evaluating this series at a suitable value of $x$, prove that $\\sum_{n=1}^{\\infty}\\frac{1}{n^2} = \\frac{\\pi^2}{6}$.",
+      "answer_latex": "\\text{Set } x=\\pi\\text{: } \\pi^2 = \\frac{\\pi^2}{3}+4\\sum_{n=1}^{\\infty}\\frac{1}{n^2},\\text{ so } \\sum_{n=1}^{\\infty}\\frac{1}{n^2}=\\frac{\\pi^2}{6}"
+    },
+    {
+      "prompt_latex": "A temperature distribution along a rod of length $2$ is modelled by $T(x) = |x|$ for $-1 < x < 1$ (period $2$). Find the Fourier series of $T$.",
+      "answer_latex": "T(x) = \\frac{1}{2} - \\frac{4}{\\pi^2}\\sum_{k=0}^{\\infty}\\frac{\\cos\\bigl((2k+1)\\pi x\\bigr)}{(2k+1)^2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write the constant term as $a_0$ instead of $\\frac{a_0}{2}$ in the series. The formula $a_n = \\frac{1}{L}\\int_{-L}^{L}f(x)\\cos\\!\\left(\\frac{n\\pi x}{L}\\right)dx$ is the same for $n=0$ and $n\\geq1$, but the constant term in the series is $\\frac{a_0}{2}$, not $a_0$ \u2014 remember to include the factor of $\\frac{1}{2}$.",
+    "When $f$ is odd or even, students sometimes forget to use symmetry to set coefficients to zero and instead laboriously compute integrals that evaluate to zero anyway; worse, they sometimes get sign errors in those integrals. Recognise that if $f$ is odd then $a_n=0$ for all $n$, and if $f$ is even then $b_n=0$ for all $n$ \u2014 checking symmetry first saves time and prevents errors.",
+    "Students routinely drop the factor $\\frac{1}{L}$ (or $\\frac{2}{L}$ when using the half-range shortcut for even/odd functions) in the coefficient formulas, producing coefficients that are off by a constant factor. Always write out the full formula $a_n = \\frac{1}{L}\\int_{-L}^{L}\\ldots$ before evaluating, and double-check the prefactor matches the period $2L$ of your function."
+  ],
+  "untested_variants": [
+    "Half-range expansions: finding a Fourier sine series or cosine series only on $[0, L]$ by extending $f$ as an odd or even function respectively \u2014 none of the practice problems require this explicit extension procedure.",
+    "Complex (exponential) form of the Fourier series: writing $f(x) = \\sum_{n=-\\infty}^{\\infty} c_n e^{in\\pi x/L}$ and computing complex coefficients $c_n$ via contour-style integration.",
+    "Parseval's theorem: using the identity $\\frac{1}{L}\\int_{-L}^{L}|f(x)|^2\\,dx = \\frac{a_0^2}{2}+\\sum_{n=1}^{\\infty}(a_n^2+b_n^2)$ to sum series involving squares of coefficients.",
+    "Differentiation and integration of Fourier series term by term: verifying conditions under which these operations are valid and applying them to solve boundary-value problems."
+  ]
+}

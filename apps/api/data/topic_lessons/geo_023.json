@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_023",
+  "topic_name": "Rotations",
+  "generated_at": "2026-05-12T22:59:10.395168+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to slide a shape (translation) and flip it over a line (reflection). Now imagine pinning a pushpin through a point on a coordinate grid and spinning the shape around that pin \u2014 the shape doesn't change size or orientation relative to the pin, but every point traces an arc to a new location. If triangle $ABC$ has vertex $A$ at $(3, 0)$ and you spin the whole triangle $90\u00b0$ counterclockwise about the origin, where does $A$ land?",
+  "concept": "A rotation is a rigid transformation that turns every point of a figure a fixed number of degrees around a fixed point called the center of rotation, preserving distances and angle measures. Formally, a rotation by angle $\\theta$ about center $P$ maps each point $Q$ to a point $Q'$ such that $PQ' = PQ$ and $m\\angle QPQ' = \\theta$, with the direction determined by whether $\\theta$ is positive (counterclockwise) or negative (clockwise).",
+  "anatomy": "Every rotation has three defining parts: the center of rotation, which is the fixed point everything spins around (often the origin $(0,0)$ but not always); the angle of rotation $\\theta$, measured in degrees, which tells you how far to turn; and the direction, where a positive angle means counterclockwise and a negative angle means clockwise. The pre-image point $(x, y)$ and image point $(x', y')$ are always the same distance from the center, and the segment from the center to $(x, y)$ forms an angle of exactly $\\theta$ with the segment from the center to $(x', y')$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Rotate } A(3, 0) \\text{ by } 90\u00b0 \\text{ counterclockwise about the origin}",
+      "description_latex": "We are setting up a rotation using the standard $90\u00b0$ counterclockwise rule about the origin. Any time the center is the origin and the angle is $90\u00b0$ counterclockwise, there is a coordinate shortcut we can apply directly, which saves us from doing full trigonometry.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x, y) \\xrightarrow{R_{90\u00b0}} (-y,\\; x)",
+      "description_latex": "The rule for a $90\u00b0$ counterclockwise rotation about the origin is $(x, y) \\to (-y, x)$. This rule comes from the rotation matrix evaluated at $\\theta = 90\u00b0$, and it's worth memorizing because it appears constantly in geometry problems.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A(3,\\, 0) \\to (-0,\\; 3) = (0,\\; 3)",
+      "description_latex": "We substitute $x = 3$ and $y = 0$ into the rule: the new $x$-coordinate is $-y = -0 = 0$ and the new $y$-coordinate is $x = 3$. So $A$ maps to $(0, 3)$, which sits on the positive $y$-axis \u2014 exactly a quarter-turn counterclockwise from where $A$ started on the positive $x$-axis, which makes geometric sense.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "PA = \\sqrt{3^2 + 0^2} = 3, \\quad PA' = \\sqrt{0^2 + 3^2} = 3",
+      "description_latex": "We verify our answer by checking that the distance from the origin to $A$ equals the distance from the origin to $A'$, because rotations are rigid and preserve distances. Both distances equal $3$, confirming the rotation is correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Rotate } B(\\text{-}2,\\; 5) \\text{ by } 180\u00b0 \\text{ about the origin}",
+      "description_latex": "We need the coordinate rule for a $180\u00b0$ rotation about the origin. A $180\u00b0$ turn in either direction takes a point to the exact opposite side of the origin, giving the rule $(x, y) \\to (-x, -y)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x, y) \\xrightarrow{R_{180\u00b0}} (-x,\\; -y)",
+      "description_latex": "Now apply this rule to the specific coordinates of $B(-2, 5)$. What are the new coordinates $B'$? Negate both the $x$- and $y$-values and write the image point.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "B' = (2,\\; -5)",
+      "description_latex": "Negating $x = -2$ gives $2$, and negating $y = 5$ gives $-5$, so $B' = (2, -5)$. We can do a quick sanity check: $B'$ should be on the opposite side of the origin from $B$, and indeed $(2, -5)$ is in the fourth quadrant while $(-2, 5)$ is in the second quadrant \u2014 perfectly opposite.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Point $P(0, 4)$ is rotated $90\u00b0$ counterclockwise about the origin. What are the coordinates of $P'$?",
+      "answer_latex": "P' = (-4,\\; 0)"
+    },
+    {
+      "prompt_latex": "Point $Q(-3, 7)$ is rotated $180\u00b0$ about the origin. What are the coordinates of $Q'$?",
+      "answer_latex": "Q' = (3,\\; -7)"
+    },
+    {
+      "prompt_latex": "Triangle $RST$ has vertices $R(1, 2)$, $S(4, 2)$, $T(4, 5)$. Find the image vertices after a $270\u00b0$ counterclockwise rotation (equivalently $90\u00b0$ clockwise) about the origin, using the rule $(x, y) \\to (y, -x)$.",
+      "answer_latex": "R'(2,\\; -1),\\; S'(2,\\; -4),\\; T'(5,\\; -4)"
+    },
+    {
+      "prompt_latex": "Point $A(2, -3)$ is first reflected over the $x$-axis and then rotated $90\u00b0$ counterclockwise about the origin. What are the final coordinates?",
+      "answer_latex": "(-3,\\; -2)"
+    },
+    {
+      "prompt_latex": "A clock hand extends from the center at $(0,0)$ to the tip at $(0, 5)$ (pointing straight up at 12 o'clock). The hand rotates clockwise $120\u00b0$ to show 4 o'clock. Using the $120\u00b0$ clockwise rotation rule $(x,y)\\to\\left(\\tfrac{1}{2}x+\\tfrac{\\sqrt{3}}{2}y,\\;-\\tfrac{\\sqrt{3}}{2}x+\\tfrac{1}{2}y\\right)$, find the new tip coordinates. Express your answer in exact form.",
+      "answer_latex": "\\left(\\dfrac{5\\sqrt{3}}{2},\\; -\\dfrac{5}{2}\\right)"
+    }
+  ],
+  "common_mistakes": [
+    "Students mix up the direction of rotation and apply the $90\u00b0$ clockwise rule $(x,y)\\to(y,-x)$ when the problem says counterclockwise, or vice versa \u2014 always re-read the problem to confirm direction, and remember that counterclockwise is the positive (standard) direction.",
+    "When rotating $90\u00b0$ counterclockwise, students write $(y, x)$ instead of $(-y, x)$, forgetting to negate the first coordinate \u2014 a reliable fix is to write out the full rule $(x,y)\\to(-y,x)$ before substituting, rather than trying to remember it mid-calculation.",
+    "Students assume the center of rotation is always the origin, but problems can specify any center point $C(a,b)$; when the center is not the origin, you must first translate the figure so the center moves to the origin, apply the rotation rule, then translate back \u2014 skipping either translation step gives a completely wrong image."
+  ],
+  "untested_variants": [
+    "Rotations about a center point other than the origin (e.g., rotate point $A$ by $90\u00b0$ about the point $(2, 3)$, requiring a translate-rotate-translate approach).",
+    "Identifying the angle and direction of rotation given a pre-image and image (reverse rotation problems where students must determine $\\theta$ from coordinates).",
+    "Rotations of figures on the coordinate plane combined with identifying properties of the image such as the equation of a side or the area, not just the vertex coordinates.",
+    "Rotational symmetry of polygons \u2014 determining the order of rotational symmetry and the minimum angle of rotation that maps a regular polygon onto itself."
+  ]
+}

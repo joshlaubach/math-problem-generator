@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_041",
+  "topic_name": "The Pigeonhole Principle",
+  "generated_at": "2026-05-13T20:15:07.374473+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to count objects using combinations and permutations. But sometimes the most powerful counting argument isn't about an exact number \u2014 it's about inevitability. Suppose you have 13 socks scattered in a dark drawer, colored in 12 different colors. Can you always guarantee that two socks share a color, no matter how they're arranged? And why does a room of 367 people always contain at least two people who share a birthday?",
+  "concept": "The Pigeonhole Principle says that if you distribute more objects than there are containers, at least one container must hold more than one object. Formally: if $n$ objects are placed into $k$ containers and $n > k$, then at least one container contains at least $\\lceil n/k \\rceil$ objects. In the simplest case, if $n > k$, at least one container holds $\\geq 2$ objects.",
+  "anatomy": "The principle has three key components. The 'pigeons' are the objects being distributed \u2014 these are the $n$ items you are placing. The 'pigeonholes' are the containers or categories receiving the objects \u2014 these are the $k$ slots available. The 'guarantee threshold' is the minimum number of objects forced into one container, computed as $\\lceil n/k \\rceil$, where the ceiling function ensures we round up to the nearest integer. Identifying which real-world objects map to pigeons and which categories map to pigeonholes is the central skill in applying this principle.",
+  "worked_example": [
+    {
+      "expression_latex": "n = 13 \\text{ socks}, \\quad k = 12 \\text{ colors}",
+      "description_latex": "We start by identifying our pigeons and pigeonholes. Here the 13 socks are the pigeons and the 12 colors are the pigeonholes. Before doing any calculation, labeling these explicitly prevents confusion later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = 13 > k = 12",
+      "description_latex": "We check the basic pigeonhole condition: since we have more socks than colors, $n > k$, the principle applies and at least one color must be shared by two or more socks. This single inequality is the entire logical engine of the argument.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Guaranteed minimum in one hole} = \\left\\lceil \\frac{n}{k} \\right\\rceil = \\left\\lceil \\frac{13}{12} \\right\\rceil = \\lceil 1.08\\overline{3} \\rceil = 2",
+      "description_latex": "Using the generalized form, we compute $\\lceil 13/12 \\rceil = 2$, which tells us that at least one color must appear on at least 2 socks \u2014 this is the strongest guarantee the principle can give us here. Notice we are not saying which color is repeated, only that repetition is unavoidable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\text{ At least 2 socks share a color, regardless of arrangement.}",
+      "description_latex": "We state the conclusion clearly. The phrase 'regardless of arrangement' is crucial \u2014 the Pigeonhole Principle gives a worst-case guarantee that holds for every possible distribution, not just some of them. This is what makes it a proof, not just an observation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "n = 100 \\text{ integers chosen from } \\{1, 2, \\ldots, 99\\}",
+      "description_latex": "We want to prove that if 100 integers are chosen from $\\{1, 2, \\ldots, 99\\}$, at least two must be equal. Start by identifying the pigeons and the pigeonholes: the 100 chosen integers are the pigeons, and the 99 possible values $\\{1, 2, \\ldots, 99\\}$ are the pigeonholes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = 100, \\quad k = 99",
+      "description_latex": "We have identified $n = 100$ and $k = 99$. Now apply the pigeonhole condition: is $n > k$, and what does that guarantee? Write the inequality and state what conclusion follows.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\left\\lceil \\frac{100}{99} \\right\\rceil = \\lceil 1.0\\overline{10} \\rceil = 2",
+      "description_latex": "Computing the ceiling gives us the minimum guarantee: at least one value must appear at least twice among the 100 chosen integers. Since we are choosing from only 99 distinct values, duplication is completely unavoidable \u2014 at least two of the chosen integers must be equal.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A drawer contains socks in 5 colors. What is the minimum number of socks you must draw to guarantee a matching pair?",
+      "answer_latex": "6 \\text{ socks}"
+    },
+    {
+      "prompt_latex": "A class has 30 students. Each student was born in one of the 12 months. What is the minimum guaranteed number of students sharing a birth month? Use the formula $\\lceil n/k \\rceil$.",
+      "answer_latex": "\\left\\lceil \\frac{30}{12} \\right\\rceil = 3 \\text{ students}"
+    },
+    {
+      "prompt_latex": "How many integers must be selected from $\\{1, 2, 3, \\ldots, 10\\}$ to guarantee that at least two of the selected integers have the same remainder when divided by 5?",
+      "answer_latex": "6 \\text{ integers (since there are 5 possible remainders: } 0,1,2,3,4)"
+    },
+    {
+      "prompt_latex": "A computer generates $n$ random integers, each between 1 and 1000 inclusive. What is the smallest $n$ that guarantees at least 3 integers share the same value?",
+      "answer_latex": "n = 2001 \\text{ (since } \\lceil n/1000 \\rceil \\geq 3 \\text{ requires } n > 2 \\times 1000)"
+    },
+    {
+      "prompt_latex": "In a group of 5 points placed anywhere inside (or on the boundary of) an equilateral triangle with side length 2, prove that at least two points are within distance 1 of each other. \\textit{Hint: divide the triangle into 4 smaller equilateral triangles of side length 1.}",
+      "answer_latex": "\\text{By the Pigeonhole Principle with } n=5 \\text{ points and } k=4 \\text{ sub-triangles, at least one sub-triangle contains } \\lceil 5/4 \\rceil = 2 \\text{ points, which are at most distance 1 apart.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often compute $\\lfloor n/k \\rfloor$ (floor) instead of $\\lceil n/k \\rceil$ (ceiling) for the guaranteed minimum, which gives an answer that is too small. Remember: you need the ceiling because even one extra object forces another container to receive a second item.",
+    "Students confuse which quantity is the pigeons and which is the pigeonholes, especially in word problems. For example, treating months as pigeons and students as pigeonholes inverts the logic and produces a nonsensical answer \u2014 always ask 'what is being distributed (pigeons)?' and 'into what categories (pigeonholes)?'",
+    "Students interpret the Pigeonhole Principle as saying 'some containers will have more' rather than recognizing it as an absolute guarantee about ALL possible distributions. The principle does not tell you which pigeonhole is overloaded, only that at least one must be \u2014 if your argument relies on identifying a specific container, you have misapplied the principle."
+  ],
+  "untested_variants": [
+    "Problems requiring you to find the minimum number of elements needed to guarantee a specific sum or arithmetic property among selected integers (e.g., guaranteeing two numbers sum to a fixed value), which combines the Pigeonhole Principle with number theory.",
+    "Graph-theory applications where the Pigeonhole Principle is used to guarantee the existence of a vertex with a certain degree in a graph on $n$ vertices.",
+    "The infinite Pigeonhole Principle, which states that if infinitely many objects are placed into finitely many containers, at least one container must contain infinitely many objects.",
+    "Multidimensional pigeonhole problems, such as placing points in a grid and guaranteeing collinear or nearby points using a two-stage pigeonhole argument."
+  ]
+}

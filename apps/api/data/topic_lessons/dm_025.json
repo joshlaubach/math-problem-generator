@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_025",
+  "topic_name": "Injective, Surjective, and Bijective Functions",
+  "generated_at": "2026-05-13T20:13:47.873894+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know that a function $f: A \\to B$ assigns each element of $A$ exactly one element of $B$. But consider $f: \\mathbb{Z} \\to \\mathbb{Z}$ defined by $f(x) = x^2$: both $3$ and $-3$ map to $9$, and no element maps to $-1$. Can we say something precise about how 'faithfully' a function maps its domain onto its codomain? How do we formally distinguish functions that 'mix up' inputs, 'miss' outputs, or do both?",
+  "concept": "A function's structural quality describes whether it preserves distinctness of inputs and whether it covers its entire codomain. Formally, $f: A \\to B$ is **injective** (one-to-one) if $f(a_1) = f(a_2) \\Rightarrow a_1 = a_2$; **surjective** (onto) if for every $b \\in B$ there exists $a \\in A$ with $f(a) = b$; and **bijective** if it is both injective and surjective, establishing a perfect one-to-one correspondence between $A$ and $B$.",
+  "anatomy": "Every classification question involves three distinct components. The **domain** $A$ is the set of all inputs; the **codomain** $B$ is the declared target set (not necessarily all reached values); and the **range** (or image) is the actual set of outputs $\\{f(a) : a \\in A\\} \\subseteq B$. Injectivity is a condition on the domain \u2014 no two distinct inputs share an output. Surjectivity is a condition comparing range to codomain \u2014 they must be equal. Bijectivity combines both, and it requires $|A| = |B|$ for finite sets, making it the exact condition needed for a function to have a two-sided inverse.",
+  "worked_example": [
+    {
+      "expression_latex": "f: \\mathbb{R} \\to \\mathbb{R},\\quad f(x) = 2x + 3",
+      "description_latex": "We begin by stating the function clearly. Our goal is to test injectivity first, so we assume $f(a) = f(b)$ and see whether we are forced to conclude $a = b$. This direct approach is the standard proof strategy.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(a) = f(b) \\implies 2a+3 = 2b+3 \\implies 2a = 2b \\implies a = b",
+      "description_latex": "Because assuming equal outputs forces equal inputs, $f$ is injective. Notice we used only algebra \u2014 no special cases were needed, which is typical for linear functions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Surjectivity: let } b \\in \\mathbb{R}.\\text{ Solve } 2x+3 = b \\implies x = \\frac{b-3}{2}",
+      "description_latex": "To test surjectivity we must show every element $b$ in the codomain $\\mathbb{R}$ is actually hit. We reverse-engineer an input $x$ from an arbitrary output $b$, and since $\\frac{b-3}{2}$ is a real number for every real $b$, the solution always exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f\\!\\left(\\frac{b-3}{2}\\right) = 2\\cdot\\frac{b-3}{2}+3 = (b-3)+3 = b \\checkmark",
+      "description_latex": "We verify our candidate input actually produces $b$, completing the surjectivity proof. Since $f$ is both injective and surjective, it is bijective \u2014 a perfect pairing between $\\mathbb{R}$ and $\\mathbb{R}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g: \\mathbb{R} \\to \\mathbb{R},\\quad g(x) = x^2 - 4",
+      "description_latex": "We want to classify $g$ as injective, surjective, both, or neither. A good first step is to test injectivity by assuming $g(a) = g(b)$ and checking whether $a = b$ must follow.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(a)=g(b) \\implies a^2-4 = b^2-4 \\implies a^2 = b^2",
+      "description_latex": "We have simplified the equation $g(a)=g(b)$ to $a^2 = b^2$. Now you need to finish the injectivity test: does $a^2 = b^2$ force $a = b$? Find a specific counterexample if it does not.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Surjectivity: does every } b \\in \\mathbb{R} \\text{ satisfy } b = x^2-4 \\text{ for some } x\\in\\mathbb{R}?",
+      "description_latex": "Now test surjectivity by asking whether every real number $b$ can be written as $x^2 - 4$. Determine whether $b = -5$ is achievable, and state your conclusion about whether $g$ is surjective.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $f: \\{1,2,3\\} \\to \\{a,b,c\\}$ be defined by $f(1)=a,\\ f(2)=b,\\ f(3)=c$. Is $f$ injective, surjective, or bijective?",
+      "answer_latex": "Bijective (injective and surjective), since distinct inputs give distinct outputs and every element of the codomain is reached."
+    },
+    {
+      "prompt_latex": "Determine whether $h: \\mathbb{R} \\to \\mathbb{R}$ defined by $h(x) = 3x - 7$ is injective, surjective, or bijective. Prove your answer.",
+      "answer_latex": "Bijective. Injective: $h(a)=h(b) \\Rightarrow 3a-7=3b-7 \\Rightarrow a=b$. Surjective: given $b\\in\\mathbb{R}$, set $x=\\frac{b+7}{3}\\in\\mathbb{R}$ and verify $h(x)=b$."
+    },
+    {
+      "prompt_latex": "Let $f: \\mathbb{Z} \\to \\mathbb{Z}$ be defined by $f(n) = 2n$. Is $f$ injective? Is it surjective? Justify each answer.",
+      "answer_latex": "Injective: $f(a)=f(b) \\Rightarrow 2a=2b \\Rightarrow a=b$. Not surjective: $1 \\in \\mathbb{Z}$ has no preimage since $2n=1$ has no integer solution."
+    },
+    {
+      "prompt_latex": "Let $f: A \\to B$ and $g: B \\to C$ both be bijections. Prove that the composition $g \\circ f: A \\to C$ is also a bijection.",
+      "answer_latex": "Injective: $(g\\circ f)(a_1)=(g\\circ f)(a_2) \\Rightarrow g(f(a_1))=g(f(a_2)) \\Rightarrow f(a_1)=f(a_2)$ (g injective) $\\Rightarrow a_1=a_2$ (f injective). Surjective: let $c\\in C$; since $g$ is surjective $\\exists b\\in B$ with $g(b)=c$; since $f$ is surjective $\\exists a\\in A$ with $f(a)=b$; then $(g\\circ f)(a)=c$."
+    },
+    {
+      "prompt_latex": "A library assigns each book a unique ISBN (a 13-digit code), and every valid ISBN is assigned to at least one book. Model this as a function $f: \\text{Books} \\to \\text{ISBNs}$ and determine whether $f$ is injective, surjective, or bijective based on the stated conditions.",
+      "answer_latex": "Injective (unique ISBN per book means distinct books get distinct codes) and surjective (every valid ISBN is used), so $f$ is bijective under the given conditions."
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the codomain with the range and incorrectly conclude surjectivity. The codomain is the declared target set $B$, while the range is $\\{f(a): a \\in A\\}$; surjectivity requires range $= B$, not just that the function produces some outputs.",
+    "When testing injectivity, students write $f(a) = f(b)$ and then substitute specific numbers rather than keeping $a$ and $b$ arbitrary. The proof must work for ALL pairs, so you must derive $a = b$ purely from algebra without assuming particular values.",
+    "Students assume that because a function is not injective it must be surjective (or vice versa). These properties are independent: $f(x)=x^2$ on $\\mathbb{R}\\to\\mathbb{R}$ is neither injective nor surjective, showing the four combinations (both, neither, one only, other only) are all possible."
+  ],
+  "untested_variants": [
+    "Classifying functions defined on finite sets given by arrow diagrams or tables, where you count domain and codomain sizes to quickly rule out injectivity or surjectivity.",
+    "Proving that if $g \\circ f$ is injective then $f$ must be injective (but $g$ need not be), and the analogous result that if $g \\circ f$ is surjective then $g$ must be surjective.",
+    "Determining injectivity and surjectivity for functions between sets of different cardinalities, such as $f: \\mathbb{N} \\to \\mathbb{Z}$ or $f: \\mathbb{R} \\to \\mathbb{R}^2$, and using cardinality arguments to rule out bijectivity.",
+    "Showing a function $f: A \\to B$ is bijective by explicitly constructing its inverse $f^{-1}: B \\to A$ and verifying $f^{-1}\\circ f = \\text{id}_A$ and $f\\circ f^{-1} = \\text{id}_B$."
+  ]
+}

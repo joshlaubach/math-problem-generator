@@ -24,7 +24,11 @@ logger = logging.getLogger(__name__)
 
 SESSION_TYPES: dict[str, int] = {"1hr": 3600, "2hr": 7200}
 GRACE_PERIOD_SECONDS = 600  # 10 min extension after nominal end
-CREDIT_RESTORE_WINDOW_SECONDS = 120  # 2 min
+# Failed-session refund policy (launch decision 2026-06-12): a session that
+# ends by disconnect within this window restores its credit automatically —
+# the student got nothing, and an auto-refund beats a chargeback. Sessions
+# ended by SERVER error restore the credit regardless of elapsed time.
+CREDIT_RESTORE_WINDOW_SECONDS = 600  # 10 min
 
 _KEY_PREFIX = "tutor:session:"
 
@@ -68,10 +72,19 @@ class TutorSession:
     current_index: int = 0
     uploaded_problems: list = field(default_factory=list)  # extracted from file uploads
     exam_mode: bool = False
+    exam_mode_proposed: bool = False     # server proposed exam mode, student hasn't accepted yet
+    # In-session adaptive difficulty (L2-3): streaks drive difficulty mutation;
+    # prefetched holds a background-generated next problem at the new difficulty
+    correct_streak: int = 0
+    wrong_streak: int = 0
+    target_diff: int = 0                 # current conceptual difficulty (1-5); 0 = seed lazily
+    prefetched: Optional[dict] = None    # GeneratedProblem dict ready to serve next
+    prefetch_in_flight: bool = False
     consecutive_no_progress: int = 0
     soft_error_count: int = 0            # chat-borne errors the tutor corrected (no formal
                                          # submission); feeds misconception/deep gates,
                                          # reset on problem advance
+    message_count: int = 0               # inbound messages this session (H1 per-session cap)
     session_tier: str = "basic"          # "basic" | "premium" — gates drawing recognition + RAG
     is_first_ever_session: bool = False  # True when user has no prior TutorSessionRecord rows;
                                          # gates the diagnostic protocol in should_inject_deep()

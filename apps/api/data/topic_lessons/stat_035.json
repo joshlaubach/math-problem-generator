@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_035",
+  "topic_name": "Type I and Type II Errors",
+  "generated_at": "2026-05-13T20:32:04.187779+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know that in hypothesis testing we set up a null hypothesis $H_0$ and decide whether to reject it based on a p-value and significance level $\\alpha$. But here's the uncomfortable truth: even a perfectly executed test can lead you to the wrong conclusion \u2014 not because you made a calculation error, but because random sampling can fool you. What are the two distinct ways a hypothesis test can be wrong, and how do we measure the probability of each mistake?",
+  "concept": "A hypothesis test makes a binary decision \u2014 reject $H_0$ or fail to reject $H_0$ \u2014 but the truth is also binary: $H_0$ is either actually true or actually false. A **Type I error** occurs when you reject a true $H_0$ (a false positive), with probability $P(\\text{Type I}) = \\alpha$. A **Type II error** occurs when you fail to reject a false $H_0$ (a false negative), with probability $P(\\text{Type II}) = \\beta$. The quantity $1 - \\beta$ is called the **power** of the test.",
+  "anatomy": "There are four structural components to understand. The **significance level** $\\alpha$ is set by the researcher before the test and directly equals the probability of a Type I error. The **Type II error rate** $\\beta$ depends on the true effect size, sample size, and $\\alpha$. **Power** $= 1 - \\beta$ is the probability of correctly rejecting a false $H_0$. The **decision table** organizes all four outcomes: correct rejection, correct non-rejection (true negative), Type I error (false positive), and Type II error (false negative) \u2014 each cell defined by the combination of the test's decision and reality.",
+  "worked_example": [
+    {
+      "expression_latex": "H_0: \\mu = 50 \\quad \\text{vs} \\quad H_a: \\mu \\neq 50, \\quad \\alpha = 0.05",
+      "description_latex": "We begin by identifying the hypotheses and the significance level. Setting $\\alpha = 0.05$ means we are willing to tolerate a 5% chance of rejecting $H_0$ even when it is true \u2014 this 5% is exactly the probability of committing a Type I error, built directly into our decision rule.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|cc} & H_0 \\text{ True} & H_0 \\text{ False} \\\\ \\hline \\text{Reject } H_0 & \\text{Type I Error} & \\text{Correct (Power)} \\\\ \\text{Fail to Reject } H_0 & \\text{Correct} & \\text{Type II Error} \\end{array}",
+      "description_latex": "This decision table maps every possible combination of reality and our conclusion. Notice that we can only know which cell we're actually in if we know the truth \u2014 in practice we never do, which is why both error types must be managed proactively before collecting data.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Type I Error}) = \\alpha = 0.05",
+      "description_latex": "The probability of a Type I error is exactly $\\alpha$ because we defined our rejection region to include exactly the most extreme 5% of the sampling distribution under $H_0$. If $H_0$ is true, random samples will land in that region 5% of the time purely by chance, causing a false rejection.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Type II Error}) = \\beta \\quad \\Longrightarrow \\quad \\text{Power} = 1 - \\beta",
+      "description_latex": "Unlike $\\alpha$, the value of $\\beta$ is not fixed by our choice of significance level alone \u2014 it also depends on how far the true parameter is from $H_0$ and on sample size. A large effect size or a large sample makes $\\beta$ smaller, which increases power and makes the test better at catching real effects.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\alpha \\downarrow \\implies \\beta \\uparrow \\quad (\\text{for fixed } n)",
+      "description_latex": "Here is the fundamental trade-off: if we decrease $\\alpha$ to reduce the chance of a Type I error, our rejection region shrinks, which means it becomes harder to reject $H_0$ even when it is false \u2014 so $\\beta$ increases. The only way to reduce both errors simultaneously is to increase the sample size $n$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H_0: p = 0.10 \\quad \\text{(drug has 10\\% side-effect rate)}",
+      "description_latex": "A pharmaceutical company tests whether a new drug has a higher side-effect rate than 10%. They set $\\alpha = 0.01$ because falsely alarming regulators (Type I error) would be very costly. We need to identify what each type of error means in this real-world context.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Type I Error: Reject } H_0 \\text{ when } p = 0.10 \\text{ is actually true}",
+      "description_latex": "A Type I error here means concluding the drug's side-effect rate exceeds 10% when it actually does not \u2014 a false alarm that could lead to an unnecessary regulatory ban. This happens with probability $\\alpha = 0.01$, which the company has deliberately kept small.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now you describe the Type II error in context: what does it mean to fail to reject $H_0$ when the drug's true side-effect rate is actually higher than 10%, and who is harmed by this mistake? Write your answer and state what probability measures this error.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Reducing } \\beta \\text{ requires increasing } n \\text{ or increasing } \\alpha",
+      "description_latex": "Because the company fixed $\\alpha$ at a very strict 0.01 to protect against false alarms, $\\beta$ will be relatively large unless they use a sufficiently large sample. This illustrates why sample size planning (power analysis) is done before the study begins \u2014 you must decide how much risk of each error type is acceptable.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A researcher sets $\\alpha = 0.05$. What is the probability of a Type I error?",
+      "answer_latex": "P(\\text{Type I Error}) = \\alpha = 0.05"
+    },
+    {
+      "prompt_latex": "A test has $\\beta = 0.20$. What is the power of the test, and what does it represent?",
+      "answer_latex": "\\text{Power} = 1 - \\beta = 1 - 0.20 = 0.80; \\text{ there is an 80\\% chance of correctly rejecting a false } H_0"
+    },
+    {
+      "prompt_latex": "A quality-control test checks whether a machine is producing defective parts at a rate above the acceptable level. Describe in one sentence what a Type II error would mean in this context, and state its probability symbol.",
+      "answer_latex": "\\text{Type II error: failing to detect that the defect rate is too high when it actually is; probability} = \\beta"
+    },
+    {
+      "prompt_latex": "A researcher currently uses $\\alpha = 0.05$ and obtains power $= 0.70$. She wants to achieve power $= 0.90$ without changing $\\alpha$. What must she do, and how does this affect $\\beta$?",
+      "answer_latex": "\\text{She must increase sample size } n; \\text{ this decreases } \\beta \\text{ from } 0.30 \\text{ to } 0.10"
+    },
+    {
+      "prompt_latex": "A court's standard is 'innocent until proven guilty.' Map this to hypothesis testing: what is $H_0$, what is a Type I error, and what is a Type II error? Which error does the legal system prioritize minimizing, and how is that reflected in the choice of $\\alpha$?",
+      "answer_latex": "H_0: \\text{defendant is innocent}; \\text{ Type I} = \\text{convicting an innocent person}; \\text{ Type II} = \\text{acquitting a guilty person}; \\text{ legal system minimizes Type I} \\Rightarrow \\text{very small } \\alpha \\text{ (high burden of proof)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse which error goes with which situation by thinking 'Type I = one mistake, Type II = two mistakes.' The correct anchor is the null hypothesis: a Type I error is rejecting $H_0$ when it IS true (false positive), and a Type II error is failing to reject $H_0$ when it is FALSE (false negative). Memorize it by connecting Type I to 'crying wolf' \u2014 claiming an effect that isn't there.",
+    "Students frequently state that $P(\\text{Type II Error}) = 1 - \\alpha$, confusing the complement of $\\alpha$ with $\\beta$. In reality $\\alpha$ and $\\beta$ are not complementary; they are probabilities computed under different conditions \u2014 $\\alpha$ under $H_0$ true, $\\beta$ under $H_0$ false \u2014 and their sum can be anything between 0 and 2. The correct complement relationship is Power $= 1 - \\beta$.",
+    "Students assume that choosing a smaller $\\alpha$ always makes a test 'better.' In fact, decreasing $\\alpha$ shrinks the rejection region and therefore increases $\\beta$, making the test less sensitive to real effects. The fix is to recognize that both $\\alpha$ and $\\beta$ matter, and the only way to reduce both simultaneously is to increase the sample size $n$."
+  ],
+  "untested_variants": [
+    "Calculating a specific numerical value of $\\beta$ given a true population parameter, sample size, and $\\alpha$ \u2014 requiring use of the sampling distribution under $H_a$ and z-scores.",
+    "Formal power analysis: using a power table or formula to determine the minimum sample size $n$ needed to achieve a target power (e.g., 0.80) for a given effect size and $\\alpha$.",
+    "Comparing two tests with different $\\alpha$ levels and the same $n$ and deciding which test is preferable based on the relative costs of Type I vs. Type II errors in a specific applied context.",
+    "Two-sided vs. one-sided tests and how the direction of $H_a$ changes the location of the rejection region and the resulting value of $\\beta$ for the same true parameter value."
+  ]
+}

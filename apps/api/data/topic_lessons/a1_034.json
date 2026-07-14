@@ -1,0 +1,86 @@
+{
+  "topic_id": "a1_034",
+  "topic_name": "Properties of Exponents",
+  "generated_at": "2026-05-12T22:41:37.367228+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know that $2^3 = 8$ and $2^4 = 16$. Now imagine you need to simplify $2^3 \\cdot 2^4$ \u2014 do you multiply the bases, add the exponents, or something else entirely? And what happens when you raise a power to another power, like $(x^3)^4$? These situations come up constantly in algebra, and right now you don't have a clean rule to handle them. Can you figure out a pattern before we spell it out?",
+  "concept": "Exponent properties are shortcut rules that tell you how to combine or simplify exponential expressions without expanding them fully. Formally, the core rules are: the Product Rule $a^m \\cdot a^n = a^{m+n}$, the Quotient Rule $\\frac{a^m}{a^n} = a^{m-n}$, the Power Rule $(a^m)^n = a^{mn}$, the Zero Exponent Rule $a^0 = 1$ (for $a \\neq 0$), and the Negative Exponent Rule $a^{-n} = \\frac{1}{a^n}$.",
+  "anatomy": "Every exponential expression $a^n$ has two parts: the base $a$ (the number or variable being repeatedly multiplied) and the exponent $n$ (the count of how many times the base appears as a factor). In a product like $a^m \\cdot a^n$, both terms share the same base \u2014 this shared base is what makes the Product Rule work. In a power of a power like $(a^m)^n$, there is an inner exponent $m$ and an outer exponent $n$, and the Power Rule combines them by multiplication. Recognizing whether bases match, and identifying inner vs. outer exponents, is the key structural skill for applying these rules correctly.",
+  "worked_example": [
+    {
+      "expression_latex": "x^5 \\cdot x^3",
+      "description_latex": "We are applying the Product Rule because both factors share the same base $x$. The rule says that when you multiply powers with identical bases, you keep the base and add the exponents, giving us $x^{5+3}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^{5+3} = x^8",
+      "description_latex": "We simply add $5 + 3 = 8$ to get the final simplified expression $x^8$. Notice we never actually computed $x^5$ or $x^3$ separately \u2014 the rule lets us skip all of that work.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{y^7}{y^2}",
+      "description_latex": "Now we use the Quotient Rule because we are dividing two powers with the same base $y$. The rule says to subtract the exponent in the denominator from the exponent in the numerator: $y^{7-2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y^{7-2} = y^5",
+      "description_latex": "Subtracting gives $7 - 2 = 5$, so the result is $y^5$. If you ever want to verify this, think of canceling: $\\frac{y \\cdot y \\cdot y \\cdot y \\cdot y \\cdot y \\cdot y}{y \\cdot y}$ leaves five $y$'s in the numerator, confirming $y^5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(z^4)^3 = z^{4 \\cdot 3} = z^{12}",
+      "description_latex": "This is the Power Rule: when a power is raised to another power, multiply the exponents. The outer exponent $3$ tells us the inner expression $z^4$ is multiplied by itself three times, and $z^4 \\cdot z^4 \\cdot z^4 = z^{4+4+4} = z^{12}$, which confirms that multiplying the exponents $4 \\times 3 = 12$ is correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{(a^3)^4}{a^5}",
+      "description_latex": "We have a power raised to a power in the numerator, and then a quotient. A good strategy is to simplify the numerator first using the Power Rule before applying the Quotient Rule.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{a^{12}}{a^5}",
+      "description_latex": "Apply the Power Rule to the numerator: multiply the inner exponent $3$ by the outer exponent $4$ to get $a^{12}$. Now the expression is a straightforward quotient with the same base.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Apply the Quotient Rule to $\\frac{a^{12}}{a^5}$ by subtracting the exponents. What is the simplified result?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Simplify: $t^4 \\cdot t^6",
+      "answer_latex": "t^{10}"
+    },
+    {
+      "prompt_latex": "Simplify: $\\frac{m^9}{m^3}",
+      "answer_latex": "m^6"
+    },
+    {
+      "prompt_latex": "Simplify: $(p^2)^5$",
+      "answer_latex": "p^{10}"
+    },
+    {
+      "prompt_latex": "Simplify completely: $\\frac{3x^4 \\cdot x^3}{x^2}$",
+      "answer_latex": "3x^5"
+    },
+    {
+      "prompt_latex": "A bacteria culture doubles every hour, starting with $2^1$ bacteria. After $t$ hours the count is $2^1 \\cdot (2^1)^t$. Write this as a single power of 2, then find the count after 4 hours.",
+      "answer_latex": "2^{1+t}; \\text{ after 4 hours: } 2^5 = 32 \\text{ bacteria}"
+    }
+  ],
+  "common_mistakes": [
+    "Students multiply the exponents instead of adding them in the Product Rule, writing $x^5 \\cdot x^3 = x^{15}$ instead of $x^8$. Remember: multiplication of expressions with the same base means you ADD the exponents, not multiply them.",
+    "Students apply the Product Rule even when the bases are different, simplifying $x^3 \\cdot y^3$ as $(xy)^6$ or some combined power, when in fact it stays as $x^3 y^3$ (or can only be written as $(xy)^3$ if both exponents are equal). The Product Rule strictly requires identical bases.",
+    "When applying the Zero Exponent Rule, students write $0^0 = 1$ just like any other base, when in fact $0^0$ is undefined. The rule $a^0 = 1$ only holds for $a \\neq 0$, so always check that the base is nonzero before applying it."
+  ],
+  "untested_variants": [
+    "Simplifying expressions with negative exponents, such as $x^{-3} \\cdot x^5$ or rewriting $\\frac{1}{a^4}$ as $a^{-4}$.",
+    "Applying exponent rules to expressions with numerical coefficients raised to powers, such as $(2x^3)^4$ where both the coefficient and the variable must be raised to the outer exponent.",
+    "Combining all five rules in a multi-step simplification involving negative and zero exponents together, like $\\frac{(x^0)(x^{-2})}{x^{-5}}$.",
+    "Fractional exponents such as $x^{1/2}$ and their connection to radicals, which extend the same Product and Power Rules into a new context."
+  ]
+}

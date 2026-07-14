@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_028",
+  "topic_name": "Harmonic Motion and Sinusoidal Models (H)",
+  "generated_at": "2026-05-13T19:57:56.453790+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to graph $y = A\\sin(Bx + C) + D$ and identify its amplitude, period, and phase shift. Now imagine a weight hanging from a spring: you pull it down, release it, and it bobs up and down forever in a perfectly regular rhythm. The height of the weight at any moment in time is a sinusoidal function \u2014 but how do you build that function from physical information like the starting position, how far it travels, and how many times per second it oscillates? Can you write an equation that predicts the weight's exact height 7.3 seconds after release?",
+  "concept": "Harmonic motion describes any system that oscillates smoothly back and forth around a central equilibrium position \u2014 springs, pendulums, sound waves, and tides all qualify. Formally, simple harmonic motion is modeled by $y(t) = A\\sin(Bt + C) + D$ or $y(t) = A\\cos(Bt + C) + D$, where $t$ is time, the output $y$ is the displacement from a reference point, and the constants $A$, $B$, $C$, $D$ encode the physical behavior of the system.",
+  "anatomy": "Each constant in $y(t) = A\\sin(Bt + C) + D$ plays a distinct physical role. The amplitude $|A|$ is the maximum displacement from equilibrium \u2014 how far the object travels from the center in either direction. The angular frequency $B$ controls the speed of oscillation; the period (time for one complete cycle) is $T = \\frac{2\\pi}{B}$, and the ordinary frequency (cycles per second, in Hz) is $f = \\frac{1}{T} = \\frac{B}{2\\pi}$. The phase shift $-\\frac{C}{B}$ tells us where in the cycle the motion starts at $t = 0$, and the vertical shift $D$ locates the equilibrium (midline) above or below $y = 0$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{A weight on a spring oscillates with amplitude } 6 \\text{ cm, period } 4 \\text{ s,}\\\\\\text{starting at its maximum height of } 10 \\text{ cm above the floor.}",
+      "description_latex": "We begin by reading the physical information carefully. The maximum height is 10 cm and the amplitude is 6 cm, which means the equilibrium (midline) is at $10 - 6 = 4$ cm above the floor, so $D = 4$. Because the object starts at its maximum, a cosine model fits naturally since $\\cos(0) = 1$ is already at its peak.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B = \\frac{2\\pi}{T} = \\frac{2\\pi}{4} = \\frac{\\pi}{2}",
+      "description_latex": "We compute the angular frequency $B$ from the period $T = 4$ seconds using the relationship $B = \\frac{2\\pi}{T}$. This value of $B$ guarantees that the function completes exactly one full cycle every 4 seconds, matching the physical oscillation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y(t) = 6\\cos\\!\\left(\\frac{\\pi}{2}\\,t\\right) + 4",
+      "description_latex": "Since the object starts at its maximum with no horizontal shift needed, we set $C = 0$ and assemble the model. The amplitude is $A = 6$ (positive because we start at the top), $B = \\frac{\\pi}{2}$, $C = 0$, and $D = 4$, giving us a complete sinusoidal model of the spring's motion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y(7.3) = 6\\cos\\!\\left(\\frac{\\pi}{2}(7.3)\\right) + 4 = 6\\cos(3.65\\pi) + 4",
+      "description_latex": "We substitute $t = 7.3$ to predict the height at that specific moment. Evaluating $\\cos(3.65\\pi)$ on a calculator (in radian mode) gives approximately $\\cos(11.4668) \\approx -0.891$, so $y(7.3) \\approx 6(-0.891) + 4 \\approx -5.35 + 4 = -1.35$... but wait, that is below the floor! Let us recheck \u2014 $\\cos(3.65\\pi) = \\cos(0.65\\pi) \\approx -0.588$, so $y(7.3) \\approx 6(-0.588)+4 \\approx 0.47$ cm above the floor, which is physically reasonable.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A buoy bobs so that its height above the sea floor varies between 3 m and 9 m,}\\\\\\text{completing 2 full cycles per minute. At } t=0 \\text{ the buoy is at its lowest point.}",
+      "description_latex": "Start by extracting the physical constants. The midline is halfway between 3 m and 9 m, so $D = \\frac{3+9}{2} = 6$. The amplitude is $A = 9 - 6 = 3$. The frequency is 2 cycles per minute, so the period is $T = \\frac{1}{2}$ minute, and therefore $B = \\frac{2\\pi}{T} = 4\\pi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Choose the correct model: } y(t) = 3\\sin(4\\pi t + C) + 6 \\text{ or } y(t) = -3\\cos(4\\pi t) + 6?",
+      "description_latex": "Here is the key decision: at $t = 0$ the buoy is at its lowest point, $y = 3$. Check which form automatically gives the minimum at $t = 0$ without needing a phase shift \u2014 decide whether sine with a phase shift or negative cosine (which starts at its minimum) is the cleaner choice, then write the final equation.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y(t) = -3\\cos(4\\pi t) + 6",
+      "description_latex": "Now use your equation to find the height of the buoy at $t = 0.4$ minutes, showing your substitution and calculator evaluation.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A sinusoidal model has amplitude 5, period $2\\pi$, no phase shift, and equilibrium at $y = 0$, starting at its maximum. Write the equation $y(t)$.",
+      "answer_latex": "y(t) = 5\\cos(t)"
+    },
+    {
+      "prompt_latex": "A pendulum swings with amplitude 8 cm and period 3 seconds. It starts at equilibrium moving in the positive direction. Write a sinusoidal model for its displacement $y(t)$ in cm.",
+      "answer_latex": "y(t) = 8\\sin\\!\\left(\\frac{2\\pi}{3}\\,t\\right)"
+    },
+    {
+      "prompt_latex": "The height of a piston (in inches) is modeled by $y(t) = 4\\sin(10\\pi t) + 5$. Find (a) the amplitude, (b) the period, (c) the equilibrium height, and (d) the height at $t = 0.15$ seconds.",
+      "answer_latex": "\\text{(a) } 4\\text{ in},\\; \\text{(b) } 0.2\\text{ s},\\; \\text{(c) } 5\\text{ in},\\; \\text{(d) } y(0.15)=4\\sin(1.5\\pi)+5=4(-1)+5=1\\text{ in}"
+    },
+    {
+      "prompt_latex": "A mass-spring system has its displacement modeled by $y(t) = A\\cos(Bt + C)$. At $t=0$ the displacement is 3 cm (not the maximum), the maximum displacement is 6 cm, and the period is $\\pi$ seconds. The object is moving toward equilibrium at $t=0$ (displacement decreasing). Find $A$, $B$, and $C$ (with $C \\in [0, 2\\pi)$) and write the full equation.",
+      "answer_latex": "A = 6,\\; B = 2,\\; \\cos(C) = \\tfrac{1}{2} \\Rightarrow C = \\tfrac{\\pi}{3}\\text{ (decreasing, so }C = \\tfrac{\\pi}{3}\\text{)};\\; y(t) = 6\\cos\\!\\left(2t + \\tfrac{\\pi}{3}\\right)"
+    },
+    {
+      "prompt_latex": "Ocean tides at a harbor follow a sinusoidal pattern. High tide is 14 ft at 2:00 AM and low tide is 2 ft at 8:00 AM. Write a cosine model $y(t)$ for the water depth (in feet) as a function of $t$ hours after midnight, then predict the depth at noon (12:00 PM).",
+      "answer_latex": "D=8,\\; A=6,\\; T=12\\text{ h},\\; B=\\tfrac{\\pi}{6};\\; y(t)=6\\cos\\!\\left(\\tfrac{\\pi}{6}(t-2)\\right)+8;\\; y(12)=6\\cos\\!\\left(\\tfrac{5\\pi}{3}\\right)+8=6(0.5)+8=11\\text{ ft}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use the frequency $f$ directly as $B$ in the formula, forgetting that $B$ is the *angular* frequency. The fix: always convert using $B = 2\\pi f$ or $B = \\frac{2\\pi}{T}$ before writing the equation.",
+    "When the problem states the object starts at its minimum (not maximum), students still write a positive amplitude with no phase adjustment, producing a model that starts at the maximum instead. The fix: use $-A$ as the leading coefficient, or apply a phase shift of $\\pi$, to shift the cosine to start at its lowest point.",
+    "Students confuse the midline $D$ with the maximum value, setting $D$ equal to the given maximum height rather than the average of the maximum and minimum. The fix: always compute $D = \\frac{y_{\\max} + y_{\\min}}{2}$ and $A = \\frac{y_{\\max} - y_{\\min}}{2}$ before building the model."
+  ],
+  "untested_variants": [
+    "Finding the *first time* after $t = 0$ that the displacement equals a specific value (requires solving a trigonometric equation within the harmonic model).",
+    "Modeling damped harmonic motion, where the amplitude decreases over time according to $y(t) = Ae^{-kt}\\cos(Bt + C)$, combining exponential decay with sinusoidal oscillation.",
+    "Given a table of $(t, y)$ data points (rather than explicit max/min/period information), determining the parameters of the best-fit sinusoidal model by reading the midline and period from the data.",
+    "Problems involving the *sum* of two harmonic motions with different frequencies (beats), which cannot be modeled by a single simple sinusoidal function."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_027",
+  "topic_name": "Change of Variables and the Jacobian (H)",
+  "generated_at": "2026-05-13T19:58:48.912043+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to evaluate double integrals over rectangles and simple regions in Cartesian coordinates, and you've seen how switching to polar coordinates can dramatically simplify integrals involving circles. But what happens when neither Cartesian nor polar coordinates fit your region well \u2014 say, you need to integrate over a tilted parallelogram or an ellipse? You might guess that some other coordinate system would help, but you don't yet have a systematic way to transform any integral into any new coordinates. How do you account for the fact that stretching or rotating coordinates distorts areas, and what correction factor keeps your integral exact?",
+  "concept": "A change of variables is a substitution $(x,y) = T(u,v)$ that converts a complicated region or integrand into a simpler one in $(u,v)$-coordinates. The Jacobian is the correction factor that accounts for how the transformation stretches or shrinks area elements: formally, the Jacobian determinant is $J(u,v) = \\frac{\\partial(x,y)}{\\partial(u,v)} = \\det\\begin{pmatrix} \\partial x/\\partial u & \\partial x/\\partial v \\\\ \\partial y/\\partial u & \\partial y/\\partial v \\end{pmatrix}$, and the change-of-variables formula states $\\iint_R f(x,y)\\,dA = \\iint_S f(x(u,v),y(u,v))\\,|J(u,v)|\\,du\\,dv$.",
+  "anatomy": "The change-of-variables formula has several distinct components. The transformation $T: (u,v)\\mapsto(x,y)$ is the map that defines the new coordinates, and it must be one-to-one on the interior of the region $S$ in $(u,v)$-space, which maps onto the original region $R$ in $(x,y)$-space. The Jacobian matrix is the $2\\times 2$ matrix of all first-order partial derivatives of $x$ and $y$ with respect to $u$ and $v$, and its determinant $J(u,v) = \\partial(x,y)/\\partial(u,v)$ measures the local signed area-scaling factor of $T$. The absolute value $|J(u,v)|$ appears in the integral because area is always positive, even when the transformation reverses orientation. Finally, $du\\,dv$ is the new area element in the transformed coordinate system, replacing the original $dx\\,dy$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\iint_R e^{(x+y)/(x-y)}\\,dA, \\quad R: \\text{ the square with vertices }(1,0),(2,-1),(1,-2),(0,-1)",
+      "description_latex": "We start by examining the integrand and the region. The expressions $x+y$ and $x-y$ appear naturally, so we try the substitution $u = x+y$ and $v = x-y$. Our first job is to invert this to find $x$ and $y$ in terms of $u$ and $v$, because the Jacobian formula requires $\\partial x/\\partial u$, $\\partial x/\\partial v$, etc.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\frac{u+v}{2},\\quad y = \\frac{u-v}{2}",
+      "description_latex": "Solving the system $u = x+y,\\, v = x-y$ gives us $x = (u+v)/2$ and $y = (u-v)/2$. Now we compute the Jacobian determinant: $J = \\det\\begin{pmatrix} 1/2 & 1/2 \\\\ 1/2 & -1/2 \\end{pmatrix} = (1/2)(-1/2) - (1/2)(1/2) = -1/2$, so $|J| = 1/2$. This tells us that our transformation shrinks areas by a factor of $1/2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u = x+y \\in [-1,1],\\quad v = x-y \\in [1,3]",
+      "description_latex": "Next we figure out what $R$ looks like in $(u,v)$-coordinates by substituting the four vertices into $u = x+y$ and $v = x-y$. The vertices $(1,0),(2,-1),(1,-2),(0,-1)$ give $(u,v)$ pairs $(1,1),(1,3),(-1,3),(-1,1)$, which is a rectangle $S: u\\in[-1,1],\\, v\\in[1,3]$. This is the payoff of our substitution \u2014 the region became a rectangle!",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_1^3\\int_{-1}^{1} e^{u/v}\\cdot\\frac{1}{2}\\,du\\,dv",
+      "description_latex": "We substitute everything into the change-of-variables formula: the integrand $e^{(x+y)/(x-y)}$ becomes $e^{u/v}$, the region $R$ becomes the rectangle $S$, and $dA = |J|\\,du\\,dv = \\frac{1}{2}\\,du\\,dv$. We evaluate the inner integral first with respect to $u$: $\\int_{-1}^{1}e^{u/v}\\,du = v\\left[e^{u/v}\\right]_{-1}^{1} = v(e^{1/v} - e^{-1/v})$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{1}{2}\\int_1^3 v(e^{1/v}-e^{-1/v})\\,dv = \\frac{1}{2}\\left[v^2\\sinh(1/v)\\cdot v - \\ldots\\right] = \\frac{1}{2}\\left[(e-e^{-1}) - (3e^{1/3}-3e^{-1/3})\\right]",
+      "description_latex": "The outer integral $\\frac{1}{2}\\int_1^3 v(e^{1/v}-e^{-1/v})\\,dv$ can be evaluated by the substitution $w = 1/v$ (or recognized as $v \\cdot 2\\sinh(1/v)$), but in this course we often leave the final answer in exact closed form: $\\frac{1}{2}\\left[(e-e^{-1}) - 3(e^{1/3}-e^{-1/3})\\right]$. The key lesson is that the Jacobian and the coordinate transformation together turned an awkward region and integrand into a clean rectangle integral.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\iint_R x^2\\,dA,\\quad R: \\text{ the ellipse }\\frac{x^2}{4}+\\frac{y^2}{9}\\leq 1",
+      "description_latex": "We want to integrate $x^2$ over an ellipse. The natural move is the ellipse-to-disk substitution $x = 2r\\cos\\theta$, $y = 3r\\sin\\theta$, which maps the unit disk $S: 0\\leq r\\leq 1,\\,0\\leq\\theta\\leq 2\\pi$ onto $R$. Your first task is to compute the Jacobian of this transformation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "J = \\det\\begin{pmatrix} \\partial x/\\partial r & \\partial x/\\partial \\theta \\\\ \\partial y/\\partial r & \\partial y/\\partial \\theta \\end{pmatrix} = \\det\\begin{pmatrix} 2\\cos\\theta & -2r\\sin\\theta \\\\ 3\\sin\\theta & 3r\\cos\\theta \\end{pmatrix}",
+      "description_latex": "Compute this determinant and write the full transformed integral $\\iint_S (2r\\cos\\theta)^2 \\cdot |J|\\,dr\\,d\\theta$. Remember that every piece \u2014 the integrand, the region, and the area element \u2014 must be re-expressed in $(r,\\theta)$ before you can evaluate anything.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\int_0^{2\\pi}\\int_0^1 4r^2\\cos^2\\theta \\cdot 6r\\,dr\\,d\\theta = 24\\int_0^{2\\pi}\\cos^2\\theta\\,d\\theta\\int_0^1 r^3\\,dr",
+      "description_latex": "With $|J| = 6r$, the integral separates into a product of a $\\theta$-integral and an $r$-integral. Evaluate both factors and multiply: $\\int_0^{2\\pi}\\cos^2\\theta\\,d\\theta = \\pi$ and $\\int_0^1 r^3\\,dr = 1/4$, giving a final answer of $24\\cdot\\pi\\cdot\\frac{1}{4} = 6\\pi$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute the Jacobian $\\partial(x,y)/\\partial(u,v)$ for the transformation $x = u^2 - v^2,\\; y = 2uv$.",
+      "answer_latex": "J = 4(u^2+v^2)"
+    },
+    {
+      "prompt_latex": "Use the transformation $u = x-y,\\; v = x+2y$ to evaluate $\\iint_R (x-y)(x+2y)\\,dA$, where $R$ is the parallelogram with vertices $(0,0),(1,0),(0,1),(-1,1)$ (the image of the unit square $[0,1]\\times[0,1]$ under the inverse map).",
+      "answer_latex": "\\dfrac{1}{9}"
+    },
+    {
+      "prompt_latex": "Evaluate $\\iint_R e^{x^2+y^2}\\,dA$ over the disk $x^2+y^2\\leq 4$ using the standard polar substitution $x = r\\cos\\theta,\\; y = r\\sin\\theta$ and the Jacobian.",
+      "answer_latex": "\\pi(e^4-1)"
+    },
+    {
+      "prompt_latex": "Use the transformation $x = au,\\; y = bv$ (with $a,b>0$) to find the area of the ellipse $x^2/a^2 + y^2/b^2 \\leq 1$ by evaluating $\\iint_R dA$.",
+      "answer_latex": "\\pi ab"
+    },
+    {
+      "prompt_latex": "A thin lamina occupies the region $R$ bounded by $xy=1$, $xy=3$, $y/x=1$, $y/x=4$. Its density is $\\delta(x,y)=1$. Use the substitution $u=xy,\\; v=y/x$ to find the mass of the lamina.",
+      "answer_latex": "\\ln 3"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget the absolute value around the Jacobian determinant, writing $\\iint f\\,|J|\\,du\\,dv$ correctly but then using a negative $J$ directly \u2014 if the determinant comes out negative (because the transformation reverses orientation), the integral would become negative, which is wrong for an area element; always use $|J|$.",
+    "Students compute the Jacobian of the wrong map: when $u,v$ are defined in terms of $x,y$, some students compute $\\partial(u,v)/\\partial(x,y)$ and use it directly without taking its reciprocal, instead of correctly finding $\\partial(x,y)/\\partial(u,v)$ by either inverting the transformation first or using the relation $\\partial(x,y)/\\partial(u,v) = 1/[\\partial(u,v)/\\partial(x,y)]$.",
+    "Students transform the integrand and the Jacobian correctly but forget to re-express the limits of integration \u2014 they keep the original $R$ boundaries in $(x,y)$ instead of converting to the new region $S$ in $(u,v)$; always substitute the boundary curves into the new variables to find the correct limits."
+  ],
+  "untested_variants": [
+    "Triple integrals with a change of variables in three dimensions, requiring a $3\\times 3$ Jacobian determinant (e.g., spherical or cylindrical coordinates derived from scratch via the Jacobian).",
+    "Transformations where the student must choose the substitution themselves from scratch for a region bounded by hyperbolas or other non-standard curves, without being given the transformation.",
+    "Using the inverse Jacobian relationship $\\partial(x,y)/\\partial(u,v) = [\\partial(u,v)/\\partial(x,y)]^{-1}$ to find the Jacobian indirectly when inverting the system explicitly is algebraically impractical.",
+    "Change of variables applied to improper double integrals (unbounded regions), where convergence must also be checked after transformation."
+  ]
+}

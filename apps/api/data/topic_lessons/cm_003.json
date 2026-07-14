@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_003",
+  "topic_name": "Inequalities: AM-GM, Cauchy-Schwarz, and Power Mean",
+  "generated_at": "2026-05-13T20:21:39.589939+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to find the average of numbers and you've seen that some expressions are always non-negative. But what happens when a competition problem asks you to prove that $x + \\frac{1}{x} \\geq 2$ for all positive $x$, or to find the minimum of $a^2 + b^2 + c^2$ given that $a + b + c = 1$? Pure algebra gets messy fast, and calculus isn't allowed. How do mathematicians establish sharp inequalities over entire families of values in just a line or two?",
+  "concept": "The AM-GM, Cauchy-Schwarz, and Power Mean inequalities are classical tools that bound expressions by relating different kinds of averages. The Arithmetic Mean\u2013Geometric Mean inequality states that for non-negative reals $a_1, \\ldots, a_n$, we have $\\frac{a_1 + a_2 + \\cdots + a_n}{n} \\geq \\sqrt[n]{a_1 a_2 \\cdots a_n}$, with equality exactly when all $a_i$ are equal. Cauchy-Schwarz states $(\\sum a_i^2)(\\sum b_i^2) \\geq (\\sum a_i b_i)^2$. Power Mean orders averages by exponent: $M_r \\leq M_s$ when $r \\leq s$.",
+  "anatomy": "Each inequality has three structural parts worth naming carefully. First, the **terms** or **entries** \u2014 these are the non-negative reals $a_1, a_2, \\ldots, a_n$ (and $b_1, \\ldots, b_n$ in Cauchy-Schwarz) that you substitute. Second, the **equality condition** \u2014 the precise constraint (all entries equal for AM-GM; entries proportional, i.e., $\\frac{a_i}{b_i}$ constant, for Cauchy-Schwarz) that tells you when the inequality is sharp and lets you locate extrema. Third, the **bounding direction** \u2014 AM-GM says the arithmetic mean is an upper bound for the geometric mean, Cauchy-Schwarz says the inner product squared is bounded above by the product of squared norms, and Power Mean says higher exponent $r$ gives a larger or equal mean $M_r$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Problem: Find the minimum value of } f(x) = x + \\frac{4}{x} \\text{ for } x > 0.",
+      "description_latex": "We recognise this as a sum of two positive quantities whose product is constant, which is exactly the setup for AM-GM. Our plan is to apply AM-GM to the two terms $x$ and $\\frac{4}{x}$ and read off the minimum directly, avoiding calculus entirely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x + \\frac{4}{x} \\geq 2\\sqrt{x \\cdot \\frac{4}{x}} = 2\\sqrt{4} = 4",
+      "description_latex": "Here we apply AM-GM with $a_1 = x$ and $a_2 = \\frac{4}{x}$: the arithmetic mean $\\frac{a_1 + a_2}{2}$ is at least the geometric mean $\\sqrt{a_1 a_2}$, so $x + \\frac{4}{x} \\geq 2\\sqrt{x \\cdot \\frac{4}{x}}$. Notice that the $x$ inside the square root cancels beautifully, giving the clean bound of $4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Equality holds when } x = \\frac{4}{x}, \\text{ i.e., } x^2 = 4, \\text{ so } x = 2.",
+      "description_latex": "The equality condition of AM-GM requires all terms to be equal, so we set $x = \\frac{4}{x}$ and solve. It is crucial to always check the equality condition \u2014 without it, we only know $4$ is a lower bound, not that it is actually achieved.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\min_{x>0}\\left(x + \\frac{4}{x}\\right) = 4, \\text{ achieved at } x = 2.",
+      "description_latex": "We can now state the result confidently: the minimum value is $4$, attained at $x = 2$. Notice the two-step pattern \u2014 inequality gives the bound, equality condition gives the optimizer \u2014 which you will use in virtually every AM-GM problem.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: Given } a, b > 0 \\text{ with } a + b = 1, \\text{ find the minimum of } a^2 + b^2.",
+      "description_latex": "We want to minimise $a^2 + b^2$ subject to a linear constraint. One clean approach is to use Cauchy-Schwarz in the Engel (Titu) form, but let's use AM-GM on a cleverly chosen pair. First, recall that $(a+b)^2 = a^2 + 2ab + b^2$, so $a^2 + b^2 = 1 - 2ab$. We now need to find the maximum of $ab$ under the constraint.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "ab \\leq \\left(\\frac{a+b}{2}\\right)^2 = \\left(\\frac{1}{2}\\right)^2 = \\frac{1}{4}",
+      "description_latex": "By AM-GM applied to $a$ and $b$, we have $\\frac{a+b}{2} \\geq \\sqrt{ab}$, so squaring gives $ab \\leq \\left(\\frac{a+b}{2}\\right)^2$. Substituting $a + b = 1$ gives the maximum value of $ab$ as $\\frac{1}{4}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute your upper bound on $ab$ back into $a^2 + b^2 = 1 - 2ab$ to find the minimum of $a^2 + b^2$, and state the value of $a$ and $b$ at which it is achieved. Make sure to use the equality condition to identify the minimiser.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{For } x > 0, \\text{ prove that } x + \\frac{9}{x} \\geq 6 \\text{ and find where equality holds.}",
+      "answer_latex": "\\text{Minimum is } 6, \\text{ achieved at } x = 3."
+    },
+    {
+      "prompt_latex": "\\text{Use AM-GM to show that for positive reals } a, b, c: \\; \\frac{a}{b} + \\frac{b}{c} + \\frac{c}{a} \\geq 3.",
+      "answer_latex": "\\text{Equality holds when } a = b = c."
+    },
+    {
+      "prompt_latex": "\\text{By Cauchy-Schwarz, find the maximum of } 3x + 4y \\text{ subject to } x^2 + y^2 = 1.",
+      "answer_latex": "\\text{Maximum is } 5, \\text{ achieved at } x = \\tfrac{3}{5},\\, y = \\tfrac{4}{5}."
+    },
+    {
+      "prompt_latex": "\\text{Given } a + b + c = 3 \\text{ with } a, b, c > 0, \\text{ find the minimum of } a^2 + b^2 + c^2 \\text{ using the Power Mean inequality } M_1 \\leq M_2.",
+      "answer_latex": "\\text{Minimum is } 3, \\text{ achieved at } a = b = c = 1."
+    },
+    {
+      "prompt_latex": "\\text{A farmer has } 40\\text{ m of fencing to enclose a rectangular pen. Use AM-GM to find the maximum area and the dimensions that achieve it.}",
+      "answer_latex": "\\text{Maximum area is } 100\\text{ m}^2, \\text{ with a } 10\\text{ m} \\times 10\\text{ m square.}"
+    }
+  ],
+  "common_mistakes": [
+    "Applying AM-GM to expressions that can be negative: AM-GM requires all terms to be non-negative, so applying it to $x + \\frac{1}{x}$ when $x$ might be negative is invalid and gives a wrong bound. Always check that every term is non-negative before applying AM-GM.",
+    "Forgetting to verify the equality condition: students often state the AM-GM bound and declare it the minimum without checking whether the equality case is actually achievable under the given constraints. Always solve the equality condition and confirm the solution satisfies all constraints before concluding the bound is tight.",
+    "Misidentifying which side of Cauchy-Schwarz is the bound: Cauchy-Schwarz says $(\\sum a_i b_i)^2 \\leq (\\sum a_i^2)(\\sum b_i^2)$, so the inner product is bounded above, not the sum of squares. Students sometimes flip the inequality, concluding that the inner product is a lower bound for the product of norms, which is the reverse of the truth."
+  ],
+  "untested_variants": [
+    "Weighted AM-GM: problems where the weights $w_i$ are not all equal, such as proving $w_1 a + w_2 b \\geq a^{w_1} b^{w_2}$ with $w_1 + w_2 = 1$.",
+    "Schur's inequality and SOS (sum of squares) decomposition techniques for symmetric three-variable inequalities.",
+    "Nesbitt's inequality $\\frac{a}{b+c} + \\frac{b}{a+c} + \\frac{c}{a+b} \\geq \\frac{3}{2}$ and its proof via AM-GM or Cauchy-Schwarz in Engel (Titu) form.",
+    "Power Mean comparisons involving negative exponents (harmonic mean) and the full chain $M_{-1} \\leq M_0 \\leq M_1 \\leq M_2$."
+  ]
+}

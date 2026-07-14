@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_039",
+  "topic_name": "Symmetry and Pattern Recognition",
+  "generated_at": "2026-05-13T20:24:53.333310+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to grind through algebra \u2014 expanding, factoring, simplifying term by term. But experienced competitors finish problems in seconds that take others minutes, not because they compute faster, but because they see a structure that makes most of the work vanish. For instance: what is $1^2 - 2^2 + 3^2 - 4^2 + \\cdots + 99^2 - 100^2$? If you try to compute each term, you'll be there all day \u2014 but is there a pattern hiding in plain sight that collapses this instantly?",
+  "concept": "Symmetry and pattern recognition means deliberately looking for structure \u2014 a repeating cycle, a pairing that cancels, a substitution that reveals balance \u2014 before doing any computation. Formally, if a sum or expression possesses a symmetry $f(a) + f(b) = c$ for paired terms $(a,b)$, or a period-$k$ pattern where $a_{n+k} = a_n$, then you can replace a long computation with a short one by exploiting that structure.",
+  "anatomy": "Three structural elements appear repeatedly. First, the **pairing**: two terms $a$ and $b$ (often symmetric about a midpoint or satisfying $a + b = n$) whose combination simplifies, e.g., $f(a) + f(b) = \\text{constant}$. Second, the **period or cycle length** $k$: the number of consecutive terms after which the pattern resets, so the full sum equals (number of complete cycles) $\\times$ (one cycle's sum) plus any remainder. Third, the **telescope or collapse**: a chain where intermediate terms cancel, leaving only the first and last, as in $\\sum (a_{i+1} - a_i) = a_n - a_1$.",
+  "worked_example": [
+    {
+      "expression_latex": "S = 1^2 - 2^2 + 3^2 - 4^2 + \\cdots + 99^2 - 100^2",
+      "description_latex": "We want to evaluate this alternating sum of squares. Rather than computing 100 individual squares, we look for a pairing: notice the sum naturally groups into 50 consecutive pairs of the form $(2k-1)^2 - (2k)^2$ for $k = 1, 2, \\ldots, 50$. Spotting this pairing is the key insight that turns a 100-term problem into a 50-term one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(2k-1)^2 - (2k)^2 = [(2k-1) - (2k)][(2k-1) + (2k)] = (-1)(4k - 1) = -(4k-1)",
+      "description_latex": "We apply the difference-of-squares factoring $a^2 - b^2 = (a-b)(a+b)$ to a single generic pair. This is why we wanted to see the pairing \u2014 the difference of squares formula collapses each pair into a simple linear expression in $k$, eliminating the squares entirely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\sum_{k=1}^{50} -(4k-1) = -\\sum_{k=1}^{50}(4k - 1) = -\\left[4\\cdot\\frac{50 \\cdot 51}{2} - 50\\right]",
+      "description_latex": "Now we sum the simplified expression over all 50 pairs, using the standard formula $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$. We separated the constant $-1$ term (giving $-50$) from the $4k$ term so we can apply the formula cleanly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = -[5100 - 50] = -5050",
+      "description_latex": "We finish the arithmetic: $4 \\cdot \\frac{50 \\cdot 51}{2} = 4 \\cdot 1275 = 5100$, so $S = -(5100 - 50) = -5050$. Notice that without the pairing symmetry, computing each square individually would have taken far longer \u2014 the structure did all the heavy lifting.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find } S = \\frac{1}{1\\cdot2} + \\frac{1}{2\\cdot3} + \\frac{1}{3\\cdot4} + \\cdots + \\frac{1}{99\\cdot100}",
+      "description_latex": "This sum looks complicated, but there is a telescoping pattern waiting to be revealed. The key is to rewrite each fraction using partial fractions: notice that $\\frac{1}{k(k+1)} = \\frac{1}{k} - \\frac{1}{k+1}$. This decomposition is the structural insight that makes the whole sum collapse.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\left(\\frac{1}{1} - \\frac{1}{2}\\right) + \\left(\\frac{1}{2} - \\frac{1}{3}\\right) + \\cdots + \\left(\\frac{1}{99} - \\frac{1}{100}\\right)",
+      "description_latex": "After substituting the partial fraction form, we write out the first few and last few terms so we can see what cancels. Most intermediate terms appear twice with opposite signs \u2014 this is the telescoping collapse in action. What terms survive after all the cancellation?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "S = 1 - \\frac{1}{100} = \\frac{99}{100}",
+      "description_latex": "Every interior term $\\frac{1}{2}, \\frac{1}{3}, \\ldots, \\frac{1}{99}$ cancels with its negative counterpart, leaving only the very first term $\\frac{1}{1} = 1$ and the very last $-\\frac{1}{100}$. This is the hallmark of a telescoping sum: a 99-term problem reduces to a two-term subtraction.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $\\displaystyle\\sum_{k=1}^{50}(2k-1) - \\sum_{k=1}^{50}(2k)$.",
+      "answer_latex": "-50"
+    },
+    {
+      "prompt_latex": "Find the units digit of $1! + 2! + 3! + \\cdots + 100!$.",
+      "answer_latex": "3"
+    },
+    {
+      "prompt_latex": "Evaluate $\\dfrac{1}{\\sqrt{1}+\\sqrt{2}} + \\dfrac{1}{\\sqrt{2}+\\sqrt{3}} + \\cdots + \\dfrac{1}{\\sqrt{99}+\\sqrt{100}}$.",
+      "answer_latex": "9"
+    },
+    {
+      "prompt_latex": "Let $f(x) = \\dfrac{x^2}{1+x^2}$. Compute $f\\!\\left(\\tfrac{1}{5}\\right)+f\\!\\left(\\tfrac{2}{5}\\right)+f\\!\\left(\\tfrac{3}{5}\\right)+f\\!\\left(\\tfrac{4}{5}\\right)+f(1)+f\\!\\left(\\tfrac{5}{4}\\right)+f\\!\\left(\\tfrac{5}{3}\\right)+f\\!\\left(\\tfrac{5}{2}\\right)+f(5)$.",
+      "answer_latex": "\\dfrac{9}{2}"
+    },
+    {
+      "prompt_latex": "A frog jumps on a number line. On jump $n$, it moves $(-1)^n \\cdot n$ units from its current position, starting at 0. Where is the frog after 200 jumps?",
+      "answer_latex": "100"
+    }
+  ],
+  "common_mistakes": [
+    "Students try to apply a pairing to a sum with an ODD number of terms, forgetting there is a middle term left over that must be handled separately \u2014 always check whether $n$ is even or odd before assuming clean pairs.",
+    "When recognizing a telescoping sum, students cancel ALL terms including the very first and very last, reporting 0 as the answer \u2014 remember that the first term has no left neighbor and the last has no right neighbor, so exactly those two boundary terms survive.",
+    "Students identify that a pattern repeats with period $k$ but multiply (number of full cycles) $\\times$ (one cycle's value) without checking whether there is a remainder after the cycles end \u2014 always compute $n \\div k$ and handle the leftover terms explicitly."
+  ],
+  "untested_variants": [
+    "Symmetry of polynomial roots: using Vieta's formulas combined with the observation that roots come in conjugate pairs to evaluate symmetric expressions like $\\sum r_i^2$ or $\\prod(1 + r_i)$.",
+    "Two-dimensional grid symmetry: summing $f(i,j)$ over a grid where $f(i,j) + f(j,i) = c$, requiring students to pair off-diagonal entries and handle the diagonal separately.",
+    "Modular periodicity in exponential towers: finding the last two digits of $7^{7^{7^\\cdots}}$ by identifying the period of powers of 7 modulo 100 and determining which residue class the exponent falls into.",
+    "Symmetry arguments in combinatorics: using the fact that in a tournament every pair of outcomes is equally likely to argue that the expected number of wins for each player equals $\\frac{n-1}{2}$ without direct counting."
+  ]
+}

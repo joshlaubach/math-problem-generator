@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_008",
+  "topic_name": "Subsets, Power Sets, and Cartesian Products",
+  "generated_at": "2026-05-13T20:12:09.023829+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to describe sets by listing their elements \u2014 for example, $A = \\{1, 2, 3\\}$ and $B = \\{1, 2\\}$. You can even say that every element of $B$ is also in $A$. But what if someone asked you: how many distinct collections of elements can you form from $A$? Or what does it mean to pair every element of $A$ with every element of $B$ in an ordered way? Can you count all the subsets of a set, or build a new set of ordered pairs from two sets?",
+  "concept": "A subset $B \\subseteq A$ means every element of $B$ is also in $A$. The power set $\\mathcal{P}(A)$ is the set of ALL subsets of $A$, including $\\emptyset$ and $A$ itself; if $|A| = n$, then $|\\mathcal{P}(A)| = 2^n$. The Cartesian product $A \\times B = \\{(a, b) \\mid a \\in A,\\, b \\in B\\}$ is the set of all ordered pairs with the first element from $A$ and the second from $B$; if $|A| = m$ and $|B| = n$, then $|A \\times B| = mn$.",
+  "anatomy": "Three distinct structures appear here. First, a subset relationship $B \\subseteq A$ has two roles: the smaller set $B$ (which may be empty or equal to $A$) and the containing set $A$; the symbol $\\subseteq$ means 'is a subset of,' while $\\subsetneq$ means 'proper subset.' Second, the power set $\\mathcal{P}(A)$ has one input \u2014 the base set $A$ \u2014 and produces a set whose elements are themselves sets; its cardinality formula $|\\mathcal{P}(A)| = 2^{|A|}$ comes from choosing, independently, whether to include each element. Third, the Cartesian product $A \\times B$ has two component sets and produces ordered pairs $(a, b)$, where order matters: $(a, b) \\neq (b, a)$ in general.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\{x, y\\}, \\quad B = \\{1, 2, 3\\}",
+      "description_latex": "We define two sets to work with throughout this example. Notice that $A$ has 2 elements and $B$ has 3 elements \u2014 these cardinalities will drive all our counting results.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathcal{P}(A) = \\{\\emptyset,\\, \\{x\\},\\, \\{y\\},\\, \\{x, y\\}\\}",
+      "description_latex": "To build the power set of $A$, we list every possible subset: the empty set (include nothing), each singleton (include exactly one element), and $A$ itself (include everything). Since $|A| = 2$, the formula predicts $2^2 = 4$ subsets, which matches our list exactly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|\\mathcal{P}(B)| = 2^{|B|} = 2^3 = 8",
+      "description_latex": "Rather than listing all subsets of $B$ (there are 8 of them), we apply the cardinality formula directly. Each of the 3 elements of $B$ is either included or excluded independently, giving $2 \\times 2 \\times 2 = 8$ choices total.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A \\times B = \\{(x,1),(x,2),(x,3),(y,1),(y,2),(y,3)\\}",
+      "description_latex": "The Cartesian product pairs every element of $A$ with every element of $B$ in order: we take each of the 2 elements of $A$ and match it with each of the 3 elements of $B$, producing $2 \\times 3 = 6$ ordered pairs. Notice the pairs are ordered, so $(x, 1)$ and $(1, x)$ are different objects.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\{x\\} \\subsetneq A, \\quad A \\subseteq A, \\quad \\emptyset \\subseteq A",
+      "description_latex": "Finally, we verify subset relationships: $\\{x\\}$ is a proper subset of $A$ because it is missing $y$; $A$ is a subset of itself (every set is); and $\\emptyset$ is a subset of every set because there are no elements in it that could violate the definition. These three cases capture the full range of subset behavior.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "C = \\{a, b, c\\}, \\quad D = \\{0, 1\\}",
+      "description_latex": "We are given two sets. Our goals are to find $|\\mathcal{P}(C)|$, list $\\mathcal{P}(D)$, and compute $|C \\times D|$. Start by noting the cardinalities: $|C| = 3$ and $|D| = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|\\mathcal{P}(C)| = 2^{|C|} = 2^3 = 8",
+      "description_latex": "We apply the power set cardinality formula to $C$. There are 8 distinct subsets of $C$, even though listing all of them would take a moment.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathcal{P}(D) = \\{\\emptyset,\\, \\{0\\},\\, \\{1\\},\\, \\{0,1\\}\\}",
+      "description_latex": "Now list every subset of $D = \\{0, 1\\}$ systematically: start with the empty set, then each singleton, then the full set. How many subsets do you expect, and does your list match that count?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "|C \\times D| = |C| \\times |D| = 3 \\times 2 = 6",
+      "description_latex": "Use the Cartesian product cardinality formula to find how many ordered pairs are in $C \\times D$. Then, as a challenge, try listing all 6 ordered pairs to confirm your answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $S = \\{1, 2\\}$. List all subsets of $S$ and verify that the number matches $2^{|S|}$.",
+      "answer_latex": "\\mathcal{P}(S) = \\{\\emptyset, \\{1\\}, \\{2\\}, \\{1,2\\}\\}; \\quad 2^2 = 4 \\text{ subsets} \\checkmark"
+    },
+    {
+      "prompt_latex": "Let $A = \\{p, q, r, s\\}$. How many elements does $\\mathcal{P}(A)$ have?",
+      "answer_latex": "|\\mathcal{P}(A)| = 2^4 = 16"
+    },
+    {
+      "prompt_latex": "Let $X = \\{1, 2, 3\\}$ and $Y = \\{a, b\\}$. List all elements of $X \\times Y$ and state $|X \\times Y|$.",
+      "answer_latex": "X \\times Y = \\{(1,a),(1,b),(2,a),(2,b),(3,a),(3,b)\\}; \\quad |X \\times Y| = 6"
+    },
+    {
+      "prompt_latex": "Let $A = \\{\\emptyset, \\{1\\}\\}$. Find $\\mathcal{P}(A)$ and $|A \\times A|$.",
+      "answer_latex": "\\mathcal{P}(A) = \\{\\emptyset,\\, \\{\\emptyset\\},\\, \\{\\{1\\}\\},\\, \\{\\emptyset,\\{1\\}\\}\\}; \\quad |A \\times A| = 2^2 = 4"
+    },
+    {
+      "prompt_latex": "A password system uses a symbol set $\\Sigma = \\{0,1,\\star\\}$ for the first character and a digit set $D = \\{0,1,2,3,4,5,6,7,8,9\\}$ for the second. How many distinct two-character strings $(s, d)$ with $s \\in \\Sigma$ and $d \\in D$ are possible? Also, how many subsets of $\\Sigma$ contain the symbol $\\star$?",
+      "answer_latex": "|\\Sigma \\times D| = 3 \\times 10 = 30 \\text{ strings}; \\quad \\text{subsets of } \\Sigma \\text{ containing } \\star: 2^{|\\Sigma|-1} = 2^2 = 4"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $\\emptyset \\in A$ (claiming the empty set is an element of $A$) when they mean $\\emptyset \\subseteq A$ (the empty set is a subset of $A$). The empty set is a subset of every set by definition, but it is only an element of $A$ if $\\emptyset$ was explicitly placed inside $A$ as a listed member.",
+    "When computing the power set of a set whose elements are themselves sets \u2014 for example $A = \\{\\emptyset, \\{1\\}\\}$ \u2014 students confuse the elements of $A$ with sets and miscount, often writing $|\\mathcal{P}(A)| = 2$ instead of $4$. The fix is to treat each element of $A$ as an atomic object regardless of what it looks like, and apply $2^{|A|}$ mechanically.",
+    "Students frequently believe that $A \\times B = B \\times A$ because multiplication of numbers is commutative, but ordered pairs are sensitive to order: $(a, b) \\neq (b, a)$ unless $a = b$. The sets $A \\times B$ and $B \\times A$ have the same cardinality but are generally different sets, so always respect the order of the factors."
+  ],
+  "untested_variants": [
+    "Proving subset relationships formally using element-chasing arguments (e.g., prove that if $A \\subseteq B$ and $B \\subseteq C$ then $A \\subseteq C$).",
+    "Computing the Cartesian product of three or more sets, such as $A \\times B \\times C$, which produces ordered triples rather than pairs.",
+    "Finding the power set of the power set, $\\mathcal{P}(\\mathcal{P}(A))$, and determining its cardinality using iterated exponentiation.",
+    "Using subset and Cartesian product concepts in the context of relations \u2014 for example, determining whether a given set of ordered pairs $R \\subseteq A \\times B$ defines a function from $A$ to $B$."
+  ]
+}

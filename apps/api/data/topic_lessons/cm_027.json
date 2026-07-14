@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_027",
+  "topic_name": "Geometric Probability",
+  "generated_at": "2026-05-13T20:23:46.768313+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to find probability by counting favorable outcomes over total outcomes \u2014 toss a coin, roll a die, draw a card. But what happens when there are infinitely many equally likely outcomes? Suppose a point is chosen at random inside a square, and you need to find the probability it lands inside a circle drawn inside that square. You can't count individual points, so discrete counting won't help. How do you find the probability then?",
+  "concept": "Geometric probability replaces counting with measuring. When outcomes correspond to points chosen uniformly at random in some region, the probability of an event equals the measure (length, area, or volume) of the favorable region divided by the measure of the total region. Formally, $P(\\text{event}) = \\dfrac{\\text{measure of favorable region}}{\\text{measure of total region}}$, where every point in the total region is equally likely to be chosen.",
+  "anatomy": "Every geometric probability problem has four distinct components: (1) the sample space region, the full geometric figure from which the point is chosen uniformly at random, whose measure is the denominator; (2) the favorable region, the subset of the sample space where the event occurs, whose measure is the numerator; (3) the measure type, which matches the dimension of the problem \u2014 length for 1-D intervals, area for 2-D figures, volume for 3-D solids; and (4) the uniformity assumption, the critical condition that every point in the sample space is equally likely, which is what makes the ratio of measures equal to the probability.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{A point is chosen uniformly at random inside a } 6 \\times 6 \\text{ square. What is the probability it lies inside a circle of radius } 2 \\text{ centered at the center of the square?}",
+      "description_latex": "We start by identifying the sample space and the favorable region. The sample space is the entire $6 \\times 6$ square, and the favorable region is the disk of radius $2$ centered at the square's center. Because the radius $2$ is less than half the side length $3$, the entire circle fits inside the square, so the favorable region is just the full disk.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Total area} = 6 \\times 6 = 36",
+      "description_latex": "We compute the measure of the sample space \u2014 here, the area of the square. This goes in the denominator of our probability fraction, representing all equally likely positions for the chosen point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Favorable area} = \\pi r^2 = \\pi (2)^2 = 4\\pi",
+      "description_latex": "Next we compute the area of the disk, which is the favorable region. Using $A = \\pi r^2$ with $r = 2$ gives us $4\\pi$, the area of all points inside the circle that the chosen point could land on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P = \\frac{4\\pi}{36} = \\frac{\\pi}{9}",
+      "description_latex": "Now we form the ratio of favorable area to total area and simplify. This fraction $\\dfrac{\\pi}{9}$ is our geometric probability \u2014 notice it involves $\\pi$ because measuring a circular region naturally produces $\\pi$, unlike discrete probability which always gives a rational number.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A point is chosen uniformly at random on a segment from } 0 \\text{ to } 10. \\text{ Find the probability it lies in } [3, 7].",
+      "description_latex": "This is a one-dimensional geometric probability problem. The sample space is the segment $[0, 10]$ with total length $10$, and the favorable region is the sub-segment $[3, 7]$. We will form the ratio of lengths to find the probability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Favorable length} = 7 - 3 = 4, \\quad \\text{Total length} = 10",
+      "description_latex": "We identify and compute the lengths of both the favorable region and the sample space. The favorable sub-segment has length $4$ and the full segment has length $10$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now form the probability ratio and simplify it to lowest terms. What is $P(\\text{point in } [3,7])$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A point is chosen uniformly at random on a segment from $0$ to $20$. What is the probability it lies in $[5, 13]$?",
+      "answer_latex": "\\dfrac{8}{20} = \\dfrac{2}{5}"
+    },
+    {
+      "prompt_latex": "A point is chosen uniformly at random inside a rectangle with dimensions $8 \\times 5$. A $2 \\times 3$ rectangle is drawn inside it. What is the probability the point lies in the smaller rectangle?",
+      "answer_latex": "\\dfrac{6}{40} = \\dfrac{3}{20}"
+    },
+    {
+      "prompt_latex": "A point is chosen uniformly at random inside a circle of radius $6$. What is the probability it lies inside a concentric circle of radius $3$?",
+      "answer_latex": "\\dfrac{\\pi(3)^2}{\\pi(6)^2} = \\dfrac{9}{36} = \\dfrac{1}{4}"
+    },
+    {
+      "prompt_latex": "A point $(x, y)$ is chosen uniformly at random inside the square with vertices $(0,0)$, $(4,0)$, $(4,4)$, $(0,4)$. What is the probability that $x + y < 4$?",
+      "answer_latex": "\\dfrac{\\frac{1}{2}(4)(4)}{4^2} = \\dfrac{8}{16} = \\dfrac{1}{2}"
+    },
+    {
+      "prompt_latex": "Two friends each agree to arrive at a caf\u00e9 at a random time between 12:00 and 1:00, and each will wait exactly 15 minutes before leaving. What is the probability they meet? (Model arrival times as a point chosen uniformly in a $60 \\times 60$ square and find the area where $|x - y| \\leq 15$.)",
+      "answer_latex": "1 - \\dfrac{2 \\cdot \\frac{1}{2}(45)^2}{60^2} = 1 - \\dfrac{45^2}{60^2} = 1 - \\dfrac{2025}{3600} = \\dfrac{1575}{3600} = \\dfrac{7}{16}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the wrong type of measure \u2014 for example, dividing a length by an area or computing a perimeter instead of an area. Always ask yourself: is this problem about lengths, areas, or volumes, and make sure numerator and denominator use the same type of measure.",
+    "When the favorable region extends partially outside the sample space (e.g., a circle whose center is near the edge of a square), students compute the full area of the circle instead of only the portion that overlaps with the sample space. You must intersect the favorable region with the sample space before measuring.",
+    "Students forget to check the uniformity assumption and try to apply geometric probability to situations where the point is not chosen uniformly \u2014 for instance, if smaller values are more likely than larger ones. Geometric probability only equals the ratio of measures when every point is equally likely."
+  ],
+  "untested_variants": [
+    "Three-dimensional geometric probability problems, such as finding the probability that a point chosen uniformly inside a cube lies inside an inscribed sphere.",
+    "Geometric probability on a circle or arc \u2014 for example, two points chosen uniformly on a circle defining an arc, and asking for the probability the arc length exceeds a given value.",
+    "Problems where the sample space is a triangle and the favorable region is defined by an inequality like $y < f(x)$, requiring integration or decomposition into simpler shapes.",
+    "Buffon's Needle and related problems where geometric probability is connected to estimating $\\pi$ experimentally."
+  ]
+}

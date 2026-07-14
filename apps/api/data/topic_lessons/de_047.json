@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_047",
+  "topic_name": "Variation of Parameters for Systems (H)",
+  "generated_at": "2026-05-13T20:55:04.631837+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve a homogeneous linear system $\\mathbf{x}' = A\\mathbf{x}$ by finding a fundamental matrix $\\Phi(t)$ whose columns are linearly independent solutions. You've even used variation of parameters to handle a single non-homogeneous ODE $y'' + p(t)y' + q(t)y = g(t)$ by promoting the constants to functions. But what happens when you have a full non-homogeneous system $\\mathbf{x}' = A\\mathbf{x} + \\mathbf{g}(t)$, where the forcing term is a vector-valued function? Can you adapt the same idea to systems, and if so, how do you actually compute the particular solution?",
+  "concept": "Variation of parameters for systems replaces the constant coefficient vector $\\mathbf{c}$ in the homogeneous solution $\\Phi(t)\\mathbf{c}$ with a vector-valued function $\\mathbf{u}(t)$, then determines $\\mathbf{u}(t)$ so that the result satisfies the full system. Formally, if $\\Phi(t)$ is a fundamental matrix for $\\mathbf{x}' = A\\mathbf{x}$, then the particular solution is $\\mathbf{x}_p(t) = \\Phi(t)\\int \\Phi^{-1}(t)\\,\\mathbf{g}(t)\\,dt$, and the general solution is $\\mathbf{x}(t) = \\Phi(t)\\mathbf{c} + \\Phi(t)\\int \\Phi^{-1}(t)\\,\\mathbf{g}(t)\\,dt$.",
+  "anatomy": "The formula $\\mathbf{x}_p = \\Phi(t)\\int \\Phi^{-1}(t)\\,\\mathbf{g}(t)\\,dt$ has four distinct components. The fundamental matrix $\\Phi(t)$ is the $n\\times n$ matrix whose columns are $n$ linearly independent solutions of the homogeneous system; it 'carries' the solution structure. Its inverse $\\Phi^{-1}(t)$ exists for all $t$ precisely because its columns are linearly independent (guaranteed by a non-zero Wronskian $\\det\\Phi \\neq 0$). The forcing vector $\\mathbf{g}(t)$ is the non-homogeneous right-hand side of $\\mathbf{x}' = A\\mathbf{x} + \\mathbf{g}(t)$. The integral $\\int \\Phi^{-1}(t)\\,\\mathbf{g}(t)\\,dt$ produces the variation vector $\\mathbf{u}(t)$, computed component-by-component, and is the step that directly generalizes scalar variation of parameters to the system setting.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{x}' = \\begin{pmatrix}1 & 1\\\\0 & 1\\end{pmatrix}\\mathbf{x} + \\begin{pmatrix}e^t\\\\e^t\\end{pmatrix}",
+      "description_latex": "We start by identifying $A = \\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}$ and $\\mathbf{g}(t)=\\begin{pmatrix}e^t\\\\e^t\\end{pmatrix}$. Before applying variation of parameters, we need a fundamental matrix for the homogeneous system $\\mathbf{x}'=A\\mathbf{x}$, so our first task is to find the eigenvalues and eigenvectors of $A$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Phi(t) = \\begin{pmatrix}e^t & te^t\\\\0 & e^t\\end{pmatrix}",
+      "description_latex": "The matrix $A$ has a repeated eigenvalue $\\lambda=1$. The first column comes from the eigenvector $\\mathbf{v}_1=(1,0)^T$ giving $e^t(1,0)^T$, and the second column uses the generalized eigenvector $\\mathbf{v}_2=(0,1)^T$ via the formula $e^{t}(t\\mathbf{v}_1+\\mathbf{v}_2)=e^t(t,1)^T$. Assembling these gives us the fundamental matrix $\\Phi(t)$ shown above, which has $\\det\\Phi(t)=e^{2t}\\neq 0$, confirming it is indeed a valid fundamental matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Phi^{-1}(t) = e^{-2t}\\begin{pmatrix}e^t & -te^t\\\\0 & e^t\\end{pmatrix} = \\begin{pmatrix}e^{-t} & -te^{-t}\\\\0 & e^{-t}\\end{pmatrix}",
+      "description_latex": "We compute $\\Phi^{-1}(t)$ using the $2\\times 2$ inverse formula $\\frac{1}{\\det\\Phi}\\begin{pmatrix}d&-b\\\\-c&a\\end{pmatrix}$ applied to $\\Phi(t)$. Since $\\det\\Phi=e^{2t}$, we divide the adjugate by $e^{2t}$ and simplify each entry, which gives us the clean expression above. Getting $\\Phi^{-1}$ right is critical because every subsequent computation flows through it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Phi^{-1}(t)\\,\\mathbf{g}(t) = \\begin{pmatrix}e^{-t}&-te^{-t}\\\\0&e^{-t}\\end{pmatrix}\\begin{pmatrix}e^t\\\\e^t\\end{pmatrix} = \\begin{pmatrix}1-t\\\\1\\end{pmatrix}",
+      "description_latex": "We multiply $\\Phi^{-1}(t)$ by the forcing vector $\\mathbf{g}(t)$ component-wise: the first entry is $e^{-t}\\cdot e^t + (-te^{-t})\\cdot e^t = 1-t$, and the second is $0\\cdot e^t + e^{-t}\\cdot e^t = 1$. This product is the integrand $\\mathbf{u}'(t)$, and its clean polynomial/constant form shows why the method works so nicely here \u2014 we will integrate each entry separately.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{x}_p(t) = \\Phi(t)\\int\\begin{pmatrix}1-t\\\\1\\end{pmatrix}dt = \\begin{pmatrix}e^t&te^t\\\\0&e^t\\end{pmatrix}\\begin{pmatrix}t-\\tfrac{t^2}{2}\\\\t\\end{pmatrix} = \\begin{pmatrix}e^t(t-\\tfrac{t^2}{2})+te^t\\cdot t\\\\e^t\\cdot t\\end{pmatrix} = \\begin{pmatrix}e^t\\bigl(t+\\tfrac{t^2}{2}\\bigr)\\\\te^t\\end{pmatrix}",
+      "description_latex": "Integrating $\\mathbf{u}'(t)$ entry-by-entry (ignoring constants since we only need one particular solution) gives $\\mathbf{u}(t)=(t-t^2/2,\\, t)^T$. Left-multiplying by $\\Phi(t)$ then yields $\\mathbf{x}_p$: the first component simplifies because $e^t(t-t^2/2)+t^2e^t = e^t(t+t^2/2)$. The general solution is $\\mathbf{x}(t)=\\Phi(t)\\mathbf{c}+\\mathbf{x}_p(t) = c_1\\begin{pmatrix}e^t\\\\0\\end{pmatrix}+c_2\\begin{pmatrix}te^t\\\\e^t\\end{pmatrix}+\\begin{pmatrix}e^t(t+\\tfrac{t^2}{2})\\\\te^t\\end{pmatrix}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{x}' = \\begin{pmatrix}0 & 1\\\\-1 & 0\\end{pmatrix}\\mathbf{x} + \\begin{pmatrix}0\\\\\\sec t\\end{pmatrix}",
+      "description_latex": "We recognize $A$ as the rotation matrix with eigenvalues $\\pm i$, giving the homogeneous solutions $\\cos t$ and $\\sin t$. The fundamental matrix is $\\Phi(t) = \\begin{pmatrix}\\cos t & \\sin t\\\\-\\sin t & \\cos t\\end{pmatrix}$, which has $\\det\\Phi(t)=\\cos^2 t+\\sin^2 t=1$, so $\\Phi^{-1}(t)=\\begin{pmatrix}\\cos t & -\\sin t\\\\\\sin t & \\cos t\\end{pmatrix}$. This is all set up for you \u2014 now you need to compute the product $\\Phi^{-1}(t)\\mathbf{g}(t)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $\\Phi^{-1}(t)\\,\\mathbf{g}(t)$ where $\\mathbf{g}(t)=(0,\\,\\sec t)^T$. Carry out the matrix-vector multiplication and simplify each entry using trigonometric identities \u2014 this gives you the vector $\\mathbf{u}'(t)$ that you will integrate next.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathbf{u}(t) = \\int\\begin{pmatrix}-\\sin t\\sec t\\\\\\cos t\\sec t\\end{pmatrix}dt = \\int\\begin{pmatrix}-\\tan t\\\\1\\end{pmatrix}dt = \\begin{pmatrix}\\ln|\\cos t|\\\\t\\end{pmatrix}",
+      "description_latex": "Integrating entry-by-entry: $\\int -\\tan t\\,dt = \\ln|\\cos t|$ and $\\int 1\\,dt = t$ (omitting constants). Now multiply $\\Phi(t)\\,\\mathbf{u}(t)$ to obtain the particular solution $\\mathbf{x}_p$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $\\mathbf{x}_p(t) = \\Phi(t)\\,\\mathbf{u}(t)$ by multiplying $\\begin{pmatrix}\\cos t & \\sin t\\\\-\\sin t & \\cos t\\end{pmatrix}\\begin{pmatrix}\\ln|\\cos t|\\\\t\\end{pmatrix}$. Expand each component and write the general solution $\\mathbf{x}(t) = \\Phi(t)\\mathbf{c} + \\mathbf{x}_p(t)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $\\Phi(t)=\\begin{pmatrix}e^{2t}&0\\\\0&e^{-t}\\end{pmatrix}$ and $\\mathbf{g}(t)=\\begin{pmatrix}e^{2t}\\\\e^{-t}\\end{pmatrix}$, compute $\\Phi^{-1}(t)\\,\\mathbf{g}(t)$ and then find $\\mathbf{u}(t)=\\int\\Phi^{-1}(t)\\,\\mathbf{g}(t)\\,dt$.",
+      "answer_latex": "\\Phi^{-1}(t)\\mathbf{g}(t)=\\begin{pmatrix}1\\\\1\\end{pmatrix},\\quad \\mathbf{u}(t)=\\begin{pmatrix}t\\\\t\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Find the general solution of $\\mathbf{x}'=\\begin{pmatrix}2&0\\\\0&-1\\end{pmatrix}\\mathbf{x}+\\begin{pmatrix}e^{2t}\\\\e^{-t}\\end{pmatrix}$.",
+      "answer_latex": "\\mathbf{x}(t)=c_1\\begin{pmatrix}e^{2t}\\\\0\\end{pmatrix}+c_2\\begin{pmatrix}0\\\\e^{-t}\\end{pmatrix}+\\begin{pmatrix}te^{2t}\\\\te^{-t}\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Use variation of parameters to find the general solution of $\\mathbf{x}'=\\begin{pmatrix}0&1\\\\-1&0\\end{pmatrix}\\mathbf{x}+\\begin{pmatrix}\\cos t\\\\0\\end{pmatrix}$.",
+      "answer_latex": "\\mathbf{x}(t)=c_1\\begin{pmatrix}\\cos t\\\\-\\sin t\\end{pmatrix}+c_2\\begin{pmatrix}\\sin t\\\\\\cos t\\end{pmatrix}+\\begin{pmatrix}\\tfrac{t}{2}\\sin t\\\\\\tfrac{1}{2}\\sin t+\\tfrac{t}{2}\\cos t\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Solve the initial value problem $\\mathbf{x}'=\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}\\mathbf{x}+\\begin{pmatrix}e^t\\\\e^t\\end{pmatrix}$, $\\mathbf{x}(0)=\\begin{pmatrix}1\\\\0\\end{pmatrix}$, using the particular solution derived in the worked example.",
+      "answer_latex": "\\mathbf{x}(t)=\\begin{pmatrix}e^t\\\\0\\end{pmatrix}+\\begin{pmatrix}e^t(t+\\tfrac{t^2}{2})\\\\te^t\\end{pmatrix},\\text{ i.e., }\\mathbf{x}(t)=\\begin{pmatrix}e^t(1+t+\\tfrac{t^2}{2})\\\\te^t\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A two-compartment mixing model leads to $\\mathbf{x}'=\\begin{pmatrix}-2&1\\\\2&-1\\end{pmatrix}\\mathbf{x}+\\begin{pmatrix}3e^{-t}\\\\0\\end{pmatrix}$. The fundamental matrix of the homogeneous system is $\\Phi(t)=\\begin{pmatrix}e^{-3t}&1\\\\-2e^{-3t}&2\\end{pmatrix}$. Use variation of parameters to find the particular solution $\\mathbf{x}_p(t)$.",
+      "answer_latex": "\\mathbf{x}_p(t)=\\begin{pmatrix}e^{-t}\\\\e^{-t}\\end{pmatrix}\\text{ (up to constant multiples absorbed into the homogeneous part)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often compute $\\mathbf{u}(t) = \\int \\Phi(t)\\,\\mathbf{g}(t)\\,dt$ instead of $\\int \\Phi^{-1}(t)\\,\\mathbf{g}(t)\\,dt$, forgetting that the inverse is required. To fix this, remember that the derivation insists on $\\Phi\\mathbf{u}'=\\mathbf{g}$, so isolating $\\mathbf{u}'$ means left-multiplying by $\\Phi^{-1}$.",
+    "After finding $\\mathbf{u}(t)$, students write $\\mathbf{x}_p = \\mathbf{u}(t)$ instead of $\\mathbf{x}_p = \\Phi(t)\\,\\mathbf{u}(t)$, omitting the final left-multiplication by $\\Phi(t)$. The fix is to remember the ansatz was $\\mathbf{x}_p = \\Phi(t)\\mathbf{u}(t)$, so $\\Phi$ must appear in the final answer.",
+    "Students include the arbitrary constant vector when integrating $\\mathbf{u}'(t)$ and then add it again in the homogeneous part, double-counting the free constants. Because $\\Phi(t)\\mathbf{c}$ already captures all homogeneous freedom, you should set the integration constants in $\\mathbf{u}(t)$ to zero when constructing just the particular solution."
+  ],
+  "untested_variants": [
+    "Systems of size $3\\times 3$ where the fundamental matrix computation requires three distinct real eigenvalues and the inverse must be found by row reduction rather than the $2\\times 2$ shortcut formula.",
+    "Non-homogeneous systems where $A$ has complex conjugate eigenvalues and the forcing vector $\\mathbf{g}(t)$ involves products of exponentials and trigonometric functions, requiring integration by parts inside the variation of parameters integral.",
+    "Using the definite-integral form $\\mathbf{x}_p(t)=\\Phi(t)\\int_{t_0}^{t}\\Phi^{-1}(s)\\,\\mathbf{g}(s)\\,ds$ to simultaneously enforce an initial condition $\\mathbf{x}(t_0)=\\mathbf{x}_0$ without separately solving for the constant vector $\\mathbf{c}$.",
+    "Systems where $A$ is not diagonalizable and has a $3\\times 3$ Jordan block, requiring the matrix exponential $e^{At}$ as the fundamental matrix and demanding students compute $e^{-At}$ to form $\\Phi^{-1}(t)$."
+  ]
+}

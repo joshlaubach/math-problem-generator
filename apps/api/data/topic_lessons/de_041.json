@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_041",
+  "topic_name": "Legendre's Equation and Legendre Polynomials (H)",
+  "generated_at": "2026-05-13T20:03:33.067348+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve second-order linear ODEs with constant coefficients, and you've seen how power series can unlock solutions near ordinary points. But what happens when you encounter the equation $(1-x^2)y'' - 2xy' + n(n+1)y = 0$, which governs temperature distributions on spheres, quantum mechanical angular wavefunctions, and gravitational potentials? The standard exponential ansatz fails here, and naive power series gets messy fast. How do we find clean, polynomial solutions to this famous equation, and why do they terminate?",
+  "concept": "Legendre's equation is a classical second-order linear ODE that appears throughout physics and engineering whenever a problem has spherical symmetry. Formally, it is $(1-x^2)y'' - 2xy' + n(n+1)y = 0$, where $n$ is a non-negative integer. When $n$ is a non-negative integer, one of the two linearly independent power series solutions terminates after finitely many terms, producing a polynomial called the Legendre polynomial $P_n(x)$, normalized so that $P_n(1) = 1$.",
+  "anatomy": "The equation $(1-x^2)y'' - 2xy' + n(n+1)y = 0$ has three structurally important pieces: the coefficient $(1-x^2)$ multiplying $y''$, which vanishes at $x = \\pm 1$ making those singular points; the damping-like term $-2xy'$; and the eigenvalue-like parameter $n(n+1)$, where $n$ is called the degree or order of the equation. The Legendre polynomial $P_n(x)$ is the specific polynomial solution of degree $n$, normalized by $P_n(1)=1$. The second independent solution $Q_n(x)$ is an infinite series that diverges at $x = \\pm 1$ and is usually discarded in physical applications on the interval $[-1,1]$.",
+  "worked_example": [
+    {
+      "expression_latex": "(1-x^2)y'' - 2xy' + n(n+1)y = 0",
+      "description_latex": "We begin with Legendre's equation in standard form. Our goal is to substitute a power series $y = \\sum_{k=0}^{\\infty} a_k x^k$ and find a recurrence relation for the coefficients $a_k$. Notice that $x=0$ is an ordinary point, so a standard power series solution is guaranteed to work in some neighborhood around the origin.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = \\sum_{k=0}^{\\infty} a_k x^k, \\quad y' = \\sum_{k=1}^{\\infty} k\\,a_k x^{k-1}, \\quad y'' = \\sum_{k=2}^{\\infty} k(k-1)a_k x^{k-2}",
+      "description_latex": "We write out $y$, $y'$, and $y''$ as power series. Substituting these into the equation means we will need to carefully multiply the series by the variable coefficients $(1-x^2)$ and $-2x$, and then collect all terms by power of $x$ so we can match coefficients.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{k=2}^{\\infty} k(k-1)a_k x^{k-2} - \\sum_{k=2}^{\\infty} k(k-1)a_k x^{k} - \\sum_{k=1}^{\\infty} 2k\\,a_k x^{k} + \\sum_{k=0}^{\\infty} n(n+1)a_k x^{k} = 0",
+      "description_latex": "After distributing $(1-x^2)$ and $-2x$ through their respective series, we obtain four separate sums. We re-index the first sum by letting $j = k-2$ (so $k = j+2$) to align all series as powers of $x^j$, which is the key step before reading off the coefficient of each power of $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(k+2)(k+1)a_{k+2} = [k(k+1) - n(n+1)]\\,a_k \\quad \\Longrightarrow \\quad a_{k+2} = -\\frac{(n-k)(n+k+1)}{(k+1)(k+2)}\\,a_k",
+      "description_latex": "Setting the coefficient of $x^k$ equal to zero yields the two-term recurrence relation above \u2014 this is the heart of the solution. Notice that whenever $k = n$, the numerator $(n-k)$ equals zero, which means $a_{n+2} = 0$ and every subsequent even or odd coefficient also vanishes. This is exactly why one solution terminates into a polynomial when $n$ is a non-negative integer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P_0(x)=1,\\quad P_1(x)=x,\\quad P_2(x)=\\tfrac{1}{2}(3x^2-1),\\quad P_3(x)=\\tfrac{1}{2}(5x^3-3x)",
+      "description_latex": "Applying the recurrence with $n = 0, 1, 2, 3$ and normalizing each polynomial so that $P_n(1)=1$ produces the first four Legendre polynomials. You can verify, for instance, that $P_2(1) = \\frac{1}{2}(3-1) = 1$ as required. These polynomials form an orthogonal basis on $[-1,1]$, a fact central to their application in physics.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "(1-x^2)y'' - 2xy' + 6y = 0",
+      "description_latex": "We want to identify $n$ and then use the recurrence relation to build the Legendre polynomial solution. First, compare $n(n+1) = 6$ to find $n$: solving gives $n=2$, so we are looking for $P_2(x)$ by applying the recurrence $a_{k+2} = -\\frac{(2-k)(3+k)}{(k+1)(k+2)}a_k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_2 = -\\frac{(2-0)(3+0)}{(1)(2)}a_0 = -3a_0, \\quad a_4 = -\\frac{(2-2)(5)}{(3)(4)}a_2 = 0",
+      "description_latex": "Starting from $a_0$ (arbitrary), we apply the recurrence for even indices. Notice that $a_4 = 0$ because the factor $(2-2)=0$ appears in the numerator \u2014 this is the termination condition that makes the even-index series a polynomial of degree 2.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now normalize the polynomial solution $y_{\\text{even}}(x) = a_0(1 - 3x^2)$ by choosing $a_0$ so that $P_2(1) = 1$. What value of $a_0$ achieves this, and what is the resulting expression for $P_2(x)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P_2(x) = \\tfrac{1}{2}(3x^2 - 1)",
+      "description_latex": "Setting $a_0(1-3) = 1$ gives $a_0 = -\\frac{1}{2}$, so $P_2(x) = -\\frac{1}{2}(1-3x^2) = \\frac{1}{2}(3x^2-1)$. This matches the standard result, confirming that normalization at $x=1$ completely determines the polynomial.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the value of $n$ in the Legendre equation $(1-x^2)y'' - 2xy' + 2y = 0$.",
+      "answer_latex": "n = 1$, since $n(n+1) = 1 \\cdot 2 = 2$"
+    },
+    {
+      "prompt_latex": "Use the recurrence relation $a_{k+2} = -\\dfrac{(n-k)(n+k+1)}{(k+1)(k+2)}a_k$ with $n=1$ to find $P_1(x)$, normalized so that $P_1(1)=1$.",
+      "answer_latex": "P_1(x) = x"
+    },
+    {
+      "prompt_latex": "Derive $P_3(x)$ by applying the recurrence relation for odd-indexed coefficients starting from $a_1$, then normalizing so that $P_3(1) = 1$.",
+      "answer_latex": "P_3(x) = \\tfrac{1}{2}(5x^3 - 3x)"
+    },
+    {
+      "prompt_latex": "Verify that $P_2(x) = \\tfrac{1}{2}(3x^2-1)$ satisfies Legendre's equation with $n=2$ by directly substituting into $(1-x^2)y'' - 2xy' + 6y = 0$.",
+      "answer_latex": "$(1-x^2)(3) - 2x(3x) + 6 \\cdot \\tfrac{1}{2}(3x^2-1) = 3 - 3x^2 - 6x^2 + 9x^2 - 3 = 0$ \\checkmark"
+    },
+    {
+      "prompt_latex": "The steady-state temperature $T(r,\\theta)$ inside a sphere satisfies Laplace's equation in spherical coordinates. If we separate variables and write $T = R(r)\\Theta(\\theta)$ with $x = \\cos\\theta$, the angular factor satisfies Legendre's equation. A solution that is finite on $[-1,1]$ and has the symmetry property $\\Theta(-x) = \\Theta(x)$ (even function) with $n=4$ is sought. Write the recurrence for even-index coefficients with $n=4$ and state the three nonzero coefficients $a_0, a_2, a_4$ (in terms of $a_0$), then give the normalized polynomial $P_4(x)$.",
+      "answer_latex": "a_2 = -\\tfrac{4 \\cdot 5}{1 \\cdot 2}a_0 = -10a_0,\\; a_4 = -\\tfrac{2 \\cdot 7}{3 \\cdot 4}(-10a_0) = \\tfrac{35}{6}a_0;\\; \\text{normalization } P_4(1)=1 \\text{ gives } P_4(x) = \\tfrac{1}{8}(35x^4 - 30x^2 + 3)"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to re-index the series for $y''$ before matching powers of $x$, leaving misaligned sums that produce a wrong recurrence relation. Always shift the index so every sum runs over the same power $x^k$ before collecting terms.",
+    "When the recurrence terminates (because $k = n$ makes the numerator zero), students sometimes stop at $a_{n+2} = 0$ but continue writing higher terms as if they might be nonzero. Once $a_{n+2} = 0$, the entire tail of that parity sequence is zero, so all $a_{n+2}, a_{n+4}, \\ldots$ must also be set to zero.",
+    "Students frequently skip or apply the normalization condition $P_n(1) = 1$ incorrectly \u2014 they build the polynomial from the recurrence (which gives an arbitrary multiple) but forget to scale it so that evaluating at $x = 1$ returns exactly 1. Always substitute $x = 1$ into your polynomial and divide through by the result to finish the problem."
+  ],
+  "untested_variants": [
+    "Finding the second, logarithmic solution $Q_n(x)$ for integer $n$ and analyzing its behavior at the singular points $x = \\pm 1$.",
+    "Using the Rodrigues' formula $P_n(x) = \\dfrac{1}{2^n n!}\\dfrac{d^n}{dx^n}(x^2-1)^n$ as an alternative way to compute Legendre polynomials without the recurrence relation.",
+    "Applying the orthogonality property $\\int_{-1}^{1} P_m(x)P_n(x)\\,dx = \\dfrac{2}{2n+1}\\delta_{mn}$ to expand a given function in a Legendre series.",
+    "Solving Legendre's equation via the associated Legendre equation $(1-x^2)y'' - 2xy' + \\left[n(n+1) - \\dfrac{m^2}{1-x^2}\\right]y = 0$ for $m \\neq 0$, which arises in three-dimensional spherical harmonics."
+  ]
+}

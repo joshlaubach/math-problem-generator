@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_051",
+  "topic_name": "Planar Graphs and Euler's Formula",
+  "generated_at": "2026-05-13T20:42:02.408979+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to draw graphs with vertices and edges, and you've seen examples like the classic K\u00f6nigsberg bridge problem. Now imagine you're designing a circuit board: you want to connect components with wires so that no two wires cross. Some networks can be drawn this way, but others simply cannot \u2014 no matter how creative you get with the layout. How can you tell, just by looking at a graph's numbers, whether such a crossing-free drawing is even possible?",
+  "concept": "A planar graph is one that can be drawn in the plane so that edges only meet at vertices \u2014 no crossings anywhere. The remarkable fact is that whenever you successfully draw a planar graph, it divides the plane into regions called faces (including the one unbounded outer region). Euler's formula then gives a rigid relationship: for any connected planar graph with $V$ vertices, $E$ edges, and $F$ faces, we always have $V - E + F = 2$.",
+  "anatomy": "Euler's formula $V - E + F = 2$ has three structural ingredients specific to planar graphs. The vertex count $V$ is the number of points in the graph. The edge count $E$ is the number of line segments connecting pairs of vertices. The face count $F$ is the number of regions the plane is divided into by the drawing, which always includes exactly one unbounded (outer) face that stretches to infinity. The quantity $V - E + F$ is called the Euler characteristic of the graph, and its value of $2$ is what makes planar graphs special. Additionally, each face is bounded by a cycle of edges called the boundary walk of that face, and the degree of a face counts how many edge-sides border it.",
+  "worked_example": [
+    {
+      "expression_latex": "V = 4,\\quad E = 6,\\quad \\text{(complete graph } K_4\\text{)}",
+      "description_latex": "We start with $K_4$, the complete graph on 4 vertices, where every pair of vertices is connected by an edge. With 4 vertices each connected to 3 others, the edge count is $\\binom{4}{2} = 6$. Before applying Euler's formula we need to confirm $K_4$ is actually planar by sketching it: place three vertices in a triangle and one vertex in the middle connected to all three \u2014 no edges cross, so it is planar.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F = 2 - V + E = 2 - 4 + 6 = 4",
+      "description_latex": "Using Euler's formula rearranged as $F = 2 - V + E$, we substitute our values to find that $K_4$ divides the plane into exactly 4 faces. This gives us a way to count faces algebraically without having to redraw the graph and physically count regions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Faces: 3 inner triangles} + 1 \\text{ outer face} = 4",
+      "description_latex": "We verify this against the drawing: the triangle-with-interior-vertex sketch creates 3 triangular inner regions plus the 1 unbounded outer region surrounding everything, giving exactly 4 faces. The algebraic count from Euler's formula matches the geometric count \u2014 this cross-check is an important habit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{\\text{faces}} \\deg(f) = 2E \\implies 3 \\cdot 3 + 1 \\cdot 3 = 12 = 2 \\times 6",
+      "description_latex": "Each edge borders exactly two faces, so the sum of all face degrees equals $2E$. The three inner triangles each have degree 3 (three bounding edges), and the outer face also has degree 3 (the outer triangle), giving $9 + 3 = 12 = 2 \\times 6$. This face-degree identity is a powerful consistency check and is often used in proofs of planarity bounds.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "V = 6,\\quad E = 9,\\quad \\text{(assume connected and planar)}",
+      "description_latex": "We are given a connected planar graph with 6 vertices and 9 edges. Our goal is to find the number of faces $F$ using Euler's formula $V - E + F = 2$. Start by writing out the formula with the known values substituted in.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "6 - 9 + F = 2",
+      "description_latex": "After substituting $V = 6$ and $E = 9$ into Euler's formula, we get $6 - 9 + F = 2$, which simplifies to $-3 + F = 2$. Now solve for $F$ \u2014 what does $F$ equal?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "F = 5",
+      "description_latex": "Since every face must be bounded by at least 3 edges and each edge borders at most 2 faces, we can double-check via the inequality $2E \\geq 3F$: substituting gives $18 \\geq 15$, which holds, confirming our answer of $F = 5$ is geometrically consistent.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A connected planar graph has $V = 5$ vertices and $E = 7$ edges. How many faces does it have?",
+      "answer_latex": "F = 2 - V + E = 2 - 5 + 7 = 4"
+    },
+    {
+      "prompt_latex": "A connected planar graph has $V = 8$ vertices and $F = 6$ faces. How many edges does it have?",
+      "answer_latex": "E = V + F - 2 = 8 + 6 - 2 = 12"
+    },
+    {
+      "prompt_latex": "Use the inequality $E \\leq 3V - 6$ to show that $K_5$ (5 vertices, 10 edges) is NOT planar.",
+      "answer_latex": "3V - 6 = 3(5) - 6 = 9 < 10 = E, \\text{ so } K_5 \\text{ violates the bound and is non-planar}"
+    },
+    {
+      "prompt_latex": "A connected planar graph has 10 vertices, all of degree 3. Use the handshaking lemma to find $E$, then use Euler's formula to find $F$.",
+      "answer_latex": "2E = 10 \\times 3 = 30 \\Rightarrow E = 15;\\quad F = 2 - V + E = 2 - 10 + 15 = 7"
+    },
+    {
+      "prompt_latex": "A cartographer divides a map into regions so that exactly 3 borders meet at every junction point, forming a connected planar graph. There are 12 countries (faces including the outer sea region) and 18 borders (edges). How many junction points (vertices) are there, and does the degree condition $2E = 3V$ hold?",
+      "answer_latex": "V = 2 - F + E = 2 - 12 + 18 = 8;\\quad 2E = 36 = 3 \\times 8 = 3V \\checkmark"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to count the unbounded outer face, writing $F = $ (number of enclosed regions) rather than (enclosed regions + 1). The fix: always remind yourself that the infinite region surrounding the entire graph is a legitimate face and must be included in $F$.",
+    "Students misapply Euler's formula to disconnected graphs, where the correct formula is $V - E + F = 1 + C$ with $C$ being the number of connected components; using $V - E + F = 2$ on a disconnected graph gives a wrong face count. Always check connectivity first.",
+    "When trying to prove non-planarity, students apply the bound $E \\leq 3V - 6$ without realizing it only holds when every face has degree at least 3; for bipartite graphs, where every face has degree at least 4, the tighter bound $E \\leq 2V - 4$ must be used instead. Using the wrong bound can fail to catch non-planar bipartite graphs like $K_{3,3}$."
+  ],
+  "untested_variants": [
+    "Proving that $K_{3,3}$ is non-planar using the bipartite bound $E \\leq 2V - 4$ (a different inequality from the one used in problem 3).",
+    "Applying Euler's formula to planar graphs drawn on surfaces other than the plane, such as a torus, where the Euler characteristic changes to $V - E + F = 0$.",
+    "Using Euler's formula to determine the number of edges or faces in a planar graph that has multiple connected components, requiring the generalized formula $V - E + F = 1 + C$.",
+    "Applying the face-degree sum identity $\\sum \\deg(f) = 2E$ to deduce a lower bound on the number of faces, or combining it with Euler's formula to derive the planarity inequality $E \\leq 3V - 6$ from scratch as a proof."
+  ]
+}

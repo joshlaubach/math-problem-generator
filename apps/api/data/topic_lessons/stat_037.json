@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_037",
+  "topic_name": "Power of a Test and Sample Size Calculations (H)",
+  "generated_at": "2026-05-13T20:32:16.199966+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to perform a hypothesis test and calculate a p-value to decide whether to reject $H_0$. But here's a question that works in the opposite direction: before you even collect data, how do you know your study is large enough to actually detect a real effect if one exists? A researcher testing a new drug might correctly design the experiment, run it perfectly, and still conclude 'no effect' simply because the sample was too small \u2014 this is called a failure of power. How do we calculate, in advance, exactly how many participants we need to guarantee a good chance of catching a true effect?",
+  "concept": "Power is the probability that a hypothesis test correctly rejects a false null hypothesis. Informally, it is the test's ability to detect a real effect when one truly exists. Formally, the power of a test is $\\text{Power} = 1 - \\beta$, where $\\beta = P(\\text{Type II error}) = P(\\text{fail to reject } H_0 \\mid H_0 \\text{ is false})$. Power depends on the significance level $\\alpha$, the true effect size, the population variability $\\sigma$, and the sample size $n$.",
+  "anatomy": "The power calculation involves four interlocking quantities. The significance level $\\alpha$ is the threshold for Type I error and sets the critical value $z_\\alpha$ (or $z_{\\alpha/2}$ for two-tailed tests). The Type II error rate $\\beta$ sets $z_\\beta$, the z-score corresponding to the desired power $1-\\beta$. The effect size is the difference $\\mu_1 - \\mu_0$ between the true mean under $H_a$ and the hypothesised mean under $H_0$. Finally, $\\sigma$ is the population standard deviation. These combine in the sample size formula $n = \\frac{(z_\\alpha + z_\\beta)^2 \\sigma^2}{(\\mu_1 - \\mu_0)^2}$, where each symbol plays a distinct role.",
+  "worked_example": [
+    {
+      "expression_latex": "H_0: \\mu = 50, \\quad H_a: \\mu > 50, \\quad \\sigma = 10, \\quad \\alpha = 0.05, \\quad \\text{Power} = 0.80, \\quad \\mu_1 = 54",
+      "description_latex": "We begin by clearly stating all the given information. The null hypothesis claims the mean is 50, the true mean we want to detect is 54 (so the effect size is $\\mu_1 - \\mu_0 = 54 - 50 = 4$), and we want an 80% chance of detecting this effect at a 5% significance level \u2014 this is a one-tailed test, so we use $z_{\\alpha}$ rather than $z_{\\alpha/2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z_{\\alpha} = z_{0.05} = 1.645, \\quad z_{\\beta} = z_{0.20} = 0.842",
+      "description_latex": "We look up the critical z-values corresponding to our chosen error rates. Because $\\alpha = 0.05$ (one-tailed), $z_\\alpha = 1.645$; because we want power $= 0.80$, we have $\\beta = 0.20$, so $z_\\beta = z_{0.20} = 0.842$. These z-values act as standardised 'budget' for the two kinds of errors we are willing to accept.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = \\frac{(z_{\\alpha} + z_{\\beta})^2 \\sigma^2}{(\\mu_1 - \\mu_0)^2} = \\frac{(1.645 + 0.842)^2 \\times 10^2}{(54 - 50)^2}",
+      "description_latex": "We substitute into the sample size formula. Notice how the numerator captures the combined z-budget multiplied by the population variance, while the denominator captures how large the effect is \u2014 a bigger effect means we need a smaller sample to detect it reliably.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = \\frac{(2.487)^2 \\times 100}{16} = \\frac{6.185 \\times 100}{16} = \\frac{618.5}{16} \\approx 38.66",
+      "description_latex": "We carry out the arithmetic step by step: $(1.645 + 0.842)^2 = (2.487)^2 \\approx 6.185$, then multiply by $\\sigma^2 = 100$ to get $618.5$, then divide by the squared effect size $4^2 = 16$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = 39",
+      "description_latex": "Because sample size must be a whole number and we always round up (rounding down would give us slightly less than 80% power), the minimum required sample size is $n = 39$. Rounding up is a rule worth remembering: rounding down would mean our study is fractionally underpowered.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H_0: \\mu = 100, \\quad H_a: \\mu \\neq 100, \\quad \\sigma = 15, \\quad \\alpha = 0.05, \\quad \\text{Power} = 0.90, \\quad \\mu_1 = 106",
+      "description_latex": "Here we have a two-tailed test. We want to find the minimum sample size needed to detect a shift from 100 to 106 with 90% power at the 5% significance level. Identify the effect size $\\mu_1 - \\mu_0$ and note that because the test is two-tailed, we will use $z_{\\alpha/2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z_{\\alpha/2} = z_{0.025} = 1.960, \\quad z_{\\beta} = z_{0.10} = 1.282",
+      "description_latex": "For a two-tailed test at $\\alpha = 0.05$ we split the significance level equally into both tails, giving $z_{\\alpha/2} = 1.960$. Power of 90% means $\\beta = 0.10$, so $z_\\beta = 1.282$. These values are now ready to substitute into the formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = \\frac{(z_{\\alpha/2} + z_{\\beta})^2 \\sigma^2}{(\\mu_1 - \\mu_0)^2} = \\frac{(1.960 + 1.282)^2 \\times 15^2}{(106 - 100)^2}",
+      "description_latex": "Substitute all known values into the sample size formula. Can you complete the arithmetic: compute the numerator and denominator separately, divide, and round up to give the minimum integer sample size?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "n = \\lceil 65.6 \\rceil = 66",
+      "description_latex": "Check your answer: $(3.242)^2 \\times 225 = 10.511 \\times 225 = 2364.9$, divided by $36$ gives approximately $65.7$, which rounds up to $n = 66$. If you got a value close to this, well done \u2014 small rounding differences in intermediate steps can shift the final answer by one.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A one-tailed test has $\\alpha = 0.05$ and desired power $= 0.80$. Write down the values of $z_\\alpha$ and $z_\\beta$ you would use in the sample size formula.",
+      "answer_latex": "z_{\\alpha} = 1.645, \\quad z_{\\beta} = 0.842"
+    },
+    {
+      "prompt_latex": "A researcher tests $H_0: \\mu = 20$ vs $H_a: \\mu > 20$ with $\\sigma = 5$, $\\alpha = 0.05$, power $= 0.80$, and wishes to detect $\\mu_1 = 22$. Find the minimum required sample size.",
+      "answer_latex": "n = \\left\\lceil \\frac{(1.645+0.842)^2 \\times 25}{4} \\right\\rceil = \\left\\lceil 38.66 \\right\\rceil = 39"
+    },
+    {
+      "prompt_latex": "For a two-tailed test with $H_0: \\mu = 50$, $\\sigma = 12$, $\\alpha = 0.05$, power $= 0.90$, and true mean $\\mu_1 = 55$, calculate the minimum sample size.",
+      "answer_latex": "n = \\left\\lceil \\frac{(1.960+1.282)^2 \\times 144}{25} \\right\\rceil = \\left\\lceil 60.2 \\right\\rceil = 61"
+    },
+    {
+      "prompt_latex": "A study is designed with $n = 25$, $\\sigma = 8$, testing $H_0: \\mu = 40$ vs $H_a: \\mu > 40$ at $\\alpha = 0.05$. If the true mean is $\\mu_1 = 44$, calculate the power of the test. (Hint: find $z^* = \\frac{(\\mu_1 - \\mu_0)\\sqrt{n}}{\\sigma} - z_\\alpha$ and use the standard normal table.)",
+      "answer_latex": "z^* = \\frac{4\\times 5}{8} - 1.645 = 2.5 - 1.645 = 0.855, \\quad \\text{Power} = P(Z > -0.855) \\approx 0.804"
+    },
+    {
+      "prompt_latex": "A clinical trial monitors blood pressure reduction. The standard deviation of reduction is known to be $\\sigma = 10$ mmHg. Regulators require the trial to detect a mean reduction of at least 5 mmHg above the null value of 0 mmHg, using a one-tailed test at $\\alpha = 0.01$ with power $0.90$. How many patients are needed?",
+      "answer_latex": "n = \\left\\lceil \\frac{(2.326+1.282)^2 \\times 100}{25} \\right\\rceil = \\left\\lceil \\frac{13.017 \\times 100}{25} \\right\\rceil = \\left\\lceil 52.07 \\right\\rceil = 53"
+    }
+  ],
+  "common_mistakes": [
+    "Using $z_{\\alpha/2}$ for a one-tailed test (or $z_\\alpha$ for a two-tailed test): always check the direction of $H_a$ first \u2014 a two-tailed alternative splits $\\alpha$ between both tails, so you must use $z_{\\alpha/2}$, but a one-tailed alternative concentrates all $\\alpha$ in one tail, requiring $z_\\alpha$.",
+    "Forgetting to square the effect size in the denominator: the formula divides by $(\\mu_1 - \\mu_0)^2$, not $|\\mu_1 - \\mu_0|$; omitting the square dramatically over-estimates the required sample size and is one of the most common arithmetic errors in these calculations.",
+    "Rounding the sample size down instead of up: since $n$ must be an integer, always take the ceiling $\\lceil \\cdot \\rceil$ of the computed value \u2014 rounding down means your actual power falls just below the target, which defeats the purpose of the calculation."
+  ],
+  "untested_variants": [
+    "Calculating sample size for a test about a population proportion $p$ rather than a mean $\\mu$, which uses the formula $n = \\frac{(z_{\\alpha}+z_{\\beta})^2 [p_0(1-p_0)+p_1(1-p_1)]}{(p_1-p_0)^2}$.",
+    "Finding the power of a two-sample $t$-test (comparing two independent group means), which requires pooled standard deviation and a different degrees-of-freedom adjustment.",
+    "Constructing a power curve by computing power across a range of possible true effect sizes $\\mu_1$ and plotting power against $\\mu_1$ to visualise how power grows as the true effect moves further from $\\mu_0$.",
+    "Determining the minimum detectable effect size given a fixed sample size $n$, budget constraints, and a required power level \u2014 essentially solving the sample size formula in reverse for $\\mu_1 - \\mu_0$."
+  ]
+}

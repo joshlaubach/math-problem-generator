@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_017",
+  "topic_name": "Double Counting and Combinatorial Identities (H)",
+  "generated_at": "2026-05-13T20:23:02.935505+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know that $\\binom{n}{k}$ counts the number of ways to choose $k$ items from $n$, and you can verify small cases by listing. But what happens when you encounter an identity like $\\sum_{k=0}^{n} \\binom{n}{k}^2 = \\binom{2n}{n}$ \u2014 how would you ever prove something like that without pages of algebra? The surprising answer is that both sides count the same thing in two different ways, and once you see it, the identity becomes obvious. Can you figure out what a committee-selection problem might have to do with squaring binomial coefficients?",
+  "concept": "Double counting (also called counting in two ways) is the technique of computing the size of a set or the sum of a quantity by constructing two different expressions for the same total, then equating them. Formally, if $f(S)$ denotes some quantity associated with a finite set $S$, and we can evaluate $\\sum_{s \\in S} f(s)$ by grouping over rows and also by grouping over columns of a bipartite relationship, then setting the two expressions equal yields a combinatorial identity \u2014 no algebra required.",
+  "anatomy": "A double-counting argument has three structural parts. The **object being counted** is the specific set or weighted sum whose total you are computing \u2014 clarity here prevents errors. The **first perspective** counts by iterating over one natural grouping (e.g., rows of a table, elements of one side of a bipartite graph), producing the left-hand side of the identity. The **second perspective** counts by iterating over a different natural grouping (e.g., columns, elements of the other side), producing the right-hand side. The identity then follows by the trivial but powerful observation that both perspectives count the same total, so LHS $=$ RHS.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\sum_{k=0}^{n} k\\binom{n}{k} = n \\cdot 2^{n-1}",
+      "description_latex": "We want to prove this identity by double counting, so we need to find one set of objects that both sides count. Consider all pairs $(\\text{committee}, \\text{chair})$ where we pick any subset of $\\{1, 2, \\ldots, n\\}$ people and then designate one member of that subset as chair. Both sides of the identity will count the total number of such pairs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Left side: } \\sum_{k=0}^{n} k\\binom{n}{k}",
+      "description_latex": "For the first perspective, we group by committee size $k$: there are $\\binom{n}{k}$ ways to choose the $k$ members, and then $k$ ways to pick the chair from those members, giving $k\\binom{n}{k}$ pairs for each value of $k$. Summing over all $k$ from $0$ to $n$ produces the left-hand side, and the $k=0$ term contributes $0$ since an empty committee has no chair.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Right side: } n \\cdot 2^{n-1}",
+      "description_latex": "For the second perspective, we build the pair by first choosing the chair: there are $n$ ways to pick which person is chair. Once the chair is fixed, every other person among the remaining $n-1$ people independently chooses to join or not join the committee, giving $2^{n-1}$ possibilities. Multiplying gives $n \\cdot 2^{n-1}$ total pairs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{k=0}^{n} k\\binom{n}{k} = n \\cdot 2^{n-1}",
+      "description_latex": "Since both perspectives count exactly the same collection of (committee, chair) pairs, we can equate them directly. This completes the proof \u2014 no algebraic manipulation of binomial coefficients was needed, only the insight that one set of objects admits two natural descriptions.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\sum_{k=0}^{r} \\binom{m}{k}\\binom{n}{r-k} = \\binom{m+n}{r}",
+      "description_latex": "This is the Vandermonde identity. To prove it by double counting, we identify the object being counted: the number of ways to choose $r$ people from a combined group of $m$ men and $n$ women. The right side counts this directly as $\\binom{m+n}{r}$, so we now need to produce the left side from a different perspective.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Group by } k = \\text{number of men chosen}",
+      "description_latex": "For the left-side perspective, suppose exactly $k$ of the $r$ chosen people are men (so $r - k$ are women). Explain why the number of ways to form such a group is $\\binom{m}{k}\\binom{n}{r-k}$, and why summing over all valid values of $k$ from $0$ to $r$ gives every possible selection exactly once.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\sum_{k=0}^{r} \\binom{m}{k}\\binom{n}{r-k} = \\binom{m+n}{r}",
+      "description_latex": "Since both perspectives count the same set of $r$-person committees drawn from $m + n$ people, we equate them to obtain the Vandermonde identity. Notice this works for any non-negative integers $m$, $n$, and $r$ \u2014 double counting is far more general than it might first appear.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove by double counting that $\\sum_{k=0}^{n} \\binom{n}{k} = 2^n$.",
+      "answer_latex": "Count subsets of $\\{1,\\ldots,n\\}$: the right side counts all subsets directly ($2$ choices per element), and the left side groups by subset size $k$, giving $\\binom{n}{k}$ subsets of size $k$. Equating gives $\\sum_{k=0}^{n}\\binom{n}{k} = 2^n$."
+    },
+    {
+      "prompt_latex": "Use double counting to prove $\\sum_{k=1}^{n} k \\binom{n}{k} = n\\cdot 2^{n-1}$ by counting (element, subset containing that element) pairs in two ways.",
+      "answer_latex": "First way: fix element $i$ in $n$ choices, then each remaining $n-1$ elements independently joins, giving $n \\cdot 2^{n-1}$ pairs. Second way: for a subset of size $k$ there are $k$ element choices, so the sum is $\\sum_{k=1}^{n} k\\binom{n}{k}$. Equating proves the identity."
+    },
+    {
+      "prompt_latex": "Prove the identity $\\binom{n}{2} + \\binom{n}{2} = n(n-1)$, i.e., $2\\binom{n}{2} = n(n-1)$, by counting ordered pairs of distinct elements from $\\{1,\\ldots,n\\}$ in two ways.",
+      "answer_latex": "First way: choose an ordered pair $(a,b)$ with $a \\neq b$; there are $n$ choices for $a$ and $n-1$ for $b$, giving $n(n-1)$. Second way: choose the unordered pair in $\\binom{n}{2}$ ways, then arrange in $2$ orders, giving $2\\binom{n}{2}$. Equating confirms $2\\binom{n}{2} = n(n-1)$."
+    },
+    {
+      "prompt_latex": "Prove the hockey stick identity $\\sum_{i=k}^{n} \\binom{i}{k} = \\binom{n+1}{k+1}$ by double counting: count $(k+1)$-element subsets of $\\{1,\\ldots,n+1\\}$ by the value of their largest element.",
+      "answer_latex": "The right side counts all $(k+1)$-element subsets of $\\{1,\\ldots,n+1\\}$ directly. If the largest element is $i+1$ (for $i = k, k+1, \\ldots, n$), the remaining $k$ elements are chosen from $\\{1,\\ldots,i\\}$ in $\\binom{i}{k}$ ways. Summing over all possible largest elements gives $\\sum_{i=k}^{n}\\binom{i}{k} = \\binom{n+1}{k+1}$."
+    },
+    {
+      "prompt_latex": "A school has $n$ students. Every day, a teacher picks a non-empty group of students and assigns one of them as reporter. Show by double counting that the total number of (group, reporter) pairs equals $n \\cdot 2^{n-1}$, and use this to evaluate $\\sum_{k=1}^{n} k\\binom{n}{k}$.",
+      "answer_latex": "Count by reporter first: $n$ choices for the reporter, then each of the other $n-1$ students independently joins, giving $n \\cdot 2^{n-1}$ pairs. Count by group size: a group of size $k$ contributes $k\\binom{n}{k}$ pairs. Equating gives $\\sum_{k=1}^{n} k\\binom{n}{k} = n \\cdot 2^{n-1}$."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to verify that every object is counted exactly once by each perspective; if one perspective double-counts certain configurations, the identity becomes an inequality rather than an equality. Always check that the two counting methods give a bijection between the same set of objects.",
+    "When grouping by a parameter (such as committee size $k$), students omit boundary cases where the term is zero (like $k=0$ giving $0 \\cdot \\binom{n}{0} = 0$) and incorrectly adjust the summation limits, which can make the left side appear to not match. Always sum over all mathematically valid values of $k$, even when some terms vanish.",
+    "Students confuse double counting with algebraic manipulation of generating functions or Pascal's identity, and try to 'derive' one side from the other using algebra instead of providing a combinatorial interpretation. The power of double counting is that you must name a concrete set of objects and give two genuine counting arguments \u2014 equating algebraic re-writings of the same formula is not a double-counting proof."
+  ],
+  "untested_variants": [
+    "Proving identities involving multinomial coefficients by counting colored arrangements (e.g., $\\binom{n}{k_1, k_2, k_3}$ identities), which requires a three-way or multi-way counting argument rather than the two-perspective structure practiced here.",
+    "Double counting applied to graph theory: proving the handshaking lemma $\\sum_{v} \\deg(v) = 2|E|$ or counting paths of length 2 in a graph to derive $\\sum_v \\binom{\\deg(v)}{2}$ expressions, which are not combinatorial coefficient identities.",
+    "Weighted double counting (also called the Cauchy\u2013Schwarz or probabilistic method variant) where each object carries a non-unit weight and the argument produces an inequality rather than an equality, such as proving $\\left(\\sum a_i\\right)^2 \\leq n \\sum a_i^2$.",
+    "Double counting proofs that establish divisibility results (e.g., showing $n \\mid \\binom{np}{p}$ for prime $p$) by counting orbits under a group action, which combines double counting with Burnside's lemma."
+  ]
+}

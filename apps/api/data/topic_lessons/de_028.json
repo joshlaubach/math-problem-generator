@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_028",
+  "topic_name": "Undetermined Coefficients for Higher Order Equations",
+  "generated_at": "2026-05-13T20:02:13.739738+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve second-order linear equations with constant coefficients using undetermined coefficients \u2014 you pick a trial solution based on the forcing function, differentiate it, substitute, and match. But what happens when the equation is third-order, fourth-order, or higher? The bookkeeping gets heavier, and a new wrinkle appears: a term in your trial solution might overlap not just with one homogeneous solution, but with a repeated one. Can you still use the same method, and if so, what adjustments must you make?",
+  "concept": "Undetermined coefficients for higher-order equations is the same strategy as for second-order: you guess a trial particular solution $y_p$ whose form mirrors the forcing function $g(x)$, plug it into the equation, and solve for the unknown coefficients. The formal setup is unchanged \u2014 given $a_n y^{(n)} + \\cdots + a_1 y' + a_0 y = g(x)$, you select $y_p$ from the standard table of trial forms, but you must now check for overlap with every term of the homogeneous solution $y_h$, multiplying by $x^s$ where $s$ is the smallest integer that eliminates all overlap.",
+  "anatomy": "The key structural pieces here are: the **homogeneous solution** $y_h$, built from all roots of the characteristic polynomial (real, complex, and repeated, up to order $n$); the **trial particular solution** $y_p$, whose form is read from $g(x)$ using the standard table; the **overlap check**, where you compare every term in the raw trial $y_p$ against every term in $y_h$; and the **multiplicity correction factor** $x^s$, where $s$ is chosen to be the smallest positive integer making every term in $y_p$ linearly independent from all terms in $y_h$. For a third- or fourth-order equation, $s$ can sometimes be 2 or even 3, unlike the second-order case where $s$ is at most 2.",
+  "worked_example": [
+    {
+      "expression_latex": "y''' - 3y'' + 3y' - y = e^x",
+      "description_latex": "We begin by writing down the equation clearly. This is a third-order linear ODE with constant coefficients, and our goal is to find a particular solution $y_p$ using undetermined coefficients. The forcing function is $g(x) = e^x$, so we start by solving the homogeneous problem to know what we're up against.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^3 - 3r^2 + 3r - 1 = (r-1)^3 = 0 \\implies r = 1 \\text{ (multiplicity 3)}",
+      "description_latex": "We factor the characteristic polynomial and discover that $r = 1$ is a triple root, which means the homogeneous solution is $y_h = (c_1 + c_2 x + c_3 x^2)e^x$. This is critical information: the naive trial solution $y_p = Ae^x$ is already present in $y_h$, and so are $Axe^x$ and $Ax^2e^x$. We need to multiply by $x^s$ where $s = 3$ so that $x^3 e^x$ is not in $y_h$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_p = A x^3 e^x",
+      "description_latex": "Because $r = 1$ has multiplicity 3, we multiply the raw trial form $Ae^x$ by $x^3$, giving the corrected trial $y_p = Ax^3 e^x$. This is the smallest power of $x$ that produces a term genuinely absent from $y_h$, which guarantees our system of equations for $A$ will be consistent and non-trivial.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_p' = A(3x^2 + x^3)e^x,\\quad y_p'' = A(6x + 6x^2 + x^3)e^x,\\quad y_p''' = A(6 + 18x + 9x^2 + x^3)e^x",
+      "description_latex": "We differentiate $y_p = Ax^3 e^x$ three times using the product rule. It is essential to differentiate carefully here \u2014 missing a term in any derivative will give a wrong value of $A$. After computing all three derivatives, we are ready to substitute into the original equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_p''' - 3y_p'' + 3y_p' - y_p = A(6+18x+9x^2+x^3)e^x - 3A(6x+6x^2+x^3)e^x + 3A(3x^2+x^3)e^x - Ax^3e^x = 6Ae^x = e^x \\implies A = \\frac{1}{6}",
+      "description_latex": "When we substitute and collect like powers of $x$, all terms involving $x$, $x^2$, and $x^3$ cancel perfectly \u2014 this is exactly why the multiplicity correction works. Only the constant term $6A e^x$ survives, so matching coefficients gives $A = \\tfrac{1}{6}$, and the particular solution is $y_p = \\tfrac{1}{6}x^3 e^x$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y^{(4)} - y'' = 3x + \\cos x",
+      "description_latex": "We are given a fourth-order equation with two distinct forcing terms. Because $g(x)$ has two parts, we will need two separate trial pieces for $y_p$, and we need the homogeneous solution before we can check for overlap. The characteristic equation is $r^4 - r^2 = r^2(r^2 - 1) = r^2(r-1)(r+1) = 0$, giving roots $r = 0$ (multiplicity 2), $r = 1$, and $r = -1$. So $y_h = c_1 + c_2 x + c_3 e^x + c_4 e^{-x}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_p = ?",
+      "description_latex": "Now construct the corrected trial particular solution. For the term $3x$, the raw trial would be $Ax + B$, but notice that $1$ and $x$ are already in $y_h$ (they come from the double root $r=0$). What is the correct multiplicity-adjusted trial for both forcing terms combined? Write out the full $y_p$ with all undetermined coefficients.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y_p = x^2(Ax + B) + C\\cos x + D\\sin x",
+      "description_latex": "The corrected trial is $y_p = x^2(Ax+B) + C\\cos x + D\\sin x$, because we multiply the polynomial piece by $x^2$ to clear the overlap. The cosine/sine trial needs no adjustment since $\\pm i$ are not roots of the characteristic equation. Differentiating and substituting will yield four equations in $A, B, C, D$; solving them gives the particular solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = -\\frac{1}{8},\\ B = 0,\\ C = -\\frac{1}{2},\\ D = 0 \\implies y_p = -\\frac{1}{8}x^3 - \\frac{1}{2}\\cos x",
+      "description_latex": "After substituting $y_p$ and its derivatives into the equation and matching coefficients for each independent function, we find $A = -1/8$, $B = 0$, $C = -1/2$, $D = 0$. Confirm your coefficient values match these before writing the general solution $y = y_h + y_p$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find a particular solution to $y''' - y' = 2$.",
+      "answer_latex": "y_p = -2x"
+    },
+    {
+      "prompt_latex": "Find a particular solution to $y''' - 4y'' + 4y' = e^{2x}$.",
+      "answer_latex": "y_p = \\dfrac{1}{2}x^2 e^{2x}"
+    },
+    {
+      "prompt_latex": "Find a particular solution to $y^{(4)} + 2y'' + y = \\sin x$.",
+      "answer_latex": "y_p = \\dfrac{1}{8}x^2 \\sin x"
+    },
+    {
+      "prompt_latex": "Solve the IVP $y''' - y'' = e^x + 1$, finding the general solution (do not apply initial conditions).",
+      "answer_latex": "y = c_1 + c_2 x + c_3 e^x + \\dfrac{1}{2}x^2 e^x - \\dfrac{1}{2}x^2"
+    },
+    {
+      "prompt_latex": "A beam equation takes the form $y^{(4)} = w_0$ where $w_0$ is a constant load. Find the general solution.",
+      "answer_latex": "y = c_1 + c_2 x + c_3 x^2 + c_4 x^3 + \\dfrac{w_0}{24}x^4"
+    }
+  ],
+  "common_mistakes": [
+    "Students often check for overlap only against the exponential or polynomial part of $y_h$ and forget that a complex-conjugate pair of roots (like $\\pm i$) also requires a multiplicity correction if the forcing function contains $\\sin x$ or $\\cos x$ matching that frequency. Always compare every term of your raw trial against every term in $y_h$, including terms from complex roots.",
+    "When a root has multiplicity $m$, students sometimes multiply the trial by $x$ only once instead of $x^m$. The rule is that $s$ must be large enough so that NO term in $y_p$ already appears in $y_h$; if $r = 1$ is a triple root and $g(x) = e^x$, you need $x^3 e^x$, not $x e^x$ or $x^2 e^x$.",
+    "For forcing functions that are sums (e.g., $g(x) = e^x + x^2$), students sometimes apply a single multiplicity correction to the entire trial rather than checking each piece independently. The overlap check must be done separately for each component of $g(x)$, because each piece may require a different value of $s$ or no correction at all."
+  ],
+  "untested_variants": [
+    "Equations where $g(x)$ is a product of a polynomial and a trig function, such as $y''' - y' = x \\sin x$, which require the trial form $(Ax+B)\\cos x + (Cx+D)\\sin x$ and a combined overlap check.",
+    "Complex-root overlap in higher-order equations, for example a fourth-order equation whose characteristic roots are $\\pm i$ (each with multiplicity 2) forced by $\\cos x$, requiring multiplication by $x^2$.",
+    "Equations with variable coefficients (Cauchy-Euler type) of order three or higher, where undetermined coefficients does not directly apply and variation of parameters must be used instead.",
+    "Systems interpretation: a single higher-order equation rewritten as a first-order system and solved for $y_p$ using matrix exponentials, which gives the same answer by a completely different route."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "prob_014",
+  "topic_name": "Tree Diagrams",
+  "generated_at": "2026-05-13T20:26:24.574142+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find simple probabilities like the chance of drawing a red card or rolling a six. But what happens when events happen in sequence \u2014 first you draw a card, then you draw another without replacing it \u2014 and you need to find the probability of a specific combination? Listing all outcomes gets messy fast, and it's easy to miss cases or multiply the wrong numbers. How can you organize multi-stage probability problems so every branch is accounted for and every multiplication is crystal clear?",
+  "concept": "A tree diagram is a visual tool that maps out all possible outcomes of a multi-stage random process, stage by stage. Each branch represents one possible outcome at that stage, and the probability of that outcome is written on the branch. The probability of any complete sequence of outcomes \u2014 called a path \u2014 is found by multiplying the probabilities along that path: if event $A$ has probability $P(A)$ and event $B$ given $A$ has probability $P(B|A)$, then the path probability is $P(A) \\cap P(B|A) = P(A \\cap B)$.",
+  "anatomy": "A tree diagram has several distinct structural parts. The root is the starting point of the experiment, drawn on the left. From the root, branches extend rightward, one for each possible outcome of the first stage; the probability of each outcome is labeled directly on its branch. Each branch endpoint is a node, and from each node a new set of branches fans out for the next stage, again labeled with conditional probabilities. A path is a single route from root to final endpoint, and the path probability is the product of all branch probabilities along that route. The final column of endpoints is called the leaves, and the probabilities at all leaves must sum to 1.",
+  "worked_example": [
+    {
+      "expression_latex": "P(\\text{Bag A}) = 0.4, \\quad P(\\text{Bag B}) = 0.6",
+      "description_latex": "We start by identifying the first stage of the experiment: a bag is chosen. Bag A is selected with probability 0.4 and Bag B with probability 0.6. These two branches leave the root, and we label each branch with its probability \u2014 notice they must add to 1, which is a good way to check you haven't missed any outcomes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Red}|\\text{Bag A}) = 0.3, \\quad P(\\text{Red}|\\text{Bag B}) = 0.7",
+      "description_latex": "At the second stage, from each bag node we draw a ball that is either red or not red. The probability of drawing red depends on which bag was chosen, so these are conditional probabilities and they get written on the second-level branches. From the Bag A node, we draw two branches: red with probability 0.3 and not-red with probability 0.7; from the Bag B node, red with probability 0.7 and not-red with probability 0.3.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Bag A} \\cap \\text{Red}) = 0.4 \\times 0.3 = 0.12",
+      "description_latex": "To find the probability of any specific complete outcome, we multiply all branch probabilities along the path leading to that leaf. The path 'Bag A then Red' has branch labels 0.4 and 0.3, so we multiply to get 0.12. This is justified by the multiplication rule: $P(A \\cap B) = P(A) \\cdot P(B|A)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Red}) = P(\\text{Bag A} \\cap \\text{Red}) + P(\\text{Bag B} \\cap \\text{Red}) = 0.12 + 0.42 = 0.54",
+      "description_latex": "To find the overall probability of drawing a red ball, we add the path probabilities for every path that ends in red \u2014 this is the Law of Total Probability in action. There are two such paths: through Bag A (0.12) and through Bag B ($0.6 \\times 0.7 = 0.42$), giving a total of 0.54. Adding across all leaves that share the same final outcome is the key payoff of organizing things with a tree.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(\\text{Rain}) = 0.3, \\quad P(\\text{No Rain}) = 0.7",
+      "description_latex": "We are told there is a 30% chance of rain tomorrow. Draw the first stage with two branches leaving the root: one labeled 0.3 for Rain, one labeled 0.7 for No Rain. These are the first-stage branches of our tree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Late}|\\text{Rain}) = 0.8, \\quad P(\\text{Late}|\\text{No Rain}) = 0.1",
+      "description_latex": "From each first-stage node, we now branch into Late or On Time. The conditional probabilities are given: 0.8 and 0.1 for being late under each weather condition. Label all four second-stage branches with the correct conditional probabilities \u2014 make sure each pair of branches from a single node sums to 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the probability of being late on any given day by identifying all paths that end in 'Late', multiplying the branch probabilities along each such path, and then adding those path probabilities together. Write your full calculation.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(\\text{Late}) = (0.3)(0.8) + (0.7)(0.1) = 0.24 + 0.07 = 0.31",
+      "description_latex": "The two paths ending in Late give path probabilities 0.24 and 0.07, which sum to 0.31. This is the marginal probability of being late, obtained by summing across the two weather scenarios \u2014 a direct application of the Law of Total Probability read off the tree.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A fair coin is flipped twice. Draw a tree diagram and find the probability of getting exactly one Head.",
+      "answer_latex": "P(\\text{exactly one Head}) = \\frac{1}{2} \\cdot \\frac{1}{2} + \\frac{1}{2} \\cdot \\frac{1}{2} = \\frac{1}{2}"
+    },
+    {
+      "prompt_latex": "A box contains 3 red and 2 blue balls. One ball is drawn and not replaced, then a second ball is drawn. Using a tree diagram, find the probability that both balls are red.",
+      "answer_latex": "P(\\text{both red}) = \\frac{3}{5} \\times \\frac{2}{4} = \\frac{6}{20} = \\frac{3}{10}"
+    },
+    {
+      "prompt_latex": "In a survey, 60\\% of people own a car. Of car owners, 70\\% also own a bike. Of non-car owners, 20\\% own a bike. Using a tree diagram, find the probability that a randomly selected person owns a bike.",
+      "answer_latex": "P(\\text{bike}) = (0.6)(0.7) + (0.4)(0.2) = 0.42 + 0.08 = 0.50"
+    },
+    {
+      "prompt_latex": "Using the same survey data as Problem 3 \u2014 60\\% own a car, $P(\\text{bike}|\\text{car}) = 0.7$, $P(\\text{bike}|\\text{no car}) = 0.2$ \u2014 use your tree diagram to find $P(\\text{car}|\\text{bike})$ via Bayes' Theorem.",
+      "answer_latex": "P(\\text{car}|\\text{bike}) = \\frac{(0.6)(0.7)}{0.50} = \\frac{0.42}{0.50} = 0.84"
+    },
+    {
+      "prompt_latex": "A student takes a multiple-choice test with one question. She studies with probability 0.75. If she studies, she answers correctly with probability 0.90. If she does not study, she guesses and answers correctly with probability 0.25. Given that she answered correctly, what is the probability she actually studied? Set up the tree diagram first, then compute.",
+      "answer_latex": "P(\\text{studied}|\\text{correct}) = \\frac{(0.75)(0.90)}{(0.75)(0.90)+(0.25)(0.25)} = \\frac{0.675}{0.6875} \\approx 0.982"
+    }
+  ],
+  "common_mistakes": [
+    "Students write the same unconditional probability on every second-stage branch, forgetting that those probabilities must be conditional on which first-stage outcome occurred. The fix: always ask yourself 'given that I am already on this branch, what is the probability of the next outcome?' and use the conditional probability on that branch.",
+    "Students add path probabilities when they should multiply, treating the two branch labels on a single path as if they were mutually exclusive events to be combined by addition. The fix: multiplication is always used along a single path (sequential events), and addition is only used when combining separate paths that share the same final outcome.",
+    "When the second-stage branches from a node don't obviously sum to 1, students invent a value rather than computing it as one minus the other probabilities. For example, if $P(\\text{Red}|\\text{Bag A}) = 0.3$ is given, then $P(\\text{Not Red}|\\text{Bag A})$ must be $1 - 0.3 = 0.7$. The fix: always subtract from 1 to fill in the complementary branch and double-check that every node's branches sum to 1."
+  ],
+  "untested_variants": [
+    "Tree diagrams with three or more stages (e.g., drawing three cards in sequence without replacement), where the number of paths grows large and tracking denominators becomes more complex.",
+    "Using a tree diagram to model a problem where the number of branches at each node differs (e.g., a three-outcome first stage like drawing a red, blue, or green ball, followed by a two-outcome second stage).",
+    "Tree diagrams applied to genetics problems (e.g., Punnett square-style reasoning about allele inheritance across two parents), where the biological context changes how students set up the first and second stages.",
+    "Problems requiring the student to work backwards \u2014 given a final path probability and one branch probability, solve for the unknown conditional probability on the other branch."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "cm_018",
+  "topic_name": "Triangle Centers and Classical Results",
+  "generated_at": "2026-05-13T20:23:06.966031+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know that a triangle has three sides and three angles, and you can find midpoints, perpendicular bisectors, and angle bisectors with ease. But did you know that when you draw all three angle bisectors of any triangle, they always meet at a single point \u2014 and that this point is equidistant from all three sides? The same magical concurrency happens for perpendicular bisectors, altitudes, and medians, and each meeting point has remarkable geometric properties that unlock a huge variety of contest problems. Can you find the exact location of the centroid of a triangle given only its vertices, or explain why the circumcenter of an obtuse triangle lies outside the triangle?",
+  "concept": "Triangle centers are special points defined by the intersection (concurrence) of three natural lines associated with a triangle \u2014 each center carries a precise geometric meaning. The four classical centers are: the **centroid** $G$ (medians), the **circumcenter** $O$ (perpendicular bisectors of sides), the **incenter** $I$ (angle bisectors), and the **orthocenter** $H$ (altitudes). Each set of three lines is concurrent by theorem, and each center satisfies a unique distance or ratio property that makes it indispensable in competition geometry.",
+  "anatomy": "Each triangle center is characterized by three components: (1) the **defining lines** \u2014 medians connect a vertex to the opposite side's midpoint; perpendicular bisectors are perpendicular to each side at its midpoint; angle bisectors bisect each interior angle; altitudes are perpendicular from each vertex to the opposite side; (2) the **concurrence point** itself, labeled $G$, $O$, $I$, or $H$; and (3) the **key metric property** \u2014 $G$ divides each median in ratio $2:1$ from vertex, $O$ is equidistant from all three vertices (circumradius $R$), $I$ is equidistant from all three sides (inradius $r$), and $H$ satisfies the reflection and cyclic quadrilateral properties. The **Euler line** is the additional structural feature that $O$, $G$, and $H$ are collinear with $OG:GH = 1:2$.",
+  "worked_example": [
+    {
+      "expression_latex": "G = \\left(\\frac{x_1+x_2+x_3}{3},\\, \\frac{y_1+y_2+y_3}{3}\\right)",
+      "description_latex": "We begin by recalling the coordinate formula for the centroid $G$, which is simply the average of the three vertices' coordinates. This works because each median divides the triangle into two equal-area sub-triangles, and averaging positions is the algebraic reflection of that balance.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A=(0,0),\\; B=(6,0),\\; C=(3,9) \\implies G = \\left(\\frac{0+6+3}{3},\\frac{0+0+9}{3}\\right) = (3,3)",
+      "description_latex": "Plugging in the specific vertices, we add the $x$-coordinates $0+6+3=9$ and divide by $3$ to get $G_x=3$, then add the $y$-coordinates $0+0+9=9$ and divide by $3$ to get $G_y=3$. Always check all three coordinates before moving on \u2014 a single arithmetic slip shifts the entire center.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R = \\frac{abc}{4K}",
+      "description_latex": "Now we recall the formula for the circumradius $R$, where $a,b,c$ are the three side lengths and $K$ is the area of the triangle. This formula arises from the extended law of sines, $\\frac{a}{\\sin A}=2R$, combined with the area formula $K=\\frac{1}{2}ab\\sin C$, and it is one of the most-tested circumcenter results on competitions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a=6,\\; b=\\sqrt{(3-6)^2+9^2}=\\sqrt{90}=3\\sqrt{10},\\; c=\\sqrt{9+81}=3\\sqrt{10},\\; K=\\frac{1}{2}\\cdot6\\cdot9=27",
+      "description_latex": "We compute the three side lengths using the distance formula: $a=BC=6$, and by symmetry $b=AC=c=AB=3\\sqrt{10}$. The area $K$ is cleanly computed with base $BC=6$ and height $9$ (the $y$-coordinate of $C$). Getting accurate side lengths here is critical because $R$ appears in the numerator as a product $abc$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R = \\frac{6\\cdot 3\\sqrt{10}\\cdot 3\\sqrt{10}}{4\\cdot 27} = \\frac{6\\cdot 90}{108} = \\frac{540}{108} = 5",
+      "description_latex": "Substituting into $R=\\frac{abc}{4K}$, note that $3\\sqrt{10}\\cdot 3\\sqrt{10}=90$, so the numerator is $6\\cdot90=540$ and the denominator is $4\times27=108$. Simplifying, $R=5$, meaning the circumscribed circle has radius $5$ \u2014 a clean answer that confirms our arithmetic is correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find the incenter } I \\text{ of } A=(0,0),\\, B=(5,0),\\, C=(0,12).",
+      "description_latex": "Recall that the incenter has coordinates $I = \\frac{a\\cdot A + b\\cdot B + c\\cdot C}{a+b+c}$ where $a,b,c$ are the side lengths opposite to vertices $A,B,C$ respectively. Our first job is to find all three side lengths so we can weight each vertex correctly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = BC = 13,\\quad b = CA = 5,\\quad c = AB = 12",
+      "description_latex": "We computed $a=BC=\\sqrt{25+144}=13$, $b=CA=12$, and $c=AB=5$ using the distance formula. Notice the side opposite $A$ is $BC$, opposite $B$ is $CA$, and opposite $C$ is $AB$ \u2014 getting this labeling right is the key step. Now substitute into the incenter formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "I = \\frac{13(0,0)+5(5,0)+12(0,12)}{13+5+12}",
+      "description_latex": "Write out the weighted sum using the side-length weights found above. Can you simplify the numerator vector and divide by the total perimeter $30$ to find the exact coordinates of $I$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "I = \\left(\\frac{25}{30}, \\frac{144}{30}\\right) = \\left(\\frac{5}{6}, \\frac{24}{5}\\right)",
+      "description_latex": "The numerator gives $(0+25+0, 0+0+144)=(25,144)$, and dividing by $30$ yields $I=(\\tfrac{5}{6}, \\tfrac{24}{5})$. As a sanity check, the inradius of a right triangle with legs $5,12$ and hypotenuse $13$ is $r=\\frac{a+b-c}{2}=2$, and indeed both coordinates of $I$ should be exactly $r=2$ from each axis \u2014 they are.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the centroid of the triangle with vertices $A=(1,2)$, $B=(7,4)$, $C=(4,8)$.",
+      "answer_latex": "G = (4, \\tfrac{14}{3})"
+    },
+    {
+      "prompt_latex": "A triangle has sides $a=8$, $b=15$, $c=17$ and area $K=60$. Find its circumradius $R$ and inradius $r$.",
+      "answer_latex": "R = \\dfrac{8\\cdot15\\cdot17}{4\\cdot60} = \\dfrac{2040}{240} = \\dfrac{17}{2},\\quad r = \\dfrac{K}{s} = \\dfrac{60}{20} = 3"
+    },
+    {
+      "prompt_latex": "The centroid $G$ of $\\triangle ABC$ lies at $(3,4)$. Vertices $A=(0,0)$ and $B=(6,3)$ are known. Find vertex $C$.",
+      "answer_latex": "C = (3, 9)"
+    },
+    {
+      "prompt_latex": "In $\\triangle ABC$, the circumcenter is $O$ and the orthocenter is $H$. If $A=(0,6)$, $B=(-4,0)$, $C=(4,0)$, find $O$ and $H$, and verify the Euler line relation $\\overrightarrow{OG} : \\overrightarrow{GH} = 1:2$.",
+      "answer_latex": "O=(0,\\tfrac{5}{3}),\\; G=(0,2),\\; H=(0,6)=A;\\text{ check: } OG=\\tfrac{1}{3},\\, GH=\\tfrac{2}{3}\\cdot(H_y-O_y)\\Rightarrow 1:2 \\checkmark"
+    },
+    {
+      "prompt_latex": "A triangular plot has vertices at $(0,0)$, $(10,0)$, and $(0,10)$. A water fountain is to be placed at the point equidistant from all three sides. Find the fountain's coordinates and the distance from the fountain to each side.",
+      "answer_latex": "I = (r,r) \\text{ where } r = \\dfrac{10+10-10\\sqrt{2}}{2} = 10-5\\sqrt{2},\\text{ so } I=(10-5\\sqrt{2},\\,10-5\\sqrt{2})"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the incenter formula $I = \\frac{a\\cdot A + b\\cdot B + c\\cdot C}{a+b+c}$ with equal weights: the weights are the side lengths OPPOSITE each vertex, not the sides adjacent to it \u2014 always label $a=BC$, $b=CA$, $c=AB$ before substituting.",
+    "When asked whether the circumcenter is inside or outside the triangle, students often default to 'inside' \u2014 in fact, for an obtuse triangle the circumcenter lies outside (on the opposite side of the longest side from the obtuse vertex), and for a right triangle it lies exactly at the midpoint of the hypotenuse.",
+    "Students applying the Euler line relation write $OH = OG + GH$ but then set $OG:GH = 2:1$ instead of $1:2$ \u2014 remember that $G$ is closer to $O$ than to $H$, specifically $OG = \\frac{1}{3}OH$ and $GH = \\frac{2}{3}OH$."
+  ],
+  "untested_variants": [
+    "Problems involving the nine-point circle, whose center $N$ is the midpoint of $OH$ and whose radius is $R/2$, touching midpoints of sides, feet of altitudes, and Euler points.",
+    "Using trigonometric identities to express triangle center distances, such as $OI^2 = R^2 - 2Rr$ (Euler's formula) or $OH = R\\sqrt{1-8\\cos A\\cos B\\cos C}$.",
+    "Constructing the excenters (centers of the three excircles) and using the exradius formula $r_A = \\frac{K}{s-a}$ in area or perimeter problems.",
+    "Proving concurrence of cevians using Ceva's Theorem $\\frac{AF}{FB}\\cdot\\frac{BD}{DC}\\cdot\\frac{CE}{EA}=1$, or applying the trigonometric form of Ceva's Theorem for angle bisectors and altitudes."
+  ]
+}

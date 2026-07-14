@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_018",
+  "topic_name": "The Fundamental Theorem of Algebra (Introduction) (H)",
+  "generated_at": "2026-05-12T23:22:45.665104+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to solve quadratic equations like $x^2 - 5x + 6 = 0$ and get two real solutions, and you've seen that some quadratics like $x^2 + 1 = 0$ seem to have no solutions at all in the real numbers. But what if I told you that every polynomial equation always has exactly as many solutions as its degree \u2014 you just have to know where to look? How can a degree-3 polynomial always have exactly 3 solutions, even when some of them are invisible on the real number line?",
+  "concept": "The Fundamental Theorem of Algebra guarantees that every polynomial equation has at least one solution \u2014 and, counting multiplicity, exactly as many solutions as its degree \u2014 as long as we allow complex numbers. Formally: every non-constant polynomial $p(x)$ of degree $n$ with complex coefficients has exactly $n$ roots in $\\mathbb{C}$ (counting multiplicity). This means a degree-$n$ polynomial factors completely as $a(x - r_1)(x - r_2)\\cdots(x - r_n)$.",
+  "anatomy": "There are four key components to understand here. First, the **degree** $n$ of the polynomial tells you the exact count of roots you must find. Second, **multiplicity** means a repeated root like $(x-3)^2 = 0$ counts as two roots (both equal to 3), not one. Third, **complex roots** \u2014 numbers of the form $a + bi$ where $b \\neq 0$ \u2014 are required to fill out the count whenever real roots fall short; for polynomials with real coefficients, these always appear in conjugate pairs $a + bi$ and $a - bi$. Fourth, the **complete factored form** $a(x - r_1)(x - r_2)\\cdots(x - r_n)$ is the end goal: once you have all $n$ roots, you can write the polynomial as a product of $n$ linear factors.",
+  "worked_example": [
+    {
+      "expression_latex": "p(x) = x^3 - 3x^2 + x - 3",
+      "description_latex": "We start by identifying the degree of the polynomial, which is 3, so the Fundamental Theorem of Algebra guarantees exactly 3 roots in $\\mathbb{C}$ counting multiplicity. Our goal is to find all three and write $p(x)$ as a product of three linear factors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(x) = x^2(x - 3) + 1(x - 3) = (x^2 + 1)(x - 3)",
+      "description_latex": "We factor by grouping: the first two terms share a factor of $x^2$ and the last two share a factor of 1, and both groups share $(x-3)$. Factoring this way splits the cubic into a linear factor and a quadratic factor, which is a common strategy when no rational roots are obvious.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x - 3 = 0 \\implies x = 3",
+      "description_latex": "Setting the linear factor equal to zero gives one real root $x = 3$. This accounts for one of our three guaranteed roots, so we still need two more from the quadratic factor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 + 1 = 0 \\implies x^2 = -1 \\implies x = \\pm i",
+      "description_latex": "Setting the quadratic factor equal to zero and solving gives $x = i$ and $x = -i$, a conjugate pair of purely imaginary roots. Notice these roots are invisible on the real number line, yet the Fundamental Theorem assures us they must exist in $\\mathbb{C}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(x) = (x - 3)(x - i)(x + i), \\quad \\text{roots: } x = 3,\\ i,\\ -i",
+      "description_latex": "We now have exactly 3 roots \u2014 one real and two complex conjugates \u2014 confirming the Fundamental Theorem's guarantee for a degree-3 polynomial. The complete factored form shows all three linear factors clearly.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "p(x) = x^4 - x^2 - 12",
+      "description_latex": "We have a degree-4 polynomial, so by the Fundamental Theorem of Algebra we expect exactly 4 roots in $\\mathbb{C}$ counting multiplicity. Notice that $p(x)$ is quadratic in form: if we let $u = x^2$, it becomes $u^2 - u - 12$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u^2 - u - 12 = (u - 4)(u + 3)",
+      "description_latex": "We factor the quadratic in $u$ by finding two numbers that multiply to $-12$ and add to $-1$. Substituting back, this means $p(x) = (x^2 - 4)(x^2 + 3)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now set each factor equal to zero and solve for $x$. From $x^2 - 4 = 0$, find the two real roots. From $x^2 + 3 = 0$, find the two complex roots. List all four roots and verify you have exactly 4.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "p(x) = (x-2)(x+2)(x - i\\sqrt{3})(x + i\\sqrt{3})",
+      "description_latex": "The four roots are $x = 2,\\ -2,\\ i\\sqrt{3},\\ -i\\sqrt{3}$, giving us the complete factored form. Confirm that the complex roots appear as a conjugate pair, which must happen whenever the original polynomial has real coefficients.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "How many roots does $p(x) = x^5 - 3x^2 + 7$ have in $\\mathbb{C}$, counting multiplicity?",
+      "answer_latex": "5"
+    },
+    {
+      "prompt_latex": "Find all roots of $p(x) = x^2 + 9$ in $\\mathbb{C}$ and write the complete factored form.",
+      "answer_latex": "x = 3i,\\ -3i; \\quad p(x) = (x - 3i)(x + 3i)"
+    },
+    {
+      "prompt_latex": "Find all three roots of $p(x) = x^3 + x^2 + x + 1$ in $\\mathbb{C}$. (Hint: factor by grouping.)",
+      "answer_latex": "x = -1,\\ i,\\ -i; \\quad p(x) = (x+1)(x-i)(x+i)"
+    },
+    {
+      "prompt_latex": "A degree-4 polynomial with real coefficients has roots $x = 5$ (multiplicity 2) and $x = 2i$. List all four roots and write the polynomial in factored form with leading coefficient 1.",
+      "answer_latex": "\\text{Roots: } 5,\\ 5,\\ 2i,\\ -2i; \\quad p(x) = (x-5)^2(x-2i)(x+2i)"
+    },
+    {
+      "prompt_latex": "A scientist models a physical system with $p(x) = x^4 - 1$. She claims the system has 4 equilibrium states. Find all four roots in $\\mathbb{C}$ to verify her claim, and identify which states are real versus complex.",
+      "answer_latex": "x = 1,\\ -1 \\text{ (real)};\\quad x = i,\\ -i \\text{ (complex)}; \\text{ all 4 roots confirmed}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the degree of the polynomial with the number of real roots they can see on a graph, concluding that a cubic with one x-intercept has only one root. The fix: remember the Fundamental Theorem counts all roots in $\\mathbb{C}$, so a degree-3 polynomial always has exactly 3 roots \u2014 the remaining two may be complex and simply don't appear on the real number line.",
+    "When a polynomial has real coefficients and one complex root is found, students sometimes stop there rather than including its conjugate, ending up one root short of the required count. The fix: for any polynomial with real coefficients, complex roots always come in conjugate pairs $a + bi$ and $a - bi$, so finding one automatically gives you another.",
+    "Students frequently miscount roots when a factor is repeated, treating $(x - 2)^3$ as one root instead of the root $x = 2$ with multiplicity 3. The fix: the phrase 'counting multiplicity' means you count a root as many times as its factor appears, so $(x-2)^3$ contributes 3 to the total root count, not 1."
+  ],
+  "untested_variants": [
+    "Using the Fundamental Theorem alongside the Rational Root Theorem to systematically find all roots of a degree-4 or degree-5 polynomial with rational coefficients that does not factor by grouping or substitution.",
+    "Working backwards: constructing a polynomial of specified degree with a given mix of real and complex roots, including repeated roots, and expanding it into standard form.",
+    "Applying Descartes' Rule of Signs together with the Fundamental Theorem to predict the possible numbers of positive real, negative real, and complex roots before solving.",
+    "Analyzing a polynomial whose coefficients are complex (not purely real) and explaining why the conjugate pair rule no longer applies in that setting."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_025",
+  "topic_name": "Proofs Involving the Euclidean Algorithm",
+  "generated_at": "2026-05-13T20:20:02.107223+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to find the greatest common divisor of two numbers by factoring them \u2014 for example, $\\gcd(48, 18) = 6$ because $48 = 2^4 \\cdot 3$ and $18 = 2 \\cdot 3^2$. But what happens when the numbers are enormous, like $\\gcd(123456789, 987654321)$, and factoring becomes completely impractical? The Euclidean Algorithm gives us a lightning-fast method, but more importantly for this course, it produces a chain of equations that can be used to *prove* deep properties about divisibility and integer combinations. Can you prove that $\\gcd(a, b)$ can always be written as an integer linear combination $ax + by$ for some integers $x$ and $y$?",
+  "concept": "The Euclidean Algorithm is a repeated application of the Division Algorithm: to find $\\gcd(a, b)$, divide $a$ by $b$ to get remainder $r$, then replace the pair with $(b, r)$ and repeat until the remainder is zero \u2014 the last nonzero remainder is the GCD. Formally, if $a = bq + r$ with $0 \\le r < b$, then $\\gcd(a, b) = \\gcd(b, r)$, and iterating this produces the GCD in finitely many steps.",
+  "anatomy": "Each step of the Euclidean Algorithm has four named parts: the **dividend** $a_k$ (the number being divided), the **divisor** $b_k$ (the number we divide by), the **quotient** $q_k$ (how many times $b_k$ goes into $a_k$), and the **remainder** $r_k$ (what is left over), satisfying $a_k = b_k q_k + r_k$. The algorithm terminates when $r_k = 0$; the GCD is $b_k$ at that step. Back-substitution \u2014 rewriting each remainder equation and substituting upward \u2014 is the structural technique used to express the GCD as a linear combination $\\gcd(a,b) = ax + by$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\gcd(252, 105)",
+      "description_latex": "We want to find $\\gcd(252, 105)$ and then write it as a linear combination $252x + 105y$. We begin by applying the Division Algorithm to the pair $(252, 105)$: divide 252 by 105 to find the quotient and remainder, because the key identity $\\gcd(a,b) = \\gcd(b, r)$ tells us we can replace the problem with a smaller one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "252 = 105 \\cdot 2 + 42 \\quad \\Rightarrow \\quad \\gcd(252, 105) = \\gcd(105, 42)",
+      "description_latex": "The first step gives remainder 42, so we now need $\\gcd(105, 42)$. We continue dividing: $105 = 42 \\cdot 2 + 21$, then $42 = 21 \\cdot 2 + 0$. Since the remainder is now 0, the last nonzero remainder is 21, so $\\gcd(252, 105) = 21$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "105 = 42 \\cdot 2 + 21, \\qquad 42 = 21 \\cdot 2 + 0",
+      "description_latex": "Now we begin back-substitution to express 21 as a linear combination of 252 and 105. Starting from the second-to-last equation, we isolate the remainder: $21 = 105 - 42 \\cdot 2$. This gives 21 in terms of 105 and 42, and we need to eliminate 42 using the first equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "21 = 105 - 42 \\cdot 2 = 105 - (252 - 105 \\cdot 2) \\cdot 2 = 105 \\cdot 5 - 252 \\cdot 2",
+      "description_latex": "We substitute $42 = 252 - 105 \\cdot 2$ (rearranging the first equation) into our expression for 21. Expanding: $21 = 105 - (252 - 105 \\cdot 2) \\cdot 2 = 105 - 252 \\cdot 2 + 105 \\cdot 4 = 105 \\cdot 5 - 252 \\cdot 2$. This is the key algebra step \u2014 every substitution replaces an intermediate remainder with an expression involving the original numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\gcd(252, 105) = 21 = 252 \\cdot (-2) + 105 \\cdot 5",
+      "description_latex": "We have successfully expressed the GCD as a linear combination, with $x = -2$ and $y = 5$. To verify, check: $252(-2) + 105(5) = -504 + 525 = 21$ \u2713. Notice that $x$ and $y$ can be negative integers \u2014 this is perfectly valid and expected when using back-substitution.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find } \\gcd(180, 126) \\text{ and write it as } 180x + 126y.",
+      "description_latex": "We start by running the Euclidean Algorithm. Divide 180 by 126: $180 = 126 \\cdot 1 + 54$. Then divide 126 by 54: $126 = 54 \\cdot 2 + 18$. Then divide 54 by 18: $54 = 18 \\cdot 3 + 0$. Since the remainder is 0, we conclude $\\gcd(180, 126) = 18$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "18 = 126 - 54 \\cdot 2",
+      "description_latex": "We begin back-substitution by isolating the last nonzero remainder from the second equation. This expresses 18 in terms of 126 and 54. Now you need to substitute for 54 using the first equation $54 = 180 - 126 \\cdot 1$ and simplify completely to express 18 in terms of 180 and 126 only.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Substitute $54 = 180 - 126 \\cdot 1$ into the expression $18 = 126 - 54 \\cdot 2$ and collect like terms to write $\\gcd(180, 126)$ in the form $180x + 126y$. What are $x$ and $y$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use the Euclidean Algorithm to find $\\gcd(48, 36)$.",
+      "answer_latex": "\\gcd(48, 36) = 12"
+    },
+    {
+      "prompt_latex": "Use the Euclidean Algorithm to find $\\gcd(270, 192)$, showing all steps.",
+      "answer_latex": "\\gcd(270, 192) = 6"
+    },
+    {
+      "prompt_latex": "Find $\\gcd(341, 143)$ and express it as a linear combination $341x + 143y$ for integers $x, y$.",
+      "answer_latex": "\\gcd(341, 143) = 11 = 341 \\cdot 3 + 143 \\cdot (-7)"
+    },
+    {
+      "prompt_latex": "Prove that for any integers $a$ and $b$ with $b \\neq 0$, if $d = \\gcd(a, b)$, then $\\gcd(a/d,\\, b/d) = 1$. (Hint: use the fact that $d = ax + by$ for some integers $x, y$.)",
+      "answer_latex": "\\text{Since } d \\mid a \\text{ and } d \\mid b, \\text{ write } a = d\\alpha,\\, b = d\\beta. \\text{ Then } 1 = \\alpha x + \\beta y \\text{ implies } \\gcd(\\alpha, \\beta) \\mid 1, \\text{ so } \\gcd(a/d,\\, b/d) = 1."
+    },
+    {
+      "prompt_latex": "Two gears have 315 teeth and 168 teeth respectively. They start with a marked tooth on each gear aligned. After how many rotations of the smaller gear do the marked teeth realign? (Hint: find $\\gcd(315, 168)$ first.)",
+      "answer_latex": "\\gcd(315, 168) = 21, \\text{ so the smaller gear makes } 315/21 = 15 \\text{ rotations before realignment.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students stop the algorithm one step too early \u2014 they report the remainder $r$ as the GCD instead of waiting for a zero remainder, so they should always check: the GCD is the last *nonzero* remainder, not the last remainder computed.",
+    "During back-substitution, students forget to substitute for all instances of an intermediate remainder, leaving the expression with three or more distinct numbers instead of just the original $a$ and $b$ \u2014 carefully replace every occurrence of the intermediate term before moving to the next substitution.",
+    "Students assume the coefficients $x$ and $y$ in $\\gcd(a,b) = ax + by$ must be positive, and flag a negative answer as wrong \u2014 in fact, one coefficient is almost always negative, and the correct check is to multiply out and verify the arithmetic directly."
+  ],
+  "untested_variants": [
+    "Proving that $\\gcd(a, b) = \\gcd(b, a \\mod b)$ formally from the definition of divisibility, rather than just applying the result.",
+    "Using the extended Euclidean Algorithm in a modular arithmetic context to find the multiplicative inverse of $a$ modulo $n$, i.e., solving $ax \\equiv 1 \\pmod{n}$.",
+    "Applying the Euclidean Algorithm to polynomials over a field, such as finding $\\gcd(x^3 - x, x^2 - 1)$ in $\\mathbb{Q}[x]$.",
+    "Using Bezout's Identity (the linear combination result) to prove that if $\\gcd(a, b) = 1$ and $a \\mid bc$, then $a \\mid c$ (Euclid's Lemma)."
+  ]
+}

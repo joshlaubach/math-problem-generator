@@ -1,0 +1,81 @@
+{
+  "topic_id": "pf_011",
+  "topic_name": "Disproving Statements with Counterexamples",
+  "generated_at": "2026-05-13T20:18:23.821104+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to prove that a statement is true \u2014 you build a logical argument showing it holds in every case. But what if a statement is actually false? Trying to prove something false can waste enormous effort, and no amount of failed proof attempts actually shows the statement is wrong. The question is: how do you definitively prove that a universal claim \u2014 one that says something is true for ALL numbers, or ALL functions, or ALL sets \u2014 is false?",
+  "concept": "A counterexample is a single specific case that makes a universal statement false. In formal terms, to disprove a statement of the form $\\forall x \\in S,\\, P(x)$, you need to exhibit one concrete element $a \\in S$ such that $P(a)$ is false. One failure is enough because a universal claim requires every instance to hold \u2014 a single exception destroys it entirely.",
+  "anatomy": "A counterexample has three identifiable parts: the universal claim being tested, the specific witness (the chosen value or object $a$), and the verification showing that the witness actually fails the predicate $P$. The universal claim is the statement you are attacking, such as 'for all integers $n$, $n^2 > n$.' The witness is your chosen specific value, like $n = 0$ or $n = 1$. The verification is the direct calculation or logical check confirming that $P(a)$ is indeed false, which completes the disproof.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: For all integers } n,\\, n^2 > n.",
+      "description_latex": "We begin by clearly stating the universal claim we want to disprove. Notice the claim says 'for ALL integers,' so our job is to find just one integer where $n^2 > n$ fails \u2014 we do not need to show it fails everywhere, only somewhere.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Proposed witness: } n = 1.",
+      "description_latex": "We choose a specific candidate value to test. The integers $n = 0$ and $n = 1$ are always worth trying when a claim involves $n^2$ versus $n$, because squaring small numbers does not necessarily make them larger \u2014 our intuition from large positive integers can mislead us.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^2 = 1^2 = 1 \\quad \\text{and} \\quad n = 1, \\quad \\text{so } n^2 = n.",
+      "description_latex": "We substitute $n = 1$ into both sides of the inequality and compute directly. This verification step is mandatory \u2014 simply choosing a witness is not enough, you must show the arithmetic that confirms the predicate fails for your specific choice.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1 \\not> 1, \\text{ so the claim } n^2 > n \\text{ is FALSE for } n = 1.",
+      "description_latex": "Since $1 \\not> 1$, the predicate $n^2 > n$ is false when $n = 1$, and we have found a valid counterexample. We conclude: the statement 'for all integers $n$, $n^2 > n$' is false, and $n = 1$ is a counterexample.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: For all real numbers } x,\\, |x| > 0.",
+      "description_latex": "We are asked to disprove this universal claim about absolute values. Our strategy is to find a single real number $x$ for which $|x| > 0$ fails, meaning we need $|x| \\leq 0$. Think carefully: are there any real numbers whose absolute value is NOT positive?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Proposed witness: } x = \\ ?",
+      "description_latex": "Identify and state a specific real number that you believe will serve as a counterexample. Remember, you need a value where $|x|$ is not strictly greater than zero.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "|0| = 0, \\text{ and } 0 \\not> 0, \\text{ so } x = 0 \\text{ is a counterexample.}",
+      "description_latex": "With the witness $x = 0$, we verify by computing $|0| = 0$ and checking that $0 \\not> 0$. This verification confirms the claim is false, and we can formally state that $x = 0$ is a counterexample disproving 'for all real $x$, $|x| > 0$.'",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Disprove: For all integers } n,\\, n + 1 > n + 2.",
+      "answer_latex": "\\text{Any integer works; e.g., } n = 0: 0+1 = 1 \\not> 0+2 = 2. \\text{ Counterexample: } n = 0."
+    },
+    {
+      "prompt_latex": "\\text{Disprove: For all real numbers } x,\\, x^2 \\geq x.",
+      "answer_latex": "\\text{Counterexample: } x = \\tfrac{1}{2},\\text{ since } \\left(\\tfrac{1}{2}\\right)^2 = \\tfrac{1}{4} < \\tfrac{1}{2}."
+    },
+    {
+      "prompt_latex": "\\text{Disprove: For all integers } n,\\, 2n + 1 \\text{ is divisible by 3.}",
+      "answer_latex": "\\text{Counterexample: } n = 1,\\text{ since } 2(1)+1 = 3 \\text{ is divisible by 3... try } n=2: 2(2)+1=5, \\text{ which is not divisible by 3.}"
+    },
+    {
+      "prompt_latex": "\\text{Disprove: For all sets } A \\text{ and } B,\\, A \\cup B = A \\cap B.",
+      "answer_latex": "\\text{Counterexample: } A = \\{1\\},\\, B = \\{2\\}.\\text{ Then } A \\cup B = \\{1,2\\} \\neq \\emptyset = A \\cap B."
+    },
+    {
+      "prompt_latex": "\\text{A student claims: \"Every prime number is odd.\" Disprove this claim with a counterexample and explain why the counterexample is valid.}",
+      "answer_latex": "\\text{Counterexample: } p = 2.\\text{ Then } 2 \\text{ is prime (divisible only by 1 and 2) but } 2 \\text{ is even, not odd. This disproves the universal claim.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often test only large or 'generic' values and miss that small cases like $n = 0$, $n = 1$, $x = 0$, or $x = \\frac{1}{2}$ are the most common sources of counterexamples \u2014 always test boundary values and fractions first.",
+    "Students state a witness but skip the explicit verification step, writing only 'let $n = 0$' without computing and showing that the predicate actually fails; this is an incomplete disproof because the reader must be shown the failure, not expected to check it themselves.",
+    "Students confuse disproving a universal statement with proving the opposite universal statement: finding one counterexample to '$\\forall x, P(x)$' only shows that $P$ is not universally true, NOT that '$\\forall x, \\neg P(x)$' \u2014 do not overclaim beyond what your single example demonstrates."
+  ],
+  "untested_variants": [
+    "Disproving statements involving two universally quantified variables simultaneously, such as 'for all integers $m$ and $n$, $(m+n)^2 = m^2 + n^2$,' where students must choose a specific pair $(m, n)$ as the witness.",
+    "Disproving conditional universal statements of the form 'for all $x$, if $P(x)$ then $Q(x)$,' where the counterexample must satisfy the hypothesis $P(x)$ and fail the conclusion $Q(x)$.",
+    "Disproving claims about functions or sequences, such as 'for all functions $f$, if $f$ is continuous then $f$ is differentiable,' requiring a specific named function as the counterexample.",
+    "Distinguishing between a statement that is universally false (every instance fails) versus one that merely has exceptions, and explaining what a counterexample does and does not tell us about how often the predicate holds."
+  ]
+}

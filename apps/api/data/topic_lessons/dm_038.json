@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_038",
+  "topic_name": "The Multiplication and Addition Principles",
+  "generated_at": "2026-05-13T20:42:08.192214+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to count objects in a list, and you can probably figure out that a coin has 2 sides or a die has 6 faces. But what happens when you need to count the total number of outcomes for a sequence of choices \u2014 like picking an outfit from 4 shirts, 3 pants, and 2 pairs of shoes \u2014 or when you need to count outcomes from mutually exclusive scenarios, like choosing one elective from either a set of 5 science courses or 3 art courses? Simply listing every possibility quickly becomes unmanageable. So the key question is: when do you multiply your counts, and when do you add them?",
+  "concept": "The two foundational counting principles tell you exactly when to multiply and when to add. The **Multiplication Principle** says: if a task is performed in $k$ sequential stages with $n_1, n_2, \\ldots, n_k$ independent choices at each stage, the total number of ways to complete the task is $n_1 \\times n_2 \\times \\cdots \\times n_k$. The **Addition Principle** says: if a task can be accomplished in mutually exclusive ways (Case 1 OR Case 2, never both), the total count is $n_1 + n_2 + \\cdots + n_k$.",
+  "anatomy": "Each principle has three identifiable components. For the Multiplication Principle: (1) **stages** \u2014 the sequential, independent steps that together complete the task (e.g., choosing a shirt, then pants, then shoes); (2) **stage counts** $n_1, n_2, \\ldots, n_k$ \u2014 the number of options available at each individual stage; and (3) the **product** $n_1 \\cdot n_2 \\cdots n_k$ \u2014 the final count of complete outcomes. For the Addition Principle: (1) **cases** \u2014 the mutually exclusive scenarios (exactly one of which applies); (2) **case counts** \u2014 the number of outcomes within each case; and (3) the **sum** \u2014 the total count across all cases. The critical structural distinction is whether the choices happen *in sequence together* (multiply) or *instead of one another* (add).",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Task: Count all possible license plates of the form } \\underbrace{\\text{Letter-Letter-Digit-Digit-Digit}}_{\\text{5 positions}}",
+      "description_latex": "We start by identifying the structure of the task. The plate is built in 5 sequential, independent stages \u2014 choosing the first letter, then the second letter, then each of the three digits. Because every position is filled independently (the choice for position 1 does not restrict position 2), the Multiplication Principle applies here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n_1 = 26,\\quad n_2 = 26,\\quad n_3 = 10,\\quad n_4 = 10,\\quad n_5 = 10",
+      "description_latex": "We assign a count to each stage: there are 26 letters of the alphabet available for each letter position, and 10 digits (0 through 9) available for each digit position. Notice that we assume letters and digits can be repeated; if repetition were forbidden, these numbers would change.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Total} = 26 \\times 26 \\times 10 \\times 10 \\times 10",
+      "description_latex": "By the Multiplication Principle, we multiply the stage counts together because every combination of choices across all five stages produces a distinct, valid outcome. This single product captures every possible plate without any double-counting.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 676 \\times 1000 = 676{,}000",
+      "description_latex": "Carrying out the arithmetic gives us the final answer: there are 676,000 distinct license plates of this format. It would be completely impractical to list them all, which is precisely why the Multiplication Principle is so powerful.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Task: A student must choose one elective from 4 science courses OR one from 3 humanities courses, then choose a lunch option from 5 available meals.}",
+      "description_latex": "Read the problem carefully and identify the two-part structure. First, notice that 'science OR humanities' means these are mutually exclusive cases for the elective choice \u2014 the student picks exactly one elective from one group or the other, never both. Second, after choosing the elective, the student independently selects a lunch, which is a sequential stage.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Electives available} = 4 + 3 = 7",
+      "description_latex": "We apply the Addition Principle first to find the total number of elective choices, because choosing a science course and choosing a humanities course are mutually exclusive alternatives. This gives us 7 possible elective choices in total.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the Multiplication Principle to combine the elective choice with the lunch choice. You have 7 elective options and 5 lunch options chosen in sequence \u2014 what is the total number of (elective, lunch) combinations? Write the multiplication and compute the answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A caf\u00e9 offers 3 sizes and 4 flavors of smoothie. How many distinct smoothies can be ordered?",
+      "answer_latex": "3 \\times 4 = 12"
+    },
+    {
+      "prompt_latex": "A password consists of exactly one uppercase letter followed by exactly two digits (repetition allowed). How many such passwords exist?",
+      "answer_latex": "26 \\times 10 \\times 10 = 2{,}600"
+    },
+    {
+      "prompt_latex": "A student can travel from city $A$ to city $C$ either by going through city $B$ (with 3 routes from $A$ to $B$ and 4 routes from $B$ to $C$) or by taking a direct express train (2 options). How many ways can the student travel from $A$ to $C$?",
+      "answer_latex": "(3 \\times 4) + 2 = 14"
+    },
+    {
+      "prompt_latex": "How many 4-character strings can be formed using letters $\\{A, B, C\\}$ and digits $\\{1, 2\\}$ if the string must begin with a letter and end with a digit, with the middle two characters each being either a letter or a digit (repetition allowed)?",
+      "answer_latex": "3 \\times 5 \\times 5 \\times 2 = 150"
+    },
+    {
+      "prompt_latex": "A committee must select a chairperson from a group of 6 faculty members OR from a group of 4 student representatives. The committee must also select a separate secretary from the 10 remaining people (whoever was not chosen as chair is still available, and the two groups together have 10 people total after removing the chair). How many ways can the chair and secretary be chosen?",
+      "answer_latex": "\\text{Chair choices} = 6 + 4 = 10,\\quad \\text{Secretary choices} = 9,\\quad \\text{Total} = 10 \\times 9 = 90"
+    }
+  ],
+  "common_mistakes": [
+    "Students add when they should multiply (or vice versa) by misreading 'and' versus 'or': remember that sequential independent stages ('choose A AND then choose B') call for multiplication, while mutually exclusive alternatives ('choose A OR choose B, not both') call for addition. Ask yourself whether both choices happen together in a single outcome.",
+    "When a problem contains both principles, students apply only one throughout \u2014 for example, multiplying all counts even when part of the problem involves mutually exclusive cases that should first be summed. The fix is to break the problem into sub-tasks, apply the correct principle to each sub-task separately, and then combine the results.",
+    "Students forget that the Multiplication Principle assumes the number of choices at each stage is constant and independent of previous choices. If repetition is not allowed and earlier choices reduce later options (e.g., picking without replacement), the stage counts $n_1, n_2, \\ldots$ must be adjusted at each step \u2014 for instance, $n, n-1, n-2, \\ldots$ \u2014 rather than using the original count at every stage."
+  ],
+  "untested_variants": [
+    "Problems where the Multiplication Principle is applied to arrangements without repetition across all stages simultaneously (i.e., permutations $P(n,k) = n(n-1)\\cdots(n-k+1)$), which require decreasing stage counts.",
+    "Problems requiring inclusion-exclusion when the cases in an Addition Principle setup are NOT mutually exclusive (i.e., $|A \\cup B| = |A| + |B| - |A \\cap B|$), which goes beyond simple addition.",
+    "Counting problems involving restrictions or forbidden patterns \u2014 for example, 'how many license plates have at least one repeated digit' \u2014 which require a complementary counting strategy layered on top of the basic principles.",
+    "Tree diagram construction and reading, where students must derive the multiplication or addition principle from a visual branching structure rather than from a word problem."
+  ]
+}

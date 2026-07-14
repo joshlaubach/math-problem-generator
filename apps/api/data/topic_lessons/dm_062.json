@@ -1,0 +1,86 @@
+{
+  "topic_id": "dm_062",
+  "topic_name": "Minimization and Karnaugh Maps (H)",
+  "generated_at": "2026-05-13T20:17:11.931867+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to write Boolean expressions and simplify them using algebraic laws like De Morgan's theorem and absorption. But imagine you have a function of four variables with a dozen minterms \u2014 the algebraic simplification becomes a tedious guessing game of which identities to apply and in what order. Is there a systematic, visual method that guarantees you find the simplest sum-of-products form without missing any groupings?",
+  "concept": "A Karnaugh map (K-map) is a visual grid that organises all minterms of a Boolean function so that adjacent cells differ in exactly one variable \u2014 this is the key property that lets you spot simplification opportunities at a glance. Formally, an $n$-variable K-map is a $2^n$-cell grid arranged in Gray-code order so that any two physically adjacent cells (including wrap-around edges) correspond to minterms that differ in exactly one literal, meaning their Boolean product can be merged: $AB + A\\overline{B} = A$.",
+  "anatomy": "A K-map has four distinct structural parts. The cells are the individual squares, each labelled with a minterm number and containing a 0 or 1 from the truth table. The axes are the variable groupings labelling rows and columns, always written in Gray-code order ($00, 01, 11, 10$) so adjacency is guaranteed. A group (or implicant) is a rectangle of $2^k$ cells ($k \\geq 1$) containing only 1s, which collapses $k$ variables out of the expression. The prime implicant is a group that cannot be enlarged further, and the essential prime implicant is one whose coverage includes at least one minterm not covered by any other prime implicant \u2014 these are the ones that must appear in the minimal sum-of-products.",
+  "worked_example": [
+    {
+      "expression_latex": "f(A,B,C,D) = \\sum m(0,1,2,3,8,9,10,11)",
+      "description_latex": "We begin by writing down the function and listing its minterms. Before drawing anything, it helps to notice there are 8 minterms out of 16 possible \u2014 that suggests a very tidy simplification is waiting for us, probably a two-variable expression.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c|c|c} CD \\backslash AB & 00 & 01 & 11 & 10 \\\\ \\hline 00 & 1 & 0 & 1 & 1 \\\\ \\hline 01 & 1 & 0 & 1 & 1 \\\\ \\hline 11 & 0 & 0 & 0 & 0 \\\\ \\hline 10 & 1 & 0 & 1 & 1 \\end{array}",
+      "description_latex": "We place a 1 in each cell whose minterm number appears in our list and a 0 everywhere else. Notice that minterms 0,1,2,3 fill the entire $AB=00$ column and minterms 8,9,10,11 fill the entire $AB=10$ column \u2014 both columns are completely filled, which strongly hints that $B$ is the key variable to eliminate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Group 1: all 8 cells where } AB \\in \\{00,10\\} \\text{ (i.e. } B=0\\text{), covering minterms } 0,1,2,3,8,9,10,11",
+      "description_latex": "We form one large group of 8 cells spanning both the $AB=00$ and $AB=10$ columns. A group of $2^3=8$ cells eliminates three variables, leaving only one variable in the expression. The cells all share $B=0$ regardless of what $A$, $C$, or $D$ are, so this group produces the single literal $\\overline{B}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(A,B,C,D) = \\overline{B}",
+      "description_latex": "Since one group of 8 covers every single 1 in the map, we are done \u2014 there is only one prime implicant and it is essential. The minimal sum-of-products expression is just $\\overline{B}$, confirming our earlier intuition. This is dramatically simpler than the original sum of 8 minterms.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(A,B,C,D) = \\sum m(0,2,5,7,8,10,13,15)",
+      "description_latex": "We need to minimise this four-variable function. Start by drawing the 4x4 K-map and placing 1s in the cells for minterms 0, 2, 5, 7, 8, 10, 13, 15. Take a moment to fill in the grid before moving on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify all prime implicants by finding the largest possible groups of 1s (remember groups must be powers of 2, and the map wraps around). List every prime implicant you can find and write the Boolean term each one produces.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Prime implicants: } \\overline{B}\\,\\overline{D},\\; BD",
+      "description_latex": "The four corner cells (minterms 0, 2, 8, 10) form a valid group of 4 that wraps both horizontally and vertically, giving $\\overline{B}\\,\\overline{D}$, and the four cells at minterms 5, 7, 13, 15 form another group of 4 giving $BD$. Both prime implicants are essential because each covers minterms not touched by the other.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(A,B,C,D) = \\overline{B}\\,\\overline{D} + BD",
+      "description_latex": "We write the final minimal sum-of-products by ORing the two essential prime implicants. Notice this can also be recognised as $\\overline{B \\oplus D}$ (XNOR), but $\\overline{B}\\,\\overline{D} + BD$ is the correct sum-of-products answer.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Minimise $f(A,B,C) = \\sum m(0,1,2,3,4,5,6,7)$ using a K-map.",
+      "answer_latex": "f = 1"
+    },
+    {
+      "prompt_latex": "Minimise $f(A,B,C) = \\sum m(0,2,4,6)$ using a K-map.",
+      "answer_latex": "f = \\overline{C}"
+    },
+    {
+      "prompt_latex": "Minimise $f(A,B,C,D) = \\sum m(1,3,5,7,9,11,13,15)$ using a K-map.",
+      "answer_latex": "f = D"
+    },
+    {
+      "prompt_latex": "Minimise $f(A,B,C,D) = \\sum m(0,1,4,5,10,11,14,15)$ using a K-map, and verify your answer is equivalent to the original by checking minterm 10.",
+      "answer_latex": "f = \\overline{A}\\,\\overline{C} + AC"
+    },
+    {
+      "prompt_latex": "A digital alarm triggers when exactly the following combinations of sensor inputs $(A,B,C,D)$ are active: minterms $1,3,7,11,15$, plus don't-care conditions at minterms $0,2$. Use a K-map with don't-cares to find the minimal sum-of-products expression for the alarm.",
+      "answer_latex": "f = CD + \\overline{A}\\,\\overline{B}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often form groups whose size is not a power of 2 (e.g. a group of 3 or 6 cells), which is invalid because such groupings do not correspond to a clean variable cancellation \u2014 always check that your group size is exactly 1, 2, 4, 8, or 16.",
+    "Forgetting that the K-map wraps around: the top row is adjacent to the bottom row, and the leftmost column is adjacent to the rightmost column. Students who ignore this miss prime implicants involving corner cells and end up with a non-minimal expression.",
+    "Treating don't-care conditions as 0s instead of exploiting them as flexible 1s to enlarge groups. Don't-cares should be assigned 1 whenever doing so allows a bigger (simpler) group \u2014 but you are never forced to cover them, so don't create extra groups just to include them."
+  ],
+  "untested_variants": [
+    "Five-variable K-maps, which require two stacked 4x4 grids and the concept of mirroring adjacency between the two grids.",
+    "Using K-maps to minimise a product-of-sums (POS) expression by grouping 0s instead of 1s to find the minimal sum-of-maxterms.",
+    "Identifying all prime implicants and constructing a prime implicant chart (Quine-McCluskey style) to resolve cases where no single cover of essential prime implicants exists.",
+    "K-map minimisation for incompletely specified functions where some output values are unknown (don't-cares), combined with verifying the resulting circuit against a gate-count or literal-count cost function."
+  ]
+}

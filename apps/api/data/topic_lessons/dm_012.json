@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_012",
+  "topic_name": "Direct Proof",
+  "generated_at": "2026-05-13T20:42:03.337057+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to verify that a specific integer is even \u2014 just check if it's divisible by 2. But what if someone asks you to prove that the sum of ANY two even integers is always even? You can't just check a few examples; you'd need to check infinitely many. So how do you write an airtight argument that works for every possible case at once?",
+  "concept": "A direct proof establishes that a statement of the form 'if $P$, then $Q$' is true by assuming $P$ is true and then logically deriving $Q$ through a chain of valid steps. In formal terms, to prove $P \\Rightarrow Q$, we start by assuming $P$, apply definitions, algebra, or known theorems, and arrive at $Q$. Every step must follow necessarily from the previous one, leaving no logical gaps.",
+  "anatomy": "A direct proof has four structural parts: the hypothesis, the variable declarations, the logical chain, and the conclusion. The hypothesis is the assumption $P$ you explicitly state at the start (e.g., 'Let $n$ be an even integer'). The variable declarations introduce symbolic names using existential or universal language (e.g., 'Then $n = 2k$ for some integer $k$'). The logical chain is the sequence of algebraic or logical manipulations that transform the hypothesis into the target statement. The conclusion is the final sentence explicitly asserting that $Q$ has been established, often written as 'Therefore, ...'.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Theorem: If } n \\text{ is an even integer, then } n^2 \\text{ is even.}",
+      "description_latex": "We begin by clearly stating what we need to prove. This tells us exactly what our hypothesis $P$ is ('$n$ is even') and what our target conclusion $Q$ is ('$n^2$ is even'), so we know where we're starting and where we need to end up.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } n \\text{ is an even integer. Then } n = 2k \\text{ for some integer } k.",
+      "description_latex": "This is the hypothesis step: we assume $P$ is true and immediately unpack it using the definition of an even integer. Writing $n = 2k$ converts the English word 'even' into algebra we can actually manipulate, which is essential \u2014 without a symbolic form, we can't do any calculations.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^2 = (2k)^2 = 4k^2 = 2(2k^2)",
+      "description_latex": "Here we compute $n^2$ by substituting the expression $2k$ for $n$ and expanding. We then factor out a $2$ to reveal the structure we need \u2014 this factoring step is the heart of the proof because it shows $n^2$ is a multiple of $2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Let } m = 2k^2. \\text{ Since } k \\in \\mathbb{Z}, \\text{ we have } m \\in \\mathbb{Z}, \\text{ and } n^2 = 2m.",
+      "description_latex": "We introduce a new integer variable $m$ to match the definition of evenness exactly: an integer is even if it equals $2$ times some integer. We must explicitly verify that $m$ is indeed an integer, because the definition requires it \u2014 otherwise we haven't actually confirmed $n^2$ fits the definition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Therefore, } n^2 \\text{ is even.} \\quad \\blacksquare",
+      "description_latex": "The conclusion restates the target claim $Q$ in plain language, confirming we have reached it. The $\\blacksquare$ symbol (or 'QED') signals the proof is complete and helps the reader see where the argument ends.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Theorem: If } m \\text{ and } n \\text{ are both odd integers, then } m + n \\text{ is even.}",
+      "description_latex": "We state the theorem so we know our goal. Our hypothesis $P$ is that both $m$ and $n$ are odd, and our conclusion $Q$ is that their sum is even.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } m \\text{ and } n \\text{ are odd. Then } m = 2j + 1 \\text{ and } n = 2k + 1 \\text{ for some integers } j, k.",
+      "description_latex": "We assume $P$ and apply the definition of an odd integer to both $m$ and $n$, giving us algebraic expressions to work with. Notice we use different variable names $j$ and $k$ because $m$ and $n$ are independent \u2014 using the same letter would incorrectly imply they're equal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now add $m + n$ by substituting the expressions for $m$ and $n$, simplify, and factor the result to show it has the form $2 \\times (\\text{some integer})$. Write out each algebraic step explicitly.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Therefore, } m + n \\text{ is even.} \\quad \\blacksquare",
+      "description_latex": "We state the conclusion, confirming that $Q$ holds. Your algebra in the previous step should have produced an expression of the form $2t$ for some integer $t$, which is exactly the definition of an even integer.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove that if $n$ is an even integer, then $3n$ is even.",
+      "answer_latex": "Let $n = 2k$ for some $k \\in \\mathbb{Z}$. Then $3n = 3(2k) = 2(3k)$. Since $3k \\in \\mathbb{Z}$, $3n$ is even."
+    },
+    {
+      "prompt_latex": "Prove that if $n$ is an odd integer, then $n^2$ is odd.",
+      "answer_latex": "Let $n = 2k+1$ for some $k \\in \\mathbb{Z}$. Then $n^2 = (2k+1)^2 = 4k^2 + 4k + 1 = 2(2k^2+2k)+1$. Since $2k^2+2k \\in \\mathbb{Z}$, $n^2$ is odd."
+    },
+    {
+      "prompt_latex": "Prove that if $a \\mid b$ and $b \\mid c$, then $a \\mid c$, where $a, b, c \\in \\mathbb{Z}$ and $a \\neq 0$.",
+      "answer_latex": "Since $a \\mid b$, write $b = ak$ for some $k \\in \\mathbb{Z}$. Since $b \\mid c$, write $c = bm$ for some $m \\in \\mathbb{Z}$. Then $c = bm = (ak)m = a(km)$. Since $km \\in \\mathbb{Z}$, we have $a \\mid c$."
+    },
+    {
+      "prompt_latex": "Prove that if $n$ is an even integer, then $n^2 + 2n + 1$ is odd. (Hint: factor first.)",
+      "answer_latex": "Note $n^2+2n+1 = (n+1)^2$. Since $n$ is even, $n = 2k$, so $n+1 = 2k+1$ is odd. By the result that the square of an odd integer is odd, $(n+1)^2$ is odd."
+    },
+    {
+      "prompt_latex": "A store sells items in packages of 2. If Alice buys $m$ packages and Bob buys $n$ packages, prove that the total number of items they purchase together is even.",
+      "answer_latex": "Alice buys $2m$ items and Bob buys $2n$ items, where $m, n \\in \\mathbb{Z}^+$. The total is $2m + 2n = 2(m+n)$. Since $m+n \\in \\mathbb{Z}$, the total is even."
+    }
+  ],
+  "common_mistakes": [
+    "Students assume what they're trying to prove by writing something like 'Since $n^2$ is even, $n^2 = 2m$...' at the start \u2014 this is circular reasoning. Fix: always derive the conclusion; never state it as a given at the beginning of the proof.",
+    "Students reuse the same variable name for two independent integers, for example writing both $m = 2k+1$ and $n = 2k+1$, which falsely forces $m = n$. Fix: introduce a fresh variable for each independent integer (e.g., $j$ and $k$) to keep them logically separate.",
+    "Students perform correct algebra but forget to verify that the new expression they introduce (like $m = 2k^2$) is actually an integer, leaving a gap in the argument. Fix: always include a short justification such as 'since $k \\in \\mathbb{Z}$, $2k^2 \\in \\mathbb{Z}$' immediately after introducing the variable."
+  ],
+  "untested_variants": [
+    "Direct proofs involving rational numbers, for example proving that the sum of two rational numbers is rational (requires writing rationals as $p/q$ with $q \\neq 0$ and finding a common denominator).",
+    "Direct proofs about divisibility with three or more chained conditions, such as proving if $a \\mid b$ and $a \\mid c$ then $a \\mid (bx + cy)$ for arbitrary integers $x$ and $y$.",
+    "Direct proofs in set theory, for example proving that if $A \\subseteq B$ and $B \\subseteq C$ then $A \\subseteq C$ using the element-chasing method.",
+    "Direct proofs involving modular arithmetic notation, such as proving that if $a \\equiv r \\pmod{n}$ and $b \\equiv s \\pmod{n}$ then $a + b \\equiv r + s \\pmod{n}$."
+  ]
+}

@@ -85,16 +85,18 @@ async def create_tutor_session(
     """
     Create a pending tutor session from intake form data.
 
-    Tier check: session creation requires a paid tier.
-    Problem queue is built when the WebSocket connects (Phase 4).
+    Tutor access is credits-only (no tier gate): this preflight checks that the
+    student has an available credit so the intake form can show a friendly
+    error instead of failing later at WebSocket connect. The credit itself is
+    consumed at connect time, not here.
     """
-    from session_quota import PAID_TIERS
+    from credit_router import has_available_credit
     from ws_session import create_pending_session, SESSION_TYPES
 
-    if user.tier not in PAID_TIERS:
+    if not has_available_credit(user.id):
         raise HTTPException(
-            status_code=403,
-            detail="Tutor sessions require a paid plan. Visit /pricing to upgrade.",
+            status_code=402,
+            detail="No session credits available. Purchase a session at /pricing to get started.",
         )
 
     if body.session_type not in SESSION_TYPES:
@@ -570,7 +572,10 @@ def _tts_cached(text: str, voice_id: str, speed: float = 0.90, stability: float 
     if not elevenlabs_key:
         raise HTTPException(status_code=503, detail="ElevenLabs API key not configured. Set ELEVENLABS_API_KEY.")
 
-    model_id = os.getenv("ELEVENLABS_MODEL", "eleven_multilingual_v2")
+    # Flash model by default: ~half the cost and lower latency than
+    # multilingual_v2, quality is fine for tutoring speech (cost decision
+    # 2026-06-12). Override with ELEVENLABS_MODEL for A/B.
+    model_id = os.getenv("ELEVENLABS_MODEL", "eleven_flash_v2_5")
 
     import httpx
     resp = httpx.post(
@@ -670,9 +675,31 @@ async def synthesize_speech(
     back to silent text — degraded speech (raw LaTeX tokens) is never synthesized.
     """
     from agents.latex_to_speech import latex_to_speech, SpeechConversionError
+    from session_quota import check_tts_budget, record_tts_chars
+    import rate_limit
 
     voice_id = os.getenv("ELEVENLABS_VOICE_ID", "21m00Tcm4TlvDq8ikWAM")  # Rachel default
     raw_text = body.text.strip()
+
+    # SECURITY (H1): per-user request-rate ceiling on TTS, independent of the
+    # daily character budget — bounds a rapid scripted flood (each call bills
+    # ElevenLabs). 30 syntheses/minute is far above genuine spoken-tutor cadence.
+    allowed_rate, _ = rate_limit.hit(f"tts:{user.id}", 30, 60)
+    if not allowed_rate:
+        raise HTTPException(
+            status_code=429,
+            detail="Too many voice requests. Please slow down.",
+        )
+
+    # Daily per-user TTS character budget (cost control). Clients degrade to
+    # silent text on any non-200, so hitting the cap is invisible-but-quiet.
+    allowed, used_today, budget = check_tts_budget(user.id, len(raw_text))
+    if not allowed:
+        raise HTTPException(
+            status_code=429,
+            detail=f"Daily voice budget reached ({used_today}/{budget} characters). "
+                   "Voice returns tomorrow; text tutoring is unaffected.",
+        )
 
     try:
         spoken = await latex_to_speech(raw_text)
@@ -695,6 +722,8 @@ async def synthesize_speech(
         raise
     except Exception as exc:
         raise HTTPException(status_code=502, detail=f"Speech synthesis failed: {exc}")
+
+    record_tts_chars(user.id, len(raw_text))
 
     return StreamingResponse(
         iter([audio_bytes]),

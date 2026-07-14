@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_017",
+  "topic_name": "Proving Set Identities",
+  "generated_at": "2026-05-13T20:19:17.708589+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to work with sets \u2014 unions, intersections, complements \u2014 and you can verify specific examples by listing elements. But what if someone claims that $A \\cup (B \\cap C) = (A \\cup B) \\cap (A \\cup C)$ for every possible choice of sets $A$, $B$, and $C$? Checking one example isn't enough to prove it works always. How do you rigorously prove that two set expressions are identical, no matter what sets you plug in?",
+  "concept": "A set identity is a statement that two set expressions are equal for all possible sets. In plain English: no matter what elements the sets contain, both sides always describe exactly the same collection. Formally, we prove $X = Y$ by showing the double containment: $X \\subseteq Y$ and $Y \\subseteq X$. To show $X \\subseteq Y$, we take an arbitrary element $x \\in X$ and use definitions and logic to conclude $x \\in Y$.",
+  "anatomy": "Every double-containment proof has three structural parts: the setup, where you declare 'Let $x \\in$ (left side)' or 'Let $x \\in$ (right side)' to begin each direction; the logical chain, where you unpack set-membership definitions \u2014 such as '$x \\in A \\cup B$ means $x \\in A$ or $x \\in B$', '$x \\in A \\cap B$ means $x \\in A$ and $x \\in B$', '$x \\in A^c$ means $x \\notin A$' \u2014 and use propositional logic to rewrite the membership condition; and the conclusion, where you re-assemble the rewritten condition to declare membership in the target set, completing one direction before switching sides.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } A \\cap (A \\cup B) = A \\text{ (Absorption Law)}",
+      "description_latex": "We state exactly what we need to prove. Because we want to show two sets are equal, we will prove both $A \\cap (A \\cup B) \\subseteq A$ and $A \\subseteq A \\cap (A \\cup B)$ \u2014 this double-containment strategy is the standard method for set identity proofs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Direction 1: } A \\cap (A \\cup B) \\subseteq A. \\quad \\text{Let } x \\in A \\cap (A \\cup B).",
+      "description_latex": "We pick an arbitrary element from the left-hand set to start the first direction. By the definition of intersection, $x \\in A \\cap (A \\cup B)$ means $x \\in A$ AND $x \\in (A \\cup B)$. The AND gives us both facts simultaneously, and in particular we already have $x \\in A$, which is exactly what we need to conclude.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\in A \\text{ and } x \\in (A \\cup B) \\implies x \\in A. \\quad \\therefore A \\cap (A \\cup B) \\subseteq A. \\checkmark",
+      "description_latex": "Since the definition of intersection directly hands us $x \\in A$, the first direction is done \u2014 no further work needed. This illustrates how unpacking definitions often makes one direction of a proof nearly immediate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Direction 2: } A \\subseteq A \\cap (A \\cup B). \\quad \\text{Let } x \\in A.",
+      "description_latex": "Now we reverse: we start with an arbitrary element of the right-hand set $A$ and must show it lands in $A \\cap (A \\cup B)$. To show $x \\in A \\cap (A \\cup B)$, the definition of intersection requires us to verify two things: $x \\in A$ (which we have by assumption) and $x \\in A \\cup B$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\in A \\implies x \\in A \\cup B \\text{ (since union requires only one side).} \\quad \\therefore x \\in A \\cap (A \\cup B). \\quad \\therefore A \\subseteq A \\cap (A \\cup B). \\checkmark",
+      "description_latex": "Because $x \\in A$, the definition of union ($x \\in A$ OR $x \\in B$) is satisfied immediately, giving $x \\in A \\cup B$. We now have both required conditions, so $x \\in A \\cap (A \\cup B)$. Both directions are proved, so $A \\cap (A \\cup B) = A$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } A \\setminus B = A \\cap B^c",
+      "description_latex": "We want to show that the set difference $A \\setminus B$ (elements in $A$ but not in $B$) equals $A \\cap B^c$ (elements in $A$ and in the complement of $B$). We will use double containment, so there are two directions to prove.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Direction 1: } A \\setminus B \\subseteq A \\cap B^c. \\quad \\text{Let } x \\in A \\setminus B.",
+      "description_latex": "By definition of set difference, $x \\in A \\setminus B$ means $x \\in A$ and $x \\notin B$. Now use the definition of complement and intersection to explain why $x$ must be in $A \\cap B^c$, and state your conclusion for this direction.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\textbf{Direction 2: } A \\cap B^c \\subseteq A \\setminus B. \\quad \\text{Let } x \\in A \\cap B^c.",
+      "description_latex": "By definition of intersection, $x \\in A$ and $x \\in B^c$. Since $x \\in B^c$ means $x \\notin B$ by the definition of complement, we have $x \\in A$ and $x \\notin B$, which is exactly the definition of $x \\in A \\setminus B$. Therefore $A \\cap B^c \\subseteq A \\setminus B$, and combining both directions gives $A \\setminus B = A \\cap B^c$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore A \\setminus B = A \\cap B^c \\quad \\square",
+      "description_latex": "Write the final conclusion sentence for the full proof, stating that both containments together establish the set identity. This closing sentence is an important formal habit \u2014 always declare what you have proved.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove: $A \\cup \\emptyset = A$.",
+      "answer_latex": "Direction 1: Let $x \\in A \\cup \\emptyset$. Then $x \\in A$ or $x \\in \\emptyset$. Since $\\emptyset$ has no elements, $x \\in A$. Direction 2: Let $x \\in A$. Then $x \\in A$ or $x \\in \\emptyset$, so $x \\in A \\cup \\emptyset$. Thus $A \\cup \\emptyset = A$."
+    },
+    {
+      "prompt_latex": "Prove: $(A^c)^c = A$ (Double Complement Law).",
+      "answer_latex": "Direction 1: Let $x \\in (A^c)^c$. Then $x \\notin A^c$, meaning it is not the case that $x \\notin A$, so $x \\in A$. Direction 2: Let $x \\in A$. Then $x \\notin A^c$, so $x \\in (A^c)^c$. Thus $(A^c)^c = A$."
+    },
+    {
+      "prompt_latex": "Prove De Morgan's Law: $(A \\cup B)^c = A^c \\cap B^c$.",
+      "answer_latex": "Direction 1: Let $x \\in (A \\cup B)^c$. Then $x \\notin A \\cup B$, so $x \\notin A$ and $x \\notin B$, giving $x \\in A^c$ and $x \\in B^c$, hence $x \\in A^c \\cap B^c$. Direction 2: Let $x \\in A^c \\cap B^c$. Then $x \\notin A$ and $x \\notin B$, so $x \\notin A \\cup B$, hence $x \\in (A \\cup B)^c$."
+    },
+    {
+      "prompt_latex": "Using the identity $A \\setminus B = A \\cap B^c$, prove: $A \\setminus (A \\setminus B) = A \\cap B$.",
+      "answer_latex": "$A \\setminus (A \\setminus B) = A \\cap (A \\setminus B)^c = A \\cap (A \\cap B^c)^c = A \\cap (A^c \\cup B)$ (De Morgan). By distributivity: $(A \\cap A^c) \\cup (A \\cap B) = \\emptyset \\cup (A \\cap B) = A \\cap B$."
+    },
+    {
+      "prompt_latex": "A database stores records. Let $A$ be the set of records matching filter $P$ and $B$ be the set matching filter $Q$. A programmer claims that records matching $P$ but not $Q$, together with records matching $Q$ but not $P$, equals $(A \\cup B) \\setminus (A \\cap B)$. Prove this: $(A \\setminus B) \\cup (B \\setminus A) = (A \\cup B) \\setminus (A \\cap B)$.",
+      "answer_latex": "Using $X \\setminus Y = X \\cap Y^c$: $(A \\cap B^c) \\cup (B \\cap A^c)$. For the right side: $(A \\cup B) \\cap (A \\cap B)^c = (A \\cup B) \\cap (A^c \\cup B^c)$. Distributing: $(A \\cap A^c) \\cup (A \\cap B^c) \\cup (B \\cap A^c) \\cup (B \\cap B^c) = \\emptyset \\cup (A \\cap B^c) \\cup (B \\cap A^c) \\cup \\emptyset$, which matches the left side."
+    }
+  ],
+  "common_mistakes": [
+    "Students often prove only one direction \u2014 showing $A \\subseteq B$ but not $B \\subseteq A$ \u2014 and then declare $A = B$. One containment is never enough; you must explicitly state and prove both directions, and conclude with 'therefore $A = B$'.",
+    "When unpacking $x \\notin A \\cup B$, students sometimes write '$x \\notin A$ or $x \\notin B$' instead of the correct '$x \\notin A$ and $x \\notin B$'. Remember that to NOT be in a union, you must fail to be in every component \u2014 this is De Morgan's logic for negating an OR.",
+    "Students try to prove set identities by manipulating the set expressions algebraically (like canceling or rearranging symbols) without grounding each step in a membership definition. Every step in a set identity proof must be justified by a specific definition \u2014 union, intersection, complement, or subset \u2014 applied to an element $x$, not to the sets as whole objects."
+  ],
+  "untested_variants": [
+    "Proving the Distributive Law $A \\cup (B \\cap C) = (A \\cup B) \\cap (A \\cup C)$, which requires handling a case split inside the element-chasing argument.",
+    "Proving identities involving three or more sets simultaneously, such as $(A \\setminus B) \\setminus C = A \\setminus (B \\cup C)$, where the student must nest definitions carefully.",
+    "Disproving a false set identity by constructing an explicit counterexample, such as showing $A \\cup (B \\setminus C) \\neq (A \\cup B) \\setminus C$ in general.",
+    "Proving set identities using a membership table (analogous to a truth table), listing all $2^n$ combinations of membership across $n$ sets and checking both sides column by column."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_018",
+  "topic_name": "Definition and Representation of Relations",
+  "generated_at": "2026-05-13T20:13:07.816811+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to describe a function like $f(x) = x^2$, which pairs each input with exactly one output. But what if you want to describe a more flexible pairing \u2014 like 'student $a$ is enrolled in course $b$', where one student can be in many courses and one course can have many students? A function can't capture that. How do we formally describe any kind of pairing or comparison between two sets?",
+  "concept": "A relation is a way of describing which pairs of elements from two sets are 'connected' in some meaningful way \u2014 enrolled in, less than, divides, and so on. Formally, a binary relation $R$ from set $A$ to set $B$ is any subset of the Cartesian product $A \\times B$; we write $a \\, R \\, b$ (or $(a, b) \\in R$) to mean the pair is included. When $A = B$, we call $R$ a relation on $A$.",
+  "anatomy": "Every binary relation $R$ from $A$ to $B$ has three distinguishable parts: the domain set $A$ (the left-hand elements that can appear as first coordinates), the codomain set $B$ (the right-hand elements that can appear as second coordinates), and the relation set $R \\subseteq A \\times B$ itself \u2014 the explicit collection of ordered pairs $(a, b)$ that satisfy the relationship. The ordered pair $(a, b)$ has a first component $a \\in A$ and a second component $b \\in B$, and the order matters: $(a, b) \\in R$ does not imply $(b, a) \\in R$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\{1, 2, 3\\}, \\quad B = \\{2, 4, 6\\}",
+      "description_latex": "We start by clearly naming our two sets. $A$ will supply the first components of every ordered pair, and $B$ will supply the second components, so the full universe of possible pairs is $A \\times B$, which has $3 \\times 3 = 9$ elements.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A \\times B = \\{(1,2),(1,4),(1,6),(2,2),(2,4),(2,6),(3,2),(3,4),(3,6)\\}",
+      "description_latex": "We form the Cartesian product by pairing every element of $A$ with every element of $B$. This is the pool from which any relation $R$ from $A$ to $B$ must draw its pairs \u2014 $R$ can be any subset of these nine pairs, including the empty set or the full product itself.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R = \\{(a, b) \\in A \\times B \\mid a \\text{ divides } b\\}",
+      "description_latex": "We now define a specific relation: $a \\, R \\, b$ whenever $a$ divides $b$ evenly. We check each pair \u2014 for instance, $1$ divides $2$, $4$, and $6$; $2$ divides $2$, $4$, and $6$; but $3$ divides only $6$ among the elements of $B$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R = \\{(1,2),(1,4),(1,6),(2,2),(2,4),(2,6),(3,6)\\}",
+      "description_latex": "After testing all nine candidates we collect the ones that pass the divisibility test. Notice that $(3, 2)$ and $(3, 4)$ are excluded because $3 \\nmid 2$ and $3 \\nmid 4$, illustrating that $R$ is a proper subset of $A \\times B$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Directed-graph (digraph) representation: draw nodes } 1,2,3 \\text{ and } 2,4,6; \\text{ draw an arrow from } a \\text{ to } b \\text{ for each } (a,b)\\in R.",
+      "description_latex": "One powerful way to visualise a relation is as a directed graph: each element of $A$ and $B$ becomes a node, and each ordered pair in $R$ becomes a directed edge from the first component to the second. This makes it easy to see at a glance which elements are related and in which direction.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\{a, b, c\\}, \\quad B = \\{1, 2\\}",
+      "description_latex": "We are given these two sets and asked to find the Cartesian product $A \\times B$ and then list the relation $R = \\{(x, y) \\in A \\times B \\mid y = 1\\}$. Start by writing out every possible ordered pair in $A \\times B$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A \\times B = \\{(a,1),(a,2),(b,1),(b,2),(c,1),(c,2)\\}",
+      "description_latex": "Here is the full Cartesian product \u2014 six pairs in total. Now you need to decide which of these six pairs satisfy the condition $y = 1$, and list only those pairs as the relation $R$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Apply the rule $y = 1$: go through each pair in $A \\times B$ and keep only those whose second component equals $1$. Write your answer as a set of ordered pairs.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "R = \\{(a,1),(b,1),(c,1)\\}",
+      "description_latex": "The three pairs with second component $1$ form the relation. Notice that $R$ contains exactly one pair for each element of $A$, which means this particular relation is also a function \u2014 a good connection to what you already know.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\{0, 1, 2\\}$. List all elements of $A \\times A$.",
+      "answer_latex": "A \\times A = \\{(0,0),(0,1),(0,2),(1,0),(1,1),(1,2),(2,0),(2,1),(2,2)\\}"
+    },
+    {
+      "prompt_latex": "Let $A = \\{1, 2, 3, 4\\}$ and define the relation $R$ on $A$ by $R = \\{(a,b) \\mid a < b\\}$. List all pairs in $R$.",
+      "answer_latex": "R = \\{(1,2),(1,3),(1,4),(2,3),(2,4),(3,4)\\}"
+    },
+    {
+      "prompt_latex": "Let $A = \\{2, 3, 6\\}$ and $B = \\{1, 2, 3, 6\\}$. Define $R = \\{(a,b) \\in A \\times B \\mid a \\mid b\\}$. List all pairs in $R$ and represent $R$ as a matrix (rows indexed by $A$, columns by $B$).",
+      "answer_latex": "R = \\{(2,2),(2,6),(3,3),(3,6),(6,6)\\}; \\text{ matrix } M_R = \\begin{pmatrix}0&1&0&1\\\\0&0&1&1\\\\0&0&0&1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $A = \\{1,2,3\\}$ and $B = \\{1,2,3\\}$. How many distinct relations are there from $A$ to $B$? Recall that $|A \\times B| = 9$.",
+      "answer_latex": "2^{|A \\times B|} = 2^9 = 512"
+    },
+    {
+      "prompt_latex": "A class has students $S = \\{\\text{Alice, Bob, Carol}\\}$ and courses $C = \\{\\text{Math, CS, English}\\}$. Alice takes Math and CS; Bob takes CS; Carol takes Math, CS, and English. Write the enrollment relation $R \\subseteq S \\times C$ as a set of ordered pairs, and state $|R|$.",
+      "answer_latex": "R = \\{(\\text{Alice, Math}),(\\text{Alice, CS}),(\\text{Bob, CS}),(\\text{Carol, Math}),(\\text{Carol, CS}),(\\text{Carol, English})\\}; \\quad |R|=6"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $(b, a)$ instead of $(a, b)$ when describing a relation from $A$ to $B$, forgetting that ordered pairs are directional \u2014 $(a, b) \\in A \\times B$ means $a$ comes from $A$ and $b$ comes from $B$, so always write the element from the domain set first.",
+    "Students confuse a relation with a function, assuming every element of $A$ must appear exactly once as a first component in $R$; in reality, an element of $A$ can appear in many pairs, in one pair, or in no pairs at all \u2014 $R$ is simply any subset of $A \\times B$.",
+    "When representing a relation as a Boolean matrix, students sometimes place a $1$ at position $(i,j)$ to mean the $j$-th row element is related to the $i$-th column element, reversing rows and columns; always index rows by the domain set and columns by the codomain set, so entry $(i,j) = 1$ means $a_i \\, R \\, b_j$."
+  ],
+  "untested_variants": [
+    "Composition of two relations $R \\subseteq A \\times B$ and $S \\subseteq B \\times C$ to form $S \\circ R \\subseteq A \\times C$.",
+    "Determining whether a relation on a single set is reflexive, symmetric, antisymmetric, or transitive.",
+    "Finding the inverse relation $R^{-1} = \\{(b,a) \\mid (a,b) \\in R\\}$ and describing its properties.",
+    "Representing a relation on a single set as a directed graph (digraph) and reading properties directly from the digraph structure."
+  ]
+}

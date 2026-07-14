@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_026",
+  "topic_name": "Graphs of Other Trigonometric Functions",
+  "generated_at": "2026-05-12T23:47:33.444282+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to graph $y = \\sin(x)$ and $y = \\cos(x)$ \u2014 smooth, wave-like curves that oscillate between $-1$ and $1$. But what happens when you take ratios or reciprocals of these functions? The tangent, cotangent, secant, and cosecant functions behave in dramatically different ways: they shoot off to infinity, have gaps called vertical asymptotes, and never stay bounded. How would you even begin to sketch the graph of $y = \\tan(x)$ or $y = \\sec(x)$ without a calculator?",
+  "concept": "The four remaining trigonometric functions are built directly from sine and cosine: $\\tan(x) = \\frac{\\sin(x)}{\\cos(x)}$, $\\cot(x) = \\frac{\\cos(x)}{\\sin(x)}$, $\\csc(x) = \\frac{1}{\\sin(x)}$, and $\\sec(x) = \\frac{1}{\\cos(x)}$. Wherever the denominator equals zero, the function is undefined and a vertical asymptote appears on the graph. Each function has a period, a set of vertical asymptotes, and a characteristic shape that repeats across its domain.",
+  "anatomy": "Every graph of these functions has four key structural features worth naming precisely. The **vertical asymptotes** are the vertical lines where the function is undefined \u2014 for $\\tan(x)$ these occur at $x = \\frac{\\pi}{2} + n\\pi$ for integer $n$, while for $\\cot(x)$ they occur at $x = n\\pi$. The **period** is the horizontal length of one complete cycle: $\\tan$ and $\\cot$ have period $\\pi$, whereas $\\csc$ and $\\sec$ have period $2\\pi$. The **branches** are the smooth curves between consecutive asymptotes that form the repeating shape of the graph. For $\\csc$ and $\\sec$, the **parent sine or cosine curve** serves as a guide: the reciprocal function's branches are U-shaped curves that open away from the $x$-axis and are tangent to the parent curve at its peaks and valleys.",
+  "worked_example": [
+    {
+      "expression_latex": "y = \\tan(x) \\text{ on } \\left(-\\frac{\\pi}{2},\\, \\frac{\\pi}{2}\\right)",
+      "description_latex": "We start by identifying where $\\tan(x) = \\frac{\\sin(x)}{\\cos(x)}$ is undefined, which is wherever $\\cos(x) = 0$. On one full period, $\\cos(x) = 0$ at $x = -\\frac{\\pi}{2}$ and $x = \\frac{\\pi}{2}$, so these are the vertical asymptotes bounding one branch of the tangent graph.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\tan(0) = 0,\\quad \\tan\\!\\left(\\tfrac{\\pi}{4}\\right) = 1,\\quad \\tan\\!\\left(-\\tfrac{\\pi}{4}\\right) = -1",
+      "description_latex": "Plotting a few key reference points helps us nail down the shape of the branch. Notice that $\\tan(x) = 0$ at $x = 0$ (the midpoint between the asymptotes), and the function rises steeply toward $+\\infty$ as $x \\to \\frac{\\pi}{2}^-$ while falling toward $-\\infty$ as $x \\to -\\frac{\\pi}{2}^+$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{The graph of } y = \\tan(x) \\text{ is an increasing curve passing through }(0,0)\\text{ with period }\\pi.",
+      "description_latex": "Because the period of $\\tan(x)$ is $\\pi$, the entire pattern repeats every $\\pi$ units to the left and right. Each repeated branch is an S-shaped curve that climbs from $-\\infty$ to $+\\infty$ between consecutive pairs of vertical asymptotes at $x = \\frac{\\pi}{2} + n\\pi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = \\csc(x) = \\frac{1}{\\sin(x)}",
+      "description_latex": "To graph $y = \\csc(x)$, we first sketch the guide curve $y = \\sin(x)$ lightly. Wherever $\\sin(x) = 0$ \u2014 that is, at $x = n\\pi$ \u2014 the cosecant is undefined, so we draw vertical asymptotes at every integer multiple of $\\pi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{At } x = \\frac{\\pi}{2},\\; \\csc\\!\\left(\\tfrac{\\pi}{2}\\right) = \\frac{1}{1} = 1;\\quad \\text{at } x = \\frac{3\\pi}{2},\\; \\csc\\!\\left(\\tfrac{3\\pi}{2}\\right) = \\frac{1}{-1} = -1",
+      "description_latex": "Where $\\sin(x)$ reaches its maximum value of $1$, the cosecant also equals $1$, and where $\\sin(x)$ reaches its minimum of $-1$, the cosecant also equals $-1$. This means the branches of $y = \\csc(x)$ are U-shaped parabola-like curves that open upward above $y = 1$ or downward below $y = -1$, always touching the sine curve at its peaks and troughs.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y = 2\\sec(x)",
+      "description_latex": "We want to graph $y = 2\\sec(x) = \\frac{2}{\\cos(x)}$. Our strategy is to first identify the vertical asymptotes using the parent cosine function, then scale the branches by the factor of $2$. The vertical asymptotes occur wherever $\\cos(x) = 0$, which is at $x = \\frac{\\pi}{2} + n\\pi$ for integer $n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Key points on } y = \\cos(x): \\quad \\cos(0)=1,\\; \\cos(\\pi)=-1,\\; \\cos(2\\pi)=1",
+      "description_latex": "We identify the peaks and valleys of the guide curve $y = \\cos(x)$, because the secant branches will be tangent to $y = 2\\sec(x)$ at the points where $|\\cos(x)|$ is largest. Now, apply the factor of $2$: at these key points, $y = 2\\sec(x)$ takes values $2 \\cdot \\frac{1}{\\cos(x)}$. What are the actual $y$-values of $y = 2\\sec(x)$ at $x = 0$, $x = \\pi$, and $x = 2\\pi$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y = 2\\sec(x) \\text{ has branches opening upward from } y = 2 \\text{ and downward from } y = -2",
+      "description_latex": "Using the asymptotes you identified and the key points you just computed, sketch the U-shaped branches of $y = 2\\sec(x)$. The upward-opening branches have their vertex at $y = 2$ and the downward-opening branches have their vertex at $y = -2$, and the entire pattern repeats with period $2\\pi$. Does this shape make sense given that the plain $y = \\sec(x)$ graph has vertices at $y = \\pm 1$?",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{State the period and the equations of the vertical asymptotes of } y = \\tan(x).",
+      "answer_latex": "\\text{Period} = \\pi;\\quad \\text{Asymptotes at } x = \\frac{\\pi}{2} + n\\pi,\\; n \\in \\mathbb{Z}"
+    },
+    {
+      "prompt_latex": "\\text{Find the vertical asymptotes of } y = \\cot(x) \\text{ on the interval } [0, 2\\pi].",
+      "answer_latex": "x = 0,\\; x = \\pi,\\; x = 2\\pi"
+    },
+    {
+      "prompt_latex": "\\text{Determine the period and the range of } y = \\csc(x).",
+      "answer_latex": "\\text{Period} = 2\\pi;\\quad \\text{Range} = (-\\infty, -1] \\cup [1, +\\infty)"
+    },
+    {
+      "prompt_latex": "\\text{Describe how the graph of } y = \\sec\\!\\left(2x\\right) \\text{ differs from } y = \\sec(x). \\text{ State its period and asymptotes.}",
+      "answer_latex": "\\text{Period} = \\pi;\\quad \\text{Asymptotes at } x = \\frac{\\pi}{4} + \\frac{n\\pi}{2},\\; n \\in \\mathbb{Z}.\\; \\text{The graph is compressed horizontally by factor } \\tfrac{1}{2}."
+    },
+    {
+      "prompt_latex": "\\text{A surveyor models a shadow length with } L(\\theta) = 10\\tan(\\theta) \\text{ feet, where } \\theta \\text{ is the sun's angle of elevation.} \\text{ For what values of } \\theta \\in \\left[0, \\frac{\\pi}{2}\\right) \\text{ is } L(\\theta) \\geq 10?",
+      "answer_latex": "\\theta \\in \\left[\\frac{\\pi}{4},\\, \\frac{\\pi}{2}\\right)"
+    }
+  ],
+  "common_mistakes": [
+    "Students often draw the branches of $y = \\tan(x)$ as if they cross the vertical asymptotes, connecting one branch smoothly to the next. In reality, each branch is a separate curve that approaches $\\pm\\infty$ and never touches the asymptote line \u2014 fix this by always drawing asymptotes as dashed barriers first before sketching any curves.",
+    "When graphing $y = \\csc(x)$ or $y = \\sec(x)$, students frequently confuse which parent function to use as a guide: they draw $y = \\cos(x)$ as a guide for $\\csc(x)$ instead of $y = \\sin(x)$. Remember that $\\csc(x) = \\frac{1}{\\sin(x)}$, so the guide curve must always be the sine function.",
+    "Students often forget that horizontal stretches and compressions affect the locations of vertical asymptotes. For $y = \\tan(bx)$, the asymptotes shift to $x = \\frac{\\pi}{2b} + \\frac{n\\pi}{b}$, not the standard $x = \\frac{\\pi}{2} + n\\pi$ \u2014 always recompute asymptote positions when a coefficient $b$ is present inside the function."
+  ],
+  "untested_variants": [
+    "Graphing transformations that include both horizontal shifts and vertical shifts simultaneously, such as $y = \\tan\\!\\left(x - \\frac{\\pi}{4}\\right) + 1$, where students must track how the phase shift moves asymptotes and the vertical shift raises the midline.",
+    "Using the graphs of the other trigonometric functions to solve equations graphically, such as finding all solutions to $\\csc(x) = 2$ in a given interval by reading $x$-values off the graph.",
+    "Graphing $y = a\\cot(bx + c)$ with all three parameters simultaneously non-trivial, requiring students to account for period change, phase shift, and amplitude scaling of the cotangent.",
+    "Identifying which trigonometric function matches a given graph that has been presented without labels, requiring students to reason backwards from the location of asymptotes and the shape of branches."
+  ]
+}

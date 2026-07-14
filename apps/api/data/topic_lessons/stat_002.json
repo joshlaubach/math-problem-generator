@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_002",
+  "topic_name": "Frequency Distributions and Histograms",
+  "generated_at": "2026-05-13T20:29:06.994347+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to collect raw data \u2014 maybe you've recorded 30 exam scores or measured the heights of students in a class. But staring at a list of 30 numbers tells you almost nothing at a glance: you can't easily see where most scores cluster, how spread out they are, or whether the distribution is lopsided. What if there were a systematic way to compress that raw data into a compact table and a visual picture that reveals the shape of the data instantly \u2014 and how would you build one from scratch?",
+  "concept": "A frequency distribution is a way of organizing raw data by grouping values into intervals (called classes or bins) and counting how many data values fall into each interval. Formally, if we divide the range of data into $k$ non-overlapping classes of equal width $w$, and $f_i$ denotes the count (frequency) of observations in class $i$, then $\\sum_{i=1}^{k} f_i = n$, where $n$ is the total number of observations. A histogram is the corresponding bar graph where each bar's height equals $f_i$ and bars share edges, visually encoding the distribution's shape.",
+  "anatomy": "A frequency distribution table has five key components: the class (an interval such as $[60, 70)$ defined by a lower class boundary and an upper class boundary), the class width $w$ which is the difference between consecutive lower boundaries, the tally (a running count as you sort data), the frequency $f_i$ which is the final count for that class, and optionally the relative frequency $rf_i = f_i / n$ expressing each class as a proportion of the whole. On the histogram itself, the horizontal axis carries the class boundaries, the vertical axis carries either frequency $f_i$ or relative frequency $rf_i$, and the height of each rectangular bar represents the frequency of that class \u2014 crucially, bars touch one another because the classes are contiguous.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Data: } 52, 61, 63, 67, 70, 71, 73, 75, 78, 80, 82, 84, 85, 88, 91, 93, 95, 97 \\quad (n = 18)",
+      "description_latex": "Here is our raw data set of 18 exam scores. Before we can build anything, we need to know the range of the data, so we identify the minimum value as $52$ and the maximum value as $97$, giving a range of $97 - 52 = 45$. This range tells us how much territory our classes need to cover.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "k = 5 \\text{ classes}, \\quad w = \\left\\lceil \\frac{45}{5} \\right\\rceil = 9 \\approx 10 \\quad \\Rightarrow \\quad w = 10",
+      "description_latex": "We choose $k = 5$ classes (a common starting choice for small data sets) and compute a class width by dividing the range by the number of classes: $45 / 5 = 9$. We round up to $w = 10$ to make the boundaries clean and to ensure every data point is included. Always round the class width up, never down, so no data falls outside the table.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{|c|c|c|} \\hline \\text{Class} & \\text{Tally} & f_i \\\\ \\hline [50, 60) & | & 1 \\\\ [60, 70) & ||| & 3 \\\\ [70, 80) & |||| & 5 \\\\ [80, 90) & |||| & 5 \\\\ [90, 100] & |||| & 4 \\\\ \\hline & & \\sum f_i = 18 \\\\ \\hline \\end{array}",
+      "description_latex": "We now sort each data value into its class by asking 'which interval does this number fall in?' and recording a tally mark. After tallying all 18 scores, we count the tally marks to get the frequency $f_i$ for each class. Notice that the frequencies sum to $18 = n$, which is our required check \u2014 if the sum were wrong, we would know a value was miscounted or missed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "rf_i = \\frac{f_i}{n}: \\quad \\frac{1}{18} \\approx 0.056, \\quad \\frac{3}{18} \\approx 0.167, \\quad \\frac{5}{18} \\approx 0.278, \\quad \\frac{5}{18} \\approx 0.278, \\quad \\frac{4}{18} \\approx 0.222",
+      "description_latex": "Dividing each frequency by $n = 18$ gives the relative frequency $rf_i$, which tells us the proportion of scores in each class. Relative frequencies are especially useful when comparing two data sets of different sizes, since raw counts would be misleading. Notice that these proportions sum to $1$ (allowing for rounding), serving as another built-in accuracy check.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Histogram: x-axis} = 50, 60, 70, 80, 90, 100; \\quad \\text{bar heights} = 1, 3, 5, 5, 4",
+      "description_latex": "To draw the histogram, place the class boundaries on the horizontal axis and draw touching rectangular bars whose heights match the frequencies $f_i$. The touching bars (no gaps) signal that the variable is continuous or at least grouped continuously. From this picture, you can immediately see that the distribution is roughly mound-shaped and slightly left-skewed, with most scores in the $[70, 90)$ range \u2014 information that was invisible in the raw list.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data: } 12, 15, 18, 21, 22, 24, 25, 27, 29, 30, 31, 33 \\quad (n = 12)",
+      "description_latex": "We have 12 data values. Start by finding the range: the minimum is $12$ and the maximum is $33$, so the range is $33 - 12 = 21$. We decide to use $k = 4$ classes, so the class width should be at least $21/4 = 5.25$, which we round up to $w = 6$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Classes starting at } 12: \\quad [12,18), \\; [18,24), \\; [24,30), \\; [30,36)",
+      "description_latex": "Using $w = 6$ and starting at the minimum value $12$, we list four non-overlapping classes that cover all the data. Now tally each data value into its class and record the frequency $f_i$ for each class \u2014 this is the critical step where your understanding of class boundaries is tested.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Complete the frequency distribution table by tallying each of the 12 data values into the correct class and writing the frequency $f_i$ for each of the four classes. Then verify your work by confirming that $\\sum f_i = 12$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "rf_i = f_i / 12 \\text{ for each class}",
+      "description_latex": "Once you have the frequencies, compute the relative frequency for each class by dividing $f_i$ by $n = 12$. Which class has the highest relative frequency, and what does that tell you about where most of the data values are concentrated?",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A frequency distribution has five classes with frequencies $4, 7, 12, 5, 2$. What is the total number of observations $n$?",
+      "answer_latex": "n = 4 + 7 + 12 + 5 + 2 = 30"
+    },
+    {
+      "prompt_latex": "You want to build a frequency distribution for 40 data values ranging from $15$ to $87$. Using $k = 6$ classes, what is the minimum class width $w$ you should use (round up to the nearest whole number)?",
+      "answer_latex": "\\text{Range} = 87 - 15 = 72, \\quad w = \\lceil 72/6 \\rceil = 12"
+    },
+    {
+      "prompt_latex": "A class in a frequency distribution is $[20, 30)$ with frequency $f = 8$ and $n = 40$. Compute the relative frequency $rf$ and the cumulative frequency if the previous cumulative total was $14$.",
+      "answer_latex": "rf = 8/40 = 0.20; \\quad \\text{cumulative frequency} = 14 + 8 = 22"
+    },
+    {
+      "prompt_latex": "The relative frequencies for four classes are $0.10, 0.35, rf_3, 0.20$. Find $rf_3$. Then, if $n = 60$, find the actual frequency $f_3$.",
+      "answer_latex": "rf_3 = 1 - (0.10 + 0.35 + 0.20) = 0.35; \\quad f_3 = 0.35 \\times 60 = 21"
+    },
+    {
+      "prompt_latex": "A teacher records these quiz scores for 15 students: $55, 60, 62, 65, 68, 70, 72, 74, 75, 78, 80, 83, 85, 90, 95$. Construct a frequency distribution with $k = 4$ equal-width classes starting at $55$, find the class width, and identify which class contains the most scores.",
+      "answer_latex": "\\text{Range} = 95-55=40, \\; w=\\lceil 40/4 \\rceil=10. \\; \\text{Classes: } [55,65): 3, \\; [65,75): 5, \\; [75,85): 5, \\; [85,95]: 2. \\; \\text{Most scores: } [65,75) \\text{ and } [75,85) \\text{ tied at } 5."
+    }
+  ],
+  "common_mistakes": [
+    "Students round the class width DOWN instead of UP. For example, with range $45$ and $k=5$ classes, a student computes $45/5=9$ and uses $w=9$, which leaves the maximum data value $97$ outside the last class $[52, 97)$. Always round the class width UP (or at minimum keep it as a round number that fully covers the range) so no data point is left homeless.",
+    "Students count a value that sits exactly on a class boundary twice \u2014 or not at all \u2014 because they forget the convention that classes are half-open intervals like $[a, b)$, meaning $a$ is included but $b$ is not. For instance, a score of $70$ belongs in $[70, 80)$, not in $[60, 70)$. Settle on one consistent convention (usually lower boundary included, upper boundary excluded) and apply it to every class.",
+    "When drawing the histogram, students leave gaps between bars as they would for a bar chart of categorical data. Histograms represent continuous (or continuously grouped) data, so bars must touch \u2014 the shared edges are exactly the class boundaries. Leaving gaps falsely implies there are no possible data values between classes, which misrepresents the distribution."
+  ],
+  "untested_variants": [
+    "Ogives (cumulative frequency polygons): constructing or interpreting a graph where the vertical axis shows cumulative frequencies rather than class frequencies, and using it to estimate percentiles.",
+    "Frequency distributions for categorical (qualitative) data, where classes are named categories rather than numerical intervals and the width concept does not apply.",
+    "Choosing the number of classes using Sturges' Rule $k \\approx 1 + 3.322 \\log_{10}(n)$ rather than selecting $k$ by judgment, and justifying that choice.",
+    "Unequal class widths: building or interpreting a frequency distribution where different classes have different widths, requiring use of frequency density $f_i / w_i$ on the histogram's vertical axis to avoid visual distortion."
+  ]
+}

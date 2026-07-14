@@ -1,0 +1,76 @@
+{
+  "topic_id": "de_048",
+  "topic_name": "Classification of PDEs (H)",
+  "generated_at": "2026-05-13T20:04:02.471759+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to classify ordinary differential equations by their order and linearity, and you've seen that different types of ODEs require completely different solution strategies. Now imagine you're modeling heat flowing through a metal plate, waves propagating through air, or the electric potential in a region \u2014 each of these leads to a partial differential equation (PDE), but they behave in fundamentally different ways physically and mathematically. A heat equation 'smooths out' disturbances, a wave equation 'propagates' them, and a Laplace equation 'balances' them. So the question is: given an arbitrary second-order linear PDE, how can you tell which of these three fundamental behaviors it exhibits before you even attempt to solve it?",
+  "concept": "Classification tells us the qualitative character of a PDE \u2014 specifically whether it is hyperbolic, parabolic, or elliptic \u2014 based purely on its coefficients, not its solution. For a second-order linear PDE in two variables $Au_{xx} + Bu_{xy} + Cu_{yy} + Du_x + Eu_y + Fu = G$, we compute the discriminant $B^2 - 4AC$: if $B^2 - 4AC > 0$ the equation is hyperbolic, if $B^2 - 4AC = 0$ it is parabolic, and if $B^2 - 4AC < 0$ it is elliptic.",
+  "anatomy": "The key structural components are the three leading coefficients $A$, $B$, and $C$, which are the coefficients of the pure second-order terms $u_{xx}$, $u_{xy}$, and $u_{yy}$ respectively. The lower-order terms with coefficients $D$, $E$, $F$ and the forcing function $G$ do not affect classification at all \u2014 only $A$, $B$, $C$ matter. The discriminant $\\Delta = B^2 - 4AC$ is the single scalar quantity that determines type: think of it as the analogue of the discriminant of a conic section, which is exactly where this classification originates geometrically.",
+  "worked_example": [
+    {
+      "expression_latex": "u_{xx} - 4u_{xy} + 3u_{yy} + 2u_x - u = 0",
+      "description_latex": "We start by identifying the three leading coefficients from the second-order terms. Reading off the equation, we have $A = 1$ (coefficient of $u_{xx}$), $B = -4$ (coefficient of $u_{xy}$), and $C = 3$ (coefficient of $u_{yy}$). Notice we completely ignore the lower-order terms $2u_x$ and $-u$ since they play no role in classification.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Delta = B^2 - 4AC = (-4)^2 - 4(1)(3) = 16 - 12 = 4",
+      "description_latex": "Now we compute the discriminant $\\Delta = B^2 - 4AC$ by substituting our values. We get $16 - 12 = 4$, and since $\\Delta > 0$, we can already determine the classification before writing the final answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Delta = 4 > 0 \\implies \\text{hyperbolic}",
+      "description_latex": "Since the discriminant is strictly positive, the PDE is hyperbolic everywhere. Physically, hyperbolic equations govern wave-like phenomena where disturbances travel along characteristics, so this equation behaves like a wave equation in structure.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "4u_{xx} + 4u_{xy} + u_{yy} - 3u_y + u = 0",
+      "description_latex": "We want to classify this PDE. Start by identifying the three coefficients of the pure second-order terms: $A$ is the coefficient of $u_{xx}$, $B$ is the coefficient of $u_{xy}$, and $C$ is the coefficient of $u_{yy}$. The lower-order terms $-3u_y$ and $u$ are irrelevant to classification.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = 4, \\quad B = 4, \\quad C = 1",
+      "description_latex": "Good \u2014 those are the correct coefficients. Now compute the discriminant $\\Delta = B^2 - 4AC$ using $A = 4$, $B = 4$, $C = 1$, and use its sign to state the classification.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\Delta = 16 - 16 = 0 \\implies \\text{parabolic}",
+      "description_latex": "The discriminant equals exactly zero, which means this PDE is parabolic. This is actually the structure of the heat equation, and a zero discriminant signals diffusion-type behavior where characteristics 'collapse' to a single family.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Classify the PDE: $u_{xx} + u_{yy} = 0$",
+      "answer_latex": "A=1,\\, B=0,\\, C=1;\\quad \\Delta = 0 - 4(1)(1) = -4 < 0 \\implies \\text{elliptic}"
+    },
+    {
+      "prompt_latex": "Classify the PDE: $u_{xx} - c^2 u_{yy} = 0$ where $c \\neq 0$ is a real constant",
+      "answer_latex": "A=1,\\, B=0,\\, C=-c^2;\\quad \\Delta = 0 - 4(1)(-c^2) = 4c^2 > 0 \\implies \\text{hyperbolic}"
+    },
+    {
+      "prompt_latex": "Classify the PDE: $u_{xx} + 6u_{xy} + 9u_{yy} + u_x = 0$",
+      "answer_latex": "A=1,\\, B=6,\\, C=9;\\quad \\Delta = 36 - 36 = 0 \\implies \\text{parabolic}"
+    },
+    {
+      "prompt_latex": "Classify the PDE: $2u_{xx} + 3u_{xy} - 2u_{yy} + 5u_x - u_y + u = e^x$",
+      "answer_latex": "A=2,\\, B=3,\\, C=-2;\\quad \\Delta = 9 - 4(2)(-2) = 9 + 16 = 25 > 0 \\implies \\text{hyperbolic}"
+    },
+    {
+      "prompt_latex": "A steady-state temperature distribution $T(x,y)$ on a rectangular plate satisfies $T_{xx} + T_{yy} = f(x,y)$ (Poisson's equation). Identify $A$, $B$, $C$, compute $\\Delta$, and explain what this classification tells you physically about whether temperature disturbances at a point propagate outward or are felt instantaneously everywhere.",
+      "answer_latex": "A=1,\\, B=0,\\, C=1;\\quad \\Delta=-4<0,\\text{ elliptic. Elliptic equations have no real characteristics, meaning there is no direction of 'wave propagation' \u2014 the solution at every interior point depends on all boundary values simultaneously, consistent with steady-state behavior.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often read $B$ as the coefficient of the mixed partial $u_{xy}$ but forget that the discriminant formula uses $B^2 - 4AC$ directly \u2014 they sometimes write $4B^2 - 4AC$ by analogy with the quadratic formula. Remember: the formula is $\\Delta = B^2 - 4AC$ with no extra factor on $B^2$.",
+    "When a mixed partial term $u_{xy}$ is absent from the equation, students may set $B = 1$ by default instead of $B = 0$. Always explicitly check for the $u_{xy}$ term; if it is missing, $B = 0$ and $\\Delta = -4AC$.",
+    "Students include lower-order terms like $u_x$, $u_y$, or $u$ when identifying $A$, $B$, $C$, which can corrupt the discriminant. Classification depends only on the three coefficients of the highest-order (second-order) derivatives; every other term in the equation is irrelevant to the type."
+  ],
+  "untested_variants": [
+    "PDEs with variable coefficients such as $y\\, u_{xx} + u_{yy} = 0$, where the classification changes depending on the region of the $xy$-plane (e.g., hyperbolic for $y > 0$, parabolic on $y = 0$, elliptic for $y < 0$).",
+    "Classification of PDEs in more than two independent variables, where the discriminant criterion generalizes to analyzing the eigenvalues of the coefficient matrix of all second-order terms.",
+    "Reducing a classified PDE to its canonical form by finding the characteristic curves and applying a change of variables \u2014 a natural next step after classification that is not covered in this lesson.",
+    "Systems of first-order PDEs and their classification via eigenvalue analysis of the coefficient matrix, which extends hyperbolic/elliptic ideas beyond single second-order equations."
+  ]
+}

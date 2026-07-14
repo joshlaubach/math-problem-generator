@@ -1,0 +1,81 @@
+{
+  "topic_id": "c1_015",
+  "topic_name": "Higher-Order Derivatives",
+  "generated_at": "2026-05-13T00:07:06.665219+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find the derivative of a function like $f(x) = x^3 - 5x^2 + 2$, getting $f'(x) = 3x^2 - 10x$. But $f'(x)$ is itself a function \u2014 so what stops us from differentiating it again? In physics, if position is $s(t)$, velocity is $s'(t)$, but acceleration is the rate of change of velocity \u2014 something you can't yet write down precisely. Can you differentiate a derivative, and if so, what does that even mean?",
+  "concept": "A higher-order derivative is simply the result of differentiating a function more than once. The second derivative $f''(x)$ is the derivative of $f'(x)$; the third derivative $f'''(x)$ is the derivative of $f''(x)$; and so on. Formally, the $n$-th order derivative is written $f^{(n)}(x)$ or $\\dfrac{d^n y}{dx^n}$, and it is defined by applying the differentiation operator $n$ times in succession.",
+  "anatomy": "A higher-order derivative expression has several named parts. The order $n$ tells you how many times differentiation has been applied; for $f^{(n)}(x)$, the superscript $(n)$ is the order indicator (parentheses distinguish it from an exponent). In Leibniz notation $\\dfrac{d^n y}{dx^n}$, the numerator $d^n y$ means $y$ has been differentiated $n$ times, while the denominator $dx^n$ signals differentiation with respect to $x$ taken $n$ times. The base function $f(x)$ is the starting point, and each successive derivative \u2014 $f'(x)$, $f''(x)$, $f'''(x)$ \u2014 is an intermediate result building toward the final order.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 4x^4 - 3x^3 + 7x - 1",
+      "description_latex": "We start with the original function and identify our goal: find both the second and third derivatives by applying the power rule repeatedly. Taking the first derivative gives us $f'(x) = 16x^3 - 9x^2 + 7$, which is just the standard power rule applied to every term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 16x^3 - 9x^2 + 7",
+      "description_latex": "Now we differentiate $f'(x)$ to obtain the second derivative $f''(x)$. We treat $f'(x)$ as a brand-new function and apply the power rule once more, term by term, remembering that the constant $7$ vanishes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f''(x) = 48x^2 - 18x",
+      "description_latex": "This is the second derivative. Geometrically, $f''(x)$ tells us about the concavity of the original function \u2014 whether it curves upward or downward \u2014 which is why it appears so often in curve-sketching and optimization problems.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'''(x) = 96x - 18",
+      "description_latex": "We differentiate $f''(x)$ one more time to get the third derivative $f'''(x) = 96x - 18$. Each differentiation reduces the degree of the polynomial by one, so the pattern continues until we eventually reach zero.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = 5x^3 - 2x^2 + 6x",
+      "description_latex": "Our goal is to find the second derivative $g''(x)$. We start by differentiating $g(x)$ once using the power rule to get $g'(x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g'(x) = 15x^2 - 4x + 6",
+      "description_latex": "Here is the first derivative. Notice each term's power dropped by one and the coefficient was multiplied by the original exponent. Now you need to differentiate this result to find $g''(x)$ \u2014 apply the power rule once more to every term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Differentiate $g'(x) = 15x^2 - 4x + 6$ to find $g''(x)$. What is the second derivative?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $f''(x)$ if $f(x) = x^3 + 2x$.",
+      "answer_latex": "f''(x) = 6x"
+    },
+    {
+      "prompt_latex": "Find the second derivative of $h(x) = 3x^4 - 5x^2 + 1$.",
+      "answer_latex": "h''(x) = 36x^2 - 10"
+    },
+    {
+      "prompt_latex": "Find $f'''(x)$ if $f(x) = 2x^5 - x^3 + 4x$.",
+      "answer_latex": "f'''(x) = 120x^2 - 6"
+    },
+    {
+      "prompt_latex": "The position of a particle is given by $s(t) = t^4 - 6t^2 + 9$. Find the acceleration $s''(t)$ and determine at what value(s) of $t$ the acceleration equals zero.",
+      "answer_latex": "s''(t) = 12t^2 - 12;\\ t = \\pm 1"
+    },
+    {
+      "prompt_latex": "Find all higher-order derivatives of $f(x) = x^3 - 3x$ until you reach zero, and identify at which order the derivative first becomes a nonzero constant.",
+      "answer_latex": "f'(x) = 3x^2 - 3,\\ f''(x) = 6x,\\ f'''(x) = 6\\ (\\text{nonzero constant}),\\ f^{(4)}(x) = 0"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the notation $f^{(2)}(x)$ with $[f(x)]^2$ (squaring the function). The parentheses around the order number are specifically there to signal repeated differentiation, not exponentiation \u2014 always ask whether the superscript is in parentheses before deciding what it means.",
+    "When finding a second derivative, students apply the power rule to the original function twice simultaneously (e.g., multiplying exponents together) instead of differentiating sequentially. The correct process is to fully compute $f'(x)$ first, then differentiate that result to get $f''(x)$.",
+    "Students forget to reduce the exponent of a constant-coefficient term when differentiating intermediate results, effectively carrying the original function's coefficients through all steps unchanged. After each differentiation, every surviving term must have its exponent reduced by exactly one and its coefficient updated before proceeding to the next order."
+  ],
+  "untested_variants": [
+    "Finding higher-order derivatives of trigonometric functions such as $f(x) = \\sin(x)$ or $f(x) = \\cos(x)$, where the derivatives cycle through a four-step pattern.",
+    "Finding higher-order derivatives involving the chain rule, for example $f(x) = (3x+1)^5$, where each differentiation step requires chain-rule application.",
+    "Using Leibniz notation to evaluate a higher-order derivative at a specific point, such as computing $\\left.\\dfrac{d^2y}{dx^2}\\right|_{x=2}$ for an implicit or composite function.",
+    "Finding higher-order derivatives of exponential or logarithmic functions, such as $f(x) = e^{2x}$ or $f(x) = \\ln(x)$, which do not eventually become zero."
+  ]
+}

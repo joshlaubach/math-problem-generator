@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_045",
+  "topic_name": "Adding and Subtracting Rational Expressions",
+  "generated_at": "2026-05-12T23:30:15.165654+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to add fractions like $\\frac{1}{4} + \\frac{3}{4} = 1$ and even $\\frac{1}{3} + \\frac{1}{6} = \\frac{1}{2}$ by finding a common denominator. Now imagine the denominators aren't numbers but polynomials \u2014 expressions like $(x+2)$ or $(x^2 - 9)$. The same idea should work, but how do you find a common denominator when variables are involved, and what do you do when the denominators need to be factored first?",
+  "concept": "Adding and subtracting rational expressions works exactly like adding fractions: you need a common denominator before you can combine numerators. A rational expression is a ratio of two polynomials, $\\frac{P(x)}{Q(x)}$, where $Q(x) \\neq 0$. To add $\\frac{A}{B} + \\frac{C}{D}$, you rewrite both fractions over the least common denominator (LCD), then combine: $\\frac{A}{B} \\pm \\frac{C}{D} = \\frac{AD \\pm CB}{BD}$ (simplified).",
+  "anatomy": "Every addition or subtraction problem with rational expressions has four key parts: the numerators (the polynomial expressions on top of each fraction), the denominators (the polynomial expressions on the bottom, which must be factored to find the LCD), the least common denominator or LCD (the smallest expression divisible by every denominator, built by taking each unique factor to its highest power), and the adjustment factors (the missing pieces multiplied into each fraction's numerator and denominator so both fractions share the LCD without changing their value).",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{3}{x+2} + \\frac{5}{x-1}",
+      "description_latex": "We start by identifying the denominators: $(x+2)$ and $(x-1)$. Since neither factors further and they share no common factors, the LCD is simply their product, $(x+2)(x-1)$. Our goal is to rewrite each fraction with this LCD as its denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{3(x-1)}{(x+2)(x-1)} + \\frac{5(x+2)}{(x-1)(x+2)}",
+      "description_latex": "To give the first fraction the denominator $(x+2)(x-1)$, we multiply its top and bottom by $(x-1)$, the factor it is missing. Similarly, we multiply the second fraction's top and bottom by $(x+2)$, the factor it is missing. Multiplying by a fraction equal to 1 doesn't change the value \u2014 it only changes the form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{3(x-1) + 5(x+2)}{(x+2)(x-1)}",
+      "description_latex": "Now that the denominators match, we can add the numerators directly and keep the shared denominator. Think of this exactly like $\\frac{3}{7} + \\frac{8}{7} = \\frac{11}{7}$ \u2014 once the bottoms agree, just add the tops.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{3x - 3 + 5x + 10}{(x+2)(x-1)} = \\frac{8x + 7}{(x+2)(x-1)}",
+      "description_latex": "We distribute in the numerator: $3(x-1) = 3x - 3$ and $5(x+2) = 5x + 10$, then combine like terms to get $8x + 7$. Always check whether the resulting numerator factors and shares a factor with the denominator \u2014 here it does not, so $\\frac{8x+7}{(x+2)(x-1)}$ is our fully simplified answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{2}{x^2 - 4} - \\frac{1}{x + 2}",
+      "description_latex": "Before finding the LCD, we must factor every denominator completely. Notice that $x^2 - 4$ is a difference of squares, so it factors as $(x+2)(x-2)$, and the second denominator is already $(x+2)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{LCD} = (x+2)(x-2)",
+      "description_latex": "The LCD must contain every unique factor at its highest power. The first denominator contributes both $(x+2)$ and $(x-2)$; the second denominator only contributes $(x+2)$, which is already included. So the LCD is $(x+2)(x-2)$. Notice the second fraction needs to be multiplied by $\\frac{(x-2)}{(x-2)}$ to reach this LCD.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Rewrite both fractions with the LCD, subtract the numerators, and simplify completely. What is the final simplified expression? Remember to distribute the subtraction sign carefully across the entire second numerator.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\frac{2}{5x} + \\frac{3}{5x}",
+      "answer_latex": "\\frac{1}{x}"
+    },
+    {
+      "prompt_latex": "\\frac{4}{x} + \\frac{3}{x+1}",
+      "answer_latex": "\\frac{7x+4}{x(x+1)}"
+    },
+    {
+      "prompt_latex": "\\frac{x}{x+3} - \\frac{2}{x-3}",
+      "answer_latex": "\\frac{x^2 - 5x - 6}{(x+3)(x-3)}"
+    },
+    {
+      "prompt_latex": "\\frac{3}{x^2 - 1} + \\frac{2}{x + 1}",
+      "answer_latex": "\\frac{2x+1}{(x+1)(x-1)}"
+    },
+    {
+      "prompt_latex": "A pipe fills a tank in $x$ hours and another fills it in $x+3$ hours. Write and simplify an expression for the fraction of the tank both pipes fill together in one hour.",
+      "answer_latex": "\\frac{2x+3}{x(x+3)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to distribute the subtraction sign across an entire numerator, writing $\\frac{A}{D} - \\frac{B+C}{D} = \\frac{A - B + C}{D}$ instead of $\\frac{A - B - C}{D}$; always put the second numerator in parentheses first so you don't drop the negative.",
+    "When building the LCD, students sometimes multiply all the denominators together rather than using each unique factor only once \u2014 for example, if both fractions share an $(x+1)$ factor, the LCD is not $(x+1)^2$ but just $(x+1)$ times any remaining distinct factors.",
+    "After rewriting fractions over the LCD, students multiply only the denominator by the adjustment factor and forget to multiply the numerator by the same factor, which changes the value of the fraction instead of just its form; always multiply both numerator and denominator by the exact same expression."
+  ],
+  "untested_variants": [
+    "Adding three rational expressions simultaneously, where the LCD requires three distinct factors and students must apply two separate adjustment factors to at least one fraction.",
+    "Problems where the final answer's numerator factors and cancels with part of the denominator, requiring an additional simplification step after combining (e.g., a result like $\\frac{x^2 - x - 6}{(x+2)(x-3)}$ that reduces to $\\frac{x-3}{x-3} \\cdot \\frac{x+2}{x+2}$... \u2014 i.e., genuine cancellation after adding).",
+    "Rational expressions with higher-degree denominators such as $x^3 - 8$ (difference of cubes) that require advanced factoring techniques to identify the LCD.",
+    "Adding or subtracting rational expressions where one or both denominators are opposite in sign, such as $\\frac{A}{x-4} + \\frac{B}{4-x}$, requiring students to recognize that $(4-x) = -(x-4)$ before proceeding."
+  ]
+}

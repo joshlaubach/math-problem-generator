@@ -1,8 +1,15 @@
 // Prisma schema for the Math Learning Platform.
-// Source of truth for the database schema.
-// SQLAlchemy in apps/api/db_models.py mirrors this schema for FastAPI access.
-// Run `prisma generate` to update the Prisma client.
-// Run `prisma migrate dev` to apply migrations.
+//
+// ⚠ NOT the source of truth (decision 2026-06-12). The live schema is owned by
+// SQLAlchemy (apps/api/db_models.py) and created via db_session.init_db() at
+// API startup. The web app does not query Prisma models anywhere (lib/prisma.ts
+// is an unused client stub) — all data flows through the FastAPI client.
+//
+// This file is retained as reference for a possible future Prisma adoption.
+// Do NOT run `prisma migrate` against the production database: several models
+// here (Problem, Attempt, Course) are structurally different from the live
+// SQLAlchemy tables, and Prisma's PascalCase table names do not match the
+// snake_case tables Python reads.
 
 generator client {
   provider = "prisma-client-js"
@@ -170,6 +177,19 @@ model ValidationDispute {
   reviewedBy    String?
   reviewedAt    DateTime?
   createdAt     DateTime     @default(now())
+}
+
+// Cached structured topic lesson (8-section JSON). Physical names are
+// snake_case via @map so the Python side (SQLAlchemy db_models.TopicLessonRecord)
+// reads the same table. Written by the API via agents/lesson_store.py.
+model TopicLesson {
+  topicId       String   @id @map("topic_id")
+  content       Json
+  schemaVersion Int      @default(1) @map("schema_version")
+  createdAt     DateTime @default(now()) @map("created_at")
+  updatedAt     DateTime @default(now()) @updatedAt @map("updated_at")
+
+  @@map("topic_lessons")
 }
 
 model ParentLink {

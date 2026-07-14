@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_030",
+  "topic_name": "Bootstrap Confidence Intervals (H)",
+  "generated_at": "2026-05-13T20:31:49.877265+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to build a confidence interval using a formula like $\\bar{x} \\pm z^* \\cdot \\frac{s}{\\sqrt{n}}$, but that formula assumes you know the sampling distribution's shape \u2014 usually requiring normality or a large sample. What if your data is skewed, your sample is small, or there is no clean formula for your statistic (like the median or IQR)? The bootstrap method lets you build a confidence interval directly from your data, with almost no assumptions. How can re-sampling from the same data you already have tell you anything new about the population?",
+  "concept": "A bootstrap confidence interval estimates how much a statistic varies by repeatedly re-sampling the original data with replacement. Instead of relying on a theoretical formula, you simulate hundreds or thousands of 'new' samples from your actual data, compute the statistic each time, and use the spread of those results to find the interval. Formally, if $\\hat{\\theta}^*_1, \\hat{\\theta}^*_2, \\ldots, \\hat{\\theta}^*_B$ are the bootstrap statistics from $B$ re-samples, a 95% bootstrap CI takes the 2.5th and 97.5th percentiles of that distribution as its bounds.",
+  "anatomy": "A bootstrap confidence interval has four key components: the original sample (the single dataset of size $n$ you actually collected), the bootstrap re-sample (a new sample of size $n$ drawn with replacement from the original), the bootstrap statistic $\\hat{\\theta}^*$ (the value of your chosen statistic \u2014 mean, median, proportion, etc. \u2014 computed from one re-sample), and the bootstrap distribution (the collection of all $B$ values of $\\hat{\\theta}^*$). The confidence interval itself is then read off as a percentile interval: the lower bound is the $\\frac{\\alpha}{2} \\cdot 100$th percentile and the upper bound is the $\\left(1 - \\frac{\\alpha}{2}\\right) \\cdot 100$th percentile of the bootstrap distribution.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Original sample: } \\{4, 7, 7, 9, 13\\}, \\quad n = 5, \\quad \\bar{x} = 8",
+      "description_latex": "We start with our original sample of five values and record the sample mean $\\bar{x} = 8$. This is our observed statistic, and it is the 'center' around which we want to build an interval \u2014 but we need to understand how uncertain this estimate is.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Re-sample 1: } \\{7, 4, 7, 13, 7\\} \\Rightarrow \\bar{x}^*_1 = 7.6",
+      "description_latex": "We draw five values from our original sample at random, but with replacement, meaning the same value can appear more than once. We compute the mean of this re-sample, getting $\\bar{x}^*_1 = 7.6$. Notice it differs slightly from 8 \u2014 that variation is exactly what we want to measure.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Repeat } B = 1000 \\text{ times, collecting } \\bar{x}^*_1, \\bar{x}^*_2, \\ldots, \\bar{x}^*_{1000}",
+      "description_latex": "We repeat the re-sampling process 1000 times and store each bootstrap mean. In practice a computer does this instantly; what we are building is an approximation to the sampling distribution of $\\bar{x}$, constructed entirely from the data we already have rather than from a theoretical formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Bootstrap distribution percentiles: } P_{2.5} = 5.4, \\quad P_{97.5} = 10.8",
+      "description_latex": "We sort all 1000 bootstrap means from smallest to largest and identify the 25th value (the 2.5th percentile) and the 975th value (the 97.5th percentile). These two numbers form the boundaries of our interval, because 95% of the simulated bootstrap means fell between them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "95\\%\\text{ Bootstrap CI for } \\mu: \\quad (5.4,\\ 10.8)",
+      "description_latex": "Our final 95% bootstrap confidence interval for the population mean is $(5.4, 10.8)$. We interpret this the same way as any confidence interval: we are 95% confident that the true population mean lies between 5.4 and 10.8, with no normality assumption required.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Original sample: } \\{2, 5, 5, 8, 10, 14\\}, \\quad n = 6, \\quad \\tilde{x} = \\frac{5+8}{2} = 6.5",
+      "description_latex": "We want a 90% bootstrap confidence interval for the population median. First, we note our original sample median $\\tilde{x} = 6.5$. We will bootstrap this statistic because there is no simple formula for the sampling distribution of the median.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Re-sample example: } \\{5, 14, 2, 5, 10, 5\\} \\Rightarrow \\tilde{x}^* = \\frac{5+5}{2} = 5",
+      "description_latex": "Here is one bootstrap re-sample drawn with replacement from the original data, and we compute its median. You can see that values repeat \u2014 that is expected and essential to the method. We would repeat this $B = 1000$ times to build the full bootstrap distribution of the sample median.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Suppose after 1000 re-samples the sorted bootstrap medians give $P_5 = 4.0$ and $P_{95} = 9.5$. Write the 90% bootstrap confidence interval for the population median, and explain which percentiles you use and why.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "90\\%\\text{ Bootstrap CI for median: } (4.0,\\ 9.5)",
+      "description_latex": "For a 90% CI we cut 5% from each tail, so we use the 5th and 95th percentiles of the bootstrap distribution. The resulting interval $(4.0, 9.5)$ means we are 90% confident the true population median lies in this range.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A bootstrap distribution of 500 sample means has its 2.5th percentile at 12.1 and its 97.5th percentile at 18.7. State the 95% bootstrap confidence interval.",
+      "answer_latex": "(12.1,\\ 18.7)"
+    },
+    {
+      "prompt_latex": "You run 1000 bootstrap re-samples of a proportion. The sorted bootstrap proportions give $P_{5} = 0.31$ and $P_{95} = 0.57$. What is the 90% bootstrap confidence interval for the population proportion?",
+      "answer_latex": "(0.31,\\ 0.57)"
+    },
+    {
+      "prompt_latex": "A bootstrap distribution of 800 sample medians has $P_{0.5} = 22$ and $P_{99.5} = 41$. Write the 99% bootstrap confidence interval for the median, and identify which percentiles you used.",
+      "answer_latex": "\\text{Use the 0.5th and 99.5th percentiles: } (22,\\ 41)"
+    },
+    {
+      "prompt_latex": "A researcher collects a right-skewed sample of incomes (in thousands): $\\{28, 35, 35, 42, 110\\}$. She argues a $t$-based CI is unreliable here and uses bootstrapping instead. After 2000 re-samples she gets $P_{2.5} = 32.0$ and $P_{97.5} = 67.4$ for the mean. Meanwhile the classical 95% $t$-interval gives $(18.4,\\ 81.6)$. Which interval is likely more trustworthy and why?",
+      "answer_latex": "\\text{The bootstrap CI } (32.0,\\ 67.4) \\text{ is more trustworthy; the } t\\text{-interval assumes normality, which fails with } n=5 \\text{ and strong skew.}"
+    },
+    {
+      "prompt_latex": "A quality-control engineer measures the IQR of waiting times from a sample of 12 customers. She cannot use a standard formula for the CI of an IQR, so she uses bootstrapping. After 1000 re-samples, the 1000 bootstrap IQR values, when sorted, have their 10th value equal to 3.2 minutes and their 990th value equal to 11.8 minutes. State the 98% bootstrap confidence interval for the population IQR.",
+      "answer_latex": "(3.2,\\ 11.8)"
+    }
+  ],
+  "common_mistakes": [
+    "Students sample without replacement when building bootstrap re-samples, which defeats the purpose: sampling with replacement is essential because it creates variability between re-samples; without it, every re-sample would be identical to the original data.",
+    "Students use the wrong percentiles for the desired confidence level \u2014 for example, using the 5th and 95th percentiles to build a 95% CI instead of the 2.5th and 97.5th. Remember that a $(1-\\alpha)\\cdot 100\\%$ CI cuts $\\alpha/2$ from each tail, so a 95% CI uses the 2.5th and 97.5th percentiles.",
+    "Students draw re-samples of a different size than the original sample \u2014 for instance, taking 100 re-samples of size 20 from an original sample of size 50. Bootstrap re-samples must always be the same size $n$ as the original sample, because the variability of a statistic depends directly on sample size."
+  ],
+  "untested_variants": [
+    "Computing a bootstrap CI for a ratio of two statistics (e.g., the ratio of two group means), which requires bootstrapping pairs of observations simultaneously.",
+    "Using the bias-corrected and accelerated (BCa) bootstrap interval, which adjusts for skewness in the bootstrap distribution rather than simply reading off percentiles.",
+    "Constructing a bootstrap CI for regression coefficients (e.g., the slope $\\hat{\\beta}_1$ in a linear model), where re-sampling must be done over pairs $(x_i, y_i)$.",
+    "Interpreting a bootstrap CI when the bootstrap distribution is clearly bimodal or non-unimodal, which signals that the percentile interval may be misleading."
+  ]
+}

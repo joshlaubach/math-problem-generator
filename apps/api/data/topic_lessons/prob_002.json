@@ -1,0 +1,76 @@
+{
+  "topic_id": "prob_002",
+  "topic_name": "Basic Probability Rules",
+  "generated_at": "2026-05-13T20:25:24.446666+00:00",
+  "course_name": "Probability",
+  "hook": "You already know that probability measures how likely an event is, and that $P(A) = \\frac{\\text{favorable outcomes}}{\\text{total outcomes}}$ for simple events. But what happens when you want to find the probability that event $A$ happens OR event $B$ happens? Or the probability that $A$ does NOT happen? Simply adding or subtracting probabilities naively can push you above 1 or below 0 \u2014 which is impossible. So how do we combine probabilities correctly?",
+  "concept": "Basic probability rules are the arithmetic of chance: they tell you how to compute probabilities for compound events built from simpler ones. Formally, for any event $A$ in a sample space $S$: the complement rule states $P(A^c) = 1 - P(A)$, and the addition rule states $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$, where $P(A \\cap B) = 0$ when $A$ and $B$ are mutually exclusive.",
+  "anatomy": "Every application of these rules involves four named components. The sample space $S$ is the set of all possible outcomes, and every probability lives between 0 and 1 with $P(S) = 1$. The complement $A^c$ (read 'A complement') is everything in $S$ that is not in $A$. The union $A \\cup B$ means '$A$ or $B$ or both occurred.' The intersection $A \\cap B$ means '$A$ and $B$ both occurred simultaneously,' and it is the term we subtract in the addition rule to avoid double-counting outcomes that belong to both events.",
+  "worked_example": [
+    {
+      "expression_latex": "P(\\text{rolling a 5 or 6 on a fair die})",
+      "description_latex": "We start by identifying the sample space: a fair six-sided die has outcomes $\\{1, 2, 3, 4, 5, 6\\}$, so $P(S) = 1$. We want the probability of rolling a 5 OR a 6, which means we need the union of two events.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(5) = \\frac{1}{6}, \\quad P(6) = \\frac{1}{6}, \\quad P(5 \\cap 6) = 0",
+      "description_latex": "We compute each individual probability: both 5 and 6 each have one favorable outcome out of six. Notice that $P(5 \\cap 6) = 0$ because a single roll cannot show both 5 and 6 at the same time \u2014 these events are mutually exclusive, so their intersection is empty.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(5 \\cup 6) = P(5) + P(6) - P(5 \\cap 6) = \\frac{1}{6} + \\frac{1}{6} - 0 = \\frac{2}{6} = \\frac{1}{3}",
+      "description_latex": "We apply the addition rule $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$. Because the events are mutually exclusive, subtracting zero leaves us with a simple sum, giving a final probability of $\\frac{1}{3}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(\\text{drawing a heart or a face card from a standard 52-card deck})",
+      "description_latex": "We need $P(H \\cup F)$ where $H$ is the event of drawing a heart and $F$ is the event of drawing a face card (Jack, Queen, King). Let's begin by counting: there are 13 hearts and 12 face cards in a 52-card deck.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(H) = \\frac{13}{52}, \\quad P(F) = \\frac{12}{52}, \\quad P(H \\cap F) = \\frac{3}{52}",
+      "description_latex": "We identify that $P(H \\cap F) = \\frac{3}{52}$ because there are exactly 3 cards that are both hearts and face cards (Jack, Queen, King of hearts). These events are NOT mutually exclusive, so we must subtract the intersection to avoid double-counting those 3 cards.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the addition rule $P(H \\cup F) = P(H) + P(F) - P(H \\cap F)$ using the values above. What is the final probability, simplified?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A bag contains 10 marbles. The probability of drawing a red marble is $P(R) = 0.3$. What is the probability of NOT drawing a red marble?",
+      "answer_latex": "P(R^c) = 1 - 0.3 = 0.7"
+    },
+    {
+      "prompt_latex": "A fair die is rolled. Let $A$ = rolling an even number and $B$ = rolling a number greater than 4. Find $P(A \\cup B)$.",
+      "answer_latex": "P(A) = \\frac{3}{6},\\ P(B) = \\frac{2}{6},\\ P(A \\cap B) = \\frac{1}{6},\\ P(A \\cup B) = \\frac{3}{6} + \\frac{2}{6} - \\frac{1}{6} = \\frac{4}{6} = \\frac{2}{3}"
+    },
+    {
+      "prompt_latex": "In a class, $P(\\text{plays soccer}) = 0.45$, $P(\\text{plays basketball}) = 0.30$, and $P(\\text{plays both}) = 0.15$. Find the probability that a randomly chosen student plays soccer or basketball.",
+      "answer_latex": "P(S \\cup B) = 0.45 + 0.30 - 0.15 = 0.60"
+    },
+    {
+      "prompt_latex": "Two events $A$ and $B$ satisfy $P(A) = 0.5$, $P(B) = 0.4$, and $P(A \\cup B) = 0.7$. Use the addition rule to find $P(A \\cap B)$, then determine $P(A^c \\cap B^c)$ using De Morgan's law: $P(A^c \\cap B^c) = 1 - P(A \\cup B)$.",
+      "answer_latex": "P(A \\cap B) = 0.5 + 0.4 - 0.7 = 0.2;\\quad P(A^c \\cap B^c) = 1 - 0.7 = 0.3"
+    },
+    {
+      "prompt_latex": "A weather app says there is a 60\\% chance of rain on Saturday and a 50\\% chance of rain on Sunday. The chance it rains on both days is 30\\%. What is the probability it rains on at least one of the two days? What is the probability it rains on neither day?",
+      "answer_latex": "P(\\text{at least one}) = 0.60 + 0.50 - 0.30 = 0.80;\\quad P(\\text{neither}) = 1 - 0.80 = 0.20"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to subtract the intersection when events overlap, writing $P(A \\cup B) = P(A) + P(B)$ even when $A$ and $B$ share outcomes \u2014 this only works when events are mutually exclusive; always check whether $P(A \\cap B) = 0$ before skipping the subtraction.",
+    "Students confuse $P(A \\cup B)$ (at least one of A or B) with $P(A \\cap B)$ (both A and B), especially in word problems that say 'or' \u2014 remember that 'or' in probability is inclusive and corresponds to the union $\\cup$, not the intersection $\\cap$.",
+    "When using the complement rule, students subtract from the wrong value, writing $P(A^c) = P(A) - 1$ instead of $P(A^c) = 1 - P(A)$ \u2014 always start from 1 (the total probability of the sample space) and subtract the event's probability."
+  ],
+  "untested_variants": [
+    "Three-event addition rule: $P(A \\cup B \\cup C) = P(A) + P(B) + P(C) - P(A \\cap B) - P(A \\cap C) - P(B \\cap C) + P(A \\cap B \\cap C)$, which extends inclusion-exclusion to three overlapping events.",
+    "Working backwards from $P(A \\cup B)$ and individual probabilities to deduce whether two events are mutually exclusive (i.e., checking if $P(A \\cap B) = 0$ algebraically).",
+    "Applying the complement rule to simplify 'at least one' problems when computing the union directly would require handling many cases (e.g., at least one success in multiple trials).",
+    "Conditional probability contexts where $P(A \\cap B)$ must first be computed using $P(A \\cap B) = P(A) \\cdot P(B|A)$ before the addition rule can be applied."
+  ]
+}

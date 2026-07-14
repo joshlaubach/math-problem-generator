@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_034",
+  "topic_name": "Two-Sample Tests",
+  "generated_at": "2026-05-13T20:32:05.084105+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to test a single population mean \u2014 you set up hypotheses, compute a test statistic, and compare it to a critical value or p-value. But what happens when a company claims their new drug reduces blood pressure more than the old one, and you have data from two separate groups of patients? A one-sample test can't compare two independent groups at once. How do we decide whether an observed difference between two sample means is real, or just random variation?",
+  "concept": "A two-sample test asks whether the means (or proportions) of two distinct populations are equal, using data from two independent samples. The core idea is to measure the observed difference between sample statistics and scale it by how much that difference is expected to vary by chance alone. Formally, the two-sample $t$-test statistic is $t = \\frac{(\\bar{x}_1 - \\bar{x}_2) - (\\mu_1 - \\mu_2)_0}{\\sqrt{\\frac{s_1^2}{n_1} + \\frac{s_2^2}{n_2}}}$, where the denominator is the standard error of the difference.",
+  "anatomy": "The test has several named components. The null hypothesis $H_0: \\mu_1 - \\mu_2 = 0$ specifies the hypothesized difference (almost always zero). The numerator $(\\bar{x}_1 - \\bar{x}_2)$ is the observed difference between sample means. The standard error $SE = \\sqrt{\\frac{s_1^2}{n_1} + \\frac{s_2^2}{n_2}}$ quantifies how much sampling variability we expect in that difference; $s_1^2$ and $s_2^2$ are the sample variances, and $n_1$, $n_2$ are the sample sizes. The degrees of freedom $df$ (approximated by Welch's formula or the smaller of $n_1-1$ and $n_2-1$) determine which $t$-distribution is used to find the p-value or critical value.",
+  "worked_example": [
+    {
+      "expression_latex": "H_0: \\mu_1 - \\mu_2 = 0 \\quad H_a: \\mu_1 - \\mu_2 \\neq 0",
+      "description_latex": "We begin by stating our hypotheses. The null says there is no difference in population means, while the two-sided alternative allows for a difference in either direction \u2014 we use a two-sided test here because we have no prior reason to expect one group to be higher.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "SE = \\sqrt{\\frac{s_1^2}{n_1} + \\frac{s_2^2}{n_2}} = \\sqrt{\\frac{(4.2)^2}{30} + \\frac{(3.8)^2}{35}} = \\sqrt{\\frac{17.64}{30} + \\frac{14.44}{35}} = \\sqrt{0.588 + 0.4126} \\approx \\sqrt{1.0006} \\approx 1.000",
+      "description_latex": "Next we compute the standard error of the difference, which tells us how much the quantity $\\bar{x}_1 - \\bar{x}_2$ is expected to vary across repeated samples. We plug in the two sample standard deviations $s_1 = 4.2$, $s_2 = 3.8$ and sample sizes $n_1 = 30$, $n_2 = 35$ \u2014 each group contributes its own variance term, divided by its own sample size.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t = \\frac{(\\bar{x}_1 - \\bar{x}_2) - 0}{SE} = \\frac{(52.1 - 49.4) - 0}{1.000} = \\frac{2.7}{1.000} = 2.70",
+      "description_latex": "We compute the test statistic by dividing the observed difference in sample means by the standard error. The result $t = 2.70$ tells us that the observed difference is 2.70 standard errors away from zero \u2014 the larger this value, the more surprising the data would be if the null were true.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "df \\approx \\min(n_1 - 1,\\, n_2 - 1) = \\min(29, 34) = 29",
+      "description_latex": "We need degrees of freedom to look up or compute the p-value. Using the conservative shortcut (the smaller of $n_1 - 1$ and $n_2 - 1$) gives $df = 29$; Welch's full formula would give a slightly larger value, but this conservative estimate keeps the test valid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p\\text{-value} = 2 \\cdot P(T_{29} > 2.70) \\approx 2(0.0056) \\approx 0.011 < 0.05",
+      "description_latex": "Because the alternative is two-sided, the p-value is twice the one-tail probability. With $p \\approx 0.011 < \\alpha = 0.05$, we reject $H_0$ and conclude there is statistically significant evidence that the two population means differ.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H_0: \\mu_1 - \\mu_2 = 0, \\quad H_a: \\mu_1 - \\mu_2 > 0, \\quad \\alpha = 0.05",
+      "description_latex": "A one-sided test: we suspect Group 1 has a higher mean. The data are $\\bar{x}_1 = 78$, $s_1 = 6$, $n_1 = 25$ and $\\bar{x}_2 = 74$, $s_2 = 8$, $n_2 = 20$. The hypotheses and significance level are already set for you.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "SE = \\sqrt{\\frac{6^2}{25} + \\frac{8^2}{20}} = \\sqrt{1.44 + 3.20} = \\sqrt{4.64} \\approx 2.154",
+      "description_latex": "We compute the standard error by combining each group's variance-over-n contribution. Notice that even though $n_2$ is smaller, the larger $s_2$ also inflates the uncertainty from Group 2.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the test statistic $t = \\frac{(\\bar{x}_1 - \\bar{x}_2) - 0}{SE}$ using the values above. What value do you get, and what does its sign tell you?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using $df = \\min(24, 19) = 19$, find the one-tailed p-value for your test statistic and state whether you reject $H_0$ at $\\alpha = 0.05$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Two samples: $n_1 = 40$, $\\bar{x}_1 = 100$, $s_1 = 10$ and $n_2 = 40$, $\\bar{x}_2 = 100$, $s_2 = 10$. Compute the two-sample $t$ statistic.",
+      "answer_latex": "t = 0"
+    },
+    {
+      "prompt_latex": "Sample 1: $\\bar{x}_1 = 55$, $s_1 = 5$, $n_1 = 20$. Sample 2: $\\bar{x}_2 = 50$, $s_2 = 5$, $n_2 = 20$. Compute the standard error of the difference and the $t$ statistic.",
+      "answer_latex": "SE = \\sqrt{\\frac{25}{20}+\\frac{25}{20}} = \\sqrt{2.5} \\approx 1.581, \\quad t = \\frac{5}{1.581} \\approx 3.16"
+    },
+    {
+      "prompt_latex": "Using $df = 19$ and $t = 2.10$ for a two-sided test at $\\alpha = 0.05$, the critical value is $t^* = 2.093$. State your conclusion.",
+      "answer_latex": "\\text{Since } |t| = 2.10 > 2.093, \\text{ reject } H_0"
+    },
+    {
+      "prompt_latex": "Sample 1: $\\bar{x}_1 = 30$, $s_1 = 4$, $n_1 = 16$. Sample 2: $\\bar{x}_2 = 27$, $s_2 = 6$, $n_2 = 25$. Test $H_0: \\mu_1 = \\mu_2$ vs $H_a: \\mu_1 > \\mu_2$ at $\\alpha = 0.05$ using $df = 15$. The critical value is $t^* = 1.753$.",
+      "answer_latex": "SE = \\sqrt{\\frac{16}{16}+\\frac{36}{25}} = \\sqrt{1+1.44} \\approx 1.562, \\quad t = \\frac{3}{1.562} \\approx 1.92 > 1.753, \\text{ reject } H_0"
+    },
+    {
+      "prompt_latex": "A researcher measures reaction times (ms) for participants who slept 8 hours ($\\bar{x}_1 = 240$, $s_1 = 30$, $n_1 = 50$) vs. 5 hours ($\\bar{x}_2 = 265$, $s_2 = 40$, $n_2 = 50$). Compute the $t$ statistic for $H_0: \\mu_1 = \\mu_2$ and interpret its sign in context.",
+      "answer_latex": "SE = \\sqrt{\\frac{900}{50}+\\frac{1600}{50}} = \\sqrt{50} \\approx 7.071, \\quad t = \\frac{240-265}{7.071} \\approx -3.54; \\text{ the negative sign means the sleep-deprived group was slower on average}"
+    }
+  ],
+  "common_mistakes": [
+    "Students pool the two sample sizes into one denominator, writing $\\sqrt{\\frac{s_1^2 + s_2^2}{n_1 + n_2}}$ instead of $\\sqrt{\\frac{s_1^2}{n_1} + \\frac{s_2^2}{n_2}}$. Each group's variance must be scaled by its own sample size before adding, because the two groups contribute independently to the total uncertainty.",
+    "When the alternative hypothesis is one-sided (e.g., $H_a: \\mu_1 > \\mu_2$), students still double the tail probability when computing the p-value, as if the test were two-sided. Only two-sided alternatives require multiplying the one-tail area by 2; for a one-sided test, the p-value is the area in one tail only.",
+    "Students use $df = n_1 + n_2 - 2$ (the pooled-variance formula) even when the two sample standard deviations are clearly different, inflating the degrees of freedom and making the test anti-conservative. The pooled $df$ formula is only valid when you have evidence that $\\sigma_1 = \\sigma_2$; otherwise use Welch's approximation or the conservative $df = \\min(n_1-1, n_2-1)$."
+  ],
+  "untested_variants": [
+    "The two-sample $z$-test for proportions ($H_0: p_1 = p_2$), which uses a pooled proportion estimate in the standard error and a $z$ rather than $t$ distribution.",
+    "The paired $t$-test, where the two measurements come from the same subjects (e.g., before/after), so you first compute the difference $d_i = x_{1i} - x_{2i}$ and run a one-sample test on those differences.",
+    "Using the full Welch\u2013Satterthwaite formula for degrees of freedom instead of the conservative $\\min(n_1-1, n_2-1)$ shortcut, and understanding when the distinction matters for borderline p-values.",
+    "Constructing a confidence interval for $\\mu_1 - \\mu_2$ using the same standard error, rather than performing a formal hypothesis test, and using that interval to draw conclusions about significance."
+  ]
+}

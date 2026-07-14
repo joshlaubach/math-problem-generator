@@ -1,0 +1,81 @@
+{
+  "topic_id": "c1_022",
+  "topic_name": "L'H\u00f4pital's Rule and Indeterminate Forms",
+  "generated_at": "2026-05-13T00:08:48.370791+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to evaluate limits by direct substitution, and you've learned that when a function is continuous at a point, you can simply plug in the value. But what happens when you try to find $\\lim_{x \\to 0} \\frac{\\sin x}{x}$ and direct substitution gives you $\\frac{0}{0}$? This expression is meaningless as written \u2014 it's called an indeterminate form, and your usual tools break down. So how do you find a limit that refuses to reveal itself through substitution?",
+  "concept": "An indeterminate form occurs when a limit produces an expression like $\\frac{0}{0}$ or $\\frac{\\infty}{\\infty}$ that has no determined value on its own. L'H\u00f4pital's Rule gives us a systematic way out: if $\\lim_{x \\to a} f(x) = 0$ and $\\lim_{x \\to a} g(x) = 0$ (or both go to $\\pm\\infty$), then $\\lim_{x \\to a} \\frac{f(x)}{g(x)} = \\lim_{x \\to a} \\frac{f'(x)}{g'(x)}$, provided the right-hand limit exists.",
+  "anatomy": "L'H\u00f4pital's Rule has four key components to identify before applying it. First, the numerator function $f(x)$ and denominator function $g(x)$ must each be differentiable near $a$. Second, you must verify the indeterminate form \u2014 either $\\frac{0}{0}$ or $\\frac{\\infty}{\\infty}$ \u2014 before proceeding; this check is non-negotiable. Third, you differentiate $f(x)$ and $g(x)$ separately to produce $f'(x)$ and $g'(x)$, forming a new ratio $\\frac{f'(x)}{g'(x)}$. Fourth, you evaluate the new limit; if it is still indeterminate, the rule can be applied again.",
+  "worked_example": [
+    {
+      "expression_latex": "\\lim_{x \\to 0} \\frac{e^x - 1}{x}",
+      "description_latex": "We start by checking what happens when we substitute $x = 0$ directly: the numerator gives $e^0 - 1 = 0$ and the denominator gives $0$, so we have the indeterminate form $\\frac{0}{0}$. This confirms that L'H\u00f4pital's Rule is applicable here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{x \\to 0} \\frac{\\frac{d}{dx}(e^x - 1)}{\\frac{d}{dx}(x)}",
+      "description_latex": "Because the condition is satisfied, we differentiate the numerator and denominator separately \u2014 not using the quotient rule, but differentiating each piece on its own. This is the core operation of L'H\u00f4pital's Rule and replaces the original fraction with a new one made from the derivatives.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{x \\to 0} \\frac{e^x}{1}",
+      "description_latex": "The derivative of $e^x - 1$ is $e^x$, and the derivative of $x$ is $1$, so the new limit is $\\frac{e^x}{1}$. This new expression is no longer indeterminate, which means we can proceed to direct substitution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= e^0 = 1",
+      "description_latex": "Substituting $x = 0$ into $e^x$ gives $e^0 = 1$, so the limit equals $1$. Notice how the rule transformed an unevaluable $\\frac{0}{0}$ form into a straightforward substitution problem.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\lim_{x \\to \\infty} \\frac{\\ln x}{x}",
+      "description_latex": "We begin by testing direct substitution: as $x \\to \\infty$, $\\ln x \\to \\infty$ and $x \\to \\infty$, giving the indeterminate form $\\frac{\\infty}{\\infty}$. L'H\u00f4pital's Rule applies, so we will differentiate the numerator and denominator separately.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{x \\to \\infty} \\frac{1/x}{1}",
+      "description_latex": "After differentiating, the numerator $\\ln x$ becomes $\\frac{1}{x}$ and the denominator $x$ becomes $1$, giving us the simpler ratio $\\frac{1/x}{1}$. This new limit is no longer indeterminate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate $\\lim_{x \\to \\infty} \\frac{1/x}{1}$ by considering what happens to $\\frac{1}{x}$ as $x$ grows without bound. What is the final value of this limit?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\lim_{x \\to 0} \\frac{\\sin x}{x}",
+      "answer_latex": "1"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to 0} \\frac{x^2}{1 - \\cos x}",
+      "answer_latex": "2"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to \\infty} \\frac{x^2}{e^x}",
+      "answer_latex": "0"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to 1} \\frac{x^3 - 1}{x^2 - 1}",
+      "answer_latex": "\\dfrac{3}{2}"
+    },
+    {
+      "prompt_latex": "A particle's position is given by $s(t) = t \\sin t$. The average velocity over $[0, h]$ is $\\frac{h \\sin h}{h}$. Find $\\lim_{h \\to 0} \\frac{h \\sin h}{h}$ to determine the instantaneous velocity at $t = 0$.",
+      "answer_latex": "0"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply L'H\u00f4pital's Rule without first verifying an indeterminate form exists \u2014 for example, differentiating $\\frac{\\sin x}{x+1}$ as $x \\to 0$ even though direct substitution gives $\\frac{0}{1} = 0$, a perfectly determinate form. Always substitute first and only invoke the rule when you genuinely get $\\frac{0}{0}$ or $\\frac{\\infty}{\\infty}$.",
+    "Students use the quotient rule instead of differentiating the numerator and denominator separately \u2014 writing $\\frac{d}{dx}\\left(\\frac{f}{g}\\right) = \\frac{f'g - fg'}{g^2}$ rather than simply forming $\\frac{f'}{g'}$. Remember, L'H\u00f4pital's Rule replaces the original ratio with a new ratio of the individual derivatives, not the derivative of the entire fraction.",
+    "After one application of L'H\u00f4pital's Rule, students evaluate the new limit carelessly when it is still in an indeterminate form, stopping too early. If the new limit $\\lim \\frac{f'(x)}{g'(x)}$ is still $\\frac{0}{0}$ or $\\frac{\\infty}{\\infty}$, the rule must be applied again to $f'$ and $g'$."
+  ],
+  "untested_variants": [
+    "Indeterminate products of the form $0 \\cdot \\infty$, such as $\\lim_{x \\to 0^+} x \\ln x$, which require algebraic rewriting into a quotient before L'H\u00f4pital's Rule can be used.",
+    "Indeterminate power forms such as $1^\\infty$, $0^0$, or $\\infty^0$, for example $\\lim_{x \\to 0^+} x^x$, which require taking a logarithm to convert the problem into a $\\frac{0}{0}$ or $\\frac{\\infty}{\\infty}$ form first.",
+    "One-sided limits involving L'H\u00f4pital's Rule, such as $\\lim_{x \\to 0^+} \\frac{\\ln x}{\\cot x}$, where the indeterminate form only arises from one direction.",
+    "Cases where L'H\u00f4pital's Rule fails or cycles, such as $\\lim_{x \\to \\infty} \\frac{x + \\sin x}{x}$, where repeated differentiation never simplifies the limit and an alternative algebraic approach is needed."
+  ]
+}

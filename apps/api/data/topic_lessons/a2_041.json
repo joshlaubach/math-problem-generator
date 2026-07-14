@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_041",
+  "topic_name": "Logistic Growth Models (H)",
+  "generated_at": "2026-05-12T23:28:51.465690+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know that exponential growth models like $P(t) = P_0 e^{kt}$ can describe populations growing without bound, and you've seen how logarithms help you solve for time. But real populations don't grow forever \u2014 a petri dish runs out of nutrients, a city runs out of land, a species exhausts its habitat. If exponential growth can't capture that eventual slowdown, what model can? How do we write a function that starts growing fast, then levels off at some maximum value?",
+  "concept": "A logistic growth model describes growth that is initially exponential but slows as the population approaches a maximum sustainable size called the carrying capacity. Formally, the logistic function is $P(t) = \\dfrac{c}{1 + ae^{-bt}}$, where $c$ is the carrying capacity, $b$ controls the growth rate, $a$ determines the horizontal shift, and $t$ is time. The graph has a characteristic S-shape, approaching $0$ from below and $c$ from above.",
+  "anatomy": "The logistic model $P(t) = \\dfrac{c}{1 + ae^{-bt}}$ has four distinct components worth naming precisely. The carrying capacity $c$ is the horizontal asymptote the population approaches as $t \\to \\infty$, representing the environment's maximum. The growth rate constant $b > 0$ governs how steeply the S-curve rises \u2014 larger $b$ means faster growth through the middle phase. The initial-condition parameter $a$ is determined by the starting population: setting $t = 0$ gives $P(0) = \\dfrac{c}{1 + a}$, so $a = \\dfrac{c - P(0)}{P(0)}$. Finally, the inflection point, where growth is fastest, always occurs at $P = \\dfrac{c}{2}$, exactly halfway to the carrying capacity.",
+  "worked_example": [
+    {
+      "expression_latex": "P(t) = \\dfrac{1200}{1 + 11e^{-0.4t}}",
+      "description_latex": "We are given a logistic model for a fish population, and the first thing to extract is the carrying capacity. Because the denominator approaches $1$ as $t \\to \\infty$, the population approaches $\\frac{1200}{1} = 1200$, so the carrying capacity is $c = 1200$ fish. Reading the structure of the formula before doing any algebra saves time and prevents mistakes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(0) = \\dfrac{1200}{1 + 11e^{0}} = \\dfrac{1200}{1 + 11} = \\dfrac{1200}{12} = 100",
+      "description_latex": "To find the initial population we substitute $t = 0$. Since $e^0 = 1$, the denominator becomes $1 + 11 = 12$, giving $P(0) = 100$ fish. This confirms the formula is consistent: $a = 11$ because $\\frac{c - P(0)}{P(0)} = \\frac{1200 - 100}{100} = 11$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\dfrac{1200}{1 + 11e^{-0.4t}} = 600 \\implies 1 + 11e^{-0.4t} = 2",
+      "description_latex": "We want to find when the population reaches $600$, which is exactly half the carrying capacity \u2014 the inflection point. Setting $P(t) = 600$ and multiplying both sides by the denominator gives $1 + 11e^{-0.4t} = 2$, isolating the exponential expression in one clean step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "11e^{-0.4t} = 1 \\implies e^{-0.4t} = \\dfrac{1}{11} \\implies -0.4t = \\ln\\!\\left(\\dfrac{1}{11}\\right)",
+      "description_latex": "Subtracting $1$ from both sides isolates the exponential term, and dividing by $11$ gives $e^{-0.4t} = \\frac{1}{11}$. Taking the natural logarithm of both sides converts the exponential equation into a linear one, using the fundamental property $\\ln(e^x) = x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t = \\dfrac{\\ln(1/11)}{-0.4} = \\dfrac{-\\ln 11}{-0.4} = \\dfrac{\\ln 11}{0.4} \\approx 5.99 \\text{ years}",
+      "description_latex": "Dividing both sides by $-0.4$ and simplifying using $\\ln(1/11) = -\\ln 11$ gives a positive answer, which makes sense because time must be positive. The population reaches its fastest growth rate (the inflection point) at approximately $t \\approx 6$ years.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(t) = \\dfrac{800}{1 + 7e^{-0.5t}}",
+      "description_latex": "A bacteria culture follows this logistic model where $P$ is measured in thousands and $t$ in hours. We want to find when the population reaches $700$ thousand (i.e., $87.5\\%$ of the carrying capacity). Start by identifying $c = 800$ and setting up the equation $\\frac{800}{1 + 7e^{-0.5t}} = 700$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1 + 7e^{-0.5t} = \\dfrac{800}{700} = \\dfrac{8}{7}",
+      "description_latex": "Cross-multiplying gives the denominator equal to $\\frac{8}{7}$. Now subtract $1$ from both sides to isolate the exponential term: $7e^{-0.5t} = \\frac{8}{7} - 1 = \\frac{1}{7}$, and then divide both sides by $7$ to get $e^{-0.5t} = \\frac{1}{49}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Take the natural logarithm of both sides of $e^{-0.5t} = \\frac{1}{49}$ and solve for $t$. Remember that $\\ln(1/49) = -\\ln 49$, and keep track of the negative signs carefully. What is the exact value of $t$, and approximately how many hours is that?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $P(t) = \\dfrac{500}{1 + 4e^{-0.3t}}$, identify the carrying capacity and the initial population $P(0)$.",
+      "answer_latex": "Carrying capacity $= 500$; $P(0) = \\dfrac{500}{5} = 100$"
+    },
+    {
+      "prompt_latex": "For the model $P(t) = \\dfrac{2000}{1 + 9e^{-0.6t}}$, find the population at $t = 5$. Round to the nearest whole number.",
+      "answer_latex": "P(5) = \\dfrac{2000}{1 + 9e^{-3}} \\approx \\dfrac{2000}{1.448} \\approx 1381"
+    },
+    {
+      "prompt_latex": "Using $P(t) = \\dfrac{600}{1 + 5e^{-0.2t}}$, find the exact value of $t$ when $P(t) = 400$.",
+      "answer_latex": "t = \\dfrac{\\ln(5/2)}{0.2} = 5\\ln\\!\\left(\\dfrac{5}{2}\\right) \\approx 4.58"
+    },
+    {
+      "prompt_latex": "A logistic model has carrying capacity $1000$, initial population $50$, and growth rate $b = 0.8$. Write the equation $P(t)$ by first computing $a$, then find the time at which the growth rate is at its maximum.",
+      "answer_latex": "a = \\dfrac{1000-50}{50} = 19, \\text{ so } P(t) = \\dfrac{1000}{1+19e^{-0.8t}}; \\text{ max growth at } P = 500 \\Rightarrow t = \\dfrac{\\ln 19}{0.8} \\approx 3.69"
+    },
+    {
+      "prompt_latex": "A town's population (in thousands) is modeled by $P(t) = \\dfrac{80}{1 + 15e^{-0.1t}}$ where $t$ is years since 2000. In what year does the population first exceed $70$ thousand?",
+      "answer_latex": "\\dfrac{80}{1+15e^{-0.1t}} > 70 \\Rightarrow t > \\dfrac{\\ln(105)}{0.1} \\approx 46.5, \\text{ so the year is } 2047"
+    }
+  ],
+  "common_mistakes": [
+    "Students often identify the carrying capacity as the coefficient in the numerator divided by the full denominator at $t=0$, effectively computing $P(0)$ instead. The carrying capacity is simply $c$, the numerator alone, since the denominator approaches $1$ as $t \\to \\infty$ \u2014 never divide $c$ by $(1+a)$ when finding it.",
+    "When solving $P(t) = k$ for $t$, students sometimes take the natural log of the entire fraction $\\frac{c}{1+ae^{-bt}}$ before isolating the exponential, leading to a messy and incorrect equation. Always rearrange algebraically first so that the exponential expression $e^{-bt}$ is alone on one side before applying any logarithm.",
+    "Students frequently lose the negative sign in $-bt$ when solving for $t$, writing $t = \\frac{\\ln(\\text{something})}{b}$ instead of $t = \\frac{\\ln(\\text{something})}{-b}$. A quick sanity check \u2014 the answer for $t$ must be positive, and $\\ln$ of a number between $0$ and $1$ is negative, so dividing by $-b$ is what makes $t$ positive."
+  ],
+  "untested_variants": [
+    "Given two data points $(t_1, P_1)$ and $(t_2, P_2)$ plus the carrying capacity, setting up and solving a system of equations to determine both $a$ and $b$ simultaneously.",
+    "Interpreting or sketching the S-shaped graph of a logistic function, identifying the inflection point graphically, and describing the concavity change from concave-up to concave-down.",
+    "Working backwards from a stated inflection-point time and carrying capacity to reconstruct the full logistic equation when the initial population is not given directly.",
+    "Comparing two logistic models (e.g., different growth rates or carrying capacities) and answering questions about which population eventually dominates or which grows faster at a specific time."
+  ]
+}

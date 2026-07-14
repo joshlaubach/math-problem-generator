@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_034",
+  "topic_name": "The Law of Total Expectation (H)",
+  "generated_at": "2026-05-13T20:28:15.425461+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to compute $E[X]$ when you have a complete probability distribution for $X$. But what if $X$ depends on some hidden condition \u2014 say, the outcome of a random group assignment, or whether a machine is working or broken \u2014 and you only know $E[X]$ within each condition separately? It seems like you'd be stuck, since you don't have the full distribution of $X$ in front of you. Can you still recover $E[X]$ from the conditional pieces alone?",
+  "concept": "The Law of Total Expectation (also called the tower property) says you can compute an overall expectation by averaging conditional expectations over the thing you're conditioning on. In plain English: break the population into groups, find the average within each group, then take a weighted average of those group averages using each group's probability as its weight. Formally, if $Y$ is any random variable and $X$ is discrete, then $E[Y] = \\sum_x E[Y \\mid X = x]\\, P(X = x)$, or in the continuous case $E[Y] = \\int_{-\\infty}^{\\infty} E[Y \\mid X = x]\\, f_X(x)\\, dx$.",
+  "anatomy": "The law has three distinct parts working together. First, the conditional expectation $E[Y \\mid X = x]$ is a number (for each fixed value $x$) that summarises the average of $Y$ inside the subpopulation where $X = x$. Second, the weight $P(X = x)$ (or $f_X(x)\\,dx$ in the continuous case) tells you how much of the overall population lives in that subpopulation. Third, the outer sum (or integral) over all values of $x$ aggregates the weighted conditional averages into the single unconditional expectation $E[Y]$. A useful shorthand bundles steps one and two into the iterated-expectation notation $E[Y] = E\\bigl[E[Y \\mid X]\\bigr]$, where the inner expectation is a function of $X$ and the outer expectation averages over $X$.",
+  "worked_example": [
+    {
+      "expression_latex": "E[Y] = \\sum_x E[Y \\mid X = x]\\, P(X = x)",
+      "description_latex": "We start by writing down the Law of Total Expectation for a discrete conditioning variable $X$. This formula is our roadmap: we will evaluate $E[Y \\mid X = x]$ for every possible value $x$, multiply each one by the probability that $X$ actually equals $x$, and sum everything up.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Setup: } X = \\begin{cases} 1 & \\text{(type A, } P=0.4\\text{)} \\\\ 2 & \\text{(type B, } P=0.6\\text{)} \\end{cases}, \\quad E[Y \\mid X=1] = 10, \\quad E[Y \\mid X=2] = 25",
+      "description_latex": "Here is our specific scenario: customers are either type A (probability 0.4) or type B (probability 0.6), and the expected spending $Y$ differs by type. We have been given the two conditional expectations directly, so our job is purely to combine them using the law.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[Y] = E[Y \\mid X=1]\\cdot P(X=1) + E[Y \\mid X=2]\\cdot P(X=2)",
+      "description_latex": "We expand the sum over the two possible values of $X$. Notice that we are weighting each conditional expectation by the probability of its corresponding group \u2014 this is exactly the 'weighted average of group averages' idea at the heart of the law.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[Y] = (10)(0.4) + (25)(0.6) = 4 + 15 = 19",
+      "description_latex": "Substituting in the numbers and performing the arithmetic gives $E[Y] = 19$. This result lies strictly between the two conditional expectations (10 and 25), which makes intuitive sense: the overall average spending must be a blend of the two group averages, pulled toward the group that is more common \u2014 here, type B with probability 0.6.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A factory has two machines. Machine 1 (prob } 0.3\\text{) produces } E[Y \\mid M=1]=5 \\text{ defects/hour; Machine 2 (prob }0.7\\text{) produces } E[Y \\mid M=2]=2 \\text{ defects/hour.}",
+      "description_latex": "We want the expected number of defects per hour $E[Y]$ overall. Begin by identifying what the Law of Total Expectation tells us to compute: we need to weight each machine's conditional expectation by the probability that machine is in use.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[Y] = E[Y \\mid M=1]\\cdot P(M=1) + E[Y \\mid M=2]\\cdot P(M=2)",
+      "description_latex": "We write the expanded form of the law for this two-outcome conditioning variable $M$. Each term pairs a conditional expectation with the probability of that machine being active.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute the given values for each conditional expectation and each probability, carry out the multiplication for each term, and add the two results together to find $E[Y]$. What is the overall expected number of defects per hour?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A coin is fair. If it lands Heads (prob $0.5$) you draw from a distribution with $E[X \\mid H] = 6$; if Tails (prob $0.5$) then $E[X \\mid T] = 2$. Find $E[X]$.",
+      "answer_latex": "E[X] = 0.5(6) + 0.5(2) = 4"
+    },
+    {
+      "prompt_latex": "A student is placed in one of three study groups with equal probability $\\tfrac{1}{3}$ each. Their expected exam score given each group is $E[S \\mid G=1]=60$, $E[S \\mid G=2]=75$, $E[S \\mid G=3]=90$. Find $E[S]$.",
+      "answer_latex": "E[S] = \\tfrac{1}{3}(60) + \\tfrac{1}{3}(75) + \\tfrac{1}{3}(90) = 75"
+    },
+    {
+      "prompt_latex": "Let $N$ be the number of customers who arrive in an hour, and suppose the number of arrivals $N$ is itself random: $N = 0$ with probability $0.2$, $N = 1$ with probability $0.5$, and $N = 2$ with probability $0.3$. Each customer independently spends $Y$ dollars with $E[Y \\mid N=n] = 20n$. Find $E[Y]$.",
+      "answer_latex": "E[Y] = 20(0)(0.2) + 20(1)(0.5) + 20(2)(0.3) = 0 + 10 + 12 = 22"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Bernoulli}(p)$ and suppose $E[Y \\mid X=0] = \\mu_0$ and $E[Y \\mid X=1] = \\mu_1$. Show using the Law of Total Expectation that $E[Y] = (1-p)\\mu_0 + p\\mu_1$, and use this to compute $\\text{Var}(E[Y \\mid X])$ in terms of $p$, $\\mu_0$, and $\\mu_1$.",
+      "answer_latex": "E[Y]=(1-p)\\mu_0+p\\mu_1;\\quad \\text{Var}(E[Y\\mid X])=p(1-p)(\\mu_1-\\mu_0)^2"
+    },
+    {
+      "prompt_latex": "An insurance company covers two regions. Region A has $40\\%$ of policyholders; the expected annual claim per policyholder in Region A is $\\$1{,}200$. Region B has $60\\%$ of policyholders; the expected annual claim per policyholder in Region B is $\\$800$. The company also knows that in Region A, $E[\\text{claim}^2 \\mid A] = 2{,}000{,}000$ and in Region B, $E[\\text{claim}^2 \\mid B] = 1{,}000{,}000$. Using the Law of Total Expectation, find the overall expected claim $E[C]$ and the overall second moment $E[C^2]$.",
+      "answer_latex": "E[C]=0.4(1200)+0.6(800)=960;\\quad E[C^2]=0.4(2{,}000{,}000)+0.6(1{,}000{,}000)=1{,}400{,}000"
+    }
+  ],
+  "common_mistakes": [
+    "Students average the conditional expectations without weighting by the group probabilities \u2014 for example, computing $\\frac{E[Y|X=1]+E[Y|X=2]}{2}$ regardless of how likely each group is. This only works when all groups are equally probable; in general, each conditional expectation must be multiplied by its group's probability before summing.",
+    "Students confuse $E[Y \\mid X=x]$ (a fixed number for each $x$) with $E[Y \\mid X]$ (a random variable that is a function of $X$), and try to use the law by substituting a single fixed value of $x$ everywhere instead of summing over all possible values. The key fix is to remember that the outer sum (or integral) must range over every possible value of the conditioning variable.",
+    "When the conditioning variable is continuous, students apply the discrete formula $\\sum_x E[Y \\mid X=x]P(X=x)$ but replace $P(X=x)$ with $f_X(x)$ without including the differential $dx$, writing a sum instead of an integral. The correct continuous form is $E[Y]=\\int_{-\\infty}^{\\infty} E[Y \\mid X=x]\\,f_X(x)\\,dx$; missing the integral sign means the expression is not dimensionally consistent."
+  ],
+  "untested_variants": [
+    "Using the tower property iteratively, i.e., applying $E[Z] = E[E[E[Z \\mid X] \\mid Y]]$ when conditioning on two nested random variables simultaneously.",
+    "Deriving the Law of Total Variance $\\text{Var}(Y) = E[\\text{Var}(Y\\mid X)] + \\text{Var}(E[Y\\mid X])$ and using it alongside the Law of Total Expectation to find unconditional variances.",
+    "Applying the law when the conditioning variable $X$ is continuous and the conditional expectation $E[Y \\mid X=x]$ is given as a function of $x$ that must be integrated against a density, rather than evaluated at discrete points.",
+    "Using the Law of Total Expectation to compute expected stopping times or expected values in multi-stage random processes, such as expected game length in a Markov chain setting."
+  ]
+}

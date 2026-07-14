@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_058",
+  "topic_name": "Law of Sines (H)",
+  "generated_at": "2026-05-12T23:09:41.468828+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to use the Pythagorean theorem and basic trig ratios to solve right triangles, but what happens when your triangle has no right angle? Suppose a surveyor knows two angles of a triangular plot of land measure $40\u00b0$ and $75\u00b0$, and the side between them is $120$ meters \u2014 there's no right angle in sight, yet you need to find the other two side lengths. How do you set up any trig ratio without a hypotenuse or a right angle to anchor it?",
+  "concept": "The Law of Sines lets you relate sides and angles in ANY triangle, not just right triangles. In any triangle $ABC$ with sides $a$, $b$, $c$ opposite to angles $A$, $B$, $C$ respectively, the ratios of each side to the sine of its opposite angle are all equal: $\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C}$. You use it whenever you know two angles and one side (AAS or ASA), or two sides and a non-included angle (SSA).",
+  "anatomy": "The Law of Sines $\\dfrac{a}{\\sin A} = \\dfrac{b}{\\sin B} = \\dfrac{c}{\\sin C}$ has three paired components. Each pair consists of a side (lowercase: $a$, $b$, or $c$) and its opposite angle (uppercase: $A$, $B$, or $C$) \u2014 'opposite' means the side and angle are directly across from each other in the triangle, never adjacent. In practice you only use two of the three pairs at a time, choosing the pair that contains the unknown and the pair for which you know both pieces. The third angle of the triangle is always recoverable using $A + B + C = 180\u00b0$ before or after applying the formula.",
+  "worked_example": [
+    {
+      "expression_latex": "\\triangle ABC,\\quad A = 40\u00b0,\\quad B = 75\u00b0,\\quad a = 9",
+      "description_latex": "We are given two angles and the side opposite one of them (AAS), so the Law of Sines applies directly. Before writing any ratios, notice that we know angle $A$ and its opposite side $a$, which gives us a complete pair \u2014 that pair will anchor our proportion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C = 180\u00b0 - 40\u00b0 - 75\u00b0 = 65\u00b0",
+      "description_latex": "Because the three interior angles of any triangle sum to $180\u00b0$, we can find the missing angle $C$ immediately. Having all three angles is important because it opens up additional pairs if we need more sides later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{b}{\\sin 75\u00b0} = \\frac{9}{\\sin 40\u00b0}",
+      "description_latex": "We want side $b$, which is opposite angle $B = 75\u00b0$, so we set the ratio $\\frac{b}{\\sin B}$ equal to our known ratio $\\frac{a}{\\sin A} = \\frac{9}{\\sin 40\u00b0}$. This is exactly how the Law of Sines works \u2014 two ratios from the same proportion are set equal, and the unknown is isolated on one side.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b = \\frac{9 \\cdot \\sin 75\u00b0}{\\sin 40\u00b0} \\approx \\frac{9 \\times 0.9659}{0.6428} \\approx 13.53",
+      "description_latex": "Multiplying both sides by $\\sin 75\u00b0$ isolates $b$, and then we substitute decimal approximations from a calculator. Always verify your answer makes geometric sense: side $b$ should be longer than side $a$ because angle $B = 75\u00b0 > A = 40\u00b0$, and indeed $13.53 > 9$. \u2713",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\triangle PQR,\\quad P = 52\u00b0,\\quad Q = 63\u00b0,\\quad q = 14",
+      "description_latex": "We are given two angles and side $q$ opposite angle $Q$. Our first task is always to label what we know and identify the complete anchor pair \u2014 here that is $q = 14$ and $Q = 63\u00b0$. We want to find side $p$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R = 180\u00b0 - 52\u00b0 - 63\u00b0 = 65\u00b0",
+      "description_latex": "We find the third angle using the triangle angle-sum property so all angles are available if needed. This step is mechanical but crucial \u2014 never skip it because you may need angle $R$ for a follow-up calculation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now set up the Law of Sines proportion to find side $p$. Write the ratio for side $p$ and its opposite angle $P = 52\u00b0$ on the left, and set it equal to the known anchor ratio. Solve for $p$ and round to two decimal places.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "In $\\triangle ABC$, $A = 30\u00b0$, $B = 90\u00b0$, and $a = 5$. Use the Law of Sines to find side $b$.",
+      "answer_latex": "b = 10"
+    },
+    {
+      "prompt_latex": "In $\\triangle ABC$, $A = 48\u00b0$, $B = 67\u00b0$, and $a = 20$. Find side $b$ to the nearest hundredth.",
+      "answer_latex": "b \\approx 25.11"
+    },
+    {
+      "prompt_latex": "In $\\triangle DEF$, $D = 110\u00b0$, $E = 35\u00b0$, and $e = 8$. Find side $d$ to the nearest hundredth.",
+      "answer_latex": "d \\approx 13.09"
+    },
+    {
+      "prompt_latex": "In $\\triangle ABC$, $B = 55\u00b0$, $b = 12$, and $c = 10$. Find angle $C$ to the nearest degree, and then find side $a$ to the nearest hundredth. (Assume the triangle is valid and acute.)",
+      "answer_latex": "C \\approx 43\u00b0,\\quad A \\approx 82\u00b0,\\quad a \\approx 14.58"
+    },
+    {
+      "prompt_latex": "Two ranger stations are $15$ miles apart. Station $A$ observes a wildfire at a bearing of $N\\,38\u00b0E$, and Station $B$ (due east of $A$) observes the same fire at a bearing of $N\\,52\u00b0W$. How far is the fire from Station $A$? Round to the nearest tenth of a mile.",
+      "answer_latex": "\\approx 11.7 \\text{ miles}"
+    }
+  ],
+  "common_mistakes": [
+    "Students match a side with the wrong opposite angle \u2014 for example, pairing side $a$ with angle $B$ instead of angle $A$. Every side must be paired with the angle directly across from it in the triangle; double-check by confirming the side and angle share the same letter case (lowercase side, uppercase angle).",
+    "When solving for an angle using the inverse sine ($\\sin^{-1}$), students forget that $\\sin^{-1}$ always returns a value between $0\u00b0$ and $90\u00b0$, missing the obtuse solution in the ambiguous SSA case. Always check whether the obtuse supplement $180\u00b0 - \\theta$ also produces a valid triangle by verifying the angle sum stays below $180\u00b0$.",
+    "Students set up the proportion as $\\frac{\\sin A}{a} = \\frac{\\sin B}{b}$ (angles over sides) and then algebraically solve it the same way, which works, but then mix the two forms mid-problem \u2014 for instance writing $\\frac{a}{\\sin A} = \\frac{\\sin B}{b}$ \u2014 leading to an incorrect cross-multiplication. Pick one form (sides over sines or sines over sides) and use it consistently throughout the entire problem."
+  ],
+  "untested_variants": [
+    "The ambiguous case (SSA) where two triangles, exactly one triangle, or no triangle is possible \u2014 the practice problems only include a straightforward SSA setup with a unique valid solution.",
+    "Finding the area of a non-right triangle using $\\text{Area} = \\frac{1}{2}ab\\sin C$ in combination with the Law of Sines, which appears on exams as a two-step problem.",
+    "Problems where the Law of Sines must be combined with properties of isosceles triangles or exterior angles, rather than a standard labeled $\\triangle ABC$.",
+    "Applied bearing and navigation problems that require converting compass bearings into interior triangle angles before the Law of Sines can be applied, beyond the single example given."
+  ]
+}

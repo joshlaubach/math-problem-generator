@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_004",
+  "topic_name": "Properties of Estimators: Bias, Variance, and MSE",
+  "generated_at": "2026-05-14T01:00:56.569067+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to compute a sample mean $\\bar{X} = \\frac{1}{n}\\sum_{i=1}^n X_i$ and use it to estimate a population mean $\\mu$. But here is the uncomfortable truth: every time you collect a new sample, you get a slightly different $\\bar{X}$, and none of them is exactly $\\mu$. So how do we decide whether one estimator is better than another? Is it better to be right on average, or to have less variability, or both \u2014 and how do we trade these off?",
+  "concept": "An estimator $\\hat{\\theta}$ is a function of sample data used to guess a parameter $\\theta$. Three key properties measure its quality. The **bias** is $\\text{Bias}(\\hat{\\theta}) = E[\\hat{\\theta}] - \\theta$, measuring systematic error. The **variance** is $\\text{Var}(\\hat{\\theta}) = E[(\\hat{\\theta} - E[\\hat{\\theta}])^2]$, measuring spread around the estimator's own mean. The **mean squared error** (MSE) unifies both: $\\text{MSE}(\\hat{\\theta}) = E[(\\hat{\\theta} - \\theta)^2] = \\text{Var}(\\hat{\\theta}) + [\\text{Bias}(\\hat{\\theta})]^2$.",
+  "anatomy": "The MSE decomposition $\\text{MSE}(\\hat{\\theta}) = \\text{Var}(\\hat{\\theta}) + [\\text{Bias}(\\hat{\\theta})]^2$ has three distinct pieces worth naming carefully. The **variance term** $\\text{Var}(\\hat{\\theta})$ captures how much the estimator fluctuates from sample to sample \u2014 it is entirely about the estimator's own internal consistency, independent of the true $\\theta$. The **squared bias term** $[\\text{Bias}(\\hat{\\theta})]^2 = (E[\\hat{\\theta}] - \\theta)^2$ captures the systematic offset between where the estimator aims on average and where $\\theta$ actually sits. An estimator is called **unbiased** when $\\text{Bias}(\\hat{\\theta}) = 0$, so its MSE collapses to pure variance.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, X_2, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Uniform}(0, \\theta), \\quad \\hat{\\theta} = \\frac{n+1}{n} X_{(n)}",
+      "description_latex": "We are setting up the problem: our data come from a Uniform$(0,\\theta)$ distribution, and we want to evaluate the estimator $\\hat{\\theta} = \\frac{n+1}{n}X_{(n)}$, where $X_{(n)}$ is the sample maximum. This estimator might look unusual, but it is specifically constructed to correct a known bias, and our job is to verify whether it succeeds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_{X_{(n)}}(x) = \\frac{n x^{n-1}}{\\theta^n}, \\quad 0 \\le x \\le \\theta, \\qquad E[X_{(n)}] = \\frac{n}{n+1}\\theta",
+      "description_latex": "We use the known distribution of the maximum order statistic for a Uniform$(0,\\theta)$ sample to compute $E[X_{(n)}]$. Integrating $x \\cdot \\frac{nx^{n-1}}{\\theta^n}$ from $0$ to $\\theta$ gives $\\frac{n}{n+1}\\theta$, which is less than $\\theta$ \u2014 meaning the raw maximum systematically underestimates $\\theta$, so using it directly would be biased downward.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[\\hat{\\theta}] = E\\!\\left[\\frac{n+1}{n}X_{(n)}\\right] = \\frac{n+1}{n} \\cdot \\frac{n}{n+1}\\,\\theta = \\theta",
+      "description_latex": "Now we compute the expected value of our proposed estimator by multiplying through by the correction factor $\\frac{n+1}{n}$. The factors cancel exactly, giving $E[\\hat{\\theta}] = \\theta$, so the bias is $\\text{Bias}(\\hat{\\theta}) = E[\\hat{\\theta}] - \\theta = 0$ and the estimator is unbiased. This confirms the correction factor was chosen precisely to eliminate the systematic underestimation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[X_{(n)}^2] = \\int_0^\\theta x^2 \\frac{nx^{n-1}}{\\theta^n}\\,dx = \\frac{n}{n+2}\\,\\theta^2, \\quad \\text{Var}(X_{(n)}) = \\frac{n}{n+2}\\theta^2 - \\frac{n^2}{(n+1)^2}\\theta^2",
+      "description_latex": "To find the MSE (which equals the variance since the bias is zero), we need $\\text{Var}(X_{(n)})$, which requires $E[X_{(n)}^2]$. We compute this by the same integration technique, getting $\\frac{n}{n+2}\\theta^2$, and then use the standard identity $\\text{Var}(X_{(n)}) = E[X_{(n)}^2] - (E[X_{(n)}])^2$ to subtract the square of the mean we already found.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{MSE}(\\hat{\\theta}) = \\text{Var}(\\hat{\\theta}) = \\left(\\frac{n+1}{n}\\right)^2 \\text{Var}(X_{(n)}) = \\frac{\\theta^2}{n(n+2)}",
+      "description_latex": "Because $\\hat{\\theta}$ is unbiased, its MSE equals its variance. We scale $\\text{Var}(X_{(n)})$ by $\\left(\\frac{n+1}{n}\\right)^2$ and simplify the algebra to obtain $\\text{MSE}(\\hat{\\theta}) = \\frac{\\theta^2}{n(n+2)}$. Notice this shrinks to zero as $n \\to \\infty$, which is exactly the consistency property we want from a good estimator.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Bernoulli}(p), \\quad \\hat{p} = \\bar{X} = \\frac{1}{n}\\sum_{i=1}^n X_i",
+      "description_latex": "We want to evaluate $\\hat{p} = \\bar{X}$ as an estimator of $p$. Recall that for a Bernoulli$(p)$ random variable, $E[X_i] = p$ and $\\text{Var}(X_i) = p(1-p)$. We will compute the bias, variance, and MSE in sequence.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[\\hat{p}] = E[\\bar{X}] = p, \\quad \\text{Bias}(\\hat{p}) = 0",
+      "description_latex": "Using linearity of expectation, $E[\\bar{X}] = \\frac{1}{n}\\sum_{i=1}^n E[X_i] = \\frac{1}{n}(np) = p$. So $\\hat{p}$ is unbiased, meaning the bias term in the MSE decomposition vanishes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Var}(\\hat{p}) = \\ ?",
+      "description_latex": "Now compute $\\text{Var}(\\bar{X})$ using the independence of the $X_i$'s and the fact that $\\text{Var}(X_i) = p(1-p)$. Remember to account for the $\\frac{1}{n}$ factor correctly \u2014 what happens to variance when you multiply a random variable by a constant?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{MSE}(\\hat{p}) = \\text{Var}(\\hat{p}) + [\\text{Bias}(\\hat{p})]^2 = \\frac{p(1-p)}{n}",
+      "description_latex": "Since the bias is zero, the MSE equals the variance you just computed. Write out the final MSE using the decomposition formula and confirm that unbiasedness means MSE and variance coincide here.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} N(\\mu, \\sigma^2)$ with $\\sigma^2$ known. Show that $\\bar{X}$ is an unbiased estimator of $\\mu$ and find its MSE.",
+      "answer_latex": "\\text{Bias}(\\bar{X}) = 0; \\quad \\text{MSE}(\\bar{X}) = \\text{Var}(\\bar{X}) = \\frac{\\sigma^2}{n}"
+    },
+    {
+      "prompt_latex": "Suppose $\\hat{\\theta}$ is an estimator with $E[\\hat{\\theta}] = \\frac{n}{n+2}\\theta$ and $\\text{Var}(\\hat{\\theta}) = \\frac{3\\theta^2}{n}$. Compute $\\text{Bias}(\\hat{\\theta})$ and $\\text{MSE}(\\hat{\\theta})$.",
+      "answer_latex": "\\text{Bias}(\\hat{\\theta}) = -\\frac{2\\theta}{n+2}; \\quad \\text{MSE}(\\hat{\\theta}) = \\frac{3\\theta^2}{n} + \\frac{4\\theta^2}{(n+2)^2}"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Exponential}(\\lambda)$, so $E[X_i]=1/\\lambda$ and $\\text{Var}(X_i)=1/\\lambda^2$. Consider two estimators of $1/\\lambda$: $\\hat{\\theta}_1 = \\bar{X}$ and $\\hat{\\theta}_2 = X_1$ (use only the first observation). Compute $\\text{MSE}(\\hat{\\theta}_1)$ and $\\text{MSE}(\\hat{\\theta}_2)$, then determine which estimator is preferred.",
+      "answer_latex": "\\text{MSE}(\\hat{\\theta}_1) = \\frac{1}{n\\lambda^2}; \\quad \\text{MSE}(\\hat{\\theta}_2) = \\frac{1}{\\lambda^2}; \\quad \\hat{\\theta}_1 \\text{ is preferred for } n > 1"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} N(\\mu, \\sigma^2)$. The biased sample variance is $\\tilde{S}^2 = \\frac{1}{n}\\sum_{i=1}^n (X_i - \\bar{X})^2$. Given that $E\\!\\left[\\sum_{i=1}^n(X_i-\\bar{X})^2\\right] = (n-1)\\sigma^2$, find $\\text{Bias}(\\tilde{S}^2)$ and $\\text{MSE}(\\tilde{S}^2)$ given $\\text{Var}(\\tilde{S}^2) = \\frac{2(n-1)\\sigma^4}{n^2}$.",
+      "answer_latex": "\\text{Bias}(\\tilde{S}^2) = -\\frac{\\sigma^2}{n}; \\quad \\text{MSE}(\\tilde{S}^2) = \\frac{2(n-1)\\sigma^4}{n^2} + \\frac{\\sigma^4}{n^2} = \\frac{(2n-1)\\sigma^4}{n^2}"
+    },
+    {
+      "prompt_latex": "A factory claims its bolts have mean diameter $\\mu$ mm. An engineer takes $n=25$ measurements and considers the estimator $\\hat{\\mu}_c = c\\bar{X}$ for some constant $c > 0$. Find the value of $c$ that minimizes $\\text{MSE}(\\hat{\\mu}_c)$ as a function of $\\mu$ and $\\sigma^2$, and explain what trade-off this optimal $c$ makes.",
+      "answer_latex": "\\text{MSE}(\\hat{\\mu}_c) = c^2\\frac{\\sigma^2}{n} + (c-1)^2\\mu^2; \\text{ minimizing over } c: \\quad c^* = \\frac{\\mu^2}{\\mu^2 + \\sigma^2/n}. \\text{ This } c^*<1 \\text{ shrinks } \\bar{X} \\text{ toward 0, trading some bias for reduced variance.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse $E[(\\hat{\\theta} - \\theta)^2]$ with $(E[\\hat{\\theta}] - \\theta)^2$, computing squared bias instead of MSE. The fix is to remember that MSE is an expectation of a squared random variable, not the square of an expected value \u2014 the variance term $\\text{Var}(\\hat{\\theta})$ is the part that gets dropped when you make this error.",
+    "When an estimator is unbiased, students sometimes write $\\text{MSE}(\\hat{\\theta}) = 0$ rather than $\\text{MSE}(\\hat{\\theta}) = \\text{Var}(\\hat{\\theta})$. Unbiasedness only kills the squared bias term; the variance term survives, so an unbiased estimator can still have a large MSE if it is highly variable.",
+    "Students frequently forget to square the $\\frac{1}{n}$ (or any scalar multiplier) when computing the variance of a scaled estimator, writing $\\text{Var}(c\\hat{\\theta}) = c\\,\\text{Var}(\\hat{\\theta})$ instead of the correct $c^2\\,\\text{Var}(\\hat{\\theta})$. Always apply the rule $\\text{Var}(aY) = a^2\\text{Var}(Y)$ before substituting numbers."
+  ],
+  "untested_variants": [
+    "Finding the bias and MSE of the method-of-moments estimator for the parameter of a Poisson or Gamma distribution, where the estimator is nonlinear in the sample moments.",
+    "Comparing two biased estimators head-to-head using MSE when neither is unbiased (i.e., the bias-variance trade-off where the estimator with smaller variance also has larger bias), requiring students to decide which dominates.",
+    "Deriving the MSE of an estimator that depends on multiple parameters simultaneously, such as estimating $\\sigma^2$ when $\\mu$ is unknown and must be estimated from the same sample.",
+    "Showing that an estimator is consistent by verifying $\\text{MSE}(\\hat{\\theta}) \\to 0$ as $n \\to \\infty$, connecting the MSE framework to the large-sample concept of consistency."
+  ]
+}

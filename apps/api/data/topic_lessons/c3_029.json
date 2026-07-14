@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_029",
+  "topic_name": "Line Integrals (Scalar and Vector)",
+  "generated_at": "2026-05-13T00:37:48.084177+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to integrate a function over an interval on the number line, and you can compute arc lengths of curves in space. But what if you need to find the total mass of a wire bent into a curved shape, where the density varies from point to point along the wire? Or what if a force field pushes a particle along a curved path and you need to find the total work done? A standard single-variable integral won't capture the geometry of the curve \u2014 so how do we integrate along a curve in two or three dimensions?",
+  "concept": "A line integral extends ordinary integration to functions evaluated along a curve in space. For a scalar function $f$, the scalar line integral $\\int_C f \\, ds$ sums up the values of $f$ weighted by arc length along curve $C$. For a vector field $\\mathbf{F}$, the vector line integral $\\int_C \\mathbf{F} \\cdot d\\mathbf{r}$ accumulates the component of $\\mathbf{F}$ tangent to the curve \u2014 capturing quantities like work done by a force along a path.",
+  "anatomy": "Every line integral has four key parts. First, the curve $C$, which is a smooth or piecewise-smooth path in $\\mathbb{R}^2$ or $\\mathbb{R}^3$ described by a parametrization $\\mathbf{r}(t)$ for $t \\in [a,b]$. Second, the integrand \u2014 either a scalar function $f(x,y,z)$ or a vector field $\\mathbf{F}(x,y,z) = \\langle P, Q, R \\rangle$. Third, the differential element: $ds = |\\mathbf{r}'(t)| \\, dt$ (arc length element) for scalar integrals, or $d\\mathbf{r} = \\mathbf{r}'(t) \\, dt$ (vector displacement element) for vector integrals. Fourth, the dot product $\\mathbf{F} \\cdot \\mathbf{r}'(t)$ in vector line integrals, which extracts the tangential component of the field along the curve.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Evaluate } \\int_C (x^2 + y) \\, ds, \\text{ where } C: \\mathbf{r}(t) = \\langle t, 2t \\rangle, \\; 0 \\le t \\le 1.",
+      "description_latex": "We are computing a scalar line integral of $f(x,y) = x^2 + y$ over a straight-line segment. The first step is always to write the parametrization clearly so we can convert everything into a single-variable integral in $t$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}'(t) = \\langle 1, 2 \\rangle \\implies |\\mathbf{r}'(t)| = \\sqrt{1^2 + 2^2} = \\sqrt{5}",
+      "description_latex": "We compute the derivative of the parametrization and then its magnitude to find the arc-length element $ds = |\\mathbf{r}'(t)| \\, dt = \\sqrt{5} \\, dt$. This factor converts a flat $dt$ integral into one that properly measures distance along the curve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x(t), y(t)) = (t)^2 + (2t) = t^2 + 2t",
+      "description_latex": "We substitute $x = t$ and $y = 2t$ from our parametrization into the integrand. Every $x$ and $y$ in $f$ must be replaced so the integrand is purely a function of $t$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_C f \\, ds = \\int_0^1 (t^2 + 2t) \\cdot \\sqrt{5} \\, dt = \\sqrt{5} \\int_0^1 (t^2 + 2t) \\, dt",
+      "description_latex": "Now we assemble the full integral by multiplying the substituted integrand by $ds = \\sqrt{5}\\,dt$ and integrating over $[0,1]$. The constant $\\sqrt{5}$ factors out, leaving a standard polynomial integral.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{5}\\left[\\frac{t^3}{3} + t^2\\right]_0^1 = \\sqrt{5}\\left(\\frac{1}{3} + 1\\right) = \\frac{4\\sqrt{5}}{3}",
+      "description_latex": "We evaluate the antiderivative at $t=1$ and $t=0$ and simplify. The answer $\\frac{4\\sqrt{5}}{3}$ gives the weighted sum of $f$ along the segment, scaled by the arc length contributed at each point.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Evaluate } \\int_C \\mathbf{F} \\cdot d\\mathbf{r}, \\; \\mathbf{F} = \\langle y, x \\rangle, \\; C: \\mathbf{r}(t) = \\langle \\cos t, \\sin t \\rangle, \\; 0 \\le t \\le \\frac{\\pi}{2}.",
+      "description_latex": "We want the work done by the vector field $\\mathbf{F} = \\langle y, x \\rangle$ along a quarter-circle. The formula we need is $\\int_C \\mathbf{F} \\cdot d\\mathbf{r} = \\int_a^b \\mathbf{F}(\\mathbf{r}(t)) \\cdot \\mathbf{r}'(t) \\, dt$, so start by finding $\\mathbf{r}'(t)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}'(t) = \\langle -\\sin t, \\cos t \\rangle, \\quad \\mathbf{F}(\\mathbf{r}(t)) = \\langle \\sin t, \\cos t \\rangle",
+      "description_latex": "We differentiate $\\mathbf{r}(t)$ to get $d\\mathbf{r}$ and substitute $x = \\cos t$, $y = \\sin t$ into $\\mathbf{F}$. Now form the dot product $\\mathbf{F}(\\mathbf{r}(t)) \\cdot \\mathbf{r}'(t)$ and integrate over $[0, \\pi/2]$ \u2014 can you carry out those two steps?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute the dot product $\\mathbf{F}(\\mathbf{r}(t)) \\cdot \\mathbf{r}'(t)$ by multiplying component-wise and adding, then integrate the resulting expression from $0$ to $\\pi/2$ to find $\\int_C \\mathbf{F} \\cdot d\\mathbf{r}$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\int_0^{\\pi/2} (\\sin t \\cdot (-\\sin t) + \\cos t \\cdot \\cos t) \\, dt = \\int_0^{\\pi/2} \\cos(2t) \\, dt = \\left[\\frac{\\sin(2t)}{2}\\right]_0^{\\pi/2} = 0",
+      "description_latex": "The dot product simplifies to $\\cos^2 t - \\sin^2 t = \\cos(2t)$, and integrating over the quarter-circle gives $0$. This result has a geometric meaning: for this particular field and path, the positive and negative tangential contributions exactly cancel.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $\\int_C 3 \\, ds$ where $C$ is the line segment $\\mathbf{r}(t) = \\langle t, t \\rangle$ for $0 \\le t \\le 1$.",
+      "answer_latex": "3\\sqrt{2}"
+    },
+    {
+      "prompt_latex": "Evaluate $\\int_C xy \\, ds$ where $C: \\mathbf{r}(t) = \\langle t, t^2 \\rangle$ for $0 \\le t \\le 1$.",
+      "answer_latex": "\\frac{1}{12}\\left(5^{3/2} - 1\\right)"
+    },
+    {
+      "prompt_latex": "Evaluate $\\int_C \\mathbf{F} \\cdot d\\mathbf{r}$ where $\\mathbf{F} = \\langle x, y \\rangle$ and $C: \\mathbf{r}(t) = \\langle t^2, t \\rangle$ for $0 \\le t \\le 1$.",
+      "answer_latex": "\\frac{5}{6}"
+    },
+    {
+      "prompt_latex": "Let $C$ be the helix $\\mathbf{r}(t) = \\langle \\cos t, \\sin t, t \\rangle$ for $0 \\le t \\le 2\\pi$. Evaluate $\\int_C z \\, ds$.",
+      "answer_latex": "\\pi^2 \\sqrt{2}"
+    },
+    {
+      "prompt_latex": "A wire is shaped along the curve $y = x^2$ from $(0,0)$ to $(1,1)$ with linear density $\\delta(x,y) = x + y$. Set up and evaluate the line integral giving the total mass of the wire.",
+      "answer_latex": "\\int_0^1 (t + t^2)\\sqrt{1+4t^2}\\,dt = \\frac{5\\sqrt{5}-1}{12} + \\frac{\\sqrt{5}}{4} - \\frac{\\ln(2+\\sqrt{5})}{8}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to include the $|\\mathbf{r}'(t)|$ factor in scalar line integrals, writing $\\int_a^b f(\\mathbf{r}(t))\\,dt$ instead of $\\int_a^b f(\\mathbf{r}(t))|\\mathbf{r}'(t)|\\,dt$; remember that $ds \\ne dt$ unless the curve happens to be parametrized by arc length.",
+    "In vector line integrals, students confuse $d\\mathbf{r} = \\mathbf{r}'(t)\\,dt$ with $ds = |\\mathbf{r}'(t)|\\,dt$ and incorrectly use the magnitude instead of the full vector, turning a dot product into a scalar multiplication; the key fix is to keep $\\mathbf{r}'(t)$ as a vector before dotting with $\\mathbf{F}$.",
+    "Students substitute the parametrization into only part of the integrand \u2014 for example replacing $x$ but leaving $y$ unreplaced \u2014 which produces an integral that still contains both $t$ and the original variables; always replace every occurrence of $x$, $y$, and $z$ using the parametrization before integrating."
+  ],
+  "untested_variants": [
+    "Line integrals in the form $\\int_C P\\,dx + Q\\,dy + R\\,dz$ written using differentials rather than the dot-product formulation $\\int_C \\mathbf{F}\\cdot d\\mathbf{r}$.",
+    "Line integrals over piecewise-smooth curves where $C$ must be split into two or more smooth pieces with separate parametrizations and results summed.",
+    "Using the Fundamental Theorem for Line Integrals to evaluate $\\int_C \\nabla f \\cdot d\\mathbf{r} = f(\\mathbf{r}(b)) - f(\\mathbf{r}(a))$ when the vector field is conservative.",
+    "Line integrals in three dimensions where the curve is given implicitly as the intersection of two surfaces rather than by an explicit parametrization."
+  ]
+}

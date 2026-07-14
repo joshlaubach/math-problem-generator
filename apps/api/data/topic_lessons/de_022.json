@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_022",
+  "topic_name": "Phase Plane and Trajectories",
+  "generated_at": "2026-05-13T20:01:25.299344+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve a single first-order ODE like $\\frac{dy}{dt} = f(y)$ and sketch solution curves on a $ty$-plane. But what happens when two quantities evolve together \u2014 say, a predator population $x(t)$ and a prey population $y(t)$, each depending on the other? Writing out $x(t)$ and $y(t)$ explicitly as functions of time can be messy or impossible, yet we still want to understand the long-run behavior. Is there a way to visualize the relationship between $x$ and $y$ directly, without ever finding $x(t)$ or $y(t)$ individually?",
+  "concept": "The phase plane is a coordinate plane whose axes are the state variables $x$ and $y$ (not time). A trajectory is a curve in this plane traced by the point $(x(t), y(t))$ as $t$ increases. For the autonomous system $\\frac{dx}{dt} = F(x,y)$, $\\frac{dy}{dt} = G(x,y)$, each point in the plane carries a velocity vector $(F, G)$, and trajectories are the curves everywhere tangent to these vectors.",
+  "anatomy": "The phase plane has four key structural pieces. The state variables $x$ and $y$ form the two axes \u2014 time is invisible but drives motion along the curve. The velocity field assigns the vector $(F(x,y),\\, G(x,y))$ to every point, telling you the instantaneous direction and speed of the trajectory passing through that point. A trajectory itself is a parametric curve $(x(t), y(t))$ with an arrow indicating the direction of increasing $t$. Finally, equilibrium points (also called critical points) are locations where $F(x,y)=0$ and $G(x,y)=0$ simultaneously \u2014 the trajectory 'stalls' there forever.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dx}{dt} = x, \\quad \\frac{dy}{dt} = -y",
+      "description_latex": "We start with a simple linear system where each equation involves only one variable. Our goal is to find the equation of the trajectories in the phase plane \u2014 that is, a relationship between $x$ and $y$ that holds along every solution curve, with $t$ eliminated.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dy}{dx} = \\frac{dy/dt}{dx/dt} = \\frac{-y}{x}",
+      "description_latex": "Because both $x$ and $y$ are functions of $t$, we use the chain rule to write $\\frac{dy}{dx} = \\frac{G(x,y)}{F(x,y)}$. This single ODE describes the slope of a trajectory at every point $(x,y)$ in the phase plane, completely removing $t$ from the picture.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dy}{y} = -\\frac{dx}{x} \\implies \\ln|y| = -\\ln|x| + C_1",
+      "description_latex": "The resulting ODE is separable, so we separate variables and integrate both sides. The constant of integration $C_1$ will label which particular trajectory we are on \u2014 different initial conditions give different values of $C_1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "xy = C \\quad (C \\text{ any nonzero constant})",
+      "description_latex": "Exponentiating both sides and absorbing the constant gives $|xy| = e^{C_1}$, which we write simply as $xy = C$. Each value of $C$ is one hyperbolic trajectory in the phase plane; the sign of $C$ tells us which quadrant the curve lies in.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Equilibrium: } F(0,0)=0,\\; G(0,0)=0 \\implies (0,0) \\text{ is the only equilibrium point}",
+      "description_latex": "We check for equilibria by solving $x = 0$ and $-y = 0$ simultaneously, giving only the origin. The hyperbolas $xy = C$ all approach the origin along the axes but never reach it in finite time, which is consistent with an equilibrium point that trajectories only approach asymptotically.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dx}{dt} = y, \\quad \\frac{dy}{dt} = -x",
+      "description_latex": "We want to find the trajectory equations for this system. As in the worked example, we will eliminate $t$ by forming the slope equation $\\frac{dy}{dx} = \\frac{-x}{y}$. Notice that the right-hand side depends on both variables, so we will need to separate variables carefully.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dy}{dx} = \\frac{-x}{y}",
+      "description_latex": "Separate the variables so that all $y$ terms are on the left and all $x$ terms are on the right, then integrate both sides to find the family of trajectories. What algebraic relationship between $x$ and $y$ do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x^2 + y^2 = C^2 \\quad (\\text{circles centered at the origin})",
+      "description_latex": "Integrating $y\\,dy = -x\\,dx$ gives $\\frac{y^2}{2} = -\\frac{x^2}{2} + \\text{const}$, so the trajectories are circles $x^2 + y^2 = C^2$. Now identify the equilibrium point(s) of this system and determine whether trajectories orbit around them clockwise or counterclockwise by checking the sign of $\\frac{dx}{dt}$ when $y > 0$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For the system $\\frac{dx}{dt} = 2x,\\ \\frac{dy}{dt} = 2y$, write the slope equation $\\frac{dy}{dx}$ and identify the trajectories in the phase plane.",
+      "answer_latex": "\\frac{dy}{dx} = \\frac{y}{x};\\quad \\text{trajectories are rays } y = Cx \\text{ through the origin}"
+    },
+    {
+      "prompt_latex": "Find the trajectory equation for $\\frac{dx}{dt} = y,\\ \\frac{dy}{dt} = 4x$ and classify what kind of curves they are.",
+      "answer_latex": "\\frac{dy}{dx} = \\frac{4x}{y} \\Rightarrow y^2 - 4x^2 = C;\\quad \\text{hyperbolas (saddle-type trajectories)}"
+    },
+    {
+      "prompt_latex": "Locate all equilibrium points of the system $\\frac{dx}{dt} = x(1-y),\\ \\frac{dy}{dt} = y(x-1)$.",
+      "answer_latex": "(0,0) \\text{ and } (1,1)"
+    },
+    {
+      "prompt_latex": "For the system $\\frac{dx}{dt} = -y,\\ \\frac{dy}{dt} = x - x^3$, find all equilibrium points and sketch the direction of the velocity vector at the point $(2, 0)$.",
+      "answer_latex": "\\text{Equilibria: } (0,0),\\ (1,0),\\ (-1,0);\\ \\text{at } (2,0): \\frac{dx}{dt}=0,\\ \\frac{dy}{dt}=2-8=-6,\\ \\text{so vector points straight down}"
+    },
+    {
+      "prompt_latex": "A disease model satisfies $\\frac{dS}{dt} = -0.01\\,SI$ and $\\frac{dI}{dt} = 0.01\\,SI - 0.5\\,I$, where $S$ is the susceptible population and $I$ is the infected population. Write the slope equation $\\frac{dI}{dS}$ for trajectories in the $SI$-phase plane and find the equilibrium conditions.",
+      "answer_latex": "\\frac{dI}{dS} = \\frac{0.01SI - 0.5I}{-0.01SI} = \\frac{0.5}{0.01S} - 1 = \\frac{50}{S} - 1;\\quad \\text{equilibria when } I=0 \\text{ (any } S\\text{) or } S = 50"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $\\frac{dy}{dx} = \\frac{F(x,y)}{G(x,y)}$ (numerator and denominator swapped). Remember the slope of a trajectory is $\\frac{dy/dt}{dx/dt} = \\frac{G}{F}$, not $\\frac{F}{G}$.",
+    "When finding equilibrium points, students sometimes set only one equation to zero instead of both $F(x,y)=0$ AND $G(x,y)=0$ simultaneously. An equilibrium requires the entire velocity vector to vanish, so both conditions must hold at the same point.",
+    "Students draw trajectory arrows in the wrong direction by forgetting to check the sign of $\\frac{dx}{dt}$. The arrow must point in the direction of increasing $t$: if $\\frac{dx}{dt} > 0$ at a point, the trajectory moves to the right there, regardless of what the slope $\\frac{dy}{dx}$ looks like."
+  ],
+  "untested_variants": [
+    "Using nullclines (curves where $F=0$ or $G=0$ separately) to sketch the phase portrait without finding explicit trajectory equations.",
+    "Analyzing the phase plane for a nonlinear system by linearizing near an equilibrium point using the Jacobian matrix.",
+    "Reading a given phase portrait diagram to reconstruct qualitative properties of the original system, such as the stability type of each equilibrium.",
+    "Parametric reconstruction: given the trajectory equation $xy = C$ and an initial condition $(x_0, y_0)$, recovering the explicit time solutions $x(t)$ and $y(t)$ and verifying they satisfy the original system."
+  ]
+}

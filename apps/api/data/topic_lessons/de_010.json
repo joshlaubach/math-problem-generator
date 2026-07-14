@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_010",
+  "topic_name": "Euler's Method",
+  "generated_at": "2026-05-13T20:00:18.551652+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve simple first-order differential equations like $\\frac{dy}{dx} = 2x$ by integration. But what happens when you face $\\frac{dy}{dx} = e^{-x^2} + y^2$, an equation with no closed-form solution? Real-world models in biology, engineering, and physics constantly produce equations like this that resist exact techniques. So how do we find useful, concrete answers when the algebra simply won't cooperate?",
+  "concept": "Euler's Method is a numerical technique for approximating the solution to an initial value problem by taking small steps along the slope field. Starting from a known point $(x_0, y_0)$, we repeatedly use the differential equation to estimate the slope and move a fixed step size $h$ forward, generating approximate solution values. Formally, each new value is computed by $y_{n+1} = y_n + h \\cdot f(x_n, y_n)$, where $f(x, y) = \\frac{dy}{dx}$.",
+  "anatomy": "Euler's Method has four essential components working together. The step size $h$ controls how far we move along the $x$-axis at each iteration \u2014 smaller $h$ gives greater accuracy but requires more steps. The current point $(x_n, y_n)$ is our known location on the approximate solution curve. The slope estimate $f(x_n, y_n)$ comes directly from evaluating the right-hand side of the differential equation at the current point. Finally, the update rule $y_{n+1} = y_n + h \\cdot f(x_n, y_n)$ and $x_{n+1} = x_n + h$ advance us to the next approximate point, repeating until we reach the desired $x$-value.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = x + y, \\quad y(0) = 1, \\quad h = 0.1, \\text{ approximate } y(0.3)",
+      "description_latex": "We are given the IVP and asked to approximate the solution at $x = 0.3$ using three steps of Euler's Method with step size $h = 0.1$. Our starting point is $(x_0, y_0) = (0, 1)$, and at each step we will evaluate the slope $f(x_n, y_n) = x_n + y_n$ and apply the update rule.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_1 = y_0 + h \\cdot f(x_0, y_0) = 1 + 0.1 \\cdot (0 + 1) = 1 + 0.1 = 1.1",
+      "description_latex": "For the first step, we compute the slope at $(0, 1)$: $f(0, 1) = 0 + 1 = 1$. Multiplying the slope by the step size gives the increment $0.1 \\cdot 1 = 0.1$, and adding this to $y_0 = 1$ produces the first approximation $y_1 = 1.1$ at $x_1 = 0 + 0.1 = 0.1$. Think of this as walking one small step in the direction the slope field is pointing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_2 = y_1 + h \\cdot f(x_1, y_1) = 1.1 + 0.1 \\cdot (0.1 + 1.1) = 1.1 + 0.12 = 1.22",
+      "description_latex": "Now we are at the updated point $(x_1, y_1) = (0.1, 1.1)$, so we recompute the slope using the new coordinates: $f(0.1, 1.1) = 0.1 + 1.1 = 1.2$. Multiplying by $h = 0.1$ gives an increment of $0.12$, bringing us to $y_2 = 1.22$ at $x_2 = 0.2$. Notice the slope changed because both $x$ and $y$ have changed \u2014 this is why we must re-evaluate $f$ at every new point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_3 = y_2 + h \\cdot f(x_2, y_2) = 1.22 + 0.1 \\cdot (0.2 + 1.22) = 1.22 + 0.142 = 1.362",
+      "description_latex": "At $(x_2, y_2) = (0.2, 1.22)$ the slope is $f(0.2, 1.22) = 1.42$, and the increment is $0.1 \\times 1.42 = 0.142$. Adding this to $y_2 = 1.22$ gives our final approximation $y(0.3) \\approx y_3 = 1.362$. The exact solution of this IVP is $y = 2e^x - x - 1$, which gives $y(0.3) \\approx 1.3997$, so our estimate has a small but nonzero error introduced by linearizing over each step.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = 2x - y, \\quad y(0) = 0, \\quad h = 0.2, \\text{ approximate } y(0.4)",
+      "description_latex": "We want to take two steps of Euler's Method starting from $(x_0, y_0) = (0, 0)$ with $f(x, y) = 2x - y$ and step size $h = 0.2$. Set up the first update: compute $f(x_0, y_0)$ and apply $y_1 = y_0 + h \\cdot f(x_0, y_0)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_1 = 0 + 0.2 \\cdot (2(0) - 0) = 0",
+      "description_latex": "The slope at the initial point is $f(0, 0) = 0$, so $y_1 = 0 + 0.2 \\cdot 0 = 0$ and $x_1 = 0.2$. This makes sense geometrically: the slope field at the origin points horizontally, so we stay at height zero for this first step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the second Euler step: evaluate $f(x_1, y_1) = f(0.2, 0)$, then apply $y_2 = y_1 + h \\cdot f(x_1, y_1)$ to find the approximation for $y(0.4)$. This is the key step \u2014 write out your slope calculation and the final value.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y_2 = 0 + 0.2 \\cdot (2(0.2) - 0) = 0 + 0.2 \\cdot 0.4 = 0.08",
+      "description_latex": "The slope at $(0.2, 0)$ is $f(0.2, 0) = 2(0.2) - 0 = 0.4$. Multiplying by $h = 0.2$ gives an increment of $0.08$, so $y(0.4) \\approx y_2 = 0.08$. Notice that even though $y_1 = 0$, the slope is now nonzero because $x$ has increased, which illustrates why re-evaluating the slope at each new point is essential.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $\\frac{dy}{dx} = 3$, $y(0) = 2$, use one step of Euler's Method with $h = 1$ to approximate $y(1)$.",
+      "answer_latex": "y_1 = 2 + 1 \\cdot 3 = 5"
+    },
+    {
+      "prompt_latex": "Given $\\frac{dy}{dx} = y$, $y(0) = 1$, use Euler's Method with $h = 0.5$ to approximate $y(1)$ (two steps).",
+      "answer_latex": "y_1 = 1.5, \\quad y_2 = 1.5 + 0.5(1.5) = 2.25"
+    },
+    {
+      "prompt_latex": "Given $\\frac{dy}{dx} = x^2 - y$, $y(1) = 0$, use Euler's Method with $h = 0.1$ for two steps to approximate $y(1.2)$.",
+      "answer_latex": "y_1 = 0 + 0.1(1 - 0) = 0.1; \\quad y_2 = 0.1 + 0.1(1.21 - 0.1) = 0.1 + 0.111 = 0.211"
+    },
+    {
+      "prompt_latex": "The exact solution of $\\frac{dy}{dx} = y$, $y(0) = 1$ is $y = e^x$. Use Euler's Method with $h = 0.5$ to find $y(1)$ and compute the absolute error compared to $e^1 \\approx 2.718$.",
+      "answer_latex": "\\text{Euler: } y(1) \\approx 2.25; \\quad \\text{Error} = |2.718 - 2.25| \\approx 0.468"
+    },
+    {
+      "prompt_latex": "A population grows according to $\\frac{dP}{dt} = 0.2P(1 - P/100)$, with $P(0) = 10$ individuals. Use one Euler step with $h = 1$ to estimate the population at $t = 1$.",
+      "answer_latex": "f(0, 10) = 0.2(10)(1 - 10/100) = 0.2(10)(0.9) = 1.8; \\quad P(1) \\approx 10 + 1 \\cdot 1.8 = 11.8"
+    }
+  ],
+  "common_mistakes": [
+    "Using the slope from the previous step instead of re-evaluating $f$ at the new point $(x_{n+1}, y_{n+1})$: once you advance to a new point, the slope changes and must be recomputed fresh using $f(x_{n+1}, y_{n+1})$ before taking the next step.",
+    "Forgetting to update $x_n$ by adding $h$ at each step, so subsequent slope evaluations use the wrong $x$ value: always advance both coordinates simultaneously with $x_{n+1} = x_n + h$ and $y_{n+1} = y_n + h \\cdot f(x_n, y_n)$.",
+    "Confusing the increment $h \\cdot f(x_n, y_n)$ with $f(x_n, y_n)$ alone and adding just the slope without multiplying by $h$: the step size $h$ is a mandatory multiplier that scales the slope to the correct rise over the chosen run."
+  ],
+  "untested_variants": [
+    "Using Euler's Method with a variable or adaptive step size where $h$ changes between iterations based on an error estimate.",
+    "Applying Euler's Method to a system of two coupled first-order ODEs, requiring simultaneous updates of two dependent variables at each step.",
+    "Working backwards with a negative step size $h < 0$ to approximate solution values to the left of the initial condition.",
+    "Comparing Euler's Method directly with the improved (Heun's) method or the classical Runge-Kutta method on the same IVP and quantifying the difference in accuracy."
+  ]
+}

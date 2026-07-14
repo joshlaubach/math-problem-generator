@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_075",
+  "topic_name": "Cavalieri's Principle (H)",
+  "generated_at": "2026-05-12T23:15:13.028323+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to find the volume of a cylinder using $V = \\pi r^2 h$, and you can find the volume of a rectangular prism with $V = lwh$. But what happens when someone takes a stack of identical coins and shoves them sideways so the stack leans at an angle \u2014 does that slanted cylinder hold less volume than the straight one? The two stacks look completely different, yet something deep in their geometry keeps their volumes equal. Why?",
+  "concept": "Cavalieri's Principle says that if two solids lie between the same two parallel planes, and every plane parallel to those base planes cuts both solids in cross-sections of equal area, then the two solids have equal volume. In plain English: shape doesn't matter \u2014 if every horizontal slice matches in area, the total volumes match. Formally, if for every height $h$, the cross-sectional area $A(h)$ is the same for both solids, then their volumes are equal.",
+  "anatomy": "Cavalieri's Principle has three essential components to identify. First, the **bounding planes**: two parallel planes (usually the top and bottom) between which both solids are completely contained and which share the same height $h$. Second, the **cross-sectional slices**: the flat regions you get when a plane parallel to the base cuts through the solid at any given height; these are described by the area function $A(h)$. Third, the **equal-area condition**: the requirement that for every possible cutting height, the cross-sectional area of solid one equals the cross-sectional area of solid two, written $A_1(h) = A_2(h)$ for all valid $h$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Oblique cylinder: radius } r = 4\\text{ cm, height } h = 10\\text{ cm}",
+      "description_latex": "We are given an oblique (tilted) cylinder and asked for its volume. Rather than trying to integrate the slanted geometry directly, we invoke Cavalieri's Principle by comparing this cylinder to a right cylinder with the same radius and height \u2014 because every horizontal slice of both cylinders is a circle of radius $r = 4$ cm, the equal-area condition is satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A(h) = \\pi r^2 = \\pi (4)^2 = 16\\pi \\text{ cm}^2",
+      "description_latex": "At any height, the cross-section of both the oblique and the right cylinder is a circle of radius 4 cm, so we compute that common cross-sectional area. Because $A_1(h) = A_2(h) = 16\\pi$ for every slice, Cavalieri's Principle guarantees equal volumes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V = A \\cdot h = 16\\pi \\times 10",
+      "description_latex": "Since the oblique cylinder has the same volume as the right cylinder, we can apply the familiar right-cylinder formula $V = \\pi r^2 h$ directly. We substitute the known cross-sectional area and the perpendicular height (not the slant length) into this product.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V = 160\\pi \\approx 502.65 \\text{ cm}^3",
+      "description_latex": "Multiplying gives us the exact volume $160\\pi$ cubic centimeters, which is identical to what a perfectly upright cylinder of the same radius and height would hold. This confirms the power of Cavalieri's Principle: the tilt is irrelevant as long as height and cross-sectional area are preserved.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Oblique cone: radius } r = 6\\text{ cm, height } h = 9\\text{ cm}",
+      "description_latex": "We want the volume of an oblique cone. The key insight is that at any height $y$ above the base, the cross-section of an oblique cone is a circle of the same radius as the corresponding cross-section of a right cone with equal $r$ and $h$. Because the equal-area condition holds at every slice, Cavalieri's Principle lets us use the right-cone formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V_{\\text{right cone}} = \\frac{1}{3}\\pi r^2 h",
+      "description_latex": "Write down the volume formula for a right cone that we will apply to the oblique cone via Cavalieri's Principle. Now substitute $r = 6$ and $h = 9$ into this formula \u2014 what do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "V = \\frac{1}{3}\\pi(6)^2(9) = \\frac{1}{3}\\pi(36)(9) = 108\\pi \\approx 339.29 \\text{ cm}^3",
+      "description_latex": "Completing the arithmetic confirms the volume is $108\\pi$ cubic centimeters \u2014 identical to the right cone, exactly as Cavalieri's Principle predicted.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A right cylinder has radius $r = 5$ cm and height $h = 8$ cm. An oblique cylinder has the same radius and height. Using Cavalieri's Principle, find the volume of the oblique cylinder.",
+      "answer_latex": "V = 200\\pi \\approx 628.32 \\text{ cm}^3"
+    },
+    {
+      "prompt_latex": "Two prisms sit between the same pair of parallel planes 12 cm apart. At every height, each prism has a square cross-section with side length 5 cm. Are their volumes equal? If so, find the common volume.",
+      "answer_latex": "\\text{Yes; } V = 25 \\times 12 = 300 \\text{ cm}^3"
+    },
+    {
+      "prompt_latex": "An oblique cone has a circular base with radius $r = 3$ in and a perpendicular height of $h = 7$ in. Find its volume.",
+      "answer_latex": "V = \\frac{1}{3}\\pi(3)^2(7) = 21\\pi \\approx 65.97 \\text{ in}^3"
+    },
+    {
+      "prompt_latex": "A right cylinder has radius 6 m and height 10 m. A solid oblique prism with a rectangular base $6\\pi$ m$^2$ in area and the same height 10 m is placed next to it. Explain whether Cavalieri's Principle guarantees equal volumes, and compute both volumes.",
+      "answer_latex": "\\text{Yes, both cross-sections equal } 6\\pi \\text{ m}^2 \\text{ at every height; } V = 6\\pi \\times 10 = 60\\pi \\approx 188.5 \\text{ m}^3 \\text{ each}"
+    },
+    {
+      "prompt_latex": "A sculptor has two clay figures of the same height $h = 15$ cm. She verifies that at every height $y$, both figures have the same cross-sectional area $A(y) = (3y + 2)$ cm$^2$. Without computing $A(y)$ in detail, explain why the figures have the same volume, and set up (but do not evaluate) the integral that gives that volume.",
+      "answer_latex": "\\text{By Cavalieri's Principle, equal } A(y) \\text{ at every slice } \\Rightarrow \\text{ equal volumes; } V = \\int_0^{15}(3y+2)\\,dy"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the slant height of an oblique cylinder or cone instead of the perpendicular height when computing volume, getting an answer that is too large. Remember: the height $h$ in $V = \\pi r^2 h$ and $V = \\frac{1}{3}\\pi r^2 h$ is always the perpendicular distance between the two base planes, not the length along the tilted side.",
+    "Students think Cavalieri's Principle only applies when the two solids look similar or are the same type (e.g., both cones). In reality, the principle applies to any two solids \u2014 even completely different shapes \u2014 as long as their cross-sectional areas match at every height; always check the equal-area condition, not the visual similarity.",
+    "Students forget to verify the equal-area condition and blindly apply Cavalieri's Principle to solids with the same height but different cross-sectional shapes, incorrectly concluding equal volumes. Before invoking the principle, confirm that $A_1(h) = A_2(h)$ for every cutting plane, not just at the base."
+  ],
+  "untested_variants": [
+    "Applying Cavalieri's Principle to compare the volume of a sphere to that of a cylinder-minus-double-cone (the classical Archimedes argument), which requires algebraic verification that $\\pi r^2 - \\pi y^2 = \\pi(r^2 - y^2)$ at each height.",
+    "Problems where the cross-sectional area function $A(y)$ is given as a non-constant algebraic expression (e.g., $A(y) = 4y^2$) and students must integrate to find the common volume rather than using a standard formula.",
+    "Three-dimensional coordinate geometry setups where students must first derive the cross-sectional area at height $y$ from an equation of a solid of revolution before invoking the principle.",
+    "Problems comparing oblique pyramids with non-circular bases (triangular or hexagonal) to right pyramids, requiring students to recall the general pyramid volume formula $V = \\frac{1}{3}Bh$ and justify its application via Cavalieri."
+  ]
+}

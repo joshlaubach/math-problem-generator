@@ -1,0 +1,81 @@
+{
+  "topic_id": "ms_002",
+  "topic_name": "Method of Moments",
+  "generated_at": "2026-05-14T01:00:46.436225+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You know how to compute the mean and variance of a distribution once you know its parameters \u2014 for example, if $X \\sim \\text{Exponential}(\\lambda)$, you know $E[X] = 1/\\lambda$. But in real life the parameters are unknown, and all you have is a dataset. Given a sample $x_1, x_2, \\ldots, x_n$, how do you turn the raw numbers into a sensible guess for $\\lambda$? You need a systematic recipe for turning sample summaries into parameter estimates \u2014 and that recipe is what you cannot yet write down.",
+  "concept": "The Method of Moments works by matching what the distribution predicts about its moments to what the data actually shows. Formally, the $k$-th population moment is $\\mu_k' = E[X^k]$, which is a function of the unknown parameters. The $k$-th sample moment is $\\hat{\\mu}_k' = \\frac{1}{n}\\sum_{i=1}^n x_i^k$. We set $\\mu_k' = \\hat{\\mu}_k'$ for $k = 1, 2, \\ldots$ until we have as many equations as unknown parameters, then solve for those parameters.",
+  "anatomy": "The Method of Moments has four distinct parts. First, the population moments $\\mu_k' = E[X^k]$ \u2014 these are theoretical expectations derived from the assumed distribution and written explicitly as functions of the unknown parameters $\\theta_1, \\theta_2, \\ldots$. Second, the sample moments $\\hat{\\mu}_k' = \\frac{1}{n}\\sum_{i=1}^n x_i^k$ \u2014 these are computable numbers from your data ($k=1$ gives the sample mean $\\bar{x}$, $k=2$ gives the average of squared observations). Third, the moment equations \u2014 the system formed by setting each population moment equal to its sample counterpart. Fourth, the method-of-moments estimators $\\hat{\\theta}_1, \\hat{\\theta}_2, \\ldots$ \u2014 the solutions of that system expressed as functions of the sample moments.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, X_2, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Gamma}(\\alpha, \\beta), \\quad E[X] = \\alpha\\beta, \\quad E[X^2] = \\alpha\\beta^2(\\alpha+1)\\text{ (so }\\operatorname{Var}(X)=\\alpha\\beta^2\\text{)}",
+      "description_latex": "We start by identifying the distribution and recording its population moments as explicit functions of the unknown parameters $\\alpha$ (shape) and $\\beta$ (scale). Writing these out first is essential because the entire method rests on setting these theoretical formulas equal to data-driven numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mu_1' = E[X] = \\alpha\\beta, \\qquad \\mu_2' = \\operatorname{Var}(X) + (E[X])^2 = \\alpha\\beta^2 + \\alpha^2\\beta^2",
+      "description_latex": "Because we have two unknown parameters, we need exactly two moment equations. It is often algebraically convenient to use $E[X]$ and $\\operatorname{Var}(X)$ instead of $E[X]$ and $E[X^2]$, since the Gamma variance has a clean form; the two choices are equivalent because $E[X^2] = \\operatorname{Var}(X) + (E[X])^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\alpha\\beta = \\bar{x}, \\qquad \\alpha\\beta^2 = \\frac{1}{n}\\sum_{i=1}^n (x_i - \\bar{x})^2 =: s^2",
+      "description_latex": "We now replace the population moments with their sample counterparts: the first population moment becomes $\\bar{x}$ and the population variance becomes the sample variance $s^2$. This is the core moment-matching step that converts theoretical equations into a concrete algebraic system we can solve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\beta} = \\frac{s^2}{\\bar{x}}, \\qquad \\hat{\\alpha} = \\frac{\\bar{x}}{\\hat{\\beta}} = \\frac{\\bar{x}^2}{s^2}",
+      "description_latex": "Dividing the second equation by the first gives $\\beta = s^2/\\bar{x}$, and substituting back gives $\\alpha = \\bar{x}/\\beta$. Notice that both estimators are simple functions of the sample mean and sample variance, which are quantities you can compute directly from data.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Uniform}(0, \\theta), \\quad E[X] = \\frac{\\theta}{2}",
+      "description_latex": "We are fitting a Uniform distribution on $(0, \\theta)$ with one unknown parameter $\\theta$. We only need one moment equation, and the first population moment is $E[X] = \\theta/2$, which is already written as a function of the unknown $\\theta$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\theta}{2} = \\bar{x}",
+      "description_latex": "We set the population moment equal to the sample moment. Now solve this equation for $\\hat{\\theta}$ to obtain the method-of-moments estimator \u2014 what do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\hat{\\theta} = 2\\bar{x}",
+      "description_latex": "The method-of-moments estimator is $\\hat{\\theta} = 2\\bar{x}$. Notice this can exceed the largest observation in your sample, which is a reminder that method-of-moments does not automatically respect the support of the distribution \u2014 it only matches moments.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Poisson}(\\lambda)$. Find the method-of-moments estimator $\\hat{\\lambda}$.",
+      "answer_latex": "\\hat{\\lambda} = \\bar{X}"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Exponential}(\\lambda)$, where $E[X] = 1/\\lambda$. Find the method-of-moments estimator $\\hat{\\lambda}$.",
+      "answer_latex": "\\hat{\\lambda} = 1/\\bar{X}"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} N(\\mu, \\sigma^2)$ with both parameters unknown. Using the first two moments, find the method-of-moments estimators $\\hat{\\mu}$ and $\\hat{\\sigma}^2$.",
+      "answer_latex": "\\hat{\\mu} = \\bar{X}, \\quad \\hat{\\sigma}^2 = \\frac{1}{n}\\sum_{i=1}^n (X_i - \\bar{X})^2"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Beta}(\\alpha, \\beta)$ with $E[X] = \\frac{\\alpha}{\\alpha+\\beta}$ and $\\operatorname{Var}(X) = \\frac{\\alpha\\beta}{(\\alpha+\\beta)^2(\\alpha+\\beta+1)}$. Letting $\\mu = \\bar{X}$ and $v = \\frac{1}{n}\\sum(X_i-\\bar{X})^2$, show that the method-of-moments estimators are $\\hat{\\alpha} = \\mu\\!\\left(\\frac{\\mu(1-\\mu)}{v}-1\\right)$ and $\\hat{\\beta} = (1-\\mu)\\!\\left(\\frac{\\mu(1-\\mu)}{v}-1\\right)$.",
+      "answer_latex": "\\hat{\\alpha} = \\bar{X}\\!\\left(\\frac{\\bar{X}(1-\\bar{X})}{v}-1\\right),\\quad \\hat{\\beta} = (1-\\bar{X})\\!\\left(\\frac{\\bar{X}(1-\\bar{X})}{v}-1\\right), \\text{ where } v=\\tfrac{1}{n}\\textstyle\\sum(X_i-\\bar{X})^2"
+    },
+    {
+      "prompt_latex": "A reliability engineer records the lifetimes (in hours) of 5 components: $2, 5, 3, 8, 7$. Assuming an Exponential$(\\lambda)$ model, use the method of moments to estimate $\\lambda$ and predict the probability that a new component lasts more than 6 hours.",
+      "answer_latex": "\\bar{x}=5,\\; \\hat{\\lambda}=0.2;\\quad P(X>6)=e^{-0.2\\times 6}=e^{-1.2}\\approx 0.301"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use the biased sample variance formula $\\frac{1}{n}\\sum(x_i-\\bar{x})^2$ for some problems and the unbiased version $\\frac{1}{n-1}\\sum(x_i-\\bar{x})^2$ for others without realizing the method of moments specifically requires setting the population variance equal to $\\frac{1}{n}\\sum(x_i-\\bar{x})^2$ (the second central sample moment), not the unbiased estimator.",
+    "When a distribution has two parameters, students sometimes try to use only the first moment, ending up with one equation for two unknowns. The fix is to always use as many moment equations as there are unknown parameters \u2014 add the second moment equation whenever there are two unknowns.",
+    "Students frequently confuse $E[X^2]$ with $(E[X])^2$, especially when converting between raw moments and central moments. Remember that $\\operatorname{Var}(X) = E[X^2] - (E[X])^2$, so $E[X^2] = \\operatorname{Var}(X) + (E[X])^2$ \u2014 you must add the squared mean back when you need the raw second moment."
+  ],
+  "untested_variants": [
+    "Method of moments for a shifted (location-scale) distribution such as Uniform$(a, b)$ with both endpoints unknown, requiring two moment equations that solve for both $a$ and $b$ simultaneously.",
+    "Assessing whether a method-of-moments estimator is unbiased \u2014 computing $E[\\hat{\\theta}]$ and comparing to $\\theta$ \u2014 which combines estimation theory with moment calculations.",
+    "Method of moments applied to a mixture distribution, where the moment equations involve weights as additional unknown parameters.",
+    "Using the method of moments to estimate parameters of a discrete distribution with a non-trivial moment structure, such as the Negative Binomial$(r, p)$ distribution, and comparing the resulting estimators to MLEs."
+  ]
+}

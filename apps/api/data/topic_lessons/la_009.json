@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_009",
+  "topic_name": "Matrix Multiplication",
+  "generated_at": "2026-05-13T20:05:31.184252+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to add matrices entry by entry, and how to scale a matrix by multiplying every entry by a number. Now imagine you want to represent two linear transformations applied one after the other \u2014 say, first rotate a vector, then stretch it. Adding the two transformation matrices together clearly won't capture that composition, and scaling won't help either. So how do we combine two matrices to represent the composition of two linear maps?",
+  "concept": "Matrix multiplication is a way of combining two matrices so that the result encodes the composition of the linear transformations they represent. Formally, if $A$ is an $m \\times n$ matrix and $B$ is an $n \\times p$ matrix, their product $C = AB$ is the $m \\times p$ matrix whose $(i,j)$ entry is $C_{ij} = \\sum_{k=1}^{n} A_{ik} B_{kj}$ \u2014 the dot product of row $i$ of $A$ with column $j$ of $B$.",
+  "anatomy": "Every matrix product $AB$ involves three structural ingredients worth naming precisely. The inner dimension $n$ must match: $A$ has $n$ columns and $B$ has $n$ rows, and if this fails the product is undefined. The outer dimensions $m$ and $p$ determine the size of the output $C$, which is $m \\times p$. Each entry $C_{ij}$ is produced by a dot product: you take the $i$-th row vector of $A$, written $A_{i\\bullet}$, and the $j$-th column vector of $B$, written $B_{\\bullet j}$, and sum their elementwise products \u2014 so $C_{ij} = A_{i1}B_{1j} + A_{i2}B_{2j} + \\cdots + A_{in}B_{nj}$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}, \\quad B = \\begin{pmatrix} 5 & 6 \\\\ 7 & 8 \\end{pmatrix}",
+      "description_latex": "We start by identifying our two matrices. Both are $2 \\times 2$, so the inner dimensions match ($n = 2$) and the product $C = AB$ will also be $2 \\times 2$. Before computing anything, checking dimensions is the essential first move \u2014 it tells us the product exists and what shape to expect.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C_{11} = (1)(5) + (2)(7) = 5 + 14 = 19",
+      "description_latex": "To find the top-left entry $C_{11}$, we take row 1 of $A$, which is $(1, 2)$, and column 1 of $B$, which is $(5, 7)$, and compute their dot product. This entry answers the question: how much does the first output component depend on the first input, after both transformations?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C_{12} = (1)(6) + (2)(8) = 6 + 16 = 22",
+      "description_latex": "Now we move to $C_{12}$: we keep row 1 of $A$ the same, but switch to column 2 of $B$, which is $(6, 8)$. Notice the pattern \u2014 the row index tells you which row of $A$ to use, and the column index tells you which column of $B$ to use.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C_{21} = (3)(5) + (4)(7) = 15 + 28 = 43, \\quad C_{22} = (3)(6) + (4)(8) = 18 + 32 = 50",
+      "description_latex": "For the bottom row of $C$ we switch to row 2 of $A$, which is $(3, 4)$, and pair it with each column of $B$ in turn. Computing both remaining entries at once is efficient once you have the rhythm of the dot-product rule down.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AB = \\begin{pmatrix} 19 & 22 \\\\ 43 & 50 \\end{pmatrix}",
+      "description_latex": "We assemble all four dot products into the result matrix. This is our final answer: a $2 \\times 2$ matrix encoding what happens when the transformation represented by $A$ is applied after the transformation represented by $B$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 2 & 0 & 1 \\\\ -1 & 3 & 2 \\end{pmatrix}, \\quad B = \\begin{pmatrix} 1 & 4 \\\\ 2 & -1 \\\\ 0 & 3 \\end{pmatrix}",
+      "description_latex": "First, let's confirm the dimensions: $A$ is $2 \\times 3$ and $B$ is $3 \\times 2$. The inner dimensions both equal 3, so the product $C = AB$ is defined and will be a $2 \\times 2$ matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C_{11} = (2)(1) + (0)(2) + (1)(0) = 2",
+      "description_latex": "Here we compute the top-left entry by dotting row 1 of $A$, which is $(2, 0, 1)$, with column 1 of $B$, which is $(1, 2, 0)$. We've done this one for you \u2014 study the pattern before you try the next entry.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the remaining three entries of $C$: find $C_{12}$ by dotting row 1 of $A$ with column 2 of $B$; find $C_{21}$ by dotting row 2 of $A$ with column 1 of $B$; and find $C_{22}$ by dotting row 2 of $A$ with column 2 of $B$. Assemble all four entries into the final $2 \\times 2$ matrix $C$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute $AB$ where $A = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$ and $B = \\begin{pmatrix} 3 & 7 \\\\ -2 & 5 \\end{pmatrix}$.",
+      "answer_latex": "AB = \\begin{pmatrix} 3 & 7 \\\\ -2 & 5 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Compute $AB$ where $A = \\begin{pmatrix} 2 & 1 \\\\ -1 & 3 \\end{pmatrix}$ and $B = \\begin{pmatrix} 4 & -2 \\\\ 0 & 5 \\end{pmatrix}$.",
+      "answer_latex": "AB = \\begin{pmatrix} 8 & 1 \\\\ -4 & 17 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Compute $AB$ where $A = \\begin{pmatrix} 1 & 2 & 3 \\end{pmatrix}$ (a $1 \\times 3$ matrix) and $B = \\begin{pmatrix} 4 \\\\ 5 \\\\ 6 \\end{pmatrix}$ (a $3 \\times 1$ matrix).",
+      "answer_latex": "AB = \\begin{pmatrix} 32 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Given $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$, compute $A^2 = AA$ and verify that $A^2 \\neq 2A$ by comparing entries.",
+      "answer_latex": "A^2 = \\begin{pmatrix} 7 & 10 \\\\ 15 & 22 \\end{pmatrix}, \\quad 2A = \\begin{pmatrix} 2 & 4 \\\\ 6 & 8 \\end{pmatrix}; \\text{ clearly } A^2 \\neq 2A"
+    },
+    {
+      "prompt_latex": "A company sells two products. Its production matrix is $P = \\begin{pmatrix} 3 & 1 \\\\ 2 & 4 \\end{pmatrix}$ (rows = factories, columns = products) and its price matrix is $R = \\begin{pmatrix} 10 \\\\ 25 \\end{pmatrix}$ (price per unit of each product). Compute $PR$ to find the total revenue generated by each factory.",
+      "answer_latex": "PR = \\begin{pmatrix} 55 \\\\ 120 \\end{pmatrix}"
+    }
+  ],
+  "common_mistakes": [
+    "Students try to multiply two matrices whose inner dimensions don't match \u2014 for example, multiplying a $2 \\times 3$ matrix by a $2 \\times 3$ matrix. The fix: always write the dimensions side by side as $(m \\times n)(n \\times p)$ and confirm the two $n$'s are equal before computing anything.",
+    "Students assume matrix multiplication is commutative and write $AB = BA$. In general $AB \\neq BA$, and $BA$ may not even be defined if $A$ and $B$ have different shapes. The fix: always treat the order of factors as meaningful and never swap them without justification.",
+    "When computing $C_{ij}$, students accidentally use column $i$ of $A$ instead of row $i$ of $A$, or row $j$ of $B$ instead of column $j$ of $B$. The fix: remind yourself that the first index always picks a row and the second always picks a column, so $C_{ij} = (\\text{row } i \\text{ of } A) \\cdot (\\text{column } j \\text{ of } B)$."
+  ],
+  "untested_variants": [
+    "Multiplying three or more matrices in sequence, requiring students to decide the order of operations (e.g., compute $(AB)C$ vs. $A(BC)$ and verify associativity).",
+    "Computing the product of a matrix with a vector $Ax$ where $x$ is a column vector, which is the foundation of systems of equations $Ax = b$.",
+    "Block matrix multiplication, where each 'entry' is itself a submatrix and the standard formula is applied at the block level.",
+    "Proving or applying properties such as $(AB)^T = B^T A^T$ or $(AB)^{-1} = B^{-1}A^{-1}$, which require symbolic manipulation rather than numerical computation."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_040",
+  "topic_name": "The Characteristic Polynomial",
+  "generated_at": "2026-05-13T20:08:35.784399+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to solve systems of linear equations and compute determinants. But now imagine you want to find special vectors that a matrix only stretches or flips \u2014 never rotates off their original direction. You set up the equation $Av = \\lambda v$ and rearrange to $(A - \\lambda I)v = 0$, which has a non-trivial solution only when the matrix $A - \\lambda I$ is singular. But how do you actually find all the values of $\\lambda$ that make this happen for a given matrix $A$?",
+  "concept": "The characteristic polynomial turns the eigenvalue problem into a familiar algebra problem. For an $n \\times n$ matrix $A$, the characteristic polynomial is $p(\\lambda) = \\det(A - \\lambda I)$, a degree-$n$ polynomial in $\\lambda$. Its roots are exactly the eigenvalues of $A$. The condition $\\det(A - \\lambda I) = 0$ ensures $A - \\lambda I$ is singular, which is precisely when $(A - \\lambda I)v = 0$ can have a non-zero solution $v$.",
+  "anatomy": "The characteristic polynomial $p(\\lambda) = \\det(A - \\lambda I)$ has several distinct parts worth naming. The matrix $A - \\lambda I$ is called the characteristic matrix: it is formed by subtracting $\\lambda$ times the identity matrix $I$ from $A$, which places the expression $a_{ii} - \\lambda$ on each diagonal entry while leaving the off-diagonal entries of $A$ unchanged. The equation $\\det(A - \\lambda I) = 0$ is called the characteristic equation. The roots $\\lambda_1, \\lambda_2, \\ldots$ of this equation are the eigenvalues, and the algebraic multiplicity of each root is the number of times it appears as a repeated root of $p(\\lambda)$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 3 & 1 \\\\ 0 & 2 \\end{pmatrix}",
+      "description_latex": "We start with this specific $2 \\times 2$ matrix $A$ and our goal is to find all eigenvalues by computing the characteristic polynomial. Having a concrete matrix lets us see every step clearly before generalizing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A - \\lambda I = \\begin{pmatrix} 3 - \\lambda & 1 \\\\ 0 & 2 - \\lambda \\end{pmatrix}",
+      "description_latex": "We form the characteristic matrix $A - \\lambda I$ by subtracting $\\lambda$ from each diagonal entry of $A$ while leaving the off-diagonal entries unchanged. Notice that $\\lambda$ only appears on the diagonal because $I$ is the identity matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(\\lambda) = \\det(A - \\lambda I) = (3 - \\lambda)(2 - \\lambda) - (1)(0)",
+      "description_latex": "We compute the determinant of the $2 \\times 2$ characteristic matrix using the formula $ad - bc$. The off-diagonal product $(1)(0)$ contributes nothing here, so the determinant simplifies to the product of the diagonal terms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(\\lambda) = \\lambda^2 - 5\\lambda + 6 = (\\lambda - 3)(\\lambda - 2)",
+      "description_latex": "Expanding and factoring the characteristic polynomial gives us a product of two linear factors. Factoring is the key step because the roots of $p(\\lambda)$ are directly readable once it is in factored form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_1 = 3, \\quad \\lambda_2 = 2",
+      "description_latex": "Setting $p(\\lambda) = 0$ and solving, we read off the two eigenvalues. Since $A$ is upper triangular, notice that the eigenvalues are simply the diagonal entries \u2014 a useful pattern to remember for triangular matrices.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 4 & 2 \\\\ 1 & 3 \\end{pmatrix}",
+      "description_latex": "We want to find the eigenvalues of $B$. Our first move is always to form the characteristic matrix $B - \\lambda I$ by subtracting $\\lambda$ from each diagonal entry.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B - \\lambda I = \\begin{pmatrix} 4 - \\lambda & 2 \\\\ 1 & 3 - \\lambda \\end{pmatrix}",
+      "description_latex": "Here is the characteristic matrix already formed for you. Now you need to compute its determinant to get $p(\\lambda)$, and then set it equal to zero and factor to find the eigenvalues.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $p(\\lambda) = \\det(B - \\lambda I) = (4-\\lambda)(3-\\lambda) - (2)(1)$, expand and simplify the resulting expression, and then factor it completely. What are the two eigenvalues of $B$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\lambda_1 = 5, \\quad \\lambda_2 = 2",
+      "description_latex": "The characteristic polynomial is $p(\\lambda) = \\lambda^2 - 7\\lambda + 10 = (\\lambda-5)(\\lambda-2)$, giving eigenvalues $5$ and $2$. You can check these by verifying that $\\det(B - 5I) = 0$ and $\\det(B - 2I) = 0$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the characteristic polynomial and eigenvalues of $A = \\begin{pmatrix} 5 & 0 \\\\ 0 & -1 \\end{pmatrix}$.",
+      "answer_latex": "p(\\lambda) = (\\lambda - 5)(\\lambda + 1); \\quad \\lambda_1 = 5,\\ \\lambda_2 = -1"
+    },
+    {
+      "prompt_latex": "Find the eigenvalues of $A = \\begin{pmatrix} 2 & 3 \\\\ 1 & 4 \\end{pmatrix}$ by computing its characteristic polynomial.",
+      "answer_latex": "p(\\lambda) = \\lambda^2 - 6\\lambda + 5 = (\\lambda-5)(\\lambda-1); \\quad \\lambda_1 = 5,\\ \\lambda_2 = 1"
+    },
+    {
+      "prompt_latex": "Find the eigenvalues of $A = \\begin{pmatrix} 1 & -1 \\\\ 1 & 3 \\end{pmatrix}$.",
+      "answer_latex": "p(\\lambda) = \\lambda^2 - 4\\lambda + 4 = (\\lambda - 2)^2; \\quad \\lambda = 2 \\text{ (repeated, algebraic multiplicity 2)}"
+    },
+    {
+      "prompt_latex": "Find the characteristic polynomial and eigenvalues of the $3 \\times 3$ matrix $A = \\begin{pmatrix} 2 & 0 & 0 \\\\ 0 & 3 & 1 \\\\ 0 & 0 & 3 \\end{pmatrix}$.",
+      "answer_latex": "p(\\lambda) = (2 - \\lambda)(3 - \\lambda)^2; \\quad \\lambda_1 = 2,\\ \\lambda_2 = 3 \\text{ (algebraic multiplicity 2)}"
+    },
+    {
+      "prompt_latex": "A linear map $T: \\mathbb{R}^2 \\to \\mathbb{R}^2$ reflects vectors across the $x$-axis, represented by $A = \\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$. Use the characteristic polynomial to find the eigenvalues, and give a geometric interpretation of each.",
+      "answer_latex": "p(\\lambda) = (\\lambda - 1)(\\lambda + 1);\\quad \\lambda_1 = 1 \\text{ (vectors on the }x\\text{-axis are unchanged)},\\ \\lambda_2 = -1 \\text{ (vectors on the }y\\text{-axis are flipped)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $\\det(A - \\lambda)$ instead of $\\det(A - \\lambda I)$, subtracting the scalar $\\lambda$ directly from $A$ rather than from $\\lambda$ times the identity matrix. Remember: you can only subtract a matrix from a matrix, so you must multiply $\\lambda$ by $I$ first.",
+    "When computing the $2 \\times 2$ determinant, students sometimes expand $(a_{11} - \\lambda)(a_{22} - \\lambda)$ incorrectly by forgetting the cross term, writing $a_{11}a_{22} - \\lambda^2$ instead of the correct $\\lambda^2 - (a_{11}+a_{22})\\lambda + a_{11}a_{22}$. Always expand the product carefully and collect like powers of $\\lambda$.",
+    "Students sometimes set $p(\\lambda) = \\det(A - \\lambda I) = 1$ rather than $= 0$ when solving for eigenvalues, forgetting that eigenvalues require the characteristic matrix to be singular. The characteristic equation is always $\\det(A - \\lambda I) = 0$, because singularity is exactly the condition that guarantees a non-trivial eigenvector exists."
+  ],
+  "untested_variants": [
+    "Finding the characteristic polynomial of a $3 \\times 3$ matrix with no zero entries, requiring full cofactor expansion of a $3 \\times 3$ determinant.",
+    "Working with complex eigenvalues, such as for a rotation matrix $A = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$ whose characteristic polynomial has no real roots.",
+    "Using the trace-determinant shortcut for $2 \\times 2$ matrices: $p(\\lambda) = \\lambda^2 - \\text{tr}(A)\\lambda + \\det(A)$, and recognizing this formula as a faster alternative to direct computation.",
+    "Determining eigenvalues of a matrix given only its characteristic polynomial in factored form, and interpreting algebraic multiplicity versus geometric multiplicity."
+  ]
+}

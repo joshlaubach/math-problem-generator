@@ -1,0 +1,71 @@
+{
+  "topic_id": "c1_031",
+  "topic_name": "Integrals of Trigonometric Functions",
+  "generated_at": "2026-05-13T00:12:11.887807+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to differentiate trigonometric functions \u2014 for instance, you know that $\\frac{d}{dx}[\\sin x] = \\cos x$ and $\\frac{d}{dx}[\\cos x] = -\\sin x$. Since integration is the reverse of differentiation, this means you can already \"undo\" those derivatives. But what about integrating $\\tan x$, or $\\sec^2 x$, or even $\\sin(3x)$? Can you figure out the antiderivative of each of the six trig functions, and what happens when a constant appears inside the argument?",
+  "concept": "Integrating a trigonometric function means finding a function whose derivative gives you the trig expression you started with. The core table of antiderivatives follows directly from reversing known derivatives: $\\int \\cos x\\, dx = \\sin x + C$, $\\int \\sin x\\, dx = -\\cos x + C$, $\\int \\sec^2 x\\, dx = \\tan x + C$, $\\int \\csc^2 x\\, dx = -\\cot x + C$, $\\int \\sec x \\tan x\\, dx = \\sec x + C$, and $\\int \\csc x \\cot x\\, dx = -\\csc x + C$.",
+  "anatomy": "Each trig integral has three key components worth naming. First, the integrand is the specific trigonometric expression being integrated \u2014 you must match it to one of the six standard forms before proceeding. Second, the constant of integration $C$ is mandatory for every indefinite integral because an entire family of antiderivatives exists, differing by a constant. Third, when the argument of the trig function is not simply $x$ but a linear expression like $bx + c$ (for example $\\sin(3x)$), a scalar factor $\\frac{1}{b}$ appears in front of the result because the chain rule introduces a factor of $b$ during differentiation, which must be compensated for when integrating.",
+  "worked_example": [
+    {
+      "expression_latex": "\\int \\sin(3x)\\, dx",
+      "description_latex": "We recognize the integrand as $\\sin$ applied to the linear argument $3x$ rather than plain $x$. Because the chain rule would introduce a factor of $3$ when differentiating, we must compensate with a factor of $\\frac{1}{3}$ when integrating \u2014 this is the key adjustment whenever the argument is $bx$ instead of $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= -\\frac{1}{3}\\cos(3x) + C",
+      "description_latex": "Applying the rule $\\int \\sin(bx)\\, dx = -\\frac{1}{b}\\cos(bx) + C$ with $b = 3$ gives us $-\\frac{1}{3}\\cos(3x) + C$. You can verify this immediately by differentiating: $\\frac{d}{dx}\\left[-\\frac{1}{3}\\cos(3x)\\right] = -\\frac{1}{3} \\cdot (-\\sin(3x)) \\cdot 3 = \\sin(3x)$, which confirms our answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\int (2\\cos x - \\sec^2 x)\\, dx",
+      "description_latex": "We start by splitting the integral using linearity: $\\int (2\\cos x - \\sec^2 x)\\, dx = 2\\int \\cos x\\, dx - \\int \\sec^2 x\\, dx$. This is valid because the integral of a sum (or difference) equals the sum (or difference) of the integrals, and constant multiples factor out.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the standard antiderivative formulas to each piece separately. What is $\\int \\cos x\\, dx$ and what is $\\int \\sec^2 x\\, dx$? Write out the result for each piece, keeping the coefficient $2$ in front of the first piece, and don't forget $+C$ at the end.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "= 2\\sin x - \\tan x + C",
+      "description_latex": "Combining the two pieces gives the final answer $2\\sin x - \\tan x + C$. You can check by differentiating: $\\frac{d}{dx}[2\\sin x - \\tan x] = 2\\cos x - \\sec^2 x$, which exactly matches the original integrand.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\int \\cos x\\, dx",
+      "answer_latex": "\\sin x + C"
+    },
+    {
+      "prompt_latex": "\\int 4\\sec^2 x\\, dx",
+      "answer_latex": "4\\tan x + C"
+    },
+    {
+      "prompt_latex": "\\int \\sin(5x)\\, dx",
+      "answer_latex": "-\\frac{1}{5}\\cos(5x) + C"
+    },
+    {
+      "prompt_latex": "\\int (3\\sin x + 2\\sec x \\tan x)\\, dx",
+      "answer_latex": "-3\\cos x + 2\\sec x + C"
+    },
+    {
+      "prompt_latex": "\\int_0^{\\pi/2} \\cos x\\, dx",
+      "answer_latex": "1"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $\\int \\sin x\\, dx = \\cos x + C$ (forgetting the negative sign), because they confuse the derivative of $\\cos x$ with its antiderivative \u2014 always remember that the integral of $\\sin x$ is $-\\cos x + C$, not $+\\cos x + C$.",
+    "When integrating $\\sin(bx)$ or $\\cos(bx)$, students frequently forget the $\\frac{1}{b}$ scalar factor and write, for example, $\\int \\sin(3x)\\, dx = -\\cos(3x) + C$; the fix is to always ask 'what factor did the chain rule introduce, and how do I undo it?' \u2014 that factor is $b$, so divide by $b$.",
+    "Students sometimes omit the constant of integration $C$ on indefinite integrals, writing $\\int \\sec^2 x\\, dx = \\tan x$ instead of $\\tan x + C$; this is technically wrong because infinitely many antiderivatives exist, and leaving out $C$ loses the full family of solutions."
+  ],
+  "untested_variants": [
+    "Integrals involving $\\tan x$, $\\cot x$, $\\sec x$, or $\\csc x$ directly as the integrand, which require logarithmic results (e.g., $\\int \\tan x\\, dx = -\\ln|\\cos x| + C$) and are not covered by the six basic formulas practiced here.",
+    "Integrals of powers of trig functions such as $\\int \\sin^2 x\\, dx$ or $\\int \\cos^3 x\\, dx$, which require power-reduction identities or substitution rather than direct application of the basic antiderivative table.",
+    "Integrals where u-substitution is needed with a non-linear trigonometric argument, for example $\\int x\\cos(x^2)\\, dx$, which combines the chain rule idea with an explicit substitution $u = x^2$.",
+    "Definite integrals of trig functions that span intervals where the function changes sign (e.g., $\\int_0^{\\pi} \\sin x\\, dx$ versus $\\int_0^{2\\pi} \\sin x\\, dx$), requiring careful interpretation of net area versus total area."
+  ]
+}

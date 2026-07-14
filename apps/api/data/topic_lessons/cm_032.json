@@ -1,0 +1,86 @@
+{
+  "topic_id": "cm_032",
+  "topic_name": "Generating Functions for Sequences (H)",
+  "generated_at": "2026-05-13T20:24:17.526296+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to work with sequences like the Fibonacci numbers or geometric progressions, and you've probably summed a finite geometric series. But what if someone asked you to find a closed form for the $n$-th term of a sequence defined by a complicated recurrence, like $a_n = 3a_{n-1} - 2a_{n-2}$ with $a_0=1, a_1=3$? Algebra alone gets messy fast, and guessing patterns only goes so far. Is there a systematic algebraic machine that encodes an entire sequence into a single function you can manipulate?",
+  "concept": "A generating function packages all the terms of a sequence into the coefficients of a formal power series. Given a sequence $a_0, a_1, a_2, \\ldots$, its ordinary generating function (OGF) is $A(x) = \\sum_{n=0}^{\\infty} a_n x^n$. We treat $x$ as a formal variable \u2014 we don't evaluate $A(x)$ at specific numbers; instead, we manipulate the function algebraically so that recovering $a_n$ is the same as extracting the coefficient $[x^n]\\,A(x)$.",
+  "anatomy": "A generating function has several key structural parts: the sequence $\\{a_n\\}$ whose terms appear as coefficients, the formal variable $x$ (a bookkeeping device with no numerical value), the power $x^n$ that 'tags' the $n$-th term and keeps coefficients organised, and the closed-form expression for $A(x)$ (such as a rational function) that you manipulate algebraically. The notation $[x^n]\\,A(x)$ means 'extract the coefficient of $x^n$ from $A(x)$', and the shift identity $\\sum_{n=0}^{\\infty} a_{n+1} x^n = \\frac{A(x)-a_0}{x}$ is the key operation that translates a recurrence relation into an equation for $A(x)$.",
+  "worked_example": [
+    {
+      "expression_latex": "a_n = 3a_{n-1} - 2a_{n-2}, \\quad a_0 = 1,\\ a_1 = 3",
+      "description_latex": "We begin by writing down the recurrence and initial conditions clearly. Our goal is to turn this recurrence into an algebraic equation involving $A(x) = \\sum_{n=0}^{\\infty} a_n x^n$, so every step will focus on expressing the recurrence in terms of that unknown generating function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{n=2}^{\\infty} a_n x^n = 3\\sum_{n=2}^{\\infty} a_{n-1} x^n - 2\\sum_{n=2}^{\\infty} a_{n-2} x^n",
+      "description_latex": "We multiply both sides of the recurrence by $x^n$ and sum over all $n \\geq 2$ (because the recurrence only holds for $n \\geq 2$). This converts each term of the recurrence into a portion of the generating function, and we will now re-index each sum so it looks like $A(x)$ or a shift of $A(x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A(x) - a_0 - a_1 x = 3x\\bigl(A(x) - a_0\\bigr) - 2x^2 A(x)",
+      "description_latex": "Re-indexing: $\\sum_{n=2}^{\\infty} a_{n-1}x^n = x\\sum_{n=2}^{\\infty}a_{n-1}x^{n-1} = x(A(x)-a_0)$ and $\\sum_{n=2}^{\\infty}a_{n-2}x^n = x^2 A(x)$. Substituting $a_0=1$ and $a_1=3$ turns the left side into $A(x)-1-3x$, giving us a single equation in $A(x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A(x) = \\frac{1}{(1-x)(1-2x)}",
+      "description_latex": "Collecting all $A(x)$ terms: $A(x)(1 - 3x + 2x^2) = 1$, so $A(x) = \\frac{1}{1-3x+2x^2} = \\frac{1}{(1-x)(1-2x)}$. We factor the denominator because partial fractions will let us read off coefficients directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{1}{(1-x)(1-2x)} = \\frac{-1}{1-x} + \\frac{2}{1-2x} \\implies a_n = -1 + 2\\cdot 2^n = 2^{n+1}-1",
+      "description_latex": "Partial fractions give $A(x) = \\frac{-1}{1-x} + \\frac{2}{1-2x}$, and since $\\frac{1}{1-cx} = \\sum_{n=0}^{\\infty}(cx)^n$, the coefficient of $x^n$ is $-1^n + 2\\cdot 2^n = 2^{n+1}-1$. You can verify: $a_0=1$, $a_1=3$ \u2014 both check out.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "b_n = 4b_{n-1} - 4b_{n-2}, \\quad b_0 = 1,\\ b_1 = 4",
+      "description_latex": "Let's find a closed form for this sequence. Define $B(x) = \\sum_{n=0}^{\\infty} b_n x^n$ and multiply the recurrence (valid for $n\\geq 2$) by $x^n$, summing over $n\\geq 2$, just as in the worked example.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B(x)(1 - 4x + 4x^2) = 1",
+      "description_latex": "After re-indexing, we collect terms and find that the denominator factor is $1-4x+4x^2$. Notice this factors as $(1-2x)^2$ \u2014 a repeated root, which changes how partial fractions work.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write $B(x) = \\frac{1}{(1-2x)^2}$ as a power series by recalling that $\\frac{1}{(1-cx)^2} = \\sum_{n=0}^{\\infty}(n+1)(cx)^n$, then state the closed form $b_n = [x^n]\\,B(x)$. What is $b_n$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the generating function $A(x)$ for the constant sequence $a_n = 1$ for all $n \\geq 0$.",
+      "answer_latex": "A(x) = \\dfrac{1}{1-x}"
+    },
+    {
+      "prompt_latex": "The sequence $c_n$ satisfies $c_n = 2c_{n-1}$ for $n\\geq 1$ with $c_0 = 5$. Find the generating function $C(x)$ and use it to find a closed form for $c_n$.",
+      "answer_latex": "C(x) = \\dfrac{5}{1-2x},\\quad c_n = 5\\cdot 2^n"
+    },
+    {
+      "prompt_latex": "Find the closed form for $a_n$ where $a_n = 5a_{n-1} - 6a_{n-2}$ for $n \\geq 2$, with $a_0 = 1$ and $a_1 = 5$.",
+      "answer_latex": "a_n = 2^n + 3^n \\cdot \\dfrac{n\\cdot 0 + \\text{use partial fractions: } A(x)=\\frac{1}{(1-2x)(1-3x)}}{\\phantom{x}} \\Rightarrow a_n = 2^n + 3^n - 2^n = 3^n"
+    },
+    {
+      "prompt_latex": "Find the closed form for $a_n$ where $a_n = 5a_{n-1} - 6a_{n-2}$, $a_0=1$, $a_1=5$, using generating functions. (Hint: factor $1-5x+6x^2$.)",
+      "answer_latex": "A(x) = \\dfrac{1}{(1-2x)(1-3x)} = \\dfrac{-1}{1-2x}+\\dfrac{2}{1-3x} \\text{ \u2014 wait, check: at }n=0,\\ -1+2=1\\checkmark;\\ a_n = -2^n + 2\\cdot 3^n"
+    },
+    {
+      "prompt_latex": "A lattice path counts sequences satisfy $p_n = p_{n-1} + p_{n-2}$ for $n \\geq 2$ with $p_0=1, p_1=1$ (Fibonacci-like). Show that the generating function is $P(x) = \\frac{1}{1-x-x^2}$ and find $[x^4]\\,P(x)$.",
+      "answer_latex": "P(x) = \\dfrac{1}{1-x-x^2};\\quad [x^4]\\,P(x) = p_4 = 5"
+    }
+  ],
+  "common_mistakes": [
+    "Students often sum the recurrence starting at $n=0$ or $n=1$ rather than at the first $n$ for which the recurrence is valid (usually $n=2$), causing extra or missing initial-condition terms when they re-index. Always check which values of $n$ the recurrence covers before summing.",
+    "When re-indexing $\\sum_{n=k}^{\\infty} a_{n-1} x^n$, students forget to subtract the missing initial terms \u2014 for example, $\\sum_{n=2}^{\\infty}a_{n-1}x^n = x(A(x)-a_0)$, not $xA(x)$. Always explicitly write out what term is missing from the full $A(x)$ after the index shift.",
+    "For repeated roots in the denominator \u2014 e.g., $(1-2x)^2$ \u2014 students apply simple partial fractions $\\frac{A}{1-2x}+\\frac{B}{1-2x}$ instead of the correct form $\\frac{A}{1-2x}+\\frac{B}{(1-2x)^2}$, giving a wrong formula for $a_n$. Whenever a denominator factor is raised to a power, include one partial fraction term per power."
+  ],
+  "untested_variants": [
+    "Exponential generating functions (EGFs), where the sequence is encoded as $\\sum_{n=0}^{\\infty} a_n \\frac{x^n}{n!}$, which arise naturally in problems involving permutations and labeled structures.",
+    "Three-term recurrences with non-constant coefficients (e.g., $a_n = n\\,a_{n-1} + a_{n-2}$), which lead to differential equations for the generating function rather than simple algebraic ones.",
+    "Using generating functions to prove combinatorial identities, such as showing $\\sum_{k=0}^{n}\\binom{n}{k}^2 = \\binom{2n}{n}$ by comparing coefficients in a product of two generating functions.",
+    "Extracting coefficients from generating functions involving compositions of known series, such as $\\frac{x}{(1-x)^3}$ or $\\ln\\frac{1}{1-x}$, which require recognising standard power series expansions beyond the geometric series."
+  ]
+}

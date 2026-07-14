@@ -21,6 +21,11 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 def reset_rate_limiter():
     """Reset rate limiter and abuse guard before each test to prevent 429 cross-test bleed."""
     try:
+        import rate_limit
+        rate_limit.reset_for_testing()
+    except Exception:
+        pass
+    try:
         from abuse_guard import reset_for_testing
         from api import limiter
         reset_for_testing()

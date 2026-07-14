@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_040",
+  "topic_name": "Trigonometric Form of Complex Numbers (H)",
+  "generated_at": "2026-05-12T23:50:44.460337+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to plot complex numbers like $3 + 4i$ on the complex plane, treating the real part as the horizontal coordinate and the imaginary part as the vertical coordinate. You can even find the distance from the origin \u2014 that's the modulus $|z| = 5$. But what if someone asked you to multiply two complex numbers and describe the result in terms of rotation and stretching? Standard rectangular form makes that geometry nearly invisible. So here's the question: is there a way to write a complex number that makes its distance from the origin and its angle front and center?",
+  "concept": "Trigonometric (polar) form rewrites a complex number using its distance from the origin and the angle it makes with the positive real axis. Instead of $a + bi$, we write $z = r(\\cos\\theta + i\\sin\\theta)$, where $r = \\sqrt{a^2 + b^2}$ is the modulus (always non-negative) and $\\theta = \\arctan(b/a)$ (adjusted for quadrant) is the argument. This form connects complex numbers directly to the geometry of the plane.",
+  "anatomy": "The trigonometric form $z = r(\\cos\\theta + i\\sin\\theta)$ has four named parts that each carry distinct geometric meaning. The modulus $r$ is the non-negative real number giving the distance from the origin to the point $z$ in the complex plane, computed as $r = \\sqrt{a^2 + b^2}$. The argument $\\theta$ is the directed angle measured counterclockwise from the positive real axis to the segment connecting the origin to $z$, determined by $\\tan\\theta = b/a$ together with the quadrant of $(a, b)$. The expressions $\\cos\\theta$ and $\\sin\\theta$ are the normalized horizontal and vertical components, and the factor $i$ in front of $\\sin\\theta$ reattaches the imaginary unit so the full complex value is preserved.",
+  "worked_example": [
+    {
+      "expression_latex": "z = -1 + \\sqrt{3}\\,i",
+      "description_latex": "We start by identifying the rectangular components: $a = -1$ and $b = \\sqrt{3}$. Knowing which quadrant the point $(-1, \\sqrt{3})$ lives in \u2014 Quadrant II \u2014 will be essential when we choose the correct angle, so always sketch or note the quadrant before computing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = \\sqrt{(-1)^2 + (\\sqrt{3})^2} = \\sqrt{1 + 3} = \\sqrt{4} = 2",
+      "description_latex": "We compute the modulus using the distance formula $r = \\sqrt{a^2 + b^2}$. This single positive number tells us how far $z$ is from the origin, and it will become the 'stretching factor' out front in our final form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\tan\\theta = \\frac{b}{a} = \\frac{\\sqrt{3}}{-1} = -\\sqrt{3}",
+      "description_latex": "We form the ratio $b/a$ to set up the arctangent calculation. Notice that $\\arctan(-\\sqrt{3})$ has a reference angle of $60\u00b0$, but because our point is in Quadrant II (negative real part, positive imaginary part), the calculator's default answer of $-60\u00b0$ is wrong \u2014 we must adjust.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\theta = 180^\\circ - 60^\\circ = 120^\\circ",
+      "description_latex": "Since the point is in Quadrant II, we take the reference angle $60\u00b0$ and subtract it from $180\u00b0$ to land in the correct quadrant. Always verify: $\\cos 120\u00b0 = -\\tfrac{1}{2}$ and $\\sin 120\u00b0 = \\tfrac{\\sqrt{3}}{2}$, and indeed $2(-\\tfrac{1}{2}) + 2(\\tfrac{\\sqrt{3}}{2})i = -1 + \\sqrt{3}\\,i$ \u2713",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z = 2(\\cos 120^\\circ + i\\sin 120^\\circ)",
+      "description_latex": "We assemble the final answer by placing $r = 2$ out front and inserting $\\theta = 120\u00b0$ into the standard template $r(\\cos\\theta + i\\sin\\theta)$. This form immediately reveals that $z$ lies 2 units from the origin at an angle of $120\u00b0$ from the positive real axis.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "z = -3 - 3i",
+      "description_latex": "We want to convert $z = -3 - 3i$ to trigonometric form. Start by noting $a = -3$ and $b = -3$, which places the point in Quadrant III. We first compute the modulus: $r = \\sqrt{(-3)^2 + (-3)^2} = \\sqrt{9 + 9} = \\sqrt{18} = 3\\sqrt{2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\tan\\theta = \\frac{-3}{-3} = 1 \\implies \\text{reference angle} = 45^\\circ",
+      "description_latex": "The ratio $b/a = 1$ gives a reference angle of $45\u00b0$. Now here is the key step: use the quadrant information to find the correct value of $\\theta$. Remember, Quadrant III means both $\\cos\\theta$ and $\\sin\\theta$ are negative. What is $\\theta$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "z = 3\\sqrt{2}\\,(\\cos 225^\\circ + i\\sin 225^\\circ)",
+      "description_latex": "With $\\theta = 225\u00b0$ (or equivalently $\\frac{5\\pi}{4}$ radians) confirmed, we place $r = 3\\sqrt{2}$ and $\\theta = 225\u00b0$ into the standard form to write the complete answer. You can verify by expanding: $3\\sqrt{2}\\cdot(-\\frac{\\sqrt{2}}{2}) = -3$ and $3\\sqrt{2}\\cdot(-\\frac{\\sqrt{2}}{2}) = -3$, recovering $-3 - 3i$ \u2713",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Convert $z = 5i$ to trigonometric form.",
+      "answer_latex": "z = 5(\\cos 90^\\circ + i\\sin 90^\\circ)"
+    },
+    {
+      "prompt_latex": "Convert $z = -2 + 2i$ to trigonometric form.",
+      "answer_latex": "z = 2\\sqrt{2}\\,(\\cos 135^\\circ + i\\sin 135^\\circ)"
+    },
+    {
+      "prompt_latex": "Convert $z = 3(\\cos 210^\\circ + i\\sin 210^\\circ)$ to rectangular form $a + bi$.",
+      "answer_latex": "z = -\\dfrac{3\\sqrt{3}}{2} - \\dfrac{3}{2}\\,i"
+    },
+    {
+      "prompt_latex": "Convert $z = 1 - \\sqrt{3}\\,i$ to trigonometric form, then use the result to find $z^2$ using the fact that $(r(\\cos\\theta + i\\sin\\theta))^2 = r^2(\\cos 2\\theta + i\\sin 2\\theta)$.",
+      "answer_latex": "z = 2(\\cos 300^\\circ + i\\sin 300^\\circ),\\quad z^2 = 4(\\cos 600^\\circ + i\\sin 600^\\circ) = 4(\\cos 240^\\circ + i\\sin 240^\\circ) = -2 - 2\\sqrt{3}\\,i"
+    },
+    {
+      "prompt_latex": "A vector in the complex plane has modulus 4 and makes an angle of $\\frac{3\\pi}{4}$ radians with the positive real axis. Write it in trigonometric form and then in rectangular form $a + bi$.",
+      "answer_latex": "z = 4\\!\\left(\\cos\\dfrac{3\\pi}{4} + i\\sin\\dfrac{3\\pi}{4}\\right) = -2\\sqrt{2} + 2\\sqrt{2}\\,i"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use $\\theta = \\arctan(b/a)$ blindly without checking the quadrant, producing an angle in Quadrant I or IV when the point is actually in Quadrant II or III. Fix this by always plotting or noting the signs of $a$ and $b$ first, then adjusting the reference angle to the correct quadrant.",
+    "When the real part is zero (e.g., $z = -5i$), students sometimes try to compute $\\arctan(b/0)$ and get confused by the undefined ratio, defaulting to $\\theta = 0\u00b0$. Fix this by recognizing purely imaginary numbers immediately from the graph: $z = -5i$ lies on the negative imaginary axis, so $\\theta = 270\u00b0$ (or $-90\u00b0$) and $r = 5$.",
+    "Students frequently write the modulus as a signed or complex expression, for example forgetting to simplify $\\sqrt{(-3)^2}$ to $3$ rather than $-3$. Fix this by remembering that the modulus $r = \\sqrt{a^2+b^2}$ is always a non-negative real number, so every term under the radical is already non-negative."
+  ],
+  "untested_variants": [
+    "Converting a complex number given in trigonometric form with a radian argument (e.g., $\\theta = \\frac{7\\pi}{6}$) back to exact rectangular form using radian-based reference angles.",
+    "Finding the trigonometric form of a complex number whose rectangular form involves irrational parts that do not simplify to standard $30\u00b0$-$60\u00b0$-$90\u00b0$ or $45\u00b0$-$45\u00b0$-$90\u00b0$ angles, requiring a decimal approximation for $\\theta$.",
+    "Using trigonometric form to divide two complex numbers via $\\frac{r_1}{r_2}(\\cos(\\theta_1 - \\theta_2) + i\\sin(\\theta_1 - \\theta_2))$, which extends multiplication to division.",
+    "Expressing a complex number in the compact Euler/cis notation $r\\,\\text{cis}\\,\\theta$ and performing operations in that shorthand."
+  ]
+}

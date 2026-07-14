@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_046",
+  "topic_name": "The Law of Total Variance (H)",
+  "generated_at": "2026-05-13T23:08:41.920487+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find the variance of a random variable $Y$ directly, and you've used the law of total expectation $E[Y] = E[E[Y|X]]$ to compute expectations by conditioning on another variable $X$. But what if computing $\\text{Var}(Y)$ directly is intractable, yet everything becomes tractable once you condition on $X$? Is there a parallel decomposition formula for variance that lets you break a hard variance problem into manageable conditional pieces?",
+  "concept": "The Law of Total Variance (also called the variance decomposition formula or Eve's Law) says that the total variance of $Y$ is the sum of two parts: the average variance of $Y$ given $X$, plus the variance of the conditional mean of $Y$ given $X$. Formally, $\\text{Var}(Y) = E[\\text{Var}(Y|X)] + \\text{Var}(E[Y|X])$, where both outer operations are taken over the distribution of $X$.",
+  "anatomy": "The formula $\\text{Var}(Y) = E[\\text{Var}(Y|X)] + \\text{Var}(E[Y|X])$ has two distinct terms. The first term, $E[\\text{Var}(Y|X)]$, is called the **within-group variance** (or unexplained variance): it averages the conditional variance $\\text{Var}(Y|X=x)$ over all values of $x$, capturing how spread out $Y$ is inside each stratum of $X$. The second term, $\\text{Var}(E[Y|X])$, is called the **between-group variance** (or explained variance): it measures how much the conditional mean $E[Y|X=x)$ itself fluctuates as $x$ varies, capturing the variability in $Y$ that is explained by knowing $X$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Setup: } Y = X + Z, \\text{ where } X \\sim \\text{Uniform}(0,1) \\text{ and } Z|X \\sim N(0, X^2). \\text{ Find } \\text{Var}(Y).",
+      "description_latex": "We introduce the problem: $Y$ is a sum where the noise level $Z$ depends on $X$, making a direct calculation of $\\text{Var}(Y)$ messy. The Law of Total Variance tells us to compute $E[\\text{Var}(Y|X)]$ and $\\text{Var}(E[Y|X])$ separately and add them, which is far cleaner.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[Y|X] = E[X + Z | X] = X + E[Z|X] = X + 0 = X",
+      "description_latex": "We find the conditional mean of $Y$ given $X$. Since $Z|X \\sim N(0, X^2)$ has mean zero, the conditional mean simplifies to just $X$ itself. This quantity, $E[Y|X] = X$, is a function of $X$ and will feed into the between-group variance term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Var}(Y|X) = \\text{Var}(X + Z | X) = \\text{Var}(Z|X) = X^2",
+      "description_latex": "We find the conditional variance of $Y$ given $X$. Since $X$ is treated as a constant when conditioning on it, $\\text{Var}(X|X) = 0$, and the conditional variance is entirely determined by $Z|X \\sim N(0, X^2)$, giving $\\text{Var}(Y|X) = X^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[\\text{Var}(Y|X)] = E[X^2] = \\int_0^1 x^2 \\, dx = \\frac{1}{3}, \\quad \\text{Var}(E[Y|X]) = \\text{Var}(X) = \\frac{1}{12}",
+      "description_latex": "Now we compute each outer operation. For the within-group term, we average $X^2$ over $X \\sim \\text{Uniform}(0,1)$, giving $1/3$. For the between-group term, we find the variance of the conditional mean $E[Y|X] = X$, which is just $\\text{Var}(X) = 1/12$ for a uniform on $(0,1)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Var}(Y) = E[\\text{Var}(Y|X)] + \\text{Var}(E[Y|X]) = \\frac{1}{3} + \\frac{1}{12} = \\frac{5}{12}",
+      "description_latex": "We add the two terms to obtain the total variance. The within-group variance $1/3$ dominates, reflecting that most of the uncertainty in $Y$ comes from the random noise $Z$, while the between-group variance $1/12$ captures the additional spread introduced because the noise level itself is random.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Setup: } N \\sim \\text{Poisson}(\\lambda), \\text{ and } Y | N \\sim \\text{Binomial}(N, p). \\text{ Find } \\text{Var}(Y).",
+      "description_latex": "This is a classic compound distribution. We will apply the Law of Total Variance by conditioning on $N$, since both $E[Y|N]$ and $\\text{Var}(Y|N)$ have clean closed-form expressions from the binomial distribution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[Y|N] = Np, \\quad \\text{Var}(Y|N) = Np(1-p)",
+      "description_latex": "We recall the mean and variance of a $\\text{Binomial}(N, p)$ distribution. These are the conditional quantities we need before applying the outer expectations \u2014 make sure you can recall these from memory.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the Law of Total Variance: compute $E[\\text{Var}(Y|N)]$ and $\\text{Var}(E[Y|N])$ separately using the fact that $N \\sim \\text{Poisson}(\\lambda)$, so $E[N] = \\lambda$ and $\\text{Var}(N) = \\lambda$. What is $\\text{Var}(Y)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Var}(Y) = \\lambda p(1-p) + p^2 \\lambda = \\lambda p",
+      "description_latex": "Combining the two terms: $E[\\text{Var}(Y|N)] = E[Np(1-p)] = \\lambda p(1-p)$ and $\\text{Var}(E[Y|N]) = \\text{Var}(Np) = p^2 \\lambda$, so $\\text{Var}(Y) = \\lambda p(1-p) + p^2 \\lambda = \\lambda p$. Notice the elegant result that $\\text{Var}(Y) = E[Y] = \\lambda p$, which is characteristic of certain compound Poisson structures.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim \\text{Bernoulli}(1/2)$ and $Y|X \\sim N(X, 1)$. Use the Law of Total Variance to find $\\text{Var}(Y)$.",
+      "answer_latex": "\\text{Var}(Y) = 1 + \\frac{1}{4} = \\frac{5}{4}"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Uniform}(0,1)$ and $Y|X \\sim \\text{Exponential}(X)$, so $E[Y|X] = 1/X$ and $\\text{Var}(Y|X) = 1/X^2$. Find $\\text{Var}(Y)$ using the Law of Total Variance, given that $E[1/X]$ and $E[1/X^2]$ both diverge \u2014 what does this tell you?",
+      "answer_latex": "\\text{Var}(Y) \\text{ does not exist (diverges), since both } E[1/X^2] \\text{ and } \\text{Var}(1/X) \\text{ are infinite}"
+    },
+    {
+      "prompt_latex": "A fair die is rolled to get $N \\in \\{1,2,3,4,5,6\\}$, and then $N$ fair coins are flipped. Let $Y$ be the total number of heads. Find $\\text{Var}(Y)$ using the Law of Total Variance.",
+      "answer_latex": "E[N] = 7/2, \\; E[N^2] = 91/6, \\; \\text{Var}(N) = 91/6 - 49/4 = 35/12; \\quad \\text{Var}(Y) = \\frac{7}{4} + \\frac{35}{48} = \\frac{42+35}{48} = \\frac{77}{48}"
+    },
+    {
+      "prompt_latex": "Let $X \\sim N(0,1)$ and $Y|X \\sim N(\\mu + \\beta X, \\sigma^2)$ for constants $\\mu, \\beta, \\sigma^2 > 0$. Use the Law of Total Variance to find $\\text{Var}(Y)$ and interpret the two components.",
+      "answer_latex": "\\text{Var}(Y) = \\sigma^2 + \\beta^2; \\text{ the within-group term is } \\sigma^2 \\text{ (pure noise) and the between-group term is } \\beta^2 \\text{Var}(X) = \\beta^2 \\text{ (signal from } X\\text{)}"
+    },
+    {
+      "prompt_latex": "A factory produces items in batches. The batch size $N$ has $E[N]=10$ and $\\text{Var}(N)=4$. Each item independently has a defect probability $p=0.1$. Let $Y$ be the total number of defective items in a randomly selected batch. Find $\\text{Var}(Y)$.",
+      "answer_latex": "\\text{Var}(Y) = E[N] \\cdot p(1-p) + p^2 \\text{Var}(N) = 10(0.09) + (0.01)(4) = 0.9 + 0.04 = 0.94"
+    }
+  ],
+  "common_mistakes": [
+    "Students swap the two terms, writing $\\text{Var}(Y) = \\text{Var}(\\text{Var}(Y|X)) + E(E[Y|X])$, which is dimensionally nonsensical \u2014 remember the rule: the outer operation on the conditional variance is $E[\\cdot]$, and the outer operation on the conditional mean is $\\text{Var}(\\cdot)$.",
+    "When computing $\\text{Var}(E[Y|X])$, students forget that $E[Y|X]$ is a function of $X$ and treat it as a constant, giving $\\text{Var}(E[Y|X]) = 0$ \u2014 you must recognise $E[Y|X]$ as a random variable whose variability over the distribution of $X$ is exactly what this term captures.",
+    "Students apply the law correctly but then compute $E[\\text{Var}(Y|X)]$ by plugging $E[X]$ into $\\text{Var}(Y|X=x)$, i.e., they write $E[\\text{Var}(Y|X)] = \\text{Var}(Y|X=E[X])$ \u2014 this is wrong because you must integrate $\\text{Var}(Y|X=x)$ over the full distribution of $X$, not just evaluate at the mean."
+  ],
+  "untested_variants": [
+    "Continuous mixture models where $X$ has a Gamma distribution and $Y|X$ is Poisson$(X)$ (the Poisson-Gamma or Negative Binomial mixture), requiring integration against the Gamma density.",
+    "Multivariate extensions: $\\text{Var}(Y) = E[\\text{Var}(Y|\\mathbf{X})] + \\text{Var}(E[Y|\\mathbf{X}])$ where the conditioning variable $\\mathbf{X}$ is a random vector rather than a scalar.",
+    "Iterated or nested conditioning, such as applying the law twice by conditioning first on $X$ and then on a third variable $W$, arising in hierarchical Bayesian models.",
+    "Using the Law of Total Variance to derive the covariance decomposition $\\text{Cov}(Y,Z) = E[\\text{Cov}(Y,Z|X)] + \\text{Cov}(E[Y|X], E[Z|X])$, which is the natural generalization to two variables but is not addressed in this lesson."
+  ]
+}

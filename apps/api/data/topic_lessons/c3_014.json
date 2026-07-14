@@ -1,0 +1,81 @@
+{
+  "topic_id": "c3_014",
+  "topic_name": "Limits and Continuity in Several Variables (H)",
+  "generated_at": "2026-05-13T00:32:03.587212+00:00",
+  "course_name": "Calculus III",
+  "hook": "In single-variable calculus, you learned that $\\lim_{x \\to a} f(x) = L$ means $f(x)$ gets arbitrarily close to $L$ as $x$ approaches $a$ from two directions \u2014 left and right. But what happens when your function depends on two variables, like $f(x,y) = \\frac{x^2 - y^2}{x^2 + y^2}$? Now $(x,y)$ can approach a point $(a,b)$ from infinitely many directions \u2014 along lines, curves, spirals \u2014 and the function might give a different value depending on which path you take. So how do we even define what a limit means in two dimensions, and how do we prove one exists or doesn't?",
+  "concept": "A limit of $f(x,y)$ as $(x,y) \\to (a,b)$ equals $L$ if $f(x,y)$ approaches $L$ no matter which path leads to $(a,b)$. Formally, $\\lim_{(x,y)\\to(a,b)} f(x,y) = L$ means: for every $\\varepsilon > 0$ there exists $\\delta > 0$ such that if $0 < \\sqrt{(x-a)^2+(y-b)^2} < \\delta$ then $|f(x,y) - L| < \\varepsilon$. A function is continuous at $(a,b)$ if the limit exists, equals $f(a,b)$, and $f(a,b)$ is defined.",
+  "anatomy": "The key structural pieces are: the point of approach $(a,b)$ in the domain plane, the distance $\\sqrt{(x-a)^2+(y-b)^2}$ which measures how close $(x,y)$ is to $(a,b)$ in all directions simultaneously, the candidate limit value $L$, and the path \u2014 any continuous curve through $(a,b)$ along which you let $(x,y)$ travel. The two-path test exploits paths: if $f(x,y)$ yields different values $L_1 \\neq L_2$ along two distinct paths to $(a,b)$, the limit does not exist (DNE). For existence proofs, tools like the Squeeze Theorem or polar substitution $x = r\\cos\\theta$, $y = r\\sin\\theta$ (so distance becomes $r \\to 0$) replace path-checking.",
+  "worked_example": [
+    {
+      "expression_latex": "\\lim_{(x,y)\\to(0,0)} \\frac{x^2 - y^2}{x^2 + y^2}",
+      "description_latex": "We want to determine whether this limit exists. Because the denominator vanishes at $(0,0)$, direct substitution fails immediately, so our strategy is to test two different paths to the origin and see whether the function values agree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Path 1: } y = 0 \\Rightarrow f(x,0) = \\frac{x^2 - 0}{x^2 + 0} = 1",
+      "description_latex": "We restrict to the $x$-axis by setting $y = 0$. The function simplifies to $1$ for all $x \\neq 0$, so as $(x,0) \\to (0,0)$ the function approaches $1$. This gives us our first candidate limit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Path 2: } x = 0 \\Rightarrow f(0,y) = \\frac{0 - y^2}{0 + y^2} = -1",
+      "description_latex": "Now we restrict to the $y$-axis by setting $x = 0$. The function simplifies to $-1$ for all $y \\neq 0$, so as $(0,y) \\to (0,0)$ the function approaches $-1$. This is a different value from the first path.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1 \\neq -1 \\implies \\lim_{(x,y)\\to(0,0)} \\frac{x^2 - y^2}{x^2 + y^2} \\text{ does not exist}",
+      "description_latex": "Since two paths to the same point give two different limiting values, the two-path test tells us definitively that the limit does not exist. No matter what single value $L$ we might propose, at least one of these paths contradicts it.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\lim_{(x,y)\\to(0,0)} \\frac{x^2 y}{x^4 + y^2}",
+      "description_latex": "We need to investigate this limit. Direct substitution gives $0/0$, so we begin by testing the path $y = 0$: substituting gives $f(x,0) = 0/(x^4) = 0$, and the path $x = 0$ gives $f(0,y) = 0/y^2 = 0$. Both paths give $0$, so we haven't found a contradiction yet \u2014 but that does NOT prove the limit equals $0$. We should try a cleverly chosen path.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Try path } y = x^2: \\quad f(x, x^2) = \\frac{x^2 \\cdot x^2}{x^4 + x^4} = \\frac{x^4}{2x^4} = \\frac{1}{2}",
+      "description_latex": "Along the parabolic path $y = x^2$, the function simplifies to the constant $\\tfrac{1}{2}$ for all $x \\neq 0$. This is a key move: when linear paths all agree, try a path whose shape matches the degree of the numerator and denominator \u2014 here, $y = x^2$ balances the quartic terms perfectly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "You now have two paths giving different limits: $y=0$ gives $0$ and $y=x^2$ gives $\\tfrac{1}{2}$. State the conclusion: does the limit exist, and why? Write a complete sentence invoking the two-path test.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate \\lim_{(x,y)\\to(3,1)} (x^2 + 2xy - y^3)",
+      "answer_latex": "9 + 6 - 1 = 14"
+    },
+    {
+      "prompt_latex": "Show that \\lim_{(x,y)\\to(0,0)} \\frac{xy}{x^2+y^2} does not exist.",
+      "answer_latex": "\\text{Along } y=0: \\text{ limit} = 0; \\text{ along } y=x: \\frac{x^2}{2x^2}=\\tfrac{1}{2}. \\text{ Different values} \\Rightarrow \\text{DNE}."
+    },
+    {
+      "prompt_latex": "Use the Squeeze Theorem to evaluate \\lim_{(x,y)\\to(0,0)} \\frac{x^2 y^2}{x^2+y^2}.",
+      "answer_latex": "\\text{Since } |y^2| \\le x^2+y^2, \\text{ we get } 0 \\le \\frac{x^2 y^2}{x^2+y^2} \\le x^2 \\to 0, \\text{ so the limit is } 0."
+    },
+    {
+      "prompt_latex": "Determine whether f(x,y) = \\begin{cases} \\dfrac{x^3}{x^2+y^2} & (x,y)\\neq(0,0) \\\\ 0 & (x,y)=(0,0) \\end{cases} is continuous at (0,0).",
+      "answer_latex": "\\text{In polar: } \\frac{r^3\\cos^3\\theta}{r^2} = r\\cos^3\\theta \\to 0 = f(0,0), \\text{ so } f \\text{ is continuous at }(0,0)."
+    },
+    {
+      "prompt_latex": "A temperature field is modeled by T(x,y) = \\frac{\\sin(x^2+y^2)}{x^2+y^2} for (x,y)\\neq(0,0). What value should T(0,0) be assigned to make T continuous everywhere?",
+      "answer_latex": "T(0,0) = 1, \\text{ since } \\lim_{r\\to 0}\\frac{\\sin r^2}{r^2} = 1."
+    }
+  ],
+  "common_mistakes": [
+    "Students conclude the limit exists simply because two or three linear paths all give the same value, forgetting that infinitely many non-linear paths (like $y = x^2$ or $y = x^3$) must also agree; always try a curved path when linear paths look too consistent.",
+    "When using polar coordinates $x = r\\cos\\theta$, $y = r\\sin\\theta$, students forget that $\\theta$ is free and treat $\\cos\\theta$ or $\\sin\\theta$ as constants; the limit as $r \\to 0$ must be independent of $\\theta$, so any $\\theta$-dependence remaining after simplification means the limit does not exist or the method is inconclusive.",
+    "Students apply direct substitution to a quotient, get $0/0$, and mistakenly declare the limit is $0$ or undefined without further investigation; $0/0$ is an indeterminate form that requires path analysis, polar substitution, or the Squeeze Theorem to resolve properly."
+  ],
+  "untested_variants": [
+    "Limits along curves of the form $y = mx^n$ for varying $n$ (higher-degree path families) to show a limit DNE when linear paths are insufficient.",
+    "Proving a limit exists using the formal $\\varepsilon$-$\\delta$ definition rather than the Squeeze Theorem or polar substitution.",
+    "Continuity analysis of piecewise-defined functions of two variables at a boundary curve (e.g., continuity along the line $y = x$, not just at a single point).",
+    "Limits involving three variables, such as $\\lim_{(x,y,z)\\to(0,0,0)} \\frac{xyz}{x^2+y^2+z^2}$, where the distance in $\\mathbb{R}^3$ is $\\sqrt{x^2+y^2+z^2}$."
+  ]
+}

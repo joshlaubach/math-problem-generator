@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_034",
+  "topic_name": "Graphing Exponential Functions",
+  "generated_at": "2026-05-12T23:27:21.123889+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to graph lines like $y = 2x + 1$ and parabolas like $y = x^2$, where the variable is the base. But what happens when the variable moves to the exponent, like in $y = 2^x$? You might guess the graph looks somewhat similar, but it behaves in a completely different and surprising way \u2014 growing far faster than any parabola ever could. How would you even begin to sketch something like $y = 3^x$ or $y = \\left(\\frac{1}{2}\\right)^x$?",
+  "concept": "An exponential function places the variable in the exponent rather than the base. In plain English, the output multiplies by the same factor every time the input increases by 1. Formally, an exponential function has the form $f(x) = a \\cdot b^x$, where $a \\neq 0$ is the initial value (the $y$-intercept when $x=0$) and $b > 0,\\ b \\neq 1$ is the base that controls growth or decay.",
+  "anatomy": "The exponential function $f(x) = a \\cdot b^x$ has four key components: the coefficient $a$, which gives the $y$-intercept at $(0, a)$ and can reflect or vertically stretch the graph; the base $b$, which determines direction (if $b > 1$ the graph rises left-to-right for growth, if $0 < b < 1$ it falls for decay); the exponent $x$, the independent variable that drives the multiplicative change; and the horizontal asymptote $y = 0$ (the $x$-axis), which the graph approaches but never crosses, representing the long-run floor (or ceiling) of the output.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 2^x",
+      "description_latex": "We start by identifying the key features before plotting anything. The base is $b = 2 > 1$, so this is an exponential growth function, meaning the graph rises from left to right. The coefficient $a = 1$, so the $y$-intercept is at $(0, 1)$, and the horizontal asymptote is $y = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c} x & f(x) = 2^x \\\\ \\hline -2 & 2^{-2} = \\tfrac{1}{4} \\\\ -1 & 2^{-1} = \\tfrac{1}{2} \\\\ 0 & 2^{0} = 1 \\\\ 1 & 2^{1} = 2 \\\\ 2 & 2^{2} = 4 \\end{array}",
+      "description_latex": "We build a table of values by substituting integer inputs. Notice that each time $x$ increases by 1, the output doubles \u2014 this constant multiplicative pattern is the hallmark of an exponential function and is very different from the constant additive pattern of a line.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Points: } \\left(-2,\\tfrac{1}{4}\\right),\\ \\left(-1,\\tfrac{1}{2}\\right),\\ (0,1),\\ (1,2),\\ (2,4)",
+      "description_latex": "We plot these five points on the coordinate plane. You can see the graph hugs the negative $x$-axis (staying just above $y = 0$) on the left, passes through $(0,1)$, and curves steeply upward to the right \u2014 this distinctive J-shape is the signature of exponential growth.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Draw a smooth curve through the points, approaching } y = 0 \\text{ as } x \\to -\\infty",
+      "description_latex": "We connect the points with a smooth, continuous curve \u2014 never a jagged line. The graph never actually touches $y = 0$, so we draw it getting closer and closer to the $x$-axis on the left without ever reaching it, which is what the horizontal asymptote $y = 0$ means.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = \\left(\\frac{1}{2}\\right)^x",
+      "description_latex": "We want to graph $g(x) = \\left(\\frac{1}{2}\\right)^x$. Start by identifying the features: the base is $b = \\frac{1}{2}$, which satisfies $0 < b < 1$, so this is an exponential decay function. The $y$-intercept is $(0, 1)$ and the horizontal asymptote is still $y = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c} x & g(x) \\\\ \\hline -2 & 4 \\\\ -1 & 2 \\\\ 0 & 1 \\\\ 1 & \\tfrac{1}{2} \\\\ 2 & \\tfrac{1}{4} \\end{array}",
+      "description_latex": "Here is the completed table of values. Notice the outputs are the mirror image of $f(x) = 2^x$ \u2014 this makes sense because $\\left(\\frac{1}{2}\\right)^x = 2^{-x}$, so the graph of $g$ is a horizontal reflection of the graph of $f$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the table above, describe in your own words: as $x$ increases, what happens to the output? Where does the graph approach as $x \\to +\\infty$, and as $x \\to -\\infty$? Then sketch the curve, making sure it never crosses the asymptote $y = 0$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $f(x) = 3^x$ at $x = -1, 0, 1, 2$ and state whether the function represents growth or decay.",
+      "answer_latex": "f(-1) = \\tfrac{1}{3},\\ f(0) = 1,\\ f(1) = 3,\\ f(2) = 9;\\ \\text{exponential growth since } b = 3 > 1"
+    },
+    {
+      "prompt_latex": "Graph $h(x) = 2 \\cdot 3^x$. State the $y$-intercept and the equation of the horizontal asymptote.",
+      "answer_latex": "y\\text{-intercept: } (0, 2);\\ \\text{horizontal asymptote: } y = 0;\\ \\text{growth curve passing through } (1, 6) \\text{ and } (-1, \\tfrac{2}{3})"
+    },
+    {
+      "prompt_latex": "Graph $p(x) = \\left(\\frac{1}{3}\\right)^x$. Identify the domain, range, and horizontal asymptote.",
+      "answer_latex": "\\text{Domain: all real numbers};\\ \\text{Range: } y > 0;\\ \\text{Horizontal asymptote: } y = 0"
+    },
+    {
+      "prompt_latex": "The graph of $f(x) = b^x$ passes through the point $(3, 8)$. Find the value of $b$ and write the equation of the function.",
+      "answer_latex": "b^3 = 8 \\Rightarrow b = 2;\\ f(x) = 2^x"
+    },
+    {
+      "prompt_latex": "A bacteria culture starts with 500 cells and doubles every hour, modeled by $P(t) = 500 \\cdot 2^t$. Sketch the graph for $t = 0$ to $t = 4$, state the $y$-intercept in context, and find how many cells exist after 4 hours.",
+      "answer_latex": "y\\text{-intercept } (0, 500) \\text{ means 500 cells at the start};\\ P(4) = 500 \\cdot 2^4 = 500 \\cdot 16 = 8000 \\text{ cells}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse $f(x) = 2^x$ (exponential) with $f(x) = x^2$ (quadratic) and plot a parabola instead of a J-shaped curve. Remember: in an exponential function the variable is the exponent, so the growth is multiplicative, not polynomial \u2014 always check which position $x$ occupies.",
+    "When the base is a fraction like $\\left(\\frac{1}{2}\\right)^x$, students sometimes treat $0 < b < 1$ as if it means the graph goes negative, drawing outputs below the $x$-axis. The outputs are always positive for $a > 0$, so the graph stays entirely above $y = 0$; the function decays toward zero but never crosses it.",
+    "Students frequently forget that the horizontal asymptote $y = 0$ means the graph never actually touches the $x$-axis, and they draw the curve merging into the axis on one side. Fix this by always drawing the tail of the curve getting closer and closer but with a clear gap, and by reminding yourself that $b^x > 0$ for all real $x$ when $b > 0$."
+  ],
+  "untested_variants": [
+    "Graphing a vertically shifted exponential such as $f(x) = 2^x - 3$, where the horizontal asymptote moves to $y = -3$ rather than $y = 0$.",
+    "Graphing a horizontally shifted exponential such as $f(x) = 2^{x-1}$, which shifts the entire graph one unit to the right and changes the $y$-intercept to $\\frac{1}{2}$.",
+    "Graphing a reflected exponential such as $f(x) = -3^x$, where the coefficient $a$ is negative and the graph falls below the $x$-axis, with range $y < 0$.",
+    "Comparing the growth rates of two exponential functions on the same axes, such as $f(x) = 2^x$ versus $g(x) = 5^x$, and explaining which grows faster and why the graphs intersect at $(0,1)$."
+  ]
+}

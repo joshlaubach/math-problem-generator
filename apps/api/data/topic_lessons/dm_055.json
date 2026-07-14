@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_055",
+  "topic_name": "Rooted Trees and Binary Trees",
+  "generated_at": "2026-05-13T20:16:28.427820+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know that a tree is a connected acyclic graph \u2014 no cycles, no isolated islands, just a clean branching structure. But so far, trees have been symmetric: no node is more special than any other, and there's no built-in notion of 'top' or 'bottom.' Now imagine you want to model a file system, a family lineage, or the decisions in a search algorithm \u2014 all of these need one distinguished starting point and a clear sense of direction. How do we impose that structure on a tree, and what special constraints make a tree 'binary'?",
+  "concept": "A rooted tree is an ordinary tree in which one vertex is designated the root, giving every edge a natural parent-to-child direction away from the root. Formally, a rooted tree $T$ is a pair $(V, E)$ forming a tree together with a distinguished root $r \\in V$; for any vertex $v \\neq r$, the unique path from $r$ to $v$ defines $v$'s ancestors and its parent. A binary tree is a rooted tree in which every vertex has at most two children, conventionally called the left child and the right child.",
+  "anatomy": "A rooted tree has several named structural parts. The root $r$ is the unique vertex with no parent. Every non-root vertex $v$ has exactly one parent, the vertex immediately above it on the path to $r$. Vertices with no children are called leaves; all others are internal nodes. The depth of a vertex $v$, written $d(v)$, is the length of the path from $r$ to $v$, so $d(r) = 0$. The height of the tree $h(T)$ is the maximum depth over all vertices. In a binary tree each internal node has a left subtree and/or a right subtree, and the total number of vertices at depth $k$ is at most $2^k$.",
+  "worked_example": [
+    {
+      "expression_latex": "T: \\text{ vertices } \\{A,B,C,D,E,F,G\\},\\; \\text{edges } \\{AB, AC, BD, BE, CF, CG\\},\\; \\text{root } A",
+      "description_latex": "We start by writing down the tree explicitly. The root is $A$, so every edge will be directed away from $A$; this is the single step that turns an unrooted tree into a rooted one, and it immediately tells us who is a parent and who is a child at every level.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Children of } A: \\{B, C\\};\\quad \\text{Children of } B: \\{D, E\\};\\quad \\text{Children of } C: \\{F, G\\}",
+      "description_latex": "We identify each vertex's children by looking at edges that go one step further from the root. Because $A$ has exactly two children $B$ and $C$, and both $B$ and $C$ also have exactly two children, every internal node has at most two children \u2014 so this is already a binary tree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d(A)=0,\\; d(B)=d(C)=1,\\; d(D)=d(E)=d(F)=d(G)=2",
+      "description_latex": "Depth counts how many edges separate a vertex from the root. We assign depth $0$ to the root, then add $1$ at each step away; this is simply the length of the unique path from $A$ to each vertex, which is well-defined because the graph is a tree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h(T) = \\max_{v \\in V} d(v) = 2",
+      "description_latex": "The height of the tree is the largest depth value we found. Here the deepest vertices are $D, E, F, G$ all at depth $2$, so $h(T) = 2$. Notice that the maximum number of vertices at depth $2$ is $2^2 = 4$, and we actually achieve that bound, making this a perfect binary tree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Leaves} = \\{D, E, F, G\\};\\quad \\text{Internal nodes} = \\{A, B, C\\}",
+      "description_latex": "Finally we classify every vertex: leaves have no children (degree $1$ in the original unrooted tree, or out-degree $0$ in the rooted sense), while internal nodes have at least one child. This classification matters for many algorithms \u2014 for example, leaf nodes are exactly the base cases in recursive tree algorithms.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T: \\text{ vertices } \\{1,2,3,4,5\\},\\; \\text{edges } \\{12, 13, 24, 25\\},\\; \\text{root } 1",
+      "description_latex": "Here is a new rooted tree. We have five vertices and the root is vertex $1$. Let's determine whether it is a binary tree and compute its height.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Children of } 1: \\{2, 3\\};\\quad \\text{Children of } 2: \\{4, 5\\};\\quad \\text{Children of } 3: \\emptyset",
+      "description_latex": "We read off the children of each vertex by following edges away from the root. Every internal node has at most two children, so this is a binary tree. Notice that vertex $3$ has no children \u2014 it is a leaf even though it sits at depth $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the depth of every vertex and then state the height $h(T)$. Remember that depth counts edges from the root, so $d(1)=0$; work downward from there and report the maximum depth you find.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "List all the leaves of this tree. A vertex is a leaf if and only if it has no children in the rooted tree \u2014 use your work above to identify every vertex whose children set is empty.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A rooted binary tree has height $h = 3$. What is the maximum possible number of leaves?",
+      "answer_latex": "2^3 = 8"
+    },
+    {
+      "prompt_latex": "Draw or describe a binary tree on $7$ vertices with root $r$ such that every internal node has exactly $2$ children. How many leaves does it have, and what is its height?",
+      "answer_latex": "\\text{4 leaves},\\; h = 2 \\text{ (a complete binary tree with 3 levels)}"
+    },
+    {
+      "prompt_latex": "A rooted tree has vertices $\\{r, a, b, c, d, e\\}$ and edges $\\{ra, rb, ac, ad, be\\}$. Is it a binary tree? Find the depth of each vertex and the height of the tree.",
+      "answer_latex": "\\text{Yes, binary tree.}\\; d(r)=0,\\, d(a)=d(b)=1,\\, d(c)=d(d)=d(e)=2;\\; h=2"
+    },
+    {
+      "prompt_latex": "A full binary tree (every internal node has exactly 2 children) has $k$ internal nodes. Using the identity relating leaves $\\ell$ and internal nodes $k$ in a full binary tree, express the total number of vertices $|V|$ in terms of $k$.",
+      "answer_latex": "\\ell = k + 1,\\; |V| = 2k + 1"
+    },
+    {
+      "prompt_latex": "A company organizes its management hierarchy as a rooted tree: the CEO is the root, each manager can supervise at most $2$ direct reports, and there are exactly $4$ levels (depths $0$ through $3$). What is the maximum total number of employees in the company, and how many of them would be at the lowest level?",
+      "answer_latex": "\\text{Maximum total} = 1+2+4+8 = 15;\\; \\text{lowest level has at most } 8 \\text{ employees}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse height and depth, using them interchangeably. Depth is a property of a single vertex (distance from the root), while height is a property of the whole tree (the maximum depth); always check which object \u2014 vertex or tree \u2014 the question is asking about.",
+    "When checking whether a tree is binary, students sometimes count all edges at a vertex (its degree in the unrooted sense) rather than counting only its children in the rooted tree. The root can have degree $2$ in the unrooted graph and still have only $2$ children, but an internal non-root vertex with degree $3$ has only $2$ children (one edge goes up to its parent), so it is still valid in a binary tree.",
+    "Students frequently assume that a binary tree with height $h$ must have exactly $2^h$ leaves, forgetting that the maximum $2^h$ is only achieved by a perfect binary tree. In general a binary tree can have far fewer leaves if some internal nodes have only one child or if the tree is unbalanced \u2014 always verify the structure before applying the $2^h$ formula."
+  ],
+  "untested_variants": [
+    "Ordered vs. unordered binary trees: determining whether two binary trees that have the same shape but swapped left/right children are considered distinct, and counting structurally distinct binary trees on $n$ nodes using Catalan numbers.",
+    "Traversal algorithms on binary trees (in-order, pre-order, post-order): given a binary tree, producing the sequence of vertices visited by each traversal and reconstructing a tree from two given traversal sequences.",
+    "Binary search trees (BSTs): inserting and deleting keys while maintaining the BST property (left subtree values less than root, right subtree values greater), and analyzing worst-case vs. average-case height.",
+    "Balanced binary trees and the relationship between height and the number of vertices: proving that a binary tree with $n$ vertices has height at least $\\lfloor \\log_2 n \\rfloor$ and applying this bound to algorithm analysis."
+  ]
+}

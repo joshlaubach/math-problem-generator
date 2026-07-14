@@ -1,0 +1,91 @@
+{
+  "topic_id": "pc_021",
+  "topic_name": "Logistic Functions and Population Models (H)",
+  "generated_at": "2026-05-12T23:46:07.833510+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know that exponential functions like $P(t) = P_0 e^{rt}$ can model population growth, but you've probably noticed a flaw: exponential growth never stops, predicting a bacteria colony or human population growing to infinity. Real populations, however, always hit a ceiling \u2014 food runs out, space fills up, resources deplete. So how do we build a model that starts with exponential-looking growth but levels off at some maximum sustainable population? Can you write an equation whose graph looks like an S-curve?",
+  "concept": "A logistic function models growth that is initially rapid but slows as it approaches a fixed upper limit called the carrying capacity. Formally, the logistic model is $P(t) = \\dfrac{L}{1 + Ce^{-kt}}$, where $L$ is the carrying capacity, $k > 0$ is the growth rate constant, and $C$ is a constant determined by the initial condition. The output $P(t)$ is always positive and always less than $L$, producing the characteristic S-shaped (sigmoidal) curve.",
+  "anatomy": "The logistic model $P(t) = \\dfrac{L}{1 + Ce^{-kt}}$ has four key components. The numerator $L$ is the carrying capacity \u2014 the horizontal asymptote the population approaches as $t \\to \\infty$. The term $e^{-kt}$ in the denominator is the decaying exponential that drives the transition from fast to slow growth; the growth rate $k$ controls how steeply that transition happens. The constant $C$ (sometimes written $\\dfrac{L - P_0}{P_0}$) encodes the initial population $P_0 = P(0) = \\dfrac{L}{1+C}$, shifting the curve left or right along the time axis. Together, $L$, $k$, and $C$ fully determine the shape and position of the S-curve.",
+  "worked_example": [
+    {
+      "expression_latex": "P(t) = \\frac{500}{1 + Ce^{-0.4t}}, \\quad P(0) = 50",
+      "description_latex": "We are given a logistic model with carrying capacity $L = 500$ and growth rate $k = 0.4$, and we need to find the constant $C$ using the initial condition $P(0) = 50$. Substituting $t = 0$ into the formula gives $P(0) = \\dfrac{500}{1 + C \\cdot e^{0}} = \\dfrac{500}{1+C}$, so we set that equal to 50 and solve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "50 = \\frac{500}{1+C} \\implies 1+C = \\frac{500}{50} = 10 \\implies C = 9",
+      "description_latex": "Cross-multiplying gives $50(1+C) = 500$, so $1+C = 10$ and therefore $C = 9$. Notice that this result matches the formula $C = \\dfrac{L - P_0}{P_0} = \\dfrac{500-50}{50} = 9$, which is a useful shortcut you can always use.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(t) = \\frac{500}{1 + 9e^{-0.4t}}",
+      "description_latex": "Now we have the fully determined logistic model. You can verify the two key asymptotic behaviors: as $t \\to 0^+$ the population starts near 50, and as $t \\to \\infty$ the denominator approaches 1, so $P(t) \\to 500$, confirming the carrying capacity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(5) = \\frac{500}{1 + 9e^{-0.4(5)}} = \\frac{500}{1 + 9e^{-2}}",
+      "description_latex": "To find the population at $t = 5$, we substitute directly into the completed formula. We leave it in this form first to show the structure before evaluating numerically.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(5) = \\frac{500}{1 + 9(0.1353)} \\approx \\frac{500}{2.218} \\approx 225.4",
+      "description_latex": "Using $e^{-2} \\approx 0.1353$, the denominator becomes approximately $1 + 1.218 = 2.218$, giving $P(5) \\approx 225.4$. This makes intuitive sense: at $t=5$ the population has grown from 50 toward the ceiling of 500, roughly reaching the midpoint of the S-curve.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(t) = \\frac{1200}{1 + Ce^{-0.3t}}, \\quad P(0) = 150",
+      "description_latex": "We have a logistic model with $L = 1200$ and $k = 0.3$. Our first job is to determine the constant $C$ from the initial population of 150. We substitute $t = 0$ into the formula: $P(0) = \\dfrac{1200}{1+C} = 150$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C = \\frac{1200}{150} - 1 = 7",
+      "description_latex": "Solving $\\dfrac{1200}{1+C} = 150$ gives $1+C = 8$, so $C = 7$. The full model is therefore $P(t) = \\dfrac{1200}{1+7e^{-0.3t}}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find the population at time $t = 10$. Substitute $t = 10$ into $P(t) = \\dfrac{1200}{1+7e^{-0.3t}}$, evaluate $e^{-3}$, and simplify to get a decimal approximation. What is $P(10)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using your answer, determine approximately what percentage of the carrying capacity has been reached at $t = 10$. That is, compute $\\dfrac{P(10)}{1200} \\times 100\\%$. What does this tell you about where we are on the S-curve?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For the logistic model $P(t) = \\dfrac{800}{1 + 7e^{-0.5t}}$, state the carrying capacity, the initial population $P(0)$, and the growth rate constant.",
+      "answer_latex": "L = 800,\\; P(0) = \\dfrac{800}{1+7} = 100,\\; k = 0.5"
+    },
+    {
+      "prompt_latex": "A population follows $P(t) = \\dfrac{600}{1 + Ce^{-0.2t}}$ with $P(0) = 75$. Find $C$ and write the complete logistic model.",
+      "answer_latex": "C = \\dfrac{600}{75} - 1 = 7,\\quad P(t) = \\dfrac{600}{1 + 7e^{-0.2t}}"
+    },
+    {
+      "prompt_latex": "Using the model from Problem 2, find $P(10)$ rounded to the nearest whole number.",
+      "answer_latex": "P(10) = \\dfrac{600}{1+7e^{-2}} \\approx \\dfrac{600}{1+0.9475} \\approx \\dfrac{600}{1.9475} \\approx 308"
+    },
+    {
+      "prompt_latex": "A logistic model has $L = 1000$, $k = 0.6$, and $P(0) = 40$. Find the time $t$ at which the population first reaches half the carrying capacity (i.e., $P(t) = 500$). Leave your answer in exact form and as a decimal.",
+      "answer_latex": "C = \\dfrac{1000-40}{40} = 24;\\quad 500 = \\dfrac{1000}{1+24e^{-0.6t}} \\Rightarrow 24e^{-0.6t}=1 \\Rightarrow t = \\dfrac{\\ln 24}{0.6} \\approx 5.30"
+    },
+    {
+      "prompt_latex": "A wildlife reserve introduces 20 deer onto an island with a carrying capacity of 200. The population after 3 years is 60 deer. Find the growth rate constant $k$ (to three decimal places) and predict the population after 8 years.",
+      "answer_latex": "C = \\dfrac{200-20}{20}=9;\\quad 60 = \\dfrac{200}{1+9e^{-3k}} \\Rightarrow e^{-3k} = \\dfrac{7}{27} \\Rightarrow k = \\dfrac{\\ln(27/7)}{3} \\approx 0.456;\\quad P(8) \\approx \\dfrac{200}{1+9e^{-3.648}} \\approx 152"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse $C$ with the initial population and write $P(0) = C$ instead of $P(0) = \\dfrac{L}{1+C}$. Remember that $C$ is in the denominator, so setting $t=0$ gives $P_0 = \\dfrac{L}{1+C}$, meaning you must solve $C = \\dfrac{L}{P_0} - 1$.",
+    "When solving for $k$, students sometimes take the logarithm of the entire denominator rather than isolating $e^{-kt}$ first. You must algebraically isolate $e^{-kt}$ on one side of the equation before applying $\\ln$, otherwise the sum inside the denominator makes the logarithm impossible to simplify.",
+    "Students frequently misread the horizontal asymptote: they state that $P(t) \\to L$ as $t \\to 0$ (the starting behavior) rather than as $t \\to \\infty$ (the long-run limit). The carrying capacity $L$ is always the upper asymptote \u2014 the long-term limit \u2014 not a starting value."
+  ],
+  "untested_variants": [
+    "Finding the inflection point of the logistic curve (which occurs at $P = L/2$) and interpreting it as the point of maximum growth rate.",
+    "Fitting a logistic model when given three data points (two non-zero times and the initial condition) requiring a system of equations to determine both $C$ and $k$ simultaneously.",
+    "Logistic decay models where a quantity decreases toward a positive lower bound, requiring a modified formula such as $P(t) = L + \\dfrac{P_0 - L}{1 + Ce^{kt}}$.",
+    "Using the logistic model to find a specific time $t$ when the rate of growth $P'(t)$ is a maximum, connecting the logistic function to its derivative for optimization."
+  ]
+}

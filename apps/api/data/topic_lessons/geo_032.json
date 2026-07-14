@@ -1,0 +1,76 @@
+{
+  "topic_id": "geo_032",
+  "topic_name": "Triangle Congruence: ASA, AAS, and HL",
+  "generated_at": "2026-05-12T23:02:13.967582+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that SSS and SAS can prove two triangles congruent by matching three sides or two sides and an included angle. But what if you know two angles and a side, or you're dealing with a right triangle where you only know the hypotenuse and one leg? Can those combinations guarantee congruence? The question is: which angle-and-side combinations are powerful enough to lock down a triangle's shape completely, and which ones fall short?",
+  "concept": "Three more congruence shortcuts let us prove triangles congruent without checking all six parts. Angle-Side-Angle (ASA) says that if two angles and the included side of one triangle are congruent to two angles and the included side of another, the triangles are congruent. Angle-Angle-Side (AAS) uses two angles and a non-included side. Hypotenuse-Leg (HL) applies exclusively to right triangles: if the hypotenuse and one leg match, the triangles are congruent.",
+  "anatomy": "Each postulate has distinct structural parts you must identify correctly. In ASA, the side must be between the two known angles \u2014 it is called the included side. In AAS, the side is not between the two angles \u2014 it is a non-included side, and the two angles are on the same triangle with the side adjacent to only one of them. HL has three required components: (1) both triangles must have a right angle, making them right triangles; (2) the hypotenuses \u2014 the sides opposite the right angles \u2014 must be congruent; and (3) one pair of legs \u2014 the sides forming the right angle \u2014 must be congruent.",
+  "worked_example": [
+    {
+      "expression_latex": "\\triangle ABC \\text{ and } \\triangle DEF,\\quad \\angle A \\cong \\angle D,\\quad \\overline{AB} \\cong \\overline{DE},\\quad \\angle B \\cong \\angle E",
+      "description_latex": "We are given that two angles and the side between them match. Notice that $\\overline{AB}$ is sandwiched between $\\angle A$ and $\\angle B$ in the first triangle, and $\\overline{DE}$ is sandwiched between $\\angle D$ and $\\angle E$ in the second \u2014 this is exactly the 'included side' condition that ASA requires.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{The included side } \\overline{AB} \\text{ lies between } \\angle A \\text{ and } \\angle B.",
+      "description_latex": "Before writing the conclusion, always verify that the side is truly included \u2014 meaning both given angles share that side as one of their rays. If the side were opposite one of the angles instead, we would be in AAS territory, not ASA, and the justification would change.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\triangle ABC \\cong \\triangle DEF \\quad (\\text{ASA})",
+      "description_latex": "Because two angles and their included side in $\\triangle ABC$ are congruent to the corresponding two angles and included side in $\\triangle DEF$, we conclude the triangles are congruent by ASA. The order of vertices in the congruence statement matters \u2014 it communicates which vertices correspond to each other.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\triangle PQR \\text{ and } \\triangle STU:\\quad \\angle P \\cong \\angle S,\\quad \\angle Q \\cong \\angle T,\\quad \\overline{QR} \\cong \\overline{TU}",
+      "description_latex": "We are given two pairs of congruent angles and one pair of congruent sides. Your first job is to figure out whether the side is included (between the two angles) or non-included. Look at $\\overline{QR}$: in $\\triangle PQR$, is it between $\\angle P$ and $\\angle Q$, or is it adjacent to only one of them?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\overline{QR} \\text{ is adjacent to } \\angle Q \\text{ but opposite } \\angle P,\\text{ so the side is } \\underline{\\hspace{2cm}}.",
+      "description_latex": "Decide whether $\\overline{QR}$ is the included side or a non-included side, then name the correct congruence postulate (ASA or AAS) that applies here.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\triangle PQR \\cong \\triangle STU \\quad (\\text{AAS})",
+      "description_latex": "Because $\\overline{QR}$ is not between both given angles \u2014 it is only adjacent to $\\angle Q$, not to $\\angle P$ \u2014 the configuration is AAS rather than ASA, and we state the congruence accordingly.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{In } \\triangle ABC \\text{ and } \\triangle XYZ,\\; \\angle A \\cong \\angle X,\\; \\overline{AC} \\cong \\overline{XZ},\\; \\angle C \\cong \\angle Z.\\text{ Which postulate proves } \\triangle ABC \\cong \\triangle XYZ?",
+      "answer_latex": "\\text{ASA, because } \\overline{AC} \\text{ is the included side between } \\angle A \\text{ and } \\angle C."
+    },
+    {
+      "prompt_latex": "\\text{In } \\triangle JKL \\text{ and } \\triangle MNP,\\; \\angle J \\cong \\angle M,\\; \\angle K \\cong \\angle N,\\; \\overline{JL} \\cong \\overline{MP}.\\text{ State the postulate and write the congruence statement.}",
+      "answer_latex": "\\triangle JKL \\cong \\triangle MNP \\text{ by AAS, since } \\overline{JL} \\text{ is non-included (opposite } \\angle K \\text{).}"
+    },
+    {
+      "prompt_latex": "\\text{Right triangles } \\triangle RST \\text{ and } \\triangle UVW \\text{ each have their right angle at } S \\text{ and } V \\text{ respectively. Given } \\overline{RT} \\cong \\overline{UW} \\text{ and } \\overline{RS} \\cong \\overline{UV},\\text{ prove the triangles congruent and state the postulate.}",
+      "answer_latex": "\\triangle RST \\cong \\triangle UVW \\text{ by HL: right angles at } S,V;\\text{ hypotenuses } \\overline{RT} \\cong \\overline{UW};\\text{ legs } \\overline{RS} \\cong \\overline{UV}."
+    },
+    {
+      "prompt_latex": "\\overline{AB} \\parallel \\overline{CD} \\text{ and } \\overline{AB} \\cong \\overline{CD}.\\text{ Diagonal } \\overline{BC} \\text{ is shared. Using alternate interior angles and one additional given, prove } \\triangle ABC \\cong \\triangle DCB \\text{ and state the postulate.}",
+      "answer_latex": "\\angle ABC \\cong \\angle DCB \\text{ (alt. int. angles)},\\; \\overline{BC} \\cong \\overline{BC} \\text{ (reflexive)},\\; \\angle ACB \\cong \\angle DBC \\text{ (alt. int. angles)} \\Rightarrow \\triangle ABC \\cong \\triangle DCB \\text{ by ASA.}"
+    },
+    {
+      "prompt_latex": "\\text{A surveyor finds two triangular plots sharing a common fence (the hypotenuse). Both plots contain a right angle, and the surveyor confirms one leg of each plot is equal in length. Without measuring all six parts, can the surveyor conclude the plots are congruent? Justify using the appropriate postulate.}",
+      "answer_latex": "\\text{Yes \u2014 HL applies: both triangles are right triangles, share the same hypotenuse, and have one pair of congruent legs, so the plots are congruent.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse ASA and AAS by failing to check whether the known side is between the two known angles. Fix this by drawing an arc on the side and asking: 'Does this side touch both angle marks?' If yes, use ASA; if only one angle mark, use AAS.",
+    "Students try to apply HL to triangles that have not been identified as right triangles, forgetting that HL requires a confirmed right angle as part of the given information. Always state explicitly which angle is the right angle before invoking HL.",
+    "When writing a congruence statement, students list vertices in the wrong order so that corresponding parts don't actually match \u2014 for example, writing $\\triangle ABC \\cong \\triangle EDF$ when $\\angle A \\cong \\angle E$ but $\\angle B$ corresponds to $\\angle D$. Fix this by aligning the letters so that each position in one triangle name corresponds to its congruent counterpart in the other."
+  ],
+  "untested_variants": [
+    "Proving congruence using AAS where the congruent angles are derived from vertical angles or linear pairs rather than being directly stated as given.",
+    "Two-column or paragraph proof formats requiring students to supply reasons in a formal proof chain using ASA, AAS, or HL across multiple steps.",
+    "Problems involving HL where the hypotenuse is found using the Pythagorean theorem before applying the postulate, combining HL with computation.",
+    "Coordinate geometry problems where students must calculate side lengths and angle measures from coordinates to determine whether ASA, AAS, or HL applies."
+  ]
+}

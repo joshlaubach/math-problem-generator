@@ -1,0 +1,86 @@
+{
+  "topic_id": "dm_027",
+  "topic_name": "Cardinality and Countability",
+  "generated_at": "2026-05-13T20:14:15.779089+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to compare the sizes of finite sets \u2014 just count the elements. But what happens when we try to compare infinite sets? Is the set of even integers somehow 'smaller' than the set of all integers, since it's missing all the odd ones? Surprisingly, the answer is no \u2014 and the machinery to prove this leads to one of the most stunning results in all of mathematics: that some infinities are genuinely larger than others. How do we even begin to make that precise?",
+  "concept": "Cardinality measures the 'size' of a set by asking whether two sets can be matched up element-by-element. Two sets $A$ and $B$ have the same cardinality, written $|A| = |B|$, if there exists a bijection $f: A \\to B$. A set is called countably infinite if it has the same cardinality as the natural numbers $\\mathbb{N}$, meaning a bijection $f: \\mathbb{N} \\to A$ exists; otherwise an infinite set is uncountable. Finite sets and countably infinite sets together are called countable.",
+  "anatomy": "The key components in a cardinality argument are: the two sets being compared (call them $A$ and $B$); the proposed function $f: A \\to B$ that will serve as the bijection; the injectivity check (if $f(a_1) = f(a_2)$ then $a_1 = a_2$, ensuring no two inputs share an output); the surjectivity check (for every $b \\in B$ there exists $a \\in A$ with $f(a) = b$, ensuring every output is hit); and finally the conclusion about cardinality \u2014 same cardinality if the bijection exists, strictly smaller $|A| < |B|$ if only an injection $A \\to B$ exists but no bijection, and uncountability established by a diagonalization argument when no bijection onto $\\mathbb{N}$ can exist.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } |\\mathbb{E}| = |\\mathbb{N}|, \\text{ where } \\mathbb{E} = \\{0, 2, 4, 6, \\ldots\\}",
+      "description_latex": "We want to show that the set of non-negative even integers is countably infinite, meaning it has exactly the same cardinality as $\\mathbb{N} = \\{0,1,2,3,\\ldots\\}$. Even though $\\mathbb{E}$ looks like it should be 'half as big,' cardinality is determined by the existence of a bijection, not by any intuitive sense of density or proportion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Define } f: \\mathbb{N} \\to \\mathbb{E} \\text{ by } f(n) = 2n",
+      "description_latex": "We construct an explicit function that pairs each natural number with an even number: $f(0)=0,\\ f(1)=2,\\ f(2)=4,$ and so on. Constructing the function explicitly is the heart of a cardinality proof \u2014 we are building the one-to-one correspondence by hand.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Injectivity: } f(n_1) = f(n_2) \\implies 2n_1 = 2n_2 \\implies n_1 = n_2",
+      "description_latex": "To check injectivity we assume two inputs give the same output and show they must have been equal all along. Dividing both sides of $2n_1 = 2n_2$ by 2 immediately gives $n_1 = n_2$, so $f$ never maps two different natural numbers to the same even number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Surjectivity: Let } e \\in \\mathbb{E}.\\text{ Then } e = 2k \\text{ for some } k \\in \\mathbb{N},\\text{ and } f(k) = 2k = e.",
+      "description_latex": "To check surjectivity we take an arbitrary element of the target set $\\mathbb{E}$ and show it is actually hit by $f$. Since every even non-negative integer is by definition of the form $2k$, we can always find the pre-image $k$ in $\\mathbb{N}$, confirming $f$ covers all of $\\mathbb{E}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore\\ f \\text{ is a bijection, so } |\\mathbb{N}| = |\\mathbb{E}|,\\text{ and } \\mathbb{E} \\text{ is countably infinite.}",
+      "description_latex": "Because $f$ is both injective and surjective it is a bijection, which is exactly the criterion for two sets to have the same cardinality. This is the formal conclusion: despite appearances, $\\mathbb{E}$ is no smaller than $\\mathbb{N}$ \u2014 a hallmark of infinite sets that makes cardinality theory so surprising.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } |\\mathbb{Z}| = |\\mathbb{N}|, \\text{ i.e., the integers are countably infinite.}",
+      "description_latex": "The integers include negative numbers, so at first glance there seem to be 'twice as many' integers as natural numbers. We will defeat this intuition by listing all integers in a sequence, which is equivalent to building a bijection from $\\mathbb{N}$ to $\\mathbb{Z}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Define } f: \\mathbb{N} \\to \\mathbb{Z} \\text{ by } f(n) = \\begin{cases} n/2 & \\text{if } n \\text{ is even} \\\\ -(n+1)/2 & \\text{if } n \\text{ is odd} \\end{cases}",
+      "description_latex": "Here is a standard bijection that interleaves the non-negative and negative integers: $f(0)=0,\\ f(1)=-1,\\ f(2)=1,\\ f(3)=-2,\\ f(4)=2,\\ldots$ Your task is to verify that this function is indeed a bijection by checking injectivity and surjectivity \u2014 write out both checks carefully.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore\\ |\\mathbb{Z}| = |\\mathbb{N}|,\\text{ so } \\mathbb{Z} \\text{ is countably infinite.}",
+      "description_latex": "Once both the injectivity and surjectivity checks are complete, we conclude the bijection exists and the cardinalities are equal. Notice that the same strategy \u2014 interleaving or reindexing \u2014 works for many countability proofs.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\{1, 2, 3\\}$ and $B = \\{a, b, c\\}$. Define $f: A \\to B$ by $f(1)=a,\\ f(2)=b,\\ f(3)=c$. Is $f$ a bijection? What does this tell you about $|A|$ and $|B|$?",
+      "answer_latex": "Yes, $f$ is a bijection (it is clearly injective and surjective), so $|A| = |B| = 3$."
+    },
+    {
+      "prompt_latex": "Show that the set of odd positive integers $\\mathbb{O} = \\{1, 3, 5, 7, \\ldots\\}$ is countably infinite by exhibiting an explicit bijection $f: \\mathbb{N} \\to \\mathbb{O}$ and verifying it is a bijection.",
+      "answer_latex": "Define $f(n) = 2n+1$. Injectivity: $2n_1+1=2n_2+1 \\Rightarrow n_1=n_2$. Surjectivity: any odd positive integer is $2k+1$ for $k \\geq 0$, so $f(k)=2k+1$. Hence $f$ is a bijection and $|\\mathbb{O}|=|\\mathbb{N}|$."
+    },
+    {
+      "prompt_latex": "Determine whether the set $S = \\{2^n : n \\in \\mathbb{N}\\} = \\{1, 2, 4, 8, 16, \\ldots\\}$ is countable or uncountable, and justify your answer.",
+      "answer_latex": "The function $f: \\mathbb{N} \\to S$ defined by $f(n)=2^n$ is a bijection (injective since $2^{n_1}=2^{n_2}\\Rightarrow n_1=n_2$; surjective by definition of $S$), so $S$ is countably infinite."
+    },
+    {
+      "prompt_latex": "Use Cantor's diagonal argument to prove that the open interval $(0,1) \\subset \\mathbb{R}$ is uncountable. (Hint: assume a list of all real numbers in $(0,1)$ exists and construct a number not on the list.)",
+      "answer_latex": "Assume for contradiction that $(0,1)$ is countable, so list all elements as $r_1, r_2, r_3, \\ldots$ with decimal expansions $r_i = 0.d_{i1}d_{i2}d_{i3}\\cdots$. Construct $x = 0.x_1x_2x_3\\cdots$ where $x_i \\neq d_{ii}$ and $x_i \\notin \\{0,9\\}$. Then $x \\in (0,1)$ but $x \\neq r_i$ for every $i$ (they differ in the $i$-th decimal place), contradicting completeness of the list. Hence $(0,1)$ is uncountable."
+    },
+    {
+      "prompt_latex": "A library claims to have a catalog that lists every book ever written or that could ever be written (each book being a finite string of characters from a finite alphabet). Assuming books correspond to finite strings over a finite alphabet $\\Sigma$, is the set of all such books countable or uncountable? Justify your answer.",
+      "answer_latex": "The set of all finite strings over a finite alphabet $\\Sigma$ is countably infinite. One bijection: list strings in shortlex order (by length, then lexicographically within each length), giving a sequence $s_0, s_1, s_2, \\ldots$ indexed by $\\mathbb{N}$. Since every string has finite length and appears at a finite position, this enumeration covers all strings, establishing a bijection with $\\mathbb{N}$."
+    }
+  ],
+  "common_mistakes": [
+    "Students often assume that a proper subset of an infinite set must have strictly smaller cardinality, concluding $|\\mathbb{E}| < |\\mathbb{N}|$ because $\\mathbb{E} \\subsetneq \\mathbb{N}$. This is false: the definition of equal cardinality requires only a bijection, and the existence of $f(n)=2n$ shows $|\\mathbb{E}|=|\\mathbb{N}|$. In fact, having a bijection to a proper subset is the defining property of infinite sets.",
+    "When verifying a bijection, students frequently check only one of injectivity or surjectivity and declare the function a bijection based on that alone. Both conditions are necessary: a function can be injective but not surjective (e.g., $f: \\mathbb{N} \\to \\mathbb{N},\\ f(n)=n+1$ misses $0$), so always verify both explicitly.",
+    "Students sometimes confuse 'countable' with 'finite,' concluding that an uncountable set simply means 'very large but still listable.' Countably infinite means there is a bijection with $\\mathbb{N}$, producing an infinite but enumerable list; uncountable means no such list exists at all, which is a fundamentally stronger statement requiring a diagonalization or cardinality-comparison argument to prove."
+  ],
+  "untested_variants": [
+    "Proving that the Cartesian product $\\mathbb{N} \\times \\mathbb{N}$ is countably infinite using Cantor's pairing function $f(m,n) = \\frac{(m+n)(m+n+1)}{2}+n$.",
+    "Showing that the set of all rational numbers $\\mathbb{Q}$ is countably infinite by constructing an enumeration via a two-dimensional grid traversal argument.",
+    "Using the Cantor\u2013Bernstein\u2013Schroeder theorem: if injections $f: A \\to B$ and $g: B \\to A$ both exist, then $|A|=|B|$, applied to prove two specific sets have equal cardinality without constructing an explicit bijection.",
+    "Comparing the cardinalities of $\\mathbb{R}$ and $\\mathcal{P}(\\mathbb{N})$ (the power set of the naturals) using Cantor's theorem $|A| < |\\mathcal{P}(A)|$ to establish a strict hierarchy of infinite cardinalities."
+  ]
+}

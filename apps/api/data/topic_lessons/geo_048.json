@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_048",
+  "topic_name": "Similar Polygons",
+  "generated_at": "2026-05-12T23:06:48.057400+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to identify congruent figures \u2014 same shape, same size. But what happens when two shapes look identical except one is a scaled-up version of the other, like a blueprint versus the actual building? You can compare angles and side lengths, but you don't yet have a precise rule for deciding when two polygons are truly 'the same shape, different size.' Given two quadrilaterals with matching angles but different sides, how would you prove they are similar \u2014 and then use that relationship to find a missing side length?",
+  "concept": "Two polygons are similar when they have exactly the same shape but not necessarily the same size. Formally, polygon $ABCD...$ is similar to polygon $PQRS...$ (written $ABCD... \\sim PQRS...$) if and only if all pairs of corresponding angles are congruent AND all pairs of corresponding sides are proportional \u2014 that is, their ratios all equal the same constant $k$, called the scale factor.",
+  "anatomy": "A similarity statement has several distinct components. The correspondence order tells you which vertices match: in $\\triangle ABC \\sim \\triangle DEF$, vertex $A$ corresponds to $D$, $B$ to $E$, and $C$ to $F$ \u2014 scrambling the letters changes the meaning entirely. The corresponding angles are the angle pairs that must be congruent: $\\angle A \\cong \\angle D$, $\\angle B \\cong \\angle E$, $\\angle C \\cong \\angle F$. The corresponding sides are the side pairs whose lengths form equal ratios: $\\frac{AB}{DE} = \\frac{BC}{EF} = \\frac{CA}{FD}$. The common value of those ratios is the scale factor $k$; if $k > 1$ the second polygon is an enlargement, if $0 < k < 1$ it is a reduction, and if $k = 1$ the polygons are congruent.",
+  "worked_example": [
+    {
+      "expression_latex": "ABCD \\sim PQRS, \\quad AB = 6,\\ BC = 9,\\ CD = 12,\\ DA = 15,\\ PQ = 4",
+      "description_latex": "We are given that quadrilateral $ABCD$ is similar to quadrilateral $PQRS$ and we know all four sides of $ABCD$ plus one side of $PQRS$. Because the similarity statement tells us $AB$ corresponds to $PQ$, we can find the scale factor immediately by writing the ratio of corresponding sides.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "k = \\frac{PQ}{AB} = \\frac{4}{6} = \\frac{2}{3}",
+      "description_latex": "The scale factor $k = \\frac{2}{3}$ tells us every side of $PQRS$ is $\\frac{2}{3}$ as long as its corresponding side in $ABCD$. We always write the scale factor as (image side) divided by (original side) so we can multiply any original length by $k$ to get the image length.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "QR = k \\cdot BC = \\frac{2}{3} \\cdot 9 = 6, \\quad RS = k \\cdot CD = \\frac{2}{3} \\cdot 12 = 8",
+      "description_latex": "We multiply each remaining side of $ABCD$ by the scale factor $\\frac{2}{3}$ to find the corresponding sides of $PQRS$. This works because the definition of similarity guarantees all ratios equal the same constant $k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "SP = k \\cdot DA = \\frac{2}{3} \\cdot 15 = 10",
+      "description_latex": "We apply the same process to the last side, confirming that the correspondence $DA \\leftrightarrow SP$ is dictated by the order of letters in the similarity statement $ABCD \\sim PQRS$. All four sides of $PQRS$ are now determined: $PQ = 4$, $QR = 6$, $RS = 8$, $SP = 10$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\triangle JKL \\sim \\triangle MNO, \\quad JK = 10,\\ KL = 15,\\ JL = 20,\\ MN = x,\\ NO = 9,\\ MO = 12",
+      "description_latex": "We are told two triangles are similar. The side $KL$ corresponds to $NO$ and the side $JL$ corresponds to $MO$. We should first check consistency by computing the ratio $\\frac{NO}{KL}$ and $\\frac{MO}{JL}$ to confirm both give the same scale factor before finding $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "k = \\frac{NO}{KL} = \\frac{9}{15} = \\frac{3}{5}, \\quad \\text{check: } \\frac{MO}{JL} = \\frac{12}{20} = \\frac{3}{5} \\checkmark",
+      "description_latex": "Both known pairs of corresponding sides give the same ratio $\\frac{3}{5}$, which confirms the scale factor is $k = \\frac{3}{5}$. Now use this scale factor to set up an equation for $x = MN$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the scale factor $k = \\frac{3}{5}$ and the correspondence $JK \\leftrightarrow MN$, write the proportion and solve for $x$. What is $MN$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Polygon } WXYZ \\sim \\text{Polygon } ABCD. \\text{ Are corresponding angles congruent or just proportional?}",
+      "answer_latex": "\\text{Corresponding angles are congruent (equal in measure), not proportional.}"
+    },
+    {
+      "prompt_latex": "\\triangle PQR \\sim \\triangle STU,\\ PQ = 8,\\ ST = 12. \\text{ Find the scale factor } k \\text{ from } \\triangle PQR \\text{ to } \\triangle STU.",
+      "answer_latex": "k = \\frac{ST}{PQ} = \\frac{12}{8} = \\frac{3}{2}"
+    },
+    {
+      "prompt_latex": "\\triangle ABC \\sim \\triangle DEF,\\ AB = 5,\\ BC = 7,\\ CA = 9,\\ DE = 15. \\text{ Find } EF \\text{ and } FD.",
+      "answer_latex": "k = \\frac{15}{5} = 3, \\quad EF = 21, \\quad FD = 27"
+    },
+    {
+      "prompt_latex": "\\text{Rectangle } ABCD \\sim \\text{Rectangle } EFGH.\\ AB = 4,\\ BC = 6,\\ EF = 10.\\ \\text{Find the perimeter of } EFGH.",
+      "answer_latex": "k = \\frac{10}{4} = \\frac{5}{2},\\ FG = 15,\\ \\text{Perimeter} = 2(10+15) = 50"
+    },
+    {
+      "prompt_latex": "\\text{A photograph is 4 in wide and 6 in tall. It is enlarged so the width becomes 10 in.} \\\\ \\text{(a) What is the new height?} \\\\ \\text{(b) Is the area scale factor equal to the side scale factor? Explain.}",
+      "answer_latex": "\\text{(a) } k = \\frac{10}{4} = \\frac{5}{2},\\ \\text{new height} = \\frac{5}{2}(6) = 15 \\text{ in} \\\\ \\text{(b) No; area scale factor} = k^2 = \\frac{25}{4}, \\text{ not } \\frac{5}{2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write the similarity ratio upside-down for one pair of sides and right-side-up for another, getting an inconsistent proportion. Always keep the same polygon's sides in the numerator across every ratio: $\\frac{\\text{image side}}{\\text{original side}}$ every time.",
+    "Students ignore the order of letters in the similarity statement and match sides by position on the page rather than by correspondence. The statement $ABCD \\sim PQRS$ is the only guide to which sides and angles correspond \u2014 relabeling or reordering the polygons in your diagram can cause every subsequent calculation to be wrong.",
+    "Students confuse 'corresponding angles are proportional' with 'corresponding angles are congruent.' Angles in similar polygons are always equal in measure (congruent), not scaled \u2014 only side lengths are scaled by the factor $k$."
+  ],
+  "untested_variants": [
+    "Finding a missing side when the scale factor is given as a fraction and the unknown is in the denominator of the proportion, requiring cross-multiplication with non-integer results.",
+    "Determining whether two given polygons ARE similar by checking both conditions (all angles congruent AND all sides proportional) rather than assuming similarity and finding a missing measurement.",
+    "Problems involving the ratio of perimeters of similar polygons (perimeter ratio equals the scale factor $k$) or the ratio of areas (area ratio equals $k^2$).",
+    "Multi-step problems where a similarity statement must first be established using angle relationships (e.g., AA criterion embedded in a larger figure) before any side lengths can be calculated."
+  ]
+}

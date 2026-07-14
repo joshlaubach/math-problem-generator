@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_018",
+  "topic_name": "Subspaces",
+  "generated_at": "2026-05-13T20:06:21.247210+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that $\\mathbb{R}^n$ is a vector space, closed under addition and scalar multiplication. Now suppose someone hands you a subset of $\\mathbb{R}^n$ \u2014 say, all vectors whose first coordinate is zero \u2014 and asks whether that smaller collection is itself a vector space. Checking all ten vector space axioms from scratch every time would be exhausting. Is there a faster, smarter test?",
+  "concept": "A subspace is a subset of a vector space that is itself a vector space under the same operations \u2014 but you only need to verify three things. Formally, a non-empty subset $W$ of a vector space $V$ over a field $F$ is a subspace if: (1) $\\mathbf{0} \\in W$, (2) for all $\\mathbf{u}, \\mathbf{v} \\in W$, $\\mathbf{u} + \\mathbf{v} \\in W$, and (3) for all $\\mathbf{u} \\in W$ and $c \\in F$, $c\\mathbf{u} \\in W$.",
+  "anatomy": "The three subspace conditions each play a distinct role. The zero-vector condition ($\\mathbf{0} \\in W$) ensures $W$ is non-empty and has an additive identity \u2014 without it, $W$ could be the empty set, which can never be a vector space. Closure under addition means the sum $\\mathbf{u} + \\mathbf{v}$ stays inside $W$ whenever both inputs do \u2014 this prevents the subset from 'leaking out.' Closure under scalar multiplication means $c\\mathbf{u}$ stays in $W$ for any scalar $c \\in F$ \u2014 this ensures $W$ is closed to stretching and reflecting. Together these three conditions guarantee all remaining axioms are inherited automatically from the ambient space $V$.",
+  "worked_example": [
+    {
+      "expression_latex": "W = \\{ (x, y, z) \\in \\mathbb{R}^3 \\mid x + 2y - z = 0 \\}",
+      "description_latex": "We are asked to determine whether $W$, the set of all vectors in $\\mathbb{R}^3$ satisfying the linear equation $x + 2y - z = 0$, is a subspace. Our strategy is to check the three subspace conditions one by one \u2014 this is far more efficient than verifying all ten vector space axioms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{0} = (0,0,0): \\quad 0 + 2(0) - 0 = 0 \\checkmark",
+      "description_latex": "First, we check that the zero vector belongs to $W$. Substituting $(0,0,0)$ into the defining equation gives $0 = 0$, which is true, so $\\mathbf{0} \\in W$. This confirms $W$ is non-empty and passes the first condition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Let } \\mathbf{u} = (x_1, y_1, z_1),\\ \\mathbf{v} = (x_2, y_2, z_2) \\in W, \\text{ so } x_1 + 2y_1 - z_1 = 0 \\text{ and } x_2 + 2y_2 - z_2 = 0.",
+      "description_latex": "For closure under addition, we take two arbitrary vectors already known to be in $W$ \u2014 meaning they each satisfy the defining equation. We then compute their sum $\\mathbf{u} + \\mathbf{v} = (x_1 + x_2,\\ y_1 + y_2,\\ z_1 + z_2)$ and check whether the result also satisfies the equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x_1 + x_2) + 2(y_1 + y_2) - (z_1 + z_2) = (x_1 + 2y_1 - z_1) + (x_2 + 2y_2 - z_2) = 0 + 0 = 0 \\checkmark",
+      "description_latex": "We substitute the components of $\\mathbf{u} + \\mathbf{v}$ into the equation and regroup terms. Because each group equals zero by assumption, the sum is zero, confirming $\\mathbf{u} + \\mathbf{v} \\in W$. This linearity trick \u2014 regrouping into expressions we already know are zero \u2014 is the key move whenever $W$ is defined by a homogeneous linear equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Let } \\mathbf{u} = (x_1, y_1, z_1) \\in W,\\ c \\in \\mathbb{R}: \\quad (cx_1) + 2(cy_1) - (cz_1) = c(x_1 + 2y_1 - z_1) = c \\cdot 0 = 0 \\checkmark",
+      "description_latex": "For closure under scalar multiplication, we factor $c$ out of the entire left-hand side, which is valid because the equation is linear. The remaining factor $x_1 + 2y_1 - z_1 = 0$ by assumption, so the product is $0$ regardless of $c$. All three conditions hold, so $W$ is a subspace of $\\mathbb{R}^3$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "W = \\{ (x, y) \\in \\mathbb{R}^2 \\mid y = 3x \\}",
+      "description_latex": "We want to determine whether $W$, all points on the line $y = 3x$ through the origin, is a subspace of $\\mathbb{R}^2$. Notice that this is a homogeneous condition (no constant term), which is a good sign. Let's work through the three conditions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{0} = (0, 0): \\quad 0 = 3(0) \\checkmark",
+      "description_latex": "We verify the zero vector satisfies $y = 3x$ by substituting $(0,0)$: indeed $0 = 3 \\cdot 0$. The first condition holds. Now take two general vectors $\\mathbf{u} = (x_1, 3x_1)$ and $\\mathbf{v} = (x_2, 3x_2)$ in $W$ and check whether their sum and a scalar multiple stay in $W$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{u} + \\mathbf{v} = (x_1 + x_2,\\ 3x_1 + 3x_2) = (x_1 + x_2,\\ 3(x_1 + x_2))",
+      "description_latex": "Check the closure under addition step: does $\\mathbf{u} + \\mathbf{v}$ satisfy $y = 3x$? Write out the second component and show it equals three times the first component. Does the sum belong to $W$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now verify closure under scalar multiplication: for $c \\in \\mathbb{R}$, show that $c\\mathbf{u} = (cx_1, 3cx_1)$ satisfies $y = 3x$, and state your conclusion about whether $W$ is a subspace.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Is $W = \\{ \\mathbf{0} \\}$ (the set containing only the zero vector) a subspace of $\\mathbb{R}^n$? Verify all three conditions.",
+      "answer_latex": "Yes. (1) $\\mathbf{0} \\in W$. (2) $\\mathbf{0} + \\mathbf{0} = \\mathbf{0} \\in W$. (3) $c\\mathbf{0} = \\mathbf{0} \\in W$. All three conditions hold, so $W$ is a subspace (called the trivial subspace)."
+    },
+    {
+      "prompt_latex": "Determine whether $W = \\{ (x, y, z) \\in \\mathbb{R}^3 \\mid 2x - y + 4z = 0 \\}$ is a subspace of $\\mathbb{R}^3$.",
+      "answer_latex": "Yes, $W$ is a subspace. (1) $(0,0,0)$ satisfies the equation. (2) If $\\mathbf{u}, \\mathbf{v} \\in W$, then $(2x_1 - y_1 + 4z_1) + (2x_2 - y_2 + 4z_2) = 0$, so $\\mathbf{u}+\\mathbf{v} \\in W$. (3) $c(2x - y + 4z) = c \\cdot 0 = 0$, so $c\\mathbf{u} \\in W$."
+    },
+    {
+      "prompt_latex": "Determine whether $W = \\{ (x, y) \\in \\mathbb{R}^2 \\mid y = x + 1 \\}$ is a subspace of $\\mathbb{R}^2$.",
+      "answer_latex": "No. The zero vector $(0,0)$ does not satisfy $y = x + 1$ since $0 \\neq 0 + 1$. The first condition fails, so $W$ is not a subspace."
+    },
+    {
+      "prompt_latex": "Let $W = \\{ p(t) \\in \\mathcal{P}_2 \\mid p(0) = 0 \\}$, the set of polynomials of degree at most 2 with zero constant term. Show $W$ is a subspace of $\\mathcal{P}_2$ and describe $W$ explicitly.",
+      "answer_latex": "$W = \\{ at^2 + bt \\mid a, b \\in \\mathbb{R} \\}$. (1) The zero polynomial satisfies $p(0)=0$. (2) If $p(0)=0$ and $q(0)=0$, then $(p+q)(0)=0$. (3) $(cp)(0) = c \\cdot p(0) = 0$. All conditions hold, so $W$ is a subspace."
+    },
+    {
+      "prompt_latex": "A student claims: 'The set $W = \\{ (x, y) \\in \\mathbb{R}^2 \\mid x \\geq 0 \\}$ is a subspace because it contains $\\mathbf{0}$ and is closed under addition.' Identify the error and determine whether $W$ is actually a subspace.",
+      "answer_latex": "The student forgot to check closure under scalar multiplication. Taking $\\mathbf{u} = (1, 0) \\in W$ and $c = -1$, we get $c\\mathbf{u} = (-1, 0) \\notin W$ since $-1 < 0$. Therefore $W$ is not a subspace."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to check that the zero vector is in $W$ when the set is defined by a non-homogeneous equation like $y = x + 1$. They see a linear-looking condition and assume it defines a subspace, but any non-homogeneous equation automatically excludes $\\mathbf{0}$, which instantly disqualifies the set. Always substitute $\\mathbf{0}$ first.",
+    "Students verify that $W$ is closed under addition but forget scalar multiplication entirely, especially when $W$ is defined by an inequality like $x \\geq 0$. Closure under addition does not imply closure under scalar multiplication \u2014 negative scalars can send vectors outside $W$. Always test both operations separately.",
+    "Students confuse a subset with a subspace, assuming any geometrically 'nice' set (like a circle or disk in $\\mathbb{R}^2$) is a subspace. For example, the unit circle fails closure under addition since $(1,0) + (0,1) = (1,1)$ has magnitude $\\sqrt{2} \\neq 1$. Remember that subspaces must pass all three algebraic tests, not just look symmetric or structured."
+  ],
+  "untested_variants": [
+    "Subspaces of the vector space of all real-valued functions $\\mathcal{F}(\\mathbb{R}, \\mathbb{R})$, such as determining whether the set of all differentiable functions or all even functions forms a subspace.",
+    "Showing that the intersection $W_1 \\cap W_2$ of two subspaces is again a subspace, or determining whether their union $W_1 \\cup W_2$ is a subspace.",
+    "Determining whether the solution set of a homogeneous system $A\\mathbf{x} = \\mathbf{0}$ (the null space) is a subspace, connecting subspace theory to systems of linear equations.",
+    "Identifying subspaces of matrix spaces, such as whether the set of all $2 \\times 2$ symmetric matrices or all $2 \\times 2$ matrices with trace zero forms a subspace of $M_{2 \\times 2}$."
+  ]
+}

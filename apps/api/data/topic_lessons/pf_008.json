@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_008",
+  "topic_name": "Proof by Contradiction",
+  "generated_at": "2026-05-13T20:18:18.496353+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to prove things directly \u2014 you start from what you know and build toward what you want to show. But some statements seem almost impossible to attack head-on. For example, how would you prove that $\\sqrt{2}$ is not a fraction? There is no obvious algebraic manipulation that starts from 'assume $\\sqrt{2}$ is rational' and leads anywhere useful \u2014 or is there? What if assuming the opposite of what you want to prove secretly contains a fatal flaw you can expose?",
+  "concept": "Proof by contradiction works by assuming the statement you want to prove is false, then showing that this assumption leads to a logical impossibility. Formally: to prove a statement $P$, you assume $\\neg P$ (the negation of $P$) and derive a statement $Q$ such that $Q$ and $\\neg Q$ are both true simultaneously \u2014 a contradiction. Since a contradiction cannot exist in consistent mathematics, the assumption $\\neg P$ must be false, which forces $P$ to be true.",
+  "anatomy": "Every proof by contradiction has four structural parts. First, the negation: you explicitly state and assume $\\neg P$, the logical opposite of what you wish to prove \u2014 this must be written precisely, because a sloppy negation derails the whole argument. Second, the derivation chain: a sequence of valid logical or algebraic steps that follow from $\\neg P$, each justified by known theorems or definitions. Third, the contradiction: the moment you arrive at a statement of the form $R \\land \\neg R$ \u2014 for example, concluding both that an integer is even and that it is odd. Fourth, the conclusion: the statement 'This contradicts [something known], therefore $\\neg P$ is false, so $P$ is true,' which closes the proof.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\sqrt{2} \\text{ is irrational.}",
+      "description_latex": "We want to prove that $\\sqrt{2}$ cannot be written as a ratio of two integers. Because a direct proof is not obvious, we set up a proof by contradiction: we will assume the opposite is true and see where it leads.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } \\neg P: \\sqrt{2} = \\frac{a}{b}, \\text{ where } a, b \\in \\mathbb{Z},\\, b \\neq 0, \\text{ and } \\gcd(a,b) = 1.",
+      "description_latex": "This is the negation step. We assume $\\sqrt{2}$ is rational, meaning it equals some fraction $\\frac{a}{b}$ in lowest terms \u2014 the condition $\\gcd(a,b)=1$ is critical because it means we cannot simplify the fraction further, and we will use this fact to reach our contradiction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2 = \\frac{a^2}{b^2} \\implies a^2 = 2b^2 \\implies 2 \\mid a^2 \\implies 2 \\mid a.",
+      "description_latex": "Squaring both sides and rearranging gives $a^2 = 2b^2$, which tells us $a^2$ is even. Here we use a key number-theory fact: if $2 \\mid a^2$ then $2 \\mid a$ (because 2 is prime), so we can write $a = 2k$ for some integer $k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = 2k \\implies (2k)^2 = 2b^2 \\implies 4k^2 = 2b^2 \\implies b^2 = 2k^2 \\implies 2 \\mid b.",
+      "description_latex": "Substituting $a = 2k$ into $a^2 = 2b^2$ and simplifying shows that $b^2 = 2k^2$, which means $b^2$ is even, and by the same argument $2 \\mid b$. So both $a$ and $b$ are divisible by 2.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2 \\mid a \\text{ and } 2 \\mid b \\implies \\gcd(a,b) \\geq 2, \\text{ contradicting } \\gcd(a,b)=1. \\therefore \\sqrt{2} \\text{ is irrational.}",
+      "description_latex": "This is the contradiction: we assumed $\\gcd(a,b)=1$, but we just proved $2$ divides both $a$ and $b$, forcing $\\gcd(a,b) \\geq 2$. These two statements cannot both be true, so our assumption $\\neg P$ is false, and therefore $\\sqrt{2}$ is indeed irrational.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: There is no largest even integer.}",
+      "description_latex": "We will use proof by contradiction. The negation of 'there is no largest even integer' is 'there exists a largest even integer.' We begin by assuming exactly that.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } \\neg P: \\exists\\, M \\in \\mathbb{Z} \\text{ such that } M \\text{ is even and } M \\geq n \\text{ for all even integers } n.",
+      "description_latex": "Write the negation carefully: $M$ is the largest even integer, meaning no even number exceeds $M$. This is your starting assumption \u2014 now you need to derive a contradiction by constructing a new even integer larger than $M$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Consider the integer $M + 2$. Show that $M + 2$ is even AND that $M + 2 > M$, then explain why this contradicts the assumption that $M$ is the largest even integer.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "M+2 \\text{ is even and } M+2 > M, \\text{ contradicting the maximality of } M. \\therefore \\text{ no largest even integer exists.}",
+      "description_latex": "Since $M$ is even we can write $M = 2k$, giving $M+2 = 2(k+1)$, which is also even and strictly greater than $M$. This contradicts the assumption that $M$ was the largest even integer, so the assumption is false and the claim is proved.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove by contradiction: if $n^2$ is even, then $n$ is even (where $n \\in \\mathbb{Z}$).",
+      "answer_latex": "Assume $n^2$ is even but $n$ is odd, so $n = 2k+1$. Then $n^2 = 4k^2+4k+1 = 2(2k^2+2k)+1$, which is odd \u2014 contradicting that $n^2$ is even. Hence $n$ must be even."
+    },
+    {
+      "prompt_latex": "Prove by contradiction: $\\sqrt{3}$ is irrational.",
+      "answer_latex": "Assume $\\sqrt{3} = a/b$ in lowest terms ($\\gcd(a,b)=1$). Then $a^2 = 3b^2$, so $3 \\mid a^2$, hence $3 \\mid a$ (since 3 is prime). Writing $a=3k$ gives $9k^2=3b^2$, so $b^2=3k^2$, meaning $3 \\mid b$. Then $\\gcd(a,b)\\geq 3$, contradicting $\\gcd(a,b)=1$."
+    },
+    {
+      "prompt_latex": "Prove by contradiction: there is no integer that is both even and odd.",
+      "answer_latex": "Assume $\\exists\\, n \\in \\mathbb{Z}$ with $n = 2a$ and $n = 2b+1$ for integers $a,b$. Then $2a = 2b+1$, so $2(a-b) = 1$, meaning $1$ is divisible by $2$ \u2014 a contradiction since $1$ is odd. No such integer exists."
+    },
+    {
+      "prompt_latex": "Prove by contradiction: if $p$ is a prime and $p \\mid ab$ (for integers $a,b$), then $p \\mid a$ or $p \\mid b$. (Hint: assume $p \\nmid a$ and $p \\nmid b$, use B\u00e9zout's identity $\\gcd(p,a)=1 \\implies px+ay=1$ for some integers $x,y$.)",
+      "answer_latex": "Assume $p$ is prime, $p \\mid ab$, but $p \\nmid a$ and $p \\nmid b$. Since $p$ is prime and $p \\nmid a$, $\\gcd(p,a)=1$, so $\\exists\\, x,y: px+ay=1$, giving $pbx+aby=b$. Since $p\\mid pb$ and $p\\mid ab$, we get $p\\mid b$ \u2014 contradicting $p\\nmid b$. Hence $p\\mid a$ or $p\\mid b$."
+    },
+    {
+      "prompt_latex": "A library claims it has a catalogue that lists every book in the library which does not list itself. Prove by contradiction that no such catalogue can exist.",
+      "answer_latex": "Let $C$ be the catalogue. Ask: does $C$ list itself? If $C$ lists itself, then by definition $C$ should only contain books that do not list themselves \u2014 contradiction. If $C$ does not list itself, then it qualifies as a book that doesn't list itself, so $C$ must be in $C$ \u2014 contradiction. Both cases yield a contradiction, so no such catalogue can exist. (This is a version of Russell's paradox.)"
+    }
+  ],
+  "common_mistakes": [
+    "Students assume the negation of 'for all $x$, $P(x)$' is 'for all $x$, $\\neg P(x)$' \u2014 the correct negation is 'there exists an $x$ such that $\\neg P(x)$.' Getting the negation wrong means the entire proof argues against the wrong statement, so always negate carefully using quantifier rules before writing a single line.",
+    "Students reach the contradiction but forget to state explicitly what two things conflict and why, writing only 'this is a contradiction' without identifying the specific pair of contradictory statements. A proof by contradiction is not complete until you name the exact statements $R$ and $\\neg R$ that cannot coexist, so always write out the contradiction in full.",
+    "Students confuse proof by contradiction with proof by contrapositive: in contrapositive you prove $\\neg Q \\Rightarrow \\neg P$ directly (no contradiction needed), while in proof by contradiction you assume $\\neg P$ and derive any contradiction, not necessarily $\\neg Q$. Using the wrong method is not just a style error \u2014 it changes the logical structure of the argument entirely, so identify which technique is appropriate before starting."
+  ],
+  "untested_variants": [
+    "Proving that the set of prime numbers is infinite (Euclid's theorem), which requires constructing the product $p_1 p_2 \\cdots p_n + 1$ and arguing about its prime factors.",
+    "Using proof by contradiction to show that the sum or product of an irrational and a rational number is irrational (e.g., if $r$ is rational and $x$ is irrational, prove $r + x$ is irrational).",
+    "Contradiction arguments in graph theory, such as proving that a graph with $n$ vertices and more than $\\binom{n-1}{2}$ edges must be connected.",
+    "Applying contradiction to prove uniqueness in definitions \u2014 for example, proving that the multiplicative identity in a field is unique by assuming two distinct identities exist."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "la_059",
+  "topic_name": "Nilpotent Operators (H)",
+  "generated_at": "2026-05-13T20:10:31.800479+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that for a linear operator $T$ on a vector space, we can ask whether $T$ is invertible, diagonalizable, or has interesting eigenvalues. Over the complex numbers, you've seen that every operator has at least one eigenvalue. But here's a strange class of operators: what if repeatedly applying $T$ eventually sends every vector to zero? The squaring, cubing, or higher powering of $T$ completely annihilates the whole space. Can you determine when this happens, what it implies about the eigenvalues, and how the matrix must look?",
+  "concept": "A nilpotent operator is one that, when applied enough times, produces the zero operator. Formally, a linear operator $T \\in \\mathcal{L}(V)$ is called nilpotent if there exists a positive integer $k$ such that $T^k = 0$. The smallest such $k$ is called the index (or degree) of nilpotency. Think of nilpotent operators as 'eventually destroying' every vector in the space after finitely many applications.",
+  "anatomy": "A nilpotent operator $T^k = 0$ has three key structural pieces to keep track of: the operator $T$ itself (the linear map acting on $V$), the nilpotency condition $T^k = 0$ (meaning the $k$-fold composition maps every vector to $\\mathbf{0}$), and the index of nilpotency $k$ (the smallest positive integer achieving this, sometimes called the degree). On a finite-dimensional complex space, there is always a basis with respect to which $T$ has an upper-triangular matrix with all zeros on the diagonal \u2014 these zeros are the only possible eigenvalue, namely $\\lambda = 0$, which itself is a crucial structural feature.",
+  "worked_example": [
+    {
+      "expression_latex": "T: \\mathbb{C}^3 \\to \\mathbb{C}^3, \\quad [T]_e = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "We begin by specifying our operator via its standard-basis matrix. This is the classic nilpotent 'shift' matrix, and our goal is to verify it is nilpotent and identify its index.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T^2 = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix}^2 = \\begin{pmatrix} 0 & 0 & 1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "We compute $T^2$ by multiplying the matrix by itself. Notice that the single nonzero entry has 'shifted' further up and to the right \u2014 this is the hallmark of a nilpotent shift operator stepping toward total annihilation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T^3 = T^2 \\cdot T = \\begin{pmatrix} 0 & 0 & 1 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix} \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 0 & 0 & 0 \\end{pmatrix} = \\begin{pmatrix} 0 & 0 & 0 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "Multiplying $T^2$ by $T$ yields the zero matrix, confirming $T^3 = 0$. Since $T^2 \\neq 0$ but $T^3 = 0$, the index of nilpotency is exactly $k = 3$, matching the dimension of the space.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Eigenvalues of } T: \\quad \\det(T - \\lambda I) = \\det\\begin{pmatrix} -\\lambda & 1 & 0 \\\\ 0 & -\\lambda & 1 \\\\ 0 & 0 & -\\lambda \\end{pmatrix} = -\\lambda^3 = 0 \\implies \\lambda = 0",
+      "description_latex": "We compute the characteristic polynomial of $T$ to find its eigenvalues. The only eigenvalue is $\\lambda = 0$ with algebraic multiplicity 3, which is a general theorem: every nilpotent operator has $0$ as its only eigenvalue.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T: \\mathbb{C}^2 \\to \\mathbb{C}^2, \\quad [T]_e = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}",
+      "description_latex": "We are given a $2 \\times 2$ upper-triangular matrix with zeros on the diagonal. Our task is to check whether $T$ is nilpotent and find its index.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T^2 = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}^2",
+      "description_latex": "Compute $T^2$ by multiplying the matrix by itself. What do you get, and what does this tell you about whether $T$ is nilpotent?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Index of nilpotency} = ?",
+      "description_latex": "Based on your computation, state the index of nilpotency of $T$ and briefly explain why $T^1 \\neq 0$ but $T^2 = 0$ pins down the exact index.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $T: \\mathbb{C}^2 \\to \\mathbb{C}^2$ have matrix $\\begin{pmatrix} 0 & 3 \\\\ 0 & 0 \\end{pmatrix}$. Is $T$ nilpotent? If so, what is its index?",
+      "answer_latex": "Yes, $T$ is nilpotent with index $2$, since $T^2 = 0$ and $T \\neq 0$."
+    },
+    {
+      "prompt_latex": "Determine whether $T: \\mathbb{C}^2 \\to \\mathbb{C}^2$ with matrix $\\begin{pmatrix} 1 & 1 \\\\ 0 & 0 \\end{pmatrix}$ is nilpotent.",
+      "answer_latex": "$T$ is not nilpotent. Its eigenvalues are $\\lambda = 1$ and $\\lambda = 0$; since $\\lambda = 1 \\neq 0$ is an eigenvalue, $T$ cannot be nilpotent."
+    },
+    {
+      "prompt_latex": "Let $N \\in \\mathcal{L}(V)$ be nilpotent with $\\dim V = n$. Show that $N^n = 0$.",
+      "answer_latex": "By the Cayley-Hamilton theorem (or the structure theorem for nilpotent operators), the characteristic polynomial of $N$ is $\\lambda^n$, so $N^n = 0$."
+    },
+    {
+      "prompt_latex": "Let $T: \\mathbb{C}^3 \\to \\mathbb{C}^3$ be nilpotent with index $3$. If $v \\in V$ satisfies $T^2 v \\neq 0$, show that $\\{v, Tv, T^2 v\\}$ is linearly independent.",
+      "answer_latex": "Suppose $\\alpha v + \\beta T v + \\gamma T^2 v = 0$. Apply $T^2$: $\\alpha T^2 v = 0$, so $\\alpha = 0$ (since $T^2 v \\neq 0$). Apply $T$: $\\beta T^2 v = 0$, so $\\beta = 0$. Then $\\gamma T^2 v = 0$ gives $\\gamma = 0$. Hence the set is linearly independent."
+    },
+    {
+      "prompt_latex": "Let $S, T \\in \\mathcal{L}(V)$ both be nilpotent and suppose $ST = TS$. Prove that $S + T$ is also nilpotent.",
+      "answer_latex": "Since $S^a = 0$ and $T^b = 0$ for some $a, b$, use the binomial theorem (valid because $ST = TS$): $(S+T)^{a+b} = \\sum_{k=0}^{a+b} \\binom{a+b}{k} S^k T^{a+b-k}$. Each term has either $k \\geq a$ (so $S^k = 0$) or $a+b-k \\geq b$ (so $T^{a+b-k} = 0$), hence every term is zero and $(S+T)^{a+b} = 0$."
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse 'nilpotent' with 'has zero as an eigenvalue': having $\\lambda = 0$ as an eigenvalue is necessary but not sufficient for nilpotency (for example, the zero-on-diagonal matrix $\\begin{pmatrix}0&0\\\\0&1\\end{pmatrix}$ has $\\lambda=0$ as an eigenvalue but is not nilpotent). The fix is to remember that nilpotency requires ALL eigenvalues to be zero, not just one.",
+    "Students sometimes claim that if $T^2 = 0$ then $T = 0$: this is false, as $\\begin{pmatrix}0&1\\\\0&0\\end{pmatrix}$ squares to zero yet is nonzero. Don't cancel powers of an operator the way you would with numbers; operators can be 'zero divisors'.",
+    "When finding the index of nilpotency, students often stop as soon as they find one power that is zero without checking that no smaller power also equals zero, so they report an index that is too large. Always verify that $T^{k-1} \\neq 0$ before declaring $k$ to be the index."
+  ],
+  "untested_variants": [
+    "Identifying nilpotent operators given in terms of a basis transformation (e.g., a differentiation operator on polynomials of degree at most $n$) rather than an explicit matrix.",
+    "Using nilpotency to compute the Jordan normal form of an operator, including decomposing $V$ into a direct sum of cyclic $T$-invariant subspaces.",
+    "Proving or applying the result that on a complex vector space, $T$ is nilpotent if and only if $T$ is upper triangularizable with all diagonal entries equal to zero with respect to some basis.",
+    "Analyzing the nilpotency of the product $ST$ of two nilpotent operators when $S$ and $T$ do NOT commute \u2014 that is, when the binomial theorem argument fails."
+  ]
+}

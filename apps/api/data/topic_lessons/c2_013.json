@@ -1,0 +1,86 @@
+{
+  "topic_id": "c2_013",
+  "topic_name": "Probability and Integration (H)",
+  "generated_at": "2026-05-13T00:20:51.593651+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to use integrals to find areas, volumes, and accumulated quantities. Now imagine you want to find the probability that a randomly chosen commute takes between 20 and 40 minutes, given a formula describing how commute times are distributed across the population. Unlike discrete probability from earlier courses, continuous random variables require you to integrate a density function over an interval \u2014 and you need new tools to check whether a function even qualifies as a valid probability model. How do you use integration to compute and verify probabilities for continuous random variables?",
+  "concept": "A probability density function (PDF) describes how probability is spread continuously across possible values of a random variable $X$. Instead of summing probabilities like in discrete settings, we integrate: the probability that $X$ falls in $[a, b]$ is $P(a \\leq X \\leq b) = \\int_a^b f(x)\\,dx$. For $f$ to be a valid PDF it must satisfy two conditions: $f(x) \\geq 0$ for all $x$, and $\\int_{-\\infty}^{\\infty} f(x)\\,dx = 1$.",
+  "anatomy": "A PDF $f(x)$ has several critical components: the domain, which specifies where $f(x)$ is defined and nonzero (often a finite interval $[a,b]$ or all of $\\mathbb{R}$); the normalization condition $\\int_{-\\infty}^{\\infty} f(x)\\,dx = 1$, which forces total probability to equal 1; the nonnegativity condition $f(x) \\geq 0$, which ensures no negative probability; the probability integral $\\int_a^b f(x)\\,dx$, which gives $P(a \\leq X \\leq b)$; and the mean (expected value) $\\mu = \\int_{-\\infty}^{\\infty} x\\,f(x)\\,dx$, which locates the center of the distribution.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = \\begin{cases} 3x^2 & 0 \\leq x \\leq 1 \\\\ 0 & \\text{otherwise} \\end{cases}",
+      "description_latex": "We start by identifying the candidate PDF. Our first job is to verify that this function is actually a valid PDF by checking nonnegativity (clearly $3x^2 \\geq 0$ on $[0,1]$) and then checking that the total area under the curve equals 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_{-\\infty}^{\\infty} f(x)\\,dx = \\int_0^1 3x^2\\,dx = \\Big[x^3\\Big]_0^1 = 1 - 0 = 1",
+      "description_latex": "We integrate $f(x)$ over its entire domain $[0,1]$ (the function is zero outside this interval, so those regions contribute nothing). Because the result is exactly 1, the normalization condition is satisfied and $f$ is a valid PDF.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P\\!\\left(\\tfrac{1}{2} \\leq X \\leq 1\\right) = \\int_{1/2}^{1} 3x^2\\,dx",
+      "description_latex": "To find the probability that $X$ lies between $\\frac{1}{2}$ and $1$, we set up the definite integral of $f(x)$ over that specific interval. This is the core operation: probability equals area under the PDF curve between the two bounds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_{1/2}^{1} 3x^2\\,dx = \\Big[x^3\\Big]_{1/2}^{1} = 1 - \\frac{1}{8} = \\frac{7}{8}",
+      "description_latex": "Evaluating the antiderivative $x^3$ at the bounds gives $1^3 - (\\tfrac{1}{2})^3 = 1 - \\tfrac{1}{8} = \\tfrac{7}{8}$. So there is an $87.5\\%$ chance that $X$ lands in the upper half of its range, which makes intuitive sense because $f$ is larger (steeper) toward $x = 1$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = \\begin{cases} cx & 0 \\leq x \\leq 4 \\\\ 0 & \\text{otherwise} \\end{cases}",
+      "description_latex": "We are given a family of functions depending on a constant $c$ and must find the value of $c$ that makes $f$ a valid PDF. The normalization condition $\\int_0^4 cx\\,dx = 1$ will determine $c$ uniquely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^4 cx\\,dx = c\\cdot\\Big[\\tfrac{x^2}{2}\\Big]_0^4 = c \\cdot 8 = 1",
+      "description_latex": "We compute the integral of $cx$ over $[0,4]$, pulling $c$ out as a constant factor. Setting the result equal to 1 and solving for $c$ gives us the normalization constant.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Solve the equation $8c = 1$ to find $c$, then write the fully determined PDF. What is $c$, and what does $f(x)$ look like with this value?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using your value of $c$, compute $P(1 \\leq X \\leq 3) = \\int_1^3 f(x)\\,dx$. Set up and evaluate the integral completely.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Verify that $f(x) = \\dfrac{1}{3}$ on $[0, 3]$ (and $0$ elsewhere) is a valid PDF.",
+      "answer_latex": "\\int_0^3 \\frac{1}{3}\\,dx = \\frac{1}{3}\\cdot 3 = 1\\checkmark,\\text{ and } f(x)\\geq 0. \\text{ Valid PDF.}"
+    },
+    {
+      "prompt_latex": "Let $f(x) = \\dfrac{3}{8}x^2$ on $[0,2]$, zero elsewhere. Find $P(0 \\leq X \\leq 1)$.",
+      "answer_latex": "\\int_0^1 \\frac{3}{8}x^2\\,dx = \\frac{3}{8}\\cdot\\frac{1}{3} = \\frac{1}{8}"
+    },
+    {
+      "prompt_latex": "Find the value of $k$ that makes $f(x) = k\\sqrt{x}$ on $[0,4]$ a valid PDF.",
+      "answer_latex": "\\int_0^4 k\\sqrt{x}\\,dx = k\\cdot\\frac{16}{3}=1 \\implies k = \\frac{3}{16}"
+    },
+    {
+      "prompt_latex": "The lifetime $X$ (in years) of a device has PDF $f(x) = 2e^{-2x}$ for $x \\geq 0$. Find the mean lifetime $\\mu = \\int_0^{\\infty} x\\cdot 2e^{-2x}\\,dx$ using integration by parts.",
+      "answer_latex": "\\mu = \\frac{1}{2}"
+    },
+    {
+      "prompt_latex": "A continuous random variable has PDF $f(x) = \\dfrac{3}{2}x^2$ on $[-1,1]$. Find $P(X > 0)$ and interpret your answer in words.",
+      "answer_latex": "P(X>0)=\\int_0^1 \\frac{3}{2}x^2\\,dx = \\frac{1}{2}.\\text{ By symmetry, }X\\text{ is equally likely to be positive or negative.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that a PDF must integrate to 1 over its entire domain and instead verify the integral only over a subinterval; always integrate over all $x$ from $-\\infty$ to $\\infty$ (or the full support) before concluding the function is valid.",
+    "When computing $P(X = a)$ for a specific value $a$, students try to evaluate $f(a)$ directly and treat it as a probability; for continuous random variables, $P(X = a) = \\int_a^a f(x)\\,dx = 0$ always, because a single point has zero width.",
+    "Students confuse the normalization constant $c$ with the probability itself \u2014 they solve $\\int f(x)\\,dx = c$ and then report $c$ as a probability rather than as the scaling factor that forces the total integral to 1; remember, $c$ is found by setting $\\int f(x)\\,dx = 1$ and solving."
+  ],
+  "untested_variants": [
+    "Finding the median of a continuous distribution by solving $\\int_{-\\infty}^{m} f(x)\\,dx = \\frac{1}{2}$ for $m$, which requires solving a nonlinear equation after integration.",
+    "Computing the variance $\\sigma^2 = \\int_{-\\infty}^{\\infty}(x-\\mu)^2 f(x)\\,dx$ or equivalently $E[X^2] - \\mu^2$, which demands two separate integration steps.",
+    "Working with piecewise PDFs defined over two or more sub-intervals with different formulas on each piece, requiring students to split the normalization or probability integral across the pieces.",
+    "Applying the cumulative distribution function (CDF) $F(x) = \\int_{-\\infty}^{x} f(t)\\,dt$ and using it to find probabilities or to recover $f$ by differentiation."
+  ]
+}

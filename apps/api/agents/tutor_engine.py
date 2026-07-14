@@ -220,30 +220,28 @@ async def _lesson_response(
     Generate a lesson-mode response: explain concept, show a worked example,
     then give a simpler fresh problem to try.
     """
-    from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL, DATA_DIR
+    from config import ANTHROPIC_API_KEY, ANTHROPIC_MODEL
     from agents.prompt_assembler import build_system_prompt
-    import json as _json
 
     problem: Optional[GeneratedProblem] = session.problem
 
-    # Try to pull worked_example from the cached lesson file
+    # Try to pull worked_example from the cached lesson (DB in prod, file in dev)
     worked_example_text = ""
     if session.topic_id:
-        lesson_path = DATA_DIR / "topic_lessons" / f"{session.topic_id}.json"
-        if lesson_path.exists():
-            try:
-                lesson = _json.loads(lesson_path.read_text())
-                steps = lesson.get("worked_example", [])
-                parts = []
-                for i, step in enumerate(steps[:4], 1):
-                    expr = step.get("expression_latex", "")
-                    desc = step.get("description_latex", "")
-                    if desc or expr:
-                        sep = " — " if desc and expr else ""
-                        parts.append(f"Step {i}: {desc}{sep}{expr}")
-                worked_example_text = "\n".join(parts)
-            except Exception:
-                pass
+        try:
+            from agents.lesson_store import get_lesson
+            lesson = get_lesson(session.topic_id)
+            steps = (lesson or {}).get("worked_example", [])
+            parts = []
+            for i, step in enumerate(steps[:4], 1):
+                expr = step.get("expression_latex", "")
+                desc = step.get("description_latex", "")
+                if desc or expr:
+                    sep = " — " if desc and expr else ""
+                    parts.append(f"Step {i}: {desc}{sep}{expr}")
+            worked_example_text = "\n".join(parts)
+        except Exception:
+            pass
 
     if not ANTHROPIC_API_KEY:
         stmt = problem.statement if problem else "this problem"
@@ -385,44 +383,59 @@ async def build_problem_queue(session: Any) -> list[GeneratedProblem]:
     from agents.generator import generate as generate_problem
     from agents.schemas import GeneratorInput
     from topic_registry import TOPIC_REGISTRY
+    from progress_store import seed_difficulty
+    from problem_bank import fetch_unserved, save_generated
 
     problems: list[GeneratedProblem] = []
 
-    # In-curriculum topics
-    for topic_id in session.topic_ids[:6]:
-        meta = TOPIC_REGISTRY.get(topic_id)
-        if meta is None:
-            continue
-        conceptual_diff = max(1, min(5, round(session.difficulty * 5 / 6)))
+    async def _generate_and_bank(meta, topic_id: str, diff: int) -> Optional[GeneratedProblem]:
+        """Mode B generation; persist the result so it's a one-time cost."""
         gen_input = GeneratorInput(
             topic=meta.topic_name,
             course=meta.course_name,
             unit=meta.unit_name,
-            conceptual_diff=conceptual_diff,
-            computational_diff=conceptual_diff,
+            conceptual_diff=diff,
+            computational_diff=diff,
             calc_tier="none",
         )
+        p = await generate_problem(gen_input)
         try:
-            p = await generate_problem(gen_input)
-            problems.append(p)
+            p.problem_id = save_generated(
+                p,
+                topic_id=topic_id,
+                course_id=getattr(meta, "course_id", "") or "",
+                unit_id=getattr(meta, "unit_id", "") or "",
+                conceptual_diff=diff,
+                computational_diff=diff,
+            )
         except Exception as exc:
-            logger.warning("Problem gen failed for %s: %s", topic_id, exc)
+            logger.warning("Bank save failed for %s: %s", topic_id, exc)
+        return p
 
-        # Second problem (harder) for queue depth
-        if len(problems) < 4:
+    # In-curriculum topics — bank-first (launch decision 2026-06-12): serve
+    # unseen cached problems instantly, generate only the shortfall
+    for topic_id in session.topic_ids[:6]:
+        meta = TOPIC_REGISTRY.get(topic_id)
+        if meta is None:
+            continue
+        # Returning students start where their stored mastery says, not at the
+        # intake default (L1/7B difficulty seeding)
+        intake_diff = max(1, min(5, round(session.difficulty * 5 / 6)))
+        conceptual_diff = seed_difficulty(session.user_id, topic_id, intake_diff)
+
+        banked = fetch_unserved(session.user_id, topic_id, conceptual_diff, limit=2)
+        problems.extend(banked)
+
+        shortfall_diffs = [conceptual_diff, min(5, conceptual_diff + 1)][len(banked):]
+        for diff in shortfall_diffs:
+            if len(problems) >= 4 and diff != conceptual_diff:
+                break  # harder spare only while the queue is shallow
             try:
-                gen2 = GeneratorInput(
-                    topic=meta.topic_name,
-                    course=meta.course_name,
-                    unit=meta.unit_name,
-                    conceptual_diff=min(5, conceptual_diff + 1),
-                    computational_diff=min(5, conceptual_diff + 1),
-                    calc_tier="none",
-                )
-                p2 = await generate_problem(gen2)
-                problems.append(p2)
-            except Exception:
-                pass
+                p = await _generate_and_bank(meta, topic_id, diff)
+                if p is not None:
+                    problems.append(p)
+            except Exception as exc:
+                logger.warning("Problem gen failed for %s: %s", topic_id, exc)
 
     # Freeform topics (Mode B — LLM-only)
     for freeform in session.freeform_topics[:2]:

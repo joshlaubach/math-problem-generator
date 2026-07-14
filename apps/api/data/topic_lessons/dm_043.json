@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_043",
+  "topic_name": "Generating Functions (H)",
+  "generated_at": "2026-05-13T20:15:30.279211+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to count combinations \u2014 you can find the number of ways to choose $k$ items from $n$ using $\\binom{n}{k}$. But what if you wanted to find ALL those counts at once, packaged into a single algebraic object you could manipulate? For example, how would you find the number of ways to make change for $n$ cents using only pennies and nickels, for every $n$ simultaneously? That's the gap: we need a tool that encodes an entire sequence of counts as one function \u2014 so what is a generating function, and how do we use it?",
+  "concept": "A generating function turns a sequence of numbers into a power series where the $n$-th coefficient carries the $n$-th count. Formally, given a sequence $a_0, a_1, a_2, \\ldots$, its ordinary generating function (OGF) is $G(x) = \\sum_{n=0}^{\\infty} a_n x^n$. We treat $x$ as a formal variable \u2014 we never plug in a number; instead, algebraic operations on $G(x)$ directly correspond to combinatorial operations on the sequence.",
+  "anatomy": "A generating function $G(x) = a_0 + a_1 x + a_2 x^2 + \\cdots$ has four key parts working together. The coefficients $a_n$ are the combinatorial quantities you care about \u2014 the things you are counting. The formal variable $x$ is a placeholder whose only job is to 'tag' each coefficient with its index; it has no numerical value. The exponent $n$ on $x^n$ acts as an index label, matching each power to its coefficient. Finally, the closed form (e.g., $\\frac{1}{1-x}$) is the compact algebraic expression for the whole series, which we obtain by recognising standard series like the geometric series $\\sum_{n=0}^{\\infty} x^n = \\frac{1}{1-x}$ for $|x|<1$ in the formal sense.",
+  "worked_example": [
+    {
+      "expression_latex": "G(x) = \\sum_{n=0}^{\\infty} x^n = \\frac{1}{1-x}",
+      "description_latex": "We start with the simplest generating function: the sequence $1,1,1,1,\\ldots$ where every coefficient equals $1$, meaning there is exactly one way to pick any number of identical items. Recognising this as a geometric series immediately gives the closed form $\\frac{1}{1-x}$, which we will use as a building block for everything else.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Find the OGF for the number of ways to choose } n \\text{ items from an unlimited supply of two types A and B.}",
+      "description_latex": "Each type independently contributes a factor of $\\frac{1}{1-x}$, because choosing $k$ items of type A is encoded by the $x^k$ term in $\\frac{1}{1-x}$. To combine two independent choices that must add up to $n$ total, we multiply the generating functions \u2014 the convolution of coefficients under multiplication automatically sums over all ways to split $n$ between the two types.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "G(x) = \\frac{1}{1-x} \\cdot \\frac{1}{1-x} = \\frac{1}{(1-x)^2} = \\sum_{n=0}^{\\infty}(n+1)x^n",
+      "description_latex": "Multiplying the two factors gives $\\frac{1}{(1-x)^2}$. Using the generalised binomial series identity $\\frac{1}{(1-x)^k} = \\sum_{n=0}^{\\infty}\\binom{n+k-1}{k-1}x^n$, with $k=2$ we get coefficient $n+1$ for $x^n$, confirming there are $n+1$ ways to split $n$ objects between two unlimited bins \u2014 which matches the stars-and-bars result $\\binom{n+1}{1} = n+1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Extract the coefficient: } [x^4]\\frac{1}{(1-x)^2} = 4+1 = 5",
+      "description_latex": "Reading off the answer is the final step: you substitute $n=4$ into $n+1$ to get $5$. This notation $[x^n]G(x)$ means 'the coefficient of $x^n$ in $G(x)$', and being comfortable extracting specific coefficients from a closed form is the whole payoff of the generating function method.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find the OGF for } a_n = \\text{number of ways to pick } n \\text{ items from 3 unlimited identical bins.}",
+      "description_latex": "Each bin independently contributes a factor of $\\frac{1}{1-x}$, so we multiply three such factors together. Write down the product and recognise what closed form it produces.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "G(x) = \\left(\\frac{1}{1-x}\\right)^3 = \\frac{1}{(1-x)^3}",
+      "description_latex": "Good \u2014 three factors multiply to $\\frac{1}{(1-x)^3}$. Now apply the generalised binomial identity $\\frac{1}{(1-x)^k} = \\sum_{n=0}^{\\infty}\\binom{n+k-1}{k-1}x^n$ with $k=3$ to write this as an explicit power series and identify the general coefficient $a_n$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "G(x) = \\sum_{n=0}^{\\infty}\\binom{n+2}{2}x^n, \\quad \\text{so } a_n = \\binom{n+2}{2}",
+      "description_latex": "With $k=3$ the identity gives $\\binom{n+2}{2}$ as the coefficient of $x^n$, which is exactly the stars-and-bars count $\\binom{n+2}{2}$ for distributing $n$ identical objects into $3$ distinct bins \u2014 a satisfying confirmation that generating functions and direct counting agree.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write down the OGF for the sequence $a_n = 1$ for all $n \\geq 0$ and give its closed form.",
+      "answer_latex": "G(x) = \\sum_{n=0}^{\\infty} x^n = \\frac{1}{1-x}"
+    },
+    {
+      "prompt_latex": "Find the OGF for the number of ways to select $n$ objects from two distinct unlimited types, and extract the coefficient of $x^5$.",
+      "answer_latex": "G(x) = \\frac{1}{(1-x)^2} = \\sum_{n=0}^{\\infty}(n+1)x^n, \\quad [x^5] = 6"
+    },
+    {
+      "prompt_latex": "Use generating functions to find the number of ways to distribute $n = 6$ identical balls into $4$ distinct boxes (each box can hold any number). Set up the OGF and extract the coefficient of $x^6$.",
+      "answer_latex": "G(x) = \\frac{1}{(1-x)^4} = \\sum_{n=0}^{\\infty}\\binom{n+3}{3}x^n, \\quad [x^6] = \\binom{9}{3} = 84"
+    },
+    {
+      "prompt_latex": "Find the OGF for the number of non-negative integer solutions to $x_1 + x_2 + x_3 = n$ where $x_1 \\leq 2$, $x_2 \\geq 0$ (unlimited), and $x_3 \\geq 0$ (unlimited). Write the OGF as a product of closed-form factors (do not fully expand).",
+      "answer_latex": "G(x) = (1 + x + x^2)\\cdot\\frac{1}{1-x}\\cdot\\frac{1}{1-x} = \\frac{1+x+x^2}{(1-x)^2}"
+    },
+    {
+      "prompt_latex": "A bakery sells muffins in 3 flavours. Each day a customer buys exactly $n$ muffins total, with an even number of chocolate muffins (0, 2, 4, ...) and any number of the other two flavours. Write the OGF for the number of purchasing combinations for a given $n$.",
+      "answer_latex": "G(x) = \\frac{1}{1-x^2}\\cdot\\frac{1}{1-x}\\cdot\\frac{1}{1-x} = \\frac{1}{(1-x^2)(1-x)^2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students multiply the exponents instead of multiplying the generating functions when combining independent choices \u2014 remember that independence means multiplication of the functions $G_1(x)\\cdot G_2(x)$, not $x^{a+b}$, because the convolution of coefficients under multiplication is exactly what counts the combined choices.",
+    "When applying the identity $\\frac{1}{(1-x)^k} = \\sum_{n=0}^{\\infty}\\binom{n+k-1}{k-1}x^n$, students often write $\\binom{n+k}{k}$ instead of $\\binom{n+k-1}{k-1}$ \u2014 a careful off-by-one: with $k=2$ the coefficient must be $n+1$, not $n+2$, so always verify with a small case like $n=0$ giving coefficient $1$.",
+    "Students forget that the formal variable $x$ carries no numerical value and attempt to evaluate $G(x)$ at $x=1$ to 'sum' coefficients, which diverges for series like $\\frac{1}{1-x}$ \u2014 instead, use algebraic manipulations and coefficient extraction $[x^n]$ to get answers, only applying analytic evaluation when the series is known to converge."
+  ],
+  "untested_variants": [
+    "Exponential generating functions (EGFs) of the form $\\sum_{n=0}^{\\infty} a_n \\frac{x^n}{n!}$, used when counting labelled objects or permutations rather than combinations.",
+    "Using generating functions to solve linear recurrence relations by expressing $G(x)$ in terms of initial conditions and then performing partial fraction decomposition to find a closed-form formula for $a_n$.",
+    "Generating functions with upper-bounded variables (e.g., each variable satisfies $0 \\leq x_i \\leq 5$), requiring finite polynomial factors $(1 + x + x^2 + \\cdots + x^5)$ and expanding products to extract specific coefficients.",
+    "Applying the product rule for generating functions to multinomial coefficients and proving combinatorial identities such as the Vandermonde identity using coefficient comparison."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "de_035",
+  "topic_name": "Convolution and the Convolution Theorem",
+  "generated_at": "2026-05-13T20:02:46.872013+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to find the inverse Laplace transform of simple products like $\\frac{1}{s(s+1)}$ by using partial fractions. But what happens when you encounter a product $F(s)G(s)$ where partial fractions would be messy or impossible \u2014 for instance, $\\frac{1}{(s^2+1)^2}$? There must be a deeper structure connecting multiplication in the $s$-domain to something meaningful in the $t$-domain. What operation on functions $f$ and $g$ has Laplace transform exactly equal to $F(s)G(s)$?",
+  "concept": "Convolution is a way of 'blending' two functions by integrating their overlap as one slides over the other. Formally, the convolution of $f$ and $g$ is defined as $(f * g)(t) = \\int_0^t f(\\tau)\\, g(t - \\tau)\\, d\\tau$. The Convolution Theorem states that $\\mathcal{L}\\{f * g\\} = F(s)G(s)$, meaning multiplication in the $s$-domain corresponds exactly to convolution in the $t$-domain, giving us a powerful tool for computing inverse Laplace transforms.",
+  "anatomy": "The convolution integral $(f * g)(t) = \\int_0^t f(\\tau)\\, g(t - \\tau)\\, d\\tau$ has several distinct parts worth naming. The integration variable $\\tau$ is a dummy variable running from $0$ to $t$; it parameterizes the overlap between the two functions. The factor $f(\\tau)$ evaluates the first function at $\\tau$, while $g(t - \\tau)$ is the second function time-reversed and shifted, evaluated so that as $\\tau$ increases from $0$ to $t$, the argument $t - \\tau$ decreases from $t$ to $0$. The upper limit $t$ is what makes this a 'running' integral \u2014 the result depends on $t$, producing a new function of $t$. The theorem pairs this with $F(s) = \\mathcal{L}\\{f\\}$ and $G(s) = \\mathcal{L}\\{g\\}$, the individual transforms of each factor.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathcal{L}^{-1}\\left\\{\\frac{1}{s(s+2)}\\right\\} \\text{ using convolution}",
+      "description_latex": "We want to find the inverse Laplace transform of a product $F(s)G(s)$ where $F(s) = \\frac{1}{s}$ and $G(s) = \\frac{1}{s+2}$. By the Convolution Theorem, $\\mathcal{L}^{-1}\\{F(s)G(s)\\} = (f * g)(t)$, so we first identify $f(t) = \\mathcal{L}^{-1}\\{1/s\\} = 1$ and $g(t) = \\mathcal{L}^{-1}\\{1/(s+2)\\} = e^{-2t}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(f * g)(t) = \\int_0^t f(\\tau)\\, g(t-\\tau)\\, d\\tau = \\int_0^t (1) e^{-2(t-\\tau)}\\, d\\tau",
+      "description_latex": "We write out the convolution integral, substituting $f(\\tau) = 1$ and $g(t - \\tau) = e^{-2(t-\\tau)}$. Notice that we replace $t$ with $t - \\tau$ in $g$, not in $f$ \u2014 this asymmetry is the most common source of errors at this stage.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^t e^{-2(t-\\tau)}\\, d\\tau = e^{-2t} \\int_0^t e^{2\\tau}\\, d\\tau = e^{-2t} \\cdot \\frac{e^{2\\tau}}{2}\\Big|_0^t",
+      "description_latex": "We factor $e^{-2t}$ out of the integral because it does not depend on $\\tau$ at all \u2014 it is a constant with respect to the integration variable. This leaves a clean exponential in $\\tau$ that is straightforward to integrate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e^{-2t} \\cdot \\frac{e^{2t} - 1}{2} = \\frac{1 - e^{-2t}}{2}",
+      "description_latex": "After evaluating the definite integral from $0$ to $t$, we multiply through by $e^{-2t}$ and simplify. This confirms the answer we would have gotten from partial fractions, which is a great consistency check when learning convolution.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathcal{L}^{-1}\\left\\{\\frac{1}{s^2(s+1)}\\right\\} \\text{ using convolution}",
+      "description_latex": "We split the product as $F(s) = \\frac{1}{s^2}$ and $G(s) = \\frac{1}{s+1}$. From standard transform tables, $f(t) = \\mathcal{L}^{-1}\\{1/s^2\\} = t$ and $g(t) = \\mathcal{L}^{-1}\\{1/(s+1)\\} = e^{-t}$, so by the Convolution Theorem the answer is $(f*g)(t) = \\int_0^t \\tau\\, e^{-(t-\\tau)}\\, d\\tau$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^t \\tau\\, e^{-(t-\\tau)}\\, d\\tau = e^{-t}\\int_0^t \\tau\\, e^{\\tau}\\, d\\tau",
+      "description_latex": "We factor out $e^{-t}$ just as before, leaving an integral of the form $\\int_0^t \\tau e^\\tau\\, d\\tau$. This integral requires integration by parts \u2014 try completing the integration by parts and then evaluating the result from $0$ to $t$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "e^{-t}\\left[\\tau e^{\\tau} - e^{\\tau}\\right]_0^t = e^{-t}\\left[(te^t - e^t) - (0 - 1)\\right] = t - 1 + e^{-t}",
+      "description_latex": "After evaluating the integration by parts, substituting the limits, and distributing $e^{-t}$, we arrive at the final answer $t - 1 + e^{-t}$. You can verify this is correct by taking its Laplace transform and checking you recover $\\frac{1}{s^2(s+1)}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Use the Convolution Theorem to find } \\mathcal{L}^{-1}\\left\\{\\frac{1}{s(s+3)}\\right\\}.",
+      "answer_latex": "\\frac{1}{3}(1 - e^{-3t})"
+    },
+    {
+      "prompt_latex": "\\text{Use the Convolution Theorem to find } \\mathcal{L}^{-1}\\left\\{\\frac{s}{(s^2+1)^2}\\right\\}. \\text{ Hint: write as } \\frac{s}{s^2+1}\\cdot\\frac{1}{s^2+1}.",
+      "answer_latex": "\\frac{t}{2}\\sin t"
+    },
+    {
+      "prompt_latex": "\\text{Evaluate the convolution } (e^t * e^{2t})(t) = \\int_0^t e^\\tau e^{2(t-\\tau)}\\, d\\tau \\text{ directly.}",
+      "answer_latex": "e^{2t} - e^t"
+    },
+    {
+      "prompt_latex": "\\text{Use the Convolution Theorem to solve the integral equation: } y(t) = t + \\int_0^t \\sin(t-\\tau)\\, y(\\tau)\\, d\\tau.",
+      "answer_latex": "y(t) = t + \\frac{t^3}{6}"
+    },
+    {
+      "prompt_latex": "\\text{In an RC circuit with zero initial charge, the output voltage satisfies } V_{out}(t) = \\int_0^t e^{-(t-\\tau)} V_{in}(\\tau)\\, d\\tau. \\text{ If } V_{in}(t) = \\cos t\\text{, find } V_{out}(t).",
+      "answer_latex": "V_{out}(t) = \\frac{1}{2}(\\sin t + \\cos t - e^{-t})"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $g(t - \\tau)$ as $g(t) - g(\\tau)$ \u2014 treating the time-shift as subtraction of function values. The argument $t - \\tau$ must be substituted directly into the formula for $g$; for example, if $g(t) = e^{-2t}$ then $g(t-\\tau) = e^{-2(t-\\tau)}$, not $e^{-2t} - e^{-2\\tau}$.",
+    "Students forget to factor the $t$-dependent part (like $e^{-2t}$) out of the integral before integrating with respect to $\\tau$, leading to an incorrectly treated integrand. Always check which parts of the integrand actually depend on the dummy variable $\\tau$ before integrating.",
+    "Students apply the Convolution Theorem in the wrong direction, writing $\\mathcal{L}\\{f(t)\\cdot g(t)\\} = F(s)G(s)$, confusing pointwise multiplication of functions with convolution. The correct statement is $\\mathcal{L}\\{(f*g)(t)\\} = F(s)G(s)$; pointwise multiplication in the $t$-domain corresponds to a different (and more complex) operation in the $s$-domain."
+  ],
+  "untested_variants": [
+    "Using convolution to solve a Volterra integral equation of the second kind where the kernel is a polynomial rather than an exponential or trigonometric function.",
+    "Finding $\\mathcal{L}^{-1}\\{F(s)^2\\}$ via convolution when $f(t)$ involves a Heaviside step function, requiring careful handling of the unit step in the convolution integral.",
+    "Applying the Convolution Theorem to a system of differential equations where the forcing function is expressed as a convolution, requiring simultaneous use of initial-value theorem alongside convolution.",
+    "Verifying commutativity $(f * g = g * f)$ by computing both orders of a non-trivial convolution integral and confirming they are equal, as a proof-style exercise."
+  ]
+}

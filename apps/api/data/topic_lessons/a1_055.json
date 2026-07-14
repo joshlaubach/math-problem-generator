@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_055",
+  "topic_name": "Comparing Linear, Quadratic, and Exponential Graphs",
+  "generated_at": "2026-05-12T22:47:22.498825+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know that linear functions make straight lines and that quadratic functions make U-shaped parabolas. But what happens when you line up a linear graph, a quadratic graph, and an exponential graph side by side and ask: which one grows the fastest in the long run, and how can you tell them apart just by looking at a table of values? That distinction turns out to matter enormously in real life \u2014 from predicting population growth to modeling the trajectory of a ball. Can you look at a table of $(x, y)$ values and confidently say which family of function produced it?",
+  "concept": "Linear, quadratic, and exponential functions each have a distinctive growth pattern that shows up both in their graphs and in their tables. A linear function $f(x) = mx + b$ grows by a constant amount (constant first differences). A quadratic function $f(x) = ax^2 + bx + c$ grows by an ever-increasing amount (constant second differences). An exponential function $f(x) = a \\cdot b^x$ grows by a constant ratio between successive outputs. On a graph, these correspond to a straight line, a symmetric parabola, and a curve that eventually races past both of the others.",
+  "anatomy": "When comparing these three function families, four structural features matter most. The rate of change tells you whether outputs increase by a fixed amount (linear), an accelerating amount (quadratic), or a fixed multiplier (exponential). The shape descriptor names the graph: line, parabola, or exponential curve. The end behavior describes what happens as $x$ grows large: linear and quadratic outputs grow without bound polynomially, while an exponential with base $b > 1$ eventually dominates both. Finally, the difference/ratio test applied to equally spaced $x$-values is the algebraic fingerprint: first differences constant \u2192 linear; second differences constant \u2192 quadratic; ratios constant \u2192 exponential.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Table A: } (0,1),(1,3),(2,5),(3,7),(4,9)",
+      "description_latex": "We start by computing the first differences between consecutive outputs: $3-1=2$, $5-3=2$, $7-5=2$, $9-7=2$. Because every first difference equals the same constant $2$, the table is linear. The function has a constant rate of change, which is exactly what defines $f(x) = 2x+1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Table B: } (0,1),(1,2),(2,4),(3,8),(4,16)",
+      "description_latex": "Now check first differences: $2-1=1$, $4-2=2$, $8-4=4$, $16-8=8$ \u2014 they are not constant, so this is not linear. Instead, check the ratios of consecutive outputs: $2/1=2$, $4/2=2$, $8/4=2$, $16/8=2$. A constant ratio of $2$ confirms this is exponential, specifically $f(x)=1\\cdot 2^x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Table C: } (0,0),(1,1),(2,4),(3,9),(4,16)",
+      "description_latex": "First differences are $1-0=1$, $4-1=3$, $9-4=5$, $16-9=7$ \u2014 not constant, so not linear. Ratios are $1/0$ which is undefined, so this is not exponential. Now take second differences: $3-1=2$, $5-3=2$, $7-5=2$. The second differences are all equal to $2$, confirming a quadratic. This matches $f(x)=x^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Graph comparison as } x \\to \\infty: \\quad 2x+1 \\text{ vs } x^2 \\text{ vs } 2^x",
+      "description_latex": "At $x=10$ the linear gives $21$, the quadratic gives $100$, and the exponential gives $1024$. The exponential eventually towers over both the linear and the quadratic, even though all three started near each other for small $x$. This is why we say exponential growth 'wins' in the long run \u2014 its graph curves steeply upward and separates from the others as $x$ gets large.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Table: } (0,3),(1,6),(2,12),(3,24),(4,48)",
+      "description_latex": "We want to identify the function family. A good first move is always to check first differences: $6-3=3$, $12-6=6$, $24-12=12$, $48-24=24$. These differences are not constant, so this table is definitely not linear.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{6}{3}=?,\\quad \\frac{12}{6}=?,\\quad \\frac{24}{12}=?,\\quad \\frac{48}{24}=?",
+      "description_latex": "Since first differences are not constant, compute the ratio of each consecutive pair of outputs. What is each ratio, and what does a constant ratio tell you about the function family?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f(x) = 3 \\cdot 2^x",
+      "description_latex": "Because every ratio equals $2$, the table is exponential with base $2$ and initial value $3$. We can write the explicit equation as $f(x)=3\\cdot 2^x$, where $3$ is the value at $x=0$ and $2$ is the common ratio.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Identify the function family: } (0,5),(1,8),(2,11),(3,14)",
+      "answer_latex": "\\text{Linear (constant first difference of } 3\\text{); } f(x)=3x+5"
+    },
+    {
+      "prompt_latex": "\\text{Identify the function family: } (0,2),(1,6),(2,18),(3,54)",
+      "answer_latex": "\\text{Exponential (constant ratio of } 3\\text{); } f(x)=2\\cdot 3^x"
+    },
+    {
+      "prompt_latex": "\\text{Identify the function family: } (0,0),(1,2),(2,8),(3,18),(4,32)",
+      "answer_latex": "\\text{Quadratic (constant second differences of } 4\\text{); } f(x)=2x^2"
+    },
+    {
+      "prompt_latex": "\\text{For large } x\\text{, rank } f(x)=5x+10,\\; g(x)=x^2-3,\\; h(x)=1.5^x \\text{ from slowest to fastest growing.}",
+      "answer_latex": "f(x)=5x+10 \\text{ (slowest)},\\quad g(x)=x^2-3,\\quad h(x)=1.5^x \\text{ (fastest)}"
+    },
+    {
+      "prompt_latex": "\\text{A city's population in thousands is recorded: year 0: 4, year 1: 8, year 2: 16, year 3: 32. Write a function modeling the population } P(t) \\text{ and predict the population at year 5.}",
+      "answer_latex": "P(t)=4\\cdot 2^t;\\quad P(5)=4\\cdot 2^5=128 \\text{ thousand}"
+    }
+  ],
+  "common_mistakes": [
+    "Students check only first differences for every table and conclude a function is 'not linear, therefore quadratic,' skipping the ratio test entirely. The fix is to always test ratios before moving on to second differences \u2014 if ratios are constant, the function is exponential, not quadratic.",
+    "When a quadratic table starts at $x=0$ with output $0$, students sometimes see outputs like $0,1,4,9$ and assume the ratio test applies (thinking $1/0$ is some kind of ratio), producing a division-by-zero error and a wrong classification. Remember that the ratio test is only valid when no output is zero, so always try second differences for tables that include zero outputs.",
+    "Students look at a graph and call any curved line 'exponential' simply because it bends upward, confusing it with a parabola. The real visual distinction is symmetry: a parabola has a clear axis of symmetry and a vertex where it turns around, while an exponential curve never turns \u2014 it either always increases or always decreases and never has a minimum or maximum in the interior."
+  ],
+  "untested_variants": [
+    "Identifying the function family from a graph alone (no table provided), requiring students to use visual shape and symmetry cues without numerical checks.",
+    "Tables where $x$-values are not evenly spaced (e.g., $x = 0, 2, 4, 6$), which require students to adjust the difference or ratio test before applying it.",
+    "Distinguishing between a quadratic and an exponential when both appear to curve upward for the small window of $x$-values shown, requiring students to use algebraic tests rather than visual estimation.",
+    "Writing the explicit equation of a quadratic from a table when the leading coefficient $a$ is a fraction, such as $f(x) = \\tfrac{1}{2}x^2 + 3$."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "la_060",
+  "topic_name": "The Jordan Normal Form Revisited (H)",
+  "generated_at": "2026-05-13T20:10:36.140783+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that every operator on a complex vector space has a Jordan normal form \u2014 a block-diagonal matrix built from Jordan blocks, one for each eigenvalue. You can compute eigenvalues and find Jordan bases for small examples. But what happens when you revisit this theory through the lens of invariant subspaces and nilpotent operators? The deeper question is: given an abstract operator $T$ on $V$, can you systematically decompose $V$ into a direct sum of $T$-invariant subspaces on which $T$ acts in the simplest possible way, and can you prove this decomposition is essentially unique? How does the structure of nilpotent parts determine the exact sizes and multiplicities of the Jordan blocks?",
+  "concept": "The Jordan Normal Form theorem says that every operator $T$ on a finite-dimensional complex vector space $V$ is, up to a choice of basis, a block-diagonal matrix of Jordan blocks. Formally, $V = G(\\lambda_1, T) \\oplus G(\\lambda_2, T) \\oplus \\cdots \\oplus G(\\lambda_m, T)$ where each $G(\\lambda_i, T) = \\ker(T - \\lambda_i I)^{\\dim V}$ is the generalized eigenspace, and on each generalized eigenspace $(T - \\lambda_i I)$ acts as a nilpotent operator whose Jordan block structure is uniquely determined.",
+  "anatomy": "The key structural components are: the generalized eigenspaces $G(\\lambda, T) = \\ker(T - \\lambda I)^n$, which are the invariant building blocks for the decomposition; the nilpotent part $N = T|_{G(\\lambda,T)} - \\lambda I$ on each block, which determines the block sizes; the Jordan blocks $J_k(\\lambda)$, each a $k \\times k$ matrix with $\\lambda$ on the diagonal and $1$s on the superdiagonal; the algebraic multiplicity of $\\lambda$, which equals $\\dim G(\\lambda, T)$ and is the total size of all Jordan blocks for $\\lambda$; and the geometric multiplicity $\\dim \\ker(T - \\lambda I)$, which equals the number of Jordan blocks for $\\lambda$. The difference between algebraic and geometric multiplicity measures how far $T$ is from being diagonalizable.",
+  "worked_example": [
+    {
+      "expression_latex": "T: \\mathbb{C}^4 \\to \\mathbb{C}^4, \\quad A = \\begin{pmatrix} 3 & 1 & 0 & 0 \\\\ 0 & 3 & 1 & 0 \\\\ 0 & 0 & 3 & 0 \\\\ 0 & 0 & 0 & 3 \\end{pmatrix}",
+      "description_latex": "We start with this concrete matrix and ask: what is its Jordan normal form and what does the block structure tell us about the operator? Notice first that the characteristic polynomial is $(\\lambda - 3)^4$, so $\\lambda = 3$ is the only eigenvalue with algebraic multiplicity $4$, meaning the entire space $\\mathbb{C}^4$ is the single generalized eigenspace $G(3, T)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "N = A - 3I = \\begin{pmatrix} 0 & 1 & 0 & 0 \\\\ 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "We isolate the nilpotent part $N = A - 3I$ because the Jordan structure of $A$ is entirely encoded in how $N$ acts. To determine the Jordan blocks, we compute the ranks (or nullities) of successive powers of $N$, since a Jordan block of size $k$ contributes exactly one vector to $\\ker N^j$ for each $j = 1, \\ldots, k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "N^2 = \\begin{pmatrix} 0 & 0 & 1 & 0 \\\\ 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}, \\quad N^3 = 0",
+      "description_latex": "We compute $N^2$ and $N^3$ to find where the nilpotent part dies out. The dimensions of the kernels are $\\dim \\ker N = 2$, $\\dim \\ker N^2 = 3$, $\\dim \\ker N^3 = 4$, so the sequence of nullities is $2, 3, 4$. This tells us that the nilpotent operator $N$ on $\\mathbb{C}^4$ has one Jordan block of size $3$ and one of size $1$, because the differences in successive nullities give the number of blocks of each size: $\\dim\\ker N = 2$ means two blocks total, and the largest block has size $3$ (since $N^3 = 0$ but $N^2 \\neq 0$).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "J = \\begin{pmatrix} 3 & 1 & 0 & 0 \\\\ 0 & 3 & 1 & 0 \\\\ 0 & 0 & 3 & 0 \\\\ 0 & 0 & 0 & 3 \\end{pmatrix} = J_3(3) \\oplus J_1(3)",
+      "description_latex": "The Jordan normal form is therefore a direct sum of one $3 \\times 3$ Jordan block with eigenvalue $3$ and one $1 \\times 1$ Jordan block with eigenvalue $3$. In this case the matrix was already in Jordan form, which confirms our analysis \u2014 the key skill is reading off this structure even when the original matrix is not in Jordan form.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 2 & 1 & 0 \\\\ 0 & 2 & 0 \\\\ 0 & 0 & 5 \\end{pmatrix}",
+      "description_latex": "We want to find the Jordan normal form of $B$. Start by finding the eigenvalues: compute $\\det(B - \\lambda I)$ and factor the characteristic polynomial to identify the eigenvalues and their algebraic multiplicities.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{char poly} = (\\lambda - 2)^2(\\lambda - 5), \\quad \\lambda_1 = 2 \\text{ (alg. mult. } 2), \\; \\lambda_2 = 5 \\text{ (alg. mult. } 1)",
+      "description_latex": "The characteristic polynomial factors as $(\\lambda-2)^2(\\lambda-5)$, giving eigenvalues $2$ with algebraic multiplicity $2$ and $5$ with algebraic multiplicity $1$. Now you need to determine the geometric multiplicity of $\\lambda = 2$ \u2014 that is, compute $\\dim \\ker(B - 2I)$ \u2014 to decide whether the Jordan form has one $2\\times 2$ block or two $1 \\times 1$ blocks for eigenvalue $2$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "J_B = J_2(2) \\oplus J_1(5) = \\begin{pmatrix} 2 & 1 & 0 \\\\ 0 & 2 & 0 \\\\ 0 & 0 & 5 \\end{pmatrix}",
+      "description_latex": "Since $\\ker(B - 2I)$ is one-dimensional (geometric multiplicity $1 < 2$), eigenvalue $2$ contributes a single $2 \\times 2$ Jordan block, and eigenvalue $5$ contributes a $1 \\times 1$ block. The Jordan normal form is therefore $J_2(2) \\oplus J_1(5)$, and in this example $B$ was already in Jordan form.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the Jordan normal form of $A = \\begin{pmatrix} 4 & 0 \\\\ 0 & 4 \\end{pmatrix}$. How many Jordan blocks are there, and what are their sizes?",
+      "answer_latex": "Two Jordan blocks, each of size $1$: $J_1(4) \\oplus J_1(4) = \\begin{pmatrix} 4 & 0 \\\\ 0 & 4 \\end{pmatrix}$. (The matrix is already diagonal, so it is diagonalizable.)"
+    },
+    {
+      "prompt_latex": "Find the Jordan normal form of the nilpotent matrix $N = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 0 \\\\ 0 & 0 & 0 \\end{pmatrix}$ by computing $\\dim \\ker N$ and $\\dim \\ker N^2$.",
+      "answer_latex": "$\\dim \\ker N = 2$, $\\dim \\ker N^2 = 3$, so there is one $2 \\times 2$ block and one $1 \\times 1$ block: $J_2(0) \\oplus J_1(0)$."
+    },
+    {
+      "prompt_latex": "An operator $T$ on $\\mathbb{C}^5$ has characteristic polynomial $(\\lambda - 1)^3(\\lambda + 2)^2$. The geometric multiplicity of eigenvalue $1$ is $2$ and the geometric multiplicity of eigenvalue $-2$ is $1$. Write down the Jordan normal form of $T$.",
+      "answer_latex": "$J_2(1) \\oplus J_1(1) \\oplus J_2(-2)$, i.e., $\\begin{pmatrix}1&1&0&0&0\\\\0&1&0&0&0\\\\0&0&1&0&0\\\\0&0&0&-2&1\\\\0&0&0&0&-2\\end{pmatrix}$."
+    },
+    {
+      "prompt_latex": "Let $T$ be an operator on $\\mathbb{C}^4$ with $T^4 = 0$ but $T^3 \\neq 0$. Using the theory of generalized eigenspaces and nilpotent operators, determine all possible Jordan normal forms for $T$.",
+      "answer_latex": "The only eigenvalue is $0$ (since $T$ is nilpotent). Because $T^3 \\neq 0$ there must be a Jordan block of size at least $4$, and $\\dim V = 4$, so the only possibility is a single block: $J_4(0)$."
+    },
+    {
+      "prompt_latex": "An operator $T$ on $\\mathbb{C}^6$ has characteristic polynomial $(\\lambda - 2)^6$ and minimal polynomial $(\\lambda - 2)^3$. How many distinct Jordan normal forms are possible for $T$? List them all.",
+      "answer_latex": "The minimal polynomial $(\\lambda-2)^3$ means the largest Jordan block has size $3$. We need blocks of size $\\leq 3$ summing to $6$: $J_3 \\oplus J_3$; $J_3 \\oplus J_2 \\oplus J_1$; $J_3 \\oplus J_1 \\oplus J_1 \\oplus J_1$. That is $3$ possible Jordan forms (all with eigenvalue $2$)."
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse algebraic and geometric multiplicity: the geometric multiplicity $\\dim \\ker(T - \\lambda I)$ gives the NUMBER of Jordan blocks for $\\lambda$, while the algebraic multiplicity gives the TOTAL SIZE of all those blocks \u2014 mixing these up leads to wrong block counts. Always compute both separately.",
+    "When reconstructing the Jordan form from eigenvalue data alone, students forget that the Jordan normal form is not unique as a matrix \u2014 it depends on the ordering of blocks \u2014 but the MULTISET of Jordan blocks is unique. Claiming two differently ordered Jordan forms are 'different' is a logical error; they represent the same operator up to similarity.",
+    "Students misread the nilpotency test: they compute only $\\ker N$ and conclude one block exists per eigenvalue, missing that the number of blocks equals $\\dim \\ker N$ and the block SIZES are read from the differences $\\dim \\ker N^{j} - \\dim \\ker N^{j-1}$. Always build the full sequence of nullities to determine the partition of block sizes."
+  ],
+  "untested_variants": [
+    "Explicitly constructing a Jordan basis (a chain of generalized eigenvectors) for a given matrix, not just identifying the Jordan form abstractly.",
+    "Using the Jordan normal form to compute matrix functions such as $e^{tA}$ or $A^n$ for a specific nilpotent or non-diagonalizable matrix.",
+    "Determining the minimal polynomial of $T$ from its Jordan normal form, and conversely deducing constraints on block sizes from a given minimal polynomial.",
+    "Jordan form over $\\mathbb{R}$ versus $\\mathbb{C}$: handling operators whose complex Jordan form involves non-real eigenvalues and understanding what the real canonical form looks like instead."
+  ]
+}

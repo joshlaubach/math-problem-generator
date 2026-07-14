@@ -1,0 +1,76 @@
+{
+  "topic_id": "a2_020",
+  "topic_name": "Adding, Subtracting, and Multiplying Polynomials",
+  "generated_at": "2026-05-13T20:37:09.428726+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to add and subtract like terms \u2014 combining $3x$ and $5x$ to get $8x$ feels natural. But what happens when you need to add $(3x^2 + 2x - 1)$ and $(x^2 - 5x + 4)$, or multiply $(2x + 3)(x - 4)$ to find the area of a rectangle whose sides are expressions? The rules you know for numbers stretch into new territory here, and a single sign error can unravel everything. Can you predict what the result of multiplying two polynomials looks like before you start distributing?",
+  "concept": "A polynomial is a sum of terms of the form $ax^n$ where $a$ is a real number and $n$ is a non-negative integer. Adding and subtracting polynomials means combining like terms \u2014 terms with the same variable raised to the same power. Multiplying polynomials means applying the distributive property repeatedly so that every term in one polynomial multiplies every term in the other, then simplifying by combining like terms.",
+  "anatomy": "Every polynomial operation in this topic has three key structural elements worth naming precisely. First, the **terms** \u2014 individual pieces like $5x^3$ or $-2x$ \u2014 each consisting of a **coefficient** (the number in front, like $5$ or $-2$) and a **degree** (the exponent on the variable, like $3$ or $1$). Second, **like terms** are the only terms that can be directly added or subtracted; they share the exact same variable and exponent, e.g., $4x^2$ and $-7x^2$ are like terms but $4x^2$ and $4x$ are not. Third, when multiplying, the **distributive property** is the engine: every term in the first polynomial is multiplied by every term in the second, producing partial products before any combining occurs.",
+  "worked_example": [
+    {
+      "expression_latex": "(4x^2 - 3x + 7) + (2x^2 + 5x - 1)",
+      "description_latex": "We start by writing out both polynomials side by side. Since this is addition, every term in the second polynomial keeps its original sign \u2014 there is no need to distribute a negative here, which keeps things straightforward.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(4x^2 + 2x^2) + (-3x + 5x) + (7 - 1)",
+      "description_latex": "We group the like terms together by matching their degrees: the $x^2$ terms, then the $x$ terms, then the constants. This regrouping step is the heart of polynomial addition \u2014 it makes the combining visible and prevents mixing terms of different degrees.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "6x^2 + 2x + 6",
+      "description_latex": "Now we simply add each group of like terms: $4x^2 + 2x^2 = 6x^2$, $-3x + 5x = 2x$, and $7 - 1 = 6$. The result is written in standard form, with degrees decreasing from left to right.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "(3x^2 + x - 4) - (x^2 - 2x + 5)",
+      "description_latex": "We are subtracting the second polynomial from the first. The critical first move is to distribute the subtraction sign across every term in the second polynomial \u2014 this changes the sign of each term inside the parentheses.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3x^2 + x - 4 - x^2 + 2x - 5",
+      "description_latex": "After distributing the negative, we can see all terms are now free. Notice that $-x^2$ became $-x^2$, $-2x$ became $+2x$, and $+5$ became $-5$. Now group the like terms and simplify \u2014 what is the final polynomial in standard form?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Combine the $x^2$ terms, then the $x$ terms, then the constants to write the final simplified polynomial. This is the key step \u2014 make sure every sign change from the previous line is carried through correctly.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Simplify: } (5x + 3) + (2x - 7)",
+      "answer_latex": "7x - 4"
+    },
+    {
+      "prompt_latex": "\\text{Simplify: } (3x^2 - 4x + 1) - (x^2 + 2x - 6)",
+      "answer_latex": "2x^2 - 6x + 7"
+    },
+    {
+      "prompt_latex": "\\text{Expand and simplify: } (x + 4)(x - 3)",
+      "answer_latex": "x^2 + x - 12"
+    },
+    {
+      "prompt_latex": "\\text{Expand and simplify: } (2x - 1)(3x^2 + x - 5)",
+      "answer_latex": "6x^3 - x^2 - 11x + 5"
+    },
+    {
+      "prompt_latex": "\\text{A rectangle has length } (3x + 2) \\text{ and width } (x - 1). \\text{ Write a polynomial expression for its area, simplified in standard form.}",
+      "answer_latex": "3x^2 - x - 2"
+    }
+  ],
+  "common_mistakes": [
+    "When subtracting polynomials, students often distribute the negative sign to only the first term of the second polynomial \u2014 for example, writing $(3x^2 + x) - (x^2 - 2x + 5)$ as $3x^2 + x - x^2 - 2x + 5$ instead of $3x^2 + x - x^2 + 2x - 5$. The fix is to explicitly change the sign of every single term inside the subtracted parentheses before combining anything.",
+    "When multiplying polynomials, students combine terms before all the partial products have been found \u2014 for instance, multiplying $(x + 3)(x^2 + 2x - 1)$ and adding $3x^2$ to $x^2$ before distributing the $x$ term, leading to missed products. The fix is to fully complete the distribution of each term in the first polynomial before doing any combining.",
+    "Students add or subtract terms that are not actually like terms \u2014 for example, combining $4x^2$ and $4x$ into $8x^2$ or $8x$ because the coefficients match. Remember that like terms must share both the same variable and the same exponent; if the exponents differ, the terms cannot be combined."
+  ],
+  "untested_variants": [
+    "Multiplying three polynomials together, such as $(x+1)(x-2)(x+3)$, which requires two sequential applications of the distributive property.",
+    "Problems where the polynomials involve two variables, such as adding $(x^2 + xy - y^2)$ and $(3xy + 2y^2 - x)$, testing whether students can correctly identify like terms involving multiple variables.",
+    "Finding a missing polynomial given a sum or difference \u2014 for example, 'If $P(x) + (2x^2 - x) = 5x^2 + 3x - 4$, find $P(x)$' \u2014 which requires working the operation in reverse.",
+    "Applying polynomial multiplication to find the area of composite geometric figures, such as a shape whose total area is expressed as a product of two binomials minus the area of a rectangular cutout."
+  ]
+}

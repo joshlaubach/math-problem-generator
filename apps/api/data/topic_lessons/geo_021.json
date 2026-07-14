@@ -1,0 +1,91 @@
+{
+  "topic_id": "geo_021",
+  "topic_name": "Translations",
+  "generated_at": "2026-05-12T22:59:19.652223+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to plot points on a coordinate plane, and you've seen how shapes can be described by listing their vertices. Now imagine you want to slide a triangle 5 units to the right and 3 units down \u2014 every single vertex needs to move the same way, keeping the shape identical. How do you find the new coordinates of each vertex without drawing everything out, and how do you write a rule that describes the entire motion at once?",
+  "concept": "A translation is a transformation that slides every point of a figure the same distance in the same direction, with no rotating or flipping involved. Formally, a translation by vector $(a, b)$ maps every point $(x, y)$ to the image point $(x + a, y + b)$, where $a$ is the horizontal shift (positive = right, negative = left) and $b$ is the vertical shift (positive = up, negative = down).",
+  "anatomy": "A translation has three distinct components worth naming precisely. First, the pre-image point, written $(x, y)$, is the original location before any movement. Second, the translation vector $(a, b)$ \u2014 sometimes called the rule \u2014 specifies how far and in which direction every point moves; $a$ controls horizontal displacement and $b$ controls vertical displacement. Third, the image point, written $(x', y')$ or $(x + a, y + b)$, is the resulting location after the translation is applied. Every vertex of a figure has its own pre-image and image, but all share the same translation vector.",
+  "worked_example": [
+    {
+      "expression_latex": "T_{(3,\\,-2)}:\\;(x,\\,y)\\to(x+3,\\;y-2)",
+      "description_latex": "We begin by writing the translation rule clearly. The notation $T_{(3,-2)}$ means we add $3$ to every $x$-coordinate (shift right 3) and add $-2$ to every $y$-coordinate (shift down 2). Writing this rule first keeps us organized and prevents sign errors when we apply it to multiple vertices.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A(-1,\\,4),\\quad B(2,\\,4),\\quad C(2,\\,1)",
+      "description_latex": "Here are the three vertices of triangle $ABC$ before the translation. We list them explicitly so that we can apply the rule to each one systematically \u2014 this way we won't accidentally skip a vertex or mix up coordinates.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A'=(-1+3,\\;4-2)=(2,\\,2)",
+      "description_latex": "We apply the rule to vertex $A(-1, 4)$ by adding $3$ to the $x$-coordinate and $-2$ to the $y$-coordinate. The result, $A'(2, 2)$, is the image of $A$ after the translation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B'=(2+3,\\;4-2)=(5,\\,2),\\qquad C'=(2+3,\\;1-2)=(5,\\,-1)",
+      "description_latex": "We repeat the same process for vertices $B$ and $C$, adding $3$ to each $x$-coordinate and $-2$ to each $y$-coordinate. Notice that the shape and size of the triangle are unchanged \u2014 only its position in the plane is different, which is exactly what a translation guarantees.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\triangle A'B'C':\\;A'(2,2),\\;B'(5,2),\\;C'(5,-1)",
+      "description_latex": "We state the final answer by listing all three image vertices together. You can verify the translation worked correctly by checking that every vertex moved exactly $3$ units right and $2$ units down \u2014 the distances $|B'A'| = 3$ and $|B'C'| = 3$ match the original side lengths, confirming the figure is congruent to the original.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T_{(-4,\\,1)}:\\;(x,\\,y)\\to(x-4,\\;y+1)",
+      "description_latex": "We are translating quadrilateral $PQRS$ using the rule $T_{(-4,1)}$, which shifts every point $4$ units left and $1$ unit up. We have written the rule here \u2014 now we need to apply it to each vertex.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(0,\\,3)\\to P'=(0-4,\\;3+1)=(\\mathbf{-4},\\,\\mathbf{4})",
+      "description_latex": "We apply the rule to $P(0,3)$ as a model: subtract $4$ from $x$ and add $1$ to $y$ to get $P'(-4, 4)$. Use this same process for the remaining vertices $Q(3, 3)$, $R(3, 0)$, and $S(0, 0)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now it's your turn: apply the translation rule $T_{(-4,1)}$ to vertices $Q(3,3)$, $R(3,0)$, and $S(0,0)$. Write the coordinates of $Q'$, $R'$, and $S'$ by adding $-4$ to each $x$-coordinate and $1$ to each $y$-coordinate.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "Q'(-1,4),\\;R'(-1,1),\\;S'(-4,1)",
+      "description_latex": "Here are the correct image vertices. Check your work by confirming that every point moved exactly $4$ units left (the $x$-value decreased by $4$) and $1$ unit up (the $y$-value increased by $1$).",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Point $M(2, -5)$ is translated using the rule $T_{(0,\\,4)}$. What are the coordinates of $M'$?",
+      "answer_latex": "M'(2,\\,-1)"
+    },
+    {
+      "prompt_latex": "Triangle $DEF$ has vertices $D(-3, 1)$, $E(0, 1)$, and $F(-3, -2)$. Apply the translation $(x,y)\\to(x+5,\\;y-3)$ and state the coordinates of $D'$, $E'$, and $F'$.",
+      "answer_latex": "D'(2,\\,-2),\\;E'(5,\\,-2),\\;F'(2,\\,-5)"
+    },
+    {
+      "prompt_latex": "Rectangle $ABCD$ has image vertices $A'(1, 2)$, $B'(4, 2)$, $C'(4, -1)$, $D'(1, -1)$ after the translation $T_{(3,\\,-5)}$. Find the original coordinates of $A$, $B$, $C$, and $D$.",
+      "answer_latex": "A(-2,\\,7),\\;B(1,\\,7),\\;C(1,\\,4),\\;D(-2,\\,4)"
+    },
+    {
+      "prompt_latex": "Point $P(a, b)$ is translated to $P'(a-3, b+7)$, and then $P'$ is translated by $T_{(6,\\,-2)}$ to reach $P''$. Write the coordinates of $P''$ in terms of $a$ and $b$, and describe the single translation that maps $P$ directly to $P''$.",
+      "answer_latex": "P''(a+3,\\,b+5);\\;\\text{the single translation is }T_{(3,\\,5)}"
+    },
+    {
+      "prompt_latex": "A park ranger marks a campsite at $(2, 8)$ on a coordinate map (units in kilometers). A new campsite is planned by moving the location $6\\text{ km}$ west and $4\\text{ km}$ south. What are the coordinates of the new campsite, and what translation rule describes this move?",
+      "answer_latex": "\\text{New campsite: }(-4,\\,4);\\;\\text{rule: }T_{(-6,\\,-4)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often reverse the signs of the translation vector, for example subtracting when they should add: if the rule is $T_{(-3, 2)}$, they write $x + 3$ instead of $x - 3$. To fix this, always substitute the vector directly into $(x + a, y + b)$ and keep whatever sign $a$ or $b$ already carries.",
+    "Students sometimes apply the horizontal shift to the $y$-coordinate and the vertical shift to the $x$-coordinate, mixing up which component of $(a, b)$ does what. Remember the convention: $a$ always adjusts $x$ (left/right) and $b$ always adjusts $y$ (up/down), matching the order $(x, y)$.",
+    "When reversing a translation to find the pre-image from the image, students mistakenly apply the same rule again instead of the inverse rule. If $T_{(a,b)}$ maps the pre-image to the image, then the inverse translation $T_{(-a,-b)}$ maps the image back to the pre-image \u2014 you must flip both signs."
+  ],
+  "untested_variants": [
+    "Translations described verbally with compass directions (e.g., 'translate 5 units north and 2 units east') that students must convert into a vector rule before applying.",
+    "Compositions of three or more sequential translations that students must simplify into one equivalent single translation vector.",
+    "Translations on the coordinate plane where the figure crosses a quadrant boundary and students must carefully track sign changes in the image coordinates.",
+    "Given two congruent figures on a graph, determining the translation vector that maps one figure onto the other by comparing corresponding vertices."
+  ]
+}

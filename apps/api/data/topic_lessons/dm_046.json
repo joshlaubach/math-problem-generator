@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_046",
+  "topic_name": "Introduction to Graphs: Definitions and Terminology",
+  "generated_at": "2026-05-13T20:15:44.225731+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to represent relationships between objects in everyday life \u2014 think of a map of cities connected by roads, or a social network where people are friends. You can probably reason about these intuitively, but mathematics needs a precise language to describe them so we can prove things and write algorithms. How do we formally capture the idea of 'objects with connections between them,' and what exactly counts as a valid connection?",
+  "concept": "A graph is a mathematical structure for modeling pairwise relationships. Formally, a graph $G = (V, E)$ consists of a non-empty set $V$ of vertices (also called nodes) and a set $E$ of edges, where each edge is a 2-element subset $\\{u, v\\}$ of $V$ with $u \\neq v$ (for simple graphs). The vertices represent objects and the edges represent connections or relationships between pairs of objects.",
+  "anatomy": "A graph $G = (V, E)$ has two primary components: the vertex set $V$, whose elements are called vertices (singular: vertex) and are the 'dots' or objects in the graph, and the edge set $E$, whose elements are called edges and are the 'lines' connecting pairs of vertices. For an edge $\\{u, v\\}$, the vertices $u$ and $v$ are called the endpoints of that edge, and we say $u$ and $v$ are adjacent to each other. The degree of a vertex $v$, written $\\deg(v)$, counts how many edges are incident to $v$ \u2014 that is, how many edges have $v$ as an endpoint. The order of a graph is $|V|$ (the number of vertices) and the size is $|E|$ (the number of edges).",
+  "worked_example": [
+    {
+      "expression_latex": "V = \\{A, B, C, D\\}, \\quad E = \\{\\{A,B\\}, \\{A,C\\}, \\{B,D\\}, \\{C,D\\}\\}",
+      "description_latex": "We start by simply reading the definition of the graph $G = (V, E)$. The vertex set $V$ has four elements \u2014 $A$, $B$, $C$, and $D$ \u2014 and the edge set $E$ has four edges, each specified as a 2-element subset of $V$. Notice that order doesn't matter inside each edge: $\\{A, B\\}$ and $\\{B, A\\}$ describe the same edge.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|V| = 4, \\quad |E| = 4",
+      "description_latex": "We identify the order and size of the graph by simply counting. The order is the number of vertices ($|V| = 4$) and the size is the number of edges ($|E| = 4$). These two numbers give a quick summary of how large the graph is.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\deg(A) = 2, \\quad \\deg(B) = 2, \\quad \\deg(C) = 2, \\quad \\deg(D) = 2",
+      "description_latex": "To find the degree of each vertex, we count how many edges in $E$ contain that vertex as an endpoint. Vertex $A$ appears in $\\{A,B\\}$ and $\\{A,C\\}$, so $\\deg(A) = 2$. Each of the other vertices similarly appears in exactly two edges, giving every vertex degree 2. A graph where every vertex has the same degree is called regular.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{v \\in V} \\deg(v) = 2 + 2 + 2 + 2 = 8 = 2|E|",
+      "description_latex": "Here we verify the Handshaking Lemma, which states that the sum of all vertex degrees always equals twice the number of edges: $\\sum_{v \\in V} \\deg(v) = 2|E|$. This makes sense because every edge $\\{u, v\\}$ contributes exactly 1 to $\\deg(u)$ and 1 to $\\deg(v)$, so it contributes 2 to the total degree sum. This is a powerful consistency check whenever you work with graphs.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "V = \\{1, 2, 3, 4, 5\\}, \\quad E = \\{\\{1,2\\}, \\{1,3\\}, \\{2,4\\}, \\{3,4\\}, \\{4,5\\}\\}",
+      "description_latex": "We are given a graph $G = (V, E)$. Start by noting the order and size: $|V| = 5$ and $|E| = 5$. Our goal is to find the degree of each vertex and then verify the Handshaking Lemma.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\deg(1) = 2, \\quad \\deg(2) = 2, \\quad \\deg(3) = 2, \\quad \\deg(4) = 3, \\quad \\deg(5) = 1",
+      "description_latex": "For each vertex, count the edges in $E$ that contain it. Vertex 4 appears in edges $\\{2,4\\}$, $\\{3,4\\}$, and $\\{4,5\\}$, so $\\deg(4) = 3$. Vertex 5 appears only in $\\{4,5\\}$, giving $\\deg(5) = 1$. Check your count carefully for each vertex before moving on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now verify the Handshaking Lemma by computing the sum of all degrees and checking whether it equals $2|E| = 10$. Add up all five degree values and write the equation $\\sum_{v \\in V} \\deg(v) = 2|E|$ with the numbers filled in. Does it hold?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A graph has $V = \\{p, q, r\\}$ and $E = \\{\\{p,q\\}, \\{q,r\\}\\}$. What are the order and size of this graph?",
+      "answer_latex": "\\text{Order } = |V| = 3, \\quad \\text{Size } = |E| = 2"
+    },
+    {
+      "prompt_latex": "For the graph $G$ with $V = \\{1,2,3,4\\}$ and $E = \\{\\{1,2\\},\\{1,3\\},\\{1,4\\},\\{2,3\\}\\}$, find $\\deg(v)$ for every vertex $v \\in V$.",
+      "answer_latex": "\\deg(1) = 3,\\; \\deg(2) = 2,\\; \\deg(3) = 2,\\; \\deg(4) = 1"
+    },
+    {
+      "prompt_latex": "A graph has 6 vertices each of degree 3. How many edges does the graph have? Justify using the Handshaking Lemma.",
+      "answer_latex": "\\sum \\deg(v) = 6 \\times 3 = 18 = 2|E|, \\text{ so } |E| = 9"
+    },
+    {
+      "prompt_latex": "Can a simple graph on 4 vertices have degree sequence $(3, 3, 3, 1)$? Use the Handshaking Lemma and properties of simple graphs to decide.",
+      "answer_latex": "\\text{No: } 3+3+3+1 = 10 = 2|E| \\Rightarrow |E|=5, \\text{ but in a simple graph on 4 vertices, a vertex of degree 3 must connect to all others, making degree 1 impossible.}"
+    },
+    {
+      "prompt_latex": "A city road network has 5 intersections. Each intersection connects to exactly 2 roads (two-way), except one major hub that connects to 4 roads. Model this as a graph and determine the total number of roads (edges).",
+      "answer_latex": "\\deg(\\text{hub})=4,\\; \\deg(\\text{others})=2 \\text{ each}: \\sum \\deg = 4 + 4(2) = 12 = 2|E|,\\; |E| = 6 \\text{ roads}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often treat an edge as an ordered pair $(u, v)$ rather than an unordered set $\\{u, v\\}$, leading them to count $\\{A,B\\}$ and $\\{B,A\\}$ as two different edges. Remember: in an undirected simple graph, an edge has no direction, so $\\{u,v\\} = \\{v,u\\}$ is a single edge.",
+    "When computing degree, students sometimes count the vertex itself rather than counting incident edges, especially when they confuse a vertex's label with its connections. The degree of $v$ is the number of edges that have $v$ as an endpoint \u2014 always count edges, not vertices.",
+    "Students frequently attempt to construct a simple graph from a degree sequence without checking feasibility, not realizing that if any vertex has degree $n-1$ (connected to every other vertex), it constrains what degrees the remaining vertices can have. Always check both the Handshaking Lemma (degree sum must be even) and whether the sequence is graphically realizable before claiming a graph exists."
+  ],
+  "untested_variants": [
+    "Multigraphs and pseudographs, where multiple edges between the same pair of vertices or self-loops (edges from a vertex to itself) are allowed \u2014 the definition of degree changes slightly and the Handshaking Lemma still holds but must be reinterpreted.",
+    "Directed graphs (digraphs), where edges are ordered pairs $(u,v)$ with a direction from $u$ to $v$, requiring separate notions of in-degree and out-degree for each vertex.",
+    "Determining whether two different-looking edge sets actually define isomorphic graphs \u2014 recognizing when two graphs are structurally the same even if vertex labels differ.",
+    "Bipartite graphs and checking whether a given graph's vertex set can be partitioned into two independent sets, which is a structural property not addressed in this introductory lesson."
+  ]
+}

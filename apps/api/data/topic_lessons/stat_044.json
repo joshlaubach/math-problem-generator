@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_044",
+  "topic_name": "Confidence Intervals for Regression",
+  "generated_at": "2026-05-13T20:32:54.995901+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to find the least-squares regression line $\\hat{y} = b_0 + b_1 x$ and interpret its slope as the estimated change in the response per unit increase in the predictor. But that slope $b_1$ is just a single number computed from one sample \u2014 a different sample would give a different slope. So how confident are you that the true population slope $\\beta_1$ is anywhere near what you calculated? Can you build an interval that captures the real slope with, say, 95% confidence?",
+  "concept": "A confidence interval for a regression slope gives a range of plausible values for the true population slope $\\beta_1$. Just like a confidence interval for a mean, it is centered at our sample estimate and extends outward by a margin of error. Formally, a $C\\%$ confidence interval for $\\beta_1$ is $b_1 \\pm t^* \\cdot SE_{b_1}$, where $t^*$ is the critical value from the $t$-distribution with $n-2$ degrees of freedom and $SE_{b_1}$ is the standard error of the slope.",
+  "anatomy": "The interval $b_1 \\pm t^* \\cdot SE_{b_1}$ has four distinct components. First, $b_1$ is the sample slope \u2014 the center of the interval, computed from your data. Second, $t^*$ is the critical value from a $t$-distribution with $n - 2$ degrees of freedom, where the $-2$ accounts for estimating both $\\beta_0$ and $\\beta_1$. Third, $SE_{b_1}$ is the standard error of the slope, which measures how much $b_1$ would vary across repeated samples \u2014 it is typically provided in computer output. Fourth, the product $t^* \\cdot SE_{b_1}$ is the margin of error, controlling the width of the interval.",
+  "worked_example": [
+    {
+      "expression_latex": "b_1 = 2.34, \\quad SE_{b_1} = 0.58, \\quad n = 22, \\quad 95\\% \\text{ confidence}",
+      "description_latex": "We are given all the ingredients from computer regression output: the sample slope $b_1 = 2.34$, its standard error $SE_{b_1} = 0.58$, a sample size of $n = 22$, and we want a 95% confidence interval. Before doing any arithmetic, identify these values clearly so nothing gets mixed up.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "df = n - 2 = 22 - 2 = 20",
+      "description_latex": "For a regression slope confidence interval, the degrees of freedom are $n - 2$, not $n - 1$, because we estimated two parameters ($\\beta_0$ and $\\beta_1$) from the data. With $n = 22$, we get $df = 20$, and we will use this to look up the correct $t^*$ value.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t^* = 2.086 \\quad (t\\text{-table, } df = 20, \\text{ two-tailed } 95\\%)",
+      "description_latex": "Using a $t$-table or calculator with $df = 20$ and a 95% confidence level (which means 2.5% in each tail), we find $t^* \\approx 2.086$. This critical value is slightly larger than the familiar 1.96 from the normal distribution because the $t$-distribution has heavier tails at this modest sample size.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Margin of error} = t^* \\cdot SE_{b_1} = 2.086 \\times 0.58 \\approx 1.210",
+      "description_latex": "Multiplying the critical value by the standard error gives the margin of error, which tells us how far we extend in each direction from the sample slope. The margin of error captures the uncertainty due to sampling variability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_1 \\pm 1.210 \\implies (2.34 - 1.21,\\ 2.34 + 1.21) = (1.13,\\ 3.55)",
+      "description_latex": "We are 95% confident that the true population slope $\\beta_1$ lies between $1.13$ and $3.55$. Because this interval does not contain zero, it also provides evidence that there is a statistically significant positive linear relationship between the predictor and the response.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "b_1 = -1.72, \\quad SE_{b_1} = 0.43, \\quad n = 27, \\quad 90\\% \\text{ confidence}",
+      "description_latex": "Here is a new set of regression output. We want a 90% confidence interval for the true slope $\\beta_1$. The first thing to nail down is the degrees of freedom for the $t^*$ critical value.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "df = 27 - 2 = 25, \\quad t^* = 1.708",
+      "description_latex": "With $n = 27$ observations and a 90% confidence level ($df = 25$), the critical value is $t^* = 1.708$. Now you need to compute the margin of error and build the interval.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using $b_1 = -1.72$, $t^* = 1.708$, and $SE_{b_1} = 0.43$, compute the margin of error and then write the complete 90% confidence interval for $\\beta_1$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A regression output gives $b_1 = 3.10$, $SE_{b_1} = 0.80$, and $n = 12$. Write the formula for a 95% confidence interval for $\\beta_1$ and identify the degrees of freedom.",
+      "answer_latex": "df = 10; \\text{ interval is } 3.10 \\pm t^* (0.80) \\text{ with } t^* \\approx 2.228"
+    },
+    {
+      "prompt_latex": "Using $b_1 = 5.60$, $SE_{b_1} = 1.20$, $n = 17$, and $t^* = 2.131$ (95% confidence, $df = 15$), calculate the 95% confidence interval for $\\beta_1$.",
+      "answer_latex": "(3.044,\\ 8.156)"
+    },
+    {
+      "prompt_latex": "Computer output reports $b_1 = -0.45$, $SE_{b_1} = 0.18$, $n = 32$, and a 99% confidence level. Given $t^* = 2.750$ for $df = 30$, find the confidence interval and state whether it gives evidence of a significant relationship.",
+      "answer_latex": "(-0.945,\\ 0.045); \\text{ the interval contains 0, so there is NOT convincing evidence of a significant linear relationship at the 99% level}"
+    },
+    {
+      "prompt_latex": "A researcher fits a regression of weight (kg) on height (cm) and obtains $b_0 = -105.2$, $b_1 = 1.02$, $SE_{b_1} = 0.15$, $n = 42$. Construct a 95% confidence interval for $\\beta_1$ using $t^* = 2.021$ ($df = 40$), and interpret the interval in context.",
+      "answer_latex": "(0.717,\\ 1.323); \\text{ we are 95% confident that each 1 cm increase in height is associated with an increase in weight of between } 0.717 \\text{ and } 1.323 \\text{ kg in the population}"
+    },
+    {
+      "prompt_latex": "A study of study hours ($x$) and exam scores ($y$) finds $b_1 = 4.8$, $SE_{b_1} = 2.1$, $n = 24$. A student claims the interval $(0.44, 9.16)$ is a 95% confidence interval for $\\beta_1$. Verify or correct this claim, showing all work with $t^* = 2.074$ for $df = 22$.",
+      "answer_latex": "\\text{Margin of error} = 2.074 \\times 2.1 \\approx 4.355; \\text{ interval} = (0.445,\\ 9.155) \\approx (0.44,\\ 9.16). \\text{ The student's interval is correct.}"
+    }
+  ],
+  "common_mistakes": [
+    "Using $n - 1$ degrees of freedom instead of $n - 2$: students borrow the habit from one-sample $t$-intervals, but regression loses two degrees of freedom because both $\\beta_0$ and $\\beta_1$ are estimated. Always use $df = n - 2$ when building a confidence interval for a regression slope.",
+    "Plugging in the standard error of the residuals $s$ (sometimes called $s_e$ or RMSE in output) instead of the standard error of the slope $SE_{b_1}$: these are different quantities, and $s$ is much larger. Look specifically for the standard error listed next to the slope coefficient in the regression table.",
+    "Forgetting that a confidence interval containing zero means the slope could plausibly be zero, which implies no significant linear relationship \u2014 students sometimes build the interval correctly but still conclude the relationship is significant when zero is inside the interval. Always check whether zero falls inside or outside the interval before drawing conclusions."
+  ],
+  "untested_variants": [
+    "Constructing a confidence interval for the intercept $\\beta_0$ rather than the slope $\\beta_1$, which uses $SE_{b_0}$ and the same $t$-distribution with $df = n - 2$.",
+    "Using a confidence interval for the mean response $\\mu_{y|x^*}$ at a specific value $x^*$ (sometimes called a confidence interval for a fitted value), which has a different standard error formula involving $\\hat{y}$ and the spread of $x$ values.",
+    "Deriving or interpreting a prediction interval for an individual future observation, which is wider than the confidence interval for the mean response and uses a standard error that adds $s^2$ to the confidence interval variance.",
+    "Reading confidence intervals directly from computer output that lists lower and upper bounds explicitly, and deciding whether the format given is for the slope, the intercept, or a different parameter."
+  ]
+}

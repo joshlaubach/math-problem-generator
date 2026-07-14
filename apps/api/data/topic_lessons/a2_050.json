@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_050",
+  "topic_name": "Sigma Notation",
+  "generated_at": "2026-05-12T23:31:46.375761+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to add up a list of numbers, and you've even worked with arithmetic and geometric sequences. But what if someone asked you to find the sum of the first 50 terms of the sequence $3n + 1$? Writing out all 50 terms and adding them by hand would take forever. There has to be a smarter way to communicate and compute large sums \u2014 but what notation would let us write that instruction in a single compact expression?",
+  "concept": "Sigma notation is a shorthand way to write the instruction 'add up a bunch of terms that follow a pattern.' The Greek capital letter sigma, $\\Sigma$, stands for 'sum.' Formally, $\\sum_{n=a}^{b} f(n)$ means: evaluate $f(n)$ for every integer $n$ starting at the lower limit $a$ and ending at the upper limit $b$, then add all those values together.",
+  "anatomy": "In the expression $\\sum_{n=1}^{5} (2n + 3)$, there are four key parts. The index of summation is $n$, the variable that changes with each term. The lower limit $1$ (written below $\\Sigma$) is the starting value of $n$. The upper limit $5$ (written above $\\Sigma$) is the stopping value of $n$. The general term $2n + 3$ is the rule, or formula, that gets evaluated and summed for each value of $n$ from the lower to the upper limit.",
+  "worked_example": [
+    {
+      "expression_latex": "\\sum_{n=1}^{4} (3n - 1)",
+      "description_latex": "We start by identifying what the notation is asking: plug in each integer value of $n$ from $1$ to $4$ into the expression $3n - 1$, then add those results together. Before doing any arithmetic, it helps to list the values of $n$ we'll use: $n = 1, 2, 3, 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(3(1)-1),\\ (3(2)-1),\\ (3(3)-1),\\ (3(4)-1)",
+      "description_latex": "We substitute each value of $n$ into $3n - 1$ one at a time. This step is important because it converts the compact sigma notation into an explicit list of terms we can actually add, making sure we haven't missed any values or misread the limits.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2,\\ 5,\\ 8,\\ 11",
+      "description_latex": "Simplifying each substitution gives us the four terms of the sum. Notice these form an arithmetic sequence with first term $2$ and common difference $3$, which makes sense because $3n - 1$ is a linear function of $n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2 + 5 + 8 + 11 = 26",
+      "description_latex": "Finally, we add all four terms together to get the value of the sum, which is $26$. This single number is what the entire sigma expression $\\sum_{n=1}^{4}(3n-1)$ equals.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\sum_{k=2}^{5} k^2",
+      "description_latex": "Here the index is $k$, the lower limit is $2$, and the upper limit is $5$, so we need to evaluate $k^2$ for $k = 2, 3, 4, 5$ and add the results. Let's write out each term before adding.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(2)^2 + (3)^2 + (4)^2 + (5)^2",
+      "description_latex": "We've expanded the sigma notation into an explicit sum by substituting each value of $k$. Now evaluate each square and find the total \u2014 what does this sum equal?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "4 + 9 + 16 + 25 = 54",
+      "description_latex": "Calculating each perfect square and adding gives $4 + 9 + 16 + 25 = 54$, so $\\sum_{k=2}^{5} k^2 = 54$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate: $\\sum_{n=1}^{4} 5$",
+      "answer_latex": "20"
+    },
+    {
+      "prompt_latex": "Evaluate: $\\sum_{n=1}^{5} (2n + 1)$",
+      "answer_latex": "35"
+    },
+    {
+      "prompt_latex": "Evaluate: $\\sum_{k=0}^{4} (k^2 - k)$",
+      "answer_latex": "20"
+    },
+    {
+      "prompt_latex": "Write the sum $3 + 6 + 9 + 12 + 15$ using sigma notation, then verify by evaluating your expression.",
+      "answer_latex": "\\sum_{n=1}^{5} 3n = 45"
+    },
+    {
+      "prompt_latex": "A store's daily profit (in dollars) during a 4-day sale is modeled by $P(n) = 50n + 100$, where $n = 1$ is the first day. Write and evaluate a sigma expression for the total profit over all 4 days.",
+      "answer_latex": "\\sum_{n=1}^{4}(50n+100) = 150+200+250+300 = 900"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes start the sum at $n = 0$ when the lower limit is $1$ (or vice versa), shifting every term and giving a wrong count of terms. Always look at the lower limit carefully before listing your values of $n$.",
+    "When the general term is a constant (like $\\sum_{n=1}^{6} 7$), students mistakenly write $7$ as the answer instead of adding the constant once per index value. Remember: a constant term still gets added once for each integer from the lower to the upper limit, so the answer is $6 \\times 7 = 42$.",
+    "Students often confuse the index variable with a different variable already in the problem, especially when the problem uses $n$ for the number of terms and also uses $n$ as the summation index. If the summation index appears elsewhere, replace it with a different letter like $k$ or $i$ to avoid substituting the wrong value."
+  ],
+  "untested_variants": [
+    "Sigma notation with a lower limit other than $0$ or $1$, such as $\\sum_{n=3}^{7} f(n)$, where students must recognize the number of terms is upper minus lower plus one.",
+    "Converting a series written in expanded form with a non-obvious pattern (e.g., involving alternating signs like $1 - 2 + 3 - 4 + \\cdots$) into sigma notation using $(-1)^{n+1}$.",
+    "Using sigma notation with the standard summation formulas $\\sum_{n=1}^{N} n = \\frac{N(N+1)}{2}$ or $\\sum_{n=1}^{N} n^2 = \\frac{N(N+1)(2N+1)}{6}$ to evaluate large sums without listing every term.",
+    "Nested or split sigma expressions, such as rewriting $\\sum_{n=1}^{5}(an + b)$ as $a\\sum_{n=1}^{5} n + b\\sum_{n=1}^{5} 1$ using linearity of summation."
+  ]
+}

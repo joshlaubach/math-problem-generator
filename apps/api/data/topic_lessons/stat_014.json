@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_014",
+  "topic_name": "Observational Studies vs. Experiments",
+  "generated_at": "2026-05-13T20:30:20.451540+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know that statisticians collect data to answer questions about the world. Suppose researchers want to know whether drinking coffee causes improved memory. They could simply survey coffee drinkers and non-drinkers and compare their memory scores \u2014 or they could randomly assign people to drink coffee or not and then test memory. Both approaches collect data, but they lead to very different conclusions. Why can one approach claim 'coffee causes better memory' while the other can only say 'coffee drinkers tend to have better memory'?",
+  "concept": "An observational study is one where researchers measure and record what already exists \u2014 they do not intervene or assign any treatment. An experiment, by contrast, is a study where researchers deliberately impose a treatment on subjects and then measure the response. The key formal distinction: in an observational study the researcher has no control over the explanatory variable $x$, whereas in an experiment the researcher controls who receives each level of $x$ (the treatment), making it possible to establish cause-and-effect relationships.",
+  "anatomy": "Every study in this topic has four structural parts worth naming precisely. The explanatory variable (also called the independent variable or treatment variable) is the variable the researcher believes may cause a change; in an experiment this is actively manipulated. The response variable is the outcome being measured to see if it changes. Confounding variables are lurking variables that are associated with both the explanatory and response variables, making causal claims impossible in observational studies. Finally, a control group is the group that receives no treatment (or a placebo) in an experiment, providing a baseline against which the treatment group is compared \u2014 this element exists only in experiments, not in observational studies.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Scenario: A researcher records the sleep hours and GPA of 200 college students.}",
+      "description_latex": "We start by identifying what the researcher actually did: they observed and recorded existing information about students without changing anything about their lives. Because no treatment was assigned \u2014 no one was told to sleep more or less \u2014 this is the defining signal of an observational study.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Explanatory variable: } x = \\text{hours of sleep} \\quad \\text{Response variable: } y = \\text{GPA}",
+      "description_latex": "Next we label the variables. The explanatory variable is hours of sleep because it is the factor we think might influence GPA, and GPA is the response variable because it is the outcome being measured. Naming these is essential before deciding what conclusions are valid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Possible confounders: study habits, course difficulty, part-time employment}",
+      "description_latex": "In an observational study we must ask: what else might explain the relationship between sleep and GPA? Students who study more might also sleep better AND earn higher GPAs, making study habits a confounding variable. Because we cannot rule out confounders, we cannot say 'more sleep causes higher GPA' \u2014 only that an association exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Valid conclusion: Students who sleep more tend to have higher GPAs.}",
+      "description_latex": "The appropriate conclusion is stated as an association, not causation. Observational studies can reveal patterns and generate hypotheses, but the absence of random assignment to treatments means any causal language would be statistically unjustified. This is the fundamental limitation of every observational study.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Scenario: 60 participants are randomly assigned to either a standing desk or a sitting desk for 8 weeks; productivity is measured.}",
+      "description_latex": "Let's work through classifying this study and identifying its components. Notice that the researcher is actively deciding who uses which desk \u2014 this is a deliberate imposition of a treatment, which is the hallmark of an experiment rather than an observational study.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Explanatory variable: } x = \\underline{\\hspace{3cm}} \\quad \\text{Response variable: } y = \\underline{\\hspace{3cm}}",
+      "description_latex": "Identify the explanatory variable (the treatment being imposed by the researcher) and the response variable (the outcome being measured). Think about which variable is being controlled and which one is expected to change as a result.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Valid conclusion: Standing desks } \\underline{\\hspace{2cm}} \\text{ (cause / are associated with)} \\text{ higher productivity.}",
+      "description_latex": "Because participants were randomly assigned to treatments, confounding variables are controlled for on average. Choose the correct causal or associative language for the conclusion, and explain in one sentence why this study supports that level of claim.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Conclusion: Random assignment allows a causal claim \u2014 standing desks cause higher productivity (if the result is statistically significant).}",
+      "description_latex": "Random assignment is what elevates an experiment above an observational study: it distributes confounding variables roughly equally between groups, so any observed difference in productivity can be attributed to the desk type rather than to pre-existing differences between participants.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{A journalist surveys 500 adults about their exercise habits and their reported stress levels. Is this an observational study or an experiment? Explain in one sentence.}",
+      "answer_latex": "\\text{Observational study \u2014 the journalist measured existing behaviors without assigning or manipulating any treatment.}"
+    },
+    {
+      "prompt_latex": "\\text{Researchers randomly assign 80 patients to receive either a new drug or a placebo, then measure blood pressure after 12 weeks. (a) Identify the explanatory and response variables. (b) Can the researchers conclude the drug } \\textit{causes} \\text{ a change in blood pressure? Why or why not?}",
+      "answer_latex": "\\text{(a) Explanatory: drug vs. placebo (treatment); Response: blood pressure. (b) Yes \u2014 random assignment controls for confounders, so a causal conclusion is justified.}"
+    },
+    {
+      "prompt_latex": "\\text{A study finds that cities with more ice cream sales have higher drowning rates. A reporter writes: 'Ice cream causes drowning.' Identify the confounding variable and explain the error.}",
+      "answer_latex": "\\text{Confounding variable: hot weather (increases both ice cream sales and swimming). This is an observational association, not a causal relationship; the reporter incorrectly applied causal language.}"
+    },
+    {
+      "prompt_latex": "\\text{A researcher wants to study whether a tutoring program improves test scores. She lets students self-select into the tutoring group or the no-tutoring group, then compares scores. (a) Is this an experiment or observational study? (b) Identify one likely confounder and explain how it could bias the results.}",
+      "answer_latex": "\\text{(a) Observational study \u2014 students chose their own group; no random assignment was made. (b) Prior motivation: students who self-select into tutoring may already be more motivated, so higher scores may reflect motivation, not the tutoring.}"
+    },
+    {
+      "prompt_latex": "\\text{A nutritionist recruits 100 volunteers and randomly assigns half to a Mediterranean diet and half to a standard American diet for 6 months, measuring cholesterol levels at the end. A separate study simply surveys 200 people about their diets and cholesterol. (a) Which study can establish causation? (b) Which study is more subject to confounding? (c) Name one practical reason a researcher might prefer the observational approach despite its limitations.}",
+      "answer_latex": "\\text{(a) The randomized experiment (first study). (b) The observational survey (second study). (c) Possible answers: lower cost, ethical constraints on forcing diet changes, ability to study large or hard-to-reach populations.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often classify a study as an experiment simply because it involves a comparison between two groups, even when no treatment was assigned. The distinguishing feature is not comparison but random assignment of a treatment \u2014 if participants chose their own group or were already in their group before the study began, it is an observational study.",
+    "Students frequently conclude causation from an observational study when a strong correlation is found. A high correlation (even $r = 0.95$) between two variables in an observational study does not justify saying one variable causes the other, because unmeasured confounders could explain the entire relationship.",
+    "Students sometimes believe that a very large sample size in an observational study compensates for the lack of random assignment and allows causal conclusions. Sample size affects precision and reduces sampling error, but it cannot eliminate confounding \u2014 only random assignment to treatments can do that."
+  ],
+  "untested_variants": [
+    "Retrospective versus prospective observational studies: the distinction between looking back at existing records (retrospective/case-control) versus following subjects forward in time (prospective/cohort), and how each affects the strength of evidence.",
+    "Matched pairs and blocking designs within experiments: how researchers can reduce variability by pairing subjects on a confounding variable before random assignment, and how to identify a matched-pairs design from a description.",
+    "Placebo effect and blinding (single-blind vs. double-blind experiments): how researcher or subject awareness of treatment assignment can bias results and why blinding is a design feature of well-conducted experiments.",
+    "Ethical constraints on experimentation: scenarios where random assignment would be unethical (e.g., studying the effects of smoking) and why researchers must use observational methods even knowing the causal limitations this imposes."
+  ]
+}

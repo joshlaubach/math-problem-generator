@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_019",
+  "topic_name": "Electrical Circuit Analogies (H)",
+  "generated_at": "2026-05-13T20:01:27.078615+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve second-order linear ODEs like $L\\ddot{q} + R\\dot{q} + \\frac{1}{C}q = E(t)$, and you've studied mass-spring-damper systems governed by $m\\ddot{x} + b\\dot{x} + kx = F(t)$. What if I told you these two equations are mathematically identical, and that every technique you learned for mechanical oscillators applies directly to electrical circuits? The question is: given a series RLC circuit with a driving voltage, can you immediately write down its governing ODE, identify its natural frequency and damping ratio, and classify its transient behavior?",
+  "concept": "An electrical circuit analogy maps the variables and parameters of a series RLC circuit onto the mathematics of a damped harmonic oscillator, letting us reuse every solution technique from mechanical systems. The governing equation for charge $q(t)$ in a series RLC circuit is $L\\ddot{q} + R\\dot{q} + \\frac{1}{C}q = E(t)$, where $L$ is inductance, $R$ is resistance, $C$ is capacitance, and $E(t)$ is the applied EMF.",
+  "anatomy": "In the equation $L\\ddot{q} + R\\dot{q} + \\frac{1}{C}q = E(t)$, each term has a physical and mathematical role: $L\\ddot{q}$ is the inertial term (inductance resists changes in current, analogous to mass); $R\\dot{q}$ is the damping term (resistance dissipates energy, analogous to the damping coefficient $b$); $\\frac{1}{C}q$ is the restoring term (capacitance stores charge, analogous to spring stiffness $k$); and $E(t)$ is the forcing term (the external voltage source, analogous to the applied force $F(t)$). The characteristic roots are $r = \\frac{-R \\pm \\sqrt{R^2 - 4L/C}}{2L}$, and the discriminant $\\Delta = R^2 - 4L/C$ determines whether the circuit is overdamped, critically damped, or underdamped.",
+  "worked_example": [
+    {
+      "expression_latex": "L\\ddot{q} + R\\dot{q} + \\frac{1}{C}q = E(t)",
+      "description_latex": "We begin by writing the governing ODE for the series RLC circuit. Kirchhoff's voltage law gives us $L\\ddot{q} + R\\dot{q} + \\frac{1}{C}q = E(t)$, where $q(t)$ is the charge on the capacitor and $\\dot{q}(t) = I(t)$ is the current. This is structurally identical to the damped oscillator equation, so every method we used there applies here directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Given: } L = 1\\text{ H},\\; R = 6\\text{ }\u03a9,\\; C = \\tfrac{1}{9}\\text{ F},\\; E(t) = 0",
+      "description_latex": "For this example we take specific values: $L = 1$ H, $R = 6$ $\\Omega$, $C = \\frac{1}{9}$ F, and no driving voltage so $E(t) = 0$. Substituting into the ODE gives $\\ddot{q} + 6\\dot{q} + 9q = 0$. We are looking at the free (homogeneous) transient response of the circuit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = \\frac{-6 \\pm \\sqrt{36 - 36}}{2} = \\frac{-6 \\pm 0}{2} = -3",
+      "description_latex": "We solve the characteristic equation $r^2 + 6r + 9 = 0$ by computing the discriminant $\\Delta = 36 - 4(9) = 0$. Because $\\Delta = 0$, the circuit is critically damped \u2014 this is the boundary case where the circuit returns to equilibrium as fast as possible without oscillating. The repeated root is $r = -3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "q(t) = (c_1 + c_2 t)e^{-3t}",
+      "description_latex": "A repeated characteristic root $r = -3$ gives the general solution $q(t) = (c_1 + c_2 t)e^{-3t}$. This is the same repeated-root form you know from mechanical systems: the charge decays exponentially and the $c_2 t$ factor allows the solution to rise briefly before decaying, which corresponds to the current $I = \\dot{q}$ changing sign at most once.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "I(t) = \\dot{q}(t) = c_2 e^{-3t} - 3(c_1 + c_2 t)e^{-3t} = (c_2 - 3c_1 - 3c_2 t)e^{-3t}",
+      "description_latex": "The current in the circuit is $I(t) = \\dot{q}(t)$, obtained by differentiating $q(t)$. Knowing both $q(0)$ and $I(0)$ as initial conditions pins down $c_1$ and $c_2$, completing the solution \u2014 exactly as initial displacement and velocity determine constants in a spring-mass system.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "L = 1\\text{ H},\\; R = 2\\text{ }\u03a9,\\; C = \\tfrac{1}{5}\\text{ F},\\; E(t) = 0",
+      "description_latex": "We are given a series RLC circuit with $L = 1$ H, $R = 2$ $\\Omega$, $C = \\frac{1}{5}$ F, and no driving voltage. Substituting into the standard ODE gives $\\ddot{q} + 2\\dot{q} + 5q = 0$. Our first task is to find the characteristic roots and classify the damping.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = \\frac{-2 \\pm \\sqrt{4 - 20}}{2}",
+      "description_latex": "Compute the discriminant $\\Delta = R^2 - 4L/C = 4 - 4(1)(5) = -16 < 0$. Because $\\Delta < 0$, the circuit is underdamped and will oscillate. Now simplify the expression for $r$ and write it in the form $\\alpha \\pm \\beta i$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "q(t) = e^{-t}(c_1 \\cos 2t + c_2 \\sin 2t)",
+      "description_latex": "Using the complex roots $r = -1 \\pm 2i$, the general solution is $q(t) = e^{-t}(c_1 \\cos 2t + c_2 \\sin 2t)$. The factor $e^{-t}$ is the exponential decay envelope from the resistance, and the sinusoidal part describes the oscillation at the damped natural frequency $\\omega_d = 2$ rad/s \u2014 initial conditions $q(0)$ and $I(0) = \\dot{q}(0)$ determine $c_1$ and $c_2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the initial conditions $q(0) = 0$ C and $I(0) = \\dot{q}(0) = 4$ A to find the specific values of $c_1$ and $c_2$, and write the particular solution for $q(t)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A series RLC circuit has $L = 1$ H, $R = 4$ $\\Omega$, $C = \\frac{1}{4}$ F, and $E(t) = 0$. Classify the damping and write the general solution $q(t)$.",
+      "answer_latex": "\\Delta = 16 - 16 = 0 \\Rightarrow \\text{critically damped}; \\quad q(t) = (c_1 + c_2 t)e^{-2t}"
+    },
+    {
+      "prompt_latex": "Write the governing ODE and find the general solution $q(t)$ for a series RLC circuit with $L = 1$ H, $R = 5$ $\\Omega$, $C = \\frac{1}{6}$ F, and $E(t) = 0$.",
+      "answer_latex": "\\ddot{q} + 5\\dot{q} + 6q = 0; \\quad r = -2,\\,-3 \\Rightarrow q(t) = c_1 e^{-2t} + c_2 e^{-3t}"
+    },
+    {
+      "prompt_latex": "A series RLC circuit has $L = 1$ H, $R = 2$ $\\Omega$, $C = \\frac{1}{10}$ F, and $E(t) = 0$, with initial conditions $q(0) = 1$ C and $I(0) = 0$ A. Find the particular solution $q(t)$.",
+      "answer_latex": "r = -1 \\pm 3i; \\quad q(t) = e^{-t}\\!\\left(\\cos 3t + \\tfrac{1}{3}\\sin 3t\\right)"
+    },
+    {
+      "prompt_latex": "A series RLC circuit has $L = 1$ H, $R = 2$ $\\Omega$, $C = \\frac{1}{2}$ F, and a driving voltage $E(t) = 10\\sin(2t)$ V, with $q(0) = 0$ and $I(0) = 0$. Find the complete solution $q(t)$ (transient plus steady-state).",
+      "answer_latex": "\\ddot{q}+2\\dot{q}+2q=10\\sin 2t;\\; q_h = e^{-t}(c_1\\cos t+c_2\\sin t);\\; q_p = -\\tfrac{5}{2}\\sin 2t;\\; q(t)=e^{-t}\\!\\left(\\tfrac{5}{2}\\cos t+\\tfrac{15}{2}\\sin t\\right)-\\tfrac{5}{2}\\sin 2t"
+    },
+    {
+      "prompt_latex": "An engineer designs an RLC circuit and wants the charge to oscillate at a damped natural frequency of $\\omega_d = 3$ rad/s with an exponential decay rate of $\\alpha = 1$ s$^{-1}$. If $L = 1$ H, what values of $R$ and $C$ should be used? What is the undamped natural frequency $\\omega_0$?",
+      "answer_latex": "\\alpha = R/(2L) \\Rightarrow R = 2\\;\\Omega; \\quad \\omega_0^2 = 1/C = \\alpha^2+\\omega_d^2 = 10 \\Rightarrow C = \\tfrac{1}{10}\\text{ F}; \\quad \\omega_0 = \\sqrt{10}\\text{ rad/s}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse which circuit quantity plays the role of 'displacement': $q(t)$ (charge) is the direct analogue of $x(t)$, not $I(t)$ (current). Writing the ODE in terms of $I$ is valid but requires an extra differentiation of $E(t)$ on the right-hand side; mixing up $q$ and $I$ in the initial conditions leads to completely wrong constants $c_1$ and $c_2$.",
+    "When computing the discriminant, students frequently use $\\Delta = R^2 - 4LC$ instead of the correct $\\Delta = R^2 - 4L/C$. Remember that the ODE coefficient of $q$ is $1/C$, not $C$, so the discriminant from $Lr^2 + Rr + 1/C = 0$ is $R^2 - 4L \\cdot (1/C) = R^2 - 4L/C$.",
+    "Students apply the mechanical analogy table (mass $\\leftrightarrow$ inductance, damping $\\leftrightarrow$ resistance, stiffness $\\leftrightarrow$ $1/C$) but then forget that the analogue of the forcing function $F(t)$ is the EMF $E(t)$, not the charge or current. Setting up an undetermined-coefficient particular solution with the wrong right-hand side is the typical consequence."
+  ],
+  "untested_variants": [
+    "Parallel RLC circuits, where Kirchhoff's current law produces a different form of the ODE in terms of voltage $V(t)$ rather than charge $q(t)$, requiring a modified analogy table.",
+    "Circuits driven by a non-sinusoidal forcing function such as $E(t) = e^{-t}$ or a square-wave pulse, where the method of undetermined coefficients must be applied carefully and the particular solution form is not a simple sinusoid.",
+    "The resonance phenomenon in a driven RLC circuit where the driving frequency equals the undamped natural frequency $\\omega_0 = 1/\\sqrt{LC}$, causing the particular solution to require the resonance modification (multiplication by $t$) analogous to pure resonance in mechanical systems.",
+    "Using the Laplace transform method to solve the RLC circuit ODE with nonzero initial conditions, leveraging the $s$-domain impedance representation $Z(s) = Ls + R + 1/(Cs)$ rather than the time-domain ODE approach."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_027",
+  "topic_name": "Inverse Trigonometric Functions",
+  "generated_at": "2026-05-12T23:47:17.039758+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know that $\\sin(\\pi/6) = 1/2$, which answers the question: 'What is the sine of this angle?' But what if the question is flipped: 'Which angle has a sine of $1/2$?' You'd need a way to 'undo' the sine function \u2014 just like you use division to undo multiplication. The problem is that sine, cosine, and tangent are not one-to-one over their full domains, so how do we carefully define a true inverse?",
+  "concept": "An inverse trigonometric function reverses the input and output of a trig function. Informally, instead of asking 'what is $\\sin(\\theta)$?' we ask 'what angle $\\theta$ gives this sine value?' Formally, $\\arcsin(x)$ (also written $\\sin^{-1}(x)$) is the unique angle $\\theta \\in [-\\pi/2, \\pi/2]$ such that $\\sin(\\theta) = x$. Similar restricted domains define $\\arccos(x) \\in [0, \\pi]$ and $\\arctan(x) \\in (-\\pi/2, \\pi/2)$.",
+  "anatomy": "Each inverse trig function has four key components worth naming precisely. First, the input $x$ is a ratio (a pure number), not an angle \u2014 for $\\arcsin$ and $\\arccos$ it must satisfy $-1 \\le x \\le 1$, while $\\arctan$ accepts all real numbers. Second, the output $\\theta$ is an angle (in radians or degrees). Third, the restricted range is the carefully chosen interval that makes the inverse well-defined: $[-\\pi/2, \\pi/2]$ for $\\arcsin$, $[0, \\pi]$ for $\\arccos$, and $(-\\pi/2, \\pi/2)$ for $\\arctan$. Fourth, the cancellation identities \u2014 $\\sin(\\arcsin(x)) = x$ and $\\arcsin(\\sin(\\theta)) = \\theta$ only when $\\theta$ is in the restricted range \u2014 remind us that these inverses are partial, not global.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Find } \\arcsin\\!\\left(\\tfrac{1}{2}\\right)",
+      "description_latex": "We are looking for the angle $\\theta$ in the restricted range $[-\\pi/2, \\pi/2]$ whose sine equals $1/2$. Recalling the unit circle, $\\sin(\\pi/6) = 1/2$, and $\\pi/6$ is indeed inside $[-\\pi/2, \\pi/2]$, so this is a valid answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\arcsin\\!\\left(\\tfrac{1}{2}\\right) = \\frac{\\pi}{6}",
+      "description_latex": "We write the answer as $\\pi/6$ radians (or equivalently $30\u00b0$). Notice that sine also equals $1/2$ at $5\\pi/6$, but that angle lies outside the restricted range, so the inverse function does not return it \u2014 this restriction is exactly what makes $\\arcsin$ a true function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Find } \\arccos\\!\\left(-\\tfrac{\\sqrt{2}}{2}\\right)",
+      "description_latex": "Now we need the angle $\\theta \\in [0, \\pi]$ whose cosine equals $-\\sqrt{2}/2$. Cosine is negative in the second quadrant, and we know $\\cos(3\\pi/4) = -\\sqrt{2}/2$; since $3\\pi/4 \\in [0, \\pi]$, this angle is the one we want.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\arccos\\!\\left(-\\tfrac{\\sqrt{2}}{2}\\right) = \\frac{3\\pi}{4}",
+      "description_latex": "The result $3\\pi/4$ (or $135\u00b0$) is the unique angle in the restricted range $[0, \\pi]$ with cosine $-\\sqrt{2}/2$. It is worth double-checking: $\\cos(3\\pi/4) = -\\cos(\\pi/4) = -\\sqrt{2}/2$ \u2713.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Find } \\arctan(1)",
+      "description_latex": "We need the angle $\\theta \\in (-\\pi/2, \\pi/2)$ with $\\tan(\\theta) = 1$. Since $\\tan(\\pi/4) = 1$ and $\\pi/4$ lies inside the open interval $(-\\pi/2, \\pi/2)$, the answer is $\\arctan(1) = \\pi/4$. Unlike $\\arcsin$ and $\\arccos$, $\\arctan$ is defined for all real inputs because tangent takes all real values.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find } \\arcsin\\!\\left(-\\tfrac{\\sqrt{3}}{2}\\right)",
+      "description_latex": "We need the angle $\\theta$ in the restricted range $[-\\pi/2, \\pi/2]$ such that $\\sin(\\theta) = -\\sqrt{3}/2$. Because the input is negative, our answer must be a negative angle (sine is negative in the fourth quadrant, which corresponds to $[-\\pi/2, 0)$ in the restricted range).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sin\\!\\left(\\frac{\\pi}{3}\\right) = \\frac{\\sqrt{3}}{2}, \\text{ so the reference angle is } \\frac{\\pi}{3}",
+      "description_latex": "We first identify the reference angle whose sine has magnitude $\\sqrt{3}/2$. Since $\\sin(\\pi/3) = \\sqrt{3}/2$, the reference angle is $\\pi/3$. Now, using this reference angle and the fact that the answer must be negative, determine the exact value of $\\arcsin(-\\sqrt{3}/2)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\arcsin\\!\\left(-\\tfrac{\\sqrt{3}}{2}\\right) = -\\frac{\\pi}{3}",
+      "description_latex": "The answer is $-\\pi/3$ because $\\sin(-\\pi/3) = -\\sin(\\pi/3) = -\\sqrt{3}/2$ and $-\\pi/3 \\in [-\\pi/2, \\pi/2]$. This illustrates a useful symmetry: $\\arcsin(-x) = -\\arcsin(x)$, meaning $\\arcsin$ is an odd function.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Evaluate } \\arcsin(0)",
+      "answer_latex": "0"
+    },
+    {
+      "prompt_latex": "\\text{Evaluate } \\arctan(-1)",
+      "answer_latex": "-\\dfrac{\\pi}{4}"
+    },
+    {
+      "prompt_latex": "\\text{Evaluate } \\arccos\\!\\left(-\\tfrac{1}{2}\\right)",
+      "answer_latex": "\\dfrac{2\\pi}{3}"
+    },
+    {
+      "prompt_latex": "\\text{Simplify } \\sin\\!\\left(\\arccos\\!\\left(\\tfrac{3}{5}\\right)\\right)",
+      "answer_latex": "\\dfrac{4}{5}"
+    },
+    {
+      "prompt_latex": "\\text{A 10-foot ladder leans against a wall. The base is 4 feet from the wall. Find the angle (in radians) the ladder makes with the ground.}",
+      "answer_latex": "\\arccos\\!\\left(\\dfrac{4}{10}\\right) = \\arccos(0.4) \\approx 1.159 \\text{ rad}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $\\sin^{-1}(x) = 1/\\sin(x)$, confusing inverse-function notation with a reciprocal. The notation $\\sin^{-1}(x)$ means the arcsine function, not the cosecant; to write the reciprocal you must use $\\csc(x)$ or $1/\\sin(x)$ explicitly.",
+    "Students give answers outside the restricted range \u2014 for example, reporting $\\arcsin(\\sqrt{3}/2) = 2\\pi/3$ because $\\sin(2\\pi/3)$ also equals $\\sqrt{3}/2$. Always check that your answer falls in the defined range: $[-\\pi/2, \\pi/2]$ for $\\arcsin$, $[0, \\pi]$ for $\\arccos$, and $(-\\pi/2, \\pi/2)$ for $\\arctan$.",
+    "Students apply the cancellation identity $\\arcsin(\\sin(\\theta)) = \\theta$ without checking whether $\\theta$ is in the restricted range. For instance, $\\arcsin(\\sin(5\\pi/6)) \\ne 5\\pi/6$; since $5\\pi/6 \\notin [-\\pi/2, \\pi/2]$, you must find the equivalent angle in range, giving $\\pi/6$."
+  ],
+  "untested_variants": [
+    "Evaluating inverse trig functions of inputs that are not standard unit-circle values, requiring a calculator (e.g., $\\arcsin(0.73)$).",
+    "Composing two inverse trig functions or solving equations of the form $2\\arctan(x) = \\pi/4$.",
+    "Using inverse trig functions to solve right triangles when two sides are given as algebraic expressions rather than specific numbers.",
+    "Graphing $y = \\arcsin(x)$, $y = \\arccos(x)$, or $y = \\arctan(x)$ and identifying domain, range, and key points from the graph."
+  ]
+}

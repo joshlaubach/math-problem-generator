@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_012",
+  "topic_name": "Error Analysis in Numerical Methods (H)",
+  "generated_at": "2026-05-13T20:00:29.994830+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to apply Euler's method to approximate solutions of differential equations, stepping forward from an initial condition using the tangent line. But have you ever wondered just how far off those approximations are from the true solution \u2014 and whether the error shrinks predictably when you take smaller steps? The gap between knowing *how* to run a numerical method and knowing *how accurate* it is turns out to be crucial: without error analysis, you cannot tell whether your answer is trustworthy or dangerously wrong. How does the global error in Euler's method actually depend on the step size $h$?",
+  "concept": "Error analysis in numerical methods quantifies how far a numerical approximation deviates from the true solution and how that deviation scales with the step size. The *local truncation error* (LTE) is the error introduced in a single step, while the *global error* accumulates over all steps to the endpoint. For Euler's method applied to $y' = f(x,y)$, the LTE at each step is $O(h^2)$, and because roughly $1/h$ steps are taken, the global error is $O(h)$ \u2014 meaning halving $h$ halves the total error.",
+  "anatomy": "Error analysis involves several distinct quantities worth naming precisely. The *true solution* $y(x_n)$ is the exact value of the analytic solution at the mesh point $x_n$. The *numerical approximation* $y_n$ is what the algorithm actually produces. The *local truncation error* at step $n$ is $\\tau_n = y(x_{n+1}) - y(x_n) - h f(x_n, y(x_n))$, isolating the one-step mistake from truncating the Taylor series. The *global error* is $e_n = y(x_n) - y_n$, the total accumulated discrepancy. The *order of the method* $p$ describes how LTE scales: LTE $= O(h^{p+1})$ gives global error $O(h^p)$, so Euler's method is first-order ($p=1$) and the improved Euler (Heun) method is second-order ($p=2$).",
+  "worked_example": [
+    {
+      "expression_latex": "y' = y, \\quad y(0) = 1, \\quad \\text{true solution: } y(x) = e^x",
+      "description_latex": "We choose this simple IVP because we know the exact answer $y(x) = e^x$, which lets us compute the true global error at any point \u2014 this is the standard setup for error analysis, where you compare the numerical output against a known benchmark.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Euler step: } y_1 = y_0 + h f(x_0, y_0) = 1 + h(1) = 1 + h",
+      "description_latex": "Applying one Euler step from $(x_0, y_0) = (0, 1)$ with step size $h$ gives $y_1 = 1 + h$, while the true solution at $x_1 = h$ is $y(h) = e^h$. Notice we are setting up the comparison we need to measure error.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e_1 = y(h) - y_1 = e^h - (1+h) = \\frac{h^2}{2} + \\frac{h^3}{6} + \\cdots",
+      "description_latex": "Expanding $e^h$ as a Taylor series reveals that the one-step error is $\\frac{h^2}{2} + O(h^3)$, confirming the local truncation error is $O(h^2)$. This is the key calculation: the leading power of $h$ in the LTE tells you the order of the method.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Global error at } x = 1 \\text{ with } N \\text{ steps: } |e_N| \\approx C h, \\quad h = 1/N",
+      "description_latex": "Since $N = 1/h$ steps each contribute an LTE of order $h^2$, the errors accumulate to give a global error proportional to $N \\cdot h^2 = h$. This is the central result of first-order error analysis: the global error is $O(h)$, so cutting $h$ in half also cuts the global error in half.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Ratio test: } \\frac{|e(h)|}{|e(h/2)|} \\approx 2^p, \\quad p = 1 \\text{ (Euler)}, \\; p = 2 \\text{ (Heun)}",
+      "description_latex": "In practice you cannot always find the exact error, but you can run the method with step sizes $h$ and $h/2$ and compare: if the error drops by a factor of $2^p$ when $h$ is halved, the method is confirmed to be order $p$. This ratio test is how numerical analysts verify the order of a method experimentally.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y' = 2x, \\quad y(0) = 0, \\quad \\text{true solution: } y(x) = x^2",
+      "description_latex": "We want to find the local truncation error of Euler's method on this IVP. First, note the true solution is $y(x) = x^2$ and the Euler step from $(x_n, y_n)$ gives $y_{n+1} = y_n + h \\cdot 2x_n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y(x_{n+1}) = (x_n + h)^2 = x_n^2 + 2x_n h + h^2",
+      "description_latex": "The true value at the next mesh point is obtained by substituting $x_{n+1} = x_n + h$ into the exact solution. We have expanded it here so you can see every power of $h$ clearly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the local truncation error $\\tau = y(x_{n+1}) - y_{n+1}$ by subtracting the Euler approximation $y_{n+1} = y_n + 2x_n h = x_n^2 + 2x_n h$ from the true value above. What is $\\tau$, and what order in $h$ is it?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\tau = h^2 = O(h^2), \\quad \\text{so global error is } O(h)",
+      "description_latex": "The local truncation error is exactly $h^2$, confirming it is $O(h^2)$ as expected for Euler's method. Because there are $1/h$ steps from $x=0$ to any fixed endpoint, the global error is $O(h^2)/h^{-1}$... wait \u2014 it accumulates to $O(h)$, confirming Euler is a first-order method.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "The local truncation error of Euler's method is $O(h^2)$ per step. If there are $N = 1/h$ steps from $x=0$ to $x=1$, what is the order of the global error?",
+      "answer_latex": "O(h)"
+    },
+    {
+      "prompt_latex": "Use one Euler step with $h = 0.1$ to approximate $y(0.1)$ for $y' = y$, $y(0)=1$. Then compute the exact global error $|y(0.1) - y_1|$ to four decimal places, given $e^{0.1} \\approx 1.10517$.",
+      "answer_latex": "|e^{0.1} - 1.1| = |1.10517 - 1.10000| \\approx 0.00517"
+    },
+    {
+      "prompt_latex": "Euler's method is applied to an IVP on $[0,1]$. With $h = 0.1$ the global error at $x=1$ is measured as $0.052$. Predict the global error when $h = 0.05$.",
+      "answer_latex": "\\approx 0.026"
+    },
+    {
+      "prompt_latex": "A second-order method (such as Heun's method) has global error $O(h^2)$. If the global error at $h = 0.2$ is $0.016$, what step size would you need to reduce the error below $0.002$?",
+      "answer_latex": "h \\leq 0.2/\\sqrt{8} \\approx 0.0707, \\text{ so choose } h = 0.05 \\text{ (error} \\approx 0.001\\text{)}"
+    },
+    {
+      "prompt_latex": "A numerical analyst runs Euler's method on $y' = -y$, $y(0)=1$ to $x=1$ with step sizes $h = 0.1, 0.05, 0.025$ and records global errors $0.0468, 0.0235, 0.0118$. Compute the successive error ratios and state what order the data suggests.",
+      "answer_latex": "\\text{Ratios: } 0.0468/0.0235 \\approx 1.99,\\; 0.0235/0.0118 \\approx 1.99 \\approx 2^1, \\text{ confirming first-order (} p=1\\text{)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse local truncation error with global error, assuming that because each step has $O(h^2)$ LTE the overall error is also $O(h^2)$. The fix is to remember that $N \\approx 1/h$ steps accumulate the LTE, reducing the exponent by one: global error $= O(h^{p})$ when LTE $= O(h^{p+1})$.",
+    "When performing the ratio test, students halve $h$ and expect the error ratio to equal $p$ rather than $2^p$. For a first-order method the error ratio when $h$ is halved is $2^1 = 2$, not $1$, so always compute $2^p$ as the expected ratio.",
+    "Students apply the LTE formula $\\tau = y(x_{n+1}) - y_n - hf(x_n, y_n)$ using the numerical value $y_n$ instead of the true solution value $y(x_n)$, mixing the two quantities. The LTE is defined using the exact solution propagated one step, so both $y_n$ and the function evaluation must use the true solution $y(x_n)$."
+  ],
+  "untested_variants": [
+    "Deriving the local truncation error for the improved Euler (Heun) or midpoint method by expanding to higher-order Taylor terms and showing LTE $= O(h^3)$, global error $= O(h^2)$.",
+    "Error analysis for systems of first-order ODEs or second-order equations rewritten as systems, where the error must be tracked as a vector norm.",
+    "Richardson extrapolation: combining two Euler approximations with step sizes $h$ and $h/2$ to cancel the leading error term and construct a higher-order estimate.",
+    "Stability versus accuracy trade-offs: analyzing how round-off error interacts with truncation error as $h \\to 0$, including the concept of an optimal step size that balances both sources of error."
+  ]
+}

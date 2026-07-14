@@ -1,0 +1,81 @@
+{
+  "topic_id": "c3_021",
+  "topic_name": "Double Integrals over Rectangles",
+  "generated_at": "2026-05-13T00:33:57.468836+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to find the area under a curve using a single integral \u2014 integrating $f(x)$ over an interval $[a,b]$ gives you a flat, one-dimensional sweep. But what if your function depends on two variables, like $f(x,y) = xy^2$, and you want to find the total volume under its surface over a rectangular region in the $xy$-plane? A single integral isn't enough anymore, and stacking infinitely many thin slabs in two directions requires a new tool. How do we systematically integrate a function of two variables over a rectangle?",
+  "concept": "A double integral over a rectangle extends the idea of a single integral to two dimensions. Instead of summing infinitely thin rectangles of width $dx$, we sum infinitely thin rectangular prisms of base area $dA = dx\\,dy$. Formally, for a rectangle $R = [a,b]\\times[c,d]$, the double integral $\\iint_R f(x,y)\\,dA$ gives the signed volume between the surface $z = f(x,y)$ and the $xy$-plane over $R$. By Fubini's Theorem, this equals the iterated integral $\\int_c^d\\int_a^b f(x,y)\\,dx\\,dy$.",
+  "anatomy": "In the iterated integral $\\int_c^d\\int_a^b f(x,y)\\,dx\\,dy$, there are several distinct parts to name. The integrand $f(x,y)$ is the two-variable function whose surface we are measuring volume under. The inner integral $\\int_a^b f(x,y)\\,dx$ treats $y$ as a constant and integrates with respect to $x$ across the interval $[a,b]$; its result is a function of $y$ alone. The outer integral $\\int_c^d (\\cdot)\\,dy$ then integrates that $y$-function over $[c,d]$. The limits $a,b$ belong to the $x$-variable, and $c,d$ belong to the $y$-variable \u2014 matching each limit to the correct variable is essential.",
+  "worked_example": [
+    {
+      "expression_latex": "\\iint_R (2x + 3y)\\,dA, \\quad R = [0,1]\\times[0,2]",
+      "description_latex": "We begin by writing down the problem clearly. Our rectangle is $R = [0,1]\\times[0,2]$, meaning $x$ ranges from $0$ to $1$ and $y$ ranges from $0$ to $2$. By Fubini's Theorem we can convert this double integral into an iterated integral, choosing to integrate with respect to $x$ first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\int_0^2 \\int_0^1 (2x + 3y)\\,dx\\,dy",
+      "description_latex": "We write the iterated integral with the inner integral over $x$ from $0$ to $1$ and the outer integral over $y$ from $0$ to $2$. Notice that $3y$ behaves like a constant during the inner integration because we are holding $y$ fixed while we integrate over $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^1 (2x + 3y)\\,dx = \\left[x^2 + 3yx\\right]_0^1 = 1 + 3y",
+      "description_latex": "We evaluate the inner integral by antidifferentiating term by term with respect to $x$: $\\int 2x\\,dx = x^2$ and $\\int 3y\\,dx = 3yx$ since $y$ is constant. Plugging in the bounds $x=1$ and $x=0$ gives $1 + 3y - 0 = 1 + 3y$, which is now purely a function of $y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^2 (1 + 3y)\\,dy = \\left[y + \\frac{3y^2}{2}\\right]_0^2 = 2 + 6 = 8",
+      "description_latex": "Now we evaluate the outer integral by integrating $1 + 3y$ with respect to $y$ from $0$ to $2$. Substituting $y = 2$ gives $2 + \\frac{3(4)}{2} = 2 + 6 = 8$, and substituting $y = 0$ gives $0$. The total signed volume under the surface $z = 2x + 3y$ over the rectangle is $8$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\iint_R x e^{xy}\\,dA, \\quad R = [0,1]\\times[0,1]",
+      "description_latex": "We want to evaluate this double integral over the unit square. Because the exponential $e^{xy}$ is much easier to integrate with respect to $y$ (where $x$ acts as a constant coefficient in the exponent) than with respect to $x$, we choose to integrate over $y$ first. Let's write the iterated integral accordingly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\int_0^1 \\int_0^1 x e^{xy}\\,dy\\,dx",
+      "description_latex": "The inner integral is $\\int_0^1 x e^{xy}\\,dy$. Treat $x$ as a constant: the antiderivative of $x e^{xy}$ with respect to $y$ is $e^{xy}$, because $\\frac{d}{dy}e^{xy} = x e^{xy}$. Evaluate this from $y=0$ to $y=1$ and simplify before moving to the outer integral.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "= \\int_0^1 (e^x - 1)\\,dx = \\left[e^x - x\\right]_0^1 = (e - 1) - (1 - 0) = e - 2",
+      "description_latex": "After the inner integral simplifies to $e^x - 1$, we integrate this with respect to $x$ from $0$ to $1$. The antiderivative is $e^x - x$, and evaluating at the bounds gives $(e^1 - 1) - (e^0 - 0) = e - 1 - 1 = e - 2$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $\\iint_R 6 \\,dA$ where $R = [1,4]\\times[2,5]$.",
+      "answer_latex": "54"
+    },
+    {
+      "prompt_latex": "Evaluate $\\int_0^2\\int_1^3 (x + y)\\,dx\\,dy$.",
+      "answer_latex": "12"
+    },
+    {
+      "prompt_latex": "Evaluate $\\iint_R x^2 y \\,dA$ where $R = [0,3]\\times[0,2]$.",
+      "answer_latex": "18"
+    },
+    {
+      "prompt_latex": "Evaluate $\\iint_R (x^2 + y^2)\\,dA$ where $R = [-1,1]\\times[0,2]$, and use symmetry or direct computation to simplify your work.",
+      "answer_latex": "\\dfrac{28}{3}"
+    },
+    {
+      "prompt_latex": "A thin flat plate occupies the rectangle $R = [0,2]\\times[0,3]$. Its density at point $(x,y)$ is $\\delta(x,y) = 4xy$ kg/m$^2$. Write and evaluate a double integral to find the total mass of the plate.",
+      "answer_latex": "36 \\text{ kg}"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the wrong limits to the wrong variable \u2014 for example, writing $\\int_c^d\\int_a^b f\\,dy\\,dx$ but using the $x$-bounds on the outer integral. Always match each limit pair to the differential it accompanies: the innermost $d(\\cdot)$ corresponds to the innermost limits.",
+    "When evaluating the inner integral, students forget that the other variable is a constant and accidentally differentiate or integrate it \u2014 for instance, treating $3y$ as $3$ when integrating with respect to $x$. Remember that any expression involving only the outer variable is a constant during the inner integration, exactly like a number.",
+    "Students evaluate the iterated integral in the written order of $dx\\,dy$ but then plug the $y$-bounds into the inner antiderivative before finishing. You must evaluate the inner integral completely \u2014 substituting its own limits \u2014 before touching the outer integral. The two integrations are sequential, not simultaneous."
+  ],
+  "untested_variants": [
+    "Evaluating a double integral where the integrand is a product of separated functions, $f(x)g(y)$, using the shortcut $\\iint_R f(x)g(y)\\,dA = \\left(\\int_a^b f(x)\\,dx\\right)\\left(\\int_c^d g(y)\\,dy\\right)$.",
+    "Switching the order of integration \u2014 rewriting $\\int_a^b\\int_c^d f\\,dy\\,dx$ as $\\int_c^d\\int_a^b f\\,dx\\,dy$ and verifying Fubini's Theorem gives the same answer.",
+    "Double integrals involving trigonometric integrands such as $f(x,y) = \\sin(x)\\cos(y)$ over a rectangle, which require trigonometric antiderivatives in both variables.",
+    "Using a double integral over a rectangle to compute the average value of a two-variable function, $\\bar{f} = \\frac{1}{\\text{Area}(R)}\\iint_R f(x,y)\\,dA$."
+  ]
+}

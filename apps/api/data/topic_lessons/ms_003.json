@@ -1,0 +1,86 @@
+{
+  "topic_id": "ms_003",
+  "topic_name": "Maximum Likelihood Estimation",
+  "generated_at": "2026-05-14T01:00:42.700442+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to compute probabilities: given a model with known parameters, you can find $P(X = x)$. But in real life, you observe data and need to work backwards \u2014 the parameters are unknown, and you must estimate them from what you see. Suppose you flip a possibly-unfair coin 10 times and observe 7 heads. You want to find the value of $p$ that best explains this outcome. But what exactly does 'best explains' mean, and how do you find that value systematically?",
+  "concept": "Maximum Likelihood Estimation (MLE) answers the question: which parameter value makes the observed data most probable? Informally, we treat the data as fixed and ask which $\\theta$ best 'explains' what we saw. Formally, given data $x_1, \\ldots, x_n$ and a parametric model with pdf or pmf $f(x \\mid \\theta)$, the likelihood function is $L(\\theta) = \\prod_{i=1}^{n} f(x_i \\mid \\theta)$, and the MLE is $\\hat{\\theta} = \\arg\\max_{\\theta} L(\\theta)$.",
+  "anatomy": "The likelihood function $L(\\theta) = \\prod_{i=1}^{n} f(x_i \\mid \\theta)$ has several named parts worth understanding precisely. The observations $x_1, \\ldots, x_n$ are treated as fixed constants, not random variables. The parameter $\\theta$ is the free variable we optimize over. Because products of small probabilities are numerically unwieldy, we almost always work with the log-likelihood $\\ell(\\theta) = \\ln L(\\theta) = \\sum_{i=1}^{n} \\ln f(x_i \\mid \\theta)$, which has the same maximizer since $\\ln$ is strictly increasing. The score equation $\\frac{d\\ell}{d\\theta} = 0$ is the first-order condition we solve to find $\\hat{\\theta}$.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Bernoulli}(p), \\quad \\text{observe } x_1, \\ldots, x_n \\in \\{0,1\\}",
+      "description_latex": "We start by writing down the statistical model. Each observation is an independent Bernoulli trial with unknown success probability $p \\in (0,1)$, and we want to find the MLE $\\hat{p}$. Establishing the model first is essential because it tells us the form of $f(x_i \\mid p)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L(p) = \\prod_{i=1}^{n} p^{x_i}(1-p)^{1-x_i} = p^{\\sum x_i}(1-p)^{n - \\sum x_i}",
+      "description_latex": "We form the likelihood by multiplying the pmf evaluated at each observation. Because all $x_i$ are independent, the joint probability is the product of individual probabilities, and the exponents combine neatly into $\\sum x_i$ and $n - \\sum x_i$. Let's write $s = \\sum_{i=1}^n x_i$ for the total number of successes to keep notation clean.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ell(p) = \\ln L(p) = s \\ln p + (n - s)\\ln(1-p)",
+      "description_latex": "Taking the natural log converts the product into a sum, which is far easier to differentiate. The log-likelihood $\\ell(p)$ has the same maximum as $L(p)$ because $\\ln$ is a strictly increasing function, so maximizing one is identical to maximizing the other.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{d\\ell}{dp} = \\frac{s}{p} - \\frac{n-s}{1-p} = 0",
+      "description_latex": "We differentiate with respect to the unknown parameter $p$ and set the derivative equal to zero \u2014 this is the score equation. Solving this critical point gives us the candidate MLE, and we should verify it is a maximum (the second derivative is negative for $p \\in (0,1)$, which confirms it).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{p} = \\frac{s}{n} = \\frac{\\sum_{i=1}^n x_i}{n} = \\bar{x}",
+      "description_latex": "Cross-multiplying and solving gives $\\hat{p} = s/n$, the sample proportion of successes. This is beautifully intuitive: the MLE says estimate $p$ by the fraction of heads you actually observed, which is exactly what common sense would suggest \u2014 MLE formalizes and justifies that intuition.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Exponential}(\\lambda), \\quad f(x \\mid \\lambda) = \\lambda e^{-\\lambda x},\\; x > 0",
+      "description_latex": "We want to find the MLE of $\\lambda$ given observations $x_1, \\ldots, x_n$. Start by writing out the log-likelihood using the given density.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ell(\\lambda) = n \\ln \\lambda - \\lambda \\sum_{i=1}^n x_i",
+      "description_latex": "The log-likelihood simplifies to this expression after taking the log of the product. Now you need to find the score equation: differentiate $\\ell(\\lambda)$ with respect to $\\lambda$ and set it equal to zero.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\hat{\\lambda} = \\frac{1}{\\bar{x}}",
+      "description_latex": "Setting $d\\ell/d\\lambda = n/\\lambda - \\sum x_i = 0$ and solving yields $\\hat{\\lambda} = n / \\sum x_i = 1/\\bar{x}$. Notice this is the reciprocal of the sample mean \u2014 does that match your intuition about the mean of an Exponential distribution?",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Bernoulli}(p)$. You observe $n = 20$ flips with $s = 14$ successes. Compute $\\hat{p}_{\\text{MLE}}$.",
+      "answer_latex": "\\hat{p} = \\frac{14}{20} = 0.7"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Poisson}(\\mu)$, where $f(x \\mid \\mu) = e^{-\\mu}\\mu^x / x!$. Derive the MLE $\\hat{\\mu}$.",
+      "answer_latex": "\\hat{\\mu} = \\bar{x} = \\frac{1}{n}\\sum_{i=1}^n x_i"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Uniform}(0, \\theta)$ with density $f(x \\mid \\theta) = 1/\\theta$ for $0 < x < \\theta$. Show that the MLE is $\\hat{\\theta} = X_{(n)} = \\max_i X_i$. (Hint: the likelihood is $\\theta^{-n}$ when $\\theta \\geq x_{(n)}$ and $0$ otherwise \u2014 no calculus needed.)",
+      "answer_latex": "\\hat{\\theta} = X_{(n)} = \\max(X_1, \\ldots, X_n)"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} N(\\mu, \\sigma^2)$ with both $\\mu$ and $\\sigma^2$ unknown. Using the joint log-likelihood $\\ell(\\mu,\\sigma^2) = -\\frac{n}{2}\\ln(2\\pi\\sigma^2) - \\frac{1}{2\\sigma^2}\\sum(x_i - \\mu)^2$, find the MLEs $\\hat{\\mu}$ and $\\hat{\\sigma}^2$.",
+      "answer_latex": "\\hat{\\mu} = \\bar{x}, \\quad \\hat{\\sigma}^2 = \\frac{1}{n}\\sum_{i=1}^n (x_i - \\bar{x})^2"
+    },
+    {
+      "prompt_latex": "A quality-control engineer records the lifetimes (in hours) of 5 light bulbs: $120, 95, 110, 130, 105$. Assuming lifetimes follow an Exponential distribution with unknown rate $\\lambda$, compute $\\hat{\\lambda}_{\\text{MLE}}$ and interpret it.",
+      "answer_latex": "\\bar{x} = 112, \\quad \\hat{\\lambda} = \\frac{1}{112} \\approx 0.00893 \\text{ failures per hour}"
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting to take the log before differentiating: students try to differentiate $L(\\theta) = \\prod f(x_i \\mid \\theta)$ directly, which produces a messy product-rule chain. Always switch to $\\ell(\\theta) = \\ln L(\\theta)$ first \u2014 since $\\ln$ is strictly increasing, the maximizer is identical.",
+    "Treating the likelihood as a probability in $\\theta$: students write statements like 'the probability that $\\theta = 2$,' but $L(\\theta)$ is not a probability distribution over $\\theta$. It is the probability of the observed data viewed as a function of $\\theta$, and its values need not sum or integrate to one.",
+    "Missing boundary or non-differentiable cases: students reflexively set $d\\ell/d\\theta = 0$ even when the likelihood is monotone or has a boundary maximum (as in the Uniform$(0,\\theta)$ example). Always check whether the likelihood's maximum occurs at a critical point, at the boundary of the parameter space, or at a non-differentiable kink."
+  ],
+  "untested_variants": [
+    "MLE for a two-parameter Gamma distribution, which requires solving a system of coupled score equations with no closed-form solution and introduces numerical optimization methods.",
+    "MLE under a censored data model (e.g., survival analysis with right-censored observations), where the likelihood splits into contributions from observed and censored individuals.",
+    "The invariance property of MLEs: if $\\hat{\\theta}$ is the MLE of $\\theta$, then $g(\\hat{\\theta})$ is the MLE of $g(\\theta)$ for any function $g$ \u2014 applying this to construct MLEs for derived quantities like $e^{-\\lambda t}$ in the Exponential model.",
+    "Profile likelihood and MLE in the presence of nuisance parameters, where one parameter is of primary interest and others must be profiled out."
+  ]
+}

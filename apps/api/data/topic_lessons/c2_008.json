@@ -1,0 +1,81 @@
+{
+  "topic_id": "c2_008",
+  "topic_name": "Hyperbolic Functions and Their Integrals (H)",
+  "generated_at": "2026-05-13T00:19:00.629528+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to integrate trigonometric functions like $\\sin x$ and $\\cos x$, and you've seen how they arise naturally from circular motion and oscillation. But what about the catenary \u2014 the curve a hanging chain makes \u2014 or the shape of a soap film between two rings? These shapes are governed not by circular trig functions but by their hyperbolic cousins $\\sinh x$ and $\\cosh x$. If someone asked you to evaluate $\\int \\cosh(3x)\\, dx$ or $\\int \\tanh x\\, dx$ right now, would you know where to begin?",
+  "concept": "Hyperbolic functions are defined using exponentials: $\\sinh x = \\frac{e^x - e^{-x}}{2}$ and $\\cosh x = \\frac{e^x + e^{-x}}{2}$, with $\\tanh x = \\frac{\\sinh x}{\\cosh x}$. They satisfy differentiation rules that mirror trig \u2014 $\\frac{d}{dx}\\sinh x = \\cosh x$ and $\\frac{d}{dx}\\cosh x = \\sinh x$ \u2014 so their integrals flip the same way: $\\int \\sinh x\\, dx = \\cosh x + C$ and $\\int \\cosh x\\, dx = \\sinh x + C$.",
+  "anatomy": "Every hyperbolic integral has three key components worth naming. First, the hyperbolic function itself \u2014 $\\sinh$, $\\cosh$, $\\tanh$, $\\text{sech}^2$, etc. \u2014 which determines the antiderivative formula you reach for. Second, the inner function or argument (for instance the $3x$ in $\\cosh(3x)$), which controls whether a $u$-substitution is needed and introduces a chain-rule constant. Third, the sign rule: unlike circular trig, $\\frac{d}{dx}\\cosh x = +\\sinh x$ (positive!), so there are no sign-flip traps between $\\sinh$ and $\\cosh$ the way there are between $\\sin$ and $\\cos$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\int \\cosh(3x)\\, dx",
+      "description_latex": "We recognize this as a hyperbolic cosine with an inner function $u = 3x$, so we plan a $u$-substitution. The strategy is identical to what you'd do for $\\int \\cos(3x)\\, dx$: let the argument be $u$ so the chain-rule constant can be peeled off cleanly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u = 3x, \\quad du = 3\\, dx, \\quad dx = \\frac{du}{3}",
+      "description_latex": "We set $u = 3x$ and differentiate to find $du = 3\\,dx$, which means $dx = \\frac{du}{3}$. Substituting converts the integral into a pure hyperbolic form with no $x$'s remaining.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int \\cosh(u)\\cdot \\frac{du}{3} = \\frac{1}{3}\\int \\cosh(u)\\, du",
+      "description_latex": "After substitution the integral becomes $\\frac{1}{3}\\int \\cosh(u)\\,du$, and we can now apply the standard formula $\\int \\cosh(u)\\,du = \\sinh(u) + C$ directly, since the argument is just $u$ with no extra complication.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{1}{3}\\sinh(u) + C = \\frac{1}{3}\\sinh(3x) + C",
+      "description_latex": "We integrate to get $\\frac{1}{3}\\sinh(u) + C$, then back-substitute $u = 3x$ to return to the original variable. The factor of $\\frac{1}{3}$ is the reciprocal of the coefficient $3$ in the argument, which is exactly what the chain rule demands.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\int \\tanh x\\, dx = \\int \\frac{\\sinh x}{\\cosh x}\\, dx",
+      "description_latex": "We start by rewriting $\\tanh x$ as $\\frac{\\sinh x}{\\cosh x}$, because there is no single memorized antiderivative for $\\tanh$ \u2014 instead, the fraction structure suggests a $u$-substitution with the denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u = \\cosh x, \\quad du = \\sinh x\\, dx",
+      "description_latex": "We let $u = \\cosh x$ because its derivative $\\frac{d}{dx}\\cosh x = \\sinh x$ appears exactly in the numerator, making the substitution clean. The integral becomes $\\int \\frac{du}{u}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate $\\int \\frac{du}{u}$ and back-substitute to express your answer in terms of $x$. What standard logarithm integral applies here, and what does $u$ equal? Write the final answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\int \\sinh x\\, dx",
+      "answer_latex": "\\cosh x + C"
+    },
+    {
+      "prompt_latex": "\\int \\sinh(5x)\\, dx",
+      "answer_latex": "\\frac{1}{5}\\cosh(5x) + C"
+    },
+    {
+      "prompt_latex": "\\int \\text{sech}^2(x)\\, dx",
+      "answer_latex": "\\tanh x + C"
+    },
+    {
+      "prompt_latex": "\\int x\\cosh(x^2)\\, dx",
+      "answer_latex": "\\frac{1}{2}\\sinh(x^2) + C"
+    },
+    {
+      "prompt_latex": "\\text{A cable hangs so that its height satisfies } y'(x) = \\sinh(x).\\text{ If } y(0) = 1,\\text{ find } y(x).",
+      "answer_latex": "y(x) = \\cosh(x)"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $\\int \\cosh x\\, dx = -\\sinh x + C$, importing the sign-flip habit from $\\int \\cos x\\, dx = \\sin x$ and $\\int \\sin x\\, dx = -\\cos x$. Unlike circular trig, the hyperbolic pair has no minus sign: $\\int \\cosh x\\, dx = +\\sinh x + C$ and $\\int \\sinh x\\, dx = +\\cosh x + C$.",
+    "When integrating $\\int \\cosh(ax)\\, dx$, students forget to divide by the inner derivative $a$ and write $\\sinh(ax) + C$ instead of $\\frac{1}{\\sinh(ax)}{a} + C$. Always track the chain-rule constant from the argument: the correct answer is $\\frac{1}{a}\\sinh(ax) + C$.",
+    "Students treat $\\int \\tanh x\\, dx$ as if it were a standard formula and write $\\text{sech}^2 x + C$ (confusing the derivative of $\\tanh$ with its antiderivative). The actual antiderivative requires writing $\\tanh x = \\frac{\\sinh x}{\\cosh x}$ and applying a $\\ln|\\cosh x|$ substitution, giving $\\ln(\\cosh x) + C$."
+  ],
+  "untested_variants": [
+    "Integrals involving $\\text{csch}^2 x$ or $\\text{sech}\\, x\\, \\tanh x$, which use the formulas $\\int \\text{csch}^2 x\\, dx = -\\coth x + C$ and $\\int \\text{sech}\\, x\\, \\tanh x\\, dx = -\\text{sech}\\, x + C$.",
+    "Definite integrals of hyperbolic functions, which require evaluating $\\sinh$ or $\\cosh$ at numeric bounds using their exponential definitions.",
+    "Integrals that first require a hyperbolic identity (such as $\\cosh^2 x = \\frac{\\cosh(2x)+1}{2}$) to simplify $\\int \\cosh^2 x\\, dx$ before integrating \u2014 analogous to the half-angle strategy for $\\cos^2 x$.",
+    "Inverse hyperbolic function integrals such as $\\int \\frac{dx}{\\sqrt{x^2+1}} = \\sinh^{-1}(x) + C$, which connect hyperbolic functions to trigonometric substitution results."
+  ]
+}

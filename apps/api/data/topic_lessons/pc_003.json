@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_003",
+  "topic_name": "Combining Functions (Sum, Difference, Product, Quotient)",
+  "generated_at": "2026-05-12T23:39:42.486601+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to evaluate a single function like $f(x) = x^2 + 1$ or $g(x) = 3x - 2$ at any input. But what if a real-world situation requires you to combine two separate models \u2014 say, one function describing revenue and another describing cost \u2014 into a single expression for profit? You can add, subtract, multiply, or divide functions just like numbers, but the rules for the resulting domain are tricky. How do you build a brand-new function from two existing ones, and what inputs is it actually defined for?",
+  "concept": "Combining functions means using arithmetic operations to create a new function from two given functions. If $f$ and $g$ are functions, we define: $(f+g)(x) = f(x)+g(x)$, $(f-g)(x) = f(x)-g(x)$, $(f \\cdot g)(x) = f(x) \\cdot g(x)$, and $\\left(\\dfrac{f}{g}\\right)(x) = \\dfrac{f(x)}{g(x)}$, where $g(x) \\neq 0$. The domain of each combined function is the intersection of the domains of $f$ and $g$ (with the additional restriction that $g(x) \\neq 0$ for the quotient).",
+  "anatomy": "Every combined function has four key components worth naming precisely. The two parent functions, $f$ and $g$, are the building blocks that supply the output values being combined. The operation symbol \u2014 $+$, $-$, $\\cdot$, or $\\div$ \u2014 tells you which arithmetic rule to apply to those outputs. The combined function notation, such as $(f+g)(x)$ or $\\left(\\frac{f}{g}\\right)(x)$, is the name and evaluation rule for the new function. Finally, the domain of the combined function is the set of all $x$-values that are valid for both $f$ and $g$ simultaneously, found by intersecting their individual domains and, for the quotient, removing any $x$ where $g(x) = 0$.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^2 - 4, \\quad g(x) = x + 2",
+      "description_latex": "We start by identifying our two parent functions. Both $f$ and $g$ are polynomials, so each is defined for all real numbers, meaning the domain of each is $(-\\infty, \\infty)$. Knowing the individual domains first makes it much easier to find the domain of any combined function we create from them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(f + g)(x) = f(x) + g(x) = (x^2 - 4) + (x + 2)",
+      "description_latex": "To form the sum function, we replace $(f+g)(x)$ with $f(x) + g(x)$ and substitute the full expressions for each parent function inside parentheses. Using parentheses around each function is a habit that protects you when you simplify, especially for differences and products where sign errors are common.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(f + g)(x) = x^2 + x - 2",
+      "description_latex": "Now we simplify by combining like terms: $-4 + 2 = -2$, so the result is $x^2 + x - 2$. The domain of $(f+g)$ is the intersection of the domains of $f$ and $g$, which is $(-\\infty, \\infty) \\cap (-\\infty, \\infty) = (-\\infty, \\infty)$, meaning every real number is a valid input.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left(\\frac{f}{g}\\right)(x) = \\frac{f(x)}{g(x)} = \\frac{x^2 - 4}{x + 2}",
+      "description_latex": "For the quotient, we place $f(x)$ in the numerator and $g(x)$ in the denominator. The critical new restriction is that the denominator cannot equal zero, so we need $x + 2 \\neq 0$, which means $x \\neq -2$. Even though this fraction simplifies, we must declare the domain restriction before simplifying.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left(\\frac{f}{g}\\right)(x) = \\frac{(x-2)(x+2)}{x+2} = x - 2, \\quad x \\neq -2",
+      "description_latex": "Factoring the numerator as $(x-2)(x+2)$ lets us cancel the common factor $(x+2)$, leaving the much simpler expression $x-2$. However, the domain restriction $x \\neq -2$ must be kept permanently \u2014 even though the simplified form looks defined everywhere, the original quotient was not defined at $x = -2$, so that value is excluded from the domain.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = \\sqrt{x}, \\quad g(x) = x - 3",
+      "description_latex": "We are asked to find $(f \\cdot g)(x)$ and its domain. Let's start by identifying each domain separately. The function $f(x) = \\sqrt{x}$ requires $x \\geq 0$, so its domain is $[0, \\infty)$. The function $g(x) = x - 3$ is a polynomial, defined for all real numbers $(-\\infty, \\infty)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(f \\cdot g)(x) = f(x) \\cdot g(x) = \\sqrt{x} \\cdot (x - 3)",
+      "description_latex": "We apply the product rule by multiplying the two output expressions together. Notice we keep the parentheses around $(x-3)$ even though multiplication doesn't create sign errors the way subtraction does \u2014 it's a good habit that keeps the expression readable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now determine the domain of $(f \\cdot g)(x)$. Remember, the domain of a product function is the intersection of the two individual domains you identified in step one. What is $[0, \\infty) \\cap (-\\infty, \\infty)$, and does the product formula create any additional restrictions you need to check for?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $f(x) = 2x + 1$ and $g(x) = x - 4$. Find $(f + g)(x)$.",
+      "answer_latex": "(f+g)(x) = 3x - 3"
+    },
+    {
+      "prompt_latex": "Let $f(x) = x^2 + 3x$ and $g(x) = 2x - 1$. Find $(f - g)(x)$ and state its domain.",
+      "answer_latex": "(f-g)(x) = x^2 + x + 1, \\text{ domain: } (-\\infty, \\infty)"
+    },
+    {
+      "prompt_latex": "Let $f(x) = x + 5$ and $g(x) = x^2 - 25$. Find $\\left(\\dfrac{g}{f}\\right)(x)$ and state its domain.",
+      "answer_latex": "\\left(\\dfrac{g}{f}\\right)(x) = x - 5, \\quad x \\neq -5, \\text{ domain: } (-\\infty,-5)\\cup(-5,\\infty)"
+    },
+    {
+      "prompt_latex": "Let $f(x) = \\sqrt{x + 1}$ and $g(x) = \\sqrt{4 - x}$. Find $(f \\cdot g)(x)$ and state its domain.",
+      "answer_latex": "(f \\cdot g)(x) = \\sqrt{(x+1)(4-x)}, \\text{ domain: } [-1,\\, 4]"
+    },
+    {
+      "prompt_latex": "A company models its monthly revenue as $R(x) = 50x$ dollars and its monthly cost as $C(x) = x^2 + 200$ dollars, where $x$ is the number of units sold. Write a function $P(x) = (R - C)(x)$ for monthly profit, then find $P(10)$ and interpret the result.",
+      "answer_latex": "P(x) = -x^2 + 50x - 200; \\quad P(10) = -100 + 500 - 200 = 200 \\text{ dollars profit at } x = 10 \\text{ units}"
+    }
+  ],
+  "common_mistakes": [
+    "When computing $(f - g)(x)$, students often forget to subtract the entire expression for $g(x)$ and only subtract the first term. For example, if $g(x) = 2x - 5$, they write $f(x) - 2x - 5$ instead of $f(x) - (2x - 5)$. The fix is to always wrap $g(x)$ in parentheses before distributing the negative sign.",
+    "Students frequently state the domain of a quotient $\\left(\\frac{f}{g}\\right)(x)$ as all reals after simplifying the expression, forgetting that $x$-values where $g(x) = 0$ must be excluded even when the simplified form appears defined there. Always identify and declare domain restrictions from the original, unsimplified denominator before you cancel anything.",
+    "When finding the domain of a combined function, students intersect the domains correctly but then neglect to check whether the combination itself introduces a new restriction \u2014 such as a square root in a product that requires the product to be non-negative. The fix is to separately ask: does the new combined expression create any constraint (negative under a radical, zero in a denominator) that the individual parent domains didn't already cover?"
+  ],
+  "untested_variants": [
+    "Evaluating a combined function at a specific numerical value, such as finding $(f \\cdot g)(3)$ directly by computing $f(3) \\cdot g(3)$ without first writing the general formula.",
+    "Finding the domain of $\\left(\\frac{f}{g}\\right)(x)$ where both $f$ and $g$ involve square roots, requiring the student to intersect two restricted domains AND exclude zeros of $g$.",
+    "Using a table of values or a graph of $f$ and $g$ to evaluate or sketch the combined function $(f+g)(x)$ without algebraic formulas.",
+    "Working with combined functions where one parent function is defined piecewise, so the combination requires handling multiple cases over different intervals."
+  ]
+}

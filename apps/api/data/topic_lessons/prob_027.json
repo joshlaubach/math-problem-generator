@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_027",
+  "topic_name": "The Exponential Distribution (H)",
+  "generated_at": "2026-05-13T20:27:23.825394+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to work with discrete distributions like the geometric distribution, which models the number of trials until the first success. Now imagine instead of counting discrete trials, you're measuring the actual waiting *time* \u2014 in seconds, minutes, or hours \u2014 until a radioactive atom decays, until the next customer arrives, or until a server crashes. These are continuous quantities, so the geometric distribution no longer applies. How do we model the probability that you wait less than 3 minutes for the next bus, given that buses arrive on average every 5 minutes?",
+  "concept": "The exponential distribution models the waiting time between events that occur continuously and independently at a constant average rate. If events occur at rate $\\lambda$ per unit time, the waiting time $X$ has an exponential distribution, written $X \\sim \\text{Exp}(\\lambda)$, with probability density function $f(x) = \\lambda e^{-\\lambda x}$ for $x \\geq 0$, cumulative distribution function $F(x) = 1 - e^{-\\lambda x}$, mean $E(X) = \\frac{1}{\\lambda}$, and variance $\\text{Var}(X) = \\frac{1}{\\lambda^2}$.",
+  "anatomy": "The exponential distribution has two key structural components. First, the rate parameter $\\lambda > 0$ controls how frequently events occur on average \u2014 a larger $\\lambda$ means events happen more often, so waiting times are shorter. Second, the mean waiting time $\\mu = \\frac{1}{\\lambda}$ is the reciprocal of the rate, so if buses arrive at rate $\\lambda = 0.2$ per minute, the average wait is $\\frac{1}{0.2} = 5$ minutes. The CDF $F(x) = 1 - e^{-\\lambda x}$ gives the probability that the wait is *at most* $x$, while the survivor function $1 - F(x) = e^{-\\lambda x}$ gives the probability of waiting *more than* $x$ \u2014 this survivor function is what makes the exponential distribution's memoryless property possible.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Exp}(\\lambda), \\quad \\lambda = \\frac{1}{5}",
+      "description_latex": "We are told that calls arrive at a call centre at an average rate of one every 5 minutes, so the mean waiting time is 5 minutes. Since the mean of an exponential distribution is $\\frac{1}{\\lambda}$, we identify the rate parameter as $\\lambda = \\frac{1}{5} = 0.2$ per minute. Always establish $\\lambda$ first, because every formula for this distribution is written in terms of $\\lambda$, not the mean.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X \\leq 3) = F(3) = 1 - e^{-\\lambda \\cdot 3}",
+      "description_latex": "We want the probability that the next call arrives within 3 minutes. We use the CDF $F(x) = 1 - e^{-\\lambda x}$ evaluated at $x = 3$. The CDF directly gives $P(X \\leq x)$, which is exactly the probability we need, so this is the right tool to reach for.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X \\leq 3) = 1 - e^{-\\frac{1}{5} \\times 3} = 1 - e^{-0.6}",
+      "description_latex": "We substitute $\\lambda = \\frac{1}{5}$ and $x = 3$ into the exponent, giving $-\\lambda x = -0.6$. It is essential to multiply $\\lambda$ by $x$ here \u2014 a very common error is to substitute the mean (5) instead of the rate ($\\frac{1}{5}$), which would give the wrong sign in the exponent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X \\leq 3) = 1 - 0.5488 \\approx 0.4512",
+      "description_latex": "Evaluating $e^{-0.6} \\approx 0.5488$ and subtracting from 1 gives approximately $0.4512$. This tells us there is roughly a 45% chance the next call arrives within 3 minutes, which is sensible: since the average wait is 5 minutes, waiting 3 minutes is less than the mean, so a probability below 0.5 makes intuitive sense.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Exp}(\\lambda), \\quad E(X) = 8 \\text{ minutes}",
+      "description_latex": "The lifetime of a light bulb is exponentially distributed with a mean of 8 hours. We first need to identify $\\lambda$ from the given mean. Recall that $E(X) = \\frac{1}{\\lambda}$, so $\\lambda = \\frac{1}{8}$ per hour. We want to find $P(X > 10)$, the probability the bulb lasts more than 10 hours.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X > 10) = 1 - F(10) = e^{-\\lambda \\times 10}",
+      "description_latex": "Since we want the probability of waiting *more* than 10 hours, we use the survivor function $P(X > x) = e^{-\\lambda x}$, which equals $1 - F(x)$. This step is already written for you \u2014 notice that for 'greater than' probabilities with the exponential distribution, you can go directly to $e^{-\\lambda x}$ without computing $1 - (1 - e^{-\\lambda x})$ in two stages.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $\\lambda = \\frac{1}{8}$ and $x = 10$ into $e^{-\\lambda x}$ and evaluate to find $P(X > 10)$. Give your answer correct to 4 decimal places.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "If $X \\sim \\text{Exp}(0.5)$, write down $E(X)$ and $\\text{Var}(X)$.",
+      "answer_latex": "E(X) = \\frac{1}{0.5} = 2, \\quad \\text{Var}(X) = \\frac{1}{0.25} = 4"
+    },
+    {
+      "prompt_latex": "The time between earthquakes in a region is modelled by $X \\sim \\text{Exp}(0.1)$ (in years). Find $P(X \\leq 5)$.",
+      "answer_latex": "P(X \\leq 5) = 1 - e^{-0.5} \\approx 0.3935"
+    },
+    {
+      "prompt_latex": "The lifetime of a component is exponentially distributed with mean 4 hours. Find the probability the component lasts more than 6 hours.",
+      "answer_latex": "\\lambda = 0.25, \\quad P(X > 6) = e^{-1.5} \\approx 0.2231"
+    },
+    {
+      "prompt_latex": "Customers arrive at a shop according to a Poisson process at a rate of 3 per hour. The waiting time $X$ between arrivals follows $X \\sim \\text{Exp}(3)$. Find $P(1 < X < 2)$, where $X$ is measured in hours, and state the median waiting time.",
+      "answer_latex": "P(1 < X < 2) = e^{-3} - e^{-6} \\approx 0.0473; \\quad \\text{Median} = \\frac{\\ln 2}{3} \\approx 0.2310 \\text{ hours}"
+    },
+    {
+      "prompt_latex": "A memoryless component has already been running for 10 hours without failure. Its lifetime $X \\sim \\text{Exp}(0.05)$. Using the memoryless property, find the probability it runs for at least a further 8 hours.",
+      "answer_latex": "P(X > 18 \\mid X > 10) = P(X > 8) = e^{-0.4} \\approx 0.6703"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the rate $\\lambda$ with the mean $\\mu = \\frac{1}{\\lambda}$ and substitute the mean directly into $e^{-\\lambda x}$. For example, if the mean is 5, they write $e^{-5x}$ instead of $e^{-0.2x}$. Always convert the mean to a rate first by computing $\\lambda = \\frac{1}{\\text{mean}}$ before substituting.",
+    "When computing $P(a < X < b)$, students sometimes forget to subtract and instead try to find an 'interval PDF integral' from memory incorrectly. The correct approach is $F(b) - F(a) = (1 - e^{-\\lambda b}) - (1 - e^{-\\lambda a}) = e^{-\\lambda a} - e^{-\\lambda b}$, where the two $1$s cancel \u2014 remember to simplify before evaluating.",
+    "Students applying the memoryless property often re-do the full conditional probability calculation $\\frac{P(X > s+t)}{P(X > s)}$ and make arithmetic errors, when the memoryless property directly states $P(X > s + t \\mid X > s) = P(X > t)$. You can immediately replace the conditional probability with a simple survivor function evaluated at $t$ alone."
+  ],
+  "untested_variants": [
+    "Finding the median or any other quantile of an exponential distribution by solving $1 - e^{-\\lambda x} = p$ for $x$, which requires taking a natural logarithm and rearranging.",
+    "Using the connection between the exponential distribution and the Poisson process \u2014 specifically, deriving that if events occur as a Poisson process with rate $\\lambda$, the inter-arrival times are $\\text{Exp}(\\lambda)$ \u2014 and using this connection to switch between the two models mid-problem.",
+    "Finding the probability $P(X > a + b \\mid X > a)$ symbolically (without numerical values) and formally proving the memoryless property from the definition of conditional probability.",
+    "Working with the sum of independent exponential random variables, which follows a gamma distribution, and computing probabilities or expectations for such sums."
+  ]
+}

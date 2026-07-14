@@ -1,0 +1,81 @@
+{
+  "topic_id": "la_022",
+  "topic_name": "Coordinates and Change of Basis",
+  "generated_at": "2026-05-13T20:06:48.362448+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to work with vectors in the standard basis of $\\mathbb{R}^n$, where coordinates are just the usual components. But now suppose you have a basis $\\mathcal{B} = \\{\\mathbf{b}_1, \\mathbf{b}_2\\}$ that is tilted or scaled differently from the standard axes \u2014 vectors look completely different when described relative to $\\mathcal{B}$. If someone hands you a vector written in $\\mathcal{B}$-coordinates, can you convert it back to standard coordinates, and vice versa?",
+  "concept": "Every vector in a finite-dimensional vector space can be written uniquely as a linear combination of any basis. The coefficients in that combination are the coordinates of the vector in that basis. Formally, if $\\mathcal{B} = \\{\\mathbf{b}_1, \\dots, \\mathbf{b}_n\\}$ is a basis for $V$ and $\\mathbf{v} = c_1\\mathbf{b}_1 + \\cdots + c_n\\mathbf{b}_n$, then $[\\mathbf{v}]_{\\mathcal{B}} = (c_1, \\dots, c_n)$ is the coordinate vector of $\\mathbf{v}$ relative to $\\mathcal{B}$.",
+  "anatomy": "The key objects in a change-of-basis problem are: the old basis $\\mathcal{B} = \\{\\mathbf{b}_1, \\dots, \\mathbf{b}_n\\}$ and the new basis $\\mathcal{C} = \\{\\mathbf{c}_1, \\dots, \\mathbf{c}_n\\}$; the change-of-basis matrix $P_{\\mathcal{B} \\to \\mathcal{C}}$, whose columns are the $\\mathcal{C}$-coordinates of each $\\mathcal{B}$ basis vector; the coordinate vector $[\\mathbf{v}]_{\\mathcal{B}}$ in the old basis; and the resulting coordinate vector $[\\mathbf{v}]_{\\mathcal{C}} = P_{\\mathcal{B} \\to \\mathcal{C}}\\,[\\mathbf{v}]_{\\mathcal{B}}$ in the new basis. The inverse matrix $P_{\\mathcal{B} \\to \\mathcal{C}}^{-1}$ reverses the conversion.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathcal{B} = \\left\\{\\mathbf{b}_1 = \\begin{pmatrix}1\\\\1\\end{pmatrix},\\, \\mathbf{b}_2 = \\begin{pmatrix}1\\\\-1\\end{pmatrix}\\right\\}, \\quad \\mathbf{v} = \\begin{pmatrix}3\\\\1\\end{pmatrix}",
+      "description_latex": "We are given a non-standard basis $\\mathcal{B}$ for $\\mathbb{R}^2$ and a vector $\\mathbf{v}$ written in standard coordinates. Our goal is to find $[\\mathbf{v}]_{\\mathcal{B}}$, the coordinate vector of $\\mathbf{v}$ relative to $\\mathcal{B}$, so we need to write $\\mathbf{v}$ as a linear combination $c_1 \\mathbf{b}_1 + c_2 \\mathbf{b}_2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{pmatrix}1 & 1\\\\1 & -1\\end{pmatrix}\\begin{pmatrix}c_1\\\\c_2\\end{pmatrix} = \\begin{pmatrix}3\\\\1\\end{pmatrix}",
+      "description_latex": "We rewrite the equation $c_1\\mathbf{b}_1 + c_2\\mathbf{b}_2 = \\mathbf{v}$ as a matrix equation by placing the basis vectors as columns of a matrix $P$. Solving this system will give us the coordinates $(c_1, c_2)$ directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P^{-1} = \\frac{1}{-2}\\begin{pmatrix}-1 & -1\\\\-1 & 1\\end{pmatrix} = \\begin{pmatrix}1/2 & 1/2\\\\1/2 & -1/2\\end{pmatrix}",
+      "description_latex": "We compute $P^{-1}$, the inverse of the matrix whose columns are the basis vectors, because multiplying both sides by $P^{-1}$ isolates the coordinate vector. For a $2\\times 2$ matrix $\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}$, the inverse is $\\frac{1}{ad-bc}\\begin{pmatrix}d&-b\\\\-c&a\\end{pmatrix}$, and here $\\det(P) = (1)(-1)-(1)(1) = -2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[\\mathbf{v}]_{\\mathcal{B}} = P^{-1}\\mathbf{v} = \\begin{pmatrix}1/2 & 1/2\\\\1/2 & -1/2\\end{pmatrix}\\begin{pmatrix}3\\\\1\\end{pmatrix} = \\begin{pmatrix}2\\\\1\\end{pmatrix}",
+      "description_latex": "Multiplying $P^{-1}$ by $\\mathbf{v}$ gives the $\\mathcal{B}$-coordinate vector. This result tells us that $\\mathbf{v} = 2\\mathbf{b}_1 + 1\\cdot\\mathbf{b}_2$, which you can verify by computing $2\\begin{pmatrix}1\\\\1\\end{pmatrix} + 1\\cdot\\begin{pmatrix}1\\\\-1\\end{pmatrix} = \\begin{pmatrix}3\\\\1\\end{pmatrix}$ \u2014 exactly $\\mathbf{v}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathcal{B} = \\left\\{\\begin{pmatrix}2\\\\0\\end{pmatrix},\\begin{pmatrix}0\\\\3\\end{pmatrix}\\right\\}, \\quad \\mathbf{w} = \\begin{pmatrix}6\\\\-3\\end{pmatrix}",
+      "description_latex": "We want to find $[\\mathbf{w}]_{\\mathcal{B}}$. Begin by setting up the matrix $P$ whose columns are the basis vectors, so that $P\\,[\\mathbf{w}]_{\\mathcal{B}} = \\mathbf{w}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P = \\begin{pmatrix}2 & 0\\\\0 & 3\\end{pmatrix}, \\quad P^{-1} = \\begin{pmatrix}1/2 & 0\\\\0 & 1/3\\end{pmatrix}",
+      "description_latex": "Because $P$ is diagonal, its inverse is found by taking reciprocals of the diagonal entries. We now have $P^{-1}$ ready to apply to $\\mathbf{w}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute $[\\mathbf{w}]_{\\mathcal{B}} = P^{-1}\\mathbf{w}$ by multiplying $\\begin{pmatrix}1/2 & 0\\\\0 & 1/3\\end{pmatrix}\\begin{pmatrix}6\\\\-3\\end{pmatrix}$. What is the coordinate vector of $\\mathbf{w}$ relative to $\\mathcal{B}$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $\\mathcal{B} = \\left\\{\\begin{pmatrix}1\\\\0\\end{pmatrix}, \\begin{pmatrix}0\\\\1\\end{pmatrix}\\right\\}$ be the standard basis of $\\mathbb{R}^2$ and $\\mathbf{v} = \\begin{pmatrix}4\\\\-7\\end{pmatrix}$. Find $[\\mathbf{v}]_{\\mathcal{B}}$.",
+      "answer_latex": "[\\mathbf{v}]_{\\mathcal{B}} = \\begin{pmatrix}4\\\\-7\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $\\mathcal{B} = \\left\\{\\begin{pmatrix}1\\\\2\\end{pmatrix}, \\begin{pmatrix}3\\\\5\\end{pmatrix}\\right\\}$ and $\\mathbf{v} = \\begin{pmatrix}1\\\\1\\end{pmatrix}$. Find $[\\mathbf{v}]_{\\mathcal{B}}$.",
+      "answer_latex": "[\\mathbf{v}]_{\\mathcal{B}} = \\begin{pmatrix}-2\\\\1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Suppose $[\\mathbf{v}]_{\\mathcal{B}} = \\begin{pmatrix}3\\\\-1\\end{pmatrix}$ and $\\mathcal{B} = \\left\\{\\begin{pmatrix}1\\\\1\\end{pmatrix}, \\begin{pmatrix}0\\\\2\\end{pmatrix}\\right\\}$. Find the standard-coordinate vector $\\mathbf{v}$.",
+      "answer_latex": "\\mathbf{v} = 3\\begin{pmatrix}1\\\\1\\end{pmatrix} + (-1)\\begin{pmatrix}0\\\\2\\end{pmatrix} = \\begin{pmatrix}3\\\\1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $\\mathcal{B} = \\left\\{\\begin{pmatrix}1\\\\1\\end{pmatrix}, \\begin{pmatrix}1\\\\-1\\end{pmatrix}\\right\\}$ and $\\mathcal{C} = \\left\\{\\begin{pmatrix}1\\\\0\\end{pmatrix}, \\begin{pmatrix}0\\\\1\\end{pmatrix}\\right\\}$ (the standard basis). Given $[\\mathbf{v}]_{\\mathcal{B}} = \\begin{pmatrix}2\\\\1\\end{pmatrix}$, find $[\\mathbf{v}]_{\\mathcal{C}}$ using the change-of-basis matrix $P_{\\mathcal{B}\\to\\mathcal{C}}$.",
+      "answer_latex": "P_{\\mathcal{B}\\to\\mathcal{C}} = \\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}, \\quad [\\mathbf{v}]_{\\mathcal{C}} = \\begin{pmatrix}3\\\\1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A signal processing system stores vectors in the basis $\\mathcal{B} = \\left\\{\\begin{pmatrix}1\\\\1\\end{pmatrix}, \\begin{pmatrix}1\\\\-1\\end{pmatrix}\\right\\}$. An engineer records a measurement as $[\\mathbf{s}]_{\\mathcal{B}} = \\begin{pmatrix}5\\\\2\\end{pmatrix}$. What is the standard-coordinate vector $\\mathbf{s}$ that a classical instrument would display?",
+      "answer_latex": "\\mathbf{s} = 5\\begin{pmatrix}1\\\\1\\end{pmatrix} + 2\\begin{pmatrix}1\\\\-1\\end{pmatrix} = \\begin{pmatrix}7\\\\3\\end{pmatrix}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often place basis vectors as rows instead of columns when building the matrix $P$, which produces the transpose of the intended matrix and yields completely wrong coordinates. Always form $P$ by making each basis vector a column.",
+    "When converting from $\\mathcal{B}$-coordinates to standard coordinates, students sometimes multiply $P^{-1}\\mathbf{v}$ instead of $P\\,[\\mathbf{v}]_{\\mathcal{B}}$, inverting the direction of the transformation. Remember: to go from $\\mathcal{B}$-coordinates to standard, multiply by $P$ (not $P^{-1}$); to go from standard to $\\mathcal{B}$-coordinates, multiply by $P^{-1}$.",
+    "Students confuse which matrix is the change-of-basis matrix when converting between two non-standard bases $\\mathcal{B}$ and $\\mathcal{C}$, forgetting that $P_{\\mathcal{B}\\to\\mathcal{C}}$ has columns equal to the $\\mathcal{C}$-coordinates of the $\\mathcal{B}$ vectors, not the other way around. Drawing an arrow from $\\mathcal{B}$ to $\\mathcal{C}$ and labeling the columns explicitly helps avoid this reversal."
+  ],
+  "untested_variants": [
+    "Change of basis for a linear transformation: finding the matrix representation $[T]_{\\mathcal{C}}$ of a linear map $T$ after a change of basis, using the formula $[T]_{\\mathcal{C}} = P^{-1}[T]_{\\mathcal{B}}P$.",
+    "Coordinates in vector spaces other than $\\mathbb{R}^n$, such as finding the coordinate vector of a polynomial $p(x) = 1 + 2x + x^2$ relative to a non-standard basis of $\\mathcal{P}_2$.",
+    "Change of basis in $\\mathbb{R}^3$ involving a $3\\times 3$ change-of-basis matrix, where inverting requires row reduction rather than the simple $2\\times 2$ formula.",
+    "Orthonormal bases and the simplification that arises when $\\mathcal{B}$ is orthonormal, so that $P^{-1} = P^T$ and coordinates can be found by dot products."
+  ]
+}

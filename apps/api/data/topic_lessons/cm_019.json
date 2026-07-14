@@ -1,0 +1,86 @@
+{
+  "topic_id": "cm_019",
+  "topic_name": "Similar Triangles and Length Chasing",
+  "generated_at": "2026-05-13T20:23:08.422611+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know that two triangles are similar when their angles match up, and that similar triangles have proportional sides. But what happens when a diagram hides three or four similar triangles nested inside each other, and you need to find a single unknown length buried in the middle? Contest problems love to drop an altitude into a right triangle, or draw a cevian that creates overlapping similar pairs, and suddenly you're staring at a web of ratios with no obvious entry point. How do you systematically untangle which sides correspond to which, set up the right proportions, and chain them together to reach the answer?",
+  "concept": "Similar triangles are triangles whose corresponding angles are equal, forcing their corresponding sides to be in a constant ratio called the scale factor. Formally, if $\\triangle ABC \\sim \\triangle DEF$, then $\\angle A = \\angle D$, $\\angle B = \\angle E$, $\\angle C = \\angle F$, and $\\frac{AB}{DE} = \\frac{BC}{EF} = \\frac{CA}{FD} = k$ for some positive real $k$. Length chasing means using these ratio equations \u2014 sometimes chained across multiple similar pairs \u2014 to express every unknown length in terms of one known quantity.",
+  "anatomy": "Every similar-triangle length chase has four structural ingredients. First, the similarity statement itself, written as $\\triangle ABC \\sim \\triangle DEF$, which encodes the vertex correspondence \u2014 the order of the letters tells you exactly which side pairs with which. Second, the ratio equation $\\frac{\\text{side}_1}{\\text{corresponding side}_1} = \\frac{\\text{side}_2}{\\text{corresponding side}_2}$, which is the workhorse proportion you solve. Third, a shared side or shared angle (AA, SAS, or SSS criterion) that justifies why the triangles are similar in the first place. Fourth, the chain link \u2014 a length that appears in two different similarity ratios simultaneously \u2014 which lets you eliminate intermediate unknowns and connect the given data to the target length.",
+  "worked_example": [
+    {
+      "expression_latex": "\\triangle ABC \\text{ with } \\angle C = 90^\\circ,\\; AB = 10,\\; AC = 6,\\; BC = 8.\\text{ Altitude } CD \\perp AB.\\text{ Find } CD.",
+      "description_latex": "We start by drawing the configuration and labeling everything we know. The altitude from the right angle to the hypotenuse is a classic length-chase setup because it creates two smaller triangles inside the original, and all three triangles are similar to each other \u2014 this is the key geometric fact we will exploit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\triangle ABC \\sim \\triangle ACD \\sim \\triangle CBD",
+      "description_latex": "We justify the similarity chain: $\\triangle ACD$ shares $\\angle A$ with $\\triangle ABC$ and both have a right angle, so by AA they are similar; similarly $\\triangle CBD$ shares $\\angle B$ with $\\triangle ABC$ and has a right angle. Writing all three similarities in correct vertex order is critical \u2014 the first vertex always pairs with the right-angle vertex of the sub-triangle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{CD}{AD} = \\frac{BD}{CD} \\implies CD^2 = AD \\cdot BD",
+      "description_latex": "From $\\triangle ACD \\sim \\triangle CBD$ we read off the proportion between the two legs adjacent to $D$: $\\frac{CD}{AD} = \\frac{BD}{CD}$. Cross-multiplying gives the geometric mean relation $CD^2 = AD \\cdot BD$, so we now need to find $AD$ and $BD$ before we can find $CD$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AD = \\frac{AC^2}{AB} = \\frac{36}{10} = 3.6,\\quad BD = \\frac{BC^2}{AB} = \\frac{64}{10} = 6.4",
+      "description_latex": "Using $\\triangle ABC \\sim \\triangle ACD$ we get $\\frac{AC}{AB} = \\frac{AD}{AC}$, so $AD = \\frac{AC^2}{AB} = \\frac{36}{10} = 3.6$. Likewise from $\\triangle ABC \\sim \\triangle CBD$ we get $BD = \\frac{BC^2}{AB} = \\frac{64}{10} = 6.4$. Notice these sum to $10 = AB$, which is a good sanity check.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "CD^2 = AD \\cdot BD = 3.6 \\times 6.4 = 23.04 \\implies CD = \\sqrt{23.04} = 4.8",
+      "description_latex": "Substituting into the geometric mean relation gives $CD^2 = 3.6 \\times 6.4 = 23.04$, so $CD = 4.8$. We could also have obtained this directly from the area: $\\frac{1}{2} \\cdot AC \\cdot BC = \\frac{1}{2} \\cdot AB \\cdot CD$ gives $CD = \\frac{6 \\times 8}{10} = 4.8$, confirming our answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{In } \\triangle PQR,\\; \\overline{ST} \\parallel \\overline{QR}\\text{ with } S \\in PQ,\\; T \\in PR.\\; PQ = 15,\\; PS = 6,\\; QR = 20.\\text{ Find } ST.",
+      "description_latex": "Read the problem carefully: $ST \\parallel QR$ means that $\\angle PST = \\angle PQR$ and $\\angle PTS = \\angle PRQ$ (corresponding angles), so $\\triangle PST \\sim \\triangle PQR$ by AA. Our plan is to find the scale factor using the ratio of the known sides along $PQ$, then multiply $QR$ by that scale factor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{PS}{PQ} = \\frac{6}{15} = \\frac{2}{5}",
+      "description_latex": "The scale factor from $\\triangle PQR$ down to $\\triangle PST$ equals $\\frac{PS}{PQ}$ because $P$ corresponds to $P$ and $S$ corresponds to $Q$ in the similarity statement. Computing this ratio gives us $k = \\frac{2}{5}$, which we will apply to every pair of corresponding sides.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now use the scale factor $k = \\frac{2}{5}$ and the fact that $ST$ corresponds to $QR$ in the similarity $\\triangle PST \\sim \\triangle PQR$ to write the proportion and solve for $ST$. What is $ST$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\triangle ABC \\sim \\triangle DEF.\\; AB = 4,\\; BC = 6,\\; DE = 10.\\text{ Find } EF.",
+      "answer_latex": "EF = 15"
+    },
+    {
+      "prompt_latex": "In \\triangle XYZ,\\; \\overline{MN} \\parallel \\overline{YZ}\\text{ with } M \\in XY,\\; N \\in XZ.\\; XM = 5,\\; MY = 3,\\; YZ = 16.\\text{ Find } MN.",
+      "answer_latex": "MN = 10"
+    },
+    {
+      "prompt_latex": "Right triangle $ABC$ has $\\angle C = 90^\\circ$, $AB = 13$, $AC = 5$, $BC = 12$. Altitude $CD$ is drawn to hypotenuse $AB$. Find $AD$ and $BD$.",
+      "answer_latex": "AD = \\dfrac{25}{13},\\quad BD = \\dfrac{144}{13}"
+    },
+    {
+      "prompt_latex": "Two chords $\\overline{AC}$ and $\\overline{BD}$ of a circle intersect at point $P$ inside the circle. Given $AP = 3$, $PC = 8$, and $BP = 4$, find $PD$. (Hint: the intersecting chords create two similar triangles.)",
+      "answer_latex": "PD = 6"
+    },
+    {
+      "prompt_latex": "A 6\\text{ ft} tall person stands 10\\text{ ft} from a lamppost and casts a shadow 4\\text{ ft} long on flat ground. Using similar triangles, find the height of the lamppost.",
+      "answer_latex": "15\\text{ ft}"
+    }
+  ],
+  "common_mistakes": [
+    "Mismatching the vertex correspondence in the similarity statement: students write $\\triangle ABC \\sim \\triangle DEF$ but then pair $AB$ with $EF$ instead of $DE$, producing a wrong ratio. Always verify the correspondence by checking which angles are equal and listing vertices in matching angle order before writing any proportion.",
+    "Forgetting that the scale factor applies to ALL corresponding sides, not just the convenient pair: after finding $k$ from one ratio, students sometimes multiply the wrong side of the larger triangle by $k$. Label which vertex of the small triangle corresponds to which vertex of the large triangle, and only then identify the sides you are equating.",
+    "Assuming two triangles are similar just because they share an angle, without verifying a second angle or the SAS condition: in a non-parallel-line diagram a shared angle alone is insufficient. Always state the full criterion (AA, SAS, or SSS) and identify both conditions explicitly before setting up any ratio."
+  ],
+  "untested_variants": [
+    "Spiral similarity problems where a triangle is both dilated and rotated to produce a similar image, requiring complex-number or rotation arguments beyond straightforward ratio chasing.",
+    "Length chasing in three-dimensional figures (e.g., cross-sections of pyramids or prisms) where similar triangles arise from parallel planes and the scale factor involves a height variable.",
+    "Stewart's Theorem or the angle bisector length formula derived via similar triangles, where the cevian divides the opposite side in a given ratio and you must find the cevian's length.",
+    "Power of a Point with secant-secant or secant-tangent configurations, where the similar-triangle proof underlies the formula but contest problems ask you to apply the product form directly without re-deriving it."
+  ]
+}

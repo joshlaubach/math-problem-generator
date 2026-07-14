@@ -11,6 +11,7 @@ Exposes endpoints for:
 
 from __future__ import annotations
 import os
+import logging
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
@@ -68,10 +69,9 @@ from session_quota import (
     get_problems_used,
     get_problems_used_today,
     get_reset_date,
-    TUTOR_HOUR_LIMITS,
+    ABUSE_CEILING_HOURS_PER_MONTH,
     PROBLEM_MONTH_LIMITS,
     FREE_DAILY_PROBLEM_LIMIT,
-    PAID_TIERS,
 )
 from auth_dependencies import (
     get_current_user,
@@ -104,7 +104,13 @@ def _rate_key(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
-limiter = Limiter(key_func=_rate_key)
+# SECURITY (H4): back the limiter with Redis when available so limits are shared
+# across Railway replicas and survive restarts; falls back to in-memory storage
+# (dev/test, or if Redis is unreachable).
+limiter = Limiter(
+    key_func=_rate_key,
+    storage_uri=os.getenv("REDIS_URL") or "memory://",
+)
 
 
 # Configuration (can be overridden with environment variables)
@@ -596,6 +602,91 @@ class AssignmentStatsResponse(BaseModel):
 # ============================================================================
 
 
+def _validate_production_config() -> None:
+    """
+    Fail-loud production readiness checks, run once at startup.
+
+    When USE_DATABASE=true (i.e., production):
+    - the database must be reachable and the schema present (hard fail), and
+    - the lesson store should not be empty (loud warning — sessions would
+      silently regenerate all 866 lessons at LLM cost and latency; run
+      scripts/migrate_lessons_to_db.py).
+    Also warns when REDIS_URL is unset in DB mode: live sessions then reside
+    in process memory only and every deploy drops active tutoring sessions.
+    """
+    import logging
+    import os
+    from config import USE_DATABASE
+
+    log = logging.getLogger("startup")
+
+    if not USE_DATABASE:
+        return
+
+    # 1. Create any missing tables (idempotent), then verify the DB is usable.
+    #    SQLAlchemy owns the schema — the Prisma schema is not applied at runtime.
+    try:
+        from db_session import init_db, get_session
+        from db_models import TopicLessonRecord
+        init_db()
+        db = get_session()
+        try:
+            db.query(TopicLessonRecord).count()
+        finally:
+            db.close()
+    except Exception as exc:
+        raise RuntimeError(
+            "USE_DATABASE=true but the database is unreachable or could not be "
+            f"initialised — refusing to serve traffic: {exc}"
+        ) from exc
+
+    # 2. Lesson store must not be empty in prod
+    from agents.lesson_store import lesson_count
+    db_lessons, file_lessons = lesson_count()
+    if db_lessons == 0:
+        log.error(
+            "LESSON STORE EMPTY: 0 lessons in Postgres (%d on local disk). "
+            "Production will regenerate every lesson on demand at LLM cost. "
+            "Run: python scripts/migrate_lessons_to_db.py", file_lessons,
+        )
+    else:
+        log.info("Lesson store: %d lessons in DB (%d on disk)", db_lessons, file_lessons)
+
+    # 3. Redis strongly recommended in prod
+    if not os.getenv("REDIS_URL"):
+        log.warning(
+            "REDIS_URL not set with USE_DATABASE=true: live tutor sessions are "
+            "in-memory only — every deploy/restart drops active sessions, and "
+            "rate limits are per-process rather than shared across replicas."
+        )
+
+    # 4. SECURITY: refuse to boot prod without secrets that fail OPEN if unset.
+    #    Stripe webhook secret (C1) — without it the webhook would be forgeable.
+    if not os.getenv("STRIPE_WEBHOOK_SECRET"):
+        raise RuntimeError(
+            "STRIPE_WEBHOOK_SECRET is not set. The Stripe webhook would be "
+            "unverifiable (forgeable payment events) — refusing to serve traffic."
+        )
+
+    # 5. SECURITY (L3): FRONTEND_URL must be a real origin in prod, otherwise CORS
+    #    silently falls back to localhost and the deployed app can't call the API.
+    frontend = os.getenv("FRONTEND_URL", "")
+    if not frontend or frontend.startswith("http://localhost") or frontend.startswith("http://127.0.0.1"):
+        raise RuntimeError(
+            "FRONTEND_URL must be set to the production origin (got "
+            f"{frontend!r}) — refusing to serve traffic with a localhost CORS origin."
+        )
+
+    # 6. SECURITY (M5): Clerk auth in prod requires issuer/JWKS configuration.
+    if os.getenv("AUTH_PROVIDER") == "clerk" and not (
+        os.getenv("CLERK_FRONTEND_API") or os.getenv("CLERK_JWKS_URL")
+    ):
+        raise RuntimeError(
+            "AUTH_PROVIDER=clerk but neither CLERK_FRONTEND_API nor CLERK_JWKS_URL "
+            "is set — cannot verify tokens. Refusing to serve traffic."
+        )
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Manage application startup and shutdown."""
@@ -606,6 +697,7 @@ async def lifespan(app: FastAPI):
     except Exception:
         # Tests expect a clean slate; ignore if file missing
         pass
+    _validate_production_config()
     # Initialise Redis session store (no-op if REDIS_URL not set)
     from ws_session import init_redis
     await init_redis()
@@ -675,6 +767,31 @@ app.add_middleware(
     allow_headers=["Content-Type", "Authorization", "X-API-Key"],
 )
 
+
+@app.middleware("http")
+async def _security_headers(request: Request, call_next):
+    """SECURITY (M1): defense-in-depth response headers on the API too."""
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.setdefault(
+        "Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload"
+    )
+    return response
+
+
+@app.exception_handler(Exception)
+async def _generic_exception_handler(request: Request, exc: Exception):
+    """
+    SECURITY (L2): catch-all so an unhandled error returns a generic 500 with no
+    stack trace, file path, or internal message. HTTPExceptions are handled by
+    FastAPI's own handler and keep their intended status/detail.
+    """
+    logging.getLogger("api").exception("Unhandled error on %s %s", request.method, request.url.path)
+    from fastapi.responses import JSONResponse
+    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
+
 # Default: teacher endpoints open when TEACHER_API_KEY is None; can be tightened per-client
 app.state.allow_public_teacher_endpoints = True
 
@@ -722,15 +839,14 @@ async def get_my_quota(user: AuthUser = Depends(require_student)):
     problem_limit = PROBLEM_MONTH_LIMITS.get(user.tier, PROBLEM_MONTH_LIMITS["free"])
     problems_today = get_problems_used_today(user.id, today) if user.tier == "free" else None
 
-    tutor_info = None
-    if user.tier in PAID_TIERS:
-        hours_used = get_tutor_hours_used(user.id, year_month)
-        hour_limit = TUTOR_HOUR_LIMITS[user.tier]
-        tutor_info = {
-            "used_hours": round(hours_used, 2),
-            "limit_hours": hour_limit,
-            "allowed": hours_used < hour_limit,
-        }
+    # Tutor access is credits-only (see /credits/balance for purchasable credits).
+    # Hours here report only the flat anti-abuse ceiling, same for every tier.
+    hours_used = get_tutor_hours_used(user.id, year_month)
+    tutor_info = {
+        "used_hours": round(hours_used, 2),
+        "limit_hours": ABUSE_CEILING_HOURS_PER_MONTH,
+        "allowed": hours_used < ABUSE_CEILING_HOURS_PER_MONTH,
+    }
 
     return {
         "tier": user.tier,
@@ -746,6 +862,22 @@ async def get_my_quota(user: AuthUser = Depends(require_student)):
             ),
         },
     }
+
+
+@app.get("/me/reviews")
+async def get_my_reviews(user: AuthUser = Depends(require_student)):
+    """
+    Spaced-repetition topics due for review (next_review_at <= now), soonest
+    first. Surfaces the SRS schedule the adaptive engine writes at session end.
+    """
+    from progress_store import due_for_review
+    from topic_registry import TOPIC_REGISTRY
+
+    due = due_for_review(user.id, limit=20)
+    for item in due:
+        meta = TOPIC_REGISTRY.get(item["topic_id"])
+        item["topic_name"] = meta.topic_name if meta else item["topic_id"]
+    return {"due": due, "count": len(due)}
 
 
 @app.get("/me/progress")
@@ -1205,6 +1337,7 @@ async def get_my_recommended_difficulty(
 
 @app.post("/users/me/confirm-age", status_code=status.HTTP_200_OK)
 async def confirm_age(
+    request: Request,
     user: AuthUser = Depends(get_unverified_clerk_user),
     user_repo=Depends(get_user_repository),
 ):
@@ -1212,9 +1345,10 @@ async def confirm_age(
     Mark the authenticated user as having confirmed they are 13 or older.
 
     Called once from the /onboarding page after the user checks the age
-    confirmation checkbox. Sets age_confirmed=True on the user record.
-    Uses get_unverified_clerk_user so that users who haven't confirmed age
-    yet can still reach this endpoint without hitting a 403 loop.
+    confirmation checkbox. Sets age_confirmed=True on the user record and
+    writes an immutable consent-log entry (M4) with timestamp + IP for
+    compliance records. Uses get_unverified_clerk_user so users who haven't
+    confirmed age yet can still reach this endpoint without a 403 loop.
 
     Returns:
         {"ok": true, "age_confirmed": true}
@@ -1222,7 +1356,78 @@ async def confirm_age(
     if not user.age_confirmed:
         user.age_confirmed = True
         user_repo.update_user(user)
+    _log_consent_event(
+        user.id, "age_confirmed_13plus",
+        request.client.host if request.client else None,
+        request.headers.get("user-agent"),
+    )
     return {"ok": True, "age_confirmed": True}
+
+
+@app.delete("/users/me", status_code=status.HTTP_200_OK)
+async def delete_my_account(user: AuthUser = Depends(require_student)):
+    """
+    SECURITY/PRIVACY (M7): permanently hard-delete the authenticated user's
+    account and all associated data — transcripts, progress, credits, parent
+    links (both directions), quota/served events, flagged content — and the
+    user row itself. This is a real DELETE, not a soft-delete flag.
+
+    The immutable consent_log is intentionally retained (compliance record of
+    the age attestation), keyed by user_id; it contains no tutoring content.
+    Documented in the privacy policy.
+    """
+    from config import USE_DATABASE
+    if not USE_DATABASE:
+        return {"ok": True, "deleted": True, "note": "dev mode (no database)"}
+
+    from db_session import get_session as _get_db
+    from db_models import (
+        TutorSessionRecord, ProgressRecord, SessionCreditRecord,
+        ParentLinkRecord, QuotaEventRecord, FlaggedContentRecord, UserRecord,
+    )
+    from sqlalchemy import or_
+
+    db = _get_db()
+    try:
+        uid = user.id
+        db.query(TutorSessionRecord).filter(TutorSessionRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(ProgressRecord).filter(ProgressRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(SessionCreditRecord).filter(SessionCreditRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(QuotaEventRecord).filter(QuotaEventRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(FlaggedContentRecord).filter(FlaggedContentRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(ParentLinkRecord).filter(
+            or_(ParentLinkRecord.student_id == uid, ParentLinkRecord.parent_id == uid)
+        ).delete(synchronize_session=False)
+        db.query(UserRecord).filter(UserRecord.id == uid).delete(synchronize_session=False)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    finally:
+        db.close()
+    return {"ok": True, "deleted": True}
+
+
+def _log_consent_event(user_id: str, event: str, ip: Optional[str], user_agent: Optional[str]) -> None:
+    """Write an immutable consent attestation row (M4). Best-effort."""
+    from config import USE_DATABASE
+    if not USE_DATABASE:
+        return
+    try:
+        from db_models import ConsentLogRecord
+        from db_session import get_session as _get_db
+        from uuid import uuid4
+        db = _get_db()
+        try:
+            db.add(ConsentLogRecord(
+                id=str(uuid4()), user_id=user_id, event=event,
+                ip_address=ip, user_agent=(user_agent or "")[:255],
+            ))
+            db.commit()
+        finally:
+            db.close()
+    except Exception:
+        logging.getLogger("api").exception("Failed to write consent log for %s", user_id)
 
 
 class GoalRequest(BaseModel):
@@ -2173,26 +2378,18 @@ async def get_topic_lesson(topic_id: str):
     """
     Return a structured JSON lesson for a topic, generating on first request.
 
-    Caches to apps/api/data/topic_lessons/{topic_id}.json.
+    Cache lives in the lesson store (Postgres in prod, data/topic_lessons/
+    files in dev — see agents/lesson_store.py).
     Returns the 8-section schema: hook, concept, anatomy, worked_example,
     partial_example, practice_problems, common_mistakes, untested_variants.
     """
-    import json
     from datetime import datetime, timezone
-    from config import DATA_DIR
     from topic_registry import TOPIC_REGISTRY, COURSE_REGISTRY
+    from agents.lesson_store import get_lesson, save_lesson
 
-    lessons_dir = DATA_DIR / "topic_lessons"
-    lessons_dir.mkdir(parents=True, exist_ok=True)
-    cache_path = lessons_dir / f"{topic_id}.json"
-
-    if cache_path.exists():
-        try:
-            data = json.loads(cache_path.read_text())
-            # Serve cached — but flag if it was a fallback stub so client can retry
-            return data
-        except Exception:
-            pass  # Corrupt cache — regenerate
+    cached = get_lesson(topic_id)
+    if cached is not None:
+        return cached
 
     topic_meta = TOPIC_REGISTRY.get(topic_id)
     if not topic_meta:
@@ -2219,7 +2416,7 @@ async def get_topic_lesson(topic_id: str):
         "generated_at": datetime.now(timezone.utc).isoformat(),
         **lesson,
     }
-    cache_path.write_text(json.dumps(result, indent=2))
+    save_lesson(topic_id, result)
     return result
 
 

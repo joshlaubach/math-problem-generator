@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_022",
+  "topic_name": "The Central Limit Theorem",
+  "generated_at": "2026-05-13T20:31:00.681250+00:00",
+  "course_name": "Statistics",
+  "hook": "You know how to find the probability of a single event, and you can describe a population using its mean $\\mu$ and standard deviation $\\sigma$. But what happens when you repeatedly draw samples of size $n$ from that population and compute the average of each sample? The individual data values might be skewed or weirdly shaped, yet something remarkable happens to the distribution of those sample means. What exactly does the distribution of sample means look like, and how can we use it to make probability calculations?",
+  "concept": "The Central Limit Theorem (CLT) says that no matter what shape the original population has, the distribution of the sample mean $\\bar{X}$ becomes approximately normal as the sample size $n$ grows large. Formally: if a population has mean $\\mu$ and standard deviation $\\sigma$, then for sufficiently large $n$ (typically $n \\geq 30$), $\\bar{X} \\sim N\\!\\left(\\mu,\\, \\frac{\\sigma}{\\sqrt{n}}\\right)$. This lets us compute probabilities about averages using the standard normal table.",
+  "anatomy": "The CLT involves four key components. First, the population mean $\\mu$, which becomes the center of the sampling distribution of $\\bar{X}$. Second, the population standard deviation $\\sigma$, which describes spread in the original data. Third, the sample size $n$, which controls how much the distribution of $\\bar{X}$ tightens \u2014 larger $n$ means less variability in sample means. Fourth, the standard error $\\sigma_{\\bar{X}} = \\frac{\\sigma}{\\sqrt{n}}$, which is the standard deviation of the sampling distribution itself and shrinks as $n$ increases. The standardized score for a sample mean is $Z = \\frac{\\bar{X} - \\mu}{\\sigma / \\sqrt{n}}$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mu = 50,\\quad \\sigma = 12,\\quad n = 36",
+      "description_latex": "We start by identifying the three population and sample parameters given in the problem. The population mean is $\\mu = 50$, the population standard deviation is $\\sigma = 12$, and we are drawing samples of size $n = 36$. Writing these down first prevents mixing them up in later steps.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sigma_{\\bar{X}} = \\frac{\\sigma}{\\sqrt{n}} = \\frac{12}{\\sqrt{36}} = \\frac{12}{6} = 2",
+      "description_latex": "We compute the standard error of the mean, which measures how much the sample averages spread around $\\mu$. We divide the population standard deviation by the square root of $n$, giving $\\sigma_{\\bar{X}} = 2$. This value, not $\\sigma$ itself, is what we use in all probability calculations about $\\bar{X}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\bar{X} > 53) = P\\!\\left(Z > \\frac{53 - 50}{2}\\right) = P(Z > 1.5)",
+      "description_latex": "By the CLT, $\\bar{X}$ is approximately normal, so we standardize by subtracting the mean of $\\bar{X}$ (which equals $\\mu = 50$) and dividing by the standard error $\\sigma_{\\bar{X}} = 2$. The result is a familiar $Z$-score, which we can look up in the standard normal table.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(Z > 1.5) = 1 - P(Z \\leq 1.5) = 1 - 0.9332 = 0.0668",
+      "description_latex": "From the standard normal table, $P(Z \\leq 1.5) = 0.9332$. Because we need the right-tail probability, we subtract from 1, giving $P(\\bar{X} > 53) \\approx 0.0668$. There is roughly a 6.68% chance that a random sample of 36 observations produces a mean greater than 53.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mu = 80,\\quad \\sigma = 15,\\quad n = 25",
+      "description_latex": "A population has mean $\\mu = 80$ and standard deviation $\\sigma = 15$. We draw samples of size $n = 25$ and want $P(\\bar{X} < 77)$. Begin by noting the given values \u2014 this sets up every step that follows.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sigma_{\\bar{X}} = \\frac{15}{\\sqrt{25}} = \\frac{15}{5} = 3",
+      "description_latex": "We compute the standard error by dividing $\\sigma$ by $\\sqrt{n}$. Here $\\sqrt{25} = 5$, so $\\sigma_{\\bar{X}} = 3$. This is the quantity that replaces $\\sigma$ whenever we are working with a sample mean rather than a single observation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now standardize: compute the $Z$-score for $\\bar{X} = 77$ using $Z = \\frac{\\bar{X} - \\mu}{\\sigma_{\\bar{X}}}$, then write the equivalent probability statement $P(Z < \\,?)$. What is the $Z$-score, and what does the probability statement become?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(Z < -1) = 0.1587",
+      "description_latex": "Looking up $Z = -1$ in the standard normal table gives $P(Z < -1) = 0.1587$, so there is approximately a 15.87% chance that a sample mean falls below 77. Notice how the CLT turned a question about averages into a routine normal-table lookup.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A population has $\\mu = 100$ and $\\sigma = 20$. For samples of size $n = 100$, find the standard error $\\sigma_{\\bar{X}}$.",
+      "answer_latex": "\\sigma_{\\bar{X}} = \\frac{20}{\\sqrt{100}} = 2"
+    },
+    {
+      "prompt_latex": "A population has $\\mu = 45$ and $\\sigma = 10$. For $n = 25$, find $P(\\bar{X} > 47)$.",
+      "answer_latex": "Z = \\frac{47-45}{10/5} = 1,\\quad P(\\bar{X}>47) = 1 - 0.8413 = 0.1587"
+    },
+    {
+      "prompt_latex": "A population has $\\mu = 200$ and $\\sigma = 30$. For $n = 36$, find $P(195 < \\bar{X} < 205)$.",
+      "answer_latex": "Z_1 = \\frac{195-200}{5} = -1,\\; Z_2 = \\frac{205-200}{5} = 1,\\quad P(-1 < Z < 1) = 0.6826"
+    },
+    {
+      "prompt_latex": "Bags of flour are labeled 5 lb. The filling machine has $\\mu = 5.0$ lb and $\\sigma = 0.08$ lb. A quality inspector takes a random sample of $n = 64$ bags. Using the CLT, find $P(\\bar{X} < 4.99)$, then determine whether this probability suggests the machine is performing as expected.",
+      "answer_latex": "\\sigma_{\\bar{X}} = 0.01,\\; Z = \\frac{4.99 - 5.0}{0.01} = -1,\\; P = 0.1587;\\text{ about 15.9\\% chance \u2014 not unusual, machine likely fine}"
+    },
+    {
+      "prompt_latex": "A distribution is heavily right-skewed with $\\mu = 12$ and $\\sigma = 6$. For $n = 9$, explain whether the CLT applies, then for $n = 36$ compute $P(\\bar{X} > 13)$.",
+      "answer_latex": "n=9 < 30\\text{, CLT may not apply to a skewed population};\\; n=36:\\; \\sigma_{\\bar{X}} = 1,\\; Z=1,\\; P = 1 - 0.8413 = 0.1587"
+    }
+  ],
+  "common_mistakes": [
+    "Students use $\\sigma$ instead of $\\sigma_{\\bar{X}} = \\sigma/\\sqrt{n}$ when computing the $Z$-score for a sample mean. Using the raw population standard deviation ignores the averaging effect of sampling and gives a $Z$-score that is too small in magnitude, inflating probabilities near the tail. Always ask yourself: am I computing a probability about one observation or about a sample mean?",
+    "Students forget to check whether $n \\geq 30$ (or that the population is normal) before applying the CLT. Applying the theorem to a small sample from a heavily skewed distribution can give seriously misleading probabilities. Always verify the sample size condition first, especially when the problem hints that the population is non-normal.",
+    "Students treat the standard error $\\sigma_{\\bar{X}}$ as the answer to 'the standard deviation of the data' and substitute it back into single-observation probability calculations. The standard error describes the spread of sample means, not individual data points \u2014 it is only correct to use $\\sigma_{\\bar{X}}$ in the $Z$-formula when the random variable of interest is $\\bar{X}$, not $X$."
+  ],
+  "untested_variants": [
+    "Finding a sample size $n$ required so that $P(\\bar{X}$ is within some margin of $\\mu)$ exceeds a given probability \u2014 this reverses the usual direction and requires solving for $n$ from a $Z$-value.",
+    "Applying the CLT to sample proportions rather than sample means, using the formula $\\sigma_{\\hat{p}} = \\sqrt{p(1-p)/n}$ and checking the conditions $np \\geq 10$ and $n(1-p) \\geq 10$.",
+    "Problems where the population is stated to be exactly normal (not just approximately), meaning the CLT result holds for any $n$, including small ones \u2014 students must recognize this removes the $n \\geq 30$ requirement.",
+    "Using the CLT as part of a confidence-interval construction, where the standard error appears in the margin-of-error formula $E = z^* \\cdot \\sigma/\\sqrt{n}$ rather than in a direct probability calculation."
+  ]
+}

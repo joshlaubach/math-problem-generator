@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_039",
+  "topic_name": "Chi-Square Goodness-of-Fit Test",
+  "generated_at": "2026-05-13T20:32:41.600421+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to use z-tests and t-tests to compare a sample mean or proportion to a claimed value. But what if a company claims its bag of colored candies contains exactly 20% of each of five colors \u2014 and your sample bag has a suspicious surplus of orange and a shortage of green? A two-sample proportion test can compare two categories, but you have five categories to check simultaneously. How do you test whether the entire distribution of counts matches a claimed distribution all at once?",
+  "concept": "A Chi-Square Goodness-of-Fit Test checks whether observed categorical data are consistent with a hypothesized distribution across all categories simultaneously. You compute a test statistic that measures the total discrepancy between what you observed and what you expected under the null hypothesis: $\\chi^2 = \\sum \\frac{(O - E)^2}{E}$, where $O$ is the observed count and $E$ is the expected count for each category, then compare it to a chi-square distribution with $k - 1$ degrees of freedom, where $k$ is the number of categories.",
+  "anatomy": "The test has five key components. The observed counts $O_i$ are the actual frequencies you recorded in each of the $k$ categories from your sample of size $n$. The expected counts $E_i = n \\cdot p_i$ are what you would expect if the null hypothesis proportions $p_i$ were exactly true \u2014 they must each be at least 5 for the test to be valid. The squared standardized discrepancy $\\frac{(O_i - E_i)^2}{E_i}$ measures how far each category is from its expectation, scaled by the expectation so large and small categories contribute fairly. The test statistic $\\chi^2 = \\sum_{i=1}^{k} \\frac{(O_i - E_i)^2}{E_i}$ sums all those discrepancies into a single number. Finally, the degrees of freedom $df = k - 1$ reflect that once you fix $k-1$ expected counts, the last one is determined by the total $n$.",
+  "worked_example": [
+    {
+      "expression_latex": "H_0: p_{\\text{red}} = 0.20,\\ p_{\\text{orange}} = 0.20,\\ p_{\\text{yellow}} = 0.20,\\ p_{\\text{green}} = 0.20,\\ p_{\\text{blue}} = 0.20",
+      "description_latex": "We begin by stating the null hypothesis, which specifies the claimed proportion for every category. The alternative hypothesis is simply that at least one of these proportions differs from its claimed value \u2014 the chi-square test is always two-sided in the sense that any deviation, in any category, inflates the test statistic.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_i = n \\cdot p_i = 100 \\cdot 0.20 = 20 \\text{ for each color}",
+      "description_latex": "With a sample of $n = 100$ candies and equal claimed proportions, every expected count is $100 \\times 0.20 = 20$. You should always verify that every $E_i \\geq 5$ before proceeding, because the chi-square approximation breaks down for very small expected counts \u2014 here we're safely above that threshold.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\chi^2 = \\frac{(23-20)^2}{20} + \\frac{(26-20)^2}{20} + \\frac{(18-20)^2}{20} + \\frac{(14-20)^2}{20} + \\frac{(19-20)^2}{20}",
+      "description_latex": "We plug the observed counts (23 red, 26 orange, 18 yellow, 14 green, 19 blue) and the expected count of 20 into the formula for each category. Notice that larger deviations get squared, so the green category with only 14 observed (6 below expected) contributes much more to the total than the yellow category with only 2 below expected.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\chi^2 = \\frac{9}{20} + \\frac{36}{20} + \\frac{4}{20} + \\frac{36}{20} + \\frac{1}{20} = \\frac{86}{20} = 4.30",
+      "description_latex": "Evaluating each fraction and summing gives $\\chi^2 = 4.30$. This single number summarizes how much the entire observed distribution deviates from the claimed one \u2014 the larger this value, the less consistent the data are with the null hypothesis.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "df = k - 1 = 5 - 1 = 4, \\quad p\\text{-value} = P(\\chi^2_4 > 4.30) \\approx 0.367",
+      "description_latex": "With $k = 5$ categories, we have $df = 4$ degrees of freedom. Looking up $\\chi^2 = 4.30$ on a chi-square table with 4 df gives a p-value of approximately 0.367, which is much larger than any common significance level. We therefore fail to reject $H_0$ \u2014 the data are consistent with equal proportions of all five colors.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H_0: p_A = 0.50,\\ p_B = 0.30,\\ p_C = 0.20; \\quad n = 200",
+      "description_latex": "A market researcher claims customers prefer product A 50% of the time, B 30%, and C 20%. In a survey of 200 customers, she records 112 choosing A, 54 choosing B, and 34 choosing C. We first state the null hypothesis and note the sample size, as shown above.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_A = 200(0.50) = 100, \\quad E_B = 200(0.30) = 60, \\quad E_C = 200(0.20) = 40",
+      "description_latex": "We compute the expected counts by multiplying $n = 200$ by each claimed proportion. All three expected counts exceed 5, so the conditions for the chi-square test are satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\chi^2 = \\frac{(112-100)^2}{100} + \\frac{(54-60)^2}{60} + \\frac{(34-40)^2}{40}",
+      "description_latex": "Now compute the value of the chi-square test statistic by evaluating each term and summing them. What is $\\chi^2$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "df = k - 1 = \\underline{\\quad}, \\quad \\text{conclude based on } p\\text{-value}",
+      "description_latex": "State the degrees of freedom for this test and, given that the p-value for your computed $\\chi^2$ is approximately 0.237, write a one-sentence conclusion in context about whether the data support the researcher's claimed distribution.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A fair six-sided die is rolled 60 times. What is the expected count for each face under the null hypothesis that the die is fair?",
+      "answer_latex": "E_i = 60 \\cdot \\frac{1}{6} = 10 \\text{ for each face}"
+    },
+    {
+      "prompt_latex": "A spinner has three sections claimed to be equally likely. In 90 spins you observe 38, 27, and 25 for sections 1, 2, and 3. Compute the chi-square test statistic.",
+      "answer_latex": "\\chi^2 = \\frac{(38-30)^2}{30} + \\frac{(27-30)^2}{30} + \\frac{(25-30)^2}{30} = \\frac{64+9+25}{30} = \\frac{98}{30} \\approx 3.27"
+    },
+    {
+      "prompt_latex": "For the spinner problem above, state the degrees of freedom and determine whether you would reject $H_0$ at the $\\alpha = 0.05$ level, given that the critical value $\\chi^2_{2, 0.05} = 5.991$.",
+      "answer_latex": "df = 3 - 1 = 2; \\text{ since } 3.27 < 5.991, \\text{ fail to reject } H_0. \\text{ The data are consistent with equal sections.}"
+    },
+    {
+      "prompt_latex": "A genetics model predicts offspring phenotype ratios of 9:3:3:1 for four categories. In an experiment with 160 offspring, the observed counts are 86, 30, 28, and 16. Compute $\\chi^2$ and the degrees of freedom. (Hint: Convert the ratio to proportions first.)",
+      "answer_latex": "p_1=\\tfrac{9}{16}, p_2=p_3=\\tfrac{3}{16}, p_4=\\tfrac{1}{16};\\; E: 90, 30, 30, 10;\\; \\chi^2 = \\frac{16}{90}+\\frac{0}{30}+\\frac{4}{30}+\\frac{36}{10} \\approx 0.178+0+0.133+3.6 = 3.911,\\; df=3"
+    },
+    {
+      "prompt_latex": "A school administrator claims that tardiness is equally likely on each of the five school days. A random sample of 200 tardy records shows: Monday 52, Tuesday 38, Wednesday 35, Thursday 42, Friday 33. At $\\alpha = 0.05$ ($\\chi^2_{4,0.05} = 9.488$), is there evidence that tardiness is not equally distributed across days? Show your expected counts, test statistic, and conclusion.",
+      "answer_latex": "E_i = 40 \\text{ each};\\; \\chi^2 = \\frac{144}{40}+\\frac{4}{40}+\\frac{25}{40}+\\frac{4}{40}+\\frac{49}{40} = \\frac{226}{40} = 5.65;\\; 5.65 < 9.488, \\text{ fail to reject } H_0. \\text{ No significant evidence of unequal distribution.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use proportions $p_i$ instead of counts $E_i = n \\cdot p_i$ in the formula, placing 0.20 where 20 belongs. The formula $\\frac{(O-E)^2}{E}$ requires actual counts, not proportions, so always multiply the claimed proportion by $n$ first.",
+    "Students use $df = k$ instead of $df = k - 1$, which shifts the p-value and can change the conclusion. Remember that you lose one degree of freedom because the expected counts must sum to $n$, making one category's count redundant once the others are known.",
+    "Students check the condition $n \\geq 30$ (from t-tests) instead of verifying that every individual expected count $E_i \\geq 5$. The chi-square approximation requires sufficient expected frequency in each category separately, not just a large overall sample size."
+  ],
+  "untested_variants": [
+    "Chi-square goodness-of-fit when one or more proportions under $H_0$ are estimated from the data itself (e.g., testing normality), which reduces the degrees of freedom further beyond $k-1$.",
+    "Combining small categories to meet the $E_i \\geq 5$ condition before computing the test statistic, and understanding how this changes $k$ and therefore $df$.",
+    "Using the chi-square goodness-of-fit test to assess whether data follow a specific non-uniform theoretical distribution, such as a Poisson or geometric distribution, where probabilities are calculated from a formula rather than given directly.",
+    "Interpreting a statistically significant result by identifying which specific category or categories contributed most to the large $\\chi^2$ value using component analysis."
+  ]
+}

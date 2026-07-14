@@ -1,0 +1,86 @@
+{
+  "topic_id": "prob_033",
+  "topic_name": "Joint Continuous Distributions via Double Integrals (H)",
+  "generated_at": "2026-05-13T20:28:06.038942+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find probabilities for a single continuous random variable by integrating its PDF over an interval. But what if two random variables interact \u2014 say, the waiting time at a coffee shop and the time it takes to prepare your order? You can describe each one alone, but how do you find the probability that both fall in some region simultaneously? The question is: how do we set up and evaluate a probability over a two-dimensional region using a joint PDF?",
+  "concept": "A joint continuous distribution describes the simultaneous behavior of two continuous random variables $X$ and $Y$ through a joint probability density function $f(x, y)$. Formally, $f(x, y) \\geq 0$ for all $(x, y)$, and the probability that $(X, Y)$ falls in a region $R$ is $P((X,Y) \\in R) = \\iint_R f(x,y)\\, dx\\, dy$, with the total integral over the entire plane equaling 1.",
+  "anatomy": "A joint PDF $f(x, y)$ has several key components worth naming precisely. The support is the set of $(x,y)$ values where $f(x,y) > 0$; outside the support, $f = 0$ and those limits drive the integral bounds. The inner integral integrates out one variable (say $x$) while treating the other ($y$) as fixed \u2014 its limits may depend on $y$. The outer integral then sweeps over all valid values of $y$ using fixed numerical limits. The region of integration $R$ is the two-dimensional set encoding the event whose probability you want, and it must be intersected with the support before you write any limits.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x,y) = 2, \\quad 0 < x < y < 1",
+      "description_latex": "We are given a joint PDF defined on the triangular region where $0 < x < y < 1$. Before doing anything else, we verify this is a valid PDF: $\\int_0^1 \\int_0^y 2\\, dx\\, dy = \\int_0^1 2y\\, dy = [y^2]_0^1 = 1$. Great \u2014 the density integrates to 1, confirming it is legitimate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P\\!\\left(X < \\tfrac{1}{2},\\, Y < \\tfrac{1}{2}\\right) = \\iint_{R} 2\\, dx\\, dy",
+      "description_latex": "We want the probability that both $X < 1/2$ and $Y < 1/2$. The event region is $\\{X < 1/2, Y < 1/2\\}$, but we must intersect with the support $0 < x < y < 1$. The combined region is $0 < x < y < 1/2$, which is still triangular with $y$ capped at $1/2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\int_0^{1/2} \\int_0^{y} 2\\, dx\\, dy",
+      "description_latex": "We set up the double integral with $y$ in the outer integral running from $0$ to $1/2$, and for each fixed $y$, $x$ runs from $0$ to $y$ (the constraint $x < y$ from the support). The inner integral is evaluated first: $\\int_0^y 2\\, dx = 2y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\int_0^{1/2} 2y\\, dy = \\left[y^2\\right]_0^{1/2} = \\frac{1}{4}",
+      "description_latex": "After evaluating the inner integral we have a single integral in $y$, which we integrate using the power rule. The result $1/4$ makes intuitive sense \u2014 since the support is the upper triangle of the unit square, restricting to the lower-left quarter of that triangle should give a relatively small probability.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x,y) = 6x, \\quad 0 < x < 1,\\ 0 < y < 1-x",
+      "description_latex": "We have a new joint PDF on a triangular support. Your goal is to find $P(X > 1/2)$. Start by sketching the support: it is the triangle with vertices at $(0,0)$, $(1,0)$, and $(0,1)$. The event $X > 1/2$ means we keep only the part of this triangle to the right of $x = 1/2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X > 1/2) = \\int_{1/2}^{1} \\int_{0}^{1-x} 6x\\, dy\\, dx",
+      "description_latex": "We set up the integral with $x$ in the outer integral from $1/2$ to $1$, and for fixed $x$, $y$ runs from $0$ to $1-x$ (the upper boundary of the support). Now evaluate the inner integral $\\int_0^{1-x} 6x\\, dy$ \u2014 remember that $6x$ is constant with respect to $y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "After evaluating the inner integral you should have $6x(1-x)$. Now compute the outer integral $\\int_{1/2}^{1} 6x(1-x)\\, dx$ by expanding and integrating term by term. What is $P(X > 1/2)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(X > 1/2) = \\frac{1}{2}",
+      "description_latex": "Expanding gives $\\int_{1/2}^1 (6x - 6x^2)\\, dx = \\left[3x^2 - 2x^3\\right]_{1/2}^1 = (3-2) - (3/4 - 1/4) = 1 - 1/2 = 1/2$. Notice this answer can be checked for reasonableness: since more of the density $6x$ is concentrated near $x = 1$, having half the probability above $x = 1/2$ is plausible.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $f(x,y) = 1$ on $0 < x < 1,\\ 0 < y < 1$. Find $P(X < 0.3,\\, Y < 0.5)$.",
+      "answer_latex": "0.15"
+    },
+    {
+      "prompt_latex": "Let $f(x,y) = 2$ on $0 < x < y < 1$. Find $P(Y > 3/4)$.",
+      "answer_latex": "\\dfrac{7}{16}"
+    },
+    {
+      "prompt_latex": "Let $f(x,y) = 4xy$ on $0 < x < 1,\\ 0 < y < 1$. Verify this is a valid PDF, then find $P(X > 1/2,\\, Y > 1/2)$.",
+      "answer_latex": "\\dfrac{9}{16}"
+    },
+    {
+      "prompt_latex": "Let $f(x,y) = 6x$ on $0 < x < 1,\\ 0 < y < 1-x$. Find $P(X + Y < 1/2)$, i.e., the probability that $(X,Y)$ falls in the triangle $x > 0,\\ y > 0,\\ x + y < 1/2$.",
+      "answer_latex": "\\dfrac{1}{8}"
+    },
+    {
+      "prompt_latex": "Two components in a device have lifetimes $X$ and $Y$ (in years) with joint PDF $f(x,y) = e^{-x-y}$ for $x > 0,\\ y > 0$. The device fails when the first component fails, so the device lifetime is $M = \\min(X,Y)$. Find $P(M > 1)$, i.e., $P(X > 1,\\, Y > 1)$.",
+      "answer_latex": "e^{-2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use the full support limits for the outer variable even when the event region cuts them off \u2014 for example, integrating $y$ from $0$ to $1$ when the event requires $Y < 1/2$. Always intersect the event region with the support before writing any limits.",
+    "When the support is a triangle defined by $x < y$, students frequently swap the roles of $x$ and $y$ and write the inner integral for $y$ from $0$ to $x$ instead of $x$ from $0$ to $y$. Sketch the support first and read off which variable is bounded by the other.",
+    "Students integrate out the outer variable first while leaving the inner integral unevaluated, or they treat a function of $y$ as a constant when integrating with respect to $y$. Remember: the inner integral must be fully resolved into a function of the outer variable alone before you integrate a second time."
+  ],
+  "untested_variants": [
+    "Finding a marginal PDF by integrating $f(x,y)$ over all values of the other variable, rather than computing a probability over a region.",
+    "Checking independence of $X$ and $Y$ by verifying whether $f(x,y)$ factors as $f_X(x) \\cdot f_Y(y)$.",
+    "Computing the conditional density $f_{X|Y}(x|y) = f(x,y)/f_Y(y)$ and using it to find a conditional probability.",
+    "Evaluating $E[g(X,Y)] = \\iint g(x,y) f(x,y)\\, dx\\, dy$ for a function such as $g(X,Y) = X + Y$ or $g(X,Y) = XY$ to find a joint expectation or covariance."
+  ]
+}

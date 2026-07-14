@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_017",
+  "topic_name": "Examples of Vector Spaces (Function Spaces, Polynomial Spaces)",
+  "generated_at": "2026-05-13T20:06:28.479062+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that $\\mathbb{R}^n$ is a vector space, where vectors are lists of $n$ real numbers that you can add and scale. But what if you want to 'add' two functions, like $f(x) = x^2$ and $g(x) = \\sin(x)$, and get a new function $(f+g)(x) = x^2 + \\sin(x)$? Does the collection of all such functions form a vector space too \u2014 and if so, what plays the role of the 'zero vector'? The question is: which collections of functions (or polynomials) satisfy all ten vector space axioms, and how do we verify this rigorously?",
+  "concept": "A vector space is any set $V$ equipped with addition and scalar multiplication satisfying ten axioms \u2014 closure, associativity, commutativity, identity, inverses, and four distributive/compatibility laws. Crucially, the 'vectors' need not be arrows or tuples: any objects that obey these rules qualify. Two fundamental examples are $\\mathcal{F}(S, \\mathbb{R})$, the set of all real-valued functions on a set $S$, with $(f+g)(x) = f(x)+g(x)$ and $(cf)(x) = c\\cdot f(x)$, and $\\mathcal{P}_n$, the set of all polynomials of degree at most $n$, with ordinary polynomial addition and scalar multiplication.",
+  "anatomy": "In a function space $\\mathcal{F}(S,\\mathbb{R})$, the objects ('vectors') are functions $f: S \\to \\mathbb{R}$. The addition operation is pointwise addition: $(f+g)(x) = f(x) + g(x)$ for every $x \\in S$, meaning you evaluate both functions at the same input and add the real-number outputs. The scalar multiplication is pointwise scaling: $(cf)(x) = c \\cdot f(x)$. The zero vector is the zero function $\\mathbf{0}(x) = 0$ for all $x$, and the additive inverse of $f$ is $(-f)(x) = -f(x)$. In polynomial spaces $\\mathcal{P}_n$, each 'vector' is a polynomial $p(x) = a_0 + a_1 x + \\cdots + a_n x^n$, the coefficients $a_i \\in \\mathbb{R}$ play the role of coordinates, and the zero vector is the zero polynomial $p(x) = 0$.",
+  "worked_example": [
+    {
+      "expression_latex": "V = \\mathcal{P}_2 = \\{ a_0 + a_1 x + a_2 x^2 \\mid a_0, a_1, a_2 \\in \\mathbb{R} \\}",
+      "description_latex": "We define the set $\\mathcal{P}_2$ as all real polynomials of degree at most 2. Our goal is to verify that this set, together with ordinary polynomial addition and scalar multiplication by real numbers, satisfies the vector space axioms \u2014 we will check the most critical ones step by step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(f + g)(x) = (a_0 + a_1 x + a_2 x^2) + (b_0 + b_1 x + b_2 x^2) = (a_0+b_0) + (a_1+b_1)x + (a_2+b_2)x^2",
+      "description_latex": "First we check closure under addition: if $f$ and $g$ are both in $\\mathcal{P}_2$, is their sum still in $\\mathcal{P}_2$? Adding coefficient by coefficient, we get a new polynomial whose highest power is still $x^2$, so the result is again a degree-at-most-2 polynomial \u2014 closure holds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(cf)(x) = c(a_0 + a_1 x + a_2 x^2) = (ca_0) + (ca_1)x + (ca_2)x^2",
+      "description_latex": "Next we check closure under scalar multiplication: multiplying each coefficient by the real scalar $c$ still yields a polynomial of degree at most 2, so the result is again in $\\mathcal{P}_2$. This confirms that no scalar multiple 'escapes' the set.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{0}(x) = 0 + 0 \\cdot x + 0 \\cdot x^2 = 0",
+      "description_latex": "We identify the zero vector as the zero polynomial, which lives in $\\mathcal{P}_2$ because all its coefficients are 0. Adding it to any $f(x) = a_0 + a_1 x + a_2 x^2$ returns $f$ unchanged, so the additive identity axiom is satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-f(x) = (-a_0) + (-a_1)x + (-a_2)x^2 \\in \\mathcal{P}_2 \\quad \\text{and} \\quad f(x) + (-f(x)) = 0",
+      "description_latex": "Finally, every polynomial $f$ has an additive inverse $-f$ obtained by negating all coefficients; this inverse is still a degree-at-most-2 polynomial, so it belongs to $\\mathcal{P}_2$. Since all remaining axioms (associativity, commutativity, distributivity) are inherited from real-number arithmetic on coefficients, we conclude $\\mathcal{P}_2$ is a vector space.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "V = \\mathcal{F}(\\mathbb{R}, \\mathbb{R}), \\quad (f+g)(x) = f(x)+g(x), \\quad (cf)(x) = c\\,f(x)",
+      "description_latex": "We want to verify that $\\mathcal{F}(\\mathbb{R},\\mathbb{R})$, the set of ALL real-valued functions on $\\mathbb{R}$, is a vector space under pointwise operations. Start by identifying the set and the two operations \u2014 they are given above. Our first task is to check closure under addition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{If } f, g \\in \\mathcal{F}(\\mathbb{R},\\mathbb{R}), \\text{ then } (f+g)(x) = f(x) + g(x) \\in \\mathbb{R} \\text{ for all } x.",
+      "description_latex": "Closure under addition is straightforward: for any input $x$, both $f(x)$ and $g(x)$ are real numbers, so their sum is a real number, meaning $f+g$ is again a real-valued function. Now identify the zero vector: what function $\\mathbf{0}$ must satisfy $f + \\mathbf{0} = f$ for every $f$?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write down the zero vector of $\\mathcal{F}(\\mathbb{R},\\mathbb{R})$: give an explicit formula for the function $\\mathbf{0}(x)$ and explain in one sentence why adding it to any $f$ leaves $f$ unchanged.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now verify the additive inverse axiom: for a given $f \\in \\mathcal{F}(\\mathbb{R},\\mathbb{R})$, write an explicit formula for $(-f)(x)$ and confirm that $f(x) + (-f)(x) = 0$ for all $x$, showing $-f$ is also in $\\mathcal{F}(\\mathbb{R},\\mathbb{R})$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $p(x) = 3 - x + 2x^2$ and $q(x) = -1 + 4x - x^2$, both in $\\mathcal{P}_2$. Compute $p(x) + q(x)$ and verify the result is in $\\mathcal{P}_2$.",
+      "answer_latex": "(p+q)(x) = 2 + 3x + x^2 \\in \\mathcal{P}_2"
+    },
+    {
+      "prompt_latex": "Let $f(x) = e^x$ and $g(x) = -e^x$, both in $\\mathcal{F}(\\mathbb{R},\\mathbb{R})$. Compute $(f+g)(x)$ and identify which vector space axiom this demonstrates.",
+      "answer_latex": "(f+g)(x) = e^x + (-e^x) = 0 \\text{ for all } x; \\text{ this demonstrates the additive inverse axiom, since } g = -f."
+    },
+    {
+      "prompt_latex": "Determine whether the set $W = \\{ p \\in \\mathcal{P}_2 \\mid p(0) = 1 \\}$ is a vector space under the same operations as $\\mathcal{P}_2$. Justify by checking at least one axiom.",
+      "answer_latex": "W \\text{ is NOT a vector space. For example, if } p, q \\in W \\text{ then } (p+q)(0) = p(0)+q(0) = 1+1 = 2 \\neq 1, \\text{ so } W \\text{ is not closed under addition.}"
+    },
+    {
+      "prompt_latex": "Consider the set $\\mathcal{P} = \\bigcup_{n=0}^{\\infty} \\mathcal{P}_n$ of ALL polynomials (no degree bound), with pointwise addition and scalar multiplication. Show that $\\mathcal{P}$ is closed under addition and scalar multiplication, and identify its zero vector.",
+      "answer_latex": "If $p, q \\in \\mathcal{P}$ have degrees $m$ and $n$ respectively, then $p+q$ has degree at most $\\max(m,n)$, still a finite-degree polynomial, so $p+q \\in \\mathcal{P}$. Similarly $cp \\in \\mathcal{P}$ for any $c \\in \\mathbb{R}$. The zero vector is the zero polynomial $\\mathbf{0}(x)=0$."
+    },
+    {
+      "prompt_latex": "A physics student models temperature distributions on an interval $[0,1]$ as continuous functions. She claims the set $C([0,1])$ of all continuous real-valued functions on $[0,1]$, with pointwise operations, is a vector space. Is she correct? State the key closure property you must verify.",
+      "answer_latex": "Yes, $C([0,1])$ is a vector space. The key closure properties are: (1) the sum of two continuous functions is continuous, and (2) a scalar multiple of a continuous function is continuous \u2014 both follow from limit laws. The zero vector is $\\mathbf{0}(x)=0$, which is continuous."
+    }
+  ],
+  "common_mistakes": [
+    "Students often try to check only closure and forget to verify the zero vector belongs to the set \u2014 for example, claiming $W = \\{p \\in \\mathcal{P}_2 \\mid p(0) = 0\\}$ fails without confirming the zero polynomial satisfies $\\mathbf{0}(0)=0$. Always explicitly check that $\\mathbf{0} \\in V$ before declaring a set a vector space.",
+    "A frequent error is confusing pointwise operations with composition: students write $(f+g)(x) = f(g(x))$ instead of $(f+g)(x) = f(x)+g(x)$. In function spaces, addition is always evaluated at the same input $x$ for both functions, producing a new output in $\\mathbb{R}$, not a nested function.",
+    "Students sometimes assume that because $\\mathcal{P}_n$ consists of polynomials of degree 'at most $n$', the sum of two degree-$n$ polynomials must have degree exactly $n$, and are confused when leading terms cancel. The set $\\mathcal{P}_n$ includes all degrees from $0$ up to $n$, so cancellation of leading coefficients is perfectly allowed and the result remains in $\\mathcal{P}_n$."
+  ],
+  "untested_variants": [
+    "Verifying whether the set of all differentiable functions on $\\mathbb{R}$ forms a vector space, which requires knowing that differentiability is preserved under addition and scalar multiplication.",
+    "Showing that the set of solutions to a homogeneous linear differential equation, such as $\\{f \\in C^2(\\mathbb{R}) \\mid f'' + f = 0\\}$, forms a vector space \u2014 a function-space application combining linear algebra with calculus.",
+    "Determining whether the set of polynomials with only even-degree terms, $\\{a_0 + a_2 x^2 + a_4 x^4 \\mid a_i \\in \\mathbb{R}\\}$, is a subspace of $\\mathcal{P}_4$, requiring the subspace criterion rather than full axiom verification.",
+    "Working with complex-valued function spaces $\\mathcal{F}(S, \\mathbb{C})$ over the field $\\mathbb{C}$, where scalar multiplication involves complex scalars and students must track real and imaginary parts separately."
+  ]
+}

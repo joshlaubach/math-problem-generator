@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_064",
+  "topic_name": "Regular Languages and Regular Expressions (H)",
+  "generated_at": "2026-05-13T20:17:16.047635+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to describe finite sets of strings, like the set of all three-letter words over $\\{a, b\\}$. But what if you need to describe an infinite set, like all strings that start with $a$ and end with $b$, or all strings with an even number of $a$'s? Writing out every element is impossible. So how can we give a compact, precise description of such infinite languages \u2014 and what mathematical structure makes that possible?",
+  "concept": "A regular language is any language that can be recognized by a finite automaton, and equivalently, any language that can be described by a regular expression. A regular expression over an alphabet $\\Sigma$ is built from the base cases $\\emptyset$ (empty language), $\\varepsilon$ (empty string), and individual symbols $a \\in \\Sigma$, combined using union $R_1 \\mid R_2$, concatenation $R_1 R_2$, and Kleene star $R^*$, and the language it describes is called $L(R)$.",
+  "anatomy": "A regular expression has five structural building blocks. The base cases are $\\emptyset$ (matching nothing), $\\varepsilon$ (matching only the empty string), and a literal symbol like $a$ (matching exactly that one character). The operations are: union $R_1 \\mid R_2$, meaning any string in $L(R_1)$ or $L(R_2)$; concatenation $R_1 R_2$, meaning a string from $L(R_1)$ followed by a string from $L(R_2)$; and Kleene star $R^*$, meaning zero or more concatenations of strings from $L(R)$, so $L(R^*) = \\{\\varepsilon\\} \\cup L(R) \\cup L(RR) \\cup \\cdots$. Parentheses control grouping, and Kleene star binds most tightly, followed by concatenation, then union.",
+  "worked_example": [
+    {
+      "expression_latex": "L = \\{ w \\in \\{a,b\\}^* : w \\text{ starts with } a \\text{ and ends with } b \\}",
+      "description_latex": "We want to write a regular expression for all strings over $\\{a,b\\}$ that begin with $a$ and end with $b$. Let's think about structure: the first character must be $a$, the last must be $b$, and anything at all (including nothing) can appear in between.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(a \\mid b)^*",
+      "description_latex": "The middle portion can be any string over $\\{a,b\\}$, including the empty string $\\varepsilon$. We capture this with $(a \\mid b)^*$, which means zero or more characters each of which is either $a$ or $b$ \u2014 this describes exactly $\\{a,b\\}^*$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a\\,(a \\mid b)^*\\,b",
+      "description_latex": "We concatenate the required prefix $a$, then the arbitrary middle $(a \\mid b)^*$, then the required suffix $b$. Concatenation here means we produce a string from $a$ followed by a string from $(a\\mid b)^*$ followed by a string from $b$, giving us exactly the strings that start with $a$ and end with $b$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L\\bigl(a\\,(a \\mid b)^*\\,b\\bigr) = \\{ ab,\\, aab,\\, abb,\\, aab,\\, abab,\\, \\ldots \\}",
+      "description_latex": "We verify with examples: $ab$ is in the language (middle is $\\varepsilon$), $aab$ is in the language (middle is $a$), and $abab$ is in the language (middle is $ba$). A string like $ba$ is not in the language, and indeed the regular expression rejects it because it does not start with $a$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "L = \\{ w \\in \\{0,1\\}^* : w \\text{ contains at least one } 1 \\}",
+      "description_latex": "We want a regular expression for all binary strings that contain at least one $1$. Think about how to split such a string: there can be any number of $0$'s before the first $1$, then a $1$ must appear, and then anything at all can follow.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "0^* \\cdot 1 \\cdot (0 \\mid 1)^*",
+      "description_latex": "The prefix of all-zeros (possibly empty) is captured by $0^*$, and the required $1$ is written as the literal $1$. Now you need to describe what can follow: fill in the expression for the suffix, which is any binary string.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the complete regular expression for $L$, combining the prefix $0^*$, the mandatory $1$, and the correct suffix so that every string with at least one $1$ is matched and no string of all $0$'s is matched.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write a regular expression for the language $\\{a, b, c\\}$ over the alphabet $\\{a,b,c\\}$ (the set containing exactly those three single-character strings).",
+      "answer_latex": "a \\mid b \\mid c"
+    },
+    {
+      "prompt_latex": "Write a regular expression over $\\{a,b\\}$ for the language of all strings that consist of zero or more repetitions of $ab$.",
+      "answer_latex": "(ab)^*"
+    },
+    {
+      "prompt_latex": "Write a regular expression over $\\{0,1\\}$ for the language of all binary strings of even length (including the empty string).",
+      "answer_latex": "((0 \\mid 1)(0 \\mid 1))^*"
+    },
+    {
+      "prompt_latex": "Write a regular expression over $\\{a,b\\}$ for the language of all strings that do NOT contain two consecutive $b$'s. (Hint: think about what characters can legally follow each $b$.)",
+      "answer_latex": "(a \\mid ba)^* (b \\mid \\varepsilon)"
+    },
+    {
+      "prompt_latex": "A simple password rule requires that a password over $\\{0,1,\\ldots,9,\\#\\}$ must start with at least two digits and end with exactly one $\\#$. Letting $d = (0\\mid1\\mid\\cdots\\mid9)$, write a regular expression for all valid passwords.",
+      "answer_latex": "d\\, d\\, d^*\\, (d \\mid \\#)^*\\, \\#"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $a^* b^*$ when they mean 'any string of $a$'s and $b$'s', not realising this only generates strings where all $a$'s come before all $b$'s \u2014 to describe all strings over $\\{a,b\\}$ you need $(a \\mid b)^*$.",
+    "Students forget that Kleene star $R^*$ always includes the empty string $\\varepsilon$ (zero repetitions), so they add a separate $\\varepsilon$ branch that is already redundant; the fix is to remember $L(R^*) = \\{\\varepsilon\\} \\cup L(R) \\cup L(RR) \\cup \\cdots$ by definition.",
+    "Students confuse $R^+$ (one or more, which equals $R\\,R^*$) with $R^*$ (zero or more) and use them interchangeably, causing the language described to differ on whether it includes $\\varepsilon$; always check explicitly whether the empty string should be accepted."
+  ],
+  "untested_variants": [
+    "Converting a given DFA or NFA directly into a regular expression using the state-elimination (GNFA) method.",
+    "Proving that a given language is NOT regular using the Pumping Lemma for regular languages.",
+    "Finding the regular expression for languages defined by modular arithmetic conditions, such as all binary strings whose value is divisible by 3.",
+    "Proving the equivalence of two different regular expressions by showing they describe the same language using algebraic identities such as $(R \\mid S)^* = (R^* S^*)^*$."
+  ]
+}

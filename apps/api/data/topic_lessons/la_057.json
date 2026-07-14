@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_057",
+  "topic_name": "Singular Value Decomposition (SVD) (H)",
+  "generated_at": "2026-05-13T20:41:23.968459+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You know how to diagonalize a square matrix $A$ as $A = PDP^{-1}$ when it has enough eigenvectors, and you've seen that symmetric matrices always diagonalize nicely as $A = Q\\Lambda Q^T$ with orthonormal columns. But what do you do when $A$ is not square \u2014 say a $3 \\times 2$ matrix \u2014 or when $A$ is square but not symmetric? Eigendecomposition simply breaks down. Can we still find some kind of 'diagonal' factorization that works for ANY matrix?",
+  "concept": "The Singular Value Decomposition (SVD) factorizes any $m \\times n$ matrix $A$ into three matrices: $A = U\\Sigma V^T$, where $U$ is $m \\times m$ orthogonal, $V$ is $n \\times n$ orthogonal, and $\\Sigma$ is $m \\times n$ with non-negative entries $\\sigma_1 \\geq \\sigma_2 \\geq \\cdots \\geq 0$ on its main diagonal and zeros elsewhere. The diagonal entries $\\sigma_i$ are called singular values. Every real matrix, regardless of shape or rank, has an SVD.",
+  "anatomy": "The SVD $A = U\\Sigma V^T$ has three distinct structural parts. The matrix $V$ has columns $v_1, \\ldots, v_n$ called the right singular vectors \u2014 they are an orthonormal basis for $\\mathbb{R}^n$ (the domain), found as eigenvectors of $A^T A$. The matrix $U$ has columns $u_1, \\ldots, u_m$ called the left singular vectors \u2014 they form an orthonormal basis for $\\mathbb{R}^m$ (the codomain), found as eigenvectors of $AA^T$. The matrix $\\Sigma$ is a generalized diagonal whose non-zero diagonal entries $\\sigma_i = \\sqrt{\\lambda_i}$ are the singular values, where $\\lambda_i$ are the positive eigenvalues of $A^T A$ (equivalently of $AA^T$). The rank of $A$ equals the number of non-zero singular values.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 3 & 0 \\\\ 0 & 2 \\\\ 0 & 0 \\end{pmatrix}",
+      "description_latex": "We want to find the SVD of this $3 \\times 2$ matrix $A$. Because it is already in a near-diagonal form, this example will let us see the structure of $U$, $\\Sigma$, and $V$ clearly without heavy computation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A^T A = \\begin{pmatrix} 3 & 0 \\\\ 0 & 2 \\end{pmatrix}^T \\begin{pmatrix} 3 & 0 \\\\ 0 & 2 \\\\ 0 & 0 \\end{pmatrix} = \\begin{pmatrix} 9 & 0 \\\\ 0 & 4 \\end{pmatrix}",
+      "description_latex": "We compute $A^T A$ first because its eigenvectors give the right singular vectors (the columns of $V$). Here $A^T A$ is already diagonal, so its eigenvalues are $\\lambda_1 = 9$ and $\\lambda_2 = 4$, with eigenvectors $v_1 = e_1$ and $v_2 = e_2$. This means $V = I_2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sigma_1 = \\sqrt{9} = 3, \\quad \\sigma_2 = \\sqrt{4} = 2, \\quad \\Sigma = \\begin{pmatrix} 3 & 0 \\\\ 0 & 2 \\\\ 0 & 0 \\end{pmatrix}",
+      "description_latex": "The singular values are the square roots of the eigenvalues of $A^T A$, listed in decreasing order. Notice that $\\Sigma$ has the same shape as $A$ itself \u2014 it is $3 \\times 2$ \u2014 and the zeros in the third row reflect the fact that $A$ has rank 2, not 3.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_1 = \\frac{1}{\\sigma_1} A v_1 = \\frac{1}{3}\\begin{pmatrix}3\\\\0\\\\0\\end{pmatrix} = \\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix}, \\quad u_2 = \\frac{1}{\\sigma_2} A v_2 = \\frac{1}{2}\\begin{pmatrix}0\\\\2\\\\0\\end{pmatrix} = \\begin{pmatrix}0\\\\1\\\\0\\end{pmatrix}",
+      "description_latex": "We build the left singular vectors using the relation $u_i = \\frac{1}{\\sigma_i} A v_i$, which guarantees $A v_i = \\sigma_i u_i$ \u2014 the geometric heart of the SVD. Because $A$ is $3 \\times 2$, we need a third column $u_3$ to complete $U$; we choose any unit vector orthogonal to $u_1$ and $u_2$, so $u_3 = e_3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = U\\Sigma V^T = \\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&1\\end{pmatrix}\\begin{pmatrix}3&0\\\\0&2\\\\0&0\\end{pmatrix}\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}",
+      "description_latex": "Assembling the three factors confirms $A = U\\Sigma V^T$: multiplying out returns the original matrix $A$. In this simple case $U = I_3$ and $V = I_2$, which makes sense because $A$ was already 'aligned' with the standard basis axes.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 1 & 1 \\\\ 0 & 0 \\end{pmatrix}, \\quad A^T A = \\begin{pmatrix} 1 & 1 \\\\ 1 & 1 \\end{pmatrix}",
+      "description_latex": "We start by computing $A^T A$ to find the right singular vectors. The matrix $A^T A$ has eigenvalues $\\lambda_1 = 2$ and $\\lambda_2 = 0$, which we will use next.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_1 = 2, \\; v_1 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\1\\end{pmatrix}; \\quad \\lambda_2 = 0, \\; v_2 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\-1\\end{pmatrix}",
+      "description_latex": "Here are the normalized eigenvectors of $A^T A$. Your job now is to find the singular values $\\sigma_1$ and $\\sigma_2$, construct $\\Sigma$ (remember $A$ is $2 \\times 2$), and then compute the left singular vector $u_1 = \\frac{1}{\\sigma_1}Av_1$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\sigma_1 = \\sqrt{2}, \\; u_1 = \\begin{pmatrix}1\\\\0\\end{pmatrix}; \\quad \\sigma_2 = 0, \\; u_2 = \\begin{pmatrix}0\\\\1\\end{pmatrix}, \\quad \\Sigma = \\begin{pmatrix}\\sqrt{2}&0\\\\0&0\\end{pmatrix}",
+      "description_latex": "Because $\\sigma_2 = 0$, we cannot use $u_2 = \\frac{1}{\\sigma_2}Av_2$; instead we choose $u_2$ to be any unit vector orthogonal to $u_1$. Now write out the full factorization $A = U\\Sigma V^T$ with explicit matrices and verify it recovers $A$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the singular values of $A = \\begin{pmatrix} 4 & 0 \\\\ 0 & 3 \\end{pmatrix}$.",
+      "answer_latex": "\\sigma_1 = 4, \\; \\sigma_2 = 3"
+    },
+    {
+      "prompt_latex": "Find the full SVD of $A = \\begin{pmatrix} 0 & 2 \\\\ 0 & 0 \\\\ 0 & 0 \\end{pmatrix}$.",
+      "answer_latex": "U = \\begin{pmatrix}1&0&0\\\\0&1&0\\\\0&0&1\\end{pmatrix},\\; \\Sigma = \\begin{pmatrix}2&0\\\\0&0\\\\0&0\\end{pmatrix},\\; V = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}, \\text{ so } A = U\\Sigma V^T"
+    },
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 1 & 1 \\\\ 1 & -1 \\end{pmatrix}$. Compute $A^T A$, find its eigenvalues, and state the singular values of $A$.",
+      "answer_latex": "A^T A = \\begin{pmatrix}2&0\\\\0&2\\end{pmatrix},\\; \\lambda_1 = \\lambda_2 = 2,\\; \\sigma_1 = \\sigma_2 = \\sqrt{2}"
+    },
+    {
+      "prompt_latex": "Using the SVD $A = U\\Sigma V^T$, express the rank of $A$ and find a basis for $\\text{Null}(A)$ in terms of the columns of $V$, given that $A$ is $3 \\times 3$ with singular values $\\sigma_1 = 5, \\sigma_2 = 2, \\sigma_3 = 0$.",
+      "answer_latex": "\\text{rank}(A) = 2; \\; \\text{Null}(A) = \\text{span}\\{v_3\\}, \\text{ where } v_3 \\text{ is the third column of } V"
+    },
+    {
+      "prompt_latex": "A data scientist says the 'best rank-1 approximation' of a matrix $A$ with SVD $A = U\\Sigma V^T$ is $A_1 = \\sigma_1 u_1 v_1^T$. For $A = \\begin{pmatrix}3&0\\\\0&2\\end{pmatrix}$ with $\\sigma_1=3$, $u_1=e_1$, $v_1=e_1$, compute $A_1$ and find $\\|A - A_1\\|_F$ (the Frobenius norm of the error).",
+      "answer_latex": "A_1 = \\begin{pmatrix}3&0\\\\0&0\\end{pmatrix},\\; \\|A - A_1\\|_F = \\left\\|\\begin{pmatrix}0&0\\\\0&2\\end{pmatrix}\\right\\|_F = 2"
+    }
+  ],
+  "common_mistakes": [
+    "Students often compute $A^T A$ and $AA^T$ independently but then pair their eigenvectors arbitrarily, producing columns of $U$ and $V$ that are inconsistent with the relation $Av_i = \\sigma_i u_i$. Always derive $u_i$ from $u_i = \\frac{1}{\\sigma_i}Av_i$ to ensure the signs and ordering are consistent.",
+    "When a singular value $\\sigma_k = 0$, students try to compute $u_k = \\frac{1}{0}Av_k$ and get confused. For zero singular values, $u_k$ must be chosen as a unit vector orthogonal to all previously found $u_i$ \u2014 it cannot be derived from the formula, and any valid orthonormal completion of the set works.",
+    "Students frequently confuse the shape of $\\Sigma$: they make it square $\\min(m,n) \\times \\min(m,n)$ instead of the same shape $m \\times n$ as $A$. Remember that $\\Sigma$ must match $A$'s dimensions so that the product $U\\Sigma V^T$ is $m \\times m$ times $m \\times n$ times $n \\times n$, giving an $m \\times n$ result."
+  ],
+  "untested_variants": [
+    "Computing the SVD of a complex matrix $A \\in \\mathbb{C}^{m \\times n}$, where the factorization becomes $A = U\\Sigma V^*$ with unitary (not merely orthogonal) $U$ and $V$.",
+    "Using the SVD to compute the pseudoinverse $A^+ = V\\Sigma^+ U^T$ and solving least-squares problems $\\min \\|Ax - b\\|$.",
+    "Proving or applying the Eckart\u2013Young theorem \u2014 that the best rank-$k$ approximation in Frobenius or spectral norm is $A_k = \\sum_{i=1}^k \\sigma_i u_i v_i^T$ \u2014 in an optimization or data-compression context.",
+    "Relating the SVD to the geometry of linear maps: interpreting $V^T$ as a rotation/reflection in the domain, $\\Sigma$ as stretching along coordinate axes, and $U$ as a rotation/reflection in the codomain."
+  ]
+}

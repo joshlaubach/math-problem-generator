@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_048",
+  "topic_name": "Least Squares via Calculus (H)",
+  "generated_at": "2026-05-13T20:43:48.383419+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to draw a line through data by eye and even how to compute the slope and intercept using the formulas $\\hat{b}_1 = r\\frac{s_y}{s_x}$ and $\\hat{b}_0 = \\bar{y} - \\hat{b}_1\\bar{x}$. But where do those formulas actually come from? Why those particular values and not something slightly different? The gap is that you have never seen the mathematical proof that minimizing the sum of squared residuals is what forces those exact formulas to appear \u2014 and that proof uses calculus.",
+  "concept": "Least-squares regression finds the line $\\hat{y} = b_0 + b_1 x$ that minimizes the total squared error $S(b_0, b_1) = \\sum_{i=1}^{n}(y_i - b_0 - b_1 x_i)^2$. By treating $S$ as a function of two unknowns and setting both partial derivatives equal to zero, we produce a system of equations whose solution gives the unique minimizing values $\\hat{b}_0$ and $\\hat{b}_1$. This is least squares derived from first principles via calculus.",
+  "anatomy": "The sum-of-squares function $S(b_0, b_1) = \\sum_{i=1}^{n}(y_i - b_0 - b_1 x_i)^2$ has several distinct parts. The residual for observation $i$ is $e_i = y_i - b_0 - b_1 x_i$, the vertical distance between the observed value and the line. Squaring and summing these residuals gives the objective function $S$. Taking $\\frac{\\partial S}{\\partial b_0}$ and $\\frac{\\partial S}{\\partial b_1}$ produces two normal equations, which are the linear system we solve simultaneously. The solutions to those normal equations are $\\hat{b}_1 = \\frac{\\sum(x_i - \\bar{x})(y_i - \\bar{y})}{\\sum(x_i - \\bar{x})^2}$ and $\\hat{b}_0 = \\bar{y} - \\hat{b}_1\\bar{x}$.",
+  "worked_example": [
+    {
+      "expression_latex": "S(b_0, b_1) = \\sum_{i=1}^{n}(y_i - b_0 - b_1 x_i)^2",
+      "description_latex": "We begin by writing the objective function explicitly. Our goal is to choose $b_0$ and $b_1$ to make $S$ as small as possible, so every piece of the formula \u2014 each squared residual \u2014 contributes to the total penalty we want to minimize.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial S}{\\partial b_0} = -2\\sum_{i=1}^{n}(y_i - b_0 - b_1 x_i) = 0",
+      "description_latex": "We differentiate $S$ with respect to $b_0$, treating $b_1$ as a constant. Setting this partial derivative equal to zero is the calculus condition for a minimum; the chain rule pulls out a factor of $-2$ and leaves the residual inside the sum. Dividing both sides by $-2n$ immediately gives $\\bar{y} = b_0 + b_1\\bar{x}$, the first normal equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial S}{\\partial b_1} = -2\\sum_{i=1}^{n} x_i(y_i - b_0 - b_1 x_i) = 0",
+      "description_latex": "Next we differentiate $S$ with respect to $b_1$, treating $b_0$ as a constant. The chain rule now pulls out $-2x_i$ for each term, giving us the second normal equation $\\sum x_i y_i = b_0 \\sum x_i + b_1 \\sum x_i^2$, which together with the first equation forms a two-equation system in the two unknowns $b_0$ and $b_1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{b}_1 = \\frac{\\sum_{i=1}^{n}(x_i - \\bar{x})(y_i - \\bar{y})}{\\sum_{i=1}^{n}(x_i - \\bar{x})^2}",
+      "description_latex": "Substituting $b_0 = \\bar{y} - b_1\\bar{x}$ from the first normal equation into the second and simplifying yields this closed-form expression for $\\hat{b}_1$. Notice that the numerator is the sample covariance of $x$ and $y$ (up to a factor of $n-1$) and the denominator is the sample variance of $x$, which is why the formula can also be written $\\hat{b}_1 = r\\frac{s_y}{s_x}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{b}_0 = \\bar{y} - \\hat{b}_1\\bar{x}",
+      "description_latex": "With $\\hat{b}_1$ in hand we recover $\\hat{b}_0$ directly from the first normal equation. This confirms that the least-squares line always passes through the point $(\\bar{x}, \\bar{y})$, a geometric fact that is now a direct algebraic consequence of the calculus conditions rather than a coincidence.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "S(b_0, b_1) = \\sum_{i=1}^{n}(y_i - b_0 - b_1 x_i)^2",
+      "description_latex": "We start from the sum of squared residuals. Our plan is to find the values of $b_0$ and $b_1$ that minimize $S$ by setting both partial derivatives equal to zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial S}{\\partial b_0} = -2\\sum_{i=1}^{n}(y_i - b_0 - b_1 x_i) = 0 \\implies \\bar{y} = b_0 + b_1\\bar{x}",
+      "description_latex": "The first normal equation comes from differentiating with respect to $b_0$ and simplifying. This tells us that whatever the slope turns out to be, the intercept is pinned by the requirement that the line passes through $(\\bar{x}, \\bar{y})$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now differentiate $S$ with respect to $b_1$, set the result equal to zero, and write down the second normal equation. Remember to apply the chain rule carefully \u2014 what factor comes along when you differentiate $(y_i - b_0 - b_1 x_i)^2$ with respect to $b_1$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\hat{b}_1 = \\frac{\\sum_{i=1}^{n}(x_i-\\bar{x})(y_i-\\bar{y})}{\\sum_{i=1}^{n}(x_i-\\bar{x})^2}, \\quad \\hat{b}_0 = \\bar{y} - \\hat{b}_1\\bar{x}",
+      "description_latex": "Substituting $b_0 = \\bar{y} - b_1\\bar{x}$ into your second normal equation and collecting like terms produces these final formulas. Verify for yourself that the numerator can be rewritten as $\\sum x_i y_i - n\\bar{x}\\bar{y}$ \u2014 this algebraic identity is a useful shortcut in hand calculations.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write down $\\frac{\\partial S}{\\partial b_0}$ for $S = \\sum_{i=1}^{n}(y_i - b_0 - b_1 x_i)^2$ and state what equation results when you set it equal to zero.",
+      "answer_latex": "\\frac{\\partial S}{\\partial b_0} = -2\\sum_{i=1}^{n}(y_i - b_0 - b_1 x_i) = 0 \\implies \\sum y_i = nb_0 + b_1\\sum x_i \\text{ (equivalently, } \\bar{y} = b_0 + b_1\\bar{x}\\text{)}"
+    },
+    {
+      "prompt_latex": "Using $n=3$ data points $(1,2),(2,4),(3,5)$, compute $\\hat{b}_1 = \\frac{\\sum(x_i-\\bar{x})(y_i-\\bar{y})}{\\sum(x_i-\\bar{x})^2}$ directly from the calculus-derived formula.",
+      "answer_latex": "\\bar{x}=2,\\; \\bar{y}=11/3.\\; \\sum(x_i-\\bar{x})(y_i-\\bar{y}) = (-1)(-5/3)+(0)(1/3)+(1)(4/3) = 3.\\; \\sum(x_i-\\bar{x})^2 = 2.\\; \\hat{b}_1 = 3/2 = 1.5"
+    },
+    {
+      "prompt_latex": "Show algebraically that $\\sum_{i=1}^{n}(x_i - \\bar{x})(y_i - \\bar{y}) = \\sum_{i=1}^{n} x_i y_i - n\\bar{x}\\bar{y}$ by expanding the left side.",
+      "answer_latex": "\\sum(x_i-\\bar{x})(y_i-\\bar{y}) = \\sum x_i y_i - \\bar{y}\\sum x_i - \\bar{x}\\sum y_i + n\\bar{x}\\bar{y} = \\sum x_i y_i - n\\bar{x}\\bar{y} - n\\bar{x}\\bar{y} + n\\bar{x}\\bar{y} = \\sum x_i y_i - n\\bar{x}\\bar{y}"
+    },
+    {
+      "prompt_latex": "For $n=4$ points with $\\sum x_i = 10,\\; \\sum y_i = 20,\\; \\sum x_i^2 = 30,\\; \\sum x_i y_i = 55$, use the normal equations to find $\\hat{b}_0$ and $\\hat{b}_1$.",
+      "answer_latex": "\\bar{x}=2.5,\\;\\bar{y}=5.\\; \\hat{b}_1 = \\frac{\\sum x_iy_i - n\\bar{x}\\bar{y}}{\\sum x_i^2 - n\\bar{x}^2} = \\frac{55-4(2.5)(5)}{30-4(6.25)} = \\frac{5}{5}=1.\\; \\hat{b}_0 = 5 - 1(2.5) = 2.5"
+    },
+    {
+      "prompt_latex": "A researcher measures study hours $x$ and exam scores $y$ for 5 students: $(1,60),(2,70),(3,75),(4,85),(5,90)$. Derive $\\hat{b}_1$ from the least-squares calculus formula and interpret its meaning in context.",
+      "answer_latex": "\\bar{x}=3,\\;\\bar{y}=76.\\; \\sum(x_i-\\bar{x})(y_i-\\bar{y})=(-2)(-16)+(-1)(-6)+(0)(-1)+(1)(9)+(2)(14)=32+6+0+9+28=75.\\; \\sum(x_i-\\bar{x})^2=10.\\; \\hat{b}_1=7.5.\\text{ Each additional study hour is associated with a 7.5-point increase in predicted exam score.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students differentiate $S$ with respect to $b_0$ but forget the chain rule factor of $-1$ (from differentiating $-b_0$), writing $+2\\sum(y_i - b_0 - b_1 x_i)$ instead of $-2\\sum(y_i - b_0 - b_1 x_i)$; always apply the chain rule to the entire residual expression before evaluating.",
+    "When differentiating with respect to $b_1$, students drop the factor $x_i$ that the chain rule requires, writing $\\frac{\\partial S}{\\partial b_1} = -2\\sum(y_i - b_0 - b_1 x_i)$ instead of $-2\\sum x_i(y_i - b_0 - b_1 x_i)$; remember that differentiating $-b_1 x_i$ with respect to $b_1$ gives $-x_i$, not $-1$.",
+    "Students solve the first normal equation for $b_0$ correctly as $b_0 = \\bar{y} - b_1\\bar{x}$ but then substitute it back incorrectly into the second normal equation by writing $\\bar{x}$ in place of individual $x_i$ values; keep the $\\sum x_i(\\ldots)$ structure intact during substitution and only replace $\\sum x_i$ with $n\\bar{x}$ at the end."
+  ],
+  "untested_variants": [
+    "Verifying the second-order conditions (i.e., confirming the Hessian matrix of $S$ is positive definite) to rigorously prove that the critical point is a minimum rather than a maximum or saddle point.",
+    "Deriving the least-squares formulas in matrix notation using $\\mathbf{b} = (\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top\\mathbf{y}$, which generalizes the two-variable calculus approach to multiple regression.",
+    "Applying the calculus derivation to weighted least squares, where the objective function becomes $S = \\sum_{i=1}^{n} w_i(y_i - b_0 - b_1 x_i)^2$ with observation-specific weights $w_i$.",
+    "Using the calculus-derived formulas to show algebraically that $\\sum_{i=1}^{n} e_i = 0$ and $\\sum_{i=1}^{n} x_i e_i = 0$ are both direct consequences of the two normal equations, connecting the derivation to residual properties."
+  ]
+}

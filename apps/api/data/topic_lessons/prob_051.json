@@ -1,0 +1,76 @@
+{
+  "topic_id": "prob_051",
+  "topic_name": "Markov and Chebyshev Inequalities (H)",
+  "generated_at": "2026-05-13T23:09:15.098398+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to compute exact probabilities when you have a full probability distribution in hand. But what happens when you only know the mean of a random variable, or perhaps its mean and variance, and you need to bound the probability of an extreme outcome? For example, suppose a factory's daily output has a mean of 500 units \u2014 can you say anything useful about the chance that output exceeds 1000 units, without knowing the full distribution? This is exactly the gap that Markov's and Chebyshev's inequalities are designed to fill \u2014 but when and how do you apply each one?",
+  "concept": "Markov's inequality gives an upper bound on the probability that a non-negative random variable exceeds some threshold, using only the mean. Formally, if $X \\geq 0$ and $a > 0$, then $P(X \\geq a) \\leq \\frac{E[X]}{a}$. Chebyshev's inequality goes further: for any random variable with finite mean $\\mu$ and variance $\\sigma^2$, it bounds the probability of deviating from the mean by $k$ standard deviations: $P(|X - \\mu| \\geq k\\sigma) \\leq \\frac{1}{k^2}$ for $k > 0$.",
+  "anatomy": "In Markov's inequality $P(X \\geq a) \\leq \\frac{E[X]}{a}$, the key components are: $X$, which must be a non-negative random variable; $a > 0$, the threshold value you are asking about; and $E[X]$, the expected value that serves as the only distributional input needed. In Chebyshev's inequality $P(|X - \\mu| \\geq k\\sigma) \\leq \\frac{1}{k^2}$, we have $\\mu = E[X]$ as the mean, $\\sigma^2 = \\text{Var}(X)$ as the variance, $k > 0$ as the number of standard deviations from the mean, and the absolute value $|X - \\mu|$ capturing deviations in both directions. Crucially, the bound $\\frac{1}{k^2}$ depends only on $k$, not on the specific distribution.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\geq 0,\\quad E[X] = 20,\\quad \\text{Find } P(X \\geq 50)",
+      "description_latex": "We are given a non-negative random variable with mean 20, and we want to bound the probability it reaches 50. Since $X \\geq 0$ and we only know the mean, Markov's inequality is the right tool \u2014 we set $a = 50$ and apply the formula directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X \\geq 50) \\leq \\frac{E[X]}{a} = \\frac{20}{50}",
+      "description_latex": "We substitute $E[X] = 20$ into the numerator and the threshold $a = 50$ into the denominator. This fraction represents the tightest upper bound Markov's inequality can give us using only the mean.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X \\geq 50) \\leq \\frac{20}{50} = 0.4",
+      "description_latex": "Simplifying the fraction gives us the final bound: the probability that $X$ exceeds 50 is at most $0.4$, or 40%. Notice this bound holds for every non-negative distribution with mean 20, which is why it can sometimes be loose.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\text{ has mean } \\mu = 100,\\ \\text{Var}(X) = 225.\\ \\text{Bound } P(|X - 100| \\geq 45)",
+      "description_latex": "We want to bound the probability that $X$ deviates from its mean by at least 45. Since we have both the mean and variance, Chebyshev's inequality applies. First, we need to express 45 in terms of standard deviations by computing $\\sigma$ and then finding $k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sigma = \\sqrt{225} = 15, \\quad k = \\frac{45}{\\sigma} = \\frac{45}{15} = 3",
+      "description_latex": "The standard deviation is $\\sigma = 15$, and since the deviation threshold is 45, we get $k = 3$. This tells us we are asking about the probability of being more than 3 standard deviations from the mean, which is what we plug into the inequality.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply Chebyshev's inequality: substitute $k = 3$ into the formula $P(|X - \\mu| \\geq k\\sigma) \\leq \\frac{1}{k^2}$ and write the final upper bound.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A non-negative random variable $X$ has $E[X] = 12$. Use Markov's inequality to bound $P(X \\geq 60)$.",
+      "answer_latex": "P(X \\geq 60) \\leq \\frac{12}{60} = 0.2"
+    },
+    {
+      "prompt_latex": "A random variable $X$ has mean $\\mu = 50$ and standard deviation $\\sigma = 5$. Use Chebyshev's inequality to bound $P(|X - 50| \\geq 20)$.",
+      "answer_latex": "k = \\frac{20}{5} = 4,\\quad P(|X-50| \\geq 20) \\leq \\frac{1}{16} \\approx 0.0625"
+    },
+    {
+      "prompt_latex": "Let $X$ be a random variable with $E[X] = 30$ and $\\text{Var}(X) = 16$. Find an upper bound for $P(X \\geq 50)$ using Chebyshev's inequality. (Hint: rewrite the event in terms of $|X - \\mu|$.)",
+      "answer_latex": "P(X \\geq 50) \\leq P(|X - 30| \\geq 20) \\leq \\frac{16}{400} = 0.04"
+    },
+    {
+      "prompt_latex": "Let $X_1, X_2, \\ldots, X_n$ be i.i.d. with mean $\\mu$ and variance $\\sigma^2$. Define the sample mean $\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i$. Use Chebyshev's inequality to show that $P(|\\bar{X}_n - \\mu| \\geq \\epsilon) \\leq \\frac{\\sigma^2}{n\\epsilon^2}$ for any $\\epsilon > 0$.",
+      "answer_latex": "E[\\bar{X}_n] = \\mu,\\ \\text{Var}(\\bar{X}_n) = \\frac{\\sigma^2}{n},\\ \\text{so Chebyshev gives } P(|\\bar{X}_n - \\mu| \\geq \\epsilon) \\leq \\frac{\\sigma^2/n}{\\epsilon^2} = \\frac{\\sigma^2}{n\\epsilon^2}"
+    },
+    {
+      "prompt_latex": "A call center receives a random number of calls per hour. The average number of calls is 80 and the variance is 100. What is the minimum number of call agents needed so that the probability the number of calls exceeds the agent count is at most 0.05? Use Markov's inequality to find a sufficient agent count.",
+      "answer_latex": "P(X \\geq a) \\leq \\frac{80}{a} \\leq 0.05 \\implies a \\geq \\frac{80}{0.05} = 1600 \\text{ agents}"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply Markov's inequality to variables that are not non-negative, forgetting the crucial condition $X \\geq 0$; for example, applying it directly to a variable with negative values will produce a meaningless or incorrect bound. Always verify $X \\geq 0$ before using Markov's inequality.",
+    "When applying Chebyshev's inequality, students confuse $k$ (the number of standard deviations) with the raw deviation amount, plugging the raw number directly into $\\frac{1}{k^2}$ instead of first dividing by $\\sigma$ to get $k$. Always compute $k = \\frac{\\text{deviation threshold}}{\\sigma}$ before substituting.",
+    "Students forget that Chebyshev's inequality bounds a two-sided deviation $P(|X - \\mu| \\geq t)$, so when asked to bound a one-sided probability like $P(X \\geq \\mu + t)$, they must first note $P(X \\geq \\mu + t) \\leq P(|X - \\mu| \\geq t)$ before applying the inequality, or they will misidentify which bound is valid."
+  ],
+  "untested_variants": [
+    "Using Chebyshev's inequality to find the minimum sample size $n$ required so that the sample mean is within a given tolerance of the true mean with a specified probability (a common exam question connecting these inequalities to the Law of Large Numbers).",
+    "Applying the one-sided version of Chebyshev's inequality (Cantelli's inequality) $P(X - \\mu \\geq t) \\leq \\frac{\\sigma^2}{\\sigma^2 + t^2}$, which gives a tighter bound for one-sided events and appears on harder exams.",
+    "Problems where students must determine which inequality (Markov vs. Chebyshev) gives the tighter bound for a specific problem, and explain why by comparing the two resulting values numerically.",
+    "Using Markov's inequality applied to $g(X)$ for a non-negative function $g$, such as $g(X) = (X - \\mu)^2$ to derive Chebyshev's inequality from scratch as a proof exercise."
+  ]
+}

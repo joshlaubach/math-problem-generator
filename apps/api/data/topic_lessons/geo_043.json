@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_043",
+  "topic_name": "Proving a Quadrilateral is a Parallelogram",
+  "generated_at": "2026-05-12T23:05:19.202258+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know the properties of parallelograms \u2014 opposite sides are parallel, opposite angles are equal, diagonals bisect each other, and so on. But what if someone hands you a mystery quadrilateral and asks you to *prove* it's a parallelogram? Knowing properties is very different from knowing which combinations of evidence are enough to guarantee the shape is a parallelogram. So here's the challenge: if you measure a quadrilateral and find that both pairs of opposite sides are equal in length, does that alone prove it's a parallelogram \u2014 and why?",
+  "concept": "A parallelogram is a quadrilateral with two pairs of parallel sides. To *prove* a quadrilateral is a parallelogram, you don't have to show all properties at once \u2014 you only need to satisfy one sufficient condition from a short list of theorems. These theorems act as 'keys': if a quadrilateral satisfies any one of them, it is guaranteed to be a parallelogram.",
+  "anatomy": "Each sufficient condition has two parts: a *hypothesis* (the specific measurements or relationships you are given or can prove about the quadrilateral) and a *conclusion* (that the quadrilateral is a parallelogram). The five main sufficient conditions involve: (1) both pairs of opposite sides being parallel ($AB \\ || \\ CD$ and $BC \\ || \\ AD$), (2) both pairs of opposite sides being congruent, (3) both pairs of opposite angles being congruent, (4) the diagonals bisecting each other, and (5) one pair of sides being both parallel and congruent. Identifying which condition your given information matches is the core skill of every proof in this topic.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Given: } AB = CD = 8,\\quad BC = AD = 5",
+      "description_latex": "We are told that both pairs of opposite sides of quadrilateral $ABCD$ are equal in length. Before writing anything, we identify which sufficient condition this matches \u2014 the theorem that says a quadrilateral with both pairs of opposite sides congruent is a parallelogram.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AB \\cong CD \\quad \\text{and} \\quad BC \\cong AD",
+      "description_latex": "We state the congruences formally using the given measurements. Writing $AB \\cong CD$ and $BC \\cong AD$ translates the numerical information into geometric language, which is what a proof requires \u2014 we are setting up the exact hypothesis of our chosen theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Theorem: If both pairs of opposite sides of a quadrilateral are congruent, then it is a parallelogram.}",
+      "description_latex": "We cite the theorem by name or statement. This is the logical engine of the proof \u2014 everything we stated in the previous step satisfies the hypothesis of this theorem exactly, so we are justified in applying it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\quad ABCD \\text{ is a parallelogram.}",
+      "description_latex": "We write the conclusion. Because the hypothesis of the theorem is fully satisfied, the conclusion follows by deductive logic \u2014 $ABCD$ must be a parallelogram, and the proof is complete.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Given: Diagonals } AC \\text{ and } BD \\text{ bisect each other at point } E.",
+      "description_latex": "We are given that the diagonals of quadrilateral $ABCD$ bisect each other, meaning $AE = EC$ and $BE = ED$. Your job is to identify which sufficient condition applies and plan the proof around it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AE = EC \\quad \\text{and} \\quad BE = ED",
+      "description_latex": "We translate 'bisect each other' into two specific segment equalities. This records the hypothesis precisely so we can match it to the correct theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "State the theorem that connects bisecting diagonals to parallelograms, then write the conclusion that $ABCD$ is a parallelogram. Which theorem applies here, and how does the given information satisfy its hypothesis?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Quadrilateral } PQRS \\text{ has } PQ \\parallel SR \\text{ and } PS \\parallel QR. \\text{ What theorem proves } PQRS \\text{ is a parallelogram?}",
+      "answer_latex": "\\text{Definition of parallelogram: both pairs of opposite sides are parallel, so } PQRS \\text{ is a parallelogram.}"
+    },
+    {
+      "prompt_latex": "\\text{In quadrilateral } ABCD\\text{, } \\angle A = \\angle C = 110^\\circ \\text{ and } \\angle B = \\angle D = 70^\\circ. \\text{ Prove it is a parallelogram.}",
+      "answer_latex": "\\text{Both pairs of opposite angles are congruent } (\\angle A \\cong \\angle C,\\ \\angle B \\cong \\angle D)\\text{, so } ABCD \\text{ is a parallelogram by the Opposite Angles Theorem.}"
+    },
+    {
+      "prompt_latex": "\\text{Quadrilateral } WXYZ \\text{ has } WX = YZ = 13 \\text{ and } WX \\parallel YZ. \\text{ Prove it is a parallelogram.}",
+      "answer_latex": "\\text{One pair of opposite sides is both congruent and parallel } (WX \\cong YZ \\text{ and } WX \\parallel YZ)\\text{, so } WXYZ \\text{ is a parallelogram.}"
+    },
+    {
+      "prompt_latex": "\\text{In } \\triangle ABD \\text{ and } \\triangle CBD\\text{, you prove } \\triangle ABD \\cong \\triangle CBD \\text{ by SSS. The triangles share diagonal } BD \\text{ and } AB = CB,\\ AD = CD. \\text{ Can you conclude } ABCD \\text{ is a parallelogram? Explain.}",
+      "answer_latex": "\\text{No. Congruent triangles give } \\angle ABD = \\angle CBD \\text{ and } \\angle ADB = \\angle CDB\\text{, but this describes a kite, not necessarily a parallelogram. You would also need } AB = CD \\text{ and } AD = BC \\text{ (opposite sides equal) to conclude it is a parallelogram.}"
+    },
+    {
+      "prompt_latex": "\\text{A farmer marks four fence posts at coordinates } A(0,0),\\ B(5,2),\\ C(8,6),\\ D(3,4). \\text{ Use the midpoint of each diagonal to determine whether } ABCD \\text{ is a parallelogram.}",
+      "answer_latex": "\\text{Midpoint of } AC = \\left(\\tfrac{0+8}{2}, \\tfrac{0+6}{2}\\right) = (4,3);\\quad \\text{Midpoint of } BD = \\left(\\tfrac{5+3}{2}, \\tfrac{2+4}{2}\\right) = (4,3). \\text{ The diagonals share the same midpoint, so they bisect each other, and } ABCD \\text{ is a parallelogram.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students try to prove a quadrilateral is a parallelogram by showing only ONE pair of opposite sides is congruent, forgetting that the theorem requires BOTH pairs \u2014 one pair congruent alone only proves nothing without the parallel condition as well. Always check whether your given information satisfies the full hypothesis of your chosen theorem.",
+    "Students confuse the theorem 'one pair of sides both parallel and congruent' with 'one pair parallel AND a different pair congruent' \u2014 these are not the same condition, and the mixed version does not guarantee a parallelogram. Make sure the parallel and congruent conditions apply to the exact same pair of sides.",
+    "When using the diagonal midpoint method in coordinate geometry, students calculate the midpoints correctly but then forget to state the conclusion explicitly \u2014 that because the midpoints are equal the diagonals bisect each other, and therefore the quadrilateral is a parallelogram. The midpoint calculation is only evidence; you must connect it to the theorem to complete the proof."
+  ],
+  "untested_variants": [
+    "Proofs using the Alternate Interior Angles converse \u2014 proving sides are parallel by first showing a transversal creates equal alternate interior angles, then concluding the quadrilateral is a parallelogram.",
+    "Algebraic problems where side lengths or angle measures are given as expressions (e.g., $3x + 5$ and $5x - 1$) and students must solve for $x$ to verify a sufficient condition is met before writing the proof.",
+    "Three-dimensional contexts, such as proving that a cross-section of a prism or the face of a solid is a parallelogram using the properties of the solid.",
+    "Proofs that a specific named quadrilateral (rectangle, rhombus, or square) is also a parallelogram by identifying which of its known properties satisfies one of the five sufficient conditions."
+  ]
+}

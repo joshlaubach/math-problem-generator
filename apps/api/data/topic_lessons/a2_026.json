@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_026",
+  "topic_name": "Transformations of Polynomial Functions (H)",
+  "generated_at": "2026-05-12T23:24:34.905202+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to shift and stretch the graph of $f(x) = x^2$ \u2014 slide it left, flip it upside down, stretch it tall. But what happens when the base function is something wilder, like $f(x) = x^5 - 3x^3 + x$? The same transformation rules apply, but now the shape is more complex, and the interplay between horizontal shifts and the polynomial's roots can produce surprising graphs. Can you predict exactly what the graph of $g(x) = -2f(x + 3) - 1$ looks like without plotting every point?",
+  "concept": "A transformation of a polynomial function moves, flips, or rescales its graph using a consistent set of rules applied to the function's equation. Formally, given a polynomial $f(x)$, the general transformed form is $g(x) = a \\cdot f(b(x - h)) + k$, where $a$ controls vertical stretch/reflection, $b$ controls horizontal stretch/reflection, $h$ controls horizontal translation, and $k$ controls vertical translation.",
+  "anatomy": "The four parameters in $g(x) = a \\cdot f(b(x - h)) + k$ each govern a distinct geometric effect. The vertical scale factor $a$: if $|a| > 1$ the graph stretches away from the $x$-axis; if $0 < |a| < 1$ it compresses toward it; if $a < 0$ the graph reflects over the $x$-axis. The horizontal scale factor $b$: if $|b| > 1$ the graph compresses toward the $y$-axis; if $0 < |b| < 1$ it stretches away; if $b < 0$ it reflects over the $y$-axis. The horizontal shift $h$: the graph moves right by $h$ (note the subtraction \u2014 writing $(x - h)$ shifts RIGHT). The vertical shift $k$: the graph moves up by $k$.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^3 - x, \\quad g(x) = 2f(x - 1) + 3",
+      "description_latex": "We start by identifying the base polynomial $f(x) = x^3 - x$ and reading off the transformation parameters from $g(x) = 2f(x-1)+3$. Matching to the template $a \\cdot f(b(x-h))+k$, we see $a = 2$, $b = 1$ (no horizontal stretch), $h = 1$ (shift right 1), and $k = 3$ (shift up 3).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(x) = 2f(x - 1) + 3 = 2\\bigl[(x-1)^3 - (x-1)\\bigr] + 3",
+      "description_latex": "To find an explicit formula for $g(x)$, we substitute $(x-1)$ everywhere $x$ appears in $f$. This is the key mechanical step \u2014 every $x$ inside the base function becomes $(x-1)$, because the horizontal shift is encoded inside the argument of $f$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 2\\bigl[(x^3 - 3x^2 + 3x - 1) - (x - 1)\\bigr] + 3",
+      "description_latex": "We expand $(x-1)^3$ using the binomial cube pattern $a^3 - 3a^2b + 3ab^2 - b^3$ and simplify $(x-1)$ inside the brackets. This algebraic expansion is necessary to write $g(x)$ as a standard polynomial.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 2\\bigl[x^3 - 3x^2 + 2x\\bigr] + 3 = 2x^3 - 6x^2 + 4x + 3",
+      "description_latex": "After combining like terms inside the brackets \u2014 $(3x - x) = 2x$ and $(-1 + 1) = 0$ \u2014 we distribute the factor of 2 and add 3 to complete the vertical shift. The result is the fully expanded polynomial $g(x) = 2x^3 - 6x^2 + 4x + 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Key graph facts: zeros of } f \\text{ shift right 1; } y\\text{-values double then shift up 3}",
+      "description_latex": "Rather than plotting from scratch, we use the transformation logic: every zero of $f$ (which occur at $x = -1, 0, 1$) moves to $x = 0, 1, 2$ in $g$; the local max and min $y$-values of $f$ are multiplied by 2 then increased by 3. This geometric reasoning is often faster and more insightful than re-plotting every point.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = x^4 - 4x^2, \\quad g(x) = -f(x + 2)",
+      "description_latex": "We are given the base polynomial $f(x) = x^4 - 4x^2$ and the transformation $g(x) = -f(x+2)$. First, identify the parameters: $a = -1$ (reflection over the $x$-axis), $b = 1$, $h = -2$ (shift LEFT 2), $k = 0$. There is no vertical shift and no stretch \u2014 just a reflection and a horizontal translation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(x) = -f(x+2) = -\\bigl[(x+2)^4 - 4(x+2)^2\\bigr]",
+      "description_latex": "We substitute $(x + 2)$ for every $x$ inside $f$, then apply the negative sign out front. Notice that writing $(x + 2)$ inside the function corresponds to $h = -2$, meaning the shift is to the LEFT \u2014 the sign inside the parentheses is the opposite of the direction of the shift.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now expand $(x+2)^4$ and $(x+2)^2$, substitute them in, distribute the negative, and collect like terms to write $g(x)$ as a standard polynomial. What is the fully expanded form of $g(x)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Zeros of } g: \\text{ solve } g(x) = 0 \\text{ using the fact that zeros of } f \\text{ shift left by 2}",
+      "description_latex": "Instead of solving the expanded polynomial, use the transformation shortcut: the zeros of $f(x) = x^4 - 4x^2 = x^2(x^2-4)$ are $x = 0, \\pm 2$. After shifting left by 2, the zeros of $g$ are $x = -2, 0, -4$. The reflection ($a = -1$) does not move the zeros, it only flips the $y$-values.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "f(x) = x^3. \\text{ Describe in words the transformation that produces } g(x) = f(x) - 5 \\text{ and state the new } y\\text{-intercept.}",
+      "answer_latex": "\\text{Vertical shift down 5; } y\\text{-intercept at } (0, -5)"
+    },
+    {
+      "prompt_latex": "f(x) = x^3 - x. \\text{ Write an explicit formula for } g(x) = f(x - 2) \\text{ as a fully expanded polynomial.}",
+      "answer_latex": "g(x) = x^3 - 6x^2 + 11x - 6"
+    },
+    {
+      "prompt_latex": "f(x) = x^4 - 2x^2 + 1. \\text{ Write the equation of the transformed function that reflects } f \\text{ over the } x\\text{-axis, stretches vertically by a factor of 3, and shifts up 4.}",
+      "answer_latex": "g(x) = -3(x^4 - 2x^2 + 1) + 4 = -3x^4 + 6x^2 + 1"
+    },
+    {
+      "prompt_latex": "f(x) = x^3 + x^2 - x - 1 \\text{ has zeros at } x = -1 \\text{ (multiplicity 2) and } x = 1. \\text{ Without expanding, state the zeros of } g(x) = f(2x + 4).",
+      "answer_latex": "\\text{Set } 2x+4 = -1 \\Rightarrow x = -\\tfrac{5}{2} \\text{ (mult. 2); set } 2x+4=1 \\Rightarrow x = -\\tfrac{3}{2}"
+    },
+    {
+      "prompt_latex": "A roller-coaster height (in feet) is modeled by $h(t) = t^3 - 9t$ for $t \\in [0,4]$. Engineers shift the ride 2 seconds later and raise the entire track 10 feet. Write the new height model $H(t)$ and find $H(4)$.",
+      "answer_latex": "H(t) = (t-2)^3 - 9(t-2) + 10; \\quad H(4) = 8 - 18 + 10 = 0 \\text{ ft}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the direction of the horizontal shift: because the template is $f(x - h)$, the expression $f(x + 2)$ means $h = -2$, a shift LEFT \u2014 not right. Always rewrite in the form $(x - h)$ first to read the direction correctly.",
+    "When applying a horizontal stretch/compression with factor $b \\neq 1$, students forget that only the inputs inside $f$ are scaled, not the output; they incorrectly write $g(x) = f(bx) + b$ instead of $g(x) = f(bx)$, essentially double-counting the $b$.",
+    "After substituting the shifted argument into $f$, students apply the outer vertical scale $a$ only to the leading term rather than the entire expression; for example, from $g(x) = 3f(x-1)$ with $f(x) = x^3 - x$, they write $3(x-1)^3 - x$ instead of $3[(x-1)^3 - (x-1)]$. Always distribute $a$ across every term of $f$."
+  ],
+  "untested_variants": [
+    "Identifying the transformation parameters from two given graphs (one of $f$ and one of $g$) without any equations \u2014 a purely visual / reverse-engineering task.",
+    "Transformations involving a horizontal reflection with $b < 0$, such as $g(x) = f(-x + 1)$, where students must factor out the negative to correctly identify both the reflection and the horizontal shift simultaneously.",
+    "Compositions of transformations applied in a specified order that differs from the standard order of operations, requiring students to determine whether the result changes when transformations are applied in different sequences.",
+    "Using transformation rules to quickly sketch the graph of a degree-5 or higher odd-degree polynomial after a combined vertical stretch, horizontal compression, and vertical shift, without expanding the polynomial algebraically."
+  ]
+}

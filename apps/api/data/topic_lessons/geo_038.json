@@ -1,0 +1,76 @@
+{
+  "topic_id": "geo_038",
+  "topic_name": "Triangle Inequality Theorem",
+  "generated_at": "2026-05-12T23:03:41.983145+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that the three angles of a triangle must add up to $180\u00b0$, which puts a clear restriction on what angles can form a triangle. But what about the side lengths? Suppose someone hands you three sticks of length $2$, $3$, and $10$ and asks you to build a triangle \u2014 can you do it? You might try bending and arranging them, but something feels off. What hidden rule governs which side lengths can actually form a triangle, and which combinations are simply impossible?",
+  "concept": "The Triangle Inequality Theorem says that for any three lengths to form a triangle, each side must be strictly shorter than the sum of the other two. In formal terms: given side lengths $a$, $b$, and $c$, a triangle exists if and only if $a + b > c$, $a + c > b$, and $b + c > a$. Intuitively, if one side is too long, the other two sides can't 'reach' each other to close the triangle.",
+  "anatomy": "The theorem involves three side lengths, conventionally labeled $a$, $b$, and $c$. Each of the three inequalities pairs two sides on the left and tests them against the third side on the right \u2014 so $a + b > c$ tests whether side $c$ is the 'too-long' candidate, $a + c > b$ tests side $b$, and $b + c > a$ tests side $a$. In practice you only need to check the single inequality where the largest side is isolated on the right; if that inequality holds, the other two are automatically satisfied. The critical operation is strict inequality ($>$, not $\\geq$), because equality produces a degenerate 'flat' triangle with zero area.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Side lengths: } 5, 7, 10",
+      "description_latex": "We start by identifying our three candidate side lengths: $5$, $7$, and $10$. The first thing to do is locate the largest side \u2014 here that is $10$ \u2014 because the most demanding inequality is always the one where the largest side appears alone on the right.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5 + 7 > 10 \\quad ?",
+      "description_latex": "We check the critical inequality: do the two shorter sides sum to more than the longest side? We're testing whether $5 + 7 > 10$. This is the only check that could possibly fail; if it passes, the triangle is valid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "12 > 10 \\quad \\checkmark",
+      "description_latex": "Since $5 + 7 = 12$ and $12 > 10$, the critical inequality holds. Because the two smaller sides together exceed the largest side, all three Triangle Inequality conditions are satisfied, so these lengths do form a valid triangle.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Side lengths: } 4, 6, 11",
+      "description_latex": "We have three candidate side lengths: $4$, $6$, and $11$. Your first move is always to identify the largest value so you can set up the most important inequality. Which value is largest here, and which two values will go on the left side of your inequality?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4 + 6 > 11 \\quad ?",
+      "description_latex": "Good \u2014 we test whether the sum of the two smaller sides exceeds the largest side. Compute $4 + 6$ and decide whether the result is greater than $11$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "10 > 11 \\text{ is FALSE} \\Rightarrow \\text{Not a valid triangle}",
+      "description_latex": "Because $4 + 6 = 10$ and $10 \\not> 11$, the critical inequality fails. The two shorter sticks are not long enough together to bridge the gap left by the longest side, so these three lengths cannot form a triangle.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Can sides of length } 6, 8, 10 \\text{ form a triangle?}",
+      "answer_latex": "6 + 8 = 14 > 10 \\Rightarrow \\text{Yes, a valid triangle (it is a right triangle)}"
+    },
+    {
+      "prompt_latex": "\\text{Can sides of length } 3, 5, 9 \\text{ form a triangle?}",
+      "answer_latex": "3 + 5 = 8 \\not> 9 \\Rightarrow \\text{No, not a valid triangle}"
+    },
+    {
+      "prompt_latex": "\\text{Two sides of a triangle measure } 7 \\text{ and } 13. \\text{ Find all integer values of the third side } x.",
+      "answer_latex": "6 < x < 20, \\text{ so } x \\in \\{7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19\\}"
+    },
+    {
+      "prompt_latex": "\\text{A triangle has sides } (2x+1), \\; 9, \\text{ and } 14. \\text{ If all three inequalities must hold, find the range of } x.",
+      "answer_latex": "\\text{From } (2x+1)+9>14: \\; x > 2. \\quad \\text{From } 9+14>(2x+1): \\; x < 11. \\quad \\text{So } 2 < x < 11."
+    },
+    {
+      "prompt_latex": "\\text{A hiker travels } 8 \\text{ km north and then } 5 \\text{ km in a straight line back toward camp. What are the possible straight-line distances } d \\text{ (in km) from the starting point to the camp?}",
+      "answer_latex": "\\text{The three path segments form a triangle, so: } |8-5| < d < 8+5 \\Rightarrow 3 < d < 13"
+    }
+  ],
+  "common_mistakes": [
+    "Students check only one inequality (usually the largest side) and forget that all three must hold \u2014 while the largest-side check is the only one that can fail when sides are positive real numbers, students who don't understand *why* will misapply the rule in algebraic problems where the 'largest' side isn't obvious. Always identify which expression is largest before shortcutting.",
+    "Students use $\\geq$ instead of strict $>$, concluding that sides $3, 4, 7$ form a triangle because $3 + 4 = 7$. This gives a degenerate triangle \u2014 a flat line with no area \u2014 which is not a valid triangle. The theorem requires a strict inequality, so equality means the triangle is impossible.",
+    "When finding the range of an unknown side $x$ given the other two sides $a$ and $b$, students write $x < a + b$ but forget the lower bound $x > |a - b|$, missing that the unknown side also cannot be too short. Always set up all three inequalities and solve the compound inequality $|a-b| < x < a+b$."
+  ],
+  "untested_variants": [
+    "Problems where the side lengths are given as algebraic expressions involving two variables, requiring a system of inequalities to solve.",
+    "Proofs or justification questions asking students to explain geometrically *why* the Triangle Inequality Theorem must be true using the concept that a straight line is the shortest path between two points.",
+    "Problems that combine the Triangle Inequality with the relationship between side lengths and opposite angles (larger side opposite larger angle) to determine whether a specific ordering of sides is consistent with given angle measures.",
+    "Coordinate geometry problems where students must first compute distances using the distance formula and then apply the Triangle Inequality to three given points in the plane."
+  ]
+}

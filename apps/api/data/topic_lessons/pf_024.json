@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_024",
+  "topic_name": "Famous Results: Infinitely Many Primes, Irrationality of \u221a2",
+  "generated_at": "2026-05-13T20:19:56.071600+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know that prime numbers like 2, 3, 5, 7, 11 are the building blocks of all integers, and you may have noticed they seem to go on forever. You also know that $\\sqrt{4} = 2$ and $\\sqrt{9} = 3$ are perfectly rational, so it might seem plausible that $\\sqrt{2}$ could be a nice fraction too. But can you actually *prove* there are infinitely many primes \u2014 not just believe it \u2014 and can you prove with certainty that no fraction $\\frac{p}{q}$ ever squares to 2? These two results sit at the heart of number theory, and right now the tools to prove them are just out of reach.",
+  "concept": "Both results are proved by contradiction: we assume the opposite of what we want to show, then derive a logical impossibility. For infinitely many primes, we assume finitely many exist and construct a number no prime on our list can divide. For irrationality of $\\sqrt{2}$, we assume $\\sqrt{2} = \\frac{p}{q}$ in lowest terms and show $p$ and $q$ must both be even, contradicting that the fraction was reduced.",
+  "anatomy": "Each proof has three structural parts worth naming. First, the **assumption of negation**: you explicitly state the opposite of the goal (e.g., 'suppose there are only finitely many primes $p_1, p_2, \\ldots, p_n$' or 'suppose $\\sqrt{2} = \\frac{p}{q}$ with $\\gcd(p,q)=1$'). Second, the **construction or algebraic manipulation**: in Euclid's proof you build $N = p_1 p_2 \\cdots p_n + 1$; in the irrationality proof you square both sides and chase factors of 2. Third, the **contradiction statement**: identifying exactly which two facts are mutually exclusive \u2014 a prime that both must and cannot divide $N$, or $\\gcd(p,q)=1$ alongside $2 \\mid p$ and $2 \\mid q$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: There are infinitely many primes.}",
+      "description_latex": "We begin by stating what we want to prove, then set up a proof by contradiction. We assume the opposite: suppose there are only finitely many primes, and call them $p_1, p_2, \\ldots, p_n$ \u2014 a complete, exhaustive list of every prime that exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "N = p_1 \\cdot p_2 \\cdots p_n + 1",
+      "description_latex": "We construct the number $N$ by multiplying all primes on our list together and adding 1. This is the key creative step: the $+1$ guarantees that when you divide $N$ by any $p_i$, the remainder is exactly 1, so no prime on our list divides $N$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "N \\text{ has a prime factor } q, \\text{ but } q \\neq p_i \\text{ for any } i",
+      "description_latex": "Every integer greater than 1 has at least one prime factor \u2014 this is a consequence of the Fundamental Theorem of Arithmetic. So $N$ has some prime factor $q$, but since no $p_i$ divides $N$, this prime $q$ cannot appear anywhere on our supposedly complete list, which is a contradiction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\text{ no finite list can contain all primes; there are infinitely many primes.} \\quad \\square",
+      "description_latex": "We conclude: our assumption that the list was complete leads to a prime outside the list, which is impossible if the list were truly complete. The contradiction forces us to abandon the assumption, proving there must be infinitely many primes.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Assume } \\sqrt{2} = \\frac{p}{q} \\text{ with } p, q \\in \\mathbb{Z},\\ q \\neq 0,\\ \\gcd(p,q) = 1",
+      "description_latex": "We begin the proof that $\\sqrt{2}$ is irrational by assuming the opposite: that it can be written as a fraction in lowest terms. The condition $\\gcd(p,q)=1$ is crucial \u2014 it means the fraction is fully reduced, so $p$ and $q$ share no common factor of 2 (or any factor). Keep this in mind because it's exactly what we'll contradict.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2 = \\frac{p^2}{q^2} \\implies p^2 = 2q^2",
+      "description_latex": "Squaring both sides and rearranging gives us $p^2 = 2q^2$. Now it's your turn: what does this equation tell you about whether $p^2$ is even or odd, and what does that force $p$ itself to be? Write out the reasoning and conclude what you can say about $p$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "p = 2k \\implies 4k^2 = 2q^2 \\implies q^2 = 2k^2 \\implies 2 \\mid q",
+      "description_latex": "Since $p$ is even, write $p = 2k$ and substitute back. This shows $q^2$ is also even, which forces $q$ to be even. But now both $p$ and $q$ are divisible by 2, which directly contradicts $\\gcd(p,q)=1$. Therefore $\\sqrt{2}$ cannot be rational.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\sqrt{2} \\text{ is irrational.} \\quad \\square",
+      "description_latex": "Here is the final step for you to write in your own words: state clearly what two facts are in contradiction with each other, and explain in one sentence why that contradiction proves $\\sqrt{2}$ is irrational.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "In Euclid's proof, suppose our 'complete' list of primes is $\\{2, 3, 5\\}$. Compute $N = 2 \\cdot 3 \\cdot 5 + 1$ and identify a prime factor of $N$ that is not on the list.",
+      "answer_latex": "N = 31, \\text{ which is itself prime and not in } \\{2, 3, 5\\}"
+    },
+    {
+      "prompt_latex": "Prove that $\\sqrt{3}$ is irrational using the same method as the $\\sqrt{2}$ proof. (Hint: if $3 \\mid p^2$, then $3 \\mid p$.)",
+      "answer_latex": "\\text{Assume } \\sqrt{3} = p/q \\text{ with } \\gcd(p,q)=1. \\text{ Then } p^2 = 3q^2, \\text{ so } 3 \\mid p^2 \\Rightarrow 3 \\mid p. \\text{ Write } p=3k; \\text{ then } 9k^2=3q^2 \\Rightarrow 3 \\mid q^2 \\Rightarrow 3 \\mid q. \\text{ This contradicts } \\gcd(p,q)=1. \\quad \\square"
+    },
+    {
+      "prompt_latex": "Identify the flaw in this argument: 'The number $N = 2 \\cdot 3 \\cdot 5 + 1 = 31$ is prime, so Euclid's proof shows the next prime after any list is always $N$ itself.'",
+      "answer_latex": "N \\text{ need not be prime; it only needs a prime factor not on the list. For example, } 2 \\cdot 3 \\cdot 5 \\cdot 7 \\cdot 11 \\cdot 13 + 1 = 30031 = 59 \\times 509 \\text{, which is composite.}"
+    },
+    {
+      "prompt_latex": "Using the fact that $\\sqrt{2}$ is irrational and that the sum of a rational and an irrational is irrational, prove that $3 + \\sqrt{2}$ is irrational.",
+      "answer_latex": "\\text{Suppose } 3 + \\sqrt{2} = r \\in \\mathbb{Q}. \\text{ Then } \\sqrt{2} = r - 3 \\in \\mathbb{Q} \\text{ (rationals are closed under subtraction), contradicting irrationality of } \\sqrt{2}. \\quad \\square"
+    },
+    {
+      "prompt_latex": "A student claims: 'There are infinitely many even numbers, and every even number $> 2$ is not prime, so most numbers are not prime \u2014 therefore the primes must eventually run out.' Identify the logical error and state which part of Euclid's proof directly refutes this.",
+      "answer_latex": "\\text{The error is inferring finiteness from decreasing density. Euclid's construction shows that for ANY finite list of primes, we can always produce a number with a prime factor outside that list, so no finite list is ever complete regardless of how sparse primes become.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students claim that $N = p_1 p_2 \\cdots p_n + 1$ must itself be prime in Euclid's proof. This is wrong \u2014 $N$ only needs to have *some* prime factor not on the list, and $N$ can be composite. The fix is to invoke the Fundamental Theorem of Arithmetic and say $N$ has at least one prime factor, then argue that factor cannot be any $p_i$.",
+    "In the $\\sqrt{2}$ proof, students write '$p^2$ is even, therefore $p$ is even' without justification, losing a full proof step. The correct argument is: if $p$ were odd, then $p^2 = (2k+1)^2 = 4k^2+4k+1$ is odd, contradicting $p^2 = 2q^2$; therefore $p$ must be even. Always prove that even square implies even base.",
+    "Students forget to start the irrationality proof by specifying $\\gcd(p,q) = 1$ (the fraction is in lowest terms), then later say 'but $p$ and $q$ are both even \u2014 contradiction!' without a clear target to contradict. The fix: state $\\gcd(p,q)=1$ explicitly at the top so the contradiction at the end is precise and complete."
+  ],
+  "untested_variants": [
+    "Proving that $\\sqrt{n}$ is irrational for any non-perfect-square positive integer $n$, which requires the general lemma that if a prime $p$ divides $a^2$ then $p$ divides $a$.",
+    "Proving there are infinitely many primes of a specific form, such as infinitely many primes $\\equiv 3 \\pmod{4}$, which requires a modified Euclid-style construction tailored to that residue class.",
+    "Proving that $\\log_2 3$ is irrational, which uses a similar assume-rational approach but involves properties of integer exponents rather than parity arguments.",
+    "Using the irrationality of $\\sqrt{2}$ together with field properties to prove that $\\mathbb{Q}(\\sqrt{2}) = \\{a + b\\sqrt{2} : a,b \\in \\mathbb{Q}\\}$ is closed under multiplication and contains irrational elements, connecting to algebraic number theory."
+  ]
+}

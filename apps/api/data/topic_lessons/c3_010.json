@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_010",
+  "topic_name": "Motion in Space: Velocity and Acceleration",
+  "generated_at": "2026-05-13T19:58:28.933416+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to differentiate vector-valued functions component by component, and you know from single-variable calculus that the derivative of position gives velocity, and the derivative of velocity gives acceleration. But when an object moves through three-dimensional space along a curved path, velocity and acceleration are no longer just signed numbers \u2014 they are vectors pointing in specific directions, and their magnitudes and directions carry real physical meaning about speed and the geometry of the curve. How do you find the velocity, speed, and acceleration of a particle whose position is given by a vector function $\\mathbf{r}(t)$, and what do those vectors actually tell you about the motion?",
+  "concept": "Motion in space generalizes one-dimensional kinematics to vector form. If a particle's position at time $t$ is $\\mathbf{r}(t) = \\langle x(t),\\, y(t),\\, z(t) \\rangle$, then its velocity is the derivative $\\mathbf{v}(t) = \\mathbf{r}'(t)$, its speed is the scalar $|\\mathbf{v}(t)|$, and its acceleration is $\\mathbf{a}(t) = \\mathbf{v}'(t) = \\mathbf{r}''(t)$. Each of these is found by differentiating the component functions individually.",
+  "anatomy": "The position vector $\\mathbf{r}(t) = \\langle x(t), y(t), z(t) \\rangle$ traces the particle's path in space, with each component a scalar function of time. The velocity vector $\\mathbf{v}(t) = \\langle x'(t), y'(t), z'(t) \\rangle$ points in the direction of motion (tangent to the path) and its magnitude $|\\mathbf{v}(t)| = \\sqrt{[x'(t)]^2 + [y'(t)]^2 + [z'(t)]^2}$ is the scalar speed. The acceleration vector $\\mathbf{a}(t) = \\langle x''(t), y''(t), z''(t) \\rangle$ measures the rate of change of velocity \u2014 it captures both changes in speed and changes in direction. Finally, if the velocity is known at an initial time $t_0$, position can be recovered by integration: $\\mathbf{r}(t) = \\int \\mathbf{v}(t)\\, dt + \\mathbf{C}$, where $\\mathbf{C}$ is a constant vector determined by an initial condition.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{r}(t) = \\langle t^3,\\; t^2,\\; 2t \\rangle",
+      "description_latex": "We start with the given position function. Our first goal is to find the velocity vector by differentiating each component with respect to $t$. Differentiating component by component is the standard technique because each scalar function follows the ordinary rules of single-variable calculus.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{v}(t) = \\mathbf{r}'(t) = \\langle 3t^2,\\; 2t,\\; 2 \\rangle",
+      "description_latex": "Differentiating $t^3$ gives $3t^2$, differentiating $t^2$ gives $2t$, and differentiating $2t$ gives $2$. This velocity vector tells us the direction the particle is moving at any instant \u2014 it is always tangent to the curve traced by $\\mathbf{r}(t)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|\\mathbf{v}(t)| = \\sqrt{(3t^2)^2 + (2t)^2 + 2^2} = \\sqrt{9t^4 + 4t^2 + 4}",
+      "description_latex": "The speed is the magnitude of the velocity vector, computed by squaring each component, summing, and taking the square root. Unlike the velocity vector, speed is a non-negative scalar \u2014 it tells you how fast the particle is moving but not in which direction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{a}(t) = \\mathbf{v}'(t) = \\langle 6t,\\; 2,\\; 0 \\rangle",
+      "description_latex": "To find acceleration we differentiate the velocity vector once more, again component by component. The $z$-component of acceleration is zero here because the $z$-component of velocity was constant \u2014 this means the particle experiences no acceleration in the $z$-direction, but it is still accelerating in $x$ and $y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{v}(1) = \\langle 3, 2, 2 \\rangle, \\quad |\\mathbf{v}(1)| = \\sqrt{17}, \\quad \\mathbf{a}(1) = \\langle 6, 2, 0 \\rangle",
+      "description_latex": "Evaluating at $t = 1$ gives the specific velocity, speed, and acceleration at that moment in time. Substituting $t = 1$ into each expression is a straightforward plug-in step, but notice that the velocity and acceleration vectors point in completely different directions \u2014 acceleration is not required to be parallel to velocity for curved motion.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{r}(t) = \\langle e^{2t},\\; \\sin(3t),\\; t^2 \\rangle",
+      "description_latex": "Here is the position vector of a particle. We want to find the velocity vector $\\mathbf{v}(t)$, the acceleration vector $\\mathbf{a}(t)$, and then evaluate the speed at $t = 0$. Let's begin by differentiating each component to get the velocity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{v}(t) = \\langle 2e^{2t},\\; 3\\cos(3t),\\; 2t \\rangle",
+      "description_latex": "Differentiating $e^{2t}$ gives $2e^{2t}$ by the chain rule, $\\sin(3t)$ gives $3\\cos(3t)$, and $t^2$ gives $2t$. Now differentiate $\\mathbf{v}(t)$ component by component to find the acceleration vector $\\mathbf{a}(t)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Differentiate each component of $\\mathbf{v}(t) = \\langle 2e^{2t}, 3\\cos(3t), 2t \\rangle$ to find $\\mathbf{a}(t)$. Write your answer as a vector $\\langle\\, \\cdot,\\, \\cdot,\\, \\cdot\\, \\rangle$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "|\\mathbf{v}(0)| = \\sqrt{(2)^2 + (3)^2 + (0)^2} = \\sqrt{13}",
+      "description_latex": "Substituting $t = 0$ into $\\mathbf{v}(t)$ gives $\\langle 2, 3, 0 \\rangle$, and then the speed is the magnitude of that vector. The correct acceleration you should have found in the previous step is $\\mathbf{a}(t) = \\langle 4e^{2t},\\; -9\\sin(3t),\\; 2 \\rangle$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A particle has position $\\mathbf{r}(t) = \\langle 4t,\\; t^2,\\; 3 \\rangle$. Find the velocity $\\mathbf{v}(t)$ and acceleration $\\mathbf{a}(t)$.",
+      "answer_latex": "\\mathbf{v}(t) = \\langle 4,\\; 2t,\\; 0 \\rangle,\\quad \\mathbf{a}(t) = \\langle 0,\\; 2,\\; 0 \\rangle"
+    },
+    {
+      "prompt_latex": "Given $\\mathbf{r}(t) = \\langle \\cos t,\\; \\sin t,\\; t \\rangle$ (a helix), find $\\mathbf{v}(t)$, the speed $|\\mathbf{v}(t)|$, and $\\mathbf{a}(t)$.",
+      "answer_latex": "\\mathbf{v}(t) = \\langle -\\sin t,\\; \\cos t,\\; 1 \\rangle,\\quad |\\mathbf{v}(t)| = \\sqrt{2},\\quad \\mathbf{a}(t) = \\langle -\\cos t,\\; -\\sin t,\\; 0 \\rangle"
+    },
+    {
+      "prompt_latex": "A particle moves with position $\\mathbf{r}(t) = \\langle t^2 - 1,\\; 2t^3,\\; e^{-t} \\rangle$. Find $\\mathbf{v}(2)$ and $\\mathbf{a}(2)$.",
+      "answer_latex": "\\mathbf{v}(2) = \\langle 4,\\; 24,\\; -e^{-2} \\rangle,\\quad \\mathbf{a}(2) = \\langle 2,\\; 24,\\; e^{-2} \\rangle"
+    },
+    {
+      "prompt_latex": "A particle has acceleration $\\mathbf{a}(t) = \\langle 2,\\; 6t,\\; 0 \\rangle$, initial velocity $\\mathbf{v}(0) = \\langle -1,\\; 0,\\; 3 \\rangle$, and initial position $\\mathbf{r}(0) = \\langle 0,\\; 1,\\; 0 \\rangle$. Find $\\mathbf{r}(t)$.",
+      "answer_latex": "\\mathbf{r}(t) = \\langle t^2 - t,\\; t^3 + 1,\\; 3t \\rangle"
+    },
+    {
+      "prompt_latex": "A baseball leaves a bat at time $t = 0$ with position $\\mathbf{r}(0) = \\langle 0, 0, 1 \\rangle$ (meters) and velocity $\\mathbf{v}(0) = \\langle 30, 0, 10 \\rangle$ (m/s). Gravity gives acceleration $\\mathbf{a}(t) = \\langle 0, 0, -9.8 \\rangle$ m/s$^2$. Find $\\mathbf{r}(t)$ and determine at what time the ball reaches its maximum height.",
+      "answer_latex": "\\mathbf{r}(t) = \\langle 30t,\\; 0,\\; -4.9t^2 + 10t + 1 \\rangle;\\text{ maximum height at } t = \\dfrac{10}{9.8} = \\dfrac{50}{49} \\approx 1.02 \\text{ s}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often compute speed as $\\mathbf{v}'(t)$ (the derivative of the velocity vector) instead of $|\\mathbf{v}(t)|$ (its magnitude). Remember: speed is a scalar equal to the length of the velocity vector, not its derivative \u2014 the derivative of velocity is acceleration.",
+    "When recovering position from acceleration by integrating twice, students forget that each integration introduces a separate constant vector $\\mathbf{C}_1$ and $\\mathbf{C}_2$, not scalar constants. Both constant vectors must be determined from the given initial conditions $\\mathbf{v}(t_0)$ and $\\mathbf{r}(t_0)$.",
+    "Students sometimes confuse the direction of the acceleration vector with the direction of motion, assuming $\\mathbf{a}(t)$ must be parallel to $\\mathbf{v}(t)$. In general, acceleration has a tangential component (changing speed) and a normal component (changing direction), and the two vectors are only parallel for straight-line motion at constant or purely changing speed."
+  ],
+  "untested_variants": [
+    "Finding the tangential and normal components of acceleration ($a_T$ and $a_N$) using the formulas $a_T = \\frac{\\mathbf{v} \\cdot \\mathbf{a}}{|\\mathbf{v}|}$ and $a_N = \\frac{|\\mathbf{v} \\times \\mathbf{a}|}{|\\mathbf{v}|}$, which decompose acceleration along and perpendicular to the path.",
+    "Problems where the speed is given as a function of time (not the full velocity vector) and the student must use arc-length parametrization or unit tangent vectors to reconstruct the velocity.",
+    "Projectile motion problems involving launch angle and initial speed in two dimensions, where the student must set up component equations using trigonometry before differentiating or integrating.",
+    "Finding when a particle's velocity and acceleration vectors are orthogonal (their dot product equals zero), which requires solving a transcendental or polynomial equation after expressing the dot product in terms of $t$."
+  ]
+}
