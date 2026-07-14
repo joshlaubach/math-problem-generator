@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_063",
+  "topic_name": "Vectors in Three Dimensions (H)",
+  "generated_at": "2026-05-12T23:59:12.647212+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to work with vectors in two dimensions \u2014 adding them, finding their magnitude, and thinking of them as arrows in the $xy$-plane. But the real world has three dimensions: a drone doesn't just move left and right, it also moves up and down. How do we extend everything we know about 2D vectors to handle a third direction, and what new ideas do we need along the way?",
+  "concept": "A vector in three dimensions is an ordered triple that captures displacement (or any directed quantity) in the $x$, $y$, and $z$ directions simultaneously. Formally, a 3D vector is written $\\vec{v} = \\langle a, b, c \\rangle$, where $a$, $b$, and $c$ are real numbers called components. Its magnitude is $|\\vec{v}| = \\sqrt{a^2 + b^2 + c^2}$, a natural extension of the 2D Pythagorean formula into a third dimension.",
+  "anatomy": "Every 3D vector $\\vec{v} = \\langle a, b, c \\rangle$ has three scalar components: the $x$-component $a$, the $y$-component $b$, and the $z$-component $c$. The standard unit vectors $\\hat{i} = \\langle 1,0,0 \\rangle$, $\\hat{j} = \\langle 0,1,0 \\rangle$, and $\\hat{k} = \\langle 0,0,1 \\rangle$ point along each positive axis, so any vector can be written $\\vec{v} = a\\hat{i} + b\\hat{j} + c\\hat{k}$. When working with two points $P_1 = (x_1, y_1, z_1)$ and $P_2 = (x_2, y_2, z_2)$, the displacement vector from $P_1$ to $P_2$ is $\\overrightarrow{P_1P_2} = \\langle x_2 - x_1,\\; y_2 - y_1,\\; z_2 - z_1 \\rangle$.",
+  "worked_example": [
+    {
+      "expression_latex": "P_1 = (1, -2, 4),\\quad P_2 = (5, 3, -1)",
+      "description_latex": "We want to find the vector from $P_1$ to $P_2$ and then compute its magnitude and a unit vector in its direction. Start by identifying both points so you can subtract coordinates in the correct order \u2014 always terminal minus initial.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\overrightarrow{P_1P_2} = \\langle 5-1,\\; 3-(-2),\\; -1-4 \\rangle = \\langle 4, 5, -5 \\rangle",
+      "description_latex": "Subtract each coordinate of $P_1$ from the corresponding coordinate of $P_2$. Notice that $3 - (-2) = 5$, so be careful with signs on the $y$-component. The result $\\langle 4, 5, -5 \\rangle$ tells you to move 4 units in $x$, 5 in $y$, and $-5$ in $z$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|\\overrightarrow{P_1P_2}| = \\sqrt{4^2 + 5^2 + (-5)^2} = \\sqrt{16 + 25 + 25} = \\sqrt{66}",
+      "description_latex": "The magnitude formula squares all three components and adds them under a single square root \u2014 this is just the 3D Pythagorean theorem applied twice. Each component contributes independently to the total length, which is why we treat them separately before summing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{u} = \\frac{\\overrightarrow{P_1P_2}}{|\\overrightarrow{P_1P_2}|} = \\frac{1}{\\sqrt{66}}\\langle 4, 5, -5 \\rangle = \\left\\langle \\frac{4}{\\sqrt{66}},\\; \\frac{5}{\\sqrt{66}},\\; \\frac{-5}{\\sqrt{66}} \\right\\rangle",
+      "description_latex": "A unit vector has magnitude 1 and points in the same direction as the original vector. We obtain it by dividing every component by the magnitude $\\sqrt{66}$. You can verify this works: squaring each component and summing should give $\\frac{16+25+25}{66} = 1$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\vec{u} = \\langle 2, -1, 3 \\rangle,\\quad \\vec{w} = \\langle -4, 5, 1 \\rangle,\\quad \\text{find } 3\\vec{u} - 2\\vec{w}",
+      "description_latex": "We need to perform scalar multiplication on each vector first, then subtract component-by-component. Scalar multiplication distributes across every component independently.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3\\vec{u} = \\langle 6, -3, 9 \\rangle,\\qquad 2\\vec{w} = \\langle -8, 10, 2 \\rangle",
+      "description_latex": "Each component of $\\vec{u}$ is multiplied by 3, and each component of $\\vec{w}$ is multiplied by 2. Now you need to subtract the second result from the first \u2014 try completing that step on your own.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Subtract $2\\vec{w}$ from $3\\vec{u}$ component-by-component: compute $\\langle 6-(-8),\\; -3-10,\\; 9-2 \\rangle$ and write the final vector. Watch the sign on the first component carefully.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "3\\vec{u} - 2\\vec{w} = \\langle 14, -13, 7 \\rangle",
+      "description_latex": "The answer is $\\langle 14, -13, 7 \\rangle$. Notice that $6 - (-8) = 14$ because subtracting a negative adds \u2014 this is where sign errors most often appear in vector subtraction.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the magnitude of $\\vec{v} = \\langle 3, 0, -4 \\rangle$.",
+      "answer_latex": "|\\vec{v}| = \\sqrt{9 + 0 + 16} = 5"
+    },
+    {
+      "prompt_latex": "Find the vector $\\overrightarrow{AB}$ from $A = (2, -1, 5)$ to $B = (-3, 4, 2)$, and state its magnitude.",
+      "answer_latex": "\\overrightarrow{AB} = \\langle -5, 5, -3 \\rangle,\\quad |\\overrightarrow{AB}| = \\sqrt{59}"
+    },
+    {
+      "prompt_latex": "Given $\\vec{a} = \\langle 1, -2, 4 \\rangle$ and $\\vec{b} = \\langle 3, 5, -1 \\rangle$, find $2\\vec{a} + \\vec{b}$.",
+      "answer_latex": "2\\vec{a} + \\vec{b} = \\langle 5, 1, 7 \\rangle"
+    },
+    {
+      "prompt_latex": "Find the unit vector in the direction of $\\vec{v} = \\langle 1, 2, -2 \\rangle$, then find the vector of length 6 pointing in the same direction.",
+      "answer_latex": "\\hat{u} = \\left\\langle \\tfrac{1}{3}, \\tfrac{2}{3}, -\\tfrac{2}{3} \\right\\rangle;\\quad 6\\hat{u} = \\langle 2, 4, -4 \\rangle"
+    },
+    {
+      "prompt_latex": "A hiker walks from base camp at $(0,0,0)$ to a ridge at $(3, 4, 1)$ km, then continues to a summit at $(7, 4, 3)$ km. Find the total displacement vector from base camp to summit and its magnitude. Then find the vector of the second leg alone.",
+      "answer_latex": "\\text{Total displacement: } \\langle 7,4,3 \\rangle,\\; |\\vec{d}| = \\sqrt{74};\\quad \\text{Second leg: } \\langle 4, 0, 2 \\rangle"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $\\overrightarrow{P_1P_2}$ by subtracting terminal minus initial in 2D but then forget the $z$-component entirely, effectively computing a 2D vector. Always check that your answer has exactly three components when working in three dimensions.",
+    "When computing magnitude, students sometimes write $\\sqrt{a^2 + b^2 + c^2}$ correctly but then make an error like $(-5)^2 = -25$ instead of $25$. Remember that squaring any real number \u2014 positive or negative \u2014 always produces a non-negative result, so the magnitude formula always yields a non-negative value.",
+    "When finding a unit vector, students divide only one or two components by the magnitude instead of all three. Every single component must be divided by $|\\vec{v}|$; dividing just some components changes the direction of the vector, not just its length."
+  ],
+  "untested_variants": [
+    "Finding the angle between two 3D vectors using the dot product formula $\\cos\\theta = \\frac{\\vec{u}\\cdot\\vec{v}}{|\\vec{u}||\\vec{v}|}$.",
+    "Determining whether two 3D vectors are parallel (one is a scalar multiple of the other) or orthogonal (their dot product is zero).",
+    "Using vectors to find the midpoint of a segment in 3D by averaging corresponding coordinates of the two endpoints.",
+    "Writing a 3D vector in $\\hat{i}\\hat{j}\\hat{k}$ component form and performing operations in that notation rather than in angle-bracket notation."
+  ]
+}

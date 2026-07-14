@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_001",
+  "topic_name": "Mathematical Statements and Notation",
+  "generated_at": "2026-05-13T20:17:31.455708+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to solve equations like $x + 2 = 5$ and say 'the answer is $x = 3$.' But in higher mathematics, before we can prove anything, we need to be precise about what kind of thing we are even saying. Is '$x + 2 = 5$' always true? Sometimes true? Never true? What exactly is the difference between a mathematical statement, a condition, and an expression? Until you can answer that, you cannot write a single valid proof.",
+  "concept": "A mathematical statement (also called a proposition) is a declarative sentence that is either true or false \u2014 never both, never neither. Informally, it is a claim with a definite truth value. Formally, a statement $P$ satisfies the law of excluded middle: $P$ is either TRUE or FALSE. Expressions like $x + 2$ or operations like $f(x)$ are not statements because they have no truth value on their own.",
+  "anatomy": "Every mathematical statement has three structural features worth naming. First, the subject \u2014 the mathematical object or objects being discussed, such as $n$ or the set $\\mathbb{Z}$. Second, the predicate \u2014 the property or relation being asserted about the subject, such as 'is even' or '$> 0$'. Third, the quantifier (explicit or implied) \u2014 the scope over which the statement is claimed to hold, such as 'for all' ($\\forall$) or 'there exists' ($\\exists$). For example, in '$\\forall n \\in \\mathbb{Z},\\, n^2 \\geq 0$', the subject is $n \\in \\mathbb{Z}$, the predicate is $n^2 \\geq 0$, and the quantifier is $\\forall$.",
+  "worked_example": [
+    {
+      "expression_latex": "2 + 2 = 4",
+      "description_latex": "We start with the simplest case: a closed statement with no variables. This sentence has a definite truth value \u2014 it is TRUE \u2014 so it qualifies as a mathematical statement. Notice that nothing is left unspecified; the subject ($2 + 2$) and the predicate ($= 4$) together make a complete, unambiguous claim.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x + 2 = 5",
+      "description_latex": "Now consider an equation with a free variable $x$. This is called an open sentence or predicate \u2014 it is neither true nor false until we specify what $x$ is. When $x = 3$ it becomes true; when $x = 7$ it becomes false. On its own, it is NOT a mathematical statement, but it becomes one as soon as we attach a quantifier.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\forall x \\in \\mathbb{R},\\; x + 2 = 5",
+      "description_latex": "By attaching the universal quantifier $\\forall x \\in \\mathbb{R}$, we close the sentence and produce a genuine mathematical statement. We can now evaluate its truth value: since $x = 0$ makes the equation false, the statement is FALSE. The key lesson is that the quantifier is what transforms an open sentence into a statement with a definite truth value.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\exists x \\in \\mathbb{R},\\; x + 2 = 5",
+      "description_latex": "Here we use the existential quantifier $\\exists$ instead, claiming that at least one real number satisfies the equation. This is a different statement \u2014 and a TRUE one, because $x = 3$ is a witness. Changing the quantifier entirely changes both the meaning and the truth value, which is why naming quantifiers explicitly is non-negotiable in mathematical writing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Let } n \\in \\mathbb{Z}. \\text{ Then } n^2 \\geq 0.",
+      "description_latex": "This is the standard proof-writing format for a universal statement: we introduce a generic, arbitrary $n$ from the universe $\\mathbb{Z}$ and assert the predicate $n^2 \\geq 0$ about it. Because $n$ is arbitrary, this is logically equivalent to $\\forall n \\in \\mathbb{Z},\\, n^2 \\geq 0$, which is TRUE. You will write statements in exactly this form when you begin writing proofs.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Consider the sentence: } n \\text{ is an odd integer.}",
+      "description_latex": "We want to decide whether this sentence is a mathematical statement, and if not, how to turn it into one. Our first step is to check: does this sentence have a definite truth value right now? Notice that $n$ is a free variable \u2014 nothing tells us which integer $n$ is, so we cannot yet say TRUE or FALSE.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write this open sentence as a TRUE existential statement by attaching the appropriate quantifier and specifying that $n$ comes from $\\mathbb{Z}$. Your answer should begin with $\\exists$ and end with a statement that is definitively true.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\exists n \\in \\mathbb{Z},\\; n \\text{ is odd.} \\quad (\\textbf{TRUE, e.g. } n=1)",
+      "description_latex": "The completed existential statement $\\exists n \\in \\mathbb{Z},\\, n \\text{ is odd}$ is TRUE because $n = 1$ (or any odd integer) is a concrete witness. Notice how attaching $\\exists n \\in \\mathbb{Z}$ closed the sentence and gave it a definite truth value \u2014 this is precisely the skill you need when setting up existence proofs.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Decide whether each of the following is a mathematical statement (TRUE or FALSE) or an open sentence (not a statement): (a) $7 > 3$ \\quad (b) $x^2 - 1$ \\quad (c) $x^2 = 1$",
+      "answer_latex": "(a) Statement, TRUE. \\quad (b) Not a statement (expression with no truth value). \\quad (c) Open sentence \u2014 not a statement because $x$ is free."
+    },
+    {
+      "prompt_latex": "Write the open sentence $P(n): n^2 = n$ as (a) a universal statement over $\\mathbb{Z}$ and determine its truth value, and (b) an existential statement over $\\mathbb{Z}$ and determine its truth value.",
+      "answer_latex": "(a) $\\forall n \\in \\mathbb{Z},\\, n^2 = n$ \u2014 FALSE (counterexample: $n=2$). \\quad (b) $\\exists n \\in \\mathbb{Z},\\, n^2 = n$ \u2014 TRUE (witnesses: $n=0$ and $n=1$)."
+    },
+    {
+      "prompt_latex": "Identify the quantifier, subject, and predicate in the statement: $\\forall x \\in \\mathbb{R},\\; x^2 + 1 > 0$. Then determine whether the statement is TRUE or FALSE.",
+      "answer_latex": "Quantifier: $\\forall$ (for all). Subject: $x \\in \\mathbb{R}$. Predicate: $x^2 + 1 > 0$. Truth value: TRUE, since $x^2 \\geq 0$ for all real $x$, so $x^2 + 1 \\geq 1 > 0$."
+    },
+    {
+      "prompt_latex": "Consider the two statements: $P: \\forall n \\in \\mathbb{N},\\; 2n > n$ and $Q: \\exists n \\in \\mathbb{N},\\; 2n = n$. Determine the truth value of each, and determine whether $P \\land Q$ (both true) is a statement. Justify briefly.",
+      "answer_latex": "$P$ is TRUE (since $2n - n = n > 0$ for all $n \\in \\mathbb{N}$). $Q$ is FALSE (no natural number satisfies $2n = n$ since $n=0 \\notin \\mathbb{N}$ by standard convention). Both $P$ and $Q$ are statements (each has a definite truth value), so $P \\land Q$ is also a statement, and it is FALSE."
+    },
+    {
+      "prompt_latex": "A classmate writes: 'The average of two numbers is greater than either number.' Rewrite this as a precise mathematical statement using quantifier notation over $\\mathbb{R}$, then determine whether it is TRUE or FALSE.",
+      "answer_latex": "Precise statement: $\\forall a, b \\in \\mathbb{R},\\; \\dfrac{a+b}{2} > a \\text{ and } \\dfrac{a+b}{2} > b$. This is FALSE \u2014 for example, $a = 5, b = 1$ gives average $3$, which is not greater than $5$. The statement is false because the average of two numbers lies between them (or equals them), not strictly above both."
+    }
+  ],
+  "common_mistakes": [
+    "Students treat open sentences like '$x > 0$' as if they are TRUE or FALSE without a quantifier, often writing 'this is true' when $x$ is still free. Fix: always ask 'what is $x$?' \u2014 if you cannot answer, the sentence is not yet a statement and needs a quantifier.",
+    "Students confuse the scope of a quantifier, writing $\\forall x \\in \\mathbb{R}, x^2 = 4$ when they mean 'there exists an $x$ such that $x^2 = 4$', reversing the truth value entirely. Fix: before writing any statement, decide whether you need ALL objects to satisfy the predicate ($\\forall$) or just ONE ($\\exists$), and write the quantifier that matches that intent.",
+    "Students omit the domain of a quantifier, writing $\\forall n, n \\geq 0$ without specifying whether $n \\in \\mathbb{N}$, $\\mathbb{Z}$, or $\\mathbb{R}$, making the truth value ambiguous (TRUE over $\\mathbb{N}$, FALSE over $\\mathbb{Z}$). Fix: always write the domain explicitly directly after the quantifier symbol, as in $\\forall n \\in \\mathbb{N}$."
+  ],
+  "untested_variants": [
+    "Negating quantified statements using the rules $\\neg(\\forall x, P(x)) \\equiv \\exists x, \\neg P(x)$ and $\\neg(\\exists x, P(x)) \\equiv \\forall x, \\neg P(x)$, which appears frequently on exams.",
+    "Statements with multiple nested quantifiers, such as $\\forall x \\in \\mathbb{R},\\, \\exists y \\in \\mathbb{R},\\, x + y = 0$, where the order of $\\forall$ and $\\exists$ changes the meaning and truth value.",
+    "Using set-builder notation to encode a statement, for example interpreting $\\{n \\in \\mathbb{Z} \\mid n^2 < 10\\}$ and writing a corresponding existential or universal statement about its elements.",
+    "Compound statements formed by logical connectives ($\\land$, $\\lor$, $\\Rightarrow$, $\\Leftrightarrow$) and constructing their truth tables, which extends statement identification to propositional logic."
+  ]
+}

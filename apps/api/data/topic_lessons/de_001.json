@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_001",
+  "topic_name": "Classifications and Terminology",
+  "generated_at": "2026-05-13T19:59:36.815093+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve algebraic equations like $x^2 - 5x + 6 = 0$, where the unknown is a number. But what if the unknown is an entire function? For example, if a population grows at a rate proportional to its current size, we write $\\frac{dP}{dt} = kP$, and now we need to find the function $P(t)$ \u2014 not just a number. Before we can solve any such equation, we need a shared vocabulary to describe what kind of beast we're dealing with: so how do we classify and name differential equations?",
+  "concept": "A differential equation is any equation that relates an unknown function to one or more of its derivatives. In plain English, instead of solving for a value, we solve for a function whose rates of change satisfy a given relationship. Formally, a differential equation in the unknown function $y$ (depending on $x$) involves expressions like $y, y', y'', \\ldots$ and can be written in the form $F(x, y, y', y'', \\ldots, y^{(n)}) = 0$.",
+  "anatomy": "Every first-order differential equation has several classifiable features worth naming precisely. The order is the highest derivative that appears \u2014 for a first-order equation, that is always $y' = \\frac{dy}{dx}$. The equation is linear if $y$ and $y'$ appear only to the first power with no products between them, taking the form $a_1(x)y' + a_0(x)y = g(x)$; otherwise it is nonlinear. The equation is ordinary (an ODE) if $y$ depends on a single variable, versus a partial differential equation (PDE) when multiple independent variables appear. Finally, an equation is autonomous if the independent variable $x$ (or $t$) does not appear explicitly, as in $y' = f(y)$ with no $x$ on the right side.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} + 3xy = e^x",
+      "description_latex": "We begin by identifying the order of this equation. The highest derivative present is $\\frac{dy}{dx}$, which is the first derivative, so this is a first-order differential equation. Recognizing the order is always the first step because it tells us what solution methods are even available.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dy}{dx} + 3xy = e^x \\quad \\text{(linear: } y' \\text{ and } y \\text{ each appear to the first power, no products)}",
+      "description_latex": "Next we check for linearity. Both $y'$ and $y$ appear exactly to the first power, and there is no term like $y \\cdot y'$ or $y^2$; the coefficient $3x$ multiplies $y$ but is a function of $x$ alone, which is perfectly allowed. This means the equation is linear, which is important because linear first-order ODEs have a systematic integrating-factor solution technique.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y' = \\sin(x) \\cdot y \\quad \\Rightarrow \\quad y' - \\sin(x)\\, y = 0",
+      "description_latex": "Now consider this second equation as a contrast. We can rewrite it in standard form $y' - \\sin(x)\\,y = 0$ to see that $y$ appears to the first power and $y'$ appears to the first power with no products between them, so this is also linear and first-order. The fact that the coefficient of $y$ is a trigonometric function does not break linearity \u2014 only powers or products of the unknown function $y$ would do that.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y' = y^2 + x",
+      "description_latex": "This equation has highest derivative $y'$, so it is first-order, but the term $y^2$ means the unknown function appears to the second power. That single term is enough to classify this equation as nonlinear, and it means techniques designed for linear equations will not directly apply \u2014 we must look for other approaches such as separation of variables or special substitutions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Summary table: order} = 1,\\quad \\text{linear vs. nonlinear},\\quad \\text{ODE vs. PDE},\\quad \\text{autonomous vs. non-autonomous}",
+      "description_latex": "After working through each example, the habit to build is a four-point checklist: determine the order by finding the highest derivative, check linearity by looking for powers or products of the unknown function, confirm it is an ODE because $y$ depends only on one variable, and check whether the independent variable appears explicitly to decide autonomy. Running through this checklist on any new equation will tell you exactly which solution toolkit to reach for.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = \\frac{y}{x} + x^2",
+      "description_latex": "We want to fully classify this differential equation. Start by finding the order: look at every derivative symbol present in the equation and identify the highest one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Order} = 1 \\quad (\\text{only } y' \\text{ appears})",
+      "description_latex": "Good \u2014 the only derivative is $y' = \\frac{dy}{dx}$, confirming this is a first-order equation. Now examine the right-hand side $\\frac{y}{x} + x^2$ and the left-hand side $y'$: do $y$ and $y'$ appear only to the first power, with no products between them? Write your conclusion about linearity and explain which term, if any, would make it nonlinear.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Linear (first-order, ODE, non-autonomous): } y' - \\frac{1}{x}\\,y = x^2",
+      "description_latex": "Rewriting in standard form $y' - \\frac{1}{x}\\,y = x^2$ confirms linearity: both $y'$ and $y$ appear to the first power with no products, and the coefficients $-\\frac{1}{x}$ and $x^2$ are functions of $x$ alone. The explicit presence of $x$ on the right side also tells us this is non-autonomous.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the order of the equation $y' + 5y = 0$ and classify it as linear or nonlinear.",
+      "answer_latex": "Order 1, linear"
+    },
+    {
+      "prompt_latex": "Classify each equation as linear or nonlinear and give its order: (a) $y'' + 4y' - y = \\cos x$, \\quad (b) $y' = y^3 - x$.",
+      "answer_latex": "(a) Order 2, linear; \\quad (b) Order 1, nonlinear (due to $y^3$)"
+    },
+    {
+      "prompt_latex": "Is the equation $\\frac{dy}{dt} = -ky$ (where $k$ is a constant) autonomous? Justify your answer and state its order and linearity.",
+      "answer_latex": "Yes, autonomous (no explicit $t$); order 1; linear"
+    },
+    {
+      "prompt_latex": "A student writes the equation $(y')^2 + y = x$. Determine its order and classify it as linear or nonlinear. Then rewrite it in the form $F(x, y, y') = 0$.",
+      "answer_latex": "Order 1, nonlinear (because $y'$ is squared); $\\;(y')^2 + y - x = 0$"
+    },
+    {
+      "prompt_latex": "Newton's law of cooling states that the rate of change of temperature $T$ of an object is proportional to the difference between $T$ and the ambient temperature $T_a$. Write this as a differential equation, then classify it by order, linearity, and autonomy (assuming $T_a$ is a constant).",
+      "answer_latex": "\\frac{dT}{dt} = k(T - T_a); \\text{ order 1, linear, autonomous}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often classify $(y')^2 + y = 0$ as second-order because they misread the exponent on $y'$ as indicating a second derivative. Remember: the order is determined by the highest derivative that appears, not by any exponent applied to a derivative \u2014 $(y')^2$ is still a first derivative, just squared, making the equation first-order and nonlinear.",
+    "Students frequently call an equation nonlinear simply because its coefficients involve $x$, for example labeling $y' + \\sin(x)\\,y = 0$ as nonlinear. Linearity concerns only the powers and products of the unknown function $y$ and its derivatives \u2014 complicated functions of the independent variable $x$ as coefficients are completely allowed in a linear equation.",
+    "When checking for autonomy, students sometimes confuse 'no explicit $x$' with 'no $x$ at all,' and incorrectly call $y' = f(y)$ non-autonomous if $y$ itself could depend on $x$. Autonomy means the independent variable does not appear explicitly on the right-hand side as a standalone expression \u2014 if the equation can be written purely as $y' = f(y)$ with no bare $x$ terms, it is autonomous regardless of what $y$ implicitly depends on."
+  ],
+  "untested_variants": [
+    "Classifying systems of first-order differential equations (e.g., determining whether a two-equation system $x' = f(x,y),\\, y' = g(x,y)$ is linear or nonlinear as a system).",
+    "Identifying the order and linearity of partial differential equations such as the heat equation $u_t = k\\,u_{xx}$, where partial derivative notation must be read carefully.",
+    "Reducing a higher-order ODE (e.g., a second-order equation) to a system of first-order equations and then classifying the resulting system.",
+    "Determining whether an implicitly defined equation such as $\\sin(y') + y = x$ can even be classified straightforwardly as linear or nonlinear."
+  ]
+}

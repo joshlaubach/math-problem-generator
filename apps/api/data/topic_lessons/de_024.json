@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_024",
+  "topic_name": "Linearization of Nonlinear Systems (H)",
+  "generated_at": "2026-05-13T20:01:46.942705+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to analyze linear systems $\\mathbf{x}' = A\\mathbf{x}$ \u2014 you can find eigenvalues, classify equilibria, and sketch phase portraits. But real-world systems like a pendulum or a predator-prey model are nonlinear, and those tools don't directly apply. The pendulum equation $\\theta'' + \\sin\\theta = 0$ has no nice eigenvalue story on its own. So how do we use linear analysis to understand nonlinear behavior \u2014 at least near an equilibrium point?",
+  "concept": "Linearization replaces a nonlinear system near an equilibrium with the best linear approximation, so you can apply eigenvalue analysis locally. Formally, given $\\mathbf{x}' = \\mathbf{F}(\\mathbf{x})$ with equilibrium $\\mathbf{x}^*$ (where $\\mathbf{F}(\\mathbf{x}^*) = \\mathbf{0}$), the linearization is $\\mathbf{u}' = J(\\mathbf{x}^*)\\mathbf{u}$, where $\\mathbf{u} = \\mathbf{x} - \\mathbf{x}^*$ is the displacement and $J$ is the Jacobian matrix of partial derivatives of $\\mathbf{F}$ evaluated at $\\mathbf{x}^*$.",
+  "anatomy": "The key components are: the equilibrium point $\\mathbf{x}^* = (x_0, y_0)$ satisfying $f(x_0,y_0)=0$ and $g(x_0,y_0)=0$; the Jacobian matrix $J = \\begin{pmatrix} \\partial f/\\partial x & \\partial f/\\partial y \\\\ \\partial g/\\partial x & \\partial g/\\partial y \\end{pmatrix}$, whose entries are the partial derivatives of the component functions $f$ and $g$; the evaluation $J(\\mathbf{x}^*)$, meaning the Jacobian is computed symbolically and then the equilibrium coordinates are substituted in; and the displacement variable $\\mathbf{u} = \\mathbf{x} - \\mathbf{x}^*$, which measures how far the system is from equilibrium. The eigenvalues of $J(\\mathbf{x}^*)$ then determine the local stability type.",
+  "worked_example": [
+    {
+      "expression_latex": "x' = x - xy, \\quad y' = -y + xy",
+      "description_latex": "We start by identifying the nonlinear system, where $f(x,y) = x - xy$ and $g(x,y) = -y + xy$. Before we can linearize, we need to find all equilibrium points by solving $f = 0$ and $g = 0$ simultaneously.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x(1 - y) = 0 \\quad \\text{and} \\quad y(x - 1) = 0 \\implies (x^*, y^*) = (0,0) \\text{ or } (1,1)",
+      "description_latex": "Setting each equation to zero, we factor to get $x(1-y)=0$ and $y(x-1)=0$. This gives us two equilibria: $(0,0)$ and $(1,1)$. We'll linearize at each one separately.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "J(x,y) = \\begin{pmatrix} 1 - y & -x \\\\ y & x - 1 \\end{pmatrix}",
+      "description_latex": "We form the Jacobian by computing all four partial derivatives of $f$ and $g$ with respect to $x$ and $y$. It's important to keep these symbolic before substituting, so we can reuse the matrix for both equilibria.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "J(0,0) = \\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}, \\quad \\text{eigenvalues } \\lambda = 1, -1",
+      "description_latex": "Substituting $(0,0)$ into $J$ gives a diagonal matrix whose eigenvalues are simply the diagonal entries, $\\lambda_1 = 1$ and $\\lambda_2 = -1$. Since the eigenvalues are real with opposite signs, the origin is a saddle point \u2014 unstable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "J(1,1) = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}, \\quad \\text{eigenvalues } \\lambda = \\pm i",
+      "description_latex": "Substituting $(1,1)$ gives a matrix with trace $0$ and determinant $1$, so the eigenvalues are purely imaginary: $\\lambda = \\pm i$. For the linearization this predicts a center, though we must caution that a nonlinear center may actually be a spiral \u2014 linearization cannot distinguish these without further analysis.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x' = -x + x^2, \\quad y' = y - 2xy",
+      "description_latex": "We are given this nonlinear system and asked to linearize at the equilibrium $(0,0)$. First, verify that $(0,0)$ is indeed an equilibrium by checking $f(0,0) = 0$ and $g(0,0) = 0$. Both hold, so we proceed to build the Jacobian.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "J(x,y) = \\begin{pmatrix} \\partial f/\\partial x & \\partial f/\\partial y \\\\ \\partial g/\\partial x & \\partial g/\\partial y \\end{pmatrix} = \\begin{pmatrix} -1 + 2x & 0 \\\\ -2y & 1 - 2x \\end{pmatrix}",
+      "description_latex": "The Jacobian has been computed for you here. Notice that each entry is a partial derivative of the corresponding component function, and they still contain $x$ and $y$ \u2014 we haven't evaluated at the equilibrium yet.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $(x,y) = (0,0)$ into the Jacobian to get $J(0,0)$, then find its eigenvalues and classify the equilibrium at the origin as stable/unstable and as a node, saddle, spiral, or center.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the Jacobian matrix of the system $x' = x + y^2,\\ y' = x - y$ and evaluate it at the equilibrium $(0,0)$.",
+      "answer_latex": "J(0,0) = \\begin{pmatrix} 1 & 0 \\\\ 1 & -1 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Find all equilibria of $x' = x(2 - x - y),\\ y' = y(x - 1)$ and compute the Jacobian at each equilibrium.",
+      "answer_latex": "Equilibria: $(0,0),\\ (2,0),\\ (1,1)$. $J(0,0)=\\begin{pmatrix}2&0\\\\0&-1\\end{pmatrix}$, $J(2,0)=\\begin{pmatrix}-2&-2\\\\0&1\\end{pmatrix}$, $J(1,1)=\\begin{pmatrix}-1&-1\\\\1&0\\end{pmatrix}$"
+    },
+    {
+      "prompt_latex": "Linearize $x' = \\sin x + y,\\ y' = x - y$ at the equilibrium $(0,0)$ and classify the equilibrium using eigenvalues.",
+      "answer_latex": "J(0,0) = \\begin{pmatrix}1 & 1\\\\ 1 & -1\\end{pmatrix};\\text{ eigenvalues } \\lambda = \\pm\\sqrt{2},\\text{ so }(0,0)\\text{ is an unstable saddle}"
+    },
+    {
+      "prompt_latex": "For the nonlinear pendulum $\\theta'' + \\sin\\theta = 0$, written as the system $x' = y,\\ y' = -\\sin x$, linearize at both $(0,0)$ and $(\\pi, 0)$ and identify the stability type at each equilibrium.",
+      "answer_latex": "J(0,0)=\\begin{pmatrix}0&1\\\\-1&0\\end{pmatrix},\\ \\lambda=\\pm i\\text{ (center/neutrally stable)};\\ J(\\pi,0)=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix},\\ \\lambda=\\pm 1\\text{ (saddle, unstable)}"
+    },
+    {
+      "prompt_latex": "A competing species model is given by $x' = x(4 - x - 2y),\\ y' = y(3 - y - x)$. Find the coexistence equilibrium (where both $x>0$ and $y>0$), linearize there, and determine whether the coexistence state is stable.",
+      "answer_latex": "Coexistence equilibrium: $(2,1)$.\\ J(2,1)=\\begin{pmatrix}-2&-4\\\\-1&-1\\end{pmatrix},\\ \\text{tr}=-3<0,\\ \\det=-2+4=2>0,\\ \\text{discriminant}=9-8=1>0;\\ \\lambda=\\frac{-3\\pm1}{2}=\\{-1,-2\\},\\ \\text{stable node}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to find ALL equilibria first and linearize at only the obvious one like the origin, missing other equilibria where different dynamics occur. Always set both component equations to zero and solve the full system before computing any Jacobians.",
+    "A frequent error is evaluating the Jacobian before differentiating \u2014 for example, substituting $(x^*, y^*)$ into $f$ and $g$ first (getting zero) and then trying to differentiate zero. You must compute all partial derivatives symbolically and only then substitute the equilibrium coordinates.",
+    "Students misinterpret a purely imaginary eigenvalue pair ($\\lambda = \\pm bi$) from the linearization as definitively classifying the equilibrium as a center in the nonlinear system. The linearization only guarantees center behavior for the linear approximation; the true nonlinear system could be a stable or unstable spiral, and this requires further analysis."
+  ],
+  "untested_variants": [
+    "Linearizing a system with a line of equilibria or a continuum of equilibria, where the Jacobian is singular at every point on that line, requiring a different stability argument.",
+    "Applying the Hartman-Grobman theorem explicitly to argue that the phase portrait of the nonlinear system near a hyperbolic equilibrium is topologically equivalent to its linearization, which requires understanding what 'hyperbolic' means (no purely imaginary or zero eigenvalues).",
+    "Linearizing a three-dimensional autonomous system $\\mathbf{x}' = \\mathbf{F}(\\mathbf{x})$ where $\\mathbf{x} \\in \\mathbb{R}^3$ and classifying equilibria using the characteristic polynomial of a $3\\times 3$ Jacobian.",
+    "Using linearization in a system with a parameter to perform a bifurcation analysis \u2014 finding parameter values where an eigenvalue crosses the imaginary axis, signaling a change in stability type."
+  ]
+}

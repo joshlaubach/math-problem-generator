@@ -1,0 +1,76 @@
+{
+  "topic_id": "a1_036",
+  "topic_name": "Scientific Notation",
+  "generated_at": "2026-05-12T22:41:39.888446+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to multiply numbers and work with powers of 10 \u2014 for example, $10^3 = 1000$ and $10^{-2} = 0.01$. But what happens when a scientist needs to write the mass of a proton, which is roughly $0.000000000000000000000000001673$ kilograms, or the distance from Earth to the nearest star, about $40,000,000,000,000$ kilometers? Writing and calculating with numbers this extreme is incredibly error-prone. How can we express these numbers in a compact, precise form that makes arithmetic manageable?",
+  "concept": "Scientific notation is a way of writing any number as a product of a decimal between 1 and 10 and a power of 10. Formally, a number is in scientific notation when it is written as $a \\times 10^n$, where $1 \\leq |a| < 10$ and $n$ is an integer. The value of $n$ tells you how many places the decimal point moves, and the sign of $n$ tells you whether the original number is large (positive $n$) or small (negative $n$).",
+  "anatomy": "Every number in scientific notation has two distinct parts. The first is the coefficient $a$, sometimes called the mantissa, which must satisfy $1 \\leq |a| < 10$ \u2014 it contains all the significant digits of the number and always has exactly one non-zero digit to the left of its decimal point. The second is the power of ten $10^n$, where the exponent $n$ is a positive or negative integer that encodes the scale of the number: a positive $n$ means the original number is greater than or equal to 10, and a negative $n$ means the original number is between 0 and 1.",
+  "worked_example": [
+    {
+      "expression_latex": "93{,}000{,}000",
+      "description_latex": "We want to convert the standard number $93{,}000{,}000$ into scientific notation. Our goal is to rewrite it as $a \\times 10^n$ where the coefficient $a$ is at least 1 but less than 10, so we start by identifying where to place the decimal point to create such a coefficient.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "9.3 \\times 10^n",
+      "description_latex": "We place the decimal point after the first non-zero digit, giving us the coefficient $9.3$, which satisfies $1 \\leq 9.3 < 10$. Now we need to determine the exponent $n$ by counting how many places we moved the decimal point from its original position at the end of the number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "9.3 \\times 10^7",
+      "description_latex": "The decimal point moved 7 places to the left (from after the last zero to after the 9), so the exponent is $+7$. Because the original number is large (much bigger than 1), the exponent must be positive \u2014 this is a great way to check your work.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "0.00045",
+      "description_latex": "We want to write $0.00045$ in scientific notation. Start by locating the first non-zero digit in the number \u2014 that digit will become the first digit of your coefficient $a$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4.5 \\times 10^n",
+      "description_latex": "The first non-zero digit is 4, so the coefficient is $4.5$, which correctly satisfies $1 \\leq 4.5 < 10$. Now you need to determine the exponent $n$: count how many places the decimal moved from its original position to its new position, and decide whether $n$ should be positive or negative based on whether the original number is large or small.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "4.5 \\times 10^{-4}",
+      "description_latex": "The decimal moved 4 places to the right, and because the original number is much smaller than 1, the exponent is negative: $n = -4$. The final answer is $4.5 \\times 10^{-4}$, and you can verify by expanding: $4.5 \\times 0.0001 = 0.00045$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write $5{,}000$ in scientific notation.",
+      "answer_latex": "5 \\times 10^3"
+    },
+    {
+      "prompt_latex": "Write $0.0000072$ in scientific notation.",
+      "answer_latex": "7.2 \\times 10^{-6}"
+    },
+    {
+      "prompt_latex": "Convert $3.04 \\times 10^5$ to standard notation.",
+      "answer_latex": "304{,}000"
+    },
+    {
+      "prompt_latex": "Compute $(2.5 \\times 10^3) \\times (4 \\times 10^2)$ and write your answer in scientific notation.",
+      "answer_latex": "1 \\times 10^6"
+    },
+    {
+      "prompt_latex": "A human hair is about $0.00007$ meters wide. The diameter of Earth is about $12{,}700{,}000$ meters. How many times wider is Earth's diameter than a human hair? Write your answer in scientific notation.",
+      "answer_latex": "1.814... \\times 10^{11} \\approx 1.81 \\times 10^{11}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write a coefficient outside the required range \u2014 for example, writing $93{,}000{,}000$ as $93 \\times 10^6$ instead of $9.3 \\times 10^7$. Remember, the coefficient must be at least 1 and strictly less than 10, so always adjust the exponent to compensate when you reposition the decimal.",
+    "When converting a small number like $0.00045$, students frequently use a positive exponent and write $4.5 \\times 10^4$ instead of $4.5 \\times 10^{-4}$. A useful rule: if the original number is less than 1, the exponent is always negative, because you moved the decimal to the right.",
+    "When multiplying two numbers in scientific notation, students sometimes forget to check whether the resulting coefficient is still in the valid range. For instance, $(5 \\times 10^3)(4 \\times 10^2) = 20 \\times 10^5$, but $20$ is not a valid coefficient \u2014 the correct final form requires adjusting to $2 \\times 10^6$."
+  ],
+  "untested_variants": [
+    "Dividing two numbers written in scientific notation, such as $\\frac{6.4 \\times 10^8}{3.2 \\times 10^3}$, where students must divide the coefficients and subtract the exponents.",
+    "Adding or subtracting numbers in scientific notation with different exponents, such as $3 \\times 10^4 + 5 \\times 10^3$, which requires rewriting both terms with the same power of 10 before combining.",
+    "Identifying whether a given expression such as $0.7 \\times 10^5$ or $12.3 \\times 10^{-2}$ is or is not in proper scientific notation and correcting it.",
+    "Interpreting scientific notation in real-world contexts involving negative exponents only, such as the size of a virus ($1.2 \\times 10^{-7}$ meters) or comparing two very small measurements."
+  ]
+}

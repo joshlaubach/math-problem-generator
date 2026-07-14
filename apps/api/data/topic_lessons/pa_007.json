@@ -1,0 +1,91 @@
+{
+  "topic_id": "pa_007",
+  "topic_name": "Order of Operations with Integers",
+  "generated_at": "2026-05-13T20:47:18.511919+00:00",
+  "course_name": "Pre-Algebra",
+  "hook": "You already know how to add, subtract, multiply, and divide integers \u2014 and you know that $-3 \times 4 = -12$ and $10 - 7 = 3$. But what happens when several of those operations show up in the same expression, like $-2 + 3 \times (-4)^2 \\div 6$? If you just work left to right, you'll almost certainly get the wrong answer. Which operation should you do first, and does it matter when negatives are involved?",
+  "concept": "Order of operations is the agreed-upon ruleset that tells everyone which part of a math expression to calculate first, so that $-2 + 3 \times 4$ has exactly one correct answer. The rule is summarized by PEMDAS: Parentheses first, then Exponents, then Multiplication and Division (left to right), and finally Addition and Subtraction (left to right). With integers, the same rule applies \u2014 but you must also track the sign of each number carefully at every step.",
+  "anatomy": "Every order-of-operations expression with integers has a few key structural parts to identify before you calculate. The grouping symbols (parentheses, brackets, or fraction bars) mark what gets evaluated first. The exponents show repeated multiplication and sit above the base \u2014 the base itself may be a negative integer, so $(-3)^2$ and $-3^2$ are different things. The integer coefficients and factors carry their positive or negative signs, which must be preserved through each operation. Finally, the operations themselves \u2014 addition, subtraction, multiplication, division \u2014 each have a tier priority that determines the order you apply them.",
+  "worked_example": [
+    {
+      "expression_latex": "-2 + 3 \\times (-4)^2 \\div 6",
+      "description_latex": "This is the full expression we need to evaluate. Before touching any numbers, scan the whole expression and identify all four tiers: there are no extra parentheses grouping an addition or subtraction, but there is an exponent $(-4)^2$, multiplication and division, and finally addition. We always begin with the highest-priority tier, so we start with the exponent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-2 + 3 \\times 16 \\div 6",
+      "description_latex": "We evaluated $(-4)^2 = (-4) \\times (-4) = 16$. Notice that both factors are negative, so the product is positive \u2014 the exponent does not make the answer negative on its own. Now the expression is cleaned up to a single tier of multiplication and division, which we handle from left to right.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-2 + 48 \\div 6",
+      "description_latex": "Working left to right through the multiplication and division, we do $3 \\times 16 = 48$ first because it appears to the left of the division sign. We have not touched the $-2$ yet because addition is a lower-priority tier.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-2 + 8",
+      "description_latex": "Now we complete the remaining division: $48 \\div 6 = 8$. The expression has been reduced to a single addition involving a negative integer and a positive integer, which is the last step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "6",
+      "description_latex": "Finally, $-2 + 8 = 6$. Adding a positive number to a negative number means we find the difference and keep the sign of whichever has the larger absolute value \u2014 here $8 > 2$, so the result is positive $6$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "(-3)^2 - 4 \\times (-2) + 1",
+      "description_latex": "Here is the expression we need to evaluate together. Start by scanning for the highest-priority tier: there is an exponent $(-3)^2$, so that goes first. We compute $(-3)^2 = (-3) \\times (-3) = 9$, replacing the exponent in the expression.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "9 - 4 \\times (-2) + 1",
+      "description_latex": "Good \u2014 after the exponent, the next tier is multiplication and division. Identify the multiplication $4 \\times (-2)$ and compute it, remembering the sign rule for a positive times a negative. What does $9 - 4 \\times (-2) + 1$ simplify to after you handle that multiplication?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "9 - (-8) + 1",
+      "description_latex": "The multiplication gives $4 \\times (-2) = -8$, so the expression is now $9 - (-8) + 1$. Subtracting a negative is the same as adding a positive, so $9 - (-8) = 9 + 8 = 17$. Now add the remaining $+1$ to finish \u2014 what is the final answer?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "18",
+      "description_latex": "Exactly right: $17 + 1 = 18$. Working left to right through addition and subtraction after resolving all higher-priority operations gives us the final answer of $18$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "8 - 3 \\times 2",
+      "answer_latex": "2"
+    },
+    {
+      "prompt_latex": "-5 + 4 \\times (-3)",
+      "answer_latex": "-17"
+    },
+    {
+      "prompt_latex": "(-2)^3 + 10 \\div (-5)",
+      "answer_latex": "-10"
+    },
+    {
+      "prompt_latex": "3 \\times (-2)^2 - (7 + (-3))",
+      "answer_latex": "8"
+    },
+    {
+      "prompt_latex": "A football team loses 3 yards on each of 4 consecutive plays, then gains 20 yards on the next play. Write and evaluate an expression using order of operations to find the total yardage change.",
+      "answer_latex": "4 \\times (-3) + 20 = 8 \\text{ yards}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often evaluate $-3^2$ as $9$ instead of $-9$ because they forget that the negative sign is not inside the exponent unless parentheses surround it \u2014 $-3^2$ means $-(3^2) = -9$, while $(-3)^2 = 9$. Always check whether the negative is part of the base before applying an exponent.",
+    "When subtracting a negative number mid-expression \u2014 for example arriving at $9 - (-8)$ \u2014 students frequently leave it as $9 - 8 = 1$ instead of converting to $9 + 8 = 17$. Remember that subtracting a negative is equivalent to adding its opposite, so flip the sign of the number being subtracted.",
+    "Students often perform addition or subtraction before multiplication or division simply because those operations appear first when reading left to right \u2014 for instance computing $-5 + 4$ before multiplying by $-3$ in $-5 + 4 \\times (-3)$. Always finish all multiplication and division across the entire expression before moving to any addition or subtraction."
+  ],
+  "untested_variants": [
+    "Expressions containing nested parentheses or brackets, such as $2 \\times [(-3 + 5)^2 - 4]$, where students must work outward from the innermost grouping.",
+    "Fraction bars acting as grouping symbols, for example $\\frac{-6 + (-4)}{2 \\times (-1)}$, where the entire numerator and denominator must each be simplified before dividing.",
+    "Expressions with three or more consecutive operations of the same tier requiring strict left-to-right discipline, such as $-24 \\div (-4) \\div (-2) \\times 3$.",
+    "Problems where an integer inside parentheses is raised to a negative or zero exponent, such as $(-5)^0 + 3 \\times (-2)$, combining integer exponent rules with order of operations."
+  ]
+}

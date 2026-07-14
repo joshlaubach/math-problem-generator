@@ -1,0 +1,81 @@
+{
+  "topic_id": "c3_005",
+  "topic_name": "Lines and Planes in Space",
+  "generated_at": "2026-05-13T00:28:06.316806+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to write the equation of a line in 2D using a slope and a point, and you can describe a flat surface in 2D with a linear equation. But in three-dimensional space, a 'slope' no longer makes sense for a line \u2014 lines can point in infinitely many diagonal directions \u2014 and a single linear equation now describes an entire plane, not a line. So how do we pin down a specific line or a specific plane in 3D space, and how do we find where they intersect?",
+  "concept": "In 3D, a line is described by a point it passes through and a direction vector telling us which way it travels. A plane is described by a point it contains and a normal vector perpendicular to it. The parametric equations of a line through point $P_0 = (x_0, y_0, z_0)$ with direction vector $\\mathbf{v} = \\langle a, b, c \\rangle$ are $x = x_0 + at,\\; y = y_0 + bt,\\; z = z_0 + ct$, and the equation of a plane with normal $\\mathbf{n} = \\langle a, b, c \\rangle$ through $P_0$ is $a(x - x_0) + b(y - y_0) + c(z - z_0) = 0$.",
+  "anatomy": "For a line: $P_0 = (x_0, y_0, z_0)$ is the base point (any known point on the line), $\\mathbf{v} = \\langle a, b, c \\rangle$ is the direction vector (encoding the line's orientation), and $t$ is the scalar parameter that slides you along the line. For a plane: $P_0$ is again the base point, $\\mathbf{n} = \\langle a, b, c \\rangle$ is the normal vector (perpendicular to every vector lying in the plane), and the scalar equation $ax + by + cz = d$ (where $d = ax_0 + by_0 + cz_0$) is called the standard form. Two planes share a line of intersection whose direction is $\\mathbf{n}_1 \\times \\mathbf{n}_2$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Find the equation of the plane through } P_0 = (1, -2, 3) \\text{ with normal vector } \\mathbf{n} = \\langle 4, -1, 5 \\rangle.",
+      "description_latex": "We start by identifying the two ingredients the plane equation needs: a point on the plane and a normal vector. Here $P_0 = (1, -2, 3)$ is our base point and $\\mathbf{n} = \\langle 4, -1, 5 \\rangle$ is the normal vector, so we plug directly into the point-normal form $a(x - x_0) + b(y - y_0) + c(z - z_0) = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4(x - 1) + (-1)(y - (-2)) + 5(z - 3) = 0",
+      "description_latex": "Substituting $a=4, b=-1, c=5$ and the coordinates of $P_0$ into the point-normal form gives us this equation. Notice that $y - (-2)$ becomes $y + 2$ \u2014 watch the double negative carefully because it is a frequent source of sign errors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4x - 4 - y - 2 + 5z - 15 = 0",
+      "description_latex": "We expand each parenthetical group by distributing the coefficients through. Each term's sign comes directly from the normal vector component, so expanding carefully one group at a time reduces mistakes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4x - y + 5z = 21",
+      "description_latex": "Collecting the constant terms $-4 - 2 - 15 = -21$ and moving them to the right side gives us the clean standard form $ax + by + cz = d$. This is the final equation of the plane, and you can verify it by substituting $(1,-2,3)$ back in: $4(1) - (-2) + 5(3) = 4 + 2 + 15 = 21$. \u2713",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find parametric equations for the line through } A = (2, 0, -1) \\text{ and } B = (5, -3, 4).",
+      "description_latex": "To write the parametric equations of a line through two points, we first need a direction vector. We find it by subtracting the coordinates of $A$ from those of $B$, because the vector from $A$ to $B$ points exactly along the line.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{v} = B - A = \\langle 5-2,\\; -3-0,\\; 4-(-1) \\rangle = \\langle 3, -3, 5 \\rangle",
+      "description_latex": "Here is the direction vector we computed. Now use $A = (2, 0, -1)$ as your base point and $\\mathbf{v} = \\langle 3, -3, 5 \\rangle$ as your direction vector to write the three parametric equations $x = x_0 + at,\\; y = y_0 + bt,\\; z = z_0 + ct$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the three parametric equations for this line. What are the expressions for $x$, $y$, and $z$ in terms of $t$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write the equation of the plane through $P_0 = (0, 0, 0)$ with normal vector $\\mathbf{n} = \\langle 2, -3, 1 \\rangle$.",
+      "answer_latex": "2x - 3y + z = 0"
+    },
+    {
+      "prompt_latex": "Find parametric equations for the line through $(1, 2, 3)$ with direction vector $\\mathbf{v} = \\langle -1, 4, 0 \\rangle$.",
+      "answer_latex": "x = 1 - t,\\quad y = 2 + 4t,\\quad z = 3"
+    },
+    {
+      "prompt_latex": "Find the equation of the plane containing the three points $A = (1,0,0)$, $B = (0,1,0)$, $C = (0,0,2)$.",
+      "answer_latex": "2x + 2y + z = 2"
+    },
+    {
+      "prompt_latex": "Find the symmetric (Cartesian) equations of the line through $(3, -1, 2)$ and $(5, 2, -4)$, then determine the point where this line crosses the $xy$-plane (i.e., $z = 0$).",
+      "answer_latex": "\\dfrac{x-3}{2} = \\dfrac{y+1}{3} = \\dfrac{z-2}{-6};\\quad \\text{crosses } xy\\text{-plane at }\\left(\\tfrac{10}{3},\\, 0,\\, 0\\right)"
+    },
+    {
+      "prompt_latex": "A laser beam travels from the point $(1, 1, 1)$ in the direction $\\mathbf{v} = \\langle 2, -1, 3 \\rangle$. A flat mirror lies in the plane $2x - y + z = 4$. At what point does the beam hit the mirror?",
+      "answer_latex": "t = \\dfrac{1}{6},\\quad \\text{point: }\\left(\\dfrac{4}{3},\\, \\dfrac{5}{6},\\, \\dfrac{3}{2}\\right)"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use the direction vector of a line as the normal vector of a plane (or vice versa): the direction vector $\\mathbf{v}$ points ALONG the line, while the normal vector $\\mathbf{n}$ points PERPENDICULAR to the plane \u2014 they play opposite geometric roles, so always ask which object you are building before choosing which vector to use.",
+    "When writing the point-normal form $a(x - x_0) + b(y - y_0) + c(z - z_0) = 0$, students drop a sign on a negative coordinate \u2014 for example, if $y_0 = -2$, the term should be $b(y - (-2)) = b(y + 2)$, not $b(y - 2)$; always write out the subtraction explicitly before simplifying.",
+    "Students find the direction vector $\\mathbf{v}$ of the line of intersection of two planes by taking $\\mathbf{n}_1 + \\mathbf{n}_2$ (addition) instead of $\\mathbf{n}_1 \\times \\mathbf{n}_2$ (cross product); the cross product is required because the intersection line must be perpendicular to BOTH normals simultaneously, which is exactly what the cross product produces."
+  ],
+  "untested_variants": [
+    "Finding the distance from a point to a plane using the formula $d = \\frac{|ax_0 + by_0 + cz_0 - D|}{\\sqrt{a^2+b^2+c^2}}$.",
+    "Determining whether two lines in 3D are parallel, intersecting, or skew, and finding the distance between skew lines.",
+    "Finding the angle between two planes (or between a line and a plane) using dot products of normal or direction vectors.",
+    "Converting between the parametric form, symmetric (Cartesian) form, and vector form $\\mathbf{r}(t) = \\mathbf{r}_0 + t\\mathbf{v}$ of a line, particularly when one of the direction components is zero."
+  ]
+}

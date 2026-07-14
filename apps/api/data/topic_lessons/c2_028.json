@@ -1,0 +1,86 @@
+{
+  "topic_id": "c2_028",
+  "topic_name": "Fourier Series (Introduction) (H)",
+  "generated_at": "2026-05-13T00:26:24.660600+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to represent functions as power series \u2014 Taylor and Maclaurin series let you write smooth functions like $e^x$ or $\\sin x$ as infinite sums of polynomials. But what happens when your function is periodic, or even discontinuous, like a square wave or a sawtooth signal? Power series fail here because polynomials are never periodic. How can we represent such functions as infinite sums using something other than polynomials?",
+  "concept": "A Fourier series represents a periodic function as an infinite sum of sines and cosines \u2014 the fundamental building blocks of oscillation. For a function $f(x)$ with period $2L$, the Fourier series is $f(x) = \\frac{a_0}{2} + \\sum_{n=1}^{\\infty}\\left(a_n \\cos\\frac{n\\pi x}{L} + b_n \\sin\\frac{n\\pi x}{L}\\right)$, where the coefficients $a_n$ and $b_n$ are computed using specific integral formulas that exploit the orthogonality of sine and cosine.",
+  "anatomy": "The Fourier series has several distinct parts. The constant term $\\frac{a_0}{2}$ is the average value of $f$ over one period \u2014 it shifts the entire series up or down. The cosine coefficients $a_n = \\frac{1}{L}\\int_{-L}^{L} f(x)\\cos\\frac{n\\pi x}{L}\\,dx$ capture the even (symmetric) content of $f$. The sine coefficients $b_n = \\frac{1}{L}\\int_{-L}^{L} f(x)\\sin\\frac{n\\pi x}{L}\\,dx$ capture the odd (antisymmetric) content. The integer $n$ is the harmonic number, and $L$ is the half-period, determining how the sinusoids are scaled to match the period of $f$.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = \\begin{cases} 0 & -\\pi < x < 0 \\\\ 1 & 0 \\leq x < \\pi \\end{cases}, \\quad \\text{period } 2\\pi",
+      "description_latex": "We want to find the Fourier series for this step function, which has period $2\\pi$, so $L = \\pi$. Before computing anything, notice this function is neither even nor odd, so we will generally expect both $a_n$ and $b_n$ to be nonzero \u2014 we cannot simplify by symmetry alone.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_0 = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(x)\\,dx = \\frac{1}{\\pi}\\left[\\int_{-\\pi}^{0} 0\\,dx + \\int_{0}^{\\pi} 1\\,dx\\right] = \\frac{1}{\\pi}\\cdot \\pi = 1",
+      "description_latex": "We compute $a_0$ first because it gives the average value of $f$ over one period. The integral splits into two pieces matching the two pieces of $f$: the left half contributes nothing (since $f = 0$ there), and the right half integrates $1$ over an interval of length $\\pi$, giving $\\pi$. Dividing by $\\pi$ yields $a_0 = 1$, so the constant term in the series will be $\\frac{a_0}{2} = \\frac{1}{2}$, which indeed matches the average of $0$ and $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(x)\\cos(nx)\\,dx = \\frac{1}{\\pi}\\int_{0}^{\\pi} \\cos(nx)\\,dx = \\frac{1}{\\pi}\\left[\\frac{\\sin(nx)}{n}\\right]_0^{\\pi} = \\frac{\\sin(n\\pi)}{n\\pi} = 0",
+      "description_latex": "For the cosine coefficients, only the interval $[0,\\pi]$ contributes since $f=0$ on $[-\\pi,0]$. Integrating $\\cos(nx)$ gives $\\frac{\\sin(nx)}{n}$, and evaluating at $x=\\pi$ and $x=0$ both yield $\\sin(n\\pi)=0$ for every integer $n\\geq 1$. This tells us the step function has no cosine content \u2014 somewhat surprising, but it makes sense because the 'jump' structure is better captured by sines.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_n = \\frac{1}{\\pi}\\int_{0}^{\\pi} \\sin(nx)\\,dx = \\frac{1}{\\pi}\\left[-\\frac{\\cos(nx)}{n}\\right]_0^{\\pi} = \\frac{1-\\cos(n\\pi)}{n\\pi} = \\frac{1-(-1)^n}{n\\pi}",
+      "description_latex": "For the sine coefficients, we again only integrate over $[0,\\pi]$. After evaluating the antiderivative, we get $\\frac{1-\\cos(n\\pi)}{n\\pi}$, and since $\\cos(n\\pi) = (-1)^n$, this simplifies to $\\frac{1-(-1)^n}{n\\pi}$. When $n$ is even, $(-1)^n = 1$ and $b_n = 0$; when $n$ is odd, $(-1)^n = -1$ and $b_n = \\frac{2}{n\\pi}$, so only the odd harmonics survive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x) \\sim \\frac{1}{2} + \\sum_{n=1}^{\\infty} \\frac{1-(-1)^n}{n\\pi}\\sin(nx) = \\frac{1}{2} + \\frac{2}{\\pi}\\left(\\sin x + \\frac{\\sin 3x}{3} + \\frac{\\sin 5x}{5} + \\cdots\\right)",
+      "description_latex": "Assembling all the pieces: the constant $\\frac{a_0}{2} = \\frac{1}{2}$, all $a_n = 0$, and $b_n = \\frac{2}{n\\pi}$ for odd $n$ only. The symbol $\\sim$ (rather than $=$) is used because at the jump discontinuity $x=0$ and $x=\\pi$, the Fourier series converges to the average value $\\frac{1}{2}$, not to either one-sided limit \u2014 this is the Dirichlet convergence theorem in action.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = x, \\quad -\\pi < x < \\pi, \\quad \\text{period } 2\\pi",
+      "description_latex": "We want the Fourier series for $f(x) = x$ on $(-\\pi, \\pi)$ with period $2\\pi$, so $L = \\pi$. Notice that $f(x) = x$ is an odd function \u2014 it satisfies $f(-x) = -f(x)$. Because of this symmetry, the product $f(x)\\cos(nx)$ is odd, so its integral over $[-\\pi,\\pi]$ is zero, meaning all $a_n = 0$ without any calculation needed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} x\\sin(nx)\\,dx",
+      "description_latex": "Since $f$ is odd and $\\sin(nx)$ is also odd, their product is even, so we can write $b_n = \\frac{2}{\\pi}\\int_0^{\\pi} x\\sin(nx)\\,dx$. Evaluate this integral using integration by parts with $u = x$ and $dv = \\sin(nx)\\,dx$, and simplify using $\\cos(n\\pi) = (-1)^n$. What do you get for $b_n$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f(x) \\sim 2\\sum_{n=1}^{\\infty} \\frac{(-1)^{n+1}}{n}\\sin(nx) = 2\\left(\\sin x - \\frac{\\sin 2x}{2} + \\frac{\\sin 3x}{3} - \\cdots\\right)",
+      "description_latex": "With $b_n = \\frac{2(-1)^{n+1}}{n}$ and all $a_n = 0$, we assemble the Fourier series. This is the classic Fourier series for the sawtooth function, and it's worth noting that at $x = \\frac{\\pi}{2}$ this series gives $\\frac{\\pi}{4} = 1 - \\frac{1}{3} + \\frac{1}{5} - \\cdots$, a beautiful connection to Leibniz's formula.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $a_0$ for $f(x) = 3$ on $(-\\pi, \\pi)$ with period $2\\pi$.",
+      "answer_latex": "a_0 = 6, \\text{ so the constant term is } \\frac{a_0}{2} = 3"
+    },
+    {
+      "prompt_latex": "Find all Fourier coefficients for $f(x) = \\cos x$ on $(-\\pi, \\pi)$ with period $2\\pi$, and write the Fourier series.",
+      "answer_latex": "a_1 = 1,\\ a_n = 0 \\text{ for } n \\neq 1,\\ b_n = 0 \\text{ for all } n;\\ f(x) \\sim \\cos x"
+    },
+    {
+      "prompt_latex": "Find the Fourier series for $f(x) = \\begin{cases} -1 & -\\pi < x < 0 \\\\ 1 & 0 \\leq x < \\pi \\end{cases}$ with period $2\\pi$.",
+      "answer_latex": "f(x) \\sim \\frac{4}{\\pi}\\left(\\sin x + \\frac{\\sin 3x}{3} + \\frac{\\sin 5x}{5} + \\cdots\\right) = \\frac{4}{\\pi}\\sum_{n=1,3,5,\\ldots}\\frac{\\sin(nx)}{n}"
+    },
+    {
+      "prompt_latex": "Find the Fourier series for $f(x) = x^2$ on $(-\\pi, \\pi)$ with period $2\\pi$, and use it to show that $\\sum_{n=1}^{\\infty}\\frac{1}{n^2} = \\frac{\\pi^2}{6}$.",
+      "answer_latex": "f(x) \\sim \\frac{\\pi^2}{3} + 4\\sum_{n=1}^{\\infty}\\frac{(-1)^n}{n^2}\\cos(nx);\\ \\text{setting } x=\\pi \\text{ gives } \\pi^2 = \\frac{\\pi^2}{3} + 4\\sum_{n=1}^{\\infty}\\frac{1}{n^2},\\ \\text{so } \\sum_{n=1}^{\\infty}\\frac{1}{n^2} = \\frac{\\pi^2}{6}"
+    },
+    {
+      "prompt_latex": "A signal engineer models a triangular wave by $f(x) = |x|$ on $(-\\pi, \\pi)$ with period $2\\pi$. Find the Fourier series for $f$.",
+      "answer_latex": "f(x) \\sim \\frac{\\pi}{2} - \\frac{4}{\\pi}\\left(\\cos x + \\frac{\\cos 3x}{9} + \\frac{\\cos 5x}{25} + \\cdots\\right) = \\frac{\\pi}{2} - \\frac{4}{\\pi}\\sum_{n=1,3,5,\\ldots}\\frac{\\cos(nx)}{n^2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $a_0 = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(x)\\,dx$ but then forget to divide by 2 when writing the series term, placing $a_0$ instead of $\\frac{a_0}{2}$ as the constant term. Remember: the formula for $a_0$ already 'over-counts' by a factor of 2 relative to the other coefficients, so the series uses $\\frac{a_0}{2}$.",
+    "When $f$ is odd or even, students still compute all coefficients instead of using symmetry to zero out half of them immediately \u2014 and worse, they sometimes get nonzero values due to sign errors in the integration, contradicting the symmetry. Always check: if $f$ is even, $b_n = 0$ automatically; if $f$ is odd, $a_n = 0$ automatically, including $a_0$.",
+    "Students evaluate $b_n$ or $a_n$ and obtain an expression like $\\frac{1-(-1)^n}{n\\pi}$, then try to simplify it by plugging in a single value of $n$ and treating that as the general formula. The correct approach is to keep the $(-1)^n$ factor in the general formula, or separately state the values for $n$ odd and $n$ even, since the coefficient genuinely alternates."
+  ],
+  "untested_variants": [
+    "Fourier series on a general interval $[-L, L]$ with $L \\neq \\pi$, where students must rescale the arguments of sine and cosine to $\\frac{n\\pi x}{L}$.",
+    "Half-range expansions: finding a Fourier sine series or Fourier cosine series for a function defined only on $[0, L]$ by extending it as an odd or even function respectively.",
+    "Parseval's theorem: using the identity $\\frac{1}{\\pi}\\int_{-\\pi}^{\\pi}[f(x)]^2\\,dx = \\frac{a_0^2}{2} + \\sum_{n=1}^{\\infty}(a_n^2 + b_n^2)$ to evaluate series of the form $\\sum \\frac{1}{n^4}$.",
+    "Complex Fourier series: representing $f$ as $\\sum_{n=-\\infty}^{\\infty} c_n e^{inx}$ with complex coefficients $c_n = \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi} f(x)e^{-inx}\\,dx$."
+  ]
+}

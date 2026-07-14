@@ -1,0 +1,91 @@
+{
+  "topic_id": "pt_001",
+  "topic_name": "Probability Spaces, Sigma-Algebras, and Axioms",
+  "generated_at": "2026-05-14T01:00:07.155092+00:00",
+  "course_name": "Probability Theory",
+  "hook": "You already know how to assign probabilities to simple events \u2014 like saying a fair coin has a 50% chance of heads. But what happens when the sample space is infinite, or when you want to talk about complicated combinations of events? The naive approach of just listing outcomes breaks down fast. How do we build a rigorous, consistent framework that handles every possible event without contradiction, even when infinitely many events are in play?",
+  "concept": "A probability space is the formal foundation for all of probability theory. In plain English, it is a triple that specifies: what can happen, which collections of outcomes we are allowed to assign probabilities to, and what those probabilities actually are. Formally, a probability space is a triple $(\\Omega, \\mathcal{F}, P)$, where $\\Omega$ is the sample space, $\\mathcal{F}$ is a sigma-algebra of subsets of $\\Omega$, and $P : \\mathcal{F} \\to [0,1]$ is a probability measure satisfying Kolmogorov's axioms.",
+  "anatomy": "The triple $(\\Omega, \\mathcal{F}, P)$ has three distinct components. The sample space $\\Omega$ is the set of all possible outcomes of the experiment \u2014 for a die roll, $\\Omega = \\{1,2,3,4,5,6\\}$. The sigma-algebra $\\mathcal{F}$ is a collection of subsets of $\\Omega$ called events, which must satisfy three closure properties: it contains $\\Omega$ itself, it is closed under complementation (if $A \\in \\mathcal{F}$ then $A^c \\in \\mathcal{F}$), and it is closed under countable unions (if $A_1, A_2, \\ldots \\in \\mathcal{F}$ then $\\bigcup_{i=1}^{\\infty} A_i \\in \\mathcal{F}$). The probability measure $P$ is a function assigning a number in $[0,1]$ to each event, obeying: $P(\\Omega) = 1$, $P(A) \\geq 0$ for all $A \\in \\mathcal{F}$, and countable additivity \u2014 if $A_1, A_2, \\ldots$ are pairwise disjoint events then $P\\!\\left(\\bigcup_{i=1}^{\\infty} A_i\\right) = \\sum_{i=1}^{\\infty} P(A_i)$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\Omega = \\{1, 2, 3, 4, 5, 6\\}",
+      "description_latex": "We start by defining the sample space for a single fair die roll. Every possible outcome of the experiment must appear in $\\Omega$, so we list all six faces; this is the universe within which every event will live.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathcal{F} = 2^{\\Omega} \\text{ (the power set of } \\Omega\\text{)}",
+      "description_latex": "Because $\\Omega$ is finite, we can take $\\mathcal{F}$ to be the power set \u2014 the collection of ALL subsets of $\\Omega$, which has $2^6 = 64$ elements. You should verify that this satisfies all three sigma-algebra properties: $\\Omega \\in 2^{\\Omega}$, any complement of a subset is still a subset, and any union of subsets is still a subset.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\{k\\}) = \\frac{1}{6} \\text{ for each } k \\in \\Omega",
+      "description_latex": "We define the probability measure on singletons first, assigning equal probability $\\frac{1}{6}$ to each outcome because the die is fair. This is the key modeling choice \u2014 the axioms do not tell us what the probabilities should be, only what rules they must obey.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A) = \\frac{|A|}{6} \\text{ for any } A \\in \\mathcal{F}",
+      "description_latex": "By countable additivity (here just finite additivity since $A$ is finite), the probability of any event $A$ is the sum of probabilities of its elements, which simplifies to $|A|/6$. For example, $P(\\{2,4,6\\}) = 3/6 = 1/2$, confirming our intuition about rolling an even number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\Omega) = \\frac{6}{6} = 1, \\quad P(A) \\geq 0 \\text{ for all } A, \\quad P\\!\\left(\\bigsqcup_i A_i\\right) = \\sum_i P(A_i)",
+      "description_latex": "We close by verifying all three Kolmogorov axioms hold for our construction: the probability of the whole space is 1, all probabilities are non-negative (since counts are non-negative), and probability of a disjoint union equals the sum of individual probabilities. This confirms that $(\\Omega, 2^{\\Omega}, P)$ is a valid probability space.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\Omega = \\{H, T\\} \\times \\{H, T\\} = \\{HH, HT, TH, TT\\}",
+      "description_latex": "We set up a probability space for flipping two fair coins. The sample space $\\Omega$ lists all ordered pairs of outcomes \u2014 notice there are $2^2 = 4$ equally likely outcomes when both coins are fair.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathcal{F} = 2^{\\Omega}, \\quad |\\mathcal{F}| = 2^4 = 16",
+      "description_latex": "Since $\\Omega$ is finite, we again use the full power set as our sigma-algebra, giving 16 events in total \u2014 including $\\emptyset$ and $\\Omega$ itself.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now define the probability measure $P$ for this fair-coin experiment by specifying $P$ on each singleton, then use countable additivity to find $P(A)$ where $A$ is the event 'at least one head.' Write down $P(\\{HH\\}), P(\\{HT\\}), P(\\{TH\\}), P(\\{TT\\})$ and then compute $P(A)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Verify that your $P$ satisfies all three Kolmogorov axioms: show $P(\\Omega) = 1$, confirm $P(A) \\geq 0$ for every event $A$, and check countable additivity by writing $A = \\{HH\\} \\sqcup \\{HT\\} \\sqcup \\{TH\\}$ and verifying $P(A) = P(\\{HH\\}) + P(\\{HT\\}) + P(\\{TH\\})$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $\\Omega = \\{a, b, c\\}$. List all elements of the power set $2^{\\Omega}$ and state how many elements it has.",
+      "answer_latex": "2^{\\Omega} = \\{\\emptyset, \\{a\\}, \\{b\\}, \\{c\\}, \\{a,b\\}, \\{a,c\\}, \\{b,c\\}, \\{a,b,c\\}\\}, \\text{ so } |2^{\\Omega}| = 8"
+    },
+    {
+      "prompt_latex": "Consider $\\Omega = \\{1,2,3,4\\}$ with the probability measure $P(\\{k\\}) = 1/4$ for each $k$. Is $\\mathcal{F}_0 = \\{\\emptyset, \\{1,2\\}, \\{3,4\\}, \\Omega\\}$ a valid sigma-algebra? Justify your answer.",
+      "answer_latex": "Yes. \\mathcal{F}_0 \\text{ contains } \\Omega, \\text{ is closed under complements: } \\{1,2\\}^c = \\{3,4\\} \\in \\mathcal{F}_0, \\text{ and closed under (finite) unions: } \\{1,2\\} \\cup \\{3,4\\} = \\Omega \\in \\mathcal{F}_0."
+    },
+    {
+      "prompt_latex": "Let $\\Omega = \\{1,2,3,4,5,6\\}$ with $P(\\{k\\}) = 1/6$. Define $A = \\{1,2,3\\}$ and $B = \\{3,4,5,6\\}$. Compute $P(A \\cup B)$ using countable additivity and the inclusion-exclusion identity $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$.",
+      "answer_latex": "P(A) = 3/6,\\ P(B) = 4/6,\\ P(A \\cap B) = P(\\{3\\}) = 1/6,\\ \\text{so } P(A \\cup B) = 3/6 + 4/6 - 1/6 = 1"
+    },
+    {
+      "prompt_latex": "Suppose $P$ is a probability measure on $(\\Omega, \\mathcal{F})$. Use the axioms to prove that $P(A^c) = 1 - P(A)$ for any $A \\in \\mathcal{F}$.",
+      "answer_latex": "A \\text{ and } A^c \\text{ are disjoint and } A \\cup A^c = \\Omega, \\text{ so by countable additivity: } P(\\Omega) = P(A) + P(A^c). \\text{ Since } P(\\Omega)=1, \\text{ we get } P(A^c) = 1 - P(A)."
+    },
+    {
+      "prompt_latex": "A random experiment produces a real number uniformly in $[0,1]$. The sample space is $\\Omega = [0,1]$. Explain why we cannot take $\\mathcal{F} = 2^{\\Omega}$ (all subsets) as our sigma-algebra for defining a consistent uniform probability measure, and state what sigma-algebra is typically used instead.",
+      "answer_latex": "\\text{Not all subsets of } [0,1] \\text{ can be assigned a length-based probability consistently (non-measurable sets exist by the Vitali construction). Instead, we use the Borel sigma-algebra } \\mathcal{B}([0,1]) \\text{, generated by all open intervals in } [0,1]."
+    }
+  ],
+  "common_mistakes": [
+    "Students often assume that any collection of subsets of $\\Omega$ is a sigma-algebra, forgetting to check closure under countable unions and complements \u2014 always verify all three defining properties explicitly, not just that $\\Omega$ is in the collection.",
+    "A frequent error is treating countable additivity as applying to ALL pairs of events, when it requires the events to be pairwise disjoint; applying $P(A \\cup B) = P(A) + P(B)$ without checking $A \\cap B = \\emptyset$ is wrong, and the fix is to use inclusion-exclusion instead.",
+    "Students sometimes confuse the sample space $\\Omega$ with the sigma-algebra $\\mathcal{F}$, writing things like 'the event $\\omega \\in \\mathcal{F}$' for an outcome $\\omega \\in \\Omega$; remember that individual outcomes are elements of $\\Omega$, while events are subsets of $\\Omega$ that belong to $\\mathcal{F}$."
+  ],
+  "untested_variants": [
+    "Constructing the sigma-algebra generated by a specific collection of sets, i.e., finding the smallest sigma-algebra containing a given family \u2014 for example, the Borel sigma-algebra $\\mathcal{B}(\\mathbb{R})$ generated by open intervals.",
+    "Proving or applying the continuity of probability measure: if $A_1 \\subseteq A_2 \\subseteq \\cdots$ is an increasing sequence of events, then $P\\!\\left(\\bigcup_{n=1}^{\\infty} A_n\\right) = \\lim_{n \\to \\infty} P(A_n)$.",
+    "Working with product probability spaces $(\\Omega_1 \\times \\Omega_2, \\mathcal{F}_1 \\otimes \\mathcal{F}_2, P_1 \\otimes P_2)$ for modeling independent experiments simultaneously.",
+    "Showing that a proposed function $P$ fails to be a valid probability measure by exhibiting a violation of one of the Kolmogorov axioms, rather than verifying that a valid one holds."
+  ]
+}

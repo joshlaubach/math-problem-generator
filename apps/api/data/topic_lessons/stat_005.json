@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_005",
+  "topic_name": "Box Plots and Five-Number Summary",
+  "generated_at": "2026-05-13T20:29:12.884017+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to find the mean and median of a data set, which gives you a single number to represent the 'center' of the data. But what if you also want to understand the spread \u2014 how stretched out or bunched up the data is, and whether there are extreme values pulling things to one side? A single average can't tell you that a dataset has most values clustered near 10 with a few outliers pushing toward 100. So how can we summarize the full shape and spread of a dataset with just five numbers, and display it visually at a glance?",
+  "concept": "A box plot (also called a box-and-whisker plot) is a visual display of a dataset's distribution built from its five-number summary. The five-number summary consists of the minimum, first quartile $Q_1$, median $Q_2$, third quartile $Q_3$, and maximum. These five values divide the data into four equal groups, each containing roughly 25% of the observations, giving a compact picture of center, spread, and skewness.",
+  "anatomy": "The five-number summary has five named components: the minimum (smallest data value), $Q_1$ (the median of the lower half of the data, marking the 25th percentile), $Q_2$ (the overall median, marking the 50th percentile), $Q_3$ (the median of the upper half of the data, marking the 75th percentile), and the maximum (largest data value). In a box plot, a rectangular box spans from $Q_1$ to $Q_3$, a vertical line inside the box marks $Q_2$, and horizontal lines called whiskers extend from the box out to the minimum and maximum. The width of the box is the interquartile range $IQR = Q_3 - Q_1$, which measures the spread of the middle 50% of the data.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Data: } 3, 7, 8, 12, 14, 18, 21, 25, 30",
+      "description_latex": "We begin by confirming the data is already sorted in ascending order \u2014 this is essential before we can find any quartiles or the median. Always sort your data set from smallest to largest as your very first step, because every part of the five-number summary depends on the positions of values in the ordered list.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Min} = 3, \\quad \\text{Max} = 30, \\quad Q_2 = 14",
+      "description_latex": "With 9 data values, the median $Q_2$ is the middle (5th) value, which is 14. The minimum is simply the first value (3) and the maximum is the last value (30). Identifying these three landmarks first gives us the skeleton of our five-number summary.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Lower half: } 3, 7, 8, 12 \\quad \\Rightarrow \\quad Q_1 = \\frac{7+8}{2} = 7.5",
+      "description_latex": "To find $Q_1$, we look at the lower half of the data \u2014 the values below the median, which are 3, 7, 8, 12. Since there are 4 values in this half, the median of this group is the average of the 2nd and 3rd values: $\\frac{7+8}{2} = 7.5$. This value marks the boundary below which the lowest 25% of the data falls.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Upper half: } 18, 21, 25, 30 \\quad \\Rightarrow \\quad Q_3 = \\frac{21+25}{2} = 23",
+      "description_latex": "Similarly, $Q_3$ comes from the upper half of the data \u2014 the values above the median, which are 18, 21, 25, 30. The median of these four values is $\\frac{21+25}{2} = 23$, marking the boundary above which the top 25% of the data falls. Now we have all five numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Five-Number Summary: } 3, \\; 7.5, \\; 14, \\; 23, \\; 30 \\qquad IQR = 23 - 7.5 = 15.5",
+      "description_latex": "We can now state the complete five-number summary as $\\text{Min}=3$, $Q_1=7.5$, $Q_2=14$, $Q_3=23$, $\\text{Max}=30$, and compute the interquartile range $IQR = Q_3 - Q_1 = 15.5$. In a box plot, you would draw a number line, place a box from 7.5 to 23 with a line at 14, and extend whiskers out to 3 and 30.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data: } 5, 9, 11, 15, 17, 20, 24, 28",
+      "description_latex": "The data is already sorted and has 8 values. We will build the five-number summary step by step. First, notice that with an even number of values there is no single middle value, so the median is the average of the 4th and 5th values: $Q_2 = \\frac{15+17}{2} = 16$. The minimum is 5 and the maximum is 28.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Lower half: } 5, 9, 11, 15 \\quad \\Rightarrow \\quad Q_1 = \\frac{9+11}{2} = 10",
+      "description_latex": "The lower half consists of the 4 values below the median: 5, 9, 11, 15. Their median is the average of the 2nd and 3rd values, giving $Q_1 = 10$. Now it's your turn to find $Q_3$ from the upper half.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "The upper half of the data is 17, 20, 24, 28. Find $Q_3$ by computing the median of these four values, then write the complete five-number summary and calculate the $IQR$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Given the ordered data set: } 2, 5, 7, 9, 12, \\text{ identify all five values in the five-number summary.}",
+      "answer_latex": "\\text{Min}=2,\\; Q_1=5,\\; Q_2=7,\\; Q_3=9,\\; \\text{Max}=12"
+    },
+    {
+      "prompt_latex": "\\text{Find the five-number summary for: } 4, 6, 8, 10, 12, 14, 16",
+      "answer_latex": "\\text{Min}=4,\\; Q_1=6,\\; Q_2=10,\\; Q_3=14,\\; \\text{Max}=16"
+    },
+    {
+      "prompt_latex": "\\text{Find the five-number summary and IQR for: } 3, 7, 7, 10, 15, 18, 22, 25",
+      "answer_latex": "\\text{Min}=3,\\; Q_1=7,\\; Q_2=12.5,\\; Q_3=20,\\; \\text{Max}=25,\\; IQR=13"
+    },
+    {
+      "prompt_latex": "\\text{A data set has five-number summary: } 10, 20, 35, 50, 80. \\text{ Is a value of } 85 \\text{ an outlier using the } 1.5 \\times IQR \\text{ rule?}",
+      "answer_latex": "IQR = 30,\\; 1.5 \\times IQR = 45,\\; \\text{Upper fence} = Q_3 + 45 = 95.\\; 85 < 95, \\text{ so } 85 \\text{ is NOT an outlier.}"
+    },
+    {
+      "prompt_latex": "\\text{A teacher records test scores for 10 students: } 55, 60, 65, 70, 72, 78, 80, 85, 90, 95. \\text{ Build the five-number summary, then describe what the IQR tells you about the middle 50\\% of scores.}",
+      "answer_latex": "\\text{Min}=55,\\; Q_1=65,\\; Q_2=75,\\; Q_3=85,\\; \\text{Max}=95,\\; IQR=20. \\text{ The middle 50\\% of scores span a range of 20 points, from 65 to 85.}"
+    }
+  ],
+  "common_mistakes": [
+    "When finding $Q_1$ and $Q_3$, students include the median value in both halves instead of excluding it. When the dataset has an odd number of values, the median itself is NOT included in either the lower or upper half \u2014 drop it before computing $Q_1$ and $Q_3$.",
+    "Students average the wrong pair of values when finding the median of an even-sized half. For a lower or upper half with 4 values, the median is the average of the 2nd and 3rd values, not the 1st and 4th \u2014 always count positions carefully rather than averaging the extremes.",
+    "Students confuse the IQR with the full range, writing $\\text{Max} - \\text{Min}$ when the problem asks for the IQR. The interquartile range is specifically $Q_3 - Q_1$, which measures only the spread of the middle 50% of the data, not the entire dataset."
+  ],
+  "untested_variants": [
+    "Using the $1.5 \\times IQR$ rule to identify and plot individual outliers as separate points beyond the whiskers on a modified box plot.",
+    "Comparing two box plots drawn on the same number line to make statements about which dataset has greater spread, a higher median, or more skewness.",
+    "Working backwards from a given box plot image to read off the five-number summary values and answer questions about percentages of data in specific intervals.",
+    "Computing the five-number summary for grouped or frequency-table data where individual values are not explicitly listed."
+  ]
+}

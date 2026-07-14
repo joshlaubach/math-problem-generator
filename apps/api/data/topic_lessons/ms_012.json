@@ -1,0 +1,86 @@
+{
+  "topic_id": "ms_012",
+  "topic_name": "Conjugate Priors",
+  "generated_at": "2026-05-14T01:01:52.695156+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know Bayes' theorem: given a prior $p(\\theta)$ and a likelihood $p(x|\\theta)$, the posterior is $p(\\theta|x) \\propto p(x|\\theta)\\,p(\\theta)$. In principle this is clean, but in practice computing the normalizing constant and working with the resulting posterior can be analytically intractable. What if there existed a special family of priors that, when combined with a given likelihood, always produced a posterior in the exact same family \u2014 making every update a simple parameter update with no integration required? Can you identify which prior to pair with a Binomial likelihood to keep the posterior in a closed form?",
+  "concept": "A conjugate prior is a prior distribution that, when multiplied by a particular likelihood function, yields a posterior distribution in the same parametric family as the prior. Formally, if the likelihood is $p(x|\\theta)$ and the prior is $p(\\theta) \\in \\mathcal{F}$, then $p(\\theta)$ is conjugate for that likelihood if $p(\\theta|x) \\propto p(x|\\theta)\\,p(\\theta)$ also belongs to $\\mathcal{F}$. This algebraic closure turns Bayesian updating into a bookkeeping exercise: you simply update the family's hyperparameters rather than performing a new integral.",
+  "anatomy": "Every conjugate prior relationship has four named components. The likelihood family determines which data-generating model is assumed \u2014 for example Binomial$(n,\\theta)$. The conjugate prior family is the matching distribution for $\\theta$ \u2014 for the Binomial this is the Beta distribution $\\text{Beta}(\\alpha, \\beta)$. The hyperparameters $\\alpha$ and $\\beta$ (or their analogs in other families) encode prior beliefs: $\\alpha - 1$ acts like prior successes and $\\beta - 1$ like prior failures. The update rule specifies how hyperparameters change after observing data: with $k$ successes in $n$ trials the posterior hyperparameters become $\\alpha' = \\alpha + k$ and $\\beta' = \\beta + n - k$, keeping the posterior inside the Beta family.",
+  "worked_example": [
+    {
+      "expression_latex": "X | \\theta \\sim \\text{Binomial}(n, \\theta), \\quad \\theta \\sim \\text{Beta}(\\alpha, \\beta)",
+      "description_latex": "We begin by setting up the model: the data $X$ counts the number of successes in $n$ independent Bernoulli trials with success probability $\\theta$, and we express our prior beliefs about $\\theta$ through a Beta distribution with hyperparameters $\\alpha > 0$ and $\\beta > 0$. Choosing the Beta prior is not arbitrary \u2014 it has support on $(0,1)$ matching the range of $\\theta$, and we are claiming it is conjugate for the Binomial likelihood.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(\\theta | x) \\propto p(x|\\theta)\\,p(\\theta) = \\binom{n}{x}\\theta^x(1-\\theta)^{n-x} \\cdot \\frac{\\theta^{\\alpha-1}(1-\\theta)^{\\beta-1}}{B(\\alpha,\\beta)}",
+      "description_latex": "Applying Bayes' theorem, we write the posterior as proportional to the product of the Binomial likelihood and the Beta prior. The binomial coefficient $\\binom{n}{x}$ and the Beta normalizing constant $B(\\alpha,\\beta)$ do not depend on $\\theta$, so they can be absorbed into the proportionality constant \u2014 this is the crucial move that simplifies the expression.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(\\theta | x) \\propto \\theta^{x + \\alpha - 1}(1-\\theta)^{(n-x) + \\beta - 1}",
+      "description_latex": "After dropping all constant factors, we collect powers of $\\theta$ and $(1-\\theta)$ by adding the exponents from the likelihood and the prior. The result has exactly the kernel of a Beta distribution \u2014 the pattern $\\theta^{a-1}(1-\\theta)^{b-1}$ \u2014 which confirms that conjugacy is working as promised.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\theta | x \\sim \\text{Beta}(\\alpha + x,\\; \\beta + n - x)",
+      "description_latex": "By matching the kernel to the Beta density, we can read off the updated hyperparameters: the prior 'pseudo-successes' $\\alpha$ increase by the observed successes $x$, and the prior 'pseudo-failures' $\\beta$ increase by the observed failures $n - x$. The posterior is fully specified without ever computing a normalizing integral \u2014 this is the payoff of conjugacy.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X | \\lambda \\sim \\text{Poisson}(\\lambda), \\quad \\lambda \\sim \\text{Gamma}(\\alpha, \\beta)",
+      "description_latex": "We now work with a Poisson likelihood, where $\\lambda > 0$ is the unknown rate parameter. The conjugate prior for $\\lambda$ is the Gamma distribution with shape $\\alpha$ and rate $\\beta$, whose density is $p(\\lambda) \\propto \\lambda^{\\alpha-1}e^{-\\beta\\lambda}$. Observe that both the Poisson and Gamma involve exponential terms in $\\lambda$, which is a strong hint that they will combine cleanly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(\\lambda | x) \\propto e^{-\\lambda}\\lambda^x \\cdot \\lambda^{\\alpha-1}e^{-\\beta\\lambda} = \\lambda^{x+\\alpha-1}e^{-(\\beta+1)\\lambda}",
+      "description_latex": "Writing out the product of the Poisson likelihood (for a single observation $x$) and the Gamma prior, then collecting like terms, we obtain a kernel proportional to $\\lambda^{(x+\\alpha)-1}e^{-(\\beta+1)\\lambda}$. Your task is to identify which distribution this kernel belongs to and state the updated hyperparameters.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the posterior distribution of $\\lambda$ given the single observation $x$ in the form $\\text{Gamma}(\\alpha', \\beta')$ by matching the kernel above to the standard Gamma density. What are $\\alpha'$ and $\\beta'$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\lambda | x \\sim \\text{Gamma}(\\alpha + x,\\; \\beta + 1)",
+      "description_latex": "The posterior is $\\text{Gamma}(\\alpha + x, \\beta + 1)$: the shape parameter absorbs the observed count and the rate parameter increments by 1 for each observation. This confirms the Gamma\u2013Poisson conjugate pair, and the pattern generalizes \u2014 for $n$ i.i.d. observations with sum $\\sum x_i$ the posterior is $\\text{Gamma}(\\alpha + \\sum x_i,\\, \\beta + n)$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Suppose $\\theta \\sim \\text{Beta}(2, 3)$ and you observe $x = 4$ successes in $n = 10$ trials. State the posterior distribution of $\\theta$.",
+      "answer_latex": "\\theta | x \\sim \\text{Beta}(6, 9)"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{iid}{\\sim} \\text{Poisson}(\\lambda)$ and $\\lambda \\sim \\text{Gamma}(3, 1)$. After observing $n = 5$ observations with $\\sum_{i=1}^5 x_i = 12$, state the posterior distribution of $\\lambda$.",
+      "answer_latex": "\\lambda | \\mathbf{x} \\sim \\text{Gamma}(15,\\, 6)"
+    },
+    {
+      "prompt_latex": "A fair-coin experiment has prior $\\theta \\sim \\text{Beta}(1,1)$ (the uniform prior). You observe $k$ heads in $n$ flips. Show that the posterior mean is $\\frac{k+1}{n+2}$ and explain why this is a weighted compromise between the prior mean $\\frac{1}{2}$ and the MLE $\\frac{k}{n}$.",
+      "answer_latex": "\\text{Posterior: }\\text{Beta}(k+1, n-k+1);\\text{ posterior mean } = \\frac{k+1}{n+2}, \\text{ which lies strictly between } \\frac{1}{2} \\text{ and } \\frac{k}{n} \\text{ for all } 0 < k < n."
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{iid}{\\sim} \\mathcal{N}(\\mu, \\sigma^2)$ with $\\sigma^2$ known. Using the conjugate prior $\\mu \\sim \\mathcal{N}(\\mu_0, \\tau_0^2)$, derive the posterior mean and show it equals a precision-weighted average of the prior mean and the sample mean $\\bar{x}$.",
+      "answer_latex": "\\mu | \\mathbf{x} \\sim \\mathcal{N}\\!\\left(\\frac{\\mu_0/\\tau_0^2 + n\\bar{x}/\\sigma^2}{1/\\tau_0^2 + n/\\sigma^2},\\; \\frac{1}{1/\\tau_0^2 + n/\\sigma^2}\\right)"
+    },
+    {
+      "prompt_latex": "A medical device manufacturer tests $n = 20$ devices and observes $x = 1$ failure. A regulatory agency uses a prior $\\theta \\sim \\text{Beta}(1, 19)$ reflecting prior belief that failure rates are low. Compute the posterior distribution, the posterior mean failure rate, and compare it to the MLE. Which estimate should the manufacturer prefer to report, and why?",
+      "answer_latex": "\\text{Posterior: }\\text{Beta}(2,38);\\text{ posterior mean} = \\frac{2}{40} = 0.05;\\text{ MLE} = \\frac{1}{20} = 0.05.\\text{ Here they coincide; the manufacturer benefits from the posterior's full distribution showing uncertainty, whereas the MLE is a single point estimate with no uncertainty quantification.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often add the observed number of successes $x$ to both hyperparameters of the Beta, writing $\\text{Beta}(\\alpha+x, \\beta+x)$ instead of correctly updating to $\\text{Beta}(\\alpha+x, \\beta+n-x)$. Remember that $\\beta$ accumulates the failures $n-x$, not the successes.",
+    "When the Gamma prior is parameterized by rate (not scale), students sometimes update the rate by adding $n$ but forget to simultaneously add the sufficient statistic to the shape, or they confuse scale $\\theta = 1/\\beta$ with rate $\\beta$ and update the wrong parameter. Always write down which parameterization you are using before applying the update rule.",
+    "Students sometimes treat conjugacy as a universal property of a prior family rather than a relationship between a specific prior family and a specific likelihood. For example, the Beta prior is conjugate for Binomial and Bernoulli likelihoods but is NOT conjugate for a Poisson likelihood \u2014 using it there does not yield a Beta posterior."
+  ],
+  "untested_variants": [
+    "The Normal\u2013Normal conjugate model with unknown mean AND unknown variance simultaneously, requiring the Normal-Inverse-Gamma conjugate prior.",
+    "Sequential (online) Bayesian updating where the posterior from one batch of data serves as the prior for the next batch, and students must verify that the final posterior equals the posterior from analyzing all data at once.",
+    "The Dirichlet\u2013Multinomial conjugate pair, which generalizes the Beta\u2013Binomial to categorical outcomes with more than two categories.",
+    "Computing the marginal likelihood (evidence) $p(x) = \\int p(x|\\theta)p(\\theta)\\,d\\theta$ using conjugacy and the ratio of normalizing constants, which arises in Bayesian model comparison."
+  ]
+}

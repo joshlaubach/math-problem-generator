@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_047",
+  "topic_name": "Logistic Regression (Introduction) (H)",
+  "generated_at": "2026-05-13T20:33:36.204038+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to fit a linear regression model to predict a numerical response variable \u2014 say, predicting a student's test score from hours studied. But what happens when the outcome you care about is not a number, but a category: will a patient develop a disease, or not? Will a customer click an ad, or not? If you try to force a linear regression line onto a yes/no outcome, you get predicted 'probabilities' that drift below 0 or above 1, which is mathematically absurd. So how do we model the probability of a binary outcome in a way that always stays between 0 and 1?",
+  "concept": "Logistic regression models the probability that a binary outcome equals 1 (a 'success') as a smooth S-shaped function of one or more predictor variables. Instead of predicting $y$ directly, we predict $p = P(Y=1)$ by first computing the log-odds (called the logit): $\\log\\!\\left(\\frac{p}{1-p}\\right) = \\beta_0 + \\beta_1 x$, then solving back to get $p = \\frac{e^{\\beta_0 + \\beta_1 x}}{1 + e^{\\beta_0 + \\beta_1 x}}$, which is always between 0 and 1.",
+  "anatomy": "The logistic regression model has several distinct components worth naming carefully. The response variable $Y$ is binary, taking values 0 or 1. The predicted probability $p$ is what the model outputs, representing $P(Y=1 \\mid x)$. The quantity $\\frac{p}{1-p}$ is called the odds of success \u2014 how many times more likely success is than failure. Taking its natural log gives the log-odds or logit, $\\log\\!\\left(\\frac{p}{1-p}\\right)$, which is the quantity the linear expression $\\beta_0 + \\beta_1 x$ actually models. The intercept $\\beta_0$ sets the baseline log-odds when $x=0$, and the slope $\\beta_1$ tells us how much the log-odds change for each one-unit increase in $x$. The function $p = \\frac{e^{\\beta_0 + \\beta_1 x}}{1 + e^{\\beta_0 + \\beta_1 x}}$ is called the logistic (or sigmoid) function, which maps any real number to the interval $(0,1)$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\log\\!\\left(\\frac{p}{1-p}\\right) = -4 + 0.8x",
+      "description_latex": "We are given a fitted logistic regression equation where $x$ is the number of hours a patient exercises per week and the outcome is whether they develop a condition (1 = yes, 0 = no). This equation tells us the log-odds of developing the condition as a linear function of $x$; our goal is to use it to find the predicted probability for a specific value of $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\log\\!\\left(\\frac{p}{1-p}\\right) = -4 + 0.8(5) = -4 + 4 = 0",
+      "description_latex": "We substitute $x = 5$ hours into the right-hand side to compute the log-odds for a patient who exercises 5 hours per week. Plugging in and simplifying gives log-odds $= 0$, which is a clean value that will make the next step easy to interpret.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{p}{1-p} = e^{0} = 1",
+      "description_latex": "To move from log-odds back to odds, we exponentiate both sides: $e^0 = 1$. An odds of 1 means the event is equally likely to happen or not happen, which already hints that $p$ should be 0.5.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p = \\frac{1}{1+1} = 0.5",
+      "description_latex": "Now we solve for $p$ from the odds equation $\\frac{p}{1-p} = 1$, which gives $p = 1-p$, so $p = 0.5$. Alternatively, we can use the logistic formula directly: $p = \\frac{e^0}{1+e^0} = \\frac{1}{2}$. Either way, a patient who exercises exactly 5 hours per week has a predicted 50% probability of developing the condition.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\log\\!\\left(\\frac{p}{1-p}\\right) = -3 + 0.5x",
+      "description_latex": "A logistic regression model has been fitted where $x$ is a student's study hours and the outcome is passing an exam. We want to find the predicted probability of passing for a student who studies $x = 6$ hours.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\log\\!\\left(\\frac{p}{1-p}\\right) = -3 + 0.5(6) = 0",
+      "description_latex": "We substitute $x = 6$ into the equation and simplify: $-3 + 0.5(6) = -3 + 3 = 0$, so the log-odds equal 0. This step is done for you \u2014 notice this is the same log-odds value we saw in the worked example.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the logistic formula $p = \\frac{e^{\\text{log-odds}}}{1 + e^{\\text{log-odds}}}$ using the log-odds value you just found, and state the predicted probability. What is the probability that a student who studies 6 hours passes the exam?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the original equation, compute the log-odds for a student who studies $x = 8$ hours, then convert to a probability. Is this probability higher or lower than the one for 6 hours, and does that direction make sense given the sign of $\\beta_1$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A logistic regression model gives $\\log\\!\\left(\\frac{p}{1-p}\\right) = 0$. What is the predicted probability $p$?",
+      "answer_latex": "p = 0.5"
+    },
+    {
+      "prompt_latex": "A fitted logistic regression is $\\log\\!\\left(\\frac{p}{1-p}\\right) = -2 + 1.5x$. Find the log-odds and the predicted probability when $x = 2$.",
+      "answer_latex": "\\text{log-odds} = -2 + 1.5(2) = 1, \\quad p = \\frac{e^1}{1+e^1} \\approx \\frac{2.718}{3.718} \\approx 0.731"
+    },
+    {
+      "prompt_latex": "For the model $\\log\\!\\left(\\frac{p}{1-p}\\right) = 1 - 0.4x$, compute the predicted probability when $x = 5$, and interpret whether the positive or negative direction of $\\beta_1$ makes sense in terms of how $p$ changes as $x$ increases.",
+      "answer_latex": "\\log\\!\\left(\\frac{p}{1-p}\\right) = 1 - 2 = -1, \\quad p = \\frac{e^{-1}}{1+e^{-1}} \\approx 0.269; \\text{ since } \\beta_1 < 0, \\text{ larger } x \\text{ gives smaller } p."
+    },
+    {
+      "prompt_latex": "A logistic model yields predicted probability $p = 0.8$ for a given $x$. Compute the odds and the log-odds for this observation.",
+      "answer_latex": "\\text{odds} = \\frac{0.8}{0.2} = 4, \\quad \\text{log-odds} = \\ln(4) \\approx 1.386"
+    },
+    {
+      "prompt_latex": "A researcher fits a logistic regression to predict whether a loan applicant will default (1 = default, 0 = no default) based on debt-to-income ratio $x$. The model is $\\log\\!\\left(\\frac{p}{1-p}\\right) = -5 + 2x$. An applicant has $x = 3$. (a) What is the predicted probability of default? (b) Interpret what the slope $\\beta_1 = 2$ means in terms of log-odds.",
+      "answer_latex": "(a)\\; \\log\\!\\left(\\frac{p}{1-p}\\right) = -5+6=1,\\; p = \\frac{e^1}{1+e^1} \\approx 0.731. \\quad (b)\\; \\text{Each 1-unit increase in debt-to-income ratio increases the log-odds of default by 2.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to exponentiate when converting from log-odds to odds, and instead treat the log-odds value directly as a probability. Remember: log-odds and probability are not the same thing \u2014 you must compute $e^{\\text{log-odds}}$ to get odds, then solve for $p$, or use the logistic formula $p = \\frac{e^{\\text{log-odds}}}{1+e^{\\text{log-odds}}}$.",
+    "Students sometimes interpret the slope $\\beta_1$ as the change in probability per unit increase in $x$, the same way they would in linear regression. In logistic regression, $\\beta_1$ is the change in log-odds per unit increase in $x$ \u2014 the effect on probability is not constant and depends on where you are on the S-curve.",
+    "When computing odds from a probability, students frequently flip the fraction and write $\\frac{1-p}{p}$ instead of $\\frac{p}{1-p}$. The odds of success is always the probability of success divided by the probability of failure, so double-check which outcome is in the numerator before interpreting your result."
+  ],
+  "untested_variants": [
+    "Interpreting the exponentiated slope $e^{\\beta_1}$ as a multiplicative factor for the odds (the 'odds ratio') and using it to compare two groups \u2014 this requires multiplying rather than adding, which is a common exam question type not covered in the practice problems above.",
+    "Working backwards from a given probability target (e.g., 'for what value of $x$ does the model predict $p = 0.9$?') by solving the logit equation algebraically for $x$.",
+    "Multiple logistic regression with two or more predictor variables, such as $\\log\\!\\left(\\frac{p}{1-p}\\right) = \\beta_0 + \\beta_1 x_1 + \\beta_2 x_2$, requiring substitution of two predictor values simultaneously.",
+    "Reading and interpreting computer output (coefficient tables with standard errors and p-values) from a logistic regression, and deciding whether a predictor is statistically significant based on a z-test or Wald test."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_006",
+  "topic_name": "Modeling with Linear Functions",
+  "generated_at": "2026-05-12T23:18:17.721884+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to write the equation of a line given a slope and a y-intercept. But what happens when a real-world situation hands you a table of data, a written description, or just two data points \u2014 and asks you to make predictions about values you've never seen? For example, a phone plan charges a flat monthly fee plus a cost per gigabyte of data used; how would you figure out the total bill for any amount of data, or determine when two plans cost the same? The gap is turning messy, worded situations into clean linear equations you can actually use.",
+  "concept": "Modeling with linear functions means translating a real-world relationship that changes at a constant rate into the equation $y = mx + b$, where $m$ is the rate of change and $b$ is the starting value. Once you have the equation, you can substitute any input to predict outputs, or set two expressions equal to find a break-even point. The key insight is that any situation with a constant rate of change is secretly a linear function in disguise.",
+  "anatomy": "Every linear model has four identifiable components: the **independent variable** $x$, which represents the input you control or observe (time, units purchased, miles driven); the **dependent variable** $y$, which is the output that responds to $x$ (cost, distance, temperature); the **slope** $m = \\frac{\\Delta y}{\\Delta x}$, which captures the constant rate of change between the two quantities (dollars per gigabyte, degrees per hour); and the **y-intercept** $b$, which is the initial or fixed value when $x = 0$ (a flat monthly fee, a starting distance, an upfront deposit). Correctly identifying all four from a word problem is the entire game.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{A plumber charges a } \\$75 \\text{ flat fee plus } \\$50 \\text{ per hour. Write a linear model for the total cost } C \\text{ after } h \\text{ hours.}",
+      "description_latex": "We start by identifying the four components from the problem. The independent variable is $h$ (hours worked), the dependent variable is $C$ (total cost in dollars), the rate of change is $\\$50$ per hour so $m = 50$, and the flat fee tells us the cost when $h = 0$ is $\\$75$, so $b = 75$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C = 50h + 75",
+      "description_latex": "Plugging our identified values into $y = mx + b$ gives us the model $C = 50h + 75$. This equation now encodes the entire pricing structure: every additional hour adds exactly $\\$50$, and there's always a $\\$75$ baseline no matter how short the job.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C = 50(3) + 75 = 150 + 75 = 225",
+      "description_latex": "To use the model, we substitute $h = 3$ to predict the cost of a 3-hour job. The result, $C = \\$225$, is a prediction we could not have made without the equation \u2014 this is the real power of building the model.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "50h + 75 = 375 \\implies 50h = 300 \\implies h = 6",
+      "description_latex": "We can also work backwards: if a customer's bill was $\\$375$, we set $C = 375$ and solve for $h$. Subtracting 75 from both sides and then dividing by 50 tells us the plumber worked exactly 6 hours \u2014 the equation lets us answer questions in both directions.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A gym charges a } \\$40 \\text{ enrollment fee and } \\$25 \\text{ per month. Write a model for total cost } C \\text{ after } m \\text{ months, then find when the total reaches } \\$290.",
+      "description_latex": "Let's first read the problem carefully to pull out the slope and y-intercept. The enrollment fee is paid once at the start, so it's our $b$. The monthly charge is constant, so it's our rate of change $m$. Notice that in this problem the variable for months is also called $m$, so we'll rename it $n$ to avoid confusion with the slope \u2014 always watch for this kind of overlap in word problems.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C = 25n + 40",
+      "description_latex": "Here is the completed model with $n$ representing the number of months. Confirm that when $n = 0$ the cost is $\\$40$ (just the enrollment fee) and each month adds exactly $\\$25$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now set $C = 290$ and solve for $n$. Write out each algebraic step: subtract the flat fee from both sides first, then divide by the monthly rate. How many months does it take for the total cost to reach $\\$290$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{A taxi charges } \\$3 \\text{ flat fee plus } \\$2 \\text{ per mile. Write the linear model for total cost } C \\text{ after } d \\text{ miles.}",
+      "answer_latex": "C = 2d + 3"
+    },
+    {
+      "prompt_latex": "\\text{Using the model } C = 2d + 3 \\text{, find the cost of a 12-mile ride and find how many miles were driven if the fare was } \\$21.",
+      "answer_latex": "C = \\$27 \\text{ for 12 miles; } d = 9 \\text{ miles for a } \\$21 \\text{ fare}"
+    },
+    {
+      "prompt_latex": "\\text{A candle is 18 cm tall and burns at a rate of 2.5 cm per hour. Write a linear model for the height } h \\text{ (cm) after } t \\text{ hours, and determine when the candle is completely burned out.}",
+      "answer_latex": "h = -2.5t + 18; \\text{ burned out after } t = 7.2 \\text{ hours}"
+    },
+    {
+      "prompt_latex": "\\text{Two car rental companies: Company A charges } \\$20 \\text{ per day plus } \\$0.15 \\text{ per mile; Company B charges } \\$35 \\text{ per day plus } \\$0.05 \\text{ per mile. Write a model for each and find the number of miles at which the daily cost is the same.}",
+      "answer_latex": "A: C = 0.15m + 20, \\quad B: C = 0.05m + 35; \\text{ equal at } m = 150 \\text{ miles}"
+    },
+    {
+      "prompt_latex": "\\text{A scientist records the temperature of a cooling liquid. At } t = 0 \\text{ minutes the temperature is } 95^\\circ\\text{C}, \\text{ and at } t = 5 \\text{ minutes it is } 70^\\circ\\text{C}. \\text{ Assuming constant cooling, write a linear model and predict the temperature at } t = 12 \\text{ minutes.}",
+      "answer_latex": "T = -5t + 95; \\text{ at } t = 12, \\; T = 35^\\circ\\text{C}"
+    }
+  ],
+  "common_mistakes": [
+    "Students swap the slope and y-intercept \u2014 for example, writing $C = 75h + 50$ instead of $C = 50h + 75$ for the plumber problem. Fix: always ask 'which value appears when the input is zero?' \u2014 that value is $b$, and the value multiplied by the variable is $m$.",
+    "When finding slope from two data points in a word problem, students subtract the $x$-values on top and $y$-values on bottom, getting $m = \\frac{\\Delta x}{\\Delta y}$ instead of $m = \\frac{\\Delta y}{\\Delta x}$. Fix: remember that slope is 'rise over run,' meaning the change in the output quantity is always in the numerator.",
+    "Students correctly build the model but then interpret the y-intercept as the slope when answering follow-up questions \u2014 for example, claiming the monthly rate is $\\$40$ because they see 40 in the equation $C = 25n + 40$. Fix: label each coefficient with its units immediately after writing the equation ($25$ dollars/month, $40$ dollars) so their roles stay visually distinct."
+  ],
+  "untested_variants": [
+    "Piecewise linear models where the rate of change shifts after a threshold (e.g., a utility bill with a different rate per kilowatt-hour above 500 kWh).",
+    "Fitting a linear model to a scatter plot by drawing a line of best fit and estimating slope from the graph rather than from exact data points.",
+    "Situations where the y-intercept is negative, such as a submarine starting below sea level and rising at a constant rate, requiring students to interpret a negative initial value meaningfully.",
+    "Systems of three or more linear models compared simultaneously, such as choosing among three phone plans based on expected data usage."
+  ]
+}

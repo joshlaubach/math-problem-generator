@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_052",
+  "topic_name": "Counting Principles, Permutations, Combinations",
+  "generated_at": "2026-05-12T23:55:54.166537+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to multiply and add, and you've probably counted things by listing them out one by one. But imagine you need to know how many different 4-digit PINs are possible, or how many ways a committee of 3 can be chosen from a club of 20 people \u2014 listing every possibility would take forever. The gap is this: you need a systematic way to count arrangements and selections without ever writing them all down. So here's the question: when does the order of your choices matter, and when doesn't it?",
+  "concept": "Counting is about multiplying choices together when decisions are made in stages. The Fundamental Counting Principle says: if one event can occur in $m$ ways and a second independent event can occur in $n$ ways, then together they can occur in $m \\times n$ ways. When order matters (like ranking contestants), we use a permutation: $P(n,r) = \\dfrac{n!}{(n-r)!}$. When order does not matter (like picking a team), we use a combination: $C(n,r) = \\dfrac{n!}{r!(n-r)!}$.",
+  "anatomy": "In both formulas, $n$ is the total number of distinct objects available to choose from, and $r$ is the number of objects being selected or arranged \u2014 you must always have $r \\leq n$. The expression $n!$ (read 'n factorial') means $n \\times (n-1) \\times (n-2) \\times \\cdots \\times 1$, and it counts all ways to arrange $n$ objects in a line. In $P(n,r)$, the denominator $(n-r)!$ cancels out the objects that were never picked, leaving only the ordered arrangements of the chosen $r$ items. In $C(n,r)$, the extra $r!$ in the denominator then removes duplicate orderings of those same $r$ items, because in a combination we don't care which order they were selected.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Problem: A race has 8 runners. How many ways can gold, silver, and bronze be awarded?}",
+      "description_latex": "We first identify whether order matters here. Because gold, silver, and bronze are distinct outcomes \u2014 finishing first is different from finishing second \u2014 the arrangement of the winners absolutely matters, so we use a permutation with $n = 8$ total runners and $r = 3$ positions to fill.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(8,3) = \\frac{8!}{(8-3)!} = \\frac{8!}{5!}",
+      "description_latex": "We plug $n = 8$ and $r = 3$ into the permutation formula $P(n,r) = \\frac{n!}{(n-r)!}$. The denominator $5!$ will cancel most of the factorial, which is exactly the point \u2014 we only want to count the ordered selections of 3 from 8, not arrange all 8.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{8!}{5!} = \\frac{8 \\times 7 \\times 6 \\times 5!}{5!} = 8 \\times 7 \\times 6",
+      "description_latex": "Because $5!$ appears in both the numerator and denominator, it cancels cleanly, leaving only the top three factors: $8 \\times 7 \\times 6$. This makes intuitive sense \u2014 there are 8 choices for gold, then only 7 runners left for silver, then 6 for bronze.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "8 \\times 7 \\times 6 = 336",
+      "description_latex": "Multiplying gives us 336 distinct ways to award the three medals, which is our final answer. Notice this is far more efficient than listing every possible podium outcome by hand.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: A committee of 4 is chosen from 10 people. How many ways?}",
+      "description_latex": "We start by deciding which formula to use. A committee has no internal ranking \u2014 being the first person picked is no different from being the last \u2014 so order does not matter and we use a combination with $n = 10$ and $r = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C(10,4) = \\frac{10!}{4!(10-4)!} = \\frac{10!}{4! \\cdot 6!}",
+      "description_latex": "We substitute into $C(n,r) = \\frac{n!}{r!(n-r)!}$. Now try to simplify this expression by canceling $6!$ from $10!$ in the numerator, then evaluate the remaining product divided by $4!$. What do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "C(10,4) = 210",
+      "description_latex": "After canceling $6!$, the numerator becomes $10 \\times 9 \\times 8 \\times 7 = 5040$ and the denominator is $4! = 24$, giving $\\frac{5040}{24} = 210$. There are 210 distinct committees possible.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Evaluate } 5! \\text{ and } P(5,2).",
+      "answer_latex": "5! = 120, \\quad P(5,2) = 20"
+    },
+    {
+      "prompt_latex": "\\text{A password consists of 3 different letters chosen from A, B, C, D, E (order matters). How many passwords are possible?}",
+      "answer_latex": "P(5,3) = \\frac{5!}{2!} = 60"
+    },
+    {
+      "prompt_latex": "\\text{How many ways can a teacher choose 3 students from a class of 12 to receive extra credit (order does not matter)?}",
+      "answer_latex": "C(12,3) = \\frac{12!}{3! \\cdot 9!} = 220"
+    },
+    {
+      "prompt_latex": "\\text{A 5-card hand is dealt from a standard 52-card deck. How many distinct hands are possible? (Recall } C(n,r) = \\frac{n!}{r!(n-r)!}\\text{.)}",
+      "answer_latex": "C(52,5) = \\frac{52!}{5! \\cdot 47!} = 2{,}598{,}960"
+    },
+    {
+      "prompt_latex": "\\text{A club with 6 members must elect a President and Vice-President (two different people, order matters), AND separately choose a 2-person social committee (order does not matter) from the remaining 4 members. In how many total ways can this be done?}",
+      "answer_latex": "P(6,2) \\times C(4,2) = 30 \\times 6 = 180"
+    }
+  ],
+  "common_mistakes": [
+    "Students use a permutation when a combination is needed (or vice versa) because they don't first ask whether order matters. The fix is to always pause and ask: 'Does swapping two chosen items create a genuinely different outcome?' \u2014 if yes, use $P(n,r)$; if no, use $C(n,r)$.",
+    "Students cancel factorials incorrectly by subtracting instead of dividing, writing $\\frac{8!}{5!} = 3!$ instead of $8 \\times 7 \\times 6$. Remember that $\\frac{8!}{5!}$ means you expand $8!$ and cancel the $5!$ that appears inside it, leaving the top few factors multiplied together \u2014 it never equals $(8-5)!$.",
+    "Students forget that $0! = 1$, which causes errors when $r = n$ (choosing all objects). For example, $P(4,4) = \\frac{4!}{0!} = \\frac{24}{1} = 24$, not $\\frac{24}{0}$ (undefined); always substitute $0! = 1$ before concluding anything is undefined."
+  ],
+  "untested_variants": [
+    "Permutations with repeated elements, such as counting the distinct arrangements of the letters in the word MISSISSIPPI, which requires dividing by the factorials of the repeated letter counts.",
+    "Combinations with restrictions, such as choosing a committee of 4 from 10 people where at least 2 must be women \u2014 requiring you to add cases together rather than apply a single formula.",
+    "Circular permutations, where objects are arranged around a table and rotations are considered identical, giving $(n-1)!$ instead of $n!$ arrangements.",
+    "Using the Fundamental Counting Principle with dependent stages where the number of choices in a later stage changes based on an earlier choice, beyond the straightforward runner-race model shown in the worked example."
+  ]
+}

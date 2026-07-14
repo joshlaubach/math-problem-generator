@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_007",
+  "topic_name": "Permutations and Combinations",
+  "generated_at": "2026-05-13T20:26:07.026096+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to multiply and work with factorials, so you can calculate things like $5! = 120$. But imagine you need to assign 3 gold, silver, and bronze medals to 10 athletes \u2014 order matters, since gold is not the same as silver. Or suppose you just need to choose a 3-person committee from those same 10 athletes, where the order of selection doesn't matter at all. Both problems involve choosing 3 from 10, yet they give completely different answers. Why does order change everything, and how do we handle both cases systematically?",
+  "concept": "Counting arrangements and selections is the core idea. A **permutation** counts ordered arrangements: choosing $r$ items from $n$ where the order matters. A **combination** counts unordered selections: choosing $r$ items from $n$ where order is irrelevant. Formally, $P(n,r) = \\dfrac{n!}{(n-r)!}$ counts permutations, and $C(n,r) = \\dbinom{n}{r} = \\dfrac{n!}{r!(n-r)!}$ counts combinations. The key question is always: does swapping the order produce a different outcome?",
+  "anatomy": "Both formulas share the same components. $n$ is the **pool size** \u2014 the total number of distinct items available to choose from. $r$ is the **selection size** \u2014 how many items you are picking. $n!$ in the numerator counts all possible orderings of the full pool. $(n-r)!$ in the denominator of both formulas cancels out the items never chosen. In combinations only, the extra $r!$ in the denominator divides out the redundant orderings among the $r$ chosen items, since rearranging them does not create a new combination. The expression $\\binom{n}{r}$ is called a **binomial coefficient** and is read 'n choose r'.",
+  "worked_example": [
+    {
+      "expression_latex": "P(10, 3) = \\frac{10!}{(10-3)!} = \\frac{10!}{7!}",
+      "description_latex": "We want to award gold, silver, and bronze medals to 3 of 10 athletes, so order matters \u2014 gold is distinct from silver. We apply the permutation formula $P(n,r) = \\frac{n!}{(n-r)!}$ with $n=10$ and $r=3$, which gives us $\\frac{10!}{7!}$. The $(n-r)! = 7!$ in the denominator will cancel all the factorial terms below 8, leaving only the top three factors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(10,3) = \\frac{10 \\times 9 \\times 8 \\times 7!}{7!} = 10 \\times 9 \\times 8",
+      "description_latex": "Because $10! = 10 \\times 9 \\times 8 \\times 7!$, the $7!$ in the numerator and denominator cancel perfectly, leaving only the three descending factors. This is the key shortcut: $P(n,r)$ always simplifies to exactly $r$ descending integers starting from $n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(10,3) = 720",
+      "description_latex": "Multiplying the three remaining factors gives $10 \\times 9 \\times 8 = 720$, so there are 720 distinct ways to award the three medals. Notice how large this is \u2014 every different ordering of the same three athletes counts as a separate outcome.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C(10, 3) = \\frac{10!}{3! \\cdot 7!} = \\frac{720}{3!} = \\frac{720}{6}",
+      "description_latex": "Now suppose we only want to choose a 3-person committee, where the order of selection doesn't matter. We divide the permutation count by $r! = 3! = 6$ to eliminate the redundant orderings of the 3 chosen people. Equivalently, $C(10,3) = \\frac{P(10,3)}{3!}$, so every combination of 6 permutations collapses into just 1 unordered selection.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C(10,3) = \\frac{720}{6} = 120",
+      "description_latex": "Dividing 720 by 6 yields 120, meaning there are 120 distinct committees of 3 from 10 people. Comparing our two answers \u2014 720 permutations versus 120 combinations \u2014 confirms that order matters: each unordered group of 3 corresponds to exactly $3! = 6$ ordered arrangements.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{How many ways can 5 books be arranged on a shelf from a collection of 8?}",
+      "description_latex": "Order matters here because placing book A before book B on a shelf is a different arrangement than B before A. We should use the permutation formula $P(n,r) = \\frac{n!}{(n-r)!}$ with $n=8$ and $r=5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(8,5) = \\frac{8!}{(8-5)!} = \\frac{8!}{3!}",
+      "description_latex": "We substitute $n=8$ and $r=5$ into the formula. The denominator becomes $3!$ because $8-5=3$. Now we need to simplify this fraction \u2014 try writing out $8!$ as a product of descending integers and cancelling the $3!$ in the denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Simplify $\\frac{8!}{3!}$ by cancelling the common factorial. Write $8! = 8 \\times 7 \\times 6 \\times 5 \\times 4 \\times 3!$ and cancel the $3!$, then multiply the remaining factors to find $P(8,5)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(8,5) = 8 \\times 7 \\times 6 \\times 5 \\times 4 = 6720",
+      "description_latex": "The five descending factors from 8 down to 4 multiply to 6720, which is the total number of ordered arrangements of 5 books chosen from 8. Notice this is exactly $r=5$ factors starting at $n=8$ \u2014 a useful pattern to remember.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $C(6, 2)$.",
+      "answer_latex": "C(6,2) = \\frac{6!}{2! \\cdot 4!} = \\frac{30}{2} = 15"
+    },
+    {
+      "prompt_latex": "A club has 9 members. In how many ways can a president, vice-president, and treasurer be chosen (all different people)?",
+      "answer_latex": "P(9,3) = 9 \\times 8 \\times 7 = 504"
+    },
+    {
+      "prompt_latex": "From a standard deck of 52 cards, how many different 5-card hands can be dealt (order does not matter)?",
+      "answer_latex": "C(52,5) = \\frac{52!}{5! \\cdot 47!} = 2{,}598{,}960"
+    },
+    {
+      "prompt_latex": "A student must answer 4 out of 7 essay questions on an exam. In how many ways can the student choose which questions to answer, and how does that count change if the student must also decide the order in which to write the answers?",
+      "answer_latex": "\\text{Unordered: } C(7,4) = 35; \\quad \\text{Ordered: } P(7,4) = 840"
+    },
+    {
+      "prompt_latex": "A password consists of 3 distinct letters chosen from A, B, C, D, E followed by 2 distinct digits chosen from 1, 2, 3, 4. How many different passwords are possible if order matters within each group?",
+      "answer_latex": "P(5,3) \\times P(4,2) = 60 \\times 12 = 720"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the permutation formula when the problem calls for a combination (or vice versa) because they forget to ask whether order matters. The fix: always identify a concrete example \u2014 if swapping two chosen items produces a meaningfully different outcome, use $P(n,r)$; if not, use $C(n,r)$.",
+    "Students compute $C(n,r)$ by forgetting to divide by $r!$ and simply write $\\frac{n!}{(n-r)!}$, getting the permutation count instead. Remember that combinations always have two factorials in the denominator: $r!$ and $(n-r)!$, and the extra $r!$ is precisely what makes selections unordered.",
+    "Students try to apply the formulas when $r > n$, such as computing $P(3,5)$, not realizing that $(n-r)!$ becomes $(3-5)! = (-2)!$, which is undefined. Whenever you see $r > n$, the count is simply 0 \u2014 you cannot choose more items than exist in the pool."
+  ],
+  "untested_variants": [
+    "Combinations with repetition (multiset coefficients), where items can be chosen more than once, using the formula $\\binom{n+r-1}{r}$.",
+    "Permutations of a multiset (arrangements with repeated elements), such as counting the distinct arrangements of the letters in MISSISSIPPI using $\\frac{n!}{n_1! n_2! \\cdots n_k!}$.",
+    "Circular permutations, where $n$ distinct objects are arranged around a circle and rotations are considered identical, giving $(n-1)!$ arrangements.",
+    "Two-stage counting problems that require both a combination and a probability calculation, such as finding the probability that a random 5-card hand contains exactly 2 aces."
+  ]
+}

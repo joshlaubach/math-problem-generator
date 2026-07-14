@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_047",
+  "topic_name": "Determinants and Cramer's Rule (H)",
+  "generated_at": "2026-05-12T23:54:14.261011+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to solve a 2\u00d72 linear system by substitution or elimination \u2014 those methods work, but they require a different sequence of steps every time. Now imagine you need to solve dozens of systems where only the constants change, or you need a formula that works symbolically. The standard methods give you no single, unified formula. So here's the question: is there a way to write the solution to $ax + by = e$, $cx + dy = f$ as a neat ratio involving only the coefficients?",
+  "concept": "A determinant is a single number computed from a square matrix that encodes key information about the system \u2014 most importantly, whether a unique solution exists. For a 2\u00d72 matrix $\\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$, the determinant is $\\det(A) = ad - bc$. Cramer's Rule then says each variable equals a ratio of determinants: replace the column of coefficients for that variable with the constant column, compute its determinant, and divide by $\\det(A)$.",
+  "anatomy": "In Cramer's Rule applied to the system $ax + by = e$, $cx + dy = f$, there are four structural pieces worth naming. The coefficient matrix $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$ holds all variable coefficients, and its determinant $D = ad - bc$ sits in every denominator. The matrix $A_x$ is formed by replacing $A$'s first column with the constant column $\\begin{pmatrix} e \\\\ f \\end{pmatrix}$, giving $D_x = ed - bf$. Similarly, $A_y$ replaces the second column, giving $D_y = af - ce$. The solution is then $x = D_x / D$ and $y = D_y / D$, valid only when $D \\neq 0$.",
+  "worked_example": [
+    {
+      "expression_latex": "3x + 2y = 7 \\quad \\text{and} \\quad x - 4y = -5",
+      "description_latex": "We start by identifying the coefficient matrix $A = \\begin{pmatrix} 3 & 2 \\\\ 1 & -4 \\end{pmatrix}$ and the constant column $\\begin{pmatrix} 7 \\\\ -5 \\end{pmatrix}$. Writing these out explicitly before computing anything keeps the structure clear and prevents column-swapping errors later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D = \\det(A) = (3)(-4) - (2)(1) = -12 - 2 = -14",
+      "description_latex": "We compute the main determinant $D$ first because it appears in both denominators \u2014 if $D = 0$ the system has no unique solution and Cramer's Rule does not apply. Here $D = -14 \\neq 0$, so we can proceed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D_x = \\det\\begin{pmatrix} 7 & 2 \\\\ -5 & -4 \\end{pmatrix} = (7)(-4) - (2)(-5) = -28 + 10 = -18",
+      "description_latex": "To find $D_x$ we replace the $x$-column (the first column) of $A$ with the constant column, then evaluate the determinant using the same $ad - bc$ pattern. Notice that the second column stays exactly as it was \u2014 only the first column changes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D_y = \\det\\begin{pmatrix} 3 & 7 \\\\ 1 & -5 \\end{pmatrix} = (3)(-5) - (7)(1) = -15 - 7 = -22",
+      "description_latex": "For $D_y$ we replace the $y$-column (the second column) with the constant column and again apply $ad - bc$. The first column is restored to its original coefficients $3$ and $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\frac{D_x}{D} = \\frac{-18}{-14} = \\frac{9}{7}, \\qquad y = \\frac{D_y}{D} = \\frac{-22}{-14} = \\frac{11}{7}",
+      "description_latex": "Finally, we divide each modified determinant by the main determinant $D$. Both negatives cancel in each fraction, giving the exact solution $\\left(\\tfrac{9}{7},\\, \\tfrac{11}{7}\\right)$. You can verify by substituting back into either original equation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "5x - y = 9 \\quad \\text{and} \\quad 2x + 3y = 4",
+      "description_latex": "Here is a new system. We begin by writing $A = \\begin{pmatrix} 5 & -1 \\\\ 2 & 3 \\end{pmatrix}$ with constant column $\\begin{pmatrix} 9 \\\\ 4 \\end{pmatrix}$. The main determinant is $D = (5)(3) - (-1)(2) = 15 + 2 = 17$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D_x = \\det\\begin{pmatrix} 9 & -1 \\\\ 4 & 3 \\end{pmatrix}",
+      "description_latex": "Now you need to compute $D_x$ by replacing the first column with the constants and evaluating the determinant. What is $(9)(3) - (-1)(4)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "D_y = \\det\\begin{pmatrix} 5 & 9 \\\\ 2 & 4 \\end{pmatrix} = (5)(4) - (9)(2) = 20 - 18 = 2",
+      "description_latex": "We compute $D_y$ by replacing the second column with the constants: $D_y = 2$. With $D = 17$, $D_x$ from your step, and $D_y = 2$, go ahead and write the final solution $x = D_x/D$ and $y = D_y/D$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use Cramer's Rule to solve: $2x + y = 5,\\; x - y = 1$",
+      "answer_latex": "x = 2,\\; y = 1"
+    },
+    {
+      "prompt_latex": "Use Cramer's Rule to solve: $4x - 3y = 10,\\; 2x + y = 0$",
+      "answer_latex": "x = 1,\\; y = -2"
+    },
+    {
+      "prompt_latex": "Use Cramer's Rule to solve: $7x + 2y = 3,\\; -x + 4y = 11$",
+      "answer_latex": "x = -\\dfrac{1}{15},\\; y = \\dfrac{40}{30} = \\dfrac{4}{3}"
+    },
+    {
+      "prompt_latex": "Find the value(s) of $k$ for which Cramer's Rule cannot be applied to the system $kx + 3y = 4,\\; 2x - y = 1$, then solve the system when $k = 5$ using Cramer's Rule.",
+      "answer_latex": "k = -6 \\text{ makes } D = 0;\\quad \\text{when } k=5:\\; x = \\dfrac{7}{11},\\; y = -\\dfrac{3}{11}"
+    },
+    {
+      "prompt_latex": "A vendor sells small cups for \\$3 and large cups for \\$5. In one hour she sells 20 cups and collects \\$84. Set up a linear system and use Cramer's Rule to find how many of each cup size she sold.",
+      "answer_latex": "8 \\text{ small cups},\\; 12 \\text{ large cups}"
+    }
+  ],
+  "common_mistakes": [
+    "Students replace the wrong column when forming $D_x$ or $D_y$ \u2014 for $D_x$ you must replace column 1 (the $x$-coefficients), not column 2. A reliable fix is to label each column with its variable before starting so the substitution target is always visible.",
+    "When computing the determinant $ad - bc$, students apply the subtraction in the wrong order, writing $bc - ad$ instead of $ad - bc$. Remember that the main diagonal product always comes first: top-left times bottom-right, minus top-right times bottom-left.",
+    "Students forget to check whether $D = 0$ before dividing, or they compute $D$ correctly but accidentally reuse a wrong value of $D$ (e.g., the value of $D_x$) in the denominator for $y$. Always compute and box $D$ separately before forming $x = D_x/D$ and $y = D_y/D$."
+  ],
+  "untested_variants": [
+    "Cramer's Rule applied to a 3\u00d73 system, which requires expanding a 3\u00d73 determinant and forming three modified matrices $A_x$, $A_y$, $A_z$.",
+    "Systems where $D = 0$ and the student must classify the system as either inconsistent (no solution) or dependent (infinitely many solutions) using the values of $D_x$ and $D_y$.",
+    "Using determinants to find the area of a triangle or parallelogram whose vertices are given as coordinate pairs, a geometric application of the same $ad - bc$ formula.",
+    "Solving a system in three variables where one equation has a zero coefficient (e.g., $x + 0y + 2z = 5$), requiring careful placement of zeros in the modified determinant matrices."
+  ]
+}

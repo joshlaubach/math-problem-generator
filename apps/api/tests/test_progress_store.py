@@ -78,6 +78,36 @@ class TestSeedDifficulty:
         assert progress_store.seed_difficulty("u1", "t", default=2) == 2
 
 
+class TestDueForReview:
+    def test_overdue_topic_surfaces(self, jsonl_store, monkeypatch):
+        import progress_store as ps
+        from datetime import datetime, timedelta, timezone
+
+        # Write a record, then force its next_review_at into the past
+        ps.apply_session_results("u1", {"t_due": "needs_work"})
+        past = (datetime.now(timezone.utc) - timedelta(days=1)).isoformat()
+        # Re-append with a past review date (last-write-wins)
+        ps._upsert_jsonl("u1", "t_due", {
+            "mastery_score": 0.3, "current_conceptual_diff": 2,
+            "current_computational_diff": 2, "streak": 0,
+            "last_reviewed_at": past, "next_review_at": past,
+        })
+        due = ps.due_for_review("u1")
+        assert any(d["topic_id"] == "t_due" for d in due)
+
+    def test_future_review_not_due(self, jsonl_store):
+        import progress_store as ps
+        # strong → next_review_at ~0.1*7 days out (future)
+        ps.apply_session_results("u1", {"t_future": "strong"})
+        assert ps.due_for_review("u1") == []
+
+    def test_never_raises(self, jsonl_store, monkeypatch):
+        import progress_store as ps
+        monkeypatch.setattr(ps, "_all_progress_for_user",
+                            lambda uid: (_ for _ in ()).throw(RuntimeError("down")))
+        assert ps.due_for_review("u1") == []
+
+
 class TestWeakTopics:
     def test_weak_topic_surfaces(self, jsonl_store):
         progress_store.apply_session_results("u1", {"weak_t": "needs_work"})

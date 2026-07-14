@@ -1,0 +1,81 @@
+{
+  "topic_id": "c1_034",
+  "topic_name": "Volume by Disk and Washer Methods",
+  "generated_at": "2026-05-13T00:12:19.226744+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find the area under a curve by integrating, and you can picture a flat region between a curve and the x-axis. But what happens when you spin that flat region around an axis? Suddenly you have a three-dimensional solid \u2014 a bowl, a spool, a donut shape \u2014 and area formulas are completely useless. How do you find the volume of a solid formed by rotating $y = \\sqrt{x}$ around the x-axis from $x = 0$ to $x = 4$?",
+  "concept": "The disk and washer methods let us find the volume of a solid of revolution by slicing it into infinitely thin circular cross-sections and integrating their areas. Each thin slice is a disk (a filled circle) or a washer (a ring with a hole), with thickness $dx$. The disk method gives $V = \\pi \\int_a^b [f(x)]^2\\, dx$, and the washer method gives $V = \\pi \\int_a^b \\left([R(x)]^2 - [r(x)]^2\\right) dx$, where $R$ is the outer radius and $r$ is the inner radius.",
+  "anatomy": "In both methods there are several critical geometric pieces to name. The axis of rotation is the line the region spins around, most commonly the x-axis or y-axis. The outer radius $R(x)$ is the distance from the axis of rotation to the farther boundary curve \u2014 this determines the full size of each circular slice. The inner radius $r(x)$ is the distance from the axis to the nearer boundary curve \u2014 when this is nonzero, you have a washer with a hole, and you subtract the area of that hole. The thickness $dx$ (or $dy$ when integrating with respect to $y$) is the infinitesimal width of each slice. In the disk method, $r(x) = 0$ because there is no hole.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Rotate } y = \\sqrt{x} \\text{ around the x-axis, } 0 \\le x \\le 4.",
+      "description_latex": "We start by identifying the setup: the region between $y = \\sqrt{x}$ and the x-axis is rotated around the x-axis, so each cross-sectional slice is a disk (no hole). The radius of each disk at position $x$ is simply the $y$-value of the curve, which is $R(x) = \\sqrt{x}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V = \\pi \\int_0^4 [R(x)]^2\\, dx = \\pi \\int_0^4 (\\sqrt{x})^2\\, dx",
+      "description_latex": "We apply the disk formula $V = \\pi \\int_a^b [R(x)]^2\\, dx$ and substitute $R(x) = \\sqrt{x}$. Squaring $\\sqrt{x}$ gives $x$, which makes this integral straightforward \u2014 this is exactly why identifying the radius before squaring is the critical first step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V = \\pi \\int_0^4 x\\, dx = \\pi \\left[\\frac{x^2}{2}\\right]_0^4",
+      "description_latex": "We integrate $x$ with respect to $x$ using the power rule, raising the exponent by one and dividing by the new exponent. The antiderivative is $\\frac{x^2}{2}$, and we evaluate it at the limits $x = 0$ and $x = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V = \\pi \\left(\\frac{16}{2} - 0\\right) = 8\\pi",
+      "description_latex": "Substituting $x = 4$ gives $\\frac{16}{2} = 8$, and $x = 0$ gives $0$, so the definite integral equals $8$. Multiplying by $\\pi$ yields the final volume $V = 8\\pi$ cubic units \u2014 always include units and always keep the leading $\\pi$ factor.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find the volume when the region between } y = x^2 \\text{ and } y = x \\text{ on } [0,1] \\text{ is rotated about the x-axis.}",
+      "description_latex": "Because there are two curves and the region between them is rotated, each slice is a washer with a hole. We first need to decide which function is farther from the x-axis on $[0, 1]$: since $x \\ge x^2$ on this interval, the outer radius is $R(x) = x$ and the inner radius is $r(x) = x^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V = \\pi \\int_0^1 \\left([R(x)]^2 - [r(x)]^2\\right) dx = \\pi \\int_0^1 \\left(x^2 - x^4\\right) dx",
+      "description_latex": "We substitute $R(x) = x$ and $r(x) = x^2$ into the washer formula, squaring each radius. Notice that we square each radius separately before subtracting \u2014 a very common mistake is to subtract first and then square, which gives the wrong answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate the definite integral $\\pi \\int_0^1 (x^2 - x^4)\\, dx$ by finding the antiderivative of each term using the power rule, then applying the Fundamental Theorem of Calculus at $x = 1$ and $x = 0$. What is the final volume?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the volume of the solid formed by rotating $y = 3$ around the x-axis on $[0, 5]$.",
+      "answer_latex": "V = 45\\pi"
+    },
+    {
+      "prompt_latex": "Find the volume of the solid formed by rotating $y = x^2$ around the x-axis on $[0, 2]$.",
+      "answer_latex": "V = \\dfrac{32\\pi}{5}"
+    },
+    {
+      "prompt_latex": "Find the volume of the solid formed by rotating the region between $y = 2$ and $y = x$ around the x-axis on $[0, 2]$.",
+      "answer_latex": "V = \\dfrac{8\\pi}{3}"
+    },
+    {
+      "prompt_latex": "Find the volume of the solid formed by rotating $y = e^x$ around the x-axis on $[0, 1]$. (Your answer will involve $e$.)",
+      "answer_latex": "V = \\dfrac{\\pi}{2}(e^2 - 1)"
+    },
+    {
+      "prompt_latex": "A manufacturer wants to model a bowl by rotating the curve $y = x^2$ around the y-axis from $y = 0$ to $y = 4$. Set up and evaluate the integral for the interior volume of the bowl using the disk method with respect to $y$.",
+      "answer_latex": "V = \\pi \\int_0^4 y\\, dy = 8\\pi"
+    }
+  ],
+  "common_mistakes": [
+    "Students subtract the radii before squaring, writing $[R(x) - r(x)]^2$ instead of $[R(x)]^2 - [r(x)]^2$. These expressions are algebraically very different \u2014 always square each radius separately before subtracting.",
+    "Students forget the $\\pi$ factor entirely or place it inside the integral as if it depends on $x$. The $\\pi$ comes from the area of a circle ($\\pi r^2$) and is a constant multiplier that belongs outside the integral sign.",
+    "Students incorrectly identify which curve is the outer radius and which is the inner radius, especially when both curves are above the x-axis. Always check which function has larger $y$-values on the given interval before labeling $R(x)$ and $r(x)$, or you will subtract in the wrong direction and get a negative integrand."
+  ],
+  "untested_variants": [
+    "Rotating a region around a horizontal line other than the x-axis, such as $y = -2$ or $y = 3$, which shifts both radii by an additive constant.",
+    "Rotating a region around the y-axis or a vertical line, requiring integration with respect to $y$ and expressing $x$ as a function of $y$.",
+    "Solids where the two boundary curves intersect inside the interval, requiring the student to split the integral at the intersection point and reconsider which curve is outer and which is inner on each sub-interval.",
+    "Finding the volume of a solid of revolution and then equating it to a given volume to solve for an unknown parameter or limit of integration."
+  ]
+}

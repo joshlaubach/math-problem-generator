@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_003",
+  "topic_name": "Measures of Center: Mean, Median, Mode",
+  "generated_at": "2026-05-13T20:28:54.766524+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to find an average \u2014 add up the numbers and divide by how many there are. But imagine a neighborhood where nine people earn $40,000 a year and one person earns $10,000,000. The 'average' salary comes out near $1,000,000, which describes nobody's actual experience. So which single number best represents a dataset, and how do we choose the right one?",
+  "concept": "A measure of center is a single value that summarizes where the 'middle' of a dataset lies. The three main measures are the mean (the arithmetic average), the median (the middle value when data are ordered), and the mode (the most frequently occurring value). Formally, for $n$ data values $x_1, x_2, \\ldots, x_n$, the mean is $\\bar{x} = \\frac{\\sum_{i=1}^{n} x_i}{n}$, the median is the middle value (or average of the two middle values) of the ordered list, and the mode is the value that appears most often.",
+  "anatomy": "Each measure has distinct structural parts. For the mean: the numerator is the sum $\\sum x_i$ (every data value added together), and the denominator is $n$ (the count of values). For the median: you need an ordered dataset (sorted smallest to largest), and you locate the middle position using $\\frac{n+1}{2}$; if $n$ is odd there is one middle value, if $n$ is even you average the two values at positions $\\frac{n}{2}$ and $\\frac{n}{2}+1$. For the mode: you tally the frequency of each value \u2014 a dataset can be unimodal (one mode), bimodal (two modes), or have no mode at all.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Dataset: } 3, 7, 7, 2, 9, 4, 7",
+      "description_latex": "Here is our raw dataset with seven values. Before computing anything, it helps to write down $n = 7$ so we always know how many values we are working with \u2014 this number will appear in the mean formula and will tell us which position holds the median.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{3 + 7 + 7 + 2 + 9 + 4 + 7}{7} = \\frac{39}{7} \\approx 5.57",
+      "description_latex": "To find the mean, we add every value in the dataset to get the sum $39$, then divide by $n = 7$. The result $\\approx 5.57$ is the balance point of the data \u2014 it accounts for every single value, which is why one unusually large or small number can pull it away from the center.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Ordered: } 2, 3, 4, 7, 7, 7, 9",
+      "description_latex": "To find the median we must first sort the values from smallest to largest. Sorting is a required step \u2014 skipping it is one of the most common errors students make, and using the unordered list will almost always give the wrong answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Median position} = \\frac{7+1}{2} = 4 \\quad \\Rightarrow \\quad \\text{Median} = 7",
+      "description_latex": "With $n = 7$ (odd), the median sits at position $\\frac{n+1}{2} = 4$ in the ordered list. Counting to the 4th value in $2, 3, 4, \\mathbf{7}, 7, 7, 9$ gives us $7$. Notice the median equals $7$ even though the mean was only $5.57$ \u2014 each measure tells us something slightly different about the center.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Mode} = 7 \\quad (\\text{appears 3 times})",
+      "description_latex": "The mode is simply the value that occurs most frequently. Here $7$ appears three times and every other value appears only once, so $7$ is the unique mode. When the mean, median, and mode are all close together (as they are here), the distribution is roughly symmetric.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Dataset: } 12, 5, 8, 5, 20, 15, 8, 8",
+      "description_latex": "We have $n = 8$ values. Let's find all three measures of center for this dataset. Start by identifying the mode \u2014 scan the list and count how often each value appears.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Mode} = 8 \\quad (\\text{appears 3 times})",
+      "description_latex": "Good \u2014 $8$ appears three times, more than any other value, so the mode is $8$. Now sort the dataset in order from smallest to largest so we can find the median.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Ordered: } 5, 5, 8, 8, 8, 12, 15, 20",
+      "description_latex": "The dataset is now sorted. Because $n = 8$ is even, the median is the average of the values at positions $\\frac{8}{2} = 4$ and $\\frac{8}{2}+1 = 5$. Find those two values and compute the median.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the mean: add all eight values together and divide by $8$. Write your answer as a decimal rounded to two places.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find the mean of: } 4, 6, 8, 10, 12",
+      "answer_latex": "\\bar{x} = 8"
+    },
+    {
+      "prompt_latex": "\\text{Find the median of: } 15, 3, 9, 7, 21, 3, 11",
+      "answer_latex": "\\text{Median} = 9"
+    },
+    {
+      "prompt_latex": "\\text{Find the mean, median, and mode of: } 6, 2, 6, 4, 8, 6, 2, 10",
+      "answer_latex": "\\bar{x} = 5.5, \\quad \\text{Median} = 6, \\quad \\text{Mode} = 6"
+    },
+    {
+      "prompt_latex": "\\text{A dataset has six values. Five of the values are } 4, 7, 7, 9, 13 \\text{ and the mean is } 8. \\text{ Find the missing value.}",
+      "answer_latex": "\\text{Missing value} = 8"
+    },
+    {
+      "prompt_latex": "\\text{Seven students scored: } 82, 91, 78, 95, 82, 70, 88 \\text{ on a test. A new student joins with a score of } 55. \\text{ By how much does the mean change, and does the median change?}",
+      "answer_latex": "\\text{Original mean} \\approx 83.7; \\text{ new mean} = 80.1; \\text{ mean drops by about } 3.6 \\text{ points. Median changes from } 82 \\text{ to } 85."
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting to sort the data before finding the median: students sometimes pick the middle value of the original unordered list, which is almost never the correct median. Always sort first, then count to the middle position.",
+    "When $n$ is even, finding the median by picking one middle value instead of averaging the two: with an even number of data points there is no single middle value, so the median is $\\frac{x_{n/2} + x_{n/2+1}}{2}$ \u2014 skipping this average step produces an answer that isn't even in the dataset.",
+    "Dividing by the number of distinct values rather than the total count when computing the mean: if the dataset is $3, 3, 3, 9$ a student might divide by $2$ (two unique values) instead of $4$, giving $3$ instead of the correct $\\bar{x} = 4.5$. Always divide by how many data values there are in total, counting repeats."
+  ],
+  "untested_variants": [
+    "Finding measures of center from a frequency table or grouped data, where values are given as 'value: frequency' pairs rather than a raw list.",
+    "Weighted mean problems, where different data points carry different weights (e.g., course grades with varying credit hours).",
+    "Identifying which measure of center is most appropriate to report for a skewed distribution or one with extreme outliers, and justifying the choice in writing.",
+    "Computing the mean and median of negative numbers or datasets that include zero, where students must be careful with signed arithmetic and position-counting."
+  ]
+}

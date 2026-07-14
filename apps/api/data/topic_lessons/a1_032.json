@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_032",
+  "topic_name": "Applications of Systems",
+  "generated_at": "2026-05-12T22:40:14.775427+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to solve a system of two equations to find where two lines intersect. But what happens when a real problem doesn't hand you the equations \u2014 it just gives you a story? For example: a school store sells pencils for $0.25 and pens for $0.75. On Monday, 18 items were sold for a total of $9.50. How many of each were sold? You have all the algebra skills to crack this, but the tricky part is translating the words into equations. So how do you build the system in the first place?",
+  "concept": "Applications of systems means taking a real-world situation with two unknown quantities and two relationships, writing a system of two linear equations, and solving it. In plain English: find two things you don't know, write one equation for each constraint the problem gives you, then solve. Formally, if the unknowns are $x$ and $y$, you build equations of the form $ax + by = c$ and $dx + ey = f$, then solve the system for the pair $(x, y)$ that satisfies both.",
+  "anatomy": "Every application problem has four structural pieces you must identify. The two unknowns are the quantities you name with variables, typically $x$ and $y$ \u2014 always define them explicitly in words (e.g., 'let $x$ = number of adult tickets'). The two constraint equations each encode one relationship from the problem: a quantity constraint (like 'total number of items is 18,' giving $x + y = 18$) and a value or rate constraint (like 'total cost is $9.50,' giving $0.25x + 0.75y = 9.50$). The solution $(x, y)$ must satisfy both equations simultaneously.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Let } x = \\text{number of adult tickets, } y = \\text{number of child tickets}",
+      "description_latex": "Before writing any equation, we name our unknowns precisely. A theater sells adult tickets for $\\$12$ and child tickets for $\\$8$; on Saturday, 200 tickets were sold for $\\$2{,}100$ total. Defining variables explicitly prevents confusion later \u2014 without clear labels, it's easy to mix up which answer belongs to which quantity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x + y = 200",
+      "description_latex": "The first constraint is the total number of tickets sold: adult tickets plus child tickets equals 200. This is the quantity equation, and it captures the counting relationship between the two unknowns.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "12x + 8y = 2100",
+      "description_latex": "The second constraint is the total revenue: each adult ticket contributes $\\$12$ and each child ticket contributes $\\$8$, and together they generate $\\$2{,}100$. This is the value equation, and it captures how the price of each item type combines to reach the total.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x + y = 200 \\implies y = 200 - x \\quad \\Rightarrow \\quad 12x + 8(200 - x) = 2100",
+      "description_latex": "We solve by substitution: from the first equation, $y = 200 - x$, and we substitute this expression into the second equation. This eliminates one variable so we have a single equation in $x$ alone, which we can solve directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "12x + 1600 - 8x = 2100 \\implies 4x = 500 \\implies x = 125, \\quad y = 75",
+      "description_latex": "Distributing and combining like terms gives $4x = 500$, so $x = 125$ adult tickets, and substituting back gives $y = 200 - 125 = 75$ child tickets. Always check: $125 + 75 = 200$ \u2713 and $12(125) + 8(75) = 1500 + 600 = 2100$ \u2713 \u2014 both original constraints are satisfied.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Let } x = \\text{liters of 20\\% solution, } y = \\text{liters of 50\\% solution}",
+      "description_latex": "A chemist needs to mix a 20% acid solution with a 50% acid solution to make 12 liters of a 30% acid solution. We start by naming our unknowns: $x$ is the liters of the 20% solution and $y$ is the liters of the 50% solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x + y = 12",
+      "description_latex": "The total volume must be 12 liters, so the quantity equation is $x + y = 12$. This is done for you \u2014 notice it only uses the total amount, not the acid percentages.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write the concentration (value) equation. The amount of pure acid from each solution must add up to the acid in the final mixture: the 20% solution contributes $0.20x$ liters of acid, the 50% solution contributes $0.50y$ liters, and the 12-liter final mixture is 30% acid. Write that equation.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using your two equations, solve the system to find $x$ and $y$. What are the amounts of each solution needed? Show your work and verify both equations hold.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "The sum of two numbers is 40 and their difference is 8. Write and solve a system of equations to find the two numbers.",
+      "answer_latex": "x = 24, \\quad y = 16"
+    },
+    {
+      "prompt_latex": "A store sells small candles for $\\$4$ each and large candles for $\\$7$ each. A customer buys 10 candles and spends $\\$55$. How many of each type did the customer buy?",
+      "answer_latex": "5 \\text{ small candles and } 5 \\text{ large candles}"
+    },
+    {
+      "prompt_latex": "A farmer has chickens and cows. There are 30 animals total and 84 legs total. How many chickens and how many cows are there? (Chickens have 2 legs; cows have 4 legs.)",
+      "answer_latex": "18 \\text{ chickens and } 12 \\text{ cows}"
+    },
+    {
+      "prompt_latex": "Two friends start 15 miles apart and walk toward each other. One walks at 3 mph and the other at 2 mph. Write a system using distance $d_1, d_2$ and time $t$, noting $d_1 + d_2 = 15$ and $d_1 = 3t$, $d_2 = 2t$. How long until they meet, and how far has each walked?",
+      "answer_latex": "t = 3 \\text{ hours}; \\quad d_1 = 9 \\text{ mi}, \\quad d_2 = 6 \\text{ mi}"
+    },
+    {
+      "prompt_latex": "A coffee shop blends a $\\$6$/lb coffee with a $\\$10$/lb coffee to make 20 lb of a blend worth $\\$8$/lb. How many pounds of each type are used?",
+      "answer_latex": "10 \\text{ lb of } \\$6\\text{/lb coffee and } 10 \\text{ lb of } \\$10\\text{/lb coffee}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write only one equation instead of two, often capturing the quantity relationship but forgetting the value or rate relationship. The fix is to always ask yourself: 'What two separate facts does the problem state?' and make sure each fact becomes its own equation.",
+    "Students set up the value equation using the wrong coefficients \u2014 for example, writing $x + y = 55$ for a money problem instead of $4x + 7y = 55$. Remember that the value equation multiplies each variable by its unit price (or rate), not just counts the items.",
+    "After solving, students report only the value of $x$ and forget to find $y$, or they mix up which variable was defined as which quantity. The fix is to re-read your variable definitions at the start before writing the final answer, and always check both original equations with the numbers you found."
+  ],
+  "untested_variants": [
+    "Break-even analysis problems where students must find the number of units at which revenue equals cost, given separate cost and revenue functions.",
+    "Problems involving motion in the same direction (overtaking problems), where one traveler has a head start and you set distance equations equal rather than summing them.",
+    "Investment or interest problems where money is split between two accounts at different annual interest rates and the total interest earned is given.",
+    "Problems requiring the student to recognize when the system has no solution or infinitely many solutions in context \u2014 for example, a mixture scenario where the desired concentration is outside the range of the two available solutions."
+  ]
+}

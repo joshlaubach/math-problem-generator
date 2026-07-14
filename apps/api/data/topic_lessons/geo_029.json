@@ -1,0 +1,86 @@
+{
+  "topic_id": "geo_029",
+  "topic_name": "Classifying Triangles",
+  "generated_at": "2026-05-12T23:00:39.964334+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to measure angles and identify side lengths in a triangle. But imagine you're given a triangle with sides of length 3, 3, and 5 \u2014 can you instantly describe what kind of triangle it is, or predict whether its angles are all sharp, one wide, or perfectly equal? Classifying triangles gives you a precise vocabulary and a decision-making framework, but right now you might not know which measurements to look at first, or whether angles and sides give you different \u2014 or the same \u2014 type of classification. So, how do we systematically sort any triangle into the right category?",
+  "concept": "Classifying triangles means sorting them into named groups based on their measurable properties. There are two independent classification systems: one by side lengths and one by angle measures. By sides: a triangle is equilateral if all three sides are equal, isosceles if exactly two sides are equal, and scalene if no two sides are equal. By angles: a triangle is acute if all three angles satisfy $m\\angle < 90\u00b0$, right if one angle satisfies $m\\angle = 90\u00b0$, and obtuse if one angle satisfies $m\\angle > 90\u00b0$.",
+  "anatomy": "Each triangle has three sides and three interior angles, and both sets of measurements contribute to classification independently. The side-length classification depends on comparing the lengths \u2014 call them $a$, $b$, and $c$ \u2014 to each other: equilateral means $a = b = c$, isosceles means exactly two of the three are equal (for example, $a = b \\neq c$), and scalene means $a \\neq b$, $b \\neq c$, and $a \\neq c$. The angle classification depends on the largest interior angle $\\angle_{\\max}$: if $\\angle_{\\max} < 90\u00b0$ the triangle is acute, if $\\angle_{\\max} = 90\u00b0$ it is right, and if $\\angle_{\\max} > 90\u00b0$ it is obtuse. Combining one label from each system gives a complete classification, such as 'acute isosceles' or 'right scalene.'",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Triangle with sides } 5, 5, 8 \\text{ and angles } 76\u00b0, 76\u00b0, 28\u00b0",
+      "description_latex": "We are given all three side lengths and all three angle measures, so our job is to apply both classification systems in turn. Start by writing down the two pieces of information separately so you don't confuse them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Side classification: } 5 = 5 \\neq 8 \\Rightarrow \\text{isosceles}",
+      "description_latex": "We compare the three side lengths to each other. Two sides share the same value (both equal 5) while the third side is different (8), which is exactly the definition of isosceles \u2014 exactly two sides are equal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\angle_{\\max} = 76\u00b0 < 90\u00b0",
+      "description_latex": "Now we look at the angles. The largest angle in this triangle is $76\u00b0$, and since $76\u00b0 < 90\u00b0$, every angle is less than $90\u00b0$. A triangle where all three angles are less than $90\u00b0$ is classified as acute.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Classification: acute isosceles}",
+      "description_latex": "We combine one label from the angle system (acute) and one from the side system (isosceles) to give the complete, two-part classification. Always check that your angle label and your side label come from different systems so you haven't accidentally mixed them up.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Triangle with sides } 6, 8, 10 \\text{ and angles } 37\u00b0, 53\u00b0, 90\u00b0",
+      "description_latex": "We want to fully classify this triangle using both the side-length system and the angle system. Let's begin with the sides: write out the three lengths and compare them pairwise.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "6 \\neq 8, \\quad 8 \\neq 10, \\quad 6 \\neq 10 \\Rightarrow \\text{scalene}",
+      "description_latex": "All three side lengths are different from one another, so the side classification is scalene. Now look at the three angle measures \u2014 identify the largest angle and decide which angle category applies.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "What is the angle classification of this triangle? Identify $\\angle_{\\max}$ among $37\u00b0$, $53\u00b0$, and $90\u00b0$, state whether it is less than, equal to, or greater than $90\u00b0$, and write the correct angle label (acute, right, or obtuse).",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Classification: right scalene}",
+      "description_latex": "Because $\\angle_{\\max} = 90\u00b0$ the triangle is right, and because all three sides differ it is scalene, giving the full label: right scalene. Notice that the famous 6-8-10 triangle is just a scaled version of the 3-4-5 right triangle \u2014 a good pattern to remember.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{A triangle has sides } 7, 7, 7 \\text{ and angles } 60\u00b0, 60\u00b0, 60\u00b0. \\text{ Classify it by sides and by angles.}",
+      "answer_latex": "\\text{equilateral (sides) and acute (angles)} \\Rightarrow \\text{acute equilateral}"
+    },
+    {
+      "prompt_latex": "\\text{A triangle has sides } 4, 7, 9 \\text{ and angles } 24\u00b0, 49\u00b0, 107\u00b0. \\text{ Classify it fully.}",
+      "answer_latex": "\\text{scalene (no equal sides) and obtuse } (107\u00b0 > 90\u00b0) \\Rightarrow \\text{obtuse scalene}"
+    },
+    {
+      "prompt_latex": "\\text{A triangle has two sides of length } 5 \\text{ and one side of length } 6. \\text{ Two angles each measure } 54\u00b0 \\text{ and one measures } 72\u00b0. \\text{ Classify it fully.}",
+      "answer_latex": "\\text{isosceles and acute} \\Rightarrow \\text{acute isosceles}"
+    },
+    {
+      "prompt_latex": "\\text{You know two angles of a triangle: } 35\u00b0 \\text{ and } 55\u00b0. \\text{ The sides opposite those angles have lengths } 4 \\text{ and } 5. \\text{ The third side has length } 6.4. \\text{ Find the third angle, then classify the triangle fully.}",
+      "answer_latex": "\\text{Third angle: } 180\u00b0 - 35\u00b0 - 55\u00b0 = 90\u00b0. \\text{ Sides } 4 \\neq 5 \\neq 6.4 \\Rightarrow \\text{scalene. Largest angle } = 90\u00b0 \\Rightarrow \\text{right scalene.}"
+    },
+    {
+      "prompt_latex": "\\text{A triangular garden plot has corner angles measuring } (2x+10)\u00b0, (3x-5)\u00b0, \\text{ and } 45\u00b0. \\text{ Solve for } x, \\text{ find all three angles, and classify the triangle by angles.}",
+      "answer_latex": "(2x+10)+(3x-5)+45=180 \\Rightarrow 5x+50=180 \\Rightarrow x=26. \\text{ Angles: } 62\u00b0, 73\u00b0, 45\u00b0. \\text{ All } < 90\u00b0 \\Rightarrow \\text{acute}"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes call a triangle 'isosceles' whenever two angles are equal, forgetting that the isosceles label belongs to the side-length system \u2014 while equal angles do imply equal sides, you should always state which system each label comes from to avoid mixing them together.",
+    "When classifying by angles, students check whether any angle equals or exceeds 90\u00b0 rather than focusing specifically on the largest angle; since a triangle can have at most one non-acute angle, it is faster and clearer to identify the maximum angle first and compare only that one value to 90\u00b0.",
+    "Students forget that equilateral is a special case of isosceles and sometimes label a triangle with all equal sides as isosceles \u2014 while technically isosceles means at least two sides equal (by some definitions), in most geometry courses equilateral is its own category and should be named precisely when all three sides are equal."
+  ],
+  "untested_variants": [
+    "Classifying triangles given only algebraic expressions for side lengths (e.g., sides labeled $2x$, $2x$, and $x+4$) where you must first solve for $x$ before comparing lengths.",
+    "Determining whether a set of three given side lengths can even form a valid triangle using the Triangle Inequality Theorem before attempting to classify it.",
+    "Using the converse of the Pythagorean Theorem ($a^2 + b^2$ vs. $c^2$) to classify a triangle as acute, right, or obtuse without being given any angle measures.",
+    "Identifying triangle classifications from coordinate geometry, where you must first compute side lengths using the distance formula $d = \\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$ before classifying."
+  ]
+}

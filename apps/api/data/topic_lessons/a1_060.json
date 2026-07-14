@@ -1,0 +1,76 @@
+{
+  "topic_id": "a1_060",
+  "topic_name": "Choosing a Solution Method",
+  "generated_at": "2026-05-12T22:48:47.453679+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know several ways to solve quadratic equations \u2014 factoring, completing the square, and the quadratic formula \u2014 but every time you see a new problem, do you find yourself wondering which method to reach for first? Consider the equation $x^2 - 9 = 0$: you could use the quadratic formula and grind through the arithmetic, but there's a much faster path hiding right in front of you. And what about $x^2 + 5x + 3 = 0$, where factoring just doesn't seem to work? How do you know when to give up on one method and switch to another?",
+  "concept": "Choosing a solution method means reading the structure of a quadratic equation and picking the most efficient tool: factoring when the equation factors cleanly, square-root property when there is no linear term, completing the square when you need exact vertex form, and the quadratic formula as the universal fallback. Formally, for any equation in the form $ax^2 + bx + c = 0$, your goal is to identify structural clues \u2014 the value of $b$, whether $a = 1$, and whether the discriminant $b^2 - 4ac$ is a perfect square \u2014 to select the fastest path to the solution.",
+  "anatomy": "Every quadratic $ax^2 + bx + c = 0$ has four structural clues that guide your method choice. The leading coefficient $a$ tells you whether the parabola is scaled; if $a = 1$ the algebra stays simple. The linear coefficient $b$ is the biggest signal: if $b = 0$ the equation has no middle term and the square-root property solves it in one step. The constant $c$ combined with $a$ and $b$ lets you test the discriminant $b^2 - 4ac$: a perfect-square discriminant signals clean rational roots via factoring, while a non-perfect-square discriminant means you need the quadratic formula or completing the square. The form of the equation \u2014 whether it is already isolated, already factored, or in standard form \u2014 determines how many rearrangement steps precede the chosen method.",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 - 16 = 0",
+      "description_latex": "We start by scanning the equation for structural clues. Notice that $b = 0$ \u2014 there is no $x$ term at all \u2014 which tells us the square-root property is the fastest route: we simply isolate $x^2$ and take the square root of both sides.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 = 16",
+      "description_latex": "We add 16 to both sides to isolate $x^2$. Now the equation is in the perfect form for the square-root property: whatever is squared equals a number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\pm\\sqrt{16} = \\pm 4",
+      "description_latex": "Taking the square root of both sides \u2014 and remembering the $\\pm$ because both $4^2$ and $(-4)^2$ equal 16 \u2014 gives us both solutions instantly. This whole problem took two steps precisely because we recognized the $b = 0$ clue and chose the right method.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^2 + 7x + 10 = 0",
+      "description_latex": "We scan for structural clues: $a = 1$, $b = 7$, $c = 10$. The leading coefficient is 1, so factoring is worth trying first. We ask: what two numbers multiply to $c = 10$ and add to $b = 7$?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x + 2)(x + 5) = 0",
+      "description_latex": "The numbers 2 and 5 multiply to 10 and add to 7, so the factored form is $(x+2)(x+5) = 0$. Now apply the Zero Product Property: if the product of two factors is zero, at least one factor must equal zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Set each factor equal to zero and solve for $x$. What are the two solutions? Write both values of $x$ that satisfy $x + 2 = 0$ and $x + 5 = 0$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the best method AND solve: $x^2 = 25$",
+      "answer_latex": "Square-root property; $x = \\pm 5$"
+    },
+    {
+      "prompt_latex": "Identify the best method AND solve: $x^2 + 6x + 8 = 0$",
+      "answer_latex": "Factoring; $x = -2$ or $x = -4$"
+    },
+    {
+      "prompt_latex": "Identify the best method AND solve: $x^2 + 4x + 1 = 0$",
+      "answer_latex": "Quadratic formula (discriminant $= 12$, not a perfect square); $x = \\dfrac{-4 \\pm 2\\sqrt{3}}{2} = -2 \\pm \\sqrt{3}$"
+    },
+    {
+      "prompt_latex": "Identify the best method AND solve: $2x^2 - 8 = 0$",
+      "answer_latex": "Square-root property after dividing by 2; $x = \\pm 2$"
+    },
+    {
+      "prompt_latex": "A rectangular garden has an area of 40 square feet. Its length is 3 feet more than its width. Write and solve a quadratic equation to find the width, choosing an appropriate method.",
+      "answer_latex": "$w^2 + 3w - 40 = 0$; factoring gives $(w+8)(w-5)=0$, so $w = 5$ feet (rejecting the negative root)"
+    }
+  ],
+  "common_mistakes": [
+    "Students default to the quadratic formula for every problem, even when $b = 0$ makes the square-root property trivially faster \u2014 the fix is to always check whether $b = 0$ first, before reaching for any formula.",
+    "When trying to factor, students forget to check the discriminant $b^2 - 4ac$ and spend several minutes searching for integer factor pairs that don't exist; if the discriminant is not a perfect square, factoring over the integers is impossible and you should switch to the quadratic formula immediately.",
+    "Students misidentify a factorable equation because they forget to write it in standard form $ax^2 + bx + c = 0$ first \u2014 for example, treating $x^2 + 5x = -6$ as unfactorable when moving the $-6$ to the other side reveals $x^2 + 5x + 6 = 0 = (x+2)(x+3)$; always rearrange to standard form before evaluating your method options."
+  ],
+  "untested_variants": [
+    "Quadratics with a leading coefficient $a \\neq 1$ that are still factorable, such as $2x^2 + 7x + 3 = 0$, where students must factor by grouping or use the AC method before applying the Zero Product Property.",
+    "Completing the square as the chosen method when the problem explicitly requires vertex form, for example rewriting $x^2 + 8x + 5 = 0$ by completing the square rather than using the quadratic formula.",
+    "Equations that first require distributing or simplifying before the standard-form structure is visible, such as $(x + 3)(x - 1) = 5$, where students must expand and rearrange before choosing a method.",
+    "Choosing a method for quadratics with irrational or complex solutions, where the discriminant is negative, and recognizing that the quadratic formula is the only viable method while also identifying that no real solutions exist."
+  ]
+}

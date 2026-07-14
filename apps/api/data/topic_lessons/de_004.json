@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_004",
+  "topic_name": "Exact Equations",
+  "generated_at": "2026-05-13T19:59:42.583148+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve separable equations by splitting variables to opposite sides, but what happens when an equation like $(2xy + 3)dx + (x^2 - 4y)dy = 0$ refuses to separate? You might notice something special: if you differentiate $F(x,y) = x^2y + 3x - 2y^2$ with respect to $x$ and $y$, you recover exactly those coefficients. But how do you recognize when this hidden function $F$ exists, and how do you systematically find it?",
+  "concept": "An exact equation is a first-order ODE written in the form $M(x,y)dx + N(x,y)dy = 0$ where the left side is actually the total differential $dF$ of some potential function $F(x,y)$. Formally, the equation is exact if $\\frac{\\partial M}{\\partial y} = \\frac{\\partial N}{\\partial x}$, and the solution is $F(x,y) = C$, found by integrating $M$ with respect to $x$ and matching with $N$.",
+  "anatomy": "The equation $M(x,y)dx + N(x,y)dy = 0$ has two coefficient functions: $M(x,y)$, which is the coefficient of $dx$ (think of it as the partial derivative $F_x$), and $N(x,y)$, which is the coefficient of $dy$ (think of it as $F_y$). The exactness condition $\\frac{\\partial M}{\\partial y} = \\frac{\\partial N}{\\partial x}$ is a mixed-partial equality test rooted in Clairaut's theorem. The potential function $F(x,y)$ is the central object whose level curves $F(x,y) = C$ give the implicit general solution. The arbitrary function $g(y)$ that appears during integration plays the role of the 'constant of integration' for a partial integral.",
+  "worked_example": [
+    {
+      "expression_latex": "M = 2xy + 3, \\quad N = x^2 - 4y",
+      "description_latex": "We begin by identifying $M$ and $N$ from the equation $(2xy+3)dx + (x^2-4y)dy = 0$. This labeling is the essential first step because everything that follows depends on knowing which expression pairs with $dx$ and which pairs with $dy$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial M}{\\partial y} = 2x, \\quad \\frac{\\partial N}{\\partial x} = 2x",
+      "description_latex": "We apply the exactness test by computing the partial derivative of $M$ with respect to $y$ and the partial derivative of $N$ with respect to $x$. Since both equal $2x$, the condition $\\frac{\\partial M}{\\partial y} = \\frac{\\partial N}{\\partial x}$ holds and the equation is exact, so a potential function $F$ is guaranteed to exist.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F = \\int M \\, dx = \\int (2xy + 3)\\, dx = x^2 y + 3x + g(y)",
+      "description_latex": "Because $F_x = M$, we integrate $M$ with respect to $x$, treating $y$ as a constant. The key subtlety here is that the usual constant of integration is replaced by an unknown function $g(y)$, because $F$ could depend on $y$ in ways invisible to the $x$-integral.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F_y = x^2 + g'(y) = N = x^2 - 4y \\implies g'(y) = -4y \\implies g(y) = -2y^2",
+      "description_latex": "We differentiate our expression for $F$ with respect to $y$ and set it equal to $N$, which lets us solve for $g'(y)$. Integrating $g'(y) = -4y$ gives $g(y) = -2y^2$; we drop the constant here because it will be absorbed into $C$ in the final answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F(x,y) = x^2 y + 3x - 2y^2 = C",
+      "description_latex": "The general solution is the family of level curves of the potential function $F$. We write $F(x,y) = C$ as an implicit equation; this single expression encodes all solution curves of the original differential equation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "M = y^2 - 2x, \\quad N = 2xy + \\cos y",
+      "description_latex": "We start by reading off $M$ and $N$ from the equation $(y^2 - 2x)dx + (2xy + \\cos y)dy = 0$. Always label these first before doing anything else.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial M}{\\partial y} = 2y, \\quad \\frac{\\partial N}{\\partial x} = 2y",
+      "description_latex": "Compute both partial derivatives to confirm the equation is exact. Since $\\frac{\\partial M}{\\partial y} = \\frac{\\partial N}{\\partial x} = 2y$, we can proceed to find $F$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now integrate $M$ with respect to $x$ to find $F(x,y) = \\int (y^2 - 2x)\\, dx$, remembering to include $g(y)$ instead of a plain constant. What is $F(x,y)$ at this stage?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Differentiate your $F$ with respect to $y$, set it equal to $N = 2xy + \\cos y$, solve for $g'(y)$, integrate to find $g(y)$, and write the complete general solution $F(x,y) = C$. What is the final answer?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Verify that $(3x^2 + y)dx + (x)dy = 0$ is exact and solve it.",
+      "answer_latex": "x^3 + xy = C"
+    },
+    {
+      "prompt_latex": "Solve $(2xy - \\sin x)dx + (x^2 + e^y)dy = 0$.",
+      "answer_latex": "x^2 y + \\cos x + e^y = C"
+    },
+    {
+      "prompt_latex": "Solve $(ye^{xy} + 2x)dx + (xe^{xy} - 3y^2)dy = 0$.",
+      "answer_latex": "e^{xy} + x^2 - y^3 = C"
+    },
+    {
+      "prompt_latex": "Solve the exact equation $(\\ln y + \\frac{1}{y})dx + (\\frac{x}{y} - \\frac{x}{y^2})dy = 0$, then apply the initial condition $y(1) = e$ to find the particular solution.",
+      "answer_latex": "x \\ln y - \\frac{x}{y} = 1 - e^{-1}"
+    },
+    {
+      "prompt_latex": "A temperature field $T(x,y)$ satisfies $\\nabla T = \\langle 4x^3 y^2 - y, \\, 2x^4 y - x + 3y^2 \\rangle$. The level curves of $T$ satisfy an exact equation. Find $T(x,y)$ (up to a constant).",
+      "answer_latex": "T(x,y) = x^4 y^2 - xy + y^3 + C"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that $g$ is a function of $y$ alone, not a plain constant, and write $F = \\int M\\, dx + C$. This destroys the ability to match $F_y$ with $N$, so always write $g(y)$ and solve for it explicitly.",
+    "When differentiating $F$ with respect to $y$ to find $g'(y)$, students differentiate only $g(y)$ and forget to also differentiate the terms from $\\int M\\, dx$ that contain $y$. Always differentiate the entire expression for $F$ with respect to $y$ before isolating $g'(y)$.",
+    "Students check exactness by computing $\\frac{\\partial M}{\\partial x}$ and $\\frac{\\partial N}{\\partial y}$ instead of the cross partials $\\frac{\\partial M}{\\partial y}$ and $\\frac{\\partial N}{\\partial x}$. Remember: $M$ goes with $dx$ so its relevant partial is in $y$, and $N$ goes with $dy$ so its relevant partial is in $x$."
+  ],
+  "untested_variants": [
+    "Equations that are not exact as written but become exact after multiplying by an integrating factor $\\mu(x)$ or $\\mu(y)$, requiring you to derive a formula for $\\mu$.",
+    "Exact equations where it is more efficient to integrate $N$ with respect to $y$ first (rather than $M$ with respect to $x$), particularly when $\\int M\\, dx$ produces complicated cross terms.",
+    "Systems where the potential function $F$ must be reconstructed by integrating along a path in the $xy$-plane (the line-integral method), rather than by the partial-integration and matching method.",
+    "Exact equations presented in derivative form $M(x,y) + N(x,y)y' = 0$ where students must first convert to differential form before applying the standard algorithm."
+  ]
+}

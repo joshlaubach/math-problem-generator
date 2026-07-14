@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_062",
+  "topic_name": "The Three-Dimensional Coordinate System (H)",
+  "generated_at": "2026-05-12T23:59:13.667077+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to plot points on a number line (1D) and in the coordinate plane (2D) using ordered pairs like $(3, -2)$. But the real world has three dimensions \u2014 a drone flies not just left-right and forward-back, but also up and down. If someone tells you the drone is at position $(3, -2, 5)$, how do you even begin to visualize where that is, and how would you calculate how far it has traveled from its starting point at the origin?",
+  "concept": "The three-dimensional coordinate system extends the familiar $xy$-plane by adding a third axis, the $z$-axis, perpendicular to both $x$ and $y$. Every point in space is represented by an ordered triple $(x, y, z)$, where $x$, $y$, and $z$ are signed distances from the origin along their respective axes. The distance from point $P_1(x_1, y_1, z_1)$ to $P_2(x_2, y_2, z_2)$ is $d = \\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2 + (z_2-z_1)^2}$, a direct extension of the 2D distance formula.",
+  "anatomy": "The 3D coordinate system has several named components worth knowing precisely. The three mutually perpendicular lines are the $x$-axis (horizontal, pointing right), the $y$-axis (horizontal, pointing forward/into the page), and the $z$-axis (vertical, pointing up) \u2014 together forming the right-hand coordinate system. The three coordinate planes are the $xy$-plane (where $z=0$), the $xz$-plane (where $y=0$), and the $yz$-plane (where $x=0$); these planes divide space into eight regions called octants. An ordered triple $(x, y, z)$ specifies the unique location of any point in space, with the origin at $(0,0,0)$ and the midpoint between two points given by $M = \\left(\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2}, \\frac{z_1+z_2}{2}\\right)$.",
+  "worked_example": [
+    {
+      "expression_latex": "P_1 = (1, 2, 3), \\quad P_2 = (4, 6, 3)",
+      "description_latex": "We are given two points in 3D space and want to find the distance between them. Before applying the formula, notice that both points have $z = 3$, so they lie in the same horizontal plane \u2014 this means we expect the 3D distance to reduce to a familiar 2D calculation, which is a great sanity check.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d = \\sqrt{(4-1)^2 + (6-2)^2 + (3-3)^2}",
+      "description_latex": "We substitute into the 3D distance formula $d = \\sqrt{(x_2-x_1)^2 + (y_2-y_1)^2 + (z_2-z_1)^2}$, carefully assigning $x_1=1, y_1=2, z_1=3$ and $x_2=4, y_2=6, z_2=3$. It is important to subtract in a consistent order \u2014 always second minus first \u2014 to avoid sign errors inside the squares.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d = \\sqrt{9 + 16 + 0}",
+      "description_latex": "We evaluate each squared difference: $(4-1)^2 = 9$, $(6-2)^2 = 16$, and $(3-3)^2 = 0$. The zero in the last term confirms our earlier observation that the two points share the same $z$-coordinate, so the $z$-direction contributes nothing to the distance.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d = \\sqrt{25} = 5",
+      "description_latex": "Adding the three values gives $25$, whose square root is exactly $5$. This clean answer matches what we would get using just the 2D distance formula on $(1,2)$ and $(4,6)$, confirming the 3D formula is consistent with everything we already knew.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = (2, -1, 4), \\quad B = (6, 3, 0)",
+      "description_latex": "We want to find both the distance $|AB|$ and the midpoint $M$ of segment $AB$. Start by identifying the coordinates: $x_1=2, y_1=-1, z_1=4$ and $x_2=6, y_2=3, z_2=0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d = \\sqrt{(6-2)^2 + (3-(-1))^2 + (0-4)^2} = \\sqrt{16 + 16 + 16} = \\sqrt{48} = 4\\sqrt{3}",
+      "description_latex": "Using the 3D distance formula, we compute each squared difference and sum them. Notice that all three terms equal $16$, making $d = \\sqrt{48} = 4\\sqrt{3}$. This step is completed for you so you can check your substitution technique.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M = \\left(\\frac{2+6}{2},\\ \\frac{-1+3}{2},\\ \\frac{4+0}{2}\\right)",
+      "description_latex": "Now apply the 3D midpoint formula $M = \\left(\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2}, \\frac{z_1+z_2}{2}\\right)$ by substituting the coordinates of $A$ and $B$. Simplify each component to find the exact coordinates of the midpoint \u2014 what do you get?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Plot and identify which octant contains the point $P = (-3, 2, 5)$.",
+      "answer_latex": "P$ lies in the second octant, where $x < 0$, $y > 0$, $z > 0$."
+    },
+    {
+      "prompt_latex": "Find the distance between $A = (0, 0, 0)$ and $B = (2, -3, 6)$.",
+      "answer_latex": "d = \\sqrt{4 + 9 + 36} = \\sqrt{49} = 7"
+    },
+    {
+      "prompt_latex": "Find the midpoint of the segment joining $P_1 = (3, -4, 1)$ and $P_2 = (-1, 2, 7)$.",
+      "answer_latex": "M = (1,\\ -1,\\ 4)"
+    },
+    {
+      "prompt_latex": "Given that $M = (2, 1, -3)$ is the midpoint of segment $\\overline{AB}$ and $A = (5, -1, 2)$, find the coordinates of $B$.",
+      "answer_latex": "B = (-1,\\ 3,\\ -8)"
+    },
+    {
+      "prompt_latex": "A hiker starts at base camp located at $(0, 0, 0)$ km and reaches a summit at $(3, 4, 2)$ km (east, north, altitude). A rescue helicopter hovers directly above the base camp at $(0, 0, h)$ and must be exactly $6$ km from the summit. Find $h > 0$.",
+      "answer_latex": "\\sqrt{9 + 16 + h^2} = 6 \\Rightarrow h^2 = 11 \\Rightarrow h = \\sqrt{11} \\approx 3.32 \\text{ km}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to include the $z$-component entirely and use the 2D distance formula $\\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$ even when given three coordinates \u2014 always write out all three squared differences before simplifying.",
+    "When finding the midpoint, students sometimes subtract the coordinates instead of adding them, computing $\\left(\\frac{x_2 - x_1}{2}, \\ldots\\right)$ \u2014 remember the midpoint formula averages the coordinates, so it is always a sum divided by 2.",
+    "Students misidentify the octant by ignoring the sign of one coordinate, especially confusing the $y$- and $z$-axes visually \u2014 always check all three signs independently: positive $x$, positive $y$, positive $z$ defines the first octant, and each sign flip moves you to a different octant."
+  ],
+  "untested_variants": [
+    "Finding the equation of a sphere given center and radius, or finding the center and radius by completing the square in all three variables.",
+    "Determining whether three given points in 3D space are collinear by checking if the distances satisfy $|AB| + |BC| = |AC|$.",
+    "Using the midpoint formula in reverse to find an endpoint when given a midpoint and one endpoint of a segment in a word-problem context involving vectors or navigation.",
+    "Classifying a point as lying on a coordinate axis, in a coordinate plane, or at the origin based on which coordinates equal zero."
+  ]
+}

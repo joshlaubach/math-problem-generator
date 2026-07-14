@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_052",
+  "topic_name": "Introduction to Markov Chains (H)",
+  "generated_at": "2026-05-13T23:09:19.544761+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to model random experiments where each trial is independent \u2014 like flipping a coin repeatedly, where the outcome of one flip tells you nothing about the next. But what if the probability of tomorrow's weather depends on today's weather? You cannot assume independence anymore, yet the system still evolves randomly over time. How do we build a mathematical framework to handle processes where the future depends on \u2014 but only on \u2014 the present?",
+  "concept": "A Markov chain is a sequence of random variables $X_0, X_1, X_2, \\ldots$ that satisfies the 'memoryless' property: the future depends only on the current state, not on any history before it. Formally, for all $n \\geq 1$ and all states $i, j, i_0, \\ldots, i_{n-1}$, we require $P(X_{n+1} = j \\mid X_n = i, X_{n-1} = i_{n-1}, \\ldots, X_0 = i_0) = P(X_{n+1} = j \\mid X_n = i)$. This condition is called the Markov property.",
+  "anatomy": "A Markov chain has four key structural pieces. The state space $S = \\{s_1, s_2, \\ldots\\}$ is the set of all possible values the process can take. The transition probability $p_{ij} = P(X_{n+1} = j \\mid X_n = i)$ is the probability of moving from state $i$ to state $j$ in one step; for a time-homogeneous chain these probabilities do not depend on $n$. The transition matrix $P$ is the square matrix with entry $(i,j)$ equal to $p_{ij}$; each row must sum to 1, making $P$ a stochastic matrix. Finally, the initial distribution $\\pi^{(0)}$ is a row vector giving the probability of starting in each state, so that $\\pi^{(0)} P$ gives the distribution after one step.",
+  "worked_example": [
+    {
+      "expression_latex": "S = \\{\\text{Sunny},\\, \\text{Rainy}\\}",
+      "description_latex": "We start by clearly identifying the state space. Here the weather each day can only be Sunny or Rainy, so $S$ has two elements. Naming the states precisely is the first step because every subsequent calculation depends on knowing exactly what transitions are possible.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P = \\begin{pmatrix} 0.8 & 0.2 \\\\ 0.4 & 0.6 \\end{pmatrix}",
+      "description_latex": "We now encode the one-step transition probabilities as a matrix, where row $i$ lists the probabilities of moving to each state from state $i$. The first row says: if today is Sunny, tomorrow is Sunny with probability $0.8$ and Rainy with probability $0.2$; notice that $0.8 + 0.2 = 1$, confirming the row sums to 1 as required for a stochastic matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi^{(0)} = \\begin{pmatrix} 1 & 0 \\end{pmatrix}",
+      "description_latex": "Suppose we know with certainty that today (day 0) is Sunny. We encode this as the initial distribution vector $\\pi^{(0)}$, where the entry for Sunny is 1 and the entry for Rainy is 0. This vector tells us the probability mass is entirely concentrated on the Sunny state at time zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi^{(1)} = \\pi^{(0)} P = \\begin{pmatrix} 1 & 0 \\end{pmatrix} \\begin{pmatrix} 0.8 & 0.2 \\\\ 0.4 & 0.6 \\end{pmatrix} = \\begin{pmatrix} 0.8 & 0.2 \\end{pmatrix}",
+      "description_latex": "To find the distribution after one step, we multiply the current distribution row vector by the transition matrix $P$ on the right. The result $\\pi^{(1)} = (0.8,\\; 0.2)$ tells us that after one day there is an 80% chance of Sunny and a 20% chance of Rainy, which matches reading directly from the first row of $P$ \u2014 a useful consistency check.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi^{(2)} = \\pi^{(1)} P = \\begin{pmatrix} 0.8 & 0.2 \\end{pmatrix} \\begin{pmatrix} 0.8 & 0.2 \\\\ 0.4 & 0.6 \\end{pmatrix} = \\begin{pmatrix} 0.72 & 0.28 \\end{pmatrix}",
+      "description_latex": "We apply the same rule again to advance one more step: the two-step distribution is $\\pi^{(2)} = \\pi^{(1)} P$. Notice that repeated multiplication by $P$ is equivalent to computing $\\pi^{(0)} P^2$, since $(\\pi^{(0)} P) P = \\pi^{(0)} P^2$; in general, the $n$-step distribution is $\\pi^{(n)} = \\pi^{(0)} P^n$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "S = \\{1, 2, 3\\}, \\quad P = \\begin{pmatrix} 0.5 & 0.5 & 0 \\\\ 0.2 & 0.6 & 0.2 \\\\ 0 & 0.3 & 0.7 \\end{pmatrix}",
+      "description_latex": "We are given a three-state Markov chain with the transition matrix above. Before computing anything, it is good practice to verify that this is a valid stochastic matrix \u2014 check that every row sums to 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi^{(0)} = \\begin{pmatrix} 0 & 1 & 0 \\end{pmatrix}",
+      "description_latex": "Suppose the chain starts in state 2 with certainty. Write this as an initial distribution vector; then your job is to compute the distribution after one step by multiplying $\\pi^{(0)}$ by $P$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $\\pi^{(1)} = \\pi^{(0)} P$ by carrying out the row-times-matrix multiplication. What is the probability of being in each of the three states after one step? Write your answer as a row vector.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute $\\pi^{(2)} = \\pi^{(1)} P$ using your answer from the previous step. Which state is the chain most likely to be in after two steps?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A transition matrix is given as $P = \\begin{pmatrix} 0.3 & 0.7 \\\\ 0.6 & 0.4 \\end{pmatrix}$. Verify that $P$ is a valid stochastic matrix by checking that each row sums to 1.",
+      "answer_latex": "\\text{Row 1: } 0.3 + 0.7 = 1. \\quad \\text{Row 2: } 0.6 + 0.4 = 1. \\quad \\text{Yes, } P \\text{ is a valid stochastic matrix.}"
+    },
+    {
+      "prompt_latex": "Using $P = \\begin{pmatrix} 0.3 & 0.7 \\\\ 0.6 & 0.4 \\end{pmatrix}$ and initial distribution $\\pi^{(0)} = \\begin{pmatrix} 1 & 0 \\end{pmatrix}$, compute $\\pi^{(1)}$.",
+      "answer_latex": "\\pi^{(1)} = \\begin{pmatrix} 0.3 & 0.7 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Continue from the previous problem: compute $\\pi^{(2)} = \\pi^{(1)} P$ using $P = \\begin{pmatrix} 0.3 & 0.7 \\\\ 0.6 & 0.4 \\end{pmatrix}$.",
+      "answer_latex": "\\pi^{(2)} = \\begin{pmatrix} 0.3 & 0.7 \\end{pmatrix} \\begin{pmatrix} 0.3 & 0.7 \\\\ 0.6 & 0.4 \\end{pmatrix} = \\begin{pmatrix} 0.51 & 0.49 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "For a two-state chain with $P = \\begin{pmatrix} 1-\\alpha & \\alpha \\\\ \\beta & 1-\\beta \\end{pmatrix}$ and $\\pi^{(0)} = \\begin{pmatrix} 1 & 0 \\end{pmatrix}$, find $\\pi^{(1)}$ in terms of $\\alpha$ and $\\beta$. Then find $P(X_2 = 2)$, the probability of being in state 2 after two steps.",
+      "answer_latex": "\\pi^{(1)} = \\begin{pmatrix} 1-\\alpha & \\alpha \\end{pmatrix}. \\quad P(X_2=2) = (1-\\alpha)\\alpha + \\alpha(1-\\beta) = \\alpha(2-\\alpha-\\beta)"
+    },
+    {
+      "prompt_latex": "A student takes daily practice quizzes and can be in state G (Got it) or state L (Lost). If in state G, they stay in G with probability 0.9 and slip to L with probability 0.1. If in state L, they move to G with probability 0.5 and stay in L with probability 0.5. If the student starts in state L on Monday, what is the probability they are in state G on Wednesday (two days later)?",
+      "answer_latex": "P = \\begin{pmatrix} 0.9 & 0.1 \\\\ 0.5 & 0.5 \\end{pmatrix},\\; \\pi^{(0)} = \\begin{pmatrix} 0 & 1 \\end{pmatrix}.\\; \\pi^{(1)} = \\begin{pmatrix} 0.5 & 0.5 \\end{pmatrix}.\\; \\pi^{(2)} = \\begin{pmatrix} 0.7 & 0.3 \\end{pmatrix}.\\; P(\\text{G on Wednesday}) = 0.7"
+    }
+  ],
+  "common_mistakes": [
+    "Students multiply the initial distribution vector on the wrong side, computing $P \\pi^{(0)T}$ (matrix times column vector) when the convention $\\pi^{(n+1)} = \\pi^{(n)} P$ (row vector times matrix on the right) is being used; always check whether your distribution is a row vector multiplied on the left of $P$.",
+    "Students confuse the transition probability $p_{ij}$ with $p_{ji}$, reading the matrix by column instead of by row \u2014 remember that row $i$ of $P$ gives the probabilities of leaving state $i$, so the entry in row $i$, column $j$ is the chance of going FROM $i$ TO $j$.",
+    "Students forget to verify that each row of their proposed transition matrix sums to exactly 1, then wonder why probabilities in $\\pi^{(n)}$ don't sum to 1 after multiplication; always check the row-sum condition before doing any calculations with the matrix."
+  ],
+  "untested_variants": [
+    "Computing the $n$-step transition matrix $P^n$ directly via matrix exponentiation or diagonalization, rather than iterating the distribution vector.",
+    "Classifying states as transient or recurrent and identifying communicating classes in a Markov chain with more than two states.",
+    "Finding the stationary distribution $\\pi$ by solving the system $\\pi P = \\pi$ subject to $\\sum_i \\pi_i = 1$, and determining when it is unique.",
+    "Analyzing absorbing Markov chains, including computing the expected number of steps to absorption using the fundamental matrix $N = (I - Q)^{-1}$."
+  ]
+}

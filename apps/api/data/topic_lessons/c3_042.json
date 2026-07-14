@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_042",
+  "topic_name": "Boundary Value Problems (H)",
+  "generated_at": "2026-05-13T20:38:03.452218+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to solve a second-order linear ODE like $y'' + y = 0$ by finding the general solution $y = C_1 \\cos x + C_2 \\sin x$ and then using two initial conditions \u2014 both given at the same point $x = 0$ \u2014 to pin down the constants. But what if the two conditions are given at *different* points, say $y(0) = 0$ and $y(\\pi) = 1$? The approach looks similar, but something surprising can happen: sometimes no solution exists, sometimes exactly one does, and sometimes infinitely many do. Why does the location of the conditions change everything?",
+  "concept": "A boundary value problem (BVP) is a differential equation paired with conditions specified at two or more distinct points \u2014 called the boundaries \u2014 rather than all at one point. Formally, for a second-order linear ODE on $[a, b]$, we impose conditions such as $y(a) = \\alpha$ and $y(b) = \\beta$. Unlike initial value problems, existence and uniqueness are not guaranteed.",
+  "anatomy": "A BVP has three structural parts: the differential equation itself (e.g., $y'' + p(x)y' + q(x)y = g(x)$), the left boundary condition at $x = a$ (e.g., $y(a) = \\alpha$), and the right boundary condition at $x = b$ (e.g., $y(b) = \\beta$). The interval $[a, b]$ is called the boundary interval, $a$ and $b$ are the boundary points, and $\\alpha$, $\\beta$ are the prescribed boundary values. The general solution still contains two arbitrary constants $C_1$ and $C_2$, but they are now determined \u2014 or not \u2014 by evaluating the solution at the two separate endpoints.",
+  "worked_example": [
+    {
+      "expression_latex": "y'' + y = 0, \\quad y(0) = 0, \\quad y\\!\\left(\\tfrac{\\pi}{2}\\right) = 2",
+      "description_latex": "We start by writing down the full problem. The ODE has constant coefficients, and the boundary conditions are given at two different points $x = 0$ and $x = \\pi/2$, so this is a boundary value problem, not an initial value problem \u2014 we cannot use the standard IVP existence-uniqueness theorem here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = C_1 \\cos x + C_2 \\sin x",
+      "description_latex": "We find the general solution by solving the characteristic equation $r^2 + 1 = 0$, which gives $r = \\pm i$, so the general solution is $y = C_1 \\cos x + C_2 \\sin x$. This is exactly the same step you would take for an IVP \u2014 the difference comes when we apply the conditions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y(0) = C_1 \\cos 0 + C_2 \\sin 0 = C_1 = 0 \\implies C_1 = 0",
+      "description_latex": "Applying the left boundary condition $y(0) = 0$ immediately forces $C_1 = 0$, leaving us with the reduced solution $y = C_2 \\sin x$. Notice we still have one free constant \u2014 we need the second condition to determine it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y\\!\\left(\\tfrac{\\pi}{2}\\right) = C_2 \\sin\\!\\left(\\tfrac{\\pi}{2}\\right) = C_2 \\cdot 1 = 2 \\implies C_2 = 2",
+      "description_latex": "Applying the right boundary condition $y(\\pi/2) = 2$ gives $C_2 = 2$, because $\\sin(\\pi/2) = 1$ is nonzero. When the coefficient of the remaining constant is nonzero at the second boundary point, we get a unique solution \u2014 this is the favorable case.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = 2\\sin x",
+      "description_latex": "The unique solution to this BVP is $y = 2\\sin x$. You should verify: $y(0) = 2\\sin 0 = 0$ \u2713 and $y(\\pi/2) = 2\\sin(\\pi/2) = 2$ \u2713. Always substitute back into both boundary conditions to confirm your answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y'' + y = 0, \\quad y(0) = 0, \\quad y(\\pi) = 1",
+      "description_latex": "We have the same ODE as before but now the right boundary is at $x = \\pi$ instead of $x = \\pi/2$. Write down the general solution and apply the left boundary condition $y(0) = 0$ exactly as before \u2014 you should get $C_1 = 0$ and the reduced form $y = C_2 \\sin x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y(\\pi) = C_2 \\sin(\\pi) = \\ ?",
+      "description_latex": "Now apply the right boundary condition $y(\\pi) = 1$. Evaluate $\\sin(\\pi)$ and set up the equation for $C_2$. What does this equation tell you about whether a solution exists?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Since } C_2 \\cdot 0 = 1 \\text{ has no solution, the BVP has } \\textbf{no solution}.",
+      "description_latex": "Because $\\sin(\\pi) = 0$, the equation becomes $0 = 1$, which is a contradiction. This illustrates that BVPs can fail to have a solution even when the ODE and conditions look perfectly reasonable \u2014 the geometry of the solution family simply doesn't reach the required boundary value.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve the BVP: $y'' + 4y = 0$, $y(0) = 3$, $y\\!\\left(\\tfrac{\\pi}{4}\\right) = -1$.",
+      "answer_latex": "y = 3\\cos 2x - \\sin 2x"
+    },
+    {
+      "prompt_latex": "Solve the BVP: $y'' - y = 0$, $y(0) = 1$, $y(1) = 0$.",
+      "answer_latex": "y = \\dfrac{e^{-1}e^{x} - e^{x-1}}{e^{-1}-e} = \\dfrac{\\sinh(1-x)}{\\sinh 1}"
+    },
+    {
+      "prompt_latex": "Determine whether the BVP has no solution, a unique solution, or infinitely many solutions: $y'' + \\pi^2 y = 0$, $y(0) = 0$, $y(1) = 0$.",
+      "answer_latex": "\\text{Infinitely many solutions: } y = C\\sin(\\pi x) \\text{ for any constant } C"
+    },
+    {
+      "prompt_latex": "Solve the nonhomogeneous BVP: $y'' + y = x$, $y(0) = 0$, $y\\!\\left(\\tfrac{\\pi}{2}\\right) = 0$.",
+      "answer_latex": "y = x - \\sin x"
+    },
+    {
+      "prompt_latex": "A thin elastic beam deflects according to $y'' = -w_0$ (constant load) with $y(0) = 0$ (pinned left end) and $y(L) = 0$ (pinned right end). Find $y(x)$, the deflection profile.",
+      "answer_latex": "y = \\dfrac{w_0}{2}(Lx - x^2)"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the two conditions at the same point as if it were an IVP \u2014 for example, using $y(0)$ and $y'(0)$ instead of $y(0)$ and $y(b)$ \u2014 which misses the entire structure of a BVP. Always check that your two conditions come from two *different* x-values.",
+    "When the coefficient of the remaining constant evaluates to zero at the second boundary (like $\\sin(\\pi) = 0$), students still try to solve for the constant and write 'no solution' only if the algebra breaks. The correct reasoning is: if the boundary condition equation becomes $0 \\cdot C = \\beta$ with $\\beta \\neq 0$, there is no solution; if $\\beta = 0$, there are infinitely many solutions \u2014 you must state which case applies.",
+    "Students forget to find a particular solution before applying boundary conditions to a nonhomogeneous BVP, instead substituting the general solution of the homogeneous equation into the nonhomogeneous boundary conditions. Always write $y = y_h + y_p$ first, then apply the boundary conditions to the complete general solution."
+  ],
+  "untested_variants": [
+    "BVPs involving derivative boundary conditions such as $y'(a) = \\alpha$ or mixed conditions $y(a) + y'(a) = \\alpha$, called Robin or mixed boundary conditions.",
+    "BVPs on a half-infinite interval or with a singular point, such as Euler\u2013Cauchy equations $x^2 y'' + xy' + \\lambda y = 0$ with boundary conditions at $x = 1$ and $x = e$.",
+    "Eigenvalue BVPs (Sturm\u2013Liouville problems) where the goal is to find values of $\\lambda$ for which $y'' + \\lambda y = 0$, $y(0) = 0$, $y(L) = 0$ has nontrivial solutions.",
+    "Shooting method: the numerical technique of converting a BVP into an IVP by guessing the missing initial condition $y'(a)$ and iterating until the right boundary condition is satisfied."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "de_052",
+  "topic_name": "Laplace's Equation and Harmonic Functions (H)",
+  "generated_at": "2026-05-13T20:04:38.161337+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve ordinary differential equations, and you've seen how second-order linear ODEs produce smooth, well-behaved solutions. Now imagine a steady-state temperature distribution on a metal plate: no heat is being created or destroyed, the edges are held at fixed temperatures, and the system has settled into equilibrium. The temperature at every interior point depends on its neighbors in all directions simultaneously \u2014 this is no longer an ODE problem, but a partial differential equation problem. How do we find a function $u(x,y)$ whose second partial derivatives balance each other perfectly at every point in a region?",
+  "concept": "A harmonic function is one whose value at any point equals the average of its values in every small surrounding region \u2014 it has no local maxima or minima in the interior and represents a perfectly balanced quantity. Formally, a function $u(x,y)$ is harmonic if it satisfies Laplace's equation $\\nabla^2 u = \\frac{\\partial^2 u}{\\partial x^2} + \\frac{\\partial^2 u}{\\partial y^2} = 0$ on an open domain, meaning the sum of its pure second partial derivatives is identically zero.",
+  "anatomy": "Laplace's equation $\\nabla^2 u = u_{xx} + u_{yy} = 0$ has several distinct components worth naming. The operator $\\nabla^2$ (read 'del squared' or 'Laplacian') acts on the unknown function $u$. The term $u_{xx} = \\frac{\\partial^2 u}{\\partial x^2}$ measures how $u$ curves in the $x$-direction, and $u_{yy} = \\frac{\\partial^2 u}{\\partial y^2}$ measures curvature in the $y$-direction. The equation says these curvatures must cancel: wherever $u$ curves upward in $x$, it must curve downward in $y$ by the same amount. In three dimensions the Laplacian gains a third term $u_{zz}$, giving $u_{xx} + u_{yy} + u_{zz} = 0$.",
+  "worked_example": [
+    {
+      "expression_latex": "u(x,y) = x^3 - 3xy^2",
+      "description_latex": "We want to verify that the function $u(x,y) = x^3 - 3xy^2$ is harmonic by checking whether $u_{xx} + u_{yy} = 0$ holds everywhere. This is the standard verification procedure: compute each pure second partial derivative separately, then add them and see if the result is zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial u}{\\partial x} = 3x^2 - 3y^2, \\quad \\frac{\\partial^2 u}{\\partial x^2} = 6x",
+      "description_latex": "We differentiate $u$ with respect to $x$ once to get $3x^2 - 3y^2$, treating $y$ as a constant, then differentiate again to obtain $u_{xx} = 6x$. Notice that the $-3y^2$ term vanishes on the second differentiation because it has no $x$ dependence.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial u}{\\partial y} = -6xy, \\quad \\frac{\\partial^2 u}{\\partial y^2} = -6x",
+      "description_latex": "Now we differentiate with respect to $y$: treating $x$ as constant, $\\frac{\\partial}{{\\partial y}}(x^3 - 3xy^2) = -6xy$, and differentiating once more gives $u_{yy} = -6x$. The $x^3$ term disappears entirely because it is constant in $y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_{xx} + u_{yy} = 6x + (-6x) = 0 \\quad \\checkmark",
+      "description_latex": "Adding the two second partials gives $6x - 6x = 0$, which holds for every $(x,y)$, confirming that $u$ satisfies Laplace's equation and is therefore harmonic. This cancellation is not a coincidence \u2014 $x^3 - 3xy^2$ is actually the real part of the complex function $z^3$, and real parts of analytic complex functions are always harmonic.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "u(x,y) = e^{3x}\\cos(3y)",
+      "description_latex": "We want to verify that $u(x,y) = e^{3x}\\cos(3y)$ is harmonic. Start by computing the first partial derivative with respect to $x$, remembering that $\\cos(3y)$ is just a multiplicative constant when differentiating in $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_{xx} = 9e^{3x}\\cos(3y)",
+      "description_latex": "Differentiating $u_x = 3e^{3x}\\cos(3y)$ once more with respect to $x$ gives $u_{xx} = 9e^{3x}\\cos(3y)$. Now you need to find $u_{yy}$ by differentiating $u$ twice with respect to $y$ \u2014 what do you get?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $u_{yy}$ by differentiating $u(x,y) = e^{3x}\\cos(3y)$ twice with respect to $y$, treating $e^{3x}$ as a constant. Then write out $u_{xx} + u_{yy}$ and confirm it equals zero.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Verify that $u(x,y) = 2xy$ is harmonic by computing $u_{xx} + u_{yy}$.",
+      "answer_latex": "u_{xx} = 0,\\; u_{yy} = 0,\\; u_{xx}+u_{yy} = 0 \\quad \\checkmark"
+    },
+    {
+      "prompt_latex": "Determine whether $u(x,y) = x^2 + y^2$ satisfies Laplace's equation.",
+      "answer_latex": "u_{xx} = 2,\\; u_{yy} = 2,\\; u_{xx}+u_{yy} = 4 \\neq 0, \\text{ so } u \\text{ is NOT harmonic}"
+    },
+    {
+      "prompt_latex": "Find the value of the constant $k$ so that $u(x,y) = x^2 + ky^2$ is harmonic.",
+      "answer_latex": "u_{xx} = 2,\\; u_{yy} = 2k;\\; 2 + 2k = 0 \\Rightarrow k = -1"
+    },
+    {
+      "prompt_latex": "Given that $u(x,y) = e^{ax}\\sin(4y)$ is harmonic, find the positive value of $a$ and verify your answer by substituting back into Laplace's equation.",
+      "answer_latex": "u_{xx} = a^2 e^{ax}\\sin(4y),\\; u_{yy} = -16e^{ax}\\sin(4y);\\; a^2 - 16 = 0 \\Rightarrow a = 4"
+    },
+    {
+      "prompt_latex": "A steady-state temperature $u(x,y)$ on a thin plate satisfies Laplace's equation. An engineer proposes the model $u(x,y) = \\ln(x^2 + y^2)$ for the region away from the origin. Determine whether this function is harmonic for $(x,y) \\neq (0,0)$.",
+      "answer_latex": "u_{xx} = \\frac{2(y^2-x^2)}{(x^2+y^2)^2},\\; u_{yy} = \\frac{2(x^2-y^2)}{(x^2+y^2)^2};\\; u_{xx}+u_{yy} = 0 \\text{ for } (x,y)\\neq(0,0) \\quad \\checkmark"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse $u_{xx} + u_{yy} = 0$ with $u_{xx} \\cdot u_{yy} = 0$, checking whether either second partial is zero rather than whether their sum is zero. The fix: Laplace's equation requires the two curvatures to cancel by addition, so always compute both second partials and add them before drawing any conclusion.",
+    "When differentiating $e^{ax}\\cos(by)$ with respect to $y$, students sometimes apply the chain rule incorrectly and write $-be^{ax}\\cos(by)$ instead of $-be^{ax}\\sin(by)$. The fix: recall that $\\frac{d}{dy}\\cos(by) = -b\\sin(by)$, not $-b\\cos(by)$, so the function type changes from cosine to sine on the first differentiation.",
+    "Students sometimes conclude that because $u(x,y) = x^2 + y^2$ has a minimum at the origin, it cannot be harmonic \u2014 and then reason backwards that Laplace's equation must be wrong. The fix: this is actually a direct consequence of the maximum principle \u2014 harmonic functions on a bounded region have no interior extrema, so if you find one (like the origin for $x^2+y^2$), it immediately tells you the function is NOT harmonic, which the calculation $u_{xx}+u_{yy}=4\\neq 0$ confirms."
+  ],
+  "untested_variants": [
+    "Solving a boundary value problem (Dirichlet problem) explicitly on a rectangle using separation of variables and Fourier series \u2014 the practice problems only ask for verification or parameter-finding, not full solution construction.",
+    "Harmonic functions in three dimensions, where the Laplacian is $u_{xx}+u_{yy}+u_{zz}=0$ and functions such as $u = \\frac{1}{\\sqrt{x^2+y^2+z^2}}$ arise naturally in electrostatics.",
+    "Finding the harmonic conjugate $v(x,y)$ of a given harmonic function $u(x,y)$ using the Cauchy\u2013Riemann equations, and then forming the analytic complex function $f(z) = u + iv$.",
+    "Using the mean value property of harmonic functions to evaluate $u$ at a point given its average values on a surrounding circle, without directly solving Laplace's equation."
+  ]
+}

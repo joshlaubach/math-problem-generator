@@ -1,0 +1,86 @@
+{
+  "topic_id": "c2_021",
+  "topic_name": "Integral Test and p-Series",
+  "generated_at": "2026-05-13T00:24:16.324038+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to check if an improper integral like $\\int_1^\\infty \\frac{1}{x^2}\\,dx$ converges \u2014 you compute it and see if you get a finite number. But what if someone hands you the series $\\sum_{n=1}^\\infty \\frac{1}{n^2}$ and asks whether it converges? You can't just add infinitely many terms by hand, and the geometric series formula doesn't apply here. Is there a way to borrow your integration skills to answer questions about series?",
+  "concept": "The Integral Test connects the convergence of a series to the convergence of a related improper integral. If $f$ is a continuous, positive, and decreasing function on $[1, \\infty)$ with $f(n) = a_n$, then $\\sum_{n=1}^\\infty a_n$ and $\\int_1^\\infty f(x)\\,dx$ either both converge or both diverge. A special case is the $p$-series: $\\sum_{n=1}^\\infty \\frac{1}{n^p}$ converges if $p > 1$ and diverges if $p \\leq 1$.",
+  "anatomy": "The Integral Test has four key components you must verify before applying it. First, the function $f(x)$ must be continuous on $[1, \\infty)$, so there are no breaks or undefined points. Second, $f(x)$ must be positive, meaning $f(x) > 0$ for all $x \\geq 1$, so the terms of the series don't change sign. Third, $f(x)$ must be decreasing, which you can confirm by showing $f'(x) < 0$. Finally, $f(n) = a_n$ must hold, so the function truly represents the series terms. For the $p$-series $\\sum \\frac{1}{n^p}$, the exponent $p$ is the single parameter controlling everything: it determines whether the series converges ($p > 1$) or diverges ($p \\leq 1$).",
+  "worked_example": [
+    {
+      "expression_latex": "\\sum_{n=1}^\\infty \\frac{1}{n^3}",
+      "description_latex": "We want to determine whether this series converges or diverges. Notice that this is a $p$-series with $p = 3$, so we are setting up to apply both the $p$-series rule and the Integral Test \u2014 let's verify through the integral so you see how the machinery works.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x) = \\frac{1}{x^3},\\quad f'(x) = -\\frac{3}{x^4} < 0 \\text{ for } x \\geq 1",
+      "description_latex": "Before applying the Integral Test, we must confirm the three conditions. The function $f(x) = 1/x^3$ is continuous and positive for all $x \\geq 1$, and since $f'(x) = -3/x^4 < 0$, it is strictly decreasing. All three conditions are satisfied, so we are allowed to use the Integral Test.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_1^\\infty \\frac{1}{x^3}\\,dx = \\lim_{t \\to \\infty} \\int_1^t x^{-3}\\,dx = \\lim_{t \\to \\infty} \\left[\\frac{x^{-2}}{-2}\\right]_1^t",
+      "description_latex": "We compute the improper integral by replacing the infinite upper limit with $t$ and taking a limit as $t \\to \\infty$. We integrate $x^{-3}$ using the power rule, raising the exponent by one and dividing: $\\int x^{-3}\\,dx = \\frac{x^{-2}}{-2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{t \\to \\infty} \\left(-\\frac{1}{2t^2} + \\frac{1}{2}\\right) = 0 + \\frac{1}{2} = \\frac{1}{2}",
+      "description_latex": "Evaluating at the bounds, the term $-1/(2t^2)$ vanishes as $t \\to \\infty$ because the denominator grows without bound, leaving us with $1/2$. Since the integral converges to a finite value, the Integral Test tells us the series $\\sum_{n=1}^\\infty \\frac{1}{n^3}$ also converges \u2014 though note the series does not equal $1/2$; the integral and series just share the same convergence behavior.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\sum_{n=1}^\\infty \\frac{1}{\\sqrt{n}} = \\sum_{n=1}^\\infty \\frac{1}{n^{1/2}}",
+      "description_latex": "We want to test this series using the Integral Test (or recognize it as a $p$-series). Start by rewriting $1/\\sqrt{n}$ as $n^{-1/2}$ so the exponent $p$ is clearly visible.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Identify the value of $p$ in this $p$-series, check whether the three Integral Test conditions hold for $f(x) = x^{-1/2}$, and state whether those conditions are satisfied.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\int_1^\\infty x^{-1/2}\\,dx = \\lim_{t\\to\\infty}\\left[2x^{1/2}\\right]_1^t = \\lim_{t\\to\\infty}(2\\sqrt{t} - 2) = \\infty",
+      "description_latex": "We compute the improper integral: $\\int x^{-1/2}\\,dx = 2x^{1/2}$, and as $t \\to \\infty$, $2\\sqrt{t}$ grows without bound, so the integral diverges.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Based on the divergence of the integral, state your conclusion about the series $\\sum_{n=1}^\\infty \\frac{1}{\\sqrt{n}}$ and confirm this using the $p$-series rule with the value of $p$ you identified.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Does $\\sum_{n=1}^\\infty \\frac{1}{n^5}$ converge or diverge? State the rule you used.",
+      "answer_latex": "Converges; it is a $p$-series with $p = 5 > 1$."
+    },
+    {
+      "prompt_latex": "Use the Integral Test to determine whether $\\sum_{n=1}^\\infty \\frac{1}{n}$ converges or diverges.",
+      "answer_latex": "Diverges; $\\int_1^\\infty \\frac{1}{x}\\,dx = \\lim_{t\\to\\infty}\\ln t = \\infty$, so the series diverges."
+    },
+    {
+      "prompt_latex": "Determine convergence or divergence of $\\sum_{n=1}^\\infty \\frac{1}{n^{2/3}}$.",
+      "answer_latex": "Diverges; it is a $p$-series with $p = \\frac{2}{3} \\leq 1$."
+    },
+    {
+      "prompt_latex": "Use the Integral Test to determine whether $\\sum_{n=1}^\\infty n\\,e^{-n^2}$ converges or diverges. (Hint: use substitution $u = x^2$ in the integral.)",
+      "answer_latex": "Converges; $\\int_1^\\infty x e^{-x^2}\\,dx = \\frac{1}{2}e^{-1}$, which is finite."
+    },
+    {
+      "prompt_latex": "For what values of $p$ does the series $\\sum_{n=2}^\\infty \\frac{1}{n(\\ln n)^p}$ converge? Apply the Integral Test with the substitution $u = \\ln x$.",
+      "answer_latex": "Converges if and only if $p > 1$; the integral $\\int_2^\\infty \\frac{1}{x(\\ln x)^p}\\,dx$ converges exactly when $p > 1$."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to verify that $f(x)$ is decreasing before applying the Integral Test, and apply it to series like $\\sum n\\,e^{-n}$ without checking \u2014 always compute $f'(x)$ and confirm it is negative on $[1,\\infty)$.",
+    "Students conclude that the series equals the value of the integral when the integral converges \u2014 for example, seeing $\\int_1^\\infty \\frac{1}{x^2}\\,dx = 1$ and writing $\\sum_{n=1}^\\infty \\frac{1}{n^2} = 1$; the Integral Test only tells you both converge or both diverge, not that they share the same value.",
+    "Students misremember the $p$-series boundary and think $p = 1$ gives convergence \u2014 the harmonic series $\\sum 1/n$ with $p = 1$ is the classic divergent case, and convergence requires strictly $p > 1$."
+  ],
+  "untested_variants": [
+    "Applying the Integral Test to series whose index starts at $n = 0$ or $n = 2$ instead of $n = 1$, requiring a shift in the lower limit of integration.",
+    "Using the Integral Test remainder estimate to bound the error when approximating a convergent series by a partial sum $S_N$.",
+    "Determining convergence of a series of the form $\\sum_{n=1}^\\infty \\frac{\\ln n}{n^p}$ by combining the Integral Test with integration by parts.",
+    "Comparing a given series to a $p$-series via the Limit Comparison Test rather than applying the Integral Test directly."
+  ]
+}

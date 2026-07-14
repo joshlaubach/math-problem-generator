@@ -1,0 +1,86 @@
+{
+  "topic_id": "pt_006",
+  "topic_name": "The Central Limit Theorem via Moment Generating Functions",
+  "generated_at": "2026-05-14T01:00:22.005187+00:00",
+  "course_name": "Probability Theory",
+  "hook": "You already know that the sample mean $\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i$ of i.i.d. random variables concentrates around $\\mu$ by the Law of Large Numbers. But the LLN only tells you *where* $\\bar{X}_n$ ends up \u2014 it says nothing about the shape of its distribution along the way. So here's the gap: if someone asks you 'what is the probability that $\\bar{X}_n$ exceeds $\\mu + 0.5$ when $n = 100$?' you're stuck, because you don't know what distribution to use. Can we find a universal limiting distribution for the standardized sample mean, no matter what distribution the $X_i$ come from?",
+  "concept": "The Central Limit Theorem (CLT) says that for i.i.d. random variables with mean $\\mu$ and finite variance $\\sigma^2$, the standardized sum $Z_n = \\frac{\\bar{X}_n - \\mu}{\\sigma/\\sqrt{n}}$ converges in distribution to a standard normal $N(0,1)$ as $n \\to \\infty$. One of the cleanest proofs uses moment generating functions (MGFs): by showing $M_{Z_n}(t) \\to e^{t^2/2}$ for every $t$, and recognizing $e^{t^2/2}$ as the MGF of $N(0,1)$, convergence of MGFs implies convergence in distribution.",
+  "anatomy": "The MGF proof has four key components. First, the **centered, scaled summands** $Y_i = \\frac{X_i - \\mu}{\\sigma}$, each with mean 0 and variance 1, so $Z_n = \\frac{1}{\\sqrt{n}}\\sum_{i=1}^n Y_i$. Second, the **individual MGF** $M_Y(t) = E[e^{tY}]$, whose Taylor expansion $1 + 0 \\cdot t + \\frac{1}{2}t^2 + o(t^2)$ near $t=0$ encodes the moments. Third, the **independence factorization** $M_{Z_n}(t) = \\left[M_Y\\!\\left(\\frac{t}{\\sqrt{n}}\\right)\\right]^n$, which holds because the $Y_i$ are i.i.d. Fourth, the **limit step** using $\\lim_{n\\to\\infty}\\left(1 + \\frac{t^2}{2n} + o(1/n)\\right)^n = e^{t^2/2}$, which is the MGF of $N(0,1)$.",
+  "worked_example": [
+    {
+      "expression_latex": "Y_i = \\frac{X_i - \\mu}{\\sigma}, \\quad Z_n = \\frac{1}{\\sqrt{n}}\\sum_{i=1}^{n} Y_i",
+      "description_latex": "We start by standardizing each $X_i$ to form $Y_i$, which has mean $E[Y_i]=0$ and variance $\\text{Var}(Y_i)=1$ by construction. Writing $Z_n$ as $\\frac{1}{\\sqrt{n}}\\sum Y_i$ packages the problem into a sum of i.i.d. mean-zero, unit-variance variables, which is exactly the form where the MGF argument is most transparent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_Y(t) = E\\left[e^{tY}\\right] = 1 + t\\,E[Y] + \\frac{t^2}{2}E[Y^2] + o(t^2) = 1 + \\frac{t^2}{2} + o(t^2)",
+      "description_latex": "We Taylor-expand the MGF of $Y$ around $t=0$, substituting $E[Y]=0$ and $E[Y^2]=\\text{Var}(Y)=1$. This expansion is the heart of the proof \u2014 the $t^2/2$ term is the only one that survives in the limit, which is why the normal distribution is universal regardless of the original shape of $X_i$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_{Z_n}(t) = E\\left[e^{t Z_n}\\right] = E\\left[\\exp\\!\\left(\\frac{t}{\\sqrt{n}}\\sum_{i=1}^n Y_i\\right)\\right] = \\prod_{i=1}^n E\\left[e^{(t/\\sqrt{n})Y_i}\\right] = \\left[M_Y\\!\\left(\\frac{t}{\\sqrt{n}}\\right)\\right]^n",
+      "description_latex": "Because the $Y_i$ are independent, the MGF of their (scaled) sum factors into a product of individual MGFs, and since they are also identically distributed, the product collapses to the $n$-th power of a single MGF evaluated at $t/\\sqrt{n}$. This independence factorization is the reason the MGF technique is so powerful for sums of i.i.d. variables.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_{Z_n}(t) = \\left[1 + \\frac{t^2}{2n} + o\\!\\left(\\frac{1}{n}\\right)\\right]^n",
+      "description_latex": "We substitute $t/\\sqrt{n}$ into the Taylor expansion from Step 2, replacing $t$ with $t/\\sqrt{n}$ to get $M_Y(t/\\sqrt{n}) = 1 + \\frac{t^2}{2n} + o(1/n)$. This step converts the complicated MGF into a form that looks exactly like the definition of the exponential as a limit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{n\\to\\infty} M_{Z_n}(t) = \\lim_{n\\to\\infty}\\left[1 + \\frac{t^2}{2n} + o\\!\\left(\\frac{1}{n}\\right)\\right]^n = e^{t^2/2}",
+      "description_latex": "Using the standard limit $\\lim_{n\\to\\infty}(1 + a/n)^n = e^a$ with $a = t^2/2$, and noting that the $o(1/n)$ remainder vanishes, the MGF of $Z_n$ converges pointwise to $e^{t^2/2}$. Since $e^{t^2/2}$ is uniquely the MGF of the standard normal $N(0,1)$, the continuity theorem for MGFs guarantees $Z_n \\xrightarrow{d} N(0,1)$, completing the proof.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_i \\sim \\text{Exponential}(1),\\quad \\mu=1,\\quad \\sigma^2=1,\\quad Y_i = X_i - 1,\\quad Z_n = \\frac{1}{\\sqrt{n}}\\sum_{i=1}^n Y_i",
+      "description_latex": "We want to verify the CLT for $X_i \\sim \\text{Exp}(1)$ using MGFs. We center the variables by setting $Y_i = X_i - 1$ (so $E[Y_i]=0$, $\\text{Var}(Y_i)=1$) and write $Z_n$ as the scaled sum. The MGF of $X_i \\sim \\text{Exp}(1)$ is $M_X(t) = \\frac{1}{1-t}$ for $t<1$, so $M_Y(t) = e^{-t}M_X(t) = \\frac{e^{-t}}{1-t}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_Y(t) = \\frac{e^{-t}}{1-t} = 1 + \\frac{t^2}{2} + \\frac{t^3}{3} + \\cdots",
+      "description_latex": "Taylor-expand $M_Y(t)$ around $t=0$ to at least order $t^2$. You should confirm that the constant term is 1, the linear term vanishes (reflecting $E[Y]=0$), and the $t^2/2$ coefficient equals 1 (reflecting $E[Y^2]=1$). Can you carry out this expansion explicitly and identify the $o(t^2)$ remainder?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "M_{Z_n}(t) = \\left[M_Y\\!\\left(\\frac{t}{\\sqrt{n}}\\right)\\right]^n = \\left[1 + \\frac{t^2}{2n} + O\\!\\left(\\frac{1}{n^{3/2}}\\right)\\right]^n \\xrightarrow{n\\to\\infty} e^{t^2/2}",
+      "description_latex": "Now apply the independence factorization and substitute $t/\\sqrt{n}$ into your expansion from the previous step. Explain why the higher-order terms (the $t^3/(3n^{3/2})$ piece and beyond) vanish in the limit, and conclude that $Z_n \\xrightarrow{d} N(0,1)$ for Exponential$(1)$ data. What does this tell you about the universality of the normal limit?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $Y$ be a random variable with $E[Y]=0$, $E[Y^2]=1$, and MGF $M_Y(t)$. Write down the first three nonzero terms of the Taylor expansion of $M_Y(t)$ around $t=0$ using the fact that $E[Y^k]$ is the $k$-th coefficient.",
+      "answer_latex": "M_Y(t) = 1 + \\frac{t^2}{2} + \\frac{E[Y^3]}{6}\\,t^3 + o(t^3)"
+    },
+    {
+      "prompt_latex": "Let $X_i \\sim \\text{Bernoulli}(1/2)$ i.i.d. with $\\mu=1/2$ and $\\sigma^2=1/4$. Define $Z_n = \\frac{\\bar{X}_n - 1/2}{1/(2\\sqrt{n})}$. Using the MGF method, show that $M_{Z_n}(t) \\to e^{t^2/2}$ as $n\\to\\infty$. (Hint: the MGF of $X_i$ is $M_{X}(t) = \\frac{1}{2} + \\frac{1}{2}e^t$.)",
+      "answer_latex": "M_{Z_n}(t) = \\left[e^{-t/\\sqrt{n}}\\left(\\tfrac{1}{2}+\\tfrac{1}{2}e^{t/\\sqrt{n}}\\right)\\right]^n = \\left[\\cosh\\!\\left(\\tfrac{t}{\\sqrt{n}}\\right)\\right]^n \\to e^{t^2/2}"
+    },
+    {
+      "prompt_latex": "Suppose $X_i$ are i.i.d. with mean $\\mu$, variance $\\sigma^2$, and $M_Y(t) = 1 + \\frac{t^2}{2} + \\frac{\\kappa_3}{6}t^3 + o(t^3)$ where $\\kappa_3 = E[Y^3]$. Show that the $\\kappa_3$ term contributes $o(1)$ after taking the $n$-th power and therefore does not affect the limit $e^{t^2/2}$.",
+      "answer_latex": "\\text{Substituting } t/\\sqrt{n}: \\text{ the cubic term becomes } \\frac{\\kappa_3}{6}\\cdot\\frac{t^3}{n^{3/2}}\\cdot n = \\frac{\\kappa_3 t^3}{6\\sqrt{n}} \\to 0, \\text{ so it vanishes.}"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n$ be i.i.d. with $E[X_i]=2$, $\\text{Var}(X_i)=9$. Using the CLT, approximate $P\\!\\left(\\bar{X}_{36} > 2.5\\right)$. Express your answer in terms of $\\Phi$, the standard normal CDF.",
+      "answer_latex": "P\\!\\left(Z > \\frac{2.5-2}{3/6}\\right) = P(Z>1) = 1 - \\Phi(1) \\approx 0.1587"
+    },
+    {
+      "prompt_latex": "A factory produces bolts whose lengths $X_i$ are i.i.d. with unknown distribution, mean $\\mu = 50$ mm, and standard deviation $\\sigma = 2$ mm. Quality control measures the average length of $n=64$ bolts. Using the CLT (justified via MGFs), find the approximate probability that the sample mean falls within $0.5$ mm of the true mean, i.e., $P(|\\bar{X}_{64}-50|\\le 0.5)$.",
+      "answer_latex": "P\\!\\left(|Z|\\le \\frac{0.5}{2/8}\\right)=P(|Z|\\le 2)=2\\Phi(2)-1\\approx 0.9545"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to center the summands before applying the MGF argument, writing $M_{Z_n}(t) = [M_X(t/\\sqrt{n})]^n$ instead of $[M_Y(t/\\sqrt{n})]^n$ where $Y_i = (X_i-\\mu)/\\sigma$; without centering, the linear term $\\mu t/\\sqrt{n}$ does not vanish and the limit is not $e^{t^2/2}$. Always standardize first so that $E[Y_i]=0$ and $\\text{Var}(Y_i)=1$.",
+    "Students apply the limit $(1+a/n)^n \\to e^a$ mechanically but forget that the $o(1/n)$ remainder must also be checked to vanish; if the MGF does not exist in a neighborhood of zero (e.g., for heavy-tailed distributions), the Taylor expansion is invalid and the MGF proof breaks down entirely. The MGF-based CLT requires that $M_Y(t)$ is finite for $t$ in some open interval around 0.",
+    "After computing $M_{Z_n}(t) \\to e^{t^2/2}$, students conclude $Z_n \\xrightarrow{d} N(0,1)$ without citing the continuity theorem for MGFs (or characteristic functions), which is the bridge from pointwise MGF convergence to convergence in distribution; skipping this step makes the argument logically incomplete, because pointwise convergence of a function does not automatically imply distributional convergence without that theorem."
+  ],
+  "untested_variants": [
+    "Using characteristic functions (Fourier transforms) instead of MGFs to prove the CLT, including handling distributions whose MGF does not exist (e.g., Cauchy-like modifications).",
+    "The Lindeberg\u2013L\u00e9vy CLT generalization where the $X_i$ are independent but NOT identically distributed, requiring the Lindeberg condition instead of a uniform variance argument.",
+    "Berry\u2013Esseen theorem: quantifying the rate of convergence to normality with an explicit bound of order $O(1/\\sqrt{n})$ on the Kolmogorov distance between $F_{Z_n}$ and $\\Phi$.",
+    "Multivariate CLT: showing that a standardized vector $\\mathbf{Z}_n$ converges in distribution to a multivariate normal, which requires MGFs or characteristic functions in $\\mathbb{R}^d$ and the Cram\u00e9r\u2013Wold device."
+  ]
+}

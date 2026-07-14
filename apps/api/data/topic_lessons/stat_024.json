@@ -1,0 +1,81 @@
+{
+  "topic_id": "stat_024",
+  "topic_name": "Introduction to Estimation",
+  "generated_at": "2026-05-13T20:31:04.268710+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to calculate the mean of a sample \u2014 add up the values and divide by how many there are. But suppose you survey 50 students about their weekly study hours and get a sample mean of 12.4 hours. Does that mean every student in the entire school studies exactly 12.4 hours per week? Of course not \u2014 your sample is just a snapshot of the true population. So how do we use that single number to make a reliable statement about the whole population?",
+  "concept": "Estimation is the process of using a sample statistic to infer the value of an unknown population parameter. A **point estimate** is a single value \u2014 like the sample mean $\\bar{x}$ \u2014 used to approximate the population mean $\\mu$. Because any one sample is imperfect, we pair a point estimate with a measure of uncertainty. Formally, the sample mean $\\bar{x}$ is an unbiased point estimator of $\\mu$, meaning $E(\\bar{x}) = \\mu$ across all possible samples.",
+  "anatomy": "Every estimation problem has three structural parts: the **population parameter** (the unknown true value we care about, such as $\\mu$ or $p$), the **sample statistic** (the value we actually compute from data, such as $\\bar{x}$ or $\\hat{p}$), and the **sampling error** (the difference $\\bar{x} - \\mu$, which we cannot know exactly but can characterize probabilistically). Understanding which piece is known and which is unknown is the first skill in inference \u2014 the parameter is always unknown, the statistic is always computed from your data.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Population parameter: } \\mu = \\text{unknown}",
+      "description_latex": "We start by identifying what we want to know but cannot directly observe. The population mean $\\mu$ represents the true average for every member of the population \u2014 it is a fixed (but unknown) number, and estimating it is exactly the goal of this problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Sample data: } 14, 10, 13, 11, 12 \\quad (n = 5)",
+      "description_latex": "We collect a random sample of $n = 5$ observations. Using a random sample is critical because it ensures our statistic is unbiased \u2014 every member of the population had an equal chance of being selected, so the sample is representative.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{14 + 10 + 13 + 11 + 12}{5} = \\frac{60}{5} = 12",
+      "description_latex": "We compute the sample mean $\\bar{x}$ by summing all observed values and dividing by $n$. This single number is our **point estimate** of $\\mu$ \u2014 it is the best single guess we can make about the true population mean given only this data.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\mu} = \\bar{x} = 12 \\text{ hours}",
+      "description_latex": "We write the point estimate explicitly: our best estimate of the population mean is 12 hours. Notice the hat notation $\\hat{\\mu}$ signals this is an estimate, not the true value \u2014 it acknowledges that sampling variability means we could be slightly off.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Sample: } 8, 15, 10, 12, 9, 14 \\quad (n = 6)",
+      "description_latex": "A researcher wants to estimate the average hours of TV watched per week in a city. She collects a random sample of 6 residents. We need to find the point estimate of the population mean $\\mu$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{8 + 15 + 10 + 12 + 9 + 14}{6} = \\frac{68}{6}",
+      "description_latex": "We set up the sample mean formula by summing all six values and placing them over $n = 6$. The sum in the numerator is 68 \u2014 check that you get the same total before moving on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now simplify $\\frac{68}{6}$ and state your point estimate $\\bar{x}$ to two decimal places. What does this number represent as an estimate of $\\mu$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A sample of 4 values is collected: 5, 7, 6, 8. Compute the point estimate of the population mean $\\mu$.",
+      "answer_latex": "\\bar{x} = \\frac{5+7+6+8}{4} = 6.5"
+    },
+    {
+      "prompt_latex": "A random sample of 6 exam scores is: 72, 85, 90, 68, 77, 80. Find the point estimate of the population mean score.",
+      "answer_latex": "\\bar{x} = \\frac{72+85+90+68+77+80}{6} = \\frac{472}{6} \\approx 78.67"
+    },
+    {
+      "prompt_latex": "In a survey of 5 households, the number of streaming subscriptions was: 3, 1, 4, 2, 3. Identify the population parameter being estimated and compute the point estimate.",
+      "answer_latex": "\\text{Parameter: } \\mu = \\text{mean subscriptions (population)}; \\quad \\bar{x} = \\frac{3+1+4+2+3}{5} = \\frac{13}{5} = 2.6"
+    },
+    {
+      "prompt_latex": "A sample of $n = 8$ values has a known sum $\\sum x_i = 148$. A second sample of $n = 4$ values has $\\sum x_i = 60$. Which sample gives the larger point estimate of $\\mu$, and by how much?",
+      "answer_latex": "\\bar{x}_1 = \\frac{148}{8} = 18.5, \\quad \\bar{x}_2 = \\frac{60}{4} = 15.0; \\quad \\text{Sample 1 is larger by } 3.5"
+    },
+    {
+      "prompt_latex": "A wildlife biologist randomly tags 7 deer and records their weights (kg): 62, 75, 58, 80, 71, 66, 70. She wants to estimate the average weight of all deer in the forest. State the point estimate and explain in one sentence whether it equals the true population mean $\\mu$.",
+      "answer_latex": "\\bar{x} = \\frac{62+75+58+80+71+66+70}{7} = \\frac{482}{7} \\approx 68.86 \\text{ kg}; \\quad \\bar{x} \\text{ is our best estimate of } \\mu \\text{ but will not equal } \\mu \\text{ exactly due to sampling variability.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the population parameter $\\mu$ with the sample statistic $\\bar{x}$, writing that the sample mean IS the population mean rather than an estimate of it. Fix: always ask yourself whether you computed the value from data (statistic) or whether it is the unknown truth (parameter).",
+    "Students treat a point estimate as exact and certain, forgetting that $\\bar{x}$ varies from sample to sample. Fix: remember that a point estimate carries sampling error \u2014 different random samples would give different $\\bar{x}$ values, which is precisely why we later build confidence intervals.",
+    "Students divide by the wrong $n$, especially when some data values appear more than once (e.g., forgetting to count repeated values separately). Fix: $n$ is the total number of individual observations in the sample, not the number of distinct values \u2014 write out every data point before dividing."
+  ],
+  "untested_variants": [
+    "Estimating a population proportion $p$ using the sample proportion $\\hat{p} = x/n$ instead of estimating a population mean \u2014 this requires the same logic but a different formula and different conditions.",
+    "Comparing the bias and efficiency of two different estimators (e.g., asking whether the sample median or the sample mean is a better estimator of $\\mu$ for a given distribution).",
+    "Problems where the sample is not random (convenience or voluntary-response samples) and students must evaluate whether the point estimate is likely to be biased in a particular direction.",
+    "Using the point estimate of the population standard deviation $s$ as an estimator of $\\sigma$, including the reason the denominator is $n-1$ rather than $n$ (Bessel's correction)."
+  ]
+}

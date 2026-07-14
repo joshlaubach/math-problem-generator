@@ -1,0 +1,91 @@
+{
+  "topic_id": "pa_048",
+  "topic_name": "Working Backwards",
+  "generated_at": "2026-05-12T22:32:24.533160+00:00",
+  "course_name": "Pre-Algebra",
+  "hook": "You already know how to follow a recipe step by step \u2014 first mix the flour, then add eggs, then bake. But what if someone handed you a finished cake and asked you to figure out the original recipe? You'd have to think in reverse: \"The cake was baked at 350\u00b0, so before baking it was raw dough; before that, the eggs were added...\" Here's the real puzzle: I'm thinking of a number. I doubled it, added 5, and got 17. What was my number?",
+  "concept": "Working backwards is a problem-solving strategy where you start from a known end result and reverse each step, one at a time, until you reach the unknown starting value. Instead of following operations forward, you undo them in reverse order using inverse operations: subtraction undoes addition, division undoes multiplication, and so on. If a sequence of steps leads to a final value $f$, reversing every operation in opposite order returns you to the starting value $s$.",
+  "anatomy": "Every 'working backwards' problem has four key components: the **end result**, which is the known final value you start your reverse journey from; the **forward operations**, which are the sequence of arithmetic steps (such as multiply by 3, then subtract 4) that were applied to the unknown starting value; the **inverse operations**, which are the exact opposites applied in reverse order (so you would first add 4, then divide by 3); and the **starting value**, which is the unknown you are trying to find and which appears once you finish all the inverse steps.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Problem: A number is multiplied by 4, then 7 is subtracted, giving 13. Find the number.}",
+      "description_latex": "We start by reading the problem carefully to list the forward operations in order: first the unknown number is multiplied by 4, then 7 is subtracted, and the result is 13. Writing out this chain helps us see exactly what needs to be undone.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Forward chain: } n \\xrightarrow{\\times 4} 4n \\xrightarrow{-7} 13",
+      "description_latex": "Mapping the forward chain visually shows that 13 is the end result, and we need to travel back to $n$. The last forward operation was subtracting 7, so the first inverse operation we apply is adding 7, because addition is the inverse of subtraction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "13 + 7 = 20",
+      "description_latex": "We undo the subtraction of 7 by adding 7 to the end result, giving us 20. This tells us that before the subtraction happened, the value was 20, meaning $4n = 20$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "20 \\div 4 = 5",
+      "description_latex": "Now we undo the multiplication by 4 using its inverse \u2014 division by 4. Dividing 20 by 4 gives us 5, so the original starting number $n = 5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Check: } 5 \\times 4 - 7 = 20 - 7 = 13 \\checkmark",
+      "description_latex": "Always verify your answer by following the original forward operations from the starting value you found. Plugging $n = 5$ back in: $5 \\times 4 = 20$, then $20 - 7 = 13$, which matches the given end result, confirming our answer is correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: A number is divided by 3, then 8 is added, giving 14. Find the number.}",
+      "description_latex": "Let's list the forward operations in order: the unknown number $n$ is first divided by 3, then 8 is added, producing the end result 14. Our plan is to undo these two operations in reverse order.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "14 - 8 = 6",
+      "description_latex": "The last forward operation was adding 8, so we undo it first by subtracting 8 from the end result. This gives us 6, meaning the value just before the addition step was 6, so $n \\div 3 = 6$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now undo the first forward operation: the number was divided by 3, so multiply 6 by 3 to reverse that step. What is the starting number $n$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Check your answer by applying the original forward operations to your value of $n$: divide it by 3, then add 8. Do you get 14? Write out the full check to confirm.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{A number has 6 added to it, giving 15. What is the number?}",
+      "answer_latex": "9"
+    },
+    {
+      "prompt_latex": "\\text{A number is multiplied by 5, then 3 is subtracted, giving 22. What is the number?}",
+      "answer_latex": "5"
+    },
+    {
+      "prompt_latex": "\\text{A number is divided by 2, then 9 is added, then the result is multiplied by 3, giving 39. What is the number?}",
+      "answer_latex": "8"
+    },
+    {
+      "prompt_latex": "\\text{Maya had some money. She spent } \\$12 \\text{ on lunch, then earned } \\$20 \\text{ babysitting, then spent half of her total on a book, leaving her with } \\$15. \\text{ How much money did Maya start with?}",
+      "answer_latex": "\\$22"
+    },
+    {
+      "prompt_latex": "\\text{A number is tripled, then 4 is added, then the result is divided by 5, giving 4. What is the number?}",
+      "answer_latex": "\\frac{16}{3}"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the inverse operations in the original forward order instead of reversing the order first. For example, if the forward steps were 'multiply by 2, then add 3,' they divide by 2 first instead of subtracting 3 first \u2014 always reverse the order of steps before applying inverses.",
+    "Students use the same operation as the forward step instead of its inverse \u2014 for example, subtracting when the forward step was subtraction, rather than adding. A quick fix is to write a two-column list pairing each forward operation with its inverse (add\u2194subtract, multiply\u2194divide) before starting.",
+    "Students forget to verify their answer by plugging it back into the original forward sequence. Without checking, a small arithmetic error goes undetected; always follow the forward chain with your found value to confirm you land on the stated end result."
+  ],
+  "untested_variants": [
+    "Working backwards through problems involving fractions as the starting unknown, such as 'a fraction is multiplied by 6 and then 2 is subtracted to give 10; find the fraction.'",
+    "Multi-person or relay problems where one person's output becomes another person's input, requiring the student to work backwards across two or more named individuals.",
+    "Working backwards on a number line or in a geometry context, such as finding a starting coordinate after a series of translations.",
+    "Problems with four or more sequential operations, including a mix of all four arithmetic operations, which require careful reverse-order tracking beyond three steps."
+  ]
+}

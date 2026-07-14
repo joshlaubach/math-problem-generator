@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_042",
+  "topic_name": "Geometric vs. Algebraic Multiplicity",
+  "generated_at": "2026-05-13T20:08:53.020930+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to find eigenvalues by solving the characteristic equation $\\det(A - \\lambda I) = 0$, and you know that a repeated root like $(\\lambda - 3)^2 = 0$ means $\\lambda = 3$ appears twice. But here's what that doesn't tell you: does the matrix actually have two independent eigenvectors for $\\lambda = 3$, or just one? This gap between 'how many times the root repeats' and 'how many independent eigenvectors exist' is exactly what geometric vs. algebraic multiplicity is about \u2014 and it determines whether a matrix is diagonalizable. So when can those two numbers differ, and what does it mean when they do?",
+  "concept": "Algebraic multiplicity counts how many times an eigenvalue $\\lambda_0$ appears as a root of the characteristic polynomial $p(\\lambda) = \\det(A - \\lambda I)$. Geometric multiplicity counts the dimension of the corresponding eigenspace $\\ker(A - \\lambda_0 I)$, i.e., how many linearly independent eigenvectors belong to $\\lambda_0$. Formally, for an eigenvalue $\\lambda_0$: algebraic multiplicity $= m_a$ means $(\\lambda - \\lambda_0)^{m_a}$ divides $p(\\lambda)$; geometric multiplicity $= m_g = \\dim(\\ker(A - \\lambda_0 I))$. Always $1 \\leq m_g \\leq m_a$.",
+  "anatomy": "There are four key components to keep straight. The characteristic polynomial $p(\\lambda) = \\det(A - \\lambda I)$ is the polynomial whose roots are eigenvalues; the algebraic multiplicity $m_a(\\lambda_0)$ is the exponent of the factor $(\\lambda - \\lambda_0)$ in the fully factored $p(\\lambda)$. The eigenspace $E_{\\lambda_0} = \\ker(A - \\lambda_0 I)$ is the null space of the shifted matrix, and its dimension is the geometric multiplicity $m_g(\\lambda_0)$. The key structural inequality $1 \\leq m_g \\leq m_a$ tells you that geometric multiplicity can never exceed algebraic multiplicity, and a matrix is diagonalizable if and only if $m_g = m_a$ for every eigenvalue.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 3 & 1 \\\\ 0 & 3 \\end{pmatrix}",
+      "description_latex": "We start by identifying the matrix we're analyzing. This $2 \\times 2$ upper-triangular matrix will turn out to have a repeated eigenvalue, making it the perfect case to distinguish algebraic from geometric multiplicity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(\\lambda) = \\det(A - \\lambda I) = \\det\\begin{pmatrix} 3-\\lambda & 1 \\\\ 0 & 3-\\lambda \\end{pmatrix} = (3-\\lambda)^2",
+      "description_latex": "We compute the characteristic polynomial by expanding the determinant. Because the matrix is triangular, the determinant is just the product of the diagonal entries, giving us $(3 - \\lambda)^2 = 0$, so $\\lambda_0 = 3$ is the only eigenvalue, with algebraic multiplicity $m_a = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A - 3I = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}",
+      "description_latex": "To find the geometric multiplicity, we form the matrix $A - 3I$ and look at its null space. This step is where we shift our focus from the characteristic polynomial to the actual eigenvector equation $(A - 3I)\\mathbf{v} = \\mathbf{0}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ker(A - 3I) = \\text{span}\\left\\{\\begin{pmatrix}1\\\\0\\end{pmatrix}\\right\\}, \\quad m_g = 1",
+      "description_latex": "Solving $(A - 3I)\\mathbf{v} = \\mathbf{0}$ means $v_2 = 0$ and $v_1$ is free, so there is exactly one free variable and the eigenspace is one-dimensional. This gives geometric multiplicity $m_g = 1$, which is strictly less than the algebraic multiplicity $m_a = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m_g = 1 < m_a = 2 \\implies A \\text{ is NOT diagonalizable}",
+      "description_latex": "Since $m_g < m_a$ for the eigenvalue $\\lambda = 3$, the matrix does not have enough linearly independent eigenvectors to form a basis of $\\mathbb{R}^2$, so $A$ cannot be diagonalized. This is the central conclusion that makes the distinction between geometric and algebraic multiplicity so important.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 4 & 0 & 0 \\\\ 0 & 4 & 0 \\\\ 0 & 0 & 2 \\end{pmatrix}",
+      "description_latex": "We want to find the algebraic and geometric multiplicities of each eigenvalue of $B$. Start by computing the characteristic polynomial \u2014 notice that $B$ is diagonal, so this should be straightforward.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(\\lambda) = (4-\\lambda)^2(2-\\lambda)",
+      "description_latex": "The characteristic polynomial factors immediately from the diagonal entries. We can read off that $\\lambda_1 = 4$ has algebraic multiplicity $m_a = 2$ and $\\lambda_2 = 2$ has algebraic multiplicity $m_a = 1$. Now find the eigenspace for $\\lambda_1 = 4$ by computing $\\ker(B - 4I)$ and determine its dimension.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $B - 4I$, row-reduce it, and find a basis for its null space. State the geometric multiplicity $m_g$ for $\\lambda_1 = 4$, and then conclude whether $B$ is diagonalizable by checking whether $m_g = m_a$ for all eigenvalues.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "m_g(4) = 2 = m_a(4), \\quad m_g(2) = 1 = m_a(2) \\implies B \\text{ is diagonalizable}",
+      "description_latex": "Since $B - 4I$ has two free variables (its null space is spanned by $e_1$ and $e_2$), we get $m_g(4) = 2 = m_a(4)$, and trivially $m_g(2) = 1 = m_a(2)$. Because $m_g = m_a$ for every eigenvalue, $B$ is diagonalizable \u2014 in fact, any diagonal matrix always satisfies this.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For $A = \\begin{pmatrix} 5 & 0 \\\\ 0 & 5 \\end{pmatrix}$, find the algebraic and geometric multiplicity of $\\lambda = 5$.",
+      "answer_latex": "m_a(5) = 2, \\quad m_g(5) = 2 \\quad (\\text{since } A - 5I = 0, \\text{ the eigenspace is all of } \\mathbb{R}^2)"
+    },
+    {
+      "prompt_latex": "For $C = \\begin{pmatrix} 2 & 1 & 0 \\\\ 0 & 2 & 0 \\\\ 0 & 0 & 5 \\end{pmatrix}$, find $m_a$ and $m_g$ for each eigenvalue and state whether $C$ is diagonalizable.",
+      "answer_latex": "\\lambda=2: m_a=2, m_g=1; \\quad \\lambda=5: m_a=1, m_g=1. \\quad m_g(2) < m_a(2) \\implies C \\text{ is NOT diagonalizable}"
+    },
+    {
+      "prompt_latex": "Find the algebraic and geometric multiplicities of all eigenvalues of $D = \\begin{pmatrix} 1 & 0 & 0 \\\\ 0 & 1 & 1 \\\\ 0 & 0 & 1 \\end{pmatrix}$ and determine if $D$ is diagonalizable.",
+      "answer_latex": "\\lambda = 1: m_a = 3, \\quad m_g = \\dim\\ker(D-I) = 2. \\quad m_g < m_a \\implies D \\text{ is NOT diagonalizable}"
+    },
+    {
+      "prompt_latex": "Suppose a $4 \\times 4$ matrix $M$ has characteristic polynomial $p(\\lambda) = (\\lambda-1)^2(\\lambda+2)^2$. Given that $\\dim\\ker(M - I) = 2$ and $\\dim\\ker(M+2I) = 1$, is $M$ diagonalizable? If not, which eigenvalue causes the failure?",
+      "answer_latex": "m_a(1)=2, m_g(1)=2 \\;(\\text{ok}); \\quad m_a(-2)=2, m_g(-2)=1 \\;(\\text{fail}). \\quad M \\text{ is NOT diagonalizable; } \\lambda=-2 \\text{ causes the failure.}"
+    },
+    {
+      "prompt_latex": "A student claims: 'If a $3 \\times 3$ matrix has three distinct eigenvalues, then every eigenvalue has geometric multiplicity 1.' Is this claim true or false, and why? What can you conclude about diagonalizability?",
+      "answer_latex": "\\text{True: distinct eigenvalues force } m_a = 1 \\text{ for each, and } 1 \\leq m_g \\leq m_a = 1 \\text{ so } m_g=1. \\text{ Hence } m_g = m_a \\text{ for all eigenvalues, and the matrix IS diagonalizable.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the two multiplicities by thinking 'algebraic = number of eigenvectors.' Algebraic multiplicity counts repeated roots of the characteristic polynomial, not eigenvectors; it is the geometric multiplicity that counts independent eigenvectors. Always compute $\\dim\\ker(A - \\lambda I)$ separately to get $m_g$.",
+    "Students assume that if a $2\\times 2$ matrix has a repeated eigenvalue, it must be diagonalizable (like the identity) without checking. The example $\\begin{pmatrix}3&1\\\\0&3\\end{pmatrix}$ shows that $m_g = 1 < 2 = m_a$ is possible, so you must always compute the eigenspace dimension explicitly.",
+    "Students incorrectly conclude that $m_g = m_a$ whenever the eigenspace has dimension equal to the size of the matrix. In fact, $m_g = m_a$ must hold for each individual eigenvalue separately \u2014 a matrix is diagonalizable if and only if this equality holds for every eigenvalue, not just in total."
+  ],
+  "untested_variants": [
+    "Finding multiplicities for complex eigenvalues, such as a rotation matrix with eigenvalues $\\lambda = e^{\\pm i\\theta}$ over $\\mathbb{C}$.",
+    "Using the fact that $m_g < m_a$ to determine the Jordan block structure of a matrix (Jordan normal form), which the practice problems do not address.",
+    "Proving or applying the theorem that $\\text{rank}(A - \\lambda_0 I) = n - m_g$, and using the rank-nullity theorem to find $m_g$ from the rank rather than directly row-reducing.",
+    "Analyzing parameterized matrices, e.g., 'For which values of $k$ does the matrix $\\begin{pmatrix}k & 1\\\\0&k\\end{pmatrix}$ fail to be diagonalizable?' where the answer depends on recognizing the off-diagonal entry controls $m_g$."
+  ]
+}

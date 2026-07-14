@@ -1,0 +1,81 @@
+{
+  "topic_id": "de_034",
+  "topic_name": "Step Functions and Discontinuous Forcing",
+  "generated_at": "2026-05-13T20:02:42.308040+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to use Laplace transforms to solve differential equations with nice, continuous forcing functions like $e^{at}$ or $\\sin(bt)$. But what happens when the forcing function suddenly switches on at some time $t = c$, or abruptly changes value mid-process \u2014 like a voltage source that turns on at $t = 2$ seconds? The standard transform table gives you nothing for a function that has a jump discontinuity. So how do you handle a differential equation like $y'' + y = f(t)$ where $f(t)$ is zero for $t < 3$ and equals $1$ for $t \\geq 3$?",
+  "concept": "The Heaviside step function (unit step function) is a simple switch: it equals $0$ before a threshold and $1$ after. Formally, $u_c(t) = \\mathcal{U}(t-c)$ is defined by $u_c(t) = 0$ for $t < c$ and $u_c(t) = 1$ for $t \\geq c$. Its power is that any piecewise function can be written as a combination of these switches, and the Laplace transform formula $\\mathcal{L}\\{u_c(t)f(t-c)\\} = e^{-cs}F(s)$ lets you transform discontinuous forcing directly.",
+  "anatomy": "The key components to recognize are: the shift constant $c > 0$, which marks the exact time the switch activates; the factor $e^{-cs}$ in the transform, which encodes the delay $c$ in the $s$-domain; the shifted function $f(t - c)$, which is the original function $f(t)$ translated to start at $t = c$ instead of $t = 0$; and the transform $F(s) = \\mathcal{L}\\{f(t)\\}$, which is evaluated for the unshifted version of the function. When decomposing a piecewise function, each 'piece' generates one step function term, and careful bookkeeping of what gets turned on and off at each breakpoint is essential.",
+  "worked_example": [
+    {
+      "expression_latex": "f(t) = \\begin{cases} 0, & t < 2 \\\\ t - 2, & t \\geq 2 \\end{cases}",
+      "description_latex": "We start by recognizing this piecewise function as a ramp that switches on at $t = 2$. The key observation is that the formula for the nonzero piece, $t - 2$, is already written in the shifted form $g(t - 2)$ where $g(t) = t$, which tells us exactly how to apply the second shifting theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(t) = u_2(t) \\cdot (t - 2)",
+      "description_latex": "We rewrite $f(t)$ using the unit step function $u_2(t)$, which is zero for $t < 2$ and one for $t \\geq 2$, so multiplying by it effectively 'turns on' the ramp at $t = 2$. This step is the bridge between the piecewise description and a form we can directly transform.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathcal{L}\\{f(t)\\} = \\mathcal{L}\\{u_2(t)(t-2)\\}",
+      "description_latex": "Now we apply the second shifting theorem, which states $\\mathcal{L}\\{u_c(t)f(t-c)\\} = e^{-cs}F(s)$. Here $c = 2$ and $f(t) = t$, so we need $F(s) = \\mathcal{L}\\{t\\} = \\frac{1}{s^2}$, which comes directly from the standard table.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathcal{L}\\{f(t)\\} = e^{-2s} \\cdot \\frac{1}{s^2}",
+      "description_latex": "Substituting $c = 2$ and $F(s) = 1/s^2$ into the formula gives us the final transform. The factor $e^{-2s}$ carries all the information about the delay, and $1/s^2$ carries the shape of the function \u2014 a clean separation of timing and content.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(t) = \\begin{cases} 0, & t < 1 \\\\ e^{-(t-1)}, & t \\geq 1 \\end{cases}",
+      "description_latex": "We want to find $\\mathcal{L}\\{f(t)\\}$. Notice that the nonzero piece is $e^{-(t-1)}$, which is already in shifted form $g(t-1)$ with $g(t) = e^{-t}$. We begin by rewriting $f(t)$ using a unit step function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(t) = u_1(t) \\cdot e^{-(t-1)}",
+      "description_latex": "Good \u2014 the step function $u_1(t)$ activates at $t = 1$ and multiplies the shifted exponential. Now apply the second shifting theorem: recall that $\\mathcal{L}\\{u_c(t)g(t-c)\\} = e^{-cs}G(s)$, and identify $c$, $g(t)$, and $G(s)$ to write down the final transform.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathcal{L}\\{f(t)\\} = e^{-s} \\cdot \\frac{1}{s+1}",
+      "description_latex": "With $c = 1$ and $G(s) = \\mathcal{L}\\{e^{-t}\\} = \\frac{1}{s+1}$, the second shifting theorem gives exactly this result. The exponential decay shape is captured by $\\frac{1}{s+1}$, and the delay of one unit is encoded in the $e^{-s}$ prefactor.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $\\mathcal{L}\\{u_3(t)\\}$.",
+      "answer_latex": "\\dfrac{e^{-3s}}{s}"
+    },
+    {
+      "prompt_latex": "Write $f(t) = \\begin{cases} 0, & t < 4 \\\\ \\sin(t-4), & t \\geq 4 \\end{cases}$ in terms of a unit step function, then find its Laplace transform.",
+      "answer_latex": "f(t) = u_4(t)\\sin(t-4), \\quad \\mathcal{L}\\{f(t)\\} = \\dfrac{e^{-4s}}{s^2+1}"
+    },
+    {
+      "prompt_latex": "Express the piecewise function $f(t) = \\begin{cases} 2, & 0 \\leq t < 5 \\\\ 2 + t, & t \\geq 5 \\end{cases}$ using unit step functions and find $\\mathcal{L}\\{f(t)\\}$.",
+      "answer_latex": "f(t) = 2 + u_5(t)(t-5), \\quad \\mathcal{L}\\{f(t)\\} = \\dfrac{2}{s} + e^{-5s}\\left(\\dfrac{1}{s^2}\\right)"
+    },
+    {
+      "prompt_latex": "Solve the IVP $y' + 2y = u_1(t),\\quad y(0) = 0$ using Laplace transforms. Express your answer as a piecewise function.",
+      "answer_latex": "y(t) = \\begin{cases} 0, & t < 1 \\\\ \\dfrac{1}{2}\\left(1 - e^{-2(t-1)}\\right), & t \\geq 1 \\end{cases}"
+    },
+    {
+      "prompt_latex": "A voltage source in an RC circuit (with $RC = 1$) is described by $V(t) = \\begin{cases} 0, & t < 2 \\\\ 5, & t \\geq 2 \\end{cases}$. The charge $q$ satisfies $q' + q = V(t)$ with $q(0) = 0$. Find $q(t)$.",
+      "answer_latex": "q(t) = 5\\,u_2(t)\\left(1 - e^{-(t-2)}\\right)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to rewrite the nonzero piece in shifted form before applying the transform: if the piecewise piece reads $\\sin(t)$ for $t \\geq c$ rather than $\\sin(t - c)$, you must rewrite $f(t) = u_c(t)\\sin(t)$ as $u_c(t)[\\sin((t-c) + c)]$, expand using angle addition, and transform each term separately \u2014 you cannot directly apply $e^{-cs}F(s)$ unless the argument is exactly $t - c$.",
+    "When converting a multi-piece function to step functions, students turn on a piece but forget to turn off the previous piece: for example, $f(t) = 2$ on $[0,3)$ and $f(t) = 5$ on $[3,\\infty)$ should be $2 - 2u_3(t) + 5u_3(t) = 2 + 3u_3(t)$, not simply $2 + 5u_3(t)$, because the constant $2$ must be 'switched off' at $t = 3$.",
+    "Students confuse $\\mathcal{L}^{-1}\\{e^{-cs}F(s)\\}$ and write the answer as $f(t-c)$ without including the unit step factor: the correct inverse is $u_c(t)f(t-c)$, and omitting $u_c(t)$ means the function is nonzero for $t < c$, which contradicts the causal nature of the original problem."
+  ],
+  "untested_variants": [
+    "Finding the inverse Laplace transform of an expression like $\\frac{e^{-3s}(2s+1)}{s^2+4s+5}$ that requires completing the square and recognizing a shifted damped sinusoid.",
+    "Solving a second-order IVP such as $y'' + 4y = u_{\\pi}(t)\\cos(t - \\pi)$ where the forcing involves both a step function and a trigonometric shift, requiring careful partial fractions after transforming.",
+    "Converting a three-piece piecewise function (with two breakpoints) entirely into step function notation and then finding its Laplace transform.",
+    "Using the second shifting theorem in reverse to determine the value of $c$ given a transform like $\\mathcal{L}\\{f(t)\\} = \\frac{e^{-cs}}{s^2 + 9}$ and identifying what the original time-domain function looks like."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "c1_002",
+  "topic_name": "Computing Limits Algebraically",
+  "generated_at": "2026-05-13T00:02:29.163261+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to evaluate a function by plugging in a value \u2014 for example, if $f(x) = x^2 + 3$, then $f(2) = 7$. But what happens when you try to compute $\\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}$ and plugging in $x = 2$ gives you $\\frac{0}{0}$, which is completely undefined? This \"indeterminate form\" shows up constantly in calculus, and direct substitution fails every time. So how do we actually find the value the function is approaching?",
+  "concept": "Computing a limit algebraically means rewriting a function into an equivalent form so that direct substitution becomes valid. Formally, if $f(x) = g(x)$ for all $x$ near $a$ (but not necessarily at $a$), then $\\lim_{x \\to a} f(x) = \\lim_{x \\to a} g(x)$. The key techniques are factoring and canceling, multiplying by a conjugate, and simplifying complex fractions \u2014 all aimed at eliminating the factor causing the $\\frac{0}{0}$ indeterminate form.",
+  "anatomy": "Every algebraic limit computation has three structural pieces worth naming. First, the indeterminate expression is the original form that fails under direct substitution, typically $\\frac{0}{0}$. Second, the offending factor is the shared factor in numerator and denominator that produces the zero \u2014 this is the piece you must cancel; for example, in $\\frac{x^2-4}{x-2}$ the offending factor is $(x-2)$. Third, the reduced expression is the simplified form after cancellation, which is valid for substitution because the offending factor is gone \u2014 here it is $(x+2)$, and now substituting $x = 2$ gives the limit.",
+  "worked_example": [
+    {
+      "expression_latex": "\\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}",
+      "description_latex": "We begin by trying direct substitution: plugging $x = 2$ into the numerator gives $4 - 4 = 0$ and into the denominator gives $2 - 2 = 0$, so we get the indeterminate form $\\frac{0}{0}$. This tells us we cannot stop here and must rewrite the expression algebraically.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{x \\to 2} \\frac{(x-2)(x+2)}{x - 2}",
+      "description_latex": "We factor the numerator using the difference of squares identity: $x^2 - 4 = (x-2)(x+2)$. Recognizing that $(x-2)$ appears in both the numerator and denominator identifies it as the offending factor responsible for the $\\frac{0}{0}$ form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{x \\to 2} (x + 2)",
+      "description_latex": "Because we are taking a limit as $x \\to 2$ and not setting $x = 2$, we know $x \\neq 2$, which means $x - 2 \\neq 0$ and the cancellation is mathematically legal. After canceling, the reduced expression $(x+2)$ is a simple polynomial with no issues at $x = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 2 + 2 = 4",
+      "description_latex": "Now direct substitution is valid on the reduced expression, so we substitute $x = 2$ to get $2 + 2 = 4$. The limit is $4$, even though the original function is undefined at $x = 2$ itself.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\lim_{x \\to -3} \\frac{x^2 + x - 6}{x + 3}",
+      "description_latex": "Start by trying direct substitution. Plugging $x = -3$ into the numerator gives $9 - 3 - 6 = 0$ and into the denominator gives $0$, confirming we have the indeterminate form $\\frac{0}{0}$. We need to factor the numerator to find and cancel the offending factor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{x \\to -3} \\frac{(x+3)(x-2)}{x+3}",
+      "description_latex": "The numerator $x^2 + x - 6$ factors as $(x+3)(x-2)$ \u2014 you can verify by checking that $-3$ and $2$ are roots. This reveals $(x+3)$ as the offending factor shared with the denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Cancel the offending factor $(x+3)$ from numerator and denominator (which is valid since $x \\neq -3$ in a limit), then substitute $x = -3$ into the reduced expression to find the limit. What do you get?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\lim_{x \\to 3} \\frac{x^2 - 9}{x - 3}",
+      "answer_latex": "6"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to 4} \\frac{x^2 - 3x - 4}{x - 4}",
+      "answer_latex": "5"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to 0} \\frac{x^2 + 5x}{x}",
+      "answer_latex": "5"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to 1} \\frac{x^3 - 1}{x - 1}",
+      "answer_latex": "3"
+    },
+    {
+      "prompt_latex": "A particle's average velocity over the interval $[1, t]$ is given by $\\dfrac{t^2 - 1}{t - 1}$ for $t \\neq 1$. What is the instantaneous velocity as $t \\to 1$?",
+      "answer_latex": "2"
+    }
+  ],
+  "common_mistakes": [
+    "Students cancel the offending factor before confirming the indeterminate form \u2014 they sometimes cancel $(x-a)$ even when the original expression was perfectly fine under substitution, which can accidentally change the domain. Always check for $\\frac{0}{0}$ first; cancellation is a remedy for indeterminate forms, not a routine first step.",
+    "After canceling, students substitute the limit value into the original (uncanceled) expression instead of the reduced one, still getting $\\frac{0}{0}$ and concluding the limit does not exist. Remember: once you cancel and obtain the reduced expression, it is the reduced form you substitute into.",
+    "Students treat $\\frac{0}{0}$ as equal to $1$ or $0$ rather than recognizing it as an indeterminate form that requires more work. The indeterminate form $\\frac{0}{0}$ carries no numerical value on its own \u2014 it is simply a signal that the limit might still exist but requires an algebraic rewrite to find."
+  ],
+  "untested_variants": [
+    "Limits requiring multiplication by a conjugate to resolve the indeterminate form, such as $\\lim_{x \\to 0} \\frac{\\sqrt{x+4} - 2}{x}$.",
+    "Limits of rational functions as $x \\to \\infty$ (end behavior), which require dividing by the highest power of $x$ rather than factoring.",
+    "Limits involving trigonometric functions and the special limit $\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1$.",
+    "Piecewise-defined functions where the algebraic limit must be compared with one-sided limits to determine whether the two-sided limit exists."
+  ]
+}

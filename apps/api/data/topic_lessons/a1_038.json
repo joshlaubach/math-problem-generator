@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_038",
+  "topic_name": "Exponential Decay Functions",
+  "generated_at": "2026-05-12T22:41:46.290448+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know that exponential growth describes quantities that multiply by a factor greater than 1 over time \u2014 like a population doubling every year. But what happens when that multiplying factor is between 0 and 1? A phone's battery drains to 80% of its remaining charge every hour, or a medication loses half its concentration in your bloodstream every few hours. These situations shrink toward zero rather than explode upward, and your current growth formula doesn't capture that behavior. How do we write and interpret a function that models this kind of steady, proportional decrease?",
+  "concept": "Exponential decay describes a quantity that is repeatedly multiplied by the same factor between 0 and 1, so it decreases by a constant percentage each time period. Formally, an exponential decay function has the form $f(x) = a \\cdot b^x$, where the initial value $a > 0$ and the decay factor (base) satisfies $0 < b < 1$. Because multiplying by a number less than 1 makes things smaller, the output shrinks toward \u2014 but never reaches \u2014 zero as $x$ increases.",
+  "anatomy": "In the exponential decay function $f(x) = a \\cdot b^x$, there are three distinct components to name. The initial value $a$ is the output when $x = 0$, representing the starting amount before any decay has occurred. The decay factor $b$ (where $0 < b < 1$) is the number you multiply by each time period; it equals $1 - r$, where $r$ is the decay rate expressed as a decimal (for example, a 20% decay rate gives $b = 0.80$). The exponent $x$ counts how many time periods have elapsed and controls how many times the decay factor has been applied.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 500 \\cdot (0.6)^x",
+      "description_latex": "We start by reading the problem: a population of 500 bacteria is reduced to 60% of its current count every hour, and we want a function that models the population after $x$ hours. Because 60% of the population survives each hour, the decay factor is $b = 0.60$ and the initial value is $a = 500$, giving us $f(x) = 500 \\cdot (0.6)^x$. Notice that $b = 0.60$ is between 0 and 1, confirming this is decay rather than growth.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(1) = 500 \\cdot (0.6)^1 = 500 \\cdot 0.6 = 300",
+      "description_latex": "To check that our function makes sense, we evaluate it at $x = 1$ \u2014 after one hour. Substituting gives $500 \\cdot 0.6 = 300$, meaning 300 bacteria remain after the first hour. This matches our expectation: 60% of 500 is indeed 300.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(3) = 500 \\cdot (0.6)^3 = 500 \\cdot 0.216 = 108",
+      "description_latex": "Now we evaluate at $x = 3$ to find the population after three hours. We compute $(0.6)^3 = 0.6 \\times 0.6 \\times 0.6 = 0.216$, then multiply by 500 to get 108 bacteria. Each successive hour the count is only 60% of what it was before, so the population is shrinking faster in absolute terms early on but always by the same proportion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{As } x \\to \\infty,\\; f(x) = 500 \\cdot (0.6)^x \\to 0",
+      "description_latex": "Finally, we describe the long-run behavior: because $(0.6)^x$ gets closer and closer to zero as $x$ grows large, the population approaches but never actually reaches zero. The $x$-axis is a horizontal asymptote of the graph, which is a defining visual feature of every exponential decay function.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A car worth } \\$24{,}000 \\text{ loses 15\\% of its value each year.}",
+      "description_latex": "We are told the car starts at $24{,}000 and depreciates by 15% per year. The first thing to do is identify the decay factor: if the car loses 15% of its value, it retains $1 - 0.15 = 0.85$, or 85%, of its value each year. So $a = 24000$ and $b = 0.85$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x) = 24000 \\cdot (0.85)^x",
+      "description_latex": "Using the values identified above, we write the exponential decay function. This function gives the car's value in dollars after $x$ years of depreciation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate the function to find the car's value after 4 years. Substitute $x = 4$ into $f(x) = 24000 \\cdot (0.85)^x$, compute $(0.85)^4$, and then multiply by 24000. What is $f(4)$, rounded to the nearest dollar?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Is } f(x) = 3 \\cdot (0.7)^x \\text{ exponential growth or exponential decay? State the initial value and the decay factor.}",
+      "answer_latex": "\\text{Exponential decay; initial value } a = 3,\\text{ decay factor } b = 0.7"
+    },
+    {
+      "prompt_latex": "\\text{Write an exponential decay function with initial value } 800 \\text{ and a decay rate of 25\\% per time period.}",
+      "answer_latex": "f(x) = 800 \\cdot (0.75)^x"
+    },
+    {
+      "prompt_latex": "\\text{Given } f(x) = 1200 \\cdot (0.5)^x\\text{, evaluate } f(0),\\; f(1),\\text{ and } f(4).",
+      "answer_latex": "f(0) = 1200,\\; f(1) = 600,\\; f(4) = 75"
+    },
+    {
+      "prompt_latex": "\\text{A function passes through } (0, 50) \\text{ and } (1, 35)\\text{. Assuming exponential decay, write its equation and find } f(3).",
+      "answer_latex": "b = 35/50 = 0.7,\\text{ so } f(x) = 50 \\cdot (0.7)^x;\\quad f(3) = 50 \\cdot (0.7)^3 = 17.15"
+    },
+    {
+      "prompt_latex": "\\text{A 200 mg dose of ibuprofen decreases by 30\\% in the bloodstream every hour. Write the function } A(t) \\text{ for the amount remaining after } t \\text{ hours, then determine how many whole hours pass before less than 50 mg remains.}",
+      "answer_latex": "A(t) = 200 \\cdot (0.7)^t;\\quad A(4) \\approx 48.02 \\text{ mg, so after } 4 \\text{ hours}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write the decay factor as $r$ instead of $1 - r$: if a quantity decreases by 20% per period they write $f(x) = a \\cdot (0.20)^x$ instead of $f(x) = a \\cdot (0.80)^x$. Always ask yourself what fraction of the quantity remains, not what fraction disappears.",
+    "Students confuse the initial value with the value at $x = 1$: they use the output after one time period as $a$ instead of the starting amount at $x = 0$. Remember that $a = f(0)$ because $b^0 = 1$ regardless of $b$.",
+    "Students apply an exponent to the entire expression $a \\cdot b$ instead of only to $b$: they write $(a \\cdot b)^x$ rather than $a \\cdot b^x$. The initial value $a$ is a coefficient that scales the function but is never raised to the power $x$ \u2014 only the base $b$ is."
+  ],
+  "untested_variants": [
+    "Finding the decay rate $r$ given two data points $(x_1, y_1)$ and $(x_2, y_2)$ that are not consecutive (requiring students to solve for $b$ by dividing outputs and taking a root).",
+    "Comparing two different exponential decay functions and determining which decays faster or which has a greater value at a specific future time.",
+    "Graphing an exponential decay function by hand, identifying the $y$-intercept, horizontal asymptote, and describing the end behavior using function notation.",
+    "Exponential decay problems involving fractional or decimal values of $x$, such as finding the amount remaining after half a time period."
+  ]
+}

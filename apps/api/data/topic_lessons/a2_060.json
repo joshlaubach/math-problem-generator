@@ -1,0 +1,76 @@
+{
+  "topic_id": "a2_060",
+  "topic_name": "Law of Sines and Cosines",
+  "generated_at": "2026-05-12T23:34:51.304235+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to use trigonometry in right triangles \u2014 given a right angle, you can find missing sides using sine, cosine, and tangent. But what happens when no right angle exists? Suppose you're a surveyor who knows two angles of a triangular plot of land and one side length, or you know all three sides but need to find an angle \u2014 right-triangle trig simply breaks down. How do you find the missing pieces of any triangle, not just right ones?",
+  "concept": "The Law of Sines and Law of Cosines extend trigonometry to all triangles, not just right triangles. The Law of Sines states that in any triangle with sides $a, b, c$ opposite angles $A, B, C$: $\\frac{a}{\\sin A} = \\frac{b}{\\sin B} = \\frac{c}{\\sin C}$. The Law of Cosines generalizes the Pythagorean theorem: $c^2 = a^2 + b^2 - 2ab\\cos C$, relating all three sides to one angle.",
+  "anatomy": "In both laws, the sides $a$, $b$, and $c$ are always labeled opposite their corresponding angles $A$, $B$, and $C$ \u2014 so side $a$ sits directly across from angle $A$, and so on. In the Law of Sines ratio $\\frac{a}{\\sin A}$, the numerator is a side length and the denominator is the sine of the opposite angle; all three such ratios are equal, which lets you set up a proportion when you have one complete side-angle pair. In the Law of Cosines $c^2 = a^2 + b^2 - 2ab\\cos C$, the term $-2ab\\cos C$ is the correction term that reduces to zero when $C = 90\u00b0$, recovering the Pythagorean theorem; the angle $C$ is always the angle included between sides $a$ and $b$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Triangle } ABC: \\quad A = 40\u00b0,\\; B = 75\u00b0,\\; a = 12",
+      "description_latex": "We are given two angles and the side opposite one of them (AAS case), which is exactly the situation where the Law of Sines is our best tool. First, let's find the third angle: $C = 180\u00b0 - 40\u00b0 - 75\u00b0 = 65\u00b0$, because all angles in a triangle sum to $180\u00b0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{a}{\\sin A} = \\frac{b}{\\sin B} \\implies \\frac{12}{\\sin 40\u00b0} = \\frac{b}{\\sin 75\u00b0}",
+      "description_latex": "We set up a proportion using the Law of Sines, pairing the known side $a = 12$ with its opposite angle $A = 40\u00b0$, and the unknown side $b$ with its opposite angle $B = 75\u00b0$. Notice we only need two of the three ratios at a time \u2014 we pick the pair that contains the unknown we want.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b = \\frac{12 \\cdot \\sin 75\u00b0}{\\sin 40\u00b0} = \\frac{12 \\times 0.9659}{0.6428} \\approx 18.03",
+      "description_latex": "We isolate $b$ by multiplying both sides by $\\sin 75\u00b0$, then evaluate with a calculator. It's always worth checking that $b > a$ since angle $B > A$, and indeed $18.03 > 12$, confirming our answer is reasonable.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Triangle } ABC: \\quad a = 8,\\; b = 11,\\; C = 58\u00b0. \\text{ Find } c.",
+      "description_latex": "We are given two sides and the included angle (SAS case), so we reach for the Law of Cosines. The formula we need is $c^2 = a^2 + b^2 - 2ab\\cos C$, where $C$ is the angle nestled between sides $a$ and $b$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c^2 = 8^2 + 11^2 - 2(8)(11)\\cos 58\u00b0",
+      "description_latex": "We substitute $a = 8$, $b = 11$, and $C = 58\u00b0$ directly into the Law of Cosines. Now try to simplify the right-hand side completely \u2014 compute each term and combine them to get a numerical value for $c^2$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "c^2 = 64 + 121 - 176\\cos 58\u00b0 \\approx 185 - 93.21 = 91.79 \\implies c \\approx 9.58",
+      "description_latex": "After evaluating $\\cos 58\u00b0 \\approx 0.5299$ and computing $176 \\times 0.5299 \\approx 93.21$, we subtract to find $c^2 \\approx 91.79$ and take the positive square root to get $c \\approx 9.58$. Always take the positive root because side lengths are positive.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{In triangle } ABC,\\; A = 30\u00b0,\\; B = 90\u00b0,\\; a = 7. \\text{ Use the Law of Sines to find } b.",
+      "answer_latex": "b = 14"
+    },
+    {
+      "prompt_latex": "\\text{In triangle } ABC,\\; A = 50\u00b0,\\; B = 62\u00b0,\\; a = 9. \\text{ Find side } b.",
+      "answer_latex": "b \\approx 10.44"
+    },
+    {
+      "prompt_latex": "\\text{In triangle } ABC,\\; a = 5,\\; b = 7,\\; C = 100\u00b0. \\text{ Find side } c.",
+      "answer_latex": "c \\approx 9.33"
+    },
+    {
+      "prompt_latex": "\\text{In triangle } ABC,\\; a = 6,\\; b = 10,\\; c = 8. \\text{ Find angle } B \\text{ using the Law of Cosines.}",
+      "answer_latex": "B \\approx 83.6\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{Two rangers are } 5 \\text{ miles apart. Ranger 1 spots a fire at an angle of } 62\u00b0 \\text{ from the line connecting the rangers, and Ranger 2 spots it at an angle of } 51\u00b0. \\text{ How far is the fire from Ranger 1?}",
+      "answer_latex": "\\approx 4.18 \\text{ miles}"
+    }
+  ],
+  "common_mistakes": [
+    "Students mix up which law to use: they apply the Law of Sines when they are given two sides and the included angle (SAS), which actually requires the Law of Cosines \u2014 if no complete side-angle pair exists, the Law of Sines cannot get started.",
+    "When using the Law of Cosines to find an angle, students forget to isolate $\\cos C$ algebraically before taking the inverse cosine; they sometimes incorrectly write $C = \\cos^{-1}(a^2 + b^2 - c^2)$ instead of the correct $C = \\cos^{-1}\\!\\left(\\frac{a^2+b^2-c^2}{2ab}\\right)$.",
+    "In the Law of Sines, students sometimes match a side with the wrong angle \u2014 for example, writing $\\frac{a}{\\sin B}$ instead of $\\frac{a}{\\sin A}$. Always double-check that each side is paired with the angle directly opposite it, not an adjacent angle."
+  ],
+  "untested_variants": [
+    "The ambiguous case (SSA) of the Law of Sines, where two triangles, one triangle, or no triangle may exist \u2014 the practice problems only cover cases with a unique solution.",
+    "Finding the area of a non-right triangle using the formula $\\text{Area} = \\frac{1}{2}ab\\sin C$, which is closely related to the Law of Cosines context but requires its own setup.",
+    "Solving oblique triangles given three angles (AAA), where students must recognize that the shape is determined but the size is not \u2014 infinitely many similar triangles satisfy the conditions.",
+    "Applying the Law of Cosines in a coordinate-geometry context, such as verifying or finding distances between points given bearing angles, which combines vector or navigation concepts with the law."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_039",
+  "topic_name": "Hinge Theorem and Indirect Proofs (H)",
+  "generated_at": "2026-05-12T23:03:49.572205+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that in a triangle, a longer side is opposite a larger angle. Now imagine two triangles that share two pairs of equal sides \u2014 like two robot arms of the same length \u2014 but one pair of arms is opened wider than the other. You can probably guess that the wider opening means a longer reach at the tip, but can you actually prove it rigorously? And what do you do when a direct, step-by-step proof seems impossible and you have to start by assuming the opposite of what you want to show?",
+  "concept": "The Hinge Theorem (also called the SAS Inequality Theorem) lets you compare two triangles when two pairs of sides are congruent but the included angles differ. Formally: if in $\\triangle ABC$ and $\\triangle DEF$ we have $AB = DE$ and $BC = EF$, then $m\\angle B > m\\angle E$ if and only if $AC > DF$. The 'hinge' is the included angle \u2014 a larger hinge angle forces the opposite side to be longer.",
+  "anatomy": "The Hinge Theorem has four distinct components you must identify every time you use it. First, the two congruent side pairs: the sides that are equal in both triangles and act as the fixed 'arms' of the hinge. Second, the included angle in each triangle: the angle formed between those two congruent sides, whose measures you compare. Third, the opposite side in each triangle: the side across from the included angle, whose lengths you compare. Fourth, the inequality direction: the relationship $>$, $<$, or $=$ that links the angle comparison to the side comparison and is the actual conclusion of the theorem.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Given: } WX = YZ = 8,\\; XZ = ZX \\text{ (shared side)},\\; m\\angle WXZ = 58\u00b0,\\; m\\angle YZX = 47\u00b0",
+      "description_latex": "We are reading the given information carefully and identifying the two triangles: $\\triangle WXZ$ and $\\triangle YZX$. Before applying any theorem, we need to confirm we have two pairs of equal sides and a comparison of their included angles.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "WX = YZ = 8 \\quad \\text{and} \\quad XZ = ZX \\text{ (reflexive property)}",
+      "description_latex": "Here we verify that the two pairs of congruent sides exist. The side $XZ$ equals itself by the Reflexive Property, which is the shared side that serves as one arm of each hinge. Now both conditions for the Hinge Theorem \u2014 two pairs of equal sides \u2014 are satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m\\angle WXZ = 58\u00b0 > 47\u00b0 = m\\angle YZX",
+      "description_latex": "We compare the included angles: the angle at $X$ in $\\triangle WXZ$ is $58\u00b0$ and the angle at $Z$ in $\\triangle YZX$ is $47\u00b0$. Since these are the angles formed between the two congruent sides in each triangle, we have found that one included angle is strictly larger than the other.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore\\; WZ > XY",
+      "description_latex": "By the Hinge Theorem, the side opposite the larger included angle must be longer, so $WZ > XY$. This is the side opposite $\\angle WXZ$ compared with the side opposite $\\angle YZX$, and the inequality follows directly from the angle comparison.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Given: } PR = TR = 12,\\; RS = RS \\text{ (shared)},\\; PS = 15,\\; TS = 11",
+      "description_latex": "We want to compare $m\\angle PRS$ and $m\\angle TRS$ using the Converse of the Hinge Theorem. Start by identifying the two triangles ($\\triangle PRS$ and $\\triangle TRS$) and confirming which sides are congruent and which sides are the ones being compared.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "PR = TR = 12 \\quad \\text{and} \\quad RS = RS",
+      "description_latex": "We have confirmed the two pairs of congruent sides. Now think: the sides $PS = 15$ and $TS = 11$ are opposite the included angles $\\angle PRS$ and $\\angle TRS$ respectively. What does the Converse of the Hinge Theorem tell you about the relationship between $m\\angle PRS$ and $m\\angle TRS$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "PS > TS \\implies m\\angle PRS > m\\angle TRS",
+      "description_latex": "Because $PS = 15 > 11 = TS$ and the two pairs of sides are congruent, the Converse of the Hinge Theorem guarantees that $m\\angle PRS > m\\angle TRS$. Always state which theorem you used and match the inequality direction on both sides of your reasoning.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "In $\\triangle ABC$ and $\\triangle DEF$, $AB = DE = 10$, $BC = EF = 7$, and $m\\angle B = 80\u00b0$, $m\\angle E = 55\u00b0$. Which is larger, $AC$ or $DF$?",
+      "answer_latex": "AC > DF"
+    },
+    {
+      "prompt_latex": "In $\\triangle PQR$ and $\\triangle STU$, $PQ = ST = 9$, $QR = TU = 6$, $PR = 14$, and $SU = 11$. Write an inequality comparing $m\\angle Q$ and $m\\angle T$.",
+      "answer_latex": "m\\angle Q > m\\angle T"
+    },
+    {
+      "prompt_latex": "Two triangles share a common side $\\overline{AC}$. In $\\triangle ABC$, $AB = 13$ and $m\\angle BAC = 72\u00b0$. In $\\triangle ACD$, $AD = 13$ and $m\\angle DAC = 65\u00b0$. Compare $BC$ and $CD$.",
+      "answer_latex": "BC > CD"
+    },
+    {
+      "prompt_latex": "Write an indirect proof (proof by contradiction) to show: if in $\\triangle XYZ$ and $\\triangle MNP$ we have $XY = MN$, $YZ = NP$, and $XZ > MP$, then $m\\angle Y > m\\angle N$. Begin your proof by stating the assumption that leads to a contradiction.",
+      "answer_latex": "\\text{Assume } m\\angle Y \\le m\\angle N.\\text{ If } m\\angle Y < m\\angle N,\\text{ the Hinge Theorem gives } XZ < MP,\\text{ contradicting } XZ > MP.\\text{ If } m\\angle Y = m\\angle N,\\text{ SAS gives } XZ = MP,\\text{ also a contradiction. Therefore } m\\angle Y > m\\angle N."
+    },
+    {
+      "prompt_latex": "A drawbridge is modeled as two arms of equal length $20\\text{ ft}$ attached at a central hinge. When fully open, the angle between them is $140\u00b0$; when partially closed, the angle is $60\u00b0$. How does the gap (distance between the free ends) change, and which theorem justifies your answer?",
+      "answer_latex": "\\text{The gap decreases because the included angle decreases from }140\u00b0\\text{ to }60\u00b0.\\text{ By the Hinge Theorem, a smaller included angle between equal sides produces a shorter opposite side.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students compare the wrong pair of sides \u2014 they grab any two sides from the two triangles instead of specifically the sides opposite each included angle. Fix: always locate the included angle first, then identify the side directly across the triangle from that angle.",
+    "When writing an indirect proof, students assume the negation of a given hypothesis instead of the negation of the conclusion. Fix: in an indirect proof you always negate what you are trying to prove (the conclusion), then derive a contradiction with the given information.",
+    "Students apply the Hinge Theorem when the two pairs of sides are not clearly established as congruent, skipping the verification step. Fix: explicitly list both pairs of equal sides with justification (given, reflexive, etc.) before invoking the theorem, just as you would list congruent parts before applying SAS."
+  ],
+  "untested_variants": [
+    "Problems where algebraic expressions are set up for the sides or angles (e.g., $m\\angle B = 3x + 10$ and $m\\angle E = 5x - 4$) and students must solve for $x$ before applying the Hinge Theorem.",
+    "Multi-triangle chains where the Hinge Theorem must be applied twice in sequence to compare sides in triangles that are not directly sharing sides.",
+    "Coordinate geometry versions where students must compute distances using the distance formula and then use those distances with the Converse of the Hinge Theorem to determine angle relationships.",
+    "Proof problems that combine the Hinge Theorem with the Triangle Inequality Theorem or the Exterior Angle Inequality to establish a compound inequality for a side length."
+  ]
+}

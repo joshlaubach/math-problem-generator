@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_072",
+  "topic_name": "Introduction to Integration (H)",
+  "generated_at": "2026-05-13T00:02:31.707859+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to find the slope of a curve at a single point using derivatives \u2014 the instantaneous rate of change. But what if you wanted to find the total area trapped between a curve like $f(x) = x^2$ and the x-axis from $x = 0$ to $x = 3$? You can't use a simple area formula because the boundary is curved, not straight. How could you systematically accumulate infinitely many infinitely thin slices of area to get an exact answer?",
+  "concept": "Integration is the process of accumulating infinitely many infinitely thin quantities \u2014 most often areas \u2014 to find a total. The formal tool is the definite integral: $\\int_a^b f(x)\\, dx$, which represents the exact signed area between the curve $y = f(x)$ and the x-axis from $x = a$ to $x = b$. The Fundamental Theorem of Calculus connects integration to antidifferentiation: if $F'(x) = f(x)$, then $\\int_a^b f(x)\\, dx = F(b) - F(a)$.",
+  "anatomy": "The definite integral $\\int_a^b f(x)\\, dx$ has five key parts: the integral sign $\\int$ (an elongated S standing for 'sum'), the lower limit of integration $a$ (where accumulation starts), the upper limit of integration $b$ (where accumulation ends), the integrand $f(x)$ (the function whose values are being accumulated), and the differential $dx$ (signaling that x is the variable of integration and representing the infinitely thin width of each slice). The antiderivative $F(x)$ satisfies $F'(x) = f(x)$ and is found by reversing differentiation; the notation $\\left[F(x)\\right]_a^b$ means $F(b) - F(a)$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\int_1^3 2x\\, dx",
+      "description_latex": "We want to find the exact area under $f(x) = 2x$ from $x = 1$ to $x = 3$. Our strategy is to find an antiderivative $F(x)$ such that $F'(x) = 2x$, and then evaluate $F(3) - F(1)$ using the Fundamental Theorem of Calculus.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F(x) = x^2 + C",
+      "description_latex": "We find the antiderivative by asking: what function, when differentiated, gives $2x$? Since $\\frac{d}{dx}(x^2) = 2x$, the antiderivative is $F(x) = x^2$. The constant $C$ cancels in a definite integral, so we can set $C = 0$ for convenience.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left[x^2\\right]_1^3 = 3^2 - 1^2",
+      "description_latex": "We apply the evaluation notation, substituting the upper limit $x = 3$ first and then subtracting the value at the lower limit $x = 1$. This subtraction is what turns an antiderivative into a definite, numerical area.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 9 - 1 = 8",
+      "description_latex": "The definite integral equals $8$, meaning the signed area between $y = 2x$ and the x-axis on the interval $[1, 3]$ is exactly $8$ square units. You can verify this geometrically: the region is a trapezoid with parallel sides $f(1) = 2$ and $f(3) = 6$ and width $2$, giving area $\\frac{1}{2}(2+6)(2) = 8$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\int_0^2 (3x^2 + 1)\\, dx",
+      "description_latex": "We need to find the exact area under $f(x) = 3x^2 + 1$ from $x = 0$ to $x = 2$. The first step is to identify the antiderivative of each term separately, using the power rule for antiderivatives: the antiderivative of $x^n$ is $\\frac{x^{n+1}}{n+1}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F(x) = x^3 + x",
+      "description_latex": "The antiderivative of $3x^2$ is $x^3$ (since $\\frac{d}{dx}(x^3) = 3x^2$) and the antiderivative of $1$ is $x$, giving $F(x) = x^3 + x$. Now you need to apply the Fundamental Theorem: compute $F(2) - F(0)$ using this antiderivative.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Evaluate $\\left[x^3 + x\\right]_0^2$ by substituting $x = 2$ and $x = 0$ and subtracting. What is the value of the definite integral?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $\\int_0^4 3\\, dx$",
+      "answer_latex": "12"
+    },
+    {
+      "prompt_latex": "Evaluate $\\int_1^3 x^2\\, dx$",
+      "answer_latex": "\\dfrac{26}{3}"
+    },
+    {
+      "prompt_latex": "Evaluate $\\int_0^2 (4x^3 - 2x + 5)\\, dx$",
+      "answer_latex": "18"
+    },
+    {
+      "prompt_latex": "Evaluate $\\int_1^4 \\sqrt{x}\\, dx$ (Hint: write $\\sqrt{x} = x^{1/2}$ and use the power rule for antiderivatives)",
+      "answer_latex": "\\dfrac{14}{3}"
+    },
+    {
+      "prompt_latex": "A particle's velocity is given by $v(t) = 6t^2 - 4t$ (in m/s). Find the total displacement of the particle from $t = 0$ to $t = 3$ seconds by evaluating $\\int_0^3 (6t^2 - 4t)\\, dt$.",
+      "answer_latex": "36 \\text{ meters}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to subtract $F(a)$ and only evaluate $F(b)$, writing $\\int_a^b f(x)\\, dx = F(b)$ instead of $F(b) - F(a)$. Always write the bracket notation $\\left[F(x)\\right]_a^b$ explicitly so both evaluations are visible before subtracting.",
+    "When finding an antiderivative using the power rule, students frequently add 1 to the exponent but forget to divide by the new exponent \u2014 for example, writing the antiderivative of $x^3$ as $x^4$ instead of $\\frac{x^4}{4}$. Remember: the power rule for antiderivatives is $\\int x^n\\, dx = \\frac{x^{n+1}}{n+1}$, and both steps (add 1, then divide) are required.",
+    "Students sometimes reverse the upper and lower limits when evaluating, computing $F(a) - F(b)$ instead of $F(b) - F(a)$, which produces an answer with the wrong sign. Make it a habit to always substitute the upper limit first and then subtract the lower-limit value."
+  ],
+  "untested_variants": [
+    "Definite integrals involving negative function values where the integrand dips below the x-axis, requiring understanding of signed area versus total area (using absolute values or splitting the integral at zeros).",
+    "Integrals requiring u-substitution, such as $\\int_0^1 2x(x^2+1)^3\\, dx$, where a change of variable is needed before applying the Fundamental Theorem.",
+    "Integrals involving trigonometric functions, such as $\\int_0^{\\pi} \\sin x\\, dx$, which require knowledge of trigonometric antiderivatives.",
+    "Using Riemann sums (left, right, or midpoint rectangles) to approximate a definite integral numerically rather than evaluating it exactly with an antiderivative."
+  ]
+}

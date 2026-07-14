@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_046",
+  "topic_name": "Multiple Linear Regression (H)",
+  "generated_at": "2026-05-13T20:33:25.525424+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to use simple linear regression to predict a response variable from a single predictor \u2014 for example, predicting a student's exam score from hours studied. But what if exam score also depends on hours of sleep, prior GPA, and whether the student attended tutoring? Ignoring those variables could give you a misleading picture of any one predictor's true effect. How do we build and interpret a regression model that uses multiple explanatory variables at once?",
+  "concept": "Multiple linear regression extends simple linear regression by allowing several predictor variables to explain variation in a single quantitative response. The model is $\\hat{y} = b_0 + b_1 x_1 + b_2 x_2 + \\cdots + b_k x_k$, where $b_0$ is the y-intercept, each $b_i$ is the estimated slope (partial regression coefficient) for predictor $x_i$, and $k$ is the number of predictors. Each coefficient gives the predicted change in $y$ for a one-unit increase in that predictor while holding all other predictors constant.",
+  "anatomy": "The multiple regression equation $\\hat{y} = b_0 + b_1 x_1 + b_2 x_2 + \\cdots + b_k x_k$ has several distinct parts: the intercept $b_0$ is the predicted value of $y$ when every predictor equals zero; each partial slope $b_i$ measures the isolated effect of $x_i$ on $y$ after controlling for all other predictors; the predictors $x_1, x_2, \\ldots, x_k$ are the explanatory variables (which can be quantitative or indicator/dummy variables); the predicted response $\\hat{y}$ is the model's estimated mean of $y$; and the coefficient of determination $R^2$ reports the proportion of total variability in $y$ explained by the full set of predictors together.",
+  "worked_example": [
+    {
+      "expression_latex": "\\hat{\\text{score}} = 40 + 5(\\text{hours}) + 3(\\text{sleep}) - 8(\\text{missed})",
+      "description_latex": "We are given a fitted multiple regression equation predicting a student's test score from hours studied per week, hours of sleep the night before, and number of classes missed this semester. Reading the equation carefully first is essential because each coefficient has a specific, conditional meaning that depends on the other variables being held fixed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_{\\text{hours}} = 5",
+      "description_latex": "The partial slope for hours studied is 5, which means that for every additional hour studied per week, the predicted test score increases by 5 points \u2014 but only when hours of sleep and classes missed are held constant. This 'holding constant' language is the key difference between a partial slope in multiple regression and a slope in simple linear regression.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\text{score}} = 40 + 5(10) + 3(8) - 8(2)",
+      "description_latex": "To make a prediction for a student who studies 10 hours, sleeps 8 hours, and has missed 2 classes, we substitute those values into the equation. Notice that we plug in a value for every predictor simultaneously \u2014 leaving any predictor out would make the prediction invalid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\text{score}} = 40 + 50 + 24 - 16 = 98",
+      "description_latex": "Evaluating each term: $5 \\times 10 = 50$, $3 \\times 8 = 24$, $8 \\times 2 = 16$, and summing with the intercept gives a predicted score of 98. This is the model's best estimate of the mean score for all students with exactly this combination of predictor values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R^2 = 0.74",
+      "description_latex": "If the output reports $R^2 = 0.74$, we interpret this as: approximately 74% of the variability in test scores is explained by the combination of hours studied, hours of sleep, and classes missed. The remaining 26% is due to other factors not included in the model or random variation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\hat{\\text{price}} = 12000 - 1500(\\text{age}) + 200(\\text{mpg}) + 3000(\\text{luxury})",
+      "description_latex": "A real-estate analyst fits a model to predict used car price (in dollars) from age (years), fuel efficiency (mpg), and a luxury indicator (1 = luxury brand, 0 = not). Read the equation and identify what each coefficient represents before doing any calculation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_{\\text{luxury}} = 3000",
+      "description_latex": "The coefficient on the luxury indicator variable is 3000. Write a complete sentence interpreting this value in context, remembering that this is a partial slope and the other variables are held fixed.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\hat{\\text{price}} = 12000 - 1500(4) + 200(32) + 3000(1)",
+      "description_latex": "Now predict the price for a 4-year-old luxury car that gets 32 mpg by substituting the correct values into the equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute the predicted price by evaluating each term and summing. Show each multiplication before adding so you can catch arithmetic errors.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A fitted model is \\hat{y} = 10 + 4x_1 + 2x_2. Interpret the coefficient $b_1 = 4$ in one sentence.",
+      "answer_latex": "For every one-unit increase in $x_1$, the predicted value of $y$ increases by 4 units, holding $x_2$ constant."
+    },
+    {
+      "prompt_latex": "Using the model \\hat{y} = 10 + 4x_1 + 2x_2, predict $y$ when $x_1 = 3$ and $x_2 = 5$.",
+      "answer_latex": "\\hat{y} = 10 + 4(3) + 2(5) = 10 + 12 + 10 = 32"
+    },
+    {
+      "prompt_latex": "A model predicting salary (in thousands): \\hat{\\text{salary}} = 30 + 2(\\text{years}) + 5(\\text{degree}) where degree = 1 if the employee holds a graduate degree, 0 otherwise. What is the predicted salary for an employee with 6 years of experience and a graduate degree?",
+      "answer_latex": "\\hat{\\text{salary}} = 30 + 2(6) + 5(1) = 30 + 12 + 5 = 47 \\text{ thousand dollars}"
+    },
+    {
+      "prompt_latex": "Two models are fit to predict plant height. Model A uses only fertilizer amount: $R^2 = 0.55$. Model B uses fertilizer amount AND hours of sunlight: $R^2 = 0.78$. A student says Model B is definitely better because $R^2$ is always higher when you add predictors. Explain why adding a variable always increases $R^2$ and what statistic should also be considered when comparing models.",
+      "answer_latex": "Adding any predictor can never decrease $R^2$ because the model can always assign a near-zero coefficient to the new variable, so $R^2$ will increase or stay the same mechanically. Adjusted $R^2$ (which penalizes for unnecessary predictors) should also be examined to see if the added variable genuinely improves the model."
+    },
+    {
+      "prompt_latex": "A nutrition study fits the model: \\hat{\\text{weight loss}} = -1 + 0.3(\\text{exercise hours}) - 0.05(\\text{calories}) + 2(\\text{program}) where program = 1 if enrolled in a structured diet program, 0 otherwise. A participant exercises 5 hours per week, consumes 2000 calories per day, and is enrolled in the program. Predict their weekly weight loss (in pounds) and interpret the intercept in context.",
+      "answer_latex": "\\hat{\\text{weight loss}} = -1 + 0.3(5) - 0.05(2000) + 2(1) = -1 + 1.5 - 100 + 2 = -97.5 \\text{ lbs}; the extreme negative value reveals the intercept (all predictors = 0) is meaningless here because zero calories is not a realistic value, illustrating that the intercept often lacks practical interpretation."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget the 'holding all other predictors constant' qualifier when interpreting a partial slope, writing something like 'for every extra hour studied, score increases by 5 points' without specifying that sleep and absences are fixed \u2014 this omission makes the interpretation equivalent to a simple regression slope, which is a different and usually larger number.",
+    "When making a prediction, students substitute a value for only one or two predictors and leave the others out entirely, rather than plugging in a value for every predictor in the equation; every predictor must receive a numerical input, including indicator variables (which get 0 or 1), for the prediction to be valid.",
+    "Students misinterpret $R^2$ in a multiple regression context by saying it describes the relationship between one specific predictor and $y$, when in fact $R^2$ measures how much of the variability in $y$ is explained by all predictors together as a set \u2014 to describe one predictor's individual contribution you would need the partial slope or a separate simple regression."
+  ],
+  "untested_variants": [
+    "Performing a t-test for an individual partial slope coefficient to determine whether a specific predictor is statistically significant in the model (hypothesis test $H_0: \\beta_i = 0$, $H_a: \\beta_i \\neq 0$).",
+    "Conducting an overall F-test for the multiple regression model to assess whether at least one predictor is useful ($H_0: \\beta_1 = \\beta_2 = \\cdots = \\beta_k = 0$).",
+    "Checking and interpreting residual plots (residuals vs. fitted values, residuals vs. each predictor) to verify the conditions for multiple linear regression inference.",
+    "Computing and interpreting a confidence interval or prediction interval for a mean response at a specific combination of predictor values in a multiple regression setting."
+  ]
+}

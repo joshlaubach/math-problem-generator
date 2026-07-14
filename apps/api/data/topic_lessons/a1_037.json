@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_037",
+  "topic_name": "Exponential Growth Functions",
+  "generated_at": "2026-05-12T22:41:52.111508+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to model situations where something increases by the same amount each time \u2014 like saving $50 every month \u2014 using a linear function. But what happens when a population of bacteria doubles every hour, or an investment grows by 8% each year? Adding the same amount each time can't capture that, because the amount being added is itself getting bigger. How do you write a function that models something multiplying by the same factor over and over again?",
+  "concept": "An exponential growth function describes a quantity that multiplies by a constant factor at every step. In plain English, instead of adding the same number repeatedly, you multiply. Formally, an exponential growth function has the form $f(x) = a \\cdot b^x$, where $a$ is the initial value (the starting amount), $b$ is the growth factor with $b > 1$, and $x$ is the number of time periods elapsed.",
+  "anatomy": "The exponential growth function $f(x) = a \\cdot b^x$ has three distinct parts to name carefully. The coefficient $a$ is the initial value \u2014 it is the output when $x = 0$, since $b^0 = 1$ makes $f(0) = a$. The base $b$ is the growth factor \u2014 it tells you what you multiply the current amount by each time $x$ increases by 1; for growth, $b$ must satisfy $b > 1$. The exponent $x$ is the independent variable representing the number of elapsed time periods, and it is what makes this function exponential rather than linear \u2014 the variable lives in the power position, not the base position.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = a \\cdot b^x, \\quad a = 200, \\quad b = 1.05",
+      "description_latex": "A savings account starts with $200 and earns 5% interest each year. We identify the two key pieces: the initial value is $a = 200$ because that is the amount at year zero, and the growth factor is $b = 1 + 0.05 = 1.05$ because each year the balance is multiplied by 1.05 (keeping 100% and adding 5%). Always convert a percent growth rate $r$ into a growth factor by computing $b = 1 + r$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x) = 200 \\cdot (1.05)^x",
+      "description_latex": "We substitute $a = 200$ and $b = 1.05$ into the template $f(x) = a \\cdot b^x$ to write the complete function. This single equation now predicts the account balance after any whole number of years $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(3) = 200 \\cdot (1.05)^3",
+      "description_latex": "To find the balance after 3 years we substitute $x = 3$. We replace the variable $x$ with 3, leaving everything else exactly as written \u2014 a common error is to multiply the exponent by $a$ instead of keeping the exponent on $b$ alone.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(3) = 200 \\cdot 1.157625 = 231.53",
+      "description_latex": "We evaluate $(1.05)^3 = 1.157625$ first, following order of operations, and then multiply by 200 to get approximately $\\$231.53$. Notice how the order matters: exponentiation before multiplication.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Initial population: } 500 \\text{ bacteria, triples every hour}",
+      "description_latex": "A lab culture starts with 500 bacteria and the population triples every hour. Our job is to build the exponential growth function $f(x) = a \\cdot b^x$ and then use it to find the population after 4 hours. Start by reading the problem for the two key values: the starting amount and the factor by which it multiplies.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Identify the initial value $a$ and the growth factor $b$ from the problem, then write the complete function $f(x) = a \\cdot b^x$. Remember that 'triples' means the population is multiplied by 3 each hour, so $b$ is not $3 + 1$ \u2014 it is simply 3, because tripling is the entire multiplication, not an added percentage.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f(4) = 500 \\cdot 3^4 = 500 \\cdot 81 = 40{,}500",
+      "description_latex": "Using the function you built, substitute $x = 4$ to find the population after 4 hours. Compute the exponent first: $3^4 = 81$, then multiply by 500 to get 40,500 bacteria. Check that your function from the previous step gives the same result here.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Write the exponential growth function } f(x) = a \\cdot b^x \\text{ for a starting value of } 10 \\text{ that doubles every period.}",
+      "answer_latex": "f(x) = 10 \\cdot 2^x"
+    },
+    {
+      "prompt_latex": "\\text{A town has 4{,}000 residents and grows by 3\\% each year. Write the function } f(x) \\text{ for the population after } x \\text{ years, then find } f(2).",
+      "answer_latex": "f(x) = 4000 \\cdot (1.03)^x; \\quad f(2) = 4000 \\cdot (1.03)^2 \\approx 4{,}243.6"
+    },
+    {
+      "prompt_latex": "\\text{Evaluate } f(5) \\text{ for } f(x) = 50 \\cdot (1.2)^x. \\text{ Round to the nearest hundredth.}",
+      "answer_latex": "f(5) = 50 \\cdot (1.2)^5 = 50 \\cdot 2.48832 \\approx 124.42"
+    },
+    {
+      "prompt_latex": "\\text{The function } f(x) = 3 \\cdot 4^x \\text{ and the linear function } g(x) = 100x + 3 \\text{ both equal 3 when } x = 0. \\text{ Which function has a greater value at } x = 3, \\text{ and by how much?}",
+      "answer_latex": "f(3) = 3 \\cdot 64 = 192; \\quad g(3) = 303; \\quad g(3) \\text{ is greater by } 111"
+    },
+    {
+      "prompt_latex": "\\text{A social media post is shared by 2 people, and each person's shares triple the reach every day. Write and interpret the exponential function for total reach after } x \\text{ days, then determine on which day the reach first exceeds 1{,}000.}",
+      "answer_latex": "f(x) = 2 \\cdot 3^x; \\quad f(5) = 2 \\cdot 243 = 486 < 1000; \\quad f(6) = 2 \\cdot 729 = 1458 > 1000; \\quad \\text{Day 6}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the percent growth rate $r$ directly as the base $b$, writing $f(x) = 200 \\cdot (0.05)^x$ instead of $f(x) = 200 \\cdot (1.05)^x$. The fix: always form the growth factor as $b = 1 + r$, because you keep the original amount (the '1') and add the growth (the $r$).",
+    "Students multiply the initial value $a$ by the exponent $x$ instead of keeping $x$ in the exponent position, writing $f(x) = 200 \\cdot 1.05 \\cdot x$ (a linear function) rather than $f(x) = 200 \\cdot (1.05)^x$. The fix: remember that in exponential functions the variable $x$ is the exponent on the base $b$, not a factor being multiplied by $a$.",
+    "When evaluating, students apply the exponent to the product $a \\cdot b$ rather than to $b$ alone, computing $(200 \\cdot 1.05)^3$ instead of $200 \\cdot (1.05)^3$. The fix: use parentheses carefully and remember that only $b$ is raised to the power $x$; $a$ is simply multiplied after the exponentiation is done."
+  ],
+  "untested_variants": [
+    "Finding the growth rate $b$ or initial value $a$ from two given points on the exponential curve (working backwards from outputs to parameters).",
+    "Exponential growth with a non-integer or fractional base, such as $f(x) = 8 \\cdot \\left(\\frac{4}{3}\\right)^x$, requiring fraction arithmetic in the exponent evaluation.",
+    "Comparing two different exponential growth functions and determining when one overtakes the other, which requires setting the functions equal and reasoning about intersection points.",
+    "Exponential growth expressed with a base of $e$ (continuous growth), such as $f(t) = a \\cdot e^{rt}$, which appears in science contexts but goes beyond the discrete $b^x$ model covered here."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "c1_007",
+  "topic_name": "The Derivative as a Rate of Change and Slope",
+  "course_name": "Calculus I",
+  "generated_at": "2026-05-12T21:56:59.907667+00:00",
+  "hook": "You already know how to find the slope of a straight line using the formula $m = \\frac{y_2 - y_1}{x_2 - x_1}$. But what happens when the curve you're looking at is something like $f(x) = x^2$, which bends and changes direction? The slope at every point is different, so a single number can't describe it everywhere. How can we find the exact slope at just one specific point on a curve?",
+  "concept": "The derivative measures how fast a function is changing at any given instant \u2014 it is the instantaneous rate of change. Geometrically, it gives the slope of the tangent line to the curve at a point. Formally, the derivative of $f$ at $x = a$ is $f'(a) = \\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h}$, provided this limit exists.",
+  "anatomy": "The limit definition $f'(a) = \\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h}$ has four key parts: $f(a+h)$ is the function evaluated at a point a tiny distance $h$ away from $a$; $f(a)$ is the function's value at the base point; the difference $f(a+h) - f(a)$ is the rise (change in output); and $h$ in the denominator is the run (change in input), making the whole fraction an average rate of change. Taking the limit as $h \\to 0$ collapses this average rate into an instantaneous rate, which equals the slope of the tangent line at $x = a$.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^2, \\quad \\text{find } f'(3)",
+      "description_latex": "We want the instantaneous rate of change of $f(x) = x^2$ at the specific point $x = 3$, which will also tell us the slope of the tangent line to the parabola there. We set up the limit definition with $a = 3$: $f'(3) = \\lim_{h \\to 0} \\frac{f(3+h) - f(3)}{h}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(3) = \\lim_{h \\to 0} \\frac{(3+h)^2 - 3^2}{h}",
+      "description_latex": "We substitute the function rule into the limit expression: $f(3+h) = (3+h)^2$ and $f(3) = 9$. Writing it out explicitly makes the algebra visible and prevents sign errors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{h \\to 0} \\frac{9 + 6h + h^2 - 9}{h} = \\lim_{h \\to 0} \\frac{6h + h^2}{h}",
+      "description_latex": "Expanding $(3+h)^2 = 9 + 6h + h^2$ and then cancelling the $9 - 9$ removes the constant terms, leaving only terms with $h$ in the numerator. This is the crucial step: the numerator must have an $h$ factor so we can cancel with the denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{h \\to 0} \\frac{h(6 + h)}{h} = \\lim_{h \\to 0} (6 + h)",
+      "description_latex": "Factoring $h$ out of the numerator and cancelling it with the $h$ in the denominator is valid because $h \\neq 0$ in a limit (we approach zero but never actually reach it). Now the expression is no longer $\\frac{0}{0}$ and we can substitute safely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(3) = 6 + 0 = 6",
+      "description_latex": "Substituting $h = 0$ gives us $f'(3) = 6$, meaning the parabola $y = x^2$ has a tangent line with slope $6$ at the point $(3, 9)$. Physically, if $x$ represents time and $f(x)$ represents position, the object is moving at an instantaneous speed of $6$ units per unit time at $t = 3$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = 2x^2 - 1, \\quad \\text{find } f'(2)",
+      "description_latex": "We want the slope of the tangent line to $f(x) = 2x^2 - 1$ at $x = 2$. We start by writing out the limit definition: $f'(2) = \\lim_{h \\to 0} \\frac{f(2+h) - f(2)}{h}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{h \\to 0} \\frac{[2(2+h)^2 - 1] - [2(4) - 1]}{h} = \\lim_{h \\to 0} \\frac{2(4 + 4h + h^2) - 1 - 7}{h}",
+      "description_latex": "We've substituted $f(2+h) = 2(2+h)^2 - 1$ and $f(2) = 7$, then expanded $(2+h)^2$. Notice that the constants $-1$ and $-7$ are ready to combine \u2014 your job is to simplify the numerator, factor out $h$, and evaluate the limit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Simplify the numerator by combining like terms, then factor out $h$ from the numerator and cancel with the denominator. What expression are you left with inside the limit, and what do you get when you let $h \\to 0$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f'(2) = 8",
+      "description_latex": "The numerator simplifies to $8h + 2h^2$, so after factoring and cancelling you get $\\lim_{h \\to 0}(8 + 2h) = 8$. This means the tangent line to the curve at $x = 2$ has slope $8$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Use the limit definition to find } f'(1) \\text{ for } f(x) = 3x.",
+      "answer_latex": "f'(1) = 3"
+    },
+    {
+      "prompt_latex": "\\text{Use the limit definition to find } f'(2) \\text{ for } f(x) = x^2 + 4.",
+      "answer_latex": "f'(2) = 4"
+    },
+    {
+      "prompt_latex": "\\text{Use the limit definition to find } f'(1) \\text{ for } f(x) = 3x^2 - 2x.",
+      "answer_latex": "f'(1) = 4"
+    },
+    {
+      "prompt_latex": "\\text{Find the equation of the tangent line to } f(x) = x^2 - 5 \\text{ at } x = 3 \\text{ using the derivative as slope.}",
+      "answer_latex": "y = 6x - 14"
+    },
+    {
+      "prompt_latex": "\\text{A ball's height (in meters) after } t \\text{ seconds is } s(t) = -5t^2 + 20. \\text{ Use the limit definition to find the instantaneous velocity at } t = 1.",
+      "answer_latex": "s'(1) = -10 \\text{ m/s}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to subtract the entire expression $f(a)$ when it has multiple terms, writing $f(a+h) - f(a) = (\\ldots) - 2x^2$ instead of $-(2x^2 - 1)$, which drops the constant. Always treat $f(a)$ as a single quantity and distribute the minus sign across every term.",
+    "After expanding the numerator, students sometimes try to evaluate the limit immediately by substituting $h = 0$ before factoring and cancelling the $h$ in the denominator, producing $\\frac{0}{0}$ and concluding the derivative doesn't exist. You must first algebraically simplify until the $h$ in the denominator cancels, then substitute $h = 0$.",
+    "Students confuse the average rate of change $\\frac{f(b)-f(a)}{b-a}$ with the instantaneous rate of change $f'(a) = \\lim_{h \\to 0}\\frac{f(a+h)-f(a)}{h}$, using a finite difference instead of taking the limit. Remember that the derivative requires the limit as the interval shrinks to zero, not just a small but finite value of $h$."
+  ],
+  "untested_variants": [
+    "Finding $f'(x)$ as a general function (not at a specific point), producing a derivative formula valid for all $x$ rather than a single numerical slope.",
+    "Applying the limit definition to rational functions such as $f(x) = \\frac{1}{x}$, where the algebra requires combining fractions in the numerator rather than expanding polynomials.",
+    "Interpreting the derivative as a rate of change in a context involving non-position quantities, such as marginal cost in economics or reaction rate in chemistry, where the units of the derivative differ from the units of the function.",
+    "Using one-sided limits to determine whether a derivative exists at a corner or cusp, such as $f(x) = |x|$ at $x = 0$."
+  ]
+}

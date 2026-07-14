@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_009",
+  "topic_name": "The Binomial Theorem and Probability",
+  "generated_at": "2026-05-13T20:26:00.487203+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to calculate the probability of a single coin flip or a single die roll. You can even find the probability that exactly 3 out of 3 free throws go in. But what happens when a basketball player shoots 10 free throws and you want the probability of making exactly 7 of them? Listing every possible sequence would take forever \u2014 so how do we count them efficiently?",
+  "concept": "The Binomial Theorem gives us a compact way to expand $(a+b)^n$ and, crucially, to count the number of ways a specific outcome appears. In probability, if a trial has success probability $p$ and failure probability $1-p$, then the probability of exactly $k$ successes in $n$ independent trials is $P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$, where $\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$ counts the arrangements.",
+  "anatomy": "The formula $P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$ has four distinct parts: $n$ is the total number of independent trials; $k$ is the exact number of successes you are counting; $p$ is the probability of success on a single trial (so $1-p$ is the probability of failure); and $\\binom{n}{k}$, the binomial coefficient, counts how many distinct orderings of $k$ successes among $n$ trials exist \u2014 this is the bridge between the Binomial Theorem and probability.",
+  "worked_example": [
+    {
+      "expression_latex": "n = 5,\\quad k = 3,\\quad p = 0.4",
+      "description_latex": "We start by identifying the three parameters from the problem: a fair coin weighted so heads has probability 0.4 is flipped 5 times, and we want exactly 3 heads. Reading off $n$, $k$, and $p$ first is essential because plugging the wrong value into the wrong slot is the most common source of error.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\binom{5}{3} = \\frac{5!}{3!\\,2!} = \\frac{120}{6 \\cdot 2} = 10",
+      "description_latex": "Next we compute the binomial coefficient $\\binom{5}{3}$, which counts the number of ways to choose which 3 of the 5 flips land heads \u2014 order doesn't matter, only which flips they are. This factor accounts for all the different sequences (HHHTT, HHTHT, etc.) that all represent exactly 3 heads.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p^k (1-p)^{n-k} = (0.4)^3 (0.6)^2 = 0.064 \\times 0.36 = 0.02304",
+      "description_latex": "Now we compute the probability of one specific sequence with exactly 3 heads and 2 tails: each head contributes a factor of $p = 0.4$ and each tail contributes $1-p = 0.6$, and since the flips are independent we multiply. Every arrangement of 3 heads and 2 tails has this exact same probability, which is why we will multiply by the binomial coefficient.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 3) = 10 \\times 0.02304 = 0.2304",
+      "description_latex": "Finally, we multiply the number of favorable arrangements (10) by the probability of each arrangement (0.02304) to get the total probability. The answer, about 23%, makes intuitive sense: with a below-average coin it's possible but not overwhelmingly likely to get exactly 3 heads in 5 flips.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "n = 8,\\quad k = 2,\\quad p = 0.3",
+      "description_latex": "A student guesses randomly on each of 8 true/false questions with probability 0.3 of being correct. We want $P(X = 2)$. The parameters are already identified for you \u2014 notice that $1 - p = 0.7$ will be used in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\binom{8}{2} = \\frac{8!}{2!\\,6!} = 28",
+      "description_latex": "We compute the binomial coefficient $\\binom{8}{2} = 28$, which tells us there are 28 ways to choose which 2 questions the student answers correctly. This step is completed for you so you can focus on the probability calculation next.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute $p^k(1-p)^{n-k} = (0.3)^2(0.7)^6$ and then multiply by 28 to find $P(X=2)$. Evaluate $(0.3)^2 = 0.09$ and $(0.7)^6 \\approx 0.117649$, then assemble the full answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A fair coin ($p = 0.5$) is flipped 4 times. Find $P(X = 4)$, the probability of getting exactly 4 heads.",
+      "answer_latex": "P(X=4) = \\binom{4}{4}(0.5)^4(0.5)^0 = 1 \\times 0.0625 = 0.0625"
+    },
+    {
+      "prompt_latex": "A basketball player makes each free throw with probability $p = 0.7$. She shoots 6 free throws. Find $P(X = 5)$.",
+      "answer_latex": "P(X=5) = \\binom{6}{5}(0.7)^5(0.3)^1 = 6 \\times 0.16807 \\times 0.3 \\approx 0.3025"
+    },
+    {
+      "prompt_latex": "A multiple-choice test has 10 questions, each with 4 options. A student guesses randomly on every question. Find $P(X = 3)$, the probability of answering exactly 3 correctly.",
+      "answer_latex": "P(X=3) = \\binom{10}{3}\\left(\\tfrac{1}{4}\\right)^3\\left(\\tfrac{3}{4}\\right)^7 = 120 \\times 0.015625 \\times 0.1334 \\approx 0.2503"
+    },
+    {
+      "prompt_latex": "A biased die lands on 6 with probability $\\frac{1}{4}$ and on any other face with probability $\\frac{3}{4}$. The die is rolled 8 times. Find the probability of rolling a 6 at least once (i.e., $P(X \\geq 1)$).",
+      "answer_latex": "P(X \\geq 1) = 1 - P(X=0) = 1 - \\binom{8}{0}\\left(\\tfrac{1}{4}\\right)^0\\left(\\tfrac{3}{4}\\right)^8 = 1 - \\left(\\tfrac{3}{4}\\right)^8 \\approx 1 - 0.1001 \\approx 0.8999"
+    },
+    {
+      "prompt_latex": "A factory produces light bulbs, 10\\% of which are defective. A quality inspector randomly selects 12 bulbs. What is the probability that exactly 2 are defective? Round to four decimal places.",
+      "answer_latex": "P(X=2) = \\binom{12}{2}(0.1)^2(0.9)^{10} = 66 \\times 0.01 \\times 0.3487 \\approx 0.2301"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse $n$ and $k$ when writing the complement exponent, writing $(1-p)^k$ instead of $(1-p)^{n-k}$. Remember: the exponent on $(1-p)$ must equal the number of failures, which is $n - k$, not $k$.",
+    "Students forget to include the binomial coefficient $\\binom{n}{k}$ entirely, computing only $p^k(1-p)^{n-k}$ and therefore finding the probability of just one specific sequence rather than all sequences with $k$ successes. Always ask: how many orderings are there?",
+    "When using the complement rule for 'at least one' problems, students subtract the wrong term \u2014 for example computing $1 - P(X=1)$ instead of $1 - P(X=0)$. The complement of 'at least one success' is 'zero successes', so you must subtract $P(X=0) = (1-p)^n$."
+  ],
+  "untested_variants": [
+    "Finding the most likely number of successes (the mode of the binomial distribution) by comparing consecutive terms $P(X=k)$ and $P(X=k+1)$.",
+    "Computing the expected value $E(X) = np$ and variance $\\text{Var}(X) = np(1-p)$ of a binomial random variable and interpreting them in context.",
+    "Using the binomial theorem algebraically to expand expressions like $(2x - 3)^5$ and identify specific coefficients, without any probability context.",
+    "Summing several binomial probabilities to find $P(a \\leq X \\leq b)$ for a range of values, such as $P(3 \\leq X \\leq 6)$, requiring multiple separate calculations."
+  ]
+}

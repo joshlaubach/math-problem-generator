@@ -1,0 +1,76 @@
+{
+  "topic_id": "de_032",
+  "topic_name": "Inverse Laplace Transforms",
+  "generated_at": "2026-05-13T20:02:21.879015+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to take the Laplace transform of a function like $f(t) = e^{at}$ and get $F(s) = \\frac{1}{s-a}$. But when you solve a differential equation using Laplace transforms, you end up with an expression like $F(s) = \\frac{3}{s^2+9}$ and need to figure out which original function $f(t)$ produced it. How do you travel backwards \u2014 from the $s$-domain back to the $t$-domain?",
+  "concept": "The inverse Laplace transform reverses the Laplace transform: given $F(s)$, you find $f(t)$ such that $\\mathcal{L}\\{f(t)\\} = F(s)$. We write this as $f(t) = \\mathcal{L}^{-1}\\{F(s)\\}$. In practice, rather than evaluating a complex contour integral, you match $F(s)$ to entries in a table of known transforms \u2014 so the skill is algebraically reshaping $F(s)$ until it matches a recognizable form.",
+  "anatomy": "An inverse transform problem has three structural pieces you must identify. First, the given $F(s)$ is the expression in the $s$-domain that you are trying to invert. Second, the transform pair is the known entry from your Laplace table \u2014 for example, $\\mathcal{L}\\{\\sin(bt)\\} = \\frac{b}{s^2+b^2}$ \u2014 which tells you both the required shape of $F(s)$ and the corresponding $f(t)$. Third, the manipulated form is what $F(s)$ looks like after you perform algebra (partial fractions, completing the square, factoring out constants) to force it to match the table entry exactly before reading off the answer.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathcal{L}^{-1}\\!\\left\\{\\frac{5}{s^2+25}\\right\\}",
+      "description_latex": "We start by identifying what table entry this resembles. Notice the denominator $s^2 + 25$ matches the form $s^2 + b^2$ with $b^2 = 25$, so $b = 5$, pointing us toward the sine formula $\\mathcal{L}\\{\\sin(bt)\\} = \\frac{b}{s^2+b^2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{5}{s^2+25} = \\frac{b}{s^2+b^2}\\quad \\text{with } b=5",
+      "description_latex": "We check that the numerator already equals $b = 5$, which means $F(s)$ is already in exactly the form required by the table entry \u2014 no algebra is needed to adjust the numerator here. This is the most favorable situation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathcal{L}^{-1}\\!\\left\\{\\frac{5}{s^2+25}\\right\\} = \\sin(5t)",
+      "description_latex": "We apply the inverse transform directly by reading off the table: since $\\mathcal{L}\\{\\sin(5t)\\} = \\frac{5}{s^2+25}$, the answer is $f(t) = \\sin(5t)$. Always remember that the result is a function of $t$, valid for $t \\geq 0$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathcal{L}^{-1}\\!\\left\\{\\frac{4}{2s-6}\\right\\}",
+      "description_latex": "Before matching to a table entry, we need to rewrite this expression. The standard exponential form in the table is $\\frac{1}{s-a}$, so we should factor the denominator and adjust constants to isolate that pattern.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{4}{2s-6} = \\frac{4}{2(s-3)} = \\frac{2}{s-3}",
+      "description_latex": "We factor 2 from the denominator to expose the shift $s - 3$, then simplify the constant out front to get $\\frac{2}{s-3}$. Now the expression matches the form $\\frac{c}{s-a}$, where we can pull the constant $c = 2$ outside the inverse transform using linearity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the inverse Laplace transform using the table entry $\\mathcal{L}^{-1}\\!\\left\\{\\frac{1}{s-a}\\right\\} = e^{at}$ and the constant multiple rule. What is $\\mathcal{L}^{-1}\\!\\left\\{\\frac{2}{s-3}\\right\\}$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\mathcal{L}^{-1}\\!\\left\\{\\frac{1}{s-7}\\right\\}",
+      "answer_latex": "e^{7t}"
+    },
+    {
+      "prompt_latex": "\\mathcal{L}^{-1}\\!\\left\\{\\frac{3}{s^2+9}\\right\\}",
+      "answer_latex": "\\sin(3t)"
+    },
+    {
+      "prompt_latex": "\\mathcal{L}^{-1}\\!\\left\\{\\frac{2s}{s^2+16}\\right\\}",
+      "answer_latex": "2\\cos(4t)"
+    },
+    {
+      "prompt_latex": "\\mathcal{L}^{-1}\\!\\left\\{\\frac{3s+5}{s^2-4}\\right\\}",
+      "answer_latex": "3\\cosh(2t) + \\tfrac{5}{2}\\sinh(2t)"
+    },
+    {
+      "prompt_latex": "A circuit model leads to the transformed current $I(s) = \\frac{6}{s^2+4s+13}$. Find $i(t)$, the current as a function of time, by completing the square in the denominator.",
+      "answer_latex": "i(t) = 2e^{-2t}\\sin(3t)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to force the numerator to match the table entry exactly before reading off the answer. For example, when inverting $\\frac{2}{s^2+9}$, they incorrectly write $\\sin(3t)$ instead of noticing that the table requires numerator $b = 3$, so they must write $\\frac{2}{3}\\cdot\\frac{3}{s^2+9}$ first, giving $\\frac{2}{3}\\sin(3t)$. Always check numerator and denominator together before applying the table.",
+    "When using partial fractions, students apply the inverse transform before fully decomposing $F(s)$, trying to invert a rational function that does not directly match any table entry. Make sure the partial fraction decomposition is complete and each term is individually in a recognizable form before taking the inverse transform.",
+    "Students confuse the cosine and sine table entries: $\\mathcal{L}\\{\\cos(bt)\\} = \\frac{s}{s^2+b^2}$ has $s$ in the numerator, while $\\mathcal{L}\\{\\sin(bt)\\} = \\frac{b}{s^2+b^2}$ has the constant $b$ in the numerator. A common error is writing $\\cos(bt)$ when the numerator is a constant, or $\\sin(bt)$ when the numerator contains $s$. Always check whether the numerator is $s$ or a constant."
+  ],
+  "untested_variants": [
+    "Inverse transforms involving $s$-shifting: expressions of the form $\\frac{s+a}{(s+a)^2+b^2}$ requiring the first shifting theorem $\\mathcal{L}^{-1}\\{F(s-a)\\} = e^{at}f(t)$.",
+    "Inverse transforms of higher-degree polynomials in the denominator requiring full partial fraction decomposition with repeated linear factors, such as $\\frac{1}{s^2(s+1)}$.",
+    "Inverse transforms involving the $t$-shifting theorem and Heaviside step functions, such as $\\mathcal{L}^{-1}\\!\\left\\{\\frac{e^{-2s}}{s+3}\\right\\} = e^{-3(t-2)}u(t-2)$.",
+    "Inverse transforms of expressions arising from convolution, where $F(s) = G(s)H(s)$ and the answer must be expressed as a convolution integral $\\int_0^t g(\\tau)h(t-\\tau)\\,d\\tau$."
+  ]
+}

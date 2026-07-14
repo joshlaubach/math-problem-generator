@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_057",
+  "topic_name": "Hyperbolas",
+  "generated_at": "2026-05-12T23:57:30.178450+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know that slicing a cone at different angles produces circles, parabolas, and ellipses. But what happens when the plane slices through *both* nappes of the double cone at once? You get a curve with two separate branches that fly off in opposite directions \u2014 a hyperbola. You know how to find the center, vertices, and foci of an ellipse, but the hyperbola has a brand-new feature: asymptotes that the curve approaches forever without ever touching. How do you write the equation of a hyperbola and find all of its key features?",
+  "concept": "A hyperbola is the set of all points in a plane where the *difference* of the distances to two fixed points (the foci) is constant. Formally, if the foci are $F_1$ and $F_2$, then every point $P$ on the hyperbola satisfies $|PF_1 - PF_2| = 2a$. When centered at the origin and opening left-right, the standard form is $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$; opening up-down it is $\\frac{y^2}{a^2} - \\frac{x^2}{b^2} = 1$.",
+  "anatomy": "The standard form $\\frac{x^2}{a^2} - \\frac{y^2}{b^2} = 1$ has several named parts. The *center* $(h, k)$ is the midpoint between the two foci (here the origin). The *transverse axis* runs through both vertices along the direction the hyperbola opens; its half-length is $a$. The *conjugate axis* is perpendicular to the transverse axis with half-length $b$. The *vertices* are the closest points on the curve to the center, located at $(\\pm a, 0)$ for a horizontal hyperbola. The *foci* lie farther out at $(\\pm c, 0)$, where $c^2 = a^2 + b^2$ \u2014 notice this is a *sum*, unlike the ellipse. The *asymptotes* are the lines $y = \\pm \\frac{b}{a}x$ that the branches approach but never reach, and they pass through the corners of the *central rectangle* of dimensions $2a \\times 2b$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{x^2}{9} - \\frac{y^2}{16} = 1",
+      "description_latex": "We start by identifying $a^2$ and $b^2$ directly from the equation. Because the positive term is under $x^2$, the hyperbola opens left and right (horizontal transverse axis), so $a^2 = 9$ meaning $a = 3$, and $b^2 = 16$ meaning $b = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c^2 = a^2 + b^2 = 9 + 16 = 25 \\implies c = 5",
+      "description_latex": "For a hyperbola the relationship between $a$, $b$, and $c$ is $c^2 = a^2 + b^2$, which is the opposite sign from an ellipse. We add $9 + 16 = 25$, giving $c = 5$. This tells us the foci are farther from the center than the vertices.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Center: } (0,0),\\quad \\text{Vertices: } (\\pm 3,\\, 0),\\quad \\text{Foci: } (\\pm 5,\\, 0)",
+      "description_latex": "Since the center is the origin and the transverse axis is horizontal, the vertices sit at distance $a = 3$ along the $x$-axis and the foci sit at distance $c = 5$ along the $x$-axis. Writing these out explicitly keeps the geometry clear before we find the asymptotes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = \\pm \\frac{b}{a}x = \\pm \\frac{4}{3}x",
+      "description_latex": "The asymptotes for a horizontal hyperbola always have slope $\\pm \\frac{b}{a}$, because they pass through the corners of the central rectangle whose half-widths are $a$ horizontally and $b$ vertically. Here that gives slopes $\\pm \\frac{4}{3}$, and since the center is the origin the asymptote equations are $y = \\frac{4}{3}x$ and $y = -\\frac{4}{3}x$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{y^2}{25} - \\frac{x^2}{4} = 1",
+      "description_latex": "We are given a hyperbola in standard form. First, notice which variable has the positive term \u2014 it is $y^2$, so this hyperbola opens up and down (vertical transverse axis). We read off $a^2 = 25$ so $a = 5$, and $b^2 = 4$ so $b = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c^2 = a^2 + b^2 = 25 + 4 = 29 \\implies c = \\sqrt{29}",
+      "description_latex": "We apply the hyperbola focal relationship $c^2 = a^2 + b^2$ to find the distance from the center to each focus. Because the transverse axis is vertical, the foci will be located at $(0, \\pm\\sqrt{29})$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write the equations of both asymptotes. Remember that for a *vertical* hyperbola the asymptote slopes are $\\pm \\frac{a}{b}$ (the $a$ and $b$ swap compared to the horizontal case). Use $a = 5$ and $b = 2$ and the fact that the center is the origin.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Finally, list the four key features in one place: center, vertices, foci, and asymptotes. The vertices of a vertical hyperbola are at $(0, \\pm a)$. Can you write all four features using the values you have found?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify $a$, $b$, $c$, and the orientation of: $\\frac{x^2}{4} - \\frac{y^2}{9} = 1$",
+      "answer_latex": "a = 2,\\; b = 3,\\; c = \\sqrt{13};\\text{ horizontal (opens left/right)}"
+    },
+    {
+      "prompt_latex": "Find the vertices, foci, and asymptotes of $\\frac{x^2}{36} - \\frac{y^2}{64} = 1$",
+      "answer_latex": "\\text{Vertices: }(\\pm 6, 0);\\; \\text{Foci: }(\\pm 10, 0);\\; \\text{Asymptotes: } y = \\pm \\frac{4}{3}x"
+    },
+    {
+      "prompt_latex": "Find the vertices, foci, and asymptotes of $\\frac{(y-1)^2}{9} - \\frac{(x+2)^2}{16} = 1$",
+      "answer_latex": "\\text{Center: }(-2,1);\\; \\text{Vertices: }(-2, 4)\\text{ and }(-2,-2);\\; \\text{Foci: }(-2,6)\\text{ and }(-2,-4);\\; \\text{Asymptotes: } y - 1 = \\pm\\tfrac{3}{4}(x+2)"
+    },
+    {
+      "prompt_latex": "Write the equation in standard form and identify all key features: $9x^2 - 4y^2 - 18x + 16y - 43 = 0$",
+      "answer_latex": "\\frac{(x-1)^2}{4} - \\frac{(y-2)^2}{9} = 1;\\; \\text{Center }(1,2),\\; a=2,\\; b=3,\\; c=\\sqrt{13},\\; \\text{Vertices }(3,2)\\text{ and }(-1,2),\\; \\text{Foci }(1\\pm\\sqrt{13},\\,2)"
+    },
+    {
+      "prompt_latex": "Two radio stations 26\\text{ miles apart send signals simultaneously. A receiver detects that Station A's signal arrives 0.00008 seconds before Station B's (signal speed \\approx 186{,}000 \\text{ mi/s}). The receiver lies on a hyperbola with the stations as foci. Find $2a$ and write the standard-form equation, placing the stations at $(\\pm 13, 0)$.",
+      "answer_latex": "2a = 186000 \\times 0.00008 = 14.88 \\text{ mi},\\; a \\approx 7.44,\\; b^2 = 169 - 55.35 \\approx 113.65;\\; \\frac{x^2}{55.35} - \\frac{y^2}{113.65} = 1"
+    }
+  ],
+  "common_mistakes": [
+    "Students use $c^2 = a^2 - b^2$ (the ellipse formula) instead of $c^2 = a^2 + b^2$ for a hyperbola, producing an imaginary value of $c$ and completely wrong foci. Always remember: for a hyperbola the foci are *outside* the vertices, so $c > a$, which requires adding $a^2$ and $b^2$.",
+    "Students always use slope $\\pm\\frac{b}{a}$ for the asymptotes regardless of orientation, forgetting that a *vertical* hyperbola ($y^2$ term positive) has asymptote slopes $\\pm\\frac{a}{b}$. A quick check: the asymptote slope should be steep when $a > b$ for a vertical hyperbola, so the larger value ($a$) goes in the numerator.",
+    "When completing the square to convert a general equation to standard form, students forget to divide the completed-square groups by the correct constant so the right-hand side equals 1. After grouping and completing the square, always factor out the leading coefficient of each group *before* completing the square, then divide both sides by whatever number gives 1 on the right."
+  ],
+  "untested_variants": [
+    "Finding the equation of a hyperbola given only the foci and the value of $2a$ (constructing the equation from geometric information rather than reading it from standard form).",
+    "Determining whether a given second-degree equation represents a hyperbola, ellipse, parabola, or degenerate conic using the discriminant $B^2 - 4AC$ before converting to standard form.",
+    "Hyperbolas with a non-zero $xy$ term (rotated hyperbolas) requiring the rotation-of-axes formulas to eliminate the cross term.",
+    "Finding the equation of the tangent line to a hyperbola at a specific point, combining the hyperbola equation with implicit differentiation from calculus prerequisites."
+  ]
+}

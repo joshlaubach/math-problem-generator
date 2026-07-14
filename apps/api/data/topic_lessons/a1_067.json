@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_067",
+  "topic_name": "Distance and Midpoint Formulas",
+  "generated_at": "2026-05-12T22:50:03.612303+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to find the length of a leg of a right triangle using the Pythagorean theorem, $a^2 + b^2 = c^2$. Now imagine two points scattered anywhere on a coordinate plane \u2014 say $(1, 2)$ and $(7, 10)$ \u2014 and you need to find the exact distance between them and the exact point halfway between them. The Pythagorean theorem is still the key, but how do you turn two coordinate pairs into a triangle you can measure?",
+  "concept": "The distance formula lets you find the straight-line distance between any two points on a coordinate plane by treating the horizontal and vertical gaps as legs of a right triangle. Formally, the distance between $(x_1, y_1)$ and $(x_2, y_2)$ is $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$. The midpoint formula finds the point exactly halfway between two points: $M = \\left(\\frac{x_1 + x_2}{2},\\, \\frac{y_1 + y_2}{2}\\right)$.",
+  "anatomy": "In the distance formula $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$, the expression $(x_2 - x_1)$ is the horizontal run \u2014 the signed difference between the two x-coordinates \u2014 and $(y_2 - y_1)$ is the vertical rise. Squaring each difference makes them positive, the sum under the radical is the squared hypotenuse from the Pythagorean theorem, and the square root recovers the actual length $d$. In the midpoint formula $M = \\left(\\frac{x_1 + x_2}{2}, \\frac{y_1 + y_2}{2}\\right)$, each coordinate of $M$ is simply the average of the corresponding coordinates of the two endpoints.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Find the distance between } A(1, 2) \\text{ and } B(7, 10).",
+      "description_latex": "We start by identifying our two points and labeling their coordinates: $(x_1, y_1) = (1, 2)$ and $(x_2, y_2) = (7, 10)$. Choosing which point is 'first' or 'second' doesn't matter, because we will be squaring the differences anyway.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d = \\sqrt{(7 - 1)^2 + (10 - 2)^2}",
+      "description_latex": "We substitute directly into the distance formula $d = \\sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}$. Notice that we compute the horizontal difference $7 - 1$ and the vertical difference $10 - 2$ before doing anything else \u2014 this keeps the arithmetic organized and avoids sign errors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d = \\sqrt{6^2 + 8^2} = \\sqrt{36 + 64} = \\sqrt{100}",
+      "description_latex": "We evaluate each difference first \u2014 $7 - 1 = 6$ and $10 - 2 = 8$ \u2014 then square them to get $36$ and $64$, and add to get $100$ under the radical. Recognizing this as a 3-4-5 Pythagorean triple scaled by 2 tells us the answer should be a nice whole number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d = 10",
+      "description_latex": "Taking the square root of $100$ gives $d = 10$, so the distance between $A(1,2)$ and $B(7,10)$ is exactly $10$ units. Because distance is always a length, we only take the positive square root.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find the midpoint of } P(-3, 4) \\text{ and } Q(5, -2).",
+      "description_latex": "We want the point exactly halfway between $P(-3, 4)$ and $Q(5, -2)$. The midpoint formula averages the x-coordinates and averages the y-coordinates separately: $M = \\left(\\frac{x_1 + x_2}{2},\\, \\frac{y_1 + y_2}{2}\\right)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M = \\left(\\frac{-3 + 5}{2},\\, \\frac{4 + (-2)}{2}\\right)",
+      "description_latex": "We substitute $x_1 = -3$, $x_2 = 5$, $y_1 = 4$, and $y_2 = -2$ into the midpoint formula. The setup is done for you \u2014 now you need to simplify both fractions to find the coordinates of $M$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Simplify $\\frac{-3+5}{2}$ and $\\frac{4+(-2)}{2}$ to write the final midpoint $M$ as an ordered pair. What are the coordinates?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find the distance between } (0, 0) \\text{ and } (3, 4).",
+      "answer_latex": "d = 5"
+    },
+    {
+      "prompt_latex": "\\text{Find the midpoint of the segment with endpoints } (2, -6) \\text{ and } (8, 4).",
+      "answer_latex": "M = (5,\\, -1)"
+    },
+    {
+      "prompt_latex": "\\text{Find the distance between } (-1, 3) \\text{ and } (4, -9). \\text{ Leave your answer in simplest radical form.}",
+      "answer_latex": "d = 13"
+    },
+    {
+      "prompt_latex": "\\text{The midpoint of segment } \\overline{AB} \\text{ is } M(3, -1). \\text{ One endpoint is } A(-1, 2). \\text{ Find the coordinates of } B.",
+      "answer_latex": "B = (7,\\, -4)"
+    },
+    {
+      "prompt_latex": "\\text{A cell tower is located at } T(2, 5) \\text{ on a map where each unit equals 1 mile. A house at } H(10, 11) \\text{ must be within 10 miles of the tower to receive service. Does the house receive service? Show your work.}",
+      "answer_latex": "d = \\sqrt{(10-2)^2+(11-5)^2} = \\sqrt{64+36} = 10 \\text{ miles; yes, exactly on the boundary.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students subtract coordinates in opposite orders for x and y \u2014 for example computing $(x_2 - x_1)$ but then $(y_1 - y_2)$ \u2014 and believe this affects the answer. Because both differences are squared, the order within each pair doesn't matter, but mixing orders carelessly often causes arithmetic errors; always subtract in the same order: second minus first for both coordinates.",
+    "Students forget to square the differences before adding, writing $d = \\sqrt{(x_2-x_1)+(y_2-y_1)}$ instead of $d = \\sqrt{(x_2-x_1)^2+(y_2-y_1)^2}$. This is the most common structural error and produces a completely wrong answer; remember that the formula comes from the Pythagorean theorem, which requires squaring the legs.",
+    "When finding the midpoint, students add only the x-coordinates and forget to divide by 2, or they divide the entire sum $(x_1+x_2+y_1+y_2)$ by 2 once instead of dividing each coordinate separately. The fix is to treat the x- and y-averages as two completely independent calculations: $\\frac{x_1+x_2}{2}$ first, then $\\frac{y_1+y_2}{2}$ separately."
+  ],
+  "untested_variants": [
+    "Finding the perimeter of a polygon whose vertices are given as coordinate pairs (requires applying the distance formula multiple times and summing results).",
+    "Using the distance formula to verify whether three given points are collinear or form a right triangle (requires comparing distances and checking $a^2 + b^2 = c^2$).",
+    "Problems where the distance is given and one coordinate is unknown, requiring students to set up and solve a radical equation such as $\\sqrt{(x-1)^2+9} = 5$.",
+    "Finding the midpoint in three-dimensional space using the formula $M = \\left(\\frac{x_1+x_2}{2}, \\frac{y_1+y_2}{2}, \\frac{z_1+z_2}{2}\\right)$."
+  ]
+}

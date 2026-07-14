@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_015",
+  "topic_name": "Undetermined Coefficients",
+  "generated_at": "2026-05-13T20:00:58.897194+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve homogeneous second-order linear ODEs like $y'' + 3y' + 2y = 0$ by finding the characteristic equation and its roots. But what happens when the right-hand side is not zero \u2014 for example, $y'' + 3y' + 2y = e^{2x}$ or $y'' + y = \\sin(x)$? The homogeneous techniques give you only part of the solution, and the particular solution that accounts for the forcing function seems to appear out of nowhere. How do we systematically guess the correct form of that particular solution?",
+  "concept": "The Method of Undetermined Coefficients is a technique for finding a particular solution $y_p$ to a non-homogeneous linear ODE whose right-hand side is a polynomial, exponential, sine, cosine, or a product of these. The idea is to guess a trial function of the same general form as the forcing function, substitute it into the ODE, and then solve for the unknown coefficients. Formally, for $ay'' + by' + cy = g(x)$, we propose a $y_p$ matching the family of $g(x)$ and determine its coefficients by matching both sides.",
+  "anatomy": "The method has four key structural components. First, the **homogeneous solution** $y_h$ (also called the complementary solution) is found from the associated homogeneous equation $ay'' + by' + cy = 0$ and captures the natural behavior of the system. Second, the **forcing function** $g(x)$ on the right-hand side determines what family of trial functions to use. Third, the **trial function** $y_p$ is a proposed particular solution whose form mirrors $g(x)$ \u2014 for instance, if $g(x) = 5e^{3x}$ we try $y_p = Ae^{3x}$. Fourth, the **undetermined coefficients** (like $A$, $B$, $C$) are the unknown constants we solve for by substituting $y_p$ back into the original ODE. A critical structural rule is the **modification rule**: if any term in the trial $y_p$ duplicates a term already in $y_h$, the entire trial function must be multiplied by $x$ (or $x^2$ for a double root) to avoid redundancy.",
+  "worked_example": [
+    {
+      "expression_latex": "y'' + 3y' + 2y = e^{2x}",
+      "description_latex": "We start by identifying the structure of the problem: the ODE is non-homogeneous with forcing function $g(x) = e^{2x}$, which is an exponential. Our goal is to find the general solution $y = y_h + y_p$, so the first thing we need is the homogeneous solution from the associated equation $y'' + 3y' + 2y = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 + 3r + 2 = 0 \\implies (r+1)(r+2) = 0 \\implies r = -1,\\, r = -2 \\quad \\Rightarrow \\quad y_h = C_1 e^{-x} + C_2 e^{-2x}",
+      "description_latex": "We solve the characteristic equation to get $r = -1$ and $r = -2$, giving the complementary solution $y_h = C_1 e^{-x} + C_2 e^{-2x}$. We now check whether our trial function for $y_p$ overlaps with any term in $y_h$ \u2014 since $g(x) = e^{2x}$ involves $e^{2x}$, and neither $e^{-x}$ nor $e^{-2x}$ matches $e^{2x}$, there is no overlap, so we can proceed with the standard trial function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_p = A e^{2x}, \\quad y_p' = 2A e^{2x}, \\quad y_p'' = 4A e^{2x}",
+      "description_latex": "Because $g(x) = e^{2x}$, we guess $y_p = Ae^{2x}$ where $A$ is the undetermined coefficient. We then compute the first and second derivatives of $y_p$ so we can substitute everything into the original ODE in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4Ae^{2x} + 3(2Ae^{2x}) + 2(Ae^{2x}) = e^{2x} \\implies (4A + 6A + 2A)e^{2x} = e^{2x} \\implies 12A = 1 \\implies A = \\tfrac{1}{12}",
+      "description_latex": "Substituting $y_p$, $y_p'$, and $y_p''$ into the ODE and factoring out $e^{2x}$ (which is never zero) reduces everything to an algebraic equation in $A$. Solving gives $A = \\frac{1}{12}$, which completely determines our particular solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = y_h + y_p = C_1 e^{-x} + C_2 e^{-2x} + \\tfrac{1}{12}e^{2x}",
+      "description_latex": "The general solution is the sum of the complementary solution and the particular solution. The two arbitrary constants $C_1$ and $C_2$ can be determined later if initial conditions are provided; without them, this is the complete general solution to the non-homogeneous ODE.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y'' - y = 3x^2",
+      "description_latex": "We have a non-homogeneous ODE with forcing function $g(x) = 3x^2$, a polynomial of degree 2. First, let's find $y_h$: the characteristic equation is $r^2 - 1 = 0$, so $r = \\pm 1$, giving $y_h = C_1 e^{x} + C_2 e^{-x}$. Since $g(x)$ is a polynomial, no overlap with $y_h$ exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_p = Ax^2 + Bx + C",
+      "description_latex": "Because $g(x)$ is a degree-2 polynomial, we must include ALL lower-degree terms in our trial function \u2014 that means a full quadratic $y_p = Ax^2 + Bx + C$, not just $Ax^2$. Now compute $y_p'$ and $y_p''$, substitute into the ODE $y'' - y = 3x^2$, and collect terms by degree to set up a system of equations for $A$, $B$, and $C$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Substitute $y_p'' = 2A$ and $y_p = Ax^2 + Bx + C$ into $y'' - y = 3x^2$. Collect coefficients of $x^2$, $x^1$, and $x^0$ separately and solve for $A$, $B$, and $C$. What is the particular solution $y_p$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y = C_1 e^{x} + C_2 e^{-x} - 3x^2 - 6",
+      "description_latex": "Matching coefficients gives $A = -3$, $B = 0$, $C = -6$, so $y_p = -3x^2 - 6$. The general solution is $y = C_1 e^{x} + C_2 e^{-x} - 3x^2 - 6$. Notice that the constant term $C = -6$ came from the $x^0$ equation, not from the forcing function directly \u2014 this is why including all lower-degree terms in the trial function is essential.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find a particular solution to $y'' + 4y' + 4y = e^{3x}$.",
+      "answer_latex": "y_p = \\dfrac{1}{25}e^{3x}"
+    },
+    {
+      "prompt_latex": "Find the general solution to $y'' - 5y' + 6y = 2\\cos(x)$.",
+      "answer_latex": "y = C_1 e^{2x} + C_2 e^{3x} + \\dfrac{10\\sin(x) + 2\\cos(x)}{26}"
+    },
+    {
+      "prompt_latex": "Find the general solution to $y'' + y' = 4x$, noting the appropriate trial function for a polynomial forcing term.",
+      "answer_latex": "y = C_1 + C_2 e^{-x} + 2x^2 - 4x"
+    },
+    {
+      "prompt_latex": "Find the general solution to $y'' - 4y = e^{2x}$, applying the modification rule since $e^{2x}$ is a solution to the homogeneous equation.",
+      "answer_latex": "y = C_1 e^{2x} + C_2 e^{-2x} + \\dfrac{x}{4}e^{2x}"
+    },
+    {
+      "prompt_latex": "A spring-mass system satisfies $x'' + 4x = 3\\sin(2t)$. The driving frequency $2$ matches the natural frequency, triggering resonance. Apply the modification rule to find the general solution $x(t)$.",
+      "answer_latex": "x(t) = C_1\\cos(2t) + C_2\\sin(2t) - \\dfrac{3t}{4}\\cos(2t)"
+    }
+  ],
+  "common_mistakes": [
+    "Students choose an incomplete trial function for polynomial forcing terms \u2014 for example, guessing $y_p = Ax^2$ when $g(x) = 3x^2$ instead of $y_p = Ax^2 + Bx + C$. Every degree from zero up to the degree of $g(x)$ must be included, because substituting into the ODE generates lower-degree terms that need coefficients to absorb them.",
+    "Students forget to apply the modification rule when a term in the trial function already appears in $y_h$. For example, if $y_h$ contains $e^{2x}$ and the trial is also $Ae^{2x}$, substituting gives $0 = g(x)$, an impossibility; the fix is to multiply the entire trial function by $x$ (and by $x^2$ for a repeated root in $y_h$).",
+    "When $g(x)$ is a product such as $xe^{x}$ or $e^{x}\\cos(x)$, students only include one part of the required trial function. For $g(x) = xe^{x}$, the correct trial is $y_p = (Ax + B)e^{x}$, and for $g(x) = e^{x}\\cos(2x)$ the correct trial must include both $Ae^{x}\\cos(2x)$ and $Be^{x}\\sin(2x)$, because differentiation always mixes sine and cosine."
+  ],
+  "untested_variants": [
+    "ODEs with a forcing function that is a product of a polynomial and a trigonometric function, such as $y'' + y = x\\sin(x)$, which requires a trial of the form $(Ax + B)\\cos(x) + (Cx + D)\\sin(x)$.",
+    "Systems where the right-hand side is a sum of two qualitatively different forcing terms, such as $y'' + 2y' + y = e^{-x} + x^2$, requiring separate trial functions for each piece combined via the superposition principle.",
+    "Cases requiring a second-order modification (multiplying the trial by $x^2$) due to a repeated characteristic root, such as $y'' - 2y' + y = e^{x}$ where $r = 1$ is a double root.",
+    "Initial value problems that combine undetermined coefficients with solving for $C_1$ and $C_2$ from given conditions $y(0)$ and $y'(0)$, testing whether students correctly apply initial conditions to the full general solution rather than just $y_p$."
+  ]
+}

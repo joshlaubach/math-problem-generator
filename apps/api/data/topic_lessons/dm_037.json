@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_037",
+  "topic_name": "Introduction to Cryptography (RSA) (H)",
+  "generated_at": "2026-05-13T20:15:00.736810+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to multiply two prime numbers together \u2014 for instance, $p = 61$ and $q = 53$ gives $n = 3233$ in seconds. But here is the catch: if I hand you $n = 3233$ and ask you to find the two prime factors, you have to search through candidates until you find them. Now imagine $n$ is a 2048-bit number with hundreds of digits \u2014 that search becomes computationally infeasible even for the world's fastest computers. How can we turn this asymmetry between easy multiplication and hard factoring into a system that lets two strangers exchange secret messages over a public channel?",
+  "concept": "RSA (Rivest\u2013Shamir\u2013Adleman) is a public-key cryptosystem: anyone can encrypt a message using a publicly shared key, but only the holder of a secret private key can decrypt it. Formally, choose two distinct primes $p$ and $q$, set $n = pq$, compute $\\phi(n) = (p-1)(q-1)$, choose an integer $e$ with $1 < e < \\phi(n)$ and $\\gcd(e, \\phi(n)) = 1$, then find $d$ such that $ed \\equiv 1 \\pmod{\\phi(n)}$. The public key is $(n, e)$ and the private key is $(n, d)$.",
+  "anatomy": "RSA has six named components. The modulus $n = pq$ is the product of two large secret primes $p$ and $q$ and is shared publicly. Euler's totient $\\phi(n) = (p-1)(q-1)$ counts the integers less than $n$ that are coprime to $n$ and is kept secret. The public exponent $e$ is chosen so that $\\gcd(e, \\phi(n)) = 1$, making $e$ invertible mod $\\phi(n)$. The private exponent $d$ is the modular inverse of $e$ modulo $\\phi(n)$, satisfying $ed \\equiv 1 \\pmod{\\phi(n)}$. Encryption transforms plaintext $M$ (an integer with $0 \\le M < n$) into ciphertext $C = M^e \\bmod n$. Decryption recovers the message via $M = C^d \\bmod n$, which works because Euler's theorem guarantees $C^d \\equiv M^{ed} \\equiv M \\pmod{n}$.",
+  "worked_example": [
+    {
+      "expression_latex": "p = 3,\\quad q = 11,\\quad n = pq = 33",
+      "description_latex": "We start by choosing two small primes $p = 3$ and $q = 11$ and computing the modulus $n = 3 \\times 11 = 33$. In a real-world system these primes would be hundreds of digits long, but small values let us trace every calculation by hand.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\phi(n) = (p-1)(q-1) = (3-1)(11-1) = 2 \\times 10 = 20",
+      "description_latex": "Next we compute Euler's totient $\\phi(n) = (p-1)(q-1)$, which tells us how many integers from $1$ to $32$ are coprime to $33$. This value is secret \u2014 an attacker who knows only $n = 33$ would need to factor $n$ to find $\\phi(n)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e = 7,\\quad \\gcd(7, 20) = 1 \\checkmark",
+      "description_latex": "We choose a public exponent $e = 7$ and verify $\\gcd(7, 20) = 1$ using the Euclidean algorithm: $20 = 2 \\cdot 7 + 6$, $7 = 1 \\cdot 6 + 1$, $6 = 6 \\cdot 1$, giving $\\gcd = 1$. The coprimality condition is essential because it guarantees that $e$ has a modular inverse, allowing decryption to exist.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "ed \\equiv 1 \\pmod{20} \\implies 7d \\equiv 1 \\pmod{20} \\implies d = 3 \\quad (\\text{since } 7 \\times 3 = 21 \\equiv 1)",
+      "description_latex": "We solve for the private exponent $d$ by finding the modular inverse of $e = 7$ modulo $20$. Checking small candidates: $7 \\times 3 = 21 = 20 + 1 \\equiv 1 \\pmod{20}$, so $d = 3$. In practice the extended Euclidean algorithm is used for large numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M = 4:\\quad C = 4^7 \\bmod 33 = 16384 \\bmod 33 = 16,\\quad M' = 16^3 \\bmod 33 = 4096 \\bmod 33 = 4 \\checkmark",
+      "description_latex": "Finally we encrypt the message $M = 4$ with the public key $(33, 7)$: $4^7 = 16384$ and $16384 = 496 \\times 33 + 16$, so $C = 16$. Decrypting with the private key $(33, 3)$: $16^3 = 4096$ and $4096 = 124 \\times 33 + 4$, so we recover $M = 4$, confirming the system works correctly.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "p = 5,\\quad q = 13,\\quad n = 65,\\quad \\phi(n) = (5-1)(13-1) = 48",
+      "description_latex": "We are given primes $p = 5$ and $q = 13$. The modulus is $n = 65$ and the totient is $\\phi(65) = 4 \\times 12 = 48$. These values are computed for you \u2014 your job begins at the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e = 7,\\quad \\gcd(7, 48) = ?",
+      "description_latex": "We propose $e = 7$ as the public exponent. Use the Euclidean algorithm to verify that $\\gcd(7, 48) = 1$, confirming that a private exponent exists. Show each step of the algorithm.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "7d \\equiv 1 \\pmod{48} \\implies d = ?",
+      "description_latex": "Now find the private exponent $d$ by solving $7d \\equiv 1 \\pmod{48}$. You can use trial multiplication or the extended Euclidean algorithm \u2014 verify your answer by checking that $7d \\bmod 48 = 1$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "M = 2:\\quad C = 2^7 \\bmod 65 = 128 \\bmod 65 = 63",
+      "description_latex": "Using the public key $(65, 7)$ we encrypt $M = 2$: since $2^7 = 128 = 1 \\times 65 + 63$, the ciphertext is $C = 63$. You can verify decryption works by computing $63^d \\bmod 65$ with your value of $d$ and checking you get $2$ back.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $p = 3$, $q = 7$, compute $n$ and $\\phi(n)$.",
+      "answer_latex": "n = 21,\\quad \\phi(n) = 12"
+    },
+    {
+      "prompt_latex": "Using $p = 3$, $q = 7$, and $e = 5$, verify that $e$ is a valid public exponent and find the private exponent $d$.",
+      "answer_latex": "\\gcd(5,12)=1 \\checkmark,\\quad d = 5 \\quad (\\text{since } 5 \\times 5 = 25 \\equiv 1 \\pmod{12})"
+    },
+    {
+      "prompt_latex": "With public key $(n, e) = (21, 5)$, encrypt the message $M = 2$. Then decrypt the resulting ciphertext using $d = 5$ to verify.",
+      "answer_latex": "C = 2^5 \\bmod 21 = 32 \\bmod 21 = 11;\\quad 11^5 \\bmod 21 = 161051 \\bmod 21 = 2 \\checkmark"
+    },
+    {
+      "prompt_latex": "For $p = 7$, $q = 11$, $e = 13$, use the extended Euclidean algorithm to find $d$ such that $ed \\equiv 1 \\pmod{\\phi(n)}$.",
+      "answer_latex": "n=77,\\; \\phi(n)=60,\\; 13d \\equiv 1\\pmod{60},\\; d = 37 \\quad (\\text{since } 13 \\times 37 = 481 = 8\\times 60 + 1)"
+    },
+    {
+      "prompt_latex": "Alice publishes $(n, e) = (33, 7)$. Bob wants to send the message $M = 9$. What ciphertext $C$ does Bob send? Eve intercepts $C$ but cannot decrypt it \u2014 explain in one sentence why factoring $n$ would break the system.",
+      "answer_latex": "C = 9^7 \\bmod 33 = 15;\\text{ if Eve factors } n=33 \\text{ into } 3 \\times 11 \\text{ she recovers } \\phi(n) \\text{ and hence } d."
+    }
+  ],
+  "common_mistakes": [
+    "Students compute $\\phi(n) = n - 1$ as if $n$ were prime, instead of using $\\phi(pq) = (p-1)(q-1)$. Remember that $\\phi$ is multiplicative for coprime factors, and since $p \\ne q$ are both prime, the correct formula is always $(p-1)(q-1)$.",
+    "When finding the private exponent $d$, students stop after verifying $\\gcd(e, \\phi(n)) = 1$ and forget that $d$ must satisfy $ed \\equiv 1 \\pmod{\\phi(n)}$, not $ed \\equiv 1 \\pmod{n}$. The inverse is taken modulo $\\phi(n)$, never modulo $n$ itself.",
+    "During encryption or decryption students compute $M^e$ as a plain integer and then take the remainder, which works for tiny examples but they forget that intermediate powers must also be reduced modulo $n$ using repeated squaring for any realistically sized exponent \u2014 failing to do so leads to astronomical numbers and arithmetic errors even in small exam problems."
+  ],
+  "untested_variants": [
+    "Using the extended Euclidean algorithm in full detail (with back-substitution shown at every step) to find $d$ when the inverse is not obvious by inspection \u2014 the practice problems either give small cases or ask only for the final answer.",
+    "Fast modular exponentiation via repeated squaring, which is required to evaluate expressions like $M^e \\bmod n$ when $e$ has more than two digits \u2014 none of the practice problems require this technique explicitly.",
+    "Choosing valid public exponents when $\\phi(n)$ has many divisors and several candidate values of $e$ must be tested and rejected, as well as the common convention of fixing $e = 65537$ and explaining why it is chosen.",
+    "Digital signatures with RSA, where the roles of the public and private keys are swapped so that the sender signs with the private key and the receiver verifies with the public key \u2014 this application of the same arithmetic is not covered in any problem above."
+  ]
+}

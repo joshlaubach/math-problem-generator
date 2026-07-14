@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_040",
+  "topic_name": "Chi-Square Test for Independence",
+  "generated_at": "2026-05-13T20:32:48.774518+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to use a two-sample z-test to compare proportions between two groups, and you're comfortable summarizing categorical data in frequency tables. But what do you do when you want to ask whether two categorical variables are *related* to each other across an entire table with multiple rows and columns \u2014 for example, whether a person's preferred social media platform depends on their age group? A two-proportion z-test only handles two groups at once, and it says nothing about association. How can we test whether two categorical variables are independent when we have many categories to compare simultaneously?",
+  "concept": "The chi-square test for independence checks whether two categorical variables are associated or whether they are independent of each other in the population. We do this by comparing what frequencies we actually *observed* in a two-way table to what frequencies we would *expect* if the variables were truly independent. The test statistic is $\\chi^2 = \\sum \\frac{(O - E)^2}{E}$, where $O$ is an observed cell count and $E$ is the expected cell count under independence, and this statistic follows a chi-square distribution with degrees of freedom $(r-1)(c-1)$, where $r$ is the number of rows and $c$ is the number of columns.",
+  "anatomy": "The chi-square test for independence has several distinct parts. The **observed counts** $O$ are the raw frequencies recorded in each cell of the two-way contingency table. The **expected counts** $E$ are computed for each cell as $E = \\frac{(\\text{row total})(\\text{column total})}{\\text{grand total}}$, representing what we would predict if the two variables were independent. The **chi-square statistic** $\\chi^2$ accumulates the standardized squared deviations across all cells. The **degrees of freedom** $df = (r-1)(c-1)$ determine which chi-square distribution to use for finding the p-value. Finally, the **p-value** is the probability of observing a $\\chi^2$ statistic at least as large as the one computed, assuming independence is true.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Observed table: } \\begin{array}{c|cc|c} & \\text{Platform A} & \\text{Platform B} & \\text{Row Total} \\\\ \\hline \\text{Age 18-34} & 30 & 10 & 40 \\\\ \\text{Age 35+} & 20 & 40 & 60 \\\\ \\hline \\text{Col Total} & 50 & 50 & 100 \\end{array}",
+      "description_latex": "We start by laying out the two-way contingency table with its observed counts and computing all row totals, column totals, and the grand total. Having these marginal totals is essential because they are the only ingredients we need to calculate expected counts under the assumption of independence.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_{11} = \\frac{(\\text{row 1 total})(\\text{col 1 total})}{\\text{grand total}} = \\frac{40 \\times 50}{100} = 20",
+      "description_latex": "We compute the expected count for the first cell (Age 18-34, Platform A) using the formula $E = \\frac{(\\text{row total})(\\text{column total})}{\\text{grand total}}$. This formula comes directly from the multiplication rule for independent events: if the variables were independent, the joint probability of being in row $i$ AND column $j$ would equal the product of their marginal probabilities, and multiplying by the grand total converts that probability into an expected frequency.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Expected table: } \\begin{array}{c|cc} & \\text{Platform A} & \\text{Platform B} \\\\ \\hline \\text{Age 18-34} & 20 & 20 \\\\ \\text{Age 35+} & 30 & 30 \\end{array}",
+      "description_latex": "We complete the expected counts for all four cells. Notice that once you compute one expected count in a row or column, the others are determined by subtraction from the marginal totals \u2014 this is precisely why the degrees of freedom are $(r-1)(c-1) = (2-1)(2-1) = 1$ rather than $r \\times c = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\chi^2 = \\frac{(30-20)^2}{20} + \\frac{(10-20)^2}{20} + \\frac{(20-30)^2}{30} + \\frac{(40-30)^2}{30} = 5 + 5 + 3.\\overline{3} + 3.\\overline{3} = 16.\\overline{6}",
+      "description_latex": "We apply the formula $\\chi^2 = \\sum \\frac{(O-E)^2}{E}$ by summing the contribution from each cell. Squaring the difference ensures that cells where we observed more than expected and cells where we observed less both contribute positively to the statistic \u2014 any departure from independence, in either direction, inflates $\\chi^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "df = (2-1)(2-1) = 1, \\quad p\\text{-value} = P(\\chi^2_1 > 16.\\overline{6}) \\approx 0.00005",
+      "description_latex": "With $df = 1$, we find that the p-value is extremely small (approximately 0.00005), which is far below any standard significance level such as $\\alpha = 0.05$. We therefore reject the null hypothesis of independence and conclude there is strong evidence of an association between age group and preferred platform.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Observed table: } \\begin{array}{c|cc|c} & \\text{Yes} & \\text{No} & \\text{Row Total} \\\\ \\hline \\text{Male} & 45 & 15 & 60 \\\\ \\text{Female} & 35 & 25 & 60 \\\\ \\hline \\text{Col Total} & 80 & 40 & 120 \\end{array}",
+      "description_latex": "Here is the observed table for a study testing whether exercise habit (Yes/No) is independent of biological sex. The grand total is 120, row totals are both 60, and column totals are 80 and 40. We have everything we need to calculate expected counts.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_{\\text{Male, Yes}} = \\frac{60 \\times 80}{120} = 40, \\quad E_{\\text{Male, No}} = \\frac{60 \\times 40}{120} = 20, \\quad E_{\\text{Female, Yes}} = 40, \\quad E_{\\text{Female, No}} = 20",
+      "description_latex": "We've computed all four expected counts for you using $E = \\frac{(\\text{row total})(\\text{column total})}{\\text{grand total}}$. Notice that all expected counts are at least 5, which is the condition required for the chi-square approximation to be valid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\chi^2 = \\frac{(45-40)^2}{40} + \\frac{(15-20)^2}{20} + \\frac{(35-40)^2}{40} + \\frac{(25-20)^2}{20}",
+      "description_latex": "Now it is your turn: compute each of the four cell contributions and sum them to find the chi-square statistic. What is the value of $\\chi^2$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "df = (2-1)(2-1) = 1",
+      "description_latex": "Using $df = 1$ and your computed $\\chi^2$ value, the p-value from the chi-square table is approximately 0.046. Based on $\\alpha = 0.05$, state your conclusion: do you reject or fail to reject the null hypothesis, and what does this mean in context?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A 2 \\times 2 table has row totals of 50 and 50, column totals of 60 and 40, and a grand total of 100. Compute the expected count for the cell in row 1, column 1.",
+      "answer_latex": "E = \\frac{50 \\times 60}{100} = 30"
+    },
+    {
+      "prompt_latex": "A researcher records observed counts in a 2 \\times 2 table: \\begin{array}{c|cc} & C_1 & C_2 \\\\ \\hline R_1 & 18 & 12 \\\\ R_2 & 12 & 8 \\end{array} with grand total 50. Compute all expected counts and then compute $\\chi^2$.",
+      "answer_latex": "E_{11}=18, E_{12}=12, E_{21}=12, E_{22}=8; \\quad \\chi^2 = 0"
+    },
+    {
+      "prompt_latex": "A 3 \\times 2 contingency table is used to test independence. State the degrees of freedom and explain what a $\\chi^2$ statistic of 0 would mean.",
+      "answer_latex": "df = (3-1)(2-1) = 2; \\quad \\chi^2 = 0 \\text{ means all observed counts equal expected counts, i.e., perfect independence}"
+    },
+    {
+      "prompt_latex": "A 2 \\times 3 table yields a chi-square statistic of $\\chi^2 = 7.8$ with $df = 2$. The critical value at $\\alpha = 0.05$ is 5.991 and at $\\alpha = 0.01$ is 9.210. At which significance levels (0.05 or 0.01) would you reject the null hypothesis of independence, and why does using a smaller $\\alpha$ make it harder to reject?",
+      "answer_latex": "\\text{Reject at } \\alpha = 0.05 \\text{ (since } 7.8 > 5.991 \\text{); fail to reject at } \\alpha = 0.01 \\text{ (since } 7.8 < 9.210 \\text{). A smaller } \\alpha \\text{ requires a larger } \\chi^2 \\text{ to reject, reducing Type I error risk.}"
+    },
+    {
+      "prompt_latex": "A school surveys 200 students on whether they prefer morning or afternoon classes, broken down by grade level (9th, 10th, 11th, 12th). The observed counts are: \\begin{array}{c|cc|c} & \\text{Morning} & \\text{Afternoon} & \\text{Total} \\\\ \\hline 9\\text{th} & 30 & 20 & 50 \\\\ 10\\text{th} & 25 & 25 & 50 \\\\ 11\\text{th} & 20 & 30 & 50 \\\\ 12\\text{th} & 15 & 35 & 50 \\\\ \\hline \\text{Total} & 90 & 110 & 200 \\end{array} Compute all expected counts and the $\\chi^2$ statistic, then state the degrees of freedom.",
+      "answer_latex": "E_{i,\\text{Morning}} = \\frac{50 \\times 90}{200} = 22.5, \\quad E_{i,\\text{Afternoon}} = \\frac{50 \\times 110}{200} = 27.5 \\text{ for each grade}; \\quad \\chi^2 = \\frac{(30-22.5)^2}{22.5}+\\frac{(20-27.5)^2}{27.5}+\\cdots = 2.5+2.04+0.11+0.09+0.89+0.73+3.36+2.75 \\approx 12.47; \\quad df = 3"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use the observed counts in the denominator of the chi-square formula, writing $\\frac{(O-E)^2}{O}$ instead of $\\frac{(O-E)^2}{E}$. Always divide by the *expected* count, because $E$ is the baseline we are measuring deviation against.",
+    "Students frequently compute degrees of freedom as the total number of cells $r \\times c$ rather than $(r-1)(c-1)$. Remember that once the marginal totals are fixed, only $(r-1)(c-1)$ cells are free to vary, which is why one is subtracted from each dimension.",
+    "Students sometimes apply the chi-square test for independence when one or more expected cell counts are less than 5, violating the condition for the chi-square approximation to be valid. Always check that every $E \\geq 5$ before proceeding; if not, consider combining categories or using Fisher's Exact Test."
+  ],
+  "untested_variants": [
+    "Chi-square goodness-of-fit test, which uses a single categorical variable to test whether an observed frequency distribution matches a claimed theoretical distribution \u2014 a different null hypothesis structure than independence.",
+    "Chi-square test for homogeneity, where random samples are drawn separately from each population (e.g., comparing Democrats vs. Republicans on a policy question) rather than a single sample cross-classified on two variables.",
+    "Using technology (calculator or software) to obtain exact p-values from the chi-square distribution rather than comparing the test statistic to a critical value from a table.",
+    "Situations requiring a continuity correction (Yates' correction) for 2\u00d72 tables with small sample sizes, which adjusts the chi-square statistic by subtracting 0.5 from each $|O - E|$ before squaring."
+  ]
+}

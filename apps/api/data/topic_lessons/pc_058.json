@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_058",
+  "topic_name": "Rotation of Conics (H)",
+  "generated_at": "2026-05-12T23:57:39.395640+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to identify a parabola, ellipse, or hyperbola from an equation like $\\frac{x^2}{9} + \\frac{y^2}{4} = 1$ \u2014 the axes are neatly aligned with the coordinate axes. But what happens when someone hands you the equation $xy = 1$, or worse, $2x^2 + \\sqrt{3}xy + y^2 = 4$? These curves are still conics, but they've been tilted at some angle, and the $xy$ cross-term scrambles every identification technique you know. How do we 'un-tilt' a rotated conic so we can see what it really is?",
+  "concept": "When a conic section is rotated in the plane rather than sitting axis-aligned, its equation gains an $xy$ term. Rotation of conics is the process of choosing a specific angle $\\theta$ to rotate the coordinate axes so that the $xy$ term vanishes, leaving a standard-form equation we can identify. Formally, if $Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0$ has $B \\neq 0$, we use the substitution $x = x'\\cos\\theta - y'\\sin\\theta$ and $y = x'\\sin\\theta + y'\\cos\\theta$, where $\\cot(2\\theta) = \\frac{A - C}{B}$, to eliminate the $x'y'$ term in the new $(x', y')$ system.",
+  "anatomy": "The general second-degree equation $Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0$ has several critical components for this topic. The coefficient $B$ is the cross-term coefficient \u2014 its presence signals rotation is needed, and its sign and magnitude determine how much. The discriminant $B^2 - 4AC$ tells you the conic type before you do any work: negative means an ellipse (or circle), zero means a parabola, positive means a hyperbola. The rotation angle $\\theta$ is chosen so that $\\cot(2\\theta) = \\frac{A-C}{B}$, and it satisfies $0 < \\theta < \\frac{\\pi}{2}$. The rotation substitution uses $\\cos\\theta$ and $\\sin\\theta$ to define a new coordinate frame $(x', y')$ in which the conic sits axis-aligned.",
+  "worked_example": [
+    {
+      "expression_latex": "xy = 1 \\quad \\Longrightarrow \\quad 0 \\cdot x^2 + 1 \\cdot xy + 0 \\cdot y^2 + 0 \\cdot x + 0 \\cdot y - 1 = 0",
+      "description_latex": "We begin by writing the equation in standard general form $Ax^2 + Bxy + Cy^2 + Dx + Ey + F = 0$ to identify the coefficients. Here $A = 0$, $B = 1$, $C = 0$, $D = 0$, $E = 0$, $F = -1$ \u2014 reading these off correctly is the essential first step before we can do anything else.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\cot(2\\theta) = \\frac{A - C}{B} = \\frac{0 - 0}{1} = 0 \\quad \\Rightarrow \\quad 2\\theta = \\frac{\\pi}{2} \\quad \\Rightarrow \\quad \\theta = \\frac{\\pi}{4}",
+      "description_latex": "We use the rotation angle formula $\\cot(2\\theta) = \\frac{A-C}{B}$ to find the angle that will eliminate the cross-term. Because $\\cot(2\\theta) = 0$, we get $2\\theta = 90\u00b0$, so $\\theta = 45\u00b0$ \u2014 this is the angle by which the axes are tilted to 'un-rotate' the hyperbola.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = x'\\cos\\tfrac{\\pi}{4} - y'\\sin\\tfrac{\\pi}{4} = \\frac{x' - y'}{\\sqrt{2}}, \\quad y = x'\\sin\\tfrac{\\pi}{4} + y'\\cos\\tfrac{\\pi}{4} = \\frac{x' + y'}{\\sqrt{2}}",
+      "description_latex": "We substitute $\\theta = 45\u00b0$ into the rotation equations $x = x'\\cos\\theta - y'\\sin\\theta$ and $y = x'\\sin\\theta + y'\\cos\\theta$ to get explicit formulas for the old coordinates in terms of the new ones. These expressions for $x$ and $y$ will be substituted directly into the original equation to clear the cross-term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "xy = \\left(\\frac{x'-y'}{\\sqrt{2}}\\right)\\left(\\frac{x'+y'}{\\sqrt{2}}\\right) = \\frac{(x')^2 - (y')^2}{2} = 1 \\quad \\Rightarrow \\quad \\frac{(x')^2}{2} - \\frac{(y')^2}{2} = 1",
+      "description_latex": "Substituting into $xy = 1$ and simplifying gives us a difference of squares, which collapses beautifully into the standard form of a hyperbola in the rotated system. Notice there is no $x'y'$ term \u2014 rotation worked exactly as promised, and we can now read off that this is a hyperbola with $a^2 = b^2 = 2$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^2 - \\sqrt{3}\\,xy + 2y^2 - 1 = 0",
+      "description_latex": "We are given this conic equation with a cross-term and need to rotate away the $xy$ term. Start by identifying $A = 1$, $B = -\\sqrt{3}$, $C = 2$, so the rotation angle formula gives $\\cot(2\\theta) = \\frac{A - C}{B} = \\frac{1 - 2}{-\\sqrt{3}} = \\frac{1}{\\sqrt{3}}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\cot(2\\theta) = \\frac{1}{\\sqrt{3}} \\Rightarrow \\tan(2\\theta) = \\sqrt{3} \\Rightarrow 2\\theta = 60\u00b0 \\Rightarrow \\theta = 30\u00b0",
+      "description_latex": "From $\\cot(2\\theta) = \\frac{1}{\\sqrt{3}}$, we take the reciprocal to get $\\tan(2\\theta) = \\sqrt{3}$, which is a standard angle. Confirm that $\\theta = 30\u00b0$, then write down $\\cos 30\u00b0 = \\frac{\\sqrt{3}}{2}$ and $\\sin 30\u00b0 = \\frac{1}{2}$ to prepare the substitution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $x = \\frac{\\sqrt{3}}{2}x' - \\frac{1}{2}y'$ and $y = \\frac{1}{2}x' + \\frac{\\sqrt{3}}{2}y'$ into $x^2 - \\sqrt{3}\\,xy + 2y^2 = 1$, expand every term, collect like powers of $x'$ and $y'$, and verify that the $x'y'$ coefficient is zero. What is the simplified equation in $(x', y')$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use the discriminant $B^2 - 4AC$ to classify the conic $3x^2 + 2xy + 3y^2 - 8 = 0$ without rotating.",
+      "answer_latex": "B^2 - 4AC = 4 - 36 = -32 < 0, \\text{ so the conic is an ellipse.}"
+    },
+    {
+      "prompt_latex": "Find the rotation angle $\\theta$ needed to eliminate the $xy$ term from $5x^2 - 6xy + 5y^2 - 8 = 0$.",
+      "answer_latex": "\\cot(2\\theta) = \\frac{5-5}{-6} = 0 \\Rightarrow \\theta = 45\u00b0"
+    },
+    {
+      "prompt_latex": "Rotate $5x^2 - 6xy + 5y^2 - 8 = 0$ by $\\theta = 45\u00b0$ and write the equation in standard form in the $(x', y')$ system.",
+      "answer_latex": "\\frac{(x')^2}{4} + \\frac{(y')^2}{1} = 1 \\quad \\text{(an ellipse with } a^2=4,\\, b^2=1\\text{)}"
+    },
+    {
+      "prompt_latex": "Rotate $x^2 + 4xy - 2y^2 - 6 = 0$ by identifying $\\theta$ first (leave $\\cos\\theta$ and $\\sin\\theta$ in exact radical form), then classify the conic using both the discriminant and the rotated equation.",
+      "answer_latex": "B^2-4AC = 16+8 = 24 > 0 \\text{ (hyperbola)}; \\cot(2\\theta)=\\frac{3}{4}, \\text{ so } \\cos(2\\theta)=\\frac{3}{5}, \\cos\\theta=\\frac{2}{\\sqrt{5}}, \\sin\\theta=\\frac{1}{\\sqrt{5}}; \\text{ rotated form is a hyperbola in } (x',y')."
+    },
+    {
+      "prompt_latex": "A satellite dish cross-section is modeled by the curve $7x^2 - 6\\sqrt{3}\\,xy + 13y^2 = 16$. Without completing the full rotation, determine the conic type and find the rotation angle $\\theta$ that would align it with the coordinate axes.",
+      "answer_latex": "B^2 - 4AC = 108 - 364 = -256 < 0 \\text{ (ellipse)}; \\cot(2\\theta) = \\frac{7-13}{-6\\sqrt{3}} = \\frac{1}{\\sqrt{3}} \\Rightarrow \\theta = 30\u00b0."
+    }
+  ],
+  "common_mistakes": [
+    "Students often compute $\\cot(2\\theta) = \\frac{B}{A - C}$ instead of $\\frac{A - C}{B}$, flipping the fraction. Remember: the numerator is always the difference of the squared-term coefficients, $A - C$, and the denominator is the cross-term coefficient $B$.",
+    "After finding $\\cot(2\\theta)$, students sometimes directly set $\\theta = \\frac{1}{2}\\cot^{-1}\\left(\\frac{A-C}{B}\\right)$ using a calculator without first converting to $\\tan(2\\theta)$, leading to angle errors. The safest path is to find $2\\theta$ from a recognizable $\\tan$ or $\\cot$ value, then halve it and read off exact values of $\\cos\\theta$ and $\\sin\\theta$.",
+    "When substituting the rotation equations back into the original equation, students frequently forget to substitute into every term \u2014 they replace $x^2$ and $y^2$ correctly but leave $D$, $E$ linear terms unchanged or omit $F$. Every occurrence of $x$ and $y$ in the original equation must be replaced with the rotation expressions before expanding."
+  ],
+  "untested_variants": [
+    "Rotating a conic where $\\cot(2\\theta)$ does not yield a standard angle, requiring use of half-angle identities $\\cos\\theta = \\sqrt{\\frac{1+\\cos(2\\theta)}{2}}$ and $\\sin\\theta = \\sqrt{\\frac{1-\\cos(2\\theta)}{2}}$ to find exact values.",
+    "Finding the angle of rotation and then graphing the rotated conic by locating vertices and foci in the original $(x,y)$ coordinate system using the inverse rotation transformation.",
+    "Performing both a rotation and a translation (completing the square after rotating) when the general equation has nonzero $D$ and $E$ terms in addition to the $xy$ cross-term.",
+    "Given a conic in rotated form $(x', y')$, writing its equation back in terms of the original $(x, y)$ coordinates \u2014 the reverse direction of the rotation substitution."
+  ]
+}

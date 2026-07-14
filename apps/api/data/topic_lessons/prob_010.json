@@ -1,0 +1,76 @@
+{
+  "topic_id": "prob_010",
+  "topic_name": "Conditional Probability",
+  "generated_at": "2026-05-13T20:26:07.866826+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to calculate the probability of a single event \u2014 for example, drawing a red card from a standard deck is $\\frac{26}{52} = \\frac{1}{2}$. But what if someone peeks at the card and tells you it's a heart? Suddenly you have new information, and that changes everything. How do we mathematically update a probability when we learn that something else has already happened?",
+  "concept": "Conditional probability measures the likelihood of an event occurring given that another event is known to have occurred. In plain English, we restrict our attention to a smaller world where the given event has already happened, and then ask how probable our target event is within that world. Formally, the conditional probability of event $A$ given event $B$ is $P(A \\mid B) = \\dfrac{P(A \\cap B)}{P(B)}$, provided $P(B) > 0$.",
+  "anatomy": "The expression $P(A \\mid B)$ has three distinct components worth naming carefully. The vertical bar $\\mid$ is the conditioning symbol \u2014 everything to its right is what we are told has happened. The event $B$ on the right side of the bar is the conditioning event: this is the new information we are given, and it becomes our updated sample space. The event $A$ on the left side of the bar is the target event: this is what we actually want to find the probability of, but only within the restricted world where $B$ is true. The numerator $P(A \\cap B)$ captures the overlap \u2014 outcomes where both events occur simultaneously \u2014 and the denominator $P(B)$ rescales that overlap so that all probabilities in our new world still sum to 1.",
+  "worked_example": [
+    {
+      "expression_latex": "P(\\text{Heart} \\mid \\text{Red}) = \\frac{P(\\text{Heart} \\cap \\text{Red})}{P(\\text{Red})}",
+      "description_latex": "We start by writing the conditional probability formula, clearly identifying our target event (Heart) and our conditioning event (Red). Setting up the formula first is important because it forces us to identify exactly which intersection we need to compute before plugging in any numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Heart} \\cap \\text{Red}) = \\frac{13}{52}, \\quad P(\\text{Red}) = \\frac{26}{52}",
+      "description_latex": "Every heart is already a red card, so the event 'Heart AND Red' is simply the event 'Heart', which has 13 outcomes out of 52. There are 26 red cards in total, giving $P(\\text{Red}) = \\frac{26}{52}$. Notice that we find both probabilities using the original, unrestricted sample space of 52 cards.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Heart} \\mid \\text{Red}) = \\frac{\\tfrac{13}{52}}{\\tfrac{26}{52}} = \\frac{13}{26} = \\frac{1}{2}",
+      "description_latex": "Dividing the two fractions, we get $\\frac{1}{2}$, which makes intuitive sense: if you already know the card is red, exactly half of the red cards are hearts. The denominator $P(B)$ acts like a rescaling factor, shrinking our universe from 52 cards down to just the 26 red ones.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(\\text{doubles} \\mid \\text{sum} = 8)",
+      "description_latex": "We roll two fair dice. Given that the sum is 8, find the probability that we rolled doubles. Start by writing out the definition: $P(\\text{doubles} \\mid \\text{sum}=8) = \\dfrac{P(\\text{doubles} \\cap \\text{sum}=8)}{P(\\text{sum}=8)}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{sum} = 8) = \\frac{5}{36}",
+      "description_latex": "The outcomes that give a sum of 8 are $(2,6),(3,5),(4,4),(5,3),(6,2)$ \u2014 five outcomes out of 36 equally likely outcomes. We calculate $P(\\text{sum}=8) = \\frac{5}{36}$ using the full sample space.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify $P(\\text{doubles} \\cap \\text{sum}=8)$: which outcome is both a double AND sums to 8? Write that probability, then divide by $P(\\text{sum}=8)$ to get the final conditional probability.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A single card is drawn from a standard 52-card deck. Given that the card is a face card (Jack, Queen, or King), what is the probability it is a King? There are 12 face cards and 4 Kings.",
+      "answer_latex": "\\frac{4}{12} = \\frac{1}{3}"
+    },
+    {
+      "prompt_latex": "Two fair dice are rolled. Given that the first die shows a 3, what is the probability that the sum of both dice is greater than 7?",
+      "answer_latex": "\\frac{3}{6} = \\frac{1}{2}"
+    },
+    {
+      "prompt_latex": "In a class, 40\\% of students play sports, 25\\% play both sports and an instrument, and 60\\% play at least one of sports or an instrument. Given that a randomly chosen student plays sports, find the probability they also play an instrument.",
+      "answer_latex": "\\frac{0.25}{0.40} = \\frac{5}{8} = 0.625"
+    },
+    {
+      "prompt_latex": "Events $A$ and $B$ satisfy $P(A) = 0.5$, $P(B) = 0.4$, and $P(A \\cup B) = 0.7$. Find $P(A \\mid B)$.",
+      "answer_latex": "P(A \\cap B) = 0.5+0.4-0.7=0.2, \\text{ so } P(A \\mid B)=\\frac{0.2}{0.4}=0.5"
+    },
+    {
+      "prompt_latex": "A factory produces widgets; 2\\% are defective. A quality test correctly identifies a defective widget 90\\% of the time and incorrectly flags a non-defective widget 5\\% of the time. A widget is flagged by the test. Using conditional probability, find $P(\\text{flagged} \\mid \\text{defective})$ and $P(\\text{flagged} \\mid \\text{not defective})$, and then compute $P(\\text{flagged})$.",
+      "answer_latex": "P(\\text{flagged}) = (0.02)(0.90)+(0.98)(0.05) = 0.018+0.049 = 0.067"
+    }
+  ],
+  "common_mistakes": [
+    "Students reverse the conditioning and compute $P(B \\mid A)$ instead of $P(A \\mid B)$. Remember: the event after the bar is what you already know, not what you want \u2014 always re-read the problem to identify which event is given before applying the formula.",
+    "Students use $P(A) \\cdot P(B)$ in the numerator instead of $P(A \\cap B)$, essentially assuming the events are independent before checking. The numerator of $P(A \\mid B)$ must be the true intersection $P(A \\cap B)$, which equals $P(A) \\cdot P(B)$ only when independence has been verified.",
+    "Students forget to divide by $P(B)$ and report $P(A \\cap B)$ as their final answer. The division by $P(B)$ is essential because it rescales probabilities so they sum to 1 within the new, restricted sample space \u2014 skipping it gives a number that is systematically too small."
+  ],
+  "untested_variants": [
+    "Using the multiplication rule in reverse: given $P(A \\mid B)$ and $P(B)$, solve for $P(A \\cap B) = P(A \\mid B) \\cdot P(B)$, which is a common exam rearrangement not practiced above.",
+    "Conditional probability in tree diagrams: reading off $P(A \\mid B)$ directly from a branch of a two-stage tree rather than using the algebraic formula.",
+    "Conditional probability with continuous uniform distributions: computing $P(a < X < b \\mid X > c)$ by restricting lengths on a number line rather than counting discrete outcomes.",
+    "Sequential conditioning: problems involving $P(A \\mid B \\cap C)$ where the student must condition on two simultaneous pieces of information, requiring careful identification of the intersection in the denominator."
+  ]
+}

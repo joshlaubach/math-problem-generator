@@ -1,0 +1,81 @@
+{
+  "topic_id": "stat_017",
+  "topic_name": "Surveys and Questionnaire Design",
+  "generated_at": "2026-05-13T20:30:32.917798+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know that a good sample should represent the population \u2014 random sampling helps us avoid bias in who we pick. But even with a perfectly random sample, you can still get completely misleading data. How? Imagine a survey asks: 'Don't you agree that our school's cafeteria food is terrible?' Almost everyone says yes \u2014 but is that because the food is bad, or because the question itself pushed people toward that answer? How do we design questions that collect honest, unbiased information?",
+  "concept": "A survey is a data-collection tool that asks a group of people a set of questions to gather information about a population. A questionnaire is the actual instrument \u2014 the list of questions \u2014 used in that survey. Good questionnaire design ensures that responses reflect respondents' true opinions or behaviors, not the wording of the question. Formally, a well-designed survey minimizes response bias, the systematic tendency for answers to deviate from the truth due to how questions are phrased, ordered, or presented.",
+  "anatomy": "A questionnaire has several distinct structural components worth knowing. The question stem is the core text asking what you want to know. The response scale is the set of options offered (yes/no, a Likert scale from 1\u20135, or open-ended). Leading language is loaded or suggestive wording in the stem that nudges respondents toward a particular answer \u2014 this is the main source of wording bias. Question order refers to the sequence of items, which can create context effects where earlier questions color how later ones are interpreted. Finally, voluntary response vs. forced response determines whether skipping is allowed, which affects who actually answers.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Biased: ``Don't you think the new park improvement tax is a waste of money?''}",
+      "description_latex": "We start by identifying the problem with this question. The phrase 'waste of money' is leading language \u2014 it frames the tax negatively before the respondent has a chance to form their own view, pushing them toward a 'yes, it's wasteful' response even if they would otherwise be neutral or supportive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Improved: ``Do you support or oppose the new park improvement tax?''}",
+      "description_latex": "We rewrite the stem using neutral, balanced language that presents both sides equally. By offering 'support or oppose' without any emotional loading, we allow respondents to reflect their genuine opinion rather than react to the question's tone.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Response scale: Strongly Support / Support / Neutral / Oppose / Strongly Oppose}",
+      "description_latex": "We also improve the response scale by moving from a simple yes/no to a 5-point Likert scale. This captures the intensity of opinion \u2014 someone who barely opposes the tax is very different from someone who strongly opposes it \u2014 giving us richer, more informative data.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Check: Is every response option mutually exclusive and exhaustive?}",
+      "description_latex": "A critical design check is whether the options cover all possible answers without overlap. Here, the five categories run the full spectrum from strongly support to strongly oppose, with a neutral midpoint, so no respondent is forced into a category that doesn't fit them. This prevents measurement error caused by a poorly constructed response scale.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Original question: ``How many hours of sleep do you get? } \\square \\text{ 0\u20132 hours } \\square \\text{ 2\u20134 hours } \\square \\text{ 4\u20136 hours}''}",
+      "description_latex": "We are given a question with a flawed response scale. Before rewriting anything, we need to diagnose the problem. Notice that the categories overlap at the boundaries \u2014 for example, someone who sleeps exactly 2 hours could check either the first or second box. This ambiguity means the categories are not mutually exclusive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Identify: the categories are not } \\underline{\\hspace{4cm}} \\text{, and do not cover sleeping more than 6 hours (not } \\underline{\\hspace{2cm}} \\text{)}",
+      "description_latex": "Fill in the two blanks using the correct survey design terms: the categories have overlapping boundaries, and they fail to account for all possible sleep amounts. Use the vocabulary from this lesson to name both problems precisely.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Revised scale: } \\square \\text{ Less than 4 hrs } \\square \\text{ 4 to less than 6 hrs } \\square \\text{ 6 to less than 8 hrs } \\square \\text{ 8 or more hrs}",
+      "description_latex": "Here is one correct revision. Using 'less than' at each boundary eliminates overlap, and adding an open-ended top category '8 or more hours' makes the scale exhaustive. Notice how every possible sleep duration now falls into exactly one category.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Label each question as biased (B) or unbiased (U):} \\\\ \\text{(a) ``Do you exercise regularly?''} \\\\ \\text{(b) ``Don't you agree that social media is harmful to teens?''}",
+      "answer_latex": "\\text{(a) U \u2014 neutral wording; (b) B \u2014 leading phrase ``Don't you agree'' pushes toward agreement}"
+    },
+    {
+      "prompt_latex": "\\text{Rewrite this biased question as a neutral one:} \\\\ \\text{``Wouldn't you prefer a longer lunch break so students aren't rushed?''}",
+      "answer_latex": "\\text{Example: ``Would you prefer the current lunch period length, a longer period, or a shorter period?''} \\\\ \\text{(Any rewrite that removes leading language and offers balanced options is acceptable.)}"
+    },
+    {
+      "prompt_latex": "\\text{A survey asks for age with options: } 0\\text{\u2013}20, \\ 20\\text{\u2013}40, \\ 40\\text{\u2013}60. \\\\ \\text{State two design flaws and provide a corrected scale.}",
+      "answer_latex": "\\text{Flaws: (1) categories overlap at boundaries; (2) scale is not exhaustive (misses age} > 60\\text{).} \\\\ \\text{Corrected: Under 20, 20\u201339, 40\u201359, 60 or older}"
+    },
+    {
+      "prompt_latex": "\\text{A researcher surveys a random sample of 200 students about screen time.} \\\\ \\text{She asks: ``How many hours per day do you spend on your phone?''} \\\\ \\text{with options: } \\square \\leq 1 \\ \\square \\ 1\\text{\u2013}3 \\ \\square \\ 3\\text{\u2013}5 \\ \\square \\geq 5. \\\\ \\text{The sample is random, yet the results may still be biased. Identify one source of} \\\\ \\text{response bias and one design flaw in the response scale.}",
+      "answer_latex": "\\text{Response bias: Social desirability bias \u2014 students may underreport screen time to seem responsible.} \\\\ \\text{Design flaw: Overlapping boundaries (e.g., exactly 1 hour fits both} \\leq 1 \\text{ and } 1\\text{\u2013}3\\text{).}"
+    },
+    {
+      "prompt_latex": "\\text{A town council wants to know residents' opinions on building a new stadium.} \\\\ \\text{They mail surveys to 500 randomly selected households; 80 respond.} \\\\ \\text{Of those, 75\\% support the stadium. Identify TWO threats to the validity} \\\\ \\text{of this conclusion beyond questionnaire wording.}",
+      "answer_latex": "\\text{1. Voluntary response bias: only 16\\% responded; non-respondents may have different opinions} \\\\ \\text{(e.g., opponents may feel less motivated to reply).} \\\\ \\text{2. The small effective sample (}n=80\\text{) reduces reliability even if the original sample was random.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse sampling bias with response bias: sampling bias is about WHO is selected, while response bias is about HOW questions are answered. A perfectly random sample can still produce biased results if the questionnaire uses leading language \u2014 fix this by evaluating the two sources of bias separately.",
+    "When redesigning a flawed response scale, students frequently fix the overlap but forget to make the scale exhaustive \u2014 for example, changing '0\u20135, 5\u201310' to '0\u20134, 5\u20139' without adding a final '10 or more' category. Always ask: could a real respondent fall outside every listed option?",
+    "Students often mark a question as unbiased simply because it sounds polite or professional. Bias comes from the structure of the question \u2014 double-barreled questions (asking two things at once, like 'Is the food healthy and tasty?') or questions that assume a fact (like 'When did you stop littering?') are biased regardless of tone. Check the logical structure, not just the vocabulary."
+  ],
+  "untested_variants": [
+    "Double-barreled questions: questions that ask about two attributes simultaneously (e.g., 'Is the teacher clear and engaging?') requiring the respondent to give one answer to two separate questions \u2014 a flaw not covered in the practice problems above.",
+    "Order effects and context bias: how placing a question about crime immediately before a question about city satisfaction artificially lowers satisfaction ratings \u2014 the interaction between question sequence and responses is not tested above.",
+    "Open-ended vs. closed-ended question tradeoffs: analyzing when to use free-response formats (richer data but harder to quantify) versus fixed-scale formats \u2014 the practice problems only deal with closed-ended scales.",
+    "Pilot testing and cognitive interviewing: the process of testing a questionnaire on a small group before full deployment to catch ambiguous wording, a real-world design step not addressed in any of the problems above."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "dm_028",
+  "topic_name": "Cantor's Theorem and Uncountability (H)",
+  "generated_at": "2026-05-13T20:14:18.328889+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know that some infinite sets are countable \u2014 the natural numbers, the integers, even the rationals can all be listed in a sequence. You might start to wonder: are all infinite sets the same 'size'? Cantor showed, shockingly, that the real numbers cannot be listed at all \u2014 and more generally, that the power set of any set is strictly larger than the set itself. But how can you prove that no list, no matter how cleverly constructed, can ever capture all the real numbers?",
+  "concept": "Cantor's Theorem says that for any set $A$, its power set $\\mathcal{P}(A)$ has strictly greater cardinality than $A$ itself \u2014 written $|A| < |\\mathcal{P}(A)|$. The key corollary is that $\\mathbb{R}$ is uncountable: there is no surjection from $\\mathbb{N}$ onto $\\mathbb{R}$. The proof technique, called Cantor's diagonal argument, constructs an element that differs from every element on any proposed list, guaranteeing the list is incomplete.",
+  "anatomy": "The diagonal argument has four key structural parts. First, the assumed enumeration: we suppose for contradiction that all elements of the target set can be listed as $x_1, x_2, x_3, \\ldots$. Second, the representation: each element is written in a uniform format (e.g., an infinite binary sequence or decimal expansion). Third, the diagonal element $d$: we define $d$ by choosing its $n$-th component to differ from the $n$-th component of $x_n$ \u2014 this is the diagonalization step. Fourth, the contradiction: $d$ cannot appear anywhere in the list because it disagrees with every $x_n$ at position $n$, so the enumeration was not exhaustive.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: The set } S = \\{0,1\\}^{\\mathbb{N}} \\text{ of all infinite binary sequences is uncountable.}",
+      "description_latex": "We want to prove that no list can contain every infinite binary sequence. We set up a proof by contradiction: assume for the sake of argument that $S$ is countable, meaning we can write every sequence as $s_1, s_2, s_3, \\ldots$ in some order. If we can always find a sequence that is missing from any such list, the assumption explodes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "s_1 = (\\mathbf{0}, 1, 0, 1, \\ldots),\\quad s_2 = (1, \\mathbf{1}, 0, 0, \\ldots),\\quad s_3 = (0, 1, \\mathbf{1}, 0, \\ldots),\\quad \\ldots",
+      "description_latex": "We write out the assumed list and highlight the diagonal entries \u2014 that is, the $n$-th bit of the $n$-th sequence $s_n$, shown in bold. These diagonal bits are the raw material we will flip to build our escape sequence $d$, and they are the only bits that matter for the contradiction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d_n = 1 - s_n(n) \\quad \\text{for each } n \\in \\mathbb{N}",
+      "description_latex": "We define the diagonal sequence $d$ by flipping each diagonal bit: wherever $s_n$ has a $0$ in position $n$, we put a $1$, and vice versa. This one-line definition is the entire heart of the proof \u2014 it guarantees that $d$ disagrees with $s_n$ at coordinate $n$ for every single $n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "d \\neq s_n \\text{ for every } n, \\quad \\text{because } d_n \\neq s_n(n)",
+      "description_latex": "Now we check that $d$ is genuinely missing from the list. For any fixed $n$, the sequence $d$ and the sequence $s_n$ differ in at least the $n$-th position by construction, so $d \\neq s_n$. Since this holds for every $n$, the sequence $d$ is not equal to any element of the supposed complete list.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore\\; S \\text{ is uncountable.}",
+      "description_latex": "We have derived a contradiction: we assumed the list was complete, but we produced $d \\in S$ that is not on it. Since the argument works for any proposed enumeration, no such enumeration can exist, and $S = \\{0,1\\}^{\\mathbb{N}}$ is uncountable. Because $|\\mathbb{R}| = |\\{0,1\\}^{\\mathbb{N}}|$, it follows that $\\mathbb{R}$ is uncountable as well.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\mathcal{P}(\\mathbb{N}) \\text{ is uncountable.}",
+      "description_latex": "We prove this using Cantor's Theorem directly. Suppose for contradiction that $\\mathcal{P}(\\mathbb{N})$ is countable, so we can list all subsets as $A_1, A_2, A_3, \\ldots$. We will construct a subset $D \\subseteq \\mathbb{N}$ that cannot appear anywhere in this list.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D = \\{ n \\in \\mathbb{N} : n \\notin A_n \\}",
+      "description_latex": "This is the diagonal set: $n$ belongs to $D$ exactly when $n$ does NOT belong to $A_n$. This is the critical definition \u2014 can you explain in one sentence why $D$ cannot equal $A_k$ for any $k$? Try writing out what happens when you ask whether $k \\in D$ and $k \\in A_k$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore\\; \\mathcal{P}(\\mathbb{N}) \\text{ is uncountable.}",
+      "description_latex": "Once you have shown that $D \\neq A_k$ for every $k$ (because $k \\in D \\iff k \\notin A_k$, so $D$ and $A_k$ disagree on whether $k$ is a member), the contradiction is complete: $D$ is a subset of $\\mathbb{N}$ that is absent from the supposedly exhaustive list, so no such list can exist.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "True or False: The set of all finite subsets of $\\mathbb{N}$ is countable.",
+      "answer_latex": "\\text{True. The finite subsets of } \\mathbb{N} \\text{ are countable (they can be enumerated by listing subsets of size } 0, 1, 2, \\ldots\\text{).}"
+    },
+    {
+      "prompt_latex": "Let $f : \\mathbb{N} \\to \\mathcal{P}(\\mathbb{N})$ be any function. Define $D = \\{ n \\in \\mathbb{N} : n \\notin f(n) \\}$. Show that $D$ is not in the image of $f$.",
+      "answer_latex": "\\text{For any } k \\in \\mathbb{N}: k \\in D \\iff k \\notin f(k). \\text{ Thus } D \\neq f(k) \\text{ for every } k, \\text{ so } D \\notin \\mathrm{Im}(f)."
+    },
+    {
+      "prompt_latex": "Using the result of the previous problem, prove that there is no surjection $f : \\mathbb{N} \\to \\mathcal{P}(\\mathbb{N})$, and conclude $|\\mathbb{N}| < |\\mathcal{P}(\\mathbb{N})|$.",
+      "answer_latex": "\\text{The diagonal set } D \\text{ is always missing from } \\mathrm{Im}(f), \\text{ so no } f \\text{ is surjective. Hence } |\\mathbb{N}| < |\\mathcal{P}(\\mathbb{N})|."
+    },
+    {
+      "prompt_latex": "Let $A$ be any set with $|A| = n$ (finite). Verify Cantor's Theorem in the finite case by computing $|\\mathcal{P}(A)|$ and showing $n < 2^n$ for all $n \\geq 0$.",
+      "answer_latex": "|\\mathcal{P}(A)| = 2^n. \\text{ We need } n < 2^n \\text{ for all } n \\geq 0: \\text{ at } n=0,\\; 0 < 1.\\; \\text{By induction, if } n < 2^n \\text{ then } n+1 \\leq 2^n < 2^{n+1}. \\checkmark"
+    },
+    {
+      "prompt_latex": "A library claims to have a catalogue \u2014 itself a book \u2014 that lists every book not listed in itself. Explain why this is impossible, and identify which step of the diagonal argument this mirrors.",
+      "answer_latex": "\\text{If the catalogue lists itself, it violates its own rule; if it does not, it should list itself \u2014 contradiction. This mirrors defining } D = \\{n : n \\notin f(n)\\} \\text{ and asking whether the index of } D \\text{ belongs to } D."
+    }
+  ],
+  "common_mistakes": [
+    "Students often think the diagonal argument only shows the list is 'long' but not that it misses an element \u2014 the key point is that $d$ is explicitly constructed and provably absent; stress that $d \\neq s_n$ because they differ at a specific, named coordinate $n$, not just vaguely.",
+    "Students confuse 'uncountable' with 'having no bijection to any set' \u2014 uncountable specifically means there is no bijection with $\\mathbb{N}$; uncountable sets like $\\mathbb{R}$ and $\\mathcal{P}(\\mathbb{N})$ can still be put in bijection with each other.",
+    "When defining the diagonal set $D = \\{n : n \\notin f(n)\\}$, students sometimes write $D = \\{n : n \\in f(n)\\}$ (the complement rule) or forget to negate, which produces a set that need not be absent from the list \u2014 always double-check the membership condition is the negation of the diagonal entry."
+  ],
+  "untested_variants": [
+    "Proving that the interval $(0,1)$ is uncountable directly via decimal diagonalization, including handling the non-uniqueness of decimal representations (e.g., $0.999\\ldots = 1.000\\ldots$).",
+    "Using Cantor's Theorem to build an infinite hierarchy of infinities: $|\\mathbb{N}| < |\\mathcal{P}(\\mathbb{N})| < |\\mathcal{P}(\\mathcal{P}(\\mathbb{N}))| < \\cdots$ and identifying the cardinality at each level.",
+    "Applying the Schr\u00f6der\u2013Bernstein theorem to show $|\\mathbb{R}| = |\\mathcal{P}(\\mathbb{N})|$ by constructing explicit injections in both directions.",
+    "Proving that the set of all functions $f : \\mathbb{N} \\to \\mathbb{N}$ is uncountable using a diagonal argument adapted to function values rather than binary sequences."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_059",
+  "topic_name": "The Discriminant",
+  "generated_at": "2026-05-12T22:48:43.984261+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to use the quadratic formula $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$ to solve equations like $x^2 - 5x + 6 = 0$. But what if someone asked you: 'Does $x^2 + x + 5 = 0$ have any real solutions?' \u2014 and you needed to answer that question instantly, without solving the whole equation. How could you tell, just by glancing at the numbers, whether solutions exist at all?",
+  "concept": "The discriminant is the expression hiding inside the square root of the quadratic formula that tells you everything about the nature of the solutions before you finish solving. Formally, for a quadratic equation $ax^2 + bx + c = 0$, the discriminant is $D = b^2 - 4ac$. If $D > 0$, there are two distinct real solutions; if $D = 0$, there is exactly one real solution (a repeated root); if $D < 0$, there are no real solutions.",
+  "anatomy": "The discriminant $D = b^2 - 4ac$ has three components drawn directly from the standard form $ax^2 + bx + c = 0$: the coefficient $a$ (the leading coefficient, attached to $x^2$), the coefficient $b$ (the middle coefficient, attached to $x$), and the constant term $c$ (the number with no variable). The operation $b^2$ squares the middle coefficient, and $4ac$ multiplies four times the product of the outer coefficients. The sign of their difference \u2014 positive, zero, or negative \u2014 is the entire story.",
+  "worked_example": [
+    {
+      "expression_latex": "2x^2 - 3x - 5 = 0",
+      "description_latex": "We start by identifying the coefficients directly from standard form $ax^2 + bx + c = 0$. Here, $a = 2$, $b = -3$, and $c = -5$. Getting these right before touching the formula is the most important step, because a sign error on $b$ or $c$ will give the wrong discriminant entirely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D = b^2 - 4ac = (-3)^2 - 4(2)(-5)",
+      "description_latex": "Now we substitute $a = 2$, $b = -3$, and $c = -5$ into the discriminant formula $D = b^2 - 4ac$. Notice that we keep $b = -3$ inside parentheses so that squaring it gives $+9$, not $-9$ \u2014 this is one of the most common errors students make.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D = 9 - 4(2)(-5) = 9 - (-40) = 9 + 40 = 49",
+      "description_latex": "We evaluate step by step: $(-3)^2 = 9$, then $4 \\cdot 2 \\cdot (-5) = -40$, so $D = 9 - (-40) = 49$. It is critical to handle the subtraction of a negative carefully \u2014 subtracting a negative becomes addition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D = 49 > 0 \\Rightarrow \\text{two distinct real solutions}",
+      "description_latex": "Since $D = 49$ is positive, the quadratic has two distinct real solutions. As a bonus, $49$ is a perfect square, which tells us those solutions will actually be rational numbers \u2014 something useful to notice when deciding whether factoring might be easier than the full quadratic formula.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^2 + 4x + 4 = 0",
+      "description_latex": "We want to use the discriminant to determine how many real solutions this equation has. Begin by reading off the coefficients: $a = 1$, $b = 4$, $c = 4$. These values feed directly into the formula $D = b^2 - 4ac$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D = (4)^2 - 4(1)(4)",
+      "description_latex": "We have substituted the coefficients into the discriminant formula. Now compute this expression \u2014 remember to handle the order of operations carefully.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "D = 0 \\Rightarrow \\text{exactly one real solution (a repeated root)}",
+      "description_latex": "Once you find $D = 16 - 16 = 0$, you can immediately state the conclusion: a discriminant of zero means the parabola just touches the $x$-axis at exactly one point, giving one repeated real solution. This equation actually factors as $(x+2)^2 = 0$, confirming that result.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the discriminant of $x^2 - 6x + 9 = 0$ and state the number of real solutions.",
+      "answer_latex": "D = (-6)^2 - 4(1)(9) = 36 - 36 = 0; \\text{ exactly one real solution}"
+    },
+    {
+      "prompt_latex": "Find the discriminant of $3x^2 + 2x - 8 = 0$ and state the number of real solutions.",
+      "answer_latex": "D = (2)^2 - 4(3)(-8) = 4 + 96 = 100 > 0; \\text{ two distinct real solutions}"
+    },
+    {
+      "prompt_latex": "Find the discriminant of $x^2 + 2x + 7 = 0$ and state the number of real solutions.",
+      "answer_latex": "D = (2)^2 - 4(1)(7) = 4 - 28 = -24 < 0; \\text{ no real solutions}"
+    },
+    {
+      "prompt_latex": "For the equation $kx^2 - 4x + 1 = 0$, find the value of $k$ that makes the discriminant equal to zero.",
+      "answer_latex": "D = (-4)^2 - 4(k)(1) = 16 - 4k = 0 \\Rightarrow k = 4"
+    },
+    {
+      "prompt_latex": "A ball is launched upward and its height in feet is modeled by $h = -16t^2 + 40t + 5$. Use the discriminant of $-16t^2 + 40t + 5 = 0$ to determine whether the ball ever reaches a height of $0$ feet (i.e., hits the ground).",
+      "answer_latex": "D = (40)^2 - 4(-16)(5) = 1600 + 320 = 1920 > 0; \\text{ yes, the ball hits the ground at two real times}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often compute $b^2$ as $-(b^2)$ when $b$ is negative \u2014 for example, writing $(-3)^2 = -9$ instead of $+9$. Always place the value of $b$ inside its own parentheses before squaring: $(-3)^2 = 9$.",
+    "Students sometimes apply the discriminant to an equation that is not yet in standard form $ax^2 + bx + c = 0$ \u2014 for instance, reading coefficients from $x^2 = 3x - 2$ without first rewriting it as $x^2 - 3x + 2 = 0$. Always rearrange to standard form before identifying $a$, $b$, and $c$.",
+    "Students confuse $D < 0$ meaning 'no real solutions' with meaning 'no solutions at all,' and sometimes incorrectly report $D < 0$ as meaning two negative solutions. A negative discriminant specifically means the square root in the quadratic formula would be imaginary, so there are no real-number solutions \u2014 not two negative ones."
+  ],
+  "untested_variants": [
+    "Equations where $a$ is a fraction, such as $\\frac{1}{2}x^2 - x + \\frac{1}{2} = 0$, requiring careful substitution of fractional coefficients into $b^2 - 4ac$.",
+    "Problems that ask students to find a value of $c$ (rather than $k$ or $a$) that produces a discriminant equal to a specific non-zero number, combining discriminant reasoning with equation-solving.",
+    "Problems presented in vertex form $a(x-h)^2 + k = 0$ that must first be expanded into standard form before the discriminant can be computed.",
+    "Using the discriminant to determine whether two graphs \u2014 such as a line and a parabola \u2014 intersect, by forming the equation that results from setting them equal and analyzing its discriminant."
+  ]
+}

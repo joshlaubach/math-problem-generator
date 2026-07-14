@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_031",
+  "topic_name": "Composition and Invertibility",
+  "generated_at": "2026-05-13T20:07:58.525404+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that a linear transformation $T: \\mathbb{R}^n \\to \\mathbb{R}^m$ can be represented by a matrix, and that matrix multiplication lets you apply $T$ to any vector. But what happens when you apply one transformation after another \u2014 say, first rotate, then reflect? And if you apply a transformation $T$, can you always \"undo\" it to get back to where you started? These questions lead to two of the most powerful ideas in linear algebra: composition and invertibility.",
+  "concept": "Composing two linear transformations means applying them in sequence: if $S: \\mathbb{R}^p \\to \\mathbb{R}^n$ and $T: \\mathbb{R}^n \\to \\mathbb{R}^m$, their composition $T \\circ S: \\mathbb{R}^p \\to \\mathbb{R}^m$ is defined by $(T \\circ S)(\\mathbf{x}) = T(S(\\mathbf{x}))$. In matrix terms, if $S$ has matrix $B$ and $T$ has matrix $A$, then $T \\circ S$ has matrix $AB$. A transformation $T$ (with square matrix $A$) is invertible if there exists $T^{-1}$ such that $T^{-1} \\circ T = T \\circ T^{-1} = I$, equivalently $A^{-1}A = AA^{-1} = I$.",
+  "anatomy": "In the composition $T \\circ S$, the right-hand transformation $S$ is applied first and is called the inner transformation, while $T$ is applied second and is called the outer transformation \u2014 order matters because matrix multiplication is not commutative, so $AB \\neq BA$ in general. For invertibility of $T$ with matrix $A$: the matrix $A$ must be square ($n \\times n$), its determinant $\\det(A)$ must be nonzero (the invertibility criterion), and the inverse matrix $A^{-1}$ satisfies $A^{-1}A = I_n$, where $I_n$ is the $n \\times n$ identity. The transformation $T^{-1}$ is the geometric \"undo\" of $T$.",
+  "worked_example": [
+    {
+      "expression_latex": "S(\\mathbf{x}) = \\begin{pmatrix} 1 & 2 \\\\ 0 & 1 \\end{pmatrix}\\mathbf{x}, \\quad T(\\mathbf{x}) = \\begin{pmatrix} 3 & 0 \\\\ 1 & -1 \\end{pmatrix}\\mathbf{x}",
+      "description_latex": "We are given two linear transformations $S$ and $T$, each from $\\mathbb{R}^2$ to $\\mathbb{R}^2$, with the matrices shown. Our goal is to find the matrix of the composition $T \\circ S$ (apply $S$ first, then $T$) and determine whether this composition is invertible.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[T \\circ S] = AB = \\begin{pmatrix} 3 & 0 \\\\ 1 & -1 \\end{pmatrix}\\begin{pmatrix} 1 & 2 \\\\ 0 & 1 \\end{pmatrix}",
+      "description_latex": "The matrix of $T \\circ S$ is the product $AB$ where $A$ is the matrix of $T$ and $B$ is the matrix of $S$. Notice carefully that $A$ (the outer transformation) goes on the left and $B$ (the inner transformation) goes on the right \u2014 this matches the fact that $T$ acts after $S$, and matrix multiplication reads right to left.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AB = \\begin{pmatrix} 3(1)+0(0) & 3(2)+0(1) \\\\ 1(1)+(-1)(0) & 1(2)+(-1)(1) \\end{pmatrix} = \\begin{pmatrix} 3 & 6 \\\\ 1 & 1 \\end{pmatrix}",
+      "description_latex": "We carry out the matrix multiplication entry by entry using the row-times-column rule. Each entry $(AB)_{ij}$ is the dot product of row $i$ of $A$ with column $j$ of $B$, giving us the matrix shown above.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(AB) = \\det\\begin{pmatrix} 3 & 6 \\\\ 1 & 1 \\end{pmatrix} = (3)(1) - (6)(1) = -3 \\neq 0",
+      "description_latex": "To determine invertibility, we compute the determinant of the composition matrix. Because $\\det(AB) = -3 \\neq 0$, the composition $T \\circ S$ is an invertible transformation \u2014 there exists a linear map that perfectly undoes it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(AB)^{-1} = \\frac{1}{-3}\\begin{pmatrix} 1 & -6 \\\\ -1 & 3 \\end{pmatrix} = \\begin{pmatrix} -\\tfrac{1}{3} & 2 \\\\ \\tfrac{1}{3} & -1 \\end{pmatrix}",
+      "description_latex": "Using the $2 \\times 2$ inverse formula $\\frac{1}{ad-bc}\\begin{pmatrix}d & -b \\\\ -c & a\\end{pmatrix}$, we find the matrix of $(T \\circ S)^{-1}$. We can verify: $(AB)(AB)^{-1} = I_2$, confirming the result. Note also the useful identity $(AB)^{-1} = B^{-1}A^{-1}$ \u2014 the inverses in reverse order.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "S(\\mathbf{x}) = \\begin{pmatrix} 2 & 1 \\\\ 0 & 3 \\end{pmatrix}\\mathbf{x}, \\quad T(\\mathbf{x}) = \\begin{pmatrix} 1 & 0 \\\\ -1 & 2 \\end{pmatrix}\\mathbf{x}",
+      "description_latex": "We want to find the matrix of the composition $T \\circ S$ and check whether it is invertible. Let $A$ be the matrix of $T$ and $B$ be the matrix of $S$; recall that the matrix of $T \\circ S$ is the product $AB$ with $A$ on the left.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AB = \\begin{pmatrix} 1 & 0 \\\\ -1 & 2 \\end{pmatrix}\\begin{pmatrix} 2 & 1 \\\\ 0 & 3 \\end{pmatrix} = \\begin{pmatrix} 2 & 1 \\\\ -2 & 5 \\end{pmatrix}",
+      "description_latex": "Here is the result of the matrix multiplication. Take a moment to verify one or two entries yourself before moving on \u2014 for example, confirm that the $(2,2)$ entry $(-1)(1) + (2)(3) = 5$ is correct.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now it is your turn: compute $\\det(AB)$ for the matrix $\\begin{pmatrix} 2 & 1 \\\\ -2 & 5 \\end{pmatrix}$, and state whether $T \\circ S$ is invertible. If it is invertible, write down the matrix $(AB)^{-1}$ using the $2 \\times 2$ inverse formula.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 2 & 0 \\\\ 0 & 3 \\end{pmatrix}$ and $B = \\begin{pmatrix} 1 & 1 \\\\ 0 & 1 \\end{pmatrix}$. Compute the matrix of $T \\circ S$ where $T$ has matrix $A$ and $S$ has matrix $B$.",
+      "answer_latex": "AB = \\begin{pmatrix} 2 & 2 \\\\ 0 & 3 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 4 \\end{pmatrix}$. Determine whether the linear transformation with matrix $A$ is invertible, and if so, find $A^{-1}$.",
+      "answer_latex": "\\det(A) = -2 \\neq 0 \\text{, so invertible; } A^{-1} = \\begin{pmatrix} -2 & 1 \\\\ \\tfrac{3}{2} & -\\tfrac{1}{2} \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $T$ have matrix $A = \\begin{pmatrix} 1 & 3 \\\\ 2 & 6 \\end{pmatrix}$. Is $T$ invertible? Justify your answer.",
+      "answer_latex": "\\det(A) = (1)(6)-(3)(2) = 0 \\text{, so } T \\text{ is NOT invertible.}"
+    },
+    {
+      "prompt_latex": "Suppose $T: \\mathbb{R}^2 \\to \\mathbb{R}^2$ has matrix $A = \\begin{pmatrix} 2 & 1 \\\\ 5 & 3 \\end{pmatrix}$ and $S: \\mathbb{R}^2 \\to \\mathbb{R}^2$ has matrix $B = \\begin{pmatrix} 3 & -1 \\\\ -5 & 2 \\end{pmatrix}$. Compute $T \\circ S$ and $S \\circ T$ and determine whether composition is commutative here.",
+      "answer_latex": "AB = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix} = BA \\text{; in this special case they commute because } B = A^{-1}."
+    },
+    {
+      "prompt_latex": "A manufacturer applies two successive linear processes to a production vector $\\mathbf{x}$: first a scaling $S$ with matrix $\\begin{pmatrix} 2 & 0 \\\\ 0 & 4 \\end{pmatrix}$, then a mixing $T$ with matrix $\\begin{pmatrix} 1 & 1 \\\\ 0 & 1 \\end{pmatrix}$. Find the matrix of the combined process $T \\circ S$ and determine whether the combined process can be reversed (i.e., is invertible). If so, find its inverse.",
+      "answer_latex": "T \\circ S \\text{ has matrix } \\begin{pmatrix} 2 & 4 \\\\ 0 & 4 \\end{pmatrix};\\; \\det = 8 \\neq 0 \\text{, invertible; } (AB)^{-1} = \\begin{pmatrix} \\tfrac{1}{2} & -\\tfrac{1}{2} \\\\ 0 & \\tfrac{1}{4} \\end{pmatrix}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write the composition matrix as $BA$ instead of $AB$ when computing $T \\circ S$ \u2014 remember that the inner transformation $S$ (applied first) corresponds to the right matrix $B$, and the outer transformation $T$ (applied second) corresponds to the left matrix $A$, so the correct product is $AB$.",
+    "Students assume that if $T$ is invertible and $S$ is invertible, then $(T \\circ S)^{-1} = T^{-1} \\circ S^{-1}$ \u2014 but the correct formula reverses the order: $(T \\circ S)^{-1} = S^{-1} \\circ T^{-1}$, equivalently $(AB)^{-1} = B^{-1}A^{-1}$.",
+    "Students check invertibility only by looking at whether the transformation 'looks' like it should be reversible geometrically, instead of computing the determinant. Only a nonzero determinant guarantees an inverse exists; always compute $\\det(A)$ explicitly."
+  ],
+  "untested_variants": [
+    "Composing three or more linear transformations (e.g., $T \\circ S \\circ R$) and finding the matrix $ABC$ and its inverse using $(ABC)^{-1} = C^{-1}B^{-1}A^{-1}$.",
+    "Determining invertibility for transformations between spaces of different dimensions (non-square matrices), where the notion of a full inverse does not apply and students must instead discuss left- or right-inverses.",
+    "Using the property $\\det(AB) = \\det(A)\\det(B)$ to determine invertibility of a composition without explicitly computing the product matrix $AB$.",
+    "Finding the matrix of a composition when the transformations are defined by their geometric action (e.g., 'rotation by $90\u00b0$ followed by reflection across the $x$-axis') rather than by an explicit matrix."
+  ]
+}

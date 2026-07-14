@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_061",
+  "topic_name": "Conic Sections in Polar Form (H)",
+  "generated_at": "2026-05-12T23:59:21.291674+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to write equations for ellipses, parabolas, and hyperbolas in rectangular form \u2014 each with its own distinct equation and set of rules. But what if a single, unified formula could describe all three conic sections at once, and what if that formula worked beautifully in polar coordinates? The challenge is that the standard polar framework is centered at the origin, while conics are defined relative to a focus \u2014 so can we build a polar equation that puts a focus right at the pole? The question is: how do we write one master equation in polar form that captures every conic section, and how do we tell them apart just by looking at it?",
+  "concept": "A conic section in polar form is built by placing one focus at the pole (origin) and measuring distances from there. In polar coordinates, any conic can be written as $r = \\frac{ed}{1 \\pm e\\cos\\theta}$ or $r = \\frac{ed}{1 \\pm e\\sin\\theta}$, where $e$ is the eccentricity and $d$ is the distance from the focus to the directrix. The value of $e$ alone determines the shape: $e < 1$ gives an ellipse, $e = 1$ gives a parabola, and $e > 1$ gives a hyperbola.",
+  "anatomy": "The polar conic formula $r = \\frac{ed}{1 + e\\cos\\theta}$ has four key components working together. The eccentricity $e$ is a non-negative constant that classifies the conic type and controls how 'stretched' the curve is. The directrix distance $d > 0$ is the perpendicular distance from the focus (at the pole) to the corresponding directrix, and the product $ed$ in the numerator sets the overall scale of the conic. The denominator uses $\\cos\\theta$ when the directrix is vertical (left or right of the pole) and $\\sin\\theta$ when the directrix is horizontal (above or below the pole), while the $\\pm$ sign determines which side of the pole the directrix lies on \u2014 a plus sign places the directrix to the right (or above), and a minus sign places it to the left (or below).",
+  "worked_example": [
+    {
+      "expression_latex": "r = \\frac{3}{1 + 2\\cos\\theta}",
+      "description_latex": "We want to identify the conic type, eccentricity, and key features of this polar equation. The first step is to match it to the standard form $r = \\frac{ed}{1 + e\\cos\\theta}$, which tells us the conic has a vertical directrix to the right of the pole.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e = 2, \\quad ed = 3 \\implies d = \\frac{3}{2}",
+      "description_latex": "By comparing the numerator to $ed$ and the coefficient of $\\cos\\theta$ to $e$, we read off that $e = 2$ and $ed = 3$, so $d = \\frac{3}{2}$. Since $e = 2 > 1$, we immediately know this conic is a hyperbola \u2014 the eccentricity is the single deciding factor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r_{\\min} = \\frac{3}{1+2} = 1 \\quad (\\theta = 0), \\qquad r_{\\max} = \\frac{3}{1-2} = -3 \\quad (\\theta = \\pi)",
+      "description_latex": "To find the vertices of the hyperbola, we evaluate $r$ at $\\theta = 0$ and $\\theta = \\pi$ because these are where the conic intersects the polar axis. At $\\theta = 0$ we get $r = 1$, which is the vertex closer to the directrix; at $\\theta = \\pi$ we get $r = -3$, and a negative $r$ means the point is plotted in the opposite direction, at distance 3 on the positive $x$-axis side.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Vertices at polar coordinates } (1, 0) \\text{ and } (3, \\pi)",
+      "description_latex": "Reinterpreting $r = -3$ at $\\theta = \\pi$: the actual plotted point is $(3, 0)$ in polar terms (flip sign, flip angle by $\\pi$), so both vertices lie on the polar axis at distances 1 and 3 from the focus. The center of the hyperbola is the midpoint between the two vertices, sitting at distance 2 from the pole along the polar axis.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "r = \\frac{6}{3 - 3\\sin\\theta}",
+      "description_latex": "Before reading off $e$ and $d$, we must rewrite this equation so the constant term in the denominator is exactly 1. Divide both numerator and denominator by 3 to get the standard form $r = \\frac{ed}{1 - e\\sin\\theta}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = \\frac{2}{1 - \\sin\\theta}",
+      "description_latex": "After dividing, we have the standard form with a minus sign and $\\sin\\theta$, meaning the directrix is horizontal and below the pole. Now identify $e$ and $d$ by matching to $r = \\frac{ed}{1 - e\\sin\\theta}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Read the eccentricity $e$ from the coefficient of $\\sin\\theta$, then use the numerator $ed$ to solve for $d$. State what type of conic this is and describe the location of its directrix.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the conic: $r = \\frac{4}{1 + \\cos\\theta}$",
+      "answer_latex": "e = 1, \\text{ so it is a parabola; directrix is vertical, to the right of the pole, with } d = 4"
+    },
+    {
+      "prompt_latex": "Find $e$, $d$, and the conic type for $r = \\frac{10}{2 + 4\\sin\\theta}$. Rewrite in standard form first.",
+      "answer_latex": "r = \\frac{5}{1 + 2\\sin\\theta},\\; e = 2,\\; d = \\frac{5}{2},\\; \\text{hyperbola}"
+    },
+    {
+      "prompt_latex": "Write the polar equation of a conic with eccentricity $e = \\frac{1}{2}$ and directrix $x = -6$ (vertical directrix to the left of the pole, so use $1 - e\\cos\\theta$ form).",
+      "answer_latex": "r = \\frac{3}{1 - \\frac{1}{2}\\cos\\theta} = \\frac{6}{2 - \\cos\\theta}"
+    },
+    {
+      "prompt_latex": "Find the vertices and determine whether the conic $r = \\frac{12}{3 + 3\\cos\\theta}$ is an ellipse, parabola, or hyperbola. Then convert the vertex closer to the pole to rectangular coordinates.",
+      "answer_latex": "\\text{Standard form: } r = \\frac{4}{1+\\cos\\theta},\\; e=1 \\text{ (parabola); vertex at } (2, 0),\\; \\text{rectangular: } (2, 0)"
+    },
+    {
+      "prompt_latex": "A comet travels on an elliptical orbit with the Sun at one focus (the pole). Its polar equation is $r = \\frac{1.8}{1 - 0.6\\cos\\theta}$ (in AU). Find its closest approach distance (perihelion) and farthest distance (aphelion) from the Sun.",
+      "answer_latex": "\\text{Perihelion at }\\theta=\\pi: r = \\frac{1.8}{1-0.6(-1)} = \\frac{1.8}{1.6} = 1.125 \\text{ AU};\\quad \\text{Aphelion at }\\theta=0: r = \\frac{1.8}{1-0.6} = 4.5 \\text{ AU}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to divide the denominator to get a leading coefficient of 1 before reading off $e$, so they incorrectly set $e$ equal to the raw coefficient of $\\cos\\theta$ or $\\sin\\theta$ (e.g., reading $e = 4$ from $r = \\frac{10}{2+4\\cos\\theta}$ instead of first dividing to get $e = 2$). Always rewrite the equation in the form $r = \\frac{ed}{1 \\pm e\\cos\\theta}$ with a plain 1 in the denominator before identifying any parameter.",
+    "Students confuse which trigonometric function determines the orientation of the directrix: they use $\\sin\\theta$ but claim the directrix is vertical, or vice versa. Remember the rule \u2014 $\\cos\\theta$ in the denominator means the directrix is vertical (left or right), and $\\sin\\theta$ means the directrix is horizontal (above or below).",
+    "When $r$ comes out negative at a vertex angle, students either discard that vertex or use the negative value as a distance, missing that $r < 0$ means the point is plotted in the opposite direction. The correct fix is to negate both $r$ and add $\\pi$ to the angle, giving the true polar coordinates of that vertex."
+  ],
+  "untested_variants": [
+    "Rotating the conic by replacing $\\theta$ with $\\theta - \\alpha$ for some angle $\\alpha$, which shifts the axis of symmetry away from the polar axis \u2014 none of the practice problems involve a rotated conic.",
+    "Converting a full polar conic equation back to rectangular form by substituting $r^2 = x^2 + y^2$, $x = r\\cos\\theta$, and $y = r\\sin\\theta$ to recover the standard Cartesian equation of the ellipse, parabola, or hyperbola.",
+    "Given the Cartesian equation of a conic with a focus at the origin (e.g., a parabola with vertex not at the origin), converting it into polar form by identifying $e$ and $d$ algebraically.",
+    "Finding the length of the latus rectum (the chord through the focus perpendicular to the axis) directly from the polar form, which requires evaluating $r$ at $\\theta = \\pi/2$ or $\\theta = 3\\pi/2$."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_042",
+  "topic_name": "Solving Linear Systems (Review and Extension)",
+  "generated_at": "2026-05-12T23:52:30.253678+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to solve a system of two equations with two unknowns \u2014 maybe by substitution or elimination. But what happens when a client asks you to mix three different investment accounts totaling $50,000, with specific interest constraints across all three? Suddenly you have three equations and three unknowns, and the algebra gets messy fast. Can the same techniques you learned for 2\u00d72 systems scale up, and are there smarter methods that won't drown you in algebra?",
+  "concept": "A linear system is a collection of two or more linear equations sharing the same set of variables. We seek values for those variables that satisfy every equation simultaneously. Formally, an $n \\times n$ linear system has the form $a_{i1}x_1 + a_{i2}x_2 + \\cdots + a_{in}x_n = b_i$ for $i = 1, 2, \\ldots, n$, where the $a_{ij}$ are coefficients and the $b_i$ are constants. Solutions may be unique, infinitely many, or nonexistent.",
+  "anatomy": "Every linear system has four structural ingredients worth naming precisely. The coefficients $a_{ij}$ are the numbers multiplying each variable \u2014 they determine the geometry of the system. The variables $x_1, x_2, \\ldots, x_n$ (often written $x, y, z$ in three-variable problems) are the unknowns we solve for. The constants $b_i$ on the right-hand side form the output column. When we apply elimination, we produce pivot equations \u2014 equations that have been scaled so a chosen variable's coefficient is 1 \u2014 which are then used to eliminate that variable from all other equations. Recognizing these parts helps you track what you're doing at each step.",
+  "worked_example": [
+    {
+      "expression_latex": "\\begin{cases} x + y + z = 6 \\\\ 2x - y + z = 3 \\\\ x + 2y - z = 4 \\end{cases}",
+      "description_latex": "We begin by labeling the three equations (1), (2), and (3). Notice that Equation (1) already has a leading coefficient of 1 on $x$, which makes it a natural pivot equation \u2014 we'll use it to eliminate $x$ from the other two equations without introducing fractions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{(2)} - 2\\cdot\\text{(1)}: \\quad (2x - y + z) - 2(x + y + z) = 3 - 12 \\implies -3y - z = -9",
+      "description_latex": "We subtract twice Equation (1) from Equation (2) to eliminate $x$ from the second row. This gives us a new Equation (2'): $-3y - z = -9$, which only involves two unknowns \u2014 we're systematically reducing the problem size.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{(3)} - \\text{(1)}: \\quad (x + 2y - z) - (x + y + z) = 4 - 6 \\implies y - 2z = -2",
+      "description_latex": "Now we subtract Equation (1) from Equation (3) to eliminate $x$ from the third row as well. Our new Equation (3') is $y - 2z = -2$. We now have a clean 2\u00d72 sub-system in $y$ and $z$, which is much easier to handle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{From (2') and (3')}: \\quad -3y - z = -9, \\quad y - 2z = -2 \\implies y = 2,\\; z = 2",
+      "description_latex": "Using the 2\u00d72 sub-system, we solve for $y$ and $z$ by elimination again: multiply (3') by 3 and add to (2') to get $-7z = -15$\u2026 wait, let's redo carefully. From (3'): $y = 2z - 2$. Substitute into (2'): $-3(2z-2) - z = -9 \\Rightarrow -7z = -15$... Actually substituting correctly: $-6z + 6 - z = -9 \\Rightarrow -7z = -15 \\Rightarrow z = 2$ (checking: $-7(2)=-14\\neq-15$). Let us recheck: $-3(2z-2)-z=-9 \\Rightarrow -6z+6-z=-9 \\Rightarrow -7z=-15 \\Rightarrow z=\\tfrac{15}{7}$. Substituting back into (3'): $y = 2(\\tfrac{15}{7})-2 = \\tfrac{16}{7}$. Back-substitution into (1): $x = 6 - \\tfrac{16}{7} - \\tfrac{15}{7} = 6 - \\tfrac{31}{7} = \\tfrac{11}{7}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\tfrac{11}{7},\\quad y = \\tfrac{16}{7},\\quad z = \\tfrac{15}{7}",
+      "description_latex": "We verify by substituting back into all three original equations: for instance, Equation (1) gives $\\tfrac{11}{7}+\\tfrac{16}{7}+\\tfrac{15}{7} = \\tfrac{42}{7} = 6$ \u2713. Always check your solution in every original equation \u2014 not just the last one \u2014 because an error in early elimination steps could go undetected otherwise.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{cases} x - y + 2z = 5 \\\\ 2x + y - z = 1 \\\\ 3x - y + z = 8 \\end{cases}",
+      "description_latex": "We have a 3\u00d73 linear system. Equation (1) has a leading coefficient of 1 on $x$, so we'll use it as the pivot equation to eliminate $x$ from Equations (2) and (3).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{(2)} - 2\\cdot\\text{(1)} \\implies 3y - 5z = -9 \\qquad \\text{(3)} - 3\\cdot\\text{(1)} \\implies 2y - 5z = -7",
+      "description_latex": "After eliminating $x$, we have a 2\u00d72 sub-system. Now subtract the new Equation (3') from the new Equation (2') to eliminate one more variable and find $y$ and $z$. What do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y = -2,\\quad z = \\tfrac{3}{5}",
+      "description_latex": "Using those values, substitute back into Equation (1) to solve for $x$. Write out the full solution $(x, y, z)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve the system: $\\begin{cases} x + y = 7 \\\\ 2x - y = 2 \\end{cases}$",
+      "answer_latex": "x = 3,\\; y = 4"
+    },
+    {
+      "prompt_latex": "Solve by elimination: $\\begin{cases} x + y + z = 9 \\\\ 2x - y + z = 3 \\\\ x - y + 2z = 4 \\end{cases}$",
+      "answer_latex": "x = 2,\\; y = 5,\\; z = 2"
+    },
+    {
+      "prompt_latex": "Solve: $\\begin{cases} 3x - 2y + z = 7 \\\\ x + y - z = 2 \\\\ 2x + 3y - 2z = 5 \\end{cases}$",
+      "answer_latex": "x = 3,\\; y = 1,\\; z = 2"
+    },
+    {
+      "prompt_latex": "Determine whether the system is consistent or inconsistent: $\\begin{cases} x + y - z = 4 \\\\ 2x + 2y - 2z = 6 \\\\ 3x - y + z = 2 \\end{cases}$",
+      "answer_latex": "\\text{Inconsistent (no solution): Equations (1) and (2) are contradictory \u2014 multiplying (1) by 2 gives } 2x+2y-2z=8 \\neq 6"
+    },
+    {
+      "prompt_latex": "A store sells small, medium, and large candles for $\\$3$, $\\$5$, and $\\$8$ each. A customer buys 10 candles for $\\$62$ total, purchasing twice as many small as large. How many of each size did the customer buy?",
+      "answer_latex": "\\text{Small}: 4,\\; \\text{Medium}: 4,\\; \\text{Large}: 2"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to subtract the pivot equation from ALL remaining equations, eliminating $x$ from Equation (2) but leaving it in Equation (3). This means the 2\u00d72 sub-system still secretly contains $x$, making the back-substitution give wrong values \u2014 always check that every row below the pivot has a zero coefficient on the eliminated variable.",
+    "When scaling a pivot equation before subtracting, students apply the multiplication only to the left side and forget to multiply the right-hand side constant by the same factor. For example, eliminating $x$ from $2x + y = 5$ using the pivot $x - y = 1$ requires subtracting $2(x - y) = 2(1) = 2$, not $2(x - y) = 1$; always multiply the entire equation, including the constant.",
+    "Students stop after finding $y$ and $z$ and declare the system solved, forgetting to back-substitute into the original first equation to find $x$. The solution is only complete when values for all variables are found and verified in every original equation \u2014 partial answers are always wrong answers in a linear system."
+  ],
+  "untested_variants": [
+    "Systems with infinitely many solutions (dependent systems), where one equation is a linear combination of others, requiring parametric solution forms such as $z = t$, $y = f(t)$, $x = g(t)$.",
+    "4\u00d74 or larger linear systems, which require the same elimination technique but across more rows and are common in applied modeling problems on exams.",
+    "Systems where substitution (rather than elimination) is the most efficient strategy, such as when one equation is already solved for one variable in terms of another.",
+    "Homogeneous linear systems where all constants $b_i = 0$, and the question asks students to determine whether a nontrivial solution exists."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "la_024",
+  "topic_name": "The Four Fundamental Subspaces (H)",
+  "generated_at": "2026-05-13T20:07:16.271456+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to row-reduce a matrix and find its null space or column space in isolation. But every matrix $A$ actually has four fundamental subspaces attached to it simultaneously \u2014 two living in the domain and two in the codomain \u2014 and the way they interact tells you everything about when $Ax = b$ is solvable and what the solution set looks like. Have you ever wondered why some directions in the input space are completely 'invisible' to $A$, while others map onto the entire output?",
+  "concept": "Every $m \\times n$ matrix $A$ gives rise to four subspaces that together describe the full geometry of the linear map. The four fundamental subspaces are: the column space $C(A) \\subseteq \\mathbb{R}^m$, the null space $N(A) \\subseteq \\mathbb{R}^n$, the row space $C(A^T) \\subseteq \\mathbb{R}^n$, and the left null space $N(A^T) \\subseteq \\mathbb{R}^m$. Formally, if $A \\in \\mathbb{R}^{m \\times n}$ has rank $r$, then $\\dim C(A) = r$, $\\dim N(A) = n - r$, $\\dim C(A^T) = r$, and $\\dim N(A^T) = m - r$, and the pairs $\\{C(A^T), N(A)\\}$ and $\\{C(A), N(A^T)\\}$ are orthogonal complements in their respective spaces.",
+  "anatomy": "The four subspaces split into two pairs by ambient space. In $\\mathbb{R}^n$ (the domain) you have the row space $C(A^T)$, spanned by the rows of $A$, and the null space $N(A) = \\{x : Ax = 0\\}$; these two are orthogonal complements, so $C(A^T) \\perp N(A)$ and $\\dim C(A^T) + \\dim N(A) = n$. In $\\mathbb{R}^m$ (the codomain) you have the column space $C(A)$, spanned by the columns of $A$, and the left null space $N(A^T) = \\{y : A^T y = 0\\}$; these satisfy $C(A) \\perp N(A^T)$ and $\\dim C(A) + \\dim N(A^T) = m$. The shared number $r = \\text{rank}(A)$ is the pivot count from row reduction and governs all four dimensions simultaneously.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\end{pmatrix}",
+      "description_latex": "We start by writing down our $2 \\times 3$ matrix $A$. Before computing anything, notice that $m = 2$ and $n = 3$, so we expect subspaces living in $\\mathbb{R}^2$ and $\\mathbb{R}^3$ \u2014 keeping track of the ambient space for each subspace prevents the most common confusion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Row reduce: } \\begin{pmatrix} 1 & 2 & 3 \\\\ 2 & 4 & 6 \\end{pmatrix} \\xrightarrow{R_2 \\leftarrow R_2 - 2R_1} \\begin{pmatrix} 1 & 2 & 3 \\\\ 0 & 0 & 0 \\end{pmatrix}, \\quad r = 1",
+      "description_latex": "Row reducing reveals one pivot, so the rank is $r = 1$. This single number immediately tells us all four dimensions: $\\dim C(A) = 1$, $\\dim N(A) = 3 - 1 = 2$, $\\dim C(A^T) = 1$, and $\\dim N(A^T) = 2 - 1 = 1$, so we know what size to expect for each subspace before we even find bases.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C(A^T) = \\text{span}\\left\\{\\begin{pmatrix}1\\\\2\\\\3\\end{pmatrix}\\right\\}, \\quad N(A) = \\text{span}\\left\\{\\begin{pmatrix}-2\\\\1\\\\0\\end{pmatrix}, \\begin{pmatrix}-3\\\\0\\\\1\\end{pmatrix}\\right\\}",
+      "description_latex": "The row space $C(A^T)$ is spanned by the nonzero rows of the row-echelon form, giving us one vector in $\\mathbb{R}^3$. For the null space, we solve $Ax = 0$ by expressing the free variables $x_2$ and $x_3$ freely: setting $(x_2, x_3) = (1,0)$ gives $(-2,1,0)^T$ and $(x_2,x_3)=(0,1)$ gives $(-3,0,1)^T$. Notice that both null space vectors are indeed orthogonal to $(1,2,3)^T$, confirming $C(A^T) \\perp N(A)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C(A) = \\text{span}\\left\\{\\begin{pmatrix}1\\\\2\\end{pmatrix}\\right\\}, \\quad N(A^T) = \\text{span}\\left\\{\\begin{pmatrix}-2\\\\1\\end{pmatrix}\\right\\}",
+      "description_latex": "The column space is spanned by the pivot columns of the original $A$ (column 1 here), giving a line in $\\mathbb{R}^2$. For the left null space we solve $A^T y = 0$, i.e., row-reduce $A^T$; the solution is $y = t(-2, 1)^T$. You can verify orthogonality directly: $(1)(\u22122) + (2)(1) = 0$, so $C(A) \\perp N(A^T)$ as required.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 1 & 0 & -1 \\\\ 0 & 1 & 2 \\\\ 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "This $3 \\times 3$ matrix is already in row-echelon form. First, identify the rank $r$ by counting pivots, then immediately write down all four dimensions using $\\dim C(B) = r$, $\\dim N(B) = 3 - r$, $\\dim C(B^T) = r$, and $\\dim N(B^T) = 3 - r$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C(B^T) = \\text{span}\\{\\ldots\\}, \\quad N(B) = \\text{span}\\{\\ldots\\}",
+      "description_latex": "Now find explicit bases for the row space and the null space in $\\mathbb{R}^3$. For $C(B^T)$, take the nonzero rows of the echelon form. For $N(B)$, set the free variable $x_3 = 1$ and back-substitute to find the null vector. Can you write down both bases and then verify that your null vector is orthogonal to every row-space basis vector?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "C(B) = \\text{span}\\left\\{\\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix}, \\begin{pmatrix}0\\\\1\\\\0\\end{pmatrix}\\right\\}, \\quad N(B^T) = \\text{span}\\left\\{\\begin{pmatrix}0\\\\0\\\\1\\end{pmatrix}\\right\\}",
+      "description_latex": "We take pivot columns 1 and 2 of the original $B$ for $C(B)$, and solve $B^T y = 0$ for $N(B^T)$. Since $B$ is already in echelon form, the left null space vector is just $e_3 = (0,0,1)^T$. Notice that $(0,0,1)^T$ is orthogonal to every column in $C(B)$, which confirms the orthogonal complement relationship $C(B) \\perp N(B^T)$ in $\\mathbb{R}^3$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For A = \\begin{pmatrix} 1 & 2 \\\\ 3 & 6 \\end{pmatrix}, state the dimensions of all four fundamental subspaces without finding bases.",
+      "answer_latex": "\\text{rank } r=1; \\; \\dim C(A)=1, \\; \\dim N(A)=1, \\; \\dim C(A^T)=1, \\; \\dim N(A^T)=1"
+    },
+    {
+      "prompt_latex": "Find a basis for each of the four fundamental subspaces of A = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\\\ 0 & 0 \\end{pmatrix}.",
+      "answer_latex": "C(A) = \\text{span}\\{e_1, e_2\\} \\subset \\mathbb{R}^3, \\; N(A) = \\{0\\} \\subset \\mathbb{R}^2, \\; C(A^T) = \\text{span}\\{e_1,e_2\\} \\subset \\mathbb{R}^2, \\; N(A^T) = \\text{span}\\{(0,0,1)^T\\} \\subset \\mathbb{R}^3"
+    },
+    {
+      "prompt_latex": "For A = \\begin{pmatrix} 1 & 2 & 0 \\\\ 0 & 0 & 1 \\\\ 1 & 2 & 1 \\end{pmatrix}, find the rank and a basis for N(A).",
+      "answer_latex": "r = 2; \\; N(A) = \\text{span}\\left\\{(-2, 1, 0)^T\\right\\}"
+    },
+    {
+      "prompt_latex": "Let A be a $5 \\times 7$ matrix of rank 3. A vector $b \\in \\mathbb{R}^5$ satisfies $Ax = b$ for some $x$. Using the four subspace dimensions, determine: (i) how many free variables exist in the solution, and (ii) what condition on $b$ guarantees solvability?",
+      "answer_latex": "(i)\\; 7 - 3 = 4 \\text{ free variables}; \\quad (ii)\\; b \\in C(A), \\text{ equivalently } b \\perp N(A^T) \\text{ (a 2-dimensional subspace of } \\mathbb{R}^5)"
+    },
+    {
+      "prompt_latex": "A scientist models a system by a $4 \\times 4$ matrix $A$ and finds that $Ax = 0$ has only the trivial solution. Without computing anything further, what can she conclude about the four fundamental subspaces?",
+      "answer_latex": "N(A) = \\{0\\} \\Rightarrow r = 4; \\; C(A) = \\mathbb{R}^4, \\; C(A^T) = \\mathbb{R}^4, \\; N(A^T) = \\{0\\}; \\text{ A is invertible and } Ax=b \\text{ has a unique solution for every } b."
+    }
+  ],
+  "common_mistakes": [
+    "Students often look for the null space basis in $\\mathbb{R}^m$ instead of $\\mathbb{R}^n$: remember that $N(A) = \\{x \\in \\mathbb{R}^n : Ax = 0\\}$ lives in the domain, not the codomain \u2014 always check which space a subspace belongs to before writing a basis.",
+    "A frequent error is taking the pivot columns of the row-echelon form as the basis for $C(A)$ rather than the corresponding columns of the original matrix $A$: row operations preserve the column space's dimension and dependence relations but change the actual column vectors, so you must always return to $A$ for column space bases.",
+    "Students often confuse the left null space with the null space, computing $Ax = 0$ twice instead of also solving $A^T y = 0$: the left null space is the set of vectors $y$ such that $y^T A = 0$, which requires transposing the matrix first before row reducing."
+  ],
+  "untested_variants": [
+    "Computing all four fundamental subspaces for a complex-valued matrix $A \\in \\mathbb{C}^{m \\times n}$, where orthogonality uses the conjugate transpose $A^*$ instead of $A^T$.",
+    "Using the four subspaces to analyze the least-squares problem $\\min_x \\|Ax - b\\|$ and expressing the least-squares solution in terms of the row space and null space decomposition.",
+    "Determining the four fundamental subspaces for a matrix given in factored form $A = LU$ or $A = QR$ without explicitly forming $A$.",
+    "Applying the rank-nullity theorem to a linear map between abstract vector spaces (e.g., polynomial spaces) rather than to a concrete matrix in $\\mathbb{R}^{m \\times n}$."
+  ]
+}

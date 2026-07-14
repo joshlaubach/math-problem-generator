@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_040",
+  "topic_name": "Introduction to Risk and Insurance Models (H)",
+  "generated_at": "2026-05-13T20:28:58.970944+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to compute expected values and use the Central Limit Theorem to approximate probabilities for sums of random variables. Now imagine you run an insurance company: you collect premiums from thousands of policyholders, and occasionally pay out claims. You know the distribution of individual claims, but how do you set premiums so you don't go bankrupt? And how confident can you be that your total payout won't exceed your reserves? These are not abstract questions \u2014 they are the core of actuarial science, and answering them requires combining everything you know about expectation, variance, and limit theorems in a new way.",
+  "concept": "An insurance model treats the total claim $S = X_1 + X_2 + \\cdots + X_n$ as a random variable, where each $X_i$ is the claim from policyholder $i$. The insurer charges each policyholder a premium $\\pi$ and must ensure that total income $n\\pi$ covers $S$ with high probability. Formally, if $X_i$ are i.i.d. with mean $\\mu$ and variance $\\sigma^2$, the net profit is $P = n\\pi - S$, and the insurer's goal is to choose $\\pi$ so that $\\Pr(P < 0)$ stays acceptably small.",
+  "anatomy": "The model has several distinct components worth naming carefully. The individual claim $X_i$ is a non-negative random variable with mean $\\mu = E[X_i]$ and variance $\\sigma^2 = \\text{Var}(X_i)$. The aggregate claim $S = \\sum_{i=1}^n X_i$ is the total payout; by i.i.d. assumptions, $E[S] = n\\mu$ and $\\text{Var}(S) = n\\sigma^2$. The premium $\\pi$ is the amount charged per policyholder, so the premium loading \u2014 the excess of $\\pi$ above the fair premium $\\mu$ \u2014 is $\\theta = \\pi - \\mu \\geq 0$. The safety loading factor $\\theta$ is the insurer's buffer against adverse randomness. The ruin probability $\\Pr(S > n\\pi)$ quantifies the chance of insolvency, and the CLT approximation converts this into a standard normal probability via the standardised aggregate $Z = (S - n\\mu)/(\\sigma\\sqrt{n})$.",
+  "worked_example": [
+    {
+      "expression_latex": "X_i \\sim \\text{i.i.d.}, \\quad \\mu = E[X_i] = 500, \\quad \\sigma^2 = \\text{Var}(X_i) = 40000, \\quad n = 400",
+      "description_latex": "We start by recording the given parameters for the individual claim distribution. We have 400 policyholders, each with expected claim $\\mu = 500$ and standard deviation $\\sigma = \\sqrt{40000} = 200$. Identifying these quantities first is essential because everything else \u2014 the distribution of the aggregate claim \u2014 flows from them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[S] = n\\mu = 400 \\times 500 = 200{,}000, \\qquad \\text{Var}(S) = n\\sigma^2 = 400 \\times 40000 = 16{,}000{,}000",
+      "description_latex": "Because the $X_i$ are independent and identically distributed, the mean and variance of the aggregate claim $S$ scale linearly with $n$. This step gives us the two parameters we need to apply the Central Limit Theorem: the aggregate mean and variance tell us where the distribution of $S$ is centred and how spread out it is.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi = \\mu + \\theta = 500 + 50 = 550, \\qquad \\text{Total premium income} = n\\pi = 400 \\times 550 = 220{,}000",
+      "description_latex": "Suppose the insurer sets a safety loading of $\\theta = 50$ per policy, so the premium is $\\pi = 550$. The total income is $n\\pi = 220{,}000$, which is $20{,}000$ above the expected total claim \u2014 this buffer is the insurer's first line of defence against randomness.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Pr(S > 220{,}000) = \\Pr\\!\\left(Z > \\frac{220{,}000 - 200{,}000}{\\sqrt{16{,}000{,}000}}\\right) = \\Pr\\!\\left(Z > \\frac{20{,}000}{4{,}000}\\right) = \\Pr(Z > 5)",
+      "description_latex": "We standardise the ruin event using the CLT approximation: subtract the mean of $S$ and divide by the standard deviation $\\sqrt{\\text{Var}(S)} = 4{,}000$. The question 'does total payout exceed total income?' becomes 'does the standardised aggregate exceed 5?' \u2014 and we can now look this up in standard normal tables.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Pr(Z > 5) \\approx 2.87 \\times 10^{-7} \\approx 0.000\\,03\\%",
+      "description_latex": "The ruin probability is vanishingly small \u2014 about 1 in 3.5 million \u2014 because the loading of 5 standard deviations above the mean is enormous. In practice, insurers target ruin probabilities around $0.1\\%$ to $1\\%$, corresponding to roughly $z = 2.33$ to $3.09$, and this final calculation shows how to read off the actual risk level once the premium is set.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_i \\sim \\text{i.i.d.}, \\quad \\mu = 1{,}000, \\quad \\sigma = 300, \\quad n = 900",
+      "description_latex": "An insurer covers 900 policyholders. Individual claims have mean $\\mu = 1{,}000$ and standard deviation $\\sigma = 300$. We want to find the premium $\\pi$ such that the ruin probability $\\Pr(S > n\\pi)$ equals $1\\%$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[S] = 900{,}000, \\qquad \\text{SD}(S) = \\sigma\\sqrt{n} = 300\\sqrt{900} = 9{,}000",
+      "description_latex": "We compute the mean and standard deviation of the aggregate claim $S$. Recall that $\\text{SD}(S) = \\sigma\\sqrt{n}$ for i.i.d. claims \u2014 this is the key scaling result from the CLT setup.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "We need $\\Pr(S > n\\pi) = 0.01$. Using the CLT, set up the standardised inequality $\\Pr(Z > z_0) = 0.01$, identify the critical value $z_0$ from standard normal tables, and then solve for $n\\pi$ (and hence $\\pi$). What is the required premium per policyholder?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\pi = \\frac{n\\mu + z_{0.01} \\cdot \\sigma\\sqrt{n}}{n} = \\mu + z_{0.01}\\cdot\\frac{\\sigma}{\\sqrt{n}} = 1{,}000 + 2.326 \\times \\frac{300}{30} \\approx 1{,}023.26",
+      "description_latex": "The premium formula shows that the loading per policyholder decreases like $1/\\sqrt{n}$ \u2014 a beautiful consequence of the CLT that explains why larger insurance pools allow lower premiums while maintaining the same safety level.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "An insurer has $n = 100$ policyholders with i.i.d. claims, each with mean $\\mu = 200$ and standard deviation $\\sigma = 50$. Find $E[S]$ and $\\text{SD}(S)$.",
+      "answer_latex": "E[S] = 20{,}000, \\quad \\text{SD}(S) = 500"
+    },
+    {
+      "prompt_latex": "Using the setup from Problem 1 ($n=100$, $\\mu=200$, $\\sigma=50$), the insurer charges a premium of $\\pi = 210$ per policyholder. Use the CLT to approximate the ruin probability $\\Pr(S > n\\pi)$.",
+      "answer_latex": "\\Pr\\!\\left(Z > \\frac{21{,}000 - 20{,}000}{500}\\right) = \\Pr(Z > 2) \\approx 0.0228"
+    },
+    {
+      "prompt_latex": "An insurer wishes to set the premium $\\pi$ for $n = 625$ i.i.d. policyholders (each claim has $\\mu = 400$, $\\sigma = 100$) so that the ruin probability is at most $5\\%$. Using the CLT and $z_{0.05} = 1.645$, find the minimum premium $\\pi$.",
+      "answer_latex": "\\pi = 400 + 1.645 \\times \\frac{100}{25} = 400 + 6.58 = 406.58"
+    },
+    {
+      "prompt_latex": "Suppose individual claims $X_i$ are exponentially distributed with mean $\\mu = 1/\\lambda = 500$ (so $\\sigma^2 = 1/\\lambda^2 = 250{,}000$) and there are $n = 100$ policyholders. The insurer sets a total reserve of $R = 55{,}000$. Use the CLT to find the approximate probability that total claims exceed the reserve, and state whether a reserve loading of $10\\%$ above the mean is sufficient to keep ruin probability below $1\\%$.",
+      "answer_latex": "\\Pr\\!\\left(Z > \\frac{55{,}000 - 50{,}000}{5{,}000}\\right) = \\Pr(Z>1) \\approx 0.1587; \\text{ since } 0.1587 > 0.01, \\text{ a 10\\% loading is NOT sufficient.}"
+    },
+    {
+      "prompt_latex": "A small mutual insurance scheme has $n$ members. Each member's annual claim is i.i.d. with mean $\\$300$ and standard deviation $\\$120$. The scheme wants to set the annual contribution (premium) at $\\$320$ per member and achieve a ruin probability of at most $0.5\\%$ ($z_{0.005} = 2.576$). Find the minimum number of members $n$ required.",
+      "answer_latex": "\\text{Require } \\frac{20\\sqrt{n}}{120} \\geq 2.576, \\text{ so } \\sqrt{n} \\geq 15.456, \\text{ giving } n \\geq 239."
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $\\text{SD}(S) = n\\sigma$ instead of the correct $\\text{SD}(S) = \\sigma\\sqrt{n}$. Remember that variance adds for independent variables, so $\\text{Var}(S) = n\\sigma^2$ and you must take a square root to get the standard deviation, giving the $\\sqrt{n}$ factor \u2014 not $n$.",
+    "When setting up the ruin probability, students sometimes standardise as $(n\\pi - S)/\\text{SD}(S)$ and forget to flip the inequality direction, writing $\\Pr(Z > z_0)$ when they should write $\\Pr(Z < -z_0)$ or vice versa. Always write out the event $\\{S > n\\pi\\}$ explicitly before standardising so the direction of the inequality is clear.",
+    "Students solving for the premium sometimes stop at finding the critical total reserve $n\\pi$ and forget to divide by $n$ to get the per-policyholder premium $\\pi$. The loading per member is $\\theta = z_\\alpha \\cdot \\sigma/\\sqrt{n}$, not $z_\\alpha \\cdot \\sigma\\sqrt{n}$ \u2014 failing to divide by $n$ gives a wildly inflated answer."
+  ],
+  "untested_variants": [
+    "The collective risk model where the number of claims $N$ is itself random (e.g. Poisson-distributed), requiring the law of total variance $\\text{Var}(S) = E[N]\\sigma^2 + \\mu^2\\text{Var}(N)$ instead of the simple $n\\sigma^2$ formula.",
+    "Reinsurance arrangements where the insurer retains only part of each claim (proportional or excess-of-loss reinsurance), which changes the effective distribution of $X_i$ seen by the primary insurer.",
+    "Using the exact moment generating function or Chernoff-type bounds to obtain ruin probability estimates rather than the CLT normal approximation, relevant when $n$ is small or claim distributions are very heavy-tailed.",
+    "Multi-period or ruin-in-finite-time problems where the insurer's surplus process $U_t = u + t\\theta - S_t$ is tracked over time and the probability that it ever becomes negative must be computed."
+  ]
+}

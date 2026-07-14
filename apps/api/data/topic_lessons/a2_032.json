@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_032",
+  "topic_name": "Inverse Functions",
+  "generated_at": "2026-05-12T23:25:49.592856+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to evaluate a function like $f(x) = 2x + 3$ \u2014 plug in a number, get a result. But what if someone gives you the *output* and asks you to find the *input*? For example, if $f(x) = 7$, what was $x$? You could solve that one equation by hand, but what if you needed a whole new function that *automatically* undoes $f$ for any input? That's the idea behind an inverse function \u2014 and finding one requires a method you haven't seen yet.",
+  "concept": "An inverse function reverses the input-output relationship of the original function. Informally, if $f$ takes $x$ to $y$, then the inverse takes $y$ back to $x$. Formally, the inverse of $f$ is written $f^{-1}$ and satisfies $f^{-1}(f(x)) = x$ and $f(f^{-1}(x)) = x$ for all $x$ in the appropriate domains. A function has an inverse only when it is one-to-one (passes the horizontal line test).",
+  "anatomy": "Every inverse-function problem has three structural parts worth naming. First, the original function $f(x)$, which defines the rule you want to reverse. Second, the swapping step, where you exchange the roles of $x$ and $y$ (writing $x$ in place of $y$ and $y$ in place of $x$), which is the core move that reverses the relationship. Third, the solving step, where you isolate the new $y$ \u2014 this is now $f^{-1}(x)$, your inverse function. The domain and range also swap: whatever restricted domain $f$ had becomes the range of $f^{-1}$, and vice versa.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 3x - 5",
+      "description_latex": "We start with the original function $f(x) = 3x - 5$. Our goal is to find a rule that undoes this function \u2014 something that takes any output of $f$ and returns the original input.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = 3x - 5",
+      "description_latex": "We rewrite $f(x)$ as $y$ to make the algebra easier to work with. This step is just notation \u2014 $y$ and $f(x)$ mean the same thing here, but having $y$ written out prepares us for the swap.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 3y - 5",
+      "description_latex": "Now we perform the key move: swap every $x$ and every $y$ in the equation. This reversal is the heart of finding an inverse, because it literally switches what is the input and what is the output.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x + 5 = 3y \\quad \\Rightarrow \\quad y = \\dfrac{x+5}{3}",
+      "description_latex": "We solve for $y$ by adding 5 to both sides and then dividing by 3. Isolating $y$ gives us the rule of the inverse function, expressed in terms of $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f^{-1}(x) = \\dfrac{x+5}{3}",
+      "description_latex": "We rename $y$ as $f^{-1}(x)$ to show this is the inverse of $f$. You can verify correctness by checking that $f(f^{-1}(x)) = 3\\left(\\frac{x+5}{3}\\right) - 5 = x$, which confirms the inverse undoes the original function perfectly.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = \\dfrac{x}{2} + 4",
+      "description_latex": "We want to find the inverse of $f(x) = \\frac{x}{2} + 4$. Begin by replacing $f(x)$ with $y$, giving you $y = \\frac{x}{2} + 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\dfrac{y}{2} + 4",
+      "description_latex": "We swap $x$ and $y$ to reverse the relationship \u2014 this step is already done for you. Now you need to solve this equation for $y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Solve $x = \\frac{y}{2} + 4$ for $y$ by first subtracting 4 from both sides and then multiplying by 2. Write your answer in the form $f^{-1}(x) = \\ldots$",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the inverse of $f(x) = x + 7$.",
+      "answer_latex": "f^{-1}(x) = x - 7"
+    },
+    {
+      "prompt_latex": "Find the inverse of $f(x) = 4x - 1$.",
+      "answer_latex": "f^{-1}(x) = \\dfrac{x+1}{4}"
+    },
+    {
+      "prompt_latex": "Find the inverse of $f(x) = \\dfrac{x-3}{5}$.",
+      "answer_latex": "f^{-1}(x) = 5x + 3"
+    },
+    {
+      "prompt_latex": "Find the inverse of $f(x) = x^2 + 2$ where $x \\geq 0$, and state the domain of $f^{-1}$.",
+      "answer_latex": "f^{-1}(x) = \\sqrt{x-2}, \\text{ domain: } x \\geq 2"
+    },
+    {
+      "prompt_latex": "A temperature conversion formula is $C(x) = \\dfrac{5}{9}(x - 32)$, where $x$ is a temperature in Fahrenheit and $C$ gives Celsius. Find $C^{-1}(x)$ and interpret what it does.",
+      "answer_latex": "C^{-1}(x) = \\dfrac{9}{5}x + 32 \\text{ (converts Celsius to Fahrenheit)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $f^{-1}(x) = \\frac{1}{f(x)}$ because the $-1$ notation looks like a negative exponent. The notation $f^{-1}$ means the inverse *function*, not the reciprocal; remember that $\\frac{1}{f(x)}$ is written explicitly if a reciprocal is intended.",
+    "Students forget to swap $x$ and $y$ and instead just solve the original equation for $x$ in terms of $y$, then relabel \u2014 this produces an expression in $y$, not a function of $x$. Always swap first so that your final answer is a rule where $x$ is the input.",
+    "When the original function has a restricted domain (like $f(x) = x^2$ with $x \\geq 0$), students find the inverse formula correctly but forget that the domain and range swap, so they omit the domain restriction on $f^{-1}$. The range of $f$ becomes the domain of $f^{-1}$, and neglecting this leads to incorrect answers on domain questions."
+  ],
+  "untested_variants": [
+    "Finding the inverse of a rational function such as $f(x) = \\dfrac{2x+1}{x-3}$, which requires solving a linear equation containing $y$ on both sides after swapping.",
+    "Verifying that two given functions are inverses of each other by computing both compositions $f(g(x))$ and $g(f(x))$ and confirming each equals $x$.",
+    "Graphing $f^{-1}$ as a reflection of $f$ across the line $y = x$, and identifying whether a graph represents a one-to-one function using the horizontal line test.",
+    "Finding the inverse of a cube-root or radical function such as $f(x) = \\sqrt[3]{x+2} - 1$, which involves cubing both sides during the solving step."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_035",
+  "topic_name": "The Chinese Remainder Theorem (H)",
+  "generated_at": "2026-05-13T20:15:00.738345+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to solve a single linear congruence like $x \\equiv 3 \\pmod{7}$, finding all integers that leave remainder 3 when divided by 7. But what if you need a number that simultaneously satisfies several congruences \u2014 say, $x \\equiv 2 \\pmod{3}$, $x \\equiv 3 \\pmod{5}$, and $x \\equiv 2 \\pmod{7}$? Trying every integer one by one would take forever. Is there a systematic method that guarantees a solution \u2014 and tells you exactly how unique it is?",
+  "concept": "The Chinese Remainder Theorem (CRT) guarantees that a system of simultaneous congruences has a unique solution modulo the product of the moduli, provided those moduli are pairwise coprime. Formally: if $m_1, m_2, \\ldots, m_k$ are pairwise coprime positive integers and $a_1, a_2, \\ldots, a_k$ are any integers, then the system $x \\equiv a_i \\pmod{m_i}$ for $i = 1, \\ldots, k$ has a unique solution modulo $M = m_1 m_2 \\cdots m_k$.",
+  "anatomy": "The key components of a CRT system are: the moduli $m_1, m_2, \\ldots, m_k$ (which must be pairwise coprime, meaning $\\gcd(m_i, m_j) = 1$ for $i \\neq j$); the residues $a_1, a_2, \\ldots, a_k$ (the target remainders for each congruence); the global modulus $M = m_1 m_2 \\cdots m_k$ (the product of all moduli, which bounds the unique solution); the partial moduli $M_i = M / m_i$ (what you get by removing the $i$-th factor from $M$); and the modular inverses $y_i$ satisfying $M_i y_i \\equiv 1 \\pmod{m_i}$, which are the linchpin that lets you stitch independent solutions together.",
+  "worked_example": [
+    {
+      "expression_latex": "x \\equiv 2 \\pmod{3}, \\quad x \\equiv 3 \\pmod{5}, \\quad x \\equiv 2 \\pmod{7}",
+      "description_latex": "We begin by writing out the system clearly. Our moduli are $m_1 = 3$, $m_2 = 5$, $m_3 = 7$, and since every pair of these shares no common factor greater than 1, they are pairwise coprime \u2014 so the CRT applies and a unique solution modulo $M$ exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M = 3 \\cdot 5 \\cdot 7 = 105, \\quad M_1 = \\frac{105}{3} = 35, \\quad M_2 = \\frac{105}{5} = 21, \\quad M_3 = \\frac{105}{7} = 15",
+      "description_latex": "We compute the global modulus $M$ and each partial modulus $M_i = M/m_i$. The partial modulus $M_i$ is divisible by every $m_j$ except $m_i$ itself, which is exactly the property we will exploit in the next step to isolate each congruence condition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "35 y_1 \\equiv 1 \\pmod{3} \\Rightarrow 2y_1 \\equiv 1 \\pmod{3} \\Rightarrow y_1 = 2; \\quad 21 y_2 \\equiv 1 \\pmod{5} \\Rightarrow y_2 = 1; \\quad 15 y_3 \\equiv 1 \\pmod{7} \\Rightarrow y_3 = 1",
+      "description_latex": "For each $i$ we need the modular inverse $y_i$ of $M_i$ modulo $m_i$, satisfying $M_i y_i \\equiv 1 \\pmod{m_i}$. For $y_1$: since $35 \\equiv 2 \\pmod{3}$, we need $2y_1 \\equiv 1 \\pmod{3}$, giving $y_1 = 2$. For $y_2$: $21 \\equiv 1 \\pmod 5$ directly, so $y_2 = 1$. For $y_3$: $15 \\equiv 1 \\pmod 7$, so $y_3 = 1$. These inverses exist because $\\gcd(M_i, m_i) = 1$ is guaranteed by pairwise coprimality.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = a_1 M_1 y_1 + a_2 M_2 y_2 + a_3 M_3 y_3 = 2 \\cdot 35 \\cdot 2 + 3 \\cdot 21 \\cdot 1 + 2 \\cdot 15 \\cdot 1 = 140 + 63 + 30 = 233",
+      "description_latex": "The CRT formula combines all three pieces: $x = \\sum_{i} a_i M_i y_i$. Each term $a_i M_i y_i$ is constructed so that it contributes exactly $a_i$ modulo $m_i$ and contributes $0$ modulo every other $m_j$, because $M_i$ is a multiple of all $m_j$ with $j \\neq i$. Adding them gives a single integer that satisfies all three congruences simultaneously.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x \\equiv 233 \\pmod{105} \\implies x \\equiv 23 \\pmod{105}",
+      "description_latex": "Finally, we reduce modulo $M = 105$ to find the unique solution in the range $[0, M)$. Since $233 = 2 \\cdot 105 + 23$, we get $x \\equiv 23 \\pmod{105}$. You can verify: $23 = 7 \\cdot 3 + 2$ \u2713, $23 = 4 \\cdot 5 + 3$ \u2713, $23 = 3 \\cdot 7 + 2$ \u2713.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x \\equiv 1 \\pmod{4}, \\quad x \\equiv 2 \\pmod{5}, \\quad x \\equiv 3 \\pmod{7}",
+      "description_latex": "We have moduli $m_1 = 4$, $m_2 = 5$, $m_3 = 7$, which are pairwise coprime (check: $\\gcd(4,5)=1$, $\\gcd(4,7)=1$, $\\gcd(5,7)=1$), so CRT applies. We compute $M = 4 \\cdot 5 \\cdot 7 = 140$, and the partial moduli $M_1 = 35$, $M_2 = 28$, $M_3 = 20$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "35 y_1 \\equiv 1 \\pmod{4}, \\quad 28 y_2 \\equiv 1 \\pmod{5}, \\quad 20 y_3 \\equiv 1 \\pmod{7}",
+      "description_latex": "Now you need to find the modular inverse $y_i$ of each $M_i$ modulo $m_i$. Reduce each $M_i$ modulo its corresponding $m_i$ first to make the arithmetic easier, then solve each congruence. What are $y_1$, $y_2$, and $y_3$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = 1 \\cdot 35 \\cdot y_1 + 2 \\cdot 28 \\cdot y_2 + 3 \\cdot 20 \\cdot y_3 \\pmod{140}",
+      "description_latex": "Using the inverses you found, substitute into the CRT formula $x = \\sum a_i M_i y_i$ and reduce the result modulo 140 to obtain the unique solution in $[0, 140)$. Compute the final answer.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x \\equiv 17 \\pmod{140}",
+      "description_latex": "The unique solution is $x \\equiv 17 \\pmod{140}$. You can verify this satisfies all three original congruences: $17 = 4 \\cdot 4 + 1$ \u2713, $17 = 3 \\cdot 5 + 2$ \u2713, $17 = 2 \\cdot 7 + 3$ \u2713.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve the system: $x \\equiv 1 \\pmod{2}$, $x \\equiv 2 \\pmod{3}$.",
+      "answer_latex": "x \\equiv 5 \\pmod{6}"
+    },
+    {
+      "prompt_latex": "Solve the system: $x \\equiv 3 \\pmod{4}$, $x \\equiv 1 \\pmod{3}$, $x \\equiv 6 \\pmod{7}$.",
+      "answer_latex": "x \\equiv 55 \\pmod{84}"
+    },
+    {
+      "prompt_latex": "Find the smallest positive integer $x$ satisfying $x \\equiv 2 \\pmod{5}$, $x \\equiv 3 \\pmod{7}$, $x \\equiv 1 \\pmod{11}$.",
+      "answer_latex": "x \\equiv 12 \\pmod{385}, \\text{ so the smallest positive solution is } x = 12"
+    },
+    {
+      "prompt_latex": "Use the CRT to find all integers $x$ with $0 \\le x < 60$ that satisfy $x \\equiv 2 \\pmod{4}$ and $x \\equiv 1 \\pmod{15}$. (Note: first check whether CRT applies directly, and if not, explain how to proceed.)",
+      "answer_latex": "\\gcd(4,15)=1 \\text{ so CRT applies; } x \\equiv 46 \\pmod{60}, \\text{ giving } x = 46"
+    },
+    {
+      "prompt_latex": "A group of soldiers can be arranged in rows of 3 with 2 left over, rows of 5 with 4 left over, and rows of 7 with 6 left over. What is the smallest number of soldiers in the group?",
+      "answer_latex": "x \\equiv 2 \\pmod{3},\\ x \\equiv 4 \\pmod{5},\\ x \\equiv 6 \\pmod{7} \\implies x \\equiv 104 \\pmod{105}, \\text{ smallest positive is } x = 104"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to verify that the moduli are pairwise coprime before applying the CRT formula. If even one pair shares a common factor greater than 1, the theorem does not guarantee existence or uniqueness, and the formula gives a wrong answer \u2014 always check $\\gcd(m_i, m_j) = 1$ for all $i \\neq j$ before proceeding.",
+    "When computing the modular inverse $y_i$, students solve $M_i y_i \\equiv 1 \\pmod{M}$ (using the big modulus $M$) instead of $M_i y_i \\equiv 1 \\pmod{m_i}$ (using the small individual modulus). Remember that $y_i$ must invert $M_i$ only modulo $m_i$, not modulo the entire product.",
+    "Students compute the sum $x = \\sum a_i M_i y_i$ correctly but then forget to reduce modulo $M$ at the end, reporting a large number like 233 rather than the canonical representative 23. The CRT solution is only unique as a residue class modulo $M$, so always reduce the final sum modulo $M$ to give the answer in $[0, M)$."
+  ],
+  "untested_variants": [
+    "Systems where the moduli are NOT pairwise coprime and the student must first determine whether a solution exists using the condition $\\gcd(m_i, m_j) \\mid (a_i - a_j)$, then reduce to a compatible system.",
+    "Using CRT in reverse: given a large modulus $M$ with known factorisation, decompose a single congruence modulo $M$ into a system of congruences modulo the prime-power factors, compute in each factor, and reassemble.",
+    "Applying CRT to prove results in number theory, for example constructing an integer with prescribed prime-factor residues to demonstrate the structure of $\\mathbb{Z}/M\\mathbb{Z} \\cong \\mathbb{Z}/m_1\\mathbb{Z} \\times \\cdots \\times \\mathbb{Z}/m_k\\mathbb{Z}$.",
+    "CRT with more than three congruences (four or five), where the bookkeeping of five partial moduli and five inverses is more demanding and errors in organisation become more likely."
+  ]
+}

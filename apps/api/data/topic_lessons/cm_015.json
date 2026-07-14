@@ -1,0 +1,91 @@
+{
+  "topic_id": "cm_015",
+  "topic_name": "Recursion and Combinatorial Arguments",
+  "generated_at": "2026-05-13T20:22:51.256825+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to count paths on a grid or compute binomial coefficients directly. But what happens when a problem is too tangled to attack head-on \u2014 like counting the number of ways to tile a 2\u00d7n board with 1\u00d72 dominoes, or counting binary strings that never contain two consecutive 1s? The direct formula isn't obvious, but you notice that every valid arrangement of size $n$ must have come from a valid arrangement of a smaller size. Can you turn that observation into an exact formula?",
+  "concept": "Recursion in combinatorics means expressing the count of objects of size $n$ in terms of counts of smaller sizes, then building up the answer. Formally, a recurrence relation is an equation of the form $a_n = f(a_{n-1}, a_{n-2}, \\ldots)$ together with one or more base cases. The combinatorial argument is the reasoning that justifies the recurrence: you partition the objects of size $n$ into disjoint classes, each class mapping naturally to a smaller problem.",
+  "anatomy": "Every combinatorial recurrence has four structural parts. The sequence $a_n$ is the quantity you are counting \u2014 always define it precisely first. The recurrence equation relates $a_n$ to earlier terms, such as $a_n = a_{n-1} + a_{n-2}$. The base cases are the small values (often $a_0$ and $a_1$) you compute directly without the recurrence. The combinatorial argument is the key: it is the explicit partition of size-$n$ objects into groups that bijects each group with a smaller, already-counted set \u2014 this is what makes the recurrence logically valid, not just a guess.",
+  "worked_example": [
+    {
+      "expression_latex": "a_n = \\text{number of binary strings of length } n \\text{ with no two consecutive 1s}",
+      "description_latex": "We start by defining $a_n$ precisely so there is no ambiguity about what we are counting. Notice that we haven't tried to compute $a_n$ yet \u2014 nailing down the definition is the essential first step because the entire recurrence depends on it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_1 = 2 \\quad (\\text{strings: } 0,\\, 1), \\qquad a_2 = 3 \\quad (\\text{strings: } 00,\\, 01,\\, 10)",
+      "description_latex": "We compute the base cases directly by listing \u2014 there are only a few strings, so enumeration is fast and trustworthy. The string '11' is excluded from $a_2$, confirming our constraint is in effect. These base cases are the foundation from which the recurrence climbs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Case 1: string ends in } 0 \\Rightarrow \\text{first } n{-}1 \\text{ characters form any valid string} \\Rightarrow a_{n-1} \\text{ choices}",
+      "description_latex": "We split all valid length-$n$ strings by their last character \u2014 this is the combinatorial argument. If the last character is 0, the preceding $n-1$ characters can be any valid string of length $n-1$, giving exactly $a_{n-1}$ options. Crucially, appending 0 never creates two consecutive 1s, so all $a_{n-1}$ strings remain valid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Case 2: string ends in } 1 \\Rightarrow \\text{character } n{-}1 \\text{ must be } 0 \\Rightarrow \\text{first } n{-}2 \\text{ characters form any valid string} \\Rightarrow a_{n-2} \\text{ choices}",
+      "description_latex": "If the last character is 1, the second-to-last character is forced to be 0 (otherwise we'd have '11'). The remaining $n-2$ characters can be any valid string of length $n-2$, giving $a_{n-2}$ options. The two cases are disjoint because every string ends in either 0 or 1, so we add \u2014 never multiply.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_n = a_{n-1} + a_{n-2}, \\quad a_1 = 2,\\; a_2 = 3 \\implies a_3=5,\\; a_4=8,\\; a_5=13",
+      "description_latex": "Combining the two disjoint cases gives the recurrence $a_n = a_{n-1} + a_{n-2}$, which is a Fibonacci-type relation. Starting from the base cases and iterating, we get $a_3 = 3+2 = 5$, $a_4 = 5+3 = 8$, and so on \u2014 notice these are Fibonacci numbers shifted by index, a beautiful hidden structure revealed by the combinatorial argument.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "t_n = \\text{number of ways to tile a } 2 \\times n \\text{ board with } 1 \\times 2 \\text{ dominoes}",
+      "description_latex": "We define $t_n$ as the number of tilings. Before writing any formula, establish base cases: $t_1 = 1$ (one vertical domino) and $t_2 = 2$ (two verticals or two horizontals). These small cases anchor the recurrence.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Consider the rightmost column of the } 2 \\times n \\text{ board}",
+      "description_latex": "To build the combinatorial argument, ask yourself: what can happen at the right edge of the board? There are exactly two options for how the rightmost column is filled, and each option reduces the problem to a strictly smaller board. Write down what those two options are and what size board each leaves uncovered.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "t_n = t_{n-1} + t_{n-2}",
+      "description_latex": "The two options are disjoint and exhaustive: either the last column is covered by one vertical domino (leaving a $2 \\times (n-1)$ board, giving $t_{n-1}$ tilings) or the last two columns are covered by two horizontal dominoes (leaving a $2 \\times (n-2)$ board, giving $t_{n-2}$ tilings). Combining them gives the recurrence above.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t_1=1,\\; t_2=2,\\; t_3=?,\\; t_4=?,\\; t_5=?",
+      "description_latex": "Now iterate the recurrence from the base cases to compute $t_3$, $t_4$, and $t_5$. Apply $t_n = t_{n-1} + t_{n-2}$ three times and report the three values.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $a_n$ be defined by $a_1 = 1$, $a_2 = 3$, and $a_n = a_{n-1} + a_{n-2}$ for $n \\geq 3$. Compute $a_6$.",
+      "answer_latex": "a_6 = 18"
+    },
+    {
+      "prompt_latex": "A staircase has $n$ steps. You can climb 1 or 2 steps at a time. Let $c_n$ be the number of ways to reach the top. Write a recurrence for $c_n$ with base cases, then compute $c_5$.",
+      "answer_latex": "c_n = c_{n-1} + c_{n-2},\\; c_1=1,\\; c_2=2 \\implies c_5 = 8"
+    },
+    {
+      "prompt_latex": "Let $b_n$ be the number of subsets of $\\{1, 2, \\ldots, n\\}$ that contain no two consecutive integers. Find a recurrence for $b_n$ with base cases and compute $b_6$.",
+      "answer_latex": "b_n = b_{n-1} + b_{n-2},\\; b_0=1,\\; b_1=2 \\implies b_6 = 21"
+    },
+    {
+      "prompt_latex": "Using the recurrence $a_n = a_{n-1} + a_{n-2}$ with $a_0 = 0, a_1 = 1$ (standard Fibonacci), prove by strong induction that $a_n < 2^n$ for all $n \\geq 1$.",
+      "answer_latex": "\\text{Base: } a_1=1<2,\\; a_2=1<4.\\text{ Inductive step: } a_n = a_{n-1}+a_{n-2} < 2^{n-1}+2^{n-2} < 2^{n-1}+2^{n-1} = 2^n. \\quad \\square"
+    },
+    {
+      "prompt_latex": "A sequence of $n$ coin flips is called 'calm' if it never has three consecutive heads. Let $d_n$ count calm sequences of length $n$. Find a recurrence with base cases and compute $d_5$.",
+      "answer_latex": "d_n = d_{n-1} + d_{n-2} + d_{n-3},\\; d_1=2,\\; d_2=4,\\; d_3=7 \\implies d_5 = 24"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to check that the cases in their combinatorial argument are truly disjoint and exhaustive \u2014 if the cases overlap, you're double-counting, and if they're incomplete, you're undercounting. Always explicitly verify that every object of size $n$ falls into exactly one case.",
+    "Students set up the recurrence correctly but use wrong or missing base cases, such as starting with only $a_1$ when the recurrence needs both $a_1$ and $a_2$. Always check: the recurrence $a_n = a_{n-1} + a_{n-2}$ requires two base cases, not one.",
+    "Students confuse the index in the recurrence \u2014 for instance, writing $a_n = a_n + a_{n-1}$ instead of $a_n = a_{n-1} + a_{n-2}$ \u2014 because they conflate 'one step smaller' with the current term. Always trace through a concrete small example ($n=3$) to verify the indices match the combinatorial argument."
+  ],
+  "untested_variants": [
+    "Recurrences with non-constant coefficients, such as $a_n = n \\cdot a_{n-1}$ (counting permutations or derangements), where the combinatorial argument involves a case split over $n$ possible positions rather than 2 or 3.",
+    "Closed-form solving of linear recurrences using the characteristic equation method (e.g., deriving the explicit Fibonacci formula via roots $\\phi$ and $\\hat{\\phi}$), which goes beyond iterating the recurrence.",
+    "Two-variable or two-dimensional recurrences, such as $f(m,n) = f(m-1,n) + f(m,n-1)$ for lattice paths, where the combinatorial argument involves splitting on the last move in two directions.",
+    "Recurrences arising from inclusion-exclusion, such as the derangement formula $D_n = (n-1)(D_{n-1} + D_{n-2})$, where the combinatorial argument requires tracking a 'bad' element across two sub-cases."
+  ]
+}

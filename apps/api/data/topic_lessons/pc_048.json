@@ -1,0 +1,91 @@
+{
+  "topic_id": "pc_048",
+  "topic_name": "Linear Programming (H)",
+  "generated_at": "2026-05-12T23:54:18.827877+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to solve systems of equations to find exact points where lines meet, and you've worked with inequalities to describe regions on a graph. But what if instead of just finding a solution, you needed to find the *best* solution \u2014 the one that maximizes profit or minimizes cost \u2014 while satisfying a whole set of constraints at once? For example, a factory can produce two products, but is limited by labor hours and raw materials: how many of each should it make to earn the most money? The tools you have so far can describe the situation, but how do you find that optimal answer?",
+  "concept": "Linear programming is a method for finding the maximum or minimum value of a linear objective function subject to a set of linear constraints (inequalities). In plain English, you have a quantity you want to optimize \u2014 like profit \u2014 expressed as $z = ax + by$, and a collection of boundary rules that restrict which $(x, y)$ combinations are allowed. The region satisfying all constraints simultaneously is called the feasible region, and the remarkable fact is that the optimal value always occurs at one of its corner points (vertices).",
+  "anatomy": "Every linear programming problem has four key components. The **objective function** is the linear expression you want to maximize or minimize, written $z = ax + by$, where $a$ and $b$ are fixed coefficients and $x, y$ are the decision variables (the quantities you control). The **constraints** are a system of linear inequalities, such as $c_1x + c_2y \\leq k$, that define what combinations of $x$ and $y$ are physically or logically possible; they almost always include **non-negativity constraints** $x \\geq 0,\\ y \\geq 0$ because real quantities can't be negative. Together the constraints carve out the **feasible region** \u2014 a bounded or unbounded polygon in the coordinate plane \u2014 and the **corner points** (vertices) of that polygon are the only candidates for the optimal solution.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Maximize } z = 5x + 4y \\text{ subject to: } x + y \\leq 6,\\; 2x + y \\leq 10,\\; x \\geq 0,\\; y \\geq 0",
+      "description_latex": "We start by clearly identifying the objective function $z = 5x + 4y$ and the four constraints. Reading the problem carefully before graphing keeps us from accidentally optimizing the wrong expression or missing a constraint.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Graph boundary lines: } x+y=6 \\text{ and } 2x+y=10, \\text{ then shade the feasible region below both lines in the first quadrant.}",
+      "description_latex": "Replace each inequality with an equation and draw the line; then test a point like the origin to decide which side to shade. The feasible region is the overlap of all shaded areas \u2014 the set of points that satisfy every constraint simultaneously.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Corner points: } (0,0),\\; (5,0),\\; (4,2),\\; (0,6)",
+      "description_latex": "The corner points occur where boundary lines intersect each other or the axes. We find $(4, 2)$ by solving the system $x + y = 6$ and $2x + y = 10$ simultaneously: subtracting the first from the second gives $x = 4$, then $y = 2$. The other vertices come from setting one variable to zero in each boundary equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z(0,0)=0,\\quad z(5,0)=25,\\quad z(4,2)=28,\\quad z(0,6)=24",
+      "description_latex": "We evaluate the objective function at every corner point by substituting the coordinates into $z = 5x + 4y$. This step is the heart of the Corner-Point Theorem: because $z$ is linear, it can only reach its extreme values at vertices, never in the interior.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Maximum } z = 28 \\text{ at } (4, 2)",
+      "description_latex": "Comparing the four values, $28$ is the largest, so the maximum occurs at the corner point $(4, 2)$. Always state both the optimal value of $z$ and the decision-variable values that achieve it, because the question usually asks for both.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Minimize } z = 3x + 2y \\text{ subject to: } x + y \\geq 4,\\; x + 3y \\geq 6,\\; x \\geq 0,\\; y \\geq 0",
+      "description_latex": "This time we want to minimize, and our feasible region is unbounded (it extends upward and to the right). Begin by graphing both boundary lines and shading the region that satisfies all four inequalities \u2014 remember to shade *above* each line for $\\geq$ constraints.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Intersection of } x+y=4 \\text{ and } x+3y=6: \\quad (3,1)",
+      "description_latex": "Solve the two boundary equations simultaneously to find the interior corner point. Subtracting the first equation from the second gives $2y = 2$, so $y = 1$ and $x = 3$, confirming the vertex $(3, 1)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Identify ALL corner points of the feasible region (including where the boundary lines meet the axes) and evaluate $z = 3x + 2y$ at each one. Which corner point gives the smallest value of $z$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "State the minimum value of $z$ and the coordinates $(x, y)$ at which it occurs.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given feasible region with corner points $(0,0)$, $(4,0)$, $(3,2)$, $(0,3)$, find the maximum of $z = 2x + 3y$.",
+      "answer_latex": "\\text{Maximum } z = 15 \\text{ at } (3, 2) \\text{ gives } z=12; \\text{ actually at } (0,3): z=9; \\text{ at } (3,2): z=12; \\text{ maximum is } z=12 \\text{ at } (3,2)"
+    },
+    {
+      "prompt_latex": "Maximize $z = x + 2y$ subject to $x + y \\leq 5$, $x \\leq 3$, $x \\geq 0$, $y \\geq 0$. Find the maximum value and where it occurs.",
+      "answer_latex": "\\text{Maximum } z = 10 \\text{ at } (0, 5)"
+    },
+    {
+      "prompt_latex": "Minimize $z = 4x + y$ subject to $x + y \\geq 3$, $x + 2y \\geq 4$, $x \\geq 0$, $y \\geq 0$.",
+      "answer_latex": "\\text{Minimum } z = 6 \\text{ at } (2, 1)"
+    },
+    {
+      "prompt_latex": "Maximize $z = 6x + 5y$ subject to $x + y \\leq 8$, $3x + 2y \\leq 18$, $x \\geq 0$, $y \\geq 0$. (Hint: find the intersection of the two boundary lines as part of your solution.)",
+      "answer_latex": "\\text{Intersection: } (2,6); \\text{ corner points } (0,0),(6,0),(2,6),(0,8); \\text{ maximum } z = 42 \\text{ at } (2, 6)"
+    },
+    {
+      "prompt_latex": "A bakery makes two items: bread ($x$ loaves) and cakes ($y$ cakes). Each loaf needs 2 cups of flour and earns \\$3 profit; each cake needs 3 cups of flour and earns \\$5 profit. The bakery has 24 cups of flour and can produce at most 9 total items. Write the objective function and constraints, then find the production mix that maximizes profit.",
+      "answer_latex": "\\text{Maximize } z=3x+5y \\text{ s.t. } 2x+3y\\leq24,\\; x+y\\leq9,\\; x\\geq0,\\; y\\geq0; \\text{ maximum profit } \\$45 \\text{ at } (3,6)"
+    }
+  ],
+  "common_mistakes": [
+    "Students often check only some of the corner points rather than all of them \u2014 for example, forgetting the vertices on the axes. Since the maximum or minimum can occur at any vertex, skipping even one can lead to the wrong answer; always list every corner point of the feasible region before evaluating the objective function.",
+    "When constraints use $\\geq$, students frequently shade the wrong side of the boundary line, placing the feasible region below the line instead of above it. Always test a specific point (like the origin) in the original inequality to confirm which side is correct before shading.",
+    "Students sometimes maximize when asked to minimize (or vice versa) because they pick the largest or smallest number from the table of $z$-values without re-reading the problem. Get in the habit of circling the word 'maximize' or 'minimize' at the start and double-checking your conclusion matches that goal."
+  ],
+  "untested_variants": [
+    "Problems where the feasible region is unbounded and students must determine whether a maximum (or minimum) actually exists, rather than assuming it does.",
+    "Problems with three or more decision variables or constraints that produce a feasible region with five or more vertices, requiring more complex intersection calculations.",
+    "Sensitivity analysis questions that ask how the optimal solution changes if a coefficient in the objective function or a constraint constant is altered.",
+    "Problems where the optimal value occurs along an entire edge (infinitely many optimal points) rather than at a unique corner point, requiring students to recognize and describe the solution set."
+  ]
+}

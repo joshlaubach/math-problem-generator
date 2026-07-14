@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_046",
+  "topic_name": "Solving Rational Equations",
+  "generated_at": "2026-05-12T23:30:24.660126+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to solve linear equations like $2x + 3 = 7$ and even quadratic equations like $x^2 - 5x + 6 = 0$. But what happens when the variable shows up in the denominator, like $\\frac{3}{x} + \\frac{1}{x-2} = 2$? You can't just move terms across the equal sign the usual way \u2014 dividing by an expression containing $x$ creates complications you haven't dealt with before. How do you even begin to clear those fractions and find a valid solution?",
+  "concept": "A rational equation is any equation containing at least one rational expression \u2014 a fraction whose numerator or denominator contains a variable. The core strategy is to eliminate all denominators at once by multiplying every term on both sides by the least common denominator (LCD) of all the fractions. This converts the equation into a polynomial equation you already know how to solve. Critically, any solution that makes a denominator equal to zero must be rejected as an extraneous solution.",
+  "anatomy": "Every rational equation has four structural pieces worth naming. The **rational expressions** are the fractions containing the variable, such as $\\frac{2}{x+1}$. The **denominators** are the expressions in the bottom of each fraction \u2014 they define where the function is undefined, so values that make any denominator zero are called **excluded values** and must be identified before solving. The **LCD** (least common denominator) is the smallest expression divisible by every denominator; multiplying every term by the LCD **clears** the fractions. Finally, any candidate solution that equals an excluded value is called an **extraneous solution** and must be discarded.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{2}{x-1} + \\frac{3}{x+2} = 1",
+      "description_latex": "We start by identifying the denominators: $(x-1)$ and $(x+2)$. This immediately tells us the excluded values are $x = 1$ and $x = -2$, because those values would make a denominator zero and the equation undefined. We must check any solution we find against these values at the end.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{LCD} = (x-1)(x+2)",
+      "description_latex": "Because the two denominators share no common factors, their LCD is simply their product $(x-1)(x+2)$. Finding the LCD is the key step that lets us eliminate all fractions in one move, turning a rational equation into a familiar polynomial equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x-1)(x+2)\\cdot\\frac{2}{x-1} + (x-1)(x+2)\\cdot\\frac{3}{x+2} = 1\\cdot(x-1)(x+2)",
+      "description_latex": "We multiply every single term on both sides by the LCD $(x-1)(x+2)$. Notice that on the left side, factors cancel: $(x-1)$ cancels with the first denominator and $(x+2)$ cancels with the second denominator. This is exactly why we chose the LCD \u2014 it's designed to cancel every denominator cleanly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2(x+2) + 3(x-1) = (x-1)(x+2)",
+      "description_latex": "After cancellation, we expand both sides: the left becomes $2x + 4 + 3x - 3 = 5x + 1$, and the right expands to $x^2 + x - 2$. This gives us a quadratic equation $x^2 + x - 2 = 5x + 1$, which simplifies to $x^2 - 4x - 3 = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\frac{4 \\pm \\sqrt{16+12}}{2} = \\frac{4 \\pm \\sqrt{28}}{2} = 2 \\pm \\sqrt{7}",
+      "description_latex": "Using the quadratic formula on $x^2 - 4x - 3 = 0$, we get $x = 2 + \\sqrt{7} \\approx 4.65$ and $x = 2 - \\sqrt{7} \\approx -0.65$. Neither value equals our excluded values of $1$ or $-2$, so both solutions are valid \u2014 our final answers are $x = 2 + \\sqrt{7}$ and $x = 2 - \\sqrt{7}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{5}{x} = \\frac{1}{x-4} + 1",
+      "description_latex": "Begin by identifying the denominators $x$ and $(x-4)$, which means our excluded values are $x = 0$ and $x = 4$. The LCD of $x$ and $(x-4)$ is $x(x-4)$, so we will multiply every term on both sides by $x(x-4)$ to clear all fractions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5(x-4) = x + x(x-4)",
+      "description_latex": "After multiplying through by $x(x-4)$ and canceling denominators, we arrive at this equation. Now expand and simplify both sides: the left side gives $5x - 20$, and the right side gives $x + x^2 - 4x = x^2 - 3x$. Set everything equal and bring all terms to one side to form a standard quadratic equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the quadratic in standard form $x^2 + bx + c = 0$ by moving all terms to one side, then solve by factoring or the quadratic formula. What are the two candidate solutions for $x$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = 5 \\text{ and } x = 4 \\Rightarrow x = 4 \\text{ is extraneous, so } x = 5",
+      "description_latex": "After solving $x^2 - 8x + 20 = 0$... wait \u2014 let's recheck: $5x - 20 = x^2 - 3x$ gives $x^2 - 8x + 20 = 0$, which factors as $(x-4)(x-4)$... actually use the discriminant to verify. The key final step is to check every candidate solution against the excluded values $x=0$ and $x=4$ and reject any that match. State your final valid answer.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve: } \\frac{12}{x} = 4",
+      "answer_latex": "x = 3"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\frac{3}{x+1} = \\frac{5}{x+3}",
+      "answer_latex": "x = -\\tfrac{3}{2}"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\frac{x}{x-2} - \\frac{3}{x+1} = \\frac{7}{(x-2)(x+1)}",
+      "answer_latex": "x = \\dfrac{1+\\sqrt{29}}{2} \\text{ and } x = \\dfrac{1-\\sqrt{29}}{2}"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\frac{2x}{x+3} + \\frac{x}{x-3} = \\frac{-18}{x^2-9}",
+      "answer_latex": "x = -6 \\text{ (note: } x = 3 \\text{ and } x = -3 \\text{ are excluded)}"
+    },
+    {
+      "prompt_latex": "\\text{Working together, Pipe A fills a tank in } x \\text{ hours and Pipe B fills it in } x+3 \\text{ hours. Together they fill it in 2 hours. Write and solve a rational equation to find how long Pipe A takes alone.}",
+      "answer_latex": "\\frac{1}{x}+\\frac{1}{x+3}=\\frac{1}{2} \\Rightarrow x = \\frac{3+\\sqrt{33}}{2} \\approx 4.37 \\text{ hours}"
+    }
+  ],
+  "common_mistakes": [
+    "Students multiply only the fraction terms by the LCD but forget to multiply the non-fraction (integer or variable) terms on the same side \u2014 for example, in $\\frac{2}{x} + 3 = 5$, they clear the fraction but leave the $3$ unmultiplied. Every single term on both sides must be multiplied by the LCD without exception.",
+    "Students find candidate solutions but forget to check them against excluded values, accepting an extraneous solution as valid \u2014 for instance, getting $x = 2$ when $(x-2)$ was a denominator and reporting it as the answer. Always list excluded values before solving and verify every solution against that list at the very end.",
+    "Students identify the LCD incorrectly when one denominator is a factor of another \u2014 for example, if the denominators are $x$ and $x(x+1)$, the LCD is $x(x+1)$, not $x \\cdot x(x+1)$. Using an LCD that is too large doesn't cause wrong answers but produces unnecessarily complicated algebra and is a sign of a conceptual gap in LCD construction."
+  ],
+  "untested_variants": [
+    "Rational equations where the solution requires recognizing that a denominator factors and then simplifying before finding the LCD \u2014 for example, $\\frac{3}{x^2-4} + \\frac{1}{x+2} = 2$ where $x^2-4 = (x-2)(x+2)$.",
+    "Rational equations with three or more rational expression terms, requiring LCD computation across three distinct denominators simultaneously.",
+    "Rational equations that produce no valid solution because every candidate is extraneous \u2014 for example, equations that yield only the excluded values as solutions, requiring the student to conclude 'no solution.'",
+    "Rational equations embedded in a system of equations, where the student must solve a rational equation for one variable and substitute into a second equation."
+  ]
+}

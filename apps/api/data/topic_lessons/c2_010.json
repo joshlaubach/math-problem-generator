@@ -1,0 +1,91 @@
+{
+  "topic_id": "c2_010",
+  "topic_name": "Surface Area of Revolution",
+  "generated_at": "2026-05-13T00:20:57.361669+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to find the length of a curve using arc length integrals, and you can compute volumes of revolution by rotating a curve around an axis. But what if instead of measuring the volume of the solid, you wanted to paint its outside surface \u2014 how much paint would you need? For example, imagine rotating the parabola $y = x^2$ from $x = 0$ to $x = 1$ around the $x$-axis to form a bowl shape: can you find the exact area of that curved surface?",
+  "concept": "When a curve is rotated around an axis, it sweeps out a smooth curved surface. The surface area of revolution measures the total area of that surface. Formally, if $y = f(x)$ is smooth on $[a, b]$ and the curve is rotated about the $x$-axis, the surface area is $S = 2\\pi \\int_a^b f(x)\\sqrt{1 + [f'(x)]^2}\\, dx$, where the integrand combines the radius of each ring with the arc length element.",
+  "anatomy": "The formula $S = 2\\pi \\int_a^b f(x)\\sqrt{1 + [f'(x)]^2}\\, dx$ has four distinct parts worth naming. The factor $2\\pi$ comes from unrolling each infinitesimal ring into a rectangle whose width is the ring's circumference. The radius function $f(x)$ (or $g(y)$ when rotating about the $y$-axis) gives the distance from the curve to the axis at each point, setting the size of each ring. The arc length element $\\sqrt{1 + [f'(x)]^2}\\, dx$ is the slant height of each tiny band \u2014 not just $dx$, because the surface tilts along the curve. Finally, the limits $a$ and $b$ define which portion of the curve is being revolved.",
+  "worked_example": [
+    {
+      "expression_latex": "S = 2\\pi \\int_0^1 f(x)\\sqrt{1+[f'(x)]^2}\\,dx, \\quad f(x) = \\sqrt{x}",
+      "description_latex": "We want the surface area formed by rotating $y = \\sqrt{x}$ on $[0,1]$ about the $x$-axis, so we identify $f(x) = \\sqrt{x}$ and write the surface area formula. Before we integrate anything, our job is to find $f'(x)$ so we can build the arc length factor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = \\frac{1}{2\\sqrt{x}}, \\quad [f'(x)]^2 = \\frac{1}{4x}, \\quad 1+[f'(x)]^2 = \\frac{4x+1}{4x}",
+      "description_latex": "Differentiating $f(x) = x^{1/2}$ gives $f'(x) = \\tfrac{1}{2}x^{-1/2}$, and squaring it yields $\\tfrac{1}{4x}$. We then combine $1 + \\tfrac{1}{4x}$ over a common denominator to get $\\tfrac{4x+1}{4x}$, which will simplify nicely when we take the square root.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = 2\\pi \\int_0^1 \\sqrt{x} \\cdot \\sqrt{\\frac{4x+1}{4x}}\\,dx = 2\\pi \\int_0^1 \\frac{\\sqrt{4x+1}}{2}\\,dx = \\pi\\int_0^1 \\sqrt{4x+1}\\,dx",
+      "description_latex": "We substitute $f(x) = \\sqrt{x}$ and the simplified square-root factor into the formula. Notice that $\\sqrt{x} \\cdot \\sqrt{\\tfrac{4x+1}{4x}} = \\sqrt{x} \\cdot \\tfrac{\\sqrt{4x+1}}{2\\sqrt{x}} = \\tfrac{\\sqrt{4x+1}}{2}$, so the $\\sqrt{x}$ terms cancel perfectly, leaving a clean integral in $\\sqrt{4x+1}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u = 4x+1,\\quad du = 4\\,dx \\implies S = \\frac{\\pi}{4}\\int_1^5 \\sqrt{u}\\,du = \\frac{\\pi}{4}\\cdot\\frac{2}{3}\\left[u^{3/2}\\right]_1^5 = \\frac{\\pi}{6}\\left(5^{3/2}-1\\right)",
+      "description_latex": "We use the substitution $u = 4x+1$ to convert the integral: when $x=0$, $u=1$ and when $x=1$, $u=5$, and $dx = \\tfrac{du}{4}$. Integrating $u^{1/2}$ gives $\\tfrac{2}{3}u^{3/2}$, and collecting the constants $\\tfrac{\\pi}{4}\\cdot\\tfrac{2}{3} = \\tfrac{\\pi}{6}$ finishes the computation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\frac{\\pi}{6}\\left(5\\sqrt{5}-1\\right)",
+      "description_latex": "We evaluate $5^{3/2} = 5\\sqrt{5}$ and subtract the lower-limit term $1^{3/2} = 1$, giving the exact surface area $\\tfrac{\\pi}{6}(5\\sqrt{5}-1)$. This is the total area of the surface swept out by rotating $y=\\sqrt{x}$ around the $x$-axis \u2014 a clean closed form.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = \\frac{x^3}{3},\\quad x \\in [0,1], \\text{ rotated about the }x\\text{-axis}",
+      "description_latex": "We want the surface area for $y = x^3/3$ revolved about the $x$-axis on $[0,1]$. Start by computing $f'(x)$ and then building the expression $1 + [f'(x)]^2$ \u2014 this is the essential setup before writing any integral.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = x^2, \\quad 1+[f'(x)]^2 = 1+x^4",
+      "description_latex": "Differentiating $x^3/3$ gives $x^2$, so $[f'(x)]^2 = x^4$ and the arc length factor becomes $\\sqrt{1+x^4}$. Now write out the full surface area integral using these results.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = 2\\pi\\int_0^1 \\frac{x^3}{3}\\sqrt{1+x^4}\\,dx",
+      "description_latex": "Set up the integral by plugging $f(x) = x^3/3$ and $\\sqrt{1+x^4}$ into the surface area formula. Now choose an appropriate substitution and evaluate this integral \u2014 this is the key step where you carry out the computation.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "S = \\frac{\\pi}{18}\\left(2\\sqrt{2}-1\\right)",
+      "description_latex": "Using $u = 1+x^4$, $du = 4x^3\\,dx$, the integral becomes $\\tfrac{2\\pi}{3}\\cdot\\tfrac{1}{4}\\int_1^2 \\sqrt{u}\\,du = \\tfrac{\\pi}{6}\\cdot\\tfrac{2}{3}[u^{3/2}]_1^2 = \\tfrac{\\pi}{9}(2^{3/2}-1) = \\tfrac{\\pi}{9}(2\\sqrt{2}-1)$. Check your constants carefully \u2014 a factor-of-two error here is very common.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the surface area generated by rotating $y = 4\\sqrt{x}$ on $[0,4]$ about the $x$-axis.",
+      "answer_latex": "S = \\frac{\\pi}{3}\\left(65\\sqrt{65}-1\\right)"
+    },
+    {
+      "prompt_latex": "Find the surface area generated by rotating $y = x^3$ on $[0,2]$ about the $x$-axis. Leave your answer as an exact value.",
+      "answer_latex": "S = \\frac{\\pi}{27}\\left(145^{3/2}-1\\right)"
+    },
+    {
+      "prompt_latex": "Set up and evaluate the surface area integral for $y = \\sqrt{4-x^2}$ (the upper semicircle of radius 2) on $[-2,2]$ rotated about the $x$-axis. (You should recognize the surface this produces.)",
+      "answer_latex": "S = 8\\pi"
+    },
+    {
+      "prompt_latex": "The arc length formula and surface area formula are closely related. Find the surface area of the solid formed by rotating $y = \\cosh x$ on $[0, \\ln 2]$ about the $x$-axis. Recall that $1 + \\sinh^2 x = \\cosh^2 x$.",
+      "answer_latex": "S = \\pi\\left(\\frac{3\\sqrt{5}}{4} + \\ln\\left(2+\\sqrt{5}\\right) - \\ln\\left(1+\\sqrt{2}\\right)\\right)"
+    },
+    {
+      "prompt_latex": "A soap film is formed by rotating the curve $y = e^x$ on $[0,1]$ about the $x$-axis. Write the integral that gives the surface area of the film, and use a calculator or software to approximate it to four decimal places.",
+      "answer_latex": "S = 2\\pi\\int_0^1 e^x\\sqrt{1+e^{2x}}\\,dx \\approx 22.9430"
+    }
+  ],
+  "common_mistakes": [
+    "Students use $dx$ alone as the length element instead of $\\sqrt{1+[f'(x)]^2}\\,dx$, treating the surface as if the bands were flat disks rather than slanted rings \u2014 always include the arc length factor, because a tilted strip has more area than a flat one.",
+    "When the curve is given as $x = g(y)$ and rotated about the $y$-axis, students mistakenly use $f(x)$ and integrate in $x$; the correct formula is $S = 2\\pi\\int_c^d g(y)\\sqrt{1+[g'(y)]^2}\\,dy$, integrating with respect to $y$ and using the $y$-variable radius.",
+    "Students forget that the radius in the formula is the distance from the curve to the axis of rotation \u2014 when rotating about the $y$-axis, the radius is $|x| = |g(y)|$, not $y$, and when rotating about a horizontal line $y = k$, the radius is $|f(x) - k|$, not $f(x)$."
+  ],
+  "untested_variants": [
+    "Rotating a curve about the $y$-axis using the formula $S = 2\\pi\\int_c^d x\\sqrt{1+[x'(y)]^2}\\,dy$ where $x$ is expressed as a function of $y$.",
+    "Surface area of revolution about a horizontal line other than the $x$-axis, such as $y = 2$, where the radius becomes $f(x) - 2$ rather than $f(x)$.",
+    "Surface area problems given in parametric form, where the formula becomes $S = 2\\pi\\int_\\alpha^\\beta y(t)\\sqrt{[x'(t)]^2+[y'(t)]^2}\\,dt$.",
+    "Comparing surface area to volume of revolution for the same curve and discussing Gabriel's Horn, where the surface area is infinite but the volume is finite."
+  ]
+}

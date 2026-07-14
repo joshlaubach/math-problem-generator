@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_047",
+  "topic_name": "Partial Fraction Decomposition (H)",
+  "generated_at": "2026-05-12T23:30:19.587587+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to add fractions like $\\frac{2}{x+1} + \\frac{3}{x-2} = \\frac{5x-1}{(x+1)(x-2)}$, combining two simple fractions into one complicated one. But what if you're given the complicated fraction $\\frac{5x-1}{(x+1)(x-2)}$ and need to split it back into simpler pieces \u2014 perhaps to integrate it in calculus or simplify a complex expression? Can you reverse the process and recover those two original fractions?",
+  "concept": "Partial fraction decomposition is the process of breaking a rational expression into a sum of simpler fractions whose denominators are the factors of the original denominator. Formally, if $\\frac{P(x)}{Q(x)}$ is a proper rational expression (degree of $P$ less than degree of $Q$) and $Q(x)$ factors into linear factors, we write $\\frac{P(x)}{Q(x)} = \\frac{A}{\\text{factor}_1} + \\frac{B}{\\text{factor}_2} + \\cdots$ and solve for the unknown constants $A, B, \\ldots$",
+  "anatomy": "Every partial fraction decomposition has three structural parts: the original proper rational expression $\\frac{P(x)}{Q(x)}$, where $P(x)$ is the numerator polynomial and $Q(x)$ is the fully-factored denominator; the partial fraction template, which assigns an unknown constant (typically $A$, $B$, $C$, \u2026) over each distinct linear factor of $Q(x)$ \u2014 for example a repeated factor $(x-r)^2$ requires two terms, $\\frac{A}{x-r}$ and $\\frac{B}{(x-r)^2}$; and the system of equations obtained by expanding and matching coefficients (or substituting strategic values of $x$) to solve for those constants.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{5x - 1}{(x+1)(x-2)}",
+      "description_latex": "We start by recognizing that this is already a proper rational expression \u2014 the numerator has degree 1 and the denominator has degree 2 \u2014 and the denominator is already factored into two distinct linear factors $(x+1)$ and $(x-2)$. This means we can immediately set up the partial fraction template.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{5x-1}{(x+1)(x-2)} = \\frac{A}{x+1} + \\frac{B}{x-2}",
+      "description_latex": "We write one unknown constant over each distinct linear factor. The goal now is to find the specific values of $A$ and $B$ that make this equation true for all values of $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5x - 1 = A(x-2) + B(x+1)",
+      "description_latex": "We multiply both sides by the full denominator $(x+1)(x-2)$ to clear all fractions, leaving us with a polynomial equation we can work with. Notice that the left side is exactly our original numerator, and the right side expands into terms involving $A$ and $B$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 2: \\quad 5(2)-1 = A(0) + B(3) \\Rightarrow 9 = 3B \\Rightarrow B = 3 \\\\[6pt] x = -1: \\quad 5(-1)-1 = A(-3) + B(0) \\Rightarrow -6 = -3A \\Rightarrow A = 2",
+      "description_latex": "We substitute the values of $x$ that make each factor zero \u2014 this is called the 'cover-up' or substitution method \u2014 because each choice eliminates all but one unknown at a time, making the algebra very clean. Plugging $x = 2$ kills the $A$ term and solves for $B = 3$; plugging $x = -1$ kills the $B$ term and solves for $A = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{5x-1}{(x+1)(x-2)} = \\frac{2}{x+1} + \\frac{3}{x-2}",
+      "description_latex": "We substitute $A = 2$ and $B = 3$ back into our template to write the final decomposition. You can verify this is correct by adding the two fractions back together and confirming you recover the original expression.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{x + 7}{(x-1)(x+3)}",
+      "description_latex": "We are given a proper rational expression with two distinct linear factors in the denominator. Our first step is to write the partial fraction template: assign one unknown constant over each factor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{x+7}{(x-1)(x+3)} = \\frac{A}{x-1} + \\frac{B}{x+3}",
+      "description_latex": "Good \u2014 the template is set up. Now multiply both sides by $(x-1)(x+3)$ to clear the denominators. You should get $x + 7 = A(x+3) + B(x-1)$. Substitute the strategic values $x = 1$ and $x = -3$ to solve for $A$ and $B$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "A = 2, \\quad B = -1",
+      "description_latex": "Once you have found $A$ and $B$, write out the complete partial fraction decomposition as a sum of two simple fractions. What is your final answer?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\frac{x+7}{(x-1)(x+3)} = \\frac{2}{x-1} + \\frac{-1}{x+3}",
+      "description_latex": "The completed decomposition is shown here. You can always verify by adding the right-hand fractions together: $\\frac{2(x+3) - (x-1)}{(x-1)(x+3)} = \\frac{x+7}{(x-1)(x+3)}$ \u2713",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Decompose: } \\frac{4}{(x+1)(x-1)}",
+      "answer_latex": "\\frac{2}{x-1} - \\frac{2}{x+1}"
+    },
+    {
+      "prompt_latex": "\\text{Decompose: } \\frac{3x + 5}{(x+2)(x-3)}",
+      "answer_latex": "\\frac{-1}{x+2} + \\frac{4}{x-3}"
+    },
+    {
+      "prompt_latex": "\\text{Decompose: } \\frac{2x^2 + 3x - 1}{x(x+1)(x-1)}",
+      "answer_latex": "\\frac{1}{x} + \\frac{-2}{x+1} + \\frac{3}{x-1}"
+    },
+    {
+      "prompt_latex": "\\text{Decompose: } \\frac{x^2 + 5x + 4}{x^2(x+2)}",
+      "answer_latex": "\\frac{2}{x} + \\frac{1}{x^2} + \\frac{-1}{x+2}"
+    },
+    {
+      "prompt_latex": "\\text{A chemist models a concentration function as } C(t) = \\frac{6t}{(t+1)(t+2)}\\text{. Decompose } C(t) \\text{ into partial fractions.}",
+      "answer_latex": "C(t) = \\frac{-6}{t+1} + \\frac{12}{t+2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes set up the template with the same letter for all constants, writing $\\frac{A}{x+1} + \\frac{A}{x-2}$ instead of $\\frac{A}{x+1} + \\frac{B}{x-2}$. Each partial fraction needs its own independent unknown constant, so always use different letters ($A$, $B$, $C$, \u2026) for each term.",
+    "When a repeated linear factor like $(x-3)^2$ appears in the denominator, students often write only one partial fraction $\\frac{A}{(x-3)^2}$ instead of two: $\\frac{A}{x-3} + \\frac{B}{(x-3)^2}$. Every power of the repeated factor up to its full multiplicity must appear as a separate term in the template.",
+    "Students frequently try to apply partial fraction decomposition to an improper rational expression where the degree of the numerator is greater than or equal to the degree of the denominator \u2014 without first performing polynomial long division. You must divide first and decompose only the proper remainder; skipping this step produces an incorrect template and wrong constants."
+  ],
+  "untested_variants": [
+    "Decomposing rational expressions whose denominator contains an irreducible quadratic factor, requiring a numerator of the form $Ax + B$ over that factor (e.g., $\\frac{5x^2+3}{(x+1)(x^2+4)}$).",
+    "Cases where the rational expression is improper (degree of numerator \u2265 degree of denominator), requiring polynomial long division before setting up the partial fraction template.",
+    "Decompositions involving a repeated irreducible quadratic factor in the denominator, such as $(x^2+1)^2$, which requires two separate terms each with a linear numerator.",
+    "Using partial fraction decomposition to evaluate a definite integral (the calculus application that motivates this topic), where after decomposing the student must apply logarithm integration rules."
+  ]
+}

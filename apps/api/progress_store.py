@@ -63,6 +63,47 @@ def get_progress(user_id: str, topic_id: str) -> Optional[dict]:
     return _get_jsonl(user_id, topic_id)
 
 
+def _all_progress_for_user(user_id: str) -> list[dict]:
+    """Every topic's latest progress row for a user (both backends)."""
+    if _uses_database():
+        from db_models import ProgressRecord
+        from db_session import get_session
+
+        db = get_session()
+        try:
+            rows = db.query(ProgressRecord).filter(
+                ProgressRecord.user_id == user_id
+            ).all()
+            return [
+                {"topic_id": r.topic_id, "mastery_score": r.mastery_score,
+                 "next_review_at": r.next_review_at}
+                for r in rows
+            ]
+        finally:
+            db.close()
+
+    # JSONL: last-write-wins per topic
+    if not PROGRESS_JSONL_PATH.exists():
+        return []
+    latest: dict[str, dict] = {}
+    with PROGRESS_JSONL_PATH.open("r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line:
+                continue
+            try:
+                rec = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            if rec.get("user_id") == user_id:
+                latest[rec["topic_id"]] = {
+                    "topic_id": rec["topic_id"],
+                    "mastery_score": rec["mastery_score"],
+                    "next_review_at": rec.get("next_review_at"),
+                }
+    return list(latest.values())
+
+
 def seed_difficulty(user_id: str, topic_id: str, default: int) -> int:
     """
     Conceptual difficulty to start this topic at, from stored progress.
@@ -77,6 +118,39 @@ def seed_difficulty(user_id: str, topic_id: str, default: int) -> int:
     except Exception as exc:
         logger.warning("seed_difficulty failed for %s/%s: %s", user_id, topic_id, exc)
         return default
+
+
+def due_for_review(user_id: str, limit: int = 10) -> list[dict]:
+    """
+    Topics whose spaced-repetition review is due (next_review_at <= now),
+    soonest-overdue first. Surfaces the SRS schedule written at session end.
+    Never raises — returns [] on any failure.
+    """
+    now = datetime.now(timezone.utc)
+    try:
+        rows = _all_progress_for_user(user_id)
+    except Exception as exc:
+        logger.warning("due_for_review failed for %s: %s", user_id, exc)
+        return []
+
+    due = []
+    for r in rows:
+        nra = r.get("next_review_at")
+        if nra is None:
+            continue
+        if isinstance(nra, str):
+            try:
+                nra = datetime.fromisoformat(nra)
+            except ValueError:
+                continue
+        if nra <= now:
+            due.append({
+                "topic_id": r["topic_id"],
+                "mastery_score": r["mastery_score"],
+                "due_since": nra.isoformat(),
+            })
+    due.sort(key=lambda d: d["due_since"])
+    return due[:limit]
 
 
 def weak_topics(user_id: str, topic_ids: list[str]) -> list[tuple[str, float]]:

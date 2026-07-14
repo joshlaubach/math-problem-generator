@@ -1,0 +1,86 @@
+{
+  "topic_id": "geo_035",
+  "topic_name": "Midsegments of Triangles",
+  "generated_at": "2026-05-12T23:03:44.796089+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to find midpoints of line segments and how parallel lines create proportional relationships. Now imagine slicing a triangle by connecting the midpoints of two of its sides \u2014 you get a smaller segment floating inside the triangle. The question is: how does this new segment relate to the base of the triangle in length, and what can you say about its orientation? Without a specific rule, you'd have no way to find that length.",
+  "concept": "A midsegment of a triangle is the segment connecting the midpoints of any two sides of the triangle. The Triangle Midsegment Theorem states two things: the midsegment is parallel to the third side, and its length is exactly half the length of that third side. If $M$ and $N$ are midpoints of two sides, and $b$ is the length of the opposite side, then the midsegment $MN = \\frac{1}{2}b$.",
+  "anatomy": "Every midsegment problem involves three key components. First, the two midpoints \u2014 the endpoints of the midsegment, each located exactly halfway along its respective side of the triangle. Second, the midsegment itself \u2014 the segment joining those two midpoints, which lies inside (or along the boundary of) the triangle. Third, the base \u2014 the side of the triangle that the midsegment does NOT touch, which is also the side parallel to the midsegment and exactly twice its length. Identifying which side is the 'base' opposite to the midsegment is the crucial first step in every problem.",
+  "worked_example": [
+    {
+      "expression_latex": "\\triangle ABC \\text{ with } D = \\text{midpoint of } \\overline{AB},\\ E = \\text{midpoint of } \\overline{AC}",
+      "description_latex": "We begin by identifying the setup: $D$ and $E$ are midpoints of two sides of the triangle, so $\\overline{DE}$ is a midsegment. The side that $\\overline{DE}$ does not touch is $\\overline{BC}$, making $\\overline{BC}$ the base that corresponds to this midsegment.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "DE = \\frac{1}{2} \\cdot BC",
+      "description_latex": "By the Triangle Midsegment Theorem, the length of the midsegment equals half the length of the opposite (parallel) side. We write this relationship so we have an equation to work with, regardless of which quantity we know.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "BC = 18,\\quad DE = \\frac{1}{2} \\cdot 18",
+      "description_latex": "We substitute the known value $BC = 18$ into the formula. Notice we are multiplying the base by one-half, not adding or subtracting anything \u2014 the relationship is purely multiplicative.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "DE = 9",
+      "description_latex": "Completing the arithmetic gives us $DE = 9$. This is the length of the midsegment, which is exactly half of the base $BC = 18$, confirming the theorem holds.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\triangle PQR \\text{ with } S = \\text{midpoint of } \\overline{PQ},\\ T = \\text{midpoint of } \\overline{PR},\\ ST = 3x - 1,\\ QR = 10x - 14",
+      "description_latex": "We are given a triangle where $S$ and $T$ are midpoints of two sides, so $\\overline{ST}$ is a midsegment opposite $\\overline{QR}$. Before we can find any lengths, we need to set up the correct equation using the Midsegment Theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3x - 1 = \\frac{1}{2}(10x - 14)",
+      "description_latex": "Because the midsegment equals half the base, we set $ST = \\frac{1}{2} \\cdot QR$ and substitute the given expressions. This gives us an equation in $x$ that we can solve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Solve the equation $3x - 1 = \\frac{1}{2}(10x - 14)$ for $x$. Distribute on the right side first, then collect like terms to isolate $x$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now that you have the value of $x$, substitute it back into $ST = 3x - 1$ to find the actual length of the midsegment. Then verify by checking that $QR = 10x - 14$ is exactly twice your answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\overline{MN} \\text{ is a midsegment of } \\triangle ABC \\text{ parallel to } \\overline{BC}.\\ \\text{If } BC = 24, \\text{ find } MN.",
+      "answer_latex": "MN = 12"
+    },
+    {
+      "prompt_latex": "\\overline{DE} \\text{ is a midsegment of } \\triangle FGH \\text{ with } DE = 15.\\ \\text{Find the length of the side parallel to } \\overline{DE}.",
+      "answer_latex": "FH = 30"
+    },
+    {
+      "prompt_latex": "\\overline{XY} \\text{ is a midsegment of a triangle opposite a side of length } 5n + 8.\\ \\text{If } XY = 2n + 7, \\text{ find } n \\text{ and then find } XY.",
+      "answer_latex": "n = 6,\\ XY = 19"
+    },
+    {
+      "prompt_latex": "\\text{In } \\triangle ABC,\\ D,\\ E,\\ F \\text{ are midpoints of } \\overline{AB},\\ \\overline{BC},\\ \\overline{AC} \\text{ respectively. If } AB = 20,\\ BC = 26,\\ AC = 18, \\text{ find the perimeter of } \\triangle DEF.",
+      "answer_latex": "\\text{Perimeter of } \\triangle DEF = 32"
+    },
+    {
+      "prompt_latex": "\\text{A surveyor marks the midpoints of two sides of a triangular plot of land. The distance between the two midpoints is } 47 \\text{ meters. What is the length of the side of the plot that runs parallel to this measurement?}",
+      "answer_latex": "94 \\text{ meters}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often double the midsegment to find the base correctly, but accidentally do the reverse \u2014 they take half of the midsegment when they actually need half of the base. Always ask yourself: which segment is the midsegment and which is the base? The base is always twice the midsegment, so $\\text{base} = 2 \\times \\text{midsegment}$.",
+    "When both sides are given as algebraic expressions, students sometimes set the two expressions equal to each other instead of setting the midsegment equal to half the base. The correct equation is always $\\text{midsegment} = \\frac{1}{2} \\cdot \\text{base}$, not $\\text{midsegment} = \\text{base}$.",
+    "In problems involving the perimeter of the medial triangle (the triangle formed by all three midsegments), students sometimes compute the perimeter using the original side lengths rather than halving each one first. Remember that each side of the inner triangle is a midsegment and therefore half the corresponding side of the original triangle."
+  ],
+  "untested_variants": [
+    "Problems where coordinates are given for the triangle's vertices and students must use the midpoint formula to find the endpoints of a midsegment, then use the distance formula to verify the Midsegment Theorem algebraically.",
+    "Problems requiring students to identify whether a given segment IS a midsegment by checking if both endpoints are midpoints, rather than being told directly that the segment is a midsegment.",
+    "Multi-step problems combining the Midsegment Theorem with the Triangle Angle Sum or exterior angle relationships to find missing angle measures alongside missing lengths.",
+    "Problems involving three or more nested midsegments (midsegment of a midsegment triangle), requiring repeated application of the theorem to find segment lengths multiple levels deep."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "prob_019",
+  "topic_name": "The Binomial Distribution",
+  "generated_at": "2026-05-13T20:26:42.884645+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to calculate the probability of a single event \u2014 for example, the chance that a fair coin lands heads is $\\frac{1}{2}$. But what if you flip that coin 10 times and want to know the probability of getting *exactly* 6 heads? You'd need to account for all the different orders in which those 6 heads could appear, and multiply probabilities across repeated trials. How do you organize all of that into a single, clean formula?",
+  "concept": "A binomial distribution models the number of successes in a fixed number of independent trials, where each trial has the same probability of success. Formally, if $X$ counts successes in $n$ independent trials each with success probability $p$, then $X \\sim \\text{Binomial}(n, p)$ and $P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$ for $k = 0, 1, \\ldots, n$.",
+  "anatomy": "The formula $P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$ has four distinct parts: $n$ is the total number of trials (fixed in advance); $k$ is the specific number of successes you are asking about; $p$ is the probability of success on any single trial (constant across trials); and $(1-p)$, often written $q$, is the probability of failure on a single trial. The binomial coefficient $\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$ counts the number of distinct orderings in which exactly $k$ successes can occur among $n$ trials, so it ties the counting and the probability together.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Binomial}(n=8,\\, p=0.3),\\quad P(X = 3) = ?",
+      "description_latex": "We first identify the setup: there are $n = 8$ independent trials, the probability of success on each trial is $p = 0.3$, and we want the probability of exactly $k = 3$ successes. Labelling the parameters before plugging in prevents errors and makes every subsequent step transparent.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 3) = \\binom{8}{3}\\,(0.3)^3\\,(0.7)^5",
+      "description_latex": "We substitute directly into the binomial formula $\\binom{n}{k} p^k (1-p)^{n-k}$. Notice that the exponent on $(1-p) = 0.7$ is $n - k = 8 - 3 = 5$, because the remaining five trials must each be failures.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\binom{8}{3} = \\frac{8!}{3!\\,5!} = \\frac{8 \\times 7 \\times 6}{3 \\times 2 \\times 1} = 56",
+      "description_latex": "We evaluate the binomial coefficient, which counts the number of ways to choose which 3 of the 8 trials are the successes. Cancelling the $5!$ from numerator and denominator keeps the arithmetic manageable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 3) = 56 \\times (0.027) \\times (0.16807)",
+      "description_latex": "We compute each power separately: $(0.3)^3 = 0.027$ and $(0.7)^5 = 0.16807$. Breaking the multiplication into stages reduces rounding mistakes and lets you check each piece independently.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 3) \\approx 0.2541",
+      "description_latex": "Multiplying $56 \\times 0.027 \\times 0.16807 \\approx 0.2541$, so there is roughly a 25.4% chance of exactly 3 successes in 8 trials when $p = 0.3$. This is the most likely single outcome for this distribution, which makes intuitive sense since $np = 2.4$ is close to 3.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Binomial}(n=5,\\, p=0.4),\\quad P(X = 2) = ?",
+      "description_latex": "We are asked for the probability of exactly 2 successes in 5 independent trials, each with success probability $0.4$. Start by writing down the binomial formula with $n=5$, $k=2$, and $p=0.4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 2) = \\binom{5}{2}\\,(0.4)^2\\,(0.6)^3",
+      "description_latex": "Here is the formula filled in correctly. Notice that $1 - p = 0.6$ and the exponent on the failure probability is $5 - 2 = 3$. Now evaluate the binomial coefficient $\\binom{5}{2}$ and each power.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $\\binom{5}{2}$, then calculate $(0.4)^2$ and $(0.6)^3$, and multiply all three together to find $P(X = 2)$. Write your final answer rounded to four decimal places.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim \\text{Binomial}(4, 0.5)$. Find $P(X = 2)$.",
+      "answer_latex": "P(X=2) = \\binom{4}{2}(0.5)^2(0.5)^2 = 6 \\times 0.25 \\times 0.25 = 0.375"
+    },
+    {
+      "prompt_latex": "A student guesses randomly on a 6-question true/false quiz. Each question has probability $0.5$ of being correct. Find the probability of getting exactly 4 correct.",
+      "answer_latex": "P(X=4) = \\binom{6}{4}(0.5)^4(0.5)^2 = 15 \\times 0.0625 \\times 0.25 = 0.2344"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Binomial}(10, 0.2)$. Find $P(X = 1)$.",
+      "answer_latex": "P(X=1) = \\binom{10}{1}(0.2)^1(0.8)^9 = 10 \\times 0.2 \\times 0.134217728 \\approx 0.2684"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Binomial}(6, 0.3)$. Find $P(X \\geq 5)$, i.e.\\ the probability of 5 or more successes.",
+      "answer_latex": "P(X \\geq 5) = P(X=5)+P(X=6) = \\binom{6}{5}(0.3)^5(0.7)^1 + \\binom{6}{6}(0.3)^6 \\approx 0.01020 + 0.000729 \\approx 0.01093"
+    },
+    {
+      "prompt_latex": "A manufacturing process produces defective items with probability $0.05$. A quality inspector samples $n = 20$ items independently. Using the binomial distribution, find the probability that the inspector finds at most 1 defective item, i.e.\\ $P(X \\leq 1)$.",
+      "answer_latex": "P(X \\leq 1) = P(X=0)+P(X=1) = (0.95)^{20} + 20(0.05)(0.95)^{19} \\approx 0.3585 + 0.3774 \\approx 0.7359"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that the exponent on the failure probability $(1-p)$ is $n-k$, not $k$, writing $(1-p)^k$ instead of $(1-p)^{n-k}$. Remember: the number of failures is $n$ minus the number of successes, so the failure term always carries the exponent $n - k$.",
+    "Students confuse $P(X \\leq k)$ with $P(X = k)$, computing only the single-value probability when the problem asks for a cumulative probability (or vice versa). Always re-read the problem: 'at most $k$' means summing $P(X=0) + P(X=1) + \\cdots + P(X=k)$, not just $P(X=k)$.",
+    "Students misidentify what counts as a 'success' and use the wrong probability for $p$, especially in problems where the question asks about failures (e.g., 'probability of at least 2 defects' but $p$ is accidentally set to the non-defect probability). Always define success explicitly at the start and make sure $p$ matches that definition."
+  ],
+  "untested_variants": [
+    "Finding the mean $\\mu = np$ and variance $\\sigma^2 = np(1-p)$ of a binomial distribution and interpreting them in context.",
+    "Using the complement rule strategically, such as computing $P(X \\geq 1) = 1 - P(X = 0)$, to simplify a cumulative binomial calculation.",
+    "Recognising when a scenario does NOT satisfy the binomial conditions (e.g., sampling without replacement from a small population) and explaining why the binomial model is inappropriate.",
+    "Problems involving a unknown parameter, such as finding $n$ or $p$ given that a certain binomial probability equals a specified value."
+  ]
+}

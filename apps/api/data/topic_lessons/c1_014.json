@@ -1,0 +1,81 @@
+{
+  "topic_id": "c1_014",
+  "topic_name": "Derivatives of Inverse Trigonometric Functions (H)",
+  "generated_at": "2026-05-13T00:05:42.863632+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to differentiate $\\sin(x)$, $\\cos(x)$, and $\\tan(x)$, and you've used the chain rule to handle compositions. But what happens when someone asks you to differentiate $\\arcsin(x)$ or $\\arctan(x^2)$? These inverse trig functions appear constantly in integration and physics, yet none of your current rules seem to apply directly. How do we find the derivative of a function defined as the *inverse* of a trig function?",
+  "concept": "An inverse trig function like $\\arcsin(x)$ outputs the angle whose sine is $x$. To differentiate it, we use implicit differentiation on the original trig relationship and solve for $dy/dx$, then simplify using a Pythagorean identity. The six key results are: $\\frac{d}{dx}[\\arcsin(x)] = \\frac{1}{\\sqrt{1-x^2}}$, $\\frac{d}{dx}[\\arccos(x)] = -\\frac{1}{\\sqrt{1-x^2}}$, and $\\frac{d}{dx}[\\arctan(x)] = \\frac{1}{1+x^2}$, with analogous formulas for arccsc, arcsec, and arccot.",
+  "anatomy": "Each inverse trig derivative formula has three structural pieces worth naming. First, the *sign*: $\\arcsin$ and $\\arctan$ have positive derivatives (the functions are increasing on their principal domains), while $\\arccos$ and $\\arccot$ carry a leading negative sign. Second, the *denominator expression*: for the $\\arcsin/\\arccos$ pair it is $\\sqrt{1-x^2}$, rooted in the Pythagorean identity $\\sin^2\\theta + \\cos^2\\theta = 1$, while for the $\\arctan/\\arccot$ pair it is $1+x^2$, rooted in $1+\\tan^2\\theta = \\sec^2\\theta$. Third, when the chain rule is needed, the *inner function* $u(x)$ replaces $x$ in the formula and is multiplied by $u'(x)$ \u2014 this is the factor students most often forget.",
+  "worked_example": [
+    {
+      "expression_latex": "y = \\arctan(x), \\quad \\text{derive } \\frac{dy}{dx}",
+      "description_latex": "We start from the definition: if $y = \\arctan(x)$ then $\\tan(y) = x$. We will differentiate both sides of this equation implicitly with respect to $x$, treating $y$ as a function of $x$. This is the standard technique for deriving any inverse trig formula from scratch.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sec^2(y) \\cdot \\frac{dy}{dx} = 1 \\implies \\frac{dy}{dx} = \\frac{1}{\\sec^2(y)}",
+      "description_latex": "Differentiating $\\tan(y) = x$ gives $\\sec^2(y)\\,\\frac{dy}{dx} = 1$, so we immediately isolate $\\frac{dy}{dx}$. The right-hand side is $1$ because the derivative of $x$ with respect to $x$ is simply $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sec^2(y) = 1 + \\tan^2(y) = 1 + x^2",
+      "description_latex": "We need to rewrite the answer purely in terms of $x$, not $y$. The Pythagorean identity $\\sec^2(y) = 1 + \\tan^2(y)$ is the key \u2014 and since $\\tan(y) = x$, we substitute directly to get $\\sec^2(y) = 1 + x^2$. This is why the $1+x^2$ denominator appears in the arctan formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{d}{dx}[\\arctan(x)] = \\frac{1}{1+x^2}",
+      "description_latex": "Substituting back, we arrive at the clean final formula. Notice the domain is all real numbers \u2014 unlike $\\arcsin$, there is no square root and no restriction on $x$, which makes $\\arctan$ one of the most convenient inverse trig derivatives to use in practice.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = \\arcsin(3x^2), \\quad \\text{find } f'(x)",
+      "description_latex": "This problem requires combining the $\\arcsin$ derivative formula with the chain rule. Identify the outer function as $\\arcsin(u)$ and the inner function as $u = 3x^2$. We know $\\frac{d}{du}[\\arcsin(u)] = \\frac{1}{\\sqrt{1-u^2}}$, and we will need to multiply by $u'(x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = \\frac{1}{\\sqrt{1-(3x^2)^2}} \\cdot \\frac{d}{dx}[3x^2]",
+      "description_latex": "Applying the chain rule, we place $u = 3x^2$ inside the arcsin formula's denominator and then multiply by the derivative of the inner function. You now need to compute $\\frac{d}{dx}[3x^2]$ and simplify $(3x^2)^2$ to finish the problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute the derivative of the inner function $3x^2$ and substitute it in. Then simplify the expression under the square root to write the final answer in its simplest form.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}[\\arctan(x)]",
+      "answer_latex": "\\dfrac{1}{1+x^2}"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}[\\arcsin(5x)]",
+      "answer_latex": "\\dfrac{5}{\\sqrt{1-25x^2}}"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}[\\arctan(e^x)]",
+      "answer_latex": "\\dfrac{e^x}{1+e^{2x}}"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}\\left[x^2 \\arcsin(x)\\right]",
+      "answer_latex": "2x\\arcsin(x) + \\dfrac{x^2}{\\sqrt{1-x^2}}"
+    },
+    {
+      "prompt_latex": "\\text{A particle's position is } s(t) = \\arctan(t^2). \\text{ Find the velocity } s'(t) \\text{ and determine the velocity at } t = 1.",
+      "answer_latex": "s'(t) = \\dfrac{2t}{1+t^4}, \\quad s'(1) = 1"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $\\frac{d}{dx}[\\arcsin(x)] = \\frac{1}{\\cos(x)}$ by inverting the derivative of $\\sin(x)$, but this is wrong \u2014 the derivative of an inverse function is NOT simply the reciprocal of the original derivative evaluated at $x$. The correct formula $\\frac{1}{\\sqrt{1-x^2}}$ comes from the implicit differentiation derivation, and you must memorize or re-derive it properly.",
+    "When using the chain rule, students forget to multiply by the derivative of the inner function, writing $\\frac{d}{dx}[\\arctan(3x)] = \\frac{1}{1+9x^2}$ instead of the correct $\\frac{3}{1+9x^2}$. Always ask yourself: did I multiply by $u'(x)$?",
+    "Students confuse the $\\arcsin$ and $\\arccos$ formulas, forgetting that $\\frac{d}{dx}[\\arccos(x)] = -\\frac{1}{\\sqrt{1-x^2}}$ carries a negative sign while $\\frac{d}{dx}[\\arcsin(x)]$ is positive. A helpful check: $\\arcsin(x)+\\arccos(x)=\\frac{\\pi}{2}$ is constant, so their derivatives must sum to zero, confirming the signs are opposite."
+  ],
+  "untested_variants": [
+    "Differentiating $\\text{arcsec}(x)$ or $\\text{arccsc}(x)$, which involve the formula $\\frac{1}{|x|\\sqrt{x^2-1}}$ and require careful attention to absolute value and domain restrictions.",
+    "Implicit differentiation problems where an inverse trig function appears inside a more complex equation, such as $\\arctan(y/x) = \\ln(x)$, requiring both implicit and chain rule steps simultaneously.",
+    "Higher-order derivatives of inverse trig functions, for example finding $f''(x)$ when $f(x) = \\arctan(x)$, which requires applying the quotient rule to $\\frac{1}{1+x^2}$.",
+    "Logarithmic or exponential expressions composed with inverse trig functions, such as $\\frac{d}{dx}[\\ln(\\arcsin(x))]$, which stack two chain rule applications."
+  ]
+}

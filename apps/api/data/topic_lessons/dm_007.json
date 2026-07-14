@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_007",
+  "topic_name": "Set Notation and Basic Operations",
+  "generated_at": "2026-05-13T20:11:57.203183+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to work with lists and groups of things in everyday life \u2014 like listing the students in a class or the integers between 1 and 10. But what happens when you need to precisely describe which elements two groups share, or combine them, or remove one from another? Without formal set notation and operations, you have no rigorous language to express these ideas, and proofs in logic, combinatorics, and computer science become impossible. Can you determine the exact elements in $(A \\cup B) \\setminus C$ when $A = \\{1, 2, 3\\}$, $B = \\{3, 4, 5\\}$, and $C = \\{2, 4\\}$?",
+  "concept": "A set is an unordered collection of distinct objects called elements. Formally, we write $a \\in A$ to mean element $a$ belongs to set $A$, and $a \\notin A$ to mean it does not. The three core operations are union $A \\cup B$ (elements in $A$ or $B$ or both), intersection $A \\cap B$ (elements in both $A$ and $B$), and set difference $A \\setminus B$ (elements in $A$ but not in $B$).",
+  "anatomy": "Each set expression has identifiable parts: the operands are the sets being combined, such as $A$ and $B$; the operator symbol sits between them \u2014 $\\cup$ for union, $\\cap$ for intersection, $\\setminus$ for difference, and the overline or complement notation $A^c$ (or $\\overline{A}$) for everything in the universal set $U$ not in $A$. Roster notation lists elements explicitly inside curly braces $\\{1, 2, 3\\}$, while set-builder notation uses a predicate: $\\{x \\mid P(x)\\}$ where the vertical bar reads as 'such that' and $P(x)$ is the condition elements must satisfy.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\{1, 2, 3\\},\\quad B = \\{3, 4, 5\\},\\quad C = \\{2, 4\\}",
+      "description_latex": "We start by recording the three given sets in roster notation so every element is visible at once. Having all elements listed explicitly means we can check membership by inspection rather than guessing, which is the safest approach when first learning set operations.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A \\cup B = \\{1, 2, 3, 4, 5\\}",
+      "description_latex": "Union collects every element that appears in $A$ or in $B$ (or in both), keeping each element only once even if it appears in both sets. The element $3$ is in both $A$ and $B$, but we list it just once \u2014 sets never contain duplicate entries.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(A \\cup B) \\setminus C = \\{1, 2, 3, 4, 5\\} \\setminus \\{2, 4\\}",
+      "description_latex": "Set difference $X \\setminus Y$ keeps only the elements of $X$ that do not appear in $Y$, so we now scan through $A \\cup B = \\{1,2,3,4,5\\}$ and remove any element that also belongs to $C = \\{2,4\\}$. This step translates the compound expression into a single concrete operation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(A \\cup B) \\setminus C = \\{1, 3, 5\\}",
+      "description_latex": "Removing $2$ and $4$ from $\\{1,2,3,4,5\\}$ leaves exactly $\\{1, 3, 5\\}$, which is our final answer. Notice that $5 \\in B$ but $5 \\notin C$, so it survives the removal step \u2014 only the elements explicitly in $C$ are discarded.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\{2, 4, 6, 8\\},\\quad B = \\{1, 2, 3, 4\\},\\quad \\text{find } A \\cap B",
+      "description_latex": "We are asked for the intersection of $A$ and $B$, which means we need every element that belongs to both sets simultaneously. A good strategy is to go through each element of $A$ and ask: does this element also appear in $B$?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Check each element of } A: \\quad 2 \\in B?,\\; 4 \\in B?,\\; 6 \\in B?,\\; 8 \\in B?",
+      "description_latex": "Go through $A = \\{2, 4, 6, 8\\}$ one element at a time and decide which ones are also members of $B = \\{1,2,3,4\\}$. Write down the elements that pass the membership test \u2014 those are the candidates for the intersection.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write the final answer as a set in roster notation: list exactly the elements that belong to both $A$ and $B$. What is $A \\cap B$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\{a, b, c\\}$ and $B = \\{c, d, e\\}$. Find $A \\cup B$.",
+      "answer_latex": "A \\cup B = \\{a, b, c, d, e\\}"
+    },
+    {
+      "prompt_latex": "Let $P = \\{1, 3, 5, 7\\}$ and $Q = \\{3, 6, 7, 9\\}$. Find $P \\cap Q$ and $P \\setminus Q$.",
+      "answer_latex": "P \\cap Q = \\{3, 7\\};\\quad P \\setminus Q = \\{1, 5\\}"
+    },
+    {
+      "prompt_latex": "Let $U = \\{1, 2, 3, 4, 5, 6\\}$ be the universal set and $A = \\{2, 4, 6\\}$. Find the complement $A^c$.",
+      "answer_latex": "A^c = \\{1, 3, 5\\}"
+    },
+    {
+      "prompt_latex": "Let $A = \\{1, 2, 3, 4\\}$, $B = \\{2, 3, 5\\}$, and $C = \\{1, 3, 5, 7\\}$. Compute $A \\cap (B \\cup C)$.",
+      "answer_latex": "B \\cup C = \\{1,2,3,5,7\\};\\quad A \\cap (B \\cup C) = \\{1,2,3\\}"
+    },
+    {
+      "prompt_latex": "A survey of 30 students finds that 18 own a laptop, 12 own a tablet, and 7 own both. Using set operations, how many students own a laptop or a tablet (i.e., $|L \\cup T|$)?",
+      "answer_latex": "|L \\cup T| = |L| + |T| - |L \\cap T| = 18 + 12 - 7 = 23"
+    }
+  ],
+  "common_mistakes": [
+    "Students often include duplicate elements in a union, writing $\\{1,2,3,3,4,5\\}$ instead of $\\{1,2,3,4,5\\}$ \u2014 remember that sets by definition contain each element at most once, so always remove duplicates before writing your final answer.",
+    "When computing $A \\setminus B$, students sometimes compute $B \\setminus A$ instead, confusing the order \u2014 the notation $A \\setminus B$ means 'start with $A$ and remove elements of $B$,' so the set written on the left is the one you keep elements from.",
+    "Students confuse the empty intersection with an error: if $A \\cap B = \\emptyset$, that is a valid and important result meaning the sets are disjoint, not a sign that something went wrong \u2014 always write $\\emptyset$ explicitly rather than leaving the answer blank."
+  ],
+  "untested_variants": [
+    "Cartesian products: forming the set of ordered pairs $A \\times B = \\{(a,b) \\mid a \\in A,\\, b \\in B\\}$, which requires understanding a fundamentally different kind of set construction.",
+    "Set-builder notation problems where students must translate a predicate like $\\{x \\in \\mathbb{Z} \\mid x^2 < 20\\}$ into roster form, requiring both set notation knowledge and inequality solving.",
+    "Power sets: finding $\\mathcal{P}(A)$, the set of all subsets of $A$, and recognizing that $|\\mathcal{P}(A)| = 2^{|A|}$ for a finite set $A$.",
+    "Proving set equalities using subset arguments, e.g., showing $A \\cup (B \\cap C) = (A \\cup B) \\cap (A \\cup C)$ by demonstrating mutual containment rather than by example."
+  ]
+}

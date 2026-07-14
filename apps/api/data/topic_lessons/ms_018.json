@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_018",
+  "topic_name": "The Delta Method",
+  "generated_at": "2026-05-14T01:02:26.573192+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know that if $X_1, X_2, \\ldots, X_n$ are i.i.d. with mean $\\mu$ and variance $\\sigma^2$, then the Central Limit Theorem guarantees $\\sqrt{n}(\\bar{X}_n - \\mu) \\xrightarrow{d} N(0, \\sigma^2)$. But what happens when you care not about $\\bar{X}_n$ itself, but about some transformation of it \u2014 say, $\\log(\\bar{X}_n)$, or $1/\\bar{X}_n$, or $\\bar{X}_n^2$? The CLT says nothing directly about these transformed quantities. So what is the asymptotic distribution of $g(\\bar{X}_n)$ for a smooth function $g$?",
+  "concept": "The Delta Method is a technique for finding the asymptotic distribution of a smooth function of an asymptotically normal estimator. Informally, it linearizes $g$ around its limit using a first-order Taylor expansion, then applies the CLT result to that linear approximation. Formally: if $\\sqrt{n}(T_n - \\theta) \\xrightarrow{d} N(0, \\sigma^2)$ and $g$ is differentiable at $\\theta$ with $g'(\\theta) \\neq 0$, then $\\sqrt{n}(g(T_n) - g(\\theta)) \\xrightarrow{d} N(0, [g'(\\theta)]^2 \\sigma^2)$.",
+  "anatomy": "The Delta Method has four key components. First, the base estimator $T_n$ (often $\\bar{X}_n$) is the quantity whose asymptotic normality we already know. Second, the asymptotic variance $\\sigma^2$ is the variance of the limiting normal distribution before transformation. Third, the transformation $g$ is the smooth function applied to $T_n$; it must be differentiable at the true parameter value $\\theta$. Fourth, the derivative $g'(\\theta)$ is the linearization coefficient \u2014 it is evaluated at the true parameter $\\theta$ (not at $T_n$), and it appears squared in the final asymptotic variance $[g'(\\theta)]^2 \\sigma^2$.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{i.i.d.}}{\\sim} \\text{Exponential}(\\lambda), \\quad \\text{find the asymptotic distribution of } \\log(\\bar{X}_n)",
+      "description_latex": "We want the asymptotic distribution of $\\log(\\bar{X}_n)$, where $\\bar{X}_n$ is the sample mean of an Exponential$(\\lambda)$ sample. The true mean is $\\theta = 1/\\lambda$ and the true variance is $\\sigma^2 = 1/\\lambda^2$, so we first write down what the CLT tells us about $\\bar{X}_n$ before applying any transformation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{n}\\left(\\bar{X}_n - \\frac{1}{\\lambda}\\right) \\xrightarrow{d} N\\!\\left(0,\\, \\frac{1}{\\lambda^2}\\right)",
+      "description_latex": "This is our starting point: the CLT applied directly to $\\bar{X}_n$. We know $E[X_i] = 1/\\lambda$ and $\\text{Var}(X_i) = 1/\\lambda^2$, so the asymptotic variance of $\\sqrt{n}(\\bar{X}_n - 1/\\lambda)$ is exactly $1/\\lambda^2$. We have established the base asymptotic normality that the Delta Method requires.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(x) = \\log(x), \\qquad g'(x) = \\frac{1}{x}, \\qquad g'\\!\\left(\\frac{1}{\\lambda}\\right) = \\lambda",
+      "description_latex": "We identify $g$ and compute its derivative, then evaluate at the true parameter value $\\theta = 1/\\lambda$. It is critical that we plug in the true value $1/\\lambda$, not $\\bar{X}_n$ \u2014 the Delta Method always evaluates $g'$ at the limit point $\\theta$, because the Taylor expansion is linearized there.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[g'(\\theta)]^2 \\cdot \\sigma^2 = \\lambda^2 \\cdot \\frac{1}{\\lambda^2} = 1",
+      "description_latex": "We now compute the asymptotic variance of the transformed estimator by multiplying the squared derivative by the original asymptotic variance. Notice the elegant cancellation here: the asymptotic variance of $\\log(\\bar{X}_n)$ turns out to be 1 regardless of $\\lambda$, which means the spread of $\\log(\\bar{X}_n)$ in large samples does not depend on the rate parameter at all.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{n}\\left(\\log(\\bar{X}_n) - \\log\\!\\left(\\frac{1}{\\lambda}\\right)\\right) \\xrightarrow{d} N(0,\\, 1)",
+      "description_latex": "This is our final answer, assembled by the Delta Method formula. We can equivalently write the centering term as $\\log(1/\\lambda) = -\\log(\\lambda)$, so $\\sqrt{n}(\\log(\\bar{X}_n) + \\log(\\lambda)) \\xrightarrow{d} N(0,1)$. This result could be used, for example, to construct a confidence interval for $\\log(1/\\lambda)$ or to test hypotheses about $\\lambda$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{i.i.d.}}{\\sim} \\text{Bernoulli}(p), \\quad \\text{find the asymptotic distribution of } \\hat{p}^2",
+      "description_latex": "We want to apply the Delta Method to the transformation $g(x) = x^2$ applied to the sample proportion $\\hat{p} = \\bar{X}_n$. First, recall that $E[X_i] = p$ and $\\text{Var}(X_i) = p(1-p)$, so by the CLT we have $\\sqrt{n}(\\hat{p} - p) \\xrightarrow{d} N(0,\\, p(1-p))$. This is the base asymptotic normality we need.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(x) = x^2, \\qquad g'(x) = 2x, \\qquad g'(p) = 2p",
+      "description_latex": "Now you need to identify the transformation, compute its derivative, and evaluate that derivative at the true parameter value $p$. What is $g'(p)$, and therefore what is $[g'(p)]^2$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "[g'(p)]^2 \\cdot p(1-p) = 4p^2 \\cdot p(1-p) = 4p^3(1-p)",
+      "description_latex": "We multiply the squared derivative by the base asymptotic variance to get the asymptotic variance of $\\sqrt{n}(\\hat{p}^2 - p^2)$. This multiplication step is the heart of the Delta Method \u2014 you are propagating the variability of $\\hat{p}$ through the function $g$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write down the complete asymptotic distribution statement: $\\sqrt{n}(\\hat{p}^2 - p^2) \\xrightarrow{d} N(\\cdot, \\cdot)$. Fill in both the mean and the variance of the limiting normal distribution.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{i.i.d.}}{\\sim} N(\\mu, 4)$. Use the Delta Method to find the asymptotic distribution of $\\sqrt{n}(e^{\\bar{X}_n} - e^\\mu)$.",
+      "answer_latex": "\\sqrt{n}(e^{\\bar{X}_n} - e^\\mu) \\xrightarrow{d} N(0,\\, 4e^{2\\mu})"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{i.i.d.}}{\\sim}$ with mean $\\mu > 0$ and variance $\\sigma^2$. Find the asymptotic distribution of $\\sqrt{n}(1/\\bar{X}_n - 1/\\mu)$.",
+      "answer_latex": "\\sqrt{n}\\!\\left(\\frac{1}{\\bar{X}_n} - \\frac{1}{\\mu}\\right) \\xrightarrow{d} N\\!\\left(0,\\, \\frac{\\sigma^2}{\\mu^4}\\right)"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{i.i.d.}}{\\sim} \\text{Poisson}(\\lambda)$. Find the asymptotic distribution of $\\sqrt{n}(\\sqrt{\\bar{X}_n} - \\sqrt{\\lambda})$.",
+      "answer_latex": "\\sqrt{n}(\\sqrt{\\bar{X}_n} - \\sqrt{\\lambda}) \\xrightarrow{d} N\\!\\left(0,\\, \\frac{1}{4}\\right)"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{i.i.d.}}{\\sim} \\text{Uniform}(0, \\theta)$. The MLE of $\\theta$ satisfies $\\sqrt{n}(\\hat{\\theta}_{\\text{MLE}} - \\theta) \\xrightarrow{d} N(0, \\theta^2)$. Use the Delta Method to find the asymptotic distribution of $\\sqrt{n}(\\hat{\\theta}_{\\text{MLE}}^3 - \\theta^3)$.",
+      "answer_latex": "\\sqrt{n}(\\hat{\\theta}_{\\text{MLE}}^3 - \\theta^3) \\xrightarrow{d} N(0,\\, 9\\theta^8)"
+    },
+    {
+      "prompt_latex": "A biologist estimates the proportion $p$ of a species carrying a gene by observing $\\hat{p} = \\bar{X}_n$ from $n$ Bernoulli trials. She reports the odds $\\hat{p}/(1-\\hat{p})$ as her summary statistic. Derive the asymptotic distribution of $\\sqrt{n}\\bigl(\\hat{p}/(1-\\hat{p}) - p/(1-p)\\bigr)$ and interpret the asymptotic variance in terms of $p$.",
+      "answer_latex": "\\sqrt{n}\\!\\left(\\frac{\\hat{p}}{1-\\hat{p}} - \\frac{p}{1-p}\\right) \\xrightarrow{d} N\\!\\left(0,\\, \\frac{p}{(1-p)^3}\\right)"
+    }
+  ],
+  "common_mistakes": [
+    "Evaluating the derivative $g'$ at the estimator $T_n$ rather than at the true parameter $\\theta$: for example, writing $g'(\\bar{X}_n)$ instead of $g'(\\mu)$ in the asymptotic variance formula. The fix is to remember that the Taylor expansion is linearized at the limit point $\\theta$, so $g'$ must always be evaluated at the true (population) value.",
+    "Forgetting to square the derivative when computing the asymptotic variance, writing $g'(\\theta) \\cdot \\sigma^2$ instead of $[g'(\\theta)]^2 \\cdot \\sigma^2$. This error produces an answer with wrong units and wrong magnitude; always square the derivative because variance is a quadratic quantity.",
+    "Applying the Delta Method when $g'(\\theta) = 0$, and concluding the asymptotic distribution is $N(0,0)$ (a point mass). When the first derivative vanishes at $\\theta$, the first-order Delta Method gives a degenerate result and one must use the second-order Delta Method, which involves $g''(\\theta)$ and produces a chi-squared limiting distribution rather than a normal one."
+  ],
+  "untested_variants": [
+    "The multivariate Delta Method, where $T_n$ is a vector-valued estimator converging to $\\boldsymbol{\\theta} \\in \\mathbb{R}^k$, $g: \\mathbb{R}^k \\to \\mathbb{R}$, and the asymptotic variance becomes $\\nabla g(\\boldsymbol{\\theta})^\\top \\Sigma \\, \\nabla g(\\boldsymbol{\\theta})$ involving the gradient and the covariance matrix $\\Sigma$.",
+    "The second-order Delta Method applied when $g'(\\theta) = 0$, which requires expanding to the second-order term and yields a limiting distribution proportional to a chi-squared rather than a normal distribution.",
+    "Using the Delta Method to derive asymptotic confidence intervals directly, including the step where $g'(\\theta)$ is estimated by $g'(T_n)$ (Slutsky's theorem justification) to produce a fully data-driven interval.",
+    "Applying the Delta Method to functions of sample quantiles or order statistics, where the base asymptotic normality result comes from the asymptotic distribution of a sample quantile rather than the standard CLT for the mean."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_067",
+  "topic_name": "Introduction to Tensors in Applied Contexts (H)",
+  "generated_at": "2026-05-13T20:11:29.692666+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how vectors capture direction and magnitude, and how matrices represent linear transformations between vector spaces. But what happens when a physical quantity \u2014 like the stress inside a deforming solid, or the electromagnetic field \u2014 depends on *two* directions at once and can't be captured by a single vector or a plain matrix acting on one input? You've seen that a matrix $A$ acts on one vector to produce another, but what object naturally takes *two* vectors as inputs and returns a scalar, or takes one vector and returns a matrix? What mathematical structure generalises both vectors and matrices to handle multi-directional dependencies?",
+  "concept": "A tensor is a multilinear map: it takes a fixed number of vector (and/or covector) inputs and returns a scalar, behaving linearly in each argument separately. Formally, a tensor of type $(r, s)$ over a vector space $V$ is a multilinear map $T: V^* \\times \\cdots \\times V^* \\times V \\times \\cdots \\times V \\to \\mathbb{R}$, with $r$ copies of $V^*$ (dual space) and $s$ copies of $V$. Scalars are $(0,0)$-tensors, vectors $(1,0)$, covectors $(0,1)$, and matrices $(1,1)$.",
+  "anatomy": "A tensor $T$ of type $(r,s)$ has several named parts worth distinguishing. The *rank* (or order) is the total number of indices $r+s$, telling you how many arguments $T$ accepts. The *contravariant degree* $r$ counts how many dual-space (covector) slots the tensor has \u2014 these transform like vector components under a change of basis. The *covariant degree* $s$ counts how many vector slots it has \u2014 these transform like covector components. In a chosen basis $\\{e_i\\}$ with dual basis $\\{e^j\\}$, the tensor is completely described by its *components* $T^{i_1\\cdots i_r}{}_{j_1\\cdots j_s}$, which are the scalar values obtained by feeding all basis vectors and dual-basis covectors into $T$.",
+  "worked_example": [
+    {
+      "expression_latex": "T: V \\times V \\to \\mathbb{R}, \\quad T(u, v) = u^\\top A\\, v",
+      "description_latex": "We start by defining a specific rank-2 covariant tensor $T$ using a matrix $A$. For any two vectors $u, v \\in \\mathbb{R}^n$, the expression $u^\\top A v$ takes two vector inputs and produces a scalar, which is exactly what a $(0,2)$-tensor does. This is one of the most common tensors in applications \u2014 it includes inner products and quadratic forms as special cases.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(\\alpha u_1 + \\beta u_2,\\, v) = (\\alpha u_1 + \\beta u_2)^\\top A v = \\alpha\\, u_1^\\top A v + \\beta\\, u_2^\\top A v = \\alpha\\, T(u_1, v) + \\beta\\, T(u_2, v)",
+      "description_latex": "We verify multilinearity in the first argument by substituting a linear combination $\\alpha u_1 + \\beta u_2$ and using the linearity of matrix multiplication. The fact that $\\alpha$ and $\\beta$ factor out completely confirms that $T$ is linear in its first slot. An identical calculation in the second argument (holding the first fixed) would complete the proof that $T$ is genuinely bilinear, hence a tensor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T_{ij} = T(e_i, e_j) = e_i^\\top A\\, e_j = A_{ij}",
+      "description_latex": "Now we extract the *components* of $T$ in the standard basis $\\{e_1, \\ldots, e_n\\}$. Feeding basis vectors into both slots gives exactly the $(i,j)$ entry of $A$, so the component array of this tensor *is* the matrix $A$. This shows that a matrix can always be read as the component representation of a $(0,2)$-tensor once a basis is chosen \u2014 the tensor is the basis-independent object, and $A$ is its coordinate expression.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(u, v) = T\\!\\left(u^i e_i,\\, v^j e_j\\right) = u^i v^j\\, T(e_i, e_j) = u^i v^j A_{ij}",
+      "description_latex": "Using Einstein summation notation, we reconstruct $T(u,v)$ from the components $u^i$, $v^j$, and $A_{ij}$ by pulling scalars out of each argument via multilinearity. This is the key computational payoff: once you know all components $T_{ij} = A_{ij}$, you can evaluate the tensor on *any* pair of vectors by summing $u^i v^j A_{ij}$ over all $i$ and $j$. It also shows why tensors are so efficient \u2014 finite component tables encode infinite multilinear behaviour.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "S: \\mathbb{R}^2 \\times \\mathbb{R}^2 \\to \\mathbb{R}, \\quad S(u,v) = 3u_1 v_1 - u_1 v_2 + 2u_2 v_2",
+      "description_latex": "We are given a bilinear map $S$ on $\\mathbb{R}^2$. Our goal is to find all four components $S_{ij} = S(e_i, e_j)$ by evaluating $S$ on each pair of standard basis vectors $e_1 = (1,0)^\\top$ and $e_2 = (0,1)^\\top$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S_{11} = S(e_1, e_1) = 3(1)(1) - (1)(0) + 2(0)(0) = 3",
+      "description_latex": "We compute $S_{11}$ by substituting $u = e_1 = (1,0)^\\top$ and $v = e_1 = (1,0)^\\top$ into the formula. Notice that only the term $3u_1 v_1$ survives because all other components are zero. This single number tells us how $S$ responds when both inputs point in the $e_1$ direction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S_{12} = S(e_1, e_2) = ?,\\quad S_{21} = S(e_2, e_1) = ?,\\quad S_{22} = S(e_2, e_2) = ?",
+      "description_latex": "Now complete the component table by computing the remaining three entries. Substitute $(u, v) = (e_1, e_2)$, then $(e_2, e_1)$, then $(e_2, e_2)$ into the formula for $S$. Notice whether $S_{12}$ equals $S_{21}$ \u2014 what does your answer say about whether $S$ is symmetric as a bilinear form?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "[S_{ij}] = \\begin{pmatrix} 3 & -1 \\\\ 0 & 2 \\end{pmatrix}",
+      "description_latex": "Assembling the four values into the component matrix confirms that $S$ is represented by this $2\\times 2$ array in the standard basis. Because $S_{12} = -1 \\neq 0 = S_{21}$, the tensor is *not* symmetric, which means $S(u,v) \\neq S(v,u)$ in general \u2014 a reminder that the tensor carries more structure than just a quadratic form.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the type $(r, s)$ and rank of each object: (a) a scalar, (b) a vector in $V$, (c) a linear map $f: V \\to V$ represented by a square matrix.",
+      "answer_latex": "(a) type $(0,0)$, rank $0$; \\quad (b) type $(1,0)$, rank $1$; \\quad (c) type $(1,1)$, rank $2$"
+    },
+    {
+      "prompt_latex": "Let $T: \\mathbb{R}^2 \\times \\mathbb{R}^2 \\to \\mathbb{R}$ be defined by $T(u,v) = u_1 v_2 - u_2 v_1$. Compute all components $T_{ij}$ in the standard basis and write the component matrix $[T_{ij}]$.",
+      "answer_latex": "[T_{ij}] = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Show that the map $B: \\mathbb{R}^n \\times \\mathbb{R}^n \\to \\mathbb{R}$ defined by $B(u,v) = u \\cdot v$ (the dot product) is a symmetric $(0,2)$-tensor, and identify its component matrix.",
+      "answer_latex": "Linearity in each argument follows from properties of the dot product. Symmetry: $B(u,v) = u \\cdot v = v \\cdot u = B(v,u)$. The component matrix is $[B_{ij}] = [e_i \\cdot e_j] = I_n$, the $n \\times n$ identity."
+    },
+    {
+      "prompt_latex": "A change of basis in $\\mathbb{R}^2$ is given by the matrix $P = \\begin{pmatrix} 2 & 1 \\\\ 0 & 1 \\end{pmatrix}$ (new basis vectors are the columns of $P$). If a $(0,2)$-tensor has component matrix $A = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$ in the standard basis, find its component matrix $\\tilde{A}$ in the new basis using the covariant transformation law $\\tilde{A} = P^\\top A P$.",
+      "answer_latex": "\\tilde{A} = P^\\top I P = P^\\top P = \\begin{pmatrix} 2 & 0 \\\\ 1 & 1 \\end{pmatrix}\\begin{pmatrix} 2 & 1 \\\\ 0 & 1 \\end{pmatrix} = \\begin{pmatrix} 4 & 2 \\\\ 2 & 2 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "In continuum mechanics, the stress tensor $\\sigma$ at a point is a symmetric $(0,2)$-tensor on $\\mathbb{R}^3$. Given the component matrix $[\\sigma_{ij}] = \\begin{pmatrix} 5 & 1 & 0 \\\\ 1 & 3 & 0 \\\\ 0 & 0 & 2 \\end{pmatrix}$ (in MPa), compute the traction vector component $t_i = \\sigma_{ij} n^j$ on the surface with unit normal $n = (1, 0, 0)^\\top$, and interpret the result physically.",
+      "answer_latex": "t = \\sigma_{ij} n^j = \\begin{pmatrix} 5 & 1 & 0 \\\\ 1 & 3 & 0 \\\\ 0 & 0 & 2 \\end{pmatrix}\\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix} = \\begin{pmatrix}5\\\\1\\\\0\\end{pmatrix}\\text{ MPa}. The normal stress on this face is 5 MPa and the shear stress is 1 MPa in the $e_2$ direction."
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the *rank of a tensor* (total number of indices, e.g. $r+s = 2$ for a matrix) with the *rank of a matrix* (dimension of its column space). These are completely different concepts; always clarify which meaning of 'rank' is being used in context.",
+    "When computing tensor components, students substitute basis vectors into only one slot and leave the other as a free variable, getting a vector instead of a scalar. Remember that $T_{ij} = T(e_i, e_j)$ requires feeding a basis vector into *every* slot to obtain a single number.",
+    "Students assume that the component matrix of a $(0,2)$-tensor is automatically symmetric, confusing the general case with the special case of inner products. A bilinear map $T(u,v)$ is symmetric only if $T(u,v) = T(v,u)$ for all $u, v$ \u2014 you must check this explicitly from the definition, not assume it."
+  ],
+  "untested_variants": [
+    "Tensor products of two vectors: constructing the rank-2 tensor $u \\otimes v$ explicitly, computing its components as the outer product $u^i v^j$, and verifying it is not the same as the inner product.",
+    "Contraction of a $(1,1)$-tensor (i.e., taking the trace) and verifying it yields a basis-independent scalar \u2014 the trace interpretation of contraction is not covered in the practice problems.",
+    "The transformation law for a mixed $(1,1)$-tensor under a change of basis, $\\tilde{T}^i{}_j = (P^{-1})^i{}_k\\, T^k{}_l\\, P^l{}_j$, contrasted with the purely covariant law used in problem 4.",
+    "Identifying whether a given multilinear map fails to be a tensor because it is not linear in one of its arguments \u2014 i.e., distinguishing genuine tensors from maps that look similar but violate multilinearity."
+  ]
+}

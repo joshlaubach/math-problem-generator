@@ -1,0 +1,81 @@
+{
+  "topic_id": "c1_045",
+  "topic_name": "Euler's Method (H)",
+  "generated_at": "2026-05-13T00:17:28.862574+00:00",
+  "course_name": "Calculus I",
+  "hook": "You know how to solve separable differential equations exactly, finding a clean formula for $y(x)$. But what happens when the equation $\\frac{dy}{dx} = f(x, y)$ is too complicated to integrate, or has no closed-form solution at all? You still need numbers \u2014 what is $y$ at $x = 1.5$, or at $x = 3$? The derivative tells you the slope at every point, so can you use that slope information to trace the solution curve step by step, even without an exact formula?",
+  "concept": "Euler's Method is a numerical technique for approximating the solution to an initial value problem by repeatedly following the tangent line. Given $\\frac{dy}{dx} = f(x, y)$ with $y(x_0) = y_0$ and a step size $h$, each new approximation is computed as $y_{n+1} = y_n + h \\cdot f(x_n, y_n)$, where $x_{n+1} = x_n + h$. You are replacing the unknown curve with a sequence of short straight-line segments, each tangent to where you currently stand.",
+  "anatomy": "Each iteration of Euler's Method has four named components. The current point $(x_n, y_n)$ is your starting position on the approximate solution. The slope $f(x_n, y_n)$ is evaluated from the differential equation at that current point \u2014 this is the rise-over-run of the tangent line you will follow. The step size $h$ controls how far along the $x$-axis you move in one iteration; smaller $h$ gives better accuracy but requires more steps. Finally, $y_{n+1} = y_n + h \\cdot f(x_n, y_n)$ is the update formula, which moves you to the next approximate point by travelling along the tangent line for a horizontal distance of $h$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = x + y, \\quad y(0) = 1, \\quad h = 0.1, \\text{ find } y(0.3)",
+      "description_latex": "We are given the IVP and asked to approximate $y$ at $x = 0.3$ using three steps of Euler's Method with step size $h = 0.1$. Our starting point is $(x_0, y_0) = (0, 1)$, and the slope function is $f(x, y) = x + y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_1 = y_0 + h \\cdot f(x_0, y_0) = 1 + 0.1 \\cdot f(0, 1) = 1 + 0.1 \\cdot (0 + 1) = 1.1",
+      "description_latex": "For step 1, we evaluate the slope at our current point: $f(0, 1) = 0 + 1 = 1$. We then move horizontally by $h = 0.1$ and vertically by $h \\cdot f = 0.1$, arriving at the new point $(x_1, y_1) = (0.1, 1.1)$. Think of it as walking along the tangent line for a short distance.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_2 = y_1 + h \\cdot f(x_1, y_1) = 1.1 + 0.1 \\cdot f(0.1, 1.1) = 1.1 + 0.1 \\cdot (0.1 + 1.1) = 1.1 + 0.12 = 1.22",
+      "description_latex": "For step 2, we update our position to $(x_1, y_1) = (0.1, 1.1)$ and compute a fresh slope: $f(0.1, 1.1) = 1.2$. The slope is larger now because both $x$ and $y$ have grown, which is exactly why we must recompute $f$ at every step rather than reusing the old slope.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_3 = y_2 + h \\cdot f(x_2, y_2) = 1.22 + 0.1 \\cdot f(0.2, 1.22) = 1.22 + 0.1 \\cdot (0.2 + 1.22) = 1.22 + 0.142 = 1.362",
+      "description_latex": "For step 3, our current point is $(0.2, 1.22)$ and the slope is $f(0.2, 1.22) = 1.42$. After one more step we arrive at $(0.3, 1.362)$, so our Euler approximation gives $y(0.3) \\approx 1.362$. The exact solution is $y = 2e^x - x - 1$, which gives $y(0.3) \\approx 1.3997$, so our approximation has a small but nonzero error from accumulating tangent-line overshoots.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = 2x - y, \\quad y(0) = 0, \\quad h = 0.2, \\text{ find } y(0.4)",
+      "description_latex": "We need two Euler steps starting at $(x_0, y_0) = (0, 0)$ with $f(x,y) = 2x - y$ and $h = 0.2$. Let's lay out the structure before computing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_1 = 0 + 0.2 \\cdot f(0, 0) = 0 + 0.2 \\cdot (0 - 0) = 0",
+      "description_latex": "Step 1 is completed for you: the slope at the origin is $f(0,0) = 0$, so we stay at $y = 0$ and move to $(x_1, y_1) = (0.2, 0)$. Notice the slope was zero here \u2014 that will change at the next point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now complete step 2: compute $f(x_1, y_1) = f(0.2, 0)$, then apply the update formula $y_2 = y_1 + h \\cdot f(x_1, y_1)$ to find the Euler approximation for $y(0.4)$. Show each part of the calculation.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $\\frac{dy}{dx} = y$ with $y(0) = 1$ and $h = 0.5$, apply one step of Euler's Method to approximate $y(0.5)$.",
+      "answer_latex": "y_1 = 1 + 0.5 \\cdot 1 = 1.5"
+    },
+    {
+      "prompt_latex": "Use Euler's Method with $h = 0.25$ to approximate $y(0.5)$ for the IVP $\\frac{dy}{dx} = x^2$, $y(0) = 0$. Use two steps and show the table of values.",
+      "answer_latex": "y_1 = 0 + 0.25 \\cdot 0 = 0; \\quad y_2 = 0 + 0.25 \\cdot (0.25)^2 = 0.015625"
+    },
+    {
+      "prompt_latex": "Apply Euler's Method with step size $h = 0.1$ to $\\frac{dy}{dx} = xy$, $y(0) = 2$ to approximate $y(0.2)$. Use two steps.",
+      "answer_latex": "y_1 = 2 + 0.1(0)(2) = 2; \\quad y_2 = 2 + 0.1(0.1)(2) = 2.02"
+    },
+    {
+      "prompt_latex": "For the IVP $\\frac{dy}{dx} = y - x^2 + 1$, $y(0) = 0.5$, use Euler's Method with $h = 0.2$ to approximate $y(0.6)$ (three steps). The exact solution is $y = (x+1)^2 - 0.5e^x$; compute the exact value of $y(0.6)$ and find the absolute error in your approximation.",
+      "answer_latex": "\\text{Euler: } y_1 \\approx 0.8,\\ y_2 \\approx 1.152,\\ y_3 \\approx 1.5504; \\quad y_{\\text{exact}}(0.6) \\approx 1.6255; \\quad \\text{error} \\approx 0.075"
+    },
+    {
+      "prompt_latex": "A population grows according to $\\frac{dP}{dt} = 0.3P(1 - P/100)$, $P(0) = 10$ (logistic model). Using Euler's Method with $h = 1$, estimate the population at $t = 2$. Round intermediate values to two decimal places.",
+      "answer_latex": "P_1 = 10 + 1 \\cdot 0.3(10)(0.9) = 12.7; \\quad P_2 = 12.7 + 0.3(12.7)(0.873) \\approx 16.03"
+    }
+  ],
+  "common_mistakes": [
+    "Students reuse the slope from step $n$ for step $n+1$, writing $y_{n+1} = y_n + h \\cdot f(x_0, y_0)$ throughout. The fix is to remember that you must evaluate $f$ at the current point $(x_n, y_n)$ at every new step \u2014 the whole point of the method is that the slope updates as you move.",
+    "Students forget to update $x_n$ alongside $y_n$, keeping $x$ fixed at $x_0$ while only changing $y$. Since $f$ often depends on $x$, this means you are computing the wrong slope at every step after the first; always set $x_{n+1} = x_n + h$ before evaluating the next slope.",
+    "Students apply the formula in the wrong order, computing $y_{n+1}$ using the new $x_{n+1}$ already substituted into $f$, effectively writing $y_{n+1} = y_n + h \\cdot f(x_{n+1}, y_n)$. Euler's Method always evaluates the slope at the old point $(x_n, y_n)$ before stepping forward \u2014 that is what makes it a forward (explicit) method."
+  ],
+  "untested_variants": [
+    "Euler's Method with a non-uniform or variable step size, where $h$ changes between iterations to improve accuracy near regions of rapid change.",
+    "Backward (implicit) Euler Method, where the update formula uses the slope at the new point $y_{n+1} = y_n + h \\cdot f(x_{n+1}, y_{n+1})$, requiring an equation to be solved at each step.",
+    "Systems of two first-order ODEs solved simultaneously with Euler's Method, such as predator-prey equations where both $x(t)$ and $y(t)$ are updated at each step.",
+    "Error analysis and convergence: determining how global truncation error scales as $O(h)$ and choosing $h$ to achieve a prescribed accuracy bound."
+  ]
+}

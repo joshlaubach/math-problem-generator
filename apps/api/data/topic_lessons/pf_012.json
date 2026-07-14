@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_012",
+  "topic_name": "Weak Induction",
+  "generated_at": "2026-05-13T20:18:37.092371+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to verify a formula for specific values \u2014 you might check that $1 + 2 + 3 = 6$ and $\\frac{3 \\cdot 4}{2} = 6$, confirming the sum formula works for $n = 3$. But checking finitely many cases never proves a statement holds for every positive integer, no matter how many you test. How can we ever prove something is true for infinitely many values of $n$ with a finite argument?",
+  "concept": "Mathematical induction is a proof technique that establishes a statement $P(n)$ for all integers $n \\geq n_0$ by using a two-step logical argument: first prove the statement holds at a starting value (the base case), then prove that whenever it holds for some arbitrary integer $k$, it must also hold for $k+1$ (the inductive step). Formally, if $P(n_0)$ is true and $[P(k) \\Rightarrow P(k+1)]$ for all $k \\geq n_0$, then $P(n)$ is true for all integers $n \\geq n_0$.",
+  "anatomy": "A weak induction proof has four named components. The **statement** $P(n)$ is the precise proposition you are proving, written as a function of $n$ \u2014 for example, $\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$. The **base case** verifies $P(n_0)$ directly, usually by substituting $n_0$ (most often $1$) and checking both sides. The **inductive hypothesis** is the explicit assumption that $P(k)$ holds for some fixed but arbitrary $k \\geq n_0$; this is your working tool in the next step. The **inductive step** is the logical argument that derives $P(k+1)$ from the inductive hypothesis \u2014 this is where the real mathematical work happens and where students must explicitly invoke the hypothesis.",
+  "worked_example": [
+    {
+      "expression_latex": "P(n): \\sum_{i=1}^{n} i = \\frac{n(n+1)}{2} \\text{ for all integers } n \\geq 1",
+      "description_latex": "We first state precisely what we are proving. Writing $P(n)$ as an explicit equation before doing anything else keeps the proof focused and tells us exactly what we need to verify in the base case and derive in the inductive step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Base case } (n=1): \\quad \\sum_{i=1}^{1} i = 1 \\quad \\text{and} \\quad \\frac{1 \\cdot 2}{2} = 1. \\quad \\checkmark",
+      "description_latex": "We verify $P(1)$ by computing both sides independently and confirming they are equal. This single check anchors the entire chain of implications that follows \u2014 without it, the inductive step would have nothing to 'push off from.'",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Inductive hypothesis:} \\text{ Assume } \\sum_{i=1}^{k} i = \\frac{k(k+1)}{2} \\text{ holds for some fixed } k \\geq 1.",
+      "description_latex": "We explicitly state what we are assuming. Notice we are not assuming the result is true for all $n$ \u2014 only for one particular integer $k$. This is the key distinction of weak induction, and stating the hypothesis clearly tells the reader (and yourself) exactly which fact you are allowed to use in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Inductive step:} \\quad \\sum_{i=1}^{k+1} i = \\left(\\sum_{i=1}^{k} i\\right) + (k+1) = \\frac{k(k+1)}{2} + (k+1)",
+      "description_latex": "We peel off the last term of the $(k+1)$-sum to reveal the $k$-sum inside it, then substitute the inductive hypothesis for that inner sum. This substitution is the heart of every induction proof \u2014 we are deliberately creating the hypothesis inside the expression for $P(k+1)$ so we can replace it with the formula we assumed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= (k+1)\\left(\\frac{k}{2} + 1\\right) = (k+1) \\cdot \\frac{k+2}{2} = \\frac{(k+1)(k+2)}{2}",
+      "description_latex": "We factor and simplify the algebra to obtain exactly the formula $P(k+1)$ predicts, namely $\\frac{(k+1)((k+1)+1)}{2}$. Because we derived $P(k+1)$ from $P(k)$, and we verified $P(1)$, the principle of induction guarantees $P(n)$ holds for all $n \\geq 1$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(n): \\sum_{i=1}^{n} (2i - 1) = n^2 \\text{ for all integers } n \\geq 1",
+      "description_latex": "We want to prove that the sum of the first $n$ odd numbers equals $n^2$. The statement is already written out for you \u2014 notice that both sides must match when we substitute $k+1$ at the end of the argument.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Base case } (n=1): \\quad \\sum_{i=1}^{1}(2i-1) = 1 \\quad \\text{and} \\quad 1^2 = 1. \\quad \\checkmark",
+      "description_latex": "The base case is verified: both sides equal $1$ when $n = 1$, so $P(1)$ is true and our induction chain has a valid starting point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Inductive hypothesis:} \\text{ Assume } \\sum_{i=1}^{k}(2i-1) = k^2 \\text{ for some fixed } k \\geq 1.",
+      "description_latex": "We state the inductive hypothesis explicitly. Now use this assumption to prove $P(k+1)$: show that $\\sum_{i=1}^{k+1}(2i-1) = (k+1)^2$ by peeling off the last term and substituting the hypothesis.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Complete the inductive step: write $\\sum_{i=1}^{k+1}(2i-1)$ by separating the $(k+1)$-th term, apply the inductive hypothesis, then simplify to arrive at $(k+1)^2$. Show every algebraic step clearly.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove by weak induction that $\\sum_{i=1}^{n} 1 = n$ for all integers $n \\geq 1$.",
+      "answer_latex": "\\textbf{Base case:} $n=1$: $\\sum_{i=1}^{1}1 = 1 = 1$. $\\checkmark$ \\quad \\textbf{IH:} Assume $\\sum_{i=1}^{k}1 = k$. \\quad \\textbf{IS:} $\\sum_{i=1}^{k+1}1 = k + 1 = k+1$. $\\checkmark$"
+    },
+    {
+      "prompt_latex": "Prove by weak induction that $\\sum_{i=1}^{n} 2i = n(n+1)$ for all integers $n \\geq 1$.",
+      "answer_latex": "\\textbf{Base case:} $2(1)=2=1\\cdot2$. $\\checkmark$ \\quad \\textbf{IH:} Assume $\\sum_{i=1}^{k}2i = k(k+1)$. \\quad \\textbf{IS:} $\\sum_{i=1}^{k+1}2i = k(k+1)+2(k+1) = (k+1)(k+2)$. $\\checkmark$"
+    },
+    {
+      "prompt_latex": "Prove by weak induction that $n! \\geq 2^{n-1}$ for all integers $n \\geq 1$.",
+      "answer_latex": "\\textbf{Base case:} $1! = 1 \\geq 2^0 = 1$. $\\checkmark$ \\quad \\textbf{IH:} Assume $k! \\geq 2^{k-1}$ for some $k \\geq 1$. \\quad \\textbf{IS:} $(k+1)! = (k+1)\\cdot k! \\geq 2 \\cdot 2^{k-1} = 2^k$ since $k+1 \\geq 2$. $\\checkmark$"
+    },
+    {
+      "prompt_latex": "Prove by weak induction that $\\sum_{i=0}^{n} r^i = \\frac{r^{n+1}-1}{r-1}$ for all integers $n \\geq 0$, where $r \\neq 1$ is a fixed real number.",
+      "answer_latex": "\\textbf{Base case:} $r^0 = 1 = \\frac{r-1}{r-1}$. $\\checkmark$ \\quad \\textbf{IH:} Assume $\\sum_{i=0}^{k}r^i = \\frac{r^{k+1}-1}{r-1}$. \\quad \\textbf{IS:} $\\sum_{i=0}^{k+1}r^i = \\frac{r^{k+1}-1}{r-1} + r^{k+1} = \\frac{r^{k+1}-1 + r^{k+1}(r-1)}{r-1} = \\frac{r^{k+2}-1}{r-1}$. $\\checkmark$"
+    },
+    {
+      "prompt_latex": "A staircase has $n$ steps. Each step requires exactly one new brick to be added to a staircase structure where row $i$ (from the top) contains $i$ bricks, so the total number of bricks in an $n$-step staircase is claimed to be $\\frac{n(n+1)}{2}$. Prove this claim by weak induction.",
+      "answer_latex": "This is precisely the triangular-number identity. \\textbf{Base case:} A 1-step staircase has 1 brick $= \\frac{1 \\cdot 2}{2}$. $\\checkmark$ \\quad \\textbf{IH:} Assume a $k$-step staircase uses $\\frac{k(k+1)}{2}$ bricks. \\quad \\textbf{IS:} Adding step $k+1$ places $k+1$ bricks in the new bottom row, giving $\\frac{k(k+1)}{2} + (k+1) = \\frac{(k+1)(k+2)}{2}$. $\\checkmark$"
+    }
+  ],
+  "common_mistakes": [
+    "Assuming $P(n)$ is true for ALL $n$ in the inductive hypothesis instead of for a single fixed $k$: writing 'assume the formula holds for all $n$' is circular reasoning \u2014 the fix is to explicitly say 'assume $P(k)$ holds for some fixed (but arbitrary) $k \\geq n_0$.'",
+    "Forgetting to explicitly invoke the inductive hypothesis during the inductive step: students sometimes massage $P(k+1)$ into the correct form through pure algebra without ever writing which step uses the hypothesis, making the proof logically incomplete \u2014 always label the line where you substitute the inductive hypothesis.",
+    "Skipping or trivializing the base case, especially when the base case requires checking an inequality or a non-obvious equality: a missing base case means the entire proof is invalid regardless of how clean the inductive step is \u2014 always substitute $n = n_0$ into both sides and confirm equality or the inequality explicitly."
+  ],
+  "untested_variants": [
+    "Induction starting at a base case other than $n = 1$, such as proving $2^n > n^2$ for all $n \\geq 5$, which requires careful identification of $n_0 = 5$ and verification there.",
+    "Induction used to prove divisibility statements, such as showing $6 \\mid (n^3 - n)$ for all $n \\geq 1$, where the inductive step involves algebraic manipulation of divisibility rather than summing terms.",
+    "Induction on inequalities involving two competing exponential or factorial expressions, such as proving $n! > 3^n$ for all $n \\geq 7$, which combines inequality reasoning with the inductive step.",
+    "Induction to prove properties of sets or sequences defined recursively (e.g., a sequence given by $a_1 = 1$, $a_{n+1} = 2a_n + 1$), where the student must first find a closed form and then prove it by induction."
+  ]
+}

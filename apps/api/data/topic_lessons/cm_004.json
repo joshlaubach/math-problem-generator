@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_004",
+  "topic_name": "Functional Equations (H)",
+  "generated_at": "2026-05-13T20:21:41.518407+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to solve equations like $3x + 5 = 11$ for a number $x$. But what if the unknown isn't a number \u2014 it's an entire function? For example, suppose $f(x + 1) = f(x) + 2x + 1$ for all real $x$, and you're asked to find $f(x)$ explicitly. You can't just isolate a variable the usual way \u2014 you need a completely different toolkit. How do you even begin to find a function that satisfies a rule like this?",
+  "concept": "A functional equation is an equation where the unknown is a function, and the equation must hold for all values in some domain. Instead of solving for a number, you're searching for a function $f$ (or multiple functions) satisfying a condition like $f(x + y) = f(x) + f(y)$ for all $x, y$. The key idea is that substituting clever specific values of the variables \u2014 or comparing multiple substitutions \u2014 lets you pin down what $f$ must be.",
+  "anatomy": "Every functional equation has several identifiable parts: the unknown function $f$ (which maps inputs to outputs and is what you're solving for); the functional arguments, meaning the expressions fed into $f$ such as $x+y$, $2x$, or $xy$; the domain condition (often 'for all real $x$'), which tells you the equation must hold universally, not just at one point; and boundary or initial conditions such as $f(0) = 1$, which anchor the solution. Recognizing these parts \u2014 especially the structure of the arguments \u2014 guides which substitutions to try.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x + y) = f(x) + f(y) \\text{ for all } x, y \\in \\mathbb{R}, \\text{ with } f(1) = 3.",
+      "description_latex": "We begin by reading the equation carefully: it must hold for every pair of real numbers $x$ and $y$. Our first move is always to substitute simple values \u2014 let's try $x = y = 0$ to extract information about $f(0)$, since zero is the additive identity and often simplifies arguments.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(0 + 0) = f(0) + f(0) \\implies f(0) = 2f(0) \\implies f(0) = 0.",
+      "description_latex": "Substituting $x = y = 0$ gives $f(0) = 2f(0)$, and subtracting $f(0)$ from both sides forces $f(0) = 0$. This tells us the function must pass through the origin, which is a necessary condition for any additive function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Let } y = 1: \\quad f(x + 1) = f(x) + f(1) = f(x) + 3.",
+      "description_latex": "Now we substitute $y = 1$ to build a recurrence: every time the input increases by 1, the output increases by $f(1) = 3$. Applying this repeatedly gives $f(n) = 3n$ for all positive integers $n$, which strongly hints that $f(x) = 3x$ in general.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x) = 3x \\text{ satisfies } f(x+y) = 3(x+y) = 3x + 3y = f(x) + f(y). \\checkmark",
+      "description_latex": "We verify the candidate solution $f(x) = 3x$ by substituting back into the original equation \u2014 this step is mandatory in contest mathematics, because a functional equation can sometimes have no solution or additional solutions. Since both sides equal $3x + 3y$, our answer is confirmed.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(xy) = f(x) + f(y) \\text{ for all } x, y > 0, \\text{ with } f(2) = 1.",
+      "description_latex": "This is a multiplicative-to-additive functional equation \u2014 the structure of the argument $xy$ suggests logarithms. Our standard first move is to substitute $x = y = 1$ to find $f(1)$, since $1 \\cdot 1 = 1$ collapses both arguments to the same value.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(1 \\cdot 1) = f(1) + f(1) \\implies f(1) = 2f(1) \\implies f(1) = 0.",
+      "description_latex": "Setting $x = y = 1$ gives $f(1) = 2f(1)$, so $f(1) = 0$. This makes sense because $\\log(1) = 0$ for any base, reinforcing our suspicion about the form of $f$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $y = x$ to find $f(x^2)$ in terms of $f(x)$, then use this along with $f(2) = 1$ to determine $f(4)$ and $f(8)$. Based on the pattern you see, write down a general formula for $f(x)$ and verify it satisfies the original equation.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "If $f(x) + f(x + 2) = 10$ for all $x$, and $f(0) = 3$, find $f(2)$.",
+      "answer_latex": "f(2) = 7"
+    },
+    {
+      "prompt_latex": "Find all functions $f: \\mathbb{R} \\to \\mathbb{R}$ satisfying $f(x - y) = f(x) - f(y)$ for all $x, y$, given $f(1) = 5$.",
+      "answer_latex": "f(x) = 5x"
+    },
+    {
+      "prompt_latex": "Suppose $f(2x) = 3f(x)$ for all real $x$, and $f(1) = 2$. Find $f(8)$.",
+      "answer_latex": "f(8) = 54"
+    },
+    {
+      "prompt_latex": "A function satisfies $f(x + y) = f(x)f(y)$ for all real $x, y$, with $f(1) = 2$ and $f$ continuous. Find $f(3) - f(-1)$.",
+      "answer_latex": "f(3) - f(-1) = 8 - \\dfrac{1}{2} = \\dfrac{15}{2}"
+    },
+    {
+      "prompt_latex": "A store applies a discount function $d$ to prices satisfying $d(pq) = d(p) + d(q)$ for all prices $p, q > 0$. If discounting a $\\$4$ item gives a discount of $\\$2$, what discount does a $\\$64$ item receive?",
+      "answer_latex": "\\$6"
+    }
+  ],
+  "common_mistakes": [
+    "Students substitute only one specific value (like $x = 0$) and then immediately declare a formula for $f$ without checking other substitutions \u2014 the fix is to use at least two or three strategic substitutions before guessing the form of $f$, then always verify the candidate satisfies the original equation.",
+    "When a functional equation holds 'for all $x, y$', students sometimes treat it as an identity only at the specific values they chose, forgetting the universal quantifier \u2014 remember that if $f(x+y) = f(x)+f(y)$ for all $x, y$, this must be verified for every pair, not just the convenient ones you tested.",
+    "Students confuse $f(x + y)$ with $f(x) + f(y)$ as a general algebraic rule, applying linearity to functions that aren't actually linear \u2014 for instance, writing $f(x^2) = 2f(x)$ by analogy without deriving it from the given functional equation, when in fact $f(x^2) = 2f(x)$ only holds if the equation $f(xy) = f(x) + f(y)$ is given and you set $y = x$."
+  ],
+  "untested_variants": [
+    "Functional equations involving two unknown functions simultaneously, such as $f(x+y) = f(x)g(y) + g(x)f(y)$, which require solving a coupled system.",
+    "Functional equations with restricted domains (e.g., $f$ defined only on positive integers or rationals) where the substitution strategy must be adapted to the domain.",
+    "Olympiad-style problems requiring you to prove that no function satisfying the equation exists, rather than finding one.",
+    "Functional equations combined with inequalities or monotonicity conditions, such as 'find all monotone increasing $f$ satisfying $f(f(x)) = x + 1$.'"
+  ]
+}

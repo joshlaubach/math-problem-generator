@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_038",
+  "topic_name": "Series Solutions Near Ordinary Points",
+  "generated_at": "2026-05-13T20:03:10.884222+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve differential equations like $y'' + y = 0$ using characteristic equations, getting clean closed-form answers like $y = c_1 \\cos x + c_2 \\sin x$. But what happens when the coefficients aren't constant \u2014 say, $y'' - xy' + y = 0$? The characteristic equation trick breaks down entirely, and no elementary function solves it cleanly. So how do we find solutions to equations whose coefficients are polynomials or more general analytic functions?",
+  "concept": "The idea is to assume the solution itself is a power series centered at an ordinary point $x_0$, write $y = \\sum_{n=0}^{\\infty} a_n (x - x_0)^n$, substitute into the ODE, and match coefficients to build a recurrence relation. A point $x_0$ is called an **ordinary point** of $P(x)y'' + Q(x)y' + R(x)y = 0$ if after dividing by $P(x)$, the resulting coefficient functions are analytic at $x_0$ \u2014 meaning $P(x_0) \\neq 0$. The method guarantees a convergent power series solution valid in some interval around $x_0$.",
+  "anatomy": "In the series solution method, the key structural pieces are: the **center** $x_0$, the ordinary point around which the series is built; the **undetermined coefficients** $a_0, a_1, a_2, \\ldots$, where $a_0$ and $a_1$ are free parameters (they become the two arbitrary constants of the general solution); the **recurrence relation**, an algebraic equation expressing $a_{n+k}$ in terms of earlier coefficients, derived by setting the coefficient of each power $(x - x_0)^n$ to zero; and the **radius of convergence**, which is at least as large as the distance from $x_0$ to the nearest singular point of the ODE in the complex plane.",
+  "worked_example": [
+    {
+      "expression_latex": "y'' - xy' + y = 0, \\quad x_0 = 0",
+      "description_latex": "We begin by confirming that $x_0 = 0$ is an ordinary point. Dividing by the leading coefficient (which is already 1) gives coefficient functions $-x$ and $1$, both analytic everywhere \u2014 so we may safely assume a power series $y = \\sum_{n=0}^{\\infty} a_n x^n$ centered at 0.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y' = \\sum_{n=1}^{\\infty} n\\, a_n x^{n-1}, \\qquad y'' = \\sum_{n=2}^{\\infty} n(n-1)\\, a_n x^{n-2}",
+      "description_latex": "We differentiate the assumed series term by term, which is valid inside the radius of convergence. Notice that the index on $y'$ starts at $n=1$ (since the $n=0$ term is constant and vanishes) and $y''$ starts at $n=2$ for the same reason \u2014 keeping track of these starting indices is critical for the re-indexing step that follows.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{n=2}^{\\infty} n(n-1)a_n x^{n-2} - x\\sum_{n=1}^{\\infty} n\\, a_n x^{n-1} + \\sum_{n=0}^{\\infty} a_n x^n = 0",
+      "description_latex": "We substitute $y$, $y'$, and $y''$ directly into the ODE. The middle term acquires an extra factor of $x$ from the equation, turning $x^{n-1}$ into $x^n$, which will let us combine all three sums over the same power once we re-index the first sum.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{n=0}^{\\infty}(n+2)(n+1)a_{n+2}\\, x^n - \\sum_{n=1}^{\\infty} n\\, a_n x^n + \\sum_{n=0}^{\\infty} a_n x^n = 0",
+      "description_latex": "In the first sum we re-index by substituting $n \\to n+2$ (replace every $n$ with $n+2$, shifting the sum so it also runs from $n=0$). Now every sum runs over the same index $n$ and the same powers $x^n$, so we can group them term by term. Collecting all three sums at $n=0$ gives $2a_2 + a_0 = 0$, and for $n \\geq 1$ the combined coefficient of $x^n$ must vanish.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_{n+2} = \\frac{(n-1)\\, a_n}{(n+2)(n+1)}, \\quad n \\geq 0",
+      "description_latex": "Setting the coefficient of $x^n$ to zero for each $n \\geq 0$ and solving for $a_{n+2}$ yields the recurrence relation above. Notice that $a_2 = -a_0/2$ (from $n=0$) and $a_3 = 0$ (from $n=1$, since the numerator is $n-1 = 0$), and subsequent even coefficients involve $a_0$ while odd coefficients beyond $a_3$ all vanish, giving $y = a_0\\!\\left(1 - \\tfrac{x^2}{2} + \\tfrac{x^4}{24} - \\cdots\\right) + a_1 x$ as the general solution.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y'' + x^2 y = 0, \\quad x_0 = 0",
+      "description_latex": "We confirm $x_0 = 0$ is an ordinary point (the coefficient of $y''$ is 1, which is nonzero everywhere), so we assume $y = \\sum_{n=0}^{\\infty} a_n x^n$ and compute $y'' = \\sum_{n=2}^{\\infty} n(n-1)a_n x^{n-2}$. Substituting gives $\\sum_{n=2}^{\\infty} n(n-1)a_n x^{n-2} + x^2 \\sum_{n=0}^{\\infty} a_n x^n = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{n=0}^{\\infty}(n+2)(n+1)a_{n+2}\\, x^n + \\sum_{n=0}^{\\infty} a_n x^{n+2} = 0",
+      "description_latex": "After re-indexing the first sum (shift $n \\to n+2$), the first series runs from $n=0$ with powers $x^n$, and the second series contributes powers $x^{n+2}$. To combine them we need to re-index the second sum as well \u2014 replace $n$ with $n-2$ so it runs from $n=2$ and also produces $x^n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write out the equations for the coefficients of $x^0$, $x^1$, and general $x^n$ (for $n \\geq 2$) by setting each coefficient equal to zero, and derive the recurrence relation expressing $a_{n+2}$ in terms of $a_{n-2}$. What is that recurrence?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "a_{n+2} = \\frac{-a_{n-2}}{(n+2)(n+1)}, \\quad n \\geq 2; \\quad a_2 = 0,\\ a_3 = 0",
+      "description_latex": "The recurrence tells us $a_{n+2} = \\frac{-a_{n-2}}{(n+2)(n+1)}$ for $n \\geq 2$, with $a_2 = 0$ and $a_3 = 0$ from the $n=0$ and $n=1$ equations. This couples every fourth coefficient: the nonzero terms in the solution come from $a_0$ (generating $a_4, a_8, \\ldots$) and $a_1$ (generating $a_5, a_9, \\ldots$), giving two linearly independent series solutions.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Verify that $x_0 = 0$ is an ordinary point of $y'' + 4y = 0$ and write the first three nonzero terms of the power series solution using the recurrence relation.",
+      "answer_latex": "y = a_0\\left(1 - 2x^2 + \\tfrac{2}{3}x^4 - \\cdots\\right) + a_1\\left(x - \\tfrac{2}{3}x^3 + \\cdots\\right)"
+    },
+    {
+      "prompt_latex": "Find the recurrence relation for the power series solution of $y'' - y' + y = 0$ centered at $x_0 = 0$, and write the first four terms of each of the two independent series solutions.",
+      "answer_latex": "a_{n+2} = \\frac{(n+1)a_{n+1} - a_n}{(n+2)(n+1)}; \\quad y_1 = 1 - \\tfrac{1}{2}x^2 + \\tfrac{1}{6}x^3 + \\cdots,\\ y_2 = x - \\tfrac{1}{2}x^2 + \\cdots"
+    },
+    {
+      "prompt_latex": "Find a power series solution about $x_0 = 0$ for $(1 - x^2)y'' - 2xy' = 0$ and identify the general solution in terms of elementary functions by recognizing the series.",
+      "answer_latex": "a_{n+2} = a_n \\text{ (for even } n\\text{)}, \\text{ giving } y = a_0 + a_1 x + a_0 x^2 + a_1 x^3 + \\cdots; the two series are \\frac{1}{1-x^2} and \\frac{x}{1-x^2} (for |x|<1)"
+    },
+    {
+      "prompt_latex": "The Hermite equation is $y'' - 2xy' + 2\\lambda y = 0$ with $\\lambda = 2$. Find the recurrence relation and show that one solution terminates (is a polynomial) by computing coefficients $a_0$ through $a_4$.",
+      "answer_latex": "a_{n+2} = \\frac{(2n - 4)a_n}{(n+2)(n+1)}; \\text{ with } a_1 = 0: a_2 = \\frac{-4a_0}{2} = -2a_0,\\ a_4 = 0,\\ \\text{so } y_1 = a_0(1 - 2x^2) \\text{ (polynomial)}"
+    },
+    {
+      "prompt_latex": "A physical model leads to $y'' + \\frac{k}{m}xy = 0$ (a linearized pendulum with position-dependent restoring force). Find the power series solution centered at $x_0 = 0$ and write the first three nonzero terms of each independent solution in terms of the constant $\\alpha = k/m$.",
+      "answer_latex": "y_1 = a_0\\left(1 - \\frac{\\alpha}{6}x^3 + \\frac{\\alpha^2}{180}x^6 - \\cdots\\right),\\quad y_2 = a_1\\left(x - \\frac{\\alpha}{12}x^4 + \\frac{\\alpha^2}{504}x^7 - \\cdots\\right)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to re-index the series for $y''$ before combining sums, leaving the first sum running from $n=2$ with powers $x^{n-2}$ instead of shifting the index so all sums share the same power $x^n$. This makes it impossible to collect like terms, so always perform the substitution $m = n-2$ (or equivalently $n \\to n+2$) in the $y''$ sum first.",
+    "When the ODE has a coefficient like $x$ multiplying $y'$, students often absorb that $x$ factor incorrectly, forgetting it shifts the power of every term in that sum by one. For example, $x \\cdot \\sum n a_n x^{n-1} = \\sum n a_n x^n$, not $\\sum n a_n x^{n-1}$; missing this shift misaligns the exponents and produces a wrong recurrence.",
+    "Students treat $a_0$ and $a_1$ as determined by the recurrence rather than recognizing they are the two free constants of the general solution. The recurrence only gives $a_2, a_3, a_4, \\ldots$ in terms of $a_0$ and $a_1$; trying to 'solve' for $a_0$ or $a_1$ from the recurrence is an error that collapses the two-parameter family into a single function."
+  ],
+  "untested_variants": [
+    "Series solutions centered at a nonzero ordinary point $x_0 \\neq 0$, requiring all derivatives and shifts to use powers $(x - x_0)^n$ instead of $x^n$.",
+    "Determining and explicitly computing the radius of convergence of the series solution using the ratio test or the distance-to-nearest-singularity theorem.",
+    "Euler equations or equations where $x_0 = 0$ is a regular singular point (Frobenius method), which requires a modified series of the form $x^r \\sum a_n x^n$ and an indicial equation.",
+    "Using the series solution to evaluate definite integrals or approximate solution values numerically at a specific point by truncating the series."
+  ]
+}

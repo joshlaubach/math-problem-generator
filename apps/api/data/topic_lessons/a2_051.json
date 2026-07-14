@@ -1,0 +1,76 @@
+{
+  "topic_id": "a2_051",
+  "topic_name": "Infinite Geometric Series",
+  "generated_at": "2026-05-12T23:31:52.955454+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to find the sum of a finite geometric series \u2014 add up a fixed number of terms and you're done. But what happens when a geometric series never stops? Imagine you fold a piece of paper in half, then in half again, forever \u2014 the total paper used keeps growing, but does it ever exceed the original sheet? The surprising answer is yes, it converges to a finite number, and the question is: how do we find that sum?",
+  "concept": "An infinite geometric series is a geometric series with infinitely many terms. When the common ratio satisfies $|r| < 1$, the terms shrink toward zero and the series converges to a finite sum given by $S = \\dfrac{a_1}{1 - r}$, where $a_1$ is the first term and $r$ is the common ratio. When $|r| \\geq 1$, the terms do not shrink fast enough and the series diverges \u2014 no finite sum exists.",
+  "anatomy": "The formula $S = \\dfrac{a_1}{1 - r}$ has three distinct parts to keep straight. The numerator $a_1$ is the first term of the series \u2014 the starting value before any ratio is applied. The denominator $1 - r$ is built from the common ratio $r$, which is the fixed multiplier between consecutive terms; crucially, $r$ must satisfy $|r| < 1$ for this formula to be valid. The entire expression $S$ is the infinite sum, a single finite number that all the infinitely many terms add up to.",
+  "worked_example": [
+    {
+      "expression_latex": "4 + 2 + 1 + \\frac{1}{2} + \\cdots",
+      "description_latex": "We start by identifying the key ingredients of the series. The first term is $a_1 = 4$, and to find the common ratio we divide any term by the one before it: $r = \\frac{2}{4} = \\frac{1}{2}$. Since $|r| = \\frac{1}{2} < 1$, the series converges and we can use the infinite sum formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\frac{a_1}{1 - r} = \\frac{4}{1 - \\frac{1}{2}}",
+      "description_latex": "We substitute our values directly into the formula $S = \\frac{a_1}{1-r}$. Plugging in $a_1 = 4$ and $r = \\frac{1}{2}$ gives us $\\frac{4}{1 - \\frac{1}{2}}$, and now it's just an arithmetic simplification.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\frac{4}{\\frac{1}{2}} = 8",
+      "description_latex": "Dividing by a fraction is the same as multiplying by its reciprocal: $4 \\div \\frac{1}{2} = 4 \\times 2 = 8$. This tells us that no matter how many terms we add, the total will never exceed \u2014 and will approach \u2014 exactly $8$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "9 - 3 + 1 - \\frac{1}{3} + \\cdots",
+      "description_latex": "Look at the series carefully and notice the alternating signs \u2014 this is a clue that the common ratio is negative. Find $a_1$ and compute $r$ by dividing the second term by the first: $r = \\frac{-3}{9}$. Then check whether $|r| < 1$ before proceeding.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_1 = 9, \\quad r = -\\frac{1}{3}, \\quad |r| = \\frac{1}{3} < 1",
+      "description_latex": "We've confirmed $a_1 = 9$ and $r = -\\frac{1}{3}$, and since $|r| < 1$ the series converges. Now substitute these values into the formula $S = \\frac{a_1}{1 - r}$ and simplify completely.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "S = \\frac{9}{1 - (-\\frac{1}{3})} = \\frac{9}{\\frac{4}{3}} = 9 \\cdot \\frac{3}{4} = \\frac{27}{4}",
+      "description_latex": "Here is the completed solution: be especially careful that $1 - (-\\frac{1}{3}) = \\frac{4}{3}$, not $\\frac{2}{3}$ \u2014 subtracting a negative adds, so the denominator is larger than 1, making the sum smaller than $a_1$, which makes intuitive sense for a series with alternating signs.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the sum of the infinite geometric series: $6 + 2 + \\frac{2}{3} + \\frac{2}{9} + \\cdots",
+      "answer_latex": "S = 9"
+    },
+    {
+      "prompt_latex": "Find the sum of the infinite geometric series: $\\frac{1}{1} + \\frac{1}{4} + \\frac{1}{16} + \\frac{1}{64} + \\cdots",
+      "answer_latex": "S = \\frac{4}{3}"
+    },
+    {
+      "prompt_latex": "Find the sum of the infinite geometric series: $8 - 4 + 2 - 1 + \\cdots",
+      "answer_latex": "S = \\frac{16}{3}"
+    },
+    {
+      "prompt_latex": "The first term of an infinite geometric series is $a_1 = 5$ and the sum is $S = 20$. Find the common ratio $r$.",
+      "answer_latex": "r = \\frac{3}{4}"
+    },
+    {
+      "prompt_latex": "A bouncing ball is dropped from a height of $12$ feet. Each time it bounces, it rises to $\\frac{2}{3}$ of its previous height. Assuming it bounces infinitely many times, find the total vertical distance traveled by the ball after it first hits the ground (counting all upward and downward bounces).",
+      "answer_latex": "60 \\text{ feet}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to check whether $|r| < 1$ before applying the formula, writing a finite answer for a divergent series like $3 + 6 + 12 + \\cdots$ where $r = 2$. Always verify convergence first: if $|r| \\geq 1$, the sum does not exist.",
+    "When the common ratio is negative, students frequently compute $1 - r$ incorrectly \u2014 for example, writing $1 - (-\\frac{1}{3}) = \\frac{2}{3}$ instead of $\\frac{4}{3}$. Remember that subtracting a negative number is the same as adding its positive value, so the denominator gets larger.",
+    "Students sometimes use the first term that appears in the sum formula as the wrong term \u2014 for instance, writing a series as $\\sum_{n=1}^{\\infty} 3 \\cdot (\\frac{1}{2})^n$ and plugging in $a_1 = 3$ when the actual first term (at $n=1$) is $\\frac{3}{2}$. Always evaluate $a_1$ as the value of the expression when $n$ takes its starting index, not the coefficient out front."
+  ],
+  "untested_variants": [
+    "Writing a repeating decimal such as $0.\\overline{27}$ as a fraction using the infinite geometric series formula.",
+    "Finding the sum of an infinite geometric series given in sigma notation, such as $\\sum_{n=0}^{\\infty} 5 \\left(\\frac{3}{7}\\right)^n$, where students must correctly identify $a_1$ from the $n=0$ starting index.",
+    "Determining for which values of $x$ an infinite geometric series converges, such as $\\sum_{n=1}^{\\infty} (2x)^n$, requiring students to set up and solve the inequality $|2x| < 1$.",
+    "Problems where the series is given with a missing term or a sum and two unknowns, requiring students to set up a system of equations combining both the geometric sequence rule and the infinite sum formula."
+  ]
+}

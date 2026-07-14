@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_048",
+  "topic_name": "Arithmetic Sequences and Series",
+  "generated_at": "2026-05-12T23:31:51.383895+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to add numbers and spot patterns \u2014 so consider this: a theater has 15 seats in the first row, 18 in the second, 21 in the third, and so on. You could add row by row to find the total seating in the first 20 rows, but that would take forever. There has to be a faster way \u2014 but do you have the formula to find it?",
+  "concept": "An arithmetic sequence is a list of numbers where you add the same fixed value each time to get from one term to the next. Formally, a sequence $a_1, a_2, a_3, \\ldots$ is arithmetic if there exists a constant $d$ (the common difference) such that $a_n = a_1 + (n-1)d$ for every positive integer $n$. An arithmetic series is simply the sum of terms of an arithmetic sequence, given by $S_n = \\frac{n}{2}(a_1 + a_n)$.",
+  "anatomy": "Every arithmetic sequence and series has four key components: the first term $a_1$, which anchors the entire sequence; the common difference $d$, the fixed amount added (or subtracted) at each step, found by computing $a_2 - a_1$; the $n$-th term $a_n = a_1 + (n-1)d$, which lets you jump directly to any position without listing every term; the number of terms $n$; and the partial sum $S_n = \\frac{n}{2}(a_1 + a_n)$, which collapses the addition of all $n$ terms into a single calculation by pairing the first and last term.",
+  "worked_example": [
+    {
+      "expression_latex": "a_1 = 15,\\quad d = 3,\\quad n = 20",
+      "description_latex": "We start by identifying the three pieces of information the theater problem gives us. The first row has $a_1 = 15$ seats, each row adds $d = 3$ seats, and we want to sum $n = 20$ rows. Labeling these values before touching any formula prevents mix-ups later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_{20} = 15 + (20 - 1)(3)",
+      "description_latex": "To use the sum formula we need $a_{20}$, the number of seats in the last row we're counting. We plug into $a_n = a_1 + (n-1)d$: the index offset $(n-1)$ appears because the first term already accounts for position 1, so only $19$ additional jumps of $3$ are needed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_{20} = 15 + 57 = 72",
+      "description_latex": "Arithmetic gives us $19 \\times 3 = 57$, so the 20th row contains $72$ seats. It's worth pausing to check: does $72$ feel reasonable? Starting at $15$ and adding $3$ nineteen times should land us well above $15$ but not astronomically large \u2014 $72$ passes that sanity check.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S_{20} = \\frac{20}{2}(15 + 72)",
+      "description_latex": "Now we apply the partial-sum formula $S_n = \\frac{n}{2}(a_1 + a_n)$, substituting $n = 20$, $a_1 = 15$, and $a_{20} = 72$. This formula works because every pair of terms equidistant from the ends of the sequence has the same sum, so we multiply that common pair-sum by the number of pairs, which is $\\frac{n}{2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S_{20} = 10 \\times 87 = 870",
+      "description_latex": "Simplifying, $\\frac{20}{2} = 10$ and $15 + 72 = 87$, giving a total of $870$ seats across the first 20 rows. Notice how the formula reduced a potential 19-step addition problem into a single multiplication \u2014 that's the power of arithmetic series.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "a_1 = 4,\\quad d = 7,\\quad n = 12",
+      "description_latex": "We want to find $S_{12}$, the sum of the first 12 terms of the arithmetic sequence $4, 11, 18, 25, \\ldots$ First, identify $a_1 = 4$ and $d = 11 - 4 = 7$. These values are already labeled for you so you can focus on the key steps.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_{12} = 4 + (12-1)(7) = 4 + 77 = 81",
+      "description_latex": "We compute $a_{12}$ using $a_n = a_1 + (n-1)d$. Substituting gives $4 + 11 \\times 7 = 81$, so the 12th term is $81$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the sum formula $S_n = \\frac{n}{2}(a_1 + a_n)$ with $n = 12$, $a_1 = 4$, and $a_{12} = 81$. Write out the substitution and simplify completely to find $S_{12}$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the 10th term of the arithmetic sequence: $3, 8, 13, 18, \\ldots$",
+      "answer_latex": "a_{10} = 48"
+    },
+    {
+      "prompt_latex": "Find the sum of the first 15 terms of the arithmetic sequence with $a_1 = 2$ and $d = 5$.",
+      "answer_latex": "S_{15} = 585"
+    },
+    {
+      "prompt_latex": "The 4th term of an arithmetic sequence is $22$ and the common difference is $4$. Find $a_1$ and then compute $S_{10}$.",
+      "answer_latex": "a_1 = 10,\\quad S_{10} = 280"
+    },
+    {
+      "prompt_latex": "An arithmetic sequence has $a_1 = 100$ and $a_{20} = 43$. Find the common difference $d$ and evaluate $S_{20}$.",
+      "answer_latex": "d = -3,\\quad S_{20} = 1430"
+    },
+    {
+      "prompt_latex": "A company pays an employee $\\$32{,}000$ in year 1 and gives a $\\$1{,}500$ raise each year. How much total compensation does the employee earn over 10 years?",
+      "answer_latex": "S_{10} = \\$387{,}500"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $a_n = a_1 + n \\cdot d$ instead of $a_n = a_1 + (n-1)d$, forgetting that the first term already sits at position 1 so only $n-1$ differences have been added; always check that plugging in $n=1$ returns $a_1$, not $a_1 + d$.",
+    "When using $S_n = \\frac{n}{2}(a_1 + a_n)$, students sometimes substitute the wrong value for $a_n$ \u2014 for example, using $a_n = a_1 + n \\cdot d$ (off-by-one error from the first mistake) \u2014 which cascades into a wrong sum; compute and double-check $a_n$ separately before plugging into the sum formula.",
+    "Students confuse the two sum formulas $S_n = \\frac{n}{2}(a_1 + a_n)$ and $S_n = \\frac{n}{2}(2a_1 + (n-1)d)$, sometimes mixing terms from both into one incorrect expression; remember that both are equivalent \u2014 the second is just what you get when you expand $a_n = a_1 + (n-1)d$ inside the first, so pick one form and use it consistently."
+  ],
+  "untested_variants": [
+    "Finding the number of terms $n$ when given $a_1$, $d$, and $S_n$ (solving a quadratic equation that arises from the sum formula).",
+    "Determining whether a given sequence is arithmetic, geometric, or neither, and justifying the answer.",
+    "Working backwards from two non-consecutive terms (e.g., given $a_5$ and $a_{13}$) to find $a_1$ and $d$ using a system of equations.",
+    "Applying sigma notation to express and evaluate an arithmetic series, such as $\\sum_{k=1}^{n}(3k + 2)$."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_016",
+  "topic_name": "Domain and Range",
+  "generated_at": "2026-05-12T22:36:12.137590+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to graph a linear function like $y = 2x + 1$ by plotting points and drawing a line. But here's something worth thinking about: when you graph that line on paper, it seems to go on forever in both directions \u2014 but what if the situation you're modeling only makes sense for certain input values? If $x$ represents the number of hours you work at a job, can $x$ really be $-5$? This raises a deeper question: for any function, exactly which input values are allowed, and which output values are actually produced?",
+  "concept": "The domain of a function is the complete set of all possible input values (the $x$-values), while the range is the complete set of all possible output values (the $y$-values). In plain English, domain answers 'What can I plug in?' and range answers 'What can I get out?' For a linear function $f(x) = mx + b$ with no real-world restrictions, the domain is all real numbers, written $(-\\infty, \\infty)$, and since the line extends infinitely up and down, the range is also all real numbers $(-\\infty, \\infty)$.",
+  "anatomy": "Every linear function in the form $f(x) = mx + b$ has four structural elements relevant to domain and range. The independent variable $x$ occupies the domain \u2014 it is the input we feed into the function. The dependent variable $y$ (or $f(x)$) occupies the range \u2014 it is the output we read off. The slope $m$ tells us whether the line rises or falls, confirming that no output value is ever skipped (so the range stays all reals). The context or constraint is any real-world or stated restriction that trims the domain to a subset of the real numbers, which in turn restricts the range to a matching subset.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 3x - 7",
+      "description_latex": "We start by identifying whether there are any algebraic restrictions on $x$. Because this is a linear function \u2014 no fractions with $x$ in the denominator, no square roots \u2014 there is nothing that would make $f(x)$ undefined, so every real number is a valid input.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Domain: } (-\\infty,\\, \\infty)",
+      "description_latex": "We write the domain in interval notation as $(-\\infty, \\infty)$, meaning $x$ can be any real number. This is always the case for a linear function unless the problem explicitly limits the inputs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{As } x \\to \\infty,\\; f(x) \\to \\infty \\quad \\text{and} \\quad \\text{as } x \\to -\\infty,\\; f(x) \\to -\\infty",
+      "description_latex": "Because the slope $m = 3$ is nonzero, the line tilts and never becomes horizontal. This means the output $f(x)$ grows without bound in both the positive and negative directions, so every real number is eventually produced as an output.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Range: } (-\\infty,\\, \\infty)",
+      "description_latex": "We conclude that the range is also all real numbers, $(-\\infty, \\infty)$. For any linear function with a nonzero slope and no context restrictions, domain and range are always both $(-\\infty, \\infty)$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A dog-walking service charges a flat fee. The total cost is modeled by\\ C(h) = 12h + 5,\\ \\text{where } h \\text{ is hours walked},\\ 0 \\le h \\le 8.",
+      "description_latex": "We are given a linear function with a real-world constraint on $h$. Our job is to find both the domain and range using that constraint. Notice that the problem tells us $h$ must be between 0 and 8 \u2014 that information defines the domain directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Domain: } [0,\\, 8]",
+      "description_latex": "The constraint $0 \\le h \\le 8$ means $h$ can be any value from 0 to 8, inclusive. We use square brackets because both endpoints are included.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find the range by evaluating $C(h)$ at the two endpoints of the domain: compute $C(0)$ and $C(8)$, then write the range as a closed interval. What is the range of $C$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the domain and range of\\ f(x) = -4x + 9\\ (no context restrictions).",
+      "answer_latex": "\\text{Domain: } (-\\infty,\\infty),\\quad \\text{Range: } (-\\infty,\\infty)"
+    },
+    {
+      "prompt_latex": "A linear function is defined as\\ g(x) = 5x - 2\\ for\\ -3 \\le x \\le 3.\\ State the domain and range.",
+      "answer_latex": "\\text{Domain: } [-3,\\,3],\\quad \\text{Range: } [-17,\\,13]"
+    },
+    {
+      "prompt_latex": "The function\\ h(x) = -2x + 6\\ is restricted to\\ 0 \\le x \\le 5.\\ Find the domain and range.",
+      "answer_latex": "\\text{Domain: } [0,\\,5],\\quad \\text{Range: } [-4,\\,6]"
+    },
+    {
+      "prompt_latex": "A line passes through\\ (0,\\,-1)\\ and\\ (4,\\,7).\\ Write the equation in slope-intercept form, then state the domain and range if the function is restricted to\\ 0 \\le x \\le 4.",
+      "answer_latex": "f(x) = 2x - 1;\\quad \\text{Domain: } [0,\\,4],\\quad \\text{Range: } [-1,\\,7]"
+    },
+    {
+      "prompt_latex": "A candle is 10 inches tall and burns at a rate of\\ 0.5\\ inches per hour.\\ Its height is modeled by\\ H(t) = 10 - 0.5t.\\ What are the domain and range in context, and what do the endpoints represent?",
+      "answer_latex": "\\text{Domain: } [0,\\,20]\\text{ hrs};\\quad \\text{Range: } [0,\\,10]\\text{ in.}\\ \\text{(}t=0\\text{: candle is full; }t=20\\text{: candle is gone)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write the range by listing $y$-values in the same order they computed them rather than from least to greatest \u2014 for example, writing $[13, -17]$ instead of $[-17, 13]$ when the slope is positive. Always check that the smaller value appears on the left of the interval.",
+    "When a linear function has a negative slope, students frequently swap which endpoint of the domain produces the minimum vs. maximum output. Remember that a negative slope means larger $x$ gives smaller $y$, so plug in the right endpoint to find the minimum output and the left endpoint to find the maximum.",
+    "Students sometimes confuse the domain and range labels, writing the $y$-interval as the domain and the $x$-interval as the range. A reliable check: domain always comes from the $x$-values (the input axis), and range always comes from the $y$-values (the output axis)."
+  ],
+  "untested_variants": [
+    "Functions given in a table of values where the student must identify domain and range from the listed ordered pairs rather than from an equation.",
+    "Piecewise linear functions where the domain is split into two intervals, each with its own rule, requiring the range to be assembled from two separate sub-ranges.",
+    "Identifying domain and range directly from a graph by reading the horizontal and vertical extents of a plotted line segment, including open vs. closed endpoint notation.",
+    "Linear functions written in standard form $Ax + By = C$ that must be rearranged into slope-intercept form before the domain and range analysis can begin."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_003",
+  "topic_name": "The Dot Product",
+  "generated_at": "2026-05-13T00:28:09.815870+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to add vectors and scale them by constants, and you can picture vectors as arrows in 3D space. But suppose an engineer needs to know how much of a force vector acts along a particular direction, or a physicist wants to determine whether two quantum states are orthogonal \u2014 both questions require multiplying two vectors together in a very specific way. We have addition, but what does it even mean to 'multiply' two vectors? Can we do it in a way that gives us useful geometric information?",
+  "concept": "The dot product takes two vectors and returns a single number (a scalar), encoding geometric information about the angle between them. Formally, if $\\mathbf{a} = \\langle a_1, a_2, a_3 \\rangle$ and $\\mathbf{b} = \\langle b_1, b_2, b_3 \\rangle$, the dot product is $\\mathbf{a} \\cdot \\mathbf{b} = a_1 b_1 + a_2 b_2 + a_3 b_3$, which equals $|\\mathbf{a}||\\mathbf{b}|\\cos\\theta$ where $\\theta$ is the angle between them.",
+  "anatomy": "The dot product has several key parts worth naming precisely. The two operands are vectors $\\mathbf{a}$ and $\\mathbf{b}$, each living in $\\mathbb{R}^2$ or $\\mathbb{R}^3$. The operation itself is component-wise multiplication followed by summation: each pair of corresponding components $a_i$ and $b_i$ is multiplied, then all products are added. The result is a scalar \u2014 not a vector \u2014 which is why the dot product is also called the scalar product. The geometric form $|\\mathbf{a}||\\mathbf{b}|\\cos\\theta$ introduces the magnitudes $|\\mathbf{a}|$ and $|\\mathbf{b}|$ and the included angle $\\theta \\in [0, \\pi]$ between the two vectors when placed tail-to-tail.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{a} = \\langle 3, -1, 2 \\rangle, \\quad \\mathbf{b} = \\langle 4, 2, -3 \\rangle",
+      "description_latex": "We are given two vectors in $\\mathbb{R}^3$ and want to compute $\\mathbf{a} \\cdot \\mathbf{b}$. Before doing any arithmetic, identify the matching component pairs: $a_1=3$ with $b_1=4$, $a_2=-1$ with $b_2=2$, and $a_3=2$ with $b_3=-3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{a} \\cdot \\mathbf{b} = (3)(4) + (-1)(2) + (2)(-3)",
+      "description_latex": "We apply the algebraic definition by multiplying each pair of corresponding components. Notice that negative signs belong to the component itself, so we carry them directly into the product \u2014 do not drop them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 12 + (-2) + (-6) = 4",
+      "description_latex": "Summing the three products gives us the scalar result $4$. This single number tells us something geometric: because it is positive, the angle between $\\mathbf{a}$ and $\\mathbf{b}$ is less than $90^\\circ$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\cos\\theta = \\frac{\\mathbf{a}\\cdot\\mathbf{b}}{|\\mathbf{a}||\\mathbf{b}|} = \\frac{4}{\\sqrt{14}\\cdot\\sqrt{29}} = \\frac{4}{\\sqrt{406}}",
+      "description_latex": "Using the geometric form we can find the actual angle. We compute $|\\mathbf{a}| = \\sqrt{9+1+4} = \\sqrt{14}$ and $|\\mathbf{b}| = \\sqrt{16+4+9} = \\sqrt{29}$, then plug into $\\cos\\theta = \\frac{\\mathbf{a}\\cdot\\mathbf{b}}{|\\mathbf{a}||\\mathbf{b}|}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\theta = \\arccos\\!\\left(\\frac{4}{\\sqrt{406}}\\right) \\approx 78.6^\\circ",
+      "description_latex": "Taking the inverse cosine gives us the angle between the two vectors, confirming it is acute as we predicted from the positive dot product. Always sanity-check your sign: positive dot product means acute, zero means perpendicular, and negative means obtuse.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{u} = \\langle 1, -2, 4 \\rangle, \\quad \\mathbf{v} = \\langle -3, 1, 2 \\rangle. \\text{ Find } \\theta.",
+      "description_latex": "Our goal is to find the angle between $\\mathbf{u}$ and $\\mathbf{v}$. The strategy has two parts: first compute the dot product algebraically, then use the geometric formula to extract $\\theta$. Let's start by writing out the component products.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{u} \\cdot \\mathbf{v} = (1)(-3) + (-2)(1) + (4)(2) = -3 - 2 + 8 = 3",
+      "description_latex": "Multiplying corresponding components and summing gives $\\mathbf{u}\\cdot\\mathbf{v} = 3$. We also need the magnitudes: $|\\mathbf{u}| = \\sqrt{1+4+16} = \\sqrt{21}$ and $|\\mathbf{v}| = \\sqrt{9+1+4} = \\sqrt{14}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now use the geometric relationship $\\cos\\theta = \\frac{\\mathbf{u}\\cdot\\mathbf{v}}{|\\mathbf{u}||\\mathbf{v}|}$ to write an expression for $\\cos\\theta$, then solve for $\\theta$. Substitute the values you found above and simplify.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Compute } \\mathbf{a} \\cdot \\mathbf{b} \\text{ where } \\mathbf{a} = \\langle 2, 5 \\rangle \\text{ and } \\mathbf{b} = \\langle -1, 3 \\rangle.",
+      "answer_latex": "13"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\mathbf{p} \\cdot \\mathbf{q} \\text{ where } \\mathbf{p} = \\langle 4, -2, 1 \\rangle \\text{ and } \\mathbf{q} = \\langle 3, 5, -6 \\rangle.",
+      "answer_latex": "-4"
+    },
+    {
+      "prompt_latex": "\\text{Find the angle between } \\mathbf{a} = \\langle 1, 0, 0 \\rangle \\text{ and } \\mathbf{b} = \\langle 1, 1, 0 \\rangle.",
+      "answer_latex": "\\theta = 45^\\circ"
+    },
+    {
+      "prompt_latex": "\\text{Given } \\mathbf{r} = \\langle 2, -1, 3 \\rangle \\text{ and } \\mathbf{s} = \\langle k, 4, -2 \\rangle, \\text{ find the value of } k \\text{ that makes } \\mathbf{r} \\perp \\mathbf{s}.",
+      "answer_latex": "k = 7"
+    },
+    {
+      "prompt_latex": "\\text{A 50 N force acts in the direction of } \\mathbf{F} = \\langle 3, 4 \\rangle \\text{ (normalized). An object moves along displacement } \\mathbf{d} = \\langle 6, 0 \\rangle \\text{ meters. Use the dot product to find the work done: } W = \\mathbf{F} \\cdot \\mathbf{d}.",
+      "answer_latex": "W = 18 \\text{ J} \\quad (\\text{using unit } \\mathbf{F} = \\langle 3/5,\\, 4/5 \\rangle,\\; W = (3/5)(6)+(4/5)(0) = 18/5 \\cdot 5 = 18 \\text{ N\u00b7m})"
+    }
+  ],
+  "common_mistakes": [
+    "Students try to compute the dot product by multiplying the magnitudes alone, writing $\\mathbf{a}\\cdot\\mathbf{b} = |\\mathbf{a}||\\mathbf{b}|$ and forgetting the $\\cos\\theta$ factor; the geometric formula $|\\mathbf{a}||\\mathbf{b}|\\cos\\theta$ requires the angle, while the algebraic formula $\\sum a_i b_i$ is what you use when you have components.",
+    "When components are negative, students drop the sign during multiplication, for example writing $(\u22122)(1) = 2$ instead of $\u22122$; always treat the negative sign as part of the component value before multiplying.",
+    "Students expect the dot product to produce another vector because they think of it as analogous to scalar multiplication of a vector; emphasize that the dot product always returns a scalar \u2014 if your answer is a vector, something has gone wrong structurally."
+  ],
+  "untested_variants": [
+    "Computing the dot product of vectors in $\\mathbb{R}^4$ or higher dimensions, where the same sum-of-products rule applies but students must handle four or more component pairs.",
+    "Using the dot product to find the scalar projection $\\text{comp}_{\\mathbf{b}}\\mathbf{a} = \\frac{\\mathbf{a}\\cdot\\mathbf{b}}{|\\mathbf{b}|}$ or the vector projection $\\text{proj}_{\\mathbf{b}}\\mathbf{a} = \\frac{\\mathbf{a}\\cdot\\mathbf{b}}{|\\mathbf{b}|^2}\\mathbf{b}$.",
+    "Proving or applying the algebraic properties of the dot product such as distributivity $\\mathbf{a}\\cdot(\\mathbf{b}+\\mathbf{c}) = \\mathbf{a}\\cdot\\mathbf{b} + \\mathbf{a}\\cdot\\mathbf{c}$ in abstract proofs or simplifications.",
+    "Problems where the angle between vectors is given and students must recover a missing component using the geometric formula $\\mathbf{a}\\cdot\\mathbf{b} = |\\mathbf{a}||\\mathbf{b}|\\cos\\theta$."
+  ]
+}

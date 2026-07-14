@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_031",
+  "topic_name": "GCD, LCM, and the Euclidean Algorithm",
+  "generated_at": "2026-05-13T20:14:11.747052+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to factor numbers into primes, and you've probably simplified fractions like $\\frac{12}{18} = \\frac{2}{3}$ by dividing top and bottom by 6. But what if someone asked you to find the greatest common divisor of two large numbers like 1071 and 462 \u2014 numbers too big to factor quickly by hand? And what if you also needed the least common multiple of those same numbers to solve a scheduling puzzle? There must be a faster way than listing all the factors \u2014 but what is it?",
+  "concept": "The greatest common divisor (GCD) of two integers is the largest positive integer that divides both of them evenly, while the least common multiple (LCM) is the smallest positive integer divisible by both. Formally, $\\gcd(a, b)$ is the largest $d$ such that $d \\mid a$ and $d \\mid b$, and $\\text{lcm}(a, b)$ is the smallest positive $m$ such that $a \\mid m$ and $b \\mid m$. The Euclidean Algorithm computes $\\gcd(a,b)$ efficiently by repeatedly replacing $(a, b)$ with $(b, a \\bmod b)$ until the remainder is zero.",
+  "anatomy": "The Euclidean Algorithm involves four key components working together. The dividend $a$ and divisor $b$ are the two integers we begin with (always take $a \\geq b > 0$). Each step produces a quotient $q = \\lfloor a/b \\rfloor$ and a remainder $r = a \\bmod b$, satisfying the division equation $a = bq + r$. The algorithm terminates when $r = 0$, at which point the last nonzero remainder is $\\gcd(a,b)$. The GCD\u2013LCM identity $\\text{lcm}(a,b) = \\frac{a \\cdot b}{\\gcd(a,b)}$ then lets you recover the LCM without any separate computation.",
+  "worked_example": [
+    {
+      "expression_latex": "\\gcd(1071, 462)",
+      "description_latex": "We want to find the GCD of 1071 and 462 using the Euclidean Algorithm. The key idea is that $\\gcd(a,b) = \\gcd(b, a \\bmod b)$, so we can keep replacing the larger number with the remainder after dividing, shrinking the problem each time without changing the GCD.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1071 = 462 \\cdot 2 + 147",
+      "description_latex": "We divide 1071 by 462: $462 \\times 2 = 924$, and $1071 - 924 = 147$, so the remainder is 147. Because $\\gcd(1071, 462) = \\gcd(462, 147)$, we now work with the smaller pair $(462, 147)$ on the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "462 = 147 \\cdot 3 + 21",
+      "description_latex": "Now divide 462 by 147: $147 \\times 3 = 441$, and $462 - 441 = 21$, giving remainder 21. Again we use the identity $\\gcd(462, 147) = \\gcd(147, 21)$ and continue with the even smaller pair $(147, 21)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "147 = 21 \\cdot 7 + 0",
+      "description_latex": "We divide 147 by 21 and get exactly $21 \\times 7 = 147$ with remainder 0. The algorithm stops here because the remainder has reached zero, and the rule is: the last nonzero remainder is the GCD, which is $\\gcd(1071, 462) = 21$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{lcm}(1071, 462) = \\frac{1071 \\cdot 462}{21} = \\frac{495102}{21} = 23576",
+      "description_latex": "Using the identity $\\text{lcm}(a,b) = \\frac{a \\cdot b}{\\gcd(a,b)}$, we multiply $1071 \\times 462 = 495102$ and divide by 21 to get the LCM. This identity works because every common multiple must contain all prime factors of both numbers, and the GCD captures exactly the overlap that would otherwise be double-counted.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\gcd(252, 108)",
+      "description_latex": "We apply the Euclidean Algorithm to find $\\gcd(252, 108)$. Start by dividing 252 by 108: $252 = 108 \\cdot 2 + 36$, so the remainder is 36 and we now need $\\gcd(108, 36)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "108 = 36 \\cdot \\,? \\;+\\; ?",
+      "description_latex": "Now divide 108 by 36. What is the quotient and what is the remainder? Fill in the division equation $108 = 36 \\cdot q + r$ and determine the next pair to work with.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "36 = 36 \\cdot 1 + 0 \\;\\Rightarrow\\; \\gcd(252, 108) = 36",
+      "description_latex": "Once you found that $108 = 36 \\cdot 3 + 0$, the remainder is 0, so the algorithm terminates and $\\gcd(252,108) = 36$. The last nonzero remainder (36) is always the answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{lcm}(252, 108) = \\frac{252 \\cdot 108}{36} = \\;?",
+      "description_latex": "Use the identity $\\text{lcm}(a,b) = \\frac{a \\cdot b}{\\gcd(a,b)}$ with $\\gcd = 36$ to compute the LCM. Calculate $252 \\times 108$ and divide by 36 \u2014 what do you get?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $\\gcd(48, 18)$ using the Euclidean Algorithm.",
+      "answer_latex": "\\gcd(48, 18) = 6"
+    },
+    {
+      "prompt_latex": "Find $\\gcd(315, 135)$ and $\\text{lcm}(315, 135)$.",
+      "answer_latex": "\\gcd(315, 135) = 45,\\quad \\text{lcm}(315, 135) = 945"
+    },
+    {
+      "prompt_latex": "Use the Euclidean Algorithm to find $\\gcd(1001, 77)$, then determine $\\text{lcm}(1001, 77)$.",
+      "answer_latex": "\\gcd(1001, 77) = 77,\\quad \\text{lcm}(1001, 77) = 1001"
+    },
+    {
+      "prompt_latex": "Two gears have 84 teeth and 56 teeth respectively. They start with their marked teeth aligned. After how many total tooth-engagements will both marked teeth align again? (Hint: this is $\\text{lcm}(84,56)$.)",
+      "answer_latex": "\\text{lcm}(84, 56) = 168 \\text{ tooth-engagements}"
+    },
+    {
+      "prompt_latex": "Given that $\\gcd(a, b) = 12$ and $\\text{lcm}(a, b) = 360$, find the product $a \\cdot b$.",
+      "answer_latex": "a \\cdot b = \\gcd(a,b) \\cdot \\text{lcm}(a,b) = 12 \\cdot 360 = 4320"
+    }
+  ],
+  "common_mistakes": [
+    "Students often stop the Euclidean Algorithm one step too early, recording the second-to-last nonzero remainder instead of the last one. Remember: the GCD is the very last nonzero remainder \u2014 only stop when the remainder is exactly 0.",
+    "When computing the LCM using the identity $\\text{lcm}(a,b) = \\frac{a \\cdot b}{\\gcd(a,b)}$, students sometimes divide only one of the two numbers by the GCD before multiplying, computing $\\frac{a}{\\gcd} \\cdot b$ correctly but then forgetting to use it as the full formula. Always multiply both numbers first (or equivalently divide one, then multiply by the other) \u2014 do not divide both by the GCD.",
+    "Students frequently apply the step $\\gcd(a, b) = \\gcd(b, a \\bmod b)$ but accidentally swap which number plays the role of dividend and which plays the role of divisor, writing $b = a \\cdot q + r$ instead of $a = b \\cdot q + r$. Always divide the larger current value by the smaller one, and carry the remainder down correctly."
+  ],
+  "untested_variants": [
+    "Applying the Extended Euclidean Algorithm to express $\\gcd(a,b)$ as an integer linear combination $\\gcd(a,b) = ax + by$ (B\u00e9zout's identity), which appears frequently on exams covering modular inverses.",
+    "Finding the GCD or LCM of three or more integers simultaneously, e.g. $\\gcd(a, b, c) = \\gcd(\\gcd(a,b), c)$, which requires chaining the algorithm.",
+    "Using the prime factorization method to compute GCD and LCM directly (taking minimum and maximum exponents respectively) and reconciling it with the Euclidean approach.",
+    "Proving properties of GCD, such as showing $\\gcd(a, b) = \\gcd(a, b - a)$ or proving that if $\\gcd(a,b) = 1$ and $a \\mid bc$ then $a \\mid c$, which tests conceptual depth beyond computation."
+  ]
+}

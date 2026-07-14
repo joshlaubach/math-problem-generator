@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_065",
+  "topic_name": "Introduction to Turing Machines (H)",
+  "generated_at": "2026-05-13T20:17:46.368259+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how finite automata can recognise patterns like 'strings ending in 01' by moving through a fixed set of states, and you know that pushdown automata can handle context-free languages by adding a stack. But what happens when you try to recognise something like $\\{a^n b^n c^n \\mid n \\geq 1\\}$, a language no pushdown automaton can handle? There seems to be a gap between the machines we have built and the full power of mechanical computation. What kind of machine would be powerful enough to compute anything that is, in principle, computable?",
+  "concept": "A Turing Machine is the most powerful standard model of computation: imagine a finite-state controller attached to an infinitely long tape divided into cells, where it can read, write, and move left or right \u2014 unlike a finite automaton, it can revisit and modify its input. Formally, a Turing Machine is a 7-tuple $M = (Q, \\Sigma, \\Gamma, \\delta, q_0, q_{accept}, q_{reject})$, where $Q$ is the finite set of states, $\\Sigma$ is the input alphabet, $\\Gamma \\supseteq \\Sigma$ is the tape alphabet (containing a special blank symbol $\\sqcup \\in \\Gamma \\setminus \\Sigma$), and $\\delta : Q \\times \\Gamma \\rightarrow Q \\times \\Gamma \\times \\{L, R\\}$ is the transition function.",
+  "anatomy": "The seven components each play a distinct role. The state set $Q$ gives the machine its memory of 'where it is' in the computation, while the two distinguished states $q_{accept}$ and $q_{reject}$ (with $q_{accept} \\neq q_{reject}$) halt the machine immediately and signal acceptance or rejection. The input alphabet $\\Sigma$ contains the symbols the problem is stated in, whereas the tape alphabet $\\Gamma$ is larger \u2014 it includes $\\Sigma$, the blank $\\sqcup$, and any working symbols the machine writes as scratch. The start state $q_0 \\in Q$ is where computation begins, with the read/write head positioned at the leftmost cell of the input. The transition function $\\delta$ is the heart of the machine: given the current state and the symbol under the head, it specifies a new state to enter, a symbol to write (overwriting the cell), and a direction $L$ or $R$ to move the head.",
+  "worked_example": [
+    {
+      "expression_latex": "L = \\{a^n b^n \\mid n \\geq 1\\}",
+      "description_latex": "Our goal is to design a Turing Machine that accepts exactly the language of equal numbers of $a$'s followed by equal numbers of $b$'s. We choose this language because it illustrates the key TM technique of using the tape as scratch space to 'match' symbols from two different parts of the input, something no finite automaton can do.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q = \\{q_0, q_1, q_2, q_3, q_{accept}, q_{reject}\\}, \\quad \\Sigma = \\{a, b\\}, \\quad \\Gamma = \\{a, b, X, Y, \\sqcup\\}",
+      "description_latex": "We introduce two working symbols: $X$ marks an $a$ that has already been matched, and $Y$ marks a $b$ that has already been matched. Having these extra tape-alphabet symbols is perfectly legal, and they let us track progress without needing extra states for every possible count \u2014 this is the scratch-tape idea at the core of TM design.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\delta(q_0, a) = (q_1, X, R), \\quad \\delta(q_1, a) = (q_1, a, R), \\quad \\delta(q_1, Y) = (q_1, Y, R), \\quad \\delta(q_1, b) = (q_2, Y, L)",
+      "description_latex": "Starting in $q_0$, the machine reads one $a$, overwrites it with $X$ to mark it as matched, and enters $q_1$ to scan right past any remaining $a$'s and any already-matched $Y$'s, looking for the first unmatched $b$. When it finds a $b$ it writes $Y$ (marking that $b$ matched) and enters $q_2$ to scan all the way back left \u2014 this left-movement is the key power that distinguishes a TM from a pushdown automaton.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\delta(q_2, a) = (q_2, a, L), \\quad \\delta(q_2, Y) = (q_2, Y, L), \\quad \\delta(q_2, X) = (q_0, X, R)",
+      "description_latex": "In state $q_2$ the head moves left past $a$'s and $Y$'s until it hits an $X$ (a previously matched $a$), at which point it returns to $q_0$ to begin the next matching round. Each full cycle reduces the count of unmatched $a$'s and $b$'s by one, so the machine makes progress toward termination on every round.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\delta(q_0, Y) = (q_3, Y, R), \\quad \\delta(q_3, Y) = (q_3, Y, R), \\quad \\delta(q_3, \\sqcup) = (q_{accept}, \\sqcup, R)",
+      "description_latex": "When $q_0$ reads a $Y$ instead of an $a$, all $a$'s have been matched; we enter $q_3$ to verify that only $Y$'s remain before the blank, confirming all $b$'s were also matched. If we reach the blank $\\sqcup$ in $q_3$, we transition to $q_{accept}$ and halt; any unexpected symbol in $q_0$ or $q_3$ sends the machine to $q_{reject}$, making the definition total.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "L = \\{ww^R \\mid w \\in \\{0,1\\}^+\\}",
+      "description_latex": "We want a Turing Machine that accepts even-length palindromes over $\\{0,1\\}$. A natural strategy is to mark the first symbol, scan to the last unmatched symbol, check they agree, and repeat \u2014 exactly the matching strategy we used for $a^n b^n$. We will define $\\Gamma = \\{0, 1, X, \\sqcup\\}$ where $X$ marks a symbol that has been matched on both ends.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\delta(q_0, 0) = (q_1, X, R), \\quad \\delta(q_0, 1) = (q_2, X, R)",
+      "description_latex": "In $q_0$ we read the leftmost unmatched symbol, overwrite it with $X$, and remember what it was by choosing state $q_1$ (remembered a $0$) or $q_2$ (remembered a $1$). We move right to begin scanning toward the right end \u2014 notice that the state itself is carrying information, acting like a 1-symbol memory.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now you need to write the transitions that scan rightward past $0$'s, $1$'s, and $X$'s in states $q_1$ and $q_2$, then match and mark the rightmost unmatched symbol. For $q_1$ (which remembered a $0$), the machine should accept a $0$ at the right end by writing $X$ and moving left; for $q_2$ (remembered a $1$), it should accept a $1$. Write all four transitions: the two 'keep scanning right' rules and the two 'found a match' rules.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\delta(q_0, X) = (q_0, X, R), \\quad \\delta(q_0, \\sqcup) = (q_{accept}, \\sqcup, R)",
+      "description_latex": "Once the head returns to $q_0$ after a successful match round, if it sees only $X$'s followed by a blank then all symbols have been matched and the machine accepts. If $q_0$ ever sees a symbol that does not fit the expected pattern \u2014 for example a $0$ when a $1$ was expected \u2014 it should transition to $q_{reject}$, which you should add for every undefined case to make $\\delta$ total.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A Turing Machine $M$ has $\\delta(q_0, a) = (q_1, b, R)$ and starts in state $q_0$ reading the symbol $a$. What is the new state, what symbol is now written on the tape, and in which direction does the head move?",
+      "answer_latex": "New state: $q_1$; symbol written: $b$; head moves Right."
+    },
+    {
+      "prompt_latex": "List all seven components of the formal definition of a Turing Machine and state what role the blank symbol $\\sqcup$ plays.",
+      "answer_latex": "$(Q, \\Sigma, \\Gamma, \\delta, q_0, q_{accept}, q_{reject})$. The blank $\\sqcup \\in \\Gamma \\setminus \\Sigma$ fills all tape cells not occupied by input, allowing the machine to detect the end of the input and use empty space as scratch."
+    },
+    {
+      "prompt_latex": "Describe, in terms of states and transitions, how a Turing Machine can decide the language $\\{a^n b^n \\mid n \\geq 1\\}$. You do not need to list every transition; give a clear phase-by-phase description of the strategy.",
+      "answer_latex": "Phase 1: from $q_0$, replace the leftmost $a$ with $X$ and move right. Phase 2: scan right past $a$'s and $Y$'s to find the first $b$; replace it with $Y$ and move left. Phase 3: scan left past $a$'s and $Y$'s back to the leftmost $X$, then return to $q_0$. Repeat until $q_0$ sees a $Y$ (all $a$'s matched); then verify only $Y$'s remain before accepting."
+    },
+    {
+      "prompt_latex": "A student claims: 'A Turing Machine that loops forever on input $w$ is the same as one that rejects $w$.' Explain precisely why this is wrong, using the concepts of $q_{accept}$, $q_{reject}$, and the three possible outcomes of a TM computation.",
+      "answer_latex": "A TM on input $w$ has three possible outcomes: it halts in $q_{accept}$ (accept), halts in $q_{reject}$ (reject), or loops forever (neither accepts nor rejects). Looping is a third distinct outcome \u2014 the machine never reaches $q_{reject}$, so it never explicitly rejects. This distinction matters: a language is Turing-recognisable if a TM accepts every string in it (but may loop on strings outside it), while it is decidable only if the TM halts on all inputs."
+    },
+    {
+      "prompt_latex": "A Turing Machine is designed to compute the function $f(n) = n + 1$ where the input is a non-negative integer $n$ written in unary as $n$ ones (e.g. $n=3$ is written $111$). Describe a strategy for this machine: what should be on the tape when it halts in $q_{accept}$?",
+      "answer_latex": "The machine should scan right past all $1$'s without modification, and when it reads the first blank $\\sqcup$, write a $1$ in that cell and move to $q_{accept}$. The tape then contains $n+1$ ones, since one extra $1$ was appended after the original $n$ ones. Only two transitions are needed: $\\delta(q_0, 1) = (q_0, 1, R)$ and $\\delta(q_0, \\sqcup) = (q_{accept}, 1, R)$."
+    }
+  ],
+  "common_mistakes": [
+    "Students often write a transition function $\\delta$ that is undefined for some (state, symbol) pairs, forgetting that a total TM requires every such pair to map somewhere \u2014 if you want the machine to reject on an unexpected symbol, explicitly add a transition to $q_{reject}$ for that pair rather than leaving it undefined.",
+    "Students confuse the input alphabet $\\Sigma$ with the tape alphabet $\\Gamma$, sometimes trying to write a working symbol like $X$ that they never declared in $\\Gamma$; remember that $\\Gamma$ must strictly contain $\\Sigma$ plus the blank and all working symbols, so declare every symbol your machine writes before using it.",
+    "Students assume that reaching $q_{reject}$ is the only way a TM fails to accept, and so incorrectly conclude that a TM always gives a definite yes/no answer; in reality a TM that loops forever on an input neither accepts nor rejects it, which is why Turing-recognisable languages are a strictly larger class than decidable languages."
+  ],
+  "untested_variants": [
+    "Multi-tape Turing Machines, where the machine has several independent tapes and heads, and proving that they are equivalent in power to the standard single-tape model.",
+    "Non-deterministic Turing Machines (NTMs), where $\\delta$ maps to a set of possible next configurations, and the acceptance condition requires at least one branch to reach $q_{accept}$.",
+    "Encoding Turing Machines as strings (G\u00f6del numbering / TM descriptions) and the resulting undecidability argument for the Halting Problem.",
+    "Turing Machines as language acceptors versus transducers (function-computing machines), and the formal definition of a TM that computes a function $f : \\Sigma^* \\rightarrow \\Gamma^*$ by leaving output on the tape at halt."
+  ]
+}

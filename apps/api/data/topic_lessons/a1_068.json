@@ -1,0 +1,86 @@
+{
+  "topic_id": "a1_068",
+  "topic_name": "Measures of Center (Mean, Median, Mode)",
+  "generated_at": "2026-05-12T22:50:10.281267+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to find the average of a set of numbers \u2014 add them up and divide. But imagine a small town where nine people earn $30,000 a year and one person earns $1,000,000. Is the average salary really a fair description of what most people earn? You're about to discover that there are actually three different ways to measure the 'center' of data, and each one tells a different story \u2014 so which one should you trust?",
+  "concept": "A measure of center is a single value that summarizes where the 'middle' of a data set is. The three main measures are: the **mean** (the arithmetic average, $\\bar{x} = \\frac{\\sum x}{n}$), the **median** (the middle value when data are ordered), and the **mode** (the value that appears most often). Each measure captures a different sense of 'typical,' and choosing the right one depends on the shape and context of your data.",
+  "anatomy": "Every measure of center has distinct components worth naming. For the **mean**: the numerator is the sum of all data values $\\sum x$, and the denominator is the count of values $n$, giving $\\bar{x} = \\frac{\\sum x}{n}$. For the **median**: you must first sort the data in ascending order, then identify either the single middle value (odd $n$) or average the two middle values (even $n$). For the **mode**: you scan for the value with the highest frequency \u2014 a data set can have one mode, more than one mode (bimodal/multimodal), or no mode if all values appear equally often.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Data set: } 4, 7, 2, 9, 3, 7, 5",
+      "description_latex": "We start by simply reading the data set. Before computing anything, it helps to note that there are $n = 7$ values and to spot any repeated values \u2014 here, $7$ appears twice, which will matter for the mode.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{4 + 7 + 2 + 9 + 3 + 7 + 5}{7} = \\frac{37}{7} \\approx 5.29",
+      "description_latex": "To find the mean, we add every value in the data set and divide by $n = 7$. The sum is $4+7+2+9+3+7+5 = 37$, so $\\bar{x} = \\frac{37}{7} \\approx 5.29$. This gives us a balance-point average, pulled toward any unusually large or small values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Ordered: } 2, 3, 4, \\mathbf{5}, 7, 7, 9 \\quad \\Rightarrow \\text{Median} = 5",
+      "description_latex": "To find the median, we must first rewrite the data in ascending order: $2, 3, 4, 5, 7, 7, 9$. Because $n = 7$ is odd, the median is the single middle value \u2014 the 4th value \u2014 which is $5$. Notice the median is not affected by the large value $9$ the way the mean is.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Mode} = 7 \\quad (\\text{appears twice; all others appear once})",
+      "description_latex": "The mode is simply the value that occurs most frequently. Scanning our original list, $7$ appears twice while every other value appears exactly once, so the mode is $7$. If no value repeated, we would say there is no mode.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data set: } 12, 8, 15, 8, 10, 17, 8, 12",
+      "description_latex": "We have $n = 8$ values. Let's find all three measures of center. Start by noticing which values repeat: $8$ appears three times and $12$ appears twice \u2014 this will matter shortly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{12+8+15+8+10+17+8+12}{8} = \\frac{90}{8} = 11.25",
+      "description_latex": "The mean is computed by summing all values: $12+8+15+8+10+17+8+12 = 90$, then dividing by $n=8$, giving $\\bar{x} = 11.25$. Now you try the median.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Sort the data in ascending order and find the median. Because $n = 8$ is even, you will need to average the two middle values. What is the median?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Mode} = 8",
+      "description_latex": "The mode is $8$ because it appears three times \u2014 more than any other value. Together, the mean ($11.25$), median ($10.5$), and mode ($8$) each describe the center a little differently, showing that the data is slightly pulled upward by the larger values.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find the mean of: } 6, 10, 4, 8, 12",
+      "answer_latex": "\\bar{x} = 8"
+    },
+    {
+      "prompt_latex": "\\text{Find the median and mode of: } 3, 7, 3, 9, 5, 3, 7",
+      "answer_latex": "\\text{Median} = 5, \\quad \\text{Mode} = 3"
+    },
+    {
+      "prompt_latex": "\\text{Find all three measures of center for: } 14, 22, 11, 22, 18, 9, 14, 22",
+      "answer_latex": "\\bar{x} = 16.5, \\quad \\text{Median} = 16, \\quad \\text{Mode} = 22"
+    },
+    {
+      "prompt_latex": "\\text{A student scored } 88, 92, 75, 100, \\text{ and } 80 \\text{ on five tests.} \\\\ \\text{What score must she earn on a 6th test to raise her mean to exactly } 88?",
+      "answer_latex": "93"
+    },
+    {
+      "prompt_latex": "\\text{Seven friends recorded how many books they read last year: } \\\\ 4, 1, 6, 4, 2, 12, 4. \\\\ \\text{Which measure of center best represents a 'typical' friend, and why?}",
+      "answer_latex": "\\text{Median} = 4 \\text{ or Mode} = 4; \\text{ the outlier } 12 \\text{ inflates the mean to } \\approx 4.71, \\text{ so median or mode better represents most friends.}"
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting to sort the data before finding the median: students often pick the middle-positioned value from the original unsorted list, landing on a value that is not actually the center. Always rewrite data in ascending order first.",
+    "When $n$ is even, choosing one middle value instead of averaging the two middle values: for example, with ordered data $3, 5, 7, 9$, the median is $\\frac{5+7}{2} = 6$, not $5$ or $7$ alone. Count carefully to identify both middle positions.",
+    "Confusing 'no mode' with a mode of zero: if every value in a data set appears exactly once, the data set has no mode \u2014 it is incorrect to write 'mode $= 0$.' Only report a mode when at least one value appears more frequently than the others."
+  ],
+  "untested_variants": [
+    "Finding the mean from a frequency table or grouped data, where each value must be multiplied by its frequency before summing.",
+    "Working backwards from a known mean to find a missing data value in a list (the type of algebraic setup used in practice problem 4 is not extended to finding two unknown values or to median/mode versions).",
+    "Identifying which measure of center changes \u2014 and by how much \u2014 when a single outlier is added or removed from a data set (sensitivity analysis).",
+    "Comparing measures of center across two different data sets displayed as dot plots or histograms, requiring visual estimation before calculation."
+  ]
+}

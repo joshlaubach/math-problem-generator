@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_030",
+  "topic_name": "Proofs of Continuity and Differentiability (H)",
+  "generated_at": "2026-05-13T20:20:41.172183+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know that a function like $f(x) = x^2$ is continuous everywhere and differentiable everywhere \u2014 you can see it in the smooth parabola. But what does it actually *mean* to prove these properties from first principles, using the precise $\\epsilon$-$\\delta$ definition? Saying 'the graph has no gaps' is intuition, not proof. Can you write a rigorous argument that $f(x) = x^2$ is both continuous at an arbitrary point $a$ and differentiable there, starting only from the definitions?",
+  "concept": "Continuity at a point means that $f(x)$ can be made arbitrarily close to $f(a)$ by taking $x$ close enough to $a$. Formally, $f$ is continuous at $a$ if for every $\\epsilon > 0$ there exists $\\delta > 0$ such that $|x - a| < \\delta$ implies $|f(x) - f(a)| < \\epsilon$. Differentiability at $a$ means the limit $f'(a) = \\lim_{h \\to 0} \\frac{f(a+h) - f(a)}{h}$ exists as a finite real number.",
+  "anatomy": "In an $\\epsilon$-$\\delta$ continuity proof the key components are: the challenge $\\epsilon > 0$ (any positive tolerance on the output), the response $\\delta > 0$ (the input tolerance you must construct), the implication structure $|x-a| < \\delta \\Rightarrow |f(x)-f(a)| < \\epsilon$, and the algebraic bridge that links $|f(x)-f(a)|$ back to $|x-a|$ (often via factoring or the triangle inequality). In a differentiability proof the additional components are the difference quotient $\\frac{f(a+h)-f(a)}{h}$, the limit variable $h \\to 0$, and the simplification step that cancels $h$ from the numerator and denominator to yield an explicit limiting value.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } f(x) = x^2 \\text{ is continuous at every } a \\in \\mathbb{R}.",
+      "description_latex": "We state the goal precisely: we must show that for every $\\epsilon > 0$ there exists $\\delta > 0$ such that $|x - a| < \\delta$ implies $|x^2 - a^2| < \\epsilon$. Writing the claim out formally first is essential because it tells you exactly what inequality you need to end up with.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|x^2 - a^2| = |x - a||x + a|",
+      "description_latex": "We factor the output difference using the difference-of-squares identity, which creates a factor of $|x - a|$ that we can control directly with $\\delta$. The remaining factor $|x + a|$ depends on $x$, so we need to bound it in terms of $a$ and our choice of $\\delta$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Restrict } \\delta \\leq 1 \\Rightarrow |x - a| < 1 \\Rightarrow |x| < |a| + 1 \\Rightarrow |x + a| \\leq |x| + |a| < 2|a| + 1",
+      "description_latex": "By first requiring $\\delta \\leq 1$ we confine $x$ to the interval $(a-1, a+1)$, which gives us a concrete upper bound $M = 2|a|+1$ on $|x+a|$. This is the standard 'preliminary bound' trick: without bounding $|x+a|$ we cannot choose $\\delta$ explicitly, because the factor grows as $x$ wanders far from $a$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Choose } \\delta = \\min\\!\\left(1,\\, \\frac{\\epsilon}{2|a|+1}\\right)",
+      "description_latex": "With $M = 2|a|+1$ in hand, we need $|x-a| \\cdot M < \\epsilon$, so we take $\\delta \\leq \\frac{\\epsilon}{2|a|+1}$. Taking the minimum with $1$ ensures both constraints hold simultaneously \u2014 this is the crux of the $\\epsilon$-$\\delta$ construction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|x^2 - a^2| = |x-a||x+a| < \\delta \\cdot (2|a|+1) \\leq \\frac{\\epsilon}{2|a|+1} \\cdot (2|a|+1) = \\epsilon",
+      "description_latex": "We now chain the inequalities together to close the proof: $|x-a| < \\delta$ and $|x+a| < 2|a|+1$ multiply to give something strictly less than $\\epsilon$. Every step used only the definition and our chosen $\\delta$, so the proof is complete.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } f(x) = x^2 \\text{ is differentiable at } a, \\text{ with } f'(a) = 2a.",
+      "description_latex": "We must show that $\\lim_{h \\to 0} \\frac{(a+h)^2 - a^2}{h} = 2a$. Write out the difference quotient explicitly \u2014 this sets up the algebra we need.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{(a+h)^2 - a^2}{h} = \\frac{a^2 + 2ah + h^2 - a^2}{h} = \\frac{2ah + h^2}{h}",
+      "description_latex": "Expanding the numerator and cancelling $a^2$ gives a polynomial in $h$ on top. Notice how both terms in the numerator share a factor of $h$, which is critical for the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Cancel the common factor of $h$ from numerator and denominator (valid because $h \\neq 0$ in a limit), and then evaluate the limit as $h \\to 0$ to obtain $f'(a)$. What do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore f'(a) = 2a, \\text{ so } f(x) = x^2 \\text{ is differentiable at every } a \\in \\mathbb{R}.",
+      "description_latex": "Since the limit exists and equals $2a$ for every $a$, differentiability holds everywhere. You have now proved both continuity and differentiability for $f(x) = x^2$ rigorously from the definitions.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use the $\\epsilon$-$\\delta$ definition to prove that $f(x) = 3x + 1$ is continuous at $a = 2$.",
+      "answer_latex": "Choose $\\delta = \\epsilon/3$. Then $|x-2|<\\delta \\Rightarrow |f(x)-f(2)| = |3x+1-7| = 3|x-2| < 3\\delta = \\epsilon$."
+    },
+    {
+      "prompt_latex": "Prove from the definition that $f(x) = x^2 + 3x$ is continuous at an arbitrary point $a \\in \\mathbb{R}$.",
+      "answer_latex": "Factor $|f(x)-f(a)| = |x-a||x+a+3|$. Restrict $\\delta \\leq 1$ to get $|x+a+3| < 2|a|+4$. Choose $\\delta = \\min(1, \\epsilon/(2|a|+4))$."
+    },
+    {
+      "prompt_latex": "Use the limit definition of the derivative to find and prove $f'(a)$ for $f(x) = x^3$.",
+      "answer_latex": "$\\frac{(a+h)^3 - a^3}{h} = \\frac{3a^2h+3ah^2+h^3}{h} = 3a^2+3ah+h^2 \\to 3a^2$ as $h\\to 0$, so $f'(a)=3a^2$."
+    },
+    {
+      "prompt_latex": "Prove that if $f$ is differentiable at $a$, then $f$ is continuous at $a$. (Hint: write $f(x)-f(a) = \\frac{f(x)-f(a)}{x-a}\\cdot(x-a)$ for $x\\neq a$.)",
+      "answer_latex": "$\\lim_{x\\to a}[f(x)-f(a)] = \\lim_{x\\to a}\\frac{f(x)-f(a)}{x-a}\\cdot(x-a) = f'(a)\\cdot 0 = 0$, so $\\lim_{x\\to a}f(x)=f(a)$, proving continuity."
+    },
+    {
+      "prompt_latex": "The function $f(x)=|x|$ is continuous at $0$ but not differentiable there. Verify continuity using $\\epsilon$-$\\delta$, then show the derivative limit does not exist.",
+      "answer_latex": "Continuity: $|f(x)-f(0)|=||x||=|x|<\\epsilon$ when $\\delta=\\epsilon$. Non-differentiability: the left limit of $\\frac{|h|}{h}$ as $h\\to 0^-$ is $-1$ but the right limit is $+1$; since they differ, the limit does not exist."
+    }
+  ],
+  "common_mistakes": [
+    "Students often choose $\\delta$ in terms of $x$ rather than only in terms of $\\epsilon$ and $a$. Since $x$ is the variable being quantified over, a $\\delta$ that depends on $x$ is circular \u2014 $\\delta$ must be fixed before $x$ is chosen.",
+    "When bounding the 'extra' factor (like $|x+a|$), students forget to include the preliminary restriction $\\delta \\leq 1$ in their final $\\delta$ choice, so their bound only holds under an assumption they never formally enforced. Always write $\\delta = \\min(1, \\ldots)$ to ensure both conditions hold.",
+    "In differentiability proofs, students cancel $h$ and then plug in $h = 0$ to the uncancelled form, which gives $\\frac{0}{0}$. The correct procedure is to cancel $h$ first (legal because $h \\neq 0$ in the limit), and only then take $h \\to 0$."
+  ],
+  "untested_variants": [
+    "Proving continuity of $f(x) = \\sqrt{x}$ at a point $a > 0$, which requires rationalizing the numerator rather than factoring a polynomial.",
+    "Proving that a function defined piecewise (e.g., $f(x) = x\\sin(1/x)$ for $x \\neq 0$ and $f(0)=0$) is continuous at the joining point using the squeeze theorem inside an $\\epsilon$-$\\delta$ argument.",
+    "Using the $\\epsilon$-$\\delta$ definition to prove that a function is *discontinuous* at a point by negating the definition and exhibiting a specific bad $\\epsilon$.",
+    "Proving differentiability of $f(x) = x^n$ for general $n \\in \\mathbb{N}$ using the binomial theorem in the difference quotient."
+  ]
+}

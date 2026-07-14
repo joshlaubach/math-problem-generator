@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_011",
+  "topic_name": "Tangential and Normal Components of Acceleration (H)",
+  "generated_at": "2026-05-13T00:30:19.367145+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to decompose a vector into components along coordinate axes, and you've studied how the unit tangent vector $\\mathbf{T}$ and unit normal vector $\\mathbf{N}$ describe the geometry of a curve. But when a car rounds a banked curve and you feel simultaneously pushed into your seat and thrown sideways, those two sensations correspond to two physically distinct parts of the acceleration vector \u2014 one along the direction of motion and one perpendicular to it. Your current tools let you compute $\\mathbf{a}(t)$, but how do you split it cleanly into the piece that changes your speed and the piece that changes your direction?",
+  "concept": "Acceleration can always be decomposed into two orthogonal pieces relative to the curve itself. The tangential component $a_T$ measures how quickly the speed is changing (speeding up or slowing down), while the normal component $a_N$ measures how sharply the path is curving. Formally, $\\mathbf{a} = a_T \\mathbf{T} + a_N \\mathbf{N}$, where $a_T = \\frac{d^2s}{dt^2} = \\frac{\\mathbf{r}'(t)\\cdot\\mathbf{r}''(t)}{|\\mathbf{r}'(t)|}$ and $a_N = \\kappa\\left(\\frac{ds}{dt}\\right)^2 = \\frac{|\\mathbf{r}'(t)\\times\\mathbf{r}''(t)|}{|\\mathbf{r}'(t)|}$.",
+  "anatomy": "The decomposition $\\mathbf{a} = a_T \\mathbf{T} + a_N \\mathbf{N}$ has four named parts worth distinguishing. First, $a_T$ (the tangential scalar component) is a signed quantity \u2014 positive when speeding up, negative when slowing down \u2014 and it equals the dot product formula $\\mathbf{r}' \\cdot \\mathbf{r}'' / |\\mathbf{r}'|$. Second, $a_N$ (the normal scalar component) is always non-negative and equals the cross-product magnitude formula $|\\mathbf{r}' \\times \\mathbf{r}''| / |\\mathbf{r}'|$; it captures centripetal-like behavior. Third, $\\mathbf{T}$ is the unit tangent vector pointing along the direction of motion. Fourth, $\\mathbf{N}$ is the principal unit normal vector pointing toward the center of curvature, always perpendicular to $\\mathbf{T}$. A useful consistency check is the Pythagorean identity $|\\mathbf{a}|^2 = a_T^2 + a_N^2$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{r}(t) = \\langle t^2,\\, t^3,\\, 0 \\rangle",
+      "description_latex": "We start by identifying the position vector. Our goal is to find $a_T$ and $a_N$, so we will need both the first and second derivatives of $\\mathbf{r}(t)$; let's compute them now so everything else follows cleanly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}'(t) = \\langle 2t,\\, 3t^2,\\, 0 \\rangle, \\quad \\mathbf{r}''(t) = \\langle 2,\\, 6t,\\, 0 \\rangle",
+      "description_latex": "Differentiating component-by-component gives us the velocity and acceleration vectors. Notice that $\\mathbf{r}''(t)$ is not the same as $a_T \\mathbf{T}$ \u2014 it is the full acceleration vector in Cartesian coordinates, which mixes both the tangential and normal contributions together; our job is to separate them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_T = \\frac{\\mathbf{r}'(t)\\cdot\\mathbf{r}''(t)}{|\\mathbf{r}'(t)|} = \\frac{(2t)(2)+(3t^2)(6t)}{\\sqrt{4t^2+9t^4}} = \\frac{4t+18t^3}{|t|\\sqrt{4+9t^2}}",
+      "description_latex": "We apply the dot-product formula for the tangential component. Taking the dot product $\\mathbf{r}' \\cdot \\mathbf{r}''$ gives $4t + 18t^3$, and we factor the speed $|\\mathbf{r}'| = \\sqrt{4t^2 + 9t^4} = |t|\\sqrt{4+9t^2}$; for $t > 0$ this simplifies to $a_T = \\frac{4t+18t^3}{t\\sqrt{4+9t^2}} = \\frac{4+18t^2}{\\sqrt{4+9t^2}}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}'\\times\\mathbf{r}'' = \\langle 0,\\, 0,\\, (2t)(6t)-(3t^2)(2)\\rangle = \\langle 0,0,12t^2-6t^2\\rangle = \\langle 0,0,6t^2\\rangle",
+      "description_latex": "For the normal component we use the cross-product formula. Since both vectors lie in the $xy$-plane, only the $z$-component of the cross product is nonzero, giving $|\\mathbf{r}'\\times\\mathbf{r}''| = 6t^2$ (for $t > 0$), which is always non-negative \u2014 exactly what we expect from $a_N$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_N = \\frac{|\\mathbf{r}'\\times\\mathbf{r}''|}{|\\mathbf{r}'|} = \\frac{6t^2}{t\\sqrt{4+9t^2}} = \\frac{6t}{\\sqrt{4+9t^2}}",
+      "description_latex": "Dividing gives the normal component; notice $a_N \\geq 0$ as required. As a sanity check you could verify $a_T^2 + a_N^2 = |\\mathbf{r}''|^2 = 4 + 36t^2$, confirming the Pythagorean identity holds and our decomposition is correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{r}(t) = \\langle \\cos t,\\, \\sin t,\\, t \\rangle",
+      "description_latex": "We want the tangential and normal components of acceleration for the circular helix. Begin by computing $\\mathbf{r}'(t) = \\langle -\\sin t, \\cos t, 1 \\rangle$ and $\\mathbf{r}''(t) = \\langle -\\cos t, -\\sin t, 0 \\rangle$; these are the two ingredients needed for both formulas.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_T = \\frac{\\mathbf{r}'\\cdot\\mathbf{r}''}{|\\mathbf{r}'|}",
+      "description_latex": "Apply the dot-product formula by computing $\\mathbf{r}' \\cdot \\mathbf{r}''$ and $|\\mathbf{r}'|$. What do you get for $a_T$? (Hint: think about what the dot product of $\\langle -\\sin t, \\cos t, 1\\rangle$ and $\\langle -\\cos t, -\\sin t, 0\\rangle$ equals \u2014 does this make physical sense for motion at constant speed?)",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathbf{r}'\\times\\mathbf{r}'' = \\langle (\\cos t)(0)-(1)(-\\sin t),\\,(1)(-\\cos t)-(-\\sin t)(0),\\,(-\\sin t)(-\\sin t)-(\\cos t)(-\\cos t)\\rangle = \\langle \\sin t,\\,-\\cos t,\\,1\\rangle",
+      "description_latex": "The cross product is computed for you here using the $3\\times 3$ determinant formula. Notice each component simplifies using the Pythagorean identity; carry this forward to find $|\\mathbf{r}' \\times \\mathbf{r}''|$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_N = \\frac{|\\mathbf{r}'\\times\\mathbf{r}''|}{|\\mathbf{r}'|}",
+      "description_latex": "Now compute $|\\mathbf{r}' \\times \\mathbf{r}''|$ from the cross product above and divide by $|\\mathbf{r}'|$ to obtain the final value of $a_N$. What constant value do you get, and why does it make sense geometrically that $a_N$ is constant for a helix?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For $\\mathbf{r}(t) = \\langle t,\\, t^2 \\rangle$ (treated as a plane curve with zero $z$-component), find $a_T$ and $a_N$ at $t = 1$.",
+      "answer_latex": "a_T = \\frac{4}{\\sqrt{5}},\\quad a_N = \\frac{2}{\\sqrt{5}}"
+    },
+    {
+      "prompt_latex": "Let $\\mathbf{r}(t) = \\langle e^t,\\, e^{-t},\\, \\sqrt{2}\\,t\\rangle$. Compute $a_T$ and $a_N$ as functions of $t$.",
+      "answer_latex": "a_T = \\frac{e^{2t}-e^{-2t}}{\\sqrt{e^{2t}+e^{-2t}+2}},\\quad a_N = \\frac{2\\sqrt{2}}{\\sqrt{e^{2t}+e^{-2t}+2}}"
+    },
+    {
+      "prompt_latex": "For $\\mathbf{r}(t) = \\langle t^2,\\, 2t,\\, \\ln t \\rangle$ ($t > 0$), find $a_T$ and $a_N$ at $t = 1$.",
+      "answer_latex": "a_T = \\frac{2}{\\sqrt{9}} = \\frac{2}{3},\\quad a_N = \\frac{\\sqrt{20}}{3} = \\frac{2\\sqrt{5}}{3}"
+    },
+    {
+      "prompt_latex": "A particle moves along $\\mathbf{r}(t) = \\langle \\cos t,\\, \\sin t,\\, t^2 \\rangle$. Use the Pythagorean identity $|\\mathbf{a}|^2 = a_T^2 + a_N^2$ together with the formula for $a_T$ to find $a_N$ at $t = 0$, without computing the cross product directly.",
+      "answer_latex": "a_T(0)=0,\\quad |\\mathbf{a}(0)|=1,\\quad a_N(0)=1"
+    },
+    {
+      "prompt_latex": "A roller coaster car travels along the path $\\mathbf{r}(t) = \\langle 3\\sin t,\\, 3\\cos t,\\, 4t\\rangle$ (distances in meters, $t$ in seconds). Find the tangential and normal components of acceleration and interpret physically which component is responsible for the lateral force felt by the rider.",
+      "answer_latex": "a_T = 0 \\text{ (constant speed)},\\quad a_N = \\frac{3}{5}\\text{ m/s}^2 \\text{ (the lateral/centripetal force on the rider)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse $\\mathbf{r}''(t)$ with $a_T\\mathbf{T}$, forgetting that $\\mathbf{r}''(t)$ is the full Cartesian acceleration vector containing both components mixed together; the formulas $a_T = \\mathbf{r}'\\cdot\\mathbf{r}''/|\\mathbf{r}'|$ and $a_N = |\\mathbf{r}'\\times\\mathbf{r}''|/|\\mathbf{r}'|$ are needed to extract the individual scalars.",
+    "Students frequently try to compute $a_N$ by differentiating $\\mathbf{T}$ and calling the result $a_N\\mathbf{N}$, which is correct in principle but they forget to divide by $|\\mathbf{r}'|$ again (since $d\\mathbf{T}/dt$, not $d\\mathbf{T}/ds$, is what differentiation gives directly); always use the cross-product formula or the Pythagorean identity to avoid this error.",
+    "When applying the cross-product formula to a plane curve, students sometimes set $z = 0$ in the vectors but then compute only the $z$-component of the cross product incorrectly as a dot product, getting a signed value rather than a magnitude; remember that for 2D problems embedded in 3D the cross product has only a $z$-component and you still take its absolute value to get $a_N \\geq 0$."
+  ],
+  "untested_variants": [
+    "Finding the full decomposition $\\mathbf{a} = a_T\\mathbf{T} + a_N\\mathbf{N}$ by explicitly computing $\\mathbf{T}$ and $\\mathbf{N}$ as unit vectors and then writing out the full vector equation, rather than just finding the scalar components $a_T$ and $a_N$.",
+    "Given only the speed $v(t)$ and curvature $\\kappa(t)$ as functions of time (without an explicit position function), using $a_T = v'(t)$ and $a_N = \\kappa(t)v(t)^2$ to find the components \u2014 the formula-recognition approach rather than the derivative approach.",
+    "Problems where the curve is given implicitly or parametrized by arc length $s$ rather than time $t$, so that $|\\mathbf{r}'| = 1$ and the formulas simplify dramatically.",
+    "Applications involving finding the radius of curvature $\\rho = 1/\\kappa$ from the components (using $a_N = v^2/\\rho$) or finding the normal force on an object moving along a curved path using Newton's second law combined with the normal component."
+  ]
+}

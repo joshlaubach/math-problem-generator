@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_020",
+  "topic_name": "The Geometric Distribution",
+  "generated_at": "2026-05-13T20:26:41.881507+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to compute binomial probabilities \u2014 the chance of getting exactly $k$ successes in $n$ fixed trials. But what if the number of trials isn't fixed, and instead you keep repeating an experiment until you finally get your first success? You don't know in advance how many attempts it will take. How would you calculate the probability that the first success occurs on exactly the $k$th try?",
+  "concept": "The geometric distribution models the number of independent Bernoulli trials needed to get the first success, where each trial succeeds with probability $p$. Formally, if $X$ is the trial on which the first success occurs, then $X \\sim \\text{Geom}(p)$ and $P(X = k) = (1-p)^{k-1}p$ for $k = 1, 2, 3, \\ldots$ The mean is $E[X] = \\frac{1}{p}$ and variance is $\\text{Var}(X) = \\frac{1-p}{p^2}$.",
+  "anatomy": "The geometric distribution has three key structural components. First, $p$ is the probability of success on any single trial \u2014 it stays constant across all trials due to independence. Second, $(1-p)$, often written $q$, is the probability of failure on a single trial; the factor $(1-p)^{k-1}$ represents exactly $k-1$ consecutive failures before the first success. Third, $k$ is the trial index \u2014 the position of the first success \u2014 and it ranges over all positive integers $k = 1, 2, 3, \\ldots$ with no upper bound, reflecting the fact that the first success could theoretically take arbitrarily many trials.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Geom}(0.3), \\quad P(X = 4) = ?",
+      "description_latex": "We are told a basketball player makes each free throw independently with probability $p = 0.3$, and we want the probability that her first made shot is on exactly the 4th attempt. We identify that $X$ counts the trial number of the first success, so $X \\sim \\text{Geom}(0.3)$ and we need $P(X = 4)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = k) = (1-p)^{k-1} p",
+      "description_latex": "We write down the geometric PMF. This formula reflects the logic that the first $k-1$ trials must all be failures \u2014 each with probability $(1-p)$ \u2014 and then the $k$th trial must be a success with probability $p$. Because the trials are independent, we multiply these probabilities together.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 4) = (1 - 0.3)^{4-1} \\cdot 0.3 = (0.7)^3 \\cdot 0.3",
+      "description_latex": "We substitute $k = 4$ and $p = 0.3$ into the PMF. We need exactly three failures before the first success, so the failure factor is $(0.7)^3$, multiplied by the success probability $0.3$ on the fourth trial.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 4) = 0.343 \\times 0.3 = 0.1029",
+      "description_latex": "We compute $(0.7)^3 = 0.343$ and then multiply by $0.3$ to get $0.1029$. So there is approximately a $10.3\\%$ chance that the first made free throw happens on exactly the 4th attempt \u2014 a concrete answer we could not have reached without the geometric PMF.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Geom}(0.2), \\quad P(X = 5) = ?",
+      "description_latex": "A quality inspector checks items one by one; each item is defective with probability $0.2$, independently. We want the probability that the first defective item is the 5th one checked. We set up $X \\sim \\text{Geom}(0.2)$ and need $P(X = 5)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 5) = (1 - 0.2)^{5-1} \\cdot 0.2 = (0.8)^4 \\cdot 0.2",
+      "description_latex": "Substituting into the geometric PMF gives $(0.8)^4 \\cdot 0.2$. Notice that we need four consecutive non-defective items before finally finding the first defective one on trial 5.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the numerical value: evaluate $(0.8)^4$ first, then multiply by $0.2$. What is $P(X = 5)$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "If $X \\sim \\text{Geom}(0.5)$, find $P(X = 3)$.",
+      "answer_latex": "P(X = 3) = (0.5)^2 \\cdot 0.5 = 0.125"
+    },
+    {
+      "prompt_latex": "A student guesses on multiple-choice questions, each with 4 choices (exactly one correct). What is the probability that the first correct guess is on the 2nd question?",
+      "answer_latex": "P(X = 2) = \\left(\\tfrac{3}{4}\\right)^1 \\cdot \\tfrac{1}{4} = \\tfrac{3}{16} = 0.1875"
+    },
+    {
+      "prompt_latex": "If $X \\sim \\text{Geom}(0.4)$, find the mean and variance of $X$.",
+      "answer_latex": "E[X] = \\dfrac{1}{0.4} = 2.5, \\quad \\text{Var}(X) = \\dfrac{0.6}{0.16} = 3.75"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Geom}(p)$. Using the fact that the total probability must equal 1, verify that $\\displaystyle\\sum_{k=1}^{\\infty} (1-p)^{k-1} p = 1$.",
+      "answer_latex": "\\sum_{k=1}^{\\infty} (1-p)^{k-1} p = p \\cdot \\frac{1}{1-(1-p)} = p \\cdot \\frac{1}{p} = 1 \\quad \\checkmark"
+    },
+    {
+      "prompt_latex": "A server experiences independent connection failures, each with probability $0.1$. What is the probability that the first failure takes more than 3 attempts? (Hint: use the complementary CDF.)",
+      "answer_latex": "P(X > 3) = (1 - 0.1)^3 = (0.9)^3 = 0.729"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $(1-p)^k \\cdot p$ instead of $(1-p)^{k-1} \\cdot p$, forgetting that the $k$th trial is the success itself \u2014 so only $k-1$ failures precede it, not $k$. Always ask: how many failures come before the first success?",
+    "When computing $P(X > k)$ or $P(X \\leq k)$, students try to sum individual PMF values instead of using the closed-form CDF. The correct survival function is $P(X > k) = (1-p)^k$, which follows directly from needing $k$ consecutive failures \u2014 use this shortcut instead of summing.",
+    "Students confuse the two common conventions for the geometric distribution: some textbooks define $X$ as the number of failures before the first success (so $X = 0, 1, 2, \\ldots$), giving $P(X = k) = (1-p)^k p$, while others (including this lesson) count the trial number of the first success (so $X = 1, 2, 3, \\ldots$). Always check which convention your course uses before applying the formula."
+  ],
+  "untested_variants": [
+    "Finding the probability $P(X \\leq k)$ using the CDF $1 - (1-p)^k$ for a specific numeric value of $k$, which tests whether students can apply the cumulative distribution function rather than the PMF.",
+    "Problems where the success probability $p$ must be identified from contextual information rather than stated directly \u2014 for example, 'a die is rolled until a 6 appears' requires the student to first determine $p = 1/6$.",
+    "Using the memoryless property of the geometric distribution: for instance, given that the first success has not occurred in the first 3 trials, finding the conditional probability that it occurs on the 5th trial overall.",
+    "Finding the value of $p$ given a known mean or variance \u2014 for example, 'the expected number of trials until the first success is 8; find $p$' \u2014 which requires rearranging the mean formula $E[X] = 1/p$."
+  ]
+}

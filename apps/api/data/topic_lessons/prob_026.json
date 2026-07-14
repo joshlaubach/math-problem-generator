@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_026",
+  "topic_name": "Standard Normal and Z-Scores",
+  "generated_at": "2026-05-13T20:27:20.900202+00:00",
+  "course_name": "Probability",
+  "hook": "You already know that the normal distribution $N(\\mu, \\sigma^2)$ describes bell-shaped data, and you can sketch its curve. But suppose you need to find the probability that a randomly chosen adult has an IQ above 130, given that IQ scores follow $N(100, 225)$. To look up that probability in a table or use a calculator efficiently, you'd need to convert this specific normal distribution into one universal, standardized form. How do we translate any normal random variable into a single reference distribution we can actually look up?",
+  "concept": "Every normal distribution can be rescaled and recentered into the **standard normal distribution**, written $Z \\sim N(0,1)$, which has mean 0 and variance 1. The conversion formula is $Z = \\frac{X - \\mu}{\\sigma}$, where $X$ is your original random variable. The resulting value $Z$ is called a **z-score**, and it measures how many standard deviations $X$ sits above or below its mean. Once in standard form, all probabilities can be read from a single $Z$-table.",
+  "anatomy": "The z-score formula $Z = \\frac{X - \\mu}{\\sigma}$ has four distinct parts: $X$ is the observed value of the original random variable; $\\mu$ is the mean of that original distribution, which we subtract to re-center the distribution at zero; $\\sigma$ is the standard deviation (not the variance $\\sigma^2$), which we divide by to rescale the spread to exactly 1; and $Z$ is the resulting standardized score, a dimensionless number indicating signed distance from the mean in units of standard deviations. The standard normal curve is symmetric about $Z = 0$, so $P(Z \\leq z) = 1 - P(Z \\leq -z)$, a symmetry property that halves the table lookups you need.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim N(100, 225), \\quad \\text{find } P(X > 130)",
+      "description_latex": "We start by identifying the parameters of the original distribution. Here $\\mu = 100$ and $\\sigma^2 = 225$, so $\\sigma = \\sqrt{225} = 15$. Writing this down carefully before anything else prevents the single most common error in this topic: accidentally using the variance instead of the standard deviation in the denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Z = \\frac{X - \\mu}{\\sigma} = \\frac{130 - 100}{15} = \\frac{30}{15} = 2",
+      "description_latex": "We apply the z-score formula to convert the boundary value $X = 130$ into its standardized counterpart. The result $Z = 2$ tells us that 130 is exactly 2 standard deviations above the mean, and now we can look this up in a standard normal table regardless of the original scale.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X > 130) = P(Z > 2) = 1 - P(Z \\leq 2)",
+      "description_latex": "Standard normal tables (and most calculators) give cumulative probabilities $P(Z \\leq z)$, so we rewrite the 'greater than' probability using the complement rule. This step is necessary because the table only stores left-tail areas, and forgetting to take the complement is one of the most frequent errors students make.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(Z \\leq 2) = 0.9772, \\quad \\text{so } P(X > 130) = 1 - 0.9772 = 0.0228",
+      "description_latex": "We look up $z = 2.00$ in the standard normal table to get $\\Phi(2) = 0.9772$, then subtract from 1 to find the right-tail probability. Therefore, approximately 2.28% of the population has an IQ above 130, a concrete, interpretable answer that came entirely from a one-row table lookup after standardization.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim N(50, 16), \\quad \\text{find } P(44 \\leq X \\leq 56)",
+      "description_latex": "We want a probability between two values, so we will need to standardize both boundaries separately. First, note that $\\mu = 50$ and $\\sigma = \\sqrt{16} = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Z_1 = \\frac{44 - 50}{4} = -1.5, \\qquad Z_2 = \\frac{56 - 50}{4} = 1.5",
+      "description_latex": "Both boundary values are converted to z-scores using $Z = \\frac{X - \\mu}{\\sigma}$. The symmetry here ($Z_1 = -1.5$ and $Z_2 = 1.5$) will simplify the table work, but we should still set up the general subtraction formula first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now use the standard normal table to find $P(-1.5 \\leq Z \\leq 1.5) = P(Z \\leq 1.5) - P(Z \\leq -1.5)$. Look up both values and compute the final probability. What do you get?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "If $X \\sim N(0, 1)$, find $P(Z \\leq 1.96)$ using the standard normal table.",
+      "answer_latex": "P(Z \\leq 1.96) = 0.9750"
+    },
+    {
+      "prompt_latex": "Let $X \\sim N(20, 9)$. Convert $X = 23$ to a z-score and find $P(X \\leq 23)$.",
+      "answer_latex": "Z = \\frac{23-20}{3} = 1, \\quad P(X \\leq 23) = P(Z \\leq 1) = 0.8413"
+    },
+    {
+      "prompt_latex": "Let $X \\sim N(70, 25)$. Find $P(60 \\leq X \\leq 80)$.",
+      "answer_latex": "Z_1 = -2,\\ Z_2 = 2,\\quad P = \\Phi(2) - \\Phi(-2) = 0.9772 - 0.0228 = 0.9544"
+    },
+    {
+      "prompt_latex": "Let $X \\sim N(\\mu, \\sigma^2)$ with $P(X \\leq 50) = 0.9332$ and $\\sigma = 8$. Find $\\mu$.",
+      "answer_latex": "P(Z \\leq 1.5) = 0.9332 \\Rightarrow \\frac{50 - \\mu}{8} = 1.5 \\Rightarrow \\mu = 38"
+    },
+    {
+      "prompt_latex": "Bags of flour are filled by a machine so that weight $X \\sim N(500\\text{ g}, 64\\text{ g}^2)$. A bag is rejected if it weighs less than 490 g. What proportion of bags are rejected?",
+      "answer_latex": "Z = \\frac{490-500}{8} = -1.25,\\quad P(X < 490) = \\Phi(-1.25) = 1 - 0.8944 = 0.1056 \\approx 10.56\\%"
+    }
+  ],
+  "common_mistakes": [
+    "Using the variance $\\sigma^2$ instead of the standard deviation $\\sigma$ in the denominator of the z-score formula. For example, with $N(100, 225)$, students write $Z = \\frac{X-100}{225}$ instead of $Z = \\frac{X-100}{15}$. Always take the square root of the variance to get $\\sigma$ before substituting.",
+    "Forgetting to flip to the complement when the question asks for a 'greater than' probability. The standard normal table gives $P(Z \\leq z)$, so $P(Z > z) = 1 - P(Z \\leq z)$; skipping this step gives a probability greater than 0.5 when the answer should be small.",
+    "For a between-values probability, subtracting in the wrong order or looking up only one z-score. The correct formula is $P(a \\leq X \\leq b) = \\Phi(z_2) - \\Phi(z_1)$ where $z_2 > z_1$; reversing the subtraction yields a negative probability, which is always a signal to check the order."
+  ],
+  "untested_variants": [
+    "Finding a missing mean $\\mu$ or standard deviation $\\sigma$ when given a probability and a boundary value (inverse z-score problems beyond the single example in problem 4).",
+    "Using z-scores to compare observations from two different normal distributions (e.g., deciding whether a score of 85 in $N(70,100)$ is more extreme than a score of 62 in $N(50,25)$).",
+    "Computing probabilities for the sample mean $\\bar{X}$ using the Central Limit Theorem, where the standardization becomes $Z = \\frac{\\bar{X} - \\mu}{\\sigma/\\sqrt{n}}$.",
+    "Finding percentile values (quantiles) from the standard normal, i.e., given $P(Z \\leq z) = p$, solve for $z$ and then back-transform to the original scale."
+  ]
+}

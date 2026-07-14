@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_026",
+  "topic_name": "The Completeness Axiom and Consequences",
+  "generated_at": "2026-05-13T20:20:20.475836+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know that the rational numbers $\\mathbb{Q}$ are dense \u2014 between any two rationals there is another rational. Yet you've also seen that $\\sqrt{2}$ is irrational, meaning there is a 'gap' in $\\mathbb{Q}$ right where $\\sqrt{2}$ should live. The sequence $1, 1.4, 1.41, 1.414, \\ldots$ of rationals seems to be closing in on something, but if we only allow rational numbers, it never actually arrives anywhere. So what exactly is the property that $\\mathbb{R}$ has that $\\mathbb{Q}$ lacks, and how do we use it to prove things rigorously?",
+  "concept": "The Completeness Axiom (also called the Least Upper Bound Property) says that every non-empty subset of $\\mathbb{R}$ that is bounded above has a least upper bound (supremum) in $\\mathbb{R}$. Formally: if $S \\subseteq \\mathbb{R}$, $S \\neq \\emptyset$, and there exists $M \\in \\mathbb{R}$ with $s \\leq M$ for all $s \\in S$, then $\\sup S = \\inf\\{M \\in \\mathbb{R} : M \\text{ is an upper bound of } S\\}$ exists in $\\mathbb{R}$. This single axiom is what separates $\\mathbb{R}$ from $\\mathbb{Q}$.",
+  "anatomy": "There are four key components to unpack whenever you work with the completeness axiom. The set $S$ must be non-empty (a condition you must always verify) and bounded above, meaning there exists at least one upper bound $M$ satisfying $s \\leq M$ for every $s \\in S$. The supremum $\\sup S$ (or least upper bound, abbreviated l.u.b.) is the smallest among all upper bounds; it satisfies two conditions: (1) $\\sup S \\geq s$ for all $s \\in S$, and (2) if $\\epsilon > 0$ then there exists $s \\in S$ with $s > \\sup S - \\epsilon$ (nothing smaller than $\\sup S$ can be an upper bound). The infimum $\\inf S$ is the symmetric notion for sets bounded below.",
+  "worked_example": [
+    {
+      "expression_latex": "S = \\left\\{ x \\in \\mathbb{R} : x^2 < 2 \\right\\}",
+      "description_latex": "We begin by defining the set $S$ and checking the two hypotheses of the completeness axiom. $S$ is non-empty because $1 \\in S$ (since $1^2 = 1 < 2$), and $S$ is bounded above because $x \\in S$ implies $x < 2$ (since $2^2 = 4 > 2$), so $2$ is an upper bound. By the Completeness Axiom, $\\sup S$ exists in $\\mathbb{R}$; call it $\\alpha = \\sup S$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Claim: } \\alpha^2 = 2",
+      "description_latex": "We now prove the claim by ruling out the two alternatives $\\alpha^2 < 2$ and $\\alpha^2 > 2$. This is the standard 'trichotomy' proof technique in real analysis: show the only remaining possibility must hold. We will use the characteristic property of the supremum \u2014 that no number smaller than $\\alpha$ is an upper bound \u2014 to derive a contradiction in each case.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Case 1: Suppose } \\alpha^2 < 2. \\text{ Choose } \\epsilon = \\frac{2 - \\alpha^2}{2\\alpha + 1} > 0. \\text{ Then } (\\alpha + \\epsilon)^2 = \\alpha^2 + 2\\alpha\\epsilon + \\epsilon^2 < \\alpha^2 + (2\\alpha+1)\\epsilon = 2.",
+      "description_latex": "If $\\alpha^2 < 2$, we can find a small $\\epsilon > 0$ so that $\\alpha + \\epsilon$ is still in $S$, contradicting the fact that $\\alpha$ is an upper bound of $S$. The choice of $\\epsilon$ is engineered so that $(2\\alpha+1)\\epsilon$ exactly fills the gap $2 - \\alpha^2$, and we discard the $\\epsilon^2$ term since it only makes the left side smaller.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Case 2: Suppose } \\alpha^2 > 2. \\text{ Choose } \\delta = \\frac{\\alpha^2 - 2}{2\\alpha} > 0. \\text{ Then } (\\alpha - \\delta)^2 = \\alpha^2 - 2\\alpha\\delta + \\delta^2 > \\alpha^2 - 2\\alpha\\delta = 2,",
+      "description_latex": "If $\\alpha^2 > 2$, we show $\\alpha - \\delta$ is still an upper bound for $S$, contradicting the minimality of $\\alpha = \\sup S$. Any $x \\in S$ satisfies $x^2 < 2 < (\\alpha-\\delta)^2$, so $x < \\alpha - \\delta$, meaning $\\alpha - \\delta$ is a smaller upper bound \u2014 a direct contradiction to $\\alpha$ being the least upper bound.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\alpha^2 = 2, \\text{ i.e., } \\sqrt{2} = \\sup S \\in \\mathbb{R}.",
+      "description_latex": "Since both alternatives $\\alpha^2 < 2$ and $\\alpha^2 > 2$ lead to contradictions, we conclude $\\alpha^2 = 2$, which means $\\sqrt{2}$ exists as a real number. This is the power of the completeness axiom: it guarantees the existence of limits and solutions that $\\mathbb{Q}$ cannot provide.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "S = \\left\\{ 1 - \\frac{1}{n} : n \\in \\mathbb{N} \\right\\}",
+      "description_latex": "We want to find $\\sup S$. First, let's verify the hypotheses: $S$ is non-empty (take $n=1$, giving $0 \\in S$) and bounded above (every element satisfies $1 - 1/n < 1$, so $1$ is an upper bound). By the Completeness Axiom, $\\sup S$ exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sup S = 1",
+      "description_latex": "We claim $\\sup S = 1$. To verify this, we must check both conditions: (1) that $1$ is indeed an upper bound, and (2) that nothing smaller than $1$ can be an upper bound. Condition (1) is clear since $1 - 1/n < 1$ for all $n$. For condition (2), can you show that for any $\\epsilon > 0$ there exists $n \\in \\mathbb{N}$ such that $1 - 1/n > 1 - \\epsilon$? Use the Archimedean property to find such an $n$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{By the Archimedean property, choose } n > \\frac{1}{\\epsilon}. \\text{ Then } \\frac{1}{n} < \\epsilon, \\text{ so } 1 - \\frac{1}{n} > 1 - \\epsilon.",
+      "description_latex": "This completes the proof: every number less than $1$ fails to be an upper bound because some element of $S$ exceeds it, confirming that $\\sup S = 1$. Notice that $1 \\notin S$ itself \u2014 the supremum of a set need not belong to the set.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $S = \\{x \\in \\mathbb{R} : x < 5\\}$. State $\\sup S$ and verify that it satisfies both conditions of the supremum definition.",
+      "answer_latex": "\\sup S = 5. \\text{ (1) } x < 5 \\text{ for all } x \\in S, \\text{ so } 5 \\text{ is an upper bound. (2) For any } \\epsilon > 0, \\; 5 - \\epsilon/2 \\in S \\text{ and } 5 - \\epsilon/2 > 5 - \\epsilon, \\text{ so no smaller value is an upper bound.}"
+    },
+    {
+      "prompt_latex": "Find $\\sup S$ and $\\inf S$ for $S = \\left\\{ \\frac{(-1)^n}{n} : n \\in \\mathbb{N} \\right\\}$.",
+      "answer_latex": "\\sup S = \\frac{1}{2} \\text{ (achieved at } n=2\\text{, since odd terms are negative and even terms } 1/2, 1/4, \\ldots \\text{ decrease)}, \\quad \\inf S = -1 \\text{ (achieved at } n=1\\text{).}"
+    },
+    {
+      "prompt_latex": "Let $A$ and $B$ be non-empty subsets of $\\mathbb{R}$ that are bounded above, and define $A + B = \\{a + b : a \\in A, b \\in B\\}$. Prove that $\\sup(A+B) = \\sup A + \\sup B$.",
+      "answer_latex": "\\text{Let } \\alpha = \\sup A,\\, \\beta = \\sup B. \\text{ For all } a+b \\in A+B: a+b \\leq \\alpha + \\beta, \\text{ so } \\alpha+\\beta \\text{ is an upper bound.} \\text{ For any } \\epsilon>0, \\exists\\, a \\in A \\text{ with } a > \\alpha - \\epsilon/2 \\text{ and } \\exists\\, b \\in B \\text{ with } b > \\beta - \\epsilon/2, \\text{ so } a+b > \\alpha+\\beta-\\epsilon. \\text{ Hence } \\sup(A+B) = \\alpha+\\beta."
+    },
+    {
+      "prompt_latex": "Use the Completeness Axiom to prove the Archimedean Property: for every $x \\in \\mathbb{R}$ there exists $n \\in \\mathbb{N}$ such that $n > x$. (Hint: assume for contradiction that $\\mathbb{N}$ is bounded above.)",
+      "answer_latex": "\\text{Suppose } \\mathbb{N} \\text{ is bounded above. By completeness, } \\alpha = \\sup \\mathbb{N} \\text{ exists. Then } \\alpha - 1 \\text{ is not an upper bound, so } \\exists\\, n \\in \\mathbb{N} \\text{ with } n > \\alpha - 1, \\text{ giving } n+1 > \\alpha. \\text{ But } n+1 \\in \\mathbb{N}, \\text{ contradicting } \\alpha = \\sup \\mathbb{N}. \\text{ Hence } \\mathbb{N} \\text{ is unbounded.}"
+    },
+    {
+      "prompt_latex": "A thermometer is known to give readings always strictly below $100^\\circ$C, but for any target temperature $T < 100^\\circ$C the thermometer can produce a reading exceeding $T$. Using the language of suprema, what is $\\sup$ of the set of possible readings, and does the thermometer ever actually reach it?",
+      "answer_latex": "\\text{The set of readings } S \\text{ satisfies } \\sup S = 100. \\text{ Condition (1): all readings are} < 100, \\text{ so } 100 \\text{ is an upper bound. Condition (2): for any } \\epsilon > 0, \\text{ a reading exceeding } 100-\\epsilon \\text{ exists. The thermometer never reaches } 100^\\circ\\text{C since } 100 \\notin S."
+    }
+  ],
+  "common_mistakes": [
+    "Students often claim that $\\sup S$ must belong to $S$. This confuses the supremum with the maximum: $\\sup S \\in S$ only when $S$ has a maximum element, and the whole point of the completeness axiom is that the supremum can exist outside $S$ (as in $S = \\{x : x < 5\\}$, where $\\sup S = 5 \\notin S$). Always check separately whether $\\sup S \\in S$.",
+    "When verifying that a candidate $\\alpha$ equals $\\sup S$, students frequently only check that $\\alpha$ is an upper bound and forget the second condition \u2014 that for every $\\epsilon > 0$ there exists $s \\in S$ with $s > \\alpha - \\epsilon$. Omitting this second condition means you have not ruled out the possibility that a smaller upper bound exists, so the proof is incomplete.",
+    "Students misapply the completeness axiom to sets that are not bounded above, concluding that $\\sup S$ must still exist in $\\mathbb{R}$. The axiom requires both non-emptiness and boundedness above as hypotheses; without boundedness, the supremum is $+\\infty$, which is not a real number. Always state and verify both hypotheses explicitly before invoking completeness."
+  ],
+  "untested_variants": [
+    "Proving the Nested Interval Theorem (that a nested sequence of closed bounded intervals has non-empty intersection) as a consequence of the Completeness Axiom \u2014 this combines completeness with sequences and is a common exam application not covered above.",
+    "Finding $\\inf S$ for sets defined by inequalities or sequences and rigorously verifying both infimum conditions, which is the symmetric version of the worked and practice problems here (all of which focus on suprema).",
+    "Using the Completeness Axiom to prove that every Cauchy sequence of real numbers converges \u2014 the connection between completeness and Cauchy completeness is a standard exam topic not addressed in these problems.",
+    "Proving that between any two real numbers there exists an irrational number (irrational density), which requires combining the Archimedean property, completeness, and properties of $\\sqrt{2}$ in a way not practiced above."
+  ]
+}

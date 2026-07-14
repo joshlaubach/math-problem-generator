@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_021",
+  "topic_name": "The Rank-Nullity Theorem",
+  "generated_at": "2026-05-13T20:06:38.759131+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to find the null space of a matrix by solving $Ax = 0$, and you can find the column space by identifying pivot columns. But here's something strange: take any $3 \\times 5$ matrix and compute its rank and nullity separately \u2014 add them together, and you always get 5. Take a $4 \\times 7$ matrix and do the same \u2014 you always get 7. Is this a coincidence, or is something deeper going on? Why should the rank and nullity of a matrix be forced to sum to exactly the number of columns?",
+  "concept": "The Rank-Nullity Theorem says that for any linear transformation $T: V \\to W$ where $V$ is finite-dimensional, the dimension of the image and the dimension of the kernel always add up to the dimension of the domain. Formally: if $T: V \\to W$ is a linear map, then $\\text{rank}(T) + \\text{nullity}(T) = \\dim(V)$. For an $m \\times n$ matrix $A$, this becomes $\\text{rank}(A) + \\text{nullity}(A) = n$, where $n$ is the number of columns.",
+  "anatomy": "There are three key quantities in the theorem. The rank, $\\text{rank}(A)$, is the dimension of the column space $\\text{Col}(A)$ \u2014 equivalently, the number of pivot positions in the row-reduced form of $A$. The nullity, $\\text{nullity}(A)$, is the dimension of the null space $\\text{Nul}(A)$ \u2014 the number of free variables in the system $Ax = 0$. The domain dimension is simply $n$, the number of columns of $A$, which equals the number of unknowns in the system. The deep structural insight is that every column corresponds to either a pivot variable (contributing to rank) or a free variable (contributing to nullity), and these two sets partition all $n$ columns.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 1 & 2 & 0 & -1 \\\\ 2 & 4 & 1 & 3 \\\\ 3 & 6 & 1 & 2 \\end{pmatrix}",
+      "description_latex": "We start with this $3 \\times 4$ matrix $A$, and our goal is to verify the Rank-Nullity Theorem by computing both rank and nullity independently and checking that they sum to $n = 4$, the number of columns.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Row reduce } A \\to \\begin{pmatrix} 1 & 2 & 0 & -1 \\\\ 0 & 0 & 1 & 5 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "We row reduce $A$ to echelon form by subtracting $2 \\times$ Row 1 from Row 2 and $3 \\times$ Row 1 from Row 3, then clearing Row 3. This reveals the pivot positions: columns 1 and 3 are pivot columns, while columns 2 and 4 are free.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{rank}(A) = 2 \\quad (\\text{two pivot columns})",
+      "description_latex": "Because there are exactly 2 pivot positions in the row-reduced form, the rank is 2. This counts the dimension of the column space \u2014 there are 2 linearly independent columns that span $\\text{Col}(A)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{nullity}(A) = 2 \\quad (\\text{two free variables: } x_2, x_4)",
+      "description_latex": "The two non-pivot columns correspond to free variables $x_2$ and $x_4$, so $\\text{Nul}(A)$ has dimension 2. You can confirm this by parametrizing the solution to $Ax = 0$ and seeing that you need exactly 2 free parameters to describe all solutions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{rank}(A) + \\text{nullity}(A) = 2 + 2 = 4 = n",
+      "description_latex": "The sum of rank and nullity equals 4, which is exactly the number of columns of $A$. The theorem is verified: every column is accounted for \u2014 each is either a pivot column (contributing to rank) or a free-variable column (contributing to nullity), and there is no overlap.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 1 & 3 & 1 & 2 \\\\ 2 & 6 & 4 & 8 \\\\ 0 & 0 & 2 & 4 \\end{pmatrix}",
+      "description_latex": "We want to find the rank and nullity of this $3 \\times 4$ matrix $B$ and verify the Rank-Nullity Theorem. Our first step is to row reduce $B$ to echelon form so we can count pivot positions and free variables.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B \\to \\begin{pmatrix} 1 & 3 & 1 & 2 \\\\ 0 & 0 & 2 & 4 \\\\ 0 & 0 & 0 & 0 \\end{pmatrix}",
+      "description_latex": "After subtracting $2 \\times$ Row 1 from Row 2, the matrix reduces to this echelon form. Now look carefully at this reduced matrix and identify which columns contain pivots and which are free \u2014 use that to state the rank and nullity of $B$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Based on the row-reduced form of $B$, identify the pivot columns, then state $\\text{rank}(B)$ and $\\text{nullity}(B)$. Finally, verify that $\\text{rank}(B) + \\text{nullity}(B) = 4$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{rank}(B) + \\text{nullity}(B) = 2 + 2 = 4 = n \\checkmark",
+      "description_latex": "The pivot columns are columns 1 and 3, giving $\\text{rank}(B) = 2$. Columns 2 and 4 are free, giving $\\text{nullity}(B) = 2$. Their sum is $2 + 2 = 4$, confirming the Rank-Nullity Theorem for this matrix.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A matrix $A$ is $4 \\times 6$ and has rank 4. What is $\\text{nullity}(A)$?",
+      "answer_latex": "\\text{nullity}(A) = 6 - 4 = 2"
+    },
+    {
+      "prompt_latex": "Find the rank and nullity of $A = \\begin{pmatrix} 1 & 0 & 2 \\\\ 0 & 1 & -1 \\\\ 2 & -1 & 5 \\end{pmatrix}$ and verify the Rank-Nullity Theorem.",
+      "answer_latex": "\\text{rank}(A) = 2,\\quad \\text{nullity}(A) = 1,\\quad 2 + 1 = 3 = n"
+    },
+    {
+      "prompt_latex": "A linear transformation $T: \\mathbb{R}^5 \\to \\mathbb{R}^3$ has a null space of dimension 3. What is the rank of $T$?",
+      "answer_latex": "\\text{rank}(T) = 5 - 3 = 2"
+    },
+    {
+      "prompt_latex": "Let $A$ be a $5 \\times 5$ matrix. Suppose $\\text{nullity}(A) = 0$. Using the Rank-Nullity Theorem, show that the columns of $A$ are linearly independent and the equation $Ax = b$ has a unique solution for every $b \\in \\mathbb{R}^5$.",
+      "answer_latex": "\\text{rank}(A) = 5 - 0 = 5,\\text{ so } A \\text{ has 5 pivot columns, meaning columns are linearly independent and } A \\text{ is invertible.}"
+    },
+    {
+      "prompt_latex": "A scientist models a system with 6 unknowns using a linear transformation $T: \\mathbb{R}^6 \\to \\mathbb{R}^4$. After analysis she finds that the solution space of $T(x) = 0$ has dimension 3. What is the rank of $T$, and what does this say about how many independent constraints her model actually imposes?",
+      "answer_latex": "\\text{rank}(T) = 6 - 3 = 3;\\text{ the model imposes only 3 independent constraints, not 4.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse $n$ (number of columns) with $m$ (number of rows) when applying the theorem, writing $\\text{rank}(A) + \\text{nullity}(A) = m$ instead of $n$. The theorem always refers to the dimension of the domain, which for an $m \\times n$ matrix is always $n$ \u2014 the number of columns, not rows.",
+    "Students compute nullity by counting the number of zero rows in the row-reduced form rather than counting the free variables (non-pivot columns). Zero rows tell you about the co-domain, not the null space; the correct procedure is to count how many columns lack a pivot.",
+    "Students assume that rank plus nullity equals $mn$ or some product of dimensions, rather than just $n$. Rank and nullity together account for all $n$ column positions in the matrix, not all $mn$ entries \u2014 so the sum is always exactly $n$."
+  ],
+  "untested_variants": [
+    "Finding a basis for the null space explicitly using parametric vector form and then verifying its dimension equals the nullity predicted by the theorem.",
+    "Applying the Rank-Nullity Theorem to a linear transformation defined abstractly (e.g., the differentiation map on polynomials of degree $\\leq n$) rather than to a matrix.",
+    "Using the theorem to determine whether a linear system $Ax = b$ is consistent or has a unique solution by analyzing rank conditions (the connection to the consistency theorem).",
+    "Block matrices or composite transformations $T \\circ S$ where you must reason about rank and nullity of compositions rather than a single matrix."
+  ]
+}

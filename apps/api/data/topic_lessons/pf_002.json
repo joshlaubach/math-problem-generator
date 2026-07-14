@@ -1,0 +1,81 @@
+{
+  "topic_id": "pf_002",
+  "topic_name": "Logical Connectives and Quantifiers",
+  "generated_at": "2026-05-13T20:17:44.834709+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to make true or false statements like 'the integer $n$ is even' or '$x > 5$.' But what happens when you need to combine statements, like saying 'every even integer greater than 2 is the sum of two primes,' or 'there exists some $x$ such that $x^2 = -1$ in the reals'? Ordinary language is too ambiguous for mathematics \u2014 'or' can mean one-or-the-other or both, and 'all' can be tricky when a set is empty. How can we write these claims with airtight precision?",
+  "concept": "Logical connectives join propositions into compound statements: $\\neg P$ (not $P$), $P \\land Q$ (and), $P \\lor Q$ (inclusive or), and $P \\Rightarrow Q$ (if $P$ then $Q$). Quantifiers bind a variable over a domain: the universal quantifier $\\forall x\\, P(x)$ asserts $P$ holds for every element, while the existential quantifier $\\exists x\\, P(x)$ asserts $P$ holds for at least one element. Together they let us express precise mathematical claims about whole collections.",
+  "anatomy": "A quantified statement has three distinct parts: the quantifier symbol ($\\forall$ or $\\exists$), the bound variable (e.g., $x$) together with its domain (e.g., $x \\in \\mathbb{Z}$), and the predicate $P(x)$ \u2014 the open sentence whose truth depends on $x$. In a compound statement built with connectives, we identify the main connective (the outermost one) and the component propositions $P$ and $Q$ on either side; the truth table of the whole statement is determined entirely by the truth values of those components together with the definition of that main connective.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Statement: } \\forall x \\in \\mathbb{R},\\; x^2 \\geq 0",
+      "description_latex": "We start by identifying the quantifier and predicate. The quantifier is $\\forall$ ranging over $\\mathbb{R}$, and the predicate is $P(x): x^2 \\geq 0$. Reading the statement aloud \u2014 'for every real number $x$, $x^2$ is nonnegative' \u2014 confirms we are making a claim about all real numbers at once, which is precisely what the universal quantifier does.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Negation: } \\neg\\bigl(\\forall x \\in \\mathbb{R},\\; x^2 \\geq 0\\bigr) \\;\\equiv\\; \\exists x \\in \\mathbb{R},\\; x^2 < 0",
+      "description_latex": "To negate a universally quantified statement, we swap $\\forall$ for $\\exists$ and negate the predicate \u2014 so the negation says 'there exists a real number whose square is negative.' This follows from the rule $\\neg(\\forall x\\, P(x)) \\equiv \\exists x\\, \\neg P(x)$. Understanding this rule is critical because a single counterexample is exactly what would make the original statement false.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Statement: } (P \\land Q) \\Rightarrow R, \\quad P: n\\text{ is even},\\; Q: n>2,\\; R: n\\text{ is not prime}",
+      "description_latex": "Now we practice parsing a compound statement with a main connective. The main connective here is $\\Rightarrow$; the hypothesis is the conjunction $P \\land Q$ ('$n$ is even and $n > 2$') and the conclusion is $R$ ('$n$ is not prime'). Identifying the main connective tells us which truth-table row applies: the whole implication is false only when the hypothesis is true and the conclusion is false.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Contrapositive: } \\neg R \\Rightarrow \\neg(P \\land Q) \\;\\equiv\\; \\neg R \\Rightarrow (\\neg P \\lor \\neg Q)",
+      "description_latex": "The contrapositive of $P \\land Q \\Rightarrow R$ is logically equivalent to the original and is formed by negating both sides and swapping hypothesis and conclusion. We also apply De Morgan's law to write $\\neg(P \\land Q) \\equiv \\neg P \\lor \\neg Q$, turning 'not (even and greater than 2)' into 'odd or at most 2.' This equivalence is heavily used in proof writing because sometimes the contrapositive is easier to prove directly.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Statement: } \\exists x \\in \\mathbb{Z},\\; (x > 0) \\land (x^2 = x)",
+      "description_latex": "We want to determine the truth value of this existential statement and then write its negation. First, identify the quantifier ($\\exists$ over $\\mathbb{Z}$) and the predicate: the conjunction $(x > 0) \\land (x^2 = x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 1: \\quad (1 > 0) \\land (1^2 = 1) \\;=\\; \\top \\land \\top \\;=\\; \\top",
+      "description_latex": "We test $x = 1$ by evaluating both components of the conjunction. Since $1 > 0$ is true and $1^2 = 1$ is true, the conjunction is true, so $x = 1$ is a witness and the existential statement is TRUE.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write the formal negation of the original statement $\\exists x \\in \\mathbb{Z},\\; (x > 0) \\land (x^2 = x)$. Apply the negation rule for existential quantifiers and De Morgan's law to the predicate \u2014 what does the negated statement say, and is it true or false?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Write the following in formal logical notation using quantifiers and connectives:}\\\\\\text{'Every integer is either even or odd.'}",
+      "answer_latex": "\\forall n \\in \\mathbb{Z},\\; (2 \\mid n) \\lor (2 \\mid n-1)"
+    },
+    {
+      "prompt_latex": "\\text{Write the negation of } \\forall x \\in \\mathbb{R},\\; (x > 1 \\Rightarrow x^2 > 1) \\text{ and simplify fully.}",
+      "answer_latex": "\\exists x \\in \\mathbb{R},\\; (x > 1) \\land (x^2 \\leq 1)"
+    },
+    {
+      "prompt_latex": "\\text{Determine the truth value of: } \\exists x \\in \\mathbb{Z},\\; \\forall y \\in \\mathbb{Z},\\; x + y = y",
+      "answer_latex": "\\text{TRUE; the witness is } x = 0,\\text{ since } 0 + y = y \\text{ for all } y \\in \\mathbb{Z}"
+    },
+    {
+      "prompt_latex": "\\text{Show the two statements are } \\textbf{not} \\text{ equivalent by finding a domain element where they differ:}\\\\S_1: \\forall x\\, \\exists y,\\; y > x \\qquad S_2: \\exists y\\, \\forall x,\\; y > x \\quad (\\text{domain } \\mathbb{Z})",
+      "answer_latex": "S_1 \\text{ is TRUE (for any } x \\text{ take } y = x+1\\text{); } S_2 \\text{ is FALSE (no single integer exceeds all integers). Swapping quantifiers changes meaning.}"
+    },
+    {
+      "prompt_latex": "\\text{A student claims: 'If it rains then the ground is wet; the ground is wet; therefore it rained.' Identify the logical connective structure and explain why this reasoning is a formal fallacy, naming it with a logical formula.}",
+      "answer_latex": "\\text{Structure: } (R \\Rightarrow W),\\, W \\nvdash R.\\text{ This is affirming the consequent: }(P\\Rightarrow Q)\\land Q \\not\\Rightarrow P.\\text{ A sprinkler could also wet the ground.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often negate a conditional $P \\Rightarrow Q$ as $\\neg P \\Rightarrow \\neg Q$ (the inverse) instead of the correct $P \\land \\neg Q$. The fix: remember that an implication is false only when the hypothesis is true and the conclusion is false, so its negation must assert exactly that.",
+    "When negating a quantified statement like $\\forall x\\, \\exists y\\, P(x,y)$, students frequently negate only the outermost quantifier and forget to push the negation all the way through to the predicate, leaving an incorrect result like $\\exists x\\, \\exists y\\, P(x,y)$. The fix: negate every quantifier in sequence \u2014 $\\forall$ becomes $\\exists$ and $\\exists$ becomes $\\forall$ \u2014 and then negate the predicate at the innermost level.",
+    "Students confuse $\\forall x\\, \\exists y$ with $\\exists y\\, \\forall x$, treating the order of quantifiers as interchangeable. The fix: always remember that the order of quantifiers matters \u2014 the inner quantifier's choice can depend on the outer variable when $\\forall$ comes first, but not the other way around, so swapping them can turn a true statement into a false one."
+  ],
+  "untested_variants": [
+    "Constructing truth tables for compound statements involving three propositions $P$, $Q$, and $R$ with multiple nested connectives, such as $(P \\Rightarrow Q) \\land (Q \\Rightarrow R) \\Rightarrow (P \\Rightarrow R)$.",
+    "Expressing uniqueness using the notation $\\exists! x\\, P(x)$ ('there exists a unique $x$ such that $P(x)$') and writing its formal expansion as a conjunction of existence and uniqueness clauses.",
+    "Translating multiply-nested quantifier statements from formal logic back into unambiguous English prose, particularly when the domain is a non-standard set such as a set of functions or sequences.",
+    "Determining logical equivalence of two compound statements using a sequence of known equivalence laws (De Morgan's, double negation, distributivity) rather than truth tables."
+  ]
+}

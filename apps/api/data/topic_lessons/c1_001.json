@@ -1,0 +1,81 @@
+{
+  "topic_id": "c1_001",
+  "topic_name": "Intuitive Introduction to Limits",
+  "generated_at": "2026-05-13T00:02:31.354916+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to evaluate functions by plugging in values \u2014 for example, if $f(x) = x^2$, then $f(3) = 9$. But what happens when you try to evaluate a function at a point where it's undefined, like $g(x) = \\frac{x^2 - 1}{x - 1}$ at $x = 1$? Plugging in gives $\\frac{0}{0}$, which is meaningless. So how do mathematicians still make sense of what $g(x)$ is 'approaching' as $x$ gets closer and closer to 1?",
+  "concept": "A limit asks: what value does $f(x)$ approach as $x$ gets arbitrarily close to some number $a$, even if $f(a)$ itself is undefined or irrelevant? Informally, we watch the output of a function as the input sneaks up on $a$ from both sides. Formally, we write $\\lim_{x \\to a} f(x) = L$ to mean that $f(x)$ can be made as close to $L$ as desired by taking $x$ sufficiently close (but not equal) to $a$.",
+  "anatomy": "In the expression $\\lim_{x \\to a} f(x) = L$, there are four distinct components worth naming. The symbol $\\lim$ is the limit operator, signaling that we are asking about approach rather than evaluation. The variable $x$ is the input variable that is moving. The value $a$ is the target input \u2014 the number $x$ is approaching, which may or may not be in the domain. The value $L$ is the limit value \u2014 the output that $f(x)$ closes in on. Understanding that $x \\to a$ means 'near but never equal to $a$' is the single most important structural insight in this topic.",
+  "worked_example": [
+    {
+      "expression_latex": "g(x) = \\frac{x^2 - 1}{x - 1}, \\quad \\text{find } \\lim_{x \\to 1} g(x)",
+      "description_latex": "We start by identifying the problem: plugging $x = 1$ directly into $g(x)$ gives $\\frac{0}{0}$, which is undefined. This tells us direct substitution fails here, so instead we will reason about what value $g(x)$ approaches as $x$ gets close to 1 without equaling 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c} x & g(x) \\\\ \\hline 0.9 & 1.9 \\\\ 0.99 & 1.99 \\\\ 0.999 & 1.999 \\\\ 1.001 & 2.001 \\\\ 1.01 & 2.01 \\\\ 1.1 & 2.1 \\end{array}",
+      "description_latex": "We build a numerical table by evaluating $g(x)$ at inputs approaching 1 from both the left (values less than 1) and the right (values greater than 1). Notice that as $x$ closes in on 1 from either direction, the outputs are closing in on 2 \u2014 this is the intuition behind a limit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(x) = \\frac{x^2 - 1}{x - 1} = \\frac{(x-1)(x+1)}{x-1} = x + 1, \\quad x \\neq 1",
+      "description_latex": "To confirm algebraically, we factor the numerator as a difference of squares. Since $x \\neq 1$ when taking the limit, we are legally allowed to cancel the $(x-1)$ factor, leaving the simpler expression $x + 1$. This cancellation is valid precisely because the limit process never lets $x$ actually equal 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{x \\to 1} g(x) = \\lim_{x \\to 1} (x + 1) = 1 + 1 = 2",
+      "description_latex": "Now that the problematic factor is gone, we can substitute $x = 1$ into the simplified expression $x + 1$ without any trouble. The limit equals 2, which perfectly matches what our numerical table was suggesting \u2014 the two methods agree, giving us confidence in the answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "h(x) = \\frac{x^2 - 4}{x - 2}, \\quad \\text{find } \\lim_{x \\to 2} h(x)",
+      "description_latex": "We first check whether direct substitution works by plugging $x = 2$ into $h(x)$. We get $\\frac{4 - 4}{2 - 2} = \\frac{0}{0}$, so direct substitution fails and we need to simplify the expression first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h(x) = \\frac{x^2 - 4}{x - 2} = \\frac{(x-2)(x+2)}{x-2}",
+      "description_latex": "We factor the numerator using the difference of squares pattern: $x^2 - 4 = (x-2)(x+2)$. Now cancel the common factor, remembering that the limit process keeps $x$ away from 2, so this cancellation is valid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Cancel the $(x - 2)$ factor and then evaluate the resulting simplified expression at $x = 2$ to find the limit. What does $\\lim_{x \\to 2} h(x)$ equal?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Use a table of values to estimate } \\lim_{x \\to 3} (2x + 1)",
+      "answer_latex": "7"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\lim_{x \\to 3} \\frac{x^2 - 9}{x - 3}",
+      "answer_latex": "6"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\lim_{x \\to -2} \\frac{x^2 + 5x + 6}{x + 2}",
+      "answer_latex": "1"
+    },
+    {
+      "prompt_latex": "\\text{Let } f(x) = \\begin{cases} x^2 + 1 & x \\neq 2 \\\\ 0 & x = 2 \\end{cases}. \\text{ Find } \\lim_{x \\to 2} f(x).",
+      "answer_latex": "5"
+    },
+    {
+      "prompt_latex": "\\text{A ball's height (in feet) is modeled by } s(t) = \\frac{t^2 - 4}{t - 2} \\text{ for } t \\neq 2. \\text{ What height does the ball approach as } t \\to 2?",
+      "answer_latex": "4 \\text{ feet}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often conclude that a limit does not exist simply because $f(a)$ is undefined, confusing the value of the function at a point with the limit approaching that point. The fix: remember that the limit only cares about what happens near $a$, never at $a$ itself.",
+    "After factoring and canceling, students sometimes forget to specify $x \\neq a$ and treat the simplified function as identical to the original everywhere, including at $a$. The fix: always note that the cancellation is valid only because $x \\neq a$ during the limit process, and the simplified function equals the original for all $x \\neq a$.",
+    "When building a numerical table, students sometimes only test values from one side (say, $x$ approaching $a$ from the left) and declare a limit without checking the right side. The fix: always evaluate the function from both the left and the right \u2014 if the two sides approach different values, the limit does not exist."
+  ],
+  "untested_variants": [
+    "One-sided limits, written $\\lim_{x \\to a^-} f(x)$ or $\\lim_{x \\to a^+} f(x)$, where the approach is restricted to one direction and the left-hand and right-hand limits may differ.",
+    "Limits at infinity, such as $\\lim_{x \\to \\infty} \\frac{2x^2 + 1}{x^2 - 3}$, where the input grows without bound rather than approaching a finite number.",
+    "Limits involving trigonometric expressions, such as $\\lim_{x \\to 0} \\frac{\\sin x}{x}$, which require special techniques beyond algebraic factoring.",
+    "Limits of piecewise functions where the left-hand and right-hand limits must be computed separately from different formula pieces, and the student must determine whether the overall limit exists by comparing them."
+  ]
+}

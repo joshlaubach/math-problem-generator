@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_061",
+  "topic_name": "Boolean Functions and Logic Gates (H)",
+  "generated_at": "2026-05-13T20:17:08.491397+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to work with ordinary algebra \u2014 adding, multiplying, and factoring numbers. Now imagine a world where the only values that exist are 0 and 1, and instead of plus and times, your operations are AND, OR, and NOT. Engineers use exactly this system, called Boolean algebra, to design every circuit in your phone, laptop, and calculator. But how do you translate a logical condition like 'turn on the light if switch A is on OR switch B is on, but NOT both' into a precise mathematical function \u2014 and then into an actual circuit diagram?",
+  "concept": "A Boolean function takes one or more binary inputs (each either 0 or 1) and produces a single binary output, using the operations AND ($\\cdot$), OR ($+$), and NOT ($\\overline{\\phantom{x}}$). Formally, a Boolean function $f: \\{0,1\\}^n \\to \\{0,1\\}$ maps an $n$-tuple of binary values to a single binary value. Logic gates are the physical (or diagrammatic) counterparts: AND, OR, NOT, NAND, NOR, and XOR gates each implement one Boolean operation in a circuit.",
+  "anatomy": "A Boolean expression has several distinct components. The Boolean variables (e.g. $A$, $B$, $C$) are the inputs, each taking only the value 0 or 1. The operations are AND ($A \\cdot B$, both must be 1), OR ($A + B$, at least one must be 1), and NOT ($\\overline{A}$, flips 0 to 1 and vice versa). Derived gates include NAND ($\\overline{A \\cdot B}$), NOR ($\\overline{A + B}$), and XOR ($A \\oplus B$, exactly one input is 1). The truth table enumerates every possible input combination and its corresponding output, providing a complete description of the function.",
+  "worked_example": [
+    {
+      "expression_latex": "f(A, B) = A \\cdot \\overline{B} + \\overline{A} \\cdot B",
+      "description_latex": "We are given this Boolean function and want to build its truth table and identify which gate it corresponds to. Notice that the expression has two product terms added together, so we will evaluate each term separately for every input combination before combining them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{cc|cc|c} A & B & \\overline{A} & \\overline{B} & f \\\\ \\hline 0 & 0 & 1 & 1 & \\\\ 0 & 1 & 1 & 0 & \\\\ 1 & 0 & 0 & 1 & \\\\ 1 & 1 & 0 & 0 & \\end{array}",
+      "description_latex": "We list all four input combinations for two variables and immediately compute the NOT of each variable in separate columns. Doing this first prevents sign errors later, because we can read off $\\overline{A}$ and $\\overline{B}$ directly rather than recomputing them mid-row.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{cc|cc|cc|c} A & B & \\overline{A} & \\overline{B} & A\\cdot\\overline{B} & \\overline{A}\\cdot B & f \\\\ \\hline 0 & 0 & 1 & 1 & 0 & 0 & 0 \\\\ 0 & 1 & 1 & 0 & 0 & 1 & 1 \\\\ 1 & 0 & 0 & 1 & 1 & 0 & 1 \\\\ 1 & 1 & 0 & 0 & 0 & 0 & 0 \\end{array}",
+      "description_latex": "Now we evaluate each product term: $A \\cdot \\overline{B}$ is 1 only when $A=1$ and $B=0$, while $\\overline{A} \\cdot B$ is 1 only when $A=0$ and $B=1$. The final output $f$ is the OR of these two columns, so $f=1$ exactly when the two inputs differ \u2014 this is the XOR function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(A,B) = A \\oplus B",
+      "description_latex": "The truth table confirms that $f$ outputs 1 if and only if exactly one of $A$, $B$ is 1, which is precisely the definition of the XOR (exclusive OR) gate. So the expression $A \\cdot \\overline{B} + \\overline{A} \\cdot B$ is the canonical sum-of-products form of XOR, and both representations are equivalent.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(A, B, C) = A \\cdot B + \\overline{C}",
+      "description_latex": "We want to construct the truth table for this three-variable Boolean function. Because there are three variables, we need $2^3 = 8$ rows. Let us set up the table with columns for $A$, $B$, $C$, the intermediate term $A \\cdot B$, the complement $\\overline{C}$, and then the final output $f = A \\cdot B + \\overline{C}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{ccc|c|c} A & B & C & A \\cdot B & \\overline{C} \\\\ \\hline 0&0&0 & 0 & 1 \\\\ 0&0&1 & 0 & 0 \\\\ 0&1&0 & 0 & 1 \\\\ 0&1&1 & 0 & 0 \\\\ 1&0&0 & 0 & 1 \\\\ 1&0&1 & 0 & 0 \\\\ 1&1&0 & 1 & 1 \\\\ 1&1&1 & 1 & 0 \\end{array}",
+      "description_latex": "The intermediate columns are filled in. Now complete the final column by computing $f = A \\cdot B + \\overline{C}$ for each row \u2014 remember that OR outputs 1 when at least one of its inputs is 1.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f = 1 \\text{ for rows } (0,0,0),\\,(0,1,0),\\,(1,0,0),\\,(1,1,0),\\,(1,1,1); \\quad f = 0 \\text{ for rows } (0,0,1),\\,(0,1,1),\\,(1,0,1)",
+      "description_latex": "Check your completed column against this answer. Notice that $f=0$ only when $C=1$ and $A \\cdot B = 0$, which makes sense because when $C=1$ we have $\\overline{C}=0$, so the only way to get a 1 is through the $A \\cdot B$ term.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $f(1, 0) = \\overline{A} + B$ when $A=1, B=0$.",
+      "answer_latex": "f(1,0) = \\overline{1} + 0 = 0 + 0 = 0"
+    },
+    {
+      "prompt_latex": "Construct the truth table for $f(A, B) = \\overline{A \\cdot B}$ (NAND) and state for which inputs $f = 0$.",
+      "answer_latex": "f = 0 \\text{ only when } A=1 \\text{ and } B=1; \\text{ otherwise } f=1"
+    },
+    {
+      "prompt_latex": "Write a Boolean expression for the function that outputs 1 if and only if at least two of the three inputs $A$, $B$, $C$ are 1, then verify your expression on the input $(1,1,0)$.",
+      "answer_latex": "f = A\\cdot B + A\\cdot C + B\\cdot C; \\quad f(1,1,0) = 1\\cdot1 + 1\\cdot0 + 1\\cdot0 = 1"
+    },
+    {
+      "prompt_latex": "Simplify $f(A,B) = A \\cdot B + A \\cdot \\overline{B}$ using Boolean algebra laws, and state which single gate implements the simplified function.",
+      "answer_latex": "f = A(B + \\overline{B}) = A \\cdot 1 = A; \\text{ implemented by a wire (identity/buffer), not a gate}"
+    },
+    {
+      "prompt_latex": "A security system unlocks a door ($f=1$) when the keycard sensor $K$ is active AND at least one of the two PIN digits $P_1$ or $P_2$ is correct. Write a Boolean function for $f$, draw its gate diagram description, and evaluate $f$ when $K=1, P_1=0, P_2=1$.",
+      "answer_latex": "f = K \\cdot (P_1 + P_2); \\text{ AND gate with inputs } K \\text{ and } (P_1 \\text{ OR } P_2); \\quad f(1,0,1)=1\\cdot(0+1)=1"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse Boolean OR ($A + B = 1$ when at least one input is 1) with ordinary addition, writing $1 + 1 = 2$ instead of $1 + 1 = 1$. Remember that in Boolean algebra the output domain is $\\{0,1\\}$, so OR saturates at 1.",
+    "When applying NOT to a compound expression, students write $\\overline{A + B} = \\overline{A} + \\overline{B}$ instead of applying De Morgan's law correctly: $\\overline{A + B} = \\overline{A} \\cdot \\overline{B}$. Always distribute the complement using De Morgan's laws, which flip the operation as well as the variables.",
+    "Students sometimes read off the wrong rows when completing a truth table for three or more variables because they don't list the $2^n$ input combinations in the standard binary counting order (000, 001, 010, \u2026). Always construct the input columns by incrementing in binary \u2014 if rows are out of order, you will almost certainly produce an incorrect truth table."
+  ],
+  "untested_variants": [
+    "Deriving a Boolean expression directly from a given truth table using the sum-of-products (minterm) or product-of-sums (maxterm) canonical forms.",
+    "Minimising a Boolean function using a Karnaugh map (K-map) with three or four variables.",
+    "Proving that NAND (or NOR) alone is functionally complete \u2014 i.e. constructing AND, OR, and NOT gates using only NAND gates.",
+    "Analysing a multi-level logic circuit diagram (several gates connected in sequence) to write down the overall Boolean expression for the output."
+  ]
+}

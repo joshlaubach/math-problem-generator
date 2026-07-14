@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_046",
+  "topic_name": "Inner Products and Norms",
+  "generated_at": "2026-05-13T20:09:23.442940+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to compute the dot product of two vectors in $\\mathbb{R}^n$ and use it to find lengths and angles. But what happens when your vectors live in a space of polynomials, or matrices, or continuous functions \u2014 objects that don't have coordinates in the usual sense? The dot product formula breaks down completely, yet we still want notions of 'length' and 'perpendicularity' in these abstract spaces. How can we build a consistent, rigorous framework for measuring and comparing vectors in any vector space?",
+  "concept": "An inner product is an operation that takes two vectors and returns a scalar, generalizing the dot product to abstract vector spaces. Formally, an inner product on a real vector space $V$ is a function $\\langle \\cdot, \\cdot \\rangle : V \\times V \\to \\mathbb{R}$ satisfying: (1) symmetry $\\langle u, v \\rangle = \\langle v, u \\rangle$, (2) linearity in the first argument $\\langle au + bw, v \\rangle = a\\langle u,v\\rangle + b\\langle w,v\\rangle$, and (3) positive-definiteness $\\langle v,v \\rangle \\geq 0$ with equality iff $v = 0$. The induced norm is $\\|v\\| = \\sqrt{\\langle v, v \\rangle}$.",
+  "anatomy": "Every inner product space has four key components worth naming precisely. The vector space $V$ is the underlying set of objects being measured. The inner product function $\\langle u, v \\rangle$ is the rule that assigns a scalar to each pair of vectors; its three axioms (symmetry, linearity, positive-definiteness) are not optional \u2014 dropping any one of them breaks the geometry. The induced norm $\\|v\\| = \\sqrt{\\langle v, v \\rangle}$ is derived from the inner product and measures 'length.' Finally, the induced distance $d(u,v) = \\|u - v\\|$ lets us measure how 'far apart' two vectors are \u2014 both norm and distance flow entirely from the single inner product function.",
+  "worked_example": [
+    {
+      "expression_latex": "\\langle f, g \\rangle = \\int_0^1 f(x)\\, g(x)\\, dx \\text{ on } V = C[0,1]",
+      "description_latex": "We define an inner product on the space of continuous functions on $[0,1]$. Before computing anything, notice that this formula assigns a single real number to any pair of functions $f$ and $g$, which is exactly what an inner product must do. Our first job is to verify this is actually a valid inner product by checking all three axioms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\langle f, g \\rangle = \\int_0^1 f(x)g(x)\\,dx = \\int_0^1 g(x)f(x)\\,dx = \\langle g, f \\rangle",
+      "description_latex": "Symmetry holds because multiplication of real numbers is commutative \u2014 $f(x)g(x) = g(x)f(x)$ pointwise \u2014 so swapping $f$ and $g$ inside the integral changes nothing. This confirms the first axiom with essentially no computation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\langle af + bh,\\, g \\rangle = \\int_0^1 [af(x)+bh(x)]g(x)\\,dx = a\\int_0^1 f(x)g(x)\\,dx + b\\int_0^1 h(x)g(x)\\,dx = a\\langle f,g\\rangle + b\\langle h,g\\rangle",
+      "description_latex": "Linearity in the first argument follows directly from linearity of the integral \u2014 we distribute $g(x)$ and split the integral, then factor out the constants $a$ and $b$. This is the reason the integral definition is so natural: integration already respects the linear structure we need.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\langle f, f \\rangle = \\int_0^1 [f(x)]^2\\, dx \\geq 0",
+      "description_latex": "Positive-definiteness holds because $[f(x)]^2 \\geq 0$ for every $x$, so the integral of a non-negative function is non-negative. The integral equals zero only when $f(x) = 0$ for all $x \\in [0,1]$ (since $f$ is continuous), meaning $\\langle f,f\\rangle = 0$ if and only if $f$ is the zero function \u2014 exactly what the axiom requires.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\|f\\| = \\sqrt{\\langle f,f\\rangle} = \\sqrt{\\int_0^1 [f(x)]^2\\,dx}",
+      "description_latex": "Now that we've verified all three axioms, the induced norm is simply the square root of the inner product of $f$ with itself. For example, if $f(x) = x$, then $\\|f\\|^2 = \\int_0^1 x^2\\,dx = \\frac{1}{3}$, so $\\|f\\| = \\frac{1}{\\sqrt{3}}$. This shows that 'length' in function spaces is genuinely different from anything familiar \u2014 but it's perfectly well-defined.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\langle (x_1, x_2),\\, (y_1, y_2) \\rangle = 2x_1 y_1 + 3x_2 y_2 \\text{ on } \\mathbb{R}^2",
+      "description_latex": "We want to verify this weighted formula is a valid inner product on $\\mathbb{R}^2$ and then compute a norm. This is a weighted inner product \u2014 notice the positive weights $2$ and $3$ in front of each coordinate product. Let's check symmetry first: swapping $(x_1,x_2)$ and $(y_1,y_2)$ gives $2y_1x_1 + 3y_2x_2$, which equals the original by commutativity of real multiplication \u2014 symmetry holds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\langle (x_1,x_2),(x_1,x_2)\\rangle = 2x_1^2 + 3x_2^2",
+      "description_latex": "To check positive-definiteness, we compute the inner product of a vector with itself. You should verify that $2x_1^2 + 3x_2^2 \\geq 0$ for all $(x_1,x_2)$, and determine exactly when it equals zero \u2014 this is the key step that confirms the third axiom.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\|(1, 2)\\| = \\sqrt{2(1)^2 + 3(2)^2} = \\sqrt{2 + 12} = \\sqrt{14}",
+      "description_latex": "Using the induced norm $\\|v\\| = \\sqrt{\\langle v,v\\rangle}$, compute the norm of the vector $(1,2)$ under this weighted inner product. Substitute $x_1 = 1$ and $x_2 = 2$ into the formula $2x_1^2 + 3x_2^2$, add, and take the square root.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\|(3, -1)\\| = \\sqrt{2(3)^2 + 3(-1)^2} = ?",
+      "description_latex": "Now compute the norm of the vector $(3,-1)$ using the same weighted inner product. Remember to square each coordinate before multiplying by its weight \u2014 what is the final simplified value?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Using the standard dot product $\\langle u,v\\rangle = u \\cdot v$ on $\\mathbb{R}^3$, compute $\\langle (1,2,3),(4,-1,0)\\rangle$ and $\\|(1,2,3)\\|$.",
+      "answer_latex": "\\langle (1,2,3),(4,-1,0)\\rangle = 2;\\quad \\|(1,2,3)\\| = \\sqrt{14}"
+    },
+    {
+      "prompt_latex": "Let $\\langle u,v\\rangle = 4u_1v_1 + u_2v_2$ on $\\mathbb{R}^2$. Compute $\\langle (1,3),(2,-1)\\rangle$ and verify this defines a valid inner product by checking all three axioms.",
+      "answer_latex": "\\langle (1,3),(2,-1)\\rangle = 4(1)(2)+(3)(-1) = 5;\\text{ all three axioms hold since weights } 4,1>0"
+    },
+    {
+      "prompt_latex": "On $C[0,1]$ with $\\langle f,g\\rangle = \\int_0^1 f(x)g(x)\\,dx$, compute $\\langle f,g\\rangle$ and $\\|f\\|$ for $f(x) = x^2$ and $g(x) = x$.",
+      "answer_latex": "\\langle f,g\\rangle = \\int_0^1 x^3\\,dx = \\tfrac{1}{4};\\quad \\|f\\| = \\sqrt{\\int_0^1 x^4\\,dx} = \\sqrt{\\tfrac{1}{5}} = \\tfrac{1}{\\sqrt{5}}"
+    },
+    {
+      "prompt_latex": "Use the inner product $\\langle u,v\\rangle = u^T A v$ on $\\mathbb{R}^2$ where $A = \\begin{pmatrix}2 & 0\\\\ 0 & 5\\end{pmatrix}$. Find $\\|u\\|$ for $u=(1,1)$ and compute the distance $d(u,w)$ between $u=(1,1)$ and $w=(3,2)$.",
+      "answer_latex": "\\|u\\| = \\sqrt{2+5}=\\sqrt{7};\\quad d(u,w)=\\|u-w\\|=\\|(-2,-1)\\|=\\sqrt{2(4)+5(1)}=\\sqrt{13}"
+    },
+    {
+      "prompt_latex": "A data scientist proposes the formula $\\langle u,v\\rangle = u_1v_1 - u_2v_2$ as an inner product on $\\mathbb{R}^2$. Identify which axiom(s) this formula fails, and provide a specific counterexample.",
+      "answer_latex": "\\text{Fails positive-definiteness: } \\langle (0,1),(0,1)\\rangle = 0(0)-1(1)=-1<0"
+    }
+  ],
+  "common_mistakes": [
+    "Students assume any symmetric bilinear form is an inner product, forgetting to check positive-definiteness. For example, $\\langle u,v\\rangle = u_1v_1 - u_2v_2$ is symmetric and bilinear but gives $\\langle(0,1),(0,1)\\rangle = -1 < 0$, violating the axiom \u2014 always verify the sign of $\\langle v,v\\rangle$ explicitly.",
+    "When computing the induced norm, students write $\\|v\\| = \\langle v,v\\rangle$ instead of $\\|v\\| = \\sqrt{\\langle v,v\\rangle}$, omitting the square root \u2014 the norm is always the square root of the inner product of a vector with itself, not the inner product itself.",
+    "Students apply linearity in both arguments simultaneously, writing $\\langle au, bv\\rangle = ab\\langle u,v\\rangle$ as if the inner product were linear in both slots by the same rule \u2014 in a real inner product space this happens to be true, but the axiom only guarantees linearity in the first argument; beginners must justify the second slot by applying symmetry first, then linearity, to avoid confusion when they later encounter complex (Hermitian) inner products where $\\langle u, bv\\rangle = \\bar{b}\\langle u,v\\rangle$."
+  ],
+  "untested_variants": [
+    "Verifying that a proposed inner product on a space of $2\\times 2$ matrices (e.g., $\\langle A,B\\rangle = \\text{tr}(A^T B)$) satisfies all axioms.",
+    "Finding all values of a parameter $c$ for which $\\langle u,v\\rangle = u_1v_1 + cu_2v_2$ defines a valid inner product on $\\mathbb{R}^2$.",
+    "Using the Cauchy-Schwarz inequality $|\\langle u,v\\rangle| \\leq \\|u\\|\\,\\|v\\|$ (derived from the inner product axioms) to bound specific expressions.",
+    "Working with a complex inner product space where the inner product is conjugate-linear in the second argument, i.e., $\\langle u, v\\rangle = \\sum_k u_k \\overline{v_k}$."
+  ]
+}

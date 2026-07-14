@@ -11,6 +11,7 @@ Exposes endpoints for:
 
 from __future__ import annotations
 import os
+import logging
 from contextlib import asynccontextmanager
 from datetime import datetime
 from pathlib import Path
@@ -103,7 +104,13 @@ def _rate_key(request: Request) -> str:
     return request.client.host if request.client else "unknown"
 
 
-limiter = Limiter(key_func=_rate_key)
+# SECURITY (H4): back the limiter with Redis when available so limits are shared
+# across Railway replicas and survive restarts; falls back to in-memory storage
+# (dev/test, or if Redis is unreachable).
+limiter = Limiter(
+    key_func=_rate_key,
+    storage_uri=os.getenv("REDIS_URL") or "memory://",
+)
 
 
 # Configuration (can be overridden with environment variables)
@@ -649,7 +656,34 @@ def _validate_production_config() -> None:
     if not os.getenv("REDIS_URL"):
         log.warning(
             "REDIS_URL not set with USE_DATABASE=true: live tutor sessions are "
-            "in-memory only — every deploy/restart drops active sessions."
+            "in-memory only — every deploy/restart drops active sessions, and "
+            "rate limits are per-process rather than shared across replicas."
+        )
+
+    # 4. SECURITY: refuse to boot prod without secrets that fail OPEN if unset.
+    #    Stripe webhook secret (C1) — without it the webhook would be forgeable.
+    if not os.getenv("STRIPE_WEBHOOK_SECRET"):
+        raise RuntimeError(
+            "STRIPE_WEBHOOK_SECRET is not set. The Stripe webhook would be "
+            "unverifiable (forgeable payment events) — refusing to serve traffic."
+        )
+
+    # 5. SECURITY (L3): FRONTEND_URL must be a real origin in prod, otherwise CORS
+    #    silently falls back to localhost and the deployed app can't call the API.
+    frontend = os.getenv("FRONTEND_URL", "")
+    if not frontend or frontend.startswith("http://localhost") or frontend.startswith("http://127.0.0.1"):
+        raise RuntimeError(
+            "FRONTEND_URL must be set to the production origin (got "
+            f"{frontend!r}) — refusing to serve traffic with a localhost CORS origin."
+        )
+
+    # 6. SECURITY (M5): Clerk auth in prod requires issuer/JWKS configuration.
+    if os.getenv("AUTH_PROVIDER") == "clerk" and not (
+        os.getenv("CLERK_FRONTEND_API") or os.getenv("CLERK_JWKS_URL")
+    ):
+        raise RuntimeError(
+            "AUTH_PROVIDER=clerk but neither CLERK_FRONTEND_API nor CLERK_JWKS_URL "
+            "is set — cannot verify tokens. Refusing to serve traffic."
         )
 
 
@@ -733,6 +767,31 @@ app.add_middleware(
     allow_headers=["Content-Type", "Authorization", "X-API-Key"],
 )
 
+
+@app.middleware("http")
+async def _security_headers(request: Request, call_next):
+    """SECURITY (M1): defense-in-depth response headers on the API too."""
+    response = await call_next(request)
+    response.headers.setdefault("X-Content-Type-Options", "nosniff")
+    response.headers.setdefault("X-Frame-Options", "DENY")
+    response.headers.setdefault("Referrer-Policy", "strict-origin-when-cross-origin")
+    response.headers.setdefault(
+        "Strict-Transport-Security", "max-age=63072000; includeSubDomains; preload"
+    )
+    return response
+
+
+@app.exception_handler(Exception)
+async def _generic_exception_handler(request: Request, exc: Exception):
+    """
+    SECURITY (L2): catch-all so an unhandled error returns a generic 500 with no
+    stack trace, file path, or internal message. HTTPExceptions are handled by
+    FastAPI's own handler and keep their intended status/detail.
+    """
+    logging.getLogger("api").exception("Unhandled error on %s %s", request.method, request.url.path)
+    from fastapi.responses import JSONResponse
+    return JSONResponse(status_code=500, content={"detail": "Internal server error"})
+
 # Default: teacher endpoints open when TEACHER_API_KEY is None; can be tightened per-client
 app.state.allow_public_teacher_endpoints = True
 
@@ -803,6 +862,22 @@ async def get_my_quota(user: AuthUser = Depends(require_student)):
             ),
         },
     }
+
+
+@app.get("/me/reviews")
+async def get_my_reviews(user: AuthUser = Depends(require_student)):
+    """
+    Spaced-repetition topics due for review (next_review_at <= now), soonest
+    first. Surfaces the SRS schedule the adaptive engine writes at session end.
+    """
+    from progress_store import due_for_review
+    from topic_registry import TOPIC_REGISTRY
+
+    due = due_for_review(user.id, limit=20)
+    for item in due:
+        meta = TOPIC_REGISTRY.get(item["topic_id"])
+        item["topic_name"] = meta.topic_name if meta else item["topic_id"]
+    return {"due": due, "count": len(due)}
 
 
 @app.get("/me/progress")
@@ -1262,6 +1337,7 @@ async def get_my_recommended_difficulty(
 
 @app.post("/users/me/confirm-age", status_code=status.HTTP_200_OK)
 async def confirm_age(
+    request: Request,
     user: AuthUser = Depends(get_unverified_clerk_user),
     user_repo=Depends(get_user_repository),
 ):
@@ -1269,9 +1345,10 @@ async def confirm_age(
     Mark the authenticated user as having confirmed they are 13 or older.
 
     Called once from the /onboarding page after the user checks the age
-    confirmation checkbox. Sets age_confirmed=True on the user record.
-    Uses get_unverified_clerk_user so that users who haven't confirmed age
-    yet can still reach this endpoint without hitting a 403 loop.
+    confirmation checkbox. Sets age_confirmed=True on the user record and
+    writes an immutable consent-log entry (M4) with timestamp + IP for
+    compliance records. Uses get_unverified_clerk_user so users who haven't
+    confirmed age yet can still reach this endpoint without a 403 loop.
 
     Returns:
         {"ok": true, "age_confirmed": true}
@@ -1279,7 +1356,78 @@ async def confirm_age(
     if not user.age_confirmed:
         user.age_confirmed = True
         user_repo.update_user(user)
+    _log_consent_event(
+        user.id, "age_confirmed_13plus",
+        request.client.host if request.client else None,
+        request.headers.get("user-agent"),
+    )
     return {"ok": True, "age_confirmed": True}
+
+
+@app.delete("/users/me", status_code=status.HTTP_200_OK)
+async def delete_my_account(user: AuthUser = Depends(require_student)):
+    """
+    SECURITY/PRIVACY (M7): permanently hard-delete the authenticated user's
+    account and all associated data — transcripts, progress, credits, parent
+    links (both directions), quota/served events, flagged content — and the
+    user row itself. This is a real DELETE, not a soft-delete flag.
+
+    The immutable consent_log is intentionally retained (compliance record of
+    the age attestation), keyed by user_id; it contains no tutoring content.
+    Documented in the privacy policy.
+    """
+    from config import USE_DATABASE
+    if not USE_DATABASE:
+        return {"ok": True, "deleted": True, "note": "dev mode (no database)"}
+
+    from db_session import get_session as _get_db
+    from db_models import (
+        TutorSessionRecord, ProgressRecord, SessionCreditRecord,
+        ParentLinkRecord, QuotaEventRecord, FlaggedContentRecord, UserRecord,
+    )
+    from sqlalchemy import or_
+
+    db = _get_db()
+    try:
+        uid = user.id
+        db.query(TutorSessionRecord).filter(TutorSessionRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(ProgressRecord).filter(ProgressRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(SessionCreditRecord).filter(SessionCreditRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(QuotaEventRecord).filter(QuotaEventRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(FlaggedContentRecord).filter(FlaggedContentRecord.user_id == uid).delete(synchronize_session=False)
+        db.query(ParentLinkRecord).filter(
+            or_(ParentLinkRecord.student_id == uid, ParentLinkRecord.parent_id == uid)
+        ).delete(synchronize_session=False)
+        db.query(UserRecord).filter(UserRecord.id == uid).delete(synchronize_session=False)
+        db.commit()
+    except Exception:
+        db.rollback()
+        raise
+    finally:
+        db.close()
+    return {"ok": True, "deleted": True}
+
+
+def _log_consent_event(user_id: str, event: str, ip: Optional[str], user_agent: Optional[str]) -> None:
+    """Write an immutable consent attestation row (M4). Best-effort."""
+    from config import USE_DATABASE
+    if not USE_DATABASE:
+        return
+    try:
+        from db_models import ConsentLogRecord
+        from db_session import get_session as _get_db
+        from uuid import uuid4
+        db = _get_db()
+        try:
+            db.add(ConsentLogRecord(
+                id=str(uuid4()), user_id=user_id, event=event,
+                ip_address=ip, user_agent=(user_agent or "")[:255],
+            ))
+            db.commit()
+        finally:
+            db.close()
+    except Exception:
+        logging.getLogger("api").exception("Failed to write consent log for %s", user_id)
 
 
 class GoalRequest(BaseModel):

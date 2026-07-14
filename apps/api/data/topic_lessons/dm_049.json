@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_049",
+  "topic_name": "Eulerian and Hamiltonian Graphs",
+  "generated_at": "2026-05-13T20:15:59.670518+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to talk about paths and cycles in graphs \u2014 sequences of vertices connected by edges. Now imagine you're a postal worker who needs to walk every street in a neighborhood exactly once and return home, or a traveler who wants to visit every city exactly once. These sound similar, but they require completely different conditions on the graph. Can you figure out which graphs allow such perfect traversals, and why the two problems are so fundamentally different from each other?",
+  "concept": "An Eulerian circuit is a closed walk that uses every edge of a graph exactly once; a graph is Eulerian if such a circuit exists. An Eulerian path (trail) uses every edge exactly once but need not return to the start. A Hamiltonian cycle visits every vertex exactly once and returns to the start; a Hamiltonian path visits every vertex exactly once without needing to return. Formally, a connected graph $G=(V,E)$ is Eulerian if and only if every vertex has even degree, and it has an Eulerian path if and only if it has exactly two vertices of odd degree.",
+  "anatomy": "The key structural components here are the degree of a vertex, denoted $\\deg(v)$, which counts how many edges are incident to $v$; the distinction between a trail (edges not repeated) and a path (vertices not repeated); the parity condition, meaning whether $\\deg(v)$ is even or odd; and the connectivity requirement, meaning the graph must be connected (or for directed graphs, strongly connected with in-degree equal to out-degree at each vertex). For Hamiltonian graphs, Dirac's condition is a useful sufficient criterion: if $|V| \\geq 3$ and every vertex satisfies $\\deg(v) \\geq |V|/2$, then the graph is Hamiltonian.",
+  "worked_example": [
+    {
+      "expression_latex": "G: \\text{ vertices } \\{A, B, C, D\\}, \\text{ edges } \\{AB, BC, CD, DA, AC\\}",
+      "description_latex": "We start by clearly writing out the graph's vertex and edge sets so we can compute degrees systematically. Having a precise list prevents us from accidentally double-counting or missing an edge when we tally each vertex's degree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\deg(A)=3,\\quad \\deg(B)=2,\\quad \\deg(C)=3,\\quad \\deg(D)=2",
+      "description_latex": "We count the edges touching each vertex: $A$ appears in $AB, DA, AC$ (degree 3); $B$ in $AB, BC$ (degree 2); $C$ in $BC, CD, AC$ (degree 3); $D$ in $CD, DA$ (degree 2). This step is the heart of the Eulerian analysis because the parity of these degrees determines everything.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Odd-degree vertices: } A \\text{ and } C",
+      "description_latex": "Exactly two vertices, $A$ and $C$, have odd degree (3 each), while $B$ and $D$ have even degree. By the Eulerian path theorem, having exactly two odd-degree vertices means the graph has an Eulerian path but NOT an Eulerian circuit \u2014 the path must start at one odd-degree vertex and end at the other.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Eulerian path exists from } A \\text{ to } C \\text{ (or } C \\text{ to } A\\text{); no Eulerian circuit exists.}",
+      "description_latex": "We conclude: since $G$ is connected and has exactly two odd-degree vertices, an Eulerian path from $A$ to $C$ exists (for example $A \\to B \\to C \\to D \\to A \\to C$), but because not all degrees are even, no Eulerian circuit is possible. Notice we do NOT need to explicitly find the path to answer whether it exists \u2014 the degree condition is sufficient.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Hamiltonian check via Dirac: } |V|=4,\\; \\delta(G)=2,\\; |V|/2=2,\\; \\delta(G) \\geq |V|/2",
+      "description_latex": "As a bonus, we check Dirac's condition for a Hamiltonian cycle: with 4 vertices the threshold is $|V|/2 = 2$, and the minimum degree $\\delta(G)=2$, so Dirac's sufficient condition is met \u2014 the graph is Hamiltonian. One such cycle is $A \\to B \\to C \\to D \\to A$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H: \\text{ vertices } \\{1,2,3,4,5\\}, \\text{ edges } \\{12,13,23,24,34,45\\}",
+      "description_latex": "We are given graph $H$ and want to determine whether it has an Eulerian circuit, an Eulerian path, or neither. Our first job is always to compute the degree of every vertex by counting its incident edges.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\deg(1)=?,\\; \\deg(2)=?,\\; \\deg(3)=?,\\; \\deg(4)=?,\\; \\deg(5)=?",
+      "description_latex": "List every edge touching each vertex and count carefully. Remember that edge $12$ contributes 1 to $\\deg(1)$ AND 1 to $\\deg(2)$. Fill in all five degree values.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Count odd-degree vertices, then apply the Eulerian theorem.}",
+      "description_latex": "Using your degree values, identify which vertices have odd degree. Then state the conclusion: if 0 vertices are odd, an Eulerian circuit exists; if exactly 2 are odd, only an Eulerian path exists; if more than 2 are odd, neither exists.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Answer: Eulerian path only, from vertex } 1 \\text{ to vertex } 5 \\text{ (or vice versa)}",
+      "description_latex": "The degrees are $\\deg(1)=2, \\deg(2)=3, \\deg(3)=3, \\deg(4)=3, \\deg(5)=1$, giving four odd-degree vertices \u2014 so actually neither an Eulerian circuit nor an Eulerian path exists in $H$. This is the key punchline: even one extra odd-degree vertex beyond the allowed two blocks the Eulerian path entirely.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A connected graph has 6 vertices each of degree 4. Does it have an Eulerian circuit?",
+      "answer_latex": "Yes. Every vertex has even degree (4), so by the Eulerian circuit theorem the graph has an Eulerian circuit."
+    },
+    {
+      "prompt_latex": "Graph $G$ has vertices $\\{A,B,C,D,E\\}$ and edges $\\{AB, BC, CD, DE, EA, BD\\}$. Determine whether $G$ has an Eulerian circuit, an Eulerian path, or neither.",
+      "answer_latex": "Degrees: $\\deg(A)=2, \\deg(B)=3, \\deg(C)=2, \\deg(D)=3, \\deg(E)=2$. Two odd-degree vertices ($B$ and $D$), so $G$ has an Eulerian path from $B$ to $D$ but no Eulerian circuit."
+    },
+    {
+      "prompt_latex": "The complete graph $K_5$ has 5 vertices each connected to every other vertex. Does $K_5$ have a Hamiltonian cycle? Does it have an Eulerian circuit?",
+      "answer_latex": "Yes to both. Every vertex in $K_5$ has degree 4 (even), so an Eulerian circuit exists. $K_5$ also has a Hamiltonian cycle since $\\deg(v)=4 \\geq 5/2$ for all $v$, satisfying Dirac's condition."
+    },
+    {
+      "prompt_latex": "A connected graph $G$ has degree sequence $(2,2,3,3,4)$. Explain why $G$ cannot have an Eulerian circuit, and determine whether it could have an Eulerian path. Then, given that $|V|=5$, check whether Dirac's condition guarantees a Hamiltonian cycle.",
+      "answer_latex": "Two vertices have odd degree (the two vertices of degree 3), so no Eulerian circuit. Exactly two odd-degree vertices means an Eulerian path does exist (between the two degree-3 vertices). For Dirac's condition, $|V|/2 = 2.5$, but $\\delta(G)=2 < 2.5$, so Dirac's condition is NOT satisfied and we cannot conclude a Hamiltonian cycle exists."
+    },
+    {
+      "prompt_latex": "A city's road map can be modeled as a graph where intersections are vertices and roads are edges. A street-sweeper must drive every road exactly once and return to the depot. If 4 intersections currently have an odd number of roads meeting them, what is the minimum number of roads that must be added (each connecting two odd-degree intersections) so that an Eulerian circuit becomes possible?",
+      "answer_latex": "We need to eliminate all odd-degree vertices. We can pair the 4 odd-degree intersections into 2 pairs and add one road per pair, making both endpoints even-degree. Therefore a minimum of 2 roads must be added."
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse Eulerian and Hamiltonian conditions, thinking a graph is Eulerian when all vertices are visited exactly once rather than all edges. Remember: Eulerian is about edges (every edge used once), Hamiltonian is about vertices (every vertex visited once) \u2014 the parity-of-degree test applies only to the Eulerian question.",
+    "Students forget to verify connectivity before applying the degree-parity test, concluding that a disconnected graph with all even degrees has an Eulerian circuit. The theorem requires the graph to be connected first; a disconnected graph with all even degrees has Eulerian circuits only within each component, not across the whole graph.",
+    "Students treat Dirac's condition as both necessary and sufficient for a Hamiltonian cycle, declaring a graph non-Hamiltonian when Dirac's condition fails. Dirac's condition is only a sufficient condition \u2014 many graphs that fail it still have Hamiltonian cycles \u2014 so failing Dirac's test is not a proof that no Hamiltonian cycle exists."
+  ],
+  "untested_variants": [
+    "Eulerian circuits and paths in directed (oriented) graphs, where the condition becomes in-degree equals out-degree at every vertex for a circuit, and exactly one vertex with out-degree minus in-degree equal to 1 (start) and one with in-degree minus out-degree equal to 1 (end) for a path.",
+    "Fleury's algorithm: an explicit constructive method for actually finding and tracing an Eulerian circuit or path, including the rule about never crossing a bridge unless there is no other option.",
+    "The Chinese Postman Problem, which asks for the minimum-weight closed walk covering all edges when the graph is not Eulerian, requiring students to find a minimum-weight matching on the odd-degree vertices.",
+    "Ore's theorem as an alternative sufficient condition for Hamiltonian cycles: if for every pair of non-adjacent vertices $u$ and $v$ we have $\\deg(u)+\\deg(v) \\geq |V|$, then a Hamiltonian cycle exists \u2014 a strictly weaker (more general) condition than Dirac's."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_025",
+  "topic_name": "Basic Probability in Contest Settings",
+  "generated_at": "2026-05-13T20:23:33.402820+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to count outcomes \u2014 you can list all the ways to roll two dice or draw cards from a deck. But contest problems rarely ask you to just count; they ask questions like 'A bag contains 3 red and 5 blue marbles. If you draw two marbles at random without replacement, what is the probability both are red?' Listing every possible pair by hand is tedious, and there's a slicker way that combines your counting tools with a clean ratio. How do you efficiently turn a counting argument into an exact probability?",
+  "concept": "Probability measures how likely an event is by comparing the number of favorable outcomes to the total number of equally likely outcomes. Formally, if a sample space $S$ has $|S|$ equally likely outcomes and event $A$ contains $|A|$ of them, then the probability of $A$ is $P(A) = \\dfrac{|A|}{|S|}$, a number always between 0 and 1 inclusive.",
+  "anatomy": "Every basic probability problem has three structural parts: the sample space $S$, which is the complete collection of all equally likely outcomes; the event $A$, which is the specific subset of outcomes you care about; and the probability ratio $P(A) = |A|/|S|$, which requires you to count both the favorable outcomes in $A$ and the total outcomes in $S$ \u2014 often using combinations $\\binom{n}{k}$, permutations, or the multiplication principle to compute each count precisely.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Problem: A bag has 3 red and 5 blue marbles. Two are drawn without replacement. Find } P(\\text{both red}).",
+      "description_latex": "We start by identifying what we need: the number of ways to choose 2 red marbles from the 3 available, divided by the total number of ways to choose any 2 marbles from all 8. This is a combination problem because the order of drawing doesn't matter \u2014 a draw of marble A then marble B is the same outcome as marble B then marble A.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|S| = \\binom{8}{2} = \\frac{8!}{2!\\,6!} = 28",
+      "description_latex": "The total number of equally likely outcomes is the number of ways to choose 2 marbles from 8, which gives us $\\binom{8}{2} = 28$. This is our denominator, and every pair is equally likely because the draw is random.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|A| = \\binom{3}{2} = \\frac{3!}{2!\\,1!} = 3",
+      "description_latex": "The event $A$ is 'both marbles are red,' so we need to count how many ways we can pick 2 red marbles from the 3 red ones available. There are $\\binom{3}{2} = 3$ such ways, giving us our numerator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{both red}) = \\frac{|A|}{|S|} = \\frac{3}{28}",
+      "description_latex": "We form the probability ratio by placing the favorable count over the total count. The answer $\\frac{3}{28}$ is already in lowest terms since $\\gcd(3,28)=1$, so we're done \u2014 always check that your answer is between 0 and 1 as a sanity check.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: A committee of 3 is chosen at random from 4 men and 6 women. Find } P(\\text{exactly 2 women}).",
+      "description_latex": "We need to find the number of ways to form a committee with exactly 2 women and 1 man, then divide by the total number of 3-person committees from all 10 people. Let's start by computing the total number of equally likely outcomes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|S| = \\binom{10}{3} = 120",
+      "description_latex": "The total sample space is all ways to choose 3 people from 10, giving $\\binom{10}{3} = 120$ equally likely committees. Now you need to count the favorable outcomes \u2014 committees with exactly 2 women and exactly 1 man.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Count the number of favorable committees by multiplying the number of ways to choose 2 women from 6 by the number of ways to choose 1 man from 4, then form the probability ratio $|A|/|S|$. What is $P(\\text{exactly 2 women})$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A fair six-sided die is rolled once. What is the probability of rolling a number greater than 4?",
+      "answer_latex": "\\dfrac{1}{3}"
+    },
+    {
+      "prompt_latex": "A jar contains 4 red, 3 green, and 5 blue marbles. One marble is drawn at random. What is the probability it is green?",
+      "answer_latex": "\\dfrac{1}{4}"
+    },
+    {
+      "prompt_latex": "Two cards are drawn without replacement from a standard 52-card deck. What is the probability that both cards are aces?",
+      "answer_latex": "\\dfrac{1}{221}"
+    },
+    {
+      "prompt_latex": "A group of 5 students \u2014 Alice, Bob, Carlos, Diana, and Eve \u2014 is randomly arranged in a line. What is the probability that Alice is first and Eve is last?",
+      "answer_latex": "\\dfrac{1}{20}"
+    },
+    {
+      "prompt_latex": "A committee of 4 is chosen at random from 5 seniors and 3 juniors. What is the probability the committee contains at least one junior?",
+      "answer_latex": "\\dfrac{37}{70}"
+    }
+  ],
+  "common_mistakes": [
+    "Students count ordered outcomes (permutations) for the favorable event but unordered outcomes (combinations) for the total, or vice versa \u2014 making the ratio meaningless. The fix: always use the same counting method (ordered or unordered) consistently for both numerator and denominator.",
+    "When a problem says 'without replacement,' students mistakenly treat draws as independent and multiply individual probabilities as if each draw resets the bag. The fix: use combinations on the full multi-draw scenario at once, or carefully update the counts after each draw if multiplying step-by-step.",
+    "Students forget to account for 'at least one' correctly by trying to enumerate all favorable cases directly, missing sub-cases. The fix: use the complement \u2014 $P(\\text{at least one}) = 1 - P(\\text{none})$ \u2014 which is almost always faster and less error-prone in contest settings."
+  ],
+  "untested_variants": [
+    "Geometric probability problems, where the sample space is a continuous region (e.g., a length or area) and probability is computed as a ratio of measures rather than counts.",
+    "Problems involving conditional probability $P(A \\mid B) = P(A \\cap B)/P(B)$, where you must restrict the sample space to a given condition.",
+    "Problems where the sample space involves distinguishable versus indistinguishable objects, such as drawing letters from the word MISSISSIPPI, where identical items make naive counting overcount outcomes.",
+    "Multi-stage probability trees involving independent repeated trials, such as flipping a biased coin multiple times and computing the probability of a specific sequence of outcomes."
+  ]
+}

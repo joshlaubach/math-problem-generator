@@ -1,0 +1,81 @@
+{
+  "topic_id": "la_053",
+  "topic_name": "Self-Adjoint and Normal Operators (H)",
+  "generated_at": "2026-05-13T20:10:00.205232+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to compute the adjoint $T^*$ of a linear operator on an inner product space, and you've seen that the condition $T^* = T$ forces the matrix of $T$ (in an orthonormal basis) to equal its own conjugate transpose. But what does that algebraic symmetry actually *do* for you? It turns out these so-called self-adjoint operators have only real eigenvalues and always admit an orthonormal basis of eigenvectors \u2014 properties that are far from obvious and that fail for generic operators. What extra structure do we need to guarantee these powerful spectral properties?",
+  "concept": "A self-adjoint (or Hermitian) operator satisfies $T^* = T$, meaning $\\langle Tv, w \\rangle = \\langle v, Tw \\rangle$ for all vectors. A normal operator satisfies the weaker condition $T^*T = TT^*$. Every self-adjoint operator is normal, but not conversely \u2014 unitary operators $U^*U = I$ are normal yet not generally self-adjoint. Normality is the exact condition needed for the spectral theorem: every normal operator on a finite-dimensional complex inner product space is unitarily diagonalizable.",
+  "anatomy": "Three structural components define this topic. First, the adjoint $T^*$: the unique operator satisfying $\\langle Tv, w \\rangle = \\langle v, T^*w \\rangle$ for all $v, w$; in an orthonormal basis its matrix is the conjugate transpose $\\overline{A}^{\\top}$. Second, the self-adjoint condition $T^* = T$: this demands the matrix satisfy $a_{ij} = \\overline{a_{ji}}$, so diagonal entries must be real and off-diagonal entries must be complex conjugates of each other. Third, the normality condition $T^*T = TT^*$: this is a commutativity requirement between $T$ and its adjoint, which is strictly weaker than self-adjointness and is preserved under unitary equivalence.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 3 & 2+i \\\\ 2-i & 5 \\end{pmatrix}",
+      "description_latex": "We start by writing down the matrix $A$ of an operator $T$ on $\\mathbb{C}^2$ in an orthonormal basis. Our goal is to verify that $T$ is self-adjoint by checking $A^* = A$, where $A^* = \\overline{A}^\\top$ is the conjugate transpose.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A^* = \\overline{A}^{\\top} = \\begin{pmatrix} \\overline{3} & \\overline{2-i} \\\\ \\overline{2+i} & \\overline{5} \\end{pmatrix} = \\begin{pmatrix} 3 & 2+i \\\\ 2-i & 5 \\end{pmatrix}",
+      "description_latex": "We compute $A^*$ by first conjugating every entry and then transposing. Notice that the real diagonal entries are unchanged, and the off-diagonal entries $2+i$ and $2-i$ swap places while also being conjugated, which returns them to their original positions. Since $A^* = A$, the operator is self-adjoint.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(A - \\lambda I) = (3-\\lambda)(5-\\lambda) - (2+i)(2-i) = \\lambda^2 - 8\\lambda + 10 = 0",
+      "description_latex": "Now we find the eigenvalues. We expand the characteristic polynomial, noting that $(2+i)(2-i) = 4+1 = 5$, so the constant term is $15 - 5 = 10$. The eigenvalues will turn out to be real \u2014 this is guaranteed for any self-adjoint operator, and it's a great consistency check.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda = \\frac{8 \\pm \\sqrt{64 - 40}}{2} = \\frac{8 \\pm \\sqrt{24}}{2} = 4 \\pm \\sqrt{6}",
+      "description_latex": "Applying the quadratic formula confirms both eigenvalues $\\lambda_1 = 4 - \\sqrt{6}$ and $\\lambda_2 = 4 + \\sqrt{6}$ are real, as the spectral theorem for self-adjoint operators promises. The fact that the discriminant $24 > 0$ is not a coincidence \u2014 it follows from the general theorem that all eigenvalues of a self-adjoint operator are real.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}, \\quad \\text{working over } \\mathbb{R}^2",
+      "description_latex": "We want to determine whether the operator with matrix $B$ is normal (satisfying $B^\\top B = B B^\\top$, since we are over $\\mathbb{R}$). We already know $B$ is not self-adjoint since $B^\\top \\neq B$, but normality is weaker, so let's check it directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B^{\\top}B = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}\\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix} = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}",
+      "description_latex": "We compute $B^\\top B$ by multiplying out. This result equals $I$, which means $B$ is actually an orthogonal (unitary over $\\mathbb{R}$) matrix \u2014 a rotation by $90\u00b0$. Now you need to compute $BB^\\top$ and compare.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $BB^\\top$ by multiplying $B = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$ on the right by $B^\\top = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$, then state whether $B$ is normal and justify your answer by comparing $B^\\top B$ and $BB^\\top$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 4 & 3i \\\\ -3i & 7 \\end{pmatrix}$. Is the operator with matrix $A$ self-adjoint? Justify.",
+      "answer_latex": "Yes. $A^* = \\overline{A}^\\top = \\begin{pmatrix} 4 & -(-3i) \\\\ -(3i) & 7 \\end{pmatrix} = \\begin{pmatrix} 4 & 3i \\\\ -3i & 7 \\end{pmatrix} = A$, so $A^* = A$."
+    },
+    {
+      "prompt_latex": "Find all eigenvalues of the self-adjoint operator $T$ with matrix $A = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$ over $\\mathbb{R}$, and confirm they are real.",
+      "answer_latex": "\\lambda_1 = 3,\\ \\lambda_2 = -1$. Both are real, consistent with $A$ being self-adjoint."
+    },
+    {
+      "prompt_latex": "Let $T$ be an operator on $\\mathbb{C}^2$ with matrix $A = \\begin{pmatrix} 0 & i \\\\ -i & 0 \\end{pmatrix}$. Determine whether $T$ is (a) self-adjoint, and (b) normal.",
+      "answer_latex": "(a) $A^* = \\begin{pmatrix} 0 & i \\\\ -i & 0 \\end{pmatrix} = A$, so $T$ is self-adjoint. (b) Every self-adjoint operator is normal, so $T$ is normal."
+    },
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 2 & 1+i \\\\ 1-i & 3 \\end{pmatrix}$. Verify $A$ is self-adjoint, then find an orthonormal basis of $\\mathbb{C}^2$ consisting of eigenvectors of $A$ (the spectral theorem guarantees this exists).",
+      "answer_latex": "$A^* = A$ \u2713. Eigenvalues: $\\lambda = \\frac{5 \\pm \\sqrt{9}}{2}$, so $\\lambda_1 = 1, \\lambda_2 = 4$. Eigenvectors: for $\\lambda_1=1$: $v_1 = \\frac{1}{\\sqrt{3}}\\begin{pmatrix}-(1+i)\\\\1\\end{pmatrix}$; for $\\lambda_2=4$: $v_2 = \\frac{1}{\\sqrt{3}}\\begin{pmatrix}1\\\\1-i\\end{pmatrix}$ (up to normalization). These are orthogonal by the spectral theorem."
+    },
+    {
+      "prompt_latex": "A quantum observable is modeled by a self-adjoint operator $T$ on $\\mathbb{C}^2$. You measure the system and always obtain either $-1$ or $+1$. Write down the most general form of the matrix of $T$ in an orthonormal basis, using the fact that $T$ is self-adjoint with eigenvalues $\\pm 1$.",
+      "answer_latex": "In any orthonormal eigenbasis, $T$ has matrix $\\begin{pmatrix} 1 & 0 \\\\ 0 & -1 \\end{pmatrix}$. In a general orthonormal basis, $T = UDU^*$ where $D = \\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}$ and $U$ is unitary, giving $T = \\begin{pmatrix} 2|u_{11}|^2 - 1 & 2u_{11}\\overline{u_{21}} \\\\ 2u_{21}\\overline{u_{11}} & 2|u_{21}|^2 - 1 \\end{pmatrix}$ with $|u_{11}|^2+|u_{21}|^2=1$."
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse $A^* = \\overline{A}^\\top$ with simply $A^\\top$: when working over $\\mathbb{C}$, forgetting to conjugate the entries means a matrix like $\\begin{pmatrix}0 & i \\\\ -i & 0\\end{pmatrix}$ appears not to be self-adjoint. Always conjugate AND transpose when computing $A^*$ over $\\mathbb{C}$.",
+    "Students assume every normal operator is self-adjoint: for example, a unitary matrix $U$ satisfies $U^*U = I = UU^*$ and is therefore normal, but $U^* = U^{-1} \\neq U$ in general. Normality only means $T^*T = TT^*$, which is strictly weaker than $T^* = T$.",
+    "Students believe self-adjoint operators over $\\mathbb{R}$ must have all real off-diagonal entries: this is true for real symmetric matrices, but a real symmetric matrix is self-adjoint simply because $A^\\top = A$ and conjugation does nothing over $\\mathbb{R}$. The confusion arises when mixing real and complex cases \u2014 always check which field you are working over before deciding what $A^*$ means."
+  ],
+  "untested_variants": [
+    "Proving from first principles that eigenvalues of a self-adjoint operator are real, using the identity $\\lambda \\|v\\|^2 = \\langle Tv, v \\rangle = \\langle v, Tv \\rangle = \\overline{\\lambda}\\|v\\|^2$.",
+    "Showing that eigenvectors of a self-adjoint operator corresponding to distinct eigenvalues are orthogonal, and using this to construct an orthonormal eigenbasis directly.",
+    "Determining whether a given operator is normal on an infinite-dimensional Hilbert space, or analyzing normal operators defined abstractly (not via a matrix).",
+    "Classifying which $3 \\times 3$ complex matrices are self-adjoint and finding conditions on the six free real parameters that determine such a matrix."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_007",
+  "topic_name": "Parametric Equations (Introduction) (H)",
+  "generated_at": "2026-05-12T23:41:22.043837+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to describe a curve like a circle using an equation such as $x^2 + y^2 = 25$, which tells you the relationship between $x$ and $y$ at every point. But what if you also need to know *when* a moving object reaches each point on that circle \u2014 for example, a satellite tracing an orbit over time? A single equation relating $x$ and $y$ has no way to encode that timing information. So how do we describe both the shape of a path *and* the motion along it simultaneously?",
+  "concept": "A parametric equation describes a curve by expressing both $x$ and $y$ as separate functions of a third variable called the parameter, usually $t$ (often representing time). Instead of one equation linking $x$ and $y$, you get a pair: $x = f(t)$ and $y = g(t)$. As $t$ varies over an interval, the point $(f(t),\\ g(t))$ traces a path in the plane, giving you both the shape of the curve and the order in which points are visited.",
+  "anatomy": "A parametric system has three key components. The parameter $t$ is the independent variable that drives the motion; it typically runs over some interval such as $0 \\le t \\le 2\\pi$. The horizontal component function $x = f(t)$ determines the left-right position of the point at each moment $t$, while the vertical component function $y = g(t)$ determines the up-down position. Together, the ordered pair $(x, y) = (f(t),\\ g(t))$ is called a parametric point, and the full collection of such points as $t$ varies is the parametric curve. The direction of increasing $t$ defines the orientation of the curve, which is an extra piece of information absent from a plain $xy$-equation.",
+  "worked_example": [
+    {
+      "expression_latex": "x = 2t, \\quad y = t^2 - 1, \\quad -2 \\le t \\le 2",
+      "description_latex": "We start by reading the problem: we have two component functions and a restricted interval for the parameter $t$. Our first job is to build a table of values by choosing several $t$-values inside the interval and computing the corresponding $x$ and $y$ coordinates, because plotting individual points is the most reliable way to understand a new parametric curve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{c|c|c} t & x=2t & y=t^2-1 \\\\ \\hline -2 & -4 & 3 \\\\ -1 & -2 & 0 \\\\ 0 & 0 & -1 \\\\ 1 & 2 & 0 \\\\ 2 & 4 & 3 \\end{array}",
+      "description_latex": "We substitute each $t$-value into both formulas independently. Notice that $x$ grows steadily from $-4$ to $4$ while $y$ dips down to $-1$ at $t=0$ then rises again \u2014 this pattern suggests a parabola opening upward, and the table lets us plot the five points $(-4,3),(-2,0),(0,-1),(2,0),(4,3)$ with arrows showing left-to-right motion as $t$ increases.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t = \\frac{x}{2} \\quad \\Rightarrow \\quad y = \\left(\\frac{x}{2}\\right)^2 - 1",
+      "description_latex": "To identify the curve algebraically, we eliminate the parameter by solving the simpler equation ($x = 2t$) for $t$, giving $t = x/2$, and then substituting into the $y$ equation. This is called eliminating the parameter, and it converts the parametric form into a familiar Cartesian equation so we can recognize the shape.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = \\frac{x^2}{4} - 1, \\quad -4 \\le x \\le 4",
+      "description_latex": "After simplifying we get a standard upward-opening parabola $y = \\frac{x^2}{4} - 1$, but the parametric form adds two things the Cartesian equation alone cannot show: the restricted domain $-4 \\le x \\le 4$ (imposed by the $t$-interval) and the left-to-right orientation of travel as $t$ increases from $-2$ to $2$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x = 3\\cos t, \\quad y = 3\\sin t, \\quad 0 \\le t \\le 2\\pi",
+      "description_latex": "Here we have a new parametric pair involving trigonometric functions. A good first move is to recall the Pythagorean identity $\\cos^2 t + \\sin^2 t = 1$, because both component functions involve the same parameter $t$ in the same trig functions, which is a strong hint that this identity will help us eliminate $t$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{x}{3} = \\cos t, \\quad \\frac{y}{3} = \\sin t",
+      "description_latex": "We isolate $\\cos t$ and $\\sin t$ by dividing each equation by 3. Now we are ready to apply the Pythagorean identity \u2014 can you square both expressions and add them together to eliminate $t$ and find the Cartesian equation?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Square both isolated expressions and add them: substitute $\\cos^2 t + \\sin^2 t = 1$ to write the Cartesian equation of this curve. What familiar shape do you get, and what is its radius?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x^2 + y^2 = 9 \\text{ (a circle of radius } 3 \\text{, traced counterclockwise)}",
+      "description_latex": "The result is a circle of radius $3$ centered at the origin. Notice that the parametric form tells us something extra: as $t$ goes from $0$ to $2\\pi$, the point starts at $(3, 0)$, sweeps counterclockwise, and returns to its starting point \u2014 one complete revolution. The Cartesian equation $x^2 + y^2 = 9$ shows the shape but hides this directional and starting information entirely.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Complete the table for $x = t + 1,\\ y = 2t$ with $t = -1, 0, 1, 2$, then list the four parametric points $(x, y)$.",
+      "answer_latex": "(-1+1,\\ -2)=(0,-2),\\ (1,0),\\ (2,2),\\ (3,4) \\quad \\text{i.e., the points } (0,-2),(1,0),(2,2),(3,4)"
+    },
+    {
+      "prompt_latex": "Eliminate the parameter from $x = t - 3,\\ y = 2t + 1$ to write a Cartesian equation in the form $y = mx + b$.",
+      "answer_latex": "t = x + 3 \\Rightarrow y = 2(x+3)+1 = 2x + 7"
+    },
+    {
+      "prompt_latex": "Eliminate the parameter from $x = \\sqrt{t},\\ y = t + 2,\\ t \\ge 0$ to write a Cartesian equation, and state the domain restriction on $x$.",
+      "answer_latex": "t = x^2 \\Rightarrow y = x^2 + 2, \\quad x \\ge 0"
+    },
+    {
+      "prompt_latex": "The parametric equations $x = 4\\cos t,\\ y = 2\\sin t,\\ 0 \\le t \\le 2\\pi$ trace an ellipse. Eliminate the parameter and write the standard-form equation of the ellipse.",
+      "answer_latex": "\\frac{x^2}{16} + \\frac{y^2}{4} = 1"
+    },
+    {
+      "prompt_latex": "A ball is thrown so that its horizontal position is $x = 20t$ (feet) and its vertical position is $y = -16t^2 + 32t$ (feet) for $0 \\le t \\le 2$ seconds. Find the Cartesian equation $y$ in terms of $x$, and determine the horizontal distance the ball travels before returning to height $y = 0$.",
+      "answer_latex": "t = \\frac{x}{20} \\Rightarrow y = -16\\left(\\frac{x}{20}\\right)^2 + 32\\left(\\frac{x}{20}\\right) = -\\frac{x^2}{25} + \\frac{8x}{5}; \\text{ lands at } x = 40 \\text{ ft}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often plug a $t$-value into the wrong equation \u2014 for example, computing $x$ using the $y = g(t)$ formula. Always label your work clearly: write '$x =$' and '$y =$' on separate lines for each $t$-value so the two functions never get mixed up.",
+    "When eliminating the parameter, students sometimes forget to carry over the domain restriction imposed by the $t$-interval, writing an equation like $y = x^2 + 2$ for all $x$ when the parametric form only traces the curve for $x \\ge 0$. Always translate the $t$-interval into the corresponding range of $x$-values and state it explicitly.",
+    "With trigonometric parametric equations such as $x = r\\cos t,\\ y = r\\sin t$, students sometimes forget to square both sides before applying the identity $\\cos^2 t + \\sin^2 t = 1$, incorrectly writing $\\frac{x}{r} + \\frac{y}{r} = 1$ instead of $\\frac{x^2}{r^2} + \\frac{y^2}{r^2} = 1$. Always isolate the trig function first, then square."
+  ],
+  "untested_variants": [
+    "Converting a given Cartesian equation (like $y = x^3$) into a parametric form by introducing a parameter, which requires choosing $x = t$ or another substitution and writing both component functions.",
+    "Parametric equations where the parameter is an angle measured in degrees rather than radians, requiring unit conversion before applying standard trigonometric identities.",
+    "Finding the slope of a parametric curve at a specific point using $\\frac{dy}{dx} = \\frac{dy/dt}{dx/dt}$, which combines parametric equations with introductory calculus concepts.",
+    "Parametric equations that trace the same Cartesian curve in different directions or speeds (e.g., comparing $x = t,\\ y = t^2$ with $x = -t,\\ y = t^2$) and determining how the orientation changes."
+  ]
+}

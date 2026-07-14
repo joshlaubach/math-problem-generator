@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_020",
+  "topic_name": "Introduction to Systems of DEs",
+  "generated_at": "2026-05-13T20:01:24.408057+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve a single differential equation like $\\frac{dy}{dt} = -2y$, finding a function $y(t)$ that satisfies it. But many real-world phenomena \u2014 a predator chasing prey, two tanks exchanging salt water, a mass on a spring with friction \u2014 involve two or more quantities that change together and influence each other simultaneously. A single equation can't capture that mutual dependence. So how do we write and analyze a model where $x$ affects $\\dot{y}$ and $y$ affects $\\dot{x}$ at the same time?",
+  "concept": "A system of differential equations is a collection of two or more differential equations that share dependent variables, so each equation describes how one quantity evolves in terms of itself and the others. Formally, a first-order system in two unknowns is written $\\frac{dx}{dt} = f(t, x, y)$ and $\\frac{dy}{dt} = g(t, x, y)$, where a solution is a pair of functions $x(t)$ and $y(t)$ that satisfy both equations simultaneously on some interval.",
+  "anatomy": "In a two-dimensional first-order system $\\dot{x} = f(t,x,y)$, $\\dot{y} = g(t,x,y)$, there are several key components to name. The dependent variables $x(t)$ and $y(t)$ (or $x_1, x_2$) are the unknown functions you solve for. The independent variable $t$ is usually time. The right-hand side functions $f$ and $g$ are called the rate functions \u2014 they encode how each quantity changes. When $f$ and $g$ do not depend explicitly on $t$, the system is called autonomous, which is the most important special case for phase plane analysis. The state of the system at any moment is the ordered pair $(x(t), y(t))$, called the state vector.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dx}{dt} = 3x - x^2 - xy, \\quad \\frac{dy}{dt} = 2y - y^2 - xy",
+      "description_latex": "Here is a concrete system of two first-order ODEs sharing dependent variables $x$ and $y$. Notice that the rate of change of $x$ depends on $y$, and the rate of change of $y$ depends on $x$, so neither equation can be solved in isolation \u2014 this mutual coupling is exactly what makes it a system rather than two independent equations.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Order: 1st order} \\quad \\text{Autonomous: yes (no explicit } t \\text{ on the right)}",
+      "description_latex": "We classify the system by checking two things: the highest derivative present (here $\\dot{x}$ and $\\dot{y}$, so first order) and whether $t$ appears explicitly in $f$ or $g$ (it does not, so the system is autonomous). Recognizing autonomy matters because autonomous systems admit phase plane analysis, where we can sketch solution curves in the $xy$-plane without explicitly solving for $t$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dy}{dx} = \\frac{dy/dt}{dx/dt} = \\frac{2y - y^2 - xy}{3x - x^2 - xy}",
+      "description_latex": "By dividing the two rate equations, we eliminate $t$ entirely and get a single ODE relating $y$ directly to $x$. This equation describes the slope of trajectories in the phase plane \u2014 the $xy$-plane \u2014 at every point $(x, y)$. This is the bridge from a system in $t$ to the geometric picture of solution curves.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3x - x^2 - xy = 0 \\quad \\text{and} \\quad 2y - y^2 - xy = 0",
+      "description_latex": "Equilibrium points (also called critical points) occur where both rate functions equal zero simultaneously, because the state is not changing at all. Setting $f = 0$ and $g = 0$ gives us an algebraic system to solve; finding these points is the first step in understanding the long-term behavior of the system, and we will explore their stability in later lessons.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(0,0),\\; (3,0),\\; (0,2),\\; (1,2) \\quad \\text{(equilibrium points)}",
+      "description_latex": "Solving $x(3 - x - y) = 0$ and $y(2 - y - x) = 0$ yields four equilibrium points. Each one is a constant solution $(x(t), y(t)) = (x_0, y_0)$, meaning if the system starts there it stays there forever. Identifying all equilibria is the foundation of phase plane analysis \u2014 each one will later be classified as a stable or unstable type.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dx}{dt} = -y, \\quad \\frac{dy}{dt} = x",
+      "description_latex": "We are given this simple autonomous system. Our goals are to classify it (order and autonomy), form the phase-plane slope equation $dy/dx$, and find any equilibrium points. Start by confirming the order and checking for explicit dependence on $t$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dy}{dx} = \\frac{dy/dt}{dx/dt} = \\frac{x}{-y}",
+      "description_latex": "We divide the two rate equations to obtain the slope of trajectories in the phase plane. This ratio $dy/dx = x/(-y)$ tells us the direction a solution curve moves at every point $(x,y)$ in the plane \u2014 notice the $t$-dependence has completely disappeared.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find all equilibrium points of the system by setting both rate functions equal to zero and solving simultaneously. What point $(x_0, y_0)$ makes $-y = 0$ and $x = 0$ at the same time? Write your answer as an ordered pair.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "(0, 0) \\text{ is the only equilibrium point}",
+      "description_latex": "The only solution to $-y=0$ and $x=0$ simultaneously is $x=0, y=0$. It turns out the trajectories of this system form circles centered at the origin \u2014 a pattern we will analyze further using eigenvalues in later lessons.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Classify the system $\\frac{dx}{dt} = 3x + y$, $\\frac{dy}{dt} = -x + 2y$ as first-order or second-order, and autonomous or non-autonomous.",
+      "answer_latex": "First-order; autonomous (no explicit $t$ in $f$ or $g$)"
+    },
+    {
+      "prompt_latex": "For the system $\\frac{dx}{dt} = x - y$, $\\frac{dy}{dt} = x + y$, write the phase-plane equation $\\frac{dy}{dx}$ by eliminating $t$.",
+      "answer_latex": "\\frac{dy}{dx} = \\frac{x+y}{x-y}"
+    },
+    {
+      "prompt_latex": "Find all equilibrium points of the system $\\frac{dx}{dt} = x(1-x)$, $\\frac{dy}{dt} = y(2-y)$.",
+      "answer_latex": "(0,0),\\; (1,0),\\; (0,2),\\; (1,2)"
+    },
+    {
+      "prompt_latex": "Convert the single second-order ODE $y'' - 3y' + 2y = 0$ into an equivalent first-order system by letting $x_1 = y$ and $x_2 = y'$.",
+      "answer_latex": "\\frac{dx_1}{dt} = x_2, \\quad \\frac{dx_2}{dt} = -2x_1 + 3x_2"
+    },
+    {
+      "prompt_latex": "A population of rabbits $R$ and foxes $F$ satisfies $\\frac{dR}{dt} = 2R - RF$ and $\\frac{dF}{dt} = RF - 3F$. Find all equilibrium points and interpret the non-trivial one biologically.",
+      "answer_latex": "Equilibria: $(0,0)$ and $(3, 2)$. At $(3,2)$ both populations are constant \u2014 rabbits and foxes coexist in a fixed balance where birth and predation rates exactly cancel."
+    }
+  ],
+  "common_mistakes": [
+    "Students try to solve each equation of the system independently, ignoring the other variable. Because $f$ and $g$ are coupled \u2014 each depends on both $x$ and $y$ \u2014 you cannot solve $\\dot{x} = f(t,x,y)$ alone; the system must be treated as a whole, either by matrix methods or by phase-plane analysis.",
+    "When finding equilibrium points, students set only one of the two rate functions to zero instead of both simultaneously. An equilibrium requires $f = 0$ AND $g = 0$ at the same point, so you must solve the algebraic system jointly; solutions of $f = 0$ alone are not equilibria unless they also satisfy $g = 0$.",
+    "Students confuse the phase-plane equation $\\frac{dy}{dx} = \\frac{g}{f}$ with the original equations, treating it as if it directly gives $y(t)$ or $x(t)$. The ratio $dy/dx$ describes the shape of trajectories in the $xy$-plane as a geometric curve, not as functions of $t$; recovering time dependence requires additional work."
+  ],
+  "untested_variants": [
+    "Converting a third-order or higher ODE into a first-order system (the practice problem only covers second-order reduction).",
+    "Non-autonomous systems of the form $\\dot{x} = f(t,x,y)$, $\\dot{y} = g(t,x,y)$ where $t$ appears explicitly, and how phase-plane analysis is modified or unavailable.",
+    "Verifying that a given pair of functions $x(t), y(t)$ is a solution to a specific system by substituting back into both equations simultaneously.",
+    "Writing the system in matrix-vector form $\\mathbf{x}' = A\\mathbf{x}$ and identifying the coefficient matrix $A$ for a linear system."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_014",
+  "topic_name": "Proof by Contradiction",
+  "generated_at": "2026-05-13T20:12:42.171423+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to prove things directly \u2014 you start with what's given and build a chain of logic to your conclusion. But what if the direct path is invisible? Consider this: how would you prove that there is no largest prime number, when you can't possibly check every number? There's no formula, no direct construction \u2014 yet mathematicians are completely certain. How can you prove something is impossible?",
+  "concept": "Proof by contradiction works by assuming the opposite of what you want to prove, then showing that assumption leads to a logical impossibility. Formally: to prove a statement $P$, we assume $\\neg P$ (not $P$) is true, and derive a contradiction \u2014 a statement of the form $Q \\wedge \\neg Q$ for some proposition $Q$. Since a contradiction cannot be true, our assumption $\\neg P$ must be false, which means $P$ must be true.",
+  "anatomy": "A proof by contradiction has four structural parts. The negated assumption is the explicit statement $\\neg P$ that you declare true at the outset \u2014 this is the engine of the whole argument. The deductive chain is the sequence of valid logical steps you draw from $\\neg P$, combined with known facts and axioms. The contradiction is the specific impossible statement you arrive at, typically written as $Q \\wedge \\neg Q$ or as two conclusions that directly conflict with each other. Finally, the conclusion is the closing statement asserting that since $\\neg P$ leads to a contradiction, $P$ must be true.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\sqrt{2} \\text{ is irrational.}",
+      "description_latex": "We state the claim we want to prove. Because irrationality is defined as the negation of rationality, this is a perfect candidate for contradiction \u2014 we will assume the opposite and see what breaks.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } \\sqrt{2} \\text{ is rational, so } \\sqrt{2} = \\frac{p}{q} \\text{ where } p, q \\in \\mathbb{Z},\\, q \\neq 0,\\, \\gcd(p,q)=1.",
+      "description_latex": "This is our negated assumption \u2014 $\\neg P$. We assume $\\sqrt{2}$ IS rational, meaning it can be written as a fraction in lowest terms. The condition $\\gcd(p,q)=1$ is crucial: it encodes that the fraction is fully reduced, which we will contradict.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2 = \\frac{p^2}{q^2} \\implies p^2 = 2q^2 \\implies 2 \\mid p^2 \\implies 2 \\mid p.",
+      "description_latex": "We square both sides and rearrange to get $p^2 = 2q^2$, which tells us $p^2$ is even. Since 2 is prime, if $2 \\mid p^2$ then $2 \\mid p$, so we can write $p = 2k$ for some integer $k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p = 2k \\implies p^2 = 4k^2 \\implies 2q^2 = 4k^2 \\implies q^2 = 2k^2 \\implies 2 \\mid q.",
+      "description_latex": "Substituting $p = 2k$ back into $p^2 = 2q^2$ gives $q^2 = 2k^2$, which means $q^2$ is also even, and by the same reasoning $2 \\mid q$. Now we have derived that both $p$ and $q$ are divisible by 2.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2 \\mid p \\text{ and } 2 \\mid q \\implies \\gcd(p,q) \\geq 2. \\text{ But } \\gcd(p,q)=1. \\text{ Contradiction. } \\therefore \\sqrt{2} \\text{ is irrational.}",
+      "description_latex": "This is the contradiction: we assumed $\\gcd(p,q)=1$ but derived $\\gcd(p,q) \\geq 2$ \u2014 both cannot be true simultaneously. Since our only unjustified assumption was that $\\sqrt{2}$ is rational, that assumption must be false, and we conclude $\\sqrt{2}$ is irrational.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: There is no largest even integer.}",
+      "description_latex": "We want to prove that no single even integer is greater than all others. A direct proof seems hard because we'd have to somehow account for every even number, so contradiction is a natural approach here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume there exists a largest even integer } n, \\text{ so } n \\geq m \\text{ for every even integer } m.",
+      "description_latex": "This is the negated assumption: we suppose the claim is FALSE and that some specific even integer $n$ is the largest. All of our subsequent work flows from this assumption.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now construct an even integer strictly greater than $n$ using $n$ itself, and explain why this contradicts the assumption that $n$ is the largest even integer. (Hint: what happens if you add 2 to $n$?)",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "n+2 > n \\text{ and } n+2 \\text{ is even. This contradicts } n \\text{ being the largest even integer. } \\therefore \\text{ no largest even integer exists.}",
+      "description_latex": "The contradiction is clean: $n+2$ is an even integer (the sum of two even numbers) and it is strictly larger than $n$, which directly contradicts our assumption. This closes the proof.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Prove by contradiction: there is no smallest positive rational number.}",
+      "answer_latex": "\\text{Assume } r > 0 \\text{ is the smallest positive rational. Then } r/2 > 0 \\text{ is also a positive rational and } r/2 < r, \\text{ contradicting minimality. } \\square"
+    },
+    {
+      "prompt_latex": "\\text{Prove by contradiction: if } n^2 \\text{ is even, then } n \\text{ is even.}",
+      "answer_latex": "\\text{Assume } n \\text{ is odd, so } n = 2k+1. \\text{ Then } n^2 = 4k^2+4k+1 = 2(2k^2+2k)+1, \\text{ which is odd. This contradicts } n^2 \\text{ being even.} \\square"
+    },
+    {
+      "prompt_latex": "\\text{Prove by contradiction: } \\log_2 3 \\text{ is irrational.}",
+      "answer_latex": "\\text{Assume } \\log_2 3 = p/q \\text{ with } p,q \\in \\mathbb{Z}^+. \\text{ Then } 2^{p/q}=3 \\implies 2^p = 3^q. \\text{ But } 2^p \\text{ is even and } 3^q \\text{ is odd \u2014 contradiction.} \\square"
+    },
+    {
+      "prompt_latex": "\\text{Prove by contradiction: if } p \\text{ and } q \\text{ are distinct primes, then } \\sqrt{pq} \\text{ is irrational.}",
+      "answer_latex": "\\text{Assume } \\sqrt{pq} = a/b \\text{ in lowest terms. Then } pq \\cdot b^2 = a^2, \\text{ so } p \\mid a^2 \\implies p \\mid a. \\text{ Write } a=pk; \\text{ then } q b^2 = p k^2, \\text{ so } p \\mid b^2 \\implies p \\mid b, \\text{ contradicting } \\gcd(a,b)=1. \\square"
+    },
+    {
+      "prompt_latex": "\\text{A room contains 13 people. Prove by contradiction that at least two of them share a birth month.}",
+      "answer_latex": "\\text{Assume no two people share a birth month. Then the 13 people occupy 13 distinct months. But there are only 12 months \u2014 a contradiction. Therefore at least two share a birth month.} \\square"
+    }
+  ],
+  "common_mistakes": [
+    "Students write 'assume P is false' but never explicitly state what $\\neg P$ looks like in concrete terms, making the deductive chain vague. Fix: always translate $\\neg P$ into a specific mathematical statement (e.g., 'assume $\\sqrt{2} = p/q$') before proceeding.",
+    "Students reach a statement that seems 'weird' or unlikely and declare a contradiction without identifying the specific conflicting pair of statements. Fix: always name the contradiction explicitly \u2014 state both the thing you assumed and the thing you derived that directly opposes it.",
+    "Students confuse proof by contradiction with proof by contrapositive: they try to prove $\\neg Q \\implies \\neg P$ but label it a contradiction proof. Fix: remember that contradiction assumes $\\neg P$ AND $Q$ simultaneously (the full claim and its negation) and derives any logical falsehood, whereas contrapositive is a separate direct-proof strategy."
+  ],
+  "untested_variants": [
+    "Proving that the set of primes is infinite (Euclid's theorem), which requires constructing a product of known primes plus 1 and arguing about its prime factors.",
+    "Contradiction proofs involving graph theory, such as proving that a graph with $n$ vertices and more than $\\binom{n-1}{2}$ edges must be connected.",
+    "Proving irrationality of numbers like $\\sqrt[3]{2}$ or $2^{1/n}$ for $n \\geq 3$, which require modular arithmetic arguments beyond the basic even/odd structure used in the $\\sqrt{2}$ proof.",
+    "Using contradiction within a combinatorial existence argument, such as proving that any sequence of $n^2+1$ distinct integers contains a monotone subsequence of length $n+1$ (Erd\u0151s\u2013Szekeres theorem)."
+  ]
+}

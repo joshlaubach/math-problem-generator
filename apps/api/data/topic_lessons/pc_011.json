@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_011",
+  "topic_name": "Complex Zeros and the Fundamental Theorem of Algebra",
+  "generated_at": "2026-05-12T23:42:45.096469+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to find real zeros of a polynomial by factoring or using the quadratic formula, and you know a degree-3 polynomial can have up to 3 real roots. But consider $p(x) = x^2 + 1$: setting it equal to zero gives $x^2 = -1$, which has no real solution. So does this polynomial simply have no zeros at all? And if a degree-5 polynomial can have fewer than 5 real zeros, what accounts for the 'missing' ones?",
+  "concept": "Complex zeros extend the idea of a zero into the complex number system $\\mathbb{C}$, where numbers take the form $a + bi$ with $i = \\sqrt{-1}$. The Fundamental Theorem of Algebra guarantees that every non-constant polynomial of degree $n$ with complex coefficients has exactly $n$ zeros in $\\mathbb{C}$, counted with multiplicity. In plain English: no zero ever truly goes missing \u2014 it may just be complex rather than real.",
+  "anatomy": "The key components here are: the degree $n$ of the polynomial, which tells you exactly how many zeros (real or complex) to expect in total; a complex zero $a + bi$, where $a$ is the real part and $b$ is the imaginary part with $b \\neq 0$; the Complex Conjugate Pairs Theorem, which says that for any polynomial with real coefficients, if $a + bi$ is a zero then its conjugate $a - bi$ must also be a zero; and multiplicity, which counts how many times a particular zero is repeated so the total count always reaches $n$.",
+  "worked_example": [
+    {
+      "expression_latex": "p(x) = x^4 - x^3 + 2x^2 - 4x - 8",
+      "description_latex": "We are given a degree-4 polynomial, so the Fundamental Theorem guarantees exactly 4 zeros (counted with multiplicity). Our goal is to find all of them, including any complex ones.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(2) = 16 - 8 + 8 - 8 - 8 = 0 \\quad \\Rightarrow \\quad (x-2) \\text{ is a factor}",
+      "description_latex": "We test $x = 2$ using the Remainder Theorem: substituting gives 0, confirming $x = 2$ is a real zero and $(x-2)$ divides $p(x)$ exactly. Finding at least one real zero first lets us reduce the degree and simplify the remaining work.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(x) = (x-2)(x^3 + x^2 + 4x + 4)",
+      "description_latex": "Performing polynomial long division of $p(x)$ by $(x-2)$ yields the cubic factor $x^3 + x^2 + 4x + 4$. We now need to factor this cubic to find the remaining three zeros.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^3 + x^2 + 4x + 4 = x^2(x+1) + 4(x+1) = (x+1)(x^2+4)",
+      "description_latex": "Factoring by grouping reveals $(x+1)(x^2+4)$, giving us the real zero $x = -1$ from the first factor. The second factor $x^2 + 4$ has no real zeros because $x^2 = -4$ has no real solution \u2014 this is exactly where complex zeros appear.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 + 4 = 0 \\Rightarrow x^2 = -4 \\Rightarrow x = \\pm 2i",
+      "description_latex": "Solving $x^2 = -4$ gives $x = 2i$ and $x = -2i$, which are a complex conjugate pair exactly as the theorem predicts for a polynomial with real coefficients. The complete list of four zeros is $x = 2,\\; x = -1,\\; x = 2i,\\; x = -2i$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "q(x) = x^3 - 3x^2 + 9x - 27",
+      "description_latex": "We have a degree-3 polynomial, so we expect exactly 3 zeros. Begin by testing $x = 3$ using the Remainder Theorem: $q(3) = 27 - 27 + 27 - 27 = 0$, so $(x - 3)$ is a factor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "q(x) = (x-3)(x^2 + 9)",
+      "description_latex": "Dividing $q(x)$ by $(x-3)$ gives the quotient $x^2 + 9$. We now need to solve $x^2 + 9 = 0$ to find the remaining two zeros \u2014 notice that $x^2 = -9$ will produce complex values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Solve $x^2 + 9 = 0$ to find the two complex zeros, and then write the complete list of all three zeros of $q(x)$. Remember that complex zeros of real-coefficient polynomials always come in conjugate pairs.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "How many zeros does $p(x) = x^5 - 3x^2 + 7$ have in $\\mathbb{C}$, counted with multiplicity?",
+      "answer_latex": "5"
+    },
+    {
+      "prompt_latex": "Find all zeros of $f(x) = x^2 + 6x + 13$.",
+      "answer_latex": "x = -3 + 2i \\text{ and } x = -3 - 2i"
+    },
+    {
+      "prompt_latex": "Find all four zeros of $h(x) = x^4 - 1$.",
+      "answer_latex": "x = 1,\\; x = -1,\\; x = i,\\; x = -i"
+    },
+    {
+      "prompt_latex": "A degree-4 polynomial with real coefficients has zeros $x = 5$ (multiplicity 2) and $x = 1 - 3i$. Write the polynomial in factored form.",
+      "answer_latex": "p(x) = (x-5)^2\\,(x - (1-3i))\\,(x - (1+3i))"
+    },
+    {
+      "prompt_latex": "Find all zeros of $g(x) = x^4 + 5x^2 + 4$.",
+      "answer_latex": "x = i,\\; x = -i,\\; x = 2i,\\; x = -2i"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to apply the Complex Conjugate Pairs Theorem: if $3 - 2i$ is a zero of a real-coefficient polynomial, then $3 + 2i$ must also be a zero, and omitting the conjugate partner means your polynomial has the wrong degree. Always include both members of every conjugate pair.",
+    "Students subtract the number of real zeros from the degree and conclude the polynomial has 'no more zeros,' missing that the remaining zeros are complex rather than nonexistent. The Fundamental Theorem guarantees the total count of zeros always equals the degree \u2014 any shortfall in real zeros is exactly made up by complex ones.",
+    "When solving $x^2 = -k$ for $k > 0$, students write $x = \\sqrt{k}\\,i$ and forget the negative root $x = -\\sqrt{k}\\,i$. Because $(-\\sqrt{k}\\,i)^2 = -k$ as well, both values are valid zeros and both must be listed."
+  ],
+  "untested_variants": [
+    "Given a zero of a polynomial, using the conjugate pair to reconstruct the original polynomial by multiplying out all known factors \u2014 a reversal of the factoring process.",
+    "Polynomials with complex (non-real) coefficients, where the Complex Conjugate Pairs Theorem no longer applies and zeros need not come in conjugate pairs.",
+    "Using Descartes' Rule of Signs to count and bound the number of positive real, negative real, and complex zeros before solving.",
+    "Finding complex zeros of a degree-4 or higher polynomial where no rational real zero exists, requiring substitution $u = x^2$ or other non-standard strategies to reduce degree before applying the quadratic formula."
+  ]
+}

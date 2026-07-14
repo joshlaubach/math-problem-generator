@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_027",
+  "topic_name": "Homogeneous Higher Order Equations",
+  "generated_at": "2026-05-13T20:01:59.484382+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve second-order linear homogeneous equations like $y'' - 5y' + 6y = 0$ by assuming $y = e^{rx}$ and finding the characteristic roots. But what happens when the equation jumps to order three or four, like $y''' - 6y'' + 11y' - 6y = 0$? The same exponential guess still works \u2014 but now you need three or four roots, and the algebra of combining them into a general solution gets more intricate. How do you find all the roots of a higher-degree polynomial and correctly assemble the full general solution?",
+  "concept": "A homogeneous higher-order linear ODE has the form $a_n y^{(n)} + a_{n-1} y^{(n-1)} + \\cdots + a_1 y' + a_0 y = 0$ with constant coefficients and zero on the right-hand side. The strategy is to substitute $y = e^{rx}$, which converts the differential equation into a polynomial equation in $r$ called the characteristic equation. Every linearly independent solution corresponds to a root of that polynomial, and the general solution is a linear combination of all $n$ independent solutions.",
+  "anatomy": "The characteristic equation is the polynomial $a_n r^n + a_{n-1} r^{n-1} + \\cdots + a_1 r + a_0 = 0$ obtained after substituting $y = e^{rx}$. Its roots come in three flavors that each produce a different form of solution: a distinct real root $r = k$ gives $e^{kx}$; a repeated real root $r = k$ of multiplicity $m$ gives the $m$ independent functions $e^{kx}, xe^{kx}, x^2 e^{kx}, \\ldots, x^{m-1}e^{kx}$; and a pair of complex conjugate roots $r = \\alpha \\pm \\beta i$ gives $e^{\\alpha x}\\cos(\\beta x)$ and $e^{\\alpha x}\\sin(\\beta x)$. The general solution is $y = c_1 y_1 + c_2 y_2 + \\cdots + c_n y_n$ where the $c_i$ are arbitrary constants and the $y_i$ are all independent solutions assembled from the roots.",
+  "worked_example": [
+    {
+      "expression_latex": "y''' - 6y'' + 11y' - 6y = 0",
+      "description_latex": "We start with this third-order homogeneous equation with constant coefficients. Because it is third-order, we expect exactly three linearly independent solutions, so our general solution will have three arbitrary constants $c_1, c_2, c_3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^3 - 6r^2 + 11r - 6 = 0",
+      "description_latex": "We substitute $y = e^{rx}$, which turns each derivative $y^{(k)}$ into $r^k e^{rx}$. Factoring out $e^{rx}$ (which is never zero) leaves this characteristic polynomial, and we now need all three of its roots.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(r-1)(r-2)(r-3) = 0 \\implies r = 1,\\, 2,\\, 3",
+      "description_latex": "We factor the cubic \u2014 here it helps to test integer candidates using the rational root theorem: $r=1$ gives $1 - 6 + 11 - 6 = 0$, confirming it is a root, then synthetic division yields $(r-1)(r^2 - 5r + 6) = (r-1)(r-2)(r-3)$. All three roots are distinct and real, so each gives one independent exponential solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = c_1 e^{x} + c_2 e^{2x} + c_3 e^{3x}",
+      "description_latex": "Because the three roots $r = 1, 2, 3$ are distinct, each contributes exactly one basis function $e^{rx}$. We combine them with arbitrary constants to write the complete general solution, which contains exactly three free parameters as required for a third-order ODE.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y^{(4)} - 3y''' + 3y'' - y' = 0",
+      "description_latex": "We have a fourth-order homogeneous equation, so we will need four independent solutions. Start by substituting $y = e^{rx}$ to form the characteristic equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^4 - 3r^3 + 3r^2 - r = 0 \\implies r(r^3 - 3r^2 + 3r - 1) = 0",
+      "description_latex": "Notice that every term contains at least one factor of $r$, so we first factor out $r$. Now we need to factor the remaining cubic $r^3 - 3r^2 + 3r - 1$. Try $r = 1$: $1 - 3 + 3 - 1 = 0$, so $(r-1)$ is a factor. Factor completely and identify all roots including their multiplicities.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Factor $r^3 - 3r^2 + 3r - 1$ completely and list all four roots of the characteristic equation, noting any repeated roots and their multiplicity.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y = c_1 + c_2 e^{x} + c_3 x e^{x} + c_4 x^2 e^{x}",
+      "description_latex": "The roots are $r = 0$ (simple, giving constant $e^{0 \\cdot x} = 1$) and $r = 1$ with multiplicity 3 (giving $e^x, xe^x, x^2 e^x$). A repeated root of multiplicity $m$ at $r = k$ always contributes the $m$ functions $x^j e^{kx}$ for $j = 0, 1, \\ldots, m-1$, so the general solution is written above.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the general solution: $y''' - y'' - y' + y = 0$",
+      "answer_latex": "y = c_1 e^{x} + c_2 x e^{x} + c_3 e^{-x}"
+    },
+    {
+      "prompt_latex": "Find the general solution: $y''' + y'' - 4y' - 4y = 0$",
+      "answer_latex": "y = c_1 e^{-x} + c_2 e^{2x} + c_3 e^{-2x}"
+    },
+    {
+      "prompt_latex": "Find the general solution: $y^{(4)} - 5y'' + 4y = 0$",
+      "answer_latex": "y = c_1 e^{x} + c_2 e^{-x} + c_3 e^{2x} + c_4 e^{-2x}"
+    },
+    {
+      "prompt_latex": "Find the general solution: $y''' - y'' + y' - y = 0$ (Hint: factor by grouping)",
+      "answer_latex": "y = c_1 e^{x} + c_2 \\cos x + c_3 \\sin x"
+    },
+    {
+      "prompt_latex": "A physical system is modeled by $x'''' + 8x'' + 16x = 0$. Find the general solution $x(t)$ and describe the nature of the motion.",
+      "answer_latex": "x(t) = c_1 \\cos(2t) + c_2 \\sin(2t) + c_3 t\\cos(2t) + c_4 t\\sin(2t); \\text{ the motion is oscillatory at frequency } 2 \\text{ with amplitudes that grow linearly due to repeated complex roots } r = \\pm 2i \\text{ (multiplicity 2)}"
+    }
+  ],
+  "common_mistakes": [
+    "When a real root $r = k$ appears with multiplicity $m > 1$, students write only a single solution $e^{kx}$ instead of the full set $e^{kx}, xe^{kx}, \\ldots, x^{m-1}e^{kx}$; this produces too few basis functions and an incomplete general solution \u2014 always check that the total number of independent solutions equals the order $n$.",
+    "For a complex conjugate pair $r = \\alpha \\pm \\beta i$, students sometimes write $e^{(\\alpha + \\beta i)x}$ and $e^{(\\alpha - \\beta i)x}$ as the two solutions instead of converting via Euler's formula to $e^{\\alpha x}\\cos(\\beta x)$ and $e^{\\alpha x}\\sin(\\beta x)$; the complex exponential forms are valid but not real-valued, and exams almost always expect the trigonometric form.",
+    "Students forget to factor out common factors of $r$ when the characteristic polynomial has no constant term (i.e., $a_0 = 0$), missing the root $r = 0$ that corresponds to the constant solution $y = c$; always look for an obvious factor of $r$ before applying other factoring techniques."
+  ],
+  "untested_variants": [
+    "Characteristic equations with a repeated complex root pair, such as $r = \\pm i$ each with multiplicity 2, requiring solutions of the form $\\cos x, \\sin x, x\\cos x, x\\sin x$.",
+    "Initial value problems (IVPs) for third- or fourth-order equations where the student must apply $n$ initial conditions to determine all arbitrary constants after finding the general solution.",
+    "Equations where the characteristic polynomial cannot be factored by hand and requires numerical root-finding or given roots to proceed, testing whether the student can still assemble the general solution from pre-supplied roots.",
+    "Cauchy-Euler (equidimensional) higher-order equations such as $x^3 y''' + ax^2 y'' + bxy' + cy = 0$, which require the substitution $y = x^r$ rather than $y = e^{rx}$."
+  ]
+}

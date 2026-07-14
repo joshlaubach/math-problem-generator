@@ -1,0 +1,81 @@
+{
+  "topic_id": "la_065",
+  "topic_name": "Exterior Algebra and the Wedge Product (H)",
+  "generated_at": "2026-05-13T20:11:12.440094+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how the cross product of two vectors in $\\mathbb{R}^3$ captures area and orientation \u2014 $\\mathbf{u} \\times \\mathbf{v}$ flips sign when you swap the inputs, and it vanishes when the vectors are parallel. But the cross product is special to three dimensions: it has no natural generalization to $\\mathbb{R}^4$, $\\mathbb{R}^5$, or abstract vector spaces. What if you needed to measure oriented $k$-dimensional volume in any dimension, and build an algebra around it \u2014 how would you even begin to set that up?",
+  "concept": "The exterior algebra is an algebraic structure built from a vector space $V$ that encodes oriented area, volume, and higher-dimensional analogues. Its central operation is the wedge product $\\wedge$: given vectors $u, v \\in V$, their wedge $u \\wedge v$ is an element of the exterior algebra $\\Lambda(V)$ representing an oriented parallelogram. The key rules are multilinearity and the graded anti-commutativity law $u \\wedge v = -(v \\wedge u)$, which immediately forces $u \\wedge u = 0$.",
+  "anatomy": "The exterior algebra $\\Lambda(V)$ decomposes into graded pieces called exterior powers: $\\Lambda^0(V) \\cong \\mathbb{R}$, $\\Lambda^1(V) = V$, and $\\Lambda^k(V)$ for $k \\geq 2$, whose elements are called $k$-vectors or $k$-forms. A pure element $v_1 \\wedge v_2 \\wedge \\cdots \\wedge v_k \\in \\Lambda^k(V)$ is called a simple (or decomposable) $k$-blade; general elements of $\\Lambda^k(V)$ are sums of blades. The wedge product $\\wedge : \\Lambda^j(V) \\times \\Lambda^k(V) \\to \\Lambda^{j+k}(V)$ is the product operation, satisfying bilinearity and the graded rule $\\alpha \\wedge \\beta = (-1)^{jk}\\, \\beta \\wedge \\alpha$ for $\\alpha \\in \\Lambda^j$, $\\beta \\in \\Lambda^k$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Let } V = \\mathbb{R}^3 \\text{ with basis } e_1, e_2, e_3. \\text{ Compute } (2e_1 + e_2) \\wedge (e_1 + 3e_3).",
+      "description_latex": "We start by writing down what we need to expand. Because the wedge product is bilinear (linear in each slot separately), we can distribute it just like ordinary multiplication \u2014 but we must remember that it is anti-commutative, not commutative.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(2e_1 + e_2) \\wedge (e_1 + 3e_3) = 2e_1 \\wedge e_1 + 6e_1 \\wedge e_3 + e_2 \\wedge e_1 + 3e_2 \\wedge e_3",
+      "description_latex": "We expand by distributing the wedge product across both sums, producing four terms. Each term is a scalar times a wedge product of two basis vectors \u2014 this is exactly the same FOIL-style expansion you'd use for ordinary products, justified by bilinearity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2e_1 \\wedge e_1 = 0, \\quad e_2 \\wedge e_1 = -e_1 \\wedge e_2",
+      "description_latex": "Now we apply the two core rules: any vector wedged with itself is zero (because swapping the identical inputs must negate the result, so it equals its own negative), and swapping two vectors introduces a minus sign. These two simplifications are the heart of exterior algebra.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(2e_1 + e_2) \\wedge (e_1 + 3e_3) = 6\\, e_1 \\wedge e_3 - e_1 \\wedge e_2 + 3\\, e_2 \\wedge e_3",
+      "description_latex": "Substituting our simplifications, we collect the three surviving basis $2$-blades. Notice that $\\{e_1\\wedge e_2,\\, e_1\\wedge e_3,\\, e_2\\wedge e_3\\}$ forms a basis for $\\Lambda^2(\\mathbb{R}^3)$, which is $3$-dimensional \u2014 one dimension for each pair of coordinate directions, matching what you'd expect for oriented area in $\\mathbb{R}^3$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Compute } (e_1 - 2e_2) \\wedge (3e_1 + e_2 - e_3) \\text{ in } \\mathbb{R}^3.",
+      "description_latex": "We begin by expanding using bilinearity, distributing the wedge product across each sum exactly as we would distribute ordinary multiplication. Go ahead and write out all six terms before simplifying.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 3e_1\\wedge e_1 + e_1\\wedge e_2 - e_1\\wedge e_3 - 6e_2\\wedge e_1 - 2e_2\\wedge e_2 + 2e_2\\wedge e_3",
+      "description_latex": "Here are the six expanded terms. Now apply the rules $v \\wedge v = 0$ and $e_2 \\wedge e_1 = -e_1 \\wedge e_2$ to simplify and collect everything in terms of the standard basis $2$-blades $e_1\\wedge e_2$, $e_1\\wedge e_3$, $e_2\\wedge e_3$. What is the final simplified answer?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "= 7\\, e_1 \\wedge e_2 - e_1 \\wedge e_3 + 2\\, e_2 \\wedge e_3",
+      "description_latex": "The zero terms drop out, and $e_1\\wedge e_2 - 6e_2\\wedge e_1 = e_1\\wedge e_2 + 6e_1\\wedge e_2 = 7e_1\\wedge e_2$. This is the complete answer as an element of $\\Lambda^2(\\mathbb{R}^3)$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $e_1, e_2$ be the standard basis of $\\mathbb{R}^2$. Simplify $e_2 \\wedge e_1$.",
+      "answer_latex": "-\\, e_1 \\wedge e_2"
+    },
+    {
+      "prompt_latex": "In $\\mathbb{R}^3$, expand and simplify $(e_1 + e_2) \\wedge (e_1 + e_2)$.",
+      "answer_latex": "0"
+    },
+    {
+      "prompt_latex": "Compute $(3e_1 + 2e_2) \\wedge (e_2 + 4e_3)$ in $\\mathbb{R}^3$, expressing your answer in terms of the basis $2$-blades.",
+      "answer_latex": "3\\,e_1\\wedge e_2 + 12\\,e_1\\wedge e_3 + 2\\,e_2\\wedge e_3"
+    },
+    {
+      "prompt_latex": "In $\\mathbb{R}^4$ with basis $e_1,e_2,e_3,e_4$, compute $e_1\\wedge e_2\\wedge e_3 + e_3\\wedge e_1\\wedge e_2$ and simplify to a single multiple of $e_1\\wedge e_2\\wedge e_3$.",
+      "answer_latex": "2\\, e_1 \\wedge e_2 \\wedge e_3"
+    },
+    {
+      "prompt_latex": "Two vectors $u = e_1 + e_2$ and $v = e_1 + e_2 + te_3$ in $\\mathbb{R}^3$ span a parallelogram. Compute $u \\wedge v$ and use it to find the value(s) of $t$ for which the parallelogram has zero oriented area.",
+      "answer_latex": "u \\wedge v = t\\,e_1\\wedge e_3 + t\\,e_2\\wedge e_3 - t(e_1\\wedge e_3 + e_2\\wedge e_3) + \\ldots = t(e_2\\wedge e_3 - e_1\\wedge e_3);\\text{ zero area when } t = 0"
+    }
+  ],
+  "common_mistakes": [
+    "Students treat $\\wedge$ as commutative, writing $u \\wedge v = v \\wedge u$. This is wrong: anti-commutativity gives $u \\wedge v = -(v \\wedge u)$, so order matters; always track the sign when you swap any two factors.",
+    "Students forget to set $v \\wedge v = 0$ and instead leave terms like $e_1 \\wedge e_1$ in their answer as if they were nonzero. Because anti-commutativity forces $e_1 \\wedge e_1 = -e_1 \\wedge e_1$, the only solution is zero \u2014 always cancel these terms immediately.",
+    "When simplifying $e_j \\wedge e_i$ with $j > i$, students write $e_j \\wedge e_i = e_i \\wedge e_j$ (forgetting the sign) instead of $e_j \\wedge e_i = -e_i \\wedge e_j$. A reliable fix is to count the number of transpositions needed to sort the indices and multiply by $(-1)$ for each swap."
+  ],
+  "untested_variants": [
+    "Computing the wedge product of three or more vectors in $\\mathbb{R}^n$ for $n \\geq 4$, especially questions asking for a basis of $\\Lambda^3(\\mathbb{R}^4)$ and its dimension.",
+    "Using the wedge product to test linear independence: showing that $v_1, \\ldots, v_k$ are linearly dependent if and only if $v_1 \\wedge \\cdots \\wedge v_k = 0$.",
+    "The interior product (contraction) $\\iota_v : \\Lambda^k(V) \\to \\Lambda^{k-1}(V)$ and its interaction with the wedge product.",
+    "Expressing the determinant of an $n\\times n$ matrix in terms of the wedge product, specifically $Av_1 \\wedge \\cdots \\wedge Av_n = (\\det A)\\, v_1 \\wedge \\cdots \\wedge v_n$."
+  ]
+}
