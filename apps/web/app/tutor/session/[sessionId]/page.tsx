@@ -264,6 +264,15 @@ function QuizMeBanner({ onAccept, onDecline }: { onAccept: () => void; onDecline
 // ── Main page ──────────────────────────────────────────────────────────────────
 
 export default function TutorSessionPage() {
+  // useSearchParams requires a Suspense boundary for static prerender
+  return (
+    <React.Suspense fallback={null}>
+      <TutorSessionInner />
+    </React.Suspense>
+  )
+}
+
+function TutorSessionInner() {
   const { sessionId } = useParams<{ sessionId: string }>()
   const searchParams = useSearchParams()
   // Guest token arrives via sessionStorage (demo page hand-off); the query
