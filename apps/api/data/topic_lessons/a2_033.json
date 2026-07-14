@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_033",
+  "topic_name": "Radical Inequalities (H)",
+  "generated_at": "2026-05-12T23:27:27.335369+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to solve equations like $\\sqrt{x+3} = 5$ by squaring both sides and checking for extraneous solutions. You've also solved linear and quadratic inequalities by finding critical values and testing intervals. But what happens when you combine these ideas and face something like $\\sqrt{2x-1} \\leq x-2$? Squaring both sides of an inequality introduces new dangers \u2014 the direction of the inequality can flip, extraneous solutions can sneak in, and the domain restriction from the radical silently eliminates entire solution regions. How do you navigate all of that at once?",
+  "concept": "A radical inequality is an inequality that contains a variable under a radical sign. To solve one, you must respect the domain of the radical (the radicand must be non-negative for even-index radicals), isolate the radical, raise both sides to the appropriate power while tracking inequality direction, and then intersect your algebraic solution with the domain. Formally, for $f(x) = \\sqrt[n]{g(x)}$, we solve $\\sqrt[n]{g(x)} \\leq h(x)$ (or $\\geq$, $<$, $>$) by combining domain constraints with the resolved polynomial inequality.",
+  "anatomy": "Every radical inequality has three structural pieces you must track simultaneously. First, the **domain restriction**: for a square root $\\sqrt{g(x)}$, the radicand $g(x) \\geq 0$ must hold, giving a mandatory lower bound on $x$ before you do anything else. Second, the **isolation step**: the radical expression, such as $\\sqrt{2x-1}$, must be alone on one side so you can raise both sides to a power cleanly. Third, the **sign condition on the other side**: when you square both sides, the right-hand side $h(x)$ must be non-negative at any valid solution (because $\\sqrt{\\cdot}$ is never negative), which adds another constraint \u2014 so the full solution is the intersection of the domain, the sign condition, and the squared inequality.",
+  "worked_example": [
+    {
+      "expression_latex": "\\sqrt{3x + 4} \\leq x",
+      "description_latex": "We begin by identifying the problem we need to solve. Before touching the inequality symbol, we must establish the domain: the radicand $3x+4$ must satisfy $3x+4 \\geq 0$, giving $x \\geq -\\tfrac{4}{3}$. Additionally, since $\\sqrt{3x+4} \\geq 0$ always, the right side $x$ must also be non-negative for any solution to exist, so we need $x \\geq 0$. These two domain-type constraints will intersect with our answer at the end.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(\\sqrt{3x+4})^2 \\leq x^2 \\quad \\Rightarrow \\quad 3x + 4 \\leq x^2",
+      "description_latex": "Because both sides are non-negative (we established $x \\geq 0$ and the radical is always $\\geq 0$), squaring both sides preserves the direction of the inequality \u2014 this is the key rule: squaring is a valid step only when you know both sides are non-negative. We get the quadratic inequality $x^2 - 3x - 4 \\geq 0$ after rearranging.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 - 3x - 4 \\geq 0 \\quad \\Rightarrow \\quad (x-4)(x+1) \\geq 0",
+      "description_latex": "We factor the quadratic to find critical values $x = 4$ and $x = -1$. A quadratic that opens upward is $\\geq 0$ outside its roots, so the solution to this quadratic inequality alone is $x \\leq -1$ or $x \\geq 4$. This is only part of the answer \u2014 we still need to intersect with our domain.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Intersect: } (x \\leq -1 \\text{ or } x \\geq 4) \\cap (x \\geq 0)",
+      "description_latex": "Now we intersect the quadratic solution with the domain requirement $x \\geq 0$. The piece $x \\leq -1$ has no overlap with $x \\geq 0$, so it is entirely eliminated. The piece $x \\geq 4$ survives completely. This intersection step is what prevents us from reporting extraneous solutions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Solution: } x \\geq 4, \\quad \\text{i.e., } [4, \\infty)",
+      "description_latex": "We verify by checking a boundary point: at $x=4$, $\\sqrt{3(4)+4} = \\sqrt{16} = 4 \\leq 4$ \u2713, and a test point like $x=9$ gives $\\sqrt{31} \\approx 5.57 \\leq 9$ \u2713. The final answer is $[4, \\infty)$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\sqrt{x + 6} > x",
+      "description_latex": "Here we need to solve a radical inequality where the radical is strictly greater than $x$. Start by identifying the domain: we need $x + 6 \\geq 0$, so $x \\geq -6$. Now, because $\\sqrt{x+6} \\geq 0$, any negative value of $x$ automatically satisfies $\\sqrt{x+6} > x$ (a non-negative number is always greater than a negative). So all $x$ in $[-6, 0)$ are solutions immediately. For $x \\geq 0$, both sides are non-negative, so we can safely square both sides.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x + 6 > x^2 \\quad \\Rightarrow \\quad x^2 - x - 6 < 0",
+      "description_latex": "After squaring (valid for $x \\geq 0$), we rearrange to get the quadratic inequality $x^2 - x - 6 < 0$. Factor this expression and find the interval where it is strictly negative \u2014 that gives the part of the solution that comes from the $x \\geq 0$ region.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Factor $x^2 - x - 6$ and solve the inequality $x^2 - x - 6 < 0$. Write the solution interval, then intersect it with $x \\geq 0$ to get the contribution from this region. What values of $x$ (with $x \\geq 0$) satisfy the original inequality?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Full solution: } [-6, 3)",
+      "description_latex": "Combine the two pieces: the automatic solutions $[-6, 0)$ and the squared-inequality solutions from $x \\geq 0$, which should be $[0, 3)$, merge into the single interval $[-6, 3)$. Always check the boundary: at $x = 3$, $\\sqrt{9} = 3 \\not> 3$, confirming 3 is excluded.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve: } \\sqrt{x - 1} \\leq 3",
+      "answer_latex": "1 \\leq x \\leq 10, \\text{ i.e., } [1, 10]"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\sqrt{2x + 5} \\geq x",
+      "answer_latex": "[-\\tfrac{5}{2}, 5], \\text{ noting all } x \\in [-\\tfrac{5}{2}, 0) \\text{ are automatic solutions and squaring for } x \\geq 0 \\text{ gives } x \\leq 5"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\sqrt{x^2 - 4} < 3",
+      "answer_latex": "-\\sqrt{13} < x < -2 \\text{ or } 2 \\leq x < \\sqrt{13}, \\text{ combined: } [-\\sqrt{13}, -2) \\cup ... \\text{ wait \u2014 domain requires } x \\leq -2 \\text{ or } x \\geq 2; \\text{ intersection gives } [-\\sqrt{13}, -2] \\cup [2, \\sqrt{13})"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\sqrt{3x - 2} > x + 1",
+      "answer_latex": "\\tfrac{3}{4} \\leq x < 3, \\text{ i.e., } [\\tfrac{3}{4}, 3)"
+    },
+    {
+      "prompt_latex": "A projectile's height in feet is modeled by $h = \\sqrt{64 - 16t^2}$ for $0 \\leq t \\leq 2$. For what values of $t$ is the height at least 4 feet? (Here $h \\geq 4$.)",
+      "answer_latex": "0 \\leq t \\leq \\sqrt{\\tfrac{15}{4}} = \\tfrac{\\sqrt{15}}{2} \\approx 1.94 \\text{ seconds}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to impose the domain restriction from the radicand before solving, then report solutions where the radical is undefined \u2014 always set the radicand $\\geq 0$ first and intersect that constraint with your final answer.",
+    "When squaring both sides to remove the radical, students forget to check whether the other side is non-negative, squaring even when $h(x)$ could be negative \u2014 this introduces extraneous solutions, so you must separately verify that $h(x) \\geq 0$ at any proposed solution, or handle the negative-right-side case (where no solution exists for $>$ and the entire valid domain is a solution for $<$) before squaring.",
+    "After solving the squared quadratic inequality, students report that solution set as the final answer without intersecting it with the domain and sign conditions, leading to intervals that make the original radical undefined or that violate $\\sqrt{\\cdot} \\geq 0$ \u2014 always end by intersecting all constraint sets."
+  ],
+  "untested_variants": [
+    "Radical inequalities involving cube roots $\\sqrt[3]{g(x)} \\geq h(x)$, where there is no domain restriction and squaring rules differ (you cube both sides, and the inequality direction is always preserved since $f(x)=x^3$ is increasing).",
+    "Inequalities with two separate radical terms, such as $\\sqrt{x+1} + \\sqrt{x-1} \\leq 4$, which require isolating one radical, squaring, then isolating and squaring again.",
+    "Radical inequalities where the coefficient or expression in front of the radical affects domain analysis, such as $2\\sqrt{x-3} - x > -1$, combined with a prior-unit topic like systems of inequalities to find a shared solution region.",
+    "Graphical interpretation problems where students are given the graphs of $y = \\sqrt{f(x)}$ and $y = g(x)$ and must read off the solution interval of $\\sqrt{f(x)} \\leq g(x)$ from the graph rather than solving algebraically."
+  ]
+}

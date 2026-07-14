@@ -1,0 +1,81 @@
+{
+  "topic_id": "c2_016",
+  "topic_name": "Polar Coordinates and Graphs",
+  "generated_at": "2026-05-13T00:22:38.416517+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to plot points using $(x, y)$ coordinates, and you can graph circles, lines, and parabolas with Cartesian equations. But what if I told you that the equation of a circle of radius 3 centered at the origin is simply $r = 3$, or that a beautiful flower-petal curve comes from $r = \\cos(2\\theta)$? Cartesian coordinates make these shapes surprisingly messy to write down, yet in a different coordinate system they become almost trivially simple. How can we use distance from a center point and an angle to describe any location in the plane, and what kinds of curves does this unlock?",
+  "concept": "Polar coordinates describe a point's location using two pieces of information: $r$, the distance from a fixed origin called the pole, and $\\theta$, the angle measured counterclockwise from the positive $x$-axis (called the polar axis). Formally, the point $(r, \\theta)$ in polar coordinates corresponds to the Cartesian point $(x, y) = (r\\cos\\theta,\\, r\\sin\\theta)$, with the inverse relations $r^2 = x^2 + y^2$ and $\\tan\\theta = y/x$. Negative values of $r$ are allowed and place the point in the opposite direction.",
+  "anatomy": "A polar coordinate pair $(r, \\theta)$ has three essential components. The pole is the fixed reference point at the origin, analogous to the Cartesian origin. The polar axis is the reference ray pointing in the positive $x$-direction from the pole, from which all angles $\\theta$ are measured. The radial coordinate $r$ is the signed distance from the pole to the point \u2014 positive means the point is in the direction of $\\theta$, while negative means it is reflected through the pole. The angular coordinate $\\theta$ is measured in radians counterclockwise from the polar axis; it is not unique, since $\\theta$ and $\\theta + 2\\pi k$ (for any integer $k$) name the same direction, making every point representable by infinitely many polar pairs.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Convert } \\left(r, \\theta\\right) = \\left(4, \\tfrac{\\pi}{3}\\right) \\text{ to Cartesian coordinates.}",
+      "description_latex": "We start by identifying the conversion formulas $x = r\\cos\\theta$ and $y = r\\sin\\theta$, because these formulas are the direct bridge from the polar description (distance and angle) to the Cartesian description (horizontal and vertical position). Here $r = 4$ and $\\theta = \\pi/3$, so we simply substitute these values into each formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 4\\cos\\!\\left(\\tfrac{\\pi}{3}\\right) = 4 \\cdot \\tfrac{1}{2} = 2, \\qquad y = 4\\sin\\!\\left(\\tfrac{\\pi}{3}\\right) = 4 \\cdot \\tfrac{\\sqrt{3}}{2} = 2\\sqrt{3}",
+      "description_latex": "We evaluate each trigonometric value using the unit circle: $\\cos(\\pi/3) = 1/2$ and $\\sin(\\pi/3) = \\sqrt{3}/2$. Multiplying each by $r = 4$ gives the Cartesian coordinates, so the point is $(2,\\, 2\\sqrt{3})$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Verify: } r^2 = 2^2 + (2\\sqrt{3})^2 = 4 + 12 = 16,\\; r = 4. \\checkmark",
+      "description_latex": "As a sanity check we use $r^2 = x^2 + y^2$ to confirm that the Cartesian point really is distance 4 from the origin, which matches our original $r = 4$. This verification step is quick and catches arithmetic errors before they propagate.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Identify and sketch the polar curve } r = 2\\cos\\theta.",
+      "description_latex": "Our strategy is to convert the polar equation to Cartesian form, because a recognizable Cartesian equation will tell us exactly what shape this curve is. We begin by multiplying both sides by $r$ to create $r^2$ on the left, which we can immediately replace with $x^2 + y^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 = 2r\\cos\\theta \\implies x^2 + y^2 = 2x",
+      "description_latex": "We used $r^2 = x^2 + y^2$ and $r\\cos\\theta = x$ to rewrite the equation in Cartesian variables. Now we need to complete the square on $x$ to put this into standard circle form \u2014 try that next.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Complete the square in $x$ by rewriting $x^2 - 2x + y^2 = 0$ into the standard form $(x - h)^2 + y^2 = R^2$. What are the center and radius of this circle?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "(x-1)^2 + y^2 = 1 \\implies \\text{circle centered at } (1, 0) \\text{ with radius } 1",
+      "description_latex": "Adding 1 to both sides after grouping gives a perfect square on the left, revealing a circle of radius 1 centered at the Cartesian point $(1, 0)$. This circle passes through the origin because the pole $(0,0)$ satisfies the equation, which is a signature feature of polar circles of the form $r = a\\cos\\theta$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Convert the polar point $\\left(5,\\, \\dfrac{\\pi}{2}\\right)$ to Cartesian coordinates.",
+      "answer_latex": "(0,\\; 5)"
+    },
+    {
+      "prompt_latex": "Convert the Cartesian point $(-3,\\; 3)$ to polar coordinates $(r, \\theta)$ with $r > 0$ and $0 \\le \\theta < 2\\pi$.",
+      "answer_latex": "\\left(3\\sqrt{2},\\; \\dfrac{3\\pi}{4}\\right)"
+    },
+    {
+      "prompt_latex": "Identify the polar curve $r = 6\\sin\\theta$ by converting it to Cartesian form and state its center and radius.",
+      "answer_latex": "x^2 + (y-3)^2 = 9;\\; \\text{center } (0, 3),\\; \\text{radius } 3"
+    },
+    {
+      "prompt_latex": "Find all polar coordinate representations (with $r > 0$ and $r < 0$) of the Cartesian point $(0, -2)$ that satisfy $-2\\pi \\le \\theta \\le 2\\pi$.",
+      "answer_latex": "\\left(2,\\; -\\tfrac{\\pi}{2}\\right),\\;\\left(2,\\; \\tfrac{3\\pi}{2}\\right),\\;\\left(-2,\\; \\tfrac{\\pi}{2}\\right),\\;\\left(-2,\\; -\\tfrac{3\\pi}{2}\\right)"
+    },
+    {
+      "prompt_latex": "A radar dish sweeps counterclockwise and detects an aircraft at distance $r = 8$ nautical miles when the sweep arm is at angle $\\theta = 210^\\circ$ from due east. Give the aircraft's position in Cartesian coordinates $(x, y)$, where east is the positive $x$-direction and north is positive $y$.",
+      "answer_latex": "\\left(-4\\sqrt{3},\\; -4\\right)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that polar representations are not unique and assume every point has exactly one $(r, \\theta)$ pair. In reality $(r, \\theta)$ and $(-r, \\theta + \\pi)$ represent the same point, so when checking whether two polar curves intersect at a given point, you must test multiple representations of each point, not just the 'standard' one.",
+    "When converting a Cartesian point to polar form, students apply $\\tan\\theta = y/x$ and take $\\theta = \\arctan(y/x)$ without checking which quadrant the point is in. Because $\\arctan$ always returns values in $(-\\pi/2, \\pi/2)$, a point in the second or third quadrant will yield the wrong angle \u2014 you must add $\\pi$ if $x < 0$.",
+    "Students try to identify the curve $r = a\\cos\\theta$ or $r = a\\sin\\theta$ without first multiplying both sides by $r$. Skipping this step means they cannot use the substitutions $r^2 = x^2 + y^2$, $r\\cos\\theta = x$, and $r\\sin\\theta = y$, so the conversion fails; always multiply by $r$ first."
+  ],
+  "untested_variants": [
+    "Graphing rose curves such as $r = \\cos(n\\theta)$ or $r = \\sin(n\\theta)$ and determining the number of petals from the parity of $n$.",
+    "Graphing lima\u00e7ons of the form $r = a + b\\cos\\theta$ and classifying them as inner-loop, cardioid, dimpled, or convex based on the ratio $|a/b|$.",
+    "Finding the slope of the tangent line to a polar curve at a specific point using $dy/dx = (dr/d\\theta\\cdot\\sin\\theta + r\\cos\\theta)/(dr/d\\theta\\cdot\\cos\\theta - r\\sin\\theta)$.",
+    "Determining points of intersection of two polar curves, including hidden intersections that appear only when alternate representations of a point are considered."
+  ]
+}

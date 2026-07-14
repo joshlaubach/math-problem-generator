@@ -1,0 +1,91 @@
+{
+  "topic_id": "cm_040",
+  "topic_name": "Estimation and Bounding",
+  "generated_at": "2026-05-13T20:25:00.786893+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to compute things exactly \u2014 but in competitions, sometimes the numbers are ugly, the algebra is messy, or you just need to confirm which answer choice is right without doing full arithmetic. Suppose you need to decide whether $\\frac{99 \\cdot 101}{100}$ is greater than, equal to, or less than $100$, in under ten seconds. You could multiply it out, but is there a faster way to see the answer? The challenge is: how do you get reliable conclusions without doing all the work?",
+  "concept": "Estimation and bounding means deliberately replacing a hard quantity with a simpler one that is provably larger or smaller, so you can pin the true value between two known numbers. Formally, if you can show $L \\leq X \\leq U$ for some easy-to-compute $L$ (lower bound) and $U$ (upper bound), you have bounded $X$ \u2014 even without ever computing $X$ exactly.",
+  "anatomy": "Every bounding argument has three structural parts: the target quantity $X$, which is the expression or number you are trying to understand; the lower bound $L$, a value you can prove is less than or equal to $X$; and the upper bound $U$, a value you can prove is greater than or equal to $X$. The gap $U - L$ is called the width of the bound \u2014 a narrow width means the estimate is tight and highly informative, while a wide width may still be enough to answer a yes/no comparison question.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Estimate } S = \\frac{1}{1^2} + \\frac{1}{2^2} + \\frac{1}{3^2} + \\cdots + \\frac{1}{100^2}",
+      "description_latex": "We want to know roughly how large this sum is. Because computing 100 exact fractions is impractical under competition conditions, we will bound each term above and below by something whose sum we can evaluate in closed form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{1}{k^2} \\leq \\frac{1}{k(k-1)} = \\frac{1}{k-1} - \\frac{1}{k} \\quad \\text{for } k \\geq 2",
+      "description_latex": "We replace the harder term $\\frac{1}{k^2}$ with the telescoping fraction $\\frac{1}{k(k-1)}$, which is larger because $k(k-1) < k^2$. This replacement gives us an upper bound whose sum collapses beautifully.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S \\leq 1 + \\sum_{k=2}^{100}\\left(\\frac{1}{k-1} - \\frac{1}{k}\\right) = 1 + \\left(1 - \\frac{1}{100}\\right) = 2 - \\frac{1}{100} < 2",
+      "description_latex": "The telescoping sum collapses to $1 - \\frac{1}{100}$, so $S < 2$. We have established the upper bound $U = 2$ with almost no computation \u2014 this is the power of choosing a bound that telescopes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S > \\frac{1}{1^2} + \\frac{1}{2^2} + \\frac{1}{3^2} + \\frac{1}{4^2} > 1 + 0.25 + 0.11 + 0.0625 > 1.4",
+      "description_latex": "For the lower bound, we simply compute the first four terms exactly and note that all remaining terms are positive, so $S > 1.4$. Even this crude lower bound tells us $S$ is meaningfully greater than 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1.4 < S < 2",
+      "description_latex": "Combining both bounds, we conclude the sum lies strictly between $1.4$ and $2$. In a competition asking which answer choice matches $S$, this immediately eliminates any option outside this interval \u2014 and the true value $\\frac{\\pi^2}{6} \\approx 1.645$ is indeed captured here.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Show that } 2^{10} \\cdot 5^{10} < 10^{11}",
+      "description_latex": "We want to compare $2^{10} \\cdot 5^{10}$ to $10^{11}$. Notice that $2^{10} \\cdot 5^{10} = (2 \\cdot 5)^{10} = 10^{10}$, so the question reduces to whether $10^{10} < 10^{11}$, which is clearly true. Let's now try a harder variant: determine whether $\\prod_{k=1}^{10}(k+1)/k$ simplifies in a useful way.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Is } \\sqrt{2} + \\sqrt{3} \\text{ greater than or less than } \\sqrt{10}\\,?",
+      "description_latex": "To avoid dealing with nested radicals directly, we will square both sides of the comparison \u2014 this is valid because both sides are positive. Squaring the left side gives $(\\sqrt{2}+\\sqrt{3})^2 = 2 + 2\\sqrt{6} + 3 = 5 + 2\\sqrt{6}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compare $5 + 2\\sqrt{6}$ to $10$. This means deciding whether $2\\sqrt{6}$ is greater than or less than $5$, which means deciding whether $\\sqrt{6}$ is greater than or less than $2.5$. Square both sides of that comparison and state your conclusion about the original inequality.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\sqrt{2} + \\sqrt{3} < \\sqrt{10}",
+      "description_latex": "Because $\\sqrt{6} < 2.5$ (since $6 < 6.25 = 2.5^2$), we get $5 + 2\\sqrt{6} < 10$, so $(\\sqrt{2}+\\sqrt{3})^2 < 10$, and therefore $\\sqrt{2}+\\sqrt{3} < \\sqrt{10}$. Notice how bounding a radical by squaring turned a hard comparison into an easy one.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Without a calculator, determine whether $\\frac{99 \\cdot 101}{100}$ is greater than, equal to, or less than $100$.",
+      "answer_latex": "\\frac{99 \\cdot 101}{100} = \\frac{100^2 - 1}{100} = 100 - \\frac{1}{100} < 100"
+    },
+    {
+      "prompt_latex": "Find integers $a$ and $b$ with $b - a = 1$ such that $a < \\log_2 1000 < b$.",
+      "answer_latex": "a = 9,\\ b = 10 \\quad (\\text{since } 2^9 = 512 < 1000 < 1024 = 2^{10})"
+    },
+    {
+      "prompt_latex": "Prove that $\\displaystyle\\sum_{k=1}^{n} \\frac{1}{\\sqrt{k}} > \\sqrt{n}$ for all integers $n \\geq 1$ by using the bound $\\frac{1}{\\sqrt{k}} > \\frac{2}{\\sqrt{k}+\\sqrt{k-1}}$ for $k \\geq 2$.",
+      "answer_latex": "\\frac{1}{\\sqrt{k}} > \\frac{2}{\\sqrt{k}+\\sqrt{k+1}} = 2(\\sqrt{k+1}-\\sqrt{k}),\\text{ so } S_n > 2(\\sqrt{n+1}-1) > \\sqrt{n} \\text{ for } n \\geq 1"
+    },
+    {
+      "prompt_latex": "Using AM-GM or bounding, prove that for positive reals $a, b$ with $a + b = 1$, the product $a^2 b^2 \\leq \\frac{1}{16}$, and determine when equality holds.",
+      "answer_latex": "ab \\leq \\left(\\frac{a+b}{2}\\right)^2 = \\frac{1}{4} \\text{ by AM-GM, so } a^2b^2 \\leq \\frac{1}{16}; \\text{ equality when } a = b = \\frac{1}{2}"
+    },
+    {
+      "prompt_latex": "A competition problem asks: how many digits does $2^{100}$ have? Use the bound $0.301 < \\log_{10} 2 < 0.3011$ to give the exact digit count.",
+      "answer_latex": "\\lfloor 100 \\log_{10} 2 \\rfloor + 1 = \\lfloor 30.1\\ldots \\rfloor + 1 = 31 \\text{ digits}"
+    }
+  ],
+  "common_mistakes": [
+    "Students replace a term with a bound that goes in the wrong direction \u2014 for instance, replacing $\\frac{1}{k^2}$ with something smaller when they need an upper bound. Always ask yourself: does my replacement make the expression larger (upper bound) or smaller (lower bound), and is that the direction I need for my conclusion?",
+    "Students square an inequality without checking that both sides are positive first. If one side could be negative, squaring reverses the inequality, leading to a wrong conclusion \u2014 always confirm both sides are non-negative before squaring a comparison.",
+    "Students treat a bounding argument as complete after establishing only one side. If a problem asks you to determine the exact value (or the correct answer choice), you need both a lower and upper bound that are close enough to isolate the answer \u2014 stopping at only the upper bound leaves the conclusion unfinished."
+  ],
+  "untested_variants": [
+    "Bounding sums or products that involve factorials, such as estimating $n!$ using Stirling-type inequalities or simple exponential bounds like $2^n < n! < n^n$.",
+    "Using the squeeze theorem style of bounding to evaluate limits in olympiad-style problems, where both bounds converge to the same value.",
+    "Bounding geometric quantities \u2014 for example, trapping the area of a region between inscribed and circumscribed polygons \u2014 which appears in competition geometry and combinatorics.",
+    "Bounding expressions involving floor and ceiling functions, such as showing $\\lfloor \\sqrt{n} \\rfloor + \\lfloor \\sqrt{n+1} \\rfloor$ lies in a specific range."
+  ]
+}

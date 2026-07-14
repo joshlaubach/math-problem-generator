@@ -1,0 +1,81 @@
+{
+  "topic_id": "la_025",
+  "topic_name": "Affine Subspaces (H)",
+  "generated_at": "2026-05-13T20:07:10.085503+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that a subspace of a vector space must contain the zero vector and be closed under addition and scalar multiplication. But what if you want to describe a flat geometric object \u2014 like a line or plane in $\\mathbb{R}^3$ \u2014 that doesn't pass through the origin? Such a set fails every subspace test, yet it has a perfectly rigid, flat structure worth studying. How do we describe and work with these 'shifted' subspaces that live away from the origin?",
+  "concept": "An affine subspace is what you get when you take an ordinary subspace and shift it by a fixed vector. Formally, if $W$ is a subspace of a vector space $V$ and $\\mathbf{v} \\in V$ is any fixed vector, the affine subspace (or coset) is the set $\\mathbf{v} + W = \\{\\mathbf{v} + \\mathbf{w} : \\mathbf{w} \\in W\\}$. It has the same 'shape' and dimension as $W$, but is translated away from the origin unless $\\mathbf{v} \\in W$.",
+  "anatomy": "An affine subspace $\\mathbf{v} + W$ has three key components. The directing subspace (also called the parallel subspace or direction space) $W$ is the underlying linear subspace that determines the dimension and orientation of the affine subspace \u2014 it controls all possible displacement directions. The offset vector (or translation vector) $\\mathbf{v}$ is a specific chosen point in the affine subspace that anchors its position in $V$; crucially, the same affine subspace has many valid offset vectors, since any $\\mathbf{u} \\in \\mathbf{v} + W$ can serve as the offset. The dimension of the affine subspace is defined to be $\\dim W$, so a 1-dimensional affine subspace is an affine line, and a 2-dimensional one is an affine plane.",
+  "worked_example": [
+    {
+      "expression_latex": "S = \\{(x, y, z) \\in \\mathbb{R}^3 : x + 2y - z = 4\\}",
+      "description_latex": "We start with this solution set and want to express it as an affine subspace $\\mathbf{v} + W$. The first move is always to find one particular solution \u2014 any point in $S$ \u2014 to serve as the offset vector. Setting $y = 0$ and $z = 0$ gives $x = 4$, so $\\mathbf{v} = (4, 0, 0)$ is our anchor point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = \\{(x, y, z) \\in \\mathbb{R}^3 : x + 2y - z = 0\\}",
+      "description_latex": "Next we identify the directing subspace $W$ by replacing the constant on the right-hand side with $0$, turning the equation into a homogeneous one. This is always the right move: the directions in which we can move inside $S$ are exactly the solutions to the associated homogeneous equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = \\operatorname{span}\\{(-2, 1, 0),\\, (1, 0, 1)\\}",
+      "description_latex": "We find a basis for $W$ by freely choosing $y$ and $z$ as parameters (since $x = -2y + z$), giving vectors $(-2,1,0)$ when $(y,z)=(1,0)$ and $(1,0,1)$ when $(y,z)=(0,1)$. This shows $W$ is a 2-dimensional subspace \u2014 it is a plane through the origin \u2014 so $S$ is a 2-dimensional affine subspace (an affine plane).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = (4, 0, 0) + \\operatorname{span}\\{(-2, 1, 0),\\, (1, 0, 1)\\}",
+      "description_latex": "We now write the final affine description by combining the offset vector with the directing subspace. Every point in $S$ can be written as $(4,0,0) + s(-2,1,0) + t(1,0,1)$ for some $s, t \\in \\mathbb{R}$, which is the standard parametric form of an affine plane.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "S = \\{(x, y, z) \\in \\mathbb{R}^3 : 2x - y + 3z = 6\\}",
+      "description_latex": "We want to express $S$ as an affine subspace $\\mathbf{v} + W$. Begin by finding one particular solution to $2x - y + 3z = 6$ to use as the offset vector $\\mathbf{v}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{v} = (3, 0, 0), \\quad W = \\{(x,y,z): 2x - y + 3z = 0\\}",
+      "description_latex": "Good \u2014 now identify the directing subspace $W$ by writing the homogeneous equation, then find a basis for $W$ by parametrizing the free variables. What is $W$ as a span?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "S = (3, 0, 0) + \\operatorname{span}\\{(1, 2, 0),\\, (-3, 0, 2)\\}",
+      "description_latex": "Using $y$ and $z$ as free parameters with $x = \\frac{y - 3z}{2}$, the basis vectors are $\\left(\\frac{1}{2}, \\frac{1}{1}, 0\\right)$... actually letting $y=2, z=0$ gives $(1,2,0)$ and $y=0, z=2$ gives $(-3,0,2)$. Now write the complete affine decomposition $S = \\mathbf{v} + W$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $W = \\operatorname{span}\\{(1,2)\\} \\subset \\mathbb{R}^2$ and $\\mathbf{v} = (0, 3)$. List three distinct points in the affine subspace $\\mathbf{v} + W$.",
+      "answer_latex": "(0,3),\\; (1,5),\\; (-1,1) \\text{ (any three points of the form } (t, 3+2t))"
+    },
+    {
+      "prompt_latex": "Express the solution set $S = \\{(x,y) \\in \\mathbb{R}^2 : 3x - y = 5\\}$ in the form $\\mathbf{v} + W$, identifying the offset vector $\\mathbf{v}$ and the directing subspace $W$.",
+      "answer_latex": "\\mathbf{v} = \\left(\\frac{5}{3}, 0\\right),\\quad W = \\operatorname{span}\\{(1,3)\\}"
+    },
+    {
+      "prompt_latex": "Determine whether the two representations $(1,0,0) + \\operatorname{span}\\{(0,1,0),(0,0,1)\\}$ and $(1,2,-3) + \\operatorname{span}\\{(0,1,0),(0,0,1)\\}$ define the same affine subspace in $\\mathbb{R}^3$. Justify your answer.",
+      "answer_latex": "\\text{Yes. The difference } (1,2,-3)-(1,0,0)=(0,2,-3)\\in \\operatorname{span}\\{(0,1,0),(0,0,1)\\}, \\text{ so both cosets are equal.}"
+    },
+    {
+      "prompt_latex": "Let $T: \\mathbb{R}^3 \\to \\mathbb{R}^2$ be the linear map with matrix $A = \\begin{pmatrix}1 & 0 & -1 \\\\ 0 & 1 & 2\\end{pmatrix}$ and let $\\mathbf{b} = \\begin{pmatrix}3 \\\\ -1\\end{pmatrix}$. Express the preimage $T^{-1}(\\mathbf{b}) = \\{\\mathbf{x} \\in \\mathbb{R}^3 : A\\mathbf{x} = \\mathbf{b}\\}$ as an affine subspace, giving the offset vector and directing subspace explicitly.",
+      "answer_latex": "\\mathbf{v} = (3,-1,0),\\quad W = \\operatorname{null}(A) = \\operatorname{span}\\{(1,-2,1)\\}"
+    },
+    {
+      "prompt_latex": "A computer graphics designer represents a 2D affine line in $\\mathbb{R}^3$ as all points of the form $\\mathbf{p} + t\\mathbf{d}$ for $t \\in \\mathbb{R}$, where $\\mathbf{p} = (1,1,2)$ and $\\mathbf{d} = (2,-1,0)$. Write this as a coset $\\mathbf{v} + W$ and verify that the point $(3,0,2)$ lies on this line but $(1,1,3)$ does not.",
+      "answer_latex": "\\mathbf{v}=(1,1,2),\\; W=\\operatorname{span}\\{(2,-1,0)\\};\\; (3,0,2)=(1,1,2)+1\\cdot(2,-1,0)\\in S,\\; (1,1,3)-(1,1,2)=(0,0,1)\\notin W \\text{ so } (1,1,3)\\notin S."
+    }
+  ],
+  "common_mistakes": [
+    "Students often assume the offset vector $\\mathbf{v}$ in $\\mathbf{v} + W$ must be unique, but every point in the affine subspace is a valid offset. The fix: remember that $\\mathbf{v}_1 + W = \\mathbf{v}_2 + W$ if and only if $\\mathbf{v}_1 - \\mathbf{v}_2 \\in W$, so there are infinitely many correct choices of $\\mathbf{v}$.",
+    "Students confuse the dimension of the affine subspace with the dimension of the ambient space, sometimes calling $\\mathbf{v} + W$ 'three-dimensional' because it lives in $\\mathbb{R}^3$. The fix: the dimension of an affine subspace is always $\\dim W$, the dimension of its directing subspace, regardless of the ambient space.",
+    "When checking whether two affine subspaces are equal, students verify only that their directing subspaces match, ignoring whether the offset vectors are compatible. The fix: two cosets $\\mathbf{v}_1 + W$ and $\\mathbf{v}_2 + W$ with the same $W$ are equal if and only if $\\mathbf{v}_1 - \\mathbf{v}_2 \\in W$; equal directing subspaces alone are not sufficient."
+  ],
+  "untested_variants": [
+    "Intersection of two affine subspaces: determining whether $\\mathbf{v}_1 + W_1$ and $\\mathbf{v}_2 + W_2$ intersect and, if so, describing the intersection as an affine subspace.",
+    "Affine maps and their images: showing that the image of an affine subspace under a linear map is again an affine subspace, and computing its directing subspace and offset.",
+    "Affine independence and affine combinations: determining whether a set of points is affinely independent and expressing points as affine combinations (where coefficients sum to 1) rather than linear combinations.",
+    "Affine subspaces in infinite-dimensional or abstract vector spaces, such as spaces of polynomials or continuous functions, where a solution to a non-homogeneous differential or functional equation forms an affine subspace."
+  ]
+}

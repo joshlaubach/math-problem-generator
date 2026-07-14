@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_026",
+  "topic_name": "Symmetry (Line and Rotational)",
+  "generated_at": "2026-05-12T23:00:38.113435+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to reflect and rotate shapes, and you've probably noticed that some figures look exactly the same after a flip or a spin. But can you precisely determine how many lines of symmetry a regular hexagon has, or explain why a starfish has rotational symmetry of order 5 but not order 4? There's a formal framework for measuring this 'sameness after transformation' that goes beyond just eyeballing it \u2014 and it raises a key question: how do we rigorously define and count the symmetries a figure possesses?",
+  "concept": "A figure has symmetry if a transformation maps it exactly onto itself. Line symmetry (also called reflective symmetry) means there exists a line \u2014 the line of symmetry \u2014 such that reflecting the figure across that line produces an identical image. Rotational symmetry means the figure maps onto itself after a rotation of less than $360\u00b0$ about a center point. The order of rotational symmetry is the number of times the figure coincides with itself during a full $360\u00b0$ rotation.",
+  "anatomy": "For line symmetry, the key components are: the line of symmetry (the mirror line dividing the figure into two congruent halves), and the reflected image (each point on one side maps to a corresponding point equidistant on the other side). For rotational symmetry, the components are: the center of rotation (the fixed point about which the figure turns), the angle of rotation (equal to $\\frac{360\u00b0}{n}$ where $n$ is the order), and the order $n$ itself (the count of distinct positions, including the original, where the figure looks identical). A figure with order $n = 1$ has no true rotational symmetry.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Regular pentagon: How many lines of symmetry does it have?}",
+      "description_latex": "We start by recalling that a regular pentagon has 5 equal sides and 5 equal interior angles. For regular polygons, each line of symmetry either connects a vertex to the midpoint of the opposite side, so our first job is to count how many such lines exist.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Lines of symmetry} = 5 \\text{ (one through each vertex and its opposite midpoint)}",
+      "description_latex": "Since there are 5 vertices and each one pairs with the midpoint of the side directly across from it, we get exactly 5 distinct lines of symmetry. Notice that for a regular polygon with an odd number of sides, every line of symmetry connects a vertex to a midpoint \u2014 there are no 'midpoint-to-midpoint' lines.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Order of rotational symmetry: } n = 5, \\quad \\text{angle} = \\frac{360\u00b0}{5} = 72\u00b0",
+      "description_latex": "Now we find the rotational symmetry. A regular pentagon maps onto itself every time we rotate it by $72\u00b0$ about its center, so we can rotate by $72\u00b0, 144\u00b0, 216\u00b0, 288\u00b0,$ or $360\u00b0$ (back to start) \u2014 that's 5 distinct positions, giving order $n = 5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Summary: } 5 \\text{ lines of symmetry, rotational symmetry of order } 5",
+      "description_latex": "For any regular $n$-gon, both the number of lines of symmetry and the order of rotational symmetry equal $n$. This is a powerful shortcut: if you can identify that a shape is a regular polygon, you immediately know both types of symmetry without drawing anything.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Rectangle (non-square): Find all lines of symmetry and the order of rotational symmetry.}",
+      "description_latex": "We begin by thinking about whether a rectangle can be folded onto itself. A rectangle has two pairs of equal sides, so we should look for fold lines that match the shape perfectly. Try folding horizontally (through the midpoints of the top and bottom sides) and vertically (through the midpoints of the left and right sides) \u2014 both work, giving us 2 lines of symmetry. The diagonals do NOT work as lines of symmetry for a non-square rectangle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Lines of symmetry} = 2",
+      "description_latex": "We've established the 2 lines of symmetry. Now we need to determine the order of rotational symmetry by asking: for what angles less than $360\u00b0$ does the rectangle map onto itself when rotated about its center?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Determine the order of rotational symmetry for a non-square rectangle. List the angle(s) of rotation less than $360\u00b0$ that map the rectangle onto itself, then state the order $n$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{How many lines of symmetry does an equilateral triangle have?}",
+      "answer_latex": "3 \\text{ lines of symmetry}"
+    },
+    {
+      "prompt_latex": "\\text{A regular octagon has rotational symmetry. What is the smallest angle of rotation that maps it onto itself?}",
+      "answer_latex": "\\frac{360\u00b0}{8} = 45\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{Determine the order of rotational symmetry and the number of lines of symmetry for the letter } \\text{H}.",
+      "answer_latex": "\\text{2 lines of symmetry (horizontal and vertical); rotational symmetry of order } 2 \\text{ (}180\u00b0\\text{)}"
+    },
+    {
+      "prompt_latex": "\\text{A figure has rotational symmetry of order 4. After applying the rotation twice in succession, what single rotation is equivalent to the result? Use the fact that each rotation is } \\frac{360\u00b0}{4} = 90\u00b0.",
+      "answer_latex": "90\u00b0 + 90\u00b0 = 180\u00b0 \\text{ rotation (equivalent to a half-turn about the center)}"
+    },
+    {
+      "prompt_latex": "\\text{A company logo is designed as a regular star polygon with 6 points (a Star of David outline). How many lines of symmetry does it have, and what is the order of its rotational symmetry?}",
+      "answer_latex": "6 \\text{ lines of symmetry; rotational symmetry of order } 6 \\text{ (smallest angle } = 60\u00b0\\text{)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often count the diagonals of a rectangle as lines of symmetry. A diagonal is a line of symmetry only if the shape is a square \u2014 for a non-square rectangle, folding along a diagonal does not produce a matching overlap, so always test by checking that every point maps to another point still on the figure.",
+    "Students confuse the order of rotational symmetry with the angle of rotation, sometimes writing 'order 72\u00b0' for a regular pentagon instead of 'order 5'. The order is always the integer count of matching positions, and the angle is $\\frac{360\u00b0}{n}$ \u2014 keep these two numbers clearly labeled as separate quantities.",
+    "Students claim that any rotation by $180\u00b0$ gives rotational symmetry of order 2, forgetting to verify that the figure actually maps onto itself at that angle. A scalene triangle rotated $180\u00b0$ does NOT coincide with itself, so order of rotational symmetry must be confirmed by checking the figure's actual appearance, not just the angle."
+  ],
+  "untested_variants": [
+    "Finding the symmetry of composite figures formed by combining two or more basic shapes (e.g., a cross made of overlapping rectangles), where symmetry lines of the individual pieces may cancel out.",
+    "Using coordinate geometry to write the equation of a line of symmetry for a figure plotted on the coordinate plane, and then verifying it algebraically by reflecting specific vertices.",
+    "Identifying point symmetry (a special case of rotational symmetry of order 2 where the figure maps onto itself under a $180\u00b0$ rotation) and distinguishing it from general rotational symmetry.",
+    "Applying symmetry to solve for unknown side lengths or angle measures inside a symmetric figure, where the symmetry condition creates an equation to solve."
+  ]
+}

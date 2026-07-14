@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_025",
+  "topic_name": "Confidence Intervals for a Mean",
+  "generated_at": "2026-05-13T20:31:18.965160+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to calculate a sample mean $\\bar{x}$ and a sample standard deviation $s$, and you understand that a single number estimate \u2014 a point estimate \u2014 is rarely exactly equal to the true population mean $\\mu$. But how do you communicate how uncertain that estimate is? Saying 'the average commute time is 34 minutes' gives no sense of reliability. How do we build an interval around $\\bar{x}$ that captures where $\\mu$ most likely lives?",
+  "concept": "A confidence interval for a mean is a range of plausible values for the unknown population mean $\\mu$, constructed from sample data. Informally, it says: 'Based on our sample, we are C% confident the true mean falls in this interval.' Formally, a $C$% confidence interval is $\\bar{x} \\pm t^* \\cdot \\dfrac{s}{\\sqrt{n}}$, where $t^*$ is the critical value from the $t$-distribution with $n-1$ degrees of freedom corresponding to confidence level $C$.",
+  "anatomy": "The interval $\\bar{x} \\pm t^* \\cdot \\dfrac{s}{\\sqrt{n}}$ has four named components: $\\bar{x}$ is the sample mean, the center of the interval; $t^*$ is the critical value, determined by the confidence level $C$ and degrees of freedom $df = n-1$, found from a $t$-table or calculator; $s$ is the sample standard deviation, measuring spread in the data; and $\\dfrac{s}{\\sqrt{n}}$ is the standard error (SE), measuring how much $\\bar{x}$ varies from sample to sample. The product $t^* \\cdot \\dfrac{s}{\\sqrt{n}}$ is called the margin of error (ME), and it is what you add and subtract from $\\bar{x}$ to form the interval.",
+  "worked_example": [
+    {
+      "expression_latex": "n = 16, \\quad \\bar{x} = 52.4, \\quad s = 8.0, \\quad C = 95\\%",
+      "description_latex": "We are given a random sample of $n = 16$ observations with sample mean $\\bar{x} = 52.4$ and sample standard deviation $s = 8.0$, and we want a 95% confidence interval for the population mean $\\mu$. Before plugging in any numbers, let's identify every piece we need: $\\bar{x}$, $s$, $n$, and the critical value $t^*$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "df = n - 1 = 16 - 1 = 15, \\quad t^* = 2.131",
+      "description_latex": "The degrees of freedom for a one-sample $t$-interval is always $df = n - 1$, so here $df = 15$. Looking up the 95% confidence level (which leaves 2.5% in each tail) in a $t$-table at 15 degrees of freedom gives $t^* = 2.131$. This critical value is slightly larger than the $z^* = 1.96$ you would use if the population standard deviation were known, reflecting the extra uncertainty from estimating $\\sigma$ with $s$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "SE = \\frac{s}{\\sqrt{n}} = \\frac{8.0}{\\sqrt{16}} = \\frac{8.0}{4} = 2.0",
+      "description_latex": "The standard error tells us how much our sample mean $\\bar{x}$ is expected to vary across repeated samples of size 16. Dividing the sample standard deviation by $\\sqrt{n}$ shrinks it appropriately \u2014 larger samples produce smaller standard errors and therefore tighter intervals.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "ME = t^* \\cdot SE = 2.131 \\times 2.0 = 4.262",
+      "description_latex": "The margin of error is the half-width of the interval \u2014 it is how far we extend in each direction from $\\bar{x}$. Multiplying the critical value by the standard error gives $ME \\approx 4.262$, meaning our interval will stretch about 4.262 units on either side of the sample mean.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} \\pm ME = 52.4 \\pm 4.262 \\quad \\Rightarrow \\quad (48.138,\\ 56.662)",
+      "description_latex": "Subtracting and adding the margin of error gives the confidence interval $(48.138,\\ 56.662)$. We interpret this as: we are 95% confident that the true population mean $\\mu$ lies between approximately 48.1 and 56.7. Notice that 'confident' here has a specific statistical meaning \u2014 if we repeated this procedure many times, about 95% of the resulting intervals would contain the true $\\mu$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "n = 25, \\quad \\bar{x} = 110.0, \\quad s = 15.0, \\quad C = 90\\%",
+      "description_latex": "A sample of 25 students has mean test score $\\bar{x} = 110.0$ and standard deviation $s = 15.0$. We want a 90% confidence interval for the population mean score $\\mu$. Let's walk through each step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "df = 24, \\quad t^* = 1.711, \\quad SE = \\frac{15.0}{\\sqrt{25}} = 3.0",
+      "description_latex": "With $df = n - 1 = 24$ and a 90% confidence level (5% in each tail), the critical value from the $t$-table is $t^* = 1.711$. The standard error is $SE = 15.0 / 5 = 3.0$. Now you have all the ingredients \u2014 compute the margin of error and then the full confidence interval.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Calculate the margin of error $ME = t^* \\cdot SE$, then write the 90% confidence interval as $\\bar{x} \\pm ME$. Show both the lower and upper bound.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "ME = 1.711 \\times 3.0 = 5.133 \\quad \\Rightarrow \\quad (104.867,\\ 115.133)",
+      "description_latex": "The margin of error is $ME = 1.711 \\times 3.0 = 5.133$, so the 90% confidence interval is $(110.0 - 5.133,\\ 110.0 + 5.133) = (104.867,\\ 115.133)$. We are 90% confident the true mean test score lies in this interval.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A sample of $n = 9$ has $\\bar{x} = 40$, $s = 6$. The critical value at 95% confidence with $df = 8$ is $t^* = 2.306$. Compute the 95% confidence interval for $\\mu$.",
+      "answer_latex": "(35.388,\\ 44.612)"
+    },
+    {
+      "prompt_latex": "A sample of $n = 36$ yields $\\bar{x} = 200$ and $s = 24$. Using $t^* = 2.030$ for a 95% confidence interval with $df = 35$, find the interval.",
+      "answer_latex": "(191.88,\\ 208.12)"
+    },
+    {
+      "prompt_latex": "Two researchers each take independent samples. Researcher A uses $n = 25$ and Researcher B uses $n = 100$, both finding $\\bar{x} = 50$ and $s = 20$. Both construct 95% confidence intervals ($t^* \\approx 2.064$ for $df=24$ and $t^* \\approx 1.984$ for $df=99$). Find both intervals and explain which is narrower and why.",
+      "answer_latex": "A: (41.74,\\ 58.26); \\quad B: (46.03,\\ 53.97); \\quad B\\text{'s interval is narrower because larger }n\\text{ reduces SE}"
+    },
+    {
+      "prompt_latex": "A nutritionist wants to estimate mean daily calorie intake. A random sample of $n = 20$ adults gives $\\bar{x} = 2150$ kcal and $s = 400$ kcal. Construct a 99% confidence interval for the population mean calorie intake using $t^* = 2.861$ (df = 19).",
+      "answer_latex": "(1893.9,\\ 2406.1)"
+    },
+    {
+      "prompt_latex": "A quality control engineer samples $n = 49$ bolts and finds $\\bar{x} = 10.02$ mm and $s = 0.14$ mm. Using $t^* = 2.011$ for a 95% interval, find the confidence interval. The specification requires bolts between 9.95 mm and 10.05 mm on average. Does the interval suggest the process is on target?",
+      "answer_latex": "(9.980,\\ 10.060); \\text{ the interval extends slightly above 10.05, suggesting the process may be producing slightly oversized bolts on average}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the $z^*$ critical value (e.g., 1.96 for 95%) instead of the $t^*$ critical value when the population standard deviation $\\sigma$ is unknown. Because $t^*$ is always larger than $z^*$ for finite samples, this produces an interval that is too narrow and understates the true uncertainty. Always check: if you are given $s$ (sample standard deviation) and $\\sigma$ is not stated as known, use the $t$-distribution.",
+    "Students divide by $n$ instead of $\\sqrt{n}$ when computing the standard error, writing $SE = s/n$ rather than $SE = s/\\sqrt{n}$. This makes the standard error far too small for large samples, producing an artificially tight interval. Remember: the standard error is the standard deviation of the sampling distribution, and it shrinks at rate $\\sqrt{n}$, not $n$.",
+    "Students interpret a 95% confidence interval as meaning 'there is a 95% probability that $\\mu$ is in this specific interval.' The correct interpretation is that the procedure produces intervals that contain $\\mu$ in 95% of repeated samples \u2014 once the interval is computed, $\\mu$ either is or is not in it. Probability applies to the method, not to a single computed interval."
+  ],
+  "untested_variants": [
+    "Constructing a confidence interval when the population standard deviation $\\sigma$ is known (using a $z$-interval with $z^*$ instead of $t^*$), a scenario the practice problems do not include.",
+    "Determining the minimum required sample size $n$ to achieve a specified margin of error, which reverses the formula to solve $n = \\left(\\dfrac{t^* \\cdot s}{ME}\\right)^2$.",
+    "Paired (matched-pairs) data, where the student must first compute the differences $d_i = x_{1i} - x_{2i}$, find $\\bar{d}$ and $s_d$, and then apply the one-sample $t$-interval formula to the differences.",
+    "Checking the conditions for a valid $t$-interval (random sample, independence, and either large $n > 30$ or roughly normal population) before computing, rather than simply being handed the summary statistics."
+  ]
+}

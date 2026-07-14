@@ -1,0 +1,76 @@
+{
+  "topic_id": "a1_056",
+  "topic_name": "Solving by Square Roots",
+  "generated_at": "2026-05-12T22:47:14.366636+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to solve equations like $2x + 5 = 11$ by using inverse operations \u2014 you subtract, then divide. Now imagine you run into $x^2 = 49$. You might be tempted to divide both sides by something, but there's no coefficient to divide away! The variable is squared, and your usual toolkit doesn't quite reach it. So how do you undo a square?",
+  "concept": "Solving by square roots means using the square root operation as the inverse of squaring, the same way subtraction undoes addition. Formally, if $x^2 = k$ where $k \\geq 0$, then $x = \\pm\\sqrt{k}$. The $\\pm$ symbol is critical: because both $7^2 = 49$ and $(-7)^2 = 49$, every positive value of $k$ produces two solutions.",
+  "anatomy": "Every equation solved by square roots has three key components. The squared expression is the term being squared \u2014 it can be as simple as $x^2$ or as complex as $(x - 3)^2$, and it tells you what you're taking the square root of. The constant $k$ on the other side of the equals sign is the value whose square root you must evaluate; if $k < 0$, there are no real solutions. Finally, the $\\pm$ symbol (read 'plus or minus') is the structural reminder that squaring is a two-to-one operation, so isolating the squared expression always yields two equations: one with $+\\sqrt{k}$ and one with $-\\sqrt{k}$.",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 - 36 = 0",
+      "description_latex": "We start by isolating the squared term. Adding $36$ to both sides gives us $x^2 = 36$, which sets up the square root step perfectly \u2014 the squared expression is alone on one side.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 = 36",
+      "description_latex": "Now we apply the square root to both sides. Because squaring destroys sign information, we must write $\\pm$ on the right-hand side: $x = \\pm\\sqrt{36}$. Skipping the $\\pm$ would cost us one of the two solutions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\pm\\sqrt{36} = \\pm 6",
+      "description_latex": "We evaluate $\\sqrt{36} = 6$ because $6 \\times 6 = 36$. The two solutions are $x = 6$ and $x = -6$, and you can verify both by substituting back: $6^2 = 36$ \u2713 and $(-6)^2 = 36$ \u2713.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "3(x-2)^2 = 75",
+      "description_latex": "Our goal is to isolate the squared expression $(x-2)^2$ before taking a square root. We begin by dividing both sides by $3$, giving us $(x-2)^2 = 25$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x-2)^2 = 25",
+      "description_latex": "Take the square root of both sides now. Remember to include $\\pm$ because both a positive and a negative value, when squared, equal $25$. What equation do you get after taking the square root of both sides?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x - 2 = \\pm 5 \\implies x = 2 \\pm 5",
+      "description_latex": "Adding $2$ to both sides of $x - 2 = \\pm 5$ isolates $x$. This gives two answers: $x = 2 + 5 = 7$ and $x = 2 - 5 = -3$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve: x^2 = 81",
+      "answer_latex": "x = 9 \\text{ or } x = -9"
+    },
+    {
+      "prompt_latex": "Solve: x^2 - 50 = 0",
+      "answer_latex": "x = 5\\sqrt{2} \\text{ or } x = -5\\sqrt{2}"
+    },
+    {
+      "prompt_latex": "Solve: 4x^2 = 100",
+      "answer_latex": "x = 5 \\text{ or } x = -5"
+    },
+    {
+      "prompt_latex": "Solve: 2(x+1)^2 - 8 = 0",
+      "answer_latex": "x = 1 \\text{ or } x = -3"
+    },
+    {
+      "prompt_latex": "A square tile has an area of $72 \\text{ cm}^2$. Write and solve an equation to find the exact side length of the tile.",
+      "answer_latex": "s^2 = 72,\\quad s = 6\\sqrt{2} \\text{ cm} \\approx 8.49 \\text{ cm (side length must be positive)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write only the positive square root \u2014 for example, solving $x^2 = 49$ and writing only $x = 7$ \u2014 forgetting that $(-7)^2 = 49$ as well. Always write $x = \\pm\\sqrt{k}$ to capture both solutions.",
+    "When the equation looks like $(x-3)^2 = 16$, some students take the square root of just the right side and write $x - 3 = 4$, then solve only one equation. The $\\pm$ must be applied immediately after taking the square root, producing $x - 3 = 4$ AND $x - 3 = -4$, leading to both $x = 7$ and $x = -1$.",
+    "Students sometimes try to apply the square root method when the equation is not in the form (squared expression) = (constant) \u2014 for example, attempting $\\sqrt{x^2 + 5x} = \\sqrt{0}$ on $x^2 + 5x = 0$ \u2014 rather than factoring. The square root method only works cleanly when the squared term is fully isolated and there is no remaining $x$ term on that side."
+  ],
+  "untested_variants": [
+    "Equations where $k$ is negative, such as $x^2 = -9$, requiring the student to recognize there are no real solutions.",
+    "Equations involving fractions under the radical, such as $x^2 = \\frac{9}{16}$, where students must simplify $\\pm\\frac{3}{4}$.",
+    "Equations where the coefficient inside the squared expression requires distributing after solving, such as $(2x + 5)^2 = 49$, producing non-integer answers.",
+    "Using the square root method as a first step inside a multi-step problem, such as solving a geometry formula like $A = \\pi r^2$ for $r$ given a specific area."
+  ]
+}

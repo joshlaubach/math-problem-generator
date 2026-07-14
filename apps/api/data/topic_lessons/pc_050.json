@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_050",
+  "topic_name": "Series and Sigma Notation",
+  "generated_at": "2026-05-13T19:57:52.152485+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to work with sequences \u2014 you can find the 10th term of an arithmetic sequence or the 100th term of a geometric one. But what if someone asked you to add up the first 50 terms of that sequence? Writing out all 50 terms and adding them by hand is technically possible, but there has to be a better way. Mathematicians invented a compact notation to express these sums elegantly, and a set of formulas to evaluate them instantly \u2014 but do you know how to read and use sigma notation?",
+  "concept": "A series is the sum of the terms of a sequence. Instead of writing every term out, we use sigma notation: $\\sum_{k=i}^{n} a_k$, where the Greek letter $\\Sigma$ (sigma) means 'add up.' This notation tells you exactly which terms to include and what each term looks like. Formally, $\\sum_{k=1}^{n} a_k = a_1 + a_2 + a_3 + \\cdots + a_n$, compressing an entire sum into one compact expression.",
+  "anatomy": "In the expression $\\sum_{k=1}^{n} a_k$, there are four distinct parts to identify. The summation symbol $\\Sigma$ signals that we are adding. The index of summation $k$ is the variable that changes with each term; it is a dummy variable, meaning its letter doesn't affect the value of the sum. The lower limit $k=1$ tells you the starting value of the index, and the upper limit $n$ tells you the ending value \u2014 so the index counts from the lower limit up to the upper limit, one integer at a time. The summand $a_k$ is the expression you evaluate at each integer value of $k$ and then add to the running total.",
+  "worked_example": [
+    {
+      "expression_latex": "\\sum_{k=1}^{4} (2k + 1)",
+      "description_latex": "We begin by reading the notation carefully: $k$ starts at 1 and ends at 4, and for each integer value of $k$ we evaluate the expression $2k+1$. Our goal is to expand this sigma notation into a regular sum by substituting $k = 1, 2, 3, 4$ one at a time.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(2(1)+1) + (2(2)+1) + (2(3)+1) + (2(4)+1)",
+      "description_latex": "We substitute each integer value of $k$ into $2k+1$, writing out all four terms. Notice that we get exactly as many terms as there are integers from the lower limit to the upper limit \u2014 in this case, four terms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3 + 5 + 7 + 9",
+      "description_latex": "Simplifying each expression gives us 3, 5, 7, and 9 \u2014 and we can already recognize this as an arithmetic sequence with first term 3 and common difference 2. All that remains is to add these four numbers together.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3 + 5 + 7 + 9 = 24",
+      "description_latex": "Adding the four terms gives a final answer of 24. This is the value of the series \u2014 a single number that represents the sum of all terms described by the sigma notation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\sum_{k=0}^{3} 3^k",
+      "description_latex": "We need to evaluate this sigma notation. The index $k$ starts at 0 and ends at 3, and the summand is $3^k$. Notice the lower limit is 0, not 1, so we will have four terms total (for $k = 0, 1, 2, 3$).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3^0 + 3^1 + 3^2 + 3^3",
+      "description_latex": "We expand the notation by substituting each value of $k$ into $3^k$. The terms are $3^0, 3^1, 3^2,$ and $3^3$ \u2014 you should recognize these as the first four terms of a geometric sequence with first term 1 and common ratio 3.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now simplify each power of 3 and find the total sum. What is $3^0 + 3^1 + 3^2 + 3^3$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate: $\\sum_{k=1}^{4} k$",
+      "answer_latex": "10"
+    },
+    {
+      "prompt_latex": "Evaluate: $\\sum_{k=1}^{5} (3k - 1)$",
+      "answer_latex": "35"
+    },
+    {
+      "prompt_latex": "Write in sigma notation: $4 + 8 + 12 + 16 + 20$",
+      "answer_latex": "\\sum_{k=1}^{5} 4k"
+    },
+    {
+      "prompt_latex": "Use the arithmetic series sum formula $S_n = \\frac{n}{2}(a_1 + a_n)$ to evaluate $\\sum_{k=1}^{50} (2k + 3)$",
+      "answer_latex": "2750"
+    },
+    {
+      "prompt_latex": "A theater has rows of seats where row $k$ contains $5 + 3(k-1)$ seats. Write and evaluate a sigma expression for the total number of seats in the first 6 rows.",
+      "answer_latex": "\\sum_{k=1}^{6}(3k+2) = 57"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget that the lower limit can start at a value other than 1, so when $k$ starts at 0 they still write only $n$ terms instead of $n+1$ terms \u2014 always count the actual integers from the lower to upper limit, inclusive, to find the number of terms.",
+    "When expanding $\\sum_{k=1}^{n} c$ where $c$ is a constant with no $k$ in it, students sometimes write just $c$ as the answer instead of $n \\cdot c$, forgetting that the constant gets added once for every value of the index \u2014 the sum of a constant $c$ over $n$ terms is $nc$, not $c$.",
+    "Students confuse the index variable with a meaningful variable and try to 'solve for $k$,' but $k$ is a dummy variable that disappears after expansion \u2014 you should never see $k$ anywhere in your final numerical answer when the limits are both specific integers."
+  ],
+  "untested_variants": [
+    "Evaluating a sigma expression where the summand involves a fraction or rational expression, such as $\\sum_{k=1}^{4} \\frac{1}{k(k+1)}$, which requires partial fraction decomposition or telescoping recognition.",
+    "Using the closed-form geometric series sum formula $S_n = \\frac{a_1(1-r^n)}{1-r}$ inside a sigma problem, for example evaluating $\\sum_{k=1}^{8} 2 \\cdot (\\frac{1}{2})^{k-1}$.",
+    "Splitting or combining sigma expressions using linearity properties, such as showing $\\sum_{k=1}^{n}(a_k + b_k) = \\sum_{k=1}^{n} a_k + \\sum_{k=1}^{n} b_k$ and applying this algebraically.",
+    "Re-indexing a series \u2014 for instance, rewriting $\\sum_{k=3}^{7} (k-2)$ with a new index $j = k - 2$ so that the sum starts at $j=1$, a technique that appears frequently in proofs and advanced problem-solving."
+  ]
+}

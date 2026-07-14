@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_071",
+  "topic_name": "Introduction to Hypothesis Testing (H)",
+  "generated_at": "2026-05-12T23:38:09.918550+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to calculate means and standard deviations, and you've used those to describe data sets. But what happens when you want to make a claim about a whole population based on just a sample? Suppose a company claims its energy drink improves reaction time by at least 20 milliseconds on average. You test 30 people and find an average improvement of only 14 ms. Is the company lying, or could you just have gotten unlucky with your sample? How do you decide whether your data is surprising enough to reject the company's claim?",
+  "concept": "Hypothesis testing is a formal procedure for deciding whether sample data provides enough evidence to reject a claim about a population. You start with a default assumption called the null hypothesis, collect data, and measure how unlikely your results would be if that assumption were true. Formally, the null hypothesis $H_0$ states the baseline (often equality or no effect), and the alternative hypothesis $H_a$ states what you suspect is actually true; you reject $H_0$ when the evidence against it is sufficiently strong.",
+  "anatomy": "Every hypothesis test has four essential components. The null hypothesis $H_0$ is the claim you assume true by default \u2014 it always contains an equality such as $\\mu = k$, $\\mu \\leq k$, or $\\mu \\geq k$. The alternative hypothesis $H_a$ (sometimes written $H_1$) is the competing claim you are trying to find evidence for, and it uses a strict inequality: $\\mu \\neq k$ (two-tailed), $\\mu > k$ (right-tailed), or $\\mu < k$ (left-tailed). The significance level $\\alpha$ (commonly $0.05$ or $0.01$) is the probability threshold below which evidence is considered strong enough to reject $H_0$. Finally, the conclusion is a plain-English statement that either rejects $H_0$ or fails to reject $H_0$ \u2014 you never 'accept' $H_0$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: The mean daily screen time of teenagers is } \\mu = 7 \\text{ hours.}",
+      "description_latex": "We begin by identifying the claim being tested, because the claim tells us exactly what number goes into our hypotheses. Here a researcher suspects teenagers actually spend more than 7 hours, so we need to set up hypotheses that capture this suspicion versus the status quo.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "H_0: \\mu = 7 \\qquad H_a: \\mu > 7",
+      "description_latex": "We write the null hypothesis as the equality statement $\\mu = 7$ because that is the baseline we are challenging, and the alternative uses $>$ because the researcher believes the true mean is higher. This is a right-tailed test, meaning we only look for evidence in the upper direction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\alpha = 0.05",
+      "description_latex": "Before looking at any data we set the significance level $\\alpha = 0.05$, which means we are willing to accept a 5% chance of incorrectly rejecting $H_0$ when it is actually true. Setting $\\alpha$ in advance prevents us from adjusting the threshold after we see the results.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p\\text{-value} = 0.03 < 0.05 = \\alpha",
+      "description_latex": "The p-value of 0.03 tells us there is only a 3% chance of observing a sample mean as extreme as ours if $H_0$ were true. Because $0.03 < 0.05$, the evidence clears our threshold for 'surprising enough.'",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Conclusion: Reject } H_0. \\text{ There is sufficient evidence that } \\mu > 7.",
+      "description_latex": "We state the conclusion in the context of the original problem: we reject $H_0$ and conclude there is statistically significant evidence that the mean daily screen time exceeds 7 hours. Notice we do not say we 'proved' $\\mu > 7$ \u2014 we only say the data is inconsistent with $\\mu = 7$ at the 5% level.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: A new drug reduces blood pressure by at most } \\mu = 10 \\text{ mmHg on average.}",
+      "description_latex": "Read the claim carefully: the manufacturer says the reduction is at most 10 mmHg, but a cardiologist believes the drug actually reduces blood pressure by more than 10 mmHg. We need to decide which direction the alternative hypothesis should point before we write anything down.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "H_0: \\mu \\leq 10",
+      "description_latex": "The null hypothesis captures the manufacturer's conservative claim that the reduction is 10 mmHg or less. Now write the alternative hypothesis that reflects the cardiologist's belief, and identify whether this is a one-tailed or two-tailed test.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\alpha = 0.01, \\quad p\\text{-value} = 0.008",
+      "description_latex": "The study uses a significance level of $\\alpha = 0.01$ and produces a p-value of $0.008$. Compare these two numbers to decide whether there is sufficient evidence to reject $H_0$, then write a one-sentence conclusion in context.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Conclusion: Reject } H_0 \\text{ since } 0.008 < 0.01. \\text{ Sufficient evidence that } \\mu > 10.",
+      "description_latex": "Because the p-value is less than $\\alpha$, we reject the null hypothesis and conclude there is statistically significant evidence at the 1% level that the drug reduces blood pressure by more than 10 mmHg on average.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A school claims the mean number of hours students study per week is $\\mu = 8$. A researcher believes the true mean is different. Write $H_0$ and $H_a$.",
+      "answer_latex": "H_0: \\mu = 8 \\quad H_a: \\mu \\neq 8 \\text{ (two-tailed test)}"
+    },
+    {
+      "prompt_latex": "A coffee shop claims its drinks contain at most $\\mu = 150$ mg of caffeine. A consumer group suspects the amount is higher. Write $H_0$ and $H_a$, then identify the tail direction.",
+      "answer_latex": "H_0: \\mu \\leq 150, \\quad H_a: \\mu > 150 \\text{ (right-tailed test)}"
+    },
+    {
+      "prompt_latex": "A hypothesis test is conducted with $\\alpha = 0.05$. The p-value is $0.12$. State the conclusion and explain what it means in terms of rejecting $H_0$.",
+      "answer_latex": "\\text{Since } 0.12 > 0.05, \\text{ fail to reject } H_0. \\text{ Insufficient evidence to support } H_a."
+    },
+    {
+      "prompt_latex": "A factory claims its bolts have a mean diameter of $\\mu = 12$ mm. Quality control tests 50 bolts and obtains $\\bar{x} = 11.6$ mm with $\\alpha = 0.05$ and a p-value of $0.031$. The inspector believes the mean diameter is less than 12 mm. Write both hypotheses and state the conclusion.",
+      "answer_latex": "H_0: \\mu \\geq 12, \\quad H_a: \\mu < 12; \\text{ since } 0.031 < 0.05, \\text{ reject } H_0. \\text{ Sufficient evidence that } \\mu < 12 \\text{ mm.}"
+    },
+    {
+      "prompt_latex": "A pharmaceutical company claims a vaccine reduces the infection rate to below $p = 0.10$ (10\\%). Health officials want to test this claim at $\\alpha = 0.01$. Write $H_0$ and $H_a$ for a test on the population proportion $p$, and explain what a Type I error would mean in this real-world context.",
+      "answer_latex": "H_0: p \\geq 0.10, \\quad H_a: p < 0.10; \\text{ a Type I error means concluding the vaccine works when it actually does not, a dangerous false conclusion at } \\alpha = 0.01."
+    }
+  ],
+  "common_mistakes": [
+    "Students often put the researcher's hope or suspicion into $H_0$ instead of $H_a$. The null hypothesis must always be the conservative default or equality claim; the alternative carries what you are trying to find evidence for. Fix: ask yourself 'what would I need to disprove?' \u2014 that is your $H_0$.",
+    "Students write 'accept $H_0$' when the p-value exceeds $\\alpha$. Failing to reject $H_0$ does not mean $H_0$ is true \u2014 the data was simply not surprising enough to rule it out. Fix: always say 'fail to reject $H_0$' and acknowledge this is a limitation of the sample, not proof of the null.",
+    "Students confuse the direction of a one-tailed test, writing $H_a: \\mu < k$ when the context clearly says 'researchers believe the mean is higher.' Reading the problem carefully for words like 'greater,' 'less,' or 'different' determines the inequality in $H_a$; misreading this flips the entire test direction and produces a wrong conclusion."
+  ],
+  "untested_variants": [
+    "Calculating a test statistic such as the z-score $z = \\frac{\\bar{x} - \\mu_0}{\\sigma / \\sqrt{n}}$ and comparing it to a critical value instead of using a given p-value.",
+    "Two-sample hypothesis tests where the hypotheses compare two population means, e.g., $H_0: \\mu_1 = \\mu_2$ versus $H_a: \\mu_1 \\neq \\mu_2$.",
+    "Hypothesis tests for population proportions using the standard error $\\sqrt{\\frac{p_0(1-p_0)}{n}}$, where the parameter is $p$ rather than $\\mu$.",
+    "Distinguishing between Type I error (rejecting a true $H_0$) and Type II error (failing to reject a false $H_0$) and calculating or interpreting the power of a test."
+  ]
+}

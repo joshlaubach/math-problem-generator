@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_029",
+  "topic_name": "The Gamma and Beta Distributions (H)",
+  "generated_at": "2026-05-13T20:27:42.423419+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to work with the exponential distribution to model waiting times for a single event. But what if you need to model the total waiting time until the $k$-th event occurs, or the proportion of a mixture that belongs to one component? The exponential distribution isn't flexible enough for these questions, and the normal distribution doesn't apply either. So what family of distributions handles waiting times for multiple events, or quantities constrained to lie in $[0,1]$?",
+  "concept": "The Gamma and Beta distributions are two continuous families that generalise simpler distributions. The Gamma distribution models the total waiting time until $k$ independent Poisson events occur: $X \\sim \\text{Gamma}(\\alpha, \\beta)$ has pdf $f(x) = \\frac{\\beta^\\alpha}{\\Gamma(\\alpha)} x^{\\alpha-1} e^{-\\beta x}$ for $x > 0$, with shape $\\alpha > 0$ and rate $\\beta > 0$. The Beta distribution models a random proportion: $X \\sim \\text{Beta}(\\alpha, \\beta)$ has pdf $f(x) = \\frac{x^{\\alpha-1}(1-x)^{\\beta-1}}{B(\\alpha,\\beta)}$ for $x \\in (0,1)$.",
+  "anatomy": "Both distributions share a common structural ingredient: the Gamma function $\\Gamma(\\alpha) = \\int_0^\\infty t^{\\alpha-1}e^{-t}\\,dt$, which generalises the factorial via $\\Gamma(n) = (n-1)!$ for positive integers. In the Gamma pdf, $\\alpha$ is the shape parameter controlling how many events accumulate (skewness decreases as $\\alpha$ grows), and $\\beta$ is the rate parameter (its reciprocal $1/\\beta$ is the scale, i.e. the mean waiting time per event). In the Beta pdf, the normalising constant $B(\\alpha,\\beta) = \\frac{\\Gamma(\\alpha)\\Gamma(\\beta)}{\\Gamma(\\alpha+\\beta)}$ is the Beta function, and the two shape parameters $\\alpha$ and $\\beta$ independently control how the distribution leans toward 0 or 1.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Gamma}(3,\\, 2),\\quad \\text{find } E[X] \\text{ and } \\operatorname{Var}(X)",
+      "description_latex": "We start by recalling the standard moment formulas for the Gamma distribution. For $X \\sim \\text{Gamma}(\\alpha, \\beta)$ with rate parameterisation, the mean is $E[X] = \\alpha/\\beta$ and the variance is $\\operatorname{Var}(X) = \\alpha/\\beta^2$. These come directly from integrating $x \\cdot f(x)$ against the pdf, but knowing the formulas saves a great deal of calculation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[X] = \\frac{\\alpha}{\\beta} = \\frac{3}{2} = 1.5,\\qquad \\operatorname{Var}(X) = \\frac{\\alpha}{\\beta^2} = \\frac{3}{4} = 0.75",
+      "description_latex": "We substitute $\\alpha = 3$ and $\\beta = 2$ directly into the formulas. Notice that doubling the rate $\\beta$ halves the mean but quarters the variance \u2014 the rate parameter compresses the distribution toward zero much faster for the variance than for the mean, which is worth keeping in mind when interpreting model parameters.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Y \\sim \\text{Beta}(2,\\, 3),\\quad \\text{find } E[Y] \\text{ and } \\operatorname{Var}(Y)",
+      "description_latex": "Now we switch to the Beta distribution, where the moment formulas are $E[Y] = \\frac{\\alpha}{\\alpha+\\beta}$ and $\\operatorname{Var}(Y) = \\frac{\\alpha\\beta}{(\\alpha+\\beta)^2(\\alpha+\\beta+1)}$. These are derived by writing integrals involving the Beta function $B(\\alpha,\\beta)$, but again the formulas are standard results you should have at your fingertips.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[Y] = \\frac{2}{2+3} = \\frac{2}{5},\\qquad \\operatorname{Var}(Y) = \\frac{2\\cdot 3}{5^2 \\cdot 6} = \\frac{6}{150} = \\frac{1}{25}",
+      "description_latex": "Substituting $\\alpha=2$, $\\beta=3$ into the Beta moment formulas gives the mean $2/5$ and variance $1/25$. The mean sitting below $1/2$ makes intuitive sense: since $\\beta > \\alpha$, the distribution is right-skewed toward $0$, pulling the average proportion below the midpoint of $(0,1)$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Gamma}(4,\\, 1),\\quad \\text{verify } \\int_0^\\infty f(x)\\,dx = 1",
+      "description_latex": "We want to confirm the Gamma pdf integrates to 1. Write out the integral: $\\int_0^\\infty \\frac{1^4}{\\Gamma(4)} x^{3} e^{-x}\\,dx$. The key observation is that $\\Gamma(4) = 3! = 6$, so we need to evaluate $\\frac{1}{6}\\int_0^\\infty x^3 e^{-x}\\,dx$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{1}{\\Gamma(4)}\\int_0^\\infty x^{4-1} e^{-x}\\,dx = \\frac{\\Gamma(4)}{\\Gamma(4)} = 1",
+      "description_latex": "Use the definition of the Gamma function \u2014 recall that $\\Gamma(n) = \\int_0^\\infty t^{n-1}e^{-t}\\,dt$ \u2014 to recognise the integral $\\int_0^\\infty x^3 e^{-x}\\,dx$ as exactly $\\Gamma(4)$. Can you write down this key step explicitly, showing how the integral equals $\\Gamma(4)$ and why dividing by $\\Gamma(4)$ gives 1?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "Y \\sim \\text{Beta}(3,\\, 2),\\quad E[Y] = \\frac{3}{3+2} = \\frac{3}{5}",
+      "description_latex": "As a follow-on, find the mean of $Y \\sim \\text{Beta}(3,2)$ using the formula $E[Y] = \\alpha/(\\alpha+\\beta)$. Substituting gives $3/5$, confirming the distribution leans toward 1 since $\\alpha > \\beta$. Now compute $\\operatorname{Var}(Y)$ using the formula $\\operatorname{Var}(Y) = \\frac{\\alpha\\beta}{(\\alpha+\\beta)^2(\\alpha+\\beta+1)}$ \u2014 what numerical value do you get?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "If $X \\sim \\text{Gamma}(5,\\, 2)$, find $E[X]$ and $\\operatorname{Var}(X)$.",
+      "answer_latex": "E[X] = \\dfrac{5}{2},\\quad \\operatorname{Var}(X) = \\dfrac{5}{4}"
+    },
+    {
+      "prompt_latex": "If $Y \\sim \\text{Beta}(1,\\, 1)$, write down the pdf of $Y$ and state what standard distribution this is.",
+      "answer_latex": "f(y) = 1 \\text{ for } y \\in (0,1);\\quad Y \\sim \\text{Uniform}(0,1)"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Gamma}(\\alpha, \\beta)$. Using the substitution $u = \\beta x$, show that $E[X] = \\alpha/\\beta$ by evaluating $\\int_0^\\infty x \\cdot \\frac{\\beta^\\alpha}{\\Gamma(\\alpha)} x^{\\alpha-1} e^{-\\beta x}\\,dx$.",
+      "answer_latex": "\\int_0^\\infty \\frac{\\beta^\\alpha}{\\Gamma(\\alpha)} x^{\\alpha} e^{-\\beta x}\\,dx = \\frac{\\beta^\\alpha}{\\Gamma(\\alpha)} \\cdot \\frac{\\Gamma(\\alpha+1)}{\\beta^{\\alpha+1}} = \\frac{\\alpha}{\\beta}"
+    },
+    {
+      "prompt_latex": "Calls arrive at a helpdesk as a Poisson process at rate $\\lambda = 3$ per hour. Let $X$ be the waiting time (in hours) until the 4th call. Identify the distribution of $X$, then find the probability $P(X \\leq 1)$ by recognising it in terms of a Poisson probability sum: $P(X \\leq 1) = P(N(1) \\geq 4)$ where $N(1) \\sim \\text{Poisson}(3)$.",
+      "answer_latex": "X \\sim \\text{Gamma}(4,3);\\quad P(X \\leq 1) = 1 - \\sum_{k=0}^{3} e^{-3}\\frac{3^k}{k!} \\approx 0.3528"
+    },
+    {
+      "prompt_latex": "A quality inspector models the proportion $P$ of defective items in a batch as $P \\sim \\text{Beta}(2, 8)$. Find $E[P]$, $\\operatorname{Var}(P)$, and determine whether the mode exists; if so, compute it using $\\text{mode} = (\\alpha-1)/(\\alpha+\\beta-2)$.",
+      "answer_latex": "E[P] = \\dfrac{1}{5},\\quad \\operatorname{Var}(P) = \\dfrac{16}{1100} = \\dfrac{4}{275},\\quad \\text{mode} = \\dfrac{1}{8}"
+    }
+  ],
+  "common_mistakes": [
+    "Confusing the rate parameterisation $\\beta$ (where mean $= \\alpha/\\beta$) with the scale parameterisation $\\theta = 1/\\beta$ (where mean $= \\alpha\\theta$): if you use the wrong one, your mean and variance will be the reciprocal of the correct value. Always check which convention your course uses before applying any formula.",
+    "Using $\\Gamma(\\alpha) = \\alpha!$ instead of the correct $\\Gamma(\\alpha) = (\\alpha-1)!$ for positive integers: this shifts every factorial by one and corrupts the normalising constant. Remember $\\Gamma(n) = (n-1)!$, so $\\Gamma(4) = 6$, not $24$.",
+    "Applying Beta moment formulas to a Gamma distribution or vice versa because both pdfs look superficially similar with powers of $x$ and exponential terms: the Beta pdf is defined on $(0,1)$ and involves $(1-x)^{\\beta-1}$, while the Gamma pdf is on $(0,\\infty)$ with no $(1-x)$ factor. Always check the support of your random variable first."
+  ],
+  "untested_variants": [
+    "Finding the moment generating function (mgf) of the Gamma distribution, $M_X(t) = \\left(\\frac{\\beta}{\\beta - t}\\right)^\\alpha$ for $t < \\beta$, and using it to derive moments.",
+    "Showing that the sum of independent Gamma random variables $X_i \\sim \\text{Gamma}(\\alpha_i, \\beta)$ with the same rate is $\\text{Gamma}(\\sum \\alpha_i, \\beta)$, or using this to connect the chi-squared distribution to the Gamma family.",
+    "Computing a specific probability such as $P(a < X < b)$ for a Gamma or Beta random variable by direct integration or by referencing the incomplete Gamma/Beta functions.",
+    "Deriving the Beta distribution as the distribution of the $k$-th order statistic from a Uniform$(0,1)$ sample, or connecting it to Bayesian inference as a conjugate prior for a Binomial likelihood."
+  ]
+}

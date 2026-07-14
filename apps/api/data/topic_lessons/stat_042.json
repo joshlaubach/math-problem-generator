@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_042",
+  "topic_name": "Fisher's Exact Test (H)",
+  "generated_at": "2026-05-13T20:32:47.814879+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to use a chi-square test to check whether two categorical variables are independent in a two-way table. But chi-square relies on an approximation that breaks down when sample sizes are small \u2014 specifically, when expected cell counts drop below 5. So what do you do when a researcher tests a new drug on only 12 patients, or when a rare disease shows up in only 3 out of 20 subjects? Is there an exact method that works even then?",
+  "concept": "Fisher's Exact Test is a statistical significance test for 2\u00d72 contingency tables that computes the exact probability of observing the data (or something more extreme) under the null hypothesis of no association, without relying on any large-sample approximation. For a 2\u00d72 table with fixed row totals $R_1, R_2$ and column totals $C_1, C_2$ out of grand total $n$, the probability of a specific table configuration with cell counts $a, b, c, d$ is given by the hypergeometric formula: $P = \\frac{\\binom{R_1}{a}\\binom{R_2}{c}}{\\binom{n}{C_1}}$.",
+  "anatomy": "The key components of Fisher's Exact Test are: the 2\u00d72 contingency table with cells labeled $a$ (top-left), $b$ (top-right), $c$ (bottom-left), $d$ (bottom-right); the fixed marginal totals \u2014 row totals $R_1 = a+b$ and $R_2 = c+d$, and column totals $C_1 = a+c$ and $C_2 = b+d$; the grand total $n = a+b+c+d$; the hypergeometric probability formula $P = \\frac{\\binom{R_1}{a}\\binom{R_2}{c}}{\\binom{n}{C_1}}$ applied to each table; and the p-value, which is the sum of probabilities for all tables as extreme or more extreme than the observed one (in the direction of the alternative hypothesis).",
+  "worked_example": [
+    {
+      "expression_latex": "\\begin{array}{c|cc|c} & \\text{Success} & \\text{Failure} & \\text{Total} \\\\ \\hline \\text{Treatment} & 4 & 1 & 5 \\\\ \\text{Control} & 1 & 4 & 5 \\\\ \\hline \\text{Total} & 5 & 5 & 10 \\end{array}",
+      "description_latex": "We start by laying out the 2\u00d72 table. Here a researcher gave a treatment to 5 patients and used 5 as controls; we observe $a=4$ successes in the treatment group. The fixed marginals are $R_1=R_2=5$ and $C_1=C_2=5$, with $n=10$. These marginal totals are treated as fixed throughout the test.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{observed}) = \\frac{\\binom{5}{4}\\binom{5}{1}}{\\binom{10}{5}} = \\frac{5 \\cdot 5}{252} = \\frac{25}{252}",
+      "description_latex": "We apply the hypergeometric probability formula to the observed table. The numerator counts the number of ways to choose 4 successes from the 5 treatment patients and 1 success from the 5 control patients, while the denominator counts all ways to choose any 5 successes from 10 total. This gives the exact probability of seeing precisely this table when there is truly no association.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{more extreme}) = \\frac{\\binom{5}{5}\\binom{5}{0}}{\\binom{10}{5}} = \\frac{1 \\cdot 1}{252} = \\frac{1}{252}",
+      "description_latex": "For a one-sided test asking whether the treatment is better, the only table more extreme than what we observed is one where all 5 treatment patients succeed and all 5 controls fail (i.e., $a=5$). We compute its probability the same way. This is the only configuration that is at least as favorable to the treatment hypothesis as our observed data.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p\\text{-value} = \\frac{25}{252} + \\frac{1}{252} = \\frac{26}{252} \\approx 0.103",
+      "description_latex": "The one-sided p-value is the sum of probabilities for all tables as extreme or more extreme than observed in the direction of the alternative. Adding the two probabilities gives approximately 0.103, which is greater than the typical $\\alpha = 0.05$ threshold. We therefore fail to reject the null hypothesis of no association between treatment and outcome.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{array}{c|cc|c} & \\text{Positive} & \\text{Negative} & \\text{Total} \\\\ \\hline \\text{Exposed} & 3 & 1 & 4 \\\\ \\text{Unexposed} & 1 & 5 & 6 \\\\ \\hline \\text{Total} & 4 & 6 & 10 \\end{array}",
+      "description_latex": "Here is a new 2\u00d72 table from a small epidemiological study. The fixed marginals are $R_1=4, R_2=6, C_1=4, C_2=6$, and $n=10$. We want to compute the one-sided p-value testing whether exposure increases the probability of a positive outcome.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(a=3) = \\frac{\\binom{4}{3}\\binom{6}{1}}{\\binom{10}{4}} = \\frac{4 \\cdot 6}{210} = \\frac{24}{210}",
+      "description_latex": "We compute the probability of the observed table ($a=3$) using the hypergeometric formula. Notice that $\\binom{10}{4}=210$ is our denominator for all table probabilities in this problem, since the marginals are fixed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the probability of the only more extreme table, which has $a=4$ (all 4 exposed individuals test positive). Apply the formula $P(a=4) = \\frac{\\binom{4}{4}\\binom{6}{0}}{\\binom{10}{4}}$ and simplify to a fraction.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "p\\text{-value} = \\frac{24}{210} + \\frac{1}{210} = \\frac{25}{210} \\approx 0.119",
+      "description_latex": "Adding the probabilities of all tables as extreme or more extreme gives the one-sided p-value of approximately 0.119. Since this exceeds $\\alpha=0.05$, we do not have sufficient evidence to conclude that exposure is associated with a positive outcome in this small sample.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A 2\\times2 table has $a=2, b=0, c=0, d=2$ with row totals $R_1=R_2=2$ and column totals $C_1=C_2=2$, $n=4$. Compute $P(a=2)$ using the hypergeometric formula.",
+      "answer_latex": "P(a=2) = \\frac{\\binom{2}{2}\\binom{2}{0}}{\\binom{4}{2}} = \\frac{1}{6}"
+    },
+    {
+      "prompt_latex": "For the table with $a=3, b=0, c=0, d=3$, $R_1=R_2=3$, $C_1=C_2=3$, $n=6$, compute the probability of this observed table.",
+      "answer_latex": "P(a=3) = \\frac{\\binom{3}{3}\\binom{3}{0}}{\\binom{6}{3}} = \\frac{1}{20}"
+    },
+    {
+      "prompt_latex": "A 2\\times2 table has $a=4, b=1, c=2, d=3$, with $R_1=5, R_2=5, C_1=6, C_2=4, n=10$. Compute the probability of this specific table configuration.",
+      "answer_latex": "P(a=4) = \\frac{\\binom{5}{4}\\binom{5}{2}}{\\binom{10}{6}} = \\frac{5 \\cdot 10}{210} = \\frac{50}{210} = \\frac{5}{21}"
+    },
+    {
+      "prompt_latex": "Using the same table as above ($R_1=5, R_2=5, C_1=6, n=10$), compute the one-sided p-value for the alternative that group 1 has higher probability of success, given $P(a=4)=\\frac{50}{210}$ and the only more extreme table has $a=5$.",
+      "answer_latex": "P(a=5) = \\frac{\\binom{5}{5}\\binom{5}{1}}{\\binom{10}{6}} = \\frac{5}{210}; \\quad p\\text{-value} = \\frac{50}{210}+\\frac{5}{210} = \\frac{55}{210} = \\frac{11}{42} \\approx 0.262"
+    },
+    {
+      "prompt_latex": "A clinical trial tests whether a vaccine prevents infection. Of 6 vaccinated individuals, 1 gets infected; of 4 unvaccinated, 3 get infected. Set up the 2\\times2 table, identify all fixed marginals, compute the probability of the observed table, and determine whether (one-sided, $\\alpha=0.05$) there is significant evidence that the vaccine reduces infection.",
+      "answer_latex": "Table: a=1,b=5,c=3,d=1; R_1=6, R_2=4, C_1=4, C_2=6, n=10. P(a=1)=\\frac{\\binom{6}{1}\\binom{4}{3}}{\\binom{10}{4}}=\\frac{6\\cdot4}{210}=\\frac{24}{210}. More extreme: a=0, P(a=0)=\\frac{\\binom{6}{0}\\binom{4}{4}}{\\binom{10}{4}}=\\frac{1}{210}. p\\text{-value}=\\frac{25}{210}\\approx0.119>0.05; fail to reject H_0."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that Fisher's Exact Test requires fixed marginal totals: the row and column totals must both be treated as fixed constraints, not as random. If you recompute probabilities with shifting marginals, your denominator changes and every probability is wrong.",
+    "When computing the p-value, students include only the probability of the observed table and forget to add probabilities for all tables more extreme in the direction of the alternative. The p-value is always a sum over a tail, not just a single hypergeometric probability.",
+    "Students confuse one-sided and two-sided p-values for Fisher's Exact Test: a two-sided p-value requires summing probabilities of all tables (in both tails) whose probability is less than or equal to the observed table's probability, not simply doubling the one-sided p-value, because 2\u00d72 distributions are generally not symmetric."
+  ],
+  "untested_variants": [
+    "Two-sided Fisher's Exact Test, which requires identifying all tables with probability $\\leq P(\\text{observed})$ across both tails and summing them.",
+    "Applying Fisher's Exact Test to tables larger than 2\u00d72 (e.g., 2\u00d73 or 3\u00d73), where the exact distribution is the multivariate hypergeometric and enumeration of extreme tables is more complex.",
+    "Using Fisher's Exact Test as part of a power analysis \u2014 calculating the minimum sample size needed to detect a given odds ratio at a specified significance level.",
+    "Comparing the conclusion of Fisher's Exact Test to a Pearson chi-square test on the same data, and explaining precisely why the two tests can give different p-values when expected cell counts are small."
+  ]
+}

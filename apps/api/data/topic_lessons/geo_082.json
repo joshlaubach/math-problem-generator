@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_082",
+  "topic_name": "Geometric Probability (H)",
+  "generated_at": "2026-05-12T23:16:35.120915+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to find the probability of an event by counting outcomes \u2014 rolling a die, drawing a card, flipping a coin. But what happens when there are infinitely many possible outcomes spread across a region of space? Imagine throwing a dart randomly at a rectangular board that has a circle painted on it: how do you find the probability of hitting the circle when you can't just count outcomes? This is the central challenge of geometric probability.",
+  "concept": "Geometric probability replaces counting with measuring. Instead of counting favorable outcomes over total outcomes, you measure a favorable region (length, area, or volume) and divide it by the total region. Formally, $P(\\text{event}) = \\dfrac{\\text{measure of favorable region}}{\\text{measure of total region}}$, where 'measure' means length for 1-D problems, area for 2-D problems, and volume for 3-D problems.",
+  "anatomy": "Every geometric probability problem has three distinct components: the total region, which is the entire sample space (e.g., the full rectangle, segment, or solid) whose measure goes in the denominator; the favorable region, which is the specific sub-region where the 'successful' outcome occurs and whose measure goes in the numerator; and the probability ratio itself, $P = \\frac{\\text{favorable measure}}{\\text{total measure}}$, which must always land in the interval $[0, 1]$. Identifying which geometric formulas apply to each region \u2014 and keeping them separate \u2014 is the core skill.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Total area} = 10 \\times 8 = 80 \\text{ cm}^2",
+      "description_latex": "We start by finding the measure of the total region, because this always goes in the denominator of our probability fraction. The target is a 10 cm by 8 cm rectangle, so its area is simply length times width.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Favorable area} = \\pi r^2 = \\pi (3)^2 = 9\\pi \\text{ cm}^2",
+      "description_latex": "Next we find the measure of the favorable region \u2014 the circle with radius 3 cm centered inside the rectangle. We use the circle area formula $A = \\pi r^2$ because any point inside the circle counts as a 'hit'.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{hitting circle}) = \\frac{9\\pi}{80}",
+      "description_latex": "Now we form the probability ratio by placing the favorable area over the total area. This fraction is already in simplest form because $9\\pi$ and $80$ share no common factors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P \\approx \\frac{28.27}{80} \\approx 0.353 \\approx 35.3\\%",
+      "description_latex": "Finally, we convert to a decimal or percentage to interpret the result practically \u2014 there is roughly a 35% chance a randomly thrown dart lands in the circle. Always check that your answer is between 0 and 1; if it isn't, something went wrong in the area calculations.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Total area} = 12 \\times 12 = 144 \\text{ ft}^2",
+      "description_latex": "A 12 ft by 12 ft square patio has a circular fountain of radius 4 ft placed in its center. We want the probability that a randomly dropped pebble lands outside the fountain. We begin with the total area of the square patio, which is straightforward: $12 \\times 12 = 144 \\text{ ft}^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Fountain area} = \\pi (4)^2 = 16\\pi \\text{ ft}^2",
+      "description_latex": "The fountain's area is computed using $A = \\pi r^2$ with $r = 4$. This is the region we want to avoid, so we will subtract it from the total to find the favorable region.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find the area outside the fountain (the favorable region) and then write the probability ratio $P = \\frac{\\text{favorable area}}{\\text{total area}}$. Simplify and leave your answer in terms of $\\pi$ or as a decimal rounded to the nearest hundredth.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A point is chosen at random on a segment of length 20. What is the probability it falls on a sub-segment of length 5?",
+      "answer_latex": "\\dfrac{5}{20} = \\dfrac{1}{4} = 0.25"
+    },
+    {
+      "prompt_latex": "A dartboard is a square with side length 14 in. A circle of radius 5 in is drawn in the center. What is the probability a randomly thrown dart (that hits the board) lands inside the circle?",
+      "answer_latex": "\\dfrac{25\\pi}{196} \\approx 0.401"
+    },
+    {
+      "prompt_latex": "A rectangle measures 6 m by 9 m. Inside it, a right triangle with legs 3 m and 4 m is drawn. What is the probability that a randomly chosen point inside the rectangle lies inside the triangle?",
+      "answer_latex": "\\dfrac{6}{54} = \\dfrac{1}{9} \\approx 0.111"
+    },
+    {
+      "prompt_latex": "A large circle has radius 10 cm. A smaller circle of radius 6 cm is drawn inside it, sharing the same center. What is the probability that a randomly chosen point inside the large circle is NOT in the smaller circle?",
+      "answer_latex": "\\dfrac{100\\pi - 36\\pi}{100\\pi} = \\dfrac{64}{100} = \\dfrac{16}{25} = 0.64"
+    },
+    {
+      "prompt_latex": "A farmer scatters seeds randomly over a field that is a rectangle 50 m by 30 m. A circular pond of diameter 10 m sits entirely within the field. What is the probability that a seed lands in the pond? Leave your answer in terms of $\\pi$.",
+      "answer_latex": "\\dfrac{25\\pi}{1500} = \\dfrac{\\pi}{60}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the diameter instead of the radius in the circle area formula, computing $\\pi(d)^2$ instead of $\\pi r^2$, which inflates the favorable area by a factor of 4. Always halve the given diameter before squaring it.",
+    "When asked for the probability of landing OUTSIDE a region, students put the inner region's area in the numerator instead of subtracting it from the total first. The favorable area for 'outside the circle' is (total area \u2212 circle area), not just the circle area.",
+    "Students forget to use the same units for numerator and denominator, mixing, for example, area in cm\u00b2 with area in m\u00b2. Always convert all measurements to one unit before computing areas, or the ratio will be nonsensical."
+  ],
+  "untested_variants": [
+    "Geometric probability on a number line segment where the favorable region is defined by an inequality or intersection of two sub-segments (1-D overlap problems).",
+    "Three-dimensional geometric probability using volumes, such as finding the probability that a randomly chosen point inside a rectangular prism falls inside an inscribed sphere.",
+    "Problems involving sectors of circles as the favorable or total region, requiring use of the sector area formula $A = \\frac{\\theta}{360}\\pi r^2$.",
+    "Composite favorable regions made up of two or more non-overlapping shapes (e.g., two separate rectangles inside a larger rectangle), requiring students to add areas before forming the ratio."
+  ]
+}

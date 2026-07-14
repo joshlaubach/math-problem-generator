@@ -1,0 +1,81 @@
+{
+  "topic_id": "pt_004",
+  "topic_name": "Independence: Definitions and Implications",
+  "generated_at": "2026-05-14T00:59:53.616040+00:00",
+  "course_name": "Probability Theory",
+  "hook": "You already know how to compute probabilities of individual events and even unions using the addition rule. Suppose you flip a fair coin and roll a fair die \u2014 intuitively, the coin landing heads shouldn't affect what number the die shows. But how do we make that intuition mathematically precise? More importantly, how do we know when two events are NOT independent, and what goes wrong if we assume they are when they aren't?",
+  "concept": "Independence means that knowing one event occurred gives you zero information about whether the other event occurred. Formally, events $A$ and $B$ are independent if and only if $P(A \\cap B) = P(A) \\cdot P(B)$. Equivalently (when $P(B) > 0$), this means $P(A \\mid B) = P(A)$: conditioning on $B$ leaves $A$'s probability unchanged.",
+  "anatomy": "The definition $P(A \\cap B) = P(A) \\cdot P(B)$ has three distinct components. First, the joint probability $P(A \\cap B)$ is the probability that both events occur simultaneously. Second, the marginal probabilities $P(A)$ and $P(B)$ are the individual probabilities of each event on its own. The independence condition asserts that the joint probability factors into a product of marginals \u2014 this multiplicative factorization is the structural hallmark of independence. For three events $A$, $B$, $C$, mutual independence requires pairwise factorization for every pair AND the triple factorization $P(A \\cap B \\cap C) = P(A) \\cdot P(B) \\cdot P(C)$; pairwise independence alone is insufficient.",
+  "worked_example": [
+    {
+      "expression_latex": "P(\\text{Heads}) = \\tfrac{1}{2}, \\quad P(\\text{Die} = 6) = \\tfrac{1}{6}",
+      "description_latex": "We start by identifying the marginal probabilities of our two events: the coin landing heads and the die showing a 6. These are computed from the individual sample spaces, and we list them explicitly so we have everything we need to apply the independence criterion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Heads} \\cap \\text{Die}=6) = \\frac{1}{12}",
+      "description_latex": "The combined sample space has $2 \\times 6 = 12$ equally likely outcomes, exactly one of which is (Heads, 6), so the joint probability is $\\frac{1}{12}$. This is the quantity we need to compare against the product of the marginals.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Heads}) \\cdot P(\\text{Die}=6) = \\frac{1}{2} \\cdot \\frac{1}{6} = \\frac{1}{12}",
+      "description_latex": "We compute the product of the two marginal probabilities. Because this product equals the joint probability $\\frac{1}{12}$ we found in the previous step, the multiplicative factorization condition is satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{1}{12} = \\frac{1}{12} \\implies A \\text{ and } B \\text{ are independent}",
+      "description_latex": "Since $P(A \\cap B) = P(A)P(B)$ holds exactly, we conclude the two events are independent. This confirms our intuition: the physical separation of the coin and die means the outcome of one cannot influence the other.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(A) = 0.4, \\quad P(B) = 0.5, \\quad P(A \\cap B) = 0.3",
+      "description_latex": "We are given the marginal probabilities of events $A$ and $B$ and their joint probability. Our goal is to determine whether $A$ and $B$ are independent by checking whether the factorization condition holds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A) \\cdot P(B) = 0.4 \\times 0.5 = 0.20",
+      "description_latex": "We compute the product of the marginals to get the value that the joint probability would need to equal for independence. Notice we get 0.20, which we will compare to the given joint probability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compare $P(A \\cap B)$ to $P(A) \\cdot P(B)$: are they equal? State your conclusion about whether $A$ and $B$ are independent, and write the conditional probability $P(A \\mid B)$ to confirm your answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Events $A$ and $B$ satisfy $P(A) = 0.5$, $P(B) = 0.4$, and $P(A \\cap B) = 0.20$. Are $A$ and $B$ independent?",
+      "answer_latex": "Yes, because $P(A)P(B) = 0.5 \\times 0.4 = 0.20 = P(A \\cap B)$."
+    },
+    {
+      "prompt_latex": "Suppose $A$ and $B$ are independent with $P(A) = 0.3$ and $P(B) = 0.6$. Find $P(A \\cap B)$ and $P(A \\cup B)$.",
+      "answer_latex": "$P(A \\cap B) = 0.18$; \\quad $P(A \\cup B) = 0.3 + 0.6 - 0.18 = 0.72$"
+    },
+    {
+      "prompt_latex": "Events $A$ and $B$ have $P(A) = 0.4$, $P(B) = 0.5$, $P(A \\cap B) = 0.25$. Are they independent? If not, find $P(A \\mid B)$.",
+      "answer_latex": "No. $P(A)P(B) = 0.20 \\neq 0.25$. \\quad $P(A \\mid B) = \\dfrac{0.25}{0.5} = 0.50 \\neq P(A)$."
+    },
+    {
+      "prompt_latex": "Two fair coins are flipped. Let $A = \\{\\text{first coin is Heads}\\}$ and $B = \\{\\text{both coins show the same face}\\}$. Are $A$ and $B$ independent?",
+      "answer_latex": "$P(A)=\\tfrac{1}{2}$, $P(B)=\\tfrac{1}{2}$, $P(A\\cap B)=P(\\text{HH})=\\tfrac{1}{4}=P(A)P(B)$. Yes, $A$ and $B$ are independent."
+    },
+    {
+      "prompt_latex": "A card is drawn uniformly at random from a standard 52-card deck. Let $A = \\{\\text{card is a Heart}\\}$ and $B = \\{\\text{card is a Face card (J, Q, K)}\\}$. Are $A$ and $B$ independent?",
+      "answer_latex": "$P(A)=\\tfrac{13}{52}=\\tfrac{1}{4}$, $P(B)=\\tfrac{12}{52}=\\tfrac{3}{13}$, $P(A\\cap B)=\\tfrac{3}{52}$. Since $\\tfrac{1}{4}\\cdot\\tfrac{3}{13}=\\tfrac{3}{52}=P(A\\cap B)$, yes, $A$ and $B$ are independent."
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse independence with mutual exclusivity: if $A$ and $B$ are mutually exclusive and both have positive probability, they are actually dependent (knowing $A$ occurred tells you $B$ did not), yet students often treat 'no overlap' as meaning 'no relationship.'",
+    "Students check pairwise independence between every pair of events in a collection and then incorrectly conclude the events are mutually independent \u2014 mutual independence additionally requires that the joint probability of every subset (including the full set) factors into a product of marginals, so always verify the triple product condition $P(A\\cap B\\cap C)=P(A)P(B)P(C)$ as well.",
+    "Students apply the multiplication rule $P(A\\cap B)=P(A)P(B)$ without first verifying independence, essentially assuming the conclusion they need to prove \u2014 always check the condition using given information before using it to compute other probabilities."
+  ],
+  "untested_variants": [
+    "Conditional independence: events $A$ and $B$ are conditionally independent given $C$ if $P(A\\cap B\\mid C)=P(A\\mid C)P(B\\mid C)$, which can hold even when $A$ and $B$ are marginally dependent.",
+    "Independence of more than three events and the distinction between pairwise independence and mutual independence for $n\\geq 3$ events, including constructing explicit counterexamples.",
+    "Independence in continuous probability spaces, where the factorization condition becomes $f_{X,Y}(x,y)=f_X(x)f_Y(y)$ for joint and marginal densities.",
+    "Using independence to simplify computation of $P(A^c \\cap B^c)$ or $P(A^c \\cup B^c)$ by applying De Morgan's laws together with the fact that complements of independent events are also independent."
+  ]
+}

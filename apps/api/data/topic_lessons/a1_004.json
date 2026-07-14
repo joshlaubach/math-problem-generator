@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_004",
+  "topic_name": "Solving Multi-Step Equations",
+  "generated_at": "2026-05-12T22:33:46.862192+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to solve a one-step equation like $x + 5 = 12$ \u2014 just subtract 5 from both sides and you're done. You've also handled two-step equations like $2x + 5 = 13$. But what happens when terms with the variable appear on both sides, or when you have to distribute first, like in $3(2x - 4) + x = 2x + 8$? Your current toolkit gets you started, but not all the way to the answer \u2014 so how do you decide what order to untangle everything?",
+  "concept": "A multi-step equation is one that requires three or more distinct operations to isolate the variable. The strategy is always the same: simplify each side fully first (distribute and combine like terms), then collect all variable terms on one side, collect all constants on the other, and finally isolate the variable. For an equation $ax + b = cx + d$, we solve by moving variable terms together and constant terms together before dividing.",
+  "anatomy": "Every multi-step equation has four structural parts you should identify before touching a pencil. The **distributive step** applies whenever a coefficient sits outside parentheses, using $a(b + c) = ab + ac$ to clear them. **Like terms** are terms sharing the same variable and exponent (e.g., $3x$ and $-x$) that can be combined by adding their coefficients. The **variable side** is whichever side you choose to collect all $x$-terms on \u2014 consistency matters. The **constant side** collects all plain numbers after the variable terms have been moved, setting up the final division or multiplication to find $x$.",
+  "worked_example": [
+    {
+      "expression_latex": "3(2x - 4) + x = 2x + 8",
+      "description_latex": "This is our starting equation. Before doing anything else, notice that the left side has parentheses \u2014 that tells us the very first job is to distribute, because we cannot combine $x$ with $2x - 4$ until those parentheses are gone.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "6x - 12 + x = 2x + 8",
+      "description_latex": "We distributed $3$ across $(2x - 4)$, giving $3 \\cdot 2x = 6x$ and $3 \\cdot (-4) = -12$. The lone $+x$ on the left carries over unchanged. Now the left side has two like terms, $6x$ and $x$, that we can combine.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "7x - 12 = 2x + 8",
+      "description_latex": "Combining $6x + x = 7x$ simplifies the left side. Both sides are now fully simplified, so we're ready to gather all variable terms on one side \u2014 let's subtract $2x$ from both sides so the variable lives on the left.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5x - 12 = 8",
+      "description_latex": "Subtracting $2x$ from both sides gives $7x - 2x = 5x$ on the left and leaves the right side as just $8$. Now this looks like a familiar two-step equation, so we add $12$ to both sides to isolate the variable term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5x = 20 \\implies x = 4",
+      "description_latex": "Adding $12$ to both sides gives $5x = 20$, and dividing both sides by $5$ gives $x = 4$. You can check: $3(2 \\cdot 4 - 4) + 4 = 3(4) + 4 = 16$ and $2(4) + 8 = 16$ \u2014 both sides match, confirming our answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "4(x + 3) - 2x = 3x - 1",
+      "description_latex": "Here is our equation. Your first move is always to eliminate parentheses by distributing \u2014 distribute $4$ across $(x + 3)$ on the left side.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4x + 12 - 2x = 3x - 1",
+      "description_latex": "After distributing, the left side reads $4x + 12 - 2x$. You can see two like terms there \u2014 combine them to simplify the left side completely before moving on.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "2x + 12 = 3x - 1",
+      "description_latex": "The left side simplifies to $2x + 12$. Now collect all variable terms on one side by subtracting $2x$ from both sides, then solve for $x$ by adding $1$ to both sides and reading off your answer.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = 13",
+      "description_latex": "Subtracting $2x$ gives $12 = x - 1$, and adding $1$ to both sides gives $x = 13$. Check by substituting back: left side $= 4(13+3) - 2(13) = 64 - 26 = 38$, right side $= 3(13)-1 = 38$. \u2713",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve: } 2x + 3 + x = 12",
+      "answer_latex": "x = 3"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } 5x - 4 = 2x + 11",
+      "answer_latex": "x = 5"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } 4(x - 2) + 3x = 2x + 7",
+      "answer_latex": "x = 3"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } 2(3x + 1) - (x - 4) = 4x + 16",
+      "answer_latex": "x = 5"
+    },
+    {
+      "prompt_latex": "\\text{A rectangle has a length that is } 3 \\text{ more than twice its width. Its perimeter is } 36. \\text{ Write and solve an equation to find the width.}",
+      "answer_latex": "w = 5"
+    }
+  ],
+  "common_mistakes": [
+    "Students often distribute only to the first term inside parentheses, writing $3(2x - 4) = 6x - 4$ instead of $6x - 12$. Remember that the factor outside must multiply every term inside, so check that you have the same number of terms after distributing as you did before.",
+    "When moving a variable term across the equals sign, students subtract it from one side but forget to subtract it from the other, treating the equation like a one-sided simplification. The golden rule is that every operation must be applied to both sides simultaneously to keep the equation balanced.",
+    "After distributing and before moving terms across, students skip combining like terms on each side \u2014 for example, leaving $6x + x$ as two separate terms instead of $7x$. Failing to simplify each side fully first leads to errors when collecting variable terms, because you end up moving more terms than necessary."
+  ],
+  "untested_variants": [
+    "Equations with variables on both sides where the variable terms cancel completely, producing either an identity (infinitely many solutions) or a contradiction (no solution), such as $2(x + 3) = 2x + 7$.",
+    "Multi-step equations involving fractions or decimals as coefficients, such as $\\frac{1}{2}(4x - 6) + x = 2x + 1$, which require clearing fractions before applying the standard strategy.",
+    "Multi-step equations embedded in a geometry context where students must first write an expression for perimeter or area using two different variable expressions set equal to a given value, requiring translation before solving.",
+    "Multi-step equations with nested parentheses or double distribution, such as $2(3(x - 1) + 4) = 5x + 6$, where students must distribute from the inside out."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_048",
+  "topic_name": "Convolutions and Sums of Independent Random Variables (H)",
+  "generated_at": "2026-05-13T23:09:27.822669+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find the distribution of a single random variable, and you can compute expected values and variances of sums using linearity. But suppose $X$ and $Y$ are independent continuous random variables and you want the full probability density function of their sum $Z = X + Y$ \u2014 not just its mean or variance. Linearity of expectation won't give you a density, and you can't simply add the individual PDFs together. So how do you actually find the distribution of $Z = X + Y$?",
+  "concept": "The convolution of two independent random variables is the operation that produces the PDF of their sum. If $X$ and $Y$ are independent continuous random variables with PDFs $f_X$ and $f_Y$, then the PDF of $Z = X + Y$ is given by the convolution formula $f_Z(z) = \\int_{-\\infty}^{\\infty} f_X(t)\\, f_Y(z - t)\\, dt$, often written $f_Z = f_X * f_Y$. The integral slides one density across the other, accumulating all ways two values can sum to $z$.",
+  "anatomy": "The convolution integral $f_Z(z) = \\int_{-\\infty}^{\\infty} f_X(t)\\, f_Y(z - t)\\, dt$ has several distinct parts. The integration variable $t$ is a dummy variable representing a possible value of $X$; it is swept over all real numbers. The term $f_X(t)$ is the density of $X$ evaluated at $t$, acting as a weight. The term $f_Y(z - t)$ is the density of $Y$ evaluated at the complementary value $z - t$, so that $t + (z-t) = z$ always holds \u2014 this is the 'sliding' factor that enforces the constraint that the two values must sum to $z$. The output $f_Z(z)$ is a function of the fixed target value $z$, and independence is the essential assumption that allows us to write the joint density as a product $f_{X,Y}(t, z-t) = f_X(t)f_Y(z-t)$.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Uniform}(0,1),\\quad Y \\sim \\text{Uniform}(0,1),\\quad Z = X + Y",
+      "description_latex": "We want to find the PDF of $Z = X+Y$ where $X$ and $Y$ are independent uniform random variables on $[0,1]$. Each has PDF $f_X(t) = f_Y(t) = 1$ for $t \\in [0,1]$ and $0$ otherwise. Notice that $Z$ must lie in $[0,2]$, so we only need to find $f_Z(z)$ for $z$ in that range.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_Z(z) = \\int_{-\\infty}^{\\infty} f_X(t)\\, f_Y(z - t)\\, dt = \\int_{-\\infty}^{\\infty} \\mathbf{1}_{[0,1]}(t)\\cdot \\mathbf{1}_{[0,1]}(z-t)\\, dt",
+      "description_latex": "We write the convolution formula and substitute the uniform densities. The product of indicators is $1$ only when both $0 \\le t \\le 1$ and $0 \\le z - t \\le 1$ hold simultaneously, so we must determine the range of $t$ that satisfies both constraints at once \u2014 this is where the careful casework begins.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Both constraints hold iff } \\max(0,\\, z-1) \\le t \\le \\min(1,\\, z)",
+      "description_latex": "From $0 \\le z - t$ we get $t \\le z$, and from $z - t \\le 1$ we get $t \\ge z - 1$. Combined with $0 \\le t \\le 1$, the effective integration limits are $t \\in [\\max(0, z-1),\\, \\min(1, z)]$. This interval changes character depending on whether $z \\le 1$ or $z > 1$, which is why we split into two cases.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_Z(z) = \\begin{cases} \\displaystyle\\int_0^z 1\\, dt = z & 0 \\le z \\le 1 \\\\ \\displaystyle\\int_{z-1}^{1} 1\\, dt = 2 - z & 1 < z \\le 2 \\end{cases}",
+      "description_latex": "For $0 \\le z \\le 1$ the lower limit is $0$ and the upper limit is $z$, giving length $z$. For $1 < z \\le 2$ the lower limit is $z-1$ and the upper limit is $1$, giving length $2-z$. The result is the classic 'tent' or triangular distribution on $[0,2]$, which makes intuitive sense: values near $z=1$ are most likely because there are the most ways to achieve them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^2 f_Z(z)\\, dz = \\int_0^1 z\\, dz + \\int_1^2 (2-z)\\, dz = \\tfrac{1}{2} + \\tfrac{1}{2} = 1\\checkmark",
+      "description_latex": "Always verify that your convolution result is a valid PDF by checking it integrates to $1$. Both pieces contribute $\\frac{1}{2}$, confirming $f_Z$ is correct. This sanity check also catches sign errors or wrong limits that frequently appear in convolution calculations.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Exp}(\\lambda),\\; Y \\sim \\text{Exp}(\\lambda),\\; \\text{independent},\\; Z = X+Y",
+      "description_latex": "We want the PDF of the sum of two independent exponential random variables with the same rate $\\lambda$. Each has density $f_X(t) = \\lambda e^{-\\lambda t}$ for $t \\ge 0$ and $0$ otherwise. Because both $X \\ge 0$ and $Y \\ge 0$, the sum satisfies $Z \\ge 0$, and the constraint $Y = z - t \\ge 0$ forces $t \\le z$, so the integral only runs from $0$ to $z$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_Z(z) = \\int_0^{z} \\lambda e^{-\\lambda t} \\cdot \\lambda e^{-\\lambda(z-t)}\\, dt = \\lambda^2 e^{-\\lambda z} \\int_0^z dt",
+      "description_latex": "After substituting both exponential densities, notice that the $e^{-\\lambda t}$ and $e^{-\\lambda(z-t)}$ terms combine to give $e^{-\\lambda z}$, which is constant with respect to $t$ and factors out of the integral. We are asking you to evaluate this integral and write the final simplified form of $f_Z(z)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Evaluate $\\int_0^z dt$ and multiply through to obtain the final expression for $f_Z(z)$ for $z \\ge 0$. What well-known distribution does this PDF correspond to?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f_Z(z) = \\lambda^2 z e^{-\\lambda z},\\; z \\ge 0 \\quad (\\text{Gamma}(2, \\lambda)\\text{ distribution})",
+      "description_latex": "The result $f_Z(z) = \\lambda^2 z e^{-\\lambda z}$ is the PDF of a Gamma distribution with shape parameter $2$ and rate $\\lambda$. This is a beautiful and important result: the sum of $n$ independent $\\text{Exp}(\\lambda)$ random variables follows a $\\text{Gamma}(n, \\lambda)$ distribution, and convolution is exactly how we prove it.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim \\text{Uniform}(0,1)$ and $Y \\sim \\text{Uniform}(0,2)$ be independent. Write down the convolution integral $f_Z(z) = \\int_{-\\infty}^\\infty f_X(t) f_Y(z-t)\\,dt$ and identify the support of $Z = X+Y$ (i.e., the interval on which $f_Z(z)$ can be nonzero).",
+      "answer_latex": "\\text{Support of } Z \\text{ is } [0, 3]. \\text{ The integral is } f_Z(z) = \\int_{\\max(0,\\,z-2)}^{\\min(1,\\,z)} \\frac{1}{2}\\, dt."
+    },
+    {
+      "prompt_latex": "Let $X$ and $Y$ be independent, each with PDF $f(t) = 2t$ for $0 \\le t \\le 1$ and $0$ otherwise. Find $f_Z(z)$ for $Z = X + Y$ on the interval $0 \\le z \\le 1$.",
+      "answer_latex": "f_Z(z) = \\int_0^z 2t \\cdot 2(z-t)\\, dt = 4\\int_0^z (zt - t^2)\\, dt = 4\\!\\left(\\frac{z^3}{2} - \\frac{z^3}{3}\\right) = \\frac{2z^3}{3}"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Exp}(1)$ and $Y \\sim \\text{Exp}(2)$ be independent. Use the convolution formula to find $f_Z(z)$ for $Z = X + Y$, $z \\ge 0$. (Hint: the two rates differ, so $e^{-t}$ and $e^{-2(z-t)}$ do not cancel as neatly.)",
+      "answer_latex": "f_Z(z) = \\int_0^z e^{-t}\\cdot 2e^{-2(z-t)}\\,dt = 2e^{-2z}\\int_0^z e^{t}\\,dt = 2e^{-2z}(e^z - 1) = 2(e^{-z} - e^{-2z}),\\; z \\ge 0"
+    },
+    {
+      "prompt_latex": "Let $X_1, X_2, X_3$ be independent $\\text{Uniform}(0,1)$ random variables and let $Z = X_1 + X_2 + X_3$. Using the fact that $f_{X_1+X_2}(z) = z$ for $0 \\le z \\le 1$ (from the worked example), convolve once more with $f_{X_3}$ to find $f_Z(z)$ on the interval $0 \\le z \\le 1$.",
+      "answer_latex": "f_Z(z) = \\int_0^z s\\cdot 1\\, ds = \\frac{z^2}{2},\\quad 0 \\le z \\le 1"
+    },
+    {
+      "prompt_latex": "A server processes two independent tasks. Task 1 takes time $X \\sim \\text{Exp}(3)$ minutes and Task 2 takes time $Y \\sim \\text{Exp}(3)$ minutes. The total processing time is $Z = X + Y$. Find the probability that total processing time exceeds $1$ minute, i.e., find $P(Z > 1)$.",
+      "answer_latex": "f_Z(z) = 9ze^{-3z} \\text{ (Gamma}(2,3)\\text{)},\\; P(Z>1) = \\int_1^\\infty 9ze^{-3z}\\,dz = e^{-3}(1+3) = 4e^{-3} \\approx 0.1991"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to enforce the support constraints on both $f_X(t)$ and $f_Y(z-t)$ simultaneously, leaving the limits of integration as $-\\infty$ to $\\infty$ instead of restricting to where both densities are nonzero. The fix is to always solve the system of inequalities defining each variable's support before writing the integral limits.",
+    "When the two densities have overlapping but different supports, students use a single case for all values of $z$ instead of splitting into cases based on how the sliding window $[z-b, z-a]$ overlaps the support of $f_X$. Always draw a number line showing both supports and trace how the overlap interval changes as $z$ increases.",
+    "Students confuse the convolution formula by writing $f_Y(z+t)$ instead of $f_Y(z-t)$, flipping the sign of the argument. Remember that the constraint is $t + s = z$, so $s = z - t$ \u2014 the minus sign is essential and comes directly from the change of variables in the joint CDF derivation."
+  ],
+  "untested_variants": [
+    "Convolution of two discrete random variables using the discrete convolution sum $P(Z=k) = \\sum_j P(X=j)P(Y=k-j)$, such as the sum of two independent Poisson or Binomial random variables.",
+    "Using moment-generating functions or characteristic functions to derive the distribution of a sum (e.g., showing that the MGF of a sum factors as a product), rather than computing the convolution integral directly.",
+    "Finding the PDF of the difference $Z = X - Y$ or the PDF of a linear combination $Z = aX + bY$ with $a \\ne 1$ or $b \\ne 1$, which requires a change-of-variables adjustment to the convolution formula.",
+    "Convolving three or more densities in a single problem where all three cases of the support must be tracked simultaneously, such as finding $f_Z$ on all three sub-intervals $[0,1]$, $[1,2]$, and $[2,3]$ for the sum of three $\\text{Uniform}(0,1)$ variables."
+  ]
+}

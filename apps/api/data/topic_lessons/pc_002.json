@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_002",
+  "topic_name": "Parent Functions and Transformations",
+  "generated_at": "2026-05-12T23:39:45.530159+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to graph $y = x^2$ \u2014 it's a parabola opening upward with its vertex at the origin. But what if someone hands you $y = -2(x+3)^2 - 1$ and asks you to sketch it without a calculator? You'd need to know how every piece of that equation physically moves or reshapes the graph. How do the numbers $-2$, $+3$, and $-1$ each change the picture?",
+  "concept": "A parent function is the simplest, most basic version of a family of functions \u2014 for example, $f(x) = x^2$, $f(x) = |x|$, or $f(x) = \\sqrt{x}$. A transformation is any operation that shifts, stretches, compresses, or reflects that parent graph. Formally, the general transformed form is $g(x) = a \\cdot f(b(x - h)) + k$, where each constant plays a distinct geometric role on the coordinate plane.",
+  "anatomy": "In $g(x) = a \\cdot f(b(x - h)) + k$, there are four transformation parameters. The constant $h$ controls the horizontal shift: the graph moves right when $h > 0$ and left when $h < 0$ (note the sign is opposite to intuition because of the subtraction). The constant $k$ controls the vertical shift: up when $k > 0$, down when $k < 0$. The constant $a$ controls vertical stretch (when $|a| > 1$), vertical compression (when $0 < |a| < 1$), and reflection over the $x$-axis (when $a < 0$). The constant $b$ controls horizontal stretch or compression and reflection over the $y$-axis, though in most pre-calculus courses $b = 1$ is the most common case.",
+  "worked_example": [
+    {
+      "expression_latex": "g(x) = -2(x + 3)^2 - 1",
+      "description_latex": "We start by identifying the parent function, which is $f(x) = x^2$. Every transformation in $g(x)$ is built on top of this parabola, so recognizing the family first gives us our starting picture before we apply any changes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h = -3, \\quad k = -1",
+      "description_latex": "We read off the horizontal and vertical shifts by matching to the form $a(x - h)^2 + k$. Because the expression inside is $(x + 3) = (x - (-3))$, we have $h = -3$, meaning the vertex shifts left 3 units; and $k = -1$ means the vertex shifts down 1 unit, placing the new vertex at $(-3, -1)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = -2",
+      "description_latex": "The coefficient $a = -2$ tells us two things simultaneously: because $|a| = 2 > 1$, the parabola is vertically stretched by a factor of 2 (it's narrower than the parent), and because $a$ is negative, the parabola is reflected over the $x$-axis so it opens downward.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Vertex: } (-3,\\,-1), \\text{ opens downward, vertically stretched by } 2",
+      "description_latex": "We now assemble all transformation information into a complete description of the graph. Starting from $y = x^2$, we shift left 3 and down 1 to place the vertex at $(-3, -1)$, flip it upside down, and make it narrower \u2014 this is everything we need to produce an accurate sketch.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = \\frac{1}{3}|x - 4| + 2",
+      "description_latex": "The parent function here is $f(x) = |x|$, the absolute value function whose graph is a V-shape with its vertex at the origin. Our goal is to identify each transformation parameter and describe what happens to the graph.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h = 4, \\quad k = 2 \\quad \\Rightarrow \\quad \\text{vertex moves to } (4, 2)",
+      "description_latex": "We read $h = 4$ directly from $(x - 4)$, so the graph shifts right 4 units, and $k = 2$ shifts it up 2 units, placing the new vertex at $(4, 2)$. This step requires careful attention to the sign of $h$ \u2014 the subtraction in $(x - h)$ means a positive $h$ moves the graph to the right.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify what the coefficient $a = \\frac{1}{3}$ does to the shape of the V. Does it stretch or compress the graph, and is there any reflection? Write a complete description of the effect on the parent graph $f(x) = |x|$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Vertex: }(4,2),\\text{ opens upward, vertically compressed by factor }\\tfrac{1}{3}",
+      "description_latex": "Putting it all together: the V-shape shifts so its vertex is at $(4, 2)$, opens upward (since $a > 0$), and is vertically compressed because $|a| = \\frac{1}{3} < 1$ \u2014 meaning the arms of the V are wider and shallower than the parent.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Identify the parent function and describe the single transformation applied: } g(x) = x^2 + 5",
+      "answer_latex": "\\text{Parent: } f(x) = x^2; \\text{ vertical shift up } 5 \\text{ units (vertex moves from } (0,0) \\text{ to } (0,5))"
+    },
+    {
+      "prompt_latex": "\\text{Describe all transformations and state the vertex: } g(x) = (x - 2)^2 + 3",
+      "answer_latex": "\\text{Shift right } 2, \\text{ shift up } 3; \\text{ vertex at } (2, 3); \\text{ no stretch or reflection}"
+    },
+    {
+      "prompt_latex": "\\text{Describe all transformations of } g(x) = -|x + 1| - 4 \\text{ relative to } f(x) = |x|",
+      "answer_latex": "\\text{Shift left } 1, \\text{ shift down } 4, \\text{ reflect over the } x\\text{-axis}; \\text{ vertex at } (-1, -4) \\text{ opening downward}"
+    },
+    {
+      "prompt_latex": "\\text{Write the equation of a parabola with parent } f(x) = x^2 \\text{ that has been reflected over the } x\\text{-axis, vertically stretched by } 3, \\text{ shifted right } 5, \\text{ and shifted down } 2.",
+      "answer_latex": "g(x) = -3(x - 5)^2 - 2"
+    },
+    {
+      "prompt_latex": "\\text{A microphone's sensitivity (in decibels) is modeled by } S(x) = -2|x - 6| + 80, \\text{ where } x \\text{ is distance in feet from the speaker. What is the maximum sensitivity, at what distance does it occur, and what transformation moves the peak away from } x = 0?",
+      "answer_latex": "\\text{Maximum sensitivity is } 80 \\text{ dB at } x = 6 \\text{ ft; the horizontal shift } h = 6 \\text{ moves the peak from the origin to } x = 6"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $h = 3$ when they see $(x + 3)$ because they ignore the built-in subtraction in the form $(x - h)$; since $(x+3) = (x-(-3))$, the correct value is $h = -3$, meaning the shift is left, not right. Always rewrite the expression as $(x - h)$ before reading off $h$.",
+    "When $a$ is a fraction like $\\frac{1}{2}$, students frequently say the graph is 'stretched' because fractions feel small and stretching feels like making something bigger; in reality, $|a| < 1$ compresses the graph vertically (making it wider), while $|a| > 1$ stretches it (making it narrower). Check whether $|a|$ is greater or less than 1 to decide.",
+    "Students routinely apply transformations in the wrong order when graphing by hand \u2014 for example, reflecting first and then shifting, which can produce the correct shape but the wrong position. The standard order is horizontal shift, then vertical shift, then stretch/compression, then reflection, and following this order consistently prevents misplaced graphs."
+  ],
+  "untested_variants": [
+    "Horizontal stretches and compressions using the parameter $b$ in $f(bx)$, such as graphing $g(x) = \\sqrt{2x}$ compared to $f(x) = \\sqrt{x}$.",
+    "Transformations applied to trigonometric parent functions such as $f(x) = \\sin x$ or $f(x) = \\cos x$, including amplitude and period changes.",
+    "Identifying the equation of a transformed function from a graph alone (graph-to-equation direction), rather than describing transformations from a given equation.",
+    "Compositions of two different parent-function families, such as combining a square-root transformation with a linear transformation inside the radical, like $g(x) = 3\\sqrt{-(x-1)} + 4$."
+  ]
+}

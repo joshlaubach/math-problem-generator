@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_031",
+  "topic_name": "Proving Group Axioms",
+  "generated_at": "2026-05-13T20:20:55.126462+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to add integers: $3 + 5 = 8$, subtraction works, zero does nothing, and negatives undo positives. But what if someone handed you a brand-new operation on a brand-new set and asked whether it 'behaves like addition'? Without a checklist of properties to verify, you'd have no systematic way to answer. What exactly are the four conditions that must hold for a set with an operation to earn the name 'group', and how do you rigorously prove each one?",
+  "concept": "A group is a set equipped with a binary operation that satisfies four axioms: closure, associativity, existence of an identity element, and existence of inverses for every element. Formally, $(G, *)$ is a group if for all $a, b, c \\in G$: (1) $a * b \\in G$, (2) $(a * b) * c = a * (b * c)$, (3) there exists $e \\in G$ with $e * a = a * e = a$, and (4) there exists $a^{-1} \\in G$ with $a * a^{-1} = a^{-1} * a = e$.",
+  "anatomy": "Every group proof has four distinct components you must address. The set $G$ is the collection of objects (e.g., integers, matrices, permutations). The operation $*$ is the rule combining two elements (e.g., addition, multiplication, composition). The identity element $e$ is the unique element that leaves every other element unchanged under $*$. The inverse $a^{-1}$ of an element $a$ is the specific element that 'undoes' $a$, and you must produce it explicitly for a general element. Closure is not about the operation itself but about whether the result of combining two elements of $G$ stays inside $G$ \u2014 this is checked by examining the output's form.",
+  "worked_example": [
+    {
+      "expression_latex": "G = (\\mathbb{Z}, +), \\text{ where } * \\text{ is ordinary addition}",
+      "description_latex": "We are setting up the proof by declaring our candidate group. Before writing a single proof line, you should name the set, name the operation, and identify your candidate identity and inverses \u2014 for integers under addition, the identity is $0$ and the inverse of $n$ is $-n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Closure: } a, b \\in \\mathbb{Z} \\Rightarrow a + b \\in \\mathbb{Z}",
+      "description_latex": "We verify that the operation stays inside the set. Since the integers are closed under addition by definition (the sum of any two integers is an integer), this axiom holds immediately. Always justify closure by pointing to a known property of your set or by showing the output has the required form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Associativity: } (a + b) + c = a + (b + c) \\text{ for all } a, b, c \\in \\mathbb{Z}",
+      "description_latex": "Associativity for integer addition is a standard axiom of the integers, so we may cite it directly. In more complex examples (like matrix multiplication or function composition), you would need to expand both sides and show they are equal \u2014 but here, it is a known fact we are allowed to invoke.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Identity: } e = 0, \\text{ since } a + 0 = 0 + a = a \\text{ for all } a \\in \\mathbb{Z}",
+      "description_latex": "We must exhibit a specific element $e \\in G$ and prove it satisfies $e * a = a * e = a$ for every $a$. Note that you must check both sides of the equation \u2014 commutativity is not guaranteed in a general group, so left-identity and right-identity must be verified separately (they agree here because addition is commutative).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Inverses: } \\text{For each } a \\in \\mathbb{Z}, \\text{ take } a^{-1} = -a, \\text{ since } a + (-a) = 0 = (-a) + a",
+      "description_latex": "We must produce an explicit inverse for an arbitrary element and verify it works on both sides. Since $-a$ is also an integer for any integer $a$ (the integers are closed under negation), the inverse exists inside $G$. All four axioms are verified, so $(\\mathbb{Z}, +)$ is a group.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "G = (\\mathbb{Q}^*, \\cdot), \\text{ where } \\mathbb{Q}^* = \\mathbb{Q} \\setminus \\{0\\} \\text{ and } \\cdot \\text{ is multiplication}",
+      "description_latex": "We want to prove that the nonzero rationals under multiplication form a group. Notice we exclude $0$ \u2014 think about why that choice is forced before you begin the axiom checks.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Closure: } a, b \\in \\mathbb{Q}^* \\Rightarrow ab \\in \\mathbb{Q}^*",
+      "description_latex": "The product of two nonzero rationals is rational (rationals are closed under multiplication) and nonzero (a product of nonzero numbers is nonzero). So closure holds. Associativity holds because rational multiplication is associative \u2014 you may cite this as a known fact.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify the identity element $e$ for this group. Write down what $e$ must be and verify explicitly that $e \\cdot a = a \\cdot e = a$ for all $a \\in \\mathbb{Q}^*$. Also confirm that $e$ itself belongs to $\\mathbb{Q}^*$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Finally, for an arbitrary $a \\in \\mathbb{Q}^*$, write down the inverse $a^{-1}$, prove it lies in $\\mathbb{Q}^*$ (this is where excluding zero matters!), and verify $a \\cdot a^{-1} = e$ and $a^{-1} \\cdot a = e$. Conclude that $(\\mathbb{Q}^*, \\cdot)$ is a group.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Verify that $(\\mathbb{Z}, +)$ satisfies the identity axiom by explicitly stating the identity element $e$ and proving $e + a = a + e = a$ for all $a \\in \\mathbb{Z}$.",
+      "answer_latex": "e = 0; \\quad 0 + a = a \\text{ and } a + 0 = a \\text{ for all } a \\in \\mathbb{Z}."
+    },
+    {
+      "prompt_latex": "Let $G = \\{1, -1\\}$ with operation ordinary multiplication. Verify all four group axioms for $(G, \\cdot)$.",
+      "answer_latex": "Closure: products are $1 \\cdot 1=1,\\; 1\\cdot(-1)=-1,\\; (-1)\\cdot(-1)=1$, all in $G$. Associativity: inherited from $\\mathbb{R}$. Identity: $e=1$. Inverses: $1^{-1}=1$, $(-1)^{-1}=-1$."
+    },
+    {
+      "prompt_latex": "Determine whether $(\\mathbb{Z}, \\cdot)$ (integers under multiplication) is a group. If not, identify which axiom(s) fail and give a specific counterexample.",
+      "answer_latex": "Not a group: inverses fail. For example, $a = 2$ has no integer multiplicative inverse since $2^{-1} = \\tfrac{1}{2} \\notin \\mathbb{Z}$."
+    },
+    {
+      "prompt_latex": "Let $G = \\{f : \\mathbb{R} \\to \\mathbb{R} \\mid f \\text{ is a bijection}\\}$ with operation function composition $\\circ$. Prove the identity and inverse axioms for $(G, \\circ)$, citing closure and associativity as known facts.",
+      "answer_latex": "Identity: $e = \\text{id}_{\\mathbb{R}}$, since $\\text{id} \\circ f = f \\circ \\text{id} = f$ for all $f \\in G$, and $\\text{id}$ is a bijection. Inverses: for each bijection $f$, its set-theoretic inverse $f^{-1}$ is also a bijection, and $f \\circ f^{-1} = \\text{id} = f^{-1} \\circ f$."
+    },
+    {
+      "prompt_latex": "A student claims the set $G = 2\\mathbb{Z} = \\{\\ldots, -4, -2, 0, 2, 4, \\ldots\\}$ of even integers under addition is a group. Verify or refute this claim by checking all four axioms.",
+      "answer_latex": "It is a group. Closure: sum of two even integers is even. Associativity: inherited from $(\\mathbb{Z},+)$. Identity: $0 \\in 2\\mathbb{Z}$ and $0 + a = a$. Inverses: if $a = 2k \\in 2\\mathbb{Z}$, then $-a = -2k \\in 2\\mathbb{Z}$ and $a + (-a) = 0$."
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to check that the identity element and the inverses they produce actually belong to the set $G$ itself \u2014 for instance, claiming $a^{-1} = 1/a$ is a valid inverse for integers without noticing $1/a \\notin \\mathbb{Z}$ for $a \\neq \\pm 1$. Always confirm every element you exhibit lives inside $G$.",
+    "Many students verify only one side of the identity or inverse equations (e.g., proving $e * a = a$ but not $a * e = a$), forgetting that groups are not assumed to be commutative, so both left and right conditions must be checked independently. Write out both equations explicitly in every proof.",
+    "Students frequently try to prove associativity by checking a few specific numerical cases rather than giving a general argument, which only demonstrates the property for those cases, not for all elements. Either cite associativity as a known property of the underlying number system or prove it holds for arbitrary $a, b, c \\in G$ using algebraic manipulation."
+  ],
+  "untested_variants": [
+    "Proving that a quotient set with a coset operation (e.g., $\\mathbb{Z}/n\\mathbb{Z}$ under addition mod $n$) forms a group, where closure requires modular arithmetic arguments.",
+    "Disproving group structure by constructing an explicit failure of associativity, such as showing that $(\\mathbb{R}_{>0}, *)$ with $a * b = a^b$ is not associative.",
+    "Proving that the set of $2 \\times 2$ invertible matrices $GL_2(\\mathbb{R})$ under matrix multiplication forms a group, which requires handling non-commutativity carefully throughout.",
+    "Proving uniqueness of the identity element and uniqueness of inverses as theorems from the four axioms, rather than just verifying the axioms themselves for a specific example."
+  ]
+}

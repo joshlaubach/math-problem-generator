@@ -10,6 +10,7 @@ when CLERK_FRONTEND_API is not configured (e.g. in JWT-mode tests).
 
 from __future__ import annotations
 
+import os
 from typing import Optional
 
 # Module-level JWKS client; re-created only when the JWKS URL changes.
@@ -45,12 +46,32 @@ def verify_clerk_token(token: str) -> Optional[dict]:
             token,
             signing_key.key,
             algorithms=["RS256"],
-            options={"verify_aud": False},  # Clerk session tokens don't use aud
+            options={"verify_aud": False},  # Clerk session tokens don't carry aud
             leeway=10,  # 10-second leeway for clock skew and network latency
         )
-        return payload
     except Exception:
         return None
+
+    # SECURITY (M5): pin the issuer. The signing key already constrains us to
+    # the configured JWKS, but verifying `iss` rejects any token minted for a
+    # different Clerk instance/environment that happens to share keys.
+    expected_iss = _expected_issuer()
+    if expected_iss:
+        iss = payload.get("iss", "")
+        if iss != expected_iss:
+            return None
+    return payload
+
+
+def _expected_issuer() -> str:
+    """Derive the expected Clerk issuer from config, or '' to skip the check."""
+    from config import CLERK_FRONTEND_API
+    explicit = os.getenv("CLERK_ISSUER", "")
+    if explicit:
+        return explicit
+    if CLERK_FRONTEND_API:
+        return f"https://{CLERK_FRONTEND_API}"
+    return ""
 
 
 def _get_jwks_client(jwks_url: str):

@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_042",
+  "topic_name": "Multiplying Polynomials",
+  "generated_at": "2026-05-12T22:43:01.017166+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to multiply a number by a sum, like $3(x + 5) = 3x + 15$, using the distributive property. But what happens when both factors are polynomials, like $(x + 3)(x + 5)$? You can't just multiply the first terms together and call it done \u2014 there are hidden terms that most students miss entirely. So how do we make sure every part of one polynomial gets multiplied by every part of the other?",
+  "concept": "Multiplying polynomials means applying the distributive property repeatedly so that every term in the first polynomial is multiplied by every term in the second polynomial. Formally, for two polynomials $A$ and $B$, the product $A \\cdot B$ is found by distributing each term of $A$ across all terms of $B$ and then combining like terms. A popular organizational method for binomials is FOIL (First, Outer, Inner, Last), but the underlying idea is always full distribution.",
+  "anatomy": "When multiplying two binomials like $(ax + b)(cx + d)$, there are four distinct partial products to track: the First terms $ax \\cdot cx$, the Outer terms $ax \\cdot d$, the Inner terms $b \\cdot cx$, and the Last terms $b \\cdot d$. Each partial product is formed by multiplying a coefficient (the numerical factor) by a variable part (the power of $x$), producing a new term with its own degree. After all four partial products are found, the middle terms \u2014 the Outer and Inner products \u2014 are like terms and must be combined to produce the final trinomial in standard form.",
+  "worked_example": [
+    {
+      "expression_latex": "(x + 3)(x + 5)",
+      "description_latex": "We start with this product of two binomials. Our goal is to make sure every term in the first factor multiplies every term in the second factor \u2014 think of distributing $(x + 3)$ as a whole group across the second binomial.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x(x + 5) + 3(x + 5)",
+      "description_latex": "We distribute the entire second binomial $(x + 5)$ once for each term in the first factor: $x$ gets its own copy of $(x+5)$, and $3$ gets its own copy. This guarantees no term is missed, and it's just the distributive property applied twice.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 + 5x + 3x + 15",
+      "description_latex": "Now we multiply each pair: $x \\cdot x = x^2$, $x \\cdot 5 = 5x$, $3 \\cdot x = 3x$, and $3 \\cdot 5 = 15$. Notice we have four separate terms before any simplification \u2014 this is normal and expected.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 + 8x + 15",
+      "description_latex": "Finally, we combine the like terms $5x$ and $3x$ to get $8x$. The constant $15$ and the leading term $x^2$ have no like terms, so they stay as is, giving us the final trinomial in standard form.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "(2x + 1)(x + 4)",
+      "description_latex": "We want to multiply these two binomials. We'll distribute each term of the first binomial across the entire second binomial, just like in the worked example.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x(x + 4) + 1(x + 4)",
+      "description_latex": "We've split the distribution step. Now expand each group by multiplying: what four terms do you get when you carry out $2x(x+4)$ and $1(x+4)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "2x^2 + 8x + x + 4",
+      "description_latex": "Good \u2014 here are the four partial products. Now combine the like terms $8x$ and $x$ to write the final simplified polynomial. What is your answer?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Multiply: } (x + 2)(x + 3)",
+      "answer_latex": "x^2 + 5x + 6"
+    },
+    {
+      "prompt_latex": "\\text{Multiply: } (x - 4)(x + 6)",
+      "answer_latex": "x^2 + 2x - 24"
+    },
+    {
+      "prompt_latex": "\\text{Multiply: } (3x + 2)(2x - 5)",
+      "answer_latex": "6x^2 - 11x - 10"
+    },
+    {
+      "prompt_latex": "\\text{Multiply: } (x + 4)^2",
+      "answer_latex": "x^2 + 8x + 16"
+    },
+    {
+      "prompt_latex": "\\text{A rectangle has side lengths } (x + 3) \\text{ and } (x + 7). \\text{ Write a polynomial expression for its area.}",
+      "answer_latex": "x^2 + 10x + 21"
+    }
+  ],
+  "common_mistakes": [
+    "Students multiply only the First and Last terms of the two binomials \u2014 for example, writing $(x+3)(x+5) = x^2 + 15$ \u2014 completely skipping the Outer and Inner products. Remember: a binomial times a binomial always produces four partial products before combining, so check that you have a middle term.",
+    "When one binomial has a subtraction, students lose track of the negative sign on the Inner or Outer product \u2014 for instance, writing $(x-4)(x+6) = x^2 + 6x - 4x + 24$ instead of $x^2 + 6x - 4x - 24$. Treat the minus sign as part of the term being distributed: $-4 \\cdot 6 = -24$, not $+24$.",
+    "After finding all four partial products, students combine the wrong terms \u2014 for example, adding the constant to the $x^2$ term instead of combining the two $x$ terms. Always identify like terms by matching their variable degree: only terms with the same exponent can be combined."
+  ],
+  "untested_variants": [
+    "Multiplying a trinomial by a binomial, such as $(x^2 + 3x - 2)(x + 4)$, which requires tracking six partial products instead of four.",
+    "Multiplying two binomials that produce a difference of squares pattern, such as $(x + 7)(x - 7)$, where the middle terms cancel completely.",
+    "Multiplying a polynomial by a monomial with a variable coefficient, such as $3x(2x^2 - x + 5)$, emphasizing the distributive property with a single term of higher degree.",
+    "Multiplying two binomials with fractional or decimal coefficients, such as $\\left(\\frac{1}{2}x + 3\\right)(4x - 2)$, which tests arithmetic with non-integer values inside the FOIL process."
+  ]
+}

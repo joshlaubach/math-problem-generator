@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_063",
+  "topic_name": "Binomial Distributions",
+  "generated_at": "2026-05-12T23:36:28.205796+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to calculate the probability of a single event \u2014 like flipping a coin and getting heads, which is $\\frac{1}{2}$. But what if you flip that coin 10 times and want to know the probability of getting heads exactly 4 times? You'd need to account for every possible arrangement of those 4 heads among 10 flips, and multiplying $\\frac{1}{2}$ by itself a few times won't cut it. How do we find the exact probability of getting a specific number of successes in a fixed number of independent trials?",
+  "concept": "A binomial distribution describes the probability of getting exactly $k$ successes in $n$ independent trials, where each trial has only two outcomes and the probability of success $p$ stays constant. The formula is $P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$, where $\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$ counts the number of ways to arrange $k$ successes among $n$ trials.",
+  "anatomy": "The binomial probability formula $P(X = k) = \\binom{n}{k} p^k (1-p)^{n-k}$ has four key components: $n$ is the total number of trials (how many times you repeat the experiment); $k$ is the number of successes you are looking for; $p$ is the probability of success on a single trial; and $(1-p)$, often written $q$, is the probability of failure on a single trial. The binomial coefficient $\\binom{n}{k}$ counts how many different orderings of $k$ successes and $n-k$ failures exist, while $p^k(1-p)^{n-k}$ gives the probability of any one specific ordering.",
+  "worked_example": [
+    {
+      "expression_latex": "n = 5,\\quad k = 3,\\quad p = 0.4",
+      "description_latex": "We start by identifying the four ingredients from the problem: a fair game is played 5 times, we want exactly 3 wins, and the probability of winning any single game is 0.4. Labeling these values before touching the formula is the most important habit to build, because plugging the wrong numbers into the wrong slots is the most common source of error.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\binom{5}{3} = \\frac{5!}{3!\\,2!} = \\frac{120}{6 \\cdot 2} = 10",
+      "description_latex": "We compute the binomial coefficient $\\binom{5}{3}$ first, because it tells us how many distinct ways we can place 3 wins among 5 games \u2014 the order of wins and losses matters for counting, even though it does not change the individual probability. Expanding $5! = 120$, $3! = 6$, and $2! = 2$ gives us 10 arrangements.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p^k = (0.4)^3 = 0.064,\\quad (1-p)^{n-k} = (0.6)^2 = 0.36",
+      "description_latex": "Next we compute the two probability pieces separately: $(0.4)^3$ is the probability that the 3 successes all occur, and $(0.6)^2$ is the probability that the 2 failures all occur. We keep these separate for now because multiplying step-by-step reduces rounding errors and makes the structure of the formula visible.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 3) = 10 \\times 0.064 \\times 0.36",
+      "description_latex": "Now we assemble all three pieces: the count of arrangements times the probability of each specific arrangement. Every one of those 10 orderings has the same probability $0.064 \\times 0.36$, so multiplying gives the total probability of getting exactly 3 wins.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 3) = 10 \\times 0.02304 = 0.2304",
+      "description_latex": "Carrying out the multiplication, $0.064 \\times 0.36 = 0.02304$, and then $10 \\times 0.02304 = 0.2304$. So there is about a 23% chance of winning exactly 3 out of 5 games when each game has a 40% win probability \u2014 a concrete, usable answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "n = 8,\\quad k = 2,\\quad p = 0.25",
+      "description_latex": "A student guesses randomly on an 8-question multiple-choice quiz where each question has 4 choices. We want the probability of getting exactly 2 questions right. We have identified $n = 8$ trials, $k = 2$ successes, and $p = 0.25$ as the probability of guessing correctly on one question.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\binom{8}{2} = \\frac{8!}{2!\\,6!} = 28",
+      "description_latex": "We compute the binomial coefficient to count how many ways exactly 2 correct answers can be distributed among 8 questions. Confirm for yourself that $\\frac{8 \\times 7}{2 \\times 1} = 28$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the two probability factors: what is $(0.25)^2$ and what is $(0.75)^6$? Multiply these together to find the probability of one specific arrangement of 2 correct and 6 incorrect answers. Round to six decimal places if needed.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(X = 2) = 28 \\times (0.25)^2 \\times (0.75)^6 \\approx 0.3115",
+      "description_latex": "Finally, multiply the binomial coefficient by your probability product: $28 \\times 0.0625 \\times 0.17798 \\approx 0.3115$. This tells us there is roughly a 31% chance of guessing exactly 2 questions correctly \u2014 higher than you might expect from pure guessing!",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A fair coin is flipped 4 times. Find $P(X = 4)$, the probability of getting exactly 4 heads.",
+      "answer_latex": "P(X = 4) = \\binom{4}{4}(0.5)^4(0.5)^0 = 0.0625"
+    },
+    {
+      "prompt_latex": "A basketball player makes 70\\% of free throws. If she attempts 6 free throws, find $P(X = 5)$.",
+      "answer_latex": "P(X = 5) = \\binom{6}{5}(0.7)^5(0.3)^1 = 6 \\times 0.16807 \\times 0.3 \\approx 0.3025"
+    },
+    {
+      "prompt_latex": "A factory produces items with a 10\\% defect rate. In a batch of 7 items, find $P(X = 2)$, the probability of exactly 2 defects.",
+      "answer_latex": "P(X = 2) = \\binom{7}{2}(0.1)^2(0.9)^5 = 21 \\times 0.01 \\times 0.59049 \\approx 0.1240"
+    },
+    {
+      "prompt_latex": "A die is rolled 10 times. Find $P(X = 3)$, the probability of rolling a 6 exactly 3 times. Leave your answer in exact form.",
+      "answer_latex": "P(X = 3) = \\binom{10}{3}\\left(\\tfrac{1}{6}\\right)^3\\!\\left(\\tfrac{5}{6}\\right)^7 = 120 \\cdot \\dfrac{5^7}{6^{10}} = \\dfrac{937500}{60466176} \\approx 0.1550"
+    },
+    {
+      "prompt_latex": "A survey shows that 35\\% of adults in a city use public transit daily. If 12 adults are selected at random, what is the probability that at least 11 of them use public transit daily?",
+      "answer_latex": "P(X \\ge 11) = P(X=11) + P(X=12) = \\binom{12}{11}(0.35)^{11}(0.65)^1 + \\binom{12}{12}(0.35)^{12}(0.65)^0 \\approx 0.000176 + 0.0000077 \\approx 0.000184"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse $n$ and $k$ and write $\\binom{k}{n}$ instead of $\\binom{n}{k}$, which either produces a fraction or an undefined expression. Remember: the larger number (total trials) always goes on top in the binomial coefficient.",
+    "When computing $(1-p)^{n-k}$, students use $n$ instead of $n - k$ as the exponent, writing $(1-p)^n$ instead of $(1-p)^{n-k}$. The exponent on the failure probability must equal the number of failures, which is $n - k$, not the total number of trials.",
+    "Students forget to include the binomial coefficient $\\binom{n}{k}$ entirely and just compute $p^k(1-p)^{n-k}$, which gives the probability of only one specific ordered sequence of outcomes. The coefficient is essential because it counts all the different orders in which $k$ successes can occur."
+  ],
+  "untested_variants": [
+    "Finding the probability of a range of successes such as $P(X \\ge 3)$ or $P(2 \\le X \\le 5)$, which requires summing multiple binomial terms.",
+    "Using the binomial distribution to find the expected value $\\mu = np$ and standard deviation $\\sigma = \\sqrt{np(1-p)}$ of a binomial random variable.",
+    "Problems where $p$ is expressed as a fraction (e.g., $p = \\frac{2}{7}$) rather than a decimal, requiring students to keep the answer in exact fractional form.",
+    "Identifying whether a described scenario actually satisfies the conditions for a binomial distribution (fixed $n$, independent trials, constant $p$, exactly two outcomes), rather than directly computing a probability."
+  ]
+}

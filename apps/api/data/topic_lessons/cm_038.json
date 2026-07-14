@@ -1,0 +1,86 @@
+{
+  "topic_id": "cm_038",
+  "topic_name": "Working Backwards and Special Cases",
+  "generated_at": "2026-05-13T20:24:46.829386+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to follow a sequence of operations forward \u2014 apply a function, track a variable, compute a result. But what happens when a competition problem hands you the *end* of a process and asks you to find the *beginning*? For example: 'A number is doubled, then 3 is added, then the result is tripled to give 39. What was the original number?' You know enough arithmetic to check any answer, but checking every possible number is hopeless under time pressure. Can you find a slick way to run the process in reverse?",
+  "concept": "Working backwards means starting from the known output of a process and reversing each operation step-by-step to recover the unknown input. Special cases means testing extreme or boundary inputs \u2014 such as 0, 1, infinity, or equality \u2014 to quickly eliminate wrong answer choices or discover hidden structure. Formally: if a sequence of operations $f_1, f_2, \\ldots, f_n$ transforms input $x$ into output $y$, then $x = f_1^{-1}(f_2^{-1}(\\cdots f_n^{-1}(y)\\cdots))$.",
+  "anatomy": "When applying these strategies, four structural parts matter. First, the *forward chain* \u2014 the ordered sequence of operations applied to the unknown, such as multiply by 2, add 3, multiply by 3. Second, the *inverse operations* \u2014 the exact reversal of each step; addition undoes subtraction, division undoes multiplication, and the reversal must proceed in *reverse order* (last operation first). Third, the *boundary or special-case value* \u2014 a specific input like $n=0$, $n=1$, or $a=b$ chosen because it simplifies the expression dramatically. Fourth, the *consistency check* \u2014 plugging the recovered value back into the forward direction to confirm it produces the stated output.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Forward chain: } x \\xrightarrow{\\times 2} \\xrightarrow{+3} \\xrightarrow{\\times 3} 39",
+      "description_latex": "We begin by writing out every operation in the order it was applied to the unknown $x$, so we can see the full chain from start to finish. Mapping the chain visually prevents us from accidentally reversing the operations in the wrong order, which is the most common error.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Undo } \\times 3: \\quad 39 \\div 3 = 13",
+      "description_latex": "Working backwards means we reverse the *last* operation first. The last operation was 'multiply by 3,' so we divide the final result 39 by 3, giving 13. We are now one step from the left side of the chain.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Undo } +3: \\quad 13 - 3 = 10",
+      "description_latex": "The second-to-last operation was 'add 3,' so we subtract 3 from 13. Notice we are peeling operations off the right end of the chain one at a time \u2014 this is the key discipline of working backwards.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Undo } \\times 2: \\quad 10 \\div 2 = 5, \\quad \\text{so } x = 5",
+      "description_latex": "Finally we undo the first (now leftmost) operation, 'multiply by 2,' by dividing by 2. We recover $x = 5$. We can verify: $5 \\times 2 = 10$, $10 + 3 = 13$, $13 \\times 3 = 39$ \u2713",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: Which is larger, } \\frac{a^2+b^2}{2} \\text{ or } \\left(\\frac{a+b}{2}\\right)^2?",
+      "description_latex": "This is an algebraic inequality where direct comparison looks messy. A powerful special-case strategy is to test $a = b$ first \u2014 when two variables are equal, many expressions collapse to something transparent, revealing the boundary behavior.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = b: \\quad \\frac{a^2+a^2}{2} = a^2 \\quad \\text{and} \\quad \\left(\\frac{a+a}{2}\\right)^2 = a^2",
+      "description_latex": "Substituting $a = b$ shows both sides equal $a^2$, so the expressions are equal at the boundary. This tells us the inequality (if one exists) is not strict at equality \u2014 which rules out answer choices claiming strict inequality always holds.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now test a specific case where $a \\neq b$, such as $a = 0, b = 2$. Compute both $\\frac{a^2+b^2}{2}$ and $\\left(\\frac{a+b}{2}\\right)^2$, compare them, and state which side is larger. What does this tell you about the general inequality?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\frac{a^2+b^2}{2} \\geq \\left(\\frac{a+b}{2}\\right)^2, \\text{ with equality iff } a=b",
+      "description_latex": "The special case $a=0, b=2$ gives $\\frac{0+4}{2}=2$ versus $\\left(\\frac{0+2}{2}\\right)^2=1$, so the left side is larger. This confirms $\\frac{a^2+b^2}{2} \\geq \\left(\\frac{a+b}{2}\\right)^2$ in general \u2014 which is equivalent to the QM-AM inequality and follows from expanding $(a-b)^2 \\geq 0$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A number is multiplied by 5, then 7 is subtracted, giving 43. What was the original number?",
+      "answer_latex": "10"
+    },
+    {
+      "prompt_latex": "I think of a number, square it, add 4 times the number, then add 4. The result is 25. Working backwards (or by any method), find a positive value for the original number.",
+      "answer_latex": "3"
+    },
+    {
+      "prompt_latex": "For the expression $\\frac{n^2 - n}{2}$, use the special case $n = 1$ to evaluate the expression, then use $n = 2$ and $n = 3$. What pattern do you observe? (State the pattern as a formula for the $k$-th term.)",
+      "answer_latex": "The values are $0, 1, 3, 6, \\ldots$, the triangular numbers; the $k$-th term is $\\frac{k(k-1)}{2}$."
+    },
+    {
+      "prompt_latex": "In a contest, each correct answer earns $+4$ points and each wrong answer earns $-1$ point. A student answered 20 questions and scored exactly 50 points. Working backwards from the score equations, how many questions did the student answer correctly?",
+      "answer_latex": "14"
+    },
+    {
+      "prompt_latex": "A bag of coins is passed around a table. The first person takes half the coins plus one more. The second person takes half of what remains plus one more. The third person takes half of what remains plus one more, leaving the bag empty. How many coins were in the bag originally? (Work backwards from 0 remaining.)",
+      "answer_latex": "22"
+    }
+  ],
+  "common_mistakes": [
+    "Students reverse the operations in the original (forward) order instead of reversed order \u2014 for example, undoing 'multiply then add' by first undoing multiplication, then addition, when they should undo addition first. Fix: always label the chain left-to-right and peel from the right end.",
+    "When testing special cases, students plug in a value that makes the expression undefined or trivially zero (like $n=0$ in a denominator), then draw a wrong general conclusion. Fix: before choosing a special case, check it is in the valid domain of the problem and test at least two distinct values to confirm the pattern.",
+    "Students forget to verify the recovered answer by running it forward through the original chain, and so miss arithmetic errors made during the reversal. Fix: the consistency check (plug back in) takes 10 seconds and should be non-negotiable in competition work."
+  ],
+  "untested_variants": [
+    "Working backwards through a geometric construction \u2014 e.g., a sequence of reflections or rotations applied to a point, where the final image is given and the original point must be recovered.",
+    "Using special cases to determine the parity (odd/even) or divisibility structure of a combinatorial expression, rather than its size or inequality direction.",
+    "Chained working-backwards problems involving percentages or ratios, such as successive discounts or population growth rates, where each inverse step requires dividing by a non-integer multiplier.",
+    "Applying special cases within a proof-by-contradiction framework on a competition problem, where the special case directly produces the contradiction rather than just informing a conjecture."
+  ]
+}

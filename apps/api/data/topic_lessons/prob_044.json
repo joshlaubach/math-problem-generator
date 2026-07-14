@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_044",
+  "topic_name": "The Chi-Squared Distribution (H)",
+  "generated_at": "2026-05-13T23:08:26.331264+00:00",
+  "course_name": "Probability",
+  "hook": "You already know that if $Z \\sim N(0,1)$ is a standard normal random variable, then $Z^2$ has some distribution \u2014 but which one? More generally, if you square several independent standard normals and add them together, the resulting sum controls things like goodness-of-fit tests and variance estimation in statistics. What is the distribution of $Z_1^2 + Z_2^2 + \\cdots + Z_k^2$, and how do its shape and properties depend on $k$?",
+  "concept": "The chi-squared distribution describes the sum of squared independent standard normal random variables. Formally, if $Z_1, Z_2, \\ldots, Z_k$ are independent $N(0,1)$ random variables, then $X = Z_1^2 + Z_2^2 + \\cdots + Z_k^2$ follows a chi-squared distribution with $k$ degrees of freedom, written $X \\sim \\chi^2(k)$. It is a special case of the Gamma distribution with shape $k/2$ and rate $1/2$, so $X \\sim \\text{Gamma}(k/2,\\, 1/2)$.",
+  "anatomy": "The chi-squared distribution $\\chi^2(k)$ has one parameter: $k$, the degrees of freedom, which must be a positive integer and equals the number of squared standard normals being summed. Its probability density function is $f(x) = \\frac{1}{2^{k/2}\\,\\Gamma(k/2)}\\, x^{k/2 - 1}\\, e^{-x/2}$ for $x > 0$, where $\\Gamma(\\cdot)$ is the gamma function generalising the factorial. The mean is $\\mu = k$, the variance is $\\sigma^2 = 2k$, and the distribution is right-skewed for small $k$ but approaches a normal shape as $k \\to \\infty$. Critical values $\\chi^2_{\\alpha, k}$ (the value exceeded with probability $\\alpha$) are read from tables or software and are essential for hypothesis testing.",
+  "worked_example": [
+    {
+      "expression_latex": "X = Z_1^2 + Z_2^2 + Z_3^2, \\quad Z_i \\overset{\\text{iid}}{\\sim} N(0,1)",
+      "description_latex": "We start by identifying that $X$ is the sum of three squared independent standard normals, so by the definition of the chi-squared distribution, $X \\sim \\chi^2(3)$. Recognising the structure \u2014 independent, standard normal, squared and summed \u2014 is the key first step before doing any calculation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathrm{E}[X] = k = 3, \\qquad \\mathrm{Var}(X) = 2k = 6",
+      "description_latex": "Using the standard results for the chi-squared distribution, the mean equals the degrees of freedom $k$ and the variance equals $2k$. These follow directly from the fact that each $Z_i^2$ has mean $1$ and variance $2$ (since $\\mathrm{E}[Z_i^2]=1$ and $\\mathrm{Var}(Z_i^2)=2$ for a standard normal), and the terms are independent so expectations and variances add.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X > \\chi^2_{0.05,\\,3}) = 0.05",
+      "description_latex": "We want the upper 5% critical value for $\\chi^2(3)$. The notation $\\chi^2_{0.05, 3}$ means the value $c$ such that $P(X > c) = 0.05$, which from standard tables gives $c = 7.815$. Understanding that the table gives right-tail probabilities is crucial \u2014 always check whether your table lists upper-tail or lower-tail values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X > 7.815) = 0.05 \\implies P(X \\leq 7.815) = 0.95",
+      "description_latex": "Because probabilities sum to 1, knowing the upper-tail probability immediately tells us the CDF value: $F(7.815) = 0.95$. This complementary relationship is something you will use constantly when converting between chi-squared table entries and actual probability statements.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\chi^2(5)",
+      "description_latex": "We are told $X$ follows a chi-squared distribution with 5 degrees of freedom. We want to find $\\mathrm{E}[X]$, $\\mathrm{Var}(X)$, and the upper 1% critical value $\\chi^2_{0.01,\\,5}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathrm{E}[X] = 5, \\qquad \\mathrm{Var}(X) = 2 \\times 5 = 10",
+      "description_latex": "Applying the standard mean and variance formulas $\\mathrm{E}[X]=k$ and $\\mathrm{Var}(X)=2k$ with $k=5$ gives us these values directly. Notice how the variance grows twice as fast as the mean as degrees of freedom increase.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now use a chi-squared table (or the relationship to the Gamma distribution) to find $c$ such that $P(X > c) = 0.01$ when $X \\sim \\chi^2(5)$. Write down the value of $\\chi^2_{0.01,\\,5}$ and explain what it tells you about the right tail of this distribution.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "If $X \\sim \\chi^2(8)$, state $\\mathrm{E}[X]$ and $\\mathrm{Var}(X)$.",
+      "answer_latex": "\\mathrm{E}[X] = 8, \\quad \\mathrm{Var}(X) = 16"
+    },
+    {
+      "prompt_latex": "Let $Z_1, Z_2, Z_3, Z_4 \\overset{\\text{iid}}{\\sim} N(0,1)$. Write down the distribution of $W = Z_1^2 + Z_2^2 + Z_3^2 + Z_4^2$ and find $\\mathrm{E}[W]$ and $\\mathrm{Var}(W)$.",
+      "answer_latex": "W \\sim \\chi^2(4), \\quad \\mathrm{E}[W] = 4, \\quad \\mathrm{Var}(W) = 8"
+    },
+    {
+      "prompt_latex": "Using chi-squared tables, find the value $c$ such that $P(X \\leq c) = 0.95$ when $X \\sim \\chi^2(10)$.",
+      "answer_latex": "c = \\chi^2_{0.05,\\,10} = 18.307"
+    },
+    {
+      "prompt_latex": "If $X \\sim \\chi^2(k)$ and $Y \\sim \\chi^2(m)$ are independent, state the distribution of $X + Y$ and hence find $\\mathrm{E}[X+Y]$ and $\\mathrm{Var}(X+Y)$ in terms of $k$ and $m$.",
+      "answer_latex": "X + Y \\sim \\chi^2(k+m), \\quad \\mathrm{E}[X+Y] = k+m, \\quad \\mathrm{Var}(X+Y) = 2(k+m)"
+    },
+    {
+      "prompt_latex": "A quality-control engineer models measurement errors as $\\epsilon_i \\sim N(0, \\sigma^2)$. She computes $S = \\sum_{i=1}^{6} \\epsilon_i^2 / \\sigma^2$. What is the distribution of $S$? Find the probability that $S$ exceeds 12.592, giving your answer to 2 decimal places.",
+      "answer_latex": "S \\sim \\chi^2(6); \\quad P(S > 12.592) = 0.05"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the degrees of freedom $k$ with the number of observations $n$ in a sample variance context, forgetting that estimating the mean costs one degree of freedom so the correct chi-squared has $k = n-1$, not $k = n$.",
+    "When reading chi-squared tables, students misidentify whether the tabulated value is an upper-tail or lower-tail critical value. Always check the table header: if you need $P(X > c) = 0.05$, look up the 0.05 upper-tail column, not the 0.05 lower-tail (which would give $P(X \\leq c) = 0.05$, an entirely different value).",
+    "Students incorrectly apply the chi-squared mean and variance formulas when the original variables are $N(\\mu, \\sigma^2)$ rather than $N(0,1)$, writing $X = Z_1^2 + \\cdots + Z_k^2$ when actually $Z_i = (Y_i - \\mu)/\\sigma$ is required first \u2014 the chi-squared distribution only applies to squared standard normals, not arbitrary normals."
+  ],
+  "untested_variants": [
+    "Deriving the moment generating function $M_X(t) = (1-2t)^{-k/2}$ for $t < 1/2$ and using it to verify the mean and variance.",
+    "Using the chi-squared distribution to construct a confidence interval for the variance $\\sigma^2$ of a normal population, involving the quantity $(n-1)S^2/\\sigma^2 \\sim \\chi^2(n-1)$.",
+    "Connecting the chi-squared to the Gamma distribution explicitly \u2014 showing that $\\chi^2(k) = \\text{Gamma}(k/2,\\, 1/2)$ and using Gamma MGFs or properties to derive chi-squared results.",
+    "Finding probabilities for a chi-squared variable using the relationship to the Poisson distribution (for even degrees of freedom) or using a normal approximation for large $k$."
+  ]
+}

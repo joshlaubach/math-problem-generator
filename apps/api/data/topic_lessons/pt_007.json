@@ -1,0 +1,91 @@
+{
+  "topic_id": "pt_007",
+  "topic_name": "Communication Classes and Irreducibility",
+  "generated_at": "2026-05-14T01:00:11.849003+00:00",
+  "course_name": "Probability Theory",
+  "hook": "You already know how to write down a transition matrix for a Markov chain and compute multi-step probabilities. But here is something that transition matrix cannot immediately tell you: if the chain starts in state 3, can it ever reach state 7, and if so, can it ever come back? Some states are isolated islands; others belong to tightly connected groups. Without a way to classify this structure, you cannot predict long-run behavior at all. So the question is: how do we carve the state space of a Markov chain into meaningful groups based on which states can reach which?",
+  "concept": "Two states communicate if each can reach the other in a finite number of steps. Formally, states $i$ and $j$ communicate, written $i \\leftrightarrow j$, if there exist integers $m, n \\geq 1$ such that $P^m(i,j) > 0$ and $P^n(j,i) > 0$. Communication is an equivalence relation, so it partitions the entire state space into disjoint communication classes. A Markov chain is called irreducible if every pair of states communicates, meaning the whole state space forms a single class.",
+  "anatomy": "The key structural pieces are: the accessibility relation '$i \\to j$' (state $i$ can reach state $j$, meaning $P^n(i,j) > 0$ for some $n \\geq 1$), the communication relation '$i \\leftrightarrow j$' (accessibility holds in both directions), and communication classes (the equivalence classes produced by $\\leftrightarrow$, which partition the state space $S$). Within the class structure, a class $C$ is called closed if no state in $C$ can access any state outside $C$ (formally, $i \\in C$ and $i \\to j$ implies $j \\in C$), and open otherwise. An irreducible chain has exactly one class, which must be closed.",
+  "worked_example": [
+    {
+      "expression_latex": "P = \\begin{pmatrix} 0 & 1 & 0 & 0 \\\\ 1/2 & 1/2 & 0 & 0 \\\\ 1/4 & 1/4 & 1/4 & 1/4 \\\\ 0 & 0 & 0 & 1 \\end{pmatrix}, \\quad S = \\{1, 2, 3, 4\\}",
+      "description_latex": "We begin by writing down the transition matrix and labeling the states. Each entry $P(i,j)$ gives the one-step probability of moving from row-state $i$ to column-state $j$, and we will use these entries to build a directed graph that makes the accessibility structure visible.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1 \\to 2 \\text{ (since } P(1,2)=1>0\\text{)}, \\quad 2 \\to 1 \\text{ (since } P(2,1)=1/2>0\\text{)}, \\quad 3 \\to 1, 3 \\to 2, 3 \\to 4 \\text{ (row 3 is positive in all columns)}, \\quad 4 \\to 4 \\text{ only}",
+      "description_latex": "We check each row for positive entries to determine one-step accessibility. Notice that state 4 has $P(4,4)=1$ and all other entries zero, so from state 4 you can never leave \u2014 this is an immediate signal that $\\{4\\}$ is a closed class by itself.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1 \\leftrightarrow 2 \\text{ because } 1 \\to 2 \\text{ and } 2 \\to 1. \\quad 3 \\to 1 \\text{ but } 1 \\not\\to 3 \\text{ (rows 1 and 2 have zero in column 3)}, \\text{ so } 3 \\not\\leftrightarrow 1.",
+      "description_latex": "To check communication we need two-way accessibility. States 1 and 2 communicate because the chain can travel in both directions in one step. State 3 can reach states 1 and 2, but neither row 1 nor row 2 has any positive probability of moving to state 3, so state 3 cannot be reached from $\\{1, 2\\}$, breaking the two-way requirement.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Communication classes: } C_1 = \\{1,2\\}, \\quad C_2 = \\{3\\}, \\quad C_3 = \\{4\\}",
+      "description_latex": "We collect the equivalence classes. States 1 and 2 form one class, state 3 is alone in its own class (it cannot communicate with any other state), and state 4 is alone in its own class. This gives us three distinct communication classes partitioning $S$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C_1 = \\{1,2\\}: \\text{ open (3 can enter } C_1\\text{, but states in }C_1\\text{ cannot reach 3 or 4)}. \\quad C_2=\\{3\\}: \\text{ open (3 can leave to 1,2,4)}. \\quad C_3=\\{4\\}: \\text{ closed (4 cannot leave)}. \\quad \\text{Chain is NOT irreducible.}",
+      "description_latex": "Finally we classify each communication class as open or closed. A class is closed when no arrow leaves it; here only $\\{4\\}$ is closed because row 4 never exits. Because the state space does not consist of a single class, the chain is not irreducible \u2014 starting in state 3, the chain can drift into $\\{1,2\\}$ or get absorbed into state 4, and these two fates cannot be reversed.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P = \\begin{pmatrix} 0 & 1/2 & 1/2 \\\\ 1/3 & 0 & 2/3 \\\\ 1/4 & 3/4 & 0 \\end{pmatrix}, \\quad S = \\{1,2,3\\}",
+      "description_latex": "We are given a three-state chain. Your first task is to read off which states are accessible from which by identifying every positive entry in each row of $P$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "1 \\to 2, \\; 1 \\to 3; \\quad 2 \\to 1, \\; 2 \\to 3; \\quad 3 \\to 1, \\; 3 \\to 2",
+      "description_latex": "Here is the full list of one-step accessibility arrows. Notice that every state has a direct path to every other state in one step. Now use this to determine the communication classes: which states communicate with which, and is the chain irreducible?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Since every pair of states can reach each other in one step, state $i \\leftrightarrow j$ for all $i,j \\in \\{1,2,3\\}$. Write down the communication classes and state whether this chain is irreducible, giving a one-sentence justification.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Is the single class you identified open or closed? Explain by checking whether any transition exits the class, then state what irreducibility implies about the class being closed.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A chain has transition matrix $P = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$ on $S=\\{1,2\\}$. Find all communication classes and state whether the chain is irreducible.",
+      "answer_latex": "Classes: $\\{1\\}$ and $\\{2\\}$, both closed. The chain is NOT irreducible because the two states cannot reach each other."
+    },
+    {
+      "prompt_latex": "A four-state chain has the following non-zero transitions: $P(1,2)>0$, $P(2,3)>0$, $P(3,1)>0$, $P(4,1)>0$, and $P(4,4)>0$, with all other entries zero. Identify all communication classes and classify each as open or closed.",
+      "answer_latex": "Class $\\{1,2,3\\}$ is closed (no exit exists); class $\\{4\\}$ is open because $4 \\to 1$ allows leaving. The chain is not irreducible."
+    },
+    {
+      "prompt_latex": "Let $S=\\{1,2,3,4,5\\}$ with transitions $1\\to 2$, $2\\to 1$, $2\\to 3$, $3\\to 4$, $4\\to 3$, $5\\to 1$ (all positive, all other entries zero). Find all communication classes.",
+      "answer_latex": "Classes: $\\{1,2\\}$ (open, since $2\\to 3$ exits), $\\{3,4\\}$ (closed), $\\{5\\}$ (open). The chain is not irreducible."
+    },
+    {
+      "prompt_latex": "A chain on $S=\\{1,2,3\\}$ has $P(1,2) = p$, $P(1,1)=1-p$, $P(2,3)=1$, $P(3,1)=1$ for some $0 < p \\leq 1$. Find the communication classes. Then use the fact that a finite irreducible chain always has a unique stationary distribution to determine whether a unique stationary distribution $\\pi$ exists here.",
+      "answer_latex": "All states communicate: $1\\to 2\\to 3\\to 1$ and every reverse path is achievable in multiple steps, giving one class $\\{1,2,3\\}$. The chain is irreducible, so a unique stationary distribution exists."
+    },
+    {
+      "prompt_latex": "A gambler plays a game starting with $\\$2$. At each step she wins $\\$1$ with probability $1/2$ and loses $\\$1$ with probability $1/2$. The game ends if she reaches $\\$0$ (broke) or $\\$4$ (goal). Model this as a Markov chain on $S=\\{0,1,2,3,4\\}$ and identify the communication classes, specifying which are closed.",
+      "answer_latex": "States $\\{1,2,3\\}$ form one open class (they communicate with each other and can exit to 0 or 4). States $\\{0\\}$ and $\\{4\\}$ are each their own closed (absorbing) classes. The chain is not irreducible."
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse accessibility '$i \\to j$' with communication '$i \\leftrightarrow j$', concluding that two states communicate simply because $P^n(i,j)>0$ for some $n$, without verifying the reverse direction. Always check both $P^m(i,j)>0$ and $P^n(j,i)>0$ before claiming two states belong to the same class.",
+    "Students frequently look only at one-step probabilities when determining whether $i$ can reach $j$, missing multi-step paths. If $P(i,j)=0$ but $P(i,k)>0$ and $P(k,j)>0$, then $i \\to j$ via state $k$ in two steps; always check $P^n$ for $n \\geq 2$ before concluding inaccessibility.",
+    "Students sometimes label a communication class as 'closed' simply because it contains an absorbing state, without checking every state in the class. A class is closed only if no state anywhere in the class has a positive probability of transitioning to any state outside the class; verify every row corresponding to states in the class."
+  ],
+  "untested_variants": [
+    "Determining communication classes for a chain defined on a countably infinite state space (e.g., a random walk on the non-negative integers with a reflecting barrier), where the partition cannot be found by exhaustive row inspection.",
+    "Given a communication class structure, reconstructing a valid transition matrix consistent with specified open/closed classifications and a prescribed stationary distribution \u2014 combining irreducibility with stationarity in reverse.",
+    "Using the concept of period alongside communication classes: verifying that all states within a communication class share the same period, and computing that period from the greatest common divisor of return times.",
+    "Analyzing communication classes in a continuous-time Markov chain (CTMC) defined by a generator (rate) matrix $Q$, where accessibility is determined by off-diagonal entries of $Q$ rather than entries of a transition matrix $P$."
+  ]
+}

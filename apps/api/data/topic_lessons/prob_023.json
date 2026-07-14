@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_023",
+  "topic_name": "Introduction to Continuous Distributions",
+  "generated_at": "2026-05-13T20:27:22.972937+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find probabilities for discrete random variables by summing values: for example, the probability of rolling a 3 on a die is simply $\\frac{1}{6}$. But what happens when your random variable can take on any real value in an interval \u2014 say, the exact height of a randomly chosen person, or the precise time until a bus arrives? There are infinitely many possible values, so you can't just list them and add probabilities. How do we even define probability for a continuous outcome?",
+  "concept": "A continuous random variable takes values over an entire interval (or union of intervals) rather than a countable list. Instead of assigning probability to individual points, we describe its distribution with a probability density function (PDF), $f(x)$, where probability over an interval is computed as an integral: $P(a \\leq X \\leq b) = \\int_a^b f(x)\\,dx$. The function $f(x)$ must satisfy $f(x) \\geq 0$ for all $x$ and $\\int_{-\\infty}^{\\infty} f(x)\\,dx = 1$.",
+  "anatomy": "Every continuous distribution involves three distinct components. First, the probability density function $f(x)$ \u2014 this is the curve whose area gives probability; note that $f(x)$ itself is NOT a probability, it is a density that can exceed 1. Second, the support \u2014 the set of values where $f(x) > 0$, such as the interval $[a, b]$ or $(0, \\infty)$; outside the support, $f(x) = 0$. Third, the normalization condition, $\\int_{-\\infty}^{\\infty} f(x)\\,dx = 1$, which is the continuous analog of 'all probabilities sum to 1' and acts as the fundamental validity check for any PDF.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = \\begin{cases} 3x^2 & 0 \\leq x \\leq 1 \\\\ 0 & \\text{otherwise} \\end{cases}",
+      "description_latex": "We are given a proposed PDF and our first job is to verify it is valid. We need to confirm two things: that $f(x) \\geq 0$ on its support and that the total area under $f$ equals 1. Since $x^2 \\geq 0$ for all real $x$, clearly $3x^2 \\geq 0$ on $[0,1]$, so the non-negativity condition is satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_{-\\infty}^{\\infty} f(x)\\,dx = \\int_0^1 3x^2\\,dx",
+      "description_latex": "We restrict the integral to the support $[0,1]$ because $f(x) = 0$ everywhere else, so integrating outside that interval contributes nothing. This step is the normalization check \u2014 we are computing the total area under the curve to see whether it equals 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^1 3x^2\\,dx = \\left[x^3\\right]_0^1 = 1^3 - 0^3 = 1",
+      "description_latex": "Applying the power rule, the antiderivative of $3x^2$ is $x^3$. Evaluating at the bounds gives exactly 1, confirming this is a valid PDF. Both conditions are met.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(0.5 \\leq X \\leq 1) = \\int_{0.5}^{1} 3x^2\\,dx = \\left[x^3\\right]_{0.5}^{1} = 1 - 0.125 = 0.875",
+      "description_latex": "Now we use the PDF to find a real probability by integrating over the interval $[0.5, 1]$. The key idea is that probability equals area under the density curve, so we evaluate $x^3$ at the upper and lower limits and subtract. The result, $0.875$, is the probability that $X$ falls in the upper half of its support \u2014 which makes intuitive sense because the density $3x^2$ is increasing and concentrated near 1.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = \\begin{cases} c\\,x & 0 \\leq x \\leq 4 \\\\ 0 & \\text{otherwise} \\end{cases}",
+      "description_latex": "We want to find the constant $c$ that makes $f(x)$ a valid PDF. The normalization condition gives us an equation to solve: we set the total integral equal to 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^4 c\\,x\\,dx = c \\cdot \\left[\\frac{x^2}{2}\\right]_0^4 = c \\cdot 8 = 1",
+      "description_latex": "We factor out the constant $c$ and evaluate the integral of $x$ over $[0,4]$. This gives $8c = 1$, so we can solve for $c$ directly. What is the value of $c$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(1 \\leq X \\leq 3) = \\int_1^3 \\frac{1}{8}x\\,dx = \\frac{1}{8}\\left[\\frac{x^2}{2}\\right]_1^3 = \\frac{1}{8}\\cdot\\frac{9-1}{2} = \\frac{1}{2}",
+      "description_latex": "Using $c = \\frac{1}{8}$, we now compute the probability that $X$ falls between 1 and 3 by integrating $f(x) = \\frac{x}{8}$ over that interval. The area equals $\\frac{1}{2}$, meaning there is a 50% chance $X$ lands in this central region.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Verify that $f(x) = \\frac{1}{5}$ for $0 \\leq x \\leq 5$ (and 0 otherwise) is a valid PDF.",
+      "answer_latex": "\\int_0^5 \\frac{1}{5}\\,dx = \\frac{1}{5}\\cdot 5 = 1 \\checkmark \\text{ and } f(x)\\geq 0, \\text{ so } f \\text{ is a valid PDF.}"
+    },
+    {
+      "prompt_latex": "Find the constant $c$ so that $f(x) = c\\,x^2$ on $[0, 3]$ (and 0 otherwise) is a valid PDF.",
+      "answer_latex": "c = \\frac{1}{9}"
+    },
+    {
+      "prompt_latex": "Let $f(x) = 2x$ for $0 \\leq x \\leq 1$. Find $P(0 \\leq X \\leq 0.6)$.",
+      "answer_latex": "P(0 \\leq X \\leq 0.6) = \\int_0^{0.6} 2x\\,dx = \\left[x^2\\right]_0^{0.6} = 0.36"
+    },
+    {
+      "prompt_latex": "Let $f(x) = \\frac{3}{8}x^2$ for $0 \\leq x \\leq 2$. Find $P(X > 1)$ and compare it to $P(X \\leq 1)$. Which is larger and why?",
+      "answer_latex": "P(X > 1) = \\int_1^2 \\frac{3}{8}x^2\\,dx = \\frac{7}{8}, \\quad P(X \\leq 1) = \\frac{1}{8}. \\text{ } P(X>1) \\text{ is larger because } f \\text{ is increasing, so density accumulates near } x=2."
+    },
+    {
+      "prompt_latex": "A spinner lands on a position $X$ (in cm from the center) with density $f(x) = kx$ for $1 \\leq x \\leq 3$. Find $k$, then find the probability the spinner lands more than 2 cm from the center.",
+      "answer_latex": "k = \\frac{1}{4}, \\quad P(X > 2) = \\int_2^3 \\frac{x}{4}\\,dx = \\frac{5}{8}"
+    }
+  ],
+  "common_mistakes": [
+    "Students treat $f(x)$ as a probability and write things like $P(X = 2) = f(2)$. In fact, $P(X = c) = 0$ for any single point $c$ in a continuous distribution, and $f(x)$ is a density \u2014 it can be greater than 1 without any contradiction. Probability requires integrating $f$ over an interval, never evaluating it at a point.",
+    "When verifying the normalization condition, students integrate $f(x)$ over all real numbers $(-\\infty, \\infty)$ but forget to restrict to the support, accidentally including regions where $f(x)$ is not zero and getting incorrect answers. Always identify the support first and integrate only over that interval where $f(x) > 0$.",
+    "Students assume that $P(a \\leq X \\leq b) = P(a < X < b)$ is obvious but then also incorrectly compute $P(X \\geq c) = 1 - f(c)$ instead of $1 - P(X < c) = 1 - \\int_{-\\infty}^{c} f(x)\\,dx$. The complement rule still applies, but it operates on integrals (areas), not on the density function evaluated at a point."
+  ],
+  "untested_variants": [
+    "Finding the cumulative distribution function (CDF) $F(x) = \\int_{-\\infty}^x f(t)\\,dt$ and using it to compute probabilities, rather than integrating the PDF directly over each interval.",
+    "PDFs defined piecewise over two or more sub-intervals (e.g., $f(x) = x$ on $[0,1]$ and $f(x) = 2-x$ on $[1,2]$), requiring split integrals for both normalization and probability calculations.",
+    "Computing the expected value $E[X] = \\int_{-\\infty}^{\\infty} x\\,f(x)\\,dx$ or variance $\\text{Var}(X) = E[X^2] - (E[X])^2$ from a given PDF.",
+    "Determining whether a function can be a PDF when the support is unbounded (e.g., $f(x) = \\lambda e^{-\\lambda x}$ for $x \\geq 0$), requiring improper integrals to check normalization."
+  ]
+}

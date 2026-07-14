@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_003",
+  "topic_name": "Absolute Value Functions and Transformations",
+  "generated_at": "2026-05-12T23:18:15.154859+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to graph lines like $y = 2x - 3$ and shift parabolas around the coordinate plane. Now imagine a function that creates a perfect V-shape \u2014 pointing up or down, narrow or wide, shifted anywhere you like. The absolute value function does exactly that, but when you try to graph $y = -2|x + 3| - 1$, how do you know which direction the V opens, where its vertex lands, and how steep its sides are?",
+  "concept": "An absolute value function takes any input and returns its non-negative distance from zero, so negative inputs get 'flipped' positive. The parent function is $f(x) = |x|$, which produces a V-shaped graph with vertex at the origin. The transformed form is $f(x) = a|x - h| + k$, where the parameters $a$, $h$, and $k$ control the shape and position of the graph.",
+  "anatomy": "In the equation $f(x) = a|x - h| + k$, each part plays a distinct role. The value $a$ is the vertical stretch/compression factor: if $|a| > 1$ the V is narrower, if $0 < |a| < 1$ it is wider, and if $a$ is negative the V flips downward (reflects over the x-axis). The value $h$ is the horizontal shift \u2014 the graph moves right when $h > 0$ and left when $h < 0$, remembering that the expression inside the bars is $x - h$, so $|x + 3|$ means $h = -3$. The value $k$ is the vertical shift, moving the entire graph up when $k > 0$ and down when $k < 0$. Together, $(h, k)$ is the vertex of the V.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = -2|x + 3| - 1",
+      "description_latex": "We start by identifying the function we need to graph. Before plotting anything, let's read off all four pieces of information hidden in this equation by matching it to the standard form $a|x - h| + k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = -2, \\quad h = -3, \\quad k = -1",
+      "description_latex": "We rewrite $|x + 3|$ as $|x - (-3)|$ to see that $h = -3$, and we read $a = -2$ and $k = -1$ directly. The negative value of $a$ tells us the V opens downward, the factor $|a| = 2$ tells us the sides are steeper than the parent function, and $(h, k) = (-3, -1)$ is our vertex.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Vertex: } (-3,\\,-1); \\quad \\text{opens downward (since } a < 0\\text{)}",
+      "description_latex": "We plot the vertex at $(-3, -1)$ first because every other point on the V is measured relative to this location. Knowing the V opens downward means both arms of the graph fall away from the vertex rather than rising, which is the opposite of the parent $|x|$ shape.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{From the vertex, move right 1: } y = -1 - 2(1) = -3 \\quad \\Rightarrow \\quad (-2,\\,-3)",
+      "description_latex": "To find a second point, we move 1 unit to the right of the vertex, so $x = -2$, and apply the stretch: the arms drop by $|a| = 2$ for every 1 unit of horizontal distance. This gives the point $(-2, -3)$, and by the symmetry of absolute value functions, $(-4, -3)$ is the mirror image on the left arm.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Plot: vertex } (-3,-1),\\text{ arms through } (-2,-3) \\text{ and } (-4,-3), \\text{ opening downward}",
+      "description_latex": "We connect the three plotted points with two straight rays extending downward, forming an inverted V. The axis of symmetry is the vertical line $x = -3$, which always passes through the vertex \u2014 this confirms our graph is symmetric about that line.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = 3|x - 2| + 4",
+      "description_latex": "We want to graph $g(x) = 3|x - 2| + 4$. Begin by matching this to the form $a|x - h| + k$ and reading off the values of $a$, $h$, and $k$. Notice that because $x - 2$ is already in standard form, no rewriting is needed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = 3, \\quad h = 2, \\quad k = 4 \\quad \\Rightarrow \\quad \\text{Vertex: } (2, 4)",
+      "description_latex": "Here the vertex is at $(2, 4)$ and $a = 3 > 0$ so the V opens upward and is steeper than the parent function. Now identify a second point: choose $x = 3$ (one unit right of the vertex) and calculate the corresponding $y$-value using $g(x) = 3|x - 2| + 4$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "g(3) = 3|3-2|+4 = 3(1)+4 = 7 \\quad \\Rightarrow \\quad (3,7) \\text{ and by symmetry } (1, 7)",
+      "description_latex": "With the vertex $(2, 4)$ and the two symmetric arm points $(3, 7)$ and $(1, 7)$, sketch the upward-opening V. Using the value of $a$, state what transformation the graph has undergone compared to the parent function $f(x) = |x|$ \u2014 specifically, describe the direction, the stretch factor, and the location of the vertex in one complete sentence.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Identify the vertex and direction of opening for } f(x) = |x - 5| + 2.",
+      "answer_latex": "\\text{Vertex: } (5, 2); \\text{ opens upward}"
+    },
+    {
+      "prompt_latex": "\\text{Write the equation of the absolute value function with vertex } (1, -4) \\text{ that opens upward with a vertical stretch of } 3.",
+      "answer_latex": "f(x) = 3|x - 1| - 4"
+    },
+    {
+      "prompt_latex": "\\text{Describe all transformations and state the vertex of } h(x) = -\\tfrac{1}{2}|x + 6| + 3.",
+      "answer_latex": "\\text{Vertex } (-6, 3);\\text{ reflected over x-axis, vertical compression by } \\tfrac{1}{2},\\text{ left 6, up 3}"
+    },
+    {
+      "prompt_latex": "\\text{The graph of } f(x) = |x| \\text{ is transformed to pass through } (0, 5) \\text{ and } (3, 5) \\text{ with vertex at } (\\tfrac{3}{2}, 2). \\text{ Find the equation in the form } a|x-h|+k.",
+      "answer_latex": "f(x) = |x - \\tfrac{3}{2}| + 2"
+    },
+    {
+      "prompt_latex": "\\text{A drone flies a path modeled by } d(t) = -4|t - 5| + 20, \\text{ where } d \\text{ is height in meters and } t \\text{ is time in seconds. What is the maximum height, and at what time does it occur?}",
+      "answer_latex": "\\text{Maximum height: } 20 \\text{ m at } t = 5 \\text{ seconds}"
+    }
+  ],
+  "common_mistakes": [
+    "Students read $|x + 3|$ and conclude $h = +3$, placing the vertex at $(3, k)$ instead of $(-3, k)$. Remember that the standard form uses $x - h$ inside the bars, so $|x + 3| = |x - (-3)|$, meaning $h = -3$. Always rewrite the expression as $x - h$ before reading off $h$.",
+    "When $a$ is negative, students graph the V opening upward anyway because they associate absolute value with 'always positive.' The absolute value sign only makes the input non-negative; a negative $a$ in front then flips the whole output, so the graph opens downward. Check the sign of $a$ first, before thinking about the shape of the arms.",
+    "Students apply the stretch factor $a$ incorrectly by multiplying the vertex coordinates instead of applying it to the arms. The vertex location is determined solely by $(h, k)$; the value of $a$ only controls how steeply the arms rise or fall away from the vertex for each unit of horizontal distance."
+  ],
+  "untested_variants": [
+    "Solving absolute value equations algebraically, such as $|2x - 1| = 7$, by splitting into two linear cases \u2014 the practice problems focus only on graphing and transformations.",
+    "Graphing absolute value inequalities and shading solution regions on the coordinate plane, such as $y < |x - 2| + 1$.",
+    "Composing absolute value with other function types, for example $f(x) = |x^2 - 4|$, which produces a W-shape rather than a simple V.",
+    "Writing the transformation equation from a table of values without being given the vertex explicitly, requiring students to identify $h$ and $k$ from the minimum or maximum row in the table."
+  ]
+}

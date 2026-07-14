@@ -1,0 +1,81 @@
+{
+  "topic_id": "c1_003",
+  "topic_name": "One-Sided Limits and Continuity",
+  "generated_at": "2026-05-13T00:02:34.654721+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to evaluate limits like $\\lim_{x \\to 2} (x^2 - 1) = 3$ by simply substituting. But what happens when a function behaves differently depending on which direction you approach a point? For example, consider $f(x) = \\frac{|x|}{x}$: if you approach $x = 0$ from the right, you get $1$, but from the left you get $-1$. How can we make sense of that, and what does it tell us about whether $f$ is continuous at $x = 0$?",
+  "concept": "A one-sided limit captures the value a function approaches as $x$ gets close to $c$ from only one direction. From the right: $\\lim_{x \\to c^+} f(x)$; from the left: $\\lim_{x \\to c^-} f(x)$. A function $f$ is continuous at $c$ if and only if both one-sided limits exist, are equal to each other, and equal $f(c)$: formally, $\\lim_{x \\to c^-} f(x) = \\lim_{x \\to c^+} f(x) = f(c)$.",
+  "anatomy": "Every one-sided limit has three key parts: the base expression $\\lim$ which signals we are studying approach behavior, the notation $x \\to c^-$ (left-hand limit, $x$ approaching $c$ through values smaller than $c$) or $x \\to c^+$ (right-hand limit, $x$ approaching $c$ through values larger than $c$), and the function $f(x)$ whose output value we are tracking. For continuity, there is a fourth element: the function value $f(c)$ itself, which must exist and match both one-sided limits. The superscript $^-$ or $^+$ on $c$ is the directional indicator \u2014 it is small but carries all the meaning.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = \\begin{cases} x + 3 & x < 1 \\\\ 2x + 1 & x \\geq 1 \\end{cases}",
+      "description_latex": "We are given a piecewise function and asked to determine whether it is continuous at $x = 1$. The strategy is always the same: compute the left-hand limit, the right-hand limit, and the function value, then check whether all three agree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{x \\to 1^-} f(x) = \\lim_{x \\to 1^-} (x + 3) = 1 + 3 = 4",
+      "description_latex": "For the left-hand limit we use the piece of the formula that applies when $x < 1$, which is $x + 3$. Because this piece is a polynomial, we can evaluate it by direct substitution of $x = 1$, giving us $4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{x \\to 1^+} f(x) = \\lim_{x \\to 1^+} (2x + 1) = 2(1) + 1 = 3",
+      "description_latex": "For the right-hand limit we switch to the piece that applies when $x \\geq 1$, which is $2x + 1$. Substituting $x = 1$ gives $3$, and notice this is different from the left-hand limit of $4$ \u2014 that difference is a red flag.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{x \\to 1^-} f(x) = 4 \\neq 3 = \\lim_{x \\to 1^+} f(x)",
+      "description_latex": "Since the left-hand and right-hand limits are not equal, the two-sided limit $\\lim_{x \\to 1} f(x)$ does not exist. This immediately tells us that $f$ cannot be continuous at $x = 1$, regardless of what $f(1)$ equals \u2014 we have a jump discontinuity here.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = \\begin{cases} x^2 - 1 & x < 2 \\\\ k & x = 2 \\\\ 3x - 3 & x > 2 \\end{cases}",
+      "description_latex": "We want to find the value of the constant $k$ that makes $g$ continuous at $x = 2$. For continuity, we need the left-hand limit, the right-hand limit, and $g(2) = k$ to all be equal, so we start by computing each one-sided limit using the appropriate piece.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{x \\to 2^-} g(x) = (2)^2 - 1 = 3 \\qquad \\lim_{x \\to 2^+} g(x) = 3(2) - 3 = 3",
+      "description_latex": "Both one-sided limits equal $3$, so the two-sided limit exists and equals $3$. Now you need to determine what value $k$ must take so that the function value $g(2) = k$ completes the continuity condition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Set $g(2) = k$ equal to the limit value you found and state the value of $k$ that makes $g$ continuous at $x = 2$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $f(x) = \\begin{cases} 5 & x < 3 \\\\ 5 & x \\geq 3 \\end{cases}$. Find $\\lim_{x \\to 3^-} f(x)$ and $\\lim_{x \\to 3^+} f(x)$, and determine whether $f$ is continuous at $x = 3$.",
+      "answer_latex": "\\lim_{x \\to 3^-} f(x) = 5,\\; \\lim_{x \\to 3^+} f(x) = 5,\\; f(3) = 5.\\text{ All three agree, so } f \\text{ is continuous at } x = 3."
+    },
+    {
+      "prompt_latex": "Let $h(x) = \\begin{cases} 2x + 1 & x < 0 \\\\ x^2 + 1 & x \\geq 0 \\end{cases}$. Compute $\\lim_{x \\to 0^-} h(x)$, $\\lim_{x \\to 0^+} h(x)$, and $h(0)$. Is $h$ continuous at $x = 0$?",
+      "answer_latex": "\\lim_{x \\to 0^-} h(x) = 1,\\; \\lim_{x \\to 0^+} h(x) = 1,\\; h(0) = 1.\\text{ All equal, so } h \\text{ is continuous at } x = 0."
+    },
+    {
+      "prompt_latex": "Find the value of $c$ so that $f(x) = \\begin{cases} cx + 4 & x \\leq 2 \\\\ x^2 + c & x > 2 \\end{cases}$ is continuous at $x = 2$.",
+      "answer_latex": "2c + 4 = 4 + c \\Rightarrow c = 0"
+    },
+    {
+      "prompt_latex": "Let $f(x) = \\dfrac{x^2 - 4}{x - 2}$ for $x \\neq 2$ and $f(2) = 3$. Determine whether $f$ is continuous at $x = 2$ using the definition of continuity.",
+      "answer_latex": "\\lim_{x \\to 2} \\frac{x^2-4}{x-2} = \\lim_{x \\to 2}(x+2) = 4 \\neq 3 = f(2),\\text{ so } f \\text{ is NOT continuous at } x=2."
+    },
+    {
+      "prompt_latex": "A parking garage charges $\\$2$ per hour for the first two hours and $\\$1$ per hour after that. Let $C(t)$ be the cost after $t$ hours. Write $C(t)$ as a piecewise function, then determine whether $C$ is continuous at $t = 2$ and interpret what a discontinuity would mean in context.",
+      "answer_latex": "C(t) = \\begin{cases} 2t & 0 \\leq t \\leq 2 \\\\ 4 + (t-2) & t > 2 \\end{cases}.\\; \\lim_{t\\to 2^-}C(t) = 4,\\; \\lim_{t\\to 2^+}C(t) = 4,\\; C(2)=4.\\text{ Continuous; no sudden price jump at } t=2."
+    }
+  ],
+  "common_mistakes": [
+    "Students often use the wrong piece of a piecewise function when computing a one-sided limit \u2014 for example, using the $x \\geq c$ piece for a left-hand limit. Always identify which inequality governs the direction you are approaching from before substituting.",
+    "Students sometimes conclude that a function is continuous simply because both one-sided limits are equal, forgetting to also check that the function value $f(c)$ exists and equals that common limit. Continuity requires all three conditions: $\\lim_{x\\to c^-}f(x) = \\lim_{x\\to c^+}f(x) = f(c)$.",
+    "When a piecewise function uses a strict inequality (e.g., $x < c$) versus $x \\leq c$, students sometimes misread which piece defines the actual function value $f(c)$. Read the boundary condition carefully: the piece with equality (or the explicitly defined value) determines $f(c)$, not the piece with the strict inequality."
+  ],
+  "untested_variants": [
+    "Determining one-sided limits graphically from a given graph of a function, where the student must read limit values and function values directly from a plot rather than from a formula.",
+    "Piecewise functions involving trigonometric or exponential expressions at the boundary point, requiring use of known limits such as $\\lim_{x\\to 0}\\frac{\\sin x}{x} = 1$ to evaluate the one-sided limits.",
+    "Classifying the type of discontinuity (removable, jump, or infinite) at a point after determining that the function is not continuous there.",
+    "Using the Intermediate Value Theorem, which requires first verifying continuity on a closed interval rather than just at a single point."
+  ]
+}

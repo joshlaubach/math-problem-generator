@@ -1,0 +1,81 @@
+{
+  "topic_id": "c3_028",
+  "topic_name": "Vector Fields",
+  "generated_at": "2026-05-13T00:37:43.235642+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to work with functions that assign a single number to each point in space \u2014 things like temperature distributions or elevation maps. But many physical phenomena, like wind velocity or gravitational pull, assign a direction AND a magnitude to every point in space. How do you even write down a mathematical object that attaches an entire arrow to each location? That gap is exactly what a vector field fills, and it's the foundation of everything in this unit.",
+  "concept": "A vector field is a function that assigns a vector to every point in some region of space. Informally, imagine placing an arrow at each point in the plane or in 3-space \u2014 the arrow's direction and length can vary from point to point. Formally, a vector field in $\\mathbb{R}^2$ is a function $\\mathbf{F}(x,y) = P(x,y)\\,\\mathbf{i} + Q(x,y)\\,\\mathbf{j}$, and in $\\mathbb{R}^3$ it is $\\mathbf{F}(x,y,z) = P\\,\\mathbf{i} + Q\\,\\mathbf{j} + R\\,\\mathbf{k}$, where $P$, $Q$, and $R$ are scalar-valued functions called the component functions.",
+  "anatomy": "A vector field $\\mathbf{F} = P\\,\\mathbf{i} + Q\\,\\mathbf{j} + R\\,\\mathbf{k}$ has three distinct structural pieces. The component functions $P(x,y,z)$, $Q(x,y,z)$, and $R(x,y,z)$ are ordinary real-valued functions that produce the $x$-, $y$-, and $z$-components of the output vector at each input point $(x,y,z)$. The domain is the region of $\\mathbb{R}^2$ or $\\mathbb{R}^3$ over which $\\mathbf{F}$ is defined, and it must be specified (or inferred) just like for scalar functions. Finally, the output at each point is a free vector \u2014 an arrow whose tail you visualize sitting at that point \u2014 and it is this collection of arrows that gives a vector field its geometric identity.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{F}(x,y) = -y\\,\\mathbf{i} + x\\,\\mathbf{j}",
+      "description_latex": "We start with the vector field itself written in component form. Our goal is to understand this field geometrically by evaluating it at several representative points and then thinking about the pattern those arrows form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{F}(1,0) = -0\\,\\mathbf{i} + 1\\,\\mathbf{j} = \\mathbf{j},\\quad \\mathbf{F}(0,1) = -1\\,\\mathbf{i} + 0\\,\\mathbf{j} = -\\mathbf{i}",
+      "description_latex": "We substitute specific points into $P(x,y) = -y$ and $Q(x,y) = x$ to get concrete output vectors. At $(1,0)$ the arrow points straight up, and at $(0,1)$ it points straight left \u2014 both arrows are perpendicular to the position vector from the origin to that point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{F}(1,1) = -1\\,\\mathbf{i} + 1\\,\\mathbf{j}, \\quad |\\mathbf{F}(1,1)| = \\sqrt{(-1)^2 + 1^2} = \\sqrt{2}",
+      "description_latex": "We compute both the output vector and its magnitude at the point $(1,1)$. The magnitude $|\\mathbf{F}(x,y)| = \\sqrt{x^2+y^2}$ grows with distance from the origin, which tells us the arrows get longer as we move away from the center.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{F}(x,y) \\cdot \\langle x, y \\rangle = (-y)(x) + (x)(y) = 0",
+      "description_latex": "We take the dot product of $\\mathbf{F}(x,y)$ with the position vector $\\langle x,y\\rangle$ and find it is zero everywhere. This confirms analytically that every arrow in the field is perpendicular to the radial direction \u2014 the field describes counterclockwise rotation around the origin.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{F}(x,y,z) = x^2\\,\\mathbf{i} + e^z\\,\\mathbf{j} + xy\\,\\mathbf{k}",
+      "description_latex": "We are given a vector field in $\\mathbb{R}^3$. Our task is to identify the component functions and then evaluate the field at the point $(2, 1, 0)$. Start by reading off $P$, $Q$, and $R$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(x,y,z) = x^2,\\quad Q(x,y,z) = e^z,\\quad R(x,y,z) = xy",
+      "description_latex": "Here we name each component function explicitly. This step is straightforward but important \u2014 identifying components separately keeps the substitution organized when the point is substituted in.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute the point $(2, 1, 0)$ into each component function and write the resulting output vector in $\\mathbf{i}$, $\\mathbf{j}$, $\\mathbf{k}$ notation. What is $\\mathbf{F}(2,1,0)$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $\\mathbf{F}(x,y) = 3\\,\\mathbf{i} - 2y\\,\\mathbf{j}$ at the point $(4, -1)$.",
+      "answer_latex": "\\mathbf{F}(4,-1) = 3\\,\\mathbf{i} + 2\\,\\mathbf{j}"
+    },
+    {
+      "prompt_latex": "For the vector field $\\mathbf{F}(x,y) = \\langle xy,\\, x-y \\rangle$, find all points $(x,y)$ where $\\mathbf{F}(x,y) = \\mathbf{0}$.",
+      "answer_latex": "(0,0) \\text{ and } (1,1)"
+    },
+    {
+      "prompt_latex": "Let $\\mathbf{F}(x,y,z) = yz\\,\\mathbf{i} + xz\\,\\mathbf{j} + xy\\,\\mathbf{k}$. Compute $|\\mathbf{F}(1,2,3)|$.",
+      "answer_latex": "|\\mathbf{F}(1,2,3)| = \\sqrt{36+9+4} = 7"
+    },
+    {
+      "prompt_latex": "The gradient of $f(x,y) = x^2 y + \\sin(y)$ defines a vector field $\\mathbf{F} = \\nabla f$. Write $\\mathbf{F}$ explicitly and evaluate it at $(1, 0)$.",
+      "answer_latex": "\\mathbf{F}(x,y) = 2xy\\,\\mathbf{i} + (x^2 + \\cos y)\\,\\mathbf{j};\\quad \\mathbf{F}(1,0) = \\mathbf{0}\\,\\mathbf{i} + 2\\,\\mathbf{j}"
+    },
+    {
+      "prompt_latex": "A fluid flows so that the velocity at every point $(x,y)$ in the plane is directed toward the origin with speed equal to the distance from the origin. Write the vector field $\\mathbf{v}(x,y)$ that models this flow.",
+      "answer_latex": "\\mathbf{v}(x,y) = -x\\,\\mathbf{i} - y\\,\\mathbf{j}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the input point with the output vector, thinking that $\\mathbf{F}(x,y)$ is itself a position in the plane rather than a vector attached at the point $(x,y)$. Remember: $(x,y)$ tells you WHERE you are looking; $\\mathbf{F}(x,y)$ tells you the arrow sitting THERE \u2014 these are different objects.",
+    "When identifying component functions, students sometimes assign the wrong component to the wrong unit vector \u2014 for example, reading $P$ from the $\\mathbf{j}$ term instead of the $\\mathbf{i}$ term. Always match $P$ to $\\mathbf{i}$, $Q$ to $\\mathbf{j}$, and $R$ to $\\mathbf{k}$, in order, before substituting.",
+    "Students computing the magnitude of a vector field at a point often mistakenly compute $|\\mathbf{F}|$ symbolically but then forget to substitute the point, leaving the answer in terms of $x$ and $y$ instead of a number. If the problem asks for $|\\mathbf{F}|$ at a specific point, always substitute first and then take the magnitude of the resulting numerical vector."
+  ],
+  "untested_variants": [
+    "Determining whether a given vector field is conservative (i.e., whether it equals the gradient of some scalar potential $f$) \u2014 this requires checking equality of mixed partial derivatives and is not covered in the practice problems above.",
+    "Sketching or interpreting the streamlines (field lines) of a vector field, where you must solve $\\frac{dy}{dx} = \\frac{Q(x,y)}{P(x,y)}$ as a differential equation.",
+    "Vector fields in polar or cylindrical coordinates, where component functions are expressed in terms of $r$, $\\theta$, and $z$ instead of $x$, $y$, and $z$.",
+    "Computing the divergence $\\nabla \\cdot \\mathbf{F}$ or curl $\\nabla \\times \\mathbf{F}$ of a vector field, which are operations on vector fields that appear later in the unit."
+  ]
+}

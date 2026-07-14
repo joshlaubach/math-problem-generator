@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_044",
+  "topic_name": "Applications: Discrete Dynamical Systems and Markov Chains",
+  "generated_at": "2026-05-13T20:55:44.093745+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to multiply a matrix by a vector, and you've seen how eigenvalues describe directions that a matrix only stretches or shrinks. But what happens when you apply a matrix over and over again \u2014 say, a hundred times? Computing $A^{100}\\mathbf{x}$ by hand seems hopeless, yet population biologists do exactly this to predict species counts decades into the future, and Google's PageRank algorithm applies a similar idea to rank billions of web pages. How can eigenvalues turn a seemingly impossible repeated computation into something elegant and fast?",
+  "concept": "A discrete dynamical system tracks a state vector $\\mathbf{x}_k$ that evolves by the rule $\\mathbf{x}_{k+1} = A\\mathbf{x}_k$, so after $k$ steps we have $\\mathbf{x}_k = A^k \\mathbf{x}_0$. A Markov chain is a special case where every entry of $\\mathbf{x}_k$ is non-negative, the entries sum to 1 (a probability distribution), and the transition matrix $A$ has columns that also sum to 1 (a stochastic matrix). Eigendecomposition lets us write $A^k$ in closed form and find the long-run steady state without ever computing high matrix powers directly.",
+  "anatomy": "The key components in this framework are: the state vector $\\mathbf{x}_k \\in \\mathbb{R}^n$, whose entries represent quantities or probabilities at time step $k$; the transition matrix $A$ (also called the stochastic or Leslie matrix depending on context), which encodes how the state evolves in one step; the eigenvalues $\\lambda_1, \\lambda_2, \\ldots, \\lambda_n$ of $A$, which control the long-term growth or decay of each mode; the corresponding eigenvectors $\\mathbf{v}_1, \\ldots, \\mathbf{v}_n$, which form the natural coordinate basis for decomposing any initial condition; the initial decomposition $\\mathbf{x}_0 = c_1\\mathbf{v}_1 + \\cdots + c_n\\mathbf{v}_n$, where the scalar weights $c_i$ are found by solving a linear system; and the steady-state vector $\\mathbf{q}$, which is the eigenvector of a Markov matrix corresponding to eigenvalue $\\lambda = 1$, normalized so its entries sum to 1.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 0.9 & 0.2 \\\\ 0.1 & 0.8 \\end{pmatrix}, \\quad \\mathbf{x}_0 = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}",
+      "description_latex": "We start with a 2-state Markov chain: each year, 10% of urban residents move to suburbs and 20% of suburban residents move to the city, with $\\mathbf{x}_0 = (1, 0)^T$ meaning everyone starts in the city. Our goal is to find $\\mathbf{x}_k = A^k \\mathbf{x}_0$ for large $k$ without computing huge matrix powers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(A - \\lambda I) = (0.9 - \\lambda)(0.8 - \\lambda) - (0.2)(0.1) = \\lambda^2 - 1.7\\lambda + 0.7 = (\\lambda - 1)(\\lambda - 0.7) = 0",
+      "description_latex": "We find the eigenvalues by solving the characteristic equation. Factoring gives $\\lambda_1 = 1$ and $\\lambda_2 = 0.7$, which is exactly what we expect from a stochastic matrix: one eigenvalue is always 1, and all others have absolute value at most 1, so they shrink over time.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_1 = 1: \\mathbf{v}_1 = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}, \\qquad \\lambda_2 = 0.7: \\mathbf{v}_2 = \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix}",
+      "description_latex": "For each eigenvalue we solve $(A - \\lambda I)\\mathbf{v} = \\mathbf{0}$ to find the eigenvectors. The eigenvector for $\\lambda_1 = 1$ is the steady-state direction \u2014 any initial condition will eventually point here \u2014 while $\\mathbf{v}_2$ captures the transient part that decays because $|0.7| < 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{x}_0 = c_1 \\mathbf{v}_1 + c_2 \\mathbf{v}_2 \\implies \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix} = c_1 \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix} + c_2 \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix} \\implies c_1 = \\frac{1}{3},\\ c_2 = \\frac{1}{3}",
+      "description_latex": "We write the initial vector as a linear combination of eigenvectors by solving the resulting $2 \\times 2$ system. This decomposition is the crucial step: it lets us replace the hard problem of computing $A^k$ with the easy problem of raising scalar eigenvalues to the $k$th power.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{x}_k = c_1 \\lambda_1^k \\mathbf{v}_1 + c_2 \\lambda_2^k \\mathbf{v}_2 = \\frac{1}{3}(1)^k \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix} + \\frac{1}{3}(0.7)^k \\begin{pmatrix} 1 \\\\ -1 \\end{pmatrix} \\xrightarrow{k \\to \\infty} \\frac{1}{3}\\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix} = \\begin{pmatrix} 2/3 \\\\ 1/3 \\end{pmatrix}",
+      "description_latex": "The general solution is $\\mathbf{x}_k = c_1 \\lambda_1^k \\mathbf{v}_1 + c_2 \\lambda_2^k \\mathbf{v}_2$, which works because applying $A$ to $\\mathbf{v}_i$ just multiplies by $\\lambda_i$. As $k \\to \\infty$, the term $(0.7)^k \\to 0$, so the population converges to a $2/3$\u2013$1/3$ city\u2013suburb split regardless of where it started \u2014 this is the steady-state probability vector.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 0.6 & 0.3 \\\\ 0.4 & 0.7 \\end{pmatrix}, \\quad \\mathbf{x}_0 = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}",
+      "description_latex": "We have a new 2-state Markov chain and want to find the steady-state distribution. First, let's find the eigenvalues by computing $\\det(A - \\lambda I) = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(A - \\lambda I) = (0.6 - \\lambda)(0.7 - \\lambda) - (0.3)(0.4) = \\lambda^2 - 1.3\\lambda + 0.3 = (\\lambda - 1)(\\lambda - 0.3) = 0",
+      "description_latex": "The characteristic equation factors to give $\\lambda_1 = 1$ and $\\lambda_2 = 0.3$. Now you need to find the eigenvector $\\mathbf{v}_1$ corresponding to $\\lambda_1 = 1$ by solving $(A - I)\\mathbf{v} = \\mathbf{0}$, and then normalize it so its entries sum to 1 to obtain the steady-state probability vector.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathbf{x}_k = c_1 (1)^k \\mathbf{v}_1 + c_2 (0.3)^k \\mathbf{v}_2 \\xrightarrow{k\\to\\infty} c_1 \\mathbf{v}_1",
+      "description_latex": "Using the eigendecomposition, explain in one sentence why the $(0.3)^k$ term vanishes and write down the long-run steady-state vector you found above.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Verify that $\\mathbf{q} = \\begin{pmatrix} 3/4 \\\\ 1/4 \\end{pmatrix}$ is the steady-state vector for $A = \\begin{pmatrix} 0.5 & 0.75 \\\\ 0.5 & 0.25 \\end{pmatrix}$ by checking $A\\mathbf{q} = \\mathbf{q}$.",
+      "answer_latex": "A\\mathbf{q} = \\begin{pmatrix} 0.5(3/4)+0.75(1/4) \\\\ 0.5(3/4)+0.25(1/4) \\end{pmatrix} = \\begin{pmatrix} 3/4 \\\\ 1/4 \\end{pmatrix} = \\mathbf{q} \\checkmark"
+    },
+    {
+      "prompt_latex": "Find the steady-state probability vector for the stochastic matrix $A = \\begin{pmatrix} 0.8 & 0.4 \\\\ 0.2 & 0.6 \\end{pmatrix}$.",
+      "answer_latex": "\\mathbf{q} = \\begin{pmatrix} 2/3 \\\\ 1/3 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A dynamical system has $A = \\begin{pmatrix} 3 & 0 \\\\ 0 & 0.5 \\end{pmatrix}$ with eigenvectors $\\mathbf{v}_1 = \\mathbf{e}_1,\\ \\mathbf{v}_2 = \\mathbf{e}_2$ and initial state $\\mathbf{x}_0 = \\begin{pmatrix} 2 \\\\ 6 \\end{pmatrix}$. Write the formula for $\\mathbf{x}_k$ and describe the long-run behavior.",
+      "answer_latex": "\\mathbf{x}_k = 2(3)^k \\begin{pmatrix}1\\\\0\\end{pmatrix} + 6(0.5)^k\\begin{pmatrix}0\\\\1\\end{pmatrix};\\ \\text{the second component } \\to 0,\\ \\text{first component grows without bound}"
+    },
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 0.7 & 0.2 \\\\ 0.3 & 0.8 \\end{pmatrix}$ with eigenvalues $\\lambda_1 = 1,\\ \\lambda_2 = 0.5$, eigenvectors $\\mathbf{v}_1 = \\begin{pmatrix}2\\\\3\\end{pmatrix},\\ \\mathbf{v}_2 = \\begin{pmatrix}1\\\\-1\\end{pmatrix}$, and $\\mathbf{x}_0 = \\begin{pmatrix}1\\\\0\\end{pmatrix}$. Express $\\mathbf{x}_0$ as $c_1\\mathbf{v}_1 + c_2\\mathbf{v}_2$ and then write the exact formula for $\\mathbf{x}_k$.",
+      "answer_latex": "c_1 = \\tfrac{1}{5},\\ c_2 = \\tfrac{3}{5};\\ \\mathbf{x}_k = \\tfrac{1}{5}\\begin{pmatrix}2\\\\3\\end{pmatrix} + \\tfrac{3}{5}(0.5)^k\\begin{pmatrix}1\\\\-1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A city has three neighborhoods. Each year, 10% of Downtown residents move to Midtown and 5% move to Uptown; 20% of Midtown residents move to Downtown and 10% move to Uptown; 15% of Uptown residents move to Downtown and 5% move to Midtown. The remaining residents stay. Write the $3 \\times 3$ transition matrix $A$ (columns must sum to 1) and identify which eigenvalue corresponds to the steady-state distribution.",
+      "answer_latex": "A = \\begin{pmatrix} 0.85 & 0.20 & 0.15 \\\\ 0.10 & 0.70 & 0.05 \\\\ 0.05 & 0.10 & 0.80 \\end{pmatrix};\\text{ the steady-state eigenvalue is } \\lambda = 1"
+    }
+  ],
+  "common_mistakes": [
+    "Students often normalize the steady-state eigenvector so that its entries sum to 1 but forget to check that all entries are non-negative, meaning a computed eigenvector like $(-2, 1, 3)^T$ scaled to sum to 1 gives a negative probability \u2014 always verify that the steady-state vector has all non-negative entries before accepting it as a probability distribution.",
+    "When writing $\\mathbf{x}_k = c_1\\lambda_1^k\\mathbf{v}_1 + c_2\\lambda_2^k\\mathbf{v}_2$, students sometimes use the coefficients $c_i$ from a different scaling of the eigenvectors \u2014 if you change the eigenvectors (e.g., scale $\\mathbf{v}_1$ by 2), you must re-solve for the $c_i$ with those new vectors, because the decomposition depends on which specific eigenvectors you choose.",
+    "Students frequently confuse which eigenvalue is dominant: in a population growth model the largest eigenvalue (possibly greater than 1) governs long-run behavior, but in a Markov chain the eigenvalue $\\lambda = 1$ is always dominant \u2014 confusing these two cases leads to incorrect conclusions about whether the system grows, decays, or reaches a steady state."
+  ],
+  "untested_variants": [
+    "Three-state Markov chains where students must find the steady-state vector by solving a full $3 \\times 3$ eigenvector system, including handling the free-variable normalization constraint.",
+    "Leslie matrix models for age-structured populations, where the dominant eigenvalue greater than 1 represents the long-term growth rate and the corresponding eigenvector gives the stable age distribution.",
+    "Determining whether a Markov chain is regular (every entry of some power $A^k$ is positive) and using the Perron-Frobenius theorem to guarantee convergence to a unique steady state.",
+    "Computing $A^k$ explicitly using diagonalization $A^k = PD^kP^{-1}$ and identifying when diagonalization fails (repeated eigenvalues, defective matrices) and how that changes the dynamical analysis."
+  ]
+}

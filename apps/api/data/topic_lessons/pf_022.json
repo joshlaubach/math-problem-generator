@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_022",
+  "topic_name": "Proofs with Primes and the Fundamental Theorem",
+  "generated_at": "2026-05-13T20:19:51.139997+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know that every integer greater than 1 is either prime or composite, and you've probably factored numbers like 60 into primes before. But have you ever asked: could 60 be factored into primes in two *different* ways? The Fundamental Theorem of Arithmetic says no \u2014 every integer greater than 1 has exactly one prime factorization (up to order) \u2014 but proving claims *about* primes requires careful logical tools you haven't fully assembled yet. How would you actually prove that if a prime $p$ divides a product $ab$, then $p$ must divide $a$ or $p$ must divide $b$?",
+  "concept": "A prime number is an integer $p > 1$ whose only positive divisors are 1 and itself. The engine behind most prime proofs is Euclid's Lemma: if $p$ is prime and $p \\mid ab$, then $p \\mid a$ or $p \\mid b$. This follows from B\u00e9zout's identity \u2014 since $\\gcd(p,a)$ is either 1 or $p$, we can always find integers that let us 'transfer' divisibility. The Fundamental Theorem of Arithmetic then says every integer $n > 1$ has a unique prime factorization $n = p_1^{e_1} p_2^{e_2} \\cdots p_k^{e_k}$.",
+  "anatomy": "In Euclid's Lemma and the Fundamental Theorem, there are several key components to track. The **prime** $p$ is the divisor whose special property (indivisibility except by 1 and itself) makes the lemma work. The **product** $ab$ is the integer $p$ is assumed to divide. The **B\u00e9zout coefficients** $s, t$ satisfying $sp + ta = 1$ (when $\\gcd(p,a)=1$) are the algebraic witnesses that transfer divisibility from $ab$ to $b$. In a uniqueness proof, the **prime factorizations** $p_1^{e_1}\\cdots p_k^{e_k}$ and $q_1^{f_1}\\cdots q_m^{f_m}$ are the two representations assumed equal, and repeated application of Euclid's Lemma is the mechanism that forces them to match.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim (Euclid's Lemma): If } p \\text{ is prime and } p \\mid ab, \\text{ then } p \\mid a \\text{ or } p \\mid b.",
+      "description_latex": "We begin by stating exactly what we want to prove. It is important to notice this is a disjunction \u2014 we only need to produce one of the two conclusions, and the proof strategy will split into cases based on whether $p$ divides $a$ or not.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } p \\nmid a. \\text{ Since } p \\text{ is prime, } \\gcd(p, a) = 1.",
+      "description_latex": "We use proof by cases: either $p \\mid a$ (done immediately) or $p \\nmid a$. In the second case, the only divisors of the prime $p$ are 1 and $p$ itself, and since $p$ does not divide $a$, the greatest common divisor $\\gcd(p,a)$ must equal 1 \u2014 this is the crucial place where primeness enters the argument.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\gcd(p,a)=1 \\implies \\exists\\, s,t \\in \\mathbb{Z} \\text{ such that } sp + ta = 1.",
+      "description_latex": "B\u00e9zout's Identity guarantees that whenever two integers have gcd equal to 1, we can write 1 as a linear combination of them. We invoke this now to produce integers $s$ and $t$ \u2014 these are our algebraic tools for the next step, and the entire proof hinges on their existence.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b = b \\cdot 1 = b(sp + ta) = spb + tab.",
+      "description_latex": "We multiply both sides of the B\u00e9zout equation by $b$, distributing carefully. This rewrites $b$ as a sum of two terms, and now we can inspect each one for divisibility by $p$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p \\mid spb \\text{ and } p \\mid tab \\text{ (since } p \\mid ab\\text{)}, \\text{ so } p \\mid (spb + tab) = b.",
+      "description_latex": "The first term $spb$ is clearly divisible by $p$ since $p$ is an explicit factor. The second term $tab$ is divisible by $p$ because $p \\mid ab$ by hypothesis. Since $p$ divides both summands, it divides their sum, which equals $b$ \u2014 completing the proof that $p \\mid b$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: If } p \\text{ is prime and } p \\mid a^2, \\text{ then } p \\mid a.",
+      "description_latex": "We want to show that a prime dividing a perfect square must divide its square root. Notice that $a^2 = a \\cdot a$, so the hypothesis $p \\mid a^2$ is really saying $p$ divides the product of $a$ with itself.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p \\mid a \\cdot a \\implies p \\mid a \\text{ or } p \\mid a",
+      "description_latex": "Apply Euclid's Lemma directly to the product $a \\cdot a$. Since both factors of the product are the same, explain what Euclid's Lemma tells us and why the conclusion simplifies immediately.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore p \\mid a. \\quad \\square",
+      "description_latex": "Both branches of the disjunction from Euclid's Lemma give the same conclusion, so we can state the result directly. The proof is complete in just one application of the lemma.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State whether the following is true or false, and give a one-sentence reason: if $p$ is prime and $p \\mid 6$, then $p = 2$ or $p = 3$.",
+      "answer_latex": "\\text{True. The prime factorization of } 6 = 2 \\cdot 3 \\text{ is unique, so the only primes dividing 6 are 2 and 3.}"
+    },
+    {
+      "prompt_latex": "Prove: if $p$ is prime and $p \\mid a^3$, then $p \\mid a$.",
+      "answer_latex": "\\text{Write } a^3 = a \\cdot a^2. \\text{ By Euclid's Lemma, } p \\mid a \\text{ or } p \\mid a^2. \\text{ If } p \\mid a^2 = a \\cdot a, \\text{ apply Euclid's Lemma again: } p \\mid a. \\text{ In every case, } p \\mid a."
+    },
+    {
+      "prompt_latex": "Prove that $\\sqrt{3}$ is irrational by assuming $\\sqrt{3} = \\tfrac{a}{b}$ in lowest terms and deriving a contradiction using prime divisibility.",
+      "answer_latex": "\\text{If } \\sqrt{3}=a/b \\text{ in lowest terms, then } 3b^2=a^2, \\text{ so } 3\\mid a^2 \\Rightarrow 3\\mid a. \\text{ Write } a=3k; \\text{ then } 3b^2=9k^2 \\Rightarrow 3\\mid b^2 \\Rightarrow 3\\mid b. \\text{ This contradicts } \\gcd(a,b)=1."
+    },
+    {
+      "prompt_latex": "Let $p$ and $q$ be distinct primes. Using the Fundamental Theorem of Arithmetic, prove that $\\sqrt{pq}$ is irrational.",
+      "answer_latex": "\\text{Suppose } \\sqrt{pq}=a/b \\text{ in lowest terms, so } pq b^2=a^2. \\text{ By FTA, } p \\text{ appears to an odd power on the right unless } p\\mid a, \\text{ giving } p\\mid b \\text{ too \u2014 contradicting lowest terms. Same argument applies to } q."
+    },
+    {
+      "prompt_latex": "A number $n > 1$ has the property that whenever $n \\mid ab$, it follows that $n \\mid a$ or $n \\mid b$. Must $n$ be prime? Prove your answer.",
+      "answer_latex": "\\text{Yes. If } n \\text{ were composite, write } n=st \\text{ with } 1<s,t<n. \\text{ Then } n\\mid st \\text{ but } n\\nmid s \\text{ and } n\\nmid t, \\text{ contradicting the property. So } n \\text{ must be prime.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often apply Euclid's Lemma to composite divisors, writing 'since $6 \\mid ab$, either $6 \\mid a$ or $6 \\mid b$.' This is false \u2014 take $a=4, b=9$: $6\\mid 36$ but $6\\nmid 4$ and $6\\nmid 9$. The lemma requires the divisor to be prime; always check primeness first.",
+    "When proving uniqueness in the Fundamental Theorem, students sometimes argue that the two factorizations must 'look the same' without applying Euclid's Lemma. You must argue explicitly: if $p_1$ divides the product $q_1 q_2 \\cdots q_m$, then by repeated application of Euclid's Lemma $p_1$ must equal some $q_j$, canceling it from both sides.",
+    "In irrationality proofs using primes, students establish '$p \\mid a$' and substitute $a = pk$, but then forget to re-examine the equation for divisibility of $b$. Both halves of the contradiction are needed \u2014 you must show $p \\mid a$ AND $p \\mid b$ to violate the 'lowest terms' assumption."
+  ],
+  "untested_variants": [
+    "Proving that there are infinitely many primes using Euclid's classical contradiction argument (assuming a finite list and constructing a number not divisible by any listed prime).",
+    "Using the Fundamental Theorem to prove that $\\log_2 3$ is irrational, which requires arguing about prime factorizations of powers of 2 and 3 equaling each other.",
+    "Proving Euclid's Lemma extended to more than two factors: if $p \\mid a_1 a_2 \\cdots a_k$ then $p \\mid a_i$ for some $i$, requiring a formal induction argument.",
+    "Applying the Fundamental Theorem to Gaussian integers $\\mathbb{Z}[i]$ or other number rings where unique factorization may fail, motivating why primeness conditions matter in abstract algebra."
+  ]
+}

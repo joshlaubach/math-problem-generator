@@ -1,0 +1,91 @@
+{
+  "topic_id": "geo_028",
+  "topic_name": "Triangle Angle Sum and Exterior Angle Theorems",
+  "generated_at": "2026-05-12T23:00:38.243810+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know that the three angles inside any triangle add up to 180\u00b0, but can you prove it \u2014 or use it to find a missing angle when a side of the triangle is extended? Imagine a triangle where two angles measure 47\u00b0 and 83\u00b0; you can find the third angle easily. But what if the problem asks about the angle formed outside the triangle at that third vertex, where a side has been extended beyond the triangle? That outside angle has a surprising relationship to the two angles far away from it \u2014 and understanding that relationship is the key question we're about to answer.",
+  "concept": "The Triangle Angle Sum Theorem states that the three interior angles of every triangle add up to exactly 180\u00b0: if the angles are $\\angle A$, $\\angle B$, and $\\angle C$, then $m\\angle A + m\\angle B + m\\angle C = 180\u00b0$. The Exterior Angle Theorem builds on this: an exterior angle of a triangle equals the sum of the two non-adjacent interior angles (called remote interior angles). Formally, if $\\angle D$ is an exterior angle, then $m\\angle D = m\\angle A + m\\angle B$.",
+  "anatomy": "Every application of these theorems involves a few key parts you need to identify. The three interior angles are the angles inside the triangle at each vertex \u2014 call them $\\angle A$, $\\angle B$, and $\\angle C$. An exterior angle is formed when one side of the triangle is extended beyond a vertex, creating an angle that is supplementary to the interior angle at that same vertex. The two remote interior angles are the interior angles that are NOT adjacent to the exterior angle \u2014 they are the ones across the triangle from it. The relationship $m\\angle{ext} = m\\angle{remote_1} + m\\angle{remote_2}$ is the core of the Exterior Angle Theorem.",
+  "worked_example": [
+    {
+      "expression_latex": "\\triangle ABC \\text{ with } m\\angle A = 54\u00b0,\\ m\\angle B = 71\u00b0,\\ m\\angle C = ?",
+      "description_latex": "We are given two interior angles of a triangle and need to find the third. Because the Triangle Angle Sum Theorem guarantees that all three interior angles sum to 180\u00b0, we can write the equation $m\\angle A + m\\angle B + m\\angle C = 180\u00b0$ and substitute the known values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "54\u00b0 + 71\u00b0 + m\\angle C = 180\u00b0",
+      "description_latex": "Substituting the known angle measures gives us $125\u00b0 + m\\angle C = 180\u00b0$. We now isolate $m\\angle C$ by subtracting 125\u00b0 from both sides, which is valid because we are undoing addition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m\\angle C = 180\u00b0 - 125\u00b0 = 55\u00b0",
+      "description_latex": "The third interior angle measures 55\u00b0. It is always worth checking: $54\u00b0 + 71\u00b0 + 55\u00b0 = 180\u00b0$ \u2713. Now suppose side $BC$ is extended beyond $C$ to a point $D$, forming exterior angle $\\angle ACD$. We can find $m\\angle ACD$ using the Exterior Angle Theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m\\angle ACD = m\\angle A + m\\angle B",
+      "description_latex": "The Exterior Angle Theorem tells us the exterior angle equals the sum of the two remote interior angles \u2014 the two interior angles that are NOT at vertex $C$. Those are $\\angle A = 54\u00b0$ and $\\angle B = 71\u00b0$, so we add them.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m\\angle ACD = 54\u00b0 + 71\u00b0 = 125\u00b0",
+      "description_latex": "The exterior angle measures 125\u00b0. Notice this also equals $180\u00b0 - 55\u00b0 = 125\u00b0$, confirming the result because $\\angle ACD$ and $\\angle ACB$ are supplementary (they form a straight line). Both methods agree, which is a great way to self-check.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\triangle PQR \\text{ with } m\\angle P = (3x+10)\u00b0,\\ m\\angle Q = (2x-5)\u00b0,\\ m\\angle R = 75\u00b0",
+      "description_latex": "We have a triangle with two algebraic angle expressions and one known angle. Because all three interior angles must sum to 180\u00b0, we set up the equation $(3x+10) + (2x-5) + 75 = 180$ and simplify the left side by combining like terms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5x + 80 = 180",
+      "description_latex": "After combining like terms we get $5x + 80 = 180$. Subtract 80 from both sides to isolate the term with $x$, giving $5x = 100$, so $x = 20$. Now substitute $x = 20$ back to find the actual angle measures \u2014 your job is to do that substitution and state both angle measures.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "m\\angle P = 70\u00b0,\\ m\\angle Q = 35\u00b0",
+      "description_latex": "With $x = 20$: $m\\angle P = 3(20)+10 = 70\u00b0$ and $m\\angle Q = 2(20)-5 = 35\u00b0$. Now, side $QR$ is extended beyond $R$ to point $S$, forming exterior angle $\\angle PRS$. Use the Exterior Angle Theorem to find $m\\angle PRS$ \u2014 remember which angles are the remote interior angles.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "m\\angle PRS = m\\angle P + m\\angle Q = 70\u00b0 + 35\u00b0 = 105\u00b0",
+      "description_latex": "The remote interior angles are $\\angle P$ and $\\angle Q$, since they are the two angles not at vertex $R$. Their sum $70\u00b0 + 35\u00b0 = 105\u00b0$ gives the exterior angle. You can verify: $105\u00b0 + 75\u00b0 = 180\u00b0$, confirming that $\\angle PRS$ and $\\angle PRQ$ are supplementary.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Two angles of a triangle measure } 62\u00b0 \\text{ and } 49\u00b0. \\text{ Find the third angle.}",
+      "answer_latex": "69\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{An exterior angle of a triangle measures } 112\u00b0. \\text{ One remote interior angle measures } 65\u00b0. \\text{ Find the other remote interior angle.}",
+      "answer_latex": "47\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{In } \\triangle XYZ, m\\angle X = (4x+3)\u00b0,\\ m\\angle Y = (2x+9)\u00b0,\\ m\\angle Z = (3x-3)\u00b0. \\text{ Find } x \\text{ and all three angle measures.}",
+      "answer_latex": "x = 19\u00b0;\\ m\\angle X = 79\u00b0,\\ m\\angle Y = 47\u00b0,\\ m\\angle Z = 54\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{In } \\triangle ABC, m\\angle A = (5x-4)\u00b0 \\text{ and } m\\angle B = (3x+8)\u00b0. \\text{ Side } AB \\text{ is extended beyond } B \\text{ to point } D, \\text{ and } m\\angle CBD = (12x-16)\u00b0. \\text{ Find } x.",
+      "answer_latex": "x = 9"
+    },
+    {
+      "prompt_latex": "\\text{A triangular brace has angles in the ratio } 2:3:5. \\text{ The longest side is extended, forming an exterior angle. Find the measure of that exterior angle if it is adjacent to the smallest interior angle.}",
+      "answer_latex": "\\text{Angles: } 36\u00b0, 54\u00b0, 90\u00b0; \\text{ exterior angle adjacent to } 36\u00b0 \\text{ is } 144\u00b0"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes set an exterior angle equal to only one remote interior angle instead of the sum of both remote interior angles \u2014 remember, the Exterior Angle Theorem says $m\\angle{ext} = m\\angle{remote_1} + m\\angle{remote_2}$, not just one of them.",
+    "When a problem gives algebraic expressions for the angles, students often forget to substitute the value of $x$ back into the expressions to find the actual angle measures in degrees, and instead report $x$ itself as the answer \u2014 always finish by computing each angle from your solved value of $x$.",
+    "Students confuse an exterior angle with the interior angle at the same vertex: the exterior angle is the supplement of the interior angle at that vertex (they add to 180\u00b0), not the interior angle itself \u2014 make sure you are measuring the angle formed outside the triangle, not inside."
+  ],
+  "untested_variants": [
+    "Problems involving two exterior angles of the same triangle and asking students to relate them to each other or to find multiple unknowns simultaneously.",
+    "Proofs or justification problems where students must explain WHY the Triangle Angle Sum Theorem is true using parallel line properties (e.g., drawing a line through one vertex parallel to the opposite side).",
+    "Problems involving algebraic exterior angles where the exterior angle expression is given and students must set up the equation $m\\angle{ext} = m\\angle{remote_1} + m\\angle{remote_2}$ with all three expressed algebraically.",
+    "Multi-triangle figures where triangles share a common side or vertex, requiring students to apply the angle sum theorem to more than one triangle in sequence to find a target angle."
+  ]
+}

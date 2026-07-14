@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_023",
+  "topic_name": "Projective Geometry and Cross-Ratios (H)",
+  "generated_at": "2026-05-13T20:23:29.538822+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know that angles and distances change when you project a figure onto a different plane \u2014 a circle can become an ellipse, and a square can become a trapezoid. Yet some ratio stubbornly refuses to change no matter how you project. Four collinear points $A, B, C, D$ always carry a hidden number that every projective transformation preserves. Can you figure out what that invariant is, and how to compute it?",
+  "concept": "Projective geometry studies properties that survive projection \u2014 stretching, shearing, and perspective \u2014 where ordinary distances and angles do not survive. The key invariant is the cross-ratio: given four collinear points $A, B, C, D$ (or four concurrent lines), their cross-ratio is $(A,B;C,D) = \\dfrac{AC \\cdot BD}{AD \\cdot BC}$, where $AC$ denotes the signed length from $A$ to $C$. Because it uses a ratio of ratios, it is unchanged by any projective (perspective) transformation.",
+  "anatomy": "The cross-ratio $(A,B;C,D) = \\dfrac{AC \\cdot BD}{AD \\cdot BC}$ has four named components. The four points $A, B, C, D$ are called the base points, and their order matters critically \u2014 swapping any two changes the value. The numerator $AC \\cdot BD$ pairs the two 'outer' segments of the arrangement, while the denominator $AD \\cdot BC$ pairs the 'inner' segments. All lengths are signed (directed), so the sign of the cross-ratio encodes whether $C$ and $D$ separate $A$ and $B$ on the line. A cross-ratio of $-1$ is especially important: it signals a harmonic range, meaning $C$ and $D$ divide segment $AB$ internally and externally in the same ratio.",
+  "worked_example": [
+    {
+      "expression_latex": "A=0,\\; B=4,\\; C=6,\\; D=10 \\text{ on a number line}",
+      "description_latex": "We place four points on a number line so every signed distance is easy to read off directly. Before plugging into the formula, always list the six pairwise directed distances you will need: $AC = 6-0=6$, $BD = 10-4=6$, $AD = 10-0=10$, $BC = 6-4=2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(A,B;C,D) = \\frac{AC \\cdot BD}{AD \\cdot BC} = \\frac{6 \\cdot 6}{10 \\cdot 2}",
+      "description_latex": "We substitute the four distances into the cross-ratio formula. Notice we always put $AC \\cdot BD$ in the numerator and $AD \\cdot BC$ in the denominator \u2014 the memory trick is that the numerator uses the two 'skipping' distances (first-to-third and second-to-fourth), while the denominator uses the two 'spanning' distances.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(A,B;C,D) = \\frac{36}{20} = \\frac{9}{5}",
+      "description_latex": "We simplify the fraction to obtain the cross-ratio $\\tfrac{9}{5}$. Because this is positive, $C$ and $D$ do not separate $A$ and $B$ \u2014 both $C$ and $D$ lie on the same side of the pair, which matches the picture since all four points appear in the order $A,B,C,D$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Project: } A'=0,\\; B'=2,\\; C'=3,\\; D'=5 \\implies (A',B';C',D') = \\frac{3 \\cdot 3}{5 \\cdot 1} = \\frac{9}{5}",
+      "description_latex": "To verify projective invariance, suppose a perspective map sends our four points to $A'=0, B'=2, C'=3, D'=5$. Computing the cross-ratio of the image points gives the same value $\\tfrac{9}{5}$, confirming that the cross-ratio is truly preserved under projection \u2014 this is the whole power of the tool.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A=-3,\\; B=0,\\; C=2,\\; D=6 \\text{ on a number line; find } (A,B;C,D)",
+      "description_latex": "We start by computing the four signed distances we need. Here $AC = 2-(-3)=5$, $BD = 6-0=6$, $AD = 6-(-3)=9$, and $BC = 2-0=2$. Make sure to use directed (signed) lengths measured left to right.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(A,B;C,D) = \\frac{AC \\cdot BD}{AD \\cdot BC} = \\frac{5 \\cdot 6}{9 \\cdot 2}",
+      "description_latex": "Now substitute the distances into the cross-ratio formula. Can you simplify this fraction completely to find the value of the cross-ratio?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "(A,B;C,D) = \\frac{30}{18} = \\frac{5}{3}",
+      "description_latex": "The cross-ratio simplifies to $\\tfrac{5}{3}$. Since it is positive, $C$ and $D$ lie on the same side relative to the pair $A,B$, which you can check visually on the number line.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Points $A=0, B=3, C=5, D=8$ lie on a number line. Compute $(A,B;C,D)$.",
+      "answer_latex": "\\dfrac{5 \\cdot 5}{8 \\cdot 2} = \\dfrac{25}{16}"
+    },
+    {
+      "prompt_latex": "Four points on a line have coordinates $A=1, B=3, C=0, D=5$. Compute the cross-ratio $(A,B;C,D)$ using signed lengths.",
+      "answer_latex": "\\dfrac{AC \\cdot BD}{AD \\cdot BC} = \\dfrac{(-1)(2)}{(4)(-3)} = \\dfrac{-2}{-12} = \\dfrac{1}{6}"
+    },
+    {
+      "prompt_latex": "Points $A, B, C, D$ satisfy $(A,B;C,D)=-1$ (a harmonic range). If $A=0$, $B=6$, and $C=4$, find the coordinate of $D$.",
+      "answer_latex": "D = 12"
+    },
+    {
+      "prompt_latex": "Given that $(A,B;C,D) = \\lambda$, prove (or verify with an example) that $(A,B;D,C) = \\dfrac{1}{\\lambda}$ by writing out both cross-ratios symbolically.",
+      "answer_latex": "(A,B;D,C)=\\dfrac{AD \\cdot BC}{AC \\cdot BD}=\\dfrac{1}{\\lambda}"
+    },
+    {
+      "prompt_latex": "A projective transformation maps four collinear points to $A'=0, B'=1, C'=3, D'=t$. If the original cross-ratio $(A,B;C,D)=2$, find the value of $t$.",
+      "answer_latex": "t = \\dfrac{3}{2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write the cross-ratio as $\\dfrac{AC \\cdot BD}{BC \\cdot AD}$ but use unsigned (absolute) lengths, losing the sign. The fix is to always assign a positive direction on the line first and compute every distance as (coordinate of second point) minus (coordinate of first point), keeping negative values.",
+    "A very common error is scrambling the order of the four points in the formula after reordering them for convenience. Remember: the cross-ratio $(A,B;C,D)$ is NOT the same as $(A,C;B,D)$ \u2014 the specific pairing in numerator and denominator depends entirely on which letter is in which slot, so never silently permute the labels.",
+    "Students sometimes assume the cross-ratio is preserved under all transformations, including reflections and inversions that are not projective. The fix is to recall that cross-ratio invariance holds specifically for projective (perspective) maps; it is also preserved under M\u00f6bius transformations in the complex plane, but that is a separate (though related) fact that requires its own justification."
+  ],
+  "untested_variants": [
+    "Cross-ratio of four concurrent lines (a pencil of lines through a point) rather than four collinear points, where the formula uses sines of angles instead of lengths.",
+    "Computing the cross-ratio of four points in the complex plane using the formula $(z_1,z_2;z_3,z_4) = \\dfrac{(z_1-z_3)(z_2-z_4)}{(z_1-z_4)(z_2-z_3)}$ and showing it is real if and only if all four points are concyclic or collinear.",
+    "Using the harmonic conjugate construction with a complete quadrilateral to locate the fourth harmonic point geometrically, without coordinates.",
+    "Finding all 24 permutations of four points and showing they produce at most 6 distinct cross-ratio values related by $\\lambda, 1-\\lambda, \\tfrac{1}{\\lambda}, \\tfrac{\\lambda-1}{\\lambda}, \\tfrac{1}{1-\\lambda}, \\tfrac{\\lambda}{\\lambda-1}$."
+  ]
+}

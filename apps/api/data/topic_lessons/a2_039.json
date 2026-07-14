@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_039",
+  "topic_name": "Solving Logarithmic Equations",
+  "generated_at": "2026-05-12T23:28:40.960917+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to solve exponential equations like $2^x = 8$ by rewriting both sides with the same base. But what happens when the variable is trapped inside a logarithm, like $\\log_2(x + 3) = 4$? You can't just subtract the log \u2014 that doesn't mean anything. How do you \"undo\" a logarithm to get the variable out?",
+  "concept": "Solving a logarithmic equation means finding the value of the variable that makes the equation true. The core idea is that a logarithm and an exponential are inverse operations, so the equation $\\log_b(x) = c$ is equivalent to the exponential form $b^c = x$. This conversion \u2014 called \"exponentiating both sides\" or using the definition of logarithm \u2014 is the key move that unlocks the variable.",
+  "anatomy": "Every logarithmic equation has four structural parts you must identify before solving. The **base** $b$ is the small number written as a subscript on the log symbol (if no base is written, it is base 10 by default, and if the notation is $\\ln$, the base is $e \\approx 2.718$). The **argument** is the expression inside the logarithm \u2014 this is what must be strictly positive, which creates a domain restriction you must always check. The **output value** (or right-hand side) is the number the logarithm equals. Finally, the **extraneous solution** is a value that satisfies the algebraic steps but makes the original argument negative or zero, which must be rejected because logarithms of non-positive numbers are undefined.",
+  "worked_example": [
+    {
+      "expression_latex": "\\log_3(2x - 1) = 4",
+      "description_latex": "We begin by identifying the three key parts: the base is $3$, the argument is $2x - 1$, and the output is $4$. Our goal is to rewrite this logarithmic equation in its equivalent exponential form so the variable is no longer inside a logarithm.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x - 1 = 3^4",
+      "description_latex": "Using the definition $\\log_b(A) = c \\iff A = b^c$, we convert the equation: the argument $2x - 1$ equals the base $3$ raised to the output power $4$. This single step removes the logarithm entirely and gives us a linear equation to solve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x - 1 = 81",
+      "description_latex": "We evaluate $3^4 = 81$ to get a clean linear equation. Now we just solve for $x$ using ordinary algebra.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 41",
+      "description_latex": "Adding $1$ to both sides gives $2x = 82$, and dividing by $2$ gives $x = 41$. Before accepting this answer, we must check that the argument is positive: $2(41) - 1 = 81 > 0$, so $x = 41$ is valid.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\log_5(3x + 2) = 3",
+      "description_latex": "We are solving a logarithmic equation. Start by identifying the base ($5$), the argument ($3x + 2$), and the output ($3$). Our strategy is to convert to exponential form using $\\log_b(A) = c \\iff A = b^c$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Convert the logarithmic equation into its equivalent exponential form. What does $3x + 2$ equal after you apply the definition of a logarithm? Write the exponential equation.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "3x + 2 = 125 \\Rightarrow 3x = 123 \\Rightarrow x = 41",
+      "description_latex": "Since $5^3 = 125$, the equation becomes $3x + 2 = 125$. Subtracting $2$ and dividing by $3$ gives $x = 41$. Finally, check the argument: $3(41) + 2 = 125 > 0$, so the solution is valid.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve: } \\log_2(x) = 5",
+      "answer_latex": "x = 32"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\log_4(x + 1) = 3",
+      "answer_latex": "x = 63"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\log(2x - 5) = 2 \\quad (\\text{base } 10)",
+      "answer_latex": "x = 52.5"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\ln(x^2 - 3) = \\ln(2x) \\quad \\text{and check for extraneous solutions}",
+      "answer_latex": "x = 3 \\text{ only (}x = -1\\text{ is extraneous)}"
+    },
+    {
+      "prompt_latex": "\\text{The pH of a solution is given by } \\text{pH} = -\\log[\\text{H}^+]. \\text{ If the pH of a substance is } 3, \\text{ find the hydrogen ion concentration } [\\text{H}^+].",
+      "answer_latex": "[\\text{H}^+] = 10^{-3} = 0.001"
+    }
+  ],
+  "common_mistakes": [
+    "Students often \"cancel\" the log by subtracting it from both sides \u2014 writing $\\log_3(2x-1) = 4$ as $2x - 1 = 4$ instead of $2x - 1 = 3^4$. The fix is to remember that removing a logarithm requires converting to exponential form: the base becomes the base of the exponent and the right-hand side becomes the exponent.",
+    "After solving algebraically, students forget to check whether the argument of the original logarithm is positive for their answer, missing extraneous solutions. Always substitute your answer back into the argument of every logarithm in the original equation and confirm the result is strictly greater than zero.",
+    "When the equation is $\\ln(x) = 5$, students confuse $\\ln$ with $\\log_{10}$ and write $x = 10^5$ instead of $x = e^5$. Remember that $\\ln$ means $\\log_e$, so the base of the exponent is always $e \\approx 2.718$ for natural logarithms."
+  ],
+  "untested_variants": [
+    "Logarithmic equations where logarithms appear on both sides and require using the one-to-one property $\\log_b(A) = \\log_b(B) \\Rightarrow A = B$ to eliminate the logs simultaneously (e.g., $\\log_2(x+3) = \\log_2(5x-9)$) \u2014 the practice problems only use this in a combined context with $\\ln$.",
+    "Equations requiring the product, quotient, or power rules to condense multiple logarithms into one before applying the exponential conversion (e.g., $\\log x + \\log(x-3) = 1$).",
+    "Equations where the variable appears as the base of the logarithm (e.g., $\\log_x 64 = 3$), requiring the student to rewrite in exponential form and solve $x^3 = 64$.",
+    "Logarithmic equations that produce a quadratic after exponentiating, where both roots must be checked for extraneous solutions and one or both may be rejected."
+  ]
+}

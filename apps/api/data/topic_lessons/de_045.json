@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_045",
+  "topic_name": "Fundamental Matrices and Matrix Exponentials",
+  "generated_at": "2026-05-13T20:38:55.248796+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve a single first-order linear ODE $x' = ax$ \u2014 the answer is $x(t) = e^{at}x_0$, a simple scalar exponential. You've also learned to solve linear systems $\\mathbf{x}' = A\\mathbf{x}$ by finding eigenvalues and building solutions from eigenvectors. But what if you want one unified object \u2014 a matrix \u2014 that propagates ANY initial condition forward in time, the way $e^{at}$ does for scalars? How do you even define $e^{At}$ when $A$ is a matrix?",
+  "concept": "A fundamental matrix $\\Phi(t)$ for the system $\\mathbf{x}' = A\\mathbf{x}$ is any matrix whose columns are $n$ linearly independent solutions. The matrix exponential is the special fundamental matrix satisfying $\\Phi(0) = I$, defined by the power series $e^{At} = \\sum_{k=0}^{\\infty} \\frac{(At)^k}{k!} = I + At + \\frac{A^2t^2}{2!} + \\cdots$, and it solves the initial value problem via $\\mathbf{x}(t) = e^{At}\\mathbf{x}_0$.",
+  "anatomy": "The matrix exponential $e^{At}$ has three key structural parts: the matrix $A$ (the coefficient matrix of the system, which gets raised to successive powers), the scalar parameter $t$ (time, which controls how far you evolve the system), and the series coefficients $\\frac{1}{k!}$ (exactly mirroring the scalar Taylor series for $e^{at}$). Any fundamental matrix $\\Phi(t)$ has the property that its columns each satisfy $\\mathbf{x}' = A\\mathbf{x}$, and its Wronskian $\\det \\Phi(t) \\neq 0$ for all $t$. The principal fundamental matrix specifically satisfies $\\Phi(0) = I$, making it identical to $e^{At}$, and it allows you to write the general solution as $\\mathbf{x}(t) = e^{At}\\mathbf{x}_0$ with no extra constants to carry.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 2 & 0 \\\\ 0 & -1 \\end{pmatrix}",
+      "description_latex": "We start with a diagonal matrix $A$ because powers of diagonal matrices are especially clean: $A^k = \\begin{pmatrix} 2^k & 0 \\\\ 0 & (-1)^k \\end{pmatrix}$. This lets us apply the power series definition directly without complicated matrix multiplication.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e^{At} = \\sum_{k=0}^{\\infty} \\frac{t^k}{k!} A^k = \\sum_{k=0}^{\\infty} \\frac{t^k}{k!} \\begin{pmatrix} 2^k & 0 \\\\ 0 & (-1)^k \\end{pmatrix}",
+      "description_latex": "We substitute $A^k$ into the series definition, placing the scalar factors $2^k$ and $(-1)^k$ inside the matrix entrywise. Because the matrix is diagonal, the series splits into independent scalar series for each diagonal entry \u2014 there is no mixing between rows and columns.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e^{At} = \\begin{pmatrix} \\sum_{k=0}^{\\infty} \\frac{(2t)^k}{k!} & 0 \\\\ 0 & \\sum_{k=0}^{\\infty} \\frac{(-t)^k}{k!} \\end{pmatrix} = \\begin{pmatrix} e^{2t} & 0 \\\\ 0 & e^{-t} \\end{pmatrix}",
+      "description_latex": "We recognize each diagonal entry as a standard scalar exponential series: $\\sum_{k=0}^{\\infty}\\frac{(2t)^k}{k!} = e^{2t}$ and $\\sum_{k=0}^{\\infty}\\frac{(-t)^k}{k!} = e^{-t}$. For a diagonal matrix, the matrix exponential simply exponentiates each eigenvalue on the diagonal \u2014 this is the key shortcut to remember.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{x}(t) = e^{At}\\mathbf{x}_0 = \\begin{pmatrix} e^{2t} & 0 \\\\ 0 & e^{-t} \\end{pmatrix} \\begin{pmatrix} x_{01} \\\\ x_{02} \\end{pmatrix} = \\begin{pmatrix} e^{2t}\\, x_{01} \\\\ e^{-t}\\, x_{02} \\end{pmatrix}",
+      "description_latex": "The general solution to any IVP with this $A$ is now just a matrix-vector product \u2014 no need to redo eigenvalue calculations for each new initial condition $\\mathbf{x}_0 = (x_{01}, x_{02})^T$. This is exactly the power of the matrix exponential: it encodes the entire solution operator in one object.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}, \\quad \\text{find } e^{At}",
+      "description_latex": "This matrix represents a pure rotation system. Let's discover $e^{At}$ by computing powers of $A$ first. Notice that $A^2 = \\begin{pmatrix} -1 & 0 \\\\ 0 & -1 \\end{pmatrix} = -I$, which means $A^3 = -A$, $A^4 = I$, and the pattern repeats with period 4.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e^{At} = I + At + \\frac{A^2 t^2}{2!} + \\frac{A^3 t^3}{3!} + \\cdots = \\left(1 - \\frac{t^2}{2!} + \\frac{t^4}{4!} - \\cdots\\right)I + \\left(t - \\frac{t^3}{3!} + \\frac{t^5}{5!} - \\cdots\\right)A",
+      "description_latex": "Using the cyclic pattern of powers of $A$, we group even-power terms (which give scalar multiples of $I$) and odd-power terms (which give scalar multiples of $A$). You should recognize the two series in parentheses as familiar functions \u2014 what are they?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute the two scalar series with their closed forms $\\cos t$ and $\\sin t$, then multiply through by $I$ and $A$ respectively to write $e^{At}$ as a single $2\\times 2$ matrix. What is the final form of $e^{At}$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathbf{x}(t) = \\begin{pmatrix} \\cos t & \\sin t \\\\ -\\sin t & \\cos t \\end{pmatrix} \\begin{pmatrix} x_{01} \\\\ x_{02} \\end{pmatrix}",
+      "description_latex": "The result $e^{At} = \\cos(t)\\, I + \\sin(t)\\, A = \\begin{pmatrix} \\cos t & \\sin t \\\\ -\\sin t & \\cos t \\end{pmatrix}$ is a rotation matrix \u2014 beautiful confirmation that this system rotates the state vector at unit angular speed. The general solution follows immediately by multiplication.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute $e^{At}$ for $A = \\begin{pmatrix} 3 & 0 \\\\ 0 & 5 \\end{pmatrix}$.",
+      "answer_latex": "e^{At} = \\begin{pmatrix} e^{3t} & 0 \\\\ 0 & e^{5t} \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "For $A = \\begin{pmatrix} -2 & 0 \\\\ 0 & 4 \\end{pmatrix}$, find the solution $\\mathbf{x}(t)$ to $\\mathbf{x}' = A\\mathbf{x}$ with $\\mathbf{x}(0) = \\begin{pmatrix} 3 \\\\ 1 \\end{pmatrix}$.",
+      "answer_latex": "\\mathbf{x}(t) = \\begin{pmatrix} 3e^{-2t} \\\\ e^{4t} \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 1 & 1 \\\\ 0 & 1 \\end{pmatrix}$. Write $A = I + N$ where $N = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}$, note that $N^2 = 0$, and use the series to compute $e^{At}$.",
+      "answer_latex": "e^{At} = e^{t}\\begin{pmatrix} 1 & t \\\\ 0 & 1 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Suppose $\\Phi(t) = \\begin{pmatrix} e^{t} & e^{3t} \\\\ e^{t} & 3e^{3t} \\end{pmatrix}$ is a fundamental matrix for $\\mathbf{x}' = A\\mathbf{x}$. Find the principal fundamental matrix $e^{At} = \\Phi(t)\\Phi(0)^{-1}$.",
+      "answer_latex": "\\Phi(0)^{-1} = \\frac{1}{2}\\begin{pmatrix} 3 & -1 \\\\ -1 & 1 \\end{pmatrix}, \\quad e^{At} = \\frac{1}{2}\\begin{pmatrix} 3e^{t} - e^{3t} & -e^{t} + e^{3t} \\\\ 3e^{t} - 3e^{3t} & -e^{t} + 3e^{3t} \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A radioactive decay chain has $\\mathbf{x}' = A\\mathbf{x}$ with $A = \\begin{pmatrix} -1 & 0 \\\\ 1 & -2 \\end{pmatrix}$ and initial amounts $\\mathbf{x}(0) = \\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$. Compute $e^{At}$ using the fact that $A$ is lower-triangular with eigenvalues $-1$ and $-2$, and find $\\mathbf{x}(t)$.",
+      "answer_latex": "e^{At} = \\begin{pmatrix} e^{-t} & 0 \\\\ e^{-t} - e^{-2t} & e^{-2t} \\end{pmatrix}, \\quad \\mathbf{x}(t) = \\begin{pmatrix} e^{-t} \\\\ e^{-t} - e^{-2t} \\end{pmatrix}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often assume that $e^{(A+B)t} = e^{At}e^{Bt}$ always holds, but this identity is only valid when $A$ and $B$ commute (i.e., $AB = BA$). For non-commuting matrices, you must use the full series or other methods \u2014 never split the exponential unless commutativity has been verified.",
+    "When constructing the principal fundamental matrix from a known fundamental matrix $\\Phi(t)$, students often forget to right-multiply by $\\Phi(0)^{-1}$, writing $e^{At} = \\Phi(t)$ instead of $e^{At} = \\Phi(t)\\Phi(0)^{-1}$. Only the particular fundamental matrix satisfying $\\Phi(0)=I$ equals the matrix exponential; the fix is always to normalize at $t=0$.",
+    "Students confuse the order of the eigenvalue-to-diagonal correspondence when exponentiating: for a diagonalizable matrix $A = PDP^{-1}$, we have $e^{At} = Pe^{Dt}P^{-1}$, but if the columns of $P$ are swapped, the diagonal entries of $e^{Dt}$ must match the reordered eigenvalues. Mismatching eigenvectors with the wrong eigenvalue in the exponent produces a completely wrong answer."
+  ],
+  "untested_variants": [
+    "Computing $e^{At}$ for a $3\\times 3$ matrix with a repeated eigenvalue and a defective (non-diagonalizable) Jordan block, which requires using the full Jordan form $e^{At} = Pe^{Jt}P^{-1}$.",
+    "Using $e^{At}$ to solve the non-homogeneous system $\\mathbf{x}' = A\\mathbf{x} + \\mathbf{f}(t)$ via the variation of parameters formula $\\mathbf{x}(t) = e^{At}\\mathbf{x}_0 + \\int_0^t e^{A(t-s)}\\mathbf{f}(s)\\,ds$.",
+    "Verifying from the definition that $\\frac{d}{dt}e^{At} = Ae^{At}$ and using this fact to confirm that the columns of $e^{At}$ are indeed solutions of the system.",
+    "Computing the matrix exponential for a $2\\times 2$ complex eigenvalue case (e.g., $A$ with eigenvalues $\\alpha \\pm \\beta i$) using the Cayley-Hamilton theorem to reduce higher powers, resulting in entries involving $e^{\\alpha t}\\cos(\\beta t)$ and $e^{\\alpha t}\\sin(\\beta t)$."
+  ]
+}

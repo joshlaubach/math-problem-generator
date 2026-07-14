@@ -1,0 +1,81 @@
+{
+  "topic_id": "c2_015",
+  "topic_name": "Calculus with Parametric Curves (Tangents, Arc Length)",
+  "generated_at": "2026-05-13T00:22:29.582244+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to find slopes and arc lengths for functions written as $y = f(x)$, using derivatives and the formula $\\int_a^b \\sqrt{1 + (f'(x))^2}\\, dx$. But what happens when a curve is described parametrically \u2014 say, a spiraling path where both $x$ and $y$ depend on a third variable $t$? You can't simply solve for $y$ as a function of $x$, so the usual formulas break down entirely. How do you find the slope of a tangent line, or the total length of such a curve?",
+  "concept": "A parametric curve is defined by $x = f(t)$ and $y = g(t)$, and calculus on it works by using the chain rule to express derivatives in terms of $t$. The slope of the tangent line is $\\frac{dy}{dx} = \\frac{dy/dt}{dx/dt}$, valid wherever $\\frac{dx}{dt} \\neq 0$. The arc length of the curve from $t = a$ to $t = b$ is $L = \\int_a^b \\sqrt{\\left(\\frac{dx}{dt}\\right)^2 + \\left(\\frac{dy}{dt}\\right)^2}\\, dt$.",
+  "anatomy": "In the tangent slope formula $\\frac{dy}{dx} = \\frac{dy/dt}{dx/dt}$, the numerator $\\frac{dy}{dt}$ is the rate of change of the vertical position with respect to the parameter, and the denominator $\\frac{dx}{dt}$ is the rate of change of the horizontal position \u2014 dividing them gives the slope by the chain rule. In the arc length integral $L = \\int_a^b \\sqrt{\\left(\\frac{dx}{dt}\\right)^2 + \\left(\\frac{dy}{dt}\\right)^2}\\, dt$, the expression under the square root measures the instantaneous speed of the point tracing the curve, and integrating that speed over the parameter interval $[a, b]$ accumulates total distance traveled along the curve.",
+  "worked_example": [
+    {
+      "expression_latex": "x = t^2,\\quad y = t^3 - 3t",
+      "description_latex": "We begin with this parametric curve and our first goal is to find where its tangent line is horizontal or vertical. Before doing any calculus, it's helpful to recognize that we will need both $\\frac{dx}{dt}$ and $\\frac{dy}{dt}$, so let's compute those derivatives next.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dx}{dt} = 2t, \\quad \\frac{dy}{dt} = 3t^2 - 3",
+      "description_latex": "We differentiate $x$ and $y$ separately with respect to the parameter $t$, treating them as ordinary single-variable functions. These two derivatives are the building blocks for every tangent-slope calculation on a parametric curve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dy}{dx} = \\frac{3t^2 - 3}{2t}",
+      "description_latex": "Applying the parametric slope formula, we divide $\\frac{dy}{dt}$ by $\\frac{dx}{dt}$ to get the slope of the tangent line at any parameter value $t \\neq 0$. Notice that we never needed to eliminate $t$ and write $y$ explicitly in terms of $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Horizontal tangents: } 3t^2 - 3 = 0 \\Rightarrow t = \\pm 1; \\quad \\text{Vertical tangent: } 2t = 0 \\Rightarrow t = 0",
+      "description_latex": "A horizontal tangent occurs when the numerator is zero (and the denominator is not), while a vertical tangent occurs when the denominator is zero (and the numerator is not). At $t = 1$ the curve passes through $(1, -2)$ and at $t = -1$ through $(1, 2)$; at $t = 0$ the curve has a vertical tangent at the origin.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x = \\cos t,\\quad y = \\sin t, \\quad 0 \\le t \\le \\frac{\\pi}{2}",
+      "description_latex": "We want to find the arc length of this quarter-circle parametrization. The first step is to compute $\\frac{dx}{dt}$ and $\\frac{dy}{dt}$, which we'll need inside the square root of the arc length formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dx}{dt} = -\\sin t,\\quad \\frac{dy}{dt} = \\cos t",
+      "description_latex": "Here are the two derivatives. Now you need to substitute them into the arc length formula $L = \\int_a^b \\sqrt{\\left(\\frac{dx}{dt}\\right)^2 + \\left(\\frac{dy}{dt}\\right)^2}\\, dt$ and simplify the expression under the square root before integrating.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Set up and evaluate the arc length integral: substitute $\\frac{dx}{dt} = -\\sin t$ and $\\frac{dy}{dt} = \\cos t$ into the formula, simplify $(-\\sin t)^2 + (\\cos t)^2$ using a Pythagorean identity, and then integrate over $[0, \\pi/2]$ to find $L$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $\\frac{dy}{dx}$ for the parametric curve $x = 3t,\\; y = t^2$.",
+      "answer_latex": "\\dfrac{dy}{dx} = \\dfrac{2t}{3}"
+    },
+    {
+      "prompt_latex": "Find the slope of the tangent line to $x = e^t,\\; y = e^{2t}$ at $t = 0$.",
+      "answer_latex": "\\dfrac{dy}{dx}\\bigg|_{t=0} = 2"
+    },
+    {
+      "prompt_latex": "Find the arc length of $x = 3t^2,\\; y = 2t^3$ from $t = 0$ to $t = 1$.",
+      "answer_latex": "L = 2\\sqrt{2} - 1 + \\cdots = 2(\\sqrt{2}-1) \\cdot ? \\quad L = \\int_0^1 \\sqrt{36t^2 + 36t^4}\\,dt = 6\\int_0^1 t\\sqrt{1+t^2}\\,dt = 2(2\\sqrt{2}-1)"
+    },
+    {
+      "prompt_latex": "Find all values of $t$ where the curve $x = t^3 - 3t,\\; y = t^2 - 1$ has a horizontal tangent line, and find the corresponding points $(x, y)$.",
+      "answer_latex": "t = 0:\\; (0,\\,-1);\\quad t = 0 \\text{ only, since } \\frac{dy}{dt}=2t=0 \\Rightarrow t=0,\\text{ and } \\frac{dx}{dt}=3t^2-3=-3\\neq 0 \\text{ there.}"
+    },
+    {
+      "prompt_latex": "A particle moves along a path given by $x = 4\\cos t,\\; y = 3\\sin t$ for $0 \\le t \\le 2\\pi$. Write (but do not evaluate) the integral for the total arc length of one complete trip around this ellipse.",
+      "answer_latex": "L = \\int_0^{2\\pi} \\sqrt{16\\sin^2 t + 9\\cos^2 t}\\, dt"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $\\frac{dy}{dx} = \\frac{dx/dt}{dy/dt}$, flipping the numerator and denominator. Remember that slope is vertical change over horizontal change, so $\\frac{dy}{dt}$ goes on top and $\\frac{dx}{dt}$ goes on the bottom.",
+    "When checking for horizontal tangents, students sometimes only set the numerator equal to zero without verifying the denominator is nonzero at that point \u2014 if both are zero simultaneously the tangent slope is indeterminate (often a cusp), not horizontal. Always check both conditions.",
+    "In the arc length formula, students forget to square both $\\frac{dx}{dt}$ and $\\frac{dy}{dt}$ separately before adding, or they try to factor a $dt$ out incorrectly. The formula is $\\sqrt{(dx/dt)^2 + (dy/dt)^2}$, and both terms must be squared individually under the radical."
+  ],
+  "untested_variants": [
+    "Finding the second derivative $\\frac{d^2y}{dx^2}$ for a parametric curve, which requires differentiating $\\frac{dy}{dx}$ with respect to $t$ and then dividing by $\\frac{dx}{dt}$ again.",
+    "Computing the arc length of a curve given in polar form $r = f(\\theta)$ by converting to parametric equations, which involves a different but related integral formula.",
+    "Finding the equation of the tangent line (not just its slope) at a specified point on a parametric curve, including cases where the same point is visited at multiple values of $t$.",
+    "Arc length problems where the integrand does not simplify to a perfect square and the student must evaluate using a $u$-substitution or recognize a standard integral form."
+  ]
+}

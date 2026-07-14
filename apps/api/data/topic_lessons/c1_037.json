@@ -1,0 +1,91 @@
+{
+  "topic_id": "c1_037",
+  "topic_name": "Rectilinear Motion Using Integration",
+  "generated_at": "2026-05-13T00:14:06.243129+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know that if position is given by $s(t)$, then velocity is $v(t) = s'(t)$ and acceleration is $a(t) = v'(t)$. But what if you're handed the velocity function and asked to find where a particle is, or how far it has traveled? Differentiation alone can't run that film backward \u2014 you need integration. How do you recover position from velocity, and how do you distinguish *displacement* from *total distance traveled*?",
+  "concept": "Rectilinear motion using integration means recovering position or velocity from a rate by integrating. If velocity $v(t)$ is known, then displacement over $[a,b]$ is $\\int_a^b v(t)\\,dt$, while total distance traveled is $\\int_a^b |v(t)|\\,dt$. To find the position function itself, use $s(t) = s(t_0) + \\int_{t_0}^{t} v(u)\\,du$, and similarly $v(t) = v(t_0) + \\int_{t_0}^{t} a(u)\\,du$.",
+  "anatomy": "Every rectilinear motion integral problem has four identifiable parts: the **rate function** ($v(t)$ or $a(t)$), which is what you integrate; the **initial condition** ($s(t_0)$ or $v(t_0)$), which pins down the constant of integration; the **interval** $[a, b]$, which sets the time window; and the **quantity sought** \u2014 either displacement $\\int_a^b v(t)\\,dt$, total distance $\\int_a^b |v(t)|\\,dt$, or a specific position value $s(t)$. Keeping these four parts distinct prevents the single most common error: computing displacement when the problem asks for total distance.",
+  "worked_example": [
+    {
+      "expression_latex": "v(t) = t^2 - 4t + 3, \\quad s(0) = 2, \\quad t \\in [0, 4]",
+      "description_latex": "Here is the full setup: we have a velocity function $v(t) = t^2 - 4t + 3$ and we know the particle starts at position $s(0) = 2$. We want to find the position function $s(t)$ and later compute displacement and total distance on $[0,4]$. Before doing any integration, it's smart to factor $v(t)$ to find when the particle changes direction, because that will matter for total distance.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "v(t) = (t-1)(t-3) = 0 \\implies t = 1 \\text{ and } t = 3",
+      "description_latex": "Factoring tells us the particle reverses direction at $t=1$ and $t=3$, meaning $v(t)$ changes sign there. On $[0,1]$ and $[3,4]$ we have $v(t) \\geq 0$ (moving in the positive direction), while on $[1,3]$ we have $v(t) \\leq 0$ (moving in the negative direction). We'll need these sign intervals to handle $|v(t)|$ correctly when computing total distance.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "s(t) = \\int (t^2 - 4t + 3)\\,dt = \\frac{t^3}{3} - 2t^2 + 3t + C",
+      "description_latex": "We integrate $v(t)$ term by term to get $s(t)$. Applying the initial condition $s(0) = 2$ gives $0 - 0 + 0 + C = 2$, so $C = 2$, and therefore $s(t) = \\frac{t^3}{3} - 2t^2 + 3t + 2$. The initial condition is essential \u2014 without it, we'd have infinitely many possible position functions differing by a constant.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Displacement} = \\int_0^4 v(t)\\,dt = \\left[\\frac{t^3}{3} - 2t^2 + 3t\\right]_0^4 = \\frac{64}{3} - 32 + 12 = \\frac{4}{3}",
+      "description_latex": "Displacement is simply the signed integral of velocity over the interval, which equals $s(4) - s(0)$. The result $\\frac{4}{3}$ means the particle ends up $\\frac{4}{3}$ units to the right of where it started, net \u2014 even though it moved back and forth during the trip. Notice we don't need absolute values here because displacement is a signed quantity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Total Distance} = \\int_0^1 v(t)\\,dt - \\int_1^3 v(t)\\,dt + \\int_3^4 v(t)\\,dt = \\frac{4}{3} + \\frac{8}{3} + \\frac{4}{3} = \\frac{16}{3}",
+      "description_latex": "For total distance we split the integral at the sign-change points $t=1$ and $t=3$, and subtract the middle piece where $v < 0$ (equivalently, take $|v|$ there). Each sub-integral gives the distance traveled in one leg of the journey, and we add all legs together. The total distance $\\frac{16}{3}$ is greater than the displacement $\\frac{4}{3}$, which makes sense because the particle backtracked.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "v(t) = 6t - t^2, \\quad s(0) = 0, \\quad \\text{find } s(t) \\text{ and displacement on } [0, 6]",
+      "description_latex": "We start by recognizing this is an integration problem: to recover $s(t)$ from $v(t)$ we integrate and apply the initial condition. Let's first find when $v(t) = 0$ to understand the motion: $v(t) = t(6-t) = 0$ gives $t = 0$ and $t = 6$, so $v(t) \\geq 0$ on the entire interval $[0,6]$ \u2014 the particle never reverses direction here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "s(t) = \\int (6t - t^2)\\,dt = 3t^2 - \\frac{t^3}{3} + C",
+      "description_latex": "We integrate $v(t)$ term by term. Applying $s(0) = 0$ gives $C = 0$, so $s(t) = 3t^2 - \\frac{t^3}{3}$. Now you try: compute the displacement on $[0,6]$ by evaluating $\\int_0^6 v(t)\\,dt$, and explain why displacement equals total distance in this problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Evaluate $\\int_0^6 (6t - t^2)\\,dt$ using the antiderivative you found, plug in the limits, and state the displacement. Since $v(t) \\geq 0$ on the whole interval, what does that tell you about how displacement compares to total distance?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Displacement} = \\left[3t^2 - \\frac{t^3}{3}\\right]_0^6 = 108 - 72 = 36 \\text{ units}",
+      "description_latex": "The displacement is $36$ units, and because $v(t) \\geq 0$ throughout $[0,6]$ (the particle never moves backward), the total distance equals the displacement exactly \u2014 there is nothing to 'cancel out'. This is a useful check: whenever velocity doesn't change sign, $\\int_a^b |v|\\,dt = \\int_a^b v\\,dt$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A particle has velocity $v(t) = 4$ (constant) and $s(0) = 1$. Find $s(t)$ and the displacement on $[0, 3]$.",
+      "answer_latex": "s(t) = 4t + 1; \\text{ displacement} = 12"
+    },
+    {
+      "prompt_latex": "Given $v(t) = 3t^2 - 6t$ and $s(0) = 5$, find the position function $s(t)$ and the displacement on $[0, 3]$.",
+      "answer_latex": "s(t) = t^3 - 3t^2 + 5; \\text{ displacement} = 0"
+    },
+    {
+      "prompt_latex": "A particle moves with velocity $v(t) = t^2 - 1$ on $[0, 2]$. Find the total distance traveled (not just displacement).",
+      "answer_latex": "\\text{Total distance} = \\int_0^1 (1-t^2)\\,dt + \\int_1^2 (t^2-1)\\,dt = \\frac{2}{3} + \\frac{2}{3} = \\frac{4}{3}"
+    },
+    {
+      "prompt_latex": "A particle's acceleration is $a(t) = 6t - 2$, with $v(0) = -1$ and $s(0) = 4$. Find $s(t)$ and the total distance traveled on $[0, 2]$.",
+      "answer_latex": "v(t) = 3t^2 - 2t - 1 = (3t+1)(t-1),\\; s(t) = t^3 - t^2 - t + 4;\\; \\text{Total distance} = \\frac{1}{3} + \\frac{1}{3} = \\frac{2}{3} \\cdot \\frac{...}{} \\Rightarrow \\int_0^1 |v|\\,dt + \\int_1^2 v\\,dt = \\frac{5}{3} + \\frac{8}{3} = \\frac{13}{3}"
+    },
+    {
+      "prompt_latex": "A rocket's velocity (in m/s) is $v(t) = 30\\sqrt{t}$ for $0 \\leq t \\leq 9$ seconds. Starting from position $s = 0$, how far (total distance) does the rocket travel in those 9 seconds?",
+      "answer_latex": "\\int_0^9 30\\sqrt{t}\\,dt = 30 \\cdot \\frac{2}{3} t^{3/2}\\Big|_0^9 = 20 \\cdot 27 = 540 \\text{ meters}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use displacement $\\int_a^b v(t)\\,dt$ when the problem asks for total distance, forgetting to split the integral at points where $v(t)=0$ and use $|v(t)|$. Always check whether velocity changes sign on the interval before deciding which formula to apply.",
+    "After integrating $v(t)$ to get $s(t) = F(t) + C$, students leave $C$ as an unknown rather than solving for it using the initial condition $s(t_0)$. Without pinning down $C$, the position function is not determined and all subsequent position values will be wrong.",
+    "Students confuse the roles of $v(t)$ and $a(t)$: when given acceleration, they forget to integrate once to find velocity (and apply $v(t_0)$) before integrating again for position (and applying $s(t_0)$). Each integration step requires its own initial condition to determine its constant."
+  ],
+  "untested_variants": [
+    "Problems where the velocity function is given piecewise (e.g., $v(t) = 2t$ for $0 \\leq t \\leq 1$ and $v(t) = 2$ for $1 < t \\leq 3$), requiring students to integrate each piece separately and ensure position continuity at the breakpoint.",
+    "Problems asking for the time(s) at which the particle returns to its initial position, which requires setting $s(t) = s(t_0)$ and solving the resulting equation after integrating.",
+    "Problems involving velocity given implicitly or through a graph (rather than a formula), where students must estimate the integral using geometric area under the curve.",
+    "Two-particle problems that ask when two particles have the same position, requiring students to set up and solve $s_1(t) = s_2(t)$ after integrating each particle's velocity with its own initial condition."
+  ]
+}

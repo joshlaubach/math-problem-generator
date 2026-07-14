@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_041",
+  "topic_name": "Convergence of Random Variables (H)",
+  "generated_at": "2026-05-13T20:28:52.149022+00:00",
+  "course_name": "Probability",
+  "hook": "You already know that a sequence of numbers can converge to a limit, and you've worked with the Law of Large Numbers as an intuitive idea that sample averages 'settle down' near the true mean. But random variables aren't just numbers \u2014 they carry entire probability distributions that can change with $n$. So what does it even mean for a sequence of random variables $X_1, X_2, \\ldots$ to 'converge'? There are actually several different, inequivalent ways this can happen, and choosing the wrong one can lead to completely false conclusions \u2014 so which notion of convergence should you use, and when?",
+  "concept": "Convergence of random variables formalizes the idea that a sequence $X_n$ 'gets close' to a limiting random variable $X$ as $n \\to \\infty$. The three main modes are: convergence in probability ($X_n \\xrightarrow{p} X$) if $P(|X_n - X| > \\varepsilon) \\to 0$ for every $\\varepsilon > 0$; almost sure convergence ($X_n \\xrightarrow{a.s.} X$) if $P(\\lim_{n\\to\\infty} X_n = X) = 1$; and convergence in distribution ($X_n \\xrightarrow{d} X$) if $F_{X_n}(x) \\to F_X(x)$ at every continuity point $x$ of $F_X$.",
+  "anatomy": "Each mode of convergence has distinct structural components worth naming precisely. The threshold $\\varepsilon > 0$ is the tolerance parameter controlling how 'close' we demand $X_n$ to be to $X$. The probability $P(|X_n - X| > \\varepsilon)$ is the exceedance probability, which must vanish as $n \\to \\infty$ for convergence in probability. The event $\\{\\omega : \\lim_{n \\to \\infty} X_n(\\omega) = X(\\omega)\\}$ is the almost-sure convergence event, and almost sure convergence requires this set to have probability 1 \u2014 a strictly stronger demand than convergence in probability. The CDFs $F_{X_n}(x)$ and $F_X(x)$ are the objects that must agree pointwise in the limit for convergence in distribution, the weakest of the three modes.",
+  "worked_example": [
+    {
+      "expression_latex": "X_n \\sim \\text{Uniform}\\left(0, \\tfrac{1}{n}\\right), \\quad X = 0",
+      "description_latex": "We want to show that $X_n \\xrightarrow{p} 0$ as $n \\to \\infty$. The setup is clear: $X_n$ is uniform on a shrinking interval $[0, 1/n]$, and we expect the mass to collapse to the single point $0$ in the limit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P\\!\\left(|X_n - 0| > \\varepsilon\\right) = P\\!\\left(X_n > \\varepsilon\\right)",
+      "description_latex": "We write the exceedance probability directly, using the fact that $X_n \\geq 0$ always, so $|X_n| = X_n$. This is the definition we need to evaluate: we must show this quantity goes to $0$ for any fixed $\\varepsilon > 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P\\!\\left(X_n > \\varepsilon\\right) = \\begin{cases} 1 - n\\varepsilon & \\text{if } \\varepsilon < \\tfrac{1}{n} \\\\ 0 & \\text{if } \\varepsilon \\geq \\tfrac{1}{n} \\end{cases}",
+      "description_latex": "Since $X_n$ is uniform on $[0, 1/n]$, its CDF is $F_{X_n}(x) = nx$ for $0 \\leq x \\leq 1/n$, so $P(X_n > \\varepsilon) = 1 - n\\varepsilon$ when $\\varepsilon < 1/n$, and $0$ once $\\varepsilon \\geq 1/n$. Notice that for any fixed $\\varepsilon > 0$, once $n > 1/\\varepsilon$ we are in the second case and the probability is already $0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{n \\to \\infty} P\\!\\left(|X_n| > \\varepsilon\\right) = 0 \\quad \\text{for every } \\varepsilon > 0",
+      "description_latex": "For any fixed $\\varepsilon > 0$, once $n$ is large enough that $1/n < \\varepsilon$, the exceedance probability equals $0$. Therefore the limit is $0$, confirming that $X_n \\xrightarrow{p} 0$. This argument pattern \u2014 fix $\\varepsilon$, then choose $n$ large enough \u2014 is the standard template for all convergence-in-probability proofs.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_n \\sim \\text{Bernoulli}\\!\\left(\\tfrac{1}{n}\\right). \\text{ Show } X_n \\xrightarrow{p} 0.",
+      "description_latex": "We have a sequence of Bernoulli random variables with success probability $1/n$, and we want to verify convergence in probability to the constant $0$. Start by writing down the exceedance probability $P(|X_n - 0| > \\varepsilon)$ for a fixed $\\varepsilon \\in (0,1)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(|X_n| > \\varepsilon) = P(X_n = 1) \\text{ for } \\varepsilon \\in (0,1)",
+      "description_latex": "Because $X_n$ only takes values $0$ and $1$, the event $\\{X_n > \\varepsilon\\}$ for $\\varepsilon \\in (0,1)$ is exactly the event $\\{X_n = 1\\}$. Now compute this probability and take its limit as $n \\to \\infty$ \u2014 what do you get, and what does it tell you?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\lim_{n\\to\\infty} P(|X_n| > \\varepsilon) = \\lim_{n\\to\\infty} \\frac{1}{n} = 0 \\implies X_n \\xrightarrow{p} 0",
+      "description_latex": "Since $P(X_n = 1) = 1/n \\to 0$, the exceedance probability vanishes for every $\\varepsilon \\in (0,1)$, completing the proof. This example is instructive because the random variables never actually equal $0$ \u2014 they are always Bernoulli \u2014 yet they still converge in probability to $0$, highlighting that convergence in probability is about the distribution, not the individual outcomes.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X_n \\sim \\text{Uniform}(0, 1/n^2)$. Compute $P(|X_n| > \\varepsilon)$ for $\\varepsilon > 0$ and determine whether $X_n \\xrightarrow{p} 0$.",
+      "answer_latex": "P(|X_n|>\\varepsilon)=0$ for $n > 1/\\varepsilon$, so $\\lim_{n\\to\\infty}P(|X_n|>\\varepsilon)=0$ and $X_n\\xrightarrow{p}0$."
+    },
+    {
+      "prompt_latex": "Let $X_n$ take value $n$ with probability $1/n$ and value $0$ otherwise. Does $X_n \\xrightarrow{p} 0$? Justify your answer.",
+      "answer_latex": "P(|X_n|>\\varepsilon)=P(X_n=n)=1/n\\to 0$, so yes, $X_n\\xrightarrow{p}0$."
+    },
+    {
+      "prompt_latex": "Suppose $X_n \\sim N(0, 1/n)$. Show that $X_n \\xrightarrow{p} 0$ by using Chebyshev's inequality.",
+      "answer_latex": "\\text{By Chebyshev: }P(|X_n|>\\varepsilon)\\leq \\frac{\\operatorname{Var}(X_n)}{\\varepsilon^2}=\\frac{1/n}{\\varepsilon^2}\\to 0."
+    },
+    {
+      "prompt_latex": "Let $X_1, X_2, \\ldots$ be i.i.d.\\ with mean $\\mu$ and finite variance $\\sigma^2$. Define $\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i$. Use Chebyshev's inequality to prove $\\bar{X}_n \\xrightarrow{p} \\mu$ (the Weak Law of Large Numbers).",
+      "answer_latex": "\\operatorname{Var}(\\bar{X}_n)=\\sigma^2/n,\\text{ so }P(|\\bar{X}_n-\\mu|>\\varepsilon)\\leq\\frac{\\sigma^2}{n\\varepsilon^2}\\to 0."
+    },
+    {
+      "prompt_latex": "A quality-control inspector measures $n$ independent components, each defective with probability $p$. Let $\\hat{p}_n$ be the sample proportion of defectives. Using the WLLN result, what can you conclude about $\\hat{p}_n$ as $n\\to\\infty$, and why does this justify using $\\hat{p}_n$ as an estimator of $p$?",
+      "answer_latex": "\\hat{p}_n\\xrightarrow{p}p$ by the WLLN (since $\\hat{p}_n=\\bar{X}_n$ with $\\mu=p$), meaning the estimator is consistent."
+    }
+  ],
+  "common_mistakes": [
+    "Students often conclude that because $X_n \\xrightarrow{p} X$ the random variables must eventually equal $X$ on every outcome \u2014 but convergence in probability only controls the probability of large deviations globally, not sample-path behavior; almost sure convergence is the mode that controls individual trajectories.",
+    "A frequent error is treating convergence in distribution as equivalent to convergence in probability: students see that $F_{X_n}(x) \\to F_X(x)$ and assume $P(|X_n - X|>\\varepsilon)\\to 0$, but convergence in distribution only compares CDFs and does not require $X_n$ and $X$ to even be defined on the same probability space \u2014 always check which mode is actually claimed.",
+    "When applying Chebyshev's inequality to prove convergence in probability, students sometimes forget that the bound $P(|X_n - \\mu|>\\varepsilon)\\leq \\operatorname{Var}(X_n)/\\varepsilon^2$ requires $\\varepsilon$ to be fixed before taking $n\\to\\infty$; treating $\\varepsilon$ as depending on $n$ invalidates the argument entirely."
+  ],
+  "untested_variants": [
+    "Almost sure convergence proofs using the Borel\u2013Cantelli lemma, for example showing the typewriter sequence converges in probability but not almost surely.",
+    "Convergence in $L^p$ (mean-square convergence as a special case $p=2$) and the relationships $L^p \\Rightarrow$ probability $\\Rightarrow$ distribution.",
+    "The Central Limit Theorem as a convergence-in-distribution result: showing $\\sqrt{n}(\\bar{X}_n - \\mu)/\\sigma \\xrightarrow{d} N(0,1)$ and using it to approximate probabilities.",
+    "Slutsky's theorem and its applications, such as combining a sequence converging in distribution with one converging in probability to deduce distributional limits of sums or products."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_028",
+  "topic_name": "Probability Density Functions and CDFs via Integration (H)",
+  "generated_at": "2026-05-13T20:27:29.288111+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find probabilities for discrete random variables by summing values from a probability mass function. But what happens when a random variable can take any value in a continuous interval \u2014 like the exact time a bus arrives, or a person's height measured to infinite precision? Summing no longer works because there are infinitely many possible values, each with probability zero on its own. So how do we actually compute $P(a \\leq X \\leq b)$ for a continuous random variable?",
+  "concept": "For a continuous random variable $X$, probabilities are computed by integrating a probability density function (PDF) $f(x)$ over an interval. The PDF itself is not a probability \u2014 it is a non-negative function satisfying $\\int_{-\\infty}^{\\infty} f(x)\\,dx = 1$. The probability that $X$ falls in $[a, b]$ is $P(a \\leq X \\leq b) = \\int_a^b f(x)\\,dx$. The cumulative distribution function (CDF) is $F(x) = P(X \\leq x) = \\int_{-\\infty}^{x} f(t)\\,dt$, and it satisfies $F'(x) = f(x)$ wherever $f$ is continuous.",
+  "anatomy": "The PDF $f(x)$ has three structural requirements: it must be non-negative everywhere ($f(x) \\geq 0$ for all $x$), it must integrate to 1 over its entire support, and it is typically defined piecewise with $f(x) = 0$ outside the support. The support is the interval (or union of intervals) where $f(x) > 0$. The CDF $F(x)$ accumulates area from the left tail up to the point $x$; its value always lies in $[0,1]$, it is non-decreasing, and the limits $F(-\\infty) = 0$ and $F(\\infty) = 1$ must hold. The relationship $F'(x) = f(x)$ means the PDF is the rate of change of cumulative probability.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = \\begin{cases} kx^2 & 0 \\leq x \\leq 3 \\\\ 0 & \\text{otherwise} \\end{cases}",
+      "description_latex": "We are given a candidate PDF with an unknown constant $k$, and our first task is to find $k$ by enforcing the total-area-equals-one condition. This is always the starting point whenever you see an unspecified constant in a PDF, because the definition of a valid PDF requires $\\int_{-\\infty}^{\\infty} f(x)\\,dx = 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^3 kx^2\\,dx = 1 \\implies k \\cdot \\left[\\frac{x^3}{3}\\right]_0^3 = 1 \\implies k \\cdot 9 = 1 \\implies k = \\frac{1}{9}",
+      "description_latex": "We integrate $kx^2$ over the support $[0, 3]$ and set the result equal to 1. Evaluating the definite integral gives $k \\cdot 9 = 1$, so $k = \\tfrac{1}{9}$. Notice we only integrate over the support because $f(x) = 0$ everywhere else, contributing nothing to the total area.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(1 \\leq X \\leq 2) = \\int_1^2 \\frac{x^2}{9}\\,dx = \\frac{1}{9}\\left[\\frac{x^3}{3}\\right]_1^2 = \\frac{1}{9}\\cdot\\frac{7}{3} = \\frac{7}{27}",
+      "description_latex": "Now that we know $f(x) = \\tfrac{x^2}{9}$, we compute the probability that $X$ lies between 1 and 2 by integrating $f$ over that sub-interval. The geometric meaning is the area under the curve $f(x)$ from $x=1$ to $x=2$, which equals $\\tfrac{7}{27} \\approx 0.259$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F(x) = \\int_0^x \\frac{t^2}{9}\\,dt = \\frac{x^3}{27}, \\quad 0 \\leq x \\leq 3",
+      "description_latex": "To build the CDF we integrate $f(t) = \\tfrac{t^2}{9}$ from the left edge of the support (here $t = 0$) up to a general point $x$. We use a dummy variable $t$ inside the integral to avoid confusion with the upper limit $x$. For $x < 0$ we have $F(x) = 0$, and for $x > 3$ we have $F(x) = 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "F'(x) = \\frac{d}{dx}\\left(\\frac{x^3}{27}\\right) = \\frac{3x^2}{27} = \\frac{x^2}{9} = f(x) \\checkmark",
+      "description_latex": "As a final check, differentiating the CDF should return the PDF \u2014 this is the Fundamental Theorem of Calculus applied to probability. Confirming $F'(x) = f(x)$ verifies that both the PDF and CDF are consistent, which is a useful self-check in any exam problem.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = \\begin{cases} c(4-x^2) & -1 \\leq x \\leq 1 \\\\ 0 & \\text{otherwise} \\end{cases}",
+      "description_latex": "We have a new PDF with unknown constant $c$ defined on $[-1, 1]$. Your first job is always to find $c$ by requiring the total area under $f$ to equal 1, so set up the integral $\\int_{-1}^{1} c(4-x^2)\\,dx = 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_{-1}^{1} c(4 - x^2)\\,dx = c\\left[4x - \\frac{x^3}{3}\\right]_{-1}^{1} = c \\cdot \\frac{22}{3} = 1",
+      "description_latex": "Evaluate the integral and solve for $c$. What is the value of $c$? Remember to substitute both $x = 1$ and $x = -1$ carefully and subtract.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "F(x) = \\int_{-1}^{x} \\frac{3}{22}(4 - t^2)\\,dt, \\quad -1 \\leq x \\leq 1",
+      "description_latex": "Using the value of $c$ you found, write down and evaluate the integral that defines the CDF $F(x)$ for $x$ in the support $[-1, 1]$. Give your final answer as a closed-form expression in $x$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "F(x) = \\frac{3}{22}\\left(4x - \\frac{x^3}{3} + \\frac{11}{3}\\right), \\quad -1 \\leq x \\leq 1",
+      "description_latex": "Here is the completed CDF over the support. You can verify correctness by checking $F(-1) = 0$ and $F(1) = 1$, and by differentiating to confirm you recover $f(x)$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $f(x) = \\frac{3}{8}x^2$ for $0 \\leq x \\leq 2$ and $0$ otherwise, verify that $f$ is a valid PDF by computing $\\int_0^2 \\frac{3}{8}x^2\\,dx$.",
+      "answer_latex": "\\int_0^2 \\frac{3}{8}x^2\\,dx = \\frac{3}{8}\\cdot\\frac{8}{3} = 1 \\checkmark"
+    },
+    {
+      "prompt_latex": "For the PDF $f(x) = \\frac{3}{8}x^2$, $0 \\leq x \\leq 2$, find $P(1 \\leq X \\leq 2)$.",
+      "answer_latex": "P(1 \\leq X \\leq 2) = \\int_1^2 \\frac{3}{8}x^2\\,dx = \\frac{3}{8}\\cdot\\frac{7}{3} = \\frac{7}{8}"
+    },
+    {
+      "prompt_latex": "Find the constant $k$ such that $f(x) = kx(1-x)$ is a valid PDF on $[0,1]$, then find the CDF $F(x)$ for $0 \\leq x \\leq 1$.",
+      "answer_latex": "k = 6;\\quad F(x) = 3x^2 - 2x^3"
+    },
+    {
+      "prompt_latex": "A continuous random variable has CDF $F(x) = 1 - e^{-2x}$ for $x \\geq 0$ and $F(x)=0$ otherwise. Find the PDF $f(x)$ and compute $P(X > 1)$.",
+      "answer_latex": "f(x) = 2e^{-2x}\\text{ for }x\\geq 0;\\quad P(X>1) = 1 - F(1) = e^{-2} \\approx 0.135"
+    },
+    {
+      "prompt_latex": "The waiting time $T$ (in minutes) for a certain process has PDF $f(t) = \\frac{2}{9}t$ for $0 \\leq t \\leq 3$ and $0$ otherwise. Find the probability that the waiting time is at most 2 minutes, and find the value $m$ such that $P(T \\leq m) = 0.5$ (the median).",
+      "answer_latex": "P(T \\leq 2) = \\frac{4}{9};\\quad m = \\frac{3}{\\sqrt{2}} = \\frac{3\\sqrt{2}}{2} \\approx 2.12 \\text{ min}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to restrict the integration limits to the support, instead integrating from $-\\infty$ to $\\infty$ even when the antiderivative was only derived for the support interval \u2014 always identify the support first and integrate only where $f(x) > 0$.",
+    "When building the CDF $F(x)$, students use $x$ as both the upper limit of integration and the variable of integration, writing $\\int_a^x f(x)\\,dx$ instead of $\\int_a^x f(t)\\,dt$ \u2014 using a dummy variable $t$ inside the integral avoids this confusion and keeps the expression mathematically well-defined.",
+    "Students treat the PDF value $f(x)$ itself as a probability, sometimes writing statements like $P(X = 2) = f(2)$ \u2014 for a continuous random variable $P(X = c) = 0$ for every specific value $c$, and probabilities only arise from integrating $f$ over an interval of positive length."
+  ],
+  "untested_variants": [
+    "PDFs defined piecewise over two or more sub-intervals with different formulas (e.g., $f(x) = x$ on $[0,1]$ and $f(x) = 2-x$ on $[1,2]$), requiring the student to split the CDF integral at the boundary point.",
+    "Finding the expected value $E[X] = \\int_{-\\infty}^{\\infty} x f(x)\\,dx$ or variance $\\text{Var}(X)$ from a given PDF \u2014 these combine the PDF with moment calculations not covered in the practice set.",
+    "Working backwards from a given CDF that involves absolute values or square roots to recover the PDF by differentiation, where the chain rule is needed.",
+    "Joint continuous distributions where the student must integrate a joint PDF $f(x,y)$ over a two-dimensional region to find marginal densities or joint probabilities."
+  ]
+}

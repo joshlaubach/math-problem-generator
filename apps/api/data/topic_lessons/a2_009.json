@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_009",
+  "topic_name": "Transformations of Quadratic Functions",
+  "generated_at": "2026-05-12T23:19:47.448862+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know that $f(x) = x^2$ produces a U-shaped parabola with its vertex at the origin. But what happens when someone hands you $g(x) = -2(x+3)^2 + 5$? You can tell it's still a quadratic, yet it looks nothing like the simple $x^2$ you're used to \u2014 it's flipped, stretched, and moved somewhere else entirely. How do you quickly read off exactly where it sits and what it looks like without plotting dozens of points?",
+  "concept": "A transformation of a quadratic function is any shift, stretch, shrink, or reflection applied to the parent function $f(x) = x^2$. The standard vertex form captures all of these at once: $g(x) = a(x-h)^2 + k$, where each parameter controls a specific visual change to the parabola. Reading the parameters directly lets you graph any quadratic instantly.",
+  "anatomy": "In $g(x) = a(x-h)^2 + k$, every letter plays a distinct role. The parameter $h$ controls the horizontal shift: the graph moves right when $h > 0$ and left when $h < 0$ \u2014 and because it appears as $(x - h)$, a positive $h$ inside the parentheses is subtracted, so watch the sign carefully. The parameter $k$ controls the vertical shift: the graph moves up when $k > 0$ and down when $k < 0$. Together, $(h, k)$ is the vertex of the parabola. The parameter $a$ controls both stretch/shrink and reflection: $|a| > 1$ narrows the parabola (vertical stretch), $0 < |a| < 1$ widens it (vertical shrink), and a negative $a$ flips the parabola upside down (reflection over the x-axis).",
+  "worked_example": [
+    {
+      "expression_latex": "g(x) = 2(x - 3)^2 - 4",
+      "description_latex": "We start by identifying the form $a(x-h)^2 + k$ and reading off each parameter directly. Here $a = 2$, $h = 3$, and $k = -4$, so we already know everything we need to describe the graph before drawing a single point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Vertex: } (h, k) = (3, -4)",
+      "description_latex": "The vertex is simply the point $(h, k)$, which tells us the parabola's lowest (or highest) point and where we center our graph. Because $a = 2 > 0$, the parabola opens upward, so this vertex is the minimum.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Vertical stretch by factor } 2; \\text{ opens upward}",
+      "description_latex": "Since $|a| = 2 > 1$, the parabola is narrower than the parent $x^2$ \u2014 points move twice as far from the x-axis for the same horizontal distance. The positive sign of $a$ confirms the parabola opens upward with no reflection.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Shift: 3 units right, 4 units down}",
+      "description_latex": "The $h = 3$ shifts every point of the parent parabola three units to the right, and $k = -4$ shifts every point four units downward. These two shifts together move the vertex from $(0,0)$ to $(3,-4)$, which matches what we found in step 2.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = -\\tfrac{1}{2}(x + 4)^2 + 1",
+      "description_latex": "We want to fully describe the transformations of this quadratic. Begin by matching it to the form $a(x-h)^2 + k$. Notice the expression inside the parentheses is $(x + 4)$, which equals $(x - (-4))$, so be careful with the sign of $h$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = -\\tfrac{1}{2}, \\quad h = -4, \\quad k = 1",
+      "description_latex": "We've extracted the three parameters. Now use $a$ to determine the direction and width of the parabola \u2014 what does $a = -\\frac{1}{2}$ tell you about the reflection and stretch or shrink?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Vertex: } (-4,\\, 1);\\quad \\text{reflected over x-axis, vertical shrink by } \\tfrac{1}{2};\\quad \\text{opens downward}",
+      "description_latex": "Putting it all together: the vertex is $(-4, 1)$, the negative $a$ reflects the parabola over the x-axis so it opens downward, and $|a| = \\frac{1}{2} < 1$ means the parabola is wider than the parent $x^2$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Identify the vertex and direction of opening: } f(x) = (x - 5)^2 + 2",
+      "answer_latex": "\\text{Vertex } (5, 2);\\text{ opens upward}"
+    },
+    {
+      "prompt_latex": "\\text{Describe all transformations: } g(x) = -3(x + 1)^2 - 6",
+      "answer_latex": "\\text{Vertex } (-1,-6);\\text{ reflected over x-axis; vertical stretch by 3; opens downward; shifted 1 left, 6 down}"
+    },
+    {
+      "prompt_latex": "\\text{Write the vertex form equation for a parabola with vertex } (2, -7) \\text{ and } a = \\tfrac{1}{3}",
+      "answer_latex": "f(x) = \\tfrac{1}{3}(x-2)^2 - 7"
+    },
+    {
+      "prompt_latex": "\\text{A function is given in standard form: } f(x) = x^2 - 6x + 11.\\text{ Convert to vertex form, then state the vertex and transformations.}",
+      "answer_latex": "f(x) = (x-3)^2 + 2;\\text{ vertex } (3,2);\\text{ shift 3 right, 2 up; no stretch or reflection}"
+    },
+    {
+      "prompt_latex": "\\text{A ball's height (in feet) is modeled by } h(t) = -16(t - 2)^2 + 64.\\text{ What is the maximum height, and when does it occur?}",
+      "answer_latex": "\\text{Maximum height of } 64 \\text{ ft occurs at } t = 2 \\text{ seconds (the vertex is } (2, 64)\\text{)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often read the horizontal shift as $+h$ when the form shows $(x + h)$, forgetting that the formula is $(x - h)$. For example, in $(x+4)^2$ they write $h = 4$ instead of $h = -4$, placing the vertex four units in the wrong direction. Always rewrite $(x+4)$ as $(x-(-4))$ first to avoid the sign error.",
+    "When $a$ is a fraction like $\\frac{1}{3}$, students sometimes call the parabola 'stretched' because the fraction feels like a large change, but a value of $|a| < 1$ actually produces a vertical shrink (wider parabola), not a stretch. Remember: $|a| > 1$ means narrower (stretch), $|a| < 1$ means wider (shrink).",
+    "Students often forget that a negative $a$ causes a reflection over the x-axis AND controls the stretch or shrink simultaneously, treating them as two separate $a$ values. In $g(x) = -2(x-1)^2 + 3$, the single value $a = -2$ does both jobs at once \u2014 it reflects the graph AND stretches it by a factor of 2."
+  ],
+  "untested_variants": [
+    "Given a graph of a transformed parabola, writing the vertex form equation by reading the vertex and a second point to solve for $a$ \u2014 a reverse-engineering task not covered in the practice problems above.",
+    "Applying a horizontal stretch or shrink by modifying the coefficient inside the parentheses, such as $f(x) = (2x - 3)^2$, which involves factoring out the inner coefficient before identifying transformations.",
+    "Composing two separate transformations sequentially \u2014 for example, starting with a completed vertex form, applying an additional vertical shift, and writing the new equation \u2014 rather than just reading a single given equation.",
+    "Using transformations to compare two quadratics and determine which has a higher vertex or wider graph, a relative reasoning task that blends multiple transformation concepts without a single standard equation to parse."
+  ]
+}

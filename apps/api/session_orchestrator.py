@@ -49,11 +49,19 @@ class Prefetch:
 
 
 @dataclass
+class Flagged:
+    """A moderation hit the transport must persist + alert on (H3)."""
+    category: str
+    excerpt: str
+
+
+@dataclass
 class HandlerResult:
     messages: list[Outbound] = field(default_factory=list)
     advance: Optional[Advance] = None
     end_session: Optional[str] = None  # reason → transport ends the session and breaks
     prefetch: Optional[Prefetch] = None  # transport fires async problem generation
+    flagged: Optional[Flagged] = None  # transport persists FlaggedContentRecord + alerts
 
     def send(self, type: str, **payload) -> "HandlerResult":
         self.messages.append(Outbound(type=type, payload=payload))
@@ -146,6 +154,18 @@ async def _student_text(session, user, raw, deps) -> HandlerResult:
     text = str(raw.get("text", "")).strip()
     if not text:
         return res  # empty text → no-op
+
+    # SECURITY (H3): screen for crisis/self-harm BEFORE the LLM. On a hit, the
+    # student gets a safety response (never a math deflection), the message is
+    # flagged for human review, and the LLM is not called.
+    import content_moderation
+    verdict = content_moderation.screen(text)
+    if verdict.flagged:
+        session.conversation.append({"role": "student", "content": text})
+        session.conversation.append({"role": "tutor", "content": verdict.response})
+        res.flagged = Flagged(category=verdict.category, excerpt=verdict.matched_excerpt or text[:120])
+        deps.update_session(session)
+        return res.send("agent_text", text=verdict.response)
 
     deps.log_event(session_id=session.session_id, user_id=user.id,
                    topic_id=session.topic_id, difficulty=session.difficulty,

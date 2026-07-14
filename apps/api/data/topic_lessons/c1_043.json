@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_043",
+  "topic_name": "Exponential Growth and Decay Models",
+  "generated_at": "2026-05-13T00:15:49.235267+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to differentiate exponential functions like $e^{kt}$, and you've seen that the derivative of $e^{kt}$ is $ke^{kt}$ \u2014 the function reproduces itself under differentiation. But what if instead of starting with a function and differentiating, you're handed a rule about *rates of change* and asked to recover the original function? Specifically, suppose a bacteria colony grows so that its rate of growth at any moment is proportional to how many bacteria currently exist \u2014 how do you find a formula for the population at time $t$?",
+  "concept": "Exponential growth and decay models describe situations where a quantity changes at a rate proportional to its current size. Formally, if $y(t)$ is the quantity at time $t$, this relationship is captured by the differential equation $\\frac{dy}{dt} = ky$, where $k$ is a real constant. The unique solution satisfying an initial condition $y(0) = y_0$ is $y(t) = y_0 e^{kt}$, with $k > 0$ giving growth and $k < 0$ giving decay.",
+  "anatomy": "The model $y(t) = y_0 e^{kt}$ has four distinct components worth naming precisely. The **initial value** $y_0 = y(0)$ is the quantity at time $t = 0$, setting the vertical scale of the solution. The **rate constant** $k$ controls the speed and direction of change: its sign determines whether the quantity grows ($k > 0$) or decays ($k < 0$), and its magnitude determines how fast. The **exponential factor** $e^{kt}$ is the engine of proportional change, ensuring the rate of change always equals $k$ times the current value. Finally, the **differential equation** $\\frac{dy}{dt} = ky$ is the governing law \u2014 it says the instantaneous rate of change of $y$ is proportional to $y$ itself, with proportionality constant $k$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dy}{dt} = ky",
+      "description_latex": "We start by recognizing the structure of the differential equation. Because $\\frac{dy}{dt}$ equals a constant $k$ times $y$ itself, this is a separable equation \u2014 we can gather all $y$ terms on one side and all $t$ terms on the other, which is exactly the technique we need to isolate and integrate each variable separately.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{1}{y}\\,dy = k\\,dt",
+      "description_latex": "We separate variables by dividing both sides by $y$ (assuming $y \\neq 0$) and multiplying both sides by $dt$. This rearrangement is legal because we treat $\\frac{dy}{dt}$ informally as a ratio of differentials, placing $dy$ with the $y$-terms and $dt$ with the constant $k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int \\frac{1}{y}\\,dy = \\int k\\,dt \\quad \\Longrightarrow \\quad \\ln|y| = kt + C",
+      "description_latex": "Integrating both sides, the left side gives $\\ln|y|$ (the antiderivative of $1/y$) and the right side gives $kt + C$, where $C$ is an arbitrary constant of integration. We write $C$ on only one side because two constants of integration can always be merged into a single one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y(t) = Ae^{kt}, \\quad A = e^{C}",
+      "description_latex": "We exponentiate both sides to solve for $y$: $e^{\\ln|y|} = e^{kt+C}$ gives $|y| = e^C e^{kt}$. Allowing the constant $A = \\pm e^C$ to absorb the absolute value and sign, we write $y = Ae^{kt}$ for an arbitrary nonzero constant $A$. This is the **general solution** to the differential equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y(0) = y_0 \\Rightarrow A e^{k \\cdot 0} = y_0 \\Rightarrow A = y_0 \\quad \\Longrightarrow \\quad y(t) = y_0 e^{kt}",
+      "description_latex": "Finally, we apply the initial condition $y(0) = y_0$ to determine $A$. Substituting $t = 0$ into $y = Ae^{kt}$ gives $A = y_0$, pinning down the unique solution that matches the given starting value. This is the **particular solution**, and it is the standard exponential growth or decay formula.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dy}{dt} = -0.3y, \\quad y(0) = 500",
+      "description_latex": "We are asked to find the particular solution to this decay equation. Since the equation has the form $\\frac{dy}{dt} = ky$ with $k = -0.3$ and initial value $y_0 = 500$, we know the general form of the answer is $y(t) = y_0 e^{kt}$. The next step is to write down this particular solution by substituting the known values of $y_0$ and $k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the particular solution $y(t)$ by substituting $y_0 = 500$ and $k = -0.3$ into the formula $y(t) = y_0 e^{kt}$. What is the explicit formula for $y(t)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y(10) = 500e^{-0.3 \\cdot 10} = 500e^{-3} \\approx 24.9",
+      "description_latex": "To find the quantity at a specific time, we substitute $t = 10$ into our particular solution. Notice that $e^{-3} \\approx 0.0498$, so the quantity has decayed to roughly $24.9$ \u2014 only about $5\\%$ of its original value \u2014 confirming the rapid decay that a rate constant of $k = -0.3$ produces.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write the particular solution to $\\frac{dy}{dt} = 2y$ with $y(0) = 1$.",
+      "answer_latex": "y(t) = e^{2t}"
+    },
+    {
+      "prompt_latex": "A population satisfies $\\frac{dP}{dt} = 0.05P$ with $P(0) = 200$. Find $P(t)$ and determine the population after $10$ years.",
+      "answer_latex": "P(t) = 200e^{0.05t};\\quad P(10) = 200e^{0.5} \\approx 329.7"
+    },
+    {
+      "prompt_latex": "A radioactive substance decays according to $\\frac{dA}{dt} = -0.1A$ with $A(0) = 80$ grams. Find the time $t$ at which only $40$ grams remain (i.e., the half-life).",
+      "answer_latex": "t = \\dfrac{\\ln 2}{0.1} = 10\\ln 2 \\approx 6.93 \\text{ years}"
+    },
+    {
+      "prompt_latex": "A quantity $y(t)$ satisfies $\\frac{dy}{dt} = ky$ with $y(0) = 50$ and $y(3) = 200$. Find $k$ and write the particular solution.",
+      "answer_latex": "k = \\dfrac{\\ln 4}{3} = \\dfrac{2\\ln 2}{3};\\quad y(t) = 50e^{\\frac{2\\ln 2}{3}t}"
+    },
+    {
+      "prompt_latex": "A cup of coffee cools so that the difference between its temperature and room temperature ($20^\\circ$C) decays exponentially. If the coffee starts at $90^\\circ$C and reaches $60^\\circ$C after $5$ minutes, write an expression for the coffee's temperature $T(t)$ at time $t$ minutes.",
+      "answer_latex": "T(t) = 20 + 70e^{kt},\\quad k = \\dfrac{1}{5}\\ln\\!\\left(\\dfrac{40}{70}\\right) = \\dfrac{\\ln(4/7)}{5}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write the general solution as $y(t) = e^{kt} + C$ instead of $y(t) = Ce^{kt}$, forgetting that exponentiating $\\ln|y| = kt + C$ gives a multiplicative constant $e^C$, not an additive one \u2014 remember that $e^{kt + C} = e^C \\cdot e^{kt}$.",
+    "When finding $k$ from two data points, students sometimes divide the two $y$-values directly without taking a logarithm, writing $k = y_1/y_0$ rather than solving $y_1 = y_0 e^{k(t_1 - t_0)}$ for $k$ by applying $\\ln$ to both sides.",
+    "Students apply $y(t) = y_0 e^{kt}$ to Newton's Law of Cooling without accounting for the ambient temperature offset, modeling the raw temperature $T(t) = T_0 e^{kt}$ instead of the correct form $T(t) - T_{\\text{room}} = (T_0 - T_{\\text{room}})e^{kt}$, which leads to wrong answers whenever $T_{\\text{room}} \\neq 0$."
+  ],
+  "untested_variants": [
+    "Finding the **doubling time** or **half-life formula** in general terms (expressing $t_{1/2}$ as $\\ln 2 / |k|$) rather than computing it numerically for a specific $k$.",
+    "Problems where the initial condition is given at a time other than $t = 0$, for example $y(2) = 10$, requiring students to shift the exponent or solve for both $A$ and $k$ simultaneously.",
+    "Continuous compounding interest problems of the form $A = Pe^{rt}$, which are structurally identical to exponential growth but use financial language such as principal, interest rate, and account balance that can disguise the underlying model.",
+    "Verifying that a proposed function is a solution to the differential equation by differentiating and substituting back, rather than deriving the solution from scratch."
+  ]
+}

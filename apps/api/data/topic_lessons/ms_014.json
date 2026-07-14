@@ -1,0 +1,86 @@
+{
+  "topic_id": "ms_014",
+  "topic_name": "The Neyman-Pearson Lemma",
+  "generated_at": "2026-05-14T01:02:08.036963+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to construct hypothesis tests and compute things like p-values or rejection regions. But here is the uncomfortable question: out of all the many tests you could construct for a given hypothesis, how do you know which one is the *best*? For example, when testing whether a normal mean equals zero against a specific positive alternative, both a t-test and some bizarre ad-hoc rule might control Type I error at level $\\alpha$ \u2014 but one will catch the alternative far more often. Is there a provably optimal test, and if so, how do you find it?",
+  "concept": "The Neyman-Pearson Lemma gives a complete answer: the most powerful test of a simple null against a simple alternative is the likelihood ratio test. Formally, given $H_0: \\theta = \\theta_0$ versus $H_1: \\theta = \\theta_1$, the most powerful level-$\\alpha$ test rejects $H_0$ when the likelihood ratio $\\Lambda(\\mathbf{x}) = \\frac{L(\\theta_1; \\mathbf{x})}{L(\\theta_0; \\mathbf{x})} > k$, where the critical value $k \\geq 0$ is chosen so that $P_{\\theta_0}(\\Lambda(\\mathbf{x}) > k) = \\alpha$.",
+  "anatomy": "The lemma has four named parts. The **likelihoods** $L(\\theta_0; \\mathbf{x})$ and $L(\\theta_1; \\mathbf{x})$ are the joint densities (or mass functions) of the observed data $\\mathbf{x}$ evaluated at each hypothesis value \u2014 they measure how plausible the data are under each world. The **likelihood ratio** $\\Lambda(\\mathbf{x}) = L(\\theta_1; \\mathbf{x}) / L(\\theta_0; \\mathbf{x})$ is the test statistic itself, comparing evidence for $H_1$ against $H_0$. The **critical value** $k$ is the threshold calibrated so the rejection region $\\{\\mathbf{x}: \\Lambda(\\mathbf{x}) > k\\}$ has exactly size $\\alpha$ under $H_0$. Finally, **power** $\\beta(\\theta_1) = P_{\\theta_1}(\\Lambda(\\mathbf{x}) > k)$ measures the probability of correctly rejecting $H_0$ when $H_1$ is true, and the lemma guarantees no other size-$\\alpha$ test has higher power.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Exp}(\\lambda), \\quad H_0: \\lambda = 1 \\text{ vs } H_1: \\lambda = 2",
+      "description_latex": "We start by stating the setup precisely. We have an iid exponential sample with rate $\\lambda$, and both hypotheses specify a single value of $\\lambda$, making this a simple-vs-simple setting where the Neyman-Pearson Lemma directly applies. Writing out what we are testing first ensures we know exactly which two likelihoods to form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L(\\lambda; \\mathbf{x}) = \\prod_{i=1}^n \\lambda e^{-\\lambda x_i} = \\lambda^n e^{-\\lambda \\sum x_i}",
+      "description_latex": "We write the likelihood function for a general rate $\\lambda$. Because the observations are independent, the joint density is the product of $n$ individual exponential densities, which simplifies to $\\lambda^n e^{-\\lambda \\sum x_i}$. This single expression will be evaluated at both $\\lambda = 1$ and $\\lambda = 2$ to form the ratio.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Lambda(\\mathbf{x}) = \\frac{L(2; \\mathbf{x})}{L(1; \\mathbf{x})} = \\frac{2^n e^{-2\\sum x_i}}{1^n e^{-\\sum x_i}} = 2^n e^{-\\sum x_i}",
+      "description_latex": "We form the likelihood ratio $\\Lambda(\\mathbf{x})$ by plugging $\\lambda = 2$ into the numerator and $\\lambda = 1$ into the denominator and simplifying. The $e^{-2\\sum x_i} / e^{-\\sum x_i}$ term collapses to $e^{-\\sum x_i}$, so the ratio depends on the data only through $T = \\sum_{i=1}^n X_i$, the sufficient statistic.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Lambda(\\mathbf{x}) > k \\iff 2^n e^{-\\sum x_i} > k \\iff \\sum_{i=1}^n X_i < \\frac{\\ln(2^n/k)}{1} = c",
+      "description_latex": "We convert the likelihood ratio inequality into an equivalent inequality on $T = \\sum X_i$. Taking logarithms and rearranging (the exponential is a decreasing function of $\\sum x_i$, so the inequality flips), we see the Neyman-Pearson test rejects when $\\sum X_i$ is small \u2014 exactly what makes sense, because smaller observations are more consistent with the higher rate $\\lambda = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Under } H_0,\\; \\sum_{i=1}^n X_i \\sim \\text{Gamma}(n, 1), \\text{ so choose } c \\text{ with } P\\!\\left(\\text{Gamma}(n,1) < c\\right) = \\alpha",
+      "description_latex": "Finally, we calibrate the threshold $c$ to achieve exact size $\\alpha$. Under $H_0$ with $\\lambda = 1$, the sum of $n$ independent Exp(1) variables follows a Gamma$(n, 1)$ distribution, so $c$ is the $\\alpha$-quantile of that distribution. The Neyman-Pearson Lemma guarantees that no other size-$\\alpha$ test for this problem has higher power than this one.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} N(\\mu, 1), \\quad H_0: \\mu = 0 \\text{ vs } H_1: \\mu = 1",
+      "description_latex": "We set up a simple-vs-simple test for a normal mean with known variance $\\sigma^2 = 1$. The likelihood for a single observation is $f(x; \\mu) = \\frac{1}{\\sqrt{2\\pi}} e^{-\\frac{(x-\\mu)^2}{2}}$, so the joint likelihood is the product over all $n$ observations.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Lambda(\\mathbf{x}) = \\frac{L(1; \\mathbf{x})}{L(0; \\mathbf{x})} = \\frac{\\exp\\!\\left(-\\tfrac{1}{2}\\sum(x_i - 1)^2\\right)}{\\exp\\!\\left(-\\tfrac{1}{2}\\sum x_i^2\\right)}",
+      "description_latex": "We write out the likelihood ratio using the joint normal densities evaluated at $\\mu = 1$ and $\\mu = 0$. Now simplify the exponent in the numerator by expanding $(x_i - 1)^2 = x_i^2 - 2x_i + 1$, cancel the $\\sum x_i^2$ terms, and show that $\\Lambda(\\mathbf{x})$ depends on the data only through $\\bar{X}$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\Lambda(\\mathbf{x}) > k \\iff \\bar{X} > c, \\quad \\text{where } c = \\frac{z_\\alpha}{\\sqrt{n}}",
+      "description_latex": "After simplification you should have found $\\Lambda(\\mathbf{x}) = e^{n\\bar{X} - n/2}$, which is increasing in $\\bar{X}$, so the rejection region becomes $\\bar{X} > c$. Under $H_0$, we have $\\bar{X} \\sim N(0, 1/n)$, so $c = z_\\alpha / \\sqrt{n}$ where $z_\\alpha$ is the upper-$\\alpha$ critical value of the standard normal. Identify what $c$ equals for $n = 25$ and $\\alpha = 0.05$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "For $X \\sim \\text{Bernoulli}(p)$ with a single observation, write down the likelihood ratio $\\Lambda(x)$ for $H_0: p = 0.3$ vs $H_1: p = 0.7$ and identify the rejection region.",
+      "answer_latex": "\\Lambda(x) = \\frac{0.7^x \\cdot 0.3^{1-x}}{0.3^x \\cdot 0.7^{1-x}} = \\left(\\frac{7}{3}\\right)^{2x-1}. \\text{ Reject when } x = 1 \\text{ (i.e., } \\Lambda > 1\\text{, which gives size } \\alpha = 0.3\\text{).}"
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Poisson}(\\lambda)$. Derive the Neyman-Pearson rejection region for $H_0: \\lambda = \\lambda_0$ vs $H_1: \\lambda = \\lambda_1$ where $\\lambda_1 > \\lambda_0$, and state which direction the rejection region falls.",
+      "answer_latex": "\\Lambda(\\mathbf{x}) = \\left(\\frac{\\lambda_1}{\\lambda_0}\\right)^{\\!\\sum x_i} e^{-n(\\lambda_1 - \\lambda_0)}. \\text{ Since } \\lambda_1 > \\lambda_0, \\text{ reject when } \\sum X_i > c, \\text{ calibrated so } P_{\\lambda_0}\\!\\left(\\sum X_i > c\\right) = \\alpha."
+    },
+    {
+      "prompt_latex": "For $X_1, \\ldots, X_{16} \\overset{\\text{iid}}{\\sim} N(\\mu, 4)$ (known variance $\\sigma^2 = 4$), find the most powerful size $\\alpha = 0.05$ test of $H_0: \\mu = 0$ vs $H_1: \\mu = 2$, and compute the power of this test.",
+      "answer_latex": "\\text{Reject when } \\bar{X} > z_{0.05} \\cdot \\frac{2}{4} = 1.645 \\cdot 0.5 = 0.8225. \\text{ Power } = P_{\\mu=2}\\!\\left(\\bar{X} > 0.8225\\right) = P\\!\\left(Z > \\frac{0.8225 - 2}{0.5}\\right) = P(Z > -2.355) \\approx 0.991."
+    },
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} \\text{Uniform}(0, \\theta)$. Show that the likelihood ratio for $H_0: \\theta = 1$ vs $H_1: \\theta = 2$ reduces to a function of $X_{(n)} = \\max_i X_i$, and describe the resulting rejection region. (Recall $L(\\theta; \\mathbf{x}) = \\theta^{-n} \\mathbf{1}\\{x_{(n)} \\leq \\theta\\}$.)",
+      "answer_latex": "L(1;\\mathbf{x}) = \\mathbf{1}\\{x_{(n)} \\leq 1\\},\\; L(2;\\mathbf{x}) = 2^{-n}\\mathbf{1}\\{x_{(n)} \\leq 2\\}. \\text{ So } \\Lambda = 2^{-n}\\mathbf{1}\\{x_{(n)} \\leq 2\\} / \\mathbf{1}\\{x_{(n)} \\leq 1\\}. \\text{ When } X_{(n)} > 1,\\; L(\\theta_0) = 0 \\text{ and } \\Lambda = \\infty, \\text{ so reject when } X_{(n)} > 1. \\text{ Size: } P_{\\theta=1}(X_{(n)} > 1) = 0, \\text{ so this is a size-0 test.}"
+    },
+    {
+      "prompt_latex": "A single $X \\sim N(\\mu, 1)$ is observed. You wish to test $H_0: \\mu = -1$ vs $H_1: \\mu = 1$ at level $\\alpha = 0.10$. A colleague proposes rejecting when $|X| > c$ instead of using the Neyman-Pearson test. Explain why the Neyman-Pearson test outperforms this proposal and state the correct rejection region.",
+      "answer_latex": "\\text{The NP test rejects when } \\Lambda(x) = e^{2x} > k,\\text{ i.e., when } X > c = z_{0.10} - 1 \\approx 0.282. \\text{ The two-sided rule wastes power on the left tail where } H_1 \\text{ is actually less likely than } H_0. \\text{ By the NP Lemma, no size-0.10 test has higher power than the one-sided rule } X > 0.282."
+    }
+  ],
+  "common_mistakes": [
+    "Students form the ratio as $L(\\theta_0)/L(\\theta_1)$ instead of $L(\\theta_1)/L(\\theta_0)$, which flips the inequality and leads to a rejection region in exactly the wrong tail. Always put the *alternative* likelihood in the numerator so that large values of $\\Lambda$ constitute evidence *for* $H_1$.",
+    "After simplifying the likelihood ratio to a monotone function of some statistic $T$, students forget that a *decreasing* function flips the inequality sign when converting '$\\Lambda > k$' to a statement about $T$. Always check whether $\\Lambda$ is increasing or decreasing in $T$ before writing the final rejection region.",
+    "Students apply the Neyman-Pearson Lemma to composite hypotheses (e.g., $H_1: \\theta > \\theta_0$) and claim the result is the uniformly most powerful test without checking whether the likelihood ratio is monotone in a sufficient statistic. The lemma itself only directly guarantees optimality for simple-vs-simple hypotheses; the extension to UMP tests requires an additional argument about monotone likelihood ratios."
+  ],
+  "untested_variants": [
+    "Randomized Neyman-Pearson tests, where a randomization probability $\\gamma$ is introduced when the likelihood ratio equals exactly $k$, needed to achieve exact size $\\alpha$ for discrete distributions (e.g., a Binomial sample).",
+    "Deriving the uniformly most powerful (UMP) test for a one-sided composite alternative by invoking the monotone likelihood ratio property and showing the same rejection region works for every simple alternative in $H_1$.",
+    "Using the Neyman-Pearson Lemma to prove that a given well-known test (such as the $z$-test or $t$-test) is most powerful, rather than deriving the rejection region from scratch.",
+    "Applying the lemma in a two-sample setting, for example testing $H_0: \\mu_1 = \\mu_2$ vs $H_1: \\mu_1 - \\mu_2 = \\delta$ where the likelihood involves parameters from two independent normal populations."
+  ]
+}

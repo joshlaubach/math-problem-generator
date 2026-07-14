@@ -1,0 +1,81 @@
+{
+  "topic_id": "c1_010",
+  "topic_name": "Derivatives of Trigonometric Functions",
+  "generated_at": "2026-05-13T00:05:41.079574+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to differentiate polynomials and exponential functions using clean algebraic rules. Now imagine you're modeling the position of a weight on a spring: $x(t) = 3\\sin(t)$. To find the velocity, you need the derivative \u2014 but none of the rules you've learned so far apply to sine or cosine. What is $\\frac{d}{dt}[\\sin(t)]$, and why does it equal something you might not expect?",
+  "concept": "Derivatives of trigonometric functions are a fixed set of results you derive once (using limits) and then memorize as rules. The six fundamental trig derivatives are: $\\frac{d}{dx}[\\sin x] = \\cos x$, $\\frac{d}{dx}[\\cos x] = -\\sin x$, $\\frac{d}{dx}[\\tan x] = \\sec^2 x$, $\\frac{d}{dx}[\\cot x] = -\\csc^2 x$, $\\frac{d}{dx}[\\sec x] = \\sec x \\tan x$, and $\\frac{d}{dx}[\\csc x] = -\\csc x \\cot x$.",
+  "anatomy": "Each trig derivative rule has three structural parts worth naming. First, the input function \u2014 one of the six trig functions ($\\sin x$, $\\cos x$, $\\tan x$, etc.) being differentiated. Second, the output function \u2014 the resulting expression after differentiation, which is always another combination of trig functions. Third, the sign \u2014 a critical $+$ or $-$ factor that distinguishes co-function pairs: the derivatives of the three 'co' functions ($\\cos$, $\\cot$, $\\csc$) always carry a negative sign, while $\\sin$, $\\tan$, and $\\sec$ do not. Tracking this sign is the single most common source of error.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 5\\sin x - 3\\cos x",
+      "description_latex": "We start by identifying this as a linear combination of two basic trig functions, so we can apply the sum and constant multiple rules alongside our trig derivative rules. There is no product or chain rule needed here \u2014 each term is differentiated independently.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 5\\frac{d}{dx}[\\sin x] - 3\\frac{d}{dx}[\\cos x]",
+      "description_latex": "We pull the constants out front using the constant multiple rule, and split the derivative across the subtraction using the sum rule. Now each bracket contains exactly one standard trig derivative we can look up directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 5(\\cos x) - 3(-\\sin x)",
+      "description_latex": "We substitute the known results: $\\frac{d}{dx}[\\sin x] = \\cos x$ and $\\frac{d}{dx}[\\cos x] = -\\sin x$. Notice that the derivative of cosine introduces a negative sign \u2014 this is the sign that students most often drop, so it is worth pausing to confirm it is there.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 5\\cos x + 3\\sin x",
+      "description_latex": "We simplify by distributing the $-3$ through the $(-\\sin x)$: the two negatives multiply to give a positive $+3\\sin x$. The final answer is clean and contains only sine and cosine terms.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = x^2 \\tan x",
+      "description_latex": "We need the derivative of a product of two functions: $x^2$ and $\\tan x$. Before differentiating, recognize this requires the product rule $\\frac{d}{dx}[uv] = u'v + uv'$, where $u = x^2$ and $v = \\tan x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g'(x) = \\frac{d}{dx}[x^2] \\cdot \\tan x + x^2 \\cdot \\frac{d}{dx}[\\tan x]",
+      "description_latex": "We have correctly set up the product rule. Now you need to evaluate both derivatives: $\\frac{d}{dx}[x^2]$ is a power rule result you know, and $\\frac{d}{dx}[\\tan x]$ is one of our new trig rules. Fill in both derivatives.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "g'(x) = 2x\\tan x + x^2 \\sec^2 x",
+      "description_latex": "Substituting $\\frac{d}{dx}[x^2] = 2x$ and $\\frac{d}{dx}[\\tan x] = \\sec^2 x$ gives the final answer. Notice that this expression cannot be simplified further \u2014 both terms are necessary and neither cancels.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}[\\sin x + \\cos x]",
+      "answer_latex": "\\cos x - \\sin x"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}[4\\tan x - 2\\csc x]",
+      "answer_latex": "4\\sec^2 x + 2\\csc x \\cot x"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}[x^3 \\sin x]",
+      "answer_latex": "3x^2 \\sin x + x^3 \\cos x"
+    },
+    {
+      "prompt_latex": "\\text{Find } \\frac{d}{dx}\\left[\\frac{\\sin x}{x}\\right]",
+      "answer_latex": "\\frac{x\\cos x - \\sin x}{x^2}"
+    },
+    {
+      "prompt_latex": "\\text{A particle's position is given by } s(t) = 2\\cos t - t. \\text{ Find the velocity } v(t) = s'(t) \\text{ and determine all times } t \\in [0, 2\\pi] \\text{ when the particle is momentarily at rest.}",
+      "answer_latex": "v(t) = -2\\sin t - 1;\\quad t = \\pi + \\arcsin\\!\\left(-\\tfrac{1}{2}\\right) = \\frac{7\\pi}{6} \\text{ and } t = \\frac{11\\pi}{6}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $\\frac{d}{dx}[\\cos x] = \\sin x$ (dropping the negative sign). The derivative of cosine is $-\\sin x$; a reliable memory trick is that all three 'co-' functions \u2014 cosine, cotangent, cosecant \u2014 have a negative sign in their derivative.",
+    "When differentiating $\\sec x$, students confuse the result with $\\csc x \\cot x$ (the derivative of $\\csc x$). Remember that the derivative of $\\sec x$ is $\\sec x \\tan x$ \u2014 it involves the same function $\\sec x$, paired with $\\tan x$, its natural partner.",
+    "When a trig function is multiplied by a polynomial, students forget to apply the product rule and instead only differentiate the trig part. For example, they write $\\frac{d}{dx}[x^2 \\sin x] = x^2 \\cos x$ instead of the correct $2x\\sin x + x^2\\cos x$. Whenever two non-constant functions are multiplied, the product rule is required."
+  ],
+  "untested_variants": [
+    "Differentiating trig functions composed with linear functions using the chain rule, such as $\\frac{d}{dx}[\\sin(3x)]$ or $\\frac{d}{dx}[\\cos(2x+1)]$.",
+    "Finding second or higher-order derivatives of trig functions, such as showing that $\\frac{d^2}{dx^2}[\\sin x] = -\\sin x$.",
+    "Differentiating a ratio of two trig functions that requires the quotient rule, such as $\\frac{d}{dx}\\left[\\frac{\\sin x}{\\cos x}\\right]$ as a way to derive $\\sec^2 x$ from scratch.",
+    "Implicit differentiation problems where $\\sin y$ or $\\cos(xy)$ appears, requiring the chain rule alongside trig derivatives."
+  ]
+}

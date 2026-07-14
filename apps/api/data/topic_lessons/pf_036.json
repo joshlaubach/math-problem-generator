@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_036",
+  "topic_name": "Writing Clear and Concise Proofs",
+  "generated_at": "2026-05-13T20:21:33.153354+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to construct a valid proof \u2014 you can write down every true statement and eventually reach your conclusion. But have you ever handed in a proof that was technically correct yet still got marked down, or left your reader confused about what you were actually arguing? The gap between a valid proof and a clear, concise proof is huge in mathematics. What makes one proof easy to follow and another a tangled mess, even when both are logically sound?",
+  "concept": "A clear and concise proof is one that communicates its logical argument efficiently: every sentence does useful work, the reasoning flows in a predictable direction, and the reader is never left guessing what justifies a step. Formally, a proof is a finite sequence of statements $P_1, P_2, \\ldots, P_n$ where each $P_i$ is either a hypothesis, an axiom, or follows from earlier statements by a named rule of inference, and where $P_n$ is exactly the conclusion to be proved.",
+  "anatomy": "A well-structured proof has five recognizable components: the **setup**, where you state what is given and what you must show; the **strategy declaration**, a brief sentence telling the reader which proof technique you are using (direct, contrapositive, contradiction, induction, etc.); the **body**, the chain of justified logical steps connecting hypotheses to conclusion; the **justifications**, parenthetical or inline references (e.g., 'by the distributive law' or 'by the induction hypothesis') that name the rule supporting each step; and the **closing**, a sentence such as 'Therefore $P$ holds for all $n \\in \\mathbb{N}$' that explicitly signals the proof is complete, often marked with $\\square$ or QED.",
+  "worked_example": [
+    {
+      "expression_latex": "\\textbf{Claim: } \\text{If } n \\text{ is an even integer, then } n^2 \\text{ is even.}",
+      "description_latex": "We begin by writing out the claim precisely so both we and the reader know exactly what is being proved. Notice that the claim has the form 'if $P$ then $Q$', which tells us immediately that a direct proof is the natural strategy \u2014 we will assume $P$ and derive $Q$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Proof. } \\text{Suppose } n \\text{ is an even integer. Then by definition, } n = 2k \\text{ for some integer } k.",
+      "description_latex": "The setup names our assumption and immediately unpacks the definition of 'even', giving us something concrete to compute with. Unpacking definitions right at the start is one of the most important habits in concise proof writing \u2014 it converts an abstract hypothesis into usable algebra.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^2 = (2k)^2 = 4k^2 = 2(2k^2).",
+      "description_latex": "We compute $n^2$ by substituting the definition and simplifying, factoring out a $2$ explicitly. The factoring step is crucial because we need $n^2$ to visibly match the definition of an even number, so we leave it in the form $2(\\cdot)$ rather than writing $4k^2$ and stopping.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Since } k \\in \\mathbb{Z}, \\text{ we have } 2k^2 \\in \\mathbb{Z}, \\text{ so } n^2 = 2(2k^2) \\text{ is even by definition.} \\quad \\square",
+      "description_latex": "We close by naming the integer witness $2k^2$ and citing the definition of even one more time, making the logical circle explicit and airtight. The $\\square$ symbol tells the reader the argument is complete \u2014 never skip this in a written proof, because without it the reader cannot tell whether you are done or just pausing.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\textbf{Claim: } \\text{For all integers } n, \\text{ if } n^2 \\text{ is odd, then } n \\text{ is odd.}",
+      "description_latex": "Read the claim carefully. The direct approach \u2014 assuming $n^2$ is odd and trying to prove $n$ is odd \u2014 is difficult because it is hard to extract information about $n$ from $n^2$. Instead, notice that this claim has the form 'if $P$ then $Q$', and consider proving its contrapositive: if $n$ is even, then $n^2$ is even.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Proof (contrapositive). } \\text{Suppose } n \\text{ is even, so } n = 2k \\text{ for some } k \\in \\mathbb{Z}.",
+      "description_latex": "We declare our strategy ('contrapositive') in the first word so the reader immediately knows the logical structure. Then we set up the assumption and unpack the definition of even \u2014 this mirrors exactly what we did in the worked example.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute $n^2$ in terms of $k$ and factor the result to show it matches the definition of an even number. Write out each algebraic step clearly, and name the integer witness explicitly so the reader can verify the claim without guessing.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Therefore, by contrapositive, if } n^2 \\text{ is odd then } n \\text{ is odd.} \\quad \\square",
+      "description_latex": "The closing sentence connects the contrapositive argument back to the original claim \u2014 this one sentence is what makes the proof logically complete, because we proved the contrapositive, not the original statement directly, and the reader deserves to see that acknowledged.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the five structural components (setup, strategy declaration, body, justifications, closing) in the following proof snippet: 'Proof (direct). Suppose $m$ and $n$ are odd integers. Then $m = 2j+1$ and $n = 2k+1$ for some $j,k\\in\\mathbb{Z}$. Thus $m+n = 2j+2k+2 = 2(j+k+1)$. Since $j+k+1\\in\\mathbb{Z}$, $m+n$ is even. $\\square$'",
+      "answer_latex": "\\textit{Setup}: 'Suppose $m$ and $n$ are odd integers.' \\quad \\textit{Strategy}: '(direct)' \\quad \\textit{Body}: the computation $m+n=2(j+k+1)$. \\quad \\textit{Justification}: 'since $j+k+1\\in\\mathbb{Z}$'. \\quad \\textit{Closing}: '$m+n$ is even. $\\square$'"
+    },
+    {
+      "prompt_latex": "Write a clear, concise direct proof of the following claim, including all five structural components: If $a$ and $b$ are even integers, then $a + b$ is even.",
+      "answer_latex": "\\textbf{Proof (direct).} Suppose $a$ and $b$ are even integers. By definition, $a=2j$ and $b=2k$ for some $j,k\\in\\mathbb{Z}$. Then $a+b=2j+2k=2(j+k)$. Since $j+k\\in\\mathbb{Z}$, $a+b$ is even by definition. $\\square$"
+    },
+    {
+      "prompt_latex": "Write a concise proof by contrapositive: For all integers $n$, if $3n+1$ is even, then $n$ is odd.",
+      "answer_latex": "\\textbf{Proof (contrapositive).} Suppose $n$ is even, so $n=2k$ for some $k\\in\\mathbb{Z}$. Then $3n+1=6k+1=2(3k)+1$. Since $3k\\in\\mathbb{Z}$, $3n+1$ is odd. By contrapositive, if $3n+1$ is even then $n$ is odd. $\\square$"
+    },
+    {
+      "prompt_latex": "The following proof contains a style error that makes it unclear. Identify the error and rewrite the proof correctly: 'Let $n$ be an integer. $n=2k$. $n^2=4k^2$. Even. $\\square$'",
+      "answer_latex": "\\textit{Error}: The proof never states what is being proved, never declares a strategy, never names $k$ or closes with a complete sentence. \\quad \\textbf{Corrected:} \\textbf{Claim}: If $n$ is even, then $n^2$ is even. \\textbf{Proof (direct).} Suppose $n$ is even. By definition $n=2k$ for some $k\\in\\mathbb{Z}$. Then $n^2=4k^2=2(2k^2)$. Since $2k^2\\in\\mathbb{Z}$, $n^2$ is even. $\\square$"
+    },
+    {
+      "prompt_latex": "A student writes a proof of 'The sum of two rational numbers is rational' but forgets to name their integer witnesses and closes with 'so it works.' Rewrite the key body and closing sentences with correct style, given that the student correctly set up $r=\\frac{a}{b}$ and $s=\\frac{c}{d}$ with $a,b,c,d\\in\\mathbb{Z}$, $b\\neq 0$, $d\\neq 0$.",
+      "answer_latex": "\\textbf{Body:} $r+s = \\frac{a}{b}+\\frac{c}{d} = \\frac{ad+bc}{bd}$. Since $ad+bc\\in\\mathbb{Z}$ and $bd\\in\\mathbb{Z}$ with $bd\\neq 0$, $r+s$ is a ratio of integers with nonzero denominator. \\quad \\textbf{Closing:} Therefore $r+s$ is rational by definition. $\\square$"
+    }
+  ],
+  "common_mistakes": [
+    "Students omit the strategy declaration, jumping straight into algebra without telling the reader whether they are using a direct proof, contrapositive, or contradiction \u2014 this forces the reader to reverse-engineer the logical structure, and the fix is always to add a single parenthetical word like '(direct)' or '(contrapositive)' immediately after 'Proof.'",
+    "Students write a chain of equations without naming the integer (or rational, or real) witness, e.g., writing '$n^2 = 4k^2$' and claiming 'this is even' without factoring to $2(2k^2)$ and identifying $2k^2$ as the integer \u2014 the fix is to always leave your final expression in the form that literally matches the definition you are citing.",
+    "Students end their proof mid-argument without a closing sentence that explicitly states the conclusion, treating the last equation as self-evidently sufficient \u2014 because a proof is a communicative act, you must write 'therefore [the original claim holds]' and mark $\\square$ or QED so the reader knows you are done, not just pausing."
+  ],
+  "untested_variants": [
+    "Proofs by contradiction where the style requirement is to clearly state 'Assume for contradiction that...' and to explicitly identify the contradicted statement at the end.",
+    "Proofs by mathematical induction where the style challenge is labeling the base case, induction hypothesis, and inductive step as distinct, named sections.",
+    "Proofs involving quantifier structure (e.g., $\\forall \\epsilon > 0, \\exists \\delta > 0$) where the student must introduce variables in the correct logical order to match the quantifier alternation.",
+    "Two-column proof format (common in geometry) where justifications appear in a separate column and the student must match each statement to a named theorem or definition."
+  ]
+}

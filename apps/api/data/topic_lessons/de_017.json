@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_017",
+  "topic_name": "Free Mechanical Vibrations",
+  "generated_at": "2026-05-13T20:01:14.001223+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve second-order linear differential equations with constant coefficients, and you've seen how the characteristic equation determines the form of the solution. Now imagine a mass hanging on a spring: you pull it down and let go, and it bounces. The motion of that mass is governed by exactly the kind of equation you've studied \u2014 but now the equation carries physical meaning, with every coefficient tied to a real-world quantity like mass, damping, and stiffness. Can you write down and solve the equation of motion for a spring-mass system, and then interpret whether the mass oscillates forever, dies out, or just creeps back to rest?",
+  "concept": "Free mechanical vibration describes the motion of a mass-spring system with no external driving force, only the restoring force of the spring and possibly a damping resistance. The governing equation is $m\\ddot{x} + c\\dot{x} + kx = 0$, where $m > 0$ is mass, $c \\geq 0$ is the damping coefficient, and $k > 0$ is the spring constant. Solving this ODE reveals three qualitatively different behaviors depending on the sign of the discriminant $c^2 - 4mk$.",
+  "anatomy": "The equation $m\\ddot{x} + c\\dot{x} + kx = 0$ has four key structural components. The term $m\\ddot{x}$ is the inertia term, representing Newton's second law ($F = ma$). The term $c\\dot{x}$ is the damping term, modeling a resistive force proportional to velocity (like friction or a dashpot). The term $kx$ is the restoring term, Hooke's Law force pulling the mass back toward equilibrium. The characteristic roots $r = \\frac{-c \\pm \\sqrt{c^2 - 4mk}}{2m}$ determine the regime: underdamped ($c^2 < 4mk$, oscillatory decay), critically damped ($c^2 = 4mk$, fastest non-oscillatory return), or overdamped ($c^2 > 4mk$, slow exponential return).",
+  "worked_example": [
+    {
+      "expression_latex": "m\\ddot{x} + c\\dot{x} + kx = 0, \\quad m=1,\\; c=2,\\; k=5, \\quad x(0)=1,\\; \\dot{x}(0)=0",
+      "description_latex": "We start by writing out the specific initial value problem with $m=1$, $c=2$, and $k=5$. Before doing any algebra, it's worth checking the discriminant: $c^2 - 4mk = 4 - 20 = -16 < 0$, so we are in the underdamped regime and should expect an oscillating, decaying solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 + 2r + 5 = 0 \\implies r = \\frac{-2 \\pm \\sqrt{4-20}}{2} = -1 \\pm 2i",
+      "description_latex": "Dividing through by $m=1$ gives the characteristic equation $r^2 + 2r + 5 = 0$. Applying the quadratic formula yields the complex conjugate pair $r = -1 \\pm 2i$, where $\\alpha = -1$ is the real part (controlling exponential decay) and $\\beta = 2$ is the imaginary part (controlling oscillation frequency).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x(t) = e^{-t}\\left(C_1 \\cos 2t + C_2 \\sin 2t\\right)",
+      "description_latex": "Because the roots are complex with $\\alpha = -1$ and $\\beta = 2$, the general solution is the standard underdamped form $e^{\\alpha t}(C_1 \\cos\\beta t + C_2 \\sin\\beta t)$. The exponential envelope $e^{-t}$ ensures the oscillations decay toward zero as $t \\to \\infty$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x(0)=1 \\Rightarrow C_1 = 1; \\quad \\dot{x}(t)=e^{-t}\\bigl[(-C_1+2C_2)\\cos 2t+(-C_2-2C_1)\\sin 2t\\bigr], \\quad \\dot{x}(0)=0 \\Rightarrow -C_1+2C_2=0 \\Rightarrow C_2=\\tfrac{1}{2}",
+      "description_latex": "We apply the initial conditions to pin down the constants. Setting $t=0$ in $x(t)$ immediately gives $C_1 = 1$. Differentiating $x(t)$ and setting $t=0$ gives the equation $-C_1 + 2C_2 = 0$, so $C_2 = \\frac{1}{2}$. It is important to differentiate the full product (using the product rule on $e^{-t}$ times the trig part) before substituting $t=0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x(t) = e^{-t}\\!\\ \\left(\\cos 2t + \\tfrac{1}{2}\\sin 2t\\right)",
+      "description_latex": "Substituting both constants gives the unique solution satisfying the initial value problem. This solution describes the mass oscillating with angular frequency $\\omega_d = 2$ rad/s while its amplitude decays exponentially at rate $1$, which is the physically expected underdamped behavior.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "m\\ddot{x} + c\\dot{x} + kx = 0, \\quad m=1,\\; c=6,\\; k=9, \\quad x(0)=2,\\; \\dot{x}(0)=-3",
+      "description_latex": "We are given a spring-mass system with $m=1$, $c=6$, $k=9$. Before writing the characteristic equation, compute the discriminant $c^2 - 4mk = 36 - 36 = 0$, which tells us this is the critically damped case \u2014 the threshold between oscillation and pure decay.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 + 6r + 9 = 0 \\implies (r+3)^2 = 0 \\implies r = -3 \\text{ (repeated)}",
+      "description_latex": "The characteristic equation factors as a perfect square, giving the repeated real root $r = -3$. When a root repeats, the general solution is NOT $C_1 e^{-3t} + C_2 e^{-3t}$ \u2014 that would collapse to one constant. Instead, the second linearly independent solution requires a factor of $t$. Can you write the general solution for this critically damped system?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the general solution $x(t)$ appropriate for a repeated root $r = -3$, then apply the initial conditions $x(0)=2$ and $\\dot{x}(0)=-3$ to find $C_1$ and $C_2$. State the final particular solution.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x(t) = (2 + 3t)e^{-3t}",
+      "description_latex": "The general solution is $x(t) = (C_1 + C_2 t)e^{-3t}$. Applying $x(0)=2$ gives $C_1=2$; differentiating and applying $\\dot{x}(0)=-3$ gives $C_2 - 3C_1 = -3$, so $C_2 = 3$. The solution $(2+3t)e^{-3t}$ decays to zero without oscillating, which is the hallmark of critical damping.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Classify the damping type for the system $\\ddot{x} + 4\\dot{x} + 3x = 0$ by computing the discriminant of the characteristic equation.",
+      "answer_latex": "c^2 - 4mk = 16 - 12 = 4 > 0, \\text{ so the system is overdamped.}"
+    },
+    {
+      "prompt_latex": "Find the general solution of $\\ddot{x} + 4\\dot{x} + 3x = 0$.",
+      "answer_latex": "x(t) = C_1 e^{-t} + C_2 e^{-3t}"
+    },
+    {
+      "prompt_latex": "Solve the IVP $\\ddot{x} + 2\\dot{x} + 10x = 0$, $x(0)=0$, $\\dot{x}(0)=3$.",
+      "answer_latex": "x(t) = e^{-t}\\sin 3t"
+    },
+    {
+      "prompt_latex": "A spring-mass system has $m = 2$ kg, spring constant $k = 8$ N/m, and damping coefficient $c = 8$ N$\\cdot$s/m. Write and solve the IVP with $x(0)=1$ and $\\dot{x}(0)=0$, then find the time $t^*$ at which $x(t^*) = 0$ for the first time.",
+      "answer_latex": "x(t)=(1+2t)e^{-2t}; \\text{ since } (1+2t)>0 \\text{ for all } t>0, \\text{ the mass never crosses } x=0. \\text{ (critically damped: } t^* \\text{ does not exist)}"
+    },
+    {
+      "prompt_latex": "A 0.5 kg mass is attached to a spring with constant $k = 18$ N/m in a medium with damping constant $c = 3$ N$\\cdot$s/m. The mass is released from rest 0.1 m below equilibrium. Write the IVP, identify the damping regime, and find the quasi-period of oscillation.",
+      "answer_latex": "0.5\\ddot{x}+3\\dot{x}+18x=0,\\; x(0)=0.1,\\;\\dot{x}(0)=0.\\; c^2-4mk=9-36<0 \\text{ (underdamped)}.\\; r=-3\\pm 3i\\sqrt{3}.\\; \\omega_d=3\\sqrt{3},\\; T_d=\\frac{2\\pi}{3\\sqrt{3}}=\\frac{2\\pi\\sqrt{3}}{9}\\approx 1.21\\text{ s}."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to multiply through by $1/m$ before reading off the characteristic equation, writing $mr^2 + cr + k = 0$ but then using $r = \\frac{-c \\pm \\sqrt{c^2 - 4k}}{2}$ without the $m$ in the discriminant or denominator \u2014 always divide through by $m$ first, or carefully use the full quadratic formula with coefficients $m$, $c$, $k$.",
+    "When a repeated root $r = \\alpha$ is found (critical damping), students write the general solution as $C_1 e^{\\alpha t} + C_2 e^{\\alpha t}$ instead of $(C_1 + C_2 t)e^{\\alpha t}$, losing a linearly independent solution; remember that a repeated root always requires multiplying the second solution by $t$.",
+    "In the underdamped case, students confuse the natural frequency $\\omega_0 = \\sqrt{k/m}$ with the damped quasi-frequency $\\omega_d = \\sqrt{k/m - (c/2m)^2}$, and use $\\omega_0$ as the argument of sine and cosine in the solution; the correct frequency in the general solution is $\\omega_d$, found from the imaginary part of the characteristic roots."
+  ],
+  "untested_variants": [
+    "Converting the solution to amplitude-phase form $x(t) = Ae^{\\alpha t}\\cos(\\omega_d t - \\phi)$ and computing the amplitude $A$ and phase angle $\\phi$ from initial conditions.",
+    "Finding the quasi-period and the ratio of successive local maxima (logarithmic decrement) for an underdamped system, which connects the solution formula to measurable physical quantities.",
+    "Analyzing the overdamped case with initial velocity nonzero and determining whether the mass overshoots equilibrium before returning, by finding the critical initial conditions where $\\dot{x}(0)$ is large enough to produce a zero-crossing.",
+    "Setting up the spring-mass equation when the spring has a nonzero natural length and the mass hangs vertically, requiring careful accounting of the static equilibrium displacement before writing the equation of motion in terms of displacement from equilibrium."
+  ]
+}

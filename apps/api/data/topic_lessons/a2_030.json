@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_030",
+  "topic_name": "Solving Radical Equations and Inequalities",
+  "generated_at": "2026-05-12T23:25:55.669372+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to solve equations like $2x + 3 = 11$ by undoing operations one step at a time. You can even handle equations with exponents, like $x^2 = 25$, by taking a square root on both sides. But what happens when the variable is *inside* the radical, like $\\sqrt{2x + 3} = 5$? The challenge isn't just isolating $x$ \u2014 it's that the process of undoing a radical can secretly introduce answers that don't actually work. So how do we solve radical equations, and how do we know which answers to trust?",
+  "concept": "A radical equation is any equation in which the variable appears under a radical sign (or equivalently, is raised to a rational exponent). To solve one, we isolate the radical and then raise both sides to the appropriate power to eliminate it \u2014 if $\\sqrt[n]{u} = k$, then $u = k^n$. Because this 'raising to a power' step can introduce extraneous solutions \u2014 values that satisfy the transformed equation but not the original \u2014 every solution must be checked by substituting back into the original equation.",
+  "anatomy": "Every radical equation has a few structural pieces worth naming precisely. The **radicand** is the expression inside the radical, e.g., $2x + 3$ in $\\sqrt{2x+3} = 5$; this is what gets isolated and then un-radicalized. The **index** is the small number indicating the root ($n = 2$ for square roots, $n = 3$ for cube roots, etc.); it tells you what power to raise both sides to. The **isolated radical** is the form you want before raising to a power \u2014 one radical alone on one side. Finally, an **extraneous solution** is a value produced by the algebra that fails the original equation; it must be rejected.",
+  "worked_example": [
+    {
+      "expression_latex": "\\sqrt{2x - 1} = 3",
+      "description_latex": "This is our starting equation. Before doing anything else, notice that the radical is already isolated on the left side \u2014 there is nothing else on that side to move \u2014 so we are ready to undo the square root immediately.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(\\sqrt{2x-1})^2 = 3^2 \\implies 2x - 1 = 9",
+      "description_latex": "We square both sides because squaring is the inverse operation of taking a square root. On the left, $(\\sqrt{2x-1})^2$ simplifies to just $2x-1$ (assuming $2x-1 \\ge 0$), and on the right $3^2 = 9$. Now we have a simple linear equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x = 10 \\implies x = 5",
+      "description_latex": "We add 1 to both sides and then divide by 2 to isolate $x$. This is straightforward linear algebra \u2014 the hard conceptual work is done, so we finish solving for $x = 5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Check: } \\sqrt{2(5)-1} = \\sqrt{9} = 3 \\checkmark",
+      "description_latex": "We must substitute $x = 5$ back into the *original* equation, not the squared version. Because $\\sqrt{9} = 3$ matches the right-hand side, $x = 5$ is a genuine solution \u2014 not extraneous. Always perform this check; it is a required step, not optional.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\sqrt{3x + 4} + 2 = 7",
+      "description_latex": "Here the radical is not isolated \u2014 there is a $+2$ on the left side that we must move first. We subtract 2 from both sides to get $\\sqrt{3x+4} = 5$. Notice we isolate the radical *before* squaring; squaring too early leads to a much messier equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(\\sqrt{3x+4})^2 = 5^2 \\implies 3x + 4 = 25",
+      "description_latex": "Now that the radical is isolated, we square both sides to eliminate it. The left side simplifies to $3x + 4$ and the right side becomes $25$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Solve $3x + 4 = 25$ for $x$. What value do you get? Then substitute that value back into the original equation $\\sqrt{3x+4}+2 = 7$ to verify it is not extraneous.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve: } \\sqrt{x} = 7",
+      "answer_latex": "x = 49"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\sqrt{4x - 3} = 5",
+      "answer_latex": "x = 7"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\sqrt{x + 6} = x",
+      "answer_latex": "x = 3 \\text{ (}x = -2\\text{ is extraneous)}"
+    },
+    {
+      "prompt_latex": "\\text{Solve: } \\sqrt{2x+1} = \\sqrt{x + 4}",
+      "answer_latex": "x = 3"
+    },
+    {
+      "prompt_latex": "\\text{A ladder of length } L \\text{ ft leans against a wall. The height it reaches is modeled by } h = \\sqrt{L^2 - 9}\\text{. If the ladder reaches a height of } h = 12 \\text{ ft, find } L.",
+      "answer_latex": "L = 15 \\text{ ft}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to isolate the radical before squaring, applying the square to an expression like $\\sqrt{3x+4} + 2$ and incorrectly writing $(\\sqrt{3x+4}+2)^2 = 3x+4+4$; fix: always move all non-radical terms to the other side first, so only the radical remains on one side before you raise both sides to a power.",
+    "Students skip the check step and accept extraneous solutions as valid answers \u2014 for example, in $\\sqrt{x+6} = x$ they keep both $x = 3$ and $x = -2$ without noticing that $\\sqrt{-2+6} = 2 \\ne -2$; fix: always substitute every candidate solution back into the *original* radical equation and reject any value that does not satisfy it.",
+    "When both sides are squared and a radical equals a negative number (e.g., $\\sqrt{x+1} = -3$), students still square and produce a numerical answer, not realizing the equation has no real solution; fix: before squaring, check whether the isolated radical equals a negative number \u2014 since $\\sqrt{\\cdot} \\ge 0$ always, any equation of the form $\\sqrt{u} = \\text{negative}$ has no solution immediately."
+  ],
+  "untested_variants": [
+    "Equations with two separate radicals on opposite sides requiring two rounds of squaring, such as $\\sqrt{x+5} = \\sqrt{2x-1} + 1$.",
+    "Radical inequalities, such as solving $\\sqrt{2x-1} < 4$ and expressing the solution as an interval or inequality, including the domain restriction that the radicand must be non-negative.",
+    "Equations involving cube roots (index $n = 3$), such as $\\sqrt[3]{4x-1} = 3$, where no extraneous solution check is needed and negative radicands are allowed.",
+    "Equations where the radical is written with a rational exponent rather than radical notation, such as $(5x - 4)^{1/2} = 6$, requiring students to recognize the equivalence before solving."
+  ]
+}

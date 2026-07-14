@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_043",
+  "topic_name": "Complex Eigenvalues",
+  "generated_at": "2026-05-13T20:08:52.165732+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to find eigenvalues by solving the characteristic equation $\\det(A - \\lambda I) = 0$, and you've handled cases where the roots are real numbers. But what happens when the characteristic polynomial has no real roots \u2014 for example, if you get $\\lambda^2 + 1 = 0$? The discriminant is negative, the quadratic formula gives you $\\lambda = \\pm i$, and suddenly you're dealing with complex numbers. Does the theory of eigenvectors still work, and what do complex eigenvalues actually mean geometrically?",
+  "concept": "When a real matrix has no real eigenvalues, its characteristic polynomial may have complex roots involving the imaginary unit $i = \\sqrt{-1}$. These come in conjugate pairs: if $\\lambda = a + bi$ is an eigenvalue, so is $\\bar{\\lambda} = a - bi$. Formally, $\\lambda \\in \\mathbb{C}$ is an eigenvalue of $A$ if $\\det(A - \\lambda I) = 0$, and the corresponding eigenvector $\\mathbf{v} \\in \\mathbb{C}^n$ satisfies $(A - \\lambda I)\\mathbf{v} = \\mathbf{0}$. Geometrically, complex eigenvalues encode rotation and scaling rather than pure stretching.",
+  "anatomy": "A complex eigenvalue has the form $\\lambda = a + bi$, where $a = \\text{Re}(\\lambda)$ is the real part governing scaling (if $|\\lambda| > 1$ things grow, if $|\\lambda| < 1$ they shrink), and $b = \\text{Im}(\\lambda)$ is the imaginary part encoding rotation. The modulus $|\\lambda| = \\sqrt{a^2 + b^2}$ gives the scaling factor, and the argument $\\theta = \\arctan(b/a)$ gives the rotation angle. The conjugate pair $\\{a+bi,\\, a-bi\\}$ always appears together for real matrices. The corresponding eigenvectors are also complex and come as conjugates: if $\\mathbf{v}$ is an eigenvector for $\\lambda$, then $\\bar{\\mathbf{v}}$ is an eigenvector for $\\bar{\\lambda}$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}",
+      "description_latex": "We start with the matrix $A$ and our goal is to find all eigenvalues, including any complex ones. This particular matrix represents a $90^\\circ$ rotation in the plane, so we already expect no real eigenvalues \u2014 no nonzero real vector points in the same direction after a $90^\\circ$ rotation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(A - \\lambda I) = \\det\\begin{pmatrix} -\\lambda & -1 \\\\ 1 & -\\lambda \\end{pmatrix} = \\lambda^2 + 1 = 0",
+      "description_latex": "We form $A - \\lambda I$ and compute its determinant to get the characteristic polynomial. Expanding gives $(-\\lambda)(-\\lambda) - (-1)(1) = \\lambda^2 + 1$, and setting this equal to zero is how we find the eigenvalues.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda^2 = -1 \\implies \\lambda_1 = i, \\quad \\lambda_2 = -i",
+      "description_latex": "Solving $\\lambda^2 + 1 = 0$ gives $\\lambda^2 = -1$, so the two eigenvalues are $\\lambda_1 = i$ and $\\lambda_2 = -i$. Notice they are complex conjugates of each other, which is always the case for a real matrix \u2014 the complex roots of a real polynomial always come in conjugate pairs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(A - iI)\\mathbf{v} = \\begin{pmatrix} -i & -1 \\\\ 1 & -i \\end{pmatrix}\\begin{pmatrix} v_1 \\\\ v_2 \\end{pmatrix} = \\mathbf{0}",
+      "description_latex": "To find the eigenvector for $\\lambda_1 = i$, we substitute into $(A - \\lambda I)\\mathbf{v} = \\mathbf{0}$ and row-reduce. The first row gives $-iv_1 - v_2 = 0$, so $v_2 = -iv_1$; choosing $v_1 = 1$ yields the eigenvector $\\mathbf{v}_1 = \\begin{pmatrix} 1 \\\\ -i \\end{pmatrix}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{v}_2 = \\overline{\\mathbf{v}_1} = \\begin{pmatrix} 1 \\\\ i \\end{pmatrix}",
+      "description_latex": "The eigenvector for $\\lambda_2 = -i$ is simply the complex conjugate of $\\mathbf{v}_1$, which we can verify by substituting into $(A + iI)\\mathbf{v} = \\mathbf{0}$. This conjugate relationship between eigenvectors is a general rule for real matrices and saves us from having to repeat the full row-reduction for the second eigenvalue.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 1 & -2 \\\\ 2 & 1 \\end{pmatrix}",
+      "description_latex": "We want to find the complex eigenvalues and eigenvectors of $B$. Begin by writing down the characteristic equation $\\det(B - \\lambda I) = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(B - \\lambda I) = (1-\\lambda)^2 + 4 = \\lambda^2 - 2\\lambda + 5 = 0",
+      "description_latex": "Expanding the determinant gives $(1-\\lambda)(1-\\lambda) - (-2)(2) = (1-\\lambda)^2 + 4$. Expanding fully yields $\\lambda^2 - 2\\lambda + 5 = 0$, which has no real solutions because the discriminant is $4 - 20 = -16 < 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Apply the quadratic formula to $\\lambda^2 - 2\\lambda + 5 = 0$ to find both complex eigenvalues. Your answer should be a conjugate pair of the form $a \\pm bi$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the eigenvalue $\\lambda_1 = 1 + 2i$, set up and solve $(B - \\lambda_1 I)\\mathbf{v} = \\mathbf{0}$ to find the corresponding complex eigenvector. Write your eigenvector in component form.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the characteristic polynomial of $A = \\begin{pmatrix} 0 & 1 \\\\ -1 & 0 \\end{pmatrix}$ and determine whether its eigenvalues are real or complex.",
+      "answer_latex": "\\lambda^2 + 1 = 0;\\text{ eigenvalues are complex: } \\lambda = \\pm i"
+    },
+    {
+      "prompt_latex": "Find all eigenvalues of $A = \\begin{pmatrix} 3 & -2 \\\\ 2 & 3 \\end{pmatrix}$.",
+      "answer_latex": "\\lambda = 3 \\pm 2i"
+    },
+    {
+      "prompt_latex": "Find all eigenvalues and the eigenvector corresponding to $\\lambda_1 = 2 + i$ for $A = \\begin{pmatrix} 2 & -1 \\\\ 1 & 2 \\end{pmatrix}$.",
+      "answer_latex": "\\lambda = 2 \\pm i;\\quad \\mathbf{v}_1 = \\begin{pmatrix} 1 \\\\ -i \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix} 1 & -1 \\\\ 1 & 1 \\end{pmatrix}$. Find the eigenvalues, compute $|\\lambda|$ and $\\theta = \\arg(\\lambda)$, and explain what transformation $A$ represents in terms of rotation and scaling.",
+      "answer_latex": "\\lambda = 1 \\pm i;\\quad |\\lambda| = \\sqrt{2},\\; \\theta = \\pm \\tfrac{\\pi}{4}.\\text{ } A \\text{ rotates by } 45^\\circ \\text{ and scales by } \\sqrt{2}."
+    },
+    {
+      "prompt_latex": "A $2\\times 2$ real matrix has eigenvalue $\\lambda = -3 + 4i$ with eigenvector $\\mathbf{v} = \\begin{pmatrix} 2 \\\\ 1-i \\end{pmatrix}$. State the second eigenvalue and its eigenvector without any further computation.",
+      "answer_latex": "\\lambda_2 = -3 - 4i,\\quad \\mathbf{v}_2 = \\begin{pmatrix} 2 \\\\ 1+i \\end{pmatrix}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that complex eigenvalues always come in conjugate pairs for real matrices, and they attempt a separate full row-reduction for the second eigenvalue instead of simply taking the conjugate of the first eigenvector \u2014 recognizing the conjugate symmetry saves work and also serves as a self-check.",
+    "When forming $A - \\lambda I$ with $\\lambda = a + bi$, students often make sign errors with the imaginary parts, for example writing $-(-bi)$ as $-bi$ instead of $+bi$ \u2014 slow down and treat $\\lambda$ as a single complex number, substituting it carefully into each diagonal entry.",
+    "After finding a complex eigenvector, students sometimes 'simplify' by taking only its real or imaginary part, thinking the eigenvector must be real \u2014 the eigenvector genuinely lives in $\\mathbb{C}^n$, and discarding the imaginary component destroys the eigenvector relationship $A\\mathbf{v} = \\lambda \\mathbf{v}$."
+  ],
+  "untested_variants": [
+    "Finding complex eigenvalues of $3 \\times 3$ or larger matrices, where the characteristic polynomial is cubic or higher degree and may have a mix of real and complex roots.",
+    "Using complex eigenvalues to diagonalize a matrix over $\\mathbb{C}$ and writing $A = PDP^{-1}$ with a complex diagonal matrix $D$.",
+    "Converting a $2 \\times 2$ real matrix with complex eigenvalues $a \\pm bi$ into its real canonical (block diagonal) form $\\begin{pmatrix} a & -b \\\\ b & a \\end{pmatrix}$.",
+    "Applying complex eigenvalues to analyze the long-term behavior of a discrete dynamical system $\\mathbf{x}_{k+1} = A\\mathbf{x}_k$, including determining stability based on whether $|\\lambda| < 1$, $|\\lambda| = 1$, or $|\\lambda| > 1$."
+  ]
+}

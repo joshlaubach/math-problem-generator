@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_065",
+  "topic_name": "Using Normal Distributions",
+  "generated_at": "2026-05-12T23:36:23.768715+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to describe data using the mean and standard deviation, and you've seen that many real-world datasets form a symmetric, bell-shaped curve. But knowing the shape isn't enough \u2014 what if you needed to find the probability that a randomly chosen person's height falls between 160 cm and 175 cm, or determine what score marks the top 10% of test-takers? Those questions require more than the mean and standard deviation alone. How do we use the structure of a normal distribution to calculate exact probabilities?",
+  "concept": "A normal distribution is a symmetric, bell-shaped probability distribution completely described by its mean $\\mu$ and standard deviation $\\sigma$. Every normal distribution can be converted to the standard normal distribution (mean 0, standard deviation 1) using the z-score formula $z = \\frac{x - \\mu}{\\sigma}$, and then a z-table (or calculator) gives the cumulative probability \u2014 the proportion of data at or below any value.",
+  "anatomy": "The key components are: the mean $\\mu$, which sets the center (peak) of the bell curve; the standard deviation $\\sigma$, which controls the spread (larger $\\sigma$ means a wider, flatter bell); the raw score $x$, a specific data value you are investigating; the z-score $z = \\frac{x - \\mu}{\\sigma}$, which measures how many standard deviations $x$ lies above or below the mean; and the cumulative area (written $P(Z \\leq z)$), which is the probability read directly from the standard normal table or a calculator function such as normalcdf.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mu = 500,\\quad \\sigma = 100,\\quad x = 650",
+      "description_latex": "We are told that SAT scores are approximately normally distributed with mean $\\mu = 500$ and standard deviation $\\sigma = 100$, and we want $P(X \\leq 650)$. The first thing we do is identify the three given quantities so we can build the z-score \u2014 this converts our specific score into a universal standard we can look up.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z = \\frac{x - \\mu}{\\sigma} = \\frac{650 - 500}{100} = \\frac{150}{100} = 1.5",
+      "description_latex": "We apply the z-score formula to transform $x = 650$ into standard units. A z-score of $1.5$ tells us that 650 is exactly 1.5 standard deviations above the mean, which lets us use the standard normal table regardless of the original scale of the data.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(Z \\leq 1.5) = 0.9332",
+      "description_latex": "Looking up $z = 1.5$ in the standard normal table (or using a calculator's normalcdf function) gives a cumulative area of $0.9332$. This means approximately 93.32% of test-takers scored at or below 650.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X \\leq 650) \\approx 93.3\\%",
+      "description_latex": "We interpret the result in context: there is about a 93.3% probability that a randomly chosen test-taker scored 650 or below, which also means roughly 6.7% scored above 650. Always translate the decimal back into a meaningful statement about the original situation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mu = 70,\\quad \\sigma = 8,\\quad \\text{Find } P(60 \\leq X \\leq 80)",
+      "description_latex": "Scores on a class exam are normally distributed with mean $\\mu = 70$ and standard deviation $\\sigma = 8$. We want the probability of scoring between 60 and 80. Because this is a two-sided interval, we will need to convert both boundary values to z-scores and then subtract the smaller cumulative area from the larger one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z_1 = \\frac{60 - 70}{8} = -1.25, \\qquad z_2 = \\frac{80 - 70}{8} = 1.25",
+      "description_latex": "We compute both z-scores using $z = \\frac{x - \\mu}{\\sigma}$. Notice that 60 and 80 are symmetric around the mean, so their z-scores are equal in magnitude but opposite in sign \u2014 a useful check that our arithmetic is correct.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the standard normal table, look up $P(Z \\leq 1.25)$ and $P(Z \\leq -1.25)$, then subtract to find $P(-1.25 \\leq Z \\leq 1.25)$. What is the probability that a randomly chosen student scored between 60 and 80?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A variable is normally distributed with $\\mu = 50$ and $\\sigma = 5$. Find the z-score for $x = 55$.",
+      "answer_latex": "z = 1.0"
+    },
+    {
+      "prompt_latex": "Heights of adult men are normally distributed with $\\mu = 70$ inches and $\\sigma = 3$ inches. Find $P(X \\leq 73)$.",
+      "answer_latex": "P(X \\leq 73) \\approx 0.8413 \\text{ (about 84.1\\%)}"
+    },
+    {
+      "prompt_latex": "Using the same height distribution ($\\mu = 70$, $\\sigma = 3$), find $P(67 \\leq X \\leq 76)$.",
+      "answer_latex": "P(67 \\leq X \\leq 76) \\approx 0.8186 \\text{ (about 81.9\\%)}"
+    },
+    {
+      "prompt_latex": "A normal distribution has $\\mu = 100$ and $\\sigma = 15$. The top 5\\% of values exceed what score? (Use $z = 1.645$ for the 95th percentile.)",
+      "answer_latex": "x = 100 + 1.645(15) \\approx 124.7"
+    },
+    {
+      "prompt_latex": "A bottling machine fills bottles with a mean of $\\mu = 16.02$ oz and $\\sigma = 0.04$ oz. Quality control rejects bottles below 15.94 oz or above 16.10 oz. Approximately what percentage of bottles are accepted?",
+      "answer_latex": "P(15.94 \\leq X \\leq 16.10) \\approx 95.4\\%"
+    }
+  ],
+  "common_mistakes": [
+    "Students subtract the z-scores from each other instead of subtracting the cumulative probabilities: for a two-sided interval you must find $P(Z \\leq z_2) - P(Z \\leq z_1)$, not $z_2 - z_1$. Always look up each z-score in the table first, then subtract the areas.",
+    "When finding the probability of being above a value (right tail), students use the table value directly instead of subtracting from 1. The standard normal table gives $P(Z \\leq z)$, so $P(Z > z) = 1 - P(Z \\leq z)$ \u2014 you must subtract from 1 for any right-tail question.",
+    "Students mix up the direction of the z-score formula by computing $\\frac{\\mu - x}{\\sigma}$ instead of $\\frac{x - \\mu}{\\sigma}$, which flips the sign of the z-score and leads to the mirror-image probability. Always place the raw score $x$ in the numerator first, then subtract the mean."
+  ],
+  "untested_variants": [
+    "Finding a raw score $x$ when given a percentile and working backwards through the z-score formula: $x = \\mu + z\\sigma$ (inverse normal / percent-to-value problems not covered above).",
+    "Using the empirical (68-95-99.7) rule to estimate probabilities at exactly one, two, or three standard deviations from the mean without a z-table.",
+    "Comparing two individuals from different normal distributions using their z-scores to determine who performed relatively better.",
+    "Problems involving the normal approximation to the binomial distribution, where a discrete binomial situation is modeled as a continuous normal distribution."
+  ]
+}

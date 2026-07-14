@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_013",
+  "topic_name": "Bayes' Theorem",
+  "generated_at": "2026-05-13T20:26:22.700486+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find conditional probability: $P(A|B) = \\frac{P(A \\cap B)}{P(B)}$ tells you the probability of $A$ given that $B$ has occurred. But what if you know $P(B|A)$ and need to find $P(A|B)$ \u2014 the probability in the *reverse* direction? For example, a medical test is 95% accurate, meaning $P(\\text{positive}|\\text{disease}) = 0.95$, but what you really want to know is $P(\\text{disease}|\\text{positive})$. How do we flip a conditional probability around?",
+  "concept": "Bayes' Theorem lets us reverse a conditional probability by combining prior knowledge with new evidence. Formally, if $A$ and $B$ are events with $P(B) > 0$, then $P(A|B) = \\frac{P(B|A)\\,P(A)}{P(B)}$. We usually expand the denominator using the law of total probability: $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$, giving the full form $P(A|B) = \\frac{P(B|A)\\,P(A)}{P(B|A)P(A) + P(B|A^c)P(A^c)}$.",
+  "anatomy": "Bayes' Theorem has four named components. The **prior probability** $P(A)$ is your belief about $A$ before seeing any evidence \u2014 it reflects background knowledge such as a disease's prevalence in the population. The **likelihood** $P(B|A)$ is how probable the observed evidence $B$ is, assuming $A$ is true. The **marginal probability** $P(B)$ in the denominator normalises the result by accounting for all the ways $B$ could happen, both when $A$ is true and when it is not. The **posterior probability** $P(A|B)$ is the updated belief about $A$ after observing $B$ \u2014 the quantity we are solving for.",
+  "worked_example": [
+    {
+      "expression_latex": "P(\\text{disease}) = 0.01,\\quad P(+|\\text{disease}) = 0.95,\\quad P(+|\\text{no disease}) = 0.05",
+      "description_latex": "We begin by reading off the three pieces of given information: the prior probability that a random person has the disease is 1%, the true-positive rate (sensitivity) is 95%, and the false-positive rate is 5%. Identifying these before writing any formula is the most important first step, because plugging the wrong number into the wrong slot is the most common error in Bayes problems.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(+) = P(+|\\text{disease})\\,P(\\text{disease}) + P(+|\\text{no disease})\\,P(\\text{no disease})",
+      "description_latex": "Next we compute the marginal probability $P(+)$ \u2014 the total probability of testing positive \u2014 using the law of total probability over the two mutually exclusive cases: having the disease or not. This denominator is what many students forget to update, and it is crucial because it accounts for how common false positives are in the whole population.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(+) = (0.95)(0.01) + (0.05)(0.99) = 0.0095 + 0.0495 = 0.059",
+      "description_latex": "We substitute the numbers: the true-positive contribution is $(0.95)(0.01) = 0.0095$ and the false-positive contribution is $(0.05)(0.99) = 0.0495$, giving $P(+) = 0.059$. Notice that even though the test is 95% accurate, false positives are much more numerous simply because healthy people vastly outnumber sick people.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{disease}|+) = \\frac{P(+|\\text{disease})\\,P(\\text{disease})}{P(+)} = \\frac{0.0095}{0.059}",
+      "description_latex": "Now we apply Bayes' Theorem directly: the numerator is the likelihood times the prior, which is the probability of being both sick and testing positive, and the denominator is the total probability of a positive test that we just computed. We are dividing the 'sick and positive' slice by the entire 'positive' slice.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{disease}|+) \\approx 0.161",
+      "description_latex": "Dividing gives approximately 16.1% \u2014 a surprising result! Despite a 95%-accurate test, a positive result only means about a 1-in-6 chance of actually having the disease, because the disease is so rare. This illustrates why Bayes' Theorem is indispensable: raw accuracy figures are misleading without accounting for the prior.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(R) = 0.30,\\quad P(F|R) = 0.70,\\quad P(F|R^c) = 0.20",
+      "description_latex": "A factory has two suppliers: supplier $R$ provides 30% of parts and has a 70% chance of producing a faulty part, while the remaining supplier has only a 20% chance. We want $P(R|F)$ \u2014 the probability that a randomly chosen faulty part came from supplier $R$. We have already identified the prior $P(R) = 0.30$ and both likelihoods.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(F) = P(F|R)P(R) + P(F|R^c)P(R^c)",
+      "description_latex": "We need the total probability of a faulty part $P(F)$. Use the law of total probability to compute it by substituting the numbers above. What numerical value do you get for $P(F)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(R|F) = \\frac{P(F|R)\\,P(R)}{P(F)} = \\frac{(0.70)(0.30)}{P(F)}",
+      "description_latex": "Now apply Bayes' Theorem. The numerator $(0.70)(0.30) = 0.21$ is already filled in. Using your value of $P(F)$ from the previous step, compute the final posterior probability $P(R|F)$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(R|F) = \\frac{0.21}{0.35} = 0.60",
+      "description_latex": "The answer is $P(R|F) = 0.60$: given that the part is faulty, there is a 60% chance it came from supplier $R$, even though supplier $R$ only provided 30% of all parts. The high fault rate of supplier $R$ dramatically raises our posterior belief that they are responsible.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $P(A) = 0.5$, $P(B|A) = 0.8$, and $P(B|A^c) = 0.4$, find $P(A|B)$.",
+      "answer_latex": "P(A|B) = \\frac{(0.8)(0.5)}{(0.8)(0.5)+(0.4)(0.5)} = \\frac{0.4}{0.6} = \\frac{2}{3} \\approx 0.667"
+    },
+    {
+      "prompt_latex": "A bag is chosen at random from two bags. Bag 1 (probability $\\frac{1}{3}$) contains 4 red and 6 blue marbles; Bag 2 (probability $\\frac{2}{3}$) contains 7 red and 3 blue marbles. A red marble is drawn. What is the probability it came from Bag 2?",
+      "answer_latex": "P(\\text{Bag 2}|\\text{red}) = \\frac{(0.7)(2/3)}{(0.4)(1/3)+(0.7)(2/3)} = \\frac{14/30}{2/15+14/30} = \\frac{14}{18} = \\frac{7}{9} \\approx 0.778"
+    },
+    {
+      "prompt_latex": "A disease affects 2\\% of a population. A test for it has a true-positive rate of $P(+|\\text{disease}) = 0.90$ and a false-positive rate of $P(+|\\text{no disease}) = 0.08$. Find $P(\\text{disease}|+)$.",
+      "answer_latex": "P(\\text{disease}|+) = \\frac{(0.90)(0.02)}{(0.90)(0.02)+(0.08)(0.98)} = \\frac{0.018}{0.018+0.0784} = \\frac{0.018}{0.0964} \\approx 0.187"
+    },
+    {
+      "prompt_latex": "Events $A_1, A_2, A_3$ partition the sample space with $P(A_1)=0.5$, $P(A_2)=0.3$, $P(A_3)=0.2$. Given $P(B|A_1)=0.2$, $P(B|A_2)=0.5$, $P(B|A_3)=0.8$, find $P(A_3|B)$.",
+      "answer_latex": "P(B) = (0.2)(0.5)+(0.5)(0.3)+(0.8)(0.2) = 0.10+0.15+0.16 = 0.41,\\quad P(A_3|B) = \\frac{(0.8)(0.2)}{0.41} = \\frac{0.16}{0.41} \\approx 0.390"
+    },
+    {
+      "prompt_latex": "An email spam filter classifies 40\\% of emails as spam. Of actual spam emails, 95\\% are correctly flagged. Of legitimate emails, 3\\% are incorrectly flagged as spam. Given that an email is flagged as spam, what is the probability it is actually spam?",
+      "answer_latex": "P(\\text{spam}|\\text{flagged}) = \\frac{(0.95)(0.40)}{(0.95)(0.40)+(0.03)(0.60)} = \\frac{0.38}{0.38+0.018} = \\frac{0.38}{0.398} \\approx 0.955"
+    }
+  ],
+  "common_mistakes": [
+    "Students swap the likelihood and the posterior, computing $P(B|A)$ when the problem asks for $P(A|B)$. These two conditional probabilities are not equal in general; always check which event is in the conditioning position before applying the formula.",
+    "Students forget to compute $P(B)$ using the full law of total probability and instead substitute only one of the two branches \u2014 for example using just $P(B|A)P(A)$ in the denominator. The denominator must sum over *all* mutually exclusive ways $B$ can occur, i.e., $P(B) = P(B|A)P(A) + P(B|A^c)P(A^c)$.",
+    "Students ignore the prior $P(A)$ and treat the likelihood $P(B|A)$ as if it were the posterior, concluding for instance that a test that is '95% accurate' means a positive result implies a 95% chance of disease. The prior \u2014 how common or rare $A$ is in the first place \u2014 fundamentally changes the posterior, and omitting it produces dangerously wrong answers."
+  ],
+  "untested_variants": [
+    "Bayes' Theorem applied to a partition of three or more mutually exclusive hypotheses simultaneously (finding all of $P(A_1|B)$, $P(A_2|B)$, and $P(A_3|B)$ and verifying they sum to 1).",
+    "Sequential or iterated Bayes updates where the posterior from one observation becomes the prior for a second independent observation of the same event.",
+    "Problems stated in odds form (prior odds \u00d7 likelihood ratio = posterior odds) rather than the standard probability form.",
+    "Continuous versions of Bayes' Theorem involving probability density functions instead of discrete probabilities, such as inferring a parameter from data."
+  ]
+}

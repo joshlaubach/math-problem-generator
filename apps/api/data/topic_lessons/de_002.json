@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_002",
+  "topic_name": "Separable Equations",
+  "generated_at": "2026-05-13T19:59:32.526350+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to differentiate functions and solve basic algebraic equations. You've even seen that a differential equation like $\\frac{dy}{dx} = 2x$ can be solved by simply integrating both sides to get $y = x^2 + C$. But what do you do when both $x$ and $y$ appear on the same side, like $\\frac{dy}{dx} = xy$? You can't just integrate right away \u2014 so how do you untangle $x$ and $y$ to make progress?",
+  "concept": "A separable equation is a first-order ODE where you can algebraically move all $y$-terms to one side and all $x$-terms to the other, then integrate each side independently. Formally, an equation is separable if it can be written as $\\frac{dy}{dx} = f(x)\\,g(y)$, which lets us rewrite it as $\\frac{1}{g(y)}\\,dy = f(x)\\,dx$ and integrate both sides to find $y$ as a function of $x$.",
+  "anatomy": "A separable equation $\\frac{dy}{dx} = f(x)\\,g(y)$ has four structural pieces worth naming. The factor $f(x)$ is the $x$-only part \u2014 it lives entirely on the right side after separation and gets integrated with respect to $x$. The factor $g(y)$ is the $y$-only part \u2014 once we divide both sides by it, it moves to the left and gets integrated with respect to $y$ as $\\frac{1}{g(y)}\\,dy$. The differential $dy$ and $dx$ are the formal differentials that make the separation legal, treating $\\frac{dy}{dx}$ as a ratio we can split. Finally, the constant of integration $C$ appears after integrating and represents the entire family of solutions \u2014 the general solution.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = xy",
+      "description_latex": "We start by identifying whether this equation is separable. Notice the right-hand side is a product of a function of $x$ alone (namely $x$) and a function of $y$ alone (namely $y$), which confirms it is separable. Our goal is to rewrite the equation so that all $y$-terms are on one side and all $x$-terms are on the other.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{1}{y}\\,dy = x\\,dx",
+      "description_latex": "We separate variables by multiplying both sides by $dx$ and dividing both sides by $y$ (assuming $y \\neq 0$). This is the core algebraic move of the method: we treat $\\frac{dy}{dx}$ as a ratio and manipulate differentials so the two variables live on opposite sides of the equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int \\frac{1}{y}\\,dy = \\int x\\,dx",
+      "description_latex": "Now we integrate both sides \u2014 the left side with respect to $y$ and the right side with respect to $x$. We only need one constant of integration because a constant on each side can be combined into a single constant $C$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ln|y| = \\frac{x^2}{2} + C",
+      "description_latex": "Carrying out both integrals gives $\\ln|y|$ on the left and $\\frac{x^2}{2} + C$ on the right. This is the implicit general solution, and many problems stop here \u2014 but we can go further and solve explicitly for $y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = Ae^{x^2/2}",
+      "description_latex": "Exponentiating both sides to eliminate the logarithm gives $|y| = e^{x^2/2 + C} = e^C \\cdot e^{x^2/2}$. Since $e^C$ is just a positive constant, we rename it $A$ (allowing $A$ to be any nonzero real number) and write $y = Ae^{x^2/2}$ as our explicit general solution. Note that $y = 0$ (the case we excluded when dividing by $y$) is also a solution, and it corresponds to $A = 0$, so we can allow $A$ to be any real number.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = \\frac{x^2}{y}",
+      "description_latex": "We are given this separable equation. The right-hand side can be written as $x^2 \\cdot \\frac{1}{y}$, confirming it is separable. Our first move is to separate variables by multiplying both sides by $y\\,dx$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y\\,dy = x^2\\,dx",
+      "description_latex": "After separation, we have $y$ and $dy$ on the left, and $x^2$ and $dx$ on the right. Now integrate both sides \u2014 the left with respect to $y$ and the right with respect to $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Integrate both sides. Write out $\\int y\\,dy = \\int x^2\\,dx$ and evaluate each integral, including a single constant of integration $C$ on the right side. What do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "You should have $\\frac{y^2}{2} = \\frac{x^3}{3} + C$. Now solve explicitly for $y$ by multiplying both sides by 2 and taking a square root. Remember that when you take a square root you need a $\\pm$ sign \u2014 write the general solution for $y$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve: \\frac{dy}{dx} = 3x^2",
+      "answer_latex": "y = x^3 + C"
+    },
+    {
+      "prompt_latex": "Solve: \\frac{dy}{dx} = \\frac{y}{x}",
+      "answer_latex": "y = Cx"
+    },
+    {
+      "prompt_latex": "Solve: \\frac{dy}{dx} = e^x y^2",
+      "answer_latex": "y = -\\frac{1}{e^x + C}"
+    },
+    {
+      "prompt_latex": "Solve the initial value problem: \\frac{dy}{dx} = \\frac{x}{y},\\quad y(0) = 3",
+      "answer_latex": "y = \\sqrt{x^2 + 9}"
+    },
+    {
+      "prompt_latex": "A population $P$ grows at a rate proportional to its current size, so $\\frac{dP}{dt} = kP$ where $k$ is a positive constant. If $P(0) = P_0$, find $P(t)$.",
+      "answer_latex": "P(t) = P_0 e^{kt}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to divide by $g(y)$ before integrating \u2014 for example, in $\\frac{dy}{dx} = xy^2$ they integrate the right side as $\\int xy^2\\,dx$ instead of first separating to get $\\frac{1}{y^2}\\,dy = x\\,dx$. Always move the $y$-factor to the left side before you integrate anything.",
+    "Students write two separate constants of integration, one for each side, and then carry both through the rest of the solution \u2014 this introduces a phantom extra constant. You only need one $C$ because two constants $C_1 - C_2$ simply combine into one arbitrary constant.",
+    "When exponentiating $\\ln|y| = f(x) + C$ to solve for $y$, students write $y = e^{f(x)} + e^C$ instead of $y = e^{f(x)+C} = e^C e^{f(x)}$. The exponent is the entire right-hand side, so the constant $C$ becomes a multiplicative factor $e^C$, which we rename as a single constant $A$."
+  ],
+  "untested_variants": [
+    "Separable equations where the solution must be left in implicit form because $y$ cannot be isolated algebraically, such as $\\frac{dy}{dx} = \\frac{y^3 + y}{x}$.",
+    "Separable equations involving trigonometric functions on both sides, such as $\\frac{dy}{dx} = \\cos(x)\\cos^2(y)$, requiring the integral $\\int \\sec^2(y)\\,dy$ on the left.",
+    "Initial value problems where the initial condition is not at $x = 0$, requiring careful evaluation of $C$ at a point like $y(1) = 2$, and checking whether the solution is valid on a restricted interval.",
+    "Identifying that a given equation is NOT separable (e.g., $\\frac{dy}{dx} = x + y$) and explaining why the separation technique fails for it."
+  ]
+}

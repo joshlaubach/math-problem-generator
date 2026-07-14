@@ -1,0 +1,81 @@
+{
+  "topic_id": "la_062",
+  "topic_name": "Unitary Operators and Unitary Matrices (H)",
+  "generated_at": "2026-05-13T20:10:56.240074+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that an orthonormal basis preserves the inner product structure of a vector space, and that isomorphisms preserve algebraic structure. But what kind of linear operator preserves the inner product itself \u2014 meaning distances and angles stay completely unchanged after the transformation? You can verify that rotations and reflections in $\\mathbb{R}^2$ do this, but how do you characterize all such maps on complex vector spaces, and how do you test whether a given matrix has this property?",
+  "concept": "A unitary operator is a linear map that preserves the inner product. Formally, a linear operator $S \\in \\mathcal{L}(V)$ on a finite-dimensional inner product space $V$ is called **unitary** if $S^* S = S S^* = I$, equivalently if $\\langle Su, Sv \\rangle = \\langle u, v \\rangle$ for all $u, v \\in V$. A square complex matrix $U$ is called a **unitary matrix** if $U^* U = I$, where $U^*$ denotes the conjugate transpose.",
+  "anatomy": "A unitary operator $S$ on $V$ has several key structural features worth naming. The **adjoint** $S^*$ is the unique operator satisfying $\\langle Su, v \\rangle = \\langle u, S^*v \\rangle$; for a matrix, $S^* = \\bar{S}^T$. The condition $S^*S = I$ is called **left unitarity** and $SS^* = I$ is **right unitarity** \u2014 on finite-dimensional spaces these are equivalent to each other and to $S$ being invertible with $S^{-1} = S^*$. The columns of a unitary matrix form an **orthonormal basis** for $\\mathbb{C}^n$, which is the geometric heart of the definition. Every unitary operator is necessarily a **normal operator** since $S^*S = SS^* = I$.",
+  "worked_example": [
+    {
+      "expression_latex": "U = \\frac{1}{\\sqrt{2}}\\begin{pmatrix} 1 & i \\\\ i & 1 \\end{pmatrix}",
+      "description_latex": "We are asked to verify that $U$ is a unitary matrix. The strategy is to compute $U^* U$ and check whether it equals $I$. We start by writing down the matrix we need to test.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "U^* = \\frac{1}{\\sqrt{2}}\\begin{pmatrix} 1 & -i \\\\ -i & 1 \\end{pmatrix}",
+      "description_latex": "To find $U^*$, we take the conjugate transpose of $U$: we transpose the matrix and conjugate every entry, so $i$ becomes $-i$ throughout. Notice that the scalar $\\frac{1}{\\sqrt{2}}$ is real, so it is unaffected by conjugation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "U^* U = \\frac{1}{2}\\begin{pmatrix} 1 & -i \\\\ -i & 1 \\end{pmatrix}\\begin{pmatrix} 1 & i \\\\ i & 1 \\end{pmatrix}",
+      "description_latex": "We now multiply $U^*$ by $U$, pulling the scalar factors together to get $\\frac{1}{\\sqrt{2}} \\cdot \\frac{1}{\\sqrt{2}} = \\frac{1}{2}$ out front. The key is to carry out this matrix multiplication entry by entry.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "U^* U = \\frac{1}{2}\\begin{pmatrix} 1\\cdot1 + (-i)(i) & 1\\cdot i + (-i)\\cdot 1 \\\\ (-i)\\cdot 1 + 1\\cdot i & (-i)\\cdot i + 1\\cdot 1 \\end{pmatrix} = \\frac{1}{2}\\begin{pmatrix} 2 & 0 \\\\ 0 & 2 \\end{pmatrix} = I",
+      "description_latex": "Computing each entry: the $(1,1)$ entry is $1 - i^2 = 1 - (-1) = 2$, the off-diagonal entries vanish because $i - i = 0$, and the $(2,2)$ entry is $-i^2 + 1 = 2$. Multiplying by $\\frac{1}{2}$ gives the identity, confirming that $U$ is unitary.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "U = \\begin{pmatrix} e^{i\\theta} & 0 \\\\ 0 & e^{-i\\theta} \\end{pmatrix}, \\quad \\theta \\in \\mathbb{R}",
+      "description_latex": "We want to verify this diagonal complex matrix is unitary. The first step is to compute $U^*$ by taking the conjugate transpose. Since $U$ is already diagonal, transposing leaves the diagonal unchanged, and conjugating $e^{i\\theta}$ gives $e^{-i\\theta}$ and vice versa.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "U^* = \\begin{pmatrix} e^{-i\\theta} & 0 \\\\ 0 & e^{i\\theta} \\end{pmatrix}",
+      "description_latex": "Here is the adjoint $U^*$. Now compute the product $U^* U$ by multiplying these two diagonal matrices together. Remember that for diagonal matrices, multiplication is entry-wise along the diagonal, and use the fact that $e^{-i\\theta} \\cdot e^{i\\theta} = e^{0} = 1$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "U^* U = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix} = I",
+      "description_latex": "Because $U^*U = I$, we conclude that $U$ is unitary for every real value of $\\theta$. This matrix represents a phase-rotation operator, and the fact that it is unitary reflects that phase rotations preserve all inner products on $\\mathbb{C}^2$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Determine whether the matrix $U = \\begin{pmatrix} 0 & 1 \\\\ 1 & 0 \\end{pmatrix}$ is unitary.",
+      "answer_latex": "Yes; $U^* = U$ and $U^2 = I$, so $U^*U = I$."
+    },
+    {
+      "prompt_latex": "Show that the matrix $U = \\frac{1}{\\sqrt{2}}\\begin{pmatrix} 1 & -1 \\\\ 1 & 1 \\end{pmatrix}$ is unitary by verifying $U^T U = I$ (note all entries are real here).",
+      "answer_latex": "\\frac{1}{2}\\begin{pmatrix}1&1\\\\-1&1\\end{pmatrix}\\begin{pmatrix}1&-1\\\\1&1\\end{pmatrix} = \\frac{1}{2}\\begin{pmatrix}2&0\\\\0&2\\end{pmatrix} = I$, so $U$ is unitary."
+    },
+    {
+      "prompt_latex": "Let $S$ be a unitary operator on an inner product space $V$. Prove that $\\|Sv\\| = \\|v\\|$ for all $v \\in V$.",
+      "answer_latex": "$\\|Sv\\|^2 = \\langle Sv, Sv\\rangle = \\langle v, S^*Sv\\rangle = \\langle v, v\\rangle = \\|v\\|^2$, so $\\|Sv\\| = \\|v\\|$."
+    },
+    {
+      "prompt_latex": "If $U$ and $W$ are unitary matrices of the same size, prove that $UW$ is also unitary.",
+      "answer_latex": "$(UW)^*(UW) = W^*U^*UW = W^*IW = W^*W = I$, so $UW$ is unitary."
+    },
+    {
+      "prompt_latex": "The eigenvalues of a unitary operator $S$ satisfy $|\\lambda| = 1$. Verify this for the matrix $U = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1 & i \\\\ i & 1\\end{pmatrix}$ by finding its eigenvalues explicitly.",
+      "answer_latex": "\\det(U - \\lambda I) = 0 gives $\\lambda^2 - \\sqrt{2}\\,\\lambda + 1 = 0$ (after scaling), yielding $\\lambda = \\frac{1\\pm i}{\\sqrt{2}}$, each with $|\\lambda| = 1$."
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse $U^*$ with $U^{-1}$ as two separate objects: the whole point of a unitary matrix is that these are the same thing, $U^{-1} = U^*$, so writing $U^* \\neq U^{-1}$ for a unitary matrix is a contradiction. Fix: always start from the definition $U^*U = I$ and read off that $U^{-1} = U^*$ directly.",
+    "When computing the conjugate transpose, students sometimes only transpose (forgetting to conjugate) or only conjugate (forgetting to transpose). For a matrix with complex entries like $i$ or $e^{i\\theta}$, both operations are required simultaneously. Fix: write $U^* = (\\bar{U})^T$ explicitly and apply conjugation to every entry before transposing.",
+    "Students assume that a real orthogonal matrix and a unitary matrix are different kinds of objects and try to apply different tests. In fact, every real orthogonal matrix $Q$ satisfying $Q^TQ = I$ is automatically unitary, because for real matrices the conjugate transpose $Q^*$ equals $Q^T$. Fix: recognise orthogonal matrices as the real special case of unitary matrices."
+  ],
+  "untested_variants": [
+    "Proving that the set of $n \\times n$ unitary matrices forms a group under multiplication (the unitary group $U(n)$), which requires checking closure, identity, and inverses simultaneously.",
+    "Using the spectral theorem for normal operators to diagonalize a unitary operator via an orthonormal basis of eigenvectors, connecting unitarity to eigenvalue structure on $\\mathbb{C}^n$.",
+    "Determining whether a given linear operator on an infinite-dimensional Hilbert space (such as the shift operator) is unitary, where $S^*S = I$ and $SS^* = I$ can fail to be equivalent.",
+    "Expressing a $2 \\times 2$ unitary matrix in terms of its general parametric form $\\begin{pmatrix} \\alpha & -\\bar{\\beta} \\\\ \\beta & \\bar{\\alpha} \\end{pmatrix}$ with $|\\alpha|^2 + |\\beta|^2 = 1$, and using this to classify all $2 \\times 2$ unitary matrices."
+  ]
+}

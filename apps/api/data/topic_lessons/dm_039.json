@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_039",
+  "topic_name": "Permutations and Combinations",
+  "generated_at": "2026-05-13T20:15:03.787282+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to count items in a set, and you might even know that the number of ways to arrange 3 books on a shelf is $3 \\times 2 \\times 1 = 6$. But what if you only want to pick 2 of those 3 books, and you care about the order \u2014 does the arrangement AB\u0421 differ from BAC? And what if you DON'T care about order at all, so that choosing books A and B is the same as choosing books B and A? These two situations feel similar, yet the counts come out differently \u2014 can you figure out the right formula for each?",
+  "concept": "A permutation counts the number of ways to arrange $r$ items chosen from $n$ distinct items when order matters. A combination counts the same selection when order does NOT matter. Formally, the number of permutations is $P(n,r) = \\dfrac{n!}{(n-r)!}$, and the number of combinations is $C(n,r) = \\dbinom{n}{r} = \\dfrac{n!}{r!(n-r)!}$, where $n!$ denotes the product of all positive integers up to $n$.",
+  "anatomy": "In both formulas, $n$ is the total pool size \u2014 the number of distinct items available to choose from. The value $r$ is the selection size \u2014 how many items you are choosing or arranging. The factorial $n!$ counts all arrangements of the full pool, while $(n-r)!$ in the denominator cancels the arrangements of leftover, unchosen items. The additional $r!$ in the denominator of $C(n,r)$ goes one step further and cancels all the internal orderings of the chosen group, collapsing every group of $r$ items into a single unordered set regardless of how it was selected.",
+  "worked_example": [
+    {
+      "expression_latex": "P(5, 3) = \\frac{5!}{(5-3)!}",
+      "description_latex": "We want to count the number of ways to arrange 3 items chosen from 5 distinct items where order matters, so we use the permutation formula $P(n,r) = \\frac{n!}{(n-r)!}$ with $n = 5$ and $r = 3$. Plugging in gives us this expression as our starting point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(5, 3) = \\frac{5!}{2!} = \\frac{120}{2}",
+      "description_latex": "We simplify the denominator: $(5-3)! = 2! = 2$, and we expand $5! = 120$. Dividing these gives us a single fraction we can evaluate directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(5, 3) = 60",
+      "description_latex": "Completing the division, $120 \\div 2 = 60$, so there are 60 ordered arrangements of 3 items chosen from 5. Notice that this is much larger than the combination count will be, because every unordered group of 3 generates $3! = 6$ different ordered arrangements.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C(5, 3) = \\frac{5!}{3! \\cdot 2!} = \\frac{120}{6 \\cdot 2} = \\frac{120}{12}",
+      "description_latex": "Now we count unordered groups of 3 from 5 using $C(n,r) = \\frac{n!}{r!(n-r)!}$ with $n=5$, $r=3$. The extra $r! = 3! = 6$ in the denominator removes the internal orderings that permutations counted separately.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C(5, 3) = 10",
+      "description_latex": "Dividing gives $120 \\div 12 = 10$ unordered subsets of size 3. Comparing $P(5,3) = 60$ to $C(5,3) = 10$ confirms that each unordered group of 3 was counted exactly $3! = 6$ times in the permutation count, and dividing by $6$ recovers the combination count.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{How many ways can a president and vice-president be chosen from 8 candidates?}",
+      "description_latex": "First, decide whether order matters here. Since president and vice-president are distinct roles, swapping two people produces a different outcome \u2014 so this is a permutation problem with $n = 8$ and $r = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(8, 2) = \\frac{8!}{(8-2)!} = \\frac{8!}{6!}",
+      "description_latex": "We set up the permutation formula. Notice that $\\frac{8!}{6!}$ is a telescoping product \u2014 most factorial terms cancel, leaving only the top few factors. Try cancelling $6!$ from the numerator to simplify before multiplying.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Cancel $6!$ from $8!$ in the numerator and compute the result. What is $P(8,2)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(8,2) = 8 \\times 7 = 56",
+      "description_latex": "After cancellation, $\\frac{8!}{6!} = 8 \\times 7 = 56$, so there are 56 ways to assign the two distinct officer roles from 8 candidates. If the problem had instead asked for a 2-person committee (no distinct roles), we would divide by $2! = 2$ to get $C(8,2) = 28$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $P(4, 4)$.",
+      "answer_latex": "P(4,4) = \\frac{4!}{0!} = 24"
+    },
+    {
+      "prompt_latex": "Evaluate $C(6, 2)$.",
+      "answer_latex": "C(6,2) = \\frac{6!}{2! \\cdot 4!} = 15"
+    },
+    {
+      "prompt_latex": "A class of 10 students must elect a president, secretary, and treasurer (three distinct offices). How many ways can this be done?",
+      "answer_latex": "P(10,3) = \\frac{10!}{7!} = 10 \\times 9 \\times 8 = 720"
+    },
+    {
+      "prompt_latex": "A committee of 4 is chosen from 9 people, and then from that committee a chairperson is selected. How many total outcomes are possible?",
+      "answer_latex": "C(9,4) \\times 4 = 126 \\times 4 = 504"
+    },
+    {
+      "prompt_latex": "A pizza shop offers 8 toppings. A customer can choose any 3 different toppings. How many distinct pizzas are possible, and how does the answer change if the customer must list the toppings in order of preference?",
+      "answer_latex": "\\text{Unordered (combinations): } C(8,3) = 56; \\quad \\text{Ordered (permutations): } P(8,3) = 336"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply $P(n,r)$ when the problem is actually asking for unordered selections (combinations), because the word 'choose' feels like it should involve order. Always ask: does swapping two selected items produce a meaningfully different outcome? If not, use $C(n,r)$.",
+    "When simplifying factorials, students write out and multiply the entire factorial rather than cancelling common terms \u2014 for example, computing all of $10!$ and $7!$ separately instead of noticing $\\frac{10!}{7!} = 10 \\times 9 \\times 8$. Always cancel the larger factorial from both numerator and denominator first to avoid enormous arithmetic.",
+    "Students forget that $0! = 1$, so they set $P(n,n) = \\frac{n!}{0}$ and conclude the expression is undefined. Remember that $0! = 1$ by definition, making $P(n,n) = n!$ the count of all arrangements of all $n$ items."
+  ],
+  "untested_variants": [
+    "Permutations of a multiset, where some items are identical \u2014 for example, counting distinct arrangements of the letters in the word MISSISSIPPI using the formula $\\frac{n!}{n_1! n_2! \\cdots n_k!}$.",
+    "Circular permutations, where arrangements on a ring are considered identical up to rotation, giving $(n-1)!$ arrangements instead of $n!$.",
+    "Problems combining combinations with the complement rule \u2014 for example, counting committees that include at least one woman by subtracting all-male committees from the total.",
+    "Counting problems that require the multiplication principle applied across multiple independent combination choices \u2014 such as choosing 2 from group A AND 3 from group B simultaneously."
+  ]
+}

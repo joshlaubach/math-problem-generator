@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_028",
+  "topic_name": "Interpreting Confidence Intervals",
+  "generated_at": "2026-05-13T20:31:25.640844+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to calculate a confidence interval \u2014 for example, you might have found that a 95% confidence interval for the mean commute time in a city is $(28.3, 35.7)$ minutes. But what does that interval actually mean? Many students say 'there is a 95% probability that the true mean falls between 28.3 and 35.7 minutes' \u2014 and that sounds reasonable, but it is subtly and importantly wrong. So what is the correct way to interpret a confidence interval, and why does the wording matter so much?",
+  "concept": "A confidence interval gives us a range of plausible values for an unknown population parameter, constructed using sample data and a chosen confidence level. Formally, a $C\\%$ confidence interval means: if we repeated our sampling procedure many times and built an interval each time, approximately $C\\%$ of those intervals would contain the true parameter. The parameter is fixed (not random); it is the interval that varies from sample to sample.",
+  "anatomy": "Every interpretation of a confidence interval has three structural parts you must include: the confidence level (e.g., 95%), which tells you the long-run capture rate of the procedure; the interval bounds (e.g., 28.3 to 35.7 minutes), which are the specific numbers computed from your sample; and the parameter of interest (e.g., the true population mean commute time $\\mu$), which is the fixed but unknown quantity the interval is trying to capture. A correct interpretation weaves all three together without treating the parameter as a random variable.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Context: A random sample of 50 students yields } \\bar{x} = 6.4 \\text{ hours of sleep, } s = 1.2 \\text{ hours.}",
+      "description_latex": "We start by identifying what we are estimating: the true mean hours of sleep $\\mu$ for all students at this school. Before writing any interpretation, it helps to name the parameter clearly, because every correct interpretation must reference the population \u2014 not just the sample.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} \\pm t^* \\cdot \\frac{s}{\\sqrt{n}} = 6.4 \\pm 2.010 \\cdot \\frac{1.2}{\\sqrt{50}} \\approx (6.06,\\; 6.74)",
+      "description_latex": "Here we compute the 95% confidence interval using the $t$-distribution with 49 degrees of freedom, giving $t^* \\approx 2.010$. The result $(6.06, 6.74)$ is a specific interval built from this one sample \u2014 it either captures $\\mu$ or it does not, but we won't use the word 'probability' about this particular interval.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Incorrect: } P(6.06 < \\mu < 6.74) = 0.95",
+      "description_latex": "This statement is wrong because $\\mu$ is not a random variable \u2014 it is a fixed number. Writing a probability statement about $\\mu$ implies it is moving around, but it is our interval that changes from sample to sample, not the parameter. Avoid this phrasing on any exam.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Correct interpretation (template): We are 95\\% confident that the true mean } \\mu \\text{ lies between } 6.06 \\text{ and } 6.74 \\text{ hours.}",
+      "description_latex": "The phrase 'we are 95% confident' captures the long-run idea \u2014 if we used this method repeatedly, 95% of the resulting intervals would contain $\\mu$ \u2014 without making the mistake of attaching a probability to this specific interval. Notice that the interpretation names all three parts: the confidence level (95%), the bounds (6.06 to 6.74 hours), and the parameter (true mean hours of sleep for all students).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Extended meaning: In repeated sampling, } \\approx 95\\% \\text{ of all such intervals capture } \\mu.",
+      "description_latex": "This is the deeper meaning of the confidence level \u2014 it describes the reliability of the procedure over many repetitions, not the probability of any single interval. Think of it like a net that catches fish 95% of the time: on any single cast you either catch the fish or you don't, but the 95% describes the long-run behavior of the process.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A 90\\% CI for the proportion } p \\text{ of voters supporting a bill is } (0.48,\\; 0.61).",
+      "description_latex": "We are given a completed confidence interval for a population proportion. Before writing the interpretation, identify all three required parts: the confidence level is 90%, the bounds are 0.48 to 0.61, and the parameter is $p$, the true proportion of all voters who support the bill.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{We are } \\underline{\\quad}\\% \\text{ confident that the true proportion } p \\text{ of } \\underline{\\qquad} \\text{ is between } \\underline{\\quad} \\text{ and } \\underline{\\quad}.",
+      "description_latex": "Now write the full correct interpretation by filling in the confidence level, the description of the population parameter, and the two bounds. Make sure your wording refers to all voters (the population), not just the sample, and avoid using the word 'probability.'",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{A classmate says: \"There is a 90\\% chance that } p \\text{ is in this interval.\" Is this correct?}",
+      "description_latex": "Your classmate's statement treats $\\mu$ as random, but the parameter $p$ is fixed. Explain in one sentence why this phrasing is incorrect and what it should be replaced with.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A 95\\% confidence interval for the mean weight of apples at a farm is $(142\\text{ g},\\; 158\\text{ g})$. Write a correct one-sentence interpretation of this interval.",
+      "answer_latex": "\\text{We are 95\\% confident that the true mean weight } \\mu \\text{ of all apples at this farm is between 142 g and 158 g.}"
+    },
+    {
+      "prompt_latex": "A researcher reports a 99\\% CI for the mean number of hours adults spend on social media per week: $(8.1,\\; 11.3)$. A student interprets this as: \"99\\% of adults spend between 8.1 and 11.3 hours on social media.\" Identify the error and write the correct interpretation.",
+      "answer_latex": "\\text{Error: the interval describes } \\mu \\text{, not individual adults. Correct: We are 99\\% confident that the true mean hours } \\mu \\text{ adults spend on social media per week is between 8.1 and 11.3.}"
+    },
+    {
+      "prompt_latex": "Two confidence intervals are constructed from the same data: a 90\\% CI of $(5.2,\\; 8.8)$ and a 99\\% CI of $(4.3,\\; 9.7)$. Which interval is wider, and explain in one sentence why that makes sense in terms of confidence level.",
+      "answer_latex": "\\text{The 99\\% CI }(4.3, 9.7)\\text{ is wider; higher confidence requires a wider interval to guarantee capturing } \\mu \\text{ in more repeated samples.}"
+    },
+    {
+      "prompt_latex": "A 95\\% CI for a population mean is $(22, 30)$. Using the relationship } \\bar{x} = \\frac{\\text{lower} + \\text{upper}}{2} \\text{ and margin of error } ME = \\frac{\\text{upper} - \\text{lower}}{2}\\text{, find } \\bar{x} \\text{ and } ME\\text{, then explain what would happen to the width of the interval if the sample size were increased.}",
+      "answer_latex": "\\bar{x} = 26,\\; ME = 4;\\text{ increasing sample size decreases the standard error, so the interval would become narrower.}"
+    },
+    {
+      "prompt_latex": "A polling agency surveys 800 randomly selected adults and finds that 52\\% support a new policy. The agency states: \"We used a method that produces intervals containing the true proportion 95\\% of the time, and our interval is $(0.485, 0.555)$.\" Does this interval give evidence that a majority (more than 50\\%) supports the policy? Explain using your interpretation of the confidence interval.",
+      "answer_latex": "\\text{Since the entire interval }(0.485, 0.555)\\text{ lies above 0.485 but includes values below 0.50, we cannot conclude a majority supports it \u2014 the interval contains values both below and above 0.50, so the evidence is inconclusive.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students say 'there is a 95% probability that $\\mu$ is in the interval $(a, b)$,' treating $\\mu$ as random. Fix: $\\mu$ is fixed and unknown \u2014 say 'we are 95% confident that $\\mu$ lies between $a$ and $b$,' which describes the reliability of the procedure, not the probability of the parameter.",
+    "Students interpret the confidence interval as describing individual observations, e.g., '95% of people fall between $a$ and $b$.' Fix: the interval is about the population parameter (a mean or proportion), not about individual data values \u2014 always name the specific parameter $\\mu$ or $p$ in your interpretation.",
+    "Students confuse the confidence level with the sample's accuracy, thinking a 95% CI means the sample estimate is correct 95% of the time. Fix: the 95% refers to the long-run capture rate of the interval-building procedure across many hypothetical repeated samples, not to the accuracy of any single sample statistic."
+  ],
+  "untested_variants": [
+    "Interpreting a confidence interval for a population proportion $p$ from a two-sample study (e.g., difference in proportions $p_1 - p_2$), where the interval straddles zero and you must decide if there is evidence of a difference.",
+    "Choosing the correct confidence level for a given context \u2014 for example, explaining why a medical study might require a 99% CI instead of a 90% CI and the trade-off with interval width.",
+    "Back-calculating the sample mean $\\bar{x}$ and margin of error $ME$ from a confidence interval, then using $ME = t^* \\cdot \\frac{s}{\\sqrt{n}}$ to recover the sample size $n$ or the critical value $t^*$.",
+    "Interpreting a confidence interval in the context of a paired $t$-test, where the parameter is $\\mu_d$, the mean of the paired differences, and students must correctly name that parameter rather than treating the two groups independently."
+  ]
+}

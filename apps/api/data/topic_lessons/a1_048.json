@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_048",
+  "topic_name": "Solving Polynomial Equations by Factoring",
+  "generated_at": "2026-05-12T22:44:30.066524+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to factor a polynomial like $x^2 - 5x + 6$ into $(x-2)(x-3)$, and you know how to evaluate expressions. But what happens when a polynomial equals zero \u2014 like $x^2 - 5x + 6 = 0$ \u2014 and you need to find the actual values of $x$ that make it true? Substituting guesses would take forever, and the quadratic formula feels heavy. Is there a slicker way to use factoring to crack these equations wide open?",
+  "concept": "Solving a polynomial equation by factoring means rewriting the polynomial as a product of simpler factors and then using the Zero Product Property: if $a \\cdot b = 0$, then $a = 0$ or $b = 0$. In plain English, a product can only equal zero if at least one of its pieces equals zero \u2014 so once the equation is factored, each factor gives you a simple equation to solve. This turns one hard equation into two or more easy ones.",
+  "anatomy": "Every application of this method has three structural parts. First, the standard form: the equation must be set equal to zero, like $x^2 - 5x + 6 = 0$, because the Zero Product Property only works at zero. Second, the factored form: the left side is expressed as a product of linear (or simpler) factors, like $(x-2)(x-3)$, each of which is a potential source of a solution. Third, the solution set: the individual equations $x - 2 = 0$ and $x - 3 = 0$ yield the roots $x = 2$ and $x = 3$, which together form the complete solution set $\\{2, 3\\}$.",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 - 5x + 6 = 0",
+      "description_latex": "We start with the equation already in standard form \u2014 the polynomial on the left and zero on the right. This is the required setup for the Zero Product Property, so always check that one side is zero before you do anything else.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 - 5x + 6 = (x - 2)(x - 3)",
+      "description_latex": "We factor the trinomial by looking for two numbers that multiply to $+6$ and add to $-5$; those numbers are $-2$ and $-3$. Rewriting the left side as $(x-2)(x-3)$ transforms the equation into a product equal to zero, which is exactly the form the Zero Product Property needs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x - 2)(x - 3) = 0 \\implies x - 2 = 0 \\text{ or } x - 3 = 0",
+      "description_latex": "Now we apply the Zero Product Property: because a product equals zero only when at least one factor equals zero, we set each factor equal to zero separately. This splits one quadratic equation into two simple linear equations.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 2 \\quad \\text{or} \\quad x = 3",
+      "description_latex": "Solving each linear equation is straightforward: adding $2$ to both sides of $x - 2 = 0$ gives $x = 2$, and adding $3$ to both sides of $x - 3 = 0$ gives $x = 3$. These two values are the solutions \u2014 you can verify by substituting each back into the original equation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^2 + x - 12 = 0",
+      "description_latex": "The equation is already equal to zero, so we are ready to factor. We need two numbers that multiply to $-12$ and add to $+1$; notice that $4 \\times (-3) = -12$ and $4 + (-3) = 1$, giving us the factors $(x+4)$ and $(x-3)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x + 4)(x - 3) = 0",
+      "description_latex": "The factored equation is set up. Now apply the Zero Product Property and write out the two individual equations that each factor produces \u2014 what does setting each factor equal to zero give you?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Solve each of your two linear equations to find the complete solution set. Write your final answers clearly as $x = \\text{?}$ or $x = \\text{?}$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve: $(x - 5)(x + 2) = 0$",
+      "answer_latex": "x = 5 \\quad \\text{or} \\quad x = -2"
+    },
+    {
+      "prompt_latex": "Solve: $x^2 - 7x + 10 = 0$",
+      "answer_latex": "x = 2 \\quad \\text{or} \\quad x = 5"
+    },
+    {
+      "prompt_latex": "Solve: $x^2 + 3x - 18 = 0$",
+      "answer_latex": "x = 3 \\quad \\text{or} \\quad x = -6"
+    },
+    {
+      "prompt_latex": "Solve: $2x^2 - 8x = 0$",
+      "answer_latex": "x = 0 \\quad \\text{or} \\quad x = 4"
+    },
+    {
+      "prompt_latex": "A rectangular garden has an area of $24$ square feet. Its length is $2$ feet more than its width. Write and solve a polynomial equation to find the width $w$.",
+      "answer_latex": "w^2 + 2w - 24 = 0 \\Rightarrow (w+6)(w-4) = 0 \\Rightarrow w = 4 \\text{ ft}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to move all terms to one side before factoring, trying to factor something like $x^2 - 5x = 6$ directly and applying the Zero Product Property to get $x(x-5) = 6 \\Rightarrow x = 6$ or $x - 5 = 6$. The fix: always rewrite the equation so that one side is exactly $0$ before factoring.",
+    "After factoring correctly, students write $x - 2 = 0$ and then report the solution as $x = -2$ because they see the minus sign in the factor. Remember that solving $x - 2 = 0$ means adding $2$, not negating it \u2014 the solution from the factor $(x - 2)$ is $x = +2$, not $x = -2$.",
+    "When one factor is just $x$ (as in $x(x-4) = 0$), students solve only $x - 4 = 0$ and miss the solution $x = 0$, assuming $x = 0$ is trivial or 'not a real answer.' The Zero Product Property applies to every factor, including a lone variable, so $x = 0$ must always be included in the solution set."
+  ],
+  "untested_variants": [
+    "Equations requiring factoring by grouping, such as $x^3 + 2x^2 - 9x - 18 = 0$, where students must group terms before applying the Zero Product Property.",
+    "Equations involving a leading coefficient greater than 1 that is not factorable by GCF alone, such as $3x^2 - 7x + 2 = 0$, requiring the $ac$-method or trial-and-error with non-unit leading coefficients.",
+    "Polynomial equations of degree 3 or higher with three or more solutions, such as $x^3 - 6x^2 + 11x - 6 = 0$, where the Zero Product Property yields three separate linear equations.",
+    "Equations where the polynomial is a perfect square trinomial resulting in a repeated root, such as $x^2 - 6x + 9 = 0 \\Rightarrow (x-3)^2 = 0$, and understanding why there is only one unique solution."
+  ]
+}

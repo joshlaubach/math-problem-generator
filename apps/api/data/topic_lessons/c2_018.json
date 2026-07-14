@@ -1,0 +1,81 @@
+{
+  "topic_id": "c2_018",
+  "topic_name": "Conic Sections in Polar Form (H)",
+  "generated_at": "2026-05-13T00:22:33.027888+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to write parabolas, ellipses, and hyperbolas using rectangular equations like $\\frac{x^2}{a^2} + \\frac{y^2}{b^2} = 1$, and you've learned how to describe curves using polar coordinates $(r, \\theta)$. But what happens when you need to describe a planet's elliptical orbit, where the Sun sits at one *focus* \u2014 not the center \u2014 of the ellipse? The rectangular form centers the conic at the origin, making it clumsy for focus-based problems. Can you write a single polar equation that describes all three conic sections, with the focus sitting right at the pole?",
+  "concept": "A conic section in polar form is written with the focus placed at the origin (pole), giving the elegant unified equation $r = \\frac{ed}{1 \\pm e\\cos\\theta}$ or $r = \\frac{ed}{1 \\pm e\\sin\\theta}$, where $e$ is the eccentricity and $d$ is the distance from the focus to the directrix. This single formula produces a parabola when $e = 1$, an ellipse when $0 < e < 1$, and a hyperbola when $e > 1$.",
+  "anatomy": "The polar conic equation $r = \\frac{ed}{1 + e\\cos\\theta}$ has four key structural parts. The eccentricity $e$ determines which conic you have: $e = 1$ gives a parabola, $0 < e < 1$ an ellipse, and $e > 1$ a hyperbola. The distance $d$ is the perpendicular distance from the focus (at the pole) to the associated directrix, so $ed$ sets the overall scale of the conic. The $\\pm$ in the denominator tells you the orientation: $+\\cos\\theta$ opens left (directrix right of pole), $-\\cos\\theta$ opens right, $+\\sin\\theta$ opens down, and $-\\sin\\theta$ opens up. The denominator $1 \\pm e\\cos\\theta$ (or $1 \\pm e\\sin\\theta$) determines which axis \u2014 horizontal or vertical \u2014 the conic is aligned with.",
+  "worked_example": [
+    {
+      "expression_latex": "r = \\frac{3}{2 - \\cos\\theta}",
+      "description_latex": "Before identifying the conic, we need the equation in standard polar form $r = \\frac{ed}{1 - e\\cos\\theta}$, which requires a 1 in the denominator. Right now the denominator is $2 - \\cos\\theta$, so we divide numerator and denominator by 2 to normalize it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = \\frac{3/2}{1 - \\frac{1}{2}\\cos\\theta}",
+      "description_latex": "After dividing through by 2, we can now read off the eccentricity directly: $e = \\frac{1}{2}$, because that is the coefficient of $\\cos\\theta$ in the denominator. Since $0 < \\frac{1}{2} < 1$, this conic is an ellipse.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "ed = \\frac{3}{2} \\implies d = \\frac{3/2}{1/2} = 3",
+      "description_latex": "The numerator in standard form equals $ed$, so we set $ed = \\frac{3}{2}$ and solve for $d$ by dividing by $e = \\frac{1}{2}$. This tells us the directrix is $d = 3$ units from the focus (pole), located to the right of the pole because of the $-\\cos\\theta$ form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = \\frac{ed}{1-e^2} = \\frac{3/2}{1 - 1/4} = \\frac{3/2}{3/4} = 2",
+      "description_latex": "For an ellipse we can find the semi-major axis using $a = \\frac{ed}{1 - e^2}$. Substituting $ed = \\frac{3}{2}$ and $e = \\frac{1}{2}$, we compute $1 - e^2 = \\frac{3}{4}$, giving $a = 2$. The full picture: an ellipse with semi-major axis 2, eccentricity $\\frac{1}{2}$, and directrix $x = 3$ to the right.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "r = \\frac{12}{3 + 3\\sin\\theta}",
+      "description_latex": "We want to identify the conic type and its key features. Start by rewriting this equation in standard polar form by dividing the numerator and denominator by 3, so that the constant term in the denominator becomes 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = \\frac{4}{1 + \\sin\\theta}",
+      "description_latex": "After dividing by 3 we get this standard form. Now identify the eccentricity $e$ and the product $ed$ from this equation \u2014 what type of conic is this, and what is the distance $d$ to the directrix?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "e = 1,\\quad d = 4,\\quad \\text{parabola opening downward, directrix } y = 4",
+      "description_latex": "Since the coefficient of $\\sin\\theta$ is 1, we have $e = 1$, confirming this is a parabola. The numerator $ed = 4$ with $e = 1$ gives $d = 4$, and the $+\\sin\\theta$ form tells us the directrix is above the pole at $y = 4$, with the parabola opening downward (toward the pole).",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the conic: $r = \\frac{5}{1 + \\cos\\theta}$",
+      "answer_latex": "e = 1$, so it is a parabola with $d = 5$, directrix $x = 5$ to the right of the pole, opening left"
+    },
+    {
+      "prompt_latex": "Write the equation in standard polar form and identify the conic type and eccentricity: $r = \\frac{8}{4 + 3\\cos\\theta}$",
+      "answer_latex": "r = \\frac{2}{1 + \\frac{3}{4}\\cos\\theta}$, so $e = \\frac{3}{4}$ and the conic is an ellipse"
+    },
+    {
+      "prompt_latex": "For the conic $r = \\frac{6}{1 - 2\\sin\\theta}$, identify the conic type and find $e$, $d$, and describe the orientation of the directrix.",
+      "answer_latex": "e = 2 > 1$, so it is a hyperbola; $d = 3$; the $-\\sin\\theta$ form places the directrix below the pole at $y = -3$"
+    },
+    {
+      "prompt_latex": "Find the polar equation of an ellipse with eccentricity $e = \\frac{1}{3}$ and directrix $y = -6$ (below the pole).",
+      "answer_latex": "r = \\frac{2}{1 - \\frac{1}{3}\\sin\\theta}"
+    },
+    {
+      "prompt_latex": "A comet travels on a parabolic path with the Sun at the focus. At its closest approach (perihelion), the comet is $2\\,\\text{AU}$ from the Sun. Write a polar equation for the comet's path and find the distance $r$ when $\\theta = \\frac{\\pi}{3}$.",
+      "answer_latex": "For a parabola, perihelion distance $= \\frac{ed}{2} = 2$, so $d = 4$ and the equation is $r = \\frac{4}{1 + \\cos\\theta}$; at $\\theta = \\frac{\\pi}{3}$, $r = \\frac{4}{1 + 1/2} = \\frac{8}{3}\\,\\text{AU}$"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to divide the numerator and denominator by the constant term before reading off $e$, so they mistakenly set $e$ equal to the leading coefficient (e.g., reading $e = 3$ from $r = \\frac{6}{3 + 2\\cos\\theta}$ instead of correctly getting $e = \\frac{2}{3}$). Always rewrite the equation so the denominator begins with 1 before extracting any parameters.",
+    "Students confuse the sign in the denominator with the direction the conic opens: they think $+\\cos\\theta$ means the conic opens to the right, when in fact $r = \\frac{ed}{1 + e\\cos\\theta}$ opens to the left (the directrix is to the right of the pole and the conic 'faces away' from it). Memorize the rule: the conic opens toward the pole and away from the directrix.",
+    "When computing $d$ from the numerator, students confuse $ed$ with $d$ itself and never divide by $e$. For example, from $r = \\frac{6}{1 + 2\\cos\\theta}$ they report $d = 6$ instead of correctly computing $d = \\frac{ed}{e} = \\frac{6}{2} = 3$. Always remember the numerator equals the product $ed$, not $d$ alone."
+  ],
+  "untested_variants": [
+    "Sketching or graphing the polar conic over a full period of $\\theta$ and identifying vertices, the center, and the second focus from the polar equation.",
+    "Converting the polar conic equation back into rectangular form and verifying it matches the standard Cartesian conic equation with shifted focus.",
+    "Finding the semi-latus rectum, semi-major axis $a$, and semi-minor axis $b$ for an ellipse or hyperbola directly from the polar form, and using them to compute the full set of geometric features.",
+    "Writing the polar equation of a hyperbola given its eccentricity and the location of a directrix, then determining both branches of the hyperbola from a single polar equation."
+  ]
+}

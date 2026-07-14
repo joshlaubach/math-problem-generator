@@ -1,0 +1,91 @@
+{
+  "topic_id": "pt_009",
+  "topic_name": "Convergence to Stationarity and Mixing Times",
+  "generated_at": "2026-05-14T01:00:46.901653+00:00",
+  "course_name": "Probability Theory",
+  "hook": "You already know that a Markov chain has a stationary distribution $\\pi$ satisfying $\\pi P = \\pi$, and that irreducible, aperiodic chains converge to $\\pi$ in the long run. But how long is the 'long run'? If you run a random walk on a graph for 10 steps, or 100 steps, how close are you actually to stationarity \u2014 and how do you even measure 'close'? The question of how many steps are needed before the chain is practically indistinguishable from its stationary distribution is exactly what mixing times quantify, and you cannot yet answer it.",
+  "concept": "Mixing time measures how quickly a Markov chain 'forgets' its starting state and converges to stationarity. Formally, the total variation distance between the distribution at time $t$ starting from state $i$ and the stationary distribution $\\pi$ is $\\|P^t(i,\\cdot) - \\pi\\|_{TV} = \\frac{1}{2}\\sum_j |P^t(i,j) - \\pi(j)|$, and the mixing time at tolerance $\\epsilon$ is $t_{mix}(\\epsilon) = \\min\\{t : \\max_i \\|P^t(i,\\cdot) - \\pi\\|_{TV} \\leq \\epsilon\\}$.",
+  "anatomy": "There are four key components in this framework. The quantity $P^t(i,j)$ is the $(i,j)$ entry of the $t$-step transition matrix, giving the probability of being in state $j$ after exactly $t$ steps starting from $i$. The stationary distribution $\\pi$ is the target measure the chain converges toward, satisfying $\\pi P = \\pi$. The total variation distance $\\|\\mu - \\nu\\|_{TV} = \\frac{1}{2}\\sum_j |\\mu(j) - \\nu(j)|$ is the discrepancy measure, ranging in $[0,1]$. Finally, the spectral gap $\\gamma = 1 - \\lambda_2$, where $\\lambda_2$ is the second-largest eigenvalue of $P$ (for reversible chains), controls the rate of convergence through the bound $\\|P^t(i,\\cdot) - \\pi\\|_{TV} \\leq \\frac{1}{2\\pi_i^{1/2}}(1-\\gamma)^t$.",
+  "worked_example": [
+    {
+      "expression_latex": "P = \\begin{pmatrix} 1-p & p \\\\ q & 1-q \\end{pmatrix}, \\quad p,q \\in (0,1)",
+      "description_latex": "We start with a two-state Markov chain, which is the simplest nontrivial example for studying convergence. This chain is irreducible and aperiodic whenever $p, q \\in (0,1)$, so we are guaranteed a unique stationary distribution and convergence to it \u2014 our job is to find out how fast.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi = \\left(\\frac{q}{p+q},\\, \\frac{p}{p+q}\\right)",
+      "description_latex": "We find the stationary distribution by solving $\\pi P = \\pi$ with $\\pi_1 + \\pi_2 = 1$. This gives $\\pi_1 p = \\pi_2 q$, leading to the solution above \u2014 it is always worth computing $\\pi$ explicitly because the total variation distance is measured relative to it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Eigenvalues of } P: \\quad \\lambda_1 = 1, \\quad \\lambda_2 = 1 - p - q",
+      "description_latex": "For a $2\\times 2$ stochastic matrix the eigenvalues are always $1$ and $1 - p - q$, since the trace equals $2 - p - q$ and the determinant equals $(1-p)(1-q) - pq$. The spectral gap is $\\gamma = 1 - |\\lambda_2| = p + q$, and a larger spectral gap means faster mixing \u2014 intuitively, larger transition probabilities mean the chain moves around more freely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P^t(1,\\cdot) - \\pi = (1-p-q)^t \\left(1 - \\frac{q}{p+q},\\; -\\frac{p}{p+q}\\right)",
+      "description_latex": "By diagonalizing $P$, the $t$-step distribution starting from state 1 minus the stationary distribution has entries that decay geometrically in $\\lambda_2^t = (1-p-q)^t$. This is the key structural fact: the error decays at a rate determined entirely by the second eigenvalue, not by the starting state.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\|P^t(1,\\cdot) - \\pi\\|_{TV} = \\frac{1}{2}|1-p-q|^t \\cdot \\frac{p+q}{p+q} \\cdot 2 \\cdot \\frac{p}{p+q} \\cdot \\frac{q}{p+q}\\Big|^{1/2} \\leq \\frac{1}{2}(1-p-q)^t",
+      "description_latex": "Taking the total variation distance, we get an explicit upper bound showing the distance to stationarity decays geometrically with base $(1-p-q)$. To achieve tolerance $\\epsilon$, we need roughly $t \\geq \\frac{\\log(1/2\\epsilon)}{p+q}$ steps, so the mixing time scales like the reciprocal of the spectral gap \u2014 confirming that small spectral gaps (slow-moving chains) correspond to long mixing times.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P = \\begin{pmatrix} 1/2 & 1/2 \\\\ 1/4 & 3/4 \\end{pmatrix}",
+      "description_latex": "Here we have a specific two-state chain with $p = 1/2$ and $q = 1/4$. Our goal is to compute the total variation distance from stationarity after $t$ steps starting from state 1, and find the mixing time at tolerance $\\epsilon = 0.01$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi = \\left(\\frac{1/4}{1/2 + 1/4},\\, \\frac{1/2}{1/2 + 1/4}\\right) = \\left(\\frac{1}{3},\\, \\frac{2}{3}\\right)",
+      "description_latex": "Using the formula $\\pi_1 = q/(p+q)$ and $\\pi_2 = p/(p+q)$ from the worked example, we substitute the specific values. The stationary distribution weights state 2 more heavily because the chain spends more time there \u2014 you should verify this satisfies $\\pi P = \\pi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_2 = 1 - p - q = 1 - \\frac{1}{2} - \\frac{1}{4} = \\frac{1}{4}",
+      "description_latex": "Now compute the second eigenvalue $\\lambda_2 = 1 - p - q$ for this chain. The spectral gap is $\\gamma = p + q$, which determines how fast the chain mixes \u2014 use your values of $p$ and $q$ to find both $\\lambda_2$ and confirm the spectral gap.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t_{mix}(0.01) \\geq \\left\\lceil \\frac{\\log(1/0.02)}{\\log(4/3)} \\right\\rceil",
+      "description_latex": "Using the bound $\\|P^t(1,\\cdot) - \\pi\\|_{TV} \\leq \\frac{1}{2}(1/4)^t \\leq \\epsilon$, solve for the smallest $t$ such that $(1/4)^t \\leq 2\\epsilon = 0.02$. This requires taking a logarithm \u2014 what is the minimum integer $t$ that satisfies this inequality, and what does this tell you about how many steps are needed to mix?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A two-state chain has transition matrix $P = \\begin{pmatrix} 0.3 & 0.7 \\\\ 0.7 & 0.3 \\end{pmatrix}$. Find the stationary distribution $\\pi$.",
+      "answer_latex": "\\pi = (1/2,\\, 1/2)"
+    },
+    {
+      "prompt_latex": "For the chain with $p = 0.4$ and $q = 0.2$ in the two-state model, compute the spectral gap $\\gamma$ and the second eigenvalue $\\lambda_2$.",
+      "answer_latex": "\\lambda_2 = 1 - 0.4 - 0.2 = 0.4, \\quad \\gamma = 0.6"
+    },
+    {
+      "prompt_latex": "Using the bound $\\|P^t(i,\\cdot) - \\pi\\|_{TV} \\leq \\frac{1}{2}|\\lambda_2|^t$, find the smallest $t$ such that this bound is at most $0.05$ for a chain with $\\lambda_2 = 0.9$.",
+      "answer_latex": "t \\geq \\left\\lceil \\frac{\\log(0.1)}{\\log(0.9)} \\right\\rceil = \\lceil 21.85 \\rceil = 22"
+    },
+    {
+      "prompt_latex": "A three-state irreducible aperiodic chain has stationary distribution $\\pi = (1/3, 1/3, 1/3)$ and second eigenvalue $\\lambda_2 = 0.5$. After $t = 4$ steps starting from state 1, give an upper bound on $\\|P^4(1,\\cdot) - \\pi\\|_{TV}$ using the spectral bound, and determine whether this guarantees the chain is within $\\epsilon = 0.1$ of stationarity.",
+      "answer_latex": "\\|P^4(1,\\cdot)-\\pi\\|_{TV} \\leq \\frac{1}{2}(0.5)^4 = \\frac{1}{32} \\approx 0.031 < 0.1, \\text{ yes}"
+    },
+    {
+      "prompt_latex": "A gambler starts with $\\$1$ in a game modeled by a two-state chain: state 1 means 'winning streak' and state 2 means 'losing streak,' with $P = \\begin{pmatrix} 0.6 & 0.4 \\\\ 0.2 & 0.8 \\end{pmatrix}$. The casino claims that after just 5 rounds, the gambler's history no longer matters. Using the total variation bound with $\\lambda_2 = 1 - 0.4 - 0.2 = 0.4$, evaluate this claim at tolerance $\\epsilon = 0.05$.",
+      "answer_latex": "\\frac{1}{2}(0.4)^5 = \\frac{1}{2}(0.01024) \\approx 0.005 < 0.05, \\text{ so the claim is supported at this tolerance}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the stationary distribution $\\pi$ with the distribution after a fixed finite number of steps $P^t(i,\\cdot)$, treating them as equal after just a few iterations. The fix is to always compute the total variation distance explicitly to verify convergence rather than assuming it has occurred.",
+    "When computing the spectral gap, students sometimes use the largest eigenvalue $\\lambda_1 = 1$ instead of the second-largest eigenvalue $\\lambda_2$, which gives a gap of zero and implies no convergence at all. Remember that the spectral gap is $\\gamma = 1 - |\\ lambda_2|$, where $\\lambda_2$ is the eigenvalue of second-largest absolute value.",
+    "A frequent error is forgetting that the total variation bound $\\|P^t(i,\\cdot) - \\pi\\|_{TV} \\leq \\frac{1}{2}|\\lambda_2|^t$ is an upper bound, not an equality, so a large bound does not mean the chain is far from stationarity \u2014 the true distance could be much smaller, and students should not use the bound in reverse to conclude slowness."
+  ],
+  "untested_variants": [
+    "Coupling arguments for proving mixing time upper bounds, where two copies of the chain are run simultaneously and the mixing time is bounded by the expected coupling time.",
+    "Mixing times for chains on continuous state spaces, such as the Metropolis-Hastings algorithm or the Ornstein-Uhlenbeck process, where the spectral gap is replaced by a spectral gap in $L^2(\\pi)$.",
+    "Lower bounds on mixing time using distinguishing statistics or the bottleneck ratio (Cheeger constant), which provide matching lower bounds to complement the spectral upper bound.",
+    "Mixing times for periodic chains or chains that are only lazy (with self-loops added), where one must account for the sign of $\\lambda_2$ and the difference between aperiodic and periodic convergence behavior."
+  ]
+}

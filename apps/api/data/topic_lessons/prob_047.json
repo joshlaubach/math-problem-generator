@@ -1,0 +1,86 @@
+{
+  "topic_id": "prob_047",
+  "topic_name": "Moment Generating Functions for Continuous Distributions (H)",
+  "generated_at": "2026-05-13T23:08:32.611352+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to compute the mean and variance of a continuous random variable by integrating $x f(x)$ and $x^2 f(x)$ separately. But what if you needed the 5th moment, or wanted a single compact object that encodes every moment at once? The moment generating function (MGF) is exactly that object \u2014 a single function whose derivatives at zero hand you every moment on demand. How do we build and use this function for continuous distributions?",
+  "concept": "A moment generating function is a transform that packages all the moments of a random variable into one differentiable function. Formally, for a continuous random variable $X$ with density $f(x)$, the MGF is $M_X(t) = E[e^{tX}] = \\int_{-\\infty}^{\\infty} e^{tx} f(x)\\, dx$, defined for all $t$ in some open interval around zero. The key payoff is that $E[X^n] = M_X^{(n)}(0)$, the $n$-th derivative of $M_X(t)$ evaluated at $t = 0$.",
+  "anatomy": "The MGF $M_X(t) = E[e^{tX}]$ has four distinct parts worth naming. The auxiliary variable $t$ is a real parameter \u2014 not a probability or a time \u2014 that acts as a 'dial' you differentiate with respect to. The kernel $e^{tx}$ is what links $t$ to the random variable $X$; expanding it as a power series $\\sum_{n=0}^\\infty \\frac{(tx)^n}{n!}$ is what encodes the moments. The density $f(x)$ is the weight function that turns the integral into an expectation. Finally, the support of integration is the set of all $x$ where $f(x) > 0$, and getting the limits right is critical.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Exp}(\\lambda),\\quad f(x) = \\lambda e^{-\\lambda x},\\; x \\ge 0",
+      "description_latex": "We start with the exponential distribution because its density is a clean exponential, which makes the integral tractable. Our goal is to find a closed-form expression for $M_X(t)$ by computing $E[e^{tX}]$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_X(t) = \\int_0^{\\infty} e^{tx} \\cdot \\lambda e^{-\\lambda x}\\, dx = \\lambda \\int_0^{\\infty} e^{(t - \\lambda)x}\\, dx",
+      "description_latex": "We substitute the definition $M_X(t) = E[e^{tX}]$ directly, writing the integral over the support $[0, \\infty)$. Combining the two exponentials into $e^{(t-\\lambda)x}$ is the crucial simplification \u2014 the integral will only converge when $t - \\lambda < 0$, i.e., $t < \\lambda$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lambda \\left[ \\frac{e^{(t-\\lambda)x}}{t - \\lambda} \\right]_0^{\\infty} = \\lambda \\cdot \\frac{0 - 1}{t - \\lambda} = \\frac{\\lambda}{\\lambda - t}, \\quad t < \\lambda",
+      "description_latex": "We evaluate the integral using the standard formula $\\int_0^\\infty e^{-cx}\\,dx = 1/c$ for $c > 0$, here $c = \\lambda - t$. The boundary term at infinity vanishes precisely because $t < \\lambda$ keeps the exponent negative, and we are left with the clean rational form $\\frac{\\lambda}{\\lambda - t}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_X'(t) = \\frac{d}{dt}\\left(\\frac{\\lambda}{\\lambda - t}\\right) = \\frac{\\lambda}{(\\lambda - t)^2}",
+      "description_latex": "To extract the mean, we differentiate $M_X(t)$ once with respect to $t$ using the chain rule. This step shows the mechanical payoff of the MGF: no separate integral is needed \u2014 just differentiate the function we already found.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[X] = M_X'(0) = \\frac{\\lambda}{(\\lambda - 0)^2} = \\frac{1}{\\lambda}",
+      "description_latex": "Evaluating at $t = 0$ gives the mean, confirming the well-known result $E[X] = 1/\\lambda$ for the exponential distribution. You can continue: $M_X''(0) = 2/\\lambda^2$, so $E[X^2] = 2/\\lambda^2$ and $\\text{Var}(X) = 1/\\lambda^2$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Uniform}(0,1),\\quad f(x) = 1,\\; 0 \\le x \\le 1",
+      "description_latex": "We want to find $M_X(t)$ for the standard uniform distribution. Start by writing out the definition of the MGF as an integral over the support $[0,1]$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_X(t) = \\int_0^1 e^{tx} \\cdot 1\\, dx",
+      "description_latex": "The integral is set up correctly. Now evaluate this integral \u2014 remember to treat $t$ as a constant when integrating with respect to $x$, and handle the special case $t = 0$ separately.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "M_X(t) = \\frac{e^t - 1}{t}, \\quad t \\neq 0 \\quad (M_X(0) = 1)",
+      "description_latex": "The closed form is $\\frac{e^t - 1}{t}$. Now differentiate this expression and evaluate at $t = 0$ to recover $E[X]$, confirming you get $1/2$. Use L'H\u00f4pital's rule or a Taylor expansion if setting $t = 0$ directly causes a $0/0$ form.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim \\text{Exp}(3)$. Write down $M_X(t)$ and state the values of $t$ for which it is defined.",
+      "answer_latex": "M_X(t) = \\dfrac{3}{3 - t},\\quad t < 3"
+    },
+    {
+      "prompt_latex": "Let $X$ have density $f(x) = 2x$ for $0 \\le x \\le 1$. Compute $M_X(t) = E[e^{tX}]$.",
+      "answer_latex": "M_X(t) = \\dfrac{2(te^t - e^t + 1)}{t^2},\\quad t \\neq 0 \\;\\text{(and }M_X(0)=1\\text{)}"
+    },
+    {
+      "prompt_latex": "For $X \\sim \\text{Exp}(\\lambda)$ with MGF $M_X(t) = \\dfrac{\\lambda}{\\lambda - t}$, compute $E[X^2]$ by differentiating $M_X(t)$ twice and evaluating at $t=0$.",
+      "answer_latex": "E[X^2] = M_X''(0) = \\dfrac{2}{\\lambda^2}"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Exp}(1)$ and $Y = 2X + 3$. Using the property $M_Y(t) = e^{3t} M_X(2t)$, find $M_Y(t)$ and use it to compute $E[Y]$.",
+      "answer_latex": "M_Y(t) = \\dfrac{e^{3t}}{1 - 2t},\\quad E[Y] = M_Y'(0) = 5"
+    },
+    {
+      "prompt_latex": "A device lifetime $X$ (in hours) has density $f(x) = \\frac{1}{2}e^{-x/2}$ for $x > 0$. An engineer needs to know the variance of $X$ but only has the MGF. Find $M_X(t)$, then compute $\\text{Var}(X)$ using $\\text{Var}(X) = M_X''(0) - [M_X'(0)]^2$.",
+      "answer_latex": "M_X(t) = \\dfrac{1}{1-2t},\\quad E[X]=2,\\; E[X^2]=8,\\; \\text{Var}(X) = 4"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that the MGF integral only converges for $t$ in a restricted interval, and they write $M_X(t)$ without the condition (e.g., $t < \\lambda$ for the exponential). This matters because plugging in $t$ outside the interval gives a divergent integral \u2014 always state the domain.",
+    "When differentiating to find $E[X^n]$, students evaluate the derivative formula at a nonzero value of $t$ instead of at $t = 0$. Remember: the $n$-th moment is $M_X^{(n)}(0)$, not $M_X^{(n)}(t)$ for general $t$.",
+    "Students set up the MGF integral with the wrong limits of integration, using $(-\\infty, \\infty)$ even when the density has a bounded or half-line support. Always match the integration limits to the support of $f(x)$, or the extra region contributes zero density but can mask errors."
+  ],
+  "untested_variants": [
+    "Finding the MGF of a piecewise-defined density (e.g., $f(x) = x$ for $0 \\le x \\le 1$ and $f(x) = 2-x$ for $1 < x \\le 2$) that requires splitting the integral at an interior breakpoint.",
+    "Using the MGF uniqueness theorem to identify a distribution: given $M_X(t) = e^{\\mu t + \\sigma^2 t^2/2}$, recognizing this as the normal $N(\\mu, \\sigma^2)$ MGF without deriving it from scratch.",
+    "Deriving the MGF of a gamma distribution $\\text{Gamma}(\\alpha, \\beta)$ and using it to show that the sum of independent exponential random variables follows a gamma distribution.",
+    "Computing the MGF of a mixture distribution where $f(x) = p f_1(x) + (1-p) f_2(x)$, requiring students to apply linearity of expectation to combine two known MGFs."
+  ]
+}

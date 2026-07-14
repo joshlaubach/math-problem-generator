@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_044",
+  "topic_name": "Complex and Repeated Eigenvalues",
+  "generated_at": "2026-05-13T20:54:55.256228+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve a linear system $\\mathbf{x}' = A\\mathbf{x}$ when the matrix $A$ has two distinct real eigenvalues: find the eigenvalues, find the eigenvectors, write the general solution as a linear combination. But what happens when the characteristic equation gives you a negative discriminant, producing complex eigenvalues like $\\lambda = 3 \\pm 2i$? Or what if there's a repeated eigenvalue $\\lambda = 4$ with only one independent eigenvector? Neither case fits the formula you learned, so how do you build a real-valued general solution?",
+  "concept": "When a real matrix has complex eigenvalues or a defective repeated eigenvalue, the standard eigenvector recipe breaks down or produces complex-valued solutions we must convert. For complex eigenvalues $\\lambda = \\alpha \\pm \\beta i$, we take one complex eigenvector solution and split it into real and imaginary parts to get two real solutions. For a repeated eigenvalue $\\lambda$ with only one eigenvector $\\mathbf{v}$, we introduce a generalized eigenvector $\\mathbf{w}$ satisfying $(A - \\lambda I)\\mathbf{w} = \\mathbf{v}$, producing the second solution $e^{\\lambda t}(\\mathbf{w} + t\\mathbf{v})$.",
+  "anatomy": "In the complex eigenvalue case, the key components are: the real part $\\alpha$ and imaginary part $\\beta$ of the eigenvalue $\\lambda = \\alpha + \\beta i$, which control the exponential growth/decay and oscillation frequency respectively; the complex eigenvector $\\mathbf{v} = \\mathbf{a} + \\mathbf{b}i$, whose real part $\\mathbf{a}$ and imaginary part $\\mathbf{b}$ form the two linearly independent real solution vectors via $e^{\\alpha t}(\\mathbf{a}\\cos\\beta t - \\mathbf{b}\\sin\\beta t)$ and $e^{\\alpha t}(\\mathbf{a}\\sin\\beta t + \\mathbf{b}\\cos\\beta t)$. In the repeated eigenvalue case, the components are: the repeated eigenvalue $\\lambda$, the ordinary eigenvector $\\mathbf{v}$ satisfying $(A-\\lambda I)\\mathbf{v}=\\mathbf{0}$, and the generalized eigenvector $\\mathbf{w}$ satisfying $(A-\\lambda I)\\mathbf{w}=\\mathbf{v}$, which together build the second solution.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 1 & -2 \\\\ 4 & -3 \\end{pmatrix}, \\quad \\mathbf{x}' = A\\mathbf{x}",
+      "description_latex": "We are given this system and need to find the general solution. Our first step is always to find the eigenvalues by solving $\\det(A - \\lambda I) = 0$, which will tell us which case we are in.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(A - \\lambda I) = (1-\\lambda)(-3-\\lambda) + 8 = \\lambda^2 + 2\\lambda + 5 = 0 \\implies \\lambda = -1 \\pm 2i",
+      "description_latex": "Expanding the determinant gives a quadratic with negative discriminant $4 - 20 = -16$, so the eigenvalues are complex: $\\alpha = -1$ and $\\beta = 2$. We only need to work with one eigenvalue, say $\\lambda = -1 + 2i$, because the conjugate will automatically give us the second real solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(A - (-1+2i)I)\\mathbf{v} = \\begin{pmatrix} 2-2i & -2 \\\\ 4 & -2-2i \\end{pmatrix}\\mathbf{v} = \\mathbf{0} \\implies \\mathbf{v} = \\begin{pmatrix} 1 \\\\ 1-i \\end{pmatrix}",
+      "description_latex": "We substitute $\\lambda = -1 + 2i$ into $A - \\lambda I$ and row-reduce to find the eigenvector. From the first row, $v_1 = v_2/(1-i) \\cdot (1-i)$, and choosing $v_1 = 1$ gives $v_2 = 1 - i$. We now split $\\mathbf{v}$ into real part $\\mathbf{a} = \\begin{pmatrix}1\\\\1\\end{pmatrix}$ and imaginary part $\\mathbf{b} = \\begin{pmatrix}0\\\\-1\\end{pmatrix}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{x}_1 = e^{-t}\\left[\\mathbf{a}\\cos 2t - \\mathbf{b}\\sin 2t\\right] = e^{-t}\\begin{pmatrix}\\cos 2t \\\\ \\cos 2t + \\sin 2t\\end{pmatrix}",
+      "description_latex": "The first real solution is formed by combining $\\mathbf{a}$ and $\\mathbf{b}$ with cosines and sines multiplied by the exponential $e^{\\alpha t} = e^{-t}$. Notice the pattern: it is $e^{\\alpha t}(\\mathbf{a}\\cos\\beta t - \\mathbf{b}\\sin\\beta t)$, so the imaginary part $\\mathbf{b}$ appears with a minus sign in front of the sine.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{x}(t) = c_1 e^{-t}\\begin{pmatrix}\\cos 2t \\\\ \\cos 2t + \\sin 2t\\end{pmatrix} + c_2 e^{-t}\\begin{pmatrix}\\sin 2t \\\\ \\sin 2t - \\cos 2t\\end{pmatrix}",
+      "description_latex": "The second real solution uses the pattern $e^{\\alpha t}(\\mathbf{a}\\sin\\beta t + \\mathbf{b}\\cos\\beta t)$, giving the vector $e^{-t}\\begin{pmatrix}\\sin 2t \\\\ \\sin 2t - \\cos 2t\\end{pmatrix}$. The general solution is the linear combination of both real solutions, and both constants $c_1, c_2$ are determined by initial conditions.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 3 & 1 \\\\ 0 & 3 \\end{pmatrix}, \\quad \\text{find the general solution of } \\mathbf{x}' = B\\mathbf{x}",
+      "description_latex": "This matrix is upper triangular, so we can read off the eigenvalues immediately from the diagonal. Notice that $\\lambda = 3$ is a repeated eigenvalue, so we need to check whether we have two independent eigenvectors or just one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(B - 3I)\\mathbf{v} = \\begin{pmatrix} 0 & 1 \\\\ 0 & 0 \\end{pmatrix}\\mathbf{v} = \\mathbf{0} \\implies \\mathbf{v} = \\begin{pmatrix}1\\\\0\\end{pmatrix}",
+      "description_latex": "We compute $B - 3I$ and find its null space. The matrix has rank one, so there is only one free variable and only one independent eigenvector, confirming we are in the defective repeated eigenvalue case and need a generalized eigenvector.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(B - 3I)\\mathbf{w} = \\mathbf{v} = \\begin{pmatrix}1\\\\0\\end{pmatrix}",
+      "description_latex": "To find the generalized eigenvector $\\mathbf{w}$, you need to solve the system $(B - 3I)\\mathbf{w} = \\mathbf{v}$. Set up this linear system and find a vector $\\mathbf{w}$ that satisfies it \u2014 remember, $\\mathbf{w}$ is NOT in the null space of $B - 3I$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathbf{x}(t) = c_1 e^{3t}\\begin{pmatrix}1\\\\0\\end{pmatrix} + c_2 e^{3t}\\left(t\\begin{pmatrix}1\\\\0\\end{pmatrix} + \\begin{pmatrix}0\\\\1\\end{pmatrix}\\right)",
+      "description_latex": "Using $\\mathbf{w} = \\begin{pmatrix}0\\\\1\\end{pmatrix}$, write the complete general solution in the form $c_1 e^{\\lambda t}\\mathbf{v} + c_2 e^{\\lambda t}(t\\mathbf{v} + \\mathbf{w})$. Notice how the $t$ factor appears only in the second solution, multiplying the original eigenvector.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "The matrix $A = \\begin{pmatrix} 0 & -1 \\\\ 1 & 0 \\end{pmatrix}$ has eigenvalues $\\lambda = \\pm i$. Find the general solution of $\\mathbf{x}' = A\\mathbf{x}$.",
+      "answer_latex": "\\mathbf{x}(t) = c_1 \\begin{pmatrix}\\cos t \\\\ \\sin t\\end{pmatrix} + c_2 \\begin{pmatrix}-\\sin t \\\\ \\cos t\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Find the general solution of $\\mathbf{x}' = A\\mathbf{x}$ where $A = \\begin{pmatrix} 2 & -5 \\\\ 1 & -2 \\end{pmatrix}$.",
+      "answer_latex": "\\text{Eigenvalues: } \\lambda = \\pm i. \\text{ General solution: } \\mathbf{x}(t) = c_1\\begin{pmatrix}2\\cos t + \\sin t\\\\ \\cos t\\end{pmatrix} + c_2\\begin{pmatrix}2\\sin t - \\cos t\\\\ \\sin t\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Find the general solution of $\\mathbf{x}' = A\\mathbf{x}$ where $A = \\begin{pmatrix} 5 & 1 \\\\ 0 & 5 \\end{pmatrix}$.",
+      "answer_latex": "\\mathbf{x}(t) = c_1 e^{5t}\\begin{pmatrix}1\\\\0\\end{pmatrix} + c_2 e^{5t}\\left(t\\begin{pmatrix}1\\\\0\\end{pmatrix} + \\begin{pmatrix}0\\\\1\\end{pmatrix}\\right)"
+    },
+    {
+      "prompt_latex": "Solve the initial value problem $\\mathbf{x}' = A\\mathbf{x}$, $\\mathbf{x}(0) = \\begin{pmatrix}3\\\\1\\end{pmatrix}$, where $A = \\begin{pmatrix} 1 & -1 \\\\ 1 & 3 \\end{pmatrix}$. Note that $A$ has a repeated eigenvalue.",
+      "answer_latex": "\\lambda = 2 \\text{ (repeated)}, \\mathbf{v} = \\begin{pmatrix}1\\\\-1\\end{pmatrix}, \\mathbf{w} = \\begin{pmatrix}1\\\\0\\end{pmatrix}; \\quad \\mathbf{x}(t) = e^{2t}\\begin{pmatrix}3 - t\\\\1 + t\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Two coupled oscillators satisfy $\\mathbf{x}' = \\begin{pmatrix}-1 & 2 \\\\ -2 & -1\\end{pmatrix}\\mathbf{x}$. Describe the long-run behavior of all solutions and justify using the eigenvalues.",
+      "answer_latex": "\\text{Eigenvalues are } \\lambda = -1 \\pm 2i \\text{ with } \\alpha = -1 < 0\\text{, so all solutions spiral into the origin (stable spiral); every solution } \\to \\mathbf{0} \\text{ as } t \\to \\infty."
+    }
+  ],
+  "common_mistakes": [
+    "Students often apply the real solution formulas $e^{\\alpha t}(\\mathbf{a}\\cos\\beta t - \\mathbf{b}\\sin\\beta t)$ and $e^{\\alpha t}(\\mathbf{a}\\sin\\beta t + \\mathbf{b}\\cos\\beta t)$ with the signs swapped, writing $+\\mathbf{b}\\sin\\beta t$ in the first solution. Always remember the minus sign in the cosine solution comes directly from taking the real part of $e^{i\\beta t}\\mathbf{v}$, and mixing up signs produces a solution that does not satisfy the ODE.",
+    "When handling a repeated eigenvalue, students sometimes try to use $\\mathbf{w}$ as if it were an ordinary eigenvector (satisfying $(A-\\lambda I)\\mathbf{w}=\\mathbf{0}$), which is impossible since there is only one independent eigenvector. The generalized eigenvector $\\mathbf{w}$ must satisfy $(A-\\lambda I)\\mathbf{w}=\\mathbf{v}$, not the homogeneous equation, and the second solution includes the term $t e^{\\lambda t}\\mathbf{v}$ \u2014 forgetting this $t$ factor is a critical error.",
+    "Students frequently discard the complex eigenvector computation after finding the eigenvalues and guess that $\\mathbf{a} = \\begin{pmatrix}1\\\\0\\end{pmatrix}$ or use the wrong vector for $\\mathbf{b}$. The vectors $\\mathbf{a}$ and $\\mathbf{b}$ must be the actual real and imaginary parts of the eigenvector corresponding to $\\lambda = \\alpha + \\beta i$, so you must always carry out the full eigenvector calculation before writing the real solutions."
+  ],
+  "untested_variants": [
+    "A $3 \\times 3$ system with one real eigenvalue and one complex conjugate pair, requiring combining both techniques in a single general solution.",
+    "A repeated eigenvalue with algebraic multiplicity 2 and geometric multiplicity 2 (i.e., a complete eigenvalue), where the standard formula applies without needing a generalized eigenvector \u2014 students must recognize this case does NOT require the extra $t$ term.",
+    "Computing the matrix exponential $e^{At}$ using the Jordan form for a defective repeated eigenvalue, rather than expressing the general solution in terms of initial conditions.",
+    "A $3 \\times 3$ matrix with a repeated eigenvalue of algebraic multiplicity 3 and a Jordan block of size 3, requiring two generalized eigenvectors and solutions involving both $t$ and $t^2$ factors."
+  ]
+}

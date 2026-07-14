@@ -1,0 +1,76 @@
+{
+  "topic_id": "pc_037",
+  "topic_name": "Area of a Triangle (SAS and Heron's Formula)",
+  "generated_at": "2026-05-12T23:50:37.839319+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to find the area of a triangle using the formula $A = \\frac{1}{2} \\cdot base \\cdot height$, but this requires you to know the height \u2014 a value that is often not given directly. Imagine you're a surveyor who knows two sides of a triangular plot of land and the angle between them, or you know only the three side lengths but no angles at all. How would you find the area then?",
+  "concept": "When the height of a triangle is not directly given, we can still compute the area using other known measurements. If two sides and the included angle (SAS) are known, the formula $A = \\frac{1}{2}ab\\sin C$ gives the area directly, where $a$ and $b$ are two sides and $C$ is the angle between them. If all three sides are known, Heron's Formula $A = \\sqrt{s(s-a)(s-b)(s-c)}$ applies, where $s = \\frac{a+b+c}{2}$ is the semi-perimeter.",
+  "anatomy": "In the SAS formula $A = \\frac{1}{2}ab\\sin C$, the values $a$ and $b$ are the two known side lengths, and $C$ is the included angle \u2014 meaning it must be the angle formed between sides $a$ and $b$, not just any angle. In Heron's Formula $A = \\sqrt{s(s-a)(s-b)(s-c)}$, the values $a$, $b$, and $c$ are the three side lengths of the triangle, and $s = \\frac{a+b+c}{2}$ is called the semi-perimeter, which is simply half the total perimeter. The semi-perimeter acts as a balancing center from which each side's 'deviation' $(s-a)$, $(s-b)$, $(s-c)$ is measured inside the square root.",
+  "worked_example": [
+    {
+      "expression_latex": "a = 7, \\quad b = 10, \\quad C = 42^\\circ",
+      "description_latex": "We are given two sides and the included angle, so we will use the SAS area formula. Notice that $C = 42^\\circ$ is the angle sitting directly between the sides of length 7 and 10, which is exactly the condition the formula requires.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\frac{1}{2}ab\\sin C = \\frac{1}{2}(7)(10)\\sin(42^\\circ)",
+      "description_latex": "We substitute $a = 7$, $b = 10$, and $C = 42^\\circ$ directly into $A = \\frac{1}{2}ab\\sin C$. The $\\frac{1}{2}$ and the product $ab$ handle the base-times-height geometry, while $\\sin C$ effectively extracts the perpendicular height component from the angle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = 35\\sin(42^\\circ) \\approx 35(0.6691) \\approx 23.42 \\text{ square units}",
+      "description_latex": "We first simplify $\\frac{1}{2}(7)(10) = 35$, then evaluate $\\sin(42^\\circ) \\approx 0.6691$ using a calculator set to degree mode. Multiplying gives the area, which we round to two decimal places.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "a = 5, \\quad b = 9, \\quad c = 11",
+      "description_latex": "All three sides are given and no angle is provided, so we will use Heron's Formula. Our first task is to compute the semi-perimeter $s$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "s = \\frac{5 + 9 + 11}{2} = \\frac{25}{2} = 12.5",
+      "description_latex": "We add all three sides and divide by 2 to get $s = 12.5$. Now we need to form the three factors $(s-a)$, $(s-b)$, and $(s-c)$ and substitute everything into Heron's Formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using $s = 12.5$, compute $(s-a) = 12.5 - 5$, $(s-b) = 12.5 - 9$, and $(s-c) = 12.5 - 11$, then evaluate $A = \\sqrt{s(s-a)(s-b)(s-c)}$ and give your answer rounded to two decimal places.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the area of a triangle with $a = 6$, $b = 8$, and included angle $C = 30^\\circ$.",
+      "answer_latex": "A = \\frac{1}{2}(6)(8)\\sin(30^\\circ) = 24(0.5) = 12 \\text{ square units}"
+    },
+    {
+      "prompt_latex": "Find the area of a triangle with sides $a = 4$, $b = 13$, and included angle $C = 110^\\circ$. Round to two decimal places.",
+      "answer_latex": "A = \\frac{1}{2}(4)(13)\\sin(110^\\circ) \\approx 26(0.9397) \\approx 24.43 \\text{ square units}"
+    },
+    {
+      "prompt_latex": "Find the area of a triangle with sides $a = 6$, $b = 8$, $c = 10$ using Heron's Formula.",
+      "answer_latex": "s = 12, \\quad A = \\sqrt{12(6)(4)(2)} = \\sqrt{576} = 24 \\text{ square units}"
+    },
+    {
+      "prompt_latex": "A triangle has sides $a = 7$, $b = 15$, and $c = 12$. Use Heron's Formula to find the area, then use the SAS formula with the Law of Cosines to find angle $C$ (opposite side $c = 12$) and verify the area. Round to two decimal places.",
+      "answer_latex": "s = 17, \\quad A = \\sqrt{17(10)(2)(5)} = \\sqrt{1700} \\approx 41.23 \\text{ square units}"
+    },
+    {
+      "prompt_latex": "A triangular garden plot has two fences of length 30 m and 45 m meeting at an angle of $65^\\circ$. Find the area of the garden plot in square meters, rounded to the nearest whole number.",
+      "answer_latex": "A = \\frac{1}{2}(30)(45)\\sin(65^\\circ) \\approx 675(0.9063) \\approx 612 \\text{ square meters}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use an angle that is NOT between the two given sides when applying $A = \\frac{1}{2}ab\\sin C$. The formula requires the included angle \u2014 if you label your sides $a$ and $b$, then $C$ must be the angle formed at the vertex where those two sides meet, not an angle opposite one of them.",
+    "When using Heron's Formula, students forget to compute the semi-perimeter $s = \\frac{a+b+c}{2}$ and instead plug the full perimeter into the formula, inflating the result dramatically. Always halve the sum of the sides before forming the factors $(s-a)$, $(s-b)$, and $(s-c)$.",
+    "Students evaluate $\\sin C$ with their calculator in radian mode rather than degree mode when the angle is given in degrees, producing a wildly incorrect area. Always check your calculator's angle mode before evaluating any trigonometric function in an application problem."
+  ],
+  "untested_variants": [
+    "Finding area when the triangle is given in oblique form with the SAS formula and the included angle is obtuse, requiring careful attention to the fact that $\\sin$ of an obtuse angle is still positive.",
+    "Using Heron's Formula when one of the $(s - a)$, $(s-b)$, or $(s-c)$ factors is zero or negative, which signals that the three given side lengths cannot form a valid triangle (triangle inequality violation).",
+    "Working backwards: given the area and two sides, using the SAS formula to solve for the included angle $C = \\arcsin\\!\\left(\\frac{2A}{ab}\\right)$, which requires inverse trigonometry.",
+    "Applying the area formulas in coordinate geometry contexts where the vertices are given as $(x, y)$ points and the student must first compute side lengths using the distance formula before applying Heron's Formula."
+  ]
+}

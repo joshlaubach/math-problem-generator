@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_040",
+  "topic_name": "Modeling with Exponential and Logarithmic Functions",
+  "generated_at": "2026-05-13T20:37:16.654252+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to evaluate exponential expressions like $2^3 = 8$ and how to take a logarithm like $\\log_{10}(1000) = 3$. But what happens when a real-world situation gives you messy data \u2014 say, a population that doubles every 14 years, or a radioactive sample that loses half its mass every 5730 years \u2014 and you need to build the equation, then use it to answer questions about future or past values? You can evaluate known functions, but can you construct the right model from scratch and solve for an unknown time or quantity?",
+  "concept": "Modeling with exponential and logarithmic functions means writing an equation that fits a real-world growth or decay process, then solving it by applying logarithms or exponential rules. The general exponential model is $y = a \\cdot b^t$, where $a$ is the starting value, $b$ is the growth or decay factor, and $t$ is time. When the rate $r$ is given as a percent, we write $b = 1 + r$ (growth) or $b = 1 - r$ (decay). Logarithms are the tool we reach for whenever the unknown is trapped in an exponent.",
+  "anatomy": "Every model in this topic has four key parts. The initial value $a$ is the quantity at time $t = 0$ \u2014 it anchors the entire curve. The base $b$ encodes how the quantity changes per unit of time: if $b > 1$ the model grows, and if $0 < b < 1$ it decays. The exponent $t$ is the independent variable representing elapsed time (in years, hours, half-lives, etc.). Finally, the output $y$ is the quantity you are measuring \u2014 population, mass, money, intensity \u2014 at time $t$. When you solve for $t$, you isolate the exponential expression and then apply $\\log_b$ (or the natural log $\\ln$) to both sides to bring $t$ down from the exponent.",
+  "worked_example": [
+    {
+      "expression_latex": "y = a \\cdot b^t, \\quad a = 500, \\; b = 1.06, \\; t = ?",
+      "description_latex": "We are setting up the model. A town has a population of 500 and grows at 6% per year, so the initial value is $a = 500$ and the base is $b = 1 + 0.06 = 1.06$. We want to find $t$, the number of years until the population reaches 1{,}000, so we write $1000 = 500 \\cdot 1.06^t$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{1000}{500} = 1.06^t \\implies 2 = 1.06^t",
+      "description_latex": "We isolate the exponential expression by dividing both sides by 500, leaving $2 = 1.06^t$. This step is crucial because a logarithm can only 'reach' the exponent once the base-and-power expression stands alone on one side.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ln(2) = t \\cdot \\ln(1.06)",
+      "description_latex": "We apply the natural logarithm to both sides and then use the Power Rule of logarithms \u2014 $\\ln(b^t) = t \\ln(b)$ \u2014 to bring $t$ down as a coefficient. Any logarithm base works here; $\\ln$ is simply the most convenient choice on a calculator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t = \\frac{\\ln(2)}{\\ln(1.06)} = \\frac{0.6931}{0.05827} \\approx 11.9",
+      "description_latex": "We solve for $t$ by dividing both sides by $\\ln(1.06)$. The result tells us that the population will double in approximately $11.9$ years, which is a specific, meaningful answer to the original question.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y = a \\cdot b^t, \\quad a = 200, \\; b = 0.85, \\; y = 50",
+      "description_latex": "A sample of 200 grams of a substance decays at 15% per hour. We want to know when only 50 grams remain. Because the substance loses 15% per hour, the base is $b = 1 - 0.15 = 0.85$, and our equation is $50 = 200 \\cdot 0.85^t$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "0.25 = 0.85^t",
+      "description_latex": "We divide both sides by 200 to isolate the exponential expression, arriving at $0.25 = 0.85^t$. This mirrors exactly what we did in the worked example \u2014 clearing the coefficient first is always the right move before applying a logarithm.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply the natural logarithm to both sides and use the Power Rule to bring $t$ down as a coefficient. Then solve for $t$ by dividing. What is $t$, rounded to the nearest tenth of an hour?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A bank account starts at \\$1{,}000 and earns 5\\% interest per year modeled by $y = 1000 \\cdot 1.05^t$. What is the balance after $t = 10$ years? Round to the nearest cent.",
+      "answer_latex": "y = 1000 \\cdot 1.05^{10} \\approx \\$1{,}628.89"
+    },
+    {
+      "prompt_latex": "A population of bacteria starts at 300 and triples every hour. Write the exponential model and find the population after 4 hours.",
+      "answer_latex": "y = 300 \\cdot 3^t; \\quad y(4) = 300 \\cdot 81 = 24{,}300 \\text{ bacteria}"
+    },
+    {
+      "prompt_latex": "A car worth \\$20{,}000 depreciates at 12\\% per year. How many years until the car is worth \\$10{,}000? Round to the nearest tenth.",
+      "answer_latex": "t = \\frac{\\ln(0.5)}{\\ln(0.88)} \\approx 5.4 \\text{ years}"
+    },
+    {
+      "prompt_latex": "An investment grows continuously at rate $r = 0.04$ using the model $y = 5000 e^{0.04t}$. Using the fact that $\\ln$ and $e$ are inverses, find the time $t$ at which the investment reaches \\$8{,}000$. Round to the nearest tenth.",
+      "answer_latex": "t = \\frac{\\ln(1.6)}{0.04} \\approx 11.8 \\text{ years}"
+    },
+    {
+      "prompt_latex": "Scientists measure the loudness of sound using the logarithmic model $L = 10 \\log_{10}\\!\\left(\\frac{I}{I_0}\\right)$ where $I_0 = 10^{-12}$ W/m$^2$. A sound has intensity $I = 10^{-4}$ W/m$^2$. Find its loudness $L$ in decibels.",
+      "answer_latex": "L = 10 \\log_{10}\\!\\left(10^{8}\\right) = 10 \\cdot 8 = 80 \\text{ dB}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $b = r$ instead of $b = 1 + r$ (or $b = 1 - r$), forgetting that the base must include the original 100% of the quantity. For example, 6% annual growth gives $b = 1.06$, not $b = 0.06$. Always ask: does $b > 1$ for growth and $0 < b < 1$ for decay?",
+    "After applying a logarithm, students write $\\ln(a \\cdot b^t) = \\ln(a) + t\\ln(b)$ correctly but then forget to divide out $\\ln(b)$ when solving for $t$, leaving a $\\ln(b)$ factor multiplied on the right side. Remember: to isolate $t$, you must divide both sides by $\\ln(b)$ as the final algebraic step.",
+    "When the problem gives a doubling time or half-life, students plug the half-life directly in as $b$ instead of using it to first solve for $b$. For example, a half-life of 5 years means $0.5 = b^5$, so $b = 0.5^{1/5} \\approx 0.8706$ \u2014 that value of $b$, not 5 and not 0.5, goes into the model."
+  ],
+  "untested_variants": [
+    "Logistic growth models of the form $y = \\frac{L}{1 + Ce^{-kt}}$, which describe populations that level off at a carrying capacity \u2014 a common exam context not addressed in the problems above.",
+    "Finding the growth or decay rate $r$ (or base $b$) given two data points $(t_1, y_1)$ and $(t_2, y_2)$, which requires dividing one equation by the other before solving \u2014 a harder algebraic setup not practiced above.",
+    "Converting between the discrete model $y = a(1+r)^t$ and the continuous model $y = ae^{kt}$ by matching the two forms, which requires setting $e^k = 1 + r$ and solving for $k$.",
+    "Using a logarithmic regression model (e.g., $y = a + b\\ln x$) fit to a data table to make predictions \u2014 a statistics-flavored variant that combines logarithm evaluation with interpreting calculator output."
+  ]
+}

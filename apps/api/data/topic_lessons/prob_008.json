@@ -1,0 +1,76 @@
+{
+  "topic_id": "prob_008",
+  "topic_name": "Counting with Repetition",
+  "generated_at": "2026-05-13T20:25:57.938118+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to count sequences when every choice must be different \u2014 like arranging 3 students from a class of 10, where no student can repeat. But what if repetition is allowed? For example, how many 4-digit PIN codes are possible on a keypad where you can use the same digit more than once? The tools you have right now only handle the no-repetition case, so how do we count when repeats are permitted?",
+  "concept": "Counting with repetition means that at each position in a sequence, every option is available regardless of what was chosen before. In plain English: you can reuse items. Formally, if you have $n$ distinct options and you are making $r$ independent choices (each with $n$ possibilities), the total number of sequences is $n^r$. This is sometimes called the Multiplication Principle applied uniformly, because the number of choices at every stage is always $n$.",
+  "anatomy": "The formula $n^r$ has two key components. The base $n$ is the size of the option set \u2014 the number of distinct items or values available at each individual choice. The exponent $r$ is the number of positions or selections being made \u2014 how many times you draw from that set. The crucial structural feature is independence: because repetition is allowed, each of the $r$ choices is completely independent of the others, so the counts multiply rather than decrease as they would in a permutation without repetition.",
+  "worked_example": [
+    {
+      "expression_latex": "n = 10,\\quad r = 4",
+      "description_latex": "We start by identifying the two components of our formula. A standard PIN uses digits 0 through 9, giving us $n = 10$ options at each position, and the PIN has $r = 4$ positions. Because any digit can repeat, each position is chosen independently from the full set of 10.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Total PINs} = n^r = 10^4",
+      "description_latex": "We apply the repetition-counting formula directly: multiply $n$ by itself $r$ times, which means raising $n$ to the power $r$. We write $10^4$ because each of the 4 positions independently has 10 choices, and independent choices multiply together.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "10^4 = 10{,}000",
+      "description_latex": "Evaluating $10^4$ gives us 10,000 possible PIN codes. This confirms our intuition \u2014 PINs range from 0000 to 9999, which is exactly 10,000 distinct values \u2014 and shows the formula produces a sensible, verifiable answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "n = 26,\\quad r = 3",
+      "description_latex": "A combination lock uses 3-letter codes where each letter can be any of the 26 letters in the alphabet, and letters can repeat. We identify $n = 26$ (the alphabet size) and $r = 3$ (the number of positions). Now we need to set up and evaluate the counting formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Total codes} = 26^3",
+      "description_latex": "Write the total number of codes using the repetition formula $n^r$. Because each of the 3 positions independently draws from all 26 letters, we raise 26 to the power 3.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Evaluate $26^3$ to find the total number of possible 3-letter codes. Calculate this value and write your answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{How many 2-digit sequences can be formed from the digits } \\{1, 2, 3, 4, 5\\} \\text{ if repetition is allowed?}",
+      "answer_latex": "5^2 = 25"
+    },
+    {
+      "prompt_latex": "\\text{A true/false quiz has 6 questions. How many different ways can a student answer the quiz?}",
+      "answer_latex": "2^6 = 64"
+    },
+    {
+      "prompt_latex": "\\text{How many 5-character passwords can be made using only lowercase letters (a\u2013z) if repetition is allowed?}",
+      "answer_latex": "26^5 = 11{,}881{,}376"
+    },
+    {
+      "prompt_latex": "\\text{A bag contains 4 colored balls (red, blue, green, yellow). You draw a ball, record its color, and replace it. You do this 3 times. How many distinct ordered records are possible? Compare this count to the number of ordered records if you do NOT replace the ball each time.}",
+      "answer_latex": "\\text{With replacement: } 4^3 = 64;\\quad \\text{Without replacement: } 4 \\times 3 \\times 2 = 24"
+    },
+    {
+      "prompt_latex": "\\text{A phone number consists of a 3-digit area code followed by a 7-digit number. Each digit is chosen from 0\u20139 with repetition allowed. How many distinct phone numbers are possible?}",
+      "answer_latex": "10^{10} = 10{,}000{,}000{,}000"
+    }
+  ],
+  "common_mistakes": [
+    "Students use $n \\times r$ (multiplication without exponentiation) instead of $n^r$. This confuses the formula for independent repeated choices with simple scaling \u2014 remember, each additional position multiplies the entire running count by $n$, which is why we need an exponent, not a product.",
+    "Students subtract 1 from $n$ for each subsequent position as they would in a no-repetition permutation, writing $n \\times (n-1) \\times (n-2) \\times \\cdots$ even when the problem says repetition is allowed. Always check whether items are being replaced or reused before deciding which counting rule to apply.",
+    "Students confuse which quantity is $n$ and which is $r$, and compute $r^n$ instead of $n^r$. A helpful check: $n$ is always the size of your option set (what you choose FROM), and $r$ is always the number of selections (how many times you choose), so the base should be the larger option set and the exponent should be the number of positions."
+  ],
+  "untested_variants": [
+    "Counting strings or sequences where some positions have different numbers of options (e.g., a password where the first character must be a letter but the remaining characters can be letters or digits).",
+    "Using the complement principle together with repetition counting \u2014 for example, counting sequences that contain at least one repeated element by subtracting no-repetition permutations from the total with-repetition count.",
+    "Repetition problems involving non-uniform sets, such as rolling two different dice with different numbers of faces (e.g., a 6-sided and an 8-sided die) and counting total outcomes.",
+    "Counting ordered $r$-tuples drawn from a multiset or a set with restrictions on how many times each specific element can appear (bounded repetition), which goes beyond simple $n^r$."
+  ]
+}

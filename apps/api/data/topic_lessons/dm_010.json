@@ -1,0 +1,86 @@
+{
+  "topic_id": "dm_010",
+  "topic_name": "Indexed Families of Sets (H)",
+  "generated_at": "2026-05-13T20:12:21.864105+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to work with a handful of sets like $A$, $B$, and $C$ and take their unions or intersections. But what happens when you need to talk about infinitely many sets at once \u2014 say, one set for every natural number, or one for every real number in an interval? Writing them out one by one is impossible, and listing $A_1, A_2, A_3, \\ldots$ only gets you so far without a rigorous framework. How do we define, index, and operate on an entire collection of sets in one clean notation?",
+  "concept": "An indexed family of sets is a collection of sets assigned to each element of some index set $I$. Formally, for each $i \\in I$ we associate a set $A_i$; together these form the family $\\{A_i\\}_{i \\in I}$. The union is $\\bigcup_{i \\in I} A_i = \\{x : x \\in A_i \\text{ for some } i \\in I\\}$ and the intersection is $\\bigcap_{i \\in I} A_i = \\{x : x \\in A_i \\text{ for all } i \\in I\\}$.",
+  "anatomy": "An indexed family has three distinct structural parts. The index set $I$ is the 'label collection' \u2014 it can be finite ($I = \\{1,2,3\\}$), countably infinite ($I = \\mathbb{N}$), or uncountable ($I = \\mathbb{R}$). The indexed sets $A_i$ are the individual sets assigned to each label $i$; they can overlap, be disjoint, or even be equal to one another. The indexing function is the rule $i \\mapsto A_i$ that connects each index to its set \u2014 this is what makes the family a genuine function, not just a bag of sets.",
+  "worked_example": [
+    {
+      "expression_latex": "I = \\mathbb{N},\\quad A_n = \\{n, n+1, n+2\\} \\text{ for each } n \\in \\mathbb{N}",
+      "description_latex": "We start by identifying the index set and the rule that defines each set. Here the index set is all natural numbers, and each index $n$ produces a set of three consecutive integers starting at $n$ \u2014 this gives us infinitely many sets packaged under one rule.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A_1 = \\{1,2,3\\},\\quad A_2 = \\{2,3,4\\},\\quad A_3 = \\{3,4,5\\}",
+      "description_latex": "Before computing anything, it helps to instantiate a few members of the family to see what we're working with. Notice that consecutive sets overlap \u2014 $A_1$ and $A_2$ share $\\{2,3\\}$ \u2014 which is a typical feature of indexed families and will affect our union and intersection.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bigcup_{n \\in \\mathbb{N}} A_n = \\{x \\in \\mathbb{N} : x \\in A_n \\text{ for some } n\\}",
+      "description_latex": "To find the union, we ask: which natural numbers appear in at least one $A_n$? Since $A_n = \\{n, n+1, n+2\\}$, every natural number $k$ appears in $A_k$ at the very latest, so every element of $\\mathbb{N}$ is covered.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bigcup_{n \\in \\mathbb{N}} A_n = \\mathbb{N}",
+      "description_latex": "We conclude the union is all of $\\mathbb{N}$. This is a good sanity check: when the index set is infinite and each $A_n$ contains $n$ itself, there's no natural number that can be left out, confirming our answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bigcap_{n \\in \\mathbb{N}} A_n = \\emptyset",
+      "description_latex": "For the intersection we ask: which elements belong to every $A_n$ simultaneously? Any candidate $k$ would need $k \\in A_n$ for all $n$, meaning $n \\leq k \\leq n+2$ for all $n \\in \\mathbb{N}$, but as $n$ grows beyond $k$ this fails \u2014 so no element survives, giving the empty set.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "I = \\{1,2,3,4\\},\\quad B_i = \\{x \\in \\mathbb{Z} : i \\leq x \\leq 2i\\}",
+      "description_latex": "We have a finite indexed family. Let's first write out each set explicitly by substituting $i = 1, 2, 3, 4$ into the rule $B_i = \\{x \\in \\mathbb{Z} : i \\leq x \\leq 2i\\}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B_1 = \\{1,2\\},\\; B_2 = \\{2,3,4\\},\\; B_3 = \\{3,4,5,6\\},\\; B_4 = \\{4,5,6,7,8\\}",
+      "description_latex": "Here are the four sets. Now you need to find the union $\\bigcup_{i=1}^{4} B_i$ and the intersection $\\bigcap_{i=1}^{4} B_i$. For the union, collect every integer that appears in at least one $B_i$; for the intersection, keep only integers present in all four sets.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute both $\\bigcup_{i=1}^{4} B_i$ and $\\bigcap_{i=1}^{4} B_i$. Write the union as a set of integers, then identify which integers \u2014 if any \u2014 are shared by every one of the four sets $B_1, B_2, B_3, B_4$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $I = \\{1,2,3\\}$ and $A_i = \\{i\\}$. Find $\\bigcup_{i \\in I} A_i$ and $\\bigcap_{i \\in I} A_i$.",
+      "answer_latex": "\\bigcup_{i \\in I} A_i = \\{1,2,3\\};\\quad \\bigcap_{i \\in I} A_i = \\emptyset"
+    },
+    {
+      "prompt_latex": "Let $I = \\mathbb{N}$ and $C_n = [0, \\tfrac{1}{n}]$ (closed real intervals). Find $\\bigcup_{n \\in \\mathbb{N}} C_n$ and $\\bigcap_{n \\in \\mathbb{N}} C_n$.",
+      "answer_latex": "\\bigcup_{n \\in \\mathbb{N}} C_n = (0,1] \\cup \\{0\\} = [0,1];\\quad \\bigcap_{n \\in \\mathbb{N}} C_n = \\{0\\}"
+    },
+    {
+      "prompt_latex": "Let $I = \\mathbb{Z}$ and $D_i = \\{i-1, i, i+1\\}$. Find $\\bigcup_{i \\in \\mathbb{Z}} D_i$ and $\\bigcap_{i \\in \\mathbb{Z}} D_i$.",
+      "answer_latex": "\\bigcup_{i \\in \\mathbb{Z}} D_i = \\mathbb{Z};\\quad \\bigcap_{i \\in \\mathbb{Z}} D_i = \\emptyset"
+    },
+    {
+      "prompt_latex": "Let $I = \\mathbb{N}$ and $E_n = \\{k \\in \\mathbb{N} : k \\text{ is divisible by } n\\}$. Using the definition of indexed intersection together with what you know about divisibility, determine $\\bigcap_{n=1}^{4} E_n$.",
+      "answer_latex": "\\bigcap_{n=1}^{4} E_n = \\{k \\in \\mathbb{N} : 12 \\mid k\\} = \\{12, 24, 36, \\ldots\\}"
+    },
+    {
+      "prompt_latex": "A company labels its product lines with index set $I = \\{A, B, C\\}$. Product line $A$ ships to cities $\\{$NYC, LA, Chicago$\\}$, line $B$ to $\\{$LA, Houston, Phoenix$\\}$, and line $C$ to $\\{$NYC, Phoenix, Dallas$\\}$. Which cities receive at least one product line (the union), and which receive all three (the intersection)?",
+      "answer_latex": "\\bigcup = \\{\\text{NYC, LA, Chicago, Houston, Phoenix, Dallas}\\};\\quad \\bigcap = \\emptyset"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the index set $I$ with the sets $A_i$ themselves, writing things like $A_I$ or treating $I$ as if it were one of the sets being intersected. Remember: $I$ is only the collection of labels; the actual objects being combined are the $A_i$, not $I$ itself.",
+    "When computing an infinite intersection like $\\bigcap_{n \\in \\mathbb{N}} A_n$, students check only finitely many sets (e.g., $A_1 \\cap A_2 \\cap A_3$) and forget that an element must survive in every $A_n$ for all $n$ \u2014 including arbitrarily large ones. Always argue why an element either survives for all $n$ or eventually fails for some large $n$.",
+    "Students incorrectly treat an indexed family as a set of distinct sets, concluding that if two indices give the same set ($A_i = A_j$ for $i \\neq j$) something is wrong. In fact repeated sets are perfectly valid \u2014 the indexing function need not be injective \u2014 and the union and intersection are computed normally without removing 'duplicates'."
+  ],
+  "untested_variants": [
+    "De Morgan's laws for indexed families: proving that $\\left(\\bigcup_{i \\in I} A_i\\right)^c = \\bigcap_{i \\in I} A_i^c$ for an arbitrary index set, which requires a formal two-direction set-membership proof.",
+    "Uncountable index sets such as $I = \\mathbb{R}$, for example $A_t = (t-1, t+1)$ for $t \\in \\mathbb{R}$, where computing the intersection requires reasoning about real analysis rather than discrete counting.",
+    "Partitions expressed as indexed families, where the sets $\\{A_i\\}_{i \\in I}$ are required to be pairwise disjoint and cover a universal set \u2014 combining indexed families with the definition of a partition.",
+    "Power-set indexed families, where the index set is $\\mathcal{P}(S)$ for some set $S$ and each $A_T$ is defined in terms of a subset $T \\subseteq S$, requiring students to reason about sets of sets as indices."
+  ]
+}

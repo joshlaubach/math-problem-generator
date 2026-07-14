@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_012",
+  "topic_name": "Kepler's Laws of Planetary Motion (H)",
+  "generated_at": "2026-05-13T19:58:27.129307+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to describe curves in space using vector functions, and you've seen how derivatives give velocity and acceleration. But here's something remarkable: the planets don't move in arbitrary paths \u2014 they trace out ellipses, they sweep equal areas in equal times, and the period of their orbit is locked to the size of that ellipse by a precise power law. Can you prove any of this from Newton's law of gravitation alone, using only the vector calculus you've been building?",
+  "concept": "Kepler's three laws describe the geometry and timing of planetary orbits. Derived from Newton's law of gravitation $\\mathbf{F} = -\\frac{GMm}{|\\mathbf{r}|^3}\\mathbf{r}$, they state: (1) orbits are ellipses with the sun at one focus, (2) the position vector sweeps equal areas in equal times, and (3) the square of the orbital period $T$ satisfies $T^2 = \\frac{4\\pi^2}{GM}a^3$, where $a$ is the semi-major axis.",
+  "anatomy": "The key components are: the position vector $\\mathbf{r}(t)$ from the sun to the planet; the gravitational constant $G$ and solar mass $M$ combined as $GM$ (the standard gravitational parameter); the angular momentum vector $\\mathbf{L} = m(\\mathbf{r} \\times \\mathbf{v})$, which is constant because the force is central; the areal velocity $\\frac{dA}{dt} = \\frac{|\\mathbf{L}|}{2m}$, the rate at which the position vector sweeps area; the semi-major axis $a$ and semi-minor axis $b$ of the elliptical orbit; the eccentricity $e$ satisfying $b^2 = a^2(1-e^2)$; and the orbital period $T$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{L} = m(\\mathbf{r} \\times \\mathbf{v}), \\quad \\frac{d\\mathbf{L}}{dt} = m(\\mathbf{r} \\times \\mathbf{a})",
+      "description_latex": "We begin by showing that angular momentum is conserved. Because the gravitational force is $\\mathbf{F} = m\\mathbf{a} = -\\frac{GMm}{|\\mathbf{r}|^3}\\mathbf{r}$, the acceleration $\\mathbf{a}$ is always parallel to $\\mathbf{r}$, so $\\mathbf{r} \\times \\mathbf{a} = \\mathbf{0}$. This means $\\frac{d\\mathbf{L}}{dt} = \\mathbf{0}$, so $\\mathbf{L}$ is a constant vector throughout the orbit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dA}{dt} = \\frac{1}{2}|\\mathbf{r} \\times \\mathbf{v}| = \\frac{|\\mathbf{L}|}{2m} = \\text{constant}",
+      "description_latex": "Since $\\mathbf{L}$ is constant, its magnitude $|\\mathbf{L}|$ is also constant, and $\\frac{dA}{dt}$ is constant. This is exactly Kepler's Second Law: the position vector sweeps area at a constant rate, meaning equal areas are swept in equal times. This holds for any central force, not just gravity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T = \\frac{\\text{Total Area}}{dA/dt} = \\frac{\\pi a b}{|\\mathbf{L}|/(2m)}",
+      "description_latex": "The total area of the ellipse is $\\pi a b$, and we integrate the constant areal velocity over one complete period $T$ to get that total area. Solving for $T$ gives $T = \\frac{2\\pi a b m}{|\\mathbf{L}|}$, which connects the geometry of the ellipse to the period.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|\\mathbf{L}|^2 = GMm^2 a(1-e^2) = GMm^2 \\frac{b^2}{a}",
+      "description_latex": "From the full derivation of the orbit equation (using the Binet equation or the eccentricity vector), one shows that the magnitude of angular momentum satisfies $|\\mathbf{L}|^2 = GMm^2 a(1-e^2)$. Since $b^2 = a^2(1-e^2)$, this simplifies to $|\\mathbf{L}|^2 = GMm^2 b^2/a$, a crucial algebraic relationship linking $\\mathbf{L}$, $a$, and $b$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T^2 = \\frac{4\\pi^2 a^2 b^2 m^2}{|\\mathbf{L}|^2} = \\frac{4\\pi^2 a^2 b^2 m^2}{GMm^2 b^2/a} = \\frac{4\\pi^2 a^3}{GM}",
+      "description_latex": "We square the expression for $T$ from Step 3 and substitute the result from Step 4 to eliminate $|\\mathbf{L}|^2$ and $b^2$. Everything cancels beautifully to give $T^2 = \\frac{4\\pi^2}{GM}a^3$, which is Kepler's Third Law: the square of the period is proportional to the cube of the semi-major axis, with the constant of proportionality depending only on the central mass.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T^2 = \\frac{4\\pi^2}{GM} a^3",
+      "description_latex": "We are given that Earth's orbital period is $T = 1$ year and its semi-major axis is $a = 1$ AU. We want to find the orbital period of Mars, whose semi-major axis is $a_{\\text{Mars}} = 1.524$ AU. We will use Kepler's Third Law by forming a ratio so that $GM$ cancels.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{T_{\\text{Mars}}^2}{T_{\\text{Earth}}^2} = \\frac{a_{\\text{Mars}}^3}{a_{\\text{Earth}}^3}",
+      "description_latex": "Because both planets orbit the same sun, $GM$ is identical for both, so when we divide one instance of the Third Law by the other, the $\\frac{4\\pi^2}{GM}$ factor cancels entirely. This ratio form is extremely useful in practice \u2014 write out this ratio and solve for $T_{\\text{Mars}}$ in terms of known quantities.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "T_{\\text{Mars}} = (1.524)^{3/2} \\approx 1.881 \\text{ years}",
+      "description_latex": "Taking the square root of both sides after substituting $T_{\\text{Earth}} = 1$ year and $a_{\\text{Earth}} = 1$ AU gives $T_{\\text{Mars}} = (1.524)^{3/2}$ years, which evaluates to approximately $1.881$ years, in excellent agreement with the observed Martian year of about $687$ days.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A planet orbits a star with semi-major axis $a = 4$ AU. Using Kepler's Third Law $T^2 = \\frac{4\\pi^2}{GM}a^3$ and the fact that Earth ($a=1$ AU, $T=1$ yr) orbits the same star, find the orbital period $T$ of the planet.",
+      "answer_latex": "T = 4^{3/2} = 8 \\text{ years}"
+    },
+    {
+      "prompt_latex": "Show that for any central force $\\mathbf{F} = f(r)\\hat{\\mathbf{r}}$, the angular momentum $\\mathbf{L} = m(\\mathbf{r} \\times \\mathbf{v})$ is conserved by computing $\\frac{d\\mathbf{L}}{dt}$ and explaining why it equals $\\mathbf{0}$.",
+      "answer_latex": "\\frac{d\\mathbf{L}}{dt} = m(\\mathbf{v}\\times\\mathbf{v}) + m(\\mathbf{r}\\times\\mathbf{a}) = \\mathbf{0} + m\\,f(r)(\\mathbf{r}\\times\\hat{\\mathbf{r}}) = \\mathbf{0} \\text{ since } \\mathbf{r}\\times\\hat{\\mathbf{r}}=\\mathbf{0}"
+    },
+    {
+      "prompt_latex": "A satellite orbits Earth in an elliptical orbit with semi-major axis $a = 8000$ km. Given $GM_{\\text{Earth}} = 3.986\\times 10^5 \\text{ km}^3/\\text{s}^2$, find the orbital period $T$ in seconds.",
+      "answer_latex": "T = 2\\pi\\sqrt{\\frac{a^3}{GM}} = 2\\pi\\sqrt{\\frac{(8000)^3}{3.986\\times10^5}} \\approx 7127 \\text{ s}"
+    },
+    {
+      "prompt_latex": "A comet has an orbital period of $T = 27$ years around the sun. Using Kepler's Third Law and the Earth\u2013Sun baseline, find the semi-major axis $a$ of the comet's orbit in AU. Then, given the perihelion distance (closest approach) is $r_{\\min} = 0.5$ AU, find the eccentricity $e$ of the orbit using $r_{\\min} = a(1-e)$.",
+      "answer_latex": "a = 27^{2/3} = 9 \\text{ AU}; \\quad e = 1 - \\frac{r_{\\min}}{a} = 1 - \\frac{0.5}{9} = \\frac{17}{18} \\approx 0.944"
+    },
+    {
+      "prompt_latex": "Two planets orbit the same star. Planet A has period $T_A$ and semi-major axis $a_A$. Planet B has semi-major axis $a_B = 9a_A$. What is the ratio $T_B / T_A$? If additionally the angular momentum magnitudes satisfy $|\\mathbf{L}_B| = k|\\mathbf{L}_A|$ for some constant $k$, explain in one sentence what physical quantity determines $k$.",
+      "answer_latex": "T_B/T_A = (a_B/a_A)^{3/2} = 9^{3/2} = 27; \\quad k \\text{ depends on each planet's mass, speed, and orbital shape (i.e., } |\\mathbf{L}| = m\\sqrt{GMa(1-e^2)}\\text{)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the semi-major axis $a$ with the orbital radius, applying Kepler's Third Law as if all orbits were circular. The law $T^2 = \\frac{4\\pi^2}{GM}a^3$ uses $a$, the semi-major axis of the ellipse \u2014 for a circle, $a$ equals the radius, but for an ellipse you must identify $a$ from the orbit's geometry, not just use any convenient distance.",
+    "When using the ratio form of Kepler's Third Law, students forget that both objects must orbit the same central body (same $GM$). If a problem mixes objects orbiting different stars or planets, $GM$ does not cancel and you must use the full form $T^2 = \\frac{4\\pi^2}{GM}a^3$ with the correct $GM$ for each system.",
+    "Students sometimes claim that because $\\frac{d\\mathbf{L}}{dt} = \\mathbf{0}$ implies $\\mathbf{L}$ is constant, the planet moves at constant speed. This is wrong: $\\mathbf{L} = m(\\mathbf{r}\\times\\mathbf{v})$ is constant, but the individual magnitudes $|\\mathbf{r}|$ and $|\\mathbf{v}|$ both change along an ellipse; what stays fixed is the product $|\\mathbf{r}||\\mathbf{v}|\\sin\\theta$, which is why the planet moves faster at perihelion and slower at aphelion."
+  ],
+  "untested_variants": [
+    "Deriving the polar orbit equation $r = \\frac{ed}{1+e\\cos\\theta}$ from the gravitational force law using the eccentricity (Laplace\u2013Runge\u2013Lenz) vector, which proves orbits are conic sections (First Law).",
+    "Finding the speed of a planet at perihelion and aphelion using conservation of energy and angular momentum simultaneously, then verifying the vis-viva equation $v^2 = GM\\left(\\frac{2}{r} - \\frac{1}{a}\\right)$.",
+    "Applying Kepler's Third Law to moons orbiting a planet (rather than planets orbiting the sun), where $M$ is the planet's mass instead of the sun's mass, and using observational data to estimate the planet's mass.",
+    "Analyzing hyperbolic or parabolic trajectories ($e \\geq 1$) such as escape trajectories or flyby paths, where the orbit is not a closed ellipse and the concept of 'period' no longer applies."
+  ]
+}

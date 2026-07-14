@@ -1,0 +1,76 @@
+{
+  "topic_id": "pc_022",
+  "topic_name": "Angles and Their Measure (Degrees and Radians)",
+  "generated_at": "2026-05-12T23:45:57.371319+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to measure angles in degrees \u2014 a full circle is 360\u00b0, a right angle is 90\u00b0, and so on. But when you start working with trigonometric functions in calculus or physics, degrees become surprisingly inconvenient, and a completely different unit called the radian takes over. Why would mathematicians abandon something as intuitive as degrees? The answer has everything to do with arc length \u2014 and the question is: given an angle of 150\u00b0, how do you express it in radians, and why does that new number carry more geometric meaning?",
+  "concept": "An angle's measure tells us the amount of rotation from one ray to another. In degrees, we divide a full rotation into 360 equal parts. In radians, we measure the angle by the arc length it intercepts on a unit circle (radius = 1), so a full rotation equals $2\\pi$ radians because the circumference of a unit circle is $2\\pi$. The conversion relationship is $360\u00b0 = 2\\pi \\text{ rad}$, or equivalently $180\u00b0 = \\pi \\text{ rad}$.",
+  "anatomy": "The conversion formula $\\theta_{\\text{rad}} = \\theta_{\\text{deg}} \\cdot \\dfrac{\\pi}{180}$ has three key components: the degree measure $\\theta_{\\text{deg}}$, which is the angle you start with; the conversion factor $\\dfrac{\\pi}{180}$, a dimensionless ratio that scales degrees into radians (flipping it to $\\dfrac{180}{\\pi}$ converts back from radians to degrees); and the radian measure $\\theta_{\\text{rad}}$, the result that represents how many radius-lengths of arc the angle sweeps out on a unit circle. The arc length formula $s = r\\theta$ (where $r$ is the radius and $\\theta$ must be in radians) shows why radians are the 'natural' unit \u2014 it keeps the relationship between arc and radius purely multiplicative.",
+  "worked_example": [
+    {
+      "expression_latex": "150\u00b0 \\cdot \\frac{\\pi}{180}",
+      "description_latex": "To convert degrees to radians, we multiply the degree measure by the conversion factor $\\frac{\\pi}{180}$. Think of it as unit cancellation: degrees in the numerator and degrees in the denominator cancel, leaving radians.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{150\\pi}{180}",
+      "description_latex": "We carry out the multiplication, placing $150\\pi$ over 180. The $\\pi$ stays in the numerator because it is part of the unit, not a number to be divided yet \u2014 we simplify the numeric fraction first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{5\\pi}{6}",
+      "description_latex": "We reduce $\\frac{150}{180}$ by dividing both the numerator and denominator by their greatest common factor, which is 30, giving $\\frac{5}{6}$. So $150\u00b0 = \\frac{5\\pi}{6}$ radians, and this is the fully simplified exact answer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{7\\pi}{4} \\cdot \\frac{180\u00b0}{\\pi}",
+      "description_latex": "We want to convert $\\frac{7\\pi}{4}$ radians to degrees. To undo the radian conversion, we multiply by the reciprocal factor $\\frac{180\u00b0}{\\pi}$, so that the $\\pi$ in the numerator and the $\\pi$ in the denominator will cancel.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{7 \\cdot 180\u00b0}{4}",
+      "description_latex": "After the $\\pi$ values cancel, we are left with $\\frac{7 \\times 180\u00b0}{4}$. Compute $7 \\times 180 = 1260$, then divide by 4 to get the degree measure. What is the final answer in degrees?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "315\u00b0",
+      "description_latex": "Dividing 1260 by 4 gives 315, so $\\frac{7\\pi}{4}$ radians equals $315\u00b0$. Notice this lands in the fourth quadrant, just short of a full $360\u00b0$ rotation \u2014 a good sanity check that the answer is reasonable.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Convert } 90\u00b0 \\text{ to radians. Express your answer in exact form.}",
+      "answer_latex": "\\frac{\\pi}{2}"
+    },
+    {
+      "prompt_latex": "\\text{Convert } 225\u00b0 \\text{ to radians. Express your answer in exact form.}",
+      "answer_latex": "\\frac{5\\pi}{4}"
+    },
+    {
+      "prompt_latex": "\\text{Convert } \\frac{11\\pi}{6} \\text{ radians to degrees.}",
+      "answer_latex": "330\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{A circle has radius } r = 8 \\text{ cm. Find the arc length } s \\text{ intercepted by a central angle of } 135\u00b0.",
+      "answer_latex": "s = 6\\pi \\text{ cm}"
+    },
+    {
+      "prompt_latex": "\\text{A wheel of radius 2 ft rotates through an arc length of } 5\\pi \\text{ ft. What is the central angle in both radians and degrees?}",
+      "answer_latex": "\\theta = \\frac{5\\pi}{2} \\text{ rad} = 450\u00b0"
+    }
+  ],
+  "common_mistakes": [
+    "Students multiply by $\\frac{180}{\\pi}$ instead of $\\frac{\\pi}{180}$ when converting from degrees to radians, getting a huge number like $\\frac{150 \\times 180}{\\pi}$. Always ask yourself: radians are smaller units than degrees for angles larger than about 57\u00b0, so the radian number should be smaller \u2014 multiply by $\\frac{\\pi}{180}$ to shrink the number.",
+    "When reducing the fraction $\\frac{150\\pi}{180}$, students cancel the $\\pi$ along with the numbers, writing $\\frac{5}{6}$ instead of $\\frac{5\\pi}{6}$ and losing the radian unit entirely. Remember that $\\pi$ is a factor in the numerator and has nothing to do with the numeric simplification \u2014 it rides along unchanged.",
+    "Students use the arc length formula $s = r\\theta$ with $\\theta$ still in degrees, producing a wildly incorrect arc length. The formula $s = r\\theta$ is only valid when $\\theta$ is measured in radians \u2014 always convert to radians before plugging into any formula that involves $\\theta$ directly multiplied by a length."
+  ],
+  "untested_variants": [
+    "Converting a negative angle (e.g., $-\\frac{2\\pi}{3}$ radians) to degrees, which tests understanding of directed angles and sign convention.",
+    "Finding the area of a sector using $A = \\frac{1}{2}r^2\\theta$, which combines radian measure with a different geometric formula not used in the practice problems above.",
+    "Converting a non-standard degree measure such as $47.5\u00b0$ or $100\u00b020'30''$ (degrees-minutes-seconds) to radians, requiring an extra decimal or DMS conversion step.",
+    "Determining the linear speed or angular speed of a rotating object (e.g., a Ferris wheel), which applies radian measure in a rate context \u2014 $v = r\\omega$ \u2014 not covered in the static problems above."
+  ]
+}

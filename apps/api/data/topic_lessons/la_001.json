@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_001",
+  "topic_name": "Systems of Linear Equations",
+  "generated_at": "2026-05-13T20:04:39.470117+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to solve a single equation like $2x = 6$ \u2014 just divide both sides by 2 and you're done. But what happens when you have two unknowns and two equations at the same time, like $x + y = 5$ and $2x - y = 1$? Neither equation alone tells you what $x$ and $y$ are, yet together they pin down a unique answer. How do we find it, and how do we know when a system like this even has a solution?",
+  "concept": "A system of linear equations is a collection of two or more equations, each involving the same set of unknowns, where every unknown appears only to the first power with no products between unknowns. Formally, a system of $m$ equations in $n$ unknowns has the form $a_{i1}x_1 + a_{i2}x_2 + \\cdots + a_{in}x_n = b_i$ for $i = 1, 2, \\ldots, m$, and a solution is any assignment of values to $x_1, \\ldots, x_n$ that satisfies all equations simultaneously.",
+  "anatomy": "Every system of linear equations has four key components. The coefficients $a_{ij}$ are the constants multiplying each unknown \u2014 the subscript $i$ denotes the equation number and $j$ denotes which unknown. The unknowns $x_1, x_2, \\ldots, x_n$ are the variables we solve for. The constants $b_i$ on the right-hand side are called the right-hand-side values or the constant terms. Finally, the solution set is the collection of all ordered tuples $(x_1, x_2, \\ldots, x_n)$ satisfying every equation at once; a system is called consistent if this set is nonempty and inconsistent if it is empty.",
+  "worked_example": [
+    {
+      "expression_latex": "\\begin{cases} x + y = 5 \\\\ 2x - y = 1 \\end{cases}",
+      "description_latex": "We are given a system of two equations in two unknowns. Before touching any numbers, notice that each equation is linear \u2014 no $x^2$, no $xy$ \u2014 so we can use the elimination method, which works by adding or subtracting equations to cancel one of the unknowns entirely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(x + y) + (2x - y) = 5 + 1 \\implies 3x = 6",
+      "description_latex": "We add the left sides together and the right sides together. This is valid because we are adding equal quantities to equal quantities. The $y$ and $-y$ cancel perfectly, leaving us with a single equation in $x$ alone.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 2",
+      "description_latex": "Dividing both sides of $3x = 6$ by 3 gives us $x = 2$. We now know the value of one unknown, but we still need $y$, so our work is not yet done.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2 + y = 5 \\implies y = 3",
+      "description_latex": "We substitute $x = 2$ back into the first original equation. This is called back-substitution: replacing a found value into a remaining equation to find the next unknown. Here $y = 5 - 2 = 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Check: } (2) + (3) = 5 \\checkmark \\quad 2(2) - (3) = 1 \\checkmark",
+      "description_latex": "Always verify your answer by plugging the solution back into both original equations. Both checks pass here, so the unique solution is $(x, y) = (2, 3)$, meaning the two lines intersect at exactly that point.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{cases} 3x + 2y = 12 \\\\ x - 2y = 0 \\end{cases}",
+      "description_latex": "We want to solve this system by elimination. Look at the $y$-coefficients: one is $+2$ and the other is $-2$, which means adding the two equations will immediately eliminate $y$. Let's set that up.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(3x + 2y) + (x - 2y) = 12 + 0 \\implies 4x = 12 \\implies x = 3",
+      "description_latex": "Adding both equations cancels $y$ and gives $4x = 12$, so $x = 3$. We have the first unknown \u2014 now we need to find $y$ by substituting back into one of the original equations.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Substitute $x = 3$ into the equation $x - 2y = 0$ and solve for $y$. Show each algebraic step, then write the solution as an ordered pair $(x, y)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve the system: $\\begin{cases} x + y = 4 \\\\ x - y = 2 \\end{cases}$",
+      "answer_latex": "(x, y) = (3, 1)"
+    },
+    {
+      "prompt_latex": "Solve by elimination: $\\begin{cases} 2x + 3y = 7 \\\\ 4x - 3y = 5 \\end{cases}$",
+      "answer_latex": "(x, y) = (2, 1)"
+    },
+    {
+      "prompt_latex": "Solve by substitution: $\\begin{cases} y = 2x - 1 \\\\ 3x + y = 9 \\end{cases}$",
+      "answer_latex": "(x, y) = (2, 3)"
+    },
+    {
+      "prompt_latex": "Determine whether the system is consistent or inconsistent, and find all solutions if they exist: $\\begin{cases} 2x - 4y = 6 \\\\ x - 2y = 4 \\end{cases}$",
+      "answer_latex": "\\text{Inconsistent \u2014 no solution (the equations represent parallel lines)}"
+    },
+    {
+      "prompt_latex": "A coffee shop sells small cups for $\\$3$ and large cups for $\\$5$. In one hour, 20 cups were sold for a total of $\\$84$. Write a system of linear equations and find how many of each size were sold.",
+      "answer_latex": "\\begin{cases} s + l = 20 \\\\ 3s + 5l = 84 \\end{cases} \\implies (s, l) = (8, 12)"
+    }
+  ],
+  "common_mistakes": [
+    "Students add only the left-hand sides when eliminating, forgetting to add the corresponding right-hand sides too \u2014 the equation $a = b$ and $c = d$ gives $a + c = b + d$, not $a + c = b$. Always combine both sides simultaneously.",
+    "After finding one variable through elimination, students substitute its value into the equation they derived mid-solution (like $3x = 6$) instead of one of the original equations, leading to an equation with only one variable and no way to find the second. Always back-substitute into an original equation that still contains both unknowns.",
+    "Students declare a system inconsistent when they get a false statement like $0 = 5$ but declare it to have infinitely many solutions when they get $0 = 0$, sometimes mixing the two up. A false statement $0 = 5$ means no solution; the identity $0 = 0$ means infinitely many solutions, and you must express the solution set parametrically."
+  ],
+  "untested_variants": [
+    "Systems of three equations in three unknowns ($3 \\times 3$ systems), which require extended elimination or row reduction and produce solutions in 3D space.",
+    "Systems with infinitely many solutions where students must write the answer in parametric form, e.g., expressing $y$ as a free parameter and $x$ in terms of $y$.",
+    "Homogeneous systems of the form $Ax = 0$, including identifying the trivial solution and determining when non-trivial solutions exist.",
+    "Interpreting the solution of a system graphically \u2014 identifying whether two lines are intersecting (one solution), parallel (no solution), or coincident (infinitely many solutions) from their slopes and intercepts before solving algebraically."
+  ]
+}

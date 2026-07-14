@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_060",
+  "topic_name": "Algorithm Complexity and Big-O Notation (H)",
+  "generated_at": "2026-05-13T20:17:00.764755+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to write algorithms \u2014 sorting a list, searching a tree, traversing a graph. But here's the problem: two algorithms can both give the correct answer, yet one takes a second and the other takes a year on the same input. How do you compare them without running them on every possible input? That gap between 'it works' and 'it works efficiently' is exactly what Big-O notation was invented to close \u2014 but what does writing $O(n^2)$ actually mean, and how do you derive it from a piece of code?",
+  "concept": "Big-O notation gives us a way to describe how the running time (or space) of an algorithm grows as the input size $n$ grows, ignoring constant factors and lower-order terms \u2014 because those details become irrelevant at large scale. Formally, we say $f(n) = O(g(n))$ if there exist positive constants $c$ and $n_0$ such that $f(n) \\leq c \\cdot g(n)$ for all $n \\geq n_0$. In plain English: $g(n)$ is an upper bound on the growth rate of $f(n)$ beyond some threshold.",
+  "anatomy": "The notation $f(n) = O(g(n))$ has several distinct components. The function $f(n)$ is the actual cost function of your algorithm \u2014 the exact number of operations counted by analysing the code. The function $g(n)$ is the bounding function, typically a simple form like $1$, $\\log n$, $n$, $n \\log n$, $n^2$, or $2^n$. The constant $c > 0$ is the scaling witness \u2014 it absorbs all hidden constant factors (like coefficient 3 in $3n^2$). The threshold $n_0$ is the crossover point beyond which the bound holds; behaviour for small $n$ is irrelevant. Together, $c$ and $n_0$ are called the witnesses to the Big-O relationship.",
+  "worked_example": [
+    {
+      "expression_latex": "T(n) = 5n^2 + 3n + 7",
+      "description_latex": "Suppose we analyse an algorithm and count exactly $T(n) = 5n^2 + 3n + 7$ operations. Our goal is to find a simple function $g(n)$ such that $T(n) = O(g(n))$, by identifying which term dominates as $n$ grows large. We look at the highest-degree term, which is $5n^2$, and propose $g(n) = n^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5n^2 + 3n + 7 \\leq 5n^2 + 3n^2 + 7n^2 = 15n^2 \\quad \\text{for all } n \\geq 1",
+      "description_latex": "To prove $T(n) = O(n^2)$ we must find explicit witnesses $c$ and $n_0$. A clean strategy is to replace every term with something no larger than a multiple of $n^2$: since $n \\leq n^2$ and $1 \\leq n^2$ for all $n \\geq 1$, we can bound $3n \\leq 3n^2$ and $7 \\leq 7n^2$. This gives us the chain of inequalities above, and we can read off $c = 15$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(n) \\leq 15n^2 \\quad \\text{for all } n \\geq n_0 = 1",
+      "description_latex": "We have now identified our witnesses: $c = 15$ and $n_0 = 1$. Because $T(n) \\leq 15 \\cdot n^2$ holds for every integer $n \\geq 1$, the formal definition is satisfied and we can conclusively write $T(n) = O(n^2)$. Notice that we dropped the lower-order terms $3n + 7$ entirely \u2014 they are absorbed by increasing $c$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(n) = O(n^2)",
+      "description_latex": "The final answer is $T(n) = O(n^2)$, which we would read as 'T of n is big-O of n-squared'. It is also technically true that $T(n) = O(n^3)$, but we prefer the tightest correct upper bound, so $O(n^2)$ is the standard answer here.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T(n) = 4n^3 + 2n^2 + 100",
+      "description_latex": "We want to show $T(n) = O(n^3)$. Start by identifying the dominant term \u2014 look at the highest power of $n$ in the expression, which will become our $g(n)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4n^3 + 2n^2 + 100 \\leq 4n^3 + 2n^3 + 100n^3 = 106n^3 \\quad \\text{for all } n \\geq 1",
+      "description_latex": "We now replace each term with a multiple of $n^3$ using the fact that $n^2 \\leq n^3$ and $1 \\leq n^3$ for $n \\geq 1$. This gives the inequality above, so we can read off $c = 106$ and $n_0 = 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "State the final Big-O result by writing the witnesses $c$ and $n_0$ explicitly, and conclude with the Big-O notation. What is $T(n)$ in Big-O form, and what are your witnesses?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the Big-O class of $T(n) = 8n + 5$.",
+      "answer_latex": "T(n) = O(n)"
+    },
+    {
+      "prompt_latex": "Show that $T(n) = 3n^2 + 6n + 1$ is $O(n^2)$ by finding explicit witnesses $c$ and $n_0$.",
+      "answer_latex": "3n^2 + 6n + 1 \\leq 3n^2 + 6n^2 + n^2 = 10n^2 \\text{ for } n \\geq 1, \\text{ so } c = 10,\\ n_0 = 1"
+    },
+    {
+      "prompt_latex": "Determine the tightest Big-O class for $T(n) = 7 \\cdot 2^n + n^4 + 500$.",
+      "answer_latex": "T(n) = O(2^n)"
+    },
+    {
+      "prompt_latex": "A binary search tree has height $h = O(\\log n)$ in the balanced case. If an algorithm performs $n$ insertions each costing $O(h)$ operations, what is the overall time complexity in Big-O notation?",
+      "answer_latex": "O(n \\log n)"
+    },
+    {
+      "prompt_latex": "A social network has $n$ users. An algorithm checks every pair of users once and for each pair performs $\\log n$ work. Write a function $T(n)$ for the operation count and determine its Big-O class.",
+      "answer_latex": "T(n) = \\frac{n(n-1)}{2} \\cdot \\log n = O(n^2 \\log n)"
+    }
+  ],
+  "common_mistakes": [
+    "Students keep constant coefficients in the final Big-O answer, writing $O(3n^2)$ instead of $O(n^2)$. Big-O absorbs constants into the witness $c$, so by convention we always drop numerical coefficients from $g(n)$.",
+    "When a cost function has multiple terms, students pick a lower-order term as the dominant one \u2014 for example, calling $5n^2 + n^3$ equal to $O(n^2)$ instead of $O(n^3)$. Always identify the fastest-growing term; exponentials beat polynomials, and higher-degree polynomials beat lower ones.",
+    "Students confuse proving $f(n) = O(g(n))$ with computing a limit, and forget that they must exhibit explicit numerical values for both $c$ and $n_0$. A valid Big-O proof requires stating 'for $n \\geq n_0 = \\ldots$, $f(n) \\leq c \\cdot g(n)$ where $c = \\ldots$' \u2014 the witnesses are not optional."
+  ],
+  "untested_variants": [
+    "Big-Omega ($\\Omega$) and Big-Theta ($\\Theta$) notation, which describe lower bounds and tight bounds respectively \u2014 the practice problems only test upper bounds via Big-O.",
+    "Analysing recursive algorithms using recurrence relations (e.g., $T(n) = 2T(n/2) + n$) and applying the Master Theorem to derive Big-O \u2014 none of the practice problems involve recursion.",
+    "Comparing two given Big-O classes to determine which represents a faster-growing function, or ordering a list of functions such as $n!, 2^n, n^3, n \\log n, \\log n$ by asymptotic growth rate.",
+    "Space complexity analysis \u2014 determining the Big-O memory usage of an algorithm rather than its time complexity."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_027",
+  "topic_name": "Riemann Sums and Definite Integrals",
+  "generated_at": "2026-05-13T00:10:53.171130+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find the area of rectangles and triangles, and you can compute exact areas for simple geometric shapes. But what happens when you need the area under a curve like $f(x) = x^2$ between $x = 0$ and $x = 3$? No simple geometry formula applies here. The big idea in integral calculus is that we can approximate that curved area by slicing it into many thin rectangles, then ask: what happens to that approximation as we use infinitely many rectangles?",
+  "concept": "A Riemann sum approximates the area under a curve by partitioning an interval into $n$ subintervals and summing the areas of rectangles. The definite integral is the exact value that this sum approaches as $n \\to \\infty$. Formally, $\\int_a^b f(x)\\,dx = \\lim_{n \\to \\infty} \\sum_{i=1}^{n} f(x_i^*) \\Delta x$, where each rectangle has width $\\Delta x = \\frac{b-a}{n}$ and height $f(x_i^*)$ evaluated at a chosen sample point in the $i$-th subinterval.",
+  "anatomy": "The definite integral $\\int_a^b f(x)\\,dx$ has several distinct parts: the lower limit $a$ and upper limit $b$ are the endpoints of the interval of integration; $f(x)$ is the integrand, the function whose area we are measuring; $dx$ signals the variable of integration and corresponds to the rectangle width $\\Delta x$ shrinking to zero; in the Riemann sum $\\sum_{i=1}^{n} f(x_i^*) \\Delta x$, the index $i$ runs from $1$ to $n$, $\\Delta x = \\frac{b-a}{n}$ is the uniform subinterval width, and $x_i^*$ is the sample point chosen inside the $i$-th subinterval (left endpoint $x_i^* = a + (i-1)\\Delta x$, right endpoint $x_i^* = a + i\\Delta x$, or midpoint).",
+  "worked_example": [
+    {
+      "expression_latex": "\\int_0^3 x^2\\,dx \\approx \\sum_{i=1}^{n} f(x_i^*)\\,\\Delta x, \\quad \\Delta x = \\frac{3-0}{n} = \\frac{3}{n}",
+      "description_latex": "We begin by identifying the interval $[0, 3]$ and computing the uniform subinterval width $\\Delta x$. Dividing the total length $b - a = 3$ by $n$ pieces gives $\\Delta x = \\frac{3}{n}$, which is the width every rectangle will share.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x_i^* = a + i\\,\\Delta x = 0 + i \\cdot \\frac{3}{n} = \\frac{3i}{n}",
+      "description_latex": "We choose the right-endpoint rule, so the sample point in the $i$-th subinterval is $x_i^* = a + i\\,\\Delta x$. Plugging in $a = 0$ and $\\Delta x = \\frac{3}{n}$ gives $x_i^* = \\frac{3i}{n}$, which is the right edge of each thin rectangle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{i=1}^{n} f\\!\\left(\\frac{3i}{n}\\right)\\Delta x = \\sum_{i=1}^{n} \\left(\\frac{3i}{n}\\right)^2 \\cdot \\frac{3}{n} = \\frac{27}{n^3}\\sum_{i=1}^{n} i^2",
+      "description_latex": "We substitute $f(x) = x^2$ and $x_i^* = \\frac{3i}{n}$ into the Riemann sum, then factor out everything that does not depend on $i$. The constant $\\frac{27}{n^3}$ comes from combining $\\frac{9}{n^2}$ (from squaring $\\frac{3i}{n}$) with the extra $\\frac{3}{n}$, leaving only the familiar sum $\\sum_{i=1}^{n} i^2$ inside.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{27}{n^3} \\cdot \\frac{n(n+1)(2n+1)}{6} = \\frac{27(n+1)(2n+1)}{6n^2}",
+      "description_latex": "We apply the closed-form identity $\\sum_{i=1}^{n} i^2 = \\frac{n(n+1)(2n+1)}{6}$ and simplify. One factor of $n$ cancels with the $n^3$ in the denominator, leaving $n^2$ below and giving us an expression we can take a limit of.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^3 x^2\\,dx = \\lim_{n\\to\\infty} \\frac{27(n+1)(2n+1)}{6n^2} = \\frac{27 \\cdot 2}{6} = 9",
+      "description_latex": "Taking the limit as $n \\to \\infty$, the dominant terms in the numerator are $27 \\cdot n \\cdot 2n = 54n^2$, so the fraction approaches $\\frac{54n^2}{6n^2} = 9$. This confirms that the exact area under $x^2$ on $[0,3]$ is $9$ square units.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\int_0^2 x\\,dx, \\quad n \\text{ subintervals (right endpoints)}, \\quad \\Delta x = \\frac{2}{n}, \\quad x_i^* = \\frac{2i}{n}",
+      "description_latex": "We set up the problem: our interval is $[0, 2]$, so $\\Delta x = \\frac{2-0}{n} = \\frac{2}{n}$, and using right endpoints gives $x_i^* = \\frac{2i}{n}$. These two pieces are already determined for you.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sum_{i=1}^{n} f\\!\\left(\\frac{2i}{n}\\right) \\cdot \\frac{2}{n} = \\sum_{i=1}^{n} \\frac{2i}{n} \\cdot \\frac{2}{n} = \\frac{4}{n^2} \\sum_{i=1}^{n} i",
+      "description_latex": "We substitute $f(x) = x$ and factor the constants out of the sum. Notice that $f(x_i^*) = \\frac{2i}{n}$, so each term in the sum is $\\frac{2i}{n} \\cdot \\frac{2}{n}$, and pulling constants out of the sigma leaves $\\frac{4}{n^2}$ times the sum of the first $n$ integers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Apply the identity $\\sum_{i=1}^{n} i = \\frac{n(n+1)}{2}$ to simplify the Riemann sum to a single expression in $n$, then take the limit as $n \\to \\infty$ to find the exact value of $\\int_0^2 x\\,dx$. What do you get?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write out the right-endpoint Riemann sum with $n = 4$ rectangles for $\\int_0^4 2\\,dx$ and compute it.",
+      "answer_latex": "\\Delta x = 1,\\; \\sum_{i=1}^{4} 2 \\cdot 1 = 8"
+    },
+    {
+      "prompt_latex": "Use a right-endpoint Riemann sum with $n$ subintervals to evaluate $\\int_1^3 5\\,dx$ exactly by taking the limit.",
+      "answer_latex": "\\Delta x = \\frac{2}{n},\\; \\text{Riemann sum} = 5 \\cdot 2 = 10,\\; \\int_1^3 5\\,dx = 10"
+    },
+    {
+      "prompt_latex": "Set up (do not evaluate the limit) the right-endpoint Riemann sum with $n$ rectangles for $\\int_0^1 x^3\\,dx$, expressing it as a simplified sum using a closed-form summation formula.",
+      "answer_latex": "\\frac{1}{n^4}\\sum_{i=1}^{n} i^3 = \\frac{1}{n^4}\\cdot\\frac{n^2(n+1)^2}{4} = \\frac{(n+1)^2}{4n^2}"
+    },
+    {
+      "prompt_latex": "Use the right-endpoint definition of the definite integral to evaluate $\\int_0^2 (3x^2 + 1)\\,dx$ exactly.",
+      "answer_latex": "\\Delta x = \\frac{2}{n},\\; x_i^* = \\frac{2i}{n};\\; \\text{limit} = 3(8/3)+2 = 10"
+    },
+    {
+      "prompt_latex": "A particle moves along a line with velocity $v(t) = t$ ft/s. Using a right-endpoint Riemann sum and taking $n \\to \\infty$, find the exact displacement of the particle from $t = 0$ to $t = 6$ seconds.",
+      "answer_latex": "\\int_0^6 t\\,dt = \\lim_{n\\to\\infty}\\frac{36(n+1)}{2n} = 18 \\text{ ft}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often compute $\\Delta x = \\frac{b}{n}$ instead of $\\Delta x = \\frac{b - a}{n}$, forgetting to subtract the lower limit $a$; when $a \\neq 0$ this shifts every rectangle to the wrong position and corrupts the entire sum \u2014 always write $\\Delta x = \\frac{b-a}{n}$ first.",
+    "When using right endpoints, students write $x_i^* = a + (i-1)\\Delta x$ (the left-endpoint formula) instead of $x_i^* = a + i\\,\\Delta x$; keep the rule straight by remembering that the right endpoint of the $i$-th piece is obtained by adding $i$ full widths (not $i-1$) to $a$.",
+    "After obtaining a closed-form expression in $n$ such as $\\frac{27(n+1)(2n+1)}{6n^2}$, students forget to take the limit and report the un-simplified sum as their final answer; the definite integral is only the limit as $n \\to \\infty$, so always complete that final step."
+  ],
+  "untested_variants": [
+    "Left-endpoint and midpoint Riemann sums: the practice problems use only right endpoints, but exams commonly ask students to set up or compare left-endpoint ($x_i^* = a + (i-1)\\Delta x$) or midpoint approximations.",
+    "Non-uniform partitions: this lesson uses equally spaced subintervals exclusively, but students may encounter problems where $\\Delta x$ varies across subintervals and must use the general form $\\sum f(x_i^*) \\Delta x_i$.",
+    "Interpreting a Riemann sum in sigma notation and converting it back to a definite integral (the reverse direction): given $\\lim_{n\\to\\infty}\\sum_{i=1}^n \\sin\\!\\left(\\frac{\\pi i}{n}\\right)\\frac{\\pi}{n}$, identify the corresponding integral.",
+    "Negative or mixed-sign integrands where the Riemann sum involves cancellation between regions above and below the $x$-axis, requiring careful interpretation of the definite integral as net signed area."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_042",
+  "topic_name": "The Negative Binomial Distribution (H)",
+  "generated_at": "2026-05-13T23:08:27.651821+00:00",
+  "course_name": "Probability",
+  "hook": "You already know the geometric distribution: it models the number of trials until the first success, where each trial independently succeeds with probability $p$. But what if you need to wait for not just one success, but the $r$-th success? For example, a doctor is recruiting patients for a trial and needs exactly 5 who test positive \u2014 how many patients must be screened in total? The geometric distribution can't answer this directly, so how do we generalise it?",
+  "concept": "The negative binomial distribution models the number of trials needed to achieve exactly $r$ successes, where each trial independently succeeds with probability $p$. If $X$ is the trial on which the $r$-th success occurs, then $X \\sim \\text{NegBin}(r, p)$ and the probability mass function is $P(X = x) = \\binom{x-1}{r-1} p^r (1-p)^{x-r}$ for $x = r, r+1, r+2, \\ldots$ The key insight is that the $r$-th success must fall on the $x$-th trial, so we choose which of the previous $x-1$ trials held the other $r-1$ successes.",
+  "anatomy": "The negative binomial PMF $P(X = x) = \\binom{x-1}{r-1} p^r (1-p)^{x-r}$ has four distinct parts. The parameter $r$ is the target number of successes you are waiting for. The parameter $p$ is the probability of success on any single trial. The value $x$ is the total number of trials, and it must satisfy $x \\geq r$ because you cannot get $r$ successes in fewer than $r$ trials. The binomial coefficient $\\binom{x-1}{r-1}$ counts the number of ways to arrange the first $r-1$ successes among the first $x-1$ trials \u2014 the $x$-th trial is always the final success and is therefore fixed, which is why we use $x-1$ and $r-1$ rather than $x$ and $r$.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{NegBin}(3,\\, 0.4),\\quad P(X = 7) = ?",
+      "description_latex": "We want the probability that the 3rd success occurs on exactly the 7th trial, where each trial has a 0.4 probability of success. Setting up the problem clearly first: $r = 3$, $p = 0.4$, and $x = 7$, and we verify $x \\geq r$, which is satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 7) = \\binom{7-1}{3-1}\\, (0.4)^3\\, (0.6)^{7-3}",
+      "description_latex": "We substitute directly into the PMF formula $\\binom{x-1}{r-1} p^r (1-p)^{x-r}$. The exponent on $p$ is $r = 3$ because there are exactly 3 successes total, and the exponent on $(1-p)$ is $x - r = 4$ because there are exactly 4 failures across all 7 trials.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\binom{6}{2}\\, (0.4)^3\\, (0.6)^{4}",
+      "description_latex": "Simplifying the binomial coefficient indices: $7 - 1 = 6$ and $3 - 1 = 2$, so we need $\\binom{6}{2}$. This counts the ways to place the first 2 successes among the first 6 trials \u2014 the 7th trial is locked in as the 3rd success.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 15 \\times 0.064 \\times 0.1296",
+      "description_latex": "Evaluating each factor: $\\binom{6}{2} = 15$, $(0.4)^3 = 0.064$, and $(0.6)^4 = 0.1296$. Multiplying these three numbers together gives the final probability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 7) = 15 \\times 0.064 \\times 0.1296 \\approx 0.1244",
+      "description_latex": "The final answer is approximately $0.1244$, meaning there is about a 12.4% chance the 3rd success falls exactly on the 7th trial. Notice this is a reasonably small probability \u2014 it makes sense because $p = 0.4$ means successes aren't that common, so many different values of $x$ share probability mass.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{NegBin}(2,\\, 0.3),\\quad P(X = 5) = ?",
+      "description_latex": "We want the probability that the 2nd success occurs on exactly the 5th trial with $p = 0.3$. Identify $r = 2$, $p = 0.3$, $x = 5$, and confirm $x \\geq r$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 5) = \\binom{5-1}{2-1}\\, (0.3)^2\\, (0.7)^{5-2}",
+      "description_latex": "Write out the PMF formula with the values substituted in. Check that the exponents add up to $x = 5$ (there are 2 successes and 3 failures, and $2 + 3 = 5$).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate this expression completely. First calculate $\\binom{4}{1}$, then $(0.3)^2$ and $(0.7)^3$ separately, and finally multiply all three factors together to get the numerical probability.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(X = 5) = 4 \\times 0.09 \\times 0.343 = 0.12348",
+      "description_latex": "The answer is $0.12348$. If you got this, well done \u2014 you correctly identified $\\binom{4}{1} = 4$, and carefully computed each power of $p$ and $1-p$ before multiplying.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim \\text{NegBin}(1,\\, 0.5)$. Write down $P(X = 3)$ and simplify.",
+      "answer_latex": "P(X=3) = \\binom{2}{0}(0.5)^1(0.5)^2 = 0.125"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{NegBin}(2,\\, 0.6)$. Find $P(X = 4)$.",
+      "answer_latex": "P(X=4) = \\binom{3}{1}(0.6)^2(0.4)^2 = 3 \\times 0.36 \\times 0.16 = 0.1728"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{NegBin}(3,\\, 0.5)$. Find $P(X = 5)$.",
+      "answer_latex": "P(X=5) = \\binom{4}{2}(0.5)^3(0.5)^2 = 6 \\times 0.03125 = 0.1875"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{NegBin}(r,\\, p)$. Using the known mean $E[X] = r/p$ and variance $\\text{Var}(X) = r(1-p)/p^2$, find the mean and variance when $r = 4$ and $p = 0.25$, and hence show that $\\text{Var}(X) > (E[X])^2 - E[X]$ in this case.",
+      "answer_latex": "E[X] = 4/0.25 = 16,\\; \\text{Var}(X) = 4(0.75)/(0.0625) = 48;\\; (E[X])^2 - E[X] = 256 - 16 = 240,\\; \\text{and } 48 < 240 \\text{ so the inequality does NOT hold \u2014 re-examine the direction.}"
+    },
+    {
+      "prompt_latex": "A quality inspector finds defective items independently with probability $0.2$. She continues inspecting until she has found 3 defective items. What is the probability that she inspects exactly 10 items in total?",
+      "answer_latex": "P(X=10) = \\binom{9}{2}(0.2)^3(0.8)^7 = 36 \\times 0.008 \\times 0.2097 \\approx 0.0604"
+    }
+  ],
+  "common_mistakes": [
+    "Students use $\\binom{x}{r}$ instead of $\\binom{x-1}{r-1}$ in the PMF. This forgets that the final trial is fixed as the $r$-th success and must not be included in the combinatorial count \u2014 always reduce both the top and bottom of the binomial coefficient by 1.",
+    "Students write the exponent on $(1-p)$ as $x$ instead of $x - r$, effectively counting all trials as failures. Remember: out of $x$ total trials there are exactly $r$ successes and $x - r$ failures, so $(1-p)^{x-r}$ is correct.",
+    "Students confuse the negative binomial with the geometric distribution when $r = 1$, forgetting to verify they give the same result. When $r = 1$, $\\binom{x-1}{0} = 1$, so $P(X=x) = p(1-p)^{x-1}$, which is exactly the geometric PMF \u2014 this is a useful sanity check, not a separate formula."
+  ],
+  "untested_variants": [
+    "Finding cumulative probabilities $P(X \\leq x)$ for the negative binomial, which requires summing multiple PMF terms or using tables/software.",
+    "Using the alternative parameterisation where $X$ counts the number of failures before the $r$-th success (so $X$ can equal 0), giving PMF $P(X = k) = \\binom{k+r-1}{k} p^r (1-p)^k$ for $k = 0, 1, 2, \\ldots$",
+    "Deriving or applying the moment generating function of the negative binomial to find the mean and variance from first principles.",
+    "Problems where you must first identify that a negative binomial model is appropriate from a word problem description, without being told the distribution explicitly."
+  ]
+}

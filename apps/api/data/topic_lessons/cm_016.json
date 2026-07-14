@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_016",
+  "topic_name": "Generating Functions (H)",
+  "generated_at": "2026-05-13T20:22:52.103697+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to count the number of ways to choose items or arrange sequences using combinations and recursion. But what if you need to count the number of ways to make change for 50 cents using pennies, nickels, and dimes \u2014 where order doesn't matter \u2014 or find the number of integer solutions to $x_1 + x_2 + x_3 = 10$ with each $x_i \\geq 0$? Direct combinatorial arguments get messy fast, and recursions can be hard to solve in closed form. What if there were a single algebraic object that encoded all counting information at once?",
+  "concept": "A generating function packages an entire sequence of counts $a_0, a_1, a_2, \\ldots$ into a single formal power series $G(x) = a_0 + a_1 x + a_2 x^2 + \\cdots = \\sum_{n=0}^{\\infty} a_n x^n$, where $x$ is a formal variable (we care about coefficients, not convergence). Multiplying generating functions corresponds to combining independent choices, and extracting the coefficient $[x^n]G(x)$ gives the count for $n$.",
+  "anatomy": "A generating function has four key components: the **sequence** $\\{a_n\\}$ whose $n$-th term counts something of interest; the **formal variable** $x$, treated algebraically rather than numerically; the **coefficient** $[x^n]G(x) = a_n$, which is the specific count you extract; and the **product structure**, because multiplying two generating functions $F(x) \\cdot G(x)$ produces a new series whose coefficient of $x^n$ is the convolution $\\sum_{k=0}^{n} f_k g_{n-k}$, encoding the combination of two independent counting processes. The geometric series identity $\\frac{1}{1-x} = 1 + x + x^2 + \\cdots$ and its variant $\\frac{1}{1-x^k}$ for steps of size $k$ are the fundamental building blocks.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Find the number of ways to write } n \\text{ as an ordered sum of non-negative integers } x_1 + x_2 + x_3 = n.",
+      "description_latex": "We want $[x^n]$ in a generating function that captures choosing $x_1, x_2, x_3 \\geq 0$. Each variable $x_i$ can independently take any non-negative integer value, so its generating function is $1 + x + x^2 + \\cdots = \\frac{1}{1-x}$, which encodes the single choice 'pick a non-negative integer' as a power of $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "G(x) = \\frac{1}{1-x} \\cdot \\frac{1}{1-x} \\cdot \\frac{1}{1-x} = \\frac{1}{(1-x)^3}",
+      "description_latex": "Because $x_1, x_2, x_3$ are chosen independently, we multiply their individual generating functions together. The product of three copies of $\\frac{1}{1-x}$ is $\\frac{1}{(1-x)^3}$, and the coefficient of $x^n$ in this product will give our answer.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{1}{(1-x)^3} = \\sum_{n=0}^{\\infty} \\binom{n+2}{2} x^n",
+      "description_latex": "We use the negative binomial series identity: $\\frac{1}{(1-x)^k} = \\sum_{n=0}^{\\infty} \\binom{n+k-1}{k-1} x^n$. With $k=3$, each coefficient is $\\binom{n+2}{2}$, which is exactly the stars-and-bars formula for distributing $n$ among 3 variables \u2014 a satisfying confirmation that generating functions agree with direct counting.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[x^n]\\,G(x) = \\binom{n+2}{2}",
+      "description_latex": "We extract the coefficient of $x^n$ to read off our answer: there are $\\binom{n+2}{2}$ ways to write $n$ as an ordered sum of three non-negative integers. For example, when $n=4$ this gives $\\binom{6}{2} = 15$, which you can verify by direct enumeration.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find the number of ways to select } n \\text{ coins from pennies (1\u00a2), nickels (5\u00a2), and dimes (10\u00a2) totaling exactly } n \\text{ cents, where order doesn't matter.}",
+      "description_latex": "We need to count the number of ways to choose non-negative integers $p, q, r$ (pennies, nickels, dimes) so that $p + 5q + 10r = n$. The key insight is that each denomination contributes independently: pennies can appear 0, 1, 2, ... times adding 1\u00a2 each, so their generating function captures contributions in steps of 1; nickels contribute in steps of 5; dimes in steps of 10.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "G(x) = \\frac{1}{1-x} \\cdot \\frac{1}{1-x^5} \\cdot \\frac{1}{1-x^{10}}",
+      "description_latex": "The generating function for pennies is $\\frac{1}{1-x}$ (powers of $x^1$), for nickels is $\\frac{1}{1-x^5}$ (powers of $x^5$), and for dimes is $\\frac{1}{1-x^{10}}$ (powers of $x^{10}$). We multiply them because the three denominations are independent choices, and we want to combine them so that the exponents add up to exactly $n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now extract the coefficient $[x^{10}]\\,G(x)$ to find the number of ways to make exactly 10 cents. Expand each factor as a power series up to $x^{10}$, multiply carefully, and identify the coefficient of $x^{10}$. How many ways are there to make 10 cents?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write the generating function $G(x)$ for the sequence $a_n = 1$ for all $n \\geq 0$, and identify $[x^5]\\,G(x)$.",
+      "answer_latex": "G(x) = \\frac{1}{1-x};\\quad [x^5]\\,G(x) = 1"
+    },
+    {
+      "prompt_latex": "Use generating functions to find the number of non-negative integer solutions to $x_1 + x_2 = 8$.",
+      "answer_latex": "[x^8]\\,\\frac{1}{(1-x)^2} = \\binom{9}{1} = 9"
+    },
+    {
+      "prompt_latex": "Find the generating function for the number of ways to choose $n$ items from a set where each item can be chosen 0, 1, or 2 times (and there are 3 distinct items). Then find the coefficient of $x^4$.",
+      "answer_latex": "G(x) = (1+x+x^2)^3;\\quad [x^4]\\,G(x) = 6"
+    },
+    {
+      "prompt_latex": "Let $a_n$ be the number of ways to tile a $1 \\times n$ board using $1\\times 1$ red tiles and $1\\times 2$ blue tiles. Show that $G(x) = \\sum a_n x^n = \\frac{1}{1-x-x^2}$, and use this to confirm $a_4 = 8$.",
+      "answer_latex": "\\text{The recurrence } a_n = a_{n-1}+a_{n-2} \\text{ gives } (1-x-x^2)G(x)=1,\\text{ so }G(x)=\\frac{1}{1-x-x^2};\\quad [x^4]\\,G(x)=8"
+    },
+    {
+      "prompt_latex": "A baker makes muffins using blueberries, chocolate chips, and walnuts. Each batch uses an even number of blueberries, any number of chocolate chips, and at most 3 walnuts. Write the generating function $G(x)$ where $[x^n]G(x)$ counts the number of batches using exactly $n$ total ingredients, and find $[x^4]\\,G(x)$.",
+      "answer_latex": "G(x) = \\frac{1}{1-x^2}\\cdot\\frac{1}{1-x}\\cdot(1+x+x^2+x^3);\\quad [x^4]\\,G(x) = 6"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the formal variable $x$ with an actual number and try to substitute values (like $x=1$) to 'check' generating functions \u2014 this only works in special convergent cases and usually destroys the combinatorial meaning; remember that $x$ is a placeholder and the answer lives entirely in the coefficients.",
+    "When multiplying generating functions, students forget that the coefficient of $x^n$ in a product $F(x)\\cdot G(x)$ is the convolution $\\sum_{k=0}^{n} f_k g_{n-k}$, not the product $f_n \\cdot g_n$ \u2014 each way of splitting $n$ into two parts $(k, n-k)$ must be summed over all valid splits.",
+    "Students misapply the negative binomial identity by writing $\\frac{1}{(1-x)^k} = \\sum \\binom{n}{k-1} x^n$ instead of the correct $\\sum \\binom{n+k-1}{k-1} x^n$ \u2014 the top of the binomial coefficient is $n+k-1$, not $n$, because we are choosing with repetition, and forgetting the shift by $k-1$ leads to systematically wrong answers."
+  ],
+  "untested_variants": [
+    "Exponential generating functions $\\sum a_n \\frac{x^n}{n!}$ used for counting labeled structures (like permutations with restricted cycle types), which require a completely different framework from ordinary generating functions.",
+    "Using partial fraction decomposition on a rational generating function to extract a closed-form formula for $a_n$, such as solving $[x^n]\\frac{1}{(1-2x)(1-3x)}$ to get an explicit formula involving powers of 2 and 3.",
+    "Generating functions for two-variable or multivariate sequences, such as counting lattice paths using $G(x,y) = \\sum_{m,n} a_{m,n} x^m y^n$.",
+    "Using generating functions to solve non-homogeneous linear recurrences where the non-homogeneous term is itself a polynomial or exponential, requiring careful manipulation of the resulting rational function."
+  ]
+}

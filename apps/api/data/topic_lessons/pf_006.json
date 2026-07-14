@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_006",
+  "topic_name": "Direct Proof",
+  "generated_at": "2026-05-13T20:42:21.882781+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to verify that a specific even number plus another even number is even \u2014 just check: $4 + 6 = 10$, and $10$ is even. But what if someone asks you to prove it works for *every* pair of even numbers, infinitely many cases at once? Checking examples one by one will never be enough. So how do you write a single, airtight argument that covers all cases simultaneously?",
+  "concept": "A direct proof establishes that a statement of the form 'if $P$, then $Q$' is true by starting from the hypothesis $P$ and using definitions, algebra, and known facts to logically deduce $Q$ step by step. Formally, to prove $P \\Rightarrow Q$, we assume $P$ is true and derive $Q$ without any detours or contradictions. It is the most straightforward proof strategy: follow the logical chain from start to finish.",
+  "anatomy": "Every direct proof has three structural parts. First, the **hypothesis assumption**: you explicitly state 'Assume $P$' and unpack it using precise definitions \u2014 for instance, 'assume $n$ is even' becomes 'there exists an integer $k$ such that $n = 2k$.' Second, the **algebraic or logical derivation**: you manipulate the expressions from your assumption using valid operations and previously established results to construct the conclusion. Third, the **conclusion statement**: you explicitly identify that what you have derived is exactly $Q$, often written as 'Therefore $Q$,' closing the logical gap between hypothesis and claim.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: If } n \\text{ is even, then } n^2 \\text{ is even.}",
+      "description_latex": "We begin by clearly stating what we want to prove. Identifying the hypothesis $P$ ('$n$ is even') and the conclusion $Q$ ('$n^2$ is even') before writing a single symbol keeps the proof focused and prevents you from accidentally proving the wrong thing.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } n \\text{ is even. Then } n = 2k \\text{ for some integer } k.",
+      "description_latex": "This is the hypothesis assumption step \u2014 we assume $P$ is true and immediately translate it into its definition. Writing '$n = 2k$ for some integer $k$' is crucial because it gives us an algebraic handle on 'evenness' that we can actually compute with in the next steps.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n^2 = (2k)^2 = 4k^2 = 2(2k^2)",
+      "description_latex": "Now we substitute our definition of $n$ into the expression $n^2$ and simplify. Each equality is justified by basic algebra, and we deliberately factor the result as $2(2k^2)$ because the goal is to expose a factor of $2$ \u2014 the hallmark of an even number.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Since } k \\in \\mathbb{Z}, \\text{ we have } 2k^2 \\in \\mathbb{Z}, \\text{ so } n^2 = 2(2k^2) \\text{ is even.}",
+      "description_latex": "We must verify that the witness we produced is actually an integer, because the definition of 'even' requires $n^2 = 2m$ for some *integer* $m$. Here $m = 2k^2$, and since integers are closed under multiplication, $2k^2$ is indeed an integer, making the argument complete.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: If } m \\text{ and } n \\text{ are both odd integers, then } m + n \\text{ is even.}",
+      "description_latex": "We state the claim and identify our hypothesis ($m$ and $n$ are both odd) and our goal ($m + n$ is even). Having both clearly in view before starting is essential so that every step points toward the right destination.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Assume } m \\text{ and } n \\text{ are odd. Then } m = 2j + 1 \\text{ and } n = 2k + 1 \\text{ for integers } j, k.",
+      "description_latex": "We assume the hypothesis and convert both odd integers into their definitions. Notice we use *different* integer parameters $j$ and $k$ for $m$ and $n$ \u2014 using the same letter would incorrectly force $m = n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now add $m + n$ by substituting their definitions and simplify the result. Can you factor the expression so that it visibly has the form $2 \\cdot (\\text{integer})$, which is exactly what it means for a number to be even?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Since } j + k + 1 \\in \\mathbb{Z}, \\text{ we conclude } m + n \\text{ is even.} \\quad \\blacksquare",
+      "description_latex": "We close the proof by confirming the witness is an integer and invoking the definition of 'even' one final time. The tombstone symbol $\\blacksquare$ signals that the proof is complete \u2014 always end with a clear conclusion sentence so the reader knows you have arrived at $Q$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove that if $n$ is even, then $3n$ is even.",
+      "answer_latex": "Write $n = 2k$. Then $3n = 3(2k) = 2(3k)$, and $3k \\in \\mathbb{Z}$, so $3n$ is even."
+    },
+    {
+      "prompt_latex": "Prove that if $n$ is odd, then $n^2$ is odd.",
+      "answer_latex": "Write $n = 2k+1$. Then $n^2 = 4k^2 + 4k + 1 = 2(2k^2+2k) + 1$, which is odd since $2k^2+2k \\in \\mathbb{Z}$."
+    },
+    {
+      "prompt_latex": "Prove that if $a \\mid b$ and $a \\mid c$, then $a \\mid (b + c)$. (Here $a \\mid b$ means $b = a\\,q$ for some integer $q$.)",
+      "answer_latex": "Write $b = aq$ and $c = ar$. Then $b+c = aq + ar = a(q+r)$, and $q+r \\in \\mathbb{Z}$, so $a \\mid (b+c)$."
+    },
+    {
+      "prompt_latex": "Prove that if $n$ is an even integer, then $n^2 + 2n + 1$ is odd. (Hint: factor first.)",
+      "answer_latex": "Note $n^2+2n+1 = (n+1)^2$. Since $n$ is even, $n+1$ is odd, so $(n+1)^2$ is odd by the result that the square of an odd integer is odd."
+    },
+    {
+      "prompt_latex": "A store gives a discount in two stages: first it reduces the price by $\\$2a$ dollars, then by $\\$2b$ dollars. Prove that the total discount is always an even number of dollars.",
+      "answer_latex": "The total discount is $2a + 2b = 2(a+b)$. Since $a, b \\in \\mathbb{Z}$, we have $a+b \\in \\mathbb{Z}$, so $2(a+b)$ is even by definition."
+    }
+  ],
+  "common_mistakes": [
+    "Students assume the conclusion inside the proof \u2014 for example, writing 'Let $n^2 = 2m$' to prove $n^2$ is even, which is circular. The fix: only assume the *hypothesis* at the start; the conclusion must be derived, never assumed.",
+    "Students reuse the same integer variable for two independent quantities, writing '$m = 2k+1$ and $n = 2k+1$', which implicitly forces $m = n$. The fix: introduce distinct parameter names (e.g., $j$ and $k$) for every separately defined integer.",
+    "Students forget to verify that the constructed witness is actually an integer, writing '$n^2 = 2(2k^2)$ so $n^2$ is even' without noting $2k^2 \\in \\mathbb{Z}$. The fix: explicitly state that your witness belongs to $\\mathbb{Z}$ using closure of integers under the relevant operations."
+  ],
+  "untested_variants": [
+    "Direct proofs involving rational numbers, e.g., proving that the sum of two rational numbers is rational, which requires handling fractions and finding a common denominator as the witness.",
+    "Direct proofs about divisibility with three or more hypotheses, such as 'if $a \\mid b$ and $b \\mid c$, then $a \\mid c$' (transitivity of divisibility), requiring a chain of substitutions.",
+    "Direct proofs of set-theoretic statements, such as proving $A \\subseteq B$ and $B \\subseteq C$ implies $A \\subseteq C$, where the 'assume' step picks an arbitrary element rather than writes an algebraic definition.",
+    "Direct proofs involving absolute values or inequalities, such as proving 'if $0 < a < b$, then $a^2 < b^2$', which requires multiplying inequalities rather than algebraic substitution."
+  ]
+}

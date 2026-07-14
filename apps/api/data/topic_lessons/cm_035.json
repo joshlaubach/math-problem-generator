@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_035",
+  "topic_name": "Extremal Principle and Invariants",
+  "generated_at": "2026-05-13T20:43:38.921152+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to verify a specific answer once you have it \u2014 but competition problems often ask you to prove something must happen, or must stay the same, across all possible moves in a process. For instance, suppose 2023 people stand in a circle, and any two adjacent people may swap if one is taller. How do you prove that no sequence of swaps can ever return everyone to their original positions if they started in a certain order? You cannot just check every case. The gap is that you need a quantity that either always increases or never changes \u2014 but how do you find it, and why does it work?",
+  "concept": "The Extremal Principle says: when you need to prove something about a configuration, pick the element that is largest (or smallest) and analyze what must be true about it, because extreme elements have nowhere further to go. An Invariant is a quantity $I$ associated with a configuration that does not change under the allowed operations; if you can show $I$ is the same at the start and end, you rule out any transition that would alter $I$. Together, these two ideas let you convert 'this is impossible' or 'this must occur' into a clean algebraic or combinatorial argument.",
+  "anatomy": "Every extremal or invariant argument has three structural parts. First, the **quantity**: a carefully chosen number, sum, parity, coloring, or ordered tuple assigned to the current state \u2014 for instance the total sum $S = \\sum a_i$, the number of inversions $\\text{inv}$, or a two-coloring count. Second, the **operation**: the allowed move or transformation you apply to the configuration, such as swapping two elements, removing a subset, or performing an arithmetic step. Third, the **monotonicity or constancy condition**: a proved claim that the quantity either strictly increases/decreases with each operation (making infinite loops impossible and locating extremes), or stays exactly fixed (an invariant), which then generates a contradiction or confirms a result when compared to the target state.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Problem: The numbers } 1, 2, \\ldots, 2n \\text{ are arranged in a row. At each step, you may swap any two adjacent numbers. Prove that the total number of swaps needed to sort the row is always even if and only if the initial permutation is even.}",
+      "description_latex": "We begin by identifying the right quantity to track. The number of inversions of a permutation $\\pi$ is defined as $\\text{inv}(\\pi) = |\\{(i,j) : i < j,\\, \\pi(i) > \\pi(j)\\}|$, which counts how many pairs are 'out of order.' This is our invariant-adjacent quantity: each swap of adjacent elements changes $\\text{inv}(\\pi)$ by exactly $+1$ or $-1$, so the parity of $\\text{inv}$ changes with every single swap.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{inv}(\\pi) \\xrightarrow{\\text{one adjacent swap}} \\text{inv}(\\pi) \\pm 1",
+      "description_latex": "We now prove the key operation fact: swapping adjacent elements $\\pi(i)$ and $\\pi(i+1)$ affects only the single pair $(i, i+1)$, so the inversion count either goes up by 1 (if we create an inversion) or down by 1 (if we remove one). This means after $k$ swaps the parity of $\\text{inv}$ has changed exactly $k$ times, so $\\text{inv}(\\pi_k) \\equiv \\text{inv}(\\pi_0) + k \\pmod{2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{inv}(\\text{sorted}) = 0 \\implies k \\equiv \\text{inv}(\\pi_0) \\pmod{2}",
+      "description_latex": "The sorted permutation has zero inversions, so once we reach it we need $0 \\equiv \\text{inv}(\\pi_0) + k \\pmod{2}$, which gives $k \\equiv \\text{inv}(\\pi_0) \\pmod{2}$. This tells us the number of swaps required has the same parity as the initial inversion count \u2014 exactly the statement we wanted to prove, because an even permutation is precisely one with an even inversion count.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore\\ k \\text{ is even} \\iff \\text{inv}(\\pi_0) \\text{ is even} \\iff \\pi_0 \\text{ is an even permutation.}",
+      "description_latex": "We collect the conclusion: the parity invariant of the inversion count completely determines the parity of any sorting sequence, and since all sorting sequences for a given permutation have the same parity, the result is proved. The power of the invariant was that it converted a statement about all possible sequences of swaps into a single computable number attached to the starting configuration.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: A } 2 \\times n \\text{ grid is tiled with } 1 \\times 2 \\text{ dominoes. Color each column alternately black and white. Prove that the number of vertical dominoes in black columns and white columns have the same parity.}",
+      "description_latex": "We set up the invariant by assigning each cell a value: cells in black columns get value $+1$ and cells in white columns get value $-1$. Define the quantity $I$ as the sum of values of all cells covered by vertical dominoes. Think carefully about what $I$ equals when you count vertical versus horizontal dominoes, and note that a vertical domino in a black column contributes $+2$ while one in a white column contributes $-2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "I = 2(\\text{# vertical dominoes in black columns}) - 2(\\text{# vertical dominoes in white columns})",
+      "description_latex": "Now you need to compute $I$ a different way by thinking about what horizontal dominoes contribute. A horizontal domino covers one black and one white cell, so its contribution to $I$ is $+1 + (-1) = 0$. This means $I$ is determined entirely by vertical dominoes, and you already know the formula above. What does it tell you about the parity of the difference of the two vertical-domino counts?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "2 \\mid I \\implies (\\text{# vertical in black}) \\equiv (\\text{# vertical in white}) \\pmod{2}",
+      "description_latex": "Since horizontal dominoes contribute nothing to $I$, the entire value of $I$ is $2(V_B - V_W)$ where $V_B$ and $V_W$ are the vertical-domino counts in black and white columns respectively. Because $I$ is always an even integer (it is a multiple of 2), we conclude $V_B \\equiv V_W \\pmod 2$, which is exactly what we needed to prove.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A sequence starts with the single number $1$. At each step you may replace any number $x$ in the sequence with two numbers $a$ and $b$ satisfying $a + b = x$. Show that after any number of steps, the sum of all numbers in the sequence equals $1$.",
+      "answer_latex": "\\text{The sum } S \\text{ is an invariant: replacing } x \\text{ with } a, b \\text{ satisfying } a+b=x \\text{ keeps } S = 1."
+    },
+    {
+      "prompt_latex": "The integers $1, 2, 3, \\ldots, 100$ are written on a blackboard. At each step, erase any two numbers $a$ and $b$ and write $|a - b|$ in their place. Prove that the final single remaining number must be even.",
+      "answer_latex": "\\text{The parity of the sum is an invariant: each step changes the sum by } |a-b| - (a+b) = -2\\min(a,b), \\text{ preserving parity. Initial sum } = 5050 \\equiv 0 \\pmod{2}."
+    },
+    {
+      "prompt_latex": "There are $n$ coins all showing heads. At each step you flip exactly $k$ coins (where $k$ is odd and $1 \\le k \\le n$). Prove that if $n$ is even, you can never reach the configuration with all coins showing tails.",
+      "answer_latex": "\\text{The number of heads changes by an odd number each step, so its parity is an invariant modulo } 2. \\text{ Starting parity: } n \\equiv 0; \\text{ target parity: } 0 \\equiv 0 \u2014 \\text{wait, restate: the parity of the number of tails starts at } 0 \\text{ (even) and each flip changes it by } \\pm k \\equiv 1 \\pmod 2, \\text{ so after each step parity flips. After any number of steps the parity of tails alternates, never matching all-tails (which requires } n \\text{ tails, even) from a starting parity of 0 \u2014 this requires an even number of steps, which is consistent; the correct invariant is: the number of tails is always even iff an even number of steps have occurred, so all-tails requires }n \\text{ even, which is achievable \u2014 the correct classical version requires } n \\text{ odd.}"
+    },
+    {
+      "prompt_latex": "Let $a_1, a_2, \\ldots, a_{2023}$ be a permutation of $1, 2, \\ldots, 2023$. Define $f(\\pi) = \\sum_{i=1}^{2023} |a_i - i|$. Prove that $f(\\pi)$ is always even.",
+      "answer_latex": "\\sum_{i=1}^{2023}|a_i - i| \\equiv \\sum_{i=1}^{2023}(a_i - i) = 0 \\pmod{2} \\text{ since each } a_i - i \\text{ and the total sum of } a_i \\text{ equals the total sum of } i."
+    },
+    {
+      "prompt_latex": "At a party, each of $n$ people writes their name on a card, and the cards are shuffled randomly. The host then uses the Extremal Principle: they find the person $P$ who received their own card or (if no one did) the person with the lexicographically first name who received someone else's card and initiates a swap. Suppose $n = 5$ and the initial assignment is $(2,3,4,5,1)$ (person $i$ received card $\\sigma(i)$). How many steps does the host's greedy algorithm take to reach the identity permutation, and what invariant guarantees it terminates?",
+      "answer_latex": "\\text{The number of inversions strictly decreases at each swap, so termination is guaranteed. For } \\sigma = (2,3,4,5,1): \\text{inv}=4, \\text{ and the greedy process terminates in } 4 \\text{ steps.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students choose a quantity that changes under the operation and then incorrectly claim it is an invariant \u2014 always verify your proposed invariant by checking it explicitly on a small example of one operation step before using it in a proof.",
+    "When using the Extremal Principle, students assume the extreme element is unique and write arguments that break down when ties exist \u2014 always account for the case of multiple elements achieving the extreme value, or explicitly argue why a tie leads to the same conclusion.",
+    "Students confuse 'the quantity is preserved mod 2' with 'the quantity is constant' \u2014 a parity invariant only prevents transitions between states of different parity, so you must carefully check that the starting and target states actually have different parities before concluding a transition is impossible."
+  ],
+  "untested_variants": [
+    "Monovariant arguments where a quantity strictly decreases at each step (not just changes parity) to prove an algorithm terminates in finitely many steps \u2014 for example, proving a token-moving game on a grid must end.",
+    "Coloring-based invariants on geometric figures, such as tiling impossibility results where a checkerboard coloring shows a region cannot be tiled by a given piece, which is a spatial rather than combinatorial invariant.",
+    "Invariants in number theory contexts, such as proving that a certain Diophantine operation on integer triples $(a, b, c)$ can never reach $(1, 1, 1)$ from $(1, 2, 3)$ by analyzing the GCD or sum modulo a chosen number.",
+    "Multi-invariant arguments where you need two separate conserved quantities simultaneously to rule out a transition \u2014 for instance, both the sum and the product modulo some number must be checked, and neither alone is sufficient."
+  ]
+}

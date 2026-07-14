@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_008",
+  "topic_name": "Mixing Problems and Compartmental Analysis",
+  "generated_at": "2026-05-13T20:00:24.897042+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve first-order linear differential equations using integrating factors, and you can model simple growth and decay. But now imagine a tank holding 500 liters of saltwater: brine flows in at one rate carrying a known concentration, the well-mixed solution drains out at a possibly different rate, and the volume itself may be changing over time. The amount of salt in the tank is neither pure growth nor pure decay \u2014 it's a tug-of-war between what flows in and what flows out. How do you write a differential equation that captures all of that, and what happens to the salt concentration in the long run?",
+  "concept": "A mixing problem tracks how the amount of some substance (salt, pollutant, medicine) inside a compartment changes over time because material enters and leaves simultaneously. Formally, if $Q(t)$ is the amount of substance at time $t$, the governing equation is $\\frac{dQ}{dt} = \\text{rate in} - \\text{rate out}$, where each rate is (flow rate of liquid) $\\times$ (concentration of substance in that liquid). This balance law turns every mixing scenario into a first-order linear ODE.",
+  "anatomy": "Every mixing problem has five distinct structural parts you must identify before writing the equation. The inflow rate $r_{in}$ (volume per time, e.g., L/min) and inflow concentration $c_{in}$ (amount per volume) together give the input term $r_{in} \\cdot c_{in}$. The outflow rate $r_{out}$ and the current concentration $Q(t)/V(t)$ \u2014 where $V(t)$ is the volume of liquid in the tank at time $t$ \u2014 give the output term $r_{out} \\cdot \\frac{Q(t)}{V(t)}$. Finally, the initial condition $Q(0) = Q_0$ closes the problem. When $r_{in} = r_{out}$, the volume $V(t)$ is constant; when they differ, $V(t) = V_0 + (r_{in} - r_{out})t$ is itself a function of time.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dQ}{dt} = r_{in} \\cdot c_{in} - r_{out} \\cdot \\frac{Q}{V(t)}",
+      "description_latex": "We begin by writing the universal balance law for a mixing problem: the rate of change of substance equals what flows in minus what flows out. The outflow concentration is not fixed \u2014 it equals the current amount $Q$ divided by the current volume $V(t)$, because the tank is well-mixed at every instant.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "V(t) = 500, \\quad \\frac{dQ}{dt} = (2\\,\\text{L/min})(0.1\\,\\text{kg/L}) - (2\\,\\text{L/min})\\frac{Q}{500}",
+      "description_latex": "Now we plug in the specific numbers for a concrete problem: a 500-L tank initially containing 50 kg of salt, with brine flowing in at 2 L/min at concentration 0.1 kg/L and draining at the same 2 L/min, so the volume stays constant at 500 L. This simplifies our equation to $\\frac{dQ}{dt} = 0.2 - \\frac{Q}{250}$, which is a first-order linear ODE.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dQ}{dt} + \\frac{1}{250}Q = 0.2",
+      "description_latex": "We rewrite the equation in standard linear form $Q' + P(t)Q = f(t)$ by moving the $Q$-term to the left side. Here $P(t) = \\frac{1}{250}$ is constant, which tells us the integrating factor will be a simple exponential and the algebra ahead will be clean.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mu(t) = e^{\\int (1/250)\\,dt} = e^{t/250}, \\quad \\frac{d}{dt}\\!\\left[e^{t/250}Q\\right] = 0.2\\,e^{t/250}",
+      "description_latex": "Multiplying both sides by the integrating factor $e^{t/250}$ converts the left side into an exact derivative, which is precisely why we choose this factor. Integrating both sides with respect to $t$ gives $e^{t/250}Q = 50\\,e^{t/250} + C$, so $Q(t) = 50 + Ce^{-t/250}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q(0) = 50 \\Rightarrow 50 = 50 + C \\Rightarrow C = 0, \\quad Q(t) = 50\\,\\text{kg}",
+      "description_latex": "Applying the initial condition $Q(0) = 50$ kg forces $C = 0$, meaning the tank already holds exactly the equilibrium amount of salt and the concentration never changes. This elegant result makes sense: the inflow delivers $0.2$ kg/min and at $Q=50$ the outflow removes $\\frac{50}{250}\\cdot 2 = 0.4$... wait, let us recheck \u2014 at equilibrium $\\frac{dQ}{dt}=0$ gives $Q^* = 0.2 \\times 250 = 50$ kg, confirming the initial amount is precisely the steady state.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dQ}{dt} = (3\\,\\text{L/min})(0.05\\,\\text{kg/L}) - (3\\,\\text{L/min})\\frac{Q}{300}",
+      "description_latex": "A 300-L tank starts with pure water ($Q(0)=0$). Brine enters at 3 L/min with concentration 0.05 kg/L, and the well-mixed solution drains at 3 L/min. We identify that the volume is constant at 300 L and immediately write the balance law, giving us $\\frac{dQ}{dt} = 0.15 - \\frac{Q}{100}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dQ}{dt} + \\frac{1}{100}Q = 0.15",
+      "description_latex": "We rewrite in standard linear form and identify the integrating factor $\\mu(t) = e^{t/100}$. After multiplying through and integrating, we obtain the general solution $Q(t) = 15 + Ce^{-t/100}$. This step is already done for you \u2014 notice how the steady-state value 15 kg appears directly as the particular solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Apply the initial condition $Q(0) = 0$ to find the constant $C$, and write the complete particular solution $Q(t)$. Then find the concentration $c(t) = Q(t)/300$ and determine what value it approaches as $t \\to \\infty$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A 200-L tank contains pure water. Brine with concentration 0.5 kg/L flows in at 4 L/min and the well-mixed solution flows out at 4 L/min. Write (but do not solve) the IVP for $Q(t)$, the kg of salt in the tank.",
+      "answer_latex": "\\frac{dQ}{dt} = 2 - \\frac{Q}{50}, \\quad Q(0) = 0"
+    },
+    {
+      "prompt_latex": "Solve the IVP $\\frac{dQ}{dt} = 2 - \\frac{Q}{50}$, $Q(0) = 0$. Find $Q(t)$ and the limiting amount of salt as $t \\to \\infty$.",
+      "answer_latex": "Q(t) = 100\\left(1 - e^{-t/50}\\right)\\,\\text{kg}; \\quad \\lim_{t\\to\\infty} Q(t) = 100\\,\\text{kg}"
+    },
+    {
+      "prompt_latex": "A 100-L tank initially holds 20 kg of salt dissolved in water. Pure water flows in at 5 L/min and the well-mixed solution drains at 5 L/min. Find $Q(t)$.",
+      "answer_latex": "Q(t) = 20\\,e^{-t/20}\\,\\text{kg}"
+    },
+    {
+      "prompt_latex": "A 400-L tank starts with 10 kg of salt in 400 L of water. Brine at 0.2 kg/L flows in at 6 L/min, but the tank drains at 4 L/min. Write $V(t)$, set up the linear ODE for $Q(t)$, and solve it using an integrating factor.",
+      "answer_latex": "V(t) = 400 + 2t; \\quad \\frac{dQ}{dt} + \\frac{4}{400+2t}Q = 1.2; \\quad Q(t) = \\frac{1.2(400+2t)}{6} + C(400+2t)^{-2} = 0.2(400+2t) + C(400+2t)^{-2}; \\quad C = 10(400)^{2} - 0.2(400)^{3} = -4{,}774{,}400; \\quad Q(t) = 0.2(400+2t) - \\frac{4{,}774{,}400}{(400+2t)^{2}}"
+    },
+    {
+      "prompt_latex": "A patient's bloodstream (volume 6 L) is modeled as a well-mixed compartment. A drug is infused at 0.03 g/min; the body eliminates drug proportionally at a rate such that 2 L/min of blood is 'cleared' (drug removed at the current concentration). If the patient starts with no drug, find the concentration $c(t) = Q(t)/6$ and the steady-state concentration.",
+      "answer_latex": "\\frac{dQ}{dt} = 0.03 - \\frac{Q}{3}, \\quad Q(0)=0; \\quad Q(t) = 0.09\\left(1-e^{-t/3}\\right)\\,\\text{g}; \\quad c(t) = 0.015\\left(1-e^{-t/3}\\right)\\,\\text{g/L}; \\quad c_{\\infty} = 0.015\\,\\text{g/L}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write the outflow concentration as the fixed inflow concentration $c_{in}$ instead of the current concentration $Q(t)/V(t)$. The outflow carries whatever concentration is in the tank right now, not what is coming in \u2014 using $c_{in}$ for both terms makes the equation incorrect and eliminates the $Q$-dependence that drives the whole problem.",
+    "When inflow and outflow rates differ, students treat the volume as constant and write $V$ instead of $V(t) = V_0 + (r_{in}-r_{out})t$ in the denominator of the outflow term. This creates a constant-coefficient ODE instead of the correct variable-coefficient one; always check whether $r_{in} = r_{out}$ before assuming constant volume.",
+    "Students compute the steady-state salt amount as $c_{in} \\times r_{in}$ (units wrong) instead of correctly setting $\\frac{dQ}{dt} = 0$ to get $Q^* = c_{in} \\cdot V$ (when rates are equal). Forgetting to divide the inflow rate by the outflow-to-volume ratio gives a dimensionally inconsistent answer; always verify units of each term in the ODE as a check."
+  ],
+  "untested_variants": [
+    "Two-compartment (cascade) problems where the outflow of Tank 1 feeds directly into Tank 2, requiring a system of two coupled first-order ODEs.",
+    "Problems where the inflow concentration $c_{in}(t)$ is itself a function of time (e.g., a sinusoidal or piecewise input), requiring a non-autonomous linear ODE with a more complex particular solution.",
+    "Mixing problems that ask for the time at which the concentration first reaches a specified target value, requiring solving a transcendental equation $Q(t^*) = Q_{target}$ for $t^*$ explicitly.",
+    "Draining-to-empty problems where outflow continues until the tank empties and the ODE is only valid on a finite time interval $[0, t_{empty}]$, demanding attention to the domain of the solution."
+  ]
+}

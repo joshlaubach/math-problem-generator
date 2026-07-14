@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_039",
+  "topic_name": "Series Solutions Near Regular Singular Points (Frobenius Method)",
+  "generated_at": "2026-05-13T20:03:21.539879+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to find power series solutions to differential equations around ordinary points, substituting $y = \\sum_{n=0}^{\\infty} a_n x^n$ and matching coefficients. But what happens when the equation has a singular point at $x = 0$, like Bessel's equation $x^2 y'' + x y' + (x^2 - \\nu^2)y = 0$? A plain power series often fails completely \u2014 it may not converge or may miss solutions entirely. So how do we find series solutions near these more troublesome points?",
+  "concept": "The Frobenius Method extends power series solutions to equations with a regular singular point at $x = 0$ by assuming a solution of the form $y = x^r \\sum_{n=0}^{\\infty} a_n x^n = \\sum_{n=0}^{\\infty} a_n x^{n+r}$, where $r$ is an unknown exponent to be determined. A point $x_0$ is a regular singular point of $P(x)y'' + Q(x)y' + R(x)y = 0$ if $(x - x_0)Q/P$ and $(x-x_0)^2 R/P$ both have convergent Taylor series there; the Frobenius trial solution works precisely at such points, with $r$ found from the indicial equation.",
+  "anatomy": "The Frobenius solution $y = x^r \\sum_{n=0}^{\\infty} a_n x^n$ has several named parts. The factor $x^r$ is called the leading factor or Frobenius factor, and $r$ is the indicial exponent (or Frobenius exponent), which may be any real or complex number. Substituting into the ODE and collecting the lowest-power term yields the indicial equation, a quadratic in $r$ whose two roots $r_1$ and $r_2$ (with $r_1 \\geq r_2$ by convention) govern the form of the two independent solutions. The recurrence relation, obtained by setting each power of $x$ to zero, determines $a_n$ in terms of earlier coefficients once $r$ is fixed.",
+  "worked_example": [
+    {
+      "expression_latex": "2x y'' + y' + y = 0",
+      "description_latex": "We begin by identifying $x = 0$ as a singular point. Writing the equation in standard form gives $y'' + \\frac{1}{2x}y' + \\frac{1}{2x}y = 0$, so $x \\cdot \\frac{1}{2x} = \\frac{1}{2}$ and $x^2 \\cdot \\frac{1}{2x} = \\frac{x}{2}$, both analytic at $x=0$, confirming $x=0$ is a regular singular point and the Frobenius Method applies.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = \\sum_{n=0}^{\\infty} a_n x^{n+r}, \\quad y' = \\sum_{n=0}^{\\infty} (n+r)a_n x^{n+r-1}, \\quad y'' = \\sum_{n=0}^{\\infty} (n+r)(n+r-1)a_n x^{n+r-2}",
+      "description_latex": "We substitute the Frobenius trial solution into the ODE. We differentiate term by term, which is valid inside the radius of convergence, and write the three series we will need. Notice that every exponent carries the shift $r$, which is what separates this from an ordinary power series.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x \\cdot \\sum_{n=0}^{\\infty}(n+r)(n+r-1)a_n x^{n+r-2} + \\sum_{n=0}^{\\infty}(n+r)a_n x^{n+r-1} + \\sum_{n=0}^{\\infty}a_n x^{n+r} = 0",
+      "description_latex": "Substituting and simplifying the powers of $x$, the first two sums combine: $2(n+r)(n+r-1)a_n x^{n+r-1} + (n+r)a_n x^{n+r-1} = (n+r)(2n+2r-1)a_n x^{n+r-1}$. Setting $n=0$ in the combined first two sums gives the coefficient of $x^{r-1}$, which must be zero with $a_0 \\neq 0$, producing the indicial equation $r(2r-1)=0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r_1 = \\frac{1}{2}, \\quad r_2 = 0; \\qquad (n+r)(2n+2r-1)a_n + a_{n-1} = 0 \\implies a_n = \\frac{-a_{n-1}}{(n+r)(2n+2r-1)}",
+      "description_latex": "The indicial equation $r(2r-1)=0$ gives roots $r_1 = 1/2$ and $r_2 = 0$. Their difference $r_1 - r_2 = 1/2$ is not a non-negative integer, so both roots yield independent Frobenius solutions with no complications. We also read off the recurrence relation by equating the coefficient of $x^{n+r-1}$ to zero for general $n \\geq 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_1 = x^{1/2}\\left(1 - \\frac{x}{1\\cdot 2} + \\frac{x^2}{2\\cdot 2\\cdot 3\\cdot 4} - \\cdots\\right), \\quad y_2 = 1 - \\frac{x}{(-1)\\cdot 1}+\\cdots",
+      "description_latex": "Using $r_1 = 1/2$ with $a_0 = 1$: $a_1 = \\frac{-1}{(3/2)(2)} = -\\frac{1}{3}$, and continuing the recurrence builds the first solution $y_1$. Using $r_2 = 0$ builds $y_2$ independently, and the general solution is $y = c_1 y_1 + c_2 y_2$. This completes the Frobenius procedure for distinct roots whose difference is not an integer.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x y'' + 2y' - xy = 0",
+      "description_latex": "First we confirm $x=0$ is a regular singular point by checking that $x \\cdot \\frac{2}{x} = 2$ and $x^2 \\cdot \\frac{-x}{x} = -x^2$ are both analytic at $x=0$. We assume $y = \\sum_{n=0}^{\\infty} a_n x^{n+r}$ and substitute. Collecting the lowest power $x^{r-1}$ (from the $y''$ and $y'$ terms with $n=0$) gives the indicial equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r(r-1)a_0 x^{r-1} + 2r a_0 x^{r-1} = r(r+1)a_0 x^{r-1} = 0",
+      "description_latex": "The coefficient of $x^{r-1}$ with $a_0 \\neq 0$ gives the indicial equation $r(r+1) = 0$. Solve this indicial equation and state both roots $r_1$ and $r_2$, noting whether their difference is a non-negative integer.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "a_n = \\frac{a_{n-2}}{(n+r)(n+r+1)}, \\quad n \\geq 2; \\quad a_1 = 0",
+      "description_latex": "Here is the recurrence relation (the $-xy$ term shifts the index by 2, so odd coefficients vanish). Using the larger root $r_1 = 0$, write out the first three non-zero coefficients $a_0, a_2, a_4$ in terms of $a_0$, and assemble the leading terms of the first Frobenius solution $y_1$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y_1 = a_0\\left(1 + \\frac{x^2}{2\\cdot 3} + \\frac{x^4}{2\\cdot 3\\cdot 4\\cdot 5} + \\cdots\\right)",
+      "description_latex": "This is the first Frobenius solution corresponding to $r_1 = 0$. Since $r_1 - r_2 = 1$ is a positive integer, obtaining the second independent solution may require a logarithmic term \u2014 that case is handled by a separate technique, but recognizing it is an important outcome of this step.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the indicial equation and its roots for $2xy'' + y' - xy = 0$.",
+      "answer_latex": "Indicial equation: $r(2r-1)=0$; roots $r_1 = \\tfrac{1}{2},\\ r_2 = 0$."
+    },
+    {
+      "prompt_latex": "Find the indicial equation and both Frobenius exponents for $x^2 y'' + x y' + \\left(x^2 - \\tfrac{1}{4}\\right)y = 0$ (Bessel's equation with $\\nu = \\tfrac{1}{2}$).",
+      "answer_latex": "Indicial equation: $r^2 - \\tfrac{1}{4} = 0$; roots $r_1 = \\tfrac{1}{2},\\ r_2 = -\\tfrac{1}{2}$."
+    },
+    {
+      "prompt_latex": "For the equation $x y'' + (1-x)y' - y = 0$, show $x=0$ is a regular singular point, find the indicial roots, and determine the first three terms of the Frobenius solution corresponding to the larger root.",
+      "answer_latex": "Indicial equation: $r^2 = 0$, so $r_1 = r_2 = 0$ (repeated root). For $r=0$: $a_1 = a_0,\\ a_2 = \\tfrac{a_0}{2},\\ a_3 = \\tfrac{a_0}{6}$, giving $y_1 = a_0\\left(1 + x + \\tfrac{x^2}{2} + \\cdots\\right) = a_0 e^x$."
+    },
+    {
+      "prompt_latex": "The equation $x^2 y'' - x y' + (1-x^2)y = 0$ has a regular singular point at $x=0$. Find the indicial equation, both roots, and the recurrence relation. Then write the first two terms of $y_1$ (larger root).",
+      "answer_latex": "Indicial equation: $(r-1)^2 = 0$, so $r_1 = r_2 = 1$ (repeated). Recurrence: $a_n = \\dfrac{a_{n-2}}{(n+r-1)^2}$ (with $r=1$: $a_n = \\dfrac{a_{n-2}}{n^2}$). $y_1 = x\\!\\left(1 + \\dfrac{x^2}{4} + \\cdots\\right)$."
+    },
+    {
+      "prompt_latex": "A physical model leads to the ODE $x y'' + (1+2x)y' + 2y = 0$. Identify $x=0$ as a regular singular point, find the indicial roots, and determine whether the two Frobenius solutions are linearly independent or whether a logarithmic second solution is needed.",
+      "answer_latex": "Indicial equation: $r^2 = 0$, giving the repeated root $r = 0$. Because the roots are equal (difference is zero, a non-negative integer), a logarithmic second solution is required; only one standard Frobenius series solution exists."
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to require $a_0 \\neq 0$ when deriving the indicial equation, and instead set $n=0$ in a recurrence that already assumed $n \\geq 1$, obtaining a wrong or trivial indicial equation. Always isolate the lowest-power term before setting up the recurrence.",
+    "When the difference of the indicial roots $r_1 - r_2$ is a positive integer, students assume both roots automatically give two independent power-series solutions, ignoring that the smaller root may require a logarithmic term. Always check the difference: if $r_1 - r_2 \\in \\mathbb{Z}^+$, investigate whether a logarithmic solution is needed.",
+    "Students shift summation indices carelessly when combining series with different powers of $x$, causing the recurrence relation to be off by one index. A reliable fix is to rewrite every series so it starts with the same power of $x$ before combining."
+  ],
+  "untested_variants": [
+    "Finding the second Frobenius solution when the indicial roots differ by a positive integer and the second solution contains a logarithmic term (e.g., Bessel's equation with integer $\\nu$).",
+    "Applying the Frobenius Method at a regular singular point $x_0 \\neq 0$ by making the substitution $t = x - x_0$ first.",
+    "Complex indicial roots, where $r_1$ and $r_2$ are complex conjugates, leading to real oscillatory solutions via Euler's formula.",
+    "Determining the radius of convergence of the Frobenius series using the distance to the nearest other singular point in the complex plane."
+  ]
+}

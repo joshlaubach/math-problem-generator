@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_025",
+  "topic_name": "The Normal Distribution",
+  "generated_at": "2026-05-13T20:27:24.930203+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find probabilities for discrete random variables by summing up values, and you've seen that continuous random variables use integrals under a density curve instead. But what happens when almost every measurement in the real world \u2014 heights, test scores, manufacturing errors \u2014 follows the same beautiful, symmetric bell-shaped pattern? We need a specific distribution built for exactly this kind of data. Given that an adult's height is normally distributed with mean 170 cm and standard deviation 6 cm, how would you find the probability that a randomly selected adult is between 164 cm and 182 cm tall?",
+  "concept": "The normal distribution is a continuous probability distribution that produces the iconic symmetric, bell-shaped curve centered at its mean. Formally, a random variable $X$ is normally distributed, written $X \\sim N(\\mu, \\sigma^2)$, if its probability density function is $f(x) = \\frac{1}{\\sigma\\sqrt{2\\pi}} e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$ for $-\\infty < x < \\infty$, where $\\mu$ is the mean and $\\sigma > 0$ is the standard deviation.",
+  "anatomy": "The normal distribution has four essential components. The mean $\\mu$ sets the center of the bell curve \u2014 the point of peak density and the axis of symmetry. The standard deviation $\\sigma$ (or variance $\\sigma^2$) controls the spread: a larger $\\sigma$ flattens and widens the bell, while a smaller $\\sigma$ makes it tall and narrow. The normalizing constant $\\frac{1}{\\sigma\\sqrt{2\\pi}}$ ensures the total area under the curve equals 1. The exponential kernel $e^{-\\frac{(x-\\mu)^2}{2\\sigma^2}}$ drives the bell shape by penalizing values that are far from $\\mu$ symmetrically on both sides. Probabilities are computed as areas under this curve between two values, always using the standard normal $Z = \\frac{X - \\mu}{\\sigma}$ to convert to a table or calculator.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim N(170, 36), \\quad P(164 \\leq X \\leq 182)",
+      "description_latex": "We start by clearly identifying the parameters of our distribution: $\\mu = 170$ cm and $\\sigma^2 = 36$, so $\\sigma = 6$. We want the probability that $X$ falls between 164 and 182, which corresponds to the area under the normal curve between those two values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Z = \\frac{X - \\mu}{\\sigma} = \\frac{X - 170}{6}",
+      "description_latex": "Because we cannot integrate the normal PDF by hand, we convert $X$ to a standard normal variable $Z \\sim N(0,1)$ using the standardization formula. This rescales any normal distribution to one with mean 0 and standard deviation 1, whose probabilities are tabulated.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Z_1 = \\frac{164 - 170}{6} = -1, \\qquad Z_2 = \\frac{182 - 170}{6} = 2",
+      "description_latex": "We apply the standardization to both endpoints: the lower bound 164 maps to $Z = -1$ and the upper bound 182 maps to $Z = 2$. This tells us we need the area under the standard normal curve between $-1$ and $2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(-1 \\leq Z \\leq 2) = \\Phi(2) - \\Phi(-1) = 0.9772 - 0.1587 = 0.8185",
+      "description_latex": "Using the standard normal CDF $\\Phi$, we look up $\\Phi(2) = 0.9772$ and $\\Phi(-1) = 0.1587$ from the Z-table. We subtract because $P(a \\leq Z \\leq b) = \\Phi(b) - \\Phi(a)$, giving us the probability that a randomly chosen adult has height between 164 cm and 182 cm.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim N(50, 25), \\quad P(X > 55)",
+      "description_latex": "We have $\\mu = 50$ and $\\sigma^2 = 25$, so $\\sigma = 5$. We want the probability that $X$ exceeds 55, which is the area in the right tail of this normal curve beyond 55.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Z = \\frac{55 - 50}{5} = 1",
+      "description_latex": "Standardizing the cutoff value: we plug $x = 55$, $\\mu = 50$, and $\\sigma = 5$ into the formula $Z = \\frac{x - \\mu}{\\sigma}$ to get the corresponding $Z$-score.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now use the standard normal CDF to compute $P(Z > 1)$. Remember that $P(Z > z) = 1 - \\Phi(z)$, and $\\Phi(1) = 0.8413$. What is $P(X > 55)$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "If $X \\sim N(0, 1)$, find $P(Z \\leq 1.5)$ using the standard normal table, given $\\Phi(1.5) = 0.9332$.",
+      "answer_latex": "P(Z \\leq 1.5) = \\Phi(1.5) = 0.9332"
+    },
+    {
+      "prompt_latex": "If $X \\sim N(100, 225)$, find $P(X \\leq 115)$. Use $\\Phi(1) = 0.8413$.",
+      "answer_latex": "Z = \\frac{115-100}{15} = 1, \\quad P(X \\leq 115) = \\Phi(1) = 0.8413"
+    },
+    {
+      "prompt_latex": "If $X \\sim N(20, 16)$, find $P(16 \\leq X \\leq 28)$. Use $\\Phi(2) = 0.9772$ and $\\Phi(-1) = 0.1587$.",
+      "answer_latex": "Z_1 = \\frac{16-20}{4} = -1,\\; Z_2 = \\frac{28-20}{4} = 2,\\; P = 0.9772 - 0.1587 = 0.8185"
+    },
+    {
+      "prompt_latex": "The lifetime $X$ of a lightbulb follows $X \\sim N(800, 2500)$ hours. Find $P(X < 750)$. Use $\\Phi(-1) = 0.1587$. Then state what this probability means in context.",
+      "answer_latex": "Z = \\frac{750-800}{50} = -1,\\quad P(X < 750) = \\Phi(-1) = 0.1587;\\text{ about 15.87\\% of bulbs fail before 750 hours}"
+    },
+    {
+      "prompt_latex": "Scores on an exam are normally distributed. The top 2.28\\% of students receive an A. If the mean score is 72 and the standard deviation is 8, what is the minimum score needed for an A? Use $\\Phi(2) = 0.9772$, so $P(Z > 2) = 0.0228$.",
+      "answer_latex": "Z = 2,\\quad x = \\mu + Z\\sigma = 72 + 2(8) = 88"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to take the square root of the variance to get $\\sigma$ before standardizing, using $\\sigma^2$ directly in the formula $Z = \\frac{x-\\mu}{\\sigma}$. Always extract $\\sigma = \\sqrt{\\sigma^2}$ first \u2014 if $X \\sim N(\\mu, \\sigma^2)$, the second parameter is variance, not standard deviation.",
+    "When computing $P(a \\leq X \\leq b)$, students look up $\\Phi(a)$ and $\\Phi(b)$ but add them instead of subtracting, thinking they are combining two probabilities. The correct formula is $P(a \\leq X \\leq b) = \\Phi(b) - \\Phi(a)$, because $\\Phi$ gives cumulative area from the left.",
+    "Students treat the normal distribution as symmetric about zero and forget that $\\Phi(-z) = 1 - \\Phi(z)$, so they look up a negative $Z$-value directly in a table that only shows positive entries. Always use the symmetry relation $\\Phi(-z) = 1 - \\Phi(z)$ to convert a negative $Z$-score before reading the table."
+  ],
+  "untested_variants": [
+    "Finding the value of $x$ (the inverse normal / quantile problem) given a probability, such as 'find $c$ such that $P(X \\leq c) = 0.90$' \u2014 none of the practice problems require working backwards from a probability to an $x$-value.",
+    "Computing probabilities using the empirical 68-95-99.7 rule directly, without going through the standardization formula, such as 'what percentage of data lies within two standard deviations of the mean?'",
+    "Determining whether a given distribution is approximately normal using Q-Q plots or skewness checks \u2014 this lesson assumes normality is given and does not cover assessing whether data fits a normal model.",
+    "Using the normal approximation to the binomial distribution, where a discrete $B(n,p)$ with large $n$ is approximated by $N(np, np(1-p))$ including the continuity correction."
+  ]
+}

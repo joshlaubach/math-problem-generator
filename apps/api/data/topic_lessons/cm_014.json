@@ -1,0 +1,76 @@
+{
+  "topic_id": "cm_014",
+  "topic_name": "Inclusion-Exclusion",
+  "generated_at": "2026-05-13T20:22:38.140403+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to count the elements in a single set, and you can add the sizes of two separate sets when they share nothing in common. But what happens when the sets overlap? If 30 students play soccer, 25 play basketball, and 10 play both, simply adding 30 and 25 gives 55 \u2014 yet that counts the 10 double-sport athletes twice. How do you correctly count the total number of students playing at least one sport?",
+  "concept": "Inclusion-Exclusion is a counting technique that corrects for overcounting when sets overlap. Informally, you add up the sizes of individual sets, then subtract the overlaps you double-counted, then add back the triple overlaps you over-subtracted, and so on. Formally, for sets $A_1, A_2, \\ldots, A_n$: $|A_1 \\cup A_2 \\cup \\cdots \\cup A_n| = \\sum|A_i| - \\sum|A_i \\cap A_j| + \\sum|A_i \\cap A_j \\cap A_k| - \\cdots + (-1)^{n+1}|A_1 \\cap A_2 \\cap \\cdots \\cap A_n|$.",
+  "anatomy": "The Inclusion-Exclusion formula has four key components. The individual set sizes $|A_i|$ are the first-order terms that you always add. The pairwise intersections $|A_i \\cap A_j|$ are the second-order terms that you always subtract. The triple intersections $|A_i \\cap A_j \\cap A_k|$ are third-order terms that you add back. The alternating sign $(-1)^{k+1}$ in front of each level $k$ of intersections controls whether you add or subtract, following the pattern: add singles, subtract pairs, add triples, subtract quadruples, and so on.",
+  "worked_example": [
+    {
+      "expression_latex": "|A \\cup B| = |A| + |B| - |A \\cap B|",
+      "description_latex": "We start with the two-set version of Inclusion-Exclusion. When we add $|A|$ and $|B|$, every element in $A \\cap B$ gets counted exactly twice, so we subtract $|A \\cap B|$ once to bring those elements back to a count of one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Problem: } |A| = 30,\\ |B| = 25,\\ |A \\cap B| = 10",
+      "description_latex": "We are given that 30 students play soccer ($A$), 25 play basketball ($B$), and 10 play both. We label each piece of information before plugging in, because keeping track of what each number means prevents errors when the problems grow more complex.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|A \\cup B| = 30 + 25 - 10 = 45",
+      "description_latex": "Substituting into the formula gives $30 + 25 - 10 = 45$. This is the number of students who play at least one sport, and it correctly counts the 10 double-athletes exactly once rather than twice.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "|A \\cup B \\cup C| = |A|+|B|+|C| - |A\\cap B| - |A\\cap C| - |B\\cap C| + |A\\cap B\\cap C|",
+      "description_latex": "We are now working with three sets. Write down the full three-set Inclusion-Exclusion formula first \u2014 you add all three individual sizes, subtract all three pairwise intersections, and then add back the triple intersection because it was subtracted one too many times.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|A|=40,\\ |B|=30,\\ |C|=25,\\ |A\\cap B|=12,\\ |A\\cap C|=8,\\ |B\\cap C|=10,\\ |A\\cap B\\cap C|=4",
+      "description_latex": "Here are all the given values for a problem where students can study French ($A$), Spanish ($B$), or Mandarin ($C$). Identify each number and match it to its role in the formula before computing anything.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute all the given values into the three-set Inclusion-Exclusion formula and compute $|A \\cup B \\cup C|$. Remember to keep track of which terms are added and which are subtracted \u2014 this is the critical step where sign errors most often occur.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "In a class, $|A| = 20$, $|B| = 15$, and $|A \\cap B| = 5$. Find $|A \\cup B|$.",
+      "answer_latex": "30"
+    },
+    {
+      "prompt_latex": "How many integers from $1$ to $100$ are divisible by $2$ or by $5$?",
+      "answer_latex": "60"
+    },
+    {
+      "prompt_latex": "In a survey of 100 people: 60 like cats, 50 like dogs, and 20 like both. How many like neither?",
+      "answer_latex": "10"
+    },
+    {
+      "prompt_latex": "How many integers from $1$ to $200$ are divisible by at least one of $2$, $3$, or $5$?",
+      "answer_latex": "147"
+    },
+    {
+      "prompt_latex": "A group of 50 students each take at least one of three exams. 35 take Exam A, 30 take Exam B, 25 take Exam C, 15 take both A and B, 10 take both A and C, 8 take both B and C. How many students take all three exams?",
+      "answer_latex": "3"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to add back the triple intersection $|A \\cap B \\cap C|$ in the three-set formula. Because pairwise intersections are subtracted three times, the triple intersection is removed entirely and must be restored with a positive term \u2014 omitting it gives an answer that is too small.",
+    "Students use Inclusion-Exclusion to find $|A \\cup B|$ but actually want the complement (those in neither set). The fix is to always check what the problem is asking: if you want 'neither,' compute $|\\text{Total}| - |A \\cup B|$ after applying the formula.",
+    "When computing $|A_i \\cap A_j|$ for divisibility problems, students multiply the two divisors instead of using their least common multiple. For example, integers divisible by both 4 and 6 are divisible by $\\text{lcm}(4,6)=12$, not $4 \\times 6 = 24$."
+  ],
+  "untested_variants": [
+    "Inclusion-Exclusion applied to permutations or derangements, where you count arrangements that avoid certain forbidden positions using the formula on overlapping 'bad' event sets.",
+    "Problems involving four or more sets, where students must carefully enumerate all $\\binom{4}{2}=6$ pairwise, $\\binom{4}{3}=4$ triple, and 1 quadruple intersection terms without missing any.",
+    "Using Inclusion-Exclusion to count onto functions (surjections) from one finite set to another, where the formula is applied to sets of functions that miss at least one element of the codomain.",
+    "Problems where the sizes of intersections are not given directly but must first be computed from conditions such as conditional probabilities or Venn diagram region labels."
+  ]
+}

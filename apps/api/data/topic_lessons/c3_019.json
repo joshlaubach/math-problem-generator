@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_019",
+  "topic_name": "Maximum and Minimum Values",
+  "generated_at": "2026-05-13T00:34:07.713720+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to find the maximum and minimum values of a single-variable function by setting its derivative equal to zero and checking the second derivative. Now imagine you're designing a rectangular box to minimize the amount of material used, or finding the highest point on a mountain described by a surface $z = f(x, y)$. The critical point condition becomes more complex in two variables, and the second derivative test looks completely different. How do we locate and classify the extreme values of a multivariable function?",
+  "concept": "A function $f(x,y)$ has a local maximum at $(a,b)$ if $f(a,b) \\geq f(x,y)$ for all nearby points, and a local minimum if $f(a,b) \\leq f(x,y)$ nearby. Critical points occur where both partial derivatives are simultaneously zero: $f_x(a,b) = 0$ and $f_y(a,b) = 0$, or where a partial derivative does not exist. To classify these critical points, we use the Second Derivative Test via the discriminant $D = f_{xx}f_{yy} - (f_{xy})^2$.",
+  "anatomy": "Every application of this topic involves four key components. First, the critical point $(a, b)$ is the candidate location found by solving the system $f_x = 0$ and $f_y = 0$ simultaneously. Second, the discriminant $D = f_{xx}(a,b)\\,f_{yy}(a,b) - [f_{xy}(a,b)]^2$ encodes the combined curvature information at that point. Third, the sign of $D$ determines the classification: $D > 0$ means the critical point is either a local max or min, $D < 0$ means a saddle point, and $D = 0$ means the test is inconclusive. Fourth, when $D > 0$, the sign of $f_{xx}(a,b)$ distinguishes a local minimum ($f_{xx} > 0$, concave up) from a local maximum ($f_{xx} < 0$, concave down).",
+  "worked_example": [
+    {
+      "expression_latex": "f(x, y) = x^2 + y^2 - 4x + 6y + 5",
+      "description_latex": "We begin by identifying the function we want to analyze. Our goal is to find all critical points and then classify each one using the Second Derivative Test, so the first step is to compute both first-order partial derivatives.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_x = 2x - 4 = 0 \\implies x = 2, \\quad f_y = 2y + 6 = 0 \\implies y = -3",
+      "description_latex": "We set each partial derivative equal to zero and solve the resulting system. Because these two equations are independent of each other, we can solve them separately to find the unique critical point $(2, -3)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_{xx} = 2, \\quad f_{yy} = 2, \\quad f_{xy} = 0",
+      "description_latex": "Next we compute all three second-order partial derivatives. Notice that the mixed partial $f_{xy} = 0$ because neither $f_x$ nor $f_y$ depends on the other variable, which will simplify the discriminant calculation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "D = f_{xx}f_{yy} - (f_{xy})^2 = (2)(2) - (0)^2 = 4 > 0",
+      "description_latex": "We evaluate the discriminant $D$ at the critical point $(2, -3)$. Since $D = 4 > 0$ and $f_{xx} = 2 > 0$, the Second Derivative Test tells us we have a local minimum at this point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(2, -3) = (2)^2 + (-3)^2 - 4(2) + 6(-3) + 5 = 4 + 9 - 8 - 18 + 5 = -8",
+      "description_latex": "Finally, we substitute the critical point back into the original function to find the actual minimum value. The function has a local minimum of $-8$ at the point $(2, -3)$, and because this is a paraboloid opening upward, this local minimum is also the global minimum.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x, y) = x^3 + y^3 - 3x - 3y + 1",
+      "description_latex": "We want to find and classify all critical points of this function. Start by computing $f_x$ and $f_y$, then set each equal to zero to find the critical points.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f_x = 3x^2 - 3 = 0 \\implies x = \\pm 1, \\quad f_y = 3y^2 - 3 = 0 \\implies y = \\pm 1",
+      "description_latex": "Setting both partial derivatives to zero yields $x = \\pm 1$ and $y = \\pm 1$ independently, giving four critical points: $(1,1)$, $(1,-1)$, $(-1,1)$, and $(-1,-1)$. Now compute the three second-order partial derivatives $f_{xx}$, $f_{yy}$, and $f_{xy}$, then evaluate the discriminant $D$ at each critical point and classify each one.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "D(1,1) = 36 > 0,\\ f_{xx}=6>0 \\Rightarrow \\text{local min};\\ D(1,-1)=-36<0 \\Rightarrow \\text{saddle};\\ D(-1,1)=-36<0 \\Rightarrow \\text{saddle};\\ D(-1,-1)=36>0,\\ f_{xx}=-6<0 \\Rightarrow \\text{local max}",
+      "description_latex": "Using $f_{xx} = 6x$, $f_{yy} = 6y$, $f_{xy} = 0$, and $D = 36xy$, each critical point is classified. The function has a local minimum at $(1,1)$, a local maximum at $(-1,-1)$, and saddle points at $(1,-1)$ and $(-1,1)$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find and classify all critical points of $f(x,y) = x^2 + 4y^2 - 2x$.",
+      "answer_latex": "Critical point at $(1, 0)$; $D = 8 > 0$ and $f_{xx} = 2 > 0$, so $(1, 0)$ is a local minimum with $f(1,0) = -1$."
+    },
+    {
+      "prompt_latex": "Find and classify all critical points of $f(x,y) = x^2 - y^2 + 2x + 4y$.",
+      "answer_latex": "Critical point at $(-1, 2)$; $D = (2)(-2) - 0 = -4 < 0$, so $(-1, 2)$ is a saddle point."
+    },
+    {
+      "prompt_latex": "Find and classify all critical points of $f(x,y) = x^3 - 3xy + y^3$.",
+      "answer_latex": "Critical points at $(0,0)$ and $(1,1)$. At $(0,0)$: $D = -9 < 0$, saddle point. At $(1,1)$: $D = 9 - 9 = 0$... wait \u2014 $f_{xx}=6x, f_{yy}=6y, f_{xy}=-3$; at $(1,1)$: $D=(6)(6)-(-3)^2=36-9=27>0$ and $f_{xx}=6>0$, so local minimum with $f(1,1)=-1$."
+    },
+    {
+      "prompt_latex": "Find the absolute maximum and minimum values of $f(x,y) = x^2 + 2y^2 - x$ on the closed disk $x^2 + y^2 \\leq 1$.",
+      "answer_latex": "Interior critical point: $(1/2, 0)$ gives $f = -1/4$. On the boundary $x = \\cos\\theta, y = \\sin\\theta$: $f = \\cos^2\\theta + 2\\sin^2\\theta - \\cos\\theta = 1 + \\sin^2\\theta - \\cos\\theta$; maximum at $\\cos\\theta = -1$ giving $f = 3$, minimum at interior point $f = -1/4$. Absolute maximum is $3$, absolute minimum is $-1/4$."
+    },
+    {
+      "prompt_latex": "A company produces two products with quantities $x$ and $y$. Its profit function is $P(x,y) = -2x^2 - y^2 + 4x + 2y - 1$. Find the production levels $x$ and $y$ that maximize profit, and state the maximum profit.",
+      "answer_latex": "Critical point: $P_x = -4x+4=0 \\Rightarrow x=1$; $P_y = -2y+2=0 \\Rightarrow y=1$. $D = (-4)(-2)-(0)^2 = 8 > 0$ and $f_{xx}=-4<0$, so $(1,1)$ is a local maximum. Maximum profit $P(1,1) = -2-1+4+2-1 = 2$."
+    }
+  ],
+  "common_mistakes": [
+    "Students solve $f_x = 0$ and $f_y = 0$ separately and report only the values they found for $x$ and for $y$, forgetting to pair them into actual coordinate points. When the equations are coupled (e.g., $f_x$ contains $y$), this pairing step is essential \u2014 always substitute back to verify which combinations of $x$ and $y$ simultaneously satisfy both equations.",
+    "When $D > 0$, students sometimes use the sign of $f_{yy}$ instead of $f_{xx}$ to decide between local max and local min. The Second Derivative Test specifically requires checking the sign of $f_{xx}(a,b)$ (not $f_{yy}$), because $f_{xx}$ represents the concavity in the $x$-direction; fortunately, when $D > 0$ both $f_{xx}$ and $f_{yy}$ have the same sign, but always check $f_{xx}$ by convention.",
+    "Students conclude that a critical point where $D = 0$ is a saddle point or declare it inconclusive without further investigation, but $D = 0$ truly means the Second Derivative Test fails entirely and gives no information. In this case, additional analysis \u2014 such as examining $f$ along specific paths or using higher-order derivatives \u2014 is required to determine the nature of the critical point."
+  ],
+  "untested_variants": [
+    "Finding absolute (global) extrema on a bounded closed region by combining interior critical points with a full boundary analysis using parametrization or Lagrange multipliers.",
+    "Problems where the critical point equation system is nonlinear and coupled, requiring substitution or factoring to untangle \u2014 for example $f(x,y) = e^x(x^2 - y^2)$ where solving $f_x = 0$ and $f_y = 0$ simultaneously involves transcendental equations.",
+    "Functions of three or more variables where the discriminant generalizes to the Hessian matrix determinant, requiring students to evaluate a $3\\times 3$ determinant and check its eigenvalue signs.",
+    "Optimization problems over unbounded domains where no absolute extremum exists and students must argue whether a local extremum is also global by analyzing the function's behavior as $x$ or $y \\to \\pm\\infty$."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_031",
+  "topic_name": "Time Series: Stationarity, Autocorrelation, and ARIMA (H)",
+  "generated_at": "2026-05-14T01:04:20.020859+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to run OLS regression and interpret coefficients \u2014 you can model relationships between variables with confidence. But what happens when your data is a sequence of stock prices, GDP figures, or temperature readings collected over time? Unlike cross-sectional data, time series observations are not independent: today's value depends on yesterday's, and ignoring this structure leads to spurious regressions with misleadingly high $R^2$ values and t-statistics that are completely unreliable. How do we diagnose this dependence, remove it, and build models that actually respect the time-ordered nature of the data?",
+  "concept": "A time series $\\{Y_t\\}$ is **weakly stationary** if its mean, variance, and autocovariances do not change over time: $E[Y_t] = \\mu$, $\\text{Var}(Y_t) = \\sigma^2$, and $\\text{Cov}(Y_t, Y_{t-k}) = \\gamma_k$ depend only on the lag $k$, not on $t$. Non-stationary series (e.g., random walks) have time-varying moments that break standard inference. The ARIMA$(p,d,q)$ framework differencing a series $d$ times to achieve stationarity, then fitting an ARMA model with $p$ autoregressive and $q$ moving-average terms.",
+  "anatomy": "An ARIMA$(p,d,q)$ model has five named components: the **integration order** $d$, which is the number of times we difference the series (i.e., $\\Delta^d Y_t = Y_t - Y_{t-1}$ applied $d$ times) to achieve stationarity; the **AR order** $p$, controlling how many lagged values $Y_{t-1}, \\ldots, Y_{t-p}$ directly enter the model with coefficients $\\phi_1, \\ldots, \\phi_p$; the **MA order** $q$, specifying how many lagged error terms $\\varepsilon_{t-1}, \\ldots, \\varepsilon_{t-q}$ enter with coefficients $\\theta_1, \\ldots, \\theta_q$; the **white noise error** $\\varepsilon_t \\sim WN(0, \\sigma^2)$; and the **autocorrelation function (ACF)** and **partial autocorrelation function (PACF)**, which are diagnostic tools used to identify $p$ and $q$.",
+  "worked_example": [
+    {
+      "expression_latex": "Y_t = Y_{t-1} + \\varepsilon_t, \\quad \\varepsilon_t \\sim WN(0,1)",
+      "description_latex": "We start by recognising that this is a random walk, the canonical non-stationary process. Notice that $E[Y_t] = Y_0$ (depends on initial conditions) and $\\text{Var}(Y_t) = t\\sigma^2$, which grows without bound \u2014 both properties violate weak stationarity, so we cannot use this series directly in regression.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Delta Y_t = Y_t - Y_{t-1} = \\varepsilon_t",
+      "description_latex": "We apply the first-difference operator $\\Delta$ to remove the unit root. The differenced series $\\Delta Y_t$ has mean zero, constant variance $\\sigma^2$, and zero autocovariance at all lags \u2014 it is white noise, hence stationary. This tells us $d=1$ is sufficient here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\rho}_k = \\frac{\\sum_{t=k+1}^{T}(\\Delta Y_t - \\bar{Y})(\\Delta Y_{t-k} - \\bar{Y})}{\\sum_{t=1}^{T}(\\Delta Y_t - \\bar{Y})^2}",
+      "description_latex": "We compute the sample autocorrelation $\\hat{\\rho}_k$ of the differenced series at each lag $k$ to build the ACF plot. For a white noise series all $\\hat{\\rho}_k$ should fall inside the 95% confidence band $\\pm 1.96/\\sqrt{T}$, confirming no further structure remains and an ARMA$(0,0)$ suffices \u2014 giving us ARIMA$(0,1,0)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{ADF test statistic: } \\tau = \\frac{\\hat{\\delta}}{\\text{SE}(\\hat{\\delta})} \\quad \\text{where } \\Delta Y_t = \\delta Y_{t-1} + u_t",
+      "description_latex": "To formally test for a unit root before differencing, we run the Augmented Dickey-Fuller (ADF) test. The null hypothesis is $H_0: \\delta = 0$ (unit root present, series non-stationary); we reject in favour of stationarity when $\\tau$ is sufficiently negative compared to Dickey-Fuller critical values (not standard normal tables, because the distribution is non-standard under the null).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Delta Y_t = \\phi_1 \\Delta Y_{t-1} + \\varepsilon_t + \\theta_1 \\varepsilon_{t-1}",
+      "description_latex": "If after differencing the ACF shows a spike at lag 1 that cuts off (suggesting MA(1)) and the PACF shows a decaying pattern, we fit an ARIMA$(0,1,1)$ model as written above. The parameters $\\phi_1$ and $\\theta_1$ are estimated by maximum likelihood, and we validate the fit by checking that the residuals $\\hat{\\varepsilon}_t$ are white noise using a Ljung-Box test.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "Y_t = 0.8 Y_{t-1} + \\varepsilon_t, \\quad \\varepsilon_t \\sim WN(0, \\sigma^2)",
+      "description_latex": "We are given an AR(1) process and want to determine whether it is stationary. The stationarity condition for an AR(1) model is that the absolute value of the autoregressive coefficient must be strictly less than one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|\\phi_1| = |0.8| < 1 \\implies \\text{stationary}",
+      "description_latex": "Verify the stationarity condition: is $|\\phi_1| < 1$? Once confirmed, derive the unconditional mean and variance of the stationary process using the formulas $E[Y_t] = 0$ and $\\text{Var}(Y_t) = \\sigma^2/(1-\\phi_1^2)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute $\\text{Var}(Y_t)$ explicitly when $\\sigma^2 = 1$ and $\\phi_1 = 0.8$, and find the autocorrelation at lag $k$, which for a stationary AR(1) is $\\rho_k = \\phi_1^k$. What is $\\rho_2$ in this case?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Var}(Y_t) = \\frac{1}{1-0.64} = \\frac{1}{0.36} \\approx 2.78, \\quad \\rho_2 = 0.8^2 = 0.64",
+      "description_latex": "This is the complete answer: the variance is $1/0.36 \\approx 2.78$ and the lag-2 autocorrelation is $0.64$. Notice how autocorrelation decays geometrically in an AR(1) \u2014 this geometric decay in the ACF paired with a single spike at lag 1 in the PACF is the diagnostic signature that tells us to choose $p=1, q=0$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State whether $Y_t = 1.2 Y_{t-1} + \\varepsilon_t$ is stationary or not, and give a one-line justification.",
+      "answer_latex": "Not stationary, because $|\\phi_1| = 1.2 > 1$, so the AR(1) stationarity condition is violated."
+    },
+    {
+      "prompt_latex": "For the stationary AR(1) process $Y_t = -0.5 Y_{t-1} + \\varepsilon_t$ with $\\sigma^2 = 4$, compute $\\text{Var}(Y_t)$ and $\\rho_3$.",
+      "answer_latex": "\\text{Var}(Y_t) = \\frac{4}{1 - 0.25} = \\frac{16}{3} \\approx 5.33; \\quad \\rho_3 = (-0.5)^3 = -0.125"
+    },
+    {
+      "prompt_latex": "A researcher observes the ACF of a differenced series $\\Delta Y_t$: there is a large spike at lag 1 in the ACF that drops to zero for $k \\geq 2$, and the PACF decays geometrically. What ARIMA$(p,d,q)$ model is indicated, and write out its equation.",
+      "answer_latex": "ARIMA$(0,1,1)$: \\;\\Delta Y_t = \\varepsilon_t + \\theta_1 \\varepsilon_{t-1}. \\text{ A single ACF spike indicates } q=1 \\text{ (MA term); geometric PACF confirms no AR term.}"
+    },
+    {
+      "prompt_latex": "You run an ADF test on $Y_t$ (log GDP) with test statistic $\\tau = -1.4$ against the 5% critical value of $-2.89$. Then you run the ADF test on $\\Delta Y_t$ and obtain $\\tau = -5.3$. What do you conclude about the order of integration $d$, and what ARIMA class does $Y_t$ belong to?",
+      "answer_latex": "\\tau = -1.4 > -2.89 \\Rightarrow \\text{fail to reject unit root in } Y_t. \\; \\tau = -5.3 < -2.89 \\Rightarrow \\text{reject unit root in } \\Delta Y_t. \\; \\text{Therefore } d=1, \\text{ so } Y_t \\sim \\text{ARIMA}(p,1,q)."
+    },
+    {
+      "prompt_latex": "Monthly inflation data $\\{\\pi_t\\}$ is found to be I(1). After first-differencing, the ACF of $\\Delta \\pi_t$ has significant spikes at lags 1 and 2, and the PACF has a significant spike only at lag 1. An analyst fits ARIMA$(1,1,2)$: $\\Delta \\pi_t = \\phi_1 \\Delta \\pi_{t-1} + \\varepsilon_t + \\theta_1 \\varepsilon_{t-1} + \\theta_2 \\varepsilon_{t-2}$. Estimates give $\\hat{\\phi}_1 = 0.3,\\, \\hat{\\theta}_1 = -0.5,\\, \\hat{\\theta}_2 = 0.2$, and the Ljung-Box test on residuals yields $p = 0.41$. Is the model adequate? Write the one-step-ahead forecast $\\hat{\\pi}_{T+1}$ in terms of known quantities.",
+      "answer_latex": "p = 0.41 > 0.05 \\Rightarrow \\text{fail to reject white-noise residuals, model is adequate.} \\; \\hat{\\pi}_{T+1} = \\pi_T + \\hat{\\Delta\\pi}_{T+1} = \\pi_T + 0.3\\Delta\\pi_T - 0.5\\hat{\\varepsilon}_T + 0.2\\hat{\\varepsilon}_{T-1}"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply standard normal critical values (\u00b11.96) to the ADF test statistic when testing for a unit root. This is wrong because the ADF distribution is non-standard and left-skewed under the null; always use Dickey-Fuller critical values (e.g., \u22122.89 at 5% for the no-trend case), which are more negative than the normal cutoff.",
+    "Students difference a series that is already stationary (over-differencing), then wonder why their model looks odd. If the ADF test rejects the null on the original series, $d=0$ is correct; applying $\\Delta$ unnecessarily introduces an MA unit root and inflates model complexity. Always test stationarity before deciding $d$.",
+    "Students confuse the roles of ACF and PACF when identifying $p$ and $q$: for a pure AR($p$) process the PACF cuts off after lag $p$ and the ACF decays, while for a pure MA($q$) process the ACF cuts off after lag $q$ and the PACF decays. Swapping these leads to fitting a MA model when an AR model is needed, and vice versa."
+  ],
+  "untested_variants": [
+    "Seasonal ARIMA (SARIMA) models with seasonal differencing operator $\\Delta_s Y_t = Y_t - Y_{t-s}$ and seasonal AR/MA terms, as arise with monthly or quarterly data exhibiting annual cycles.",
+    "Testing for cointegration between two I(1) series using the Engle-Granger two-step procedure or Johansen test, and error-correction model (ECM) specification.",
+    "Information-criterion model selection (AIC vs BIC) to choose among competing ARIMA$(p,d,q)$ specifications when the ACF/PACF pattern is ambiguous.",
+    "Forecasting confidence intervals for multi-step-ahead ARIMA forecasts, including how forecast uncertainty grows with the horizon and how to construct prediction intervals from the MA($\\infty$) representation."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_053",
+  "topic_name": "Fourier Transforms (Introduction) (H)",
+  "generated_at": "2026-05-13T20:04:46.654374+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to use Fourier series to represent a periodic function as an infinite sum of sines and cosines \u2014 a powerful tool for solving PDEs on bounded intervals. But what happens when the domain stretches to all of $\\mathbb{R}$, so the function is not periodic at all? The discrete frequencies $n\\pi/L$ that worked so well now merge into a continuous spectrum, and the sum must become an integral. How do we transform a function defined on the whole real line into frequency space so we can still solve differential equations?",
+  "concept": "The Fourier transform extends the idea of decomposing a function into sinusoidal components to non-periodic functions on $(-\\infty, \\infty)$. Formally, for a function $f(x)$ that is absolutely integrable, its Fourier transform is $\\hat{f}(\\xi) = \\mathcal{F}\\{f\\}(\\xi) = \\int_{-\\infty}^{\\infty} f(x)\\, e^{-i\\xi x}\\, dx$, and the original function is recovered by the inverse transform $f(x) = \\frac{1}{2\\pi}\\int_{-\\infty}^{\\infty} \\hat{f}(\\xi)\\, e^{i\\xi x}\\, d\\xi$.",
+  "anatomy": "In the transform pair, $x$ is the original spatial (or time) variable and $\\xi$ (xi) is the frequency variable \u2014 the continuous analogue of the discrete index $n$ from Fourier series. The kernel $e^{-i\\xi x}$ is the complex exponential that projects $f$ onto each pure frequency $\\xi$; its conjugate $e^{i\\xi x}$ appears in the inverse. The factor $\\frac{1}{2\\pi}$ in the inverse transform is the normalization constant that ensures the round-trip $\\mathcal{F}^{-1}\\{\\mathcal{F}\\{f\\}\\} = f$ holds; some conventions split this as $\\frac{1}{\\sqrt{2\\pi}}$ on each side. The operator $\\mathcal{F}\\{\\cdot\\}$ is the transform operator itself, and $\\hat{f}(\\xi)$ is the spectrum or transformed function.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = e^{-a|x|}, \\quad a > 0",
+      "description_latex": "We start with the classic decaying exponential $e^{-a|x|}$, which is absolutely integrable on $\\mathbb{R}$ precisely because $a > 0$ forces it to zero in both directions. Our goal is to compute $\\hat{f}(\\xi) = \\int_{-\\infty}^{\\infty} e^{-a|x|} e^{-i\\xi x}\\, dx$ by removing the absolute value sign, which requires splitting the integral at $x = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{f}(\\xi) = \\int_{-\\infty}^{0} e^{ax} e^{-i\\xi x}\\, dx + \\int_{0}^{\\infty} e^{-ax} e^{-i\\xi x}\\, dx",
+      "description_latex": "On the left piece where $x < 0$ we have $|x| = -x$, so $e^{-a|x|} = e^{ax}$, and on the right piece where $x > 0$ we have $|x| = x$, so $e^{-a|x|} = e^{-ax}$. Splitting at $x = 0$ removes the absolute value and leaves us with two standard improper integrals involving purely exponential integrands, each of which converges because $a > 0$ controls the growth.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_{-\\infty}^{0} e^{(a - i\\xi)x}\\, dx = \\left[\\frac{e^{(a-i\\xi)x}}{a - i\\xi}\\right]_{-\\infty}^{0} = \\frac{1}{a - i\\xi}",
+      "description_latex": "We combine the exponents in the first integral to get $e^{(a-i\\xi)x}$ and integrate directly, evaluating at the limits. At $x = 0$ the exponential equals $1$; at $x \\to -\\infty$ the real part of the exponent is $(a)(x) \\to -\\infty$, so the exponential vanishes, giving $\\frac{1}{a - i\\xi}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_{0}^{\\infty} e^{-(a + i\\xi)x}\\, dx = \\left[\\frac{e^{-(a+i\\xi)x}}{-(a+i\\xi)}\\right]_{0}^{\\infty} = \\frac{1}{a + i\\xi}",
+      "description_latex": "The second integral similarly combines to $e^{-(a+i\\xi)x}$ and converges because $a > 0$ makes the real part of the exponent negative for all $x > 0$. Evaluating at the limits gives $0 - \\frac{1}{-(a+i\\xi)} = \\frac{1}{a+i\\xi}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{f}(\\xi) = \\frac{1}{a - i\\xi} + \\frac{1}{a + i\\xi} = \\frac{(a+i\\xi)+(a-i\\xi)}{a^2 + \\xi^2} = \\frac{2a}{a^2 + \\xi^2}",
+      "description_latex": "Adding the two results and combining over a common denominator, the imaginary parts cancel and we obtain the clean, real-valued spectrum $\\frac{2a}{a^2 + \\xi^2}$. This is a Lorentzian (or Cauchy) profile \u2014 notice that a sharper spike in $x$ (larger $a$) produces a broader spectrum in $\\xi$, illustrating the uncertainty principle embedded in the Fourier transform.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = e^{-ax},\\; x > 0,\\quad f(x)=0,\\; x \\le 0,\\quad a > 0",
+      "description_latex": "We want to compute the Fourier transform of this one-sided decaying exponential. Because $f$ is zero for $x \\le 0$, the lower limit of integration effectively becomes $0$, so we write $\\hat{f}(\\xi) = \\int_{0}^{\\infty} e^{-ax} e^{-i\\xi x}\\, dx$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{f}(\\xi) = \\int_{0}^{\\infty} e^{-(a+i\\xi)x}\\, dx",
+      "description_latex": "We combine the two exponentials into a single term $e^{-(a+i\\xi)x}$. Now evaluate this improper integral: compute the antiderivative, apply the limits $x \\to \\infty$ and $x = 0$, and simplify. Remember that $a > 0$ guarantees convergence at $x \\to \\infty$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\hat{f}(\\xi) = \\frac{1}{a + i\\xi}",
+      "description_latex": "The result is $\\frac{1}{a+i\\xi}$. To see this in a more standard form, you can multiply numerator and denominator by the complex conjugate $a - i\\xi$ to write $\\hat{f}(\\xi) = \\frac{a - i\\xi}{a^2 + \\xi^2}$, showing explicitly the real and imaginary parts of the spectrum.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write down the definition of $\\hat{f}(\\xi) = \\mathcal{F}\\{f\\}(\\xi)$ and identify which variable is being integrated out.",
+      "answer_latex": "\\hat{f}(\\xi) = \\int_{-\\infty}^{\\infty} f(x)\\, e^{-i\\xi x}\\, dx; \\text{ the variable } x \\text{ is integrated out, leaving a function of } \\xi."
+    },
+    {
+      "prompt_latex": "Compute $\\mathcal{F}\\{e^{-2|x|}\\}(\\xi)$.",
+      "answer_latex": "\\hat{f}(\\xi) = \\dfrac{4}{4 + \\xi^2}"
+    },
+    {
+      "prompt_latex": "Compute $\\mathcal{F}\\{e^{-3x}\\mathbf{1}_{x>0}\\}(\\xi)$, where $\\mathbf{1}_{x>0}$ denotes the indicator that $x > 0$.",
+      "answer_latex": "\\hat{f}(\\xi) = \\dfrac{1}{3 + i\\xi}"
+    },
+    {
+      "prompt_latex": "Use the transform-of-derivative rule $\\mathcal{F}\\{f'\\}(\\xi) = i\\xi\\,\\hat{f}(\\xi)$ (assuming $f \\to 0$ as $|x|\\to\\infty$) together with your result from Problem 2 to find $\\mathcal{F}\\left\\{\\frac{d}{dx}e^{-2|x|}\\right\\}(\\xi)$.",
+      "answer_latex": "\\mathcal{F}\\left\\{\\frac{d}{dx}e^{-2|x|}\\right\\}(\\xi) = i\\xi \\cdot \\dfrac{4}{4+\\xi^2} = \\dfrac{4i\\xi}{4+\\xi^2}"
+    },
+    {
+      "prompt_latex": "A signal engineer models a pulse by $f(x) = e^{-|x|}\\cos(x)$. Use the known result $\\mathcal{F}\\{e^{-a|x|}\\} = \\frac{2a}{a^2+\\xi^2}$ and the frequency-shift property $\\mathcal{F}\\{f(x)\\cos(\\omega_0 x)\\} = \\tfrac{1}{2}[\\hat{f}(\\xi-\\omega_0)+\\hat{f}(\\xi+\\omega_0)]$ to express the spectrum $\\hat{f}(\\xi)$ in closed form.",
+      "answer_latex": "\\hat{f}(\\xi) = \\dfrac{1}{1+(\\xi-1)^2} + \\dfrac{1}{1+(\\xi+1)^2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget the sign convention in the kernel: some textbooks use $e^{+i\\xi x}$ in the forward transform and $e^{-i\\xi x}$ in the inverse, giving a sign-flipped spectrum. Always fix one convention at the start \u2014 using $e^{-i\\xi x}$ in $\\mathcal{F}$ and $e^{+i\\xi x}$ in $\\mathcal{F}^{-1}$ \u2014 and check that the normalization constant $\\frac{1}{2\\pi}$ is placed consistently on the inverse.",
+    "When splitting the integral for $e^{-a|x|}$ at $x=0$, students often write $|x| = x$ for ALL of $\\mathbb{R}$ instead of using $|x| = -x$ on $(-\\infty, 0)$, causing the first integral to diverge. Always replace $|x|$ piecewise before integrating.",
+    "Students drop the imaginary unit $i$ and treat $\\xi$ as a plain real number inside the exponent, computing $\\int e^{-(a+\\xi)x}dx$ instead of $\\int e^{-(a+i\\xi)x}dx$. This produces a real but incorrect answer; the correct denominator must be $a + i\\xi$, not $a + \\xi$."
+  ],
+  "untested_variants": [
+    "Computing the Fourier transform of a rectangular (top-hat) pulse $f(x) = 1$ for $|x| < L$, $0$ otherwise, which produces the sinc function $\\hat{f}(\\xi) = 2L\\,\\mathrm{sinc}(L\\xi)$.",
+    "Applying the Fourier transform to solve an initial-value problem for the heat equation $u_t = k u_{xx}$ on $(-\\infty,\\infty)$, where the transform converts the PDE into an ODE in $\\xi$.",
+    "Using the convolution theorem $\\mathcal{F}\\{f * g\\} = \\hat{f}\\cdot\\hat{g}$ to compute the transform of a convolution integral, rather than computing transforms of elementary functions directly.",
+    "Working with the symmetric ($L^2$) convention where both forward and inverse transforms carry a factor of $\\frac{1}{\\sqrt{2\\pi}}$, and verifying Parseval's theorem $\\int|f|^2 dx = \\frac{1}{2\\pi}\\int|\\hat{f}|^2 d\\xi$."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "c1_019",
+  "topic_name": "The Mean Value Theorem",
+  "generated_at": "2026-05-13T00:07:18.088025+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know that if you drive from city A to city B \u2014 a distance of 120 miles \u2014 in exactly 2 hours, your average speed was 60 mph. But does that mean you were traveling at exactly 60 mph at some specific moment during the trip? Intuitively it seems like you must have been, but how would you prove it mathematically? This gap between average behavior and instantaneous behavior is exactly what the Mean Value Theorem bridges \u2014 so how can we guarantee that the instantaneous rate of change equals the average rate of change at least once?",
+  "concept": "The Mean Value Theorem (MVT) guarantees that for any 'nice' function on a closed interval, there is at least one interior point where the instantaneous rate of change equals the overall average rate of change. Formally: if $f$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then there exists at least one $c \\in (a, b)$ such that $f'(c) = \\dfrac{f(b) - f(a)}{b - a}$.",
+  "anatomy": "The MVT has four distinct structural components worth naming precisely. First, the hypotheses: $f$ must be continuous on the closed interval $[a, b]$ (no breaks at the endpoints) and differentiable on the open interval $(a, b)$ (no corners or cusps in the interior). Second, the average rate of change, $\\dfrac{f(b)-f(a)}{b-a}$, which is the slope of the secant line connecting $(a, f(a))$ to $(b, f(b))$. Third, the guaranteed point $c$, which lives strictly inside $(a, b)$ \u2014 not at the endpoints. Fourth, the conclusion $f'(c) = \\dfrac{f(b)-f(a)}{b-a}$, meaning the tangent line at $x = c$ is parallel to that secant line.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^2 - 3x + 1 \\text{ on } [1, 4]",
+      "description_latex": "We start by identifying the function and interval. Before applying the MVT, we must check that $f$ is continuous on $[1,4]$ and differentiable on $(1,4)$. Since $f$ is a polynomial, both conditions are satisfied automatically \u2014 polynomials are continuous and differentiable everywhere.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{f(4) - f(1)}{4 - 1} = \\frac{(16 - 12 + 1) - (1 - 3 + 1)}{3} = \\frac{5 - (-1)}{3} = \\frac{6}{3} = 2",
+      "description_latex": "Next we compute the average rate of change, which is the slope of the secant line from $(1, f(1))$ to $(4, f(4))$. We evaluate $f(4) = 16 - 12 + 1 = 5$ and $f(1) = 1 - 3 + 1 = -1$, so the average rate of change is $2$. This is the target value that $f'(c)$ must equal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = 2x - 3",
+      "description_latex": "Now we differentiate $f(x) = x^2 - 3x + 1$ to get $f'(x) = 2x - 3$. This derivative represents the instantaneous rate of change at any point $x$, and we need to find where it equals our average rate of change of $2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2c - 3 = 2 \\implies c = \\frac{5}{2}",
+      "description_latex": "We set $f'(c) = 2$ and solve: $2c - 3 = 2$ gives $c = \\frac{5}{2} = 2.5$. We check that $c = 2.5$ lies inside the open interval $(1, 4)$ \u2014 it does \u2014 so the MVT is confirmed. At $x = 2.5$, the tangent line to $f$ has slope $2$, exactly matching the secant line slope.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = x^3 - x \\text{ on } [-1, 2]",
+      "description_latex": "We want to find the value(s) of $c$ guaranteed by the Mean Value Theorem. First, confirm that $f(x) = x^3 - x$ is a polynomial, so it is continuous on $[-1, 2]$ and differentiable on $(-1, 2)$ \u2014 both MVT hypotheses are satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{f(2) - f(-1)}{2 - (-1)} = \\frac{(8-2) - (-1+1)}{3} = \\frac{6 - 0}{3} = 2",
+      "description_latex": "We compute the average rate of change over $[-1, 2]$. We get $f(2) = 8 - 2 = 6$ and $f(-1) = -1 + 1 = 0$, so the average rate of change equals $2$. This is the value that $f'(c)$ must achieve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now differentiate $f(x) = x^3 - x$ to find $f'(x)$, then set $f'(c) = 2$ and solve for $c$. Make sure to check that each solution lies inside the open interval $(-1, 2)$ and discard any that do not.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Verify that $f(x) = x^2$ on $[0, 4]$ satisfies the hypotheses of the MVT and find the value of $c$ guaranteed by the theorem.",
+      "answer_latex": "c = 2"
+    },
+    {
+      "prompt_latex": "Find all values of $c$ in $(1, 3)$ satisfying the MVT for $f(x) = x^3 - 2x$ on $[1, 3]$.",
+      "answer_latex": "c = \\sqrt{\\dfrac{13}{3}} \\approx 2.08"
+    },
+    {
+      "prompt_latex": "Let $f(x) = \\sqrt{x}$ on $[1, 9]$. Verify the MVT hypotheses hold and find the guaranteed value of $c$.",
+      "answer_latex": "c = 4"
+    },
+    {
+      "prompt_latex": "Suppose $f$ is differentiable on $\\mathbb{R}$ with $f(0) = 1$ and $f(5) = 11$. Use the MVT to show there exists some $c \\in (0, 5)$ where $f'(c) = 2$, and explain what additional information would let you conclude $f'(c) = 2$ for only one such $c$.",
+      "answer_latex": "\\text{MVT gives } f'(c) = \\frac{11-1}{5-0} = 2 \\text{ for some } c \\in (0,5); \\text{ strict monotonicity (or } f'' \\neq 0\\text{) would make } c \\text{ unique.}"
+    },
+    {
+      "prompt_latex": "A car travels along a straight road. Its position (in miles) at time $t$ hours is $s(t) = 4t^3 - 6t$ for $t \\in [0, 3]$. The MVT guarantees a moment when the car's instantaneous speed equals its average speed over the trip. Find that time $c$.",
+      "answer_latex": "c = \\sqrt{3} \\approx 1.73 \\text{ hours}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to verify both hypotheses \u2014 continuity on $[a,b]$ AND differentiability on $(a,b)$ \u2014 before applying the MVT; for instance, $f(x) = |x|$ on $[-1,1]$ is continuous but not differentiable at $0$, so the theorem does not apply. Always check both conditions explicitly.",
+    "A frequent error is reporting $c$ without checking that it actually lies in the open interval $(a, b)$; after solving $f'(c) = \\frac{f(b)-f(a)}{b-a}$, always verify $a < c < b$ and discard extraneous solutions that fall outside the interval.",
+    "Students sometimes confuse the secant slope $\\frac{f(b)-f(a)}{b-a}$ with the derivative $f'(a)$ or $f'(b)$, setting $f'(c)$ equal to $f'(a)$ instead of the average rate of change; remember that the right-hand side is always the slope of the line connecting the two endpoints, computed from function values \u2014 not from derivatives at the endpoints."
+  ],
+  "untested_variants": [
+    "Applying the MVT to trigonometric functions such as $f(x) = \\sin x$ on $[0, \\pi]$, where solving $f'(c) = \\cos c = 0$ requires knowledge of inverse trig and yields $c = \\pi/2$.",
+    "Using the MVT to prove an inequality \u2014 for example, showing that $|\\sin a - \\sin b| \\leq |a - b|$ for all real $a, b$ \u2014 which requires applying the theorem in reverse to bound $f'(c)$.",
+    "Problems where the function fails one of the hypotheses (e.g., a piecewise function with a jump discontinuity or a function with a cusp inside the interval), requiring the student to explain why the MVT does not apply.",
+    "Rolle's Theorem as a special case of the MVT, where $f(a) = f(b)$ so the average rate of change is zero and the conclusion becomes $f'(c) = 0$."
+  ]
+}

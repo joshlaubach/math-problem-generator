@@ -1,0 +1,81 @@
+{
+  "topic_id": "pa_047",
+  "topic_name": "Finding Patterns",
+  "generated_at": "2026-05-12T22:31:23.900900+00:00",
+  "course_name": "Pre-Algebra",
+  "hook": "You already know how to add, subtract, and spot when numbers grow by the same amount each time. But what if someone showed you the sequence 2, 6, 18, 54, \u2026 and asked you to find the 10th term without writing out all ten numbers? Adding won't help here \u2014 something different is happening between each term. Can you figure out the rule that connects them?",
+  "concept": "Finding patterns means identifying a rule that describes how a sequence of numbers, shapes, or objects changes from one term to the next. In math, a pattern is a predictable relationship: once you know the rule, you can find any term without listing every one before it. Patterns can be arithmetic (add or subtract a constant), geometric (multiply or divide by a constant), or more complex rules like alternating operations.",
+  "anatomy": "Every pattern problem has three key components: the terms (the individual values listed in the sequence, such as the first term $a_1$, second term $a_2$, etc.), the common difference or common ratio (the constant added in an arithmetic pattern, $d$, or the constant multiplied in a geometric pattern, $r$), and the position number $n$ (which tells you which term in the sequence you are working with). Identifying all three lets you write a rule and extend the pattern to any position.",
+  "worked_example": [
+    {
+      "expression_latex": "3, 7, 11, 15, \\ldots",
+      "description_latex": "We start by simply listing the terms and asking: what operation connects one term to the next? Looking at the sequence, we want to find the difference between consecutive terms before assuming any rule.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "7 - 3 = 4, \\quad 11 - 7 = 4, \\quad 15 - 11 = 4",
+      "description_latex": "We subtract each term from the one that follows it, and every difference equals 4. This constant difference $d = 4$ tells us the pattern is arithmetic \u2014 each term is found by adding 4 to the previous one.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_n = a_1 + (n - 1) \\cdot d = 3 + (n-1) \\cdot 4",
+      "description_latex": "Now we write the general rule using the first term $a_1 = 3$ and the common difference $d = 4$. The formula $a_n = a_1 + (n-1) \\cdot d$ works because you are starting at 3 and jumping forward by 4 exactly $(n-1)$ times to reach the $n$th term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_8 = 3 + (8 - 1) \\cdot 4 = 3 + 28 = 31",
+      "description_latex": "To find the 8th term, we substitute $n = 8$ into our rule. We get $3 + 7 \\times 4 = 3 + 28 = 31$, which we can verify by continuing the list: 19, 23, 27, 31 \u2014 the 8th term is indeed 31.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "5, 15, 45, 135, \\ldots",
+      "description_latex": "Here is a new sequence. Before applying any formula, we need to check whether consecutive terms share a common difference or a common ratio. Let's compute the ratio of each term to the one before it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{15}{5} = 3, \\quad \\frac{45}{15} = 3, \\quad \\frac{135}{45} = 3",
+      "description_latex": "Each term is 3 times the previous term, so the common ratio is $r = 3$ and the pattern is geometric. The general rule for a geometric sequence is $a_n = a_1 \\cdot r^{\\,n-1}$, giving us $a_n = 5 \\cdot 3^{n-1}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_6 = 5 \\cdot 3^{\\,6-1} = 5 \\cdot 3^5 = ?",
+      "description_latex": "Use the rule $a_n = 5 \\cdot 3^{n-1}$ with $n = 6$ to find the 6th term. Calculate $3^5$ first, then multiply by 5 to get your final answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find the next two terms in the sequence: } 10, 13, 16, 19, \\ldots",
+      "answer_latex": "22, 25"
+    },
+    {
+      "prompt_latex": "\\text{Identify the rule and find the 7th term: } 4, 8, 12, 16, \\ldots",
+      "answer_latex": "a_n = 4n, \\text{ so } a_7 = 28"
+    },
+    {
+      "prompt_latex": "\\text{Identify the rule and find the 6th term: } 2, 6, 18, 54, \\ldots",
+      "answer_latex": "a_n = 2 \\cdot 3^{n-1}, \\text{ so } a_6 = 486"
+    },
+    {
+      "prompt_latex": "\\text{The sequence } 100, 95, 90, 85, \\ldots \\text{ represents money (in cents) remaining after buying equal-cost items. Write the rule and find which term first goes below 70 cents.}",
+      "answer_latex": "a_n = 100 - 5(n-1); \\text{ the 7th term equals } 70, \\text{ so the 8th term } (65) \\text{ is the first below 70}"
+    },
+    {
+      "prompt_latex": "\\text{A pattern of squares is built so that row 1 has 3 squares, row 2 has 5, row 3 has 7. How many squares are in row 12, and what is the total in all 12 rows?}",
+      "answer_latex": "\\text{Row 12: } a_{12} = 3 + 11(2) = 25 \\text{ squares; Total} = \\frac{12}{2}(3 + 25) = 168 \\text{ squares}"
+    }
+  ],
+  "common_mistakes": [
+    "Students assume every pattern is arithmetic and immediately subtract consecutive terms, missing geometric sequences where the rule involves multiplication. Always check both differences AND ratios before deciding on the type of pattern.",
+    "When using the formula $a_n = a_1 + (n-1) \\cdot d$, students frequently write $a_n = a_1 + n \\cdot d$, forgetting the $-1$. This off-by-one error happens because you only add $d$ a total of $(n-1)$ times to get from the 1st term to the $n$th term \u2014 always subtract 1 from your position number first.",
+    "Students sometimes confuse the term value with the position number \u2014 for example, seeing the number 4 appear as both a term in the sequence and the position $n = 4$, then substituting the wrong one into the formula. Keep a clear two-column table labeling position $n$ and value $a_n$ separately to avoid mixing them up."
+  ],
+  "untested_variants": [
+    "Sequences with two alternating rules, such as add 3 then multiply by 2, repeating (e.g., 1, 4, 8, 11, 22, 25, \u2026), where a single common difference or ratio does not exist.",
+    "Quadratic or square-number patterns such as 1, 4, 9, 16, 25, \u2026 where the differences themselves form an arithmetic sequence (second differences are constant), requiring students to recognize $a_n = n^2$.",
+    "Fibonacci-style patterns where each term is the sum of the two preceding terms (e.g., 1, 1, 2, 3, 5, 8, \u2026), which cannot be described by a simple arithmetic or geometric rule.",
+    "Visual or geometric patterns (such as a growing arrangement of dots or tiles) where students must count structural elements and translate the visual growth into a numeric sequence before finding a rule."
+  ]
+}

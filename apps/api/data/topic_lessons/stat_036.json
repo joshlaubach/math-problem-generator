@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_036",
+  "topic_name": "p-Values and Statistical Significance",
+  "generated_at": "2026-05-13T20:32:11.916747+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to set up null and alternative hypotheses and compute a test statistic from sample data. But once you have that test statistic in hand, how do you actually decide whether it is surprising enough to reject the null hypothesis? You might be tempted to just 'eyeball' how large it looks, but that leaves the decision subjective. The key tool that makes the decision objective and communicable is the p-value \u2014 but what exactly is it measuring, and how do you use it to draw a conclusion?",
+  "concept": "A p-value is the probability of obtaining a test statistic at least as extreme as the one observed, assuming the null hypothesis is true. In plain English, it answers: 'If the null hypothesis were correct, how often would we see data this unusual just by chance?' Formally, for a test statistic $T$ and observed value $t_{obs}$, the p-value is $p = P(T \\geq t_{obs} \\mid H_0 \\text{ true})$ for a right-tailed test. We reject $H_0$ when $p \\leq \\alpha$, where $\\alpha$ is the pre-chosen significance level.",
+  "anatomy": "Every p-value calculation and decision involves four named components. The observed test statistic $t_{obs}$ (or $z_{obs}$, $t_{obs}$, etc.) is the numerical value computed from your sample. The null distribution is the sampling distribution of the test statistic assuming $H_0$ is true \u2014 it tells you the 'expected' behavior under no effect. The tail area is the region of the null distribution at least as extreme as $t_{obs}$; for a two-tailed test this region appears in both tails and the two areas are added. Finally, the significance level $\\alpha$ (commonly $0.05$ or $0.01$) is the pre-specified threshold against which the p-value is compared to make a binary reject/fail-to-reject decision.",
+  "worked_example": [
+    {
+      "expression_latex": "H_0: \\mu = 50, \\quad H_a: \\mu > 50, \\quad \\bar{x} = 53.2, \\quad s = 8, \\quad n = 25",
+      "description_latex": "We start by clearly stating all given information. We have a right-tailed test because the alternative says $\\mu > 50$, which means we will look at the upper tail of the null distribution when we eventually compute the p-value.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t_{obs} = \\frac{\\bar{x} - \\mu_0}{s / \\sqrt{n}} = \\frac{53.2 - 50}{8 / \\sqrt{25}} = \\frac{3.2}{1.6} = 2.00",
+      "description_latex": "We compute the one-sample t-statistic by standardizing the sample mean relative to the null hypothesis value $\\mu_0 = 50$. Dividing the difference $3.2$ by the standard error $8/5 = 1.6$ tells us how many standard errors our sample mean sits above the hypothesized mean.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{degrees of freedom} = n - 1 = 25 - 1 = 24",
+      "description_latex": "Because we estimated the population standard deviation with the sample standard deviation $s$, we use a t-distribution rather than a z-distribution, and the degrees of freedom are $n-1 = 24$. This is the specific t-distribution whose tail area we need to look up.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p\\text{-value} = P(T_{24} \\geq 2.00) \\approx 0.028",
+      "description_latex": "For a right-tailed test, the p-value is the area to the right of $t_{obs} = 2.00$ under the $t_{24}$ distribution. Using a t-table or calculator we find this upper-tail probability is approximately $0.028$, meaning there is about a $2.8\\%$ chance of seeing a sample mean this high (or higher) if $\\mu$ were truly $50$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p = 0.028 \\leq \\alpha = 0.05 \\implies \\text{Reject } H_0",
+      "description_latex": "We compare the p-value to the significance level $\\alpha = 0.05$. Because $0.028 < 0.05$, the result falls in the rejection region, so we reject $H_0$ and conclude there is statistically significant evidence that $\\mu > 50$ at the $5\\%$ significance level.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H_0: \\mu = 100, \\quad H_a: \\mu \\neq 100, \\quad \\bar{x} = 96, \\quad \\sigma = 10, \\quad n = 36",
+      "description_latex": "We are given a two-tailed test (note $H_a: \\mu \\neq 100$) with a known population standard deviation, so we will use a z-test. First, we compute the observed z-statistic using the formula $z_{obs} = (\\bar{x} - \\mu_0)/(\\sigma/\\sqrt{n})$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z_{obs} = \\frac{96 - 100}{10 / \\sqrt{36}} = \\frac{-4}{10/6} = \\frac{-4}{1.667} \\approx -2.40",
+      "description_latex": "The observed z-statistic is $-2.40$, telling us the sample mean lies $2.40$ standard errors below the null hypothesis value. Now you need to find the p-value for this two-tailed test \u2014 remember that 'two-tailed' means you must account for both directions of departure from $\\mu_0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute the two-tailed p-value: find the probability $P(Z \\leq -2.40)$ from the standard normal table, then multiply by 2 to account for both tails. Write the p-value and state whether you reject or fail to reject $H_0$ at $\\alpha = 0.05$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "p = 2 \\times P(Z \\leq -2.40) = 2 \\times 0.0082 = 0.0164 \\leq 0.05 \\implies \\text{Reject } H_0",
+      "description_latex": "The completed answer confirms the two-tailed p-value is approximately $0.0164$. Since $0.0164 < 0.05$ we reject $H_0$, concluding there is statistically significant evidence that $\\mu \\neq 100$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A test produces $z_{obs} = 1.85$ for a right-tailed z-test. The area to the right of $1.85$ under the standard normal curve is $0.0322$. State the p-value and whether you reject $H_0$ at $\\alpha = 0.05$.",
+      "answer_latex": "p = 0.0322 < 0.05, \\text{ so reject } H_0"
+    },
+    {
+      "prompt_latex": "For a left-tailed z-test, $z_{obs} = -1.20$. Using the standard normal table, $P(Z \\leq -1.20) = 0.1151$. Find the p-value and decide at $\\alpha = 0.05$.",
+      "answer_latex": "p = 0.1151 > 0.05, \\text{ fail to reject } H_0"
+    },
+    {
+      "prompt_latex": "A two-tailed t-test with $n = 16$ yields $t_{obs} = 2.35$. Using a $t_{15}$ table, the one-tail area beyond $2.35$ is approximately $0.0165$. Find the two-tailed p-value and state your conclusion at $\\alpha = 0.05$.",
+      "answer_latex": "p = 2(0.0165) = 0.033 < 0.05, \\text{ reject } H_0"
+    },
+    {
+      "prompt_latex": "A researcher tests $H_0: \\mu = 200$ vs. $H_a: \\mu > 200$ with $\\bar{x} = 205$, $s = 15$, $n = 9$. Compute $t_{obs}$, find the approximate p-value using a $t_8$ distribution (upper tail beyond $t = 1.00$ is $\\approx 0.172$), and decide at $\\alpha = 0.10$.",
+      "answer_latex": "t_{obs} = \\frac{205-200}{15/3} = 1.00; \\quad p \\approx 0.172 > 0.10, \\text{ fail to reject } H_0"
+    },
+    {
+      "prompt_latex": "A quality inspector samples 64 bottles and finds $\\bar{x} = 498$ mL with $\\sigma = 16$ mL known. The label claims $\\mu = 500$ mL. Test $H_0: \\mu = 500$ vs. $H_a: \\mu < 500$ at $\\alpha = 0.01$. Compute the p-value and interpret the result in context.",
+      "answer_latex": "z_{obs} = \\frac{498-500}{16/8} = -1.00; \\quad p = P(Z \\leq -1.00) \\approx 0.1587 > 0.01; \\text{ fail to reject } H_0. \\text{ Insufficient evidence the bottles are underfilled.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the p-value with the probability that the null hypothesis is true, stating 'there is a 3% chance H\u2080 is correct.' The fix: the p-value is $P(\\text{data this extreme} \\mid H_0 \\text{ true})$, not $P(H_0 \\text{ true} \\mid \\text{data})$ \u2014 these are fundamentally different probabilities.",
+    "For a two-tailed test, students compute $P(Z \\leq z_{obs})$ or $P(Z \\geq z_{obs})$ and forget to double it. The fix: always ask 'is my alternative hypothesis two-sided ($\\neq$)?' and if so, multiply the single-tail area by 2 before comparing to $\\alpha$.",
+    "Students compare the test statistic directly to $\\alpha$ (e.g., concluding 'since $t = 2.5 > 0.05$, reject $H_0$') instead of comparing the p-value to $\\alpha$. The fix: the p-value is a probability between 0 and 1, while the test statistic can be any real number \u2014 only the p-value (not the statistic) is compared to the significance level $\\alpha$."
+  ],
+  "untested_variants": [
+    "Chi-square tests: computing and interpreting p-values from a $\\chi^2$ distribution for goodness-of-fit or independence tests, where the distribution is right-skewed and not symmetric.",
+    "P-value from a two-sample t-test (comparing two independent group means), which requires pooled or unpooled standard error and degrees-of-freedom approximations not covered here.",
+    "Using p-values in the context of one-proportion z-tests ($H_0: p = p_0$), where the standard error formula involves $p_0$ rather than the sample proportion.",
+    "Interpreting p-values when multiple simultaneous hypothesis tests are conducted, including the concept of p-value adjustment (e.g., Bonferroni correction) to control the family-wise error rate."
+  ]
+}

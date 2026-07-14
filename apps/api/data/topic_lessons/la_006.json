@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_006",
+  "topic_name": "Applications of Linear Systems",
+  "generated_at": "2026-05-13T20:05:16.367217+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to solve a single equation with one unknown, and you've seen how a system of two equations can pin down two unknowns. But real-world problems rarely come pre-labeled with variables \u2014 a factory manager needs to know how many units of each product to make, a chemist needs to mix solutions to hit a target concentration, a network engineer needs to balance flows through pipes. The hard part isn't solving the system; it's building it. Can you translate a messy word problem into a clean system of linear equations, and then trust the algebra to give you a meaningful answer?",
+  "concept": "Applying linear systems means converting a real-world scenario into a set of linear equations, solving that system, and interpreting the solution in context. Formally, if $n$ unknown quantities $x_1, x_2, \\ldots, x_n$ satisfy $m$ independent linear constraints, we write the system $a_{i1}x_1 + a_{i2}x_2 + \\cdots + a_{in}x_n = b_i$ for $i = 1, \\ldots, m$, and the solution tells us the unique (or infinitely many, or no) combination of values that simultaneously satisfies every constraint.",
+  "anatomy": "Every applied linear system has five identifiable components: the unknowns (the quantities you are asked to find, e.g., amounts, prices, or rates), the constraints (the real-world conditions that each become one equation), the coefficients (the multipliers on each unknown within a constraint, often coming from unit rates or ratios), the constants on the right-hand side (the given totals or targets), and the solution interpretation (checking that numerical answers make physical sense \u2014 for instance, that a number of people is a positive integer, or that a mixture percentage stays between 0 and 1).",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Two types of tickets: adult } (a) \\text{ at } \\$12 \\text{ each, child } (c) \\text{ at } \\$7 \\text{ each. Total tickets sold: } 200. \\text{ Total revenue: } \\$1{,}{\\!}900.",
+      "description_latex": "We start by identifying the two unknowns \u2014 the number of adult tickets $a$ and child tickets $c$ \u2014 and the two constraints given in the problem. Naming unknowns explicitly before writing any equation is the most important habit in applied problems, because it forces you to be precise about what each variable means.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a + c = 200 \\qquad \\text{(total tickets)}",
+      "description_latex": "The first constraint says the counts must add to 200, which translates directly into $a + c = 200$. Notice that every ticket contributes exactly 1 to the left side regardless of type, so the coefficients are both 1 \u2014 a very common structure in 'total count' equations.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "12a + 7c = 1900 \\qquad \\text{(total revenue)}",
+      "description_latex": "The second constraint tracks money: each adult ticket contributes $12$ dollars and each child ticket contributes $7$ dollars, and together they must reach $\\$1{,}900$. Writing out units (dollars per ticket times number of tickets equals total dollars) is a reliable way to confirm that your coefficients are attached to the right variables.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{From (1): } c = 200 - a. \\quad \\text{Substitute into (2): } 12a + 7(200-a) = 1900 \\implies 5a = 500 \\implies a = 100.",
+      "description_latex": "We use substitution \u2014 expressing $c$ from the simpler equation and plugging into the revenue equation \u2014 to reduce the system to one equation in one unknown. The arithmetic $12a + 1400 - 7a = 1900$ collapses to $5a = 500$, giving $a = 100$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c = 200 - 100 = 100. \\quad \\text{Check: } 12(100) + 7(100) = 1200 + 700 = 1900. \\checkmark",
+      "description_latex": "Back-substituting gives $c = 100$, and we verify by plugging both values into the original revenue equation. The check step is not optional in applied problems \u2014 it catches arithmetic errors and also confirms that the solution is physically reasonable (both ticket counts are positive integers).",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A chemist mixes a 30\\% acid solution } (x \\text{ liters}) \\text{ with a 70\\% acid solution } (y \\text{ liters}) \\text{ to obtain 40 liters of a 50\\% solution.}",
+      "description_latex": "Read the problem and identify both unknowns: $x$ is the volume of 30% solution and $y$ is the volume of 70% solution. Every mixture problem produces exactly two constraints \u2014 one on total volume and one on total amount of the active substance (here, pure acid).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x + y = 40",
+      "description_latex": "The total-volume constraint says the two volumes must sum to 40 liters. This equation is already written for you \u2014 make sure you see why each coefficient is 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write the acid-content constraint: the amount of pure acid from the 30% solution plus the amount from the 70% solution must equal the amount of acid in the final 50% mixture. Express 'amount of acid' as (concentration) $\\times$ (volume) for each part, set it equal to $0.50 \\times 40$, and write the resulting equation.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = 25, \\quad y = 15",
+      "description_latex": "Solve the $2 \\times 2$ system you formed. You should get $x = 25$ liters of 30% solution and $y = 15$ liters of 70% solution \u2014 verify by checking that $0.30(25) + 0.70(15) = 7.5 + 10.5 = 18 = 0.50(40)$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{The sum of two numbers is } 54 \\text{ and their difference is } 10. \\text{ Find both numbers.}",
+      "answer_latex": "32 \\text{ and } 22"
+    },
+    {
+      "prompt_latex": "\\text{A store sells pens at } \\$2 \\text{ each and notebooks at } \\$5 \\text{ each. A customer buys 8 items and spends } \\$31. \\text{ How many of each did the customer buy?}",
+      "answer_latex": "3 \\text{ pens and } 5 \\text{ notebooks}"
+    },
+    {
+      "prompt_latex": "\\text{Mix a 20\\% saline solution with a 60\\% saline solution to produce 100 mL of a 44\\% saline solution. How many mL of each solution are needed?}",
+      "answer_latex": "40 \\text{ mL of 20\\% solution and } 60 \\text{ mL of 60\\% solution}"
+    },
+    {
+      "prompt_latex": "\\text{A plane travels 600 km in 1.5 hours flying with the wind, and 600 km in 2 hours flying against the wind. Using } p \\text{ for the plane's speed in still air and } w \\text{ for wind speed (both in km/h), set up and solve the system.}",
+      "answer_latex": "p = 350 \\text{ km/h}, \\quad w = 50 \\text{ km/h}"
+    },
+    {
+      "prompt_latex": "\\text{A farmer has 100 acres to plant with wheat and corn. Wheat earns a profit of } \\$200\\text{/acre and corn earns } \\$150\\text{/acre}. \\text{ If the total profit is } \\$17{,}000, \\text{ and the farmer plants twice as many acres of corn as wheat, find the number of acres of each crop.}",
+      "answer_latex": "\\text{wheat: } \\frac{100}{3} \\approx 33.3 \\text{ acres, corn: } \\frac{200}{3} \\approx 66.7 \\text{ acres}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write only one equation when a problem has two unknowns, usually the 'total count' equation, and forget the second constraint (such as total value or total concentration). Fix: count your unknowns first; you must write exactly that many independent equations before you can solve the system.",
+    "Students attach a coefficient to the wrong variable \u2014 for example, writing $7a + 12c = 1900$ instead of $12a + 7c = 1900$ because they lose track of which price belongs to which ticket type. Fix: after writing each equation, read it aloud in words ('12 dollars per adult ticket times the number of adult tickets...') to confirm the coefficient-variable pairing matches the problem statement.",
+    "Students report a mathematical solution without checking it against real-world constraints, accepting a negative number of liters or a fractional count of people as a valid answer. Fix: always substitute the solution back into every original equation AND verify it satisfies any implicit constraints (non-negativity, integer requirements) before stating the answer."
+  ],
+  "untested_variants": [
+    "Three-variable systems arising from applications (e.g., three types of investments with three constraints on total amount, total interest, and a ratio condition) \u2014 the practice problems only cover two-variable systems.",
+    "Network flow problems where the unknowns are flow rates along edges of a graph and the constraints come from conservation at each node \u2014 a classic linear-systems application not represented in the problem set.",
+    "Break-even analysis problems where students must find the production quantity at which cost equals revenue, requiring them to set up a linear system from cost and revenue functions given in words.",
+    "Underdetermined or overdetermined applied systems \u2014 scenarios where the word problem either has infinitely many solutions (one degree of freedom remains) or is inconsistent (the constraints are contradictory), requiring the student to interpret the result in context."
+  ]
+}

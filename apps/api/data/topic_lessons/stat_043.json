@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_043",
+  "topic_name": "Testing the Slope of a Regression Line",
+  "generated_at": "2026-05-13T20:32:47.781638+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to compute a least-squares regression line $\\hat{y} = b_0 + b_1 x$ and interpret the slope as the average change in $y$ per unit increase in $x$. But that slope was computed from just one sample \u2014 a different sample from the same population would give a slightly different slope. So here is the gap: how do we decide whether the slope we computed is strong enough evidence that a real linear relationship exists in the population, rather than just being a fluke of sampling? Can we construct a formal hypothesis test to answer that question?",
+  "concept": "Testing the slope asks whether the true population slope $\\beta_1$ equals zero \u2014 meaning no linear relationship \u2014 or whether it is significantly different from zero. Formally, we test $H_0: \\beta_1 = 0$ versus $H_a: \\beta_1 \\neq 0$ (or a one-sided alternative) using a $t$-test statistic $t = \\frac{b_1 - 0}{SE_{b_1}}$, where $b_1$ is the sample slope and $SE_{b_1}$ is its standard error, with degrees of freedom $df = n - 2$.",
+  "anatomy": "The test has four key components. First, $b_1$ is the observed sample slope from your regression output \u2014 the numerator of the test statistic. Second, $SE_{b_1}$ is the standard error of the slope, which measures how much $b_1$ would vary across repeated samples; it comes directly from regression output and appears in the denominator. Third, the $t$-statistic $t = \\frac{b_1}{SE_{b_1}}$ measures how many standard errors the sample slope is from zero. Fourth, the degrees of freedom are $df = n - 2$ (not $n - 1$) because fitting a regression line uses two estimated parameters, $b_0$ and $b_1$.",
+  "worked_example": [
+    {
+      "expression_latex": "H_0: \\beta_1 = 0 \\quad \\text{vs.} \\quad H_a: \\beta_1 \\neq 0",
+      "description_latex": "We always start by stating our hypotheses in terms of the population slope $\\beta_1$, not the sample slope $b_1$. The null hypothesis says there is no linear relationship in the population, and the two-sided alternative says there is some linear relationship \u2014 we are not yet assuming its direction.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_1 = 2.34, \\quad SE_{b_1} = 0.78, \\quad n = 20",
+      "description_latex": "These three values are read directly from the computer regression output \u2014 you do not calculate them by hand on most assessments. Here the sample slope is $2.34$, its standard error is $0.78$, and the sample size is $20$, which will determine our degrees of freedom.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t = \\frac{b_1}{SE_{b_1}} = \\frac{2.34}{0.78} = 3.00",
+      "description_latex": "We compute the $t$-statistic by dividing the sample slope by its standard error. This ratio tells us that our observed slope is $3$ standard errors above zero, which already hints that it is unlikely to occur by chance if the true slope were zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "df = n - 2 = 20 - 2 = 18",
+      "description_latex": "The degrees of freedom for the slope test are always $n - 2$, not $n - 1$, because we estimated both the intercept $b_0$ and the slope $b_1$ from the data. We use $df = 18$ when we look up our $t$-statistic in a $t$-table or use technology.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p\\text{-value} \\approx 0.008 < \\alpha = 0.05 \\implies \\text{Reject } H_0",
+      "description_latex": "Using a $t$-distribution with $18$ degrees of freedom, a two-sided $p$-value for $t = 3.00$ is approximately $0.008$. Because $0.008 < 0.05$, we reject $H_0$ and conclude there is statistically significant evidence that the population slope is not zero \u2014 meaning a linear relationship does exist.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H_0: \\beta_1 = 0 \\quad \\text{vs.} \\quad H_a: \\beta_1 > 0, \\quad b_1 = 1.50, \\quad SE_{b_1} = 0.60, \\quad n = 22",
+      "description_latex": "A researcher believes that study hours positively predict exam scores. She fits a regression and reads $b_1 = 1.50$ and $SE_{b_1} = 0.60$ from the output with $n = 22$ observations. We have set up a one-sided test because she expects a positive slope.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t = \\frac{b_1}{SE_{b_1}} = \\frac{1.50}{0.60}",
+      "description_latex": "Compute the $t$-statistic by plugging in the sample slope and its standard error. What numerical value do you get, and what are the correct degrees of freedom for this test?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "p\\text{-value (one-sided)} \\approx 0.014",
+      "description_latex": "Using technology or a $t$-table with $df = 20$ and $t = 2.50$, the one-sided $p$-value is approximately $0.014$. Notice we use $df = n - 2 = 20$ and look only at the upper tail because the alternative is one-sided.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "0.014 < 0.05 \\implies \\ ?",
+      "description_latex": "Based on this $p$-value and a significance level of $\\alpha = 0.05$, write a full conclusion: do you reject or fail to reject $H_0$, and what does that mean in the context of study hours and exam scores?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A regression output reports $b_1 = 4.10$ and $SE_{b_1} = 2.05$ with $n = 12$. Compute the $t$-statistic for testing $H_0: \\beta_1 = 0$.",
+      "answer_latex": "t = \\frac{4.10}{2.05} = 2.00, \\quad df = 10"
+    },
+    {
+      "prompt_latex": "For the test above ($t = 2.00$, $df = 10$, two-sided), the $p$-value is approximately $0.074$. At $\\alpha = 0.05$, state your decision and conclusion.",
+      "answer_latex": "\\text{Fail to reject } H_0; \\text{ there is not sufficient evidence of a linear relationship } (p = 0.074 > 0.05)"
+    },
+    {
+      "prompt_latex": "A regression of temperature on ice cream sales gives $b_1 = 3.8$, $SE_{b_1} = 1.2$, and $n = 25$. Test $H_0: \\beta_1 = 0$ vs.\\ $H_a: \\beta_1 > 0$ at $\\alpha = 0.01$. Compute $t$ and state the degrees of freedom.",
+      "answer_latex": "t = \\frac{3.8}{1.2} \\approx 3.17, \\quad df = 23"
+    },
+    {
+      "prompt_latex": "A study reports a 95\\% confidence interval for the slope as $(0.42,\\, 1.98)$. Without computing a $p$-value, what can you conclude about the two-sided hypothesis test $H_0: \\beta_1 = 0$ at $\\alpha = 0.05$? Explain your reasoning.",
+      "answer_latex": "\\text{Reject } H_0 \\text{ because } 0 \\text{ is not contained in the interval } (0.42, 1.98), \\text{ which is equivalent to } p < 0.05"
+    },
+    {
+      "prompt_latex": "A researcher regresses a student's GPA ($y$) on weekly hours of sleep ($x$) for 30 students and gets $b_1 = 0.05$, $SE_{b_1} = 0.04$. She claims: 'Sleep significantly predicts GPA at the 5\\% level.' Evaluate her claim by computing $t$, finding $df$, and interpreting the result (the two-sided $p$-value for $t \\approx 1.25$, $df = 28$ is approximately $0.22$).",
+      "answer_latex": "t = 0.05/0.04 = 1.25, \\; df = 28, \\; p \\approx 0.22 > 0.05: \\text{ fail to reject } H_0; \\text{ the claim is not supported}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use $df = n - 1$ instead of $df = n - 2$ when finding the $p$-value, forgetting that regression estimates two parameters ($b_0$ and $b_1$). Always subtract 2 from the sample size for the slope $t$-test.",
+    "Students write the null hypothesis as $H_0: b_1 = 0$ using the sample slope symbol instead of $H_0: \\beta_1 = 0$ using the population parameter. The hypothesis is always a claim about the population, so you must use $\\beta_1$.",
+    "When reading a two-sided $p$-value from a $t$-table, students sometimes use only the one-tail area and forget to double it, concluding significance when they should not. Always confirm whether your $p$-value matches the sidedness of your alternative hypothesis."
+  ],
+  "untested_variants": [
+    "Constructing and interpreting a confidence interval for the slope $\\beta_1$ using $b_1 \\pm t^* \\cdot SE_{b_1}$, and linking the interval to the hypothesis test conclusion.",
+    "Using the ANOVA table from regression output (the $F$-statistic for overall model significance) instead of the $t$-test for the slope, and recognizing that $F = t^2$ in simple linear regression.",
+    "Verifying the conditions required for inference on the slope \u2014 linearity, independence, equal variance (homoscedasticity), and normality of residuals \u2014 by reading residual plots.",
+    "Performing the test when the null hypothesis is a non-zero value, such as $H_0: \\beta_1 = 1$, requiring the test statistic $t = \\frac{b_1 - 1}{SE_{b_1}}$."
+  ]
+}

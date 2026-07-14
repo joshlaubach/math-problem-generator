@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_040",
+  "topic_name": "Nonhomogeneous Equations: Variation of Parameters",
+  "generated_at": "2026-05-13T19:59:17.417045+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to solve homogeneous second-order linear ODEs like $y'' + py' + qy = 0$ using the characteristic equation, and you've even learned undetermined coefficients to handle nonhomogeneous equations when the right-hand side is a polynomial, exponential, or sinusoid. But what happens when the forcing function is something like $g(x) = \\tan(x)$, $g(x) = \\sec(x)$, or $g(x) = \\ln(x)$ \u2014 functions that don't fit any of those neat templates? Can you still find a particular solution, and if so, how?",
+  "concept": "Variation of Parameters is a method for finding a particular solution $y_p$ to $y'' + p(x)y' + q(x)y = g(x)$ that works for essentially any continuous $g(x)$. Instead of guessing a fixed form, we replace the constants in the homogeneous solution $c_1 y_1 + c_2 y_2$ with unknown functions $u_1(x)$ and $u_2(x)$, then determine those functions by enforcing two conditions. The particular solution takes the form $y_p = u_1 y_1 + u_2 y_2$, where $u_1' = -\\frac{y_2 g}{W}$ and $u_2' = \\frac{y_1 g}{W}$, with $W = y_1 y_2' - y_2 y_1'$ being the Wronskian.",
+  "anatomy": "The method has four key structural components. First, the complementary solution $y_c = c_1 y_1 + c_2 y_2$ provides the two independent solutions $y_1$ and $y_2$ that serve as the building blocks. Second, the Wronskian $W(y_1, y_2) = y_1 y_2' - y_2 y_1'$ is a determinant that measures linear independence and appears in every denominator \u2014 if $W = 0$ the method fails. Third, the variation functions $u_1(x)$ and $u_2(x)$ are found by integrating $u_1' = -y_2 g / W$ and $u_2' = y_1 g / W$; these integrals are the computational heart of the method. Fourth, the particular solution $y_p = u_1 y_1 + u_2 y_2$ is assembled from those pieces, and the general solution is $y = y_c + y_p$.",
+  "worked_example": [
+    {
+      "expression_latex": "y'' + y = \\sec(x)",
+      "description_latex": "We are given a nonhomogeneous ODE whose right-hand side $\\sec(x)$ cannot be handled by undetermined coefficients, making variation of parameters the right tool. Our first task is to identify and solve the associated homogeneous equation $y'' + y = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_1 = \\cos x, \\quad y_2 = \\sin x, \\quad W = \\cos x \\cdot \\cos x - \\sin x \\cdot (-\\sin x) = \\cos^2 x + \\sin^2 x = 1",
+      "description_latex": "The characteristic equation $r^2 + 1 = 0$ gives $r = \\pm i$, so $y_1 = \\cos x$ and $y_2 = \\sin x$. We immediately compute the Wronskian $W = y_1 y_2' - y_2 y_1'$; here it equals $1$, which is a clean result that will simplify every integral that follows.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_1' = -\\frac{y_2 \\cdot g(x)}{W} = -\\frac{\\sin x \\cdot \\sec x}{1} = -\\tan x \\implies u_1 = \\ln|\\cos x|",
+      "description_latex": "We apply the formula $u_1' = -y_2 g / W$, which gives $-\\sin x \\sec x = -\\tan x$. Integrating, $u_1 = \\int -\\tan x \\, dx = \\ln|\\cos x|$, where we drop the constant of integration because we only need one particular solution, not the general family.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_2' = \\frac{y_1 \\cdot g(x)}{W} = \\frac{\\cos x \\cdot \\sec x}{1} = 1 \\implies u_2 = x",
+      "description_latex": "Now we apply $u_2' = y_1 g / W$, which gives $\\cos x \\cdot \\sec x = 1$, an exceptionally simple integrand. Integrating yields $u_2 = x$, again dropping the arbitrary constant.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y_p = u_1 y_1 + u_2 y_2 = \\ln|\\cos x| \\cdot \\cos x + x \\sin x, \\quad y = c_1 \\cos x + c_2 \\sin x + x\\sin x + \\cos x \\ln|\\cos x|",
+      "description_latex": "We assemble the particular solution as $y_p = u_1 y_1 + u_2 y_2$, substituting our computed functions. The general solution is then $y = y_c + y_p$; notice that the $\\cos x \\ln|\\cos x|$ term is something undetermined coefficients could never have produced, which is exactly why we needed this method.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y'' - y = e^x / x",
+      "description_latex": "We want to solve this equation using variation of parameters. Start by solving the homogeneous equation $y'' - y = 0$; the characteristic equation is $r^2 - 1 = 0$, giving $r = \\pm 1$, so $y_1 = e^x$ and $y_2 = e^{-x}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "W = y_1 y_2' - y_2 y_1' = e^x(-e^{-x}) - e^{-x}(e^x) = -1 - 1 = -2",
+      "description_latex": "We compute the Wronskian to fill in the denominator of both formulas. You can verify each derivative and the arithmetic here before moving on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now set up and evaluate both integrals: $u_1 = \\int -\\frac{y_2 g}{W} \\, dx$ and $u_2 = \\int \\frac{y_1 g}{W} \\, dx$ with $g(x) = e^x/x$ and $W = -2$. Simplify the integrands carefully \u2014 one of them will involve $1/x$ \u2014 and write expressions for $u_1$ and $u_2$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y_p = u_1 e^x + u_2 e^{-x}, \\quad y = c_1 e^x + c_2 e^{-x} + y_p",
+      "description_latex": "Once you have $u_1$ and $u_2$, substitute them into $y_p = u_1 y_1 + u_2 y_2$ to write out the particular solution and then the full general solution.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the general solution using variation of parameters: $y'' + 4y = \\sin(2x)$. (Note: the homogeneous solution is $y_c = c_1 \\cos 2x + c_2 \\sin 2x$.)",
+      "answer_latex": "y = c_1 \\cos 2x + c_2 \\sin 2x - \\dfrac{x}{4}\\cos 2x + \\dfrac{1}{16}\\sin 2x"
+    },
+    {
+      "prompt_latex": "Use variation of parameters to find a particular solution to $y'' - 2y' + y = \\dfrac{e^x}{x}$.",
+      "answer_latex": "y_p = x e^x \\ln|x|"
+    },
+    {
+      "prompt_latex": "Find the general solution to $y'' + y = \\csc(x)$ using variation of parameters.",
+      "answer_latex": "y = c_1 \\cos x + c_2 \\sin x - \\cos x \\ln|\\csc x - \\cot x| - x\\cos x + \\sin x \\ln|\\sin x|"
+    },
+    {
+      "prompt_latex": "Solve the initial value problem $y'' - 3y' + 2y = \\dfrac{e^{2x}}{1+e^x}$, finding the general solution via variation of parameters.",
+      "answer_latex": "y = c_1 e^x + c_2 e^{2x} + e^{2x}\\ln(1+e^x) - e^x\\ln(1+e^x) + e^x\\left[\\ln(1+e^x) - e^x + \\ln(1+e^{-x})\\right]"
+    },
+    {
+      "prompt_latex": "A driven oscillator satisfies $y'' + \\omega^2 y = F(x)$ where $F(x)$ is an arbitrary continuous forcing function. Use variation of parameters to write a general formula (an integral expression) for the particular solution $y_p$ in terms of $F$, $\\omega$, and $x$.",
+      "answer_latex": "y_p = \\dfrac{1}{\\omega}\\int_0^x F(t)\\sin\\bigl(\\omega(x-t)\\bigr)\\,dt"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to divide by the leading coefficient before applying the formulas, using $g(x)$ from the original equation even when the coefficient of $y''$ is not 1. The fix is to always rewrite the equation in standard form $y'' + p(x)y' + q(x)y = g(x)$ first, so the $g$ you plug into the formulas is truly the right-hand side after dividing through.",
+    "A very common error is confusing the signs in the two formulas, writing $u_1' = +y_2 g/W$ instead of $u_1' = -y_2 g/W$. Remember that $u_1'$ carries the minus sign and $u_2'$ does not \u2014 this asymmetry comes directly from solving the $2\\times 2$ linear system, and swapping the signs gives a $y_p$ that does not satisfy the original ODE.",
+    "Students frequently include the constant of integration when computing $u_1$ and $u_2$, writing for example $u_1 = \\ln|\\cos x| + C$. These constants are unnecessary and incorrect: any constant absorbed into $u_1 y_1 + u_2 y_2$ just reproduces terms already present in $y_c$, so you should always drop the constants of integration when computing the particular solution."
+  ],
+  "untested_variants": [
+    "Variation of parameters applied to a third-order linear ODE $y''' + py'' + qy' + ry = g(x)$, which requires computing a $3\\times 3$ Wronskian and three separate integrals for $u_1, u_2, u_3$.",
+    "Problems where the homogeneous solutions involve Euler\u2013Cauchy equations (e.g., $x^2 y'' + xy' - y = \\ln x$), requiring variation of parameters after the equation is converted to standard form with non-constant coefficients.",
+    "Cases where the integrals for $u_1$ or $u_2$ cannot be expressed in closed form, requiring the answer to be left as a definite integral (the 'integral form' of the particular solution, as in problem 5 but for non-trigonometric bases).",
+    "Variation of parameters combined with reduction of order, where only one homogeneous solution $y_1$ is known and $y_2$ must first be found via reduction of order before the variation of parameters formulas can be applied."
+  ]
+}

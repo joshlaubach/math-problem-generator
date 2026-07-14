@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_072",
+  "topic_name": "Stem-and-Leaf Plots",
+  "generated_at": "2026-05-12T22:51:43.667463+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to find the mean, median, and mode of a data set, but what if you also want to see the shape of the data at a glance \u2014 which values cluster together, which are outliers, and how spread out everything is? A table of raw numbers hides all of that structure. How could you organize scores like 74, 82, 85, 91, 78, 85, 63, 90, 77, 82 so that the distribution jumps out at you instantly?",
+  "concept": "A stem-and-leaf plot is a way to display numerical data that preserves every individual value while also showing the overall distribution. Each number is split into a 'stem' (all but the last digit) and a 'leaf' (the last digit); the stems are listed in a column and the leaves for each stem are written beside it. For a data value $x$ with two digits, the tens digit is the stem and the units digit is the leaf, so $82$ becomes stem $8$ and leaf $2$.",
+  "anatomy": "A stem-and-leaf plot has three structural parts. The stem column lists the leading digit(s) in increasing order down the center-left; for two-digit data these are the tens digits ($6, 7, 8, 9$). The leaf section sits to the right of each stem and contains the units digits of every data value belonging to that row, written in increasing order. The key (sometimes called the legend) sits below the plot and tells the reader exactly how to decode one entry \u2014 for example, '$8 | 2 = 82$' \u2014 without which the plot is ambiguous.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Data: } 74,\\ 82,\\ 85,\\ 91,\\ 78,\\ 85,\\ 63,\\ 90,\\ 77,\\ 82",
+      "description_latex": "Before building the plot, we identify the smallest and largest values so we know which stems we need. The minimum is $63$ and the maximum is $91$, so our stems must cover the tens digits $6, 7, 8, 9$ \u2014 we never skip a stem even if no data falls there.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{r|l} \\text{Stem} & \\text{Leaves} \\\\ \\hline 6 & \\\\ 7 & \\\\ 8 & \\\\ 9 & \\end{array}",
+      "description_latex": "We draw the framework: a vertical line separates the stem column (on the left) from the leaf section (on the right), and we list every required stem in order. Leaving the leaf section blank for now lets us fill in each value one at a time without losing track.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{r|l} 6 & 3 \\\\ 7 & 4\\ 8\\ 7 \\\\ 8 & 2\\ 5\\ 5\\ 2 \\\\ 9 & 1\\ 0 \\end{array}",
+      "description_latex": "We go through the data in the order given and write each leaf next to its stem: $63 \\to 6|3$, $74 \\to 7|4$, $82 \\to 8|2$, and so on. At this stage the leaves are in arrival order, not sorted \u2014 that's fine because we will sort them in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{r|l} 6 & 3 \\\\ 7 & 4\\ 7\\ 8 \\\\ 8 & 2\\ 2\\ 5\\ 5 \\\\ 9 & 0\\ 1 \\end{array}",
+      "description_latex": "We sort the leaves in each row from smallest to largest. Sorting is essential because it lets us read off the median and spot clusters immediately \u2014 for instance, we can now see at a glance that the $80$s row has the most values and that $85$ appears twice.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Key: } 8 \\mid 2 = 82",
+      "description_latex": "Finally, we write the key below the plot. The key is not optional \u2014 it tells any reader that the stem represents tens and the leaf represents ones, so $8|2$ means $82$, not $0.82$ or $820$. A plot without a key is incomplete.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data: } 55,\\ 42,\\ 61,\\ 48,\\ 55,\\ 67,\\ 43,\\ 70,\\ 58,\\ 62",
+      "description_latex": "Let's build a stem-and-leaf plot together. First, identify the minimum ($42$) and maximum ($70$), so we need stems $4, 5, 6, 7$. The framework below is already drawn with those four stems.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{r|l} 4 & 2\\ 3\\ 8 \\\\ 5 & 5\\ 5\\ 8 \\\\ 6 & 1\\ 2\\ 7 \\\\ 7 & 0 \\end{array}",
+      "description_latex": "Here is the plot after all leaves have been placed and sorted. Look at each row carefully \u2014 every original data value should appear exactly once. Check that you can match each entry back to the data set above.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write the key for this plot. A key has the form 'stem $|$ leaf $=$ original value'. Using the first entry in the $5$s row as your example, write the key that tells a reader how to decode this plot.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the completed plot, find the median of the data set. Remember: with $10$ values the median is the average of the $5$th and $6$th values when listed in order. Read those two values directly from the plot (leaves in sorted order, row by row) and compute the median.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{The leaves for stem } 3 \\text{ in a plot are } 1,\\ 4,\\ 4,\\ 9. \\text{ List all data values represented by this row.}",
+      "answer_latex": "31,\\ 34,\\ 34,\\ 39"
+    },
+    {
+      "prompt_latex": "\\text{Build a stem-and-leaf plot for: } 23,\\ 31,\\ 29,\\ 35,\\ 21,\\ 38,\\ 26,\\ 33",
+      "answer_latex": "\\begin{array}{r|l} 2 & 1\\ 3\\ 6\\ 9 \\\\ 3 & 1\\ 3\\ 5\\ 8 \\end{array} \\quad \\text{Key: } 2|1 = 21"
+    },
+    {
+      "prompt_latex": "\\text{Use the plot below to list all data values, then find the mode.} \\\\ \\begin{array}{r|l} 5 & 2\\ 6\\ 6 \\\\ 6 & 0\\ 3\\ 8 \\\\ 7 & 1\\ 1\\ 5 \\end{array} \\quad \\text{Key: } 5|2=52",
+      "answer_latex": "\\text{Values: } 52, 56, 56, 60, 63, 68, 71, 71, 75 \\quad \\text{Modes: } 56 \\text{ and } 71"
+    },
+    {
+      "prompt_latex": "\\text{Build a stem-and-leaf plot for the data below, then find the mean and median.} \\\\ 14,\\ 22,\\ 18,\\ 31,\\ 22,\\ 19,\\ 27,\\ 31",
+      "answer_latex": "\\begin{array}{r|l} 1 & 4\\ 8\\ 9 \\\\ 2 & 2\\ 2\\ 7 \\\\ 3 & 1\\ 1 \\end{array} \\quad \\text{Median} = \\frac{22+22}{2} = 22, \\quad \\text{Mean} = \\frac{184}{8} = 23"
+    },
+    {
+      "prompt_latex": "\\text{A teacher recorded quiz scores (out of 50) for 10 students: } 38,\\ 45,\\ 50,\\ 42,\\ 38,\\ 47,\\ 50,\\ 44,\\ 39,\\ 46. \\text{ Create a stem-and-leaf plot and determine what percentage of students scored } 45 \\text{ or above.}",
+      "answer_latex": "\\begin{array}{r|l} 3 & 8\\ 8\\ 9 \\\\ 4 & 2\\ 4\\ 5\\ 6\\ 7 \\\\ 5 & 0\\ 0 \\end{array} \\quad 6 \\text{ students scored } \\geq 45, \\text{ so } 60\\%"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to sort the leaves within each row, writing them in the order they appear in the data set instead. This makes it impossible to read the median directly and hides clusters, so always go back and sort each row from smallest to largest after placing all leaves.",
+    "Students skip a stem when no data value has that tens digit \u2014 for example, jumping from stem $4$ directly to stem $6$ because no values fall in the $50$s. This distorts the visual shape of the distribution; every stem between the minimum and maximum must be listed, even if its leaf section is empty.",
+    "Students omit or write an incorrect key, such as writing '$6|3$' without explaining that this means $63$ rather than, say, $6.3$ or $603$. Always include a key of the form 'stem $|$ leaf $=$ value' so the plot is self-contained and unambiguous."
+  ],
+  "untested_variants": [
+    "Back-to-back (double) stem-and-leaf plots that compare two data sets side by side on the same set of stems \u2014 a common exam format for comparing distributions.",
+    "Stem-and-leaf plots for three-digit data where the stem is the hundreds digit and the first two digits together form the entry (e.g., data in the hundreds like $125, 143, 137$).",
+    "Using a stem-and-leaf plot to compute the range and interquartile range (IQR) of a data set \u2014 combining plot-reading with the five-number summary.",
+    "Reconstructing the original data set from a partially given or described stem-and-leaf plot when some leaves are missing and must be inferred from a stated statistic such as the mean."
+  ]
+}

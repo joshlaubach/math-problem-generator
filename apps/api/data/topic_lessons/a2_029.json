@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_029",
+  "topic_name": "Graphing Radical Functions",
+  "generated_at": "2026-05-12T23:25:56.695439+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to graph transformations of functions like $f(x) = x^2$ \u2014 shifting, stretching, and reflecting are familiar moves. Now suppose someone hands you $f(x) = \\sqrt{x - 3} + 2$ and asks you to sketch it accurately, including its starting point and direction. You can probably guess it involves a square root, but how do you find exactly where it begins, which way it opens, and how a coefficient like $-2\\sqrt{x+1}$ flips or stretches the curve? What is the systematic process for graphing any radical function from its equation?",
+  "concept": "A radical function is any function that contains a variable inside a radical (root) symbol. The most common are square root functions, $f(x) = \\sqrt{x}$, and cube root functions, $f(x) = \\sqrt[3]{x}$. In general form, $f(x) = a\\sqrt[n]{x - h} + k$, where the parameters $a$, $h$, $k$, and $n$ control the shape, position, and orientation of the graph relative to the parent function.",
+  "anatomy": "The general radical function $f(x) = a\\sqrt[n]{x - h} + k$ has four distinct structural parts. The index $n$ determines the type of root (square root when $n=2$, cube root when $n=3$, etc.) and controls whether the domain is restricted. The horizontal shift $h$ moves the starting point (or center) of the graph left or right \u2014 note that $x - h$ means the graph shifts right by $h$. The vertical shift $k$ moves the entire graph up or down, establishing the vertical position of the starting point. The leading coefficient $a$ controls vertical stretch or compression (when $|a| > 1$ or $|a| < 1$, respectively) and, when $a$ is negative, reflects the graph across the horizontal axis.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 2\\sqrt{x - 1} + 3",
+      "description_latex": "We start by identifying the four parameters in $f(x) = a\\sqrt[n]{x-h}+k$. Here $a = 2$, $n = 2$ (square root), $h = 1$, and $k = 3$. Reading these off first keeps us organized and prevents sign errors before we touch the graph.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Starting point (vertex): } (h,\\, k) = (1,\\, 3)",
+      "description_latex": "For a square root function, the graph begins at the point $(h, k)$ because that is where the expression under the radical equals zero. We set $x - 1 = 0$, giving $x = 1$, and the output there is $f(1) = 2\\sqrt{0} + 3 = 3$, confirming the starting point is $(1, 3)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Build a table: } x = 1,\\; 2,\\; 5,\\; 10",
+      "description_latex": "We choose x-values to the right of (and including) the starting point because the domain of a square root function is $x \\geq h = 1$. Picking values like $x = 2, 5, 10$ that make $x - 1$ a perfect square (1, 4, 9) gives us clean outputs: $f(2)=5$, $f(5)=7$, $f(10)=9$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Plot } (1,3),\\,(2,5),\\,(5,7),\\,(10,9) \\text{ and draw a smooth curve starting at } (1,3)",
+      "description_latex": "We plot each ordered pair and connect them with a smooth, increasing curve that begins at the starting point $(1,3)$ and rises slowly to the right \u2014 never extending to the left of $x=1$ because those inputs are outside the domain. The factor of $a=2$ makes this graph steeper than the parent $y=\\sqrt{x}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = -\\sqrt{x + 2} - 1",
+      "description_latex": "We are graphing a reflected, shifted square root function. Begin by identifying all four parameters: $a = -1$, $n = 2$, $h = -2$, and $k = -1$. Notice that $x + 2 = x - (-2)$, so $h = -2$ \u2014 the graph shifts left, not right.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Starting point: } (h,\\,k) = (-2,\\,-1)",
+      "description_latex": "The starting point is $(-2, -1)$. Now, because $a = -1$ is negative, the graph will be reflected \u2014 it falls downward from the starting point instead of rising. Try building a small table of values for $x = -2, -1, 2$ to find three points on the graph.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Points: } (-2,-1),\\;(-1,-2),\\;(2,-3)",
+      "description_latex": "Using the three points and the reflection, sketch the graph: it starts at $(-2,-1)$ and curves downward to the right. Based on your table and these points, describe the domain and range of $g(x)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Identify the starting point and describe the direction of the graph of $f(x) = \\sqrt{x - 4} + 1$.",
+      "answer_latex": "\\text{Starting point } (4,\\,1);\\; \\text{graph rises to the right}"
+    },
+    {
+      "prompt_latex": "State the domain and range of $h(x) = \\sqrt{x + 5} - 3$, then identify its starting point.",
+      "answer_latex": "\\text{Domain: } x \\geq -5;\\; \\text{Range: } y \\geq -3;\\; \\text{Starting point } (-5,\\,-3)"
+    },
+    {
+      "prompt_latex": "Graph $f(x) = -3\\sqrt{x} + 4$ by finding the starting point, determining the reflection, and plotting at least three points.",
+      "answer_latex": "\\text{Starting point } (0,\\,4);\\; \\text{reflected downward};\\; \\text{key points: } (0,4),\\,(1,1),\\,(4,-2)"
+    },
+    {
+      "prompt_latex": "The graph of $f(x) = \\sqrt{x}$ is transformed to produce $g(x) = 2\\sqrt{x+3} - 5$. Describe all transformations and state the domain and range of $g$.",
+      "answer_latex": "\\text{Left 3, down 5, vertical stretch by 2; Domain: } x \\geq -3;\\; \\text{Range: } y \\geq -5"
+    },
+    {
+      "prompt_latex": "A park designer models the edge of a curved path with the function $d(x) = \\sqrt{2x + 6}$, where $x$ is horizontal distance in meters from the entrance. At what horizontal distance does the path begin, and what is $d(7)$? Interpret your answer in context.",
+      "answer_latex": "\\text{Path begins at } x = -3 \\text{ m};\\; d(7) = \\sqrt{20} = 2\\sqrt{5} \\approx 4.47 \\text{ m from the center line at } x=7"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the direction of the horizontal shift: they see $f(x) = \\sqrt{x + 2}$ and conclude the graph shifts right 2 units, when in fact $x + 2 = x - (-2)$ means $h = -2$, so the graph shifts left 2 units. Always rewrite the expression as $x - h$ before reading off $h$.",
+    "When the leading coefficient $a$ is negative, students sometimes keep the graph rising (as if $a$ were positive) and only flip the y-intercept, instead of reflecting the entire curve downward from the starting point. A negative $a$ reflects every single point, so the whole branch of the graph must curve away from the starting point in the opposite direction.",
+    "Students frequently forget that the domain of a square root function is restricted to inputs that make the radicand non-negative, so they plot points to the left of the starting point where the function is undefined. Always determine the domain first by solving $\\text{radicand} \\geq 0$, then only plot points within that domain."
+  ],
+  "untested_variants": [
+    "Graphing cube root functions $f(x) = a\\sqrt[3]{x-h}+k$, which have no domain restriction and are symmetric about their center point rather than having a one-sided starting point.",
+    "Writing the equation of a radical function given its graph (the inverse skill), where students must read off the starting point and a second point to determine $h$, $k$, and $a$.",
+    "Graphing radical functions with a coefficient inside the radical, such as $f(x) = \\sqrt{4x - 8}$, which requires factoring out before identifying $h$ and any horizontal stretch.",
+    "Finding intersections of two radical functions or a radical function and a line algebraically and verifying the solution on the graph."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_041",
+  "topic_name": "Diagonalization",
+  "generated_at": "2026-05-13T20:08:48.491293+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to find eigenvalues and eigenvectors of a matrix, and you've seen that multiplying by a matrix can stretch, rotate, or reflect vectors. But what if you could find a special coordinate system where a matrix just scales each axis independently \u2014 turning a complicated matrix into a simple diagonal one? The question is: when is that possible, and how do you actually find it?",
+  "concept": "Diagonalization is the process of writing a square matrix $A$ as a product $A = PDP^{-1}$, where $D$ is a diagonal matrix and $P$ is invertible. In plain English, you change coordinates so the transformation becomes pure scaling. Formally, an $n \\times n$ matrix $A$ is diagonalizable if and only if it has $n$ linearly independent eigenvectors; those eigenvectors form the columns of $P$, and the corresponding eigenvalues fill the diagonal of $D$.",
+  "anatomy": "The diagonalization $A = PDP^{-1}$ has three distinct components. The matrix $P$ is called the modal matrix or eigenvector matrix \u2014 its columns are $n$ linearly independent eigenvectors of $A$, ordered consistently with $D$. The matrix $D$ is the diagonal matrix of eigenvalues, where the entry $D_{ii} = \\lambda_i$ corresponds exactly to the eigenvector in column $i$ of $P$; the ordering of eigenvectors and eigenvalues must match. The matrix $P^{-1}$ is simply the inverse of $P$, which exists precisely because the eigenvectors are linearly independent, guaranteeing $P$ is invertible.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 4 & 1 \\\\ 2 & 3 \\end{pmatrix}",
+      "description_latex": "We start with the matrix $A$ that we want to diagonalize. Our plan is to find its eigenvalues, then its eigenvectors, then assemble $P$ and $D$ \u2014 so every later step builds directly on this matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(A - \\lambda I) = (4-\\lambda)(3-\\lambda) - 2 = \\lambda^2 - 7\\lambda + 10 = (\\lambda-5)(\\lambda-2) = 0 \\implies \\lambda_1 = 5,\\ \\lambda_2 = 2",
+      "description_latex": "We find the eigenvalues by solving the characteristic equation $\\det(A - \\lambda I) = 0$. Expanding the $2 \\times 2$ determinant and factoring gives us two distinct eigenvalues, $\\lambda_1 = 5$ and $\\lambda_2 = 2$, which tells us right away that $A$ is diagonalizable because two distinct eigenvalues for a $2 \\times 2$ matrix guarantee two linearly independent eigenvectors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_1=5:\\; (A-5I)\\mathbf{v}=\\mathbf{0} \\Rightarrow \\begin{pmatrix}-1&1\\\\2&-2\\end{pmatrix}\\mathbf{v}=\\mathbf{0} \\Rightarrow \\mathbf{v}_1 = \\begin{pmatrix}1\\\\1\\end{pmatrix};\\quad \\lambda_2=2:\\; (A-2I)\\mathbf{v}=\\mathbf{0} \\Rightarrow \\begin{pmatrix}2&1\\\\2&1\\end{pmatrix}\\mathbf{v}=\\mathbf{0} \\Rightarrow \\mathbf{v}_2 = \\begin{pmatrix}1\\\\-2\\end{pmatrix}",
+      "description_latex": "For each eigenvalue we solve $(A - \\lambda I)\\mathbf{v} = \\mathbf{0}$ to find a corresponding eigenvector. Notice that both systems reduce to a single equation with a free variable, giving us one eigenvector per eigenvalue; we pick simple integer representatives to keep the arithmetic clean.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P = \\begin{pmatrix}1 & 1\\\\1 & -2\\end{pmatrix}, \\quad D = \\begin{pmatrix}5 & 0\\\\0 & 2\\end{pmatrix}",
+      "description_latex": "We assemble $P$ by placing $\\mathbf{v}_1$ in column 1 and $\\mathbf{v}_2$ in column 2, and $D$ by placing the matching eigenvalues along the diagonal in the same order. The column-eigenvalue pairing is critical: if you swap a column of $P$ without swapping the corresponding entry of $D$, the factorization $A = PDP^{-1}$ will be wrong.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P^{-1} = \\frac{1}{-3}\\begin{pmatrix}-2&-1\\\\-1&1\\end{pmatrix} = \\begin{pmatrix}\\tfrac{2}{3}&\\tfrac{1}{3}\\\\\\tfrac{1}{3}&-\\tfrac{1}{3}\\end{pmatrix}, \\quad \\text{verify: } PDP^{-1} = A",
+      "description_latex": "Finally, we compute $P^{-1}$ using the $2 \\times 2$ inverse formula $\\frac{1}{ad-bc}\\begin{pmatrix}d&-b\\\\-c&a\\end{pmatrix}$, where $\\det(P) = -2-1=-3$. Multiplying $PDP^{-1}$ and recovering $A$ confirms the diagonalization is correct \u2014 always worth a quick check.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 3 & 0 \\\\ 8 & -1 \\end{pmatrix}",
+      "description_latex": "We want to diagonalize $B$. Start by finding the eigenvalues: compute $\\det(B - \\lambda I) = (3-\\lambda)(-1-\\lambda) - 0 = 0$. Because the matrix is lower-triangular, the eigenvalues are simply the diagonal entries, $\\lambda_1 = 3$ and $\\lambda_2 = -1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find an eigenvector for each eigenvalue by solving $(B - \\lambda I)\\mathbf{v} = \\mathbf{0}$. Set up and row-reduce both systems, then write down $\\mathbf{v}_1$ (for $\\lambda_1 = 3$) and $\\mathbf{v}_2$ (for $\\lambda_2 = -1$).",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P = \\begin{pmatrix} 1 & 0 \\\\ 2 & 1 \\end{pmatrix}, \\quad D = \\begin{pmatrix} 3 & 0 \\\\ 0 & -1 \\end{pmatrix}",
+      "description_latex": "Using the eigenvectors just found, we assemble $P$ (columns = eigenvectors) and $D$ (diagonal = matching eigenvalues). The eigenvector for $\\lambda_1 = 3$ is $\\begin{pmatrix}1\\\\2\\end{pmatrix}$ and for $\\lambda_2 = -1$ is $\\begin{pmatrix}0\\\\1\\end{pmatrix}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $P^{-1}$ and then verify the diagonalization by multiplying out $PDP^{-1}$ and checking that you recover $B$. Write down $P^{-1}$ and the product $PDP^{-1}$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Is } A = \\begin{pmatrix}2 & 0\\\\0 & 5\\end{pmatrix} \\text{ diagonalizable? If so, state } P \\text{ and } D.",
+      "answer_latex": "\\text{Yes. } P = I = \\begin{pmatrix}1&0\\\\0&1\\end{pmatrix},\\ D = \\begin{pmatrix}2&0\\\\0&5\\end{pmatrix} \\text{ (already diagonal; any ordering of eigenvectors works)}"
+    },
+    {
+      "prompt_latex": "\\text{Diagonalize } A = \\begin{pmatrix}1 & 2\\\\0 & 3\\end{pmatrix}.",
+      "answer_latex": "\\lambda_1=1,\\ \\lambda_2=3;\\ \\mathbf{v}_1=\\begin{pmatrix}1\\\\0\\end{pmatrix},\\ \\mathbf{v}_2=\\begin{pmatrix}1\\\\1\\end{pmatrix};\\ P=\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix},\\ D=\\begin{pmatrix}1&0\\\\0&3\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "\\text{Diagonalize } A = \\begin{pmatrix}0 & 1\\\\1 & 0\\end{pmatrix}.",
+      "answer_latex": "\\lambda_1=1,\\ \\lambda_2=-1;\\ \\mathbf{v}_1=\\begin{pmatrix}1\\\\1\\end{pmatrix},\\ \\mathbf{v}_2=\\begin{pmatrix}1\\\\-1\\end{pmatrix};\\ P=\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix},\\ D=\\begin{pmatrix}1&0\\\\0&-1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "\\text{Use diagonalization to compute } A^{10} \\text{ where } A = \\begin{pmatrix}4&1\\\\2&3\\end{pmatrix}. \\text{ (Use the result } A=PDP^{-1} \\text{ from the worked example.)}",
+      "answer_latex": "A^{10}=PD^{10}P^{-1},\\ D^{10}=\\begin{pmatrix}5^{10}&0\\\\0&2^{10}\\end{pmatrix};\\ A^{10}=\\begin{pmatrix}1&1\\\\1&-2\\end{pmatrix}\\begin{pmatrix}5^{10}&0\\\\0&2^{10}\\end{pmatrix}\\begin{pmatrix}\\tfrac{2}{3}&\\tfrac{1}{3}\\\\\\tfrac{1}{3}&-\\tfrac{1}{3}\\end{pmatrix} = \\begin{pmatrix}\\tfrac{2\\cdot5^{10}+2^{10}}{3}&\\tfrac{5^{10}-2^{10}}{3}\\\\\\tfrac{2(5^{10}-2^{10})}{3}&\\tfrac{5^{10}+2\\cdot2^{10}}{3}\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "\\text{Explain why } A = \\begin{pmatrix}1 & 1\\\\0 & 1\\end{pmatrix} \\text{ is NOT diagonalizable over } \\mathbb{R}.",
+      "answer_latex": "\\text{The only eigenvalue is } \\lambda=1 \\text{ (repeated). Solving }(A-I)\\mathbf{v}=\\mathbf{0}\\text{ gives eigenspace } \\text{span}\\left\\{\\begin{pmatrix}1\\\\0\\end{pmatrix}\\right\\}\\text{, which is 1-dimensional. Since we cannot find 2 linearly independent eigenvectors, }A\\text{ is not diagonalizable.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students mix up the ordering of columns in $P$ and entries in $D$: if $\\mathbf{v}_1$ is placed in column 2 of $P$, then $\\lambda_1$ must also appear in position $(2,2)$ of $D$ \u2014 mismatching them breaks the identity $A = PDP^{-1}$ entirely. Always double-check that column $i$ of $P$ pairs with diagonal entry $i$ of $D$.",
+    "Students forget to check whether the matrix is actually diagonalizable before proceeding: when an eigenvalue is repeated, its geometric multiplicity (dimension of the eigenspace) must equal its algebraic multiplicity, or no diagonal form exists. Assuming diagonalizability without verifying this leads to a system with no solution when you try to form $P$.",
+    "Students compute $P^{-1}AP$ instead of $PDP^{-1}$ when verifying, confusing which side $P^{-1}$ belongs on. Remember that $A = PDP^{-1}$ means $P^{-1}AP = D$, so both expressions are related but serve different purposes \u2014 the former recovers $A$ from $D$, while the latter recovers $D$ from $A$."
+  ],
+  "untested_variants": [
+    "Diagonalizing a $3 \\times 3$ matrix with three distinct eigenvalues, which requires row-reducing three separate $(A - \\lambda_i I)$ systems.",
+    "Determining diagonalizability when an eigenvalue has algebraic multiplicity 2 but geometric multiplicity 2 (so the matrix IS diagonalizable despite a repeated eigenvalue), as opposed to the defective case in practice problem 5.",
+    "Using the diagonalization $A = PDP^{-1}$ to compute $e^A$ (the matrix exponential) by the formula $e^A = Pe^DP^{-1}$, where $e^D$ has $e^{\\lambda_i}$ on the diagonal.",
+    "Diagonalizing a symmetric matrix using an orthogonal matrix $P$ (i.e., orthogonal diagonalization via the Spectral Theorem), where $P^{-1} = P^T$."
+  ]
+}

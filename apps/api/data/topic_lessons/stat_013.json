@@ -1,0 +1,86 @@
+{
+  "topic_id": "stat_013",
+  "topic_name": "Sampling Methods and Bias",
+  "generated_at": "2026-05-13T20:30:00.482564+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know that collecting data from every single person in a population \u2014 a census \u2014 gives you perfect information, but is often impossible or impractical. So statisticians take samples instead. But here's the problem: not every sampling method gives you a fair picture of the population, and a flawed method can quietly ruin every conclusion you draw. How do you decide which sampling method to use, and how do you spot when a sample is misleading you before it's too late?",
+  "concept": "A sampling method is the procedure used to select individuals from a population for study. An unbiased method gives every individual (or every sample of a given size) an equal chance of being selected, while a biased method systematically over- or under-represents certain groups, producing a sample whose statistics differ from the true population parameter in a predictable direction. Formally, bias is any systematic error in the sampling process that causes the sample statistic $\\hat{p}$ or $\\bar{x}$ to consistently over- or under-estimate the corresponding population parameter $p$ or $\\mu$.",
+  "anatomy": "Every sampling scenario has four identifiable components: the population (the entire group of individuals you want to draw conclusions about), the sample (the subset actually selected), the sampling frame (the list or mechanism from which selections are made \u2014 gaps between the frame and the true population are a common source of bias), and the selection mechanism (the rule that determines who is chosen, such as a random number generator for simple random sampling, systematic intervals for systematic sampling, pre-defined groups for stratified or cluster sampling, or self-selection for voluntary response). Bias enters whenever the selection mechanism favors certain members of the population, or when the sampling frame excludes meaningful portions of the population.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Population: all 1{,}200 students at a high school}",
+      "description_latex": "We begin by clearly identifying the population \u2014 every individual we want information about. Knowing exactly who is in the population helps us evaluate whether our sampling frame and selection mechanism will cover them fairly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Goal: select } n = 60 \\text{ students to survey about screen time}",
+      "description_latex": "We name the desired sample size $n = 60$, which is $60/1200 = 5\\%$ of the population. Deciding on sample size before choosing a method keeps our reasoning clear and prevents us from adjusting the method to get convenient results.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Method A (Simple Random Sample): assign each student a number } 1\\text{\u2013}1200,\\text{ use a RNG to draw } 60 \\text{ distinct numbers}",
+      "description_latex": "In a simple random sample (SRS), every possible group of 60 students has an equal probability of being the chosen sample, which is $\\binom{1200}{60}^{-1}$. This is the gold standard for avoiding bias because no subgroup is systematically favored or excluded.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Method B (Voluntary Response): post a link online and accept the first } 60 \\text{ responses}",
+      "description_latex": "Voluntary response sampling is strongly biased because only students who feel motivated \u2014 often those with extreme opinions about screen time \u2014 will respond. This means the sample statistic $\\bar{x}_{\\text{screen}}$ will likely over-estimate the population mean $\\mu_{\\text{screen}}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Conclusion: Method A is unbiased; Method B introduces voluntary response bias}",
+      "description_latex": "The key distinction is whether the selection mechanism operates independently of the variable being measured. Because heavy screen-time users are more likely to click a survey about screen time, Method B's mechanism is correlated with the outcome, guaranteeing a biased estimate.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A journalist surveys people leaving a movie theater to estimate the city's average movie attendance per month}",
+      "description_latex": "We are asked to identify the sampling method being used and explain whether it introduces bias. Start by naming the population, the sampling frame, and the selection mechanism before making a judgment.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Population: all residents of the city} \\quad \\text{Sampling frame: people who attended a movie that day}",
+      "description_latex": "Notice that the sampling frame \u2014 people exiting the theater \u2014 already excludes residents who never go to movies. This gap between the frame and the full population is what we call undercoverage.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify the specific type of bias present and explain in one or two sentences how it would affect the journalist's estimate of average monthly attendance \u2014 would it be an over-estimate or an under-estimate, and why?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{A teacher puts every student's name on an identical slip of paper, mixes them in a bowl, and draws 5 names. What sampling method is this, and is it biased or unbiased?}",
+      "answer_latex": "\\text{Simple random sample (SRS); unbiased \u2014 every student has an equal chance of selection}"
+    },
+    {
+      "prompt_latex": "\\text{A company emails a satisfaction survey to every 10th customer on an alphabetical list of 500 customers, starting from customer \\#3. What sampling method is this called?}",
+      "answer_latex": "\\text{Systematic random sampling}"
+    },
+    {
+      "prompt_latex": "\\text{A poll asks viewers of a partisan news channel to call in and share their opinion on a new tax policy. The network reports that 82\\% of respondents oppose the policy. Identify the bias type and explain why the 82\\% figure is likely misleading.}",
+      "answer_latex": "\\text{Voluntary response bias: only strongly opinionated (typically partisan) viewers call in, so the 82\\% over-represents opposition and does not reflect the general public's view}"
+    },
+    {
+      "prompt_latex": "\\text{A researcher divides a city's 10{,}000 households into 4 income brackets and randomly selects 50 households from each bracket. She finds } \\bar{x} = \\$52{,}400 \\text{ mean annual spending. What method did she use, and why might this estimate be more precise than a simple random sample of } n=200?",
+      "answer_latex": "\\text{Stratified random sampling; by sampling proportionally (or equally) within each income group, she ensures all income levels are represented, reducing variability in } \\bar{x} \\text{ compared to an SRS that might, by chance, under-sample a bracket}"
+    },
+    {
+      "prompt_latex": "\\text{A school wants to know students' opinions on a new homework policy. The principal surveys only the students enrolled in AP classes, arguing they are a representative cross-section. Identify two distinct sources of bias in this design and state the direction of likely distortion in the results.}",
+      "answer_latex": "\\text{(1) Undercoverage bias: non-AP students are excluded from the sampling frame, so their views are absent. (2) Convenience sampling bias: AP students tend to be more academically engaged and may favor structured homework, likely over-estimating support for the policy relative to the full student body.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse a large sample size with an unbiased sample, assuming that surveying more people automatically fixes bias. In fact, if the sampling method is flawed \u2014 for example, only surveying people at a gym to estimate national exercise habits \u2014 making the sample larger just replicates the same skewed picture with more data. The fix: evaluate the selection mechanism first; size cannot compensate for a biased method.",
+    "Students mislabel convenience sampling as simple random sampling because both can feel informal or quick. The critical difference is that SRS uses a random mechanism that gives every individual an equal chance, while convenience sampling selects whoever is easiest to reach, systematically excluding hard-to-reach groups. Always ask: 'Did chance, not convenience, determine who was selected?'",
+    "Students assume that stratified sampling and cluster sampling are the same because both divide the population into groups. In stratified sampling, you randomly sample from within every group (stratum), ensuring all groups are represented; in cluster sampling, you randomly select entire groups (clusters) and survey everyone in them, which is faster but riskier if clusters differ from each other. Mixing up these two methods leads to wrong conclusions about what the design controls for."
+  ],
+  "untested_variants": [
+    "Multi-stage cluster sampling, where clusters are first randomly selected and then individuals within those clusters are randomly sub-sampled \u2014 a design common in national surveys that the practice problems do not address.",
+    "Non-response bias as a distinct phenomenon from voluntary response bias \u2014 specifically, calculating or estimating how much the final results shift when a large fraction of the originally selected (random) sample refuses to participate.",
+    "Question wording bias and response bias, where the phrasing of survey questions (rather than the selection mechanism) causes respondents to answer in a systematically distorted way.",
+    "Determining the minimum sample size $n$ needed to achieve a desired margin of error $E$ at a given confidence level, which connects sampling methods to confidence interval calculations covered in a later unit."
+  ]
+}

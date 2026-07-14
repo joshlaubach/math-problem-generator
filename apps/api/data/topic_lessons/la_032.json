@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_032",
+  "topic_name": "Change of Basis for Transformations (H)",
+  "generated_at": "2026-05-13T20:54:42.151358+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to find the matrix of a linear transformation $T: \\mathbb{R}^n \\to \\mathbb{R}^m$ with respect to the standard basis \u2014 just apply $T$ to each standard basis vector and stack the results as columns. But what happens when working with a non-standard basis $\\mathcal{B}$ makes the matrix far simpler, perhaps even diagonal? If you have the matrix $[T]_{\\mathcal{B}}$ in one basis and need $[T]_{\\mathcal{C}}$ in another, or vice versa, how do you convert between them without starting from scratch?",
+  "concept": "Change of basis for transformations tells us how the matrix representing $T$ changes when we switch coordinate systems. If $P$ is the change-of-basis matrix from $\\mathcal{B}$ to $\\mathcal{C}$, then the same transformation $T$ is represented in $\\mathcal{B}$ as $[T]_{\\mathcal{B}} = P^{-1}[T]_{\\mathcal{C}}P$, so two matrices $A$ and $B$ representing the same transformation in different bases satisfy $B = P^{-1}AP$, a relationship called similarity.",
+  "anatomy": "The formula $[T]_{\\mathcal{B}} = P^{-1}[T]_{\\mathcal{C}} P$ has four distinct ingredients. The matrix $[T]_{\\mathcal{C}}$ is the transformation matrix you already know (often in the standard basis $\\mathcal{C} = \\mathcal{E}$). The change-of-basis matrix $P$ has as its columns the $\\mathcal{B}$-basis vectors expressed in $\\mathcal{C}$-coordinates; it converts from $\\mathcal{B}$-coordinates to $\\mathcal{C}$-coordinates. Its inverse $P^{-1}$ converts back from $\\mathcal{C}$-coordinates to $\\mathcal{B}$-coordinates. The result $[T]_{\\mathcal{B}}$ is the new matrix that acts directly on $\\mathcal{B}$-coordinate vectors.",
+  "worked_example": [
+    {
+      "expression_latex": "T(x_1, x_2) = (3x_1 + x_2,\\; x_1 + 3x_2), \\quad \\mathcal{B} = \\{\\mathbf{b}_1, \\mathbf{b}_2\\} = \\left\\{\\begin{pmatrix}1\\\\1\\end{pmatrix}, \\begin{pmatrix}1\\\\-1\\end{pmatrix}\\right\\}",
+      "description_latex": "We are given a linear transformation $T$ and a new basis $\\mathcal{B}$. Our goal is to find $[T]_{\\mathcal{B}}$, the matrix that represents $T$ when inputs and outputs are expressed as coordinates relative to $\\mathcal{B}$. We will use the similarity formula $[T]_{\\mathcal{B}} = P^{-1} A P$, where $A = [T]_{\\mathcal{E}}$ is the standard matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = [T]_{\\mathcal{E}} = \\begin{pmatrix} 3 & 1 \\\\ 1 & 3 \\end{pmatrix}, \\qquad P = \\begin{pmatrix} 1 & 1 \\\\ 1 & -1 \\end{pmatrix}",
+      "description_latex": "We read off the standard matrix $A$ by placing the images of $\\mathbf{e}_1$ and $\\mathbf{e}_2$ as columns. We then build the change-of-basis matrix $P$ by placing the $\\mathcal{B}$-basis vectors as columns in the order they appear in $\\mathcal{B}$. Notice that $P$ converts $\\mathcal{B}$-coordinates into standard coordinates.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P^{-1} = \\frac{1}{\\det(P)}\\begin{pmatrix} -1 & -1 \\\\ -1 & 1 \\end{pmatrix} = \\frac{1}{-2}\\begin{pmatrix} -1 & -1 \\\\ -1 & 1 \\end{pmatrix} = \\begin{pmatrix} 1/2 & 1/2 \\\\ 1/2 & -1/2 \\end{pmatrix}",
+      "description_latex": "To invert the $2 \\times 2$ matrix $P$ we swap the diagonal entries, negate the off-diagonals, and divide by the determinant $\\det(P) = (1)(-1) - (1)(1) = -2$. Computing $P^{-1}$ correctly is critical because it performs the conversion from standard coordinates back to $\\mathcal{B}$-coordinates.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P^{-1}A = \\begin{pmatrix} 1/2 & 1/2 \\\\ 1/2 & -1/2 \\end{pmatrix}\\begin{pmatrix} 3 & 1 \\\\ 1 & 3 \\end{pmatrix} = \\begin{pmatrix} 2 & 2 \\\\ 1 & -1 \\end{pmatrix}",
+      "description_latex": "We carry out the left multiplication $P^{-1}A$ first, which is a standard matrix product. It is usually easiest to do this in two stages rather than computing $P^{-1}AP$ all at once, because it keeps the arithmetic manageable and reduces errors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[T]_{\\mathcal{B}} = (P^{-1}A)P = \\begin{pmatrix} 2 & 2 \\\\ 1 & -1 \\end{pmatrix}\\begin{pmatrix} 1 & 1 \\\\ 1 & -1 \\end{pmatrix} = \\begin{pmatrix} 4 & 0 \\\\ 0 & 2 \\end{pmatrix}",
+      "description_latex": "Completing the product with $P$ on the right gives us the diagonal matrix $[T]_{\\mathcal{B}}$. The fact that the result is diagonal confirms that $\\mathcal{B}$ consists of eigenvectors of $T$ \u2014 working in the right basis has completely decoupled the transformation, which is exactly why change of basis is so powerful.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T(x_1,x_2) = (2x_1,\\; x_1 + x_2), \\quad \\mathcal{B} = \\left\\{\\begin{pmatrix}1\\\\1\\end{pmatrix}, \\begin{pmatrix}0\\\\1\\end{pmatrix}\\right\\}",
+      "description_latex": "We want to find $[T]_{\\mathcal{B}}$ using $[T]_{\\mathcal{B}} = P^{-1}AP$. Start by writing down the standard matrix $A$ and the change-of-basis matrix $P$. We have $A = \\begin{pmatrix}2&0\\\\1&1\\end{pmatrix}$ and $P = \\begin{pmatrix}1&0\\\\1&1\\end{pmatrix}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P^{-1} = \\begin{pmatrix} 1 & 0 \\\\ -1 & 1 \\end{pmatrix}",
+      "description_latex": "The inverse of $P$ is given here \u2014 verify it by checking that $P^{-1}P = I$. This step converts standard-basis output coordinates back into $\\mathcal{B}$-coordinates.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute $[T]_{\\mathcal{B}} = P^{-1}AP$ by first finding $P^{-1}A$ and then multiplying on the right by $P$. Show all intermediate work and write the final $2\\times 2$ matrix.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix}1&0\\\\0&3\\end{pmatrix}$ and $P = \\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}$. Compute $P^{-1}AP$.",
+      "answer_latex": "\\begin{pmatrix}1 & -2\\\\0 & 3\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Let $T(x_1,x_2) = (4x_1 - x_2,\\; 2x_2)$ and $\\mathcal{B} = \\left\\{\\begin{pmatrix}1\\\\2\\end{pmatrix}, \\begin{pmatrix}1\\\\0\\end{pmatrix}\\right\\}$. Find $[T]_{\\mathcal{B}} = P^{-1}AP$ where $P$ has the basis vectors as columns.",
+      "answer_latex": "\\begin{pmatrix}2 & 2\\\\0 & 4\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Matrices $A$ and $B$ are called similar if $B = P^{-1}AP$ for some invertible $P$. Show that $A = \\begin{pmatrix}5&1\\\\0&3\\end{pmatrix}$ and $B = \\begin{pmatrix}3&1\\\\0&5\\end{pmatrix}$ are similar by finding an explicit invertible $P$.",
+      "answer_latex": "P = \\begin{pmatrix}0&1\\\\1&0\\end{pmatrix} \\text{ works (any valid } P \\text{ accepted)}"
+    },
+    {
+      "prompt_latex": "Suppose $[T]_{\\mathcal{B}} = \\begin{pmatrix}2&0\\\\0&5\\end{pmatrix}$ and $P = \\begin{pmatrix}1&2\\\\1&3\\end{pmatrix}$. Find the standard matrix $A = [T]_{\\mathcal{E}} = P[T]_{\\mathcal{B}}P^{-1}$.",
+      "answer_latex": "A = \\begin{pmatrix}-4 & 10\\\\-3 & 11\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A chemist models a two-component reaction using $T(\\mathbf{x}) = A\\mathbf{x}$ with $A = \\begin{pmatrix}3&1\\\\1&3\\end{pmatrix}$. A colleague prefers to track the sum $s = x_1+x_2$ and difference $d = x_1-x_2$. These correspond to basis $\\mathcal{B} = \\{\\mathbf{b}_1,\\mathbf{b}_2\\} = \\{(1,1)^T,(1,-1)^T\\}$. Find $[T]_{\\mathcal{B}}$ and interpret the result physically.",
+      "answer_latex": "[T]_{\\mathcal{B}} = \\begin{pmatrix}4&0\\\\0&2\\end{pmatrix}; \\text{ the sum grows by factor 4 and difference by factor 2 \u2014 the dynamics fully decouple in the new coordinates.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often form the change-of-basis matrix $P$ using the new basis vectors as rows instead of columns; this gives the transpose of the correct $P$, producing a completely wrong similarity transform. Always place each new basis vector as a column of $P$.",
+    "Students frequently write $[T]_{\\mathcal{B}} = PAP^{-1}$ instead of $P^{-1}AP$, reversing the order of $P$ and $P^{-1}$; remember that the right-hand $P$ converts from $\\mathcal{B}$-coordinates to standard coordinates first, so it must appear on the right.",
+    "When asked to go from $[T]_{\\mathcal{B}}$ back to the standard matrix, students mistakenly apply $P^{-1}AP$ again instead of the reverse formula $A = P[T]_{\\mathcal{B}}P^{-1}$; keep track of which direction the conversion is running before setting up the product."
+  ],
+  "untested_variants": [
+    "Finding $[T]_{\\mathcal{B} \\to \\mathcal{C}}$ when both the domain basis $\\mathcal{B}$ and the codomain basis $\\mathcal{C}$ are non-standard and different from each other, requiring two separate change-of-basis matrices.",
+    "Using change of basis to diagonalize a matrix: given a matrix with known eigenvalues and eigenvectors, constructing $P$ from eigenvectors and verifying that $P^{-1}AP$ is diagonal.",
+    "Change of basis for transformations from $\\mathbb{R}^n$ to $\\mathbb{R}^m$ where $n \\neq m$, so the resulting matrices are rectangular and the formula takes the form $[T]_{\\mathcal{B},\\mathcal{C}} = Q^{-1}AP$.",
+    "Working in bases defined by polynomials or other abstract vector spaces (e.g., $\\mathcal{P}_2$), where the coordinate vectors must first be extracted before the similarity formula can be applied."
+  ]
+}

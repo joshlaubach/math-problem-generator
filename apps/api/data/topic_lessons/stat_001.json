@@ -1,0 +1,81 @@
+{
+  "topic_id": "stat_001",
+  "topic_name": "Types of Data and Variables",
+  "generated_at": "2026-05-13T20:29:02.408759+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to compute an average or make a bar chart \u2014 but have you ever stopped to ask whether those operations actually make sense for the data you have? For example, if you survey students about their favorite color and assign Red = 1, Blue = 2, Green = 3, can you meaningfully average those numbers and conclude the 'average favorite color is 1.7'? The type of variable you are working with determines which summaries and graphs are valid. Can you tell the difference between data that can be averaged, data that can only be ranked, and data that can only be counted?",
+  "concept": "A variable is any characteristic that can differ from one individual to the next. At the broadest level, variables split into two families: categorical (qualitative) variables, which place each individual into a group or category, and quantitative variables, which record a numerical amount where arithmetic makes sense. Within quantitative variables, we distinguish discrete variables \u2014 those that take countable, separate values \u2014 from continuous variables \u2014 those that can take any value in an interval. Formally, if $X$ is a variable, then $X$ is quantitative if differences like $x_1 - x_2$ carry meaningful units.",
+  "anatomy": "Every variable in a dataset has three structural features worth naming. First, the measurement scale: nominal (categories with no order, e.g., blood type), ordinal (categories with a meaningful order but unequal gaps, e.g., survey ratings), interval (numeric with equal gaps but no true zero, e.g., temperature in \u00b0C), or ratio (numeric with equal gaps and a true zero, e.g., height in cm). Second, the value set: whether the possible values are a finite or countably infinite list (discrete) or an uncountable continuum (continuous). Third, the unit of measurement: the label attached to numeric values (dollars, seconds, kilograms) that tells you what arithmetic operations produce interpretable results.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Variable: eye color} \\quad \\text{Values: } \\{\\text{brown, blue, green, hazel}\\}",
+      "description_latex": "We start by listing what values the variable can take. Because eye color places each person into a named group with no natural ordering \u2014 blue is not 'more' than brown \u2014 we immediately recognize this as a categorical variable at the nominal level of measurement.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Variable: pain rating} \\quad \\text{Values: } \\{1, 2, 3, 4, 5, 6, 7, 8, 9, 10\\}",
+      "description_latex": "Pain rating has a clear order (10 is worse than 1), so it is categorical at the ordinal level \u2014 but notice that the gap between a 2 and a 3 may not feel the same to every patient as the gap between a 7 and an 8, so we cannot assume equal spacing. This rules out treating differences like $10 - 7 = 3$ as a precise numeric comparison.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Variable: number of siblings} \\quad \\text{Values: } \\{0, 1, 2, 3, \\ldots\\}",
+      "description_latex": "The values are whole numbers that we can count, arithmetic is meaningful (a family with 4 children has twice as many as a family with 2), and there is a true zero (no siblings), so this is a quantitative ratio variable. Because you cannot have 2.7 siblings, the value set is countable \u2014 making it discrete.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Variable: reaction time} \\quad \\text{Values: any } t \\in [0, \\infty) \\text{ seconds}",
+      "description_latex": "Reaction time can be measured to arbitrarily fine precision \u2014 0.312 seconds, 0.3124 seconds, and so on \u2014 so there is no natural gap between possible values. This makes reaction time a continuous quantitative variable at the ratio level (a reaction time of 0 would mean instant response, a meaningful true zero).",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Variable: annual household income (in dollars)}",
+      "description_latex": "We are given a new variable and need to classify it fully. Our first question is always: does this variable place individuals into categories, or does it record a numeric amount where arithmetic is meaningful? Income is clearly a number \u2014 we can add two incomes or compute a difference \u2014 so we begin by labeling it quantitative.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Quantitative} \\Rightarrow \\text{check: ratio or interval?}",
+      "description_latex": "Now decide the measurement scale. Ask yourself: is there a true zero that means 'none of the quantity'? An income of \\$0 literally means no income at all, so ratios like 'twice as much income' are meaningful. This confirms the ratio level. Would you now classify this variable as discrete or continuous, and why?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Conclusion: quantitative, ratio, continuous}",
+      "description_latex": "Income can take any positive value (including cents and fractions of cents in theory), so it is continuous even though we usually round to whole dollars in practice. The full classification is: quantitative, ratio scale, continuous \u2014 meaning means, standard deviations, and ratios like 'median income is twice the poverty line' are all valid summaries.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Classify the variable: country of birth.}",
+      "answer_latex": "\\text{Categorical, nominal scale}"
+    },
+    {
+      "prompt_latex": "\\text{Classify the variable: finishing position in a race (1st, 2nd, 3rd, \\ldots).}",
+      "answer_latex": "\\text{Categorical, ordinal scale}"
+    },
+    {
+      "prompt_latex": "\\text{Classify the variable: body temperature measured in }^\\circ\\text{C.}",
+      "answer_latex": "\\text{Quantitative, interval scale, continuous}"
+    },
+    {
+      "prompt_latex": "\\text{A researcher records the number of text messages each student sends per day.} \\\\ \\text{(a) Classify the variable. (b) Would the mean or the median be more appropriate if the data are strongly right-skewed?}",
+      "answer_latex": "\\text{(a) Quantitative, ratio scale, discrete.} \\\\ \\text{(b) The median, because it is resistant to the extreme high values that cause right skew.}"
+    },
+    {
+      "prompt_latex": "\\text{A hospital records each patient's (i) diagnosis code, (ii) systolic blood pressure (mmHg),} \\\\ \\text{and (iii) satisfaction rating (Poor / Fair / Good / Excellent).} \\\\ \\text{Classify each variable and state one appropriate summary statistic for each.}",
+      "answer_latex": "\\text{(i) Diagnosis code: categorical, nominal} \\Rightarrow \\text{mode or frequency table.} \\\\ \\text{(ii) Blood pressure: quantitative, ratio, continuous} \\Rightarrow \\text{mean or median.} \\\\ \\text{(iii) Satisfaction: categorical, ordinal} \\Rightarrow \\text{median category or frequency table.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students treat any variable with numbers as quantitative \u2014 for example, ZIP codes or jersey numbers are coded with digits but placing them into categories is the only meaningful operation; arithmetic on ZIP codes is nonsense. Always ask whether subtraction or averaging of the values produces an interpretable result before calling a variable quantitative.",
+    "Students confuse ordinal and interval scales by assuming that numbered rating scales (1\u20135 stars) have equal spacing, then computing means as if the data were interval. Because the perceived gap between 1 star and 2 stars may differ from the gap between 4 stars and 5 stars, the median is the safer center measure for ordinal data.",
+    "Students label discrete variables as categorical simply because they take whole numbers. The number of children in a household is discrete and quantitative \u2014 you can meaningfully compute an average number of children \u2014 whereas a variable like 'class rank coded 1, 2, 3' is ordinal and categorical. The key test is whether arithmetic on the values produces a result with a real-world meaning."
+  ],
+  "untested_variants": [
+    "Identifying whether a variable measured on a Likert scale (Strongly Disagree to Strongly Agree) should be treated as ordinal categorical or as approximately interval/quantitative for analysis purposes \u2014 a judgment call requiring knowledge of statistical conventions not covered here.",
+    "Classifying variables in a two-way or multivariate dataset and deciding which variable is the explanatory (independent) variable and which is the response (dependent) variable.",
+    "Distinguishing between a variable's inherent type and how it has been recorded \u2014 for example, age recorded as a continuous ratio variable versus age grouped into brackets (18\u201324, 25\u201334, \u2026), which converts it to an ordinal categorical variable.",
+    "Applying the four levels of measurement (nominal, ordinal, interval, ratio) to determine which inferential statistical tests are permissible \u2014 for instance, knowing that a t-test requires at least interval-level measurement."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_004",
+  "topic_name": "Composition of Functions",
+  "generated_at": "2026-05-12T23:39:38.046068+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to evaluate a function like $f(x) = x^2 + 1$ at a specific number \u2014 plug in, simplify, done. But what if the input isn't a number at all, and instead it's the output of a completely different function? For example, if $f(x) = x^2 + 1$ and $g(x) = 3x$, what would it even mean to use $g$'s output as $f$'s input? How do you build a single rule that chains two functions together?",
+  "concept": "Composition of functions means feeding the output of one function directly into another as its input. Formally, the composition of $f$ and $g$, written $(f \\circ g)(x)$, is defined as $(f \\circ g)(x) = f(g(x))$: you evaluate $g$ at $x$ first, then use that result as the input to $f$.",
+  "anatomy": "In the expression $(f \\circ g)(x) = f(g(x))$, there are four key parts to name. The symbol $\\circ$ is the composition operator, indicating that two functions are being chained. The function $g$ is called the inner function \u2014 it acts on $x$ first and produces an intermediate value. The function $f$ is the outer function \u2014 it receives $g(x)$ as its input and produces the final output. The variable $x$ is the original input to the entire composed expression, and $g(x)$ is the intermediate output that bridges the two functions.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x^2 + 1, \\quad g(x) = 3x, \\quad \\text{find } (f \\circ g)(x)",
+      "description_latex": "We want to find $(f \\circ g)(x) = f(g(x))$, so the first thing we do is identify which function plays which role. Here $g$ is the inner function and $f$ is the outer function, which means we will substitute the entire expression for $g(x)$ wherever we see $x$ in $f$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(x) = 3x",
+      "description_latex": "We start by writing out the inner function's output, $g(x) = 3x$. This entire expression, $3x$, is what we will plug into $f$ in place of $f$'s input variable \u2014 think of it as the 'new $x$' that $f$ will receive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(g(x)) = f(3x) = (3x)^2 + 1",
+      "description_latex": "Now we substitute $g(x) = 3x$ into $f$. Wherever $f$ has an $x$, we replace it with $3x$, giving us $(3x)^2 + 1$. It is critical to treat $3x$ as a single quantity and square the entire thing, not just the $3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(f \\circ g)(x) = 9x^2 + 1",
+      "description_latex": "Finally, we simplify $(3x)^2 + 1 = 9x^2 + 1$ by expanding the square. This single expression $9x^2 + 1$ is the composed function \u2014 for any input $x$, it tells you the result of first tripling $x$, then squaring and adding one.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = 2x - 5, \\quad g(x) = x^2, \\quad \\text{find } (g \\circ f)(x)",
+      "description_latex": "Notice the order: this time we want $(g \\circ f)(x) = g(f(x))$, so $f$ is the inner function and $g$ is the outer function. Order matters in composition \u2014 this will NOT give the same answer as $(f \\circ g)(x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x) = 2x - 5",
+      "description_latex": "We identify the inner function's output: $f(x) = 2x - 5$. This entire expression will be substituted into $g$ in place of $g$'s input variable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $f(x) = 2x - 5$ into $g$. Remember that $g(x) = x^2$ means you square whatever input you receive \u2014 so replace $x$ in $g$ with the entire expression $2x - 5$ and then expand fully. What do you get for $(g \\circ f)(x)$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $f(x) = x + 4$ and $g(x) = 2x$, find $(f \\circ g)(x)$.",
+      "answer_latex": "(f \\circ g)(x) = 2x + 4"
+    },
+    {
+      "prompt_latex": "Given $f(x) = x^2 - 3$ and $g(x) = x + 1$, find $(f \\circ g)(x)$.",
+      "answer_latex": "(f \\circ g)(x) = x^2 + 2x - 2"
+    },
+    {
+      "prompt_latex": "Given $f(x) = x^2 - 3$ and $g(x) = x + 1$, find $(g \\circ f)(x)$ and verify it is different from $(f \\circ g)(x)$.",
+      "answer_latex": "(g \\circ f)(x) = x^2 - 2, \\text{ which differs from } x^2 + 2x - 2"
+    },
+    {
+      "prompt_latex": "Given $f(x) = \\sqrt{x}$ and $g(x) = x^2 + 9$, find $(f \\circ g)(x)$ and state its domain.",
+      "answer_latex": "(f \\circ g)(x) = \\sqrt{x^2 + 9}, \\text{ domain: all real numbers } (-\\infty, \\infty)"
+    },
+    {
+      "prompt_latex": "A store applies a 10\\% employee discount and then subtracts a \\$5 coupon. Let $d(p) = 0.9p$ be the discounted price and $c(p) = p - 5$ be the coupon price. Find $(c \\circ d)(p)$ and interpret what it means.",
+      "answer_latex": "(c \\circ d)(p) = 0.9p - 5; \\text{ the coupon is applied after the 10\\% discount}"
+    }
+  ],
+  "common_mistakes": [
+    "Students reverse the order of composition, computing $f(g(x))$ when $(g \\circ f)(x)$ is asked, or vice versa. Remember that in $(f \\circ g)(x)$, the function written on the right ($g$) acts first \u2014 think of it as reading from the inside out.",
+    "When substituting the inner function, students only substitute the variable part and forget to bring along the full expression. For example, with $f(x) = x^2$ and $g(x) = 3x + 1$, a common error is writing $f(g(x)) = 3x^2 + 1$ instead of correctly squaring the entire inner expression to get $(3x+1)^2$.",
+    "Students forget to simplify the composed expression fully, leaving an answer like $(2x - 5)^2$ unexpanded when the problem expects a simplified polynomial. Always expand and combine like terms unless the problem explicitly says to leave it in factored form."
+  ],
+  "untested_variants": [
+    "Evaluating a composition at a specific numeric value, such as finding $(f \\circ g)(3)$, rather than finding the general composed function rule.",
+    "Composing more than two functions, for example finding $f(g(h(x)))$ with three distinct functions.",
+    "Decomposing a given function into two simpler functions \u2014 being given $h(x) = \\sqrt{2x+7}$ and asked to find $f$ and $g$ such that $h(x) = f(g(x))$.",
+    "Finding the domain of a composed function when the inner function produces values outside the domain of the outer function, requiring intersection of restricted domains."
+  ]
+}
