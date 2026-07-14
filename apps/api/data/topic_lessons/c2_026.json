@@ -1,0 +1,81 @@
+{
+  "topic_id": "c2_026",
+  "topic_name": "Taylor and Maclaurin Series",
+  "generated_at": "2026-05-13T00:26:14.475689+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to differentiate and integrate familiar functions like $e^x$, $\\sin x$, and $\\ln(1+x)$. But what if you need to compute $e^{-x^2}$ exactly, or evaluate an integral that has no closed form? The surprising answer is that almost every smooth function you'll encounter can be written as an infinite polynomial \u2014 a power series centered at a point. The question is: how do you find the coefficients of that infinite polynomial, and why does it work?",
+  "concept": "A Taylor series rewrites a smooth function as an infinite sum of polynomial terms, where each coefficient is determined by the function's derivatives at a single point $a$. Formally, if $f$ has derivatives of all orders at $x = a$, its Taylor series is $f(x) = \\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!}(x-a)^n$. When the center is $a = 0$, this special case is called a Maclaurin series.",
+  "anatomy": "The Taylor series $\\sum_{n=0}^{\\infty} \\frac{f^{(n)}(a)}{n!}(x-a)^n$ has four distinct structural parts. The center $a$ is the point at which all derivatives are evaluated; choosing $a = 0$ gives the Maclaurin form. The coefficient $\\frac{f^{(n)}(a)}{n!}$ is called the Taylor coefficient for the $n$-th term: the numerator $f^{(n)}(a)$ is the $n$-th derivative evaluated at the center, and the denominator $n!$ (n-factorial) normalizes it so that differentiating the series $n$ times and plugging in $a$ recovers exactly $f^{(n)}(a)$. The factor $(x-a)^n$ is the monomial that carries the positional information, ensuring the series is a genuine power series in $(x-a)$.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = e^x, \\quad a = 0",
+      "description_latex": "We want to build the Maclaurin series for $e^x$, so we center at $a = 0$. The strategy is to compute successive derivatives of $f$, evaluate each one at $0$, and plug those values into the Taylor coefficient formula $\\frac{f^{(n)}(0)}{n!}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f^{(n)}(x) = e^x \\implies f^{(n)}(0) = e^0 = 1 \\text{ for all } n \\geq 0",
+      "description_latex": "Because $e^x$ is its own derivative, every derivative evaluated at $0$ is simply $1$. This is the key fact that makes the Maclaurin series for $e^x$ especially clean \u2014 every numerator in the Taylor coefficient is $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c_n = \\frac{f^{(n)}(0)}{n!} = \\frac{1}{n!}",
+      "description_latex": "Substituting $f^{(n)}(0) = 1$ into the coefficient formula gives $c_n = \\frac{1}{n!}$. Notice that the factorial in the denominator grows much faster than any polynomial, which is part of why this series converges for all real $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e^x = \\sum_{n=0}^{\\infty} \\frac{x^n}{n!} = 1 + x + \\frac{x^2}{2!} + \\frac{x^3}{3!} + \\frac{x^4}{4!} + \\cdots",
+      "description_latex": "Assembling the series by writing out the first several terms helps you see the pattern and verify that when $x = 0$ you get $1 + 0 + 0 + \\cdots = 1 = e^0$, which is a good sanity check. This series converges to $e^x$ for every real number $x$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = \\sin x, \\quad a = 0",
+      "description_latex": "We will build the Maclaurin series for $\\sin x$ by computing its derivatives at $0$. The derivatives of $\\sin x$ cycle with period $4$: $\\sin x,\\, \\cos x,\\, -\\sin x,\\, -\\cos x$, then repeat. Evaluating each at $x = 0$ gives the repeating pattern $0, 1, 0, -1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(0)=0,\\; f'(0)=1,\\; f''(0)=0,\\; f'''(0)=-1,\\; f^{(4)}(0)=0,\\; f^{(5)}(0)=1,\\; \\ldots",
+      "description_latex": "Because the even-order derivatives at $0$ are all zero, the even-powered terms vanish entirely from the series \u2014 only odd powers survive. Use these values to form the Taylor coefficients $c_n = \\frac{f^{(n)}(0)}{n!}$ and write out the first four non-zero terms of the Maclaurin series for $\\sin x$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\sin x = \\sum_{n=0}^{\\infty} \\frac{(-1)^n}{(2n+1)!} x^{2n+1} = x - \\frac{x^3}{3!} + \\frac{x^5}{5!} - \\frac{x^7}{7!} + \\cdots",
+      "description_latex": "The final series uses only odd powers of $x$ and the signs alternate because of the $(-1)^n$ factor, which tracks the sign pattern $+1, -1, +1, -1, \\ldots$ in the non-zero derivatives. This series converges to $\\sin x$ for all real $x$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write the first four non-zero terms of the Maclaurin series for $f(x) = \\cos x$.",
+      "answer_latex": "\\cos x = 1 - \\frac{x^2}{2!} + \\frac{x^4}{4!} - \\frac{x^6}{6!} + \\cdots = \\sum_{n=0}^{\\infty} \\frac{(-1)^n}{(2n)!}x^{2n}"
+    },
+    {
+      "prompt_latex": "Find the Maclaurin series for $f(x) = \\frac{1}{1-x}$ by computing derivatives at $0$ and writing the general term.",
+      "answer_latex": "\\frac{1}{1-x} = \\sum_{n=0}^{\\infty} x^n = 1 + x + x^2 + x^3 + \\cdots, \\quad |x| < 1"
+    },
+    {
+      "prompt_latex": "Find the first three non-zero terms of the Taylor series for $f(x) = \\ln x$ centered at $a = 1$.",
+      "answer_latex": "\\ln x = (x-1) - \\frac{(x-1)^2}{2} + \\frac{(x-1)^3}{3} - \\cdots = \\sum_{n=1}^{\\infty} \\frac{(-1)^{n+1}}{n}(x-1)^n"
+    },
+    {
+      "prompt_latex": "Use the known Maclaurin series for $e^x$ to write the Maclaurin series for $e^{-x^2}$, then use it to express $\\int_0^1 e^{-x^2}\\,dx$ as an infinite series and compute the partial sum through the $x^6$ term.",
+      "answer_latex": "e^{-x^2} = \\sum_{n=0}^{\\infty} \\frac{(-1)^n x^{2n}}{n!}; \\quad \\int_0^1 e^{-x^2}\\,dx = \\sum_{n=0}^{\\infty} \\frac{(-1)^n}{n!(2n+1)} \\approx 1 - \\frac{1}{3} + \\frac{1}{10} - \\frac{1}{42} \\approx 0.7429"
+    },
+    {
+      "prompt_latex": "A physics model approximates $\\cos\\theta \\approx 1 - \\frac{\\theta^2}{2}$ for small $\\theta$. Using the Maclaurin series for $\\cos\\theta$, determine the maximum order of the error term that was dropped, and estimate the error at $\\theta = 0.1$ radians.",
+      "answer_latex": "\\text{The dropped leading term is } \\frac{\\theta^4}{4!} = \\frac{\\theta^4}{24}; \\text{ at } \\theta=0.1: \\text{ error} \\approx \\frac{(0.1)^4}{24} \\approx 4.17 \\times 10^{-6}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to divide by $n!$ and write $c_n = f^{(n)}(a)$ instead of $c_n = \\frac{f^{(n)}(a)}{n!}$, producing coefficients that are off by a factor of $n!$; always remember the factorial normalization comes directly from matching the series term to the function's $n$-th derivative.",
+    "When substituting a composite argument like $-x^2$ into a known series, students substitute into the exponent of the summation index rather than replacing every occurrence of the original variable; for example, replacing $x$ with $-x^2$ in $\\sum \\frac{x^n}{n!}$ must yield $\\sum \\frac{(-x^2)^n}{n!} = \\sum \\frac{(-1)^n x^{2n}}{n!}$, not $\\sum \\frac{x^{-2n}}{n!}$.",
+    "Students assume that writing a Taylor series automatically means it converges to $f(x)$, but a function's Taylor series can converge everywhere yet equal $f$ only on a limited interval (or in pathological cases, not at all); always check the radius of convergence and confirm equality holds on that interval."
+  ],
+  "untested_variants": [
+    "Finding the Taylor series centered at a non-trivial point such as $a = \\pi$ or $a = e$, where derivative evaluations are not simply $0$ or $1$.",
+    "Using Taylor series to evaluate limits of indeterminate forms by replacing functions with their series expansions and canceling leading terms, a technique combining series with L'H\u00f4pital-type reasoning.",
+    "Multiplying two known Maclaurin series together term-by-term (Cauchy product) to find the series for a product like $e^x \\sin x$.",
+    "Finding the Taylor series for implicitly defined functions or solutions to differential equations by differentiating the equation repeatedly and building coefficients recursively."
+  ]
+}

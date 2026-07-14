@@ -1,0 +1,76 @@
+{
+  "topic_id": "cm_013",
+  "topic_name": "The Pigeonhole Principle",
+  "generated_at": "2026-05-13T20:22:47.557873+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to count objects one by one, and you're comfortable with basic combinatorics like permutations and combinations. But here's a puzzle that seems to require no calculation at all: in any group of 13 people, must at least two of them share a birth month? You feel like the answer is yes, but you can't quite pin down *why* that has to be true \u2014 or how to turn that intuition into a rigorous argument. What principle is hiding underneath this seemingly obvious fact?",
+  "concept": "The Pigeonhole Principle says that if you distribute more objects than there are containers, at least one container must hold more than one object. Formally: if $n$ objects are placed into $k$ containers and $n > k$, then at least one container holds at least $\\lceil n/k \\rceil$ objects. In the simplest case ($k$ containers, $n = k+1$ objects), at least one container holds $2$ or more objects.",
+  "anatomy": "Every Pigeonhole argument has three named components you must identify explicitly. The **pigeons** are the objects being distributed \u2014 these are the things you are counting (people, numbers, points, etc.). The **pigeonholes** are the categories or containers they are sorted into \u2014 these are the bins you define (months, remainders, regions, etc.). The **guarantee** is the conclusion: with $n$ pigeons and $k$ holes, at least one hole contains at least $\\lceil n/k \\rceil$ pigeons. The cleverness of every problem lies entirely in choosing the right pigeonholes.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: Among any 13 people, at least two share a birth month.}",
+      "description_latex": "We start by identifying the pigeons and pigeonholes. The 13 people are the pigeons, and the 12 calendar months are the pigeonholes. We are assigning each person to the month they were born in.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n = 13 \\text{ pigeons},\\quad k = 12 \\text{ holes},\\quad n > k",
+      "description_latex": "Since we have 13 pigeons and only 12 holes, the condition $n > k$ is satisfied, which is exactly what triggers the Pigeonhole Principle. Notice we don't need to know anything about which specific month anyone was born in \u2014 the inequality alone forces the conclusion.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left\\lceil \\frac{13}{12} \\right\\rceil = 2",
+      "description_latex": "Applying the formula, at least one hole must contain at least $\\lceil 13/12 \\rceil = 2$ people. This means at least two of the 13 people must share a birth month \u2014 the argument is complete and required no case analysis at all.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: A drawer has 10 red socks, 10 blue socks, and 10 green socks (all identical in feel). How many socks must you draw (in the dark) to guarantee a matching pair?}",
+      "description_latex": "Let's set up the Pigeonhole framework. The socks you draw are the pigeons, and the three colors \u2014 red, blue, green \u2014 are the pigeonholes. We want to find the smallest number of socks $n$ such that drawing $n$ socks guarantees at least two socks in the same color-hole.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "k = 3 \\text{ colors (holes)},\\quad \\text{need } n > k",
+      "description_latex": "The worst case is drawing one sock of each color first \u2014 filling each hole with exactly one pigeon. Ask yourself: once you have drawn one sock of every color (3 socks total), what does the very next sock guarantee? How many socks total does that make?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "n = k + 1 = 3 + 1 = 4 \\text{ socks}",
+      "description_latex": "Drawing 4 socks guarantees at least one color appears twice, giving you a matching pair. Notice that the total number of socks in the drawer (30) was completely irrelevant \u2014 only the number of categories (colors) mattered.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A bag contains balls colored with 5 different colors. What is the minimum number of balls you must draw to guarantee that at least 2 balls share the same color?",
+      "answer_latex": "6"
+    },
+    {
+      "prompt_latex": "There are 50 students in a class. Show that at least $\\lceil 50/7 \\rceil = 8$ students were born on the same day of the week. What is the minimum number of students needed to guarantee at least 8 share a birth day-of-week?",
+      "answer_latex": "50 \\text{ students suffice since } \\lceil 50/7 \\rceil = 8"
+    },
+    {
+      "prompt_latex": "Given any set of 10 integers, prove that at least two of them have the same remainder when divided by 9. What are the possible remainders, and why does choosing 10 integers force a repeat?",
+      "answer_latex": "\\text{There are 9 possible remainders } (0,1,\\ldots,8); \\text{ with 10 integers, by Pigeonhole at least two share a remainder.}"
+    },
+    {
+      "prompt_latex": "Choose any 5 points inside (or on the boundary of) an equilateral triangle with side length 2. Prove that at least two points are within distance 1 of each other. (Hint: divide the triangle into 4 smaller equilateral triangles of side length 1.)",
+      "answer_latex": "\\text{4 sub-triangles and 5 points} \\Rightarrow \\text{some sub-triangle contains } \\geq 2 \\text{ points, which are at most distance } 1 \\text{ apart.}"
+    },
+    {
+      "prompt_latex": "At a party of 6 people, every two people are either friends or strangers. Use the Pigeonhole Principle to show that there must exist 3 people who are all mutual friends or all mutual strangers. (This is the $R(3,3)=6$ result \u2014 for the first step, consider one person and their 5 relationships.)",
+      "answer_latex": "\\text{One person has } \\geq 3 \\text{ friends or } \\geq 3 \\text{ strangers (Pigeonhole on 5 relationships into 2 types); either sub-group yields the required triple.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the number of pigeons with the number of pigeonholes when setting up the argument \u2014 for example, treating the number of objects as the hole count and the number of categories as the pigeon count. Always ask: 'What am I distributing (pigeons)?' first, and 'What am I distributing them into (holes)?' second, then check that $n_{\\text{pigeons}} > k_{\\text{holes}}$.",
+    "Students frequently forget to account for the worst case when asked 'how many do you need to guarantee a result?' \u2014 they compute $k+1$ correctly but forget that the adversary will fill every hole with exactly one pigeon first. Always think: worst case is one pigeon per hole, and only the $(k+1)$-th pigeon triggers the guarantee.",
+    "When using the generalized Pigeonhole Principle ($\\lceil n/k \\rceil$), students sometimes apply it to conclude 'at least $\\lceil n/k \\rceil$ pigeons in every hole' rather than 'at least one hole has $\\lceil n/k \\rceil$ pigeons.' The ceiling formula gives a guarantee about the maximum over all holes, not about all holes simultaneously \u2014 fix this by always saying 'at least one hole contains at least $\\lceil n/k \\rceil$ objects.'"
+  ],
+  "untested_variants": [
+    "Infinite Pigeonhole Principle: if infinitely many objects are placed into finitely many categories, at least one category contains infinitely many objects \u2014 and its application to number theory problems involving infinite sequences.",
+    "Double-counting combined with Pigeonhole: problems where you must first count a quantity two ways to establish that $n > k$ before the Pigeonhole argument can even begin.",
+    "Graph-theoretic Pigeonhole: problems framed in terms of vertex degrees in a graph (e.g., proving two vertices share the same degree in any simple graph on $n \\geq 2$ vertices).",
+    "Pigeonhole on geometric regions that are not simple subdivisions, such as circles, annuli, or lattice points, where the choice of pigeonholes requires a non-obvious geometric construction."
+  ]
+}

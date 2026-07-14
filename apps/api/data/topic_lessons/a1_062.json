@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_062",
+  "topic_name": "Square Roots and Cube Roots",
+  "generated_at": "2026-05-12T22:48:45.595300+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to square a number \u2014 for example, $5^2 = 25$. But what if you start with 25 and need to find the number that was squared to get there? And what about working backwards from a perfect cube like $-27$? These 'reverse' operations are exactly what square roots and cube roots do, and they follow rules that might surprise you. Can you figure out why $\\sqrt{-9}$ causes a problem, but $\\sqrt[3]{-8}$ does not?",
+  "concept": "A square root 'undoes' squaring: $\\sqrt{x}$ asks 'what number times itself equals $x$?' A cube root 'undoes' cubing: $\\sqrt[3]{x}$ asks 'what number multiplied by itself three times equals $x$?' Formally, $\\sqrt{a} = b$ means $b^2 = a$ with $b \\geq 0$, and $\\sqrt[3]{a} = b$ means $b^3 = a$. The key difference is that square roots require non-negative radicands in the real numbers, while cube roots accept any real number.",
+  "anatomy": "Every radical expression has three structural parts. The radical symbol $\\sqrt{\\phantom{x}}$ indicates the root operation itself. The index is the small number written in the notch of the radical \u2014 for a square root the index is 2 (usually omitted by convention), and for a cube root the index is 3, as in $\\sqrt[3]{\\phantom{x}}$. The radicand is the expression written underneath the radical bar \u2014 it is the number or expression whose root you are finding, for example the 64 in $\\sqrt[3]{64}$. Together, the index tells you which root to take, and the radicand tells you what to take it of.",
+  "worked_example": [
+    {
+      "expression_latex": "\\sqrt{49}",
+      "description_latex": "We need to find a non-negative number that, when squared, gives 49. Because the index is 2 (a square root), we look for $b \\geq 0$ such that $b^2 = 49$. Knowing our perfect squares, we recognize that $7^2 = 49$, so the answer is 7.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{49} = 7",
+      "description_latex": "Notice that even though $(-7)^2 = 49$ as well, the square root symbol always returns the principal (non-negative) root. This is why $\\sqrt{49} = 7$, not $-7$ \u2014 the radical symbol is defined to give only the non-negative result.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt[3]{-27}",
+      "description_latex": "Now we switch to a cube root, so we ask: what number cubed equals $-27$? Because we are dealing with an odd index (3), negative radicands are perfectly valid \u2014 a negative number cubed stays negative. We test $(-3)^3 = (-3)(-3)(-3) = -27$, so this works.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt[3]{-27} = -3",
+      "description_latex": "Cube roots have exactly one real answer for every real radicand, including negatives. Here the answer is $-3$, and there is no issue with 'principal root' confusion because only one real number cubed gives $-27$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\sqrt[3]{125}",
+      "description_latex": "We want to evaluate this cube root. Start by asking: what number, multiplied by itself three times, equals 125? It helps to test small integers: try $4^3$, then $5^3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5^3 = 125, \\text{ so } \\sqrt[3]{125} = ?",
+      "description_latex": "You have confirmed that $5^3 = 125$. Now write the final value of $\\sqrt[3]{125}$ \u2014 what does this cube root equal?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\sqrt[3]{125} = 5",
+      "description_latex": "The cube root of 125 is 5. Notice that the radicand is positive, the index is odd, and the result is positive \u2014 everything is consistent with the rule that $\\sqrt[3]{a} = b$ whenever $b^3 = a$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate: $\\sqrt{81}$",
+      "answer_latex": "9"
+    },
+    {
+      "prompt_latex": "Evaluate: $\\sqrt[3]{-64}$",
+      "answer_latex": "-4"
+    },
+    {
+      "prompt_latex": "Evaluate: $-\\sqrt{144}$",
+      "answer_latex": "-12"
+    },
+    {
+      "prompt_latex": "Simplify: $\\sqrt{x^2}$ for $x \\geq 0$, then evaluate when $x = 11$",
+      "answer_latex": "$\\sqrt{x^2} = x$; when $x = 11$, the value is $11$"
+    },
+    {
+      "prompt_latex": "A square garden has an area of 196 square feet. Write and evaluate a square root expression to find the side length of the garden.",
+      "answer_latex": "$s = \\sqrt{196} = 14$ feet"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $\\sqrt{-16} = -4$, reasoning that a negative sign 'comes out' of the square root. In reality, $\\sqrt{-16}$ has no real value because no real number squared gives a negative result \u2014 the fix is to check the index first: square roots require a non-negative radicand.",
+    "Students confuse $-\\sqrt{25}$ with $\\sqrt{-25}$, treating them as the same expression. The first, $-\\sqrt{25} = -5$, is the negative of a valid square root; the second has no real value. Always determine whether the negative sign is outside the radical (allowed) or inside the radicand (problematic for even indices).",
+    "When evaluating $\\sqrt[3]{-8}$, students write $-2$ but then second-guess themselves and erase it, thinking square root rules apply to all radicals. Remember that for cube roots (odd index), negative radicands are perfectly fine and produce negative results \u2014 the rule that radicands must be non-negative only applies to square roots and other even-index radicals."
+  ],
+  "untested_variants": [
+    "Simplifying square roots of non-perfect-square radicands using prime factorization, such as $\\sqrt{72} = 6\\sqrt{2}$.",
+    "Evaluating fourth roots or other even-index roots, such as $\\sqrt[4]{16}$, and explaining why they also require non-negative radicands.",
+    "Determining the domain of a radical function, such as finding all $x$ for which $\\sqrt{3x - 6}$ is defined.",
+    "Estimating irrational square roots between consecutive integers, for example placing $\\sqrt{50}$ between 7 and 8 on a number line."
+  ]
+}

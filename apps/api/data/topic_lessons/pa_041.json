@@ -1,0 +1,86 @@
+{
+  "topic_id": "pa_041",
+  "topic_name": "Solving Two-Step Equations",
+  "generated_at": "2026-05-12T22:24:35.062564+00:00",
+  "course_name": "Pre-Algebra",
+  "hook": "You already know how to solve a one-step equation like $x + 5 = 12$ by subtracting 5 from both sides to get $x = 7$. But what happens when a variable has been changed in two different ways, like in $2x + 5 = 13$? You can't undo both operations in a single move \u2014 you need a plan for which one to attack first. How do you systematically peel away two operations to isolate the variable?",
+  "concept": "A two-step equation is an equation that requires exactly two inverse operations to isolate the variable. In plain English, the variable has been wrapped up by two things \u2014 usually a multiplication and an addition \u2014 and you need to unwrap them in reverse order, like taking off a coat before a sweater. Formally, equations of the form $ax + b = c$ are two-step equations, where $a$, $b$, and $c$ are known numbers and $x$ is the variable you are solving for.",
+  "anatomy": "Every two-step equation in the form $ax + b = c$ has four distinct parts: the coefficient $a$, which is the number multiplied by the variable; the variable $x$, the unknown quantity you are solving for; the constant $b$, which is added to (or subtracted from) the variable term; and the result $c$ on the other side of the equals sign. The two operations at work are multiplication (connecting $a$ and $x$) and addition or subtraction (connecting the variable term to $b$). Crucially, you undo them in reverse order \u2014 first undo the addition or subtraction, then undo the multiplication.",
+  "worked_example": [
+    {
+      "expression_latex": "2x + 5 = 13",
+      "description_latex": "This is the equation we want to solve. Notice that the variable $x$ has been multiplied by 2 and then had 5 added to it, so our goal is to reverse those two operations in the opposite order \u2014 addition was done last, so we undo it first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x + 5 - 5 = 13 - 5",
+      "description_latex": "We subtract 5 from both sides of the equation to undo the addition of 5. We do this to both sides because whatever we do to one side of an equation we must do to the other to keep the equation balanced.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x = 8",
+      "description_latex": "After subtracting, the equation simplifies to $2x = 8$. The constant term is gone and now we only have the multiplication by 2 left to undo.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{2x}{2} = \\frac{8}{2}",
+      "description_latex": "We divide both sides by 2 to undo the multiplication, since division is the inverse of multiplication. Dividing both sides keeps the equation balanced.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 4",
+      "description_latex": "The variable is now isolated and we have our solution. You can always check your answer by substituting back: $2(4) + 5 = 8 + 5 = 13$ \u2713, which confirms $x = 4$ is correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "3x - 4 = 11",
+      "description_latex": "Here is the equation we need to solve. The variable $x$ has been multiplied by 3 and then had 4 subtracted. Following our two-step strategy, we will first undo the subtraction by adding 4 to both sides.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3x - 4 + 4 = 11 + 4 \\implies 3x = 15",
+      "description_latex": "Adding 4 to both sides removes the constant, leaving us with $3x = 15$. Now the only operation left to undo is the multiplication by 3.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Divide both sides of $3x = 15$ by 3 to isolate $x$. Write out the division step and state the value of $x$. Then check your answer by substituting it back into the original equation.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve: \\quad x + 3 = 9 \\text{ ... wait, try } 2x + 3 = 9",
+      "answer_latex": "x = 3"
+    },
+    {
+      "prompt_latex": "Solve: \\quad 4x - 6 = 10",
+      "answer_latex": "x = 4"
+    },
+    {
+      "prompt_latex": "Solve: \\quad 5x + 2 = 27",
+      "answer_latex": "x = 5"
+    },
+    {
+      "prompt_latex": "Solve: \\quad -3x + 7 = 16",
+      "answer_latex": "x = -3"
+    },
+    {
+      "prompt_latex": "A phone plan charges a flat fee of $\\$10$ plus $\\$4$ per gigabyte of data. If your bill was $\\$34$, how many gigabytes did you use? Set up and solve an equation.",
+      "answer_latex": "4g + 10 = 34, \\quad g = 6 \\text{ gigabytes}"
+    }
+  ],
+  "common_mistakes": [
+    "Students undo the multiplication before the addition \u2014 for example, in $2x + 6 = 14$ they divide by 2 first to get $x + 6 = 7$ (which incorrectly divides the 6 as well only sometimes), rather than subtracting 6 first. The fix is to always undo addition or subtraction before multiplication or division.",
+    "When subtracting a constant to both sides, students forget to apply the operation to the right-hand side \u2014 for example, writing $2x + 5 - 5 = 13$ instead of $2x + 5 - 5 = 13 - 5$. Remember: every operation must be applied to both sides to keep the equation balanced.",
+    "When the equation has a negative coefficient like $-3x + 7 = 16$, students subtract 7 correctly to get $-3x = 9$ but then forget the negative sign and write $x = 3$ instead of dividing by $-3$ to correctly get $x = -3$. Always carry the negative sign on the coefficient all the way through the division step."
+  ],
+  "untested_variants": [
+    "Two-step equations where the variable appears on the right-hand side, such as $10 = 3x - 2$, requiring students to recognize the equation works the same way regardless of which side holds the variable term.",
+    "Two-step equations involving fractions or decimal coefficients, such as $\\frac{x}{4} + 3 = 7$ or $0.5x - 1 = 4$, where the first step involves fraction or decimal arithmetic.",
+    "Two-step equations with negative constants being subtracted, such as $2x - (-5) = 15$, which requires simplifying double negatives before applying the two-step strategy.",
+    "Two-step equations embedded in geometry contexts, such as finding the side length of a rectangle given its perimeter, where students must first translate the geometric formula into an algebraic equation before solving."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "cm_041",
+  "topic_name": "Time Management and Partial Credit Strategy",
+  "generated_at": "2026-05-13T20:25:28.572365+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You've practiced solving competition problems carefully and completely, but what happens when the clock is ticking and you have 30 problems to get through in 75 minutes? You already know how to solve math problems \u2014 the gap is that raw ability doesn't automatically translate into maximum points when time is limited and some problems carry penalties for wrong answers. How do you decide which problems to attempt, in what order, and when to move on?",
+  "concept": "Time management and partial credit strategy is the deliberate allocation of your available competition time to maximize your total score, rather than simply maximizing the number of problems you attempt. Formally, if you have $T$ total minutes and problems worth $p_i$ points each with estimated solve time $t_i$, the goal is to choose a subset $S$ of problems to maximize $\\sum_{i \\in S} p_i$ subject to $\\sum_{i \\in S} t_i \\leq T$, adjusted for any penalty structure.",
+  "anatomy": "A time management strategy has four key components. The **point value** $p_i$ is what a correct answer earns on problem $i$; the **penalty** $q_i$ is what a wrong answer costs (often $\\frac{1}{4}$ or $0$ points depending on the contest). The **confidence level** $c_i \\in [0,1]$ is your honest estimate of getting problem $i$ right. The **expected value** of attempting problem $i$ is $c_i \\cdot p_i - (1 - c_i) \\cdot q_i$, and the **time budget** $T$ constrains how many problems you can thoughtfully engage with.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{AMC 8 structure: } 25 \\text{ problems, } 40 \\text{ minutes, no penalty, } 1 \\text{ point each}",
+      "description_latex": "We start by identifying the contest's scoring rules because the optimal strategy depends entirely on whether wrong answers are penalized. On the AMC 8 there is no penalty, so the expected value of guessing is always positive \u2014 you should never leave a problem blank.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Time per problem: } \\frac{40 \\text{ min}}{25 \\text{ problems}} = 1.6 \\text{ min/problem}",
+      "description_latex": "Computing the average time budget per problem gives you a concrete pacing benchmark. If you find yourself spending 4 minutes on problem 7, you already know you are nearly 2.5 problems behind pace and need to make a decision \u2014 skip, guess, or commit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Triage: Pass 1 (solve easy)} \\to \\text{Pass 2 (attempt medium)} \\to \\text{Pass 3 (guess remaining)}",
+      "description_latex": "A two-pass or three-pass approach forces you to collect all the 'free' points first before investing time in harder problems. In Pass 1 you answer every problem you can solve in under 60 seconds; in Pass 2 you work problems that seem approachable; in Pass 3 you fill in educated guesses for anything left.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{AMC 10/12 expected value: } EV_i = c_i \\cdot 6 - (1-c_i) \\cdot 1.5",
+      "description_latex": "On the AMC 10/12, correct answers are worth 6 points and wrong answers deduct 1.5 points, so we need $c_i \\cdot 6 > (1-c_i) \\cdot 1.5$, which simplifies to $c_i > 0.2$. This means you should attempt a problem whenever your confidence of being correct exceeds 20% \u2014 a surprisingly low bar.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "0.2 \\cdot 6 - 0.8 \\cdot 1.5 = 1.2 - 1.2 = 0 \\text{ (break-even at } c_i = 0.2\\text{)}",
+      "description_latex": "Verifying the break-even confidence confirms that even a wild guess among 5 choices (which gives $c_i = 0.20$ exactly) has an expected value of zero \u2014 not negative. In practice, any domain knowledge that lets you eliminate even one answer choice pushes $c_i$ above 0.2 and makes guessing strictly profitable.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{MATHCOUNTS Sprint: } 30 \\text{ problems, } 40 \\text{ minutes, no penalty}",
+      "description_latex": "MATHCOUNTS Sprint has no guessing penalty, so our strategy question is purely about time allocation, not about whether to guess. Let's figure out our per-problem time budget and then design a two-pass approach.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{40}{30} \\approx 1.33 \\text{ min/problem}",
+      "description_latex": "The average time per problem is about 80 seconds. Use this as your 'alarm clock': if you have been working a single problem for more than 2.5 minutes (roughly twice the average), it is almost always better to mark it and move on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now suppose in Pass 1 you answered 22 problems and have 12 minutes left for the remaining 8 problems. Calculate the expected value of spending all 12 minutes trying to perfectly solve 4 of the 8 problems (with confidence $c = 0.85$ each) versus spending 1.5 minutes each on all 8 problems (with confidence $c = 0.55$ each). Which strategy yields more expected points?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "EV_{\\text{deep}} = 4 \\times 0.85 = 3.4 \\text{ pts} \\quad \\text{vs} \\quad EV_{\\text{broad}} = 8 \\times 0.55 = 4.4 \\text{ pts}",
+      "description_latex": "The broad approach yields more expected points here because even at moderate confidence you are collecting from more problems. The key insight is that spreading time broadly often dominates going deep on a few problems when there is no penalty for wrong answers.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A contest has no guessing penalty. You have 3 problems left and 2 minutes. You estimate each takes 3 minutes to solve carefully, but you can guess randomly (5 choices each). Should you guess on all three, or skip all three?",
+      "answer_latex": "\\text{Guess all three: } EV = 3 \\times \\frac{1}{5} = 0.6 > 0 \\text{ points from guessing vs. } 0 \\text{ from skipping}"
+    },
+    {
+      "prompt_latex": "On the AMC 10, correct answers earn 6 points and wrong answers cost 1.5 points. You can eliminate 2 of the 5 answer choices on a problem. What is your expected value from guessing among the remaining 3 choices?",
+      "answer_latex": "EV = \\frac{1}{3}(6) - \\frac{2}{3}(1.5) = 2 - 1 = 1 \\text{ point}"
+    },
+    {
+      "prompt_latex": "You have 15 minutes left on a 30-problem no-penalty sprint and 10 problems remaining. Your average solve time is 2 minutes for medium problems and 4 minutes for hard problems. Of the 10 remaining, 6 look medium and 4 look hard. Design a time allocation that maximizes expected problems solved, assuming confidence 0.8 on medium and 0.6 on hard.",
+      "answer_latex": "\\text{Solve all 6 medium (12 min, }EV=4.8\\text{) and 1 hard (3 min left is insufficient for a full hard problem, so guess remaining 3): } EV \\approx 4.8 + 0.6 + 3(0.2) = 6.0"
+    },
+    {
+      "prompt_latex": "A competition awards 4 points for correct, 0 for blank, and $-1$ for wrong. You are 80\\% confident on problem A (worth 4 pts) and 40\\% confident on problem B (also 4 pts). You have time for exactly one more problem. Which should you attempt, and what is the difference in expected value?",
+      "answer_latex": "EV_A = 0.8(4) - 0.2(1) = 3.0, \\quad EV_B = 0.4(4) - 0.6(1) = 1.0, \\quad \\Delta EV = 2.0 \\text{ pts \u2014 choose A}"
+    },
+    {
+      "prompt_latex": "In the final 5 minutes of a 25-problem contest (no penalty, 1 pt each), you have answered 20 problems and have 5 blank. Each blank takes about 3 minutes to solve carefully, but you can spend 1 minute per problem making an educated guess (eliminating 1 wrong answer from 4 choices, so $c = 1/3$). Compare the expected points from carefully solving 1 problem vs. educated-guessing all 5.",
+      "answer_latex": "\\text{Careful: } 1 \\times 0.95 \\approx 0.95 \\text{ pts}; \\quad \\text{Educated guess all 5: } 5 \\times \\frac{1}{3} \\approx 1.67 \\text{ pts \u2014 guessing all 5 wins}"
+    }
+  ],
+  "common_mistakes": [
+    "Students treat all problems as equal-time investments and work problems strictly in order, never skipping \u2014 this means they spend 8 minutes on a hard problem 3 while missing five easy problems later in the set. The fix is to always do a fast first pass and flag hard problems for later.",
+    "On penalized contests like the AMC 10/12, students either guess on every problem they haven't solved (ignoring the penalty) or skip every uncertain problem (being too conservative). The fix is to compute the break-even confidence $c^* = \\frac{q}{p+q}$ for your specific contest and only guess when your honest confidence exceeds that threshold.",
+    "Students underestimate how long they have been working on a problem because they feel 'close to the answer,' leading to catastrophic time loss on a single problem. The fix is to set a physical time check \u2014 glance at the clock after every 2 problems \u2014 so you can catch overruns before they compound."
+  ],
+  "untested_variants": [
+    "Contests with variable point values per problem (e.g., ARML Team Round where different problems carry different weights), requiring you to compute a points-per-minute ratio $\\frac{p_i}{t_i}$ for each problem and sort by that ratio.",
+    "Partial credit scoring systems (e.g., HMMT February where partial credit is explicitly awarded for showing work), where strategy involves deciding how much work to write down even if you cannot finish.",
+    "Team-round or relay strategy, where the optimal approach involves splitting problems among teammates based on individual strengths rather than each person working independently.",
+    "Contests with a 'short answer' and 'proof' section in the same sitting (e.g., USAMO or Putnam), where time allocation between sections with completely different scoring structures requires a fundamentally different analysis."
+  ]
+}

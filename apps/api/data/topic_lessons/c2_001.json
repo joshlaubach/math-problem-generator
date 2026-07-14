@@ -1,0 +1,91 @@
+{
+  "topic_id": "c2_001",
+  "topic_name": "Review of u-Substitution",
+  "generated_at": "2026-05-13T00:17:16.312029+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to differentiate composite functions using the chain rule \u2014 for example, you can quickly find that the derivative of $\\sin(x^2)$ is $2x\\cos(x^2)$. But what happens when you need to go the other direction and integrate $2x\\cos(x^2)$? Standard integration rules don't apply directly to composite functions, so you're stuck. How do we 'undo' the chain rule when integrating?",
+  "concept": "U-substitution is the integration technique that reverses the chain rule. In plain English, you spot a function and its derivative lurking inside the integral, rename the inner function $u$, and rewrite everything so the integral becomes simple. Formally, if $g$ is differentiable and $f$ is continuous, then $\\int f(g(x))\\,g'(x)\\,dx = \\int f(u)\\,du$, where $u = g(x)$ and $du = g'(x)\\,dx$.",
+  "anatomy": "Every u-substitution has four key components. The inner function $u = g(x)$ is the expression you choose to rename \u2014 typically the 'inside' of a composition or the argument of a complicated function. The differential $du = g'(x)\\,dx$ is what $du$ equals after differentiating $u$ with respect to $x$, and matching this to something already present in the integrand is what makes the substitution work. The transformed integrand $f(u)$ is the simplified expression in terms of $u$ alone, free of any $x$. Finally, back-substitution is the step where you replace $u$ with $g(x)$ to return your answer to the original variable.",
+  "worked_example": [
+    {
+      "expression_latex": "\\int 2x\\cos(x^2)\\,dx",
+      "description_latex": "We start by identifying the structure of the integrand. Notice that $x^2$ sits inside the cosine function, and its derivative $2x$ is sitting right next to it \u2014 this is the hallmark signal that u-substitution will work cleanly here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u = x^2 \\quad \\Rightarrow \\quad du = 2x\\,dx",
+      "description_latex": "We let $u$ equal the inner function $x^2$, then differentiate both sides to find $du = 2x\\,dx$. The reason we do this is so we can swap out both $x^2$ and the factor $2x\\,dx$ in the original integral \u2014 both pieces are already present, so the substitution is exact with no leftover $x$ terms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int \\cos(u)\\,du",
+      "description_latex": "We replace $x^2$ with $u$ and $2x\\,dx$ with $du$, giving us a clean standard integral in $u$ alone. This is the goal of substitution: reduce a complicated integral to one you already know how to handle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sin(u) + C",
+      "description_latex": "We integrate $\\cos(u)$ directly to get $\\sin(u) + C$, since the antiderivative of cosine is sine. Don't forget the constant of integration $C$ for any indefinite integral.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sin(x^2) + C",
+      "description_latex": "Finally, we back-substitute $u = x^2$ to express the answer in terms of the original variable $x$. You can verify this is correct by differentiating $\\sin(x^2)$, which gives $2x\\cos(x^2)$ via the chain rule \u2014 exactly the original integrand.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\int (3x^2)(x^3 + 1)^5\\,dx",
+      "description_latex": "We want to integrate this expression. Begin by looking for an inner function whose derivative also appears in the integrand. Notice that $x^3 + 1$ is raised to a power, and $3x^2$ \u2014 which is the derivative of $x^3 + 1$ \u2014 is the factor multiplying it. This is the signal to use u-substitution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u = x^3 + 1 \\quad \\Rightarrow \\quad du = 3x^2\\,dx",
+      "description_latex": "We set $u = x^3 + 1$ and compute $du = 3x^2\\,dx$. Both pieces appear in the integrand, so the substitution is exact.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $u$ and $du$ into the integral to rewrite it entirely in terms of $u$. What does the integral become? Write it in the form $\\int (\\text{something in } u)\\,du$ and then evaluate it.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\frac{(x^3+1)^6}{6} + C",
+      "description_latex": "After integrating $\\int u^5\\,du = \\frac{u^6}{6} + C$, we back-substitute $u = x^3 + 1$ to arrive at the final answer. Always check by differentiating: the chain rule applied to $\\frac{(x^3+1)^6}{6}$ returns $(x^3+1)^5 \\cdot 3x^2$, confirming we are correct.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\int 4x^3 e^{x^4}\\,dx",
+      "answer_latex": "e^{x^4} + C"
+    },
+    {
+      "prompt_latex": "\\int \\frac{6x}{(x^2+1)^3}\\,dx",
+      "answer_latex": "-\\frac{3}{2(x^2+1)^2} + C"
+    },
+    {
+      "prompt_latex": "\\int \\cos^4(x)\\sin(x)\\,dx",
+      "answer_latex": "-\\frac{\\cos^5(x)}{5} + C"
+    },
+    {
+      "prompt_latex": "\\int \\frac{\\ln(x)}{x}\\,dx",
+      "answer_latex": "\\frac{(\\ln x)^2}{2} + C"
+    },
+    {
+      "prompt_latex": "A particle's velocity is given by $v(t) = \\frac{3t^2}{\\sqrt{t^3+8}}$. Find the displacement of the particle from $t = 0$ to $t = 2$.",
+      "answer_latex": "2\\sqrt{16} - 2\\sqrt{8} = 8 - 4\\sqrt{2}"
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting to substitute $dx$ in terms of $du$: students often replace the function part with $u$ but leave $dx$ unchanged, producing a mixed expression like $\\int f(u)\\,dx$. Fix this by always writing out $du = g'(x)\\,dx$ explicitly and then solving for $dx$ before substituting.",
+    "Choosing $u$ to be the outer function instead of the inner function: for example, in $\\int 2x\\cos(x^2)\\,dx$, a student might set $u = \\cos(x^2)$ instead of $u = x^2$, which makes the integral more complicated rather than simpler. The inner function \u2014 the argument of the composition \u2014 is almost always the right choice for $u$.",
+    "Forgetting to back-substitute at the end: students leave the final answer in terms of $u$ (e.g., writing $\\sin(u) + C$) instead of replacing $u$ with its definition in $x$. Because the original problem was in $x$, the final answer must also be expressed in $x$."
+  ],
+  "untested_variants": [
+    "U-substitution requiring the student to solve for $x$ in terms of $u$ and replace a remaining $x$ factor \u2014 for example, integrals of the form $\\int x\\sqrt{x+1}\\,dx$ where not all $x$ terms are absorbed by $du$.",
+    "Definite integrals using u-substitution where the limits of integration must be converted to $u$-values, such as $\\int_0^1 2x e^{x^2}\\,dx$.",
+    "Integrals where the substitution involves a trigonometric function as the inner function, such as $\\int \\sec^2(x)e^{\\tan(x)}\\,dx$.",
+    "Integrals requiring a preliminary algebraic manipulation (like completing the square or factoring) before an appropriate $u$ can be identified."
+  ]
+}

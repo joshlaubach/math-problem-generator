@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_062",
+  "topic_name": "Permutations and Combinations",
+  "generated_at": "2026-05-12T23:34:56.040048+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to multiply and use factorials to count things, and you've probably figured out that order sometimes matters \u2014 like when you dial a phone number, 911 and 119 are very different. But what happens when order doesn't matter, like when you're choosing 3 toppings for a pizza out of 10 options? You'd be overcounting every combination multiple times if you treated it like an ordered list. So how do we count selections when order is irrelevant, and when do we use which formula?",
+  "concept": "A permutation counts ordered arrangements of items \u2014 the order in which you select things matters. A combination counts unordered selections \u2014 only which items you chose matters, not the sequence. Formally, the number of permutations of $n$ items taken $r$ at a time is $P(n,r) = \\dfrac{n!}{(n-r)!}$, and the number of combinations is $C(n,r) = \\dfrac{n!}{r!(n-r)!}$, where $n!$ denotes the factorial of $n$.",
+  "anatomy": "Both formulas share two key parameters: $n$, the total number of items available to choose from, and $r$, the number of items being selected. In the permutation formula $P(n,r) = \\dfrac{n!}{(n-r)!}$, the denominator $(n-r)!$ cancels out the items not chosen. In the combination formula $C(n,r) = \\dfrac{n!}{r!(n-r)!}$, the extra factor of $r!$ in the denominator divides out all the duplicate orderings of the chosen group, which is exactly why combinations are always smaller than or equal to the corresponding permutation.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Problem: How many ways can 3 students be chosen from a class of 8 to be President, VP, and Secretary?}",
+      "description_latex": "We first identify whether order matters here. Because each of the three students gets a distinct title (President vs. VP vs. Secretary), swapping two people creates a genuinely different outcome, so this is a permutation problem with $n = 8$ and $r = 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(8,3) = \\dfrac{8!}{(8-3)!} = \\dfrac{8!}{5!}",
+      "description_latex": "We plug $n = 8$ and $r = 3$ into the permutation formula. The $(n - r)! = 5!$ in the denominator will cancel the tail end of $8!$, leaving only the top three factors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\dfrac{8!}{5!} = \\dfrac{8 \\times 7 \\times 6 \\times 5!}{5!} = 8 \\times 7 \\times 6",
+      "description_latex": "The $5!$ cancels, and we are left with the product of the first $r = 3$ descending integers starting from $n = 8$. This cancellation is always the shortcut for evaluating permutations without computing enormous factorials.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "8 \\times 7 \\times 6 = 336",
+      "description_latex": "Multiplying gives us 336 ordered arrangements. There are 336 different ways to fill the three officer positions from a class of 8 students.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Problem: A committee of 4 people is chosen from 9 candidates. How many committees are possible?}",
+      "description_latex": "Start by deciding whether this is a permutation or combination. A committee has no ranked titles \u2014 being on a committee of {Alice, Bob, Carol, Dan} is the same regardless of the order they were picked. So this is a combination problem with $n = 9$ and $r = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C(9,4) = \\dfrac{9!}{4!(9-4)!} = \\dfrac{9!}{4! \\cdot 5!}",
+      "description_latex": "We write out the combination formula with $n = 9$ and $r = 4$ substituted in. Notice both $4!$ and $5!$ appear in the denominator \u2014 one cancels the repeated orderings within the chosen group, and the other cancels the unchosen items.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now simplify by canceling $5!$ from the numerator and denominator, then compute the remaining product in the numerator and divide by $4!$. What numerical value do you get for $C(9,4)$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $P(5,2)$.",
+      "answer_latex": "20"
+    },
+    {
+      "prompt_latex": "A photographer lines up 4 of her 7 sculptures in a row for a photo. How many different arrangements are possible?",
+      "answer_latex": "P(7,4) = 840"
+    },
+    {
+      "prompt_latex": "A student must choose 3 books to read from a list of 10. How many different sets of 3 books can be chosen?",
+      "answer_latex": "C(10,3) = 120"
+    },
+    {
+      "prompt_latex": "A password consists of 2 distinct letters followed by 3 distinct digits (chosen from 0\u20139). How many such passwords are possible? (There are 26 letters and 10 digits.)",
+      "answer_latex": "P(26,2) \\times P(10,3) = 650 \\times 720 = 468{,}000"
+    },
+    {
+      "prompt_latex": "A basketball coach chooses 5 starters from a roster of 12 players, then assigns them to 5 distinct positions. How many ways can this be done?",
+      "answer_latex": "P(12,5) = 95{,}040"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the permutation formula when the problem is asking for an unordered group (like a committee or a hand of cards). The fix: always ask 'Does swapping two selected items create a new outcome?' \u2014 if no, use $C(n,r)$, not $P(n,r)$.",
+    "Students confuse which quantity is $n$ and which is $r$, sometimes writing $C(3,10)$ instead of $C(10,3)$ when choosing 3 from 10. Since $r > n$ makes the formula undefined (you'd get a negative factorial), always check that $r \\leq n$ before plugging in.",
+    "When simplifying factorials, students compute the entire factorial value (e.g., computing all of $9!= 362880$) instead of canceling first. This leads to arithmetic errors with large numbers; the fix is to cancel the larger factorial in the denominator against the numerator before multiplying anything out."
+  ],
+  "untested_variants": [
+    "Combinations with repetition allowed (multiset coefficients), such as choosing ice cream scoops where you can repeat flavors.",
+    "Problems requiring students to subtract cases using the complement, for example 'how many 5-card hands contain at least one ace?' computed as total hands minus hands with no aces.",
+    "Circular permutations, where arrangements around a round table are counted and one position is fixed to avoid overcounting rotations.",
+    "Problems that combine combinations AND additions across cases, such as 'choose a committee of 4 that has exactly 2 men and 2 women from a group of 6 men and 5 women,' requiring separate $C(6,2)$ and $C(5,2)$ calculations multiplied together."
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "topic_id": "pc_065",
+  "topic_name": "Lines and Planes in Space (H)",
+  "generated_at": "2026-05-12T23:59:15.454021+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to write the equation of a line in 2D using a point and a slope, and you can describe a flat plane in everyday life. But in three-dimensional space, 'slope' stops making sense \u2014 a line can go in any direction through the $x$-, $y$-, and $z$-axes simultaneously, and infinitely many lines can pass through a single point in a plane. So how do we pin down exactly which line or plane we mean? What replaces slope when we move into 3D?",
+  "concept": "In 3D, a line is determined by a point it passes through and a direction vector telling us which way it travels. A plane is determined by a point it contains and a normal vector perpendicular to its entire surface. The parametric equations of a line through point $(x_0, y_0, z_0)$ with direction vector $\\langle a, b, c \\rangle$ are $x = x_0 + at,\\ y = y_0 + bt,\\ z = z_0 + ct$, and the equation of a plane with normal $\\langle a, b, c \\rangle$ through $(x_0, y_0, z_0)$ is $a(x - x_0) + b(y - y_0) + c(z - z_0) = 0$.",
+  "anatomy": "For a line in space, the key parts are: the point $(x_0, y_0, z_0)$ (an anchor in space), the direction vector $\\langle a, b, c \\rangle$ (which encodes how far you travel along each axis per unit of the parameter), and the parameter $t$ (a free real number that moves you along the line). For a plane, the key parts are: the point $(x_0, y_0, z_0)$ (one known location on the surface), the normal vector $\\langle a, b, c \\rangle$ (perpendicular to every vector lying in the plane), and the scalar equation $ax + by + cz = d$ where $d = ax_0 + by_0 + cz_0$ (the standard form after expanding and collecting constants).",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Find parametric equations for the line through } P(1, -2, 4) \\text{ and } Q(3, 0, 1).",
+      "description_latex": "We start by finding the direction vector of the line, which tells us how to travel from one point to the other. Subtracting the coordinates of $P$ from $Q$ gives $\\vec{d} = \\langle 3-1,\\ 0-(-2),\\ 1-4 \\rangle = \\langle 2, 2, -3 \\rangle$. This vector will be the 'engine' of our parametric equations.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 1 + 2t,\\quad y = -2 + 2t,\\quad z = 4 - 3t",
+      "description_latex": "Now we plug the anchor point $P(1, -2, 4)$ and direction vector $\\langle 2, 2, -3 \\rangle$ into the parametric line template $x = x_0 + at,\\ y = y_0 + bt,\\ z = z_0 + ct$. Notice that at $t = 0$ we are exactly at $P$, and at $t = 1$ the equations give us $(3, 0, 1)$, which is $Q$ \u2014 a great built-in check.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Verify: at } t = 1,\\quad x = 1+2(1)=3,\\quad y = -2+2(1)=0,\\quad z = 4-3(1)=1. \\checkmark",
+      "description_latex": "Substituting $t = 1$ recovers the point $Q(3,0,1)$, confirming the equations are correct. Performing this sanity check is a habit that catches sign errors before they compound in later work.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Find the equation of the plane through } (2, 1, -1) \\text{ with normal vector } \\langle 3, -1, 4 \\rangle.",
+      "description_latex": "We use the point-normal form of a plane: $a(x - x_0) + b(y - y_0) + c(z - z_0) = 0$, where $\\langle a,b,c\\rangle$ is the normal vector and $(x_0, y_0, z_0)$ is the given point. Let's substitute the known values directly into this template.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3(x - 2) + (-1)(y - 1) + 4(z - (-1)) = 0",
+      "description_latex": "Here we have plugged in $a=3,\\ b=-1,\\ c=4$ and the point $(2,1,-1)$. Notice how the sign on $z$ becomes $z+1$ because subtracting $-1$ adds it \u2014 this is one of the most common sign-error spots in this topic.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Expand all three terms and collect constants to write the equation in standard form $ax + by + cz = d$. What is the simplified scalar equation of this plane?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write parametric equations for the line through $(0, 0, 0)$ with direction vector $\\langle 1, 2, -1 \\rangle$.",
+      "answer_latex": "x = t,\\quad y = 2t,\\quad z = -t"
+    },
+    {
+      "prompt_latex": "Find parametric equations for the line through $A(4, -1, 2)$ and $B(1, 3, 2)$.",
+      "answer_latex": "x = 4 - 3t,\\quad y = -1 + 4t,\\quad z = 2"
+    },
+    {
+      "prompt_latex": "Find the scalar equation of the plane with normal vector $\\langle 2, -3, 5 \\rangle$ passing through $(1, 0, -2)$.",
+      "answer_latex": "2x - 3y + 5z = -8"
+    },
+    {
+      "prompt_latex": "Find the equation of the plane passing through the three points $P(1,0,0)$, $Q(0,2,0)$, and $R(0,0,3)$.",
+      "answer_latex": "6x + 3y + 2z = 6"
+    },
+    {
+      "prompt_latex": "A laser beam starts at position $(1, 2, 0)$ and travels in the direction of the vector from $(1,2,0)$ to $(4, 2, 6)$. Write parametric equations for the beam's path, then determine whether the beam passes through the point $(7, 2, 12)$.",
+      "answer_latex": "x = 1+3t,\\ y = 2,\\ z = 6t;\\quad \\text{yes, at } t=2"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use the two given points themselves as the direction vector instead of their difference, writing $\\langle x_1, y_1, z_1 \\rangle$ as the direction. The direction vector must be computed as $\\langle x_2 - x_1,\\ y_2 - y_1,\\ z_2 - z_1 \\rangle$.",
+    "When forming the plane equation from three points, students sometimes skip finding a normal vector and try to write the plane equation directly, producing an incorrect result. You must first compute two vectors lying in the plane and then take their cross product to obtain the required normal vector.",
+    "A frequent sign error occurs in the point-normal form: students write $a(x + x_0)$ instead of $a(x - x_0)$, especially when the given coordinate is negative (e.g., $z_0 = -1$ becomes $z - (-1) = z + 1$, not $z - 1$). Always double-check subtraction of negative coordinates before expanding."
+  ],
+  "untested_variants": [
+    "Finding the angle between two planes using the dot product of their normal vectors, or determining whether two planes are parallel or perpendicular.",
+    "Finding the line of intersection of two planes by solving the system formed by their scalar equations and writing the result in parametric form.",
+    "Computing the distance from a point to a plane using the formula $\\frac{|ax_0 + by_0 + cz_0 - d|}{\\sqrt{a^2+b^2+c^2}}$, or the distance from a point to a line in 3D using a cross-product formula.",
+    "Converting between parametric and symmetric (Cartesian) form of a line: $\\frac{x - x_0}{a} = \\frac{y - y_0}{b} = \\frac{z - z_0}{c}$, including the special case where one direction component is zero."
+  ]
+}

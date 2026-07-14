@@ -1,0 +1,81 @@
+{
+  "topic_id": "pt_002",
+  "topic_name": "Combinatorial Probability and Inclusion-Exclusion",
+  "generated_at": "2026-05-14T00:59:48.875167+00:00",
+  "course_name": "Probability Theory",
+  "hook": "You already know how to compute probabilities when events are simple and non-overlapping \u2014 just add them up. But what happens when two events share outcomes? For example, if you draw a single card from a standard 52-card deck, what is the probability it is a heart OR a face card? Simply adding the individual probabilities double-counts the cards that are both hearts and face cards, giving you a number that is too large. How do we correct for that overcounting in a principled way?",
+  "concept": "Combinatorial probability pairs counting techniques (permutations, combinations) with the classical probability formula $P(A) = |A|/|S|$, where $|S|$ is the size of the equally-likely sample space. The Inclusion-Exclusion Principle then handles overlapping events: for two events, $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$, and for three events, $P(A \\cup B \\cup C) = P(A) + P(B) + P(C) - P(A \\cap B) - P(A \\cap C) - P(B \\cap C) + P(A \\cap B \\cap C)$.",
+  "anatomy": "In the Inclusion-Exclusion formula $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$, the union $A \\cup B$ represents the event that at least one of $A$ or $B$ occurs, the individual terms $P(A)$ and $P(B)$ are the single-event probabilities that you add first, and the intersection term $P(A \\cap B)$ is the overlap probability that you subtract exactly once to undo the double-counting. For three or more events, the pattern alternates: add singles, subtract pairwise intersections, add triple intersections, and so on \u2014 this alternating sign structure is the core engine of inclusion-exclusion.",
+  "worked_example": [
+    {
+      "expression_latex": "P(\\text{heart or face card}) = \\frac{|\\text{heart}|}{52} + \\frac{|\\text{face}|}{52} - \\frac{|\\text{heart} \\cap \\text{face}|}{52}",
+      "description_latex": "We set up the Inclusion-Exclusion formula for two events. We write the probability as a sum of individual event probabilities minus the intersection, because every card that is both a heart AND a face card would otherwise be counted twice \u2014 once in each individual probability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|\\text{heart}| = 13, \\quad |\\text{face}| = 12, \\quad |\\text{heart} \\cap \\text{face}| = 3",
+      "description_latex": "We count each set carefully using combinatorial reasoning. There are 13 hearts in the deck, 12 face cards (Jack, Queen, King across 4 suits), and exactly 3 cards that are both hearts and face cards (Jack, Queen, King of hearts). Getting these counts right is the combinatorial heart of the problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{heart or face card}) = \\frac{13}{52} + \\frac{12}{52} - \\frac{3}{52} = \\frac{22}{52}",
+      "description_latex": "We substitute the counts into the formula and combine the fractions over the common denominator 52. Notice how subtracting $3/52$ corrects exactly for the three cards we counted twice, giving us an honest total.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{heart or face card}) = \\frac{22}{52} = \\frac{11}{26} \\approx 0.423",
+      "description_latex": "We reduce the fraction to lowest terms by dividing numerator and denominator by 2. This final answer is less than $13/52 + 12/52 = 25/52$, confirming that our subtraction of the overlap brought the probability down to a realistic value.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(A \\cup B \\cup C) = P(A) + P(B) + P(C) - P(A \\cap B) - P(A \\cap C) - P(B \\cap C) + P(A \\cap B \\cap C)",
+      "description_latex": "We are using three-event Inclusion-Exclusion. In a group of 30 students, 14 play soccer, 12 play basketball, 10 play tennis, 5 play both soccer and basketball, 4 play both soccer and tennis, 3 play both basketball and tennis, and 2 play all three sports. We want $P(\\text{plays at least one sport})$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|A \\cup B \\cup C| = 14 + 12 + 10 - 5 - 4 - 3 + 2 = 26",
+      "description_latex": "We apply the counting version of Inclusion-Exclusion to find the total number of students who play at least one sport, carefully adding the singles, subtracting the pairwise overlaps, and adding back the triple overlap.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now convert this count to a probability by dividing by the total number of students. What is $P(\\text{plays at least one sport})$? Simplify your fraction fully.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A fair die is rolled once. Let $A$ = \\{even\\} and $B$ = \\{greater than 4\\}. Find $P(A \\cup B)$.",
+      "answer_latex": "P(A \\cup B) = \\frac{3}{6} + \\frac{2}{6} - \\frac{1}{6} = \\frac{4}{6} = \\frac{2}{3}"
+    },
+    {
+      "prompt_latex": "A card is drawn at random from a standard 52-card deck. What is the probability it is a spade or an ace?",
+      "answer_latex": "P(\\text{spade or ace}) = \\frac{13}{52} + \\frac{4}{52} - \\frac{1}{52} = \\frac{16}{52} = \\frac{4}{13}"
+    },
+    {
+      "prompt_latex": "In a class of 40 students, 18 study French, 20 study Spanish, and 8 study both. What is the probability that a randomly chosen student studies French or Spanish?",
+      "answer_latex": "P(F \\cup S) = \\frac{18}{40} + \\frac{20}{40} - \\frac{8}{40} = \\frac{30}{40} = \\frac{3}{4}"
+    },
+    {
+      "prompt_latex": "Two cards are drawn without replacement from a standard 52-card deck. Using combinations, find the probability that both cards are kings.",
+      "answer_latex": "P(\\text{both kings}) = \\frac{\\binom{4}{2}}{\\binom{52}{2}} = \\frac{6}{1326} = \\frac{1}{221}"
+    },
+    {
+      "prompt_latex": "A survey of 100 people finds: 60 like coffee, 50 like tea, 40 like juice, 30 like both coffee and tea, 25 like both coffee and juice, 20 like both tea and juice, and 15 like all three. What is the probability that a randomly selected person likes at least one of the three drinks?",
+      "answer_latex": "P(\\text{at least one}) = \\frac{60+50+40-30-25-20+15}{100} = \\frac{90}{100} = \\frac{9}{10}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to subtract the intersection $P(A \\cap B)$ entirely, computing $P(A \\cup B) = P(A) + P(B)$ instead. This is only valid when $A$ and $B$ are mutually exclusive; if they share any outcomes the answer will be too large. Always ask yourself: can an outcome belong to both events?",
+    "When applying three-event Inclusion-Exclusion, students subtract all three pairwise intersections but then forget to add back $P(A \\cap B \\cap C)$. The triple intersection was subtracted three times and added back zero times, so it has been erased entirely from the count when it should appear exactly once \u2014 always add the triple overlap at the end.",
+    "Students confuse $P(A \\cap B)$ with $P(A) \\cdot P(B)$ and multiply the individual probabilities to get the intersection, even when the events are not independent. For combinatorial problems with a finite sample space, count the outcomes in $A \\cap B$ directly and divide by $|S|$ instead of multiplying marginal probabilities."
+  ],
+  "untested_variants": [
+    "Inclusion-Exclusion applied to four or more events, where the alternating-sign pattern extends beyond three levels and bookkeeping becomes substantially more complex.",
+    "Problems where the sample space is formed by ordered arrangements (permutations) rather than unordered selections, such as counting passwords or arrangements of letters with overlapping constraints.",
+    "Conditional probability combined with Inclusion-Exclusion, for example finding $P(A \\cup B \\mid C)$ where you must first restrict the sample space to $C$ before applying the inclusion-exclusion correction.",
+    "Inclusion-Exclusion used to count derangements or surjective functions, where the principle is applied repeatedly to subtract forbidden configurations rather than overlapping event probabilities."
+  ]
+}

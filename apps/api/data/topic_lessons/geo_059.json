@@ -1,0 +1,91 @@
+{
+  "topic_id": "geo_059",
+  "topic_name": "Law of Cosines (H)",
+  "generated_at": "2026-05-12T23:09:31.137634+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to use the Pythagorean theorem to find a missing side in a right triangle, and you can use the Law of Sines when you have an angle and its opposite side. But what happens when someone hands you a triangle with two known sides and the angle squeezed between them \u2014 no right angle, and the opposite side completely unknown? Neither tool in your current kit can crack this directly. Can you find the missing side?",
+  "concept": "The Law of Cosines is a generalization of the Pythagorean theorem that works for ANY triangle, not just right triangles. Given a triangle with sides $a$, $b$, $c$ and angles $A$, $B$, $C$ (where each angle is opposite the side sharing its letter), the law states $c^2 = a^2 + b^2 - 2ab\\cos C$, and it can be written with any side on the left by cycling the letters.",
+  "anatomy": "The Law of Cosines $c^2 = a^2 + b^2 - 2ab\\cos C$ has four distinct components. The term $c^2$ is the square of the side you want to find (or the side opposite the known angle). The terms $a^2 + b^2$ are the squares of the two sides that form the known angle \u2014 these look just like the Pythagorean theorem. The correction term $2ab\\cos C$ adjusts for the fact that the triangle is not a right triangle: $2ab$ is twice the product of those two sides, and $\\cos C$ is the cosine of the included angle $C$ between sides $a$ and $b$. When $C = 90\u00b0$, $\\cos C = 0$ and the correction term vanishes, recovering the Pythagorean theorem exactly.",
+  "worked_example": [
+    {
+      "expression_latex": "a = 7, \\quad b = 10, \\quad C = 58\u00b0, \\quad \\text{find } c",
+      "description_latex": "We are given two sides $a = 7$ and $b = 10$ and the included angle $C = 58\u00b0$ between them, and we want the side $c$ opposite that angle. This is a classic SAS (Side-Angle-Side) setup, which is exactly when the Law of Cosines applies.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c^2 = a^2 + b^2 - 2ab\\cos C",
+      "description_latex": "We write down the Law of Cosines formula with $c$ on the left because $c$ is the side opposite the known angle $C$. Every letter in the formula must stay consistent: $a$ and $b$ are the two sides forming angle $C$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c^2 = 7^2 + 10^2 - 2(7)(10)\\cos 58\u00b0",
+      "description_latex": "Now we substitute our known values directly into the formula. Notice we have not yet evaluated anything \u2014 substituting carefully before computing reduces errors, especially with the cosine term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c^2 = 49 + 100 - 140(0.5299) \\approx 149 - 74.19 = 74.81",
+      "description_latex": "We evaluate each piece: $7^2 = 49$, $10^2 = 100$, and $\\cos 58\u00b0 \\approx 0.5299$, giving $2(7)(10)(0.5299) \\approx 74.19$. Subtracting gives $c^2 \\approx 74.81$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c = \\sqrt{74.81} \\approx 8.65",
+      "description_latex": "Finally, we take the positive square root (side lengths are always positive) to get $c \\approx 8.65$. It is a good sanity check that this value falls between the two given sides, which makes sense given that $58\u00b0$ is an acute angle less than $90\u00b0$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "a = 5, \\quad b = 8, \\quad C = 110\u00b0, \\quad \\text{find } c",
+      "description_latex": "We have two sides and the included angle, so the Law of Cosines applies. Notice that $C = 110\u00b0$ is obtuse, which means $\\cos C$ will be negative and the correction term will add rather than subtract \u2014 keep that sign in mind.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c^2 = 5^2 + 8^2 - 2(5)(8)\\cos 110\u00b0",
+      "description_latex": "Here is the formula with all values substituted in. The next key step is to evaluate $\\cos 110\u00b0$ and simplify the arithmetic to find $c^2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Evaluate the right-hand side completely: compute $5^2 + 8^2$, then find $2(5)(8)\\cos 110\u00b0$ using $\\cos 110\u00b0 \\approx -0.3420$, and combine to find the numerical value of $c^2$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now take the square root of your value for $c^2$ to state the final answer for $c$, rounded to two decimal places.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "In triangle $ABC$, $a = 6$, $b = 6$, and $C = 60\u00b0$. Find $c$.",
+      "answer_latex": "c = 6"
+    },
+    {
+      "prompt_latex": "Find the missing side $c$ given $a = 9$, $b = 12$, and $C = 45\u00b0$.",
+      "answer_latex": "c \\approx 8.49"
+    },
+    {
+      "prompt_latex": "A triangle has sides $a = 4$, $b = 7$, and included angle $C = 130\u00b0$. Find $c$.",
+      "answer_latex": "c \\approx 10.20"
+    },
+    {
+      "prompt_latex": "In triangle $ABC$, all three sides are known: $a = 8$, $b = 11$, $c = 14$. Find angle $C$ opposite side $c$.",
+      "answer_latex": "C \\approx 93.0\u00b0"
+    },
+    {
+      "prompt_latex": "Two boats leave a dock at the same time. Boat A travels 15 miles on a bearing, and Boat B travels 20 miles on a bearing that is $72\u00b0$ away from Boat A's path. How far apart are the two boats?",
+      "answer_latex": "d \\approx 20.3 \\text{ miles}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to subtract the correction term and instead write $c^2 = a^2 + b^2 + 2ab\\cos C$, adding when they should subtract; remember the formula always has a minus sign before $2ab\\cos C$, and the sign flip for obtuse angles comes automatically from $\\cos C$ being negative.",
+    "When solving for an angle (the inverse use), students divide both sides of $a^2 = b^2 + c^2 - 2bc\\cos A$ incorrectly, forgetting to isolate $\\cos A$ first before applying $\\cos^{-1}$; rearrange to $\\cos A = \\frac{b^2 + c^2 - a^2}{2bc}$ before using any inverse trig.",
+    "Students match the wrong side to the given angle \u2014 for example, using the formula $c^2 = a^2 + b^2 - 2ab\\cos C$ but plugging in an angle that is not between sides $a$ and $b$; always verify that the angle substituted into $\\cos C$ is the one sandwiched between the two sides $a$ and $b$."
+  ],
+  "untested_variants": [
+    "Finding a missing angle when all three sides are given (SSS case), requiring the rearranged form $\\cos C = \\frac{a^2 + b^2 - c^2}{2ab}$ and then applying $\\cos^{-1}$.",
+    "Applying the Law of Cosines twice in a single problem \u2014 for example, first finding the missing side and then using the result to find one of the remaining angles.",
+    "Problems where the student must decide whether the Law of Sines or the Law of Cosines is the appropriate tool, given mixed information (e.g., AAS or ASA vs. SAS or SSS).",
+    "Using the Law of Cosines in a coordinate geometry context, such as verifying the distance between two points or finding the angle between two vectors expressed in component form."
+  ]
+}

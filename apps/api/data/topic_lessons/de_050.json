@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_050",
+  "topic_name": "The Heat Equation and Separation of Variables (H)",
+  "generated_at": "2026-05-13T20:04:29.779402+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve ordinary differential equations by finding functions that satisfy a single-variable relationship. But what happens when temperature in a metal rod depends on both position $x$ and time $t$ simultaneously? The heat equation $u_t = k u_{xx}$ is a partial differential equation \u2014 it involves partial derivatives with respect to two independent variables \u2014 and none of your ODE techniques apply directly. So how do we even begin to solve it?",
+  "concept": "Separation of variables is a technique that transforms one hard PDE into two simpler ODEs by assuming the solution has a very special form: a product of a function of $x$ alone and a function of $t$ alone. Formally, we assume $u(x,t) = X(x)T(t)$, substitute into the PDE, and then algebraically separate all $x$-dependence from all $t$-dependence, forcing each side to equal the same constant (called the separation constant $-\\lambda$), yielding the system $X'' + \\lambda X = 0$ and $T' + k\\lambda T = 0$.",
+  "anatomy": "The heat equation $u_t = k u_{xx}$ has three structural parts: the thermal diffusivity constant $k > 0$ (a physical parameter of the material), the time derivative $u_t = \\frac{\\partial u}{\\partial t}$ (how temperature changes in time), and the second spatial derivative $u_{xx} = \\frac{\\partial^2 u}{ \\partial x^2}$ (the curvature of the temperature profile in space). After separation, the separation constant $\\lambda$ plays a central role: its sign determines the qualitative behavior of the spatial ODE, and only $\\lambda > 0$ (specifically $\\lambda = \\left(\\frac{n\\pi}{L}\\right)^2$) yields the oscillatory eigenfunctions $X_n(x) = \\sin\\!\\left(\\frac{n\\pi x}{L}\\right)$ that satisfy homogeneous boundary conditions.",
+  "worked_example": [
+    {
+      "expression_latex": "u_t = k\\, u_{xx}, \\quad 0 < x < L,\\; t > 0, \\quad u(0,t)=0,\\; u(L,t)=0",
+      "description_latex": "We start with the standard heat equation on a rod of length $L$ with both ends held at zero temperature. The boundary conditions $u(0,t)=0$ and $u(L,t)=0$ are called homogeneous Dirichlet conditions, and they are what will force $\\lambda$ to take only discrete values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u(x,t) = X(x)T(t) \\implies X(x)T'(t) = k\\,X''(x)T(t) \\implies \\frac{T'}{kT} = \\frac{X''}{X} = -\\lambda",
+      "description_latex": "We substitute the product assumption $u = X(x)T(t)$ into the PDE and divide both sides by $kX(x)T(t)$. Because the left side depends only on $t$ and the right side depends only on $x$, they can only be equal if both equal the same constant, which we call $-\\lambda$. The negative sign is a convention that anticipates the physically meaningful case where $\\lambda > 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "X'' + \\lambda X = 0, \\quad X(0)=0,\\; X(L)=0 \\implies \\lambda_n = \\left(\\frac{n\\pi}{L}\\right)^2,\\; X_n(x)=\\sin\\!\\left(\\frac{n\\pi x}{L}\\right), \\quad n=1,2,3,\\ldots",
+      "description_latex": "The spatial ODE with boundary conditions is an eigenvalue problem. When $\\lambda > 0$, the general solution is $X(x) = A\\cos(\\sqrt{\\lambda}\\,x)+B\\sin(\\sqrt{\\lambda}\\,x)$; applying $X(0)=0$ forces $A=0$, and applying $X(L)=0$ forces $\\sqrt{\\lambda}\\,L = n\\pi$, giving the discrete eigenvalues $\\lambda_n$ and corresponding eigenfunctions $X_n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T' + k\\lambda_n T = 0 \\implies T_n(t) = e^{-k(n\\pi/L)^2 t}",
+      "description_latex": "For each eigenvalue $\\lambda_n$, the time ODE is a first-order linear ODE whose solution decays exponentially in time. Notice that larger $n$ (higher frequency modes) decay much faster, which matches the physical intuition that fine-scale temperature variations smooth out quickly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u(x,t) = \\sum_{n=1}^{\\infty} B_n \\sin\\!\\left(\\frac{n\\pi x}{L}\\right) e^{-k(n\\pi/L)^2 t}, \\quad B_n = \\frac{2}{L}\\int_0^L f(x)\\sin\\!\\left(\\frac{n\\pi x}{L}\\right)dx",
+      "description_latex": "By the superposition principle, the general solution is an infinite series of all product solutions, and the coefficients $B_n$ are determined by matching the initial condition $u(x,0)=f(x)$, which reduces to computing a Fourier sine series. This final formula is the complete solution to the heat equation on $[0,L]$ with homogeneous Dirichlet conditions.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "u_t = 3\\,u_{xx},\\quad 0<x<\\pi,\\quad u(0,t)=0,\\; u(\\pi,t)=0,\\quad u(x,0)=\\sin(2x)",
+      "description_latex": "Here $k=3$ and $L=\\pi$. We assume $u(x,t)=X(x)T(t)$ and separate variables to get $\\frac{T'}{3T}=\\frac{X''}{X}=-\\lambda$, leading to the spatial eigenvalue problem with the same boundary conditions as before.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_n = n^2,\\; X_n(x)=\\sin(nx),\\; T_n(t)=e^{-3n^2 t}",
+      "description_latex": "With $L=\\pi$ the eigenvalues simplify to $\\lambda_n = n^2$ and the eigenfunctions are $\\sin(nx)$. The general solution is $u(x,t)=\\sum_{n=1}^\\infty B_n \\sin(nx)e^{-3n^2 t}$. Now apply the initial condition $u(x,0)=\\sin(2x)$ \u2014 which initial condition value of $n$ does this match, and what does that tell you about every $B_n$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "u(x,t) = \\sin(2x)\\,e^{-12t}",
+      "description_latex": "Because the initial condition is exactly one eigenfunction $\\sin(2x)$, we can read off $B_2=1$ and all other $B_n=0$ directly, giving the clean closed-form solution above. Notice the decay rate in the exponent is $3 \\cdot 2^2 = 12$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write down the two ODEs obtained by separating variables in $u_t = 5\\,u_{xx}$ using the substitution $u=X(x)T(t)$.",
+      "answer_latex": "X'' + \\lambda X = 0 \\text{ and } T' + 5\\lambda T = 0"
+    },
+    {
+      "prompt_latex": "Find the eigenvalues and eigenfunctions for the spatial problem $X''+\\lambda X=0$, $X(0)=0$, $X(2)=0$.",
+      "answer_latex": "\\lambda_n = \\left(\\frac{n\\pi}{2}\\right)^2,\\; X_n(x)=\\sin\\!\\left(\\frac{n\\pi x}{2}\\right),\\quad n=1,2,3,\\ldots"
+    },
+    {
+      "prompt_latex": "Solve the heat equation $u_t = u_{xx}$ on $0<x<\\pi$ with $u(0,t)=0$, $u(\\pi,t)=0$, and $u(x,0)=3\\sin(x)-\\sin(3x)$.",
+      "answer_latex": "u(x,t)=3\\sin(x)e^{-t}-\\sin(3x)e^{-9t}"
+    },
+    {
+      "prompt_latex": "For the heat equation $u_t = 2\\,u_{xx}$ on $0<x<1$ with $u(0,t)=0$, $u(1,t)=0$, and initial condition $u(x,0)=x(1-x)$, write a formula for the coefficients $B_n$ and evaluate $B_1$.",
+      "answer_latex": "B_n = 2\\int_0^1 x(1-x)\\sin(n\\pi x)\\,dx = \\frac{4}{n^3\\pi^3}(1-(-1)^n),\\text{ so } B_1 = \\frac{8}{\\pi^3}"
+    },
+    {
+      "prompt_latex": "A thin insulated rod of length $\\pi$ has thermal diffusivity $k=4$. Its ends are kept at $0^\\circ$C and its initial temperature profile is $u(x,0)=\\sin(x)+\\frac{1}{2}\\sin(4x)$. Find $u(x,t)$ and determine the time $t^*$ at which the amplitude of the $n=4$ mode has decayed to $1\\%$ of its initial value.",
+      "answer_latex": "u(x,t)=\\sin(x)e^{-4t}+\\tfrac{1}{2}\\sin(4x)e^{-64t};\\quad t^*=\\frac{\\ln 200}{64}\\approx 0.082"
+    }
+  ],
+  "common_mistakes": [
+    "Students choose $+\\lambda$ instead of $-\\lambda$ as the separation constant, leading to $X'' - \\lambda X = 0$ whose solutions are exponentials rather than sinusoids, and these cannot satisfy the homogeneous Dirichlet boundary conditions at both ends \u2014 always choose the sign so the spatial ODE has oscillatory solutions consistent with your boundary conditions.",
+    "When applying $X(L)=0$ after $X(0)=0$ has forced $A=0$, students write $B\\sin(\\sqrt{\\lambda}\\,L)=0$ and then cancel $B$, concluding $\\sqrt{\\lambda}\\,L=0$ and finding no non-trivial solution \u2014 you must instead set $\\sin(\\sqrt{\\lambda}\\,L)=0$, giving $\\sqrt{\\lambda}\\,L=n\\pi$ for $n=1,2,\\ldots$, because $B=0$ would give only the trivial (zero) solution.",
+    "Students write the exponent in $T_n(t)$ as $e^{-k\\lambda t}$ but then substitute $\\lambda = n\\pi/L$ instead of $\\lambda_n = (n\\pi/L)^2$, getting the wrong decay rate \u2014 remember the eigenvalue $\\lambda_n$ is the square of $n\\pi/L$, so the correct factor is $e^{-k(n\\pi/L)^2 t}$."
+  ],
+  "untested_variants": [
+    "Heat equation with Neumann boundary conditions ($u_x(0,t)=0$, $u_x(L,t)=0$), which produces cosine eigenfunctions and includes a constant $n=0$ mode representing the long-term average temperature.",
+    "Heat equation with a non-homogeneous boundary condition such as $u(0,t)=0$, $u(L,t)=T_0\\neq 0$, requiring a steady-state subtraction before separation of variables can be applied.",
+    "Two-dimensional heat equation $u_t = k(u_{xx}+u_{yy})$ on a rectangle, where separation of variables is applied twice to produce a double Fourier sine series.",
+    "Heat equation with a source term $u_t = k\\,u_{xx} + Q(x,t)$, where the method of eigenfunction expansion (not pure separation of variables) is required."
+  ]
+}

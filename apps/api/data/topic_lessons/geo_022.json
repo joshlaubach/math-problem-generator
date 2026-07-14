@@ -1,0 +1,76 @@
+{
+  "topic_id": "geo_022",
+  "topic_name": "Reflections",
+  "generated_at": "2026-05-12T22:59:10.208700+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to slide and rotate shapes on a coordinate plane, and you've probably noticed that a mirror flips everything left-to-right. Now imagine placing a shape next to a mirror line and asking: where exactly does each point land on the other side? You can eyeball simple cases, but what if the mirror line is $y = x$, or $y = -x + 3$, or even a diagonal you've never seen before? How do you find the exact coordinates of a reflected image without guessing?",
+  "concept": "A reflection is a transformation that flips every point of a figure over a fixed line called the line of reflection, producing a mirror image on the opposite side. Formally, for a point $P$ and a line of reflection $\\ell$, the image $P'$ is defined so that $\\ell$ is the perpendicular bisector of segment $\\overline{PP'}$. This means $P'$ is the same distance from $\\ell$ as $P$, but on the opposite side, and the segment connecting them meets $\\ell$ at a right angle.",
+  "anatomy": "Every reflection has three key components. First, the pre-image \u2014 the original point or figure, labeled with coordinates such as $(x, y)$. Second, the line of reflection $\\ell$ \u2014 the mirror line that governs the flip; common cases are the $x$-axis ($y = 0$), the $y$-axis ($x = 0$), the line $y = x$, and the line $y = -x$. Third, the image \u2014 the reflected point or figure, whose coordinates are labeled with a prime symbol, such as $A'$, and which is always the same distance from $\\ell$ as the pre-image, measured perpendicularly.",
+  "worked_example": [
+    {
+      "expression_latex": "A = (3, -2), \\text{ reflect over the } x\\text{-axis}",
+      "description_latex": "We start by identifying the line of reflection, which is the $x$-axis, meaning $y = 0$. Reflecting over the $x$-axis keeps the $x$-coordinate unchanged and negates the $y$-coordinate, because the horizontal distance to the axis stays the same while the point flips vertically to the other side.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A' = (3, -(-2)) = (3, 2)",
+      "description_latex": "Applying the rule $(x, y) \\to (x, -y)$, we replace $y = -2$ with $-(-2) = 2$ and keep $x = 3$ fixed. The image $A' = (3, 2)$ is the same horizontal distance from the $y$-axis as $A$, but it is now 2 units above the $x$-axis instead of 2 units below it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\overline{AA'}: \\text{ midpoint} = \\left(3, \\frac{-2+2}{2}\\right) = (3, 0)",
+      "description_latex": "As a check, we verify that the line of reflection is indeed the perpendicular bisector of $\\overline{AA'}$. The midpoint of $\\overline{AA'}$ is $(3, 0)$, which lies on the $x$-axis, and the segment $\\overline{AA'}$ is vertical, which is perpendicular to the horizontal $x$-axis \u2014 confirming our reflection is correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = (-1, 4), \\text{ reflect over the line } y = x",
+      "description_latex": "The line of reflection is $y = x$, a diagonal line through the origin. The rule for reflecting any point over $y = x$ is to swap the $x$- and $y$-coordinates: $(x, y) \\to (y, x)$. We start by identifying the coordinates of $B$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B' = (\\square,\\ \\square)",
+      "description_latex": "Apply the reflection rule $(x, y) \\to (y, x)$ to the point $B = (-1, 4)$ by swapping the two coordinates. What are the coordinates of the image $B'$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Midpoint of } \\overline{BB'} = \\left(\\frac{-1+4}{2}, \\frac{4+(-1)}{2}\\right) = \\left(\\frac{3}{2}, \\frac{3}{2}\\right)",
+      "description_latex": "We verify the answer by confirming that the midpoint of $\\overline{BB'}$ lies on the line $y = x$. Since the midpoint is $\\left(\\tfrac{3}{2}, \\tfrac{3}{2}\\right)$ and both coordinates are equal, the midpoint satisfies $y = x$, so the reflection is correct.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Reflect the point $P = (5, 3)$ over the $x$-axis. State the coordinates of $P'$.",
+      "answer_latex": "P' = (5, -3)"
+    },
+    {
+      "prompt_latex": "Reflect the point $Q = (-4, 7)$ over the $y$-axis. State the coordinates of $Q'$.",
+      "answer_latex": "Q' = (4, 7)"
+    },
+    {
+      "prompt_latex": "Reflect the point $R = (2, -5)$ over the line $y = x$. State the coordinates of $R'$.",
+      "answer_latex": "R' = (-5, 2)"
+    },
+    {
+      "prompt_latex": "Triangle $ABC$ has vertices $A = (1, 2)$, $B = (4, 2)$, $C = (1, 5)$. Reflect the triangle over the $y$-axis, then reflect the image over the $x$-axis. State the final coordinates of $A''$, $B''$, and $C''$.",
+      "answer_latex": "A'' = (-1, -2),\\ B'' = (-4, -2),\\ C'' = (-1, -5)"
+    },
+    {
+      "prompt_latex": "A graphic designer places a logo at point $L = (3, 1)$ on a grid. She needs to create a mirrored copy across the line $y = -x$. Using the reflection rule $(x, y) \\to (-y, -x)$, find the coordinates of the mirrored point $L'$.",
+      "answer_latex": "L' = (-1, -3)"
+    }
+  ],
+  "common_mistakes": [
+    "Students often negate both coordinates when reflecting over the $x$-axis, writing $(x, y) \\to (-x, -y)$ instead of the correct $(x, y) \\to (x, -y)$. Only the $y$-coordinate changes sign because you are flipping vertically, not rotating \u2014 keep the $x$-coordinate exactly as it is.",
+    "When reflecting over $y = x$, students sometimes negate the coordinates instead of swapping them, writing $(x, y) \\to (-x, -y)$ or $(x, y) \\to (-y, -x)$. The correct rule is a pure swap: $(x, y) \\to (y, x)$ \u2014 no sign changes at all.",
+    "Students confuse the reflection rules for $y = x$ and $y = -x$, applying the wrong one. For $y = x$ the rule is $(x, y) \\to (y, x)$ (swap, no negation), while for $y = -x$ the rule is $(x, y) \\to (-y, -x)$ (swap AND negate both). Writing both rules side-by-side and noticing the sign difference helps prevent this mix-up."
+  ],
+  "untested_variants": [
+    "Reflecting a point or figure over a horizontal line other than the $x$-axis, such as $y = 3$ or $y = -2$, which requires computing the perpendicular distance to that specific line rather than using a memorized coordinate rule.",
+    "Reflecting a point or figure over a vertical line other than the $y$-axis, such as $x = 4$ or $x = -1$, where students must measure horizontal distance to the given vertical line.",
+    "Reflecting a point over an oblique (non-45\u00b0) line such as $y = 2x + 1$, which requires finding the perpendicular from the point to the line and using the midpoint formula rather than a simple coordinate swap.",
+    "Identifying the line of reflection given only the pre-image and image coordinates, essentially reversing the process to find $\\ell$ as the perpendicular bisector of $\\overline{PP'}$."
+  ]
+}

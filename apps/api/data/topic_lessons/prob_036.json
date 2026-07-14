@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_036",
+  "topic_name": "Simulation and the Law of Large Numbers",
+  "generated_at": "2026-05-13T20:28:17.347644+00:00",
+  "course_name": "Probability",
+  "hook": "You already know that a fair coin has a 50% chance of landing heads on any single flip. But if you flip it 10 times and get 7 heads, does that mean the coin is unfair? You've probably heard the phrase 'in the long run' used to wave away short-run surprises, but what does 'the long run' actually mean mathematically? How can we turn that intuition into a precise, provable statement?",
+  "concept": "The Law of Large Numbers says that as you repeat an experiment more and more times, the sample average gets closer and closer to the true expected value. Formally, if $X_1, X_2, \\ldots, X_n$ are independent and identically distributed random variables with mean $\\mu$, then the sample mean $\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i$ converges to $\\mu$ as $n \\to \\infty$. Simulation lets us watch this convergence happen in practice.",
+  "anatomy": "The Law of Large Numbers has four key components worth naming. The sample mean $\\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i$ is the running average after $n$ trials \u2014 this is what converges. The population mean $\\mu = E[X]$ is the true theoretical expected value \u2014 this is the target. The number of trials $n$ is the 'sample size' that you drive toward infinity. Finally, the i.i.d. assumption (independent and identically distributed) is the structural requirement: each trial must be a fresh, unbiased draw from the same distribution.",
+  "worked_example": [
+    {
+      "expression_latex": "X_i \\sim \\text{Bernoulli}(0.5), \\quad \\mu = E[X_i] = 0.5",
+      "description_latex": "We start by identifying the distribution and its theoretical mean. Each coin flip is modeled as a Bernoulli random variable taking value 1 (heads) with probability 0.5, so the expected value \u2014 the long-run proportion of heads we expect \u2014 is exactly $\\mu = 0.5$. This is the target that the Law of Large Numbers guarantees we will approach.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{X}_n = \\frac{\\text{number of heads in } n \\text{ flips}}{n}",
+      "description_latex": "The sample mean here is simply the observed proportion of heads after $n$ flips. We compute this running average at each step: after 1 flip, after 2 flips, and so on, watching how the proportion behaves over time. This quantity is random \u2014 it fluctuates \u2014 but the LLN tells us its fluctuations die out.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n=10: \\bar{X}_{10} = \\frac{7}{10} = 0.70 \\quad (\\text{error: } |0.70 - 0.50| = 0.20)",
+      "description_latex": "After just 10 flips, the sample proportion can deviate substantially from 0.5 \u2014 here by 20 percentage points. This is completely normal and does NOT indicate a biased coin; small samples have high variability. The LLN does not say the average will be close to $\\mu$ after a handful of trials, only that the deviation shrinks as $n$ grows.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "n=1000: \\bar{X}_{1000} = \\frac{513}{1000} = 0.513 \\quad (\\text{error: } |0.513 - 0.50| = 0.013)",
+      "description_latex": "At 1000 flips the deviation has shrunk to about 1.3 percentage points. Notice that we cannot predict exactly what $\\bar{X}_{1000}$ will be \u2014 it is still random \u2014 but we can be confident it will be close to 0.5. The LLN guarantees that for any tolerance $\\varepsilon > 0$, the probability $P(|\\bar{X}_n - \\mu| > \\varepsilon)$ approaches 0 as $n \\to \\infty$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(|\\bar{X}_n - \\mu| > \\varepsilon) \\leq \\frac{\\text{Var}(X)}{n \\varepsilon^2} \\xrightarrow{n \\to \\infty} 0",
+      "description_latex": "This is the Chebyshev-based proof of the Weak Law of Large Numbers: we bound the probability that the sample mean strays more than $\\varepsilon$ from $\\mu$ by $\\frac{\\text{Var}(X)}{n\\varepsilon^2}$, which goes to zero as $n$ grows for any fixed $\\varepsilon > 0$. This tells us precisely why simulation works \u2014 running more trials forces the sample mean arbitrarily close to the truth.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_i \\sim \\text{Uniform}\\{1,2,3,4,5,6\\}, \\quad \\mu = E[X_i] = \\frac{1+2+3+4+5+6}{6} = 3.5",
+      "description_latex": "We are simulating rolls of a fair six-sided die. The first step is to identify the theoretical mean, which is $\\mu = 3.5$. This is the value that our running average must converge to according to the Law of Large Numbers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{X}_n = \\frac{1}{n} \\sum_{i=1}^n X_i",
+      "description_latex": "Write the formula for the sample mean after $n$ rolls, then compute $\\bar{X}_{50}$ given that the sum of 50 simulated rolls is 162. What is $\\bar{X}_{50}$, and what is the absolute error $|\\bar{X}_{50} - \\mu|$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(|\\bar{X}_n - 3.5| > 0.1) \\leq \\frac{\\text{Var}(X)}{n \\cdot (0.1)^2}",
+      "description_latex": "Now we use the Chebyshev bound to find how large $n$ must be so that $P(|\\bar{X}_n - 3.5| > 0.1) \\leq 0.05$. The variance of a fair die roll is $\\text{Var}(X) = \\frac{35}{12} \\approx 2.917$. Using the inequality above, solve for the minimum $n$ that guarantees this bound \u2014 set $\\frac{2.917}{n \\cdot 0.01} \\leq 0.05$ and solve for $n$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "n \\geq \\frac{2.917}{0.05 \\times 0.01} = \\frac{2.917}{0.0005} = 5834",
+      "description_latex": "We conclude that at least $n = 5834$ rolls are needed to guarantee \u2014 via the Chebyshev bound \u2014 that the sample mean is within 0.1 of 3.5 with probability at least 95%. Notice that this is a conservative (worst-case) bound; in simulation the true probability is usually much better.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A fair coin is flipped $n = 400$ times and lands heads 210 times. Compute the sample proportion $\\bar{X}_{400}$ and the absolute error $|\\bar{X}_{400} - 0.5|$.",
+      "answer_latex": "\\bar{X}_{400} = \\frac{210}{400} = 0.525, \\quad |0.525 - 0.5| = 0.025"
+    },
+    {
+      "prompt_latex": "Let $X_i$ be the outcome of rolling a fair die, so $\\mu = 3.5$ and $\\text{Var}(X) = \\frac{35}{12}$. Use the Chebyshev bound to find the minimum $n$ such that $P(|\\bar{X}_n - 3.5| > 0.5) \\leq 0.02$.",
+      "answer_latex": "\\frac{35/12}{n \\cdot (0.5)^2} \\leq 0.02 \\implies n \\geq \\frac{35/12}{0.005} = \\frac{35}{0.06} \\approx 583.3, \\text{ so } n \\geq 584"
+    },
+    {
+      "prompt_latex": "Suppose you simulate $n$ independent draws from a distribution with mean $\\mu = 4$ and variance $\\sigma^2 = 9$. Using the Chebyshev inequality, what is the upper bound on $P(|\\bar{X}_n - 4| > 1)$ when $n = 36$?",
+      "answer_latex": "P(|\\bar{X}_{36} - 4| > 1) \\leq \\frac{9}{36 \\cdot 1^2} = \\frac{9}{36} = 0.25"
+    },
+    {
+      "prompt_latex": "Recall that for i.i.d. random variables, $\\text{Var}(\\bar{X}_n) = \\frac{\\sigma^2}{n}$. A simulation uses $n = 100$ draws from a distribution with $\\sigma^2 = 25$. Find the standard deviation of $\\bar{X}_{100}$ (the standard error), then use the fact that $P(|\\bar{X}_n - \\mu| > 2\\sigma_{\\bar{X}}) \\leq 0.25$ (by Chebyshev with $k=2$) to write a specific numerical probability bound.",
+      "answer_latex": "\\sigma_{\\bar{X}_{100}} = \\sqrt{25/100} = 0.5, \\quad P(|\\bar{X}_{100} - \\mu| > 1) \\leq 0.25"
+    },
+    {
+      "prompt_latex": "A casino claims its roulette wheel is fair, giving an expected payout of $\\mu = -\\$0.053$ per $\\$1$ bet. A gambler records 500 bets and finds an average payout of $-\\$0.10$. The variance of a single bet's payout is approximately $\\sigma^2 = 0.997$. Using the Chebyshev bound, find $P(|\\bar{X}_{500} - (-0.053)| \\geq 0.047)$ and interpret what the result says about whether the wheel is likely rigged.",
+      "answer_latex": "P(|\\bar{X}_{500} + 0.053| \\geq 0.047) \\leq \\frac{0.997}{500 \\cdot (0.047)^2} \\approx \\frac{0.997}{1.1045} \\approx 0.903. \\text{ The bound is close to 1, so this deviation is not statistically unusual \u2014 the wheel need not be rigged.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often interpret a short-run deviation from $\\mu$ as evidence that the LLN is failing or that the process is biased. In reality the LLN is a statement about the limit as $n \\to \\infty$, and large fluctuations are completely expected for small $n$ \u2014 the fix is to remember that the LLN says nothing about any finite $n$.",
+    "Students sometimes confuse convergence of the sample mean $\\bar{X}_n \\to \\mu$ with convergence of individual observations $X_n \\to \\mu$. Individual draws keep fluctuating with the same distribution forever; it is only the average that stabilizes \u2014 keep these two objects clearly separate in your reasoning.",
+    "When applying the Chebyshev bound $P(|\\bar{X}_n - \\mu| > \\varepsilon) \\leq \\frac{\\text{Var}(X)}{n\\varepsilon^2}$, students frequently substitute the variance of $\\bar{X}_n$ (which is $\\sigma^2/n$) rather than the variance of a single $X_i$ (which is $\\sigma^2$), double-counting the $n$ in the denominator and getting a bound that is $n$ times too small \u2014 always use $\\text{Var}(X_i)$ in the numerator."
+  ],
+  "untested_variants": [
+    "The Strong Law of Large Numbers (almost sure convergence), which requires measure-theoretic arguments and is distinct from the Weak Law covered here.",
+    "Using simulation to estimate probabilities of events (Monte Carlo probability estimation), as opposed to estimating expected values of random variables.",
+    "The rate of convergence quantified via the Central Limit Theorem \u2014 specifically, that $\\sqrt{n}(\\bar{X}_n - \\mu) \\xrightarrow{d} N(0, \\sigma^2)$ \u2014 which gives a much tighter probabilistic statement than Chebyshev.",
+    "Applications of the LLN to insurance and the law of averages in actuarial contexts, including how pooling independent risks drives per-policy variability to zero."
+  ]
+}

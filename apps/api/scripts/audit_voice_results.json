@@ -1,0 +1,387 @@
+[
+  {
+    "id": "i1",
+    "input": "$\\int_a^b f(x)\\,dx$",
+    "expected": "the integral from a to b of f of x, d x",
+    "llm_output": "the integral from a to b of f of x, d x",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "i2",
+    "input": "$\\int_0^\\infty e^{-x}\\,dx$",
+    "expected": "the integral from 0 to infinity of e to the negative x, d x",
+    "llm_output": "the integral from 0 to infinity of e to the negative x, d x",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "i3",
+    "input": "$\\int f(x)\\,dx$",
+    "expected": "the integral of f of x, d x",
+    "llm_output": "the integral of f of x, d x",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "i4",
+    "input": "$\\iint_D f(x,y)\\,dA$",
+    "expected": "the double integral over D of f of x y, d A",
+    "llm_output": "the double integral over D of f of x, y, d A",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "i5",
+    "input": "$\\iiint_V f\\,dV$",
+    "expected": "the triple integral over V of f, d V",
+    "llm_output": "the triple integral over V of f, d V",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "i6",
+    "input": "$\\oint_C \\vec{F}\\cdot d\\vec{r}$",
+    "expected": "the line integral of F around C",
+    "llm_output": "The line integral around C of F dot d r",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "i7",
+    "input": "$\\int_0^1 \\int_0^1 xy\\,dx\\,dy$",
+    "expected": "the integral from 0 to 1, the integral from 0 to 1, of x y, d x d y",
+    "llm_output": "the integral from 0 to 1 of, the integral from 0 to 1 of x y, d x, d y",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "i8",
+    "input": "$\\int_0^{2\\pi}\\int_0^r f\\,r'\\,dr'\\,d\\theta$",
+    "expected": "the integral from 0 to 2 pi, the integral from 0 to r, of f times r prime, d r prime d theta",
+    "llm_output": "the integral from 0 to 2 pi, of the integral from 0 to r, of f times r prime, d r prime, d theta",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "i9",
+    "input": "$\\iiint_E f\\,\\rho^2\\sin\\phi\\,d\\rho\\,d\\phi\\,d\\theta$",
+    "expected": "the triple integral of f, rho squared sine phi, d rho d phi d theta",
+    "llm_output": "The triple integral over E of f, rho squared sine phi, d rho, d phi, d theta",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "d1",
+    "input": "$\\frac{dy}{dx}$",
+    "expected": "d y over d x",
+    "llm_output": "d y over d x",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "d2",
+    "input": "$\\frac{\\partial f}{\\partial x}$",
+    "expected": "the partial of f with respect to x",
+    "llm_output": "the partial of f with respect to x",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "d3",
+    "input": "$\\frac{\\partial^2 f}{\\partial x \\partial y}$",
+    "expected": "the mixed second partial of f with respect to x and y",
+    "llm_output": "The mixed second partial of f with respect to x and y",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "d4",
+    "input": "$f'(x)$",
+    "expected": "f prime of x",
+    "llm_output": "f prime of x",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "d5",
+    "input": "$f''(x)$",
+    "expected": "f double prime of x",
+    "llm_output": "f double prime of x",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "d6",
+    "input": "$f^{(n)}(x)$",
+    "expected": "the nth derivative of f of x",
+    "llm_output": "the nth derivative of f of x",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "d7",
+    "input": "$\\dot{x}$",
+    "expected": "x dot",
+    "llm_output": "x dot",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "d8",
+    "input": "$\\frac{dz}{dt} = \\frac{\\partial z}{\\partial x}\\frac{dx}{dt} + \\frac{\\partial z}{\\partial y}\\frac{dy}{dt}$",
+    "expected": "d z over d t equals the partial of z with respect to x times d x over d t, plus the partial of z with respect to y times d y over d t",
+    "llm_output": "d z over d t equals the partial of z with respect to x, times d x over d t, plus the partial of z with respect to y, times d y over d t",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "n1",
+    "input": "$\\nabla f$",
+    "expected": "the gradient of f",
+    "llm_output": "The gradient of f",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "n2",
+    "input": "$\\nabla \\cdot \\vec{F}$",
+    "expected": "the divergence of F",
+    "llm_output": "The divergence of F",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "n3",
+    "input": "$\\nabla \\times \\vec{F}$",
+    "expected": "the curl of F",
+    "llm_output": "The curl of F",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "n4",
+    "input": "$\\nabla^2 f$",
+    "expected": "the Laplacian of f",
+    "llm_output": "The Laplacian of f",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "n5",
+    "input": "$\\nabla \\times (\\nabla f) = \\vec{0}$",
+    "expected": "the curl of the gradient of f equals the zero vector",
+    "llm_output": "The curl of the gradient of f equals the zero vector.",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "n6",
+    "input": "$\\nabla \\cdot (\\nabla \\times \\vec{F}) = 0$",
+    "expected": "the divergence of the curl of F equals 0",
+    "llm_output": "The divergence of the curl of F equals 0",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "t1",
+    "input": "$\\int_C \\nabla f \\cdot d\\vec{r} = f(\\vec{b}) - f(\\vec{a})$",
+    "expected": "the line integral of the gradient of f along C equals f of b minus f of a",
+    "llm_output": "the integral along C of the gradient of f, dot d r equals f of b minus f of a",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "t2",
+    "input": "$\\oint_C P\\,dx + Q\\,dy = \\iint_D \\left(\\frac{\\partial Q}{\\partial x} - \\frac{\\partial P}{\\partial y}\\right)dA$",
+    "expected": "the line integral around C of P d x plus Q d y, equals the double integral over D of the partial of Q with respect to x minus the partial of P with respect to y, d A",
+    "llm_output": "the line integral around C of P, d x plus Q, d y, equals the double integral over D of, the partial of Q with respect to x minus the partial of P with respect to y, d A",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "t3",
+    "input": "$\\iint_S (\\nabla \\times \\vec{F})\\cdot d\\vec{S} = \\oint_C \\vec{F}\\cdot d\\vec{r}$",
+    "expected": "the surface integral of the curl of F over S equals the line integral of F around C",
+    "llm_output": "The double integral over S of the curl of F, dot d S vector, equals the line integral around C of F vector, dot d r vector",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "t4",
+    "input": "$\\iiint_E \\nabla \\cdot \\vec{F}\\,dV = \\oiint_S \\vec{F}\\cdot d\\vec{S}$",
+    "expected": "the triple integral of the divergence of F over E equals the flux of F through the closed surface S",
+    "llm_output": "the triple integral over E of the divergence of F, d V, equals the flux through the closed surface S of F dot d S vector",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a1",
+    "input": "For a real number, simplify $|x|$.",
+    "expected": "the absolute value of x",
+    "llm_output": "For a real number, simplify the absolute value of x.",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a2",
+    "input": "For the complex number $z = 3 + 4i$, find $|z|$.",
+    "expected": "the modulus of z",
+    "llm_output": "For the complex number z equals 3 plus 4i, find the modulus of z.",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a3",
+    "input": "For the matrix $A$, compute $|A|$.",
+    "expected": "the determinant of A",
+    "llm_output": "For the matrix A, compute the determinant of A.",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a4",
+    "input": "$\\|v\\|$",
+    "expected": "the norm of v",
+    "llm_output": "the norm of v",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a5",
+    "input": "Suppose $a \\mid b$ for integers a and b.",
+    "expected": "a divides b",
+    "llm_output": "Suppose a divides b for integers a and b.",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a6",
+    "input": "$\\{x \\mid x > 0\\}$",
+    "expected": "the set of x such that x is greater than 0",
+    "llm_output": "The set of x such that x is greater than 0",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a7",
+    "input": "$P(A \\mid B)$",
+    "expected": "the probability of A given B",
+    "llm_output": "The probability of A given B",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a8",
+    "input": "Evaluate $f(x)\\big|_{x=0}$.",
+    "expected": "f of x evaluated at x equals 0",
+    "llm_output": "Evaluate f of x evaluated at x equals 0.",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a9",
+    "input": "$X \\sim N(0,1)$",
+    "expected": "X is distributed as standard normal",
+    "llm_output": "X is distributed as standard normal",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a10",
+    "input": "$\\triangle ABC \\sim \\triangle DEF$",
+    "expected": "triangle ABC is similar to triangle DEF",
+    "llm_output": "Triangle ABC is similar to triangle DEF",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a11",
+    "input": "As $n \\to \\infty$, $f(n) \\sim g(n)$.",
+    "expected": "f of n is asymptotically equivalent to g of n",
+    "llm_output": "As n approaches infinity, f of n is asymptotically equivalent to g of n.",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "a12",
+    "input": "$\\frac{df}{dx}$",
+    "expected": "d f over d x (not 'the partial')",
+    "llm_output": "d f over d x",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "c1",
+    "input": "$\\iint_D f(r,\\theta)\\,r\\,dr\\,d\\theta$",
+    "expected": "the double integral of f of r theta, times r, d r d theta (the Jacobian r must be spoken)",
+    "llm_output": "The double integral over D of f of r, theta, times r, d r, d theta",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "c2",
+    "input": "$\\iiint_E f\\,r\\,dr\\,d\\theta\\,dz$",
+    "expected": "the triple integral of f, r d r d theta d z",
+    "llm_output": "The triple integral over E of f, r, d r, d theta, d z",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "c3",
+    "input": "$x = \\rho\\sin\\phi\\cos\\theta$",
+    "expected": "x equals rho sine phi cosine theta",
+    "llm_output": "x equals rho sine phi cosine theta",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "p1",
+    "input": "$\\frac{d}{dx}\\left[\\int_a^x f(t)\\,dt\\right] = f(x)$",
+    "expected": "the derivative with respect to x of the integral from a to x of f of t, d t, equals f of x",
+    "llm_output": "d over d x of the integral from a to x of f of t, d t, equals f of x",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "p2",
+    "input": "$\\lim_{n\\to\\infty}\\left(1+\\frac{1}{n}\\right)^n = e$",
+    "expected": "the limit as n approaches infinity of, the quantity 1 plus 1 over n, to the n, equals e",
+    "llm_output": "The limit as n approaches infinity of the quantity 1 plus 1 over n, to the n, equals e",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "p3",
+    "input": "$\\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$",
+    "expected": "negative b plus or minus the square root of b squared minus 4 a c, all over 2 a",
+    "llm_output": "negative b plus or minus the square root of b squared minus 4 a c, all over 2 a",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "p4",
+    "input": "$\\sum_{n=1}^\\infty \\frac{1}{n^2} = \\frac{\\pi^2}{6}$",
+    "expected": "the sum from n equals 1 to infinity of 1 over n squared, equals pi squared over 6",
+    "llm_output": "The sum from n equals 1 to infinity of 1 over n squared, equals pi squared over 6",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "p5",
+    "input": "$e^{i\\pi} + 1 = 0$",
+    "expected": "e to the i pi plus 1 equals 0",
+    "llm_output": "e to the i pi, plus 1 equals 0",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "p6",
+    "input": "$\\hat{\\beta} = (X^T X)^{-1} X^T y$",
+    "expected": "beta hat equals the quantity X transpose X, inverse, times X transpose y",
+    "llm_output": "beta hat equals the quantity X transpose X, inverse, times X transpose y",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "z1",
+    "input": "$\\left(\\frac{a}{b}\\right)$",
+    "expected": "a over b (no delimiter names)",
+    "llm_output": "the quantity a over b",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "z2",
+    "input": "$\\begin{pmatrix} 1 \\\\ 0 \\end{pmatrix}$",
+    "expected": "the column vector 1, 0 (no 'begin pmatrix')",
+    "llm_output": "The vector with entries 1 and 0",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "z3",
+    "input": "$\\{x \\in \\mathbb{R} \\mid x > 0\\}$",
+    "expected": "the set of x in the real numbers such that x is greater than 0",
+    "llm_output": "The set of x in the reals such that x is greater than 0",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "z4",
+    "input": "$\\text{tr}(A)$",
+    "expected": "the trace of A",
+    "llm_output": "the trace of A",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "z5",
+    "input": "$f(x)\\Big|_{x=1}$",
+    "expected": "f of x evaluated at x equals 1",
+    "llm_output": "f of x evaluated at x equals 1",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "z6",
+    "input": "$\\underbrace{x+x+\\cdots+x}_{n}$",
+    "expected": "x plus x plus ... plus x, n times (no 'underbrace')",
+    "llm_output": "n copies of x added together",
+    "llm_forbidden_tokens": []
+  },
+  {
+    "id": "z7",
+    "input": "$\\overbrace{a_1+\\cdots+a_n}^{n\\text{ terms}}$",
+    "expected": "a 1 plus ... plus a n, n terms (no 'overbrace')",
+    "llm_output": "a sub 1 plus dot dot dot plus a sub n, with n terms",
+    "llm_forbidden_tokens": []
+  }
+]

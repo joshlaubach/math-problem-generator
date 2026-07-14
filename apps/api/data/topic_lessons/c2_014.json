@@ -1,0 +1,76 @@
+{
+  "topic_id": "c2_014",
+  "topic_name": "Parametric Equations and Curves",
+  "generated_at": "2026-05-13T00:20:50.582780+00:00",
+  "course_name": "Calculus II",
+  "hook": "You already know how to describe curves using functions like $y = f(x)$, where each $x$ gives exactly one $y$. But what about a circle, or the path of a thrown ball, or a figure-eight curve \u2014 shapes where the same $x$-value corresponds to multiple $y$-values, or where time is the natural driving variable? Standard Cartesian equations fail to capture these naturally. How can we describe any curve, no matter how twisted, in a way that tracks position step by step as a parameter changes?",
+  "concept": "A parametric curve describes a path in the plane by expressing both $x$ and $y$ as separate functions of a third variable, called the parameter (usually $t$). Instead of relating $x$ and $y$ directly, we write $x = f(t)$ and $y = g(t)$, so as $t$ varies over some interval, the point $(f(t), g(t))$ traces out the curve. This separates the two coordinates and lets us encode direction, speed, and position simultaneously.",
+  "anatomy": "A parametric curve has several distinct parts. The parameter $t$ is the independent variable that drives the motion \u2014 it often represents time, but it can be any real quantity. The parametric equations are the pair $x = f(t)$ and $y = g(t)$, each a function mapping $t$ to one coordinate. The parameter interval $[a, b]$ specifies which values of $t$ are used, determining where the curve starts (at $t = a$) and ends (at $t = b$). The orientation is the direction in which the curve is traced as $t$ increases, which is an extra piece of information not present in a plain Cartesian graph. Together, these components describe not just the shape of the curve but also how it is traversed.",
+  "worked_example": [
+    {
+      "expression_latex": "x = 2\\cos t, \\quad y = 2\\sin t, \\quad 0 \\le t \\le 2\\pi",
+      "description_latex": "We start by recognizing what type of curve this parametrization produces. Notice that $x^2 + y^2 = (2\\cos t)^2 + (2\\sin t)^2 = 4\\cos^2 t + 4\\sin^2 t = 4$, so every point on the curve satisfies $x^2 + y^2 = 4$, which is a circle of radius 2 centered at the origin.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t = 0: (2, 0), \\quad t = \\tfrac{\\pi}{2}: (0, 2), \\quad t = \\pi: (-2, 0), \\quad t = \\tfrac{3\\pi}{2}: (0, -2), \\quad t = 2\\pi: (2, 0)",
+      "description_latex": "We evaluate the parametric equations at several key values of $t$ to find specific points on the curve and understand the orientation. Plugging in $t = 0, \\frac{\\pi}{2}, \\pi, \\frac{3\\pi}{2}, 2\\pi$ shows the curve starts at $(2, 0)$, moves counterclockwise through the top, left, bottom, and back to the start \u2014 giving us both position and direction of travel.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Orientation: counterclockwise, starting and ending at } (2, 0)",
+      "description_latex": "Reading off the points in order reveals the orientation, which is counterclockwise because $y$ increases first as $t$ grows from $0$. This is crucial information that the Cartesian equation $x^2 + y^2 = 4$ alone cannot tell you \u2014 two different parametrizations can produce the same circle but trace it in opposite directions.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x = t - 1, \\quad y = t^2 + 1, \\quad -2 \\le t \\le 2",
+      "description_latex": "Our goal is to eliminate the parameter $t$ and find the Cartesian equation of this curve. We begin by solving the simpler equation for $t$: from $x = t - 1$ we get $t = x + 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = (x+1)^2 + 1",
+      "description_latex": "We substitute $t = x + 1$ into the equation for $y$. This gives $y = t^2 + 1 = (x+1)^2 + 1$, which is a parabola shifted left by 1 and up by 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now determine the range of $x$-values that actually appear on the curve. Since $t$ runs from $-2$ to $2$ and $x = t - 1$, what are the smallest and largest values of $x$? State the restricted Cartesian equation with its domain.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Plot and identify the curve given by $x = 3t,\\ y = 6t,\\ 0 \\le t \\le 1$. What familiar shape is this?",
+      "answer_latex": "A line segment from $(0,0)$ to $(3,6)$, lying on the line $y = 2x$."
+    },
+    {
+      "prompt_latex": "Eliminate the parameter and find the Cartesian equation: $x = t + 2,\\ y = t^2 - 3$.",
+      "answer_latex": "$y = (x-2)^2 - 3$"
+    },
+    {
+      "prompt_latex": "Find the Cartesian equation for $x = 4\\cos t,\\ y = 3\\sin t,\\ 0 \\le t \\le 2\\pi$, and identify the curve.",
+      "answer_latex": "$\\dfrac{x^2}{16} + \\dfrac{y^2}{9} = 1$, an ellipse centered at the origin with semi-axes $a=4$ and $b=3$."
+    },
+    {
+      "prompt_latex": "A curve is given by $x = e^t,\\ y = e^{2t} - 1,\\ t \\ge 0$. Eliminate the parameter, state the domain of the resulting Cartesian equation, and find the starting point of the curve.",
+      "answer_latex": "Since $e^t = x$, we have $y = x^2 - 1$ with $x \\ge 1$. The curve starts at $(1, 0)$ when $t = 0$."
+    },
+    {
+      "prompt_latex": "A ball is launched so that its horizontal position is $x = 20t$ meters and its vertical position is $y = 15t - 5t^2$ meters, where $t$ is in seconds. Find the Cartesian equation of its path, and determine the horizontal distance the ball travels before returning to ground level ($y = 0$).",
+      "answer_latex": "From $x = 20t$, $t = x/20$, so $y = 15(x/20) - 5(x/20)^2 = \\tfrac{3x}{4} - \\tfrac{x^2}{80}$. Setting $y = 0$: $x(\\tfrac{3}{4} - \\tfrac{x}{80}) = 0$, giving $x = 60$ meters."
+    }
+  ],
+  "common_mistakes": [
+    "Students often eliminate the parameter correctly but forget to restrict the domain of the Cartesian equation. The parametric interval $[a,b]$ limits $t$, which limits $x$ and $y$ to a specific portion of the full Cartesian curve \u2014 always find the $x$-range corresponding to the given $t$-interval and state it explicitly.",
+    "When identifying the curve, students sometimes confuse the parametric curve with the full Cartesian curve and ignore orientation. A parametric equation encodes a direction of travel as $t$ increases, so two parametrizations that look the same algebraically can trace the curve in opposite directions \u2014 always test a few $t$-values in order to determine which way the curve is traversed.",
+    "Students often assume that $t$ must represent time and that the parameter interval must start at $0$. In reality, $t$ is just a dummy variable that could represent any quantity, and the interval can be any $[a, b]$; mistaking the parameter for something physically fixed can lead to errors when the problem uses a different letter like $\\theta$ or $s$ for the parameter."
+  ],
+  "untested_variants": [
+    "Parametric curves defined piecewise, where different formulas apply over different sub-intervals of $t$, requiring the student to analyze each piece separately and check continuity at the join points.",
+    "Finding points of intersection of two distinct parametric curves, which requires setting up a system where the parameters for each curve may be different values at the crossing point.",
+    "Parametric equations involving trigonometric identities other than $\\sin^2 t + \\cos^2 t = 1$, such as those using $\\sec t$ and $\\tan t$ leading to hyperbolas via the identity $\\sec^2 t - \\tan^2 t = 1$.",
+    "Sketching and analyzing more exotic curves like the cycloid $x = r(t - \\sin t),\\ y = r(1 - \\cos t)$, where the parameter cannot easily be eliminated to give an explicit Cartesian equation."
+  ]
+}

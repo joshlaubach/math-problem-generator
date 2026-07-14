@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_016",
+  "topic_name": "Proving Combinatorial Identities by Induction",
+  "generated_at": "2026-05-13T20:19:08.265813+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to add up the first $n$ integers: $1 + 2 + \\cdots + n = \\frac{n(n+1)}{2}$. But what about sums involving binomial coefficients, like $\\binom{0}{0} + \\binom{1}{1} + \\binom{2}{2} + \\cdots + \\binom{n}{n}$, or the striking identity $\\sum_{k=0}^{n} \\binom{n}{k} = 2^n$? These are combinatorial identities \u2014 equalities that count things in two different ways \u2014 and while you might be able to verify them for small $n$, you have no tool yet to prove them hold for every positive integer. Can induction give us that tool?",
+  "concept": "A combinatorial identity is an equation involving counts, binomial coefficients, or sums that holds for all integers $n$ in some range. Mathematical induction proves such identities by first verifying the base case, then showing that if the identity holds for $n = k$, it must hold for $n = k+1$. The key insight is that the inductive step algebraically transforms the $(k+1)$-case into the $k$-case plus a new term, letting us substitute our hypothesis.",
+  "anatomy": "Every induction proof on a combinatorial identity has four named parts. The **statement** is the identity itself, expressed with a free variable $n$, such as $\\sum_{k=0}^{n} k \\cdot k! = (n+1)! - 1$. The **base case** checks the identity at the smallest value, usually $n = 0$ or $n = 1$, by direct computation on both sides. The **inductive hypothesis** (I.H.) assumes the identity holds when $n = p$ for some arbitrary fixed integer $p \\geq$ the base. The **inductive step** writes the left-hand side for $n = p+1$, splits off the last term, applies the I.H. to the remaining sum, and then uses algebra or a binomial identity (such as Pascal's rule $\\binom{p}{k-1} + \\binom{p}{k} = \\binom{p+1}{k}$) to reach the right-hand side at $n = p+1$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\sum_{k=0}^{n} k \\cdot k! = (n+1)! - 1 \\text{ for all } n \\geq 0.",
+      "description_latex": "We state the identity precisely so both sides are clear. The left side is a sum where each term multiplies $k$ by $k!$, while the right side is a single factorial expression minus one \u2014 our goal is to prove these are always equal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Base case } (n=0): \\quad \\sum_{k=0}^{0} k \\cdot k! = 0 \\cdot 0! = 0 \\quad \\text{and} \\quad (0+1)!-1 = 1-1 = 0. \\checkmark",
+      "description_latex": "We verify the identity at $n=0$ by computing both sides independently and confirming they match. This establishes the foundation; without it, the inductive chain has nowhere to start.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Inductive hypothesis:} \\text{ Assume } \\sum_{k=0}^{p} k \\cdot k! = (p+1)! - 1 \\text{ for some fixed } p \\geq 0.",
+      "description_latex": "We assume the identity is true at $n = p$ \u2014 this is the hypothesis we are allowed to use as a known fact. Notice we do not prove it here; we simply grant it temporarily and see where it leads.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Inductive step:} \\quad \\sum_{k=0}^{p+1} k \\cdot k! = \\left(\\sum_{k=0}^{p} k \\cdot k!\\right) + (p+1)(p+1)! = \\bigl[(p+1)!-1\\bigr] + (p+1)(p+1)!",
+      "description_latex": "We write the $(p+1)$-case by peeling off the last term of the sum, which isolates the $p$-case sum on its own so we can apply the inductive hypothesis. Substituting the I.H. replaces the bracketed sum with $(p+1)! - 1$, and now we only need to simplify the right-hand side.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= (p+1)!\\bigl[1 + (p+1)\\bigr] - 1 = (p+1)!(p+2) - 1 = (p+2)! - 1. \\checkmark",
+      "description_latex": "We factor out $(p+1)!$ from the two factorial terms, combine the bracket into $(p+2)$, and recognize that $(p+1)!(p+2) = (p+2)!$. This is exactly the right-hand side of the identity at $n = p+1$, completing the induction.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\sum_{k=1}^{n} k \\cdot 2^k = 2 + (n-1) \\cdot 2^{n+1} \\text{ for all } n \\geq 1.",
+      "description_latex": "Here is the identity we want to prove by induction. Both sides involve powers of 2, so our algebraic manipulations in the inductive step will mostly involve factoring $2^{p+1}$ or $2^{p+2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Base case } (n=1): \\quad \\sum_{k=1}^{1} k \\cdot 2^k = 1 \\cdot 2 = 2 \\quad \\text{and} \\quad 2 + (1-1)\\cdot 2^{2} = 2 + 0 = 2. \\checkmark",
+      "description_latex": "The base case checks out \u2014 both sides equal 2 when $n=1$. Now assume the identity holds for $n = p$, i.e., $\\sum_{k=1}^{p} k \\cdot 2^k = 2 + (p-1) \\cdot 2^{p+1}$, and try to prove it for $n = p+1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the left-hand side $\\sum_{k=1}^{p+1} k \\cdot 2^k$ by splitting off the last term, apply the inductive hypothesis to the remaining sum, then simplify the resulting expression algebraically to show it equals $2 + p \\cdot 2^{p+2}$, which is the right-hand side at $n = p+1$. Show every algebraic step, especially how you factor out $2^{p+1}$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove by induction that $\\sum_{k=1}^{n} k = \\frac{n(n+1)}{2}$ for all $n \\geq 1$.",
+      "answer_latex": "Base: $n=1$: LHS $= 1$, RHS $= \\frac{1 \\cdot 2}{2} = 1$. \\checkmark\\; I.H.: $\\sum_{k=1}^{p} k = \\frac{p(p+1)}{2}$. Step: $\\sum_{k=1}^{p+1} k = \\frac{p(p+1)}{2} + (p+1) = \\frac{p(p+1)+2(p+1)}{2} = \\frac{(p+1)(p+2)}{2}$. \\checkmark"
+    },
+    {
+      "prompt_latex": "Prove by induction that $\\sum_{k=0}^{n} 2^k = 2^{n+1} - 1$ for all $n \\geq 0$.",
+      "answer_latex": "Base: $n=0$: LHS $= 1$, RHS $= 2^1 - 1 = 1$. \\checkmark\\; I.H.: $\\sum_{k=0}^{p} 2^k = 2^{p+1}-1$. Step: $\\sum_{k=0}^{p+1} 2^k = (2^{p+1}-1) + 2^{p+1} = 2 \\cdot 2^{p+1} - 1 = 2^{p+2}-1$. \\checkmark"
+    },
+    {
+      "prompt_latex": "Prove by induction that $\\sum_{k=1}^{n} k^2 = \\frac{n(n+1)(2n+1)}{6}$ for all $n \\geq 1$.",
+      "answer_latex": "Base: $n=1$: LHS $= 1$, RHS $= \\frac{1 \\cdot 2 \\cdot 3}{6} = 1$. \\checkmark\\; I.H.: assume true at $p$. Step: add $(p+1)^2$ to both sides of I.H. and show $\\frac{p(p+1)(2p+1)}{6} + (p+1)^2 = \\frac{(p+1)(p+2)(2p+3)}{6}$ by factoring $(p+1)$ and combining. \\checkmark"
+    },
+    {
+      "prompt_latex": "Using both the inductive proof of $\\sum_{k=0}^{n}\\binom{n}{k} = 2^n$ (which you may cite) and the identity $\\binom{n+1}{k} = \\binom{n}{k} + \\binom{n}{k-1}$ (Pascal's rule), prove by induction that $\\sum_{k=0}^{n} \\binom{n}{k} = 2^n$ directly, i.e., show the inductive step uses Pascal's rule to split $\\sum_{k=0}^{n+1}\\binom{n+1}{k}$ and reduces to two copies of the $n$-case sum.",
+      "answer_latex": "Base: $n=0$: $\\binom{0}{0}=1=2^0$. \\checkmark\\; I.H.: $\\sum_{k=0}^{n}\\binom{n}{k}=2^n$. Step: $\\sum_{k=0}^{n+1}\\binom{n+1}{k} = \\sum_{k=0}^{n+1}\\left[\\binom{n}{k}+\\binom{n}{k-1}\\right] = \\sum_{k=0}^{n}\\binom{n}{k} + \\sum_{k=0}^{n}\\binom{n}{k} = 2^n + 2^n = 2^{n+1}$. \\checkmark"
+    },
+    {
+      "prompt_latex": "A basketball league has $n$ teams and every pair of teams plays exactly once. The total number of games played is claimed to be $\\binom{n}{2} = \\frac{n(n-1)}{2}$. Prove this formula by induction on $n$ for $n \\geq 1$, interpreting the inductive step in terms of what happens when a new team joins the league.",
+      "answer_latex": "Base: $n=1$: $0$ games, $\\binom{1}{2}=0$. \\checkmark\\; I.H.: $p$ teams play $\\frac{p(p-1)}{2}$ games. Step: team $(p+1)$ must play each of the $p$ existing teams, adding $p$ new games. Total $= \\frac{p(p-1)}{2} + p = \\frac{p(p-1)+2p}{2} = \\frac{p(p+1)}{2} = \\binom{p+1}{2}$. \\checkmark"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write 'let $n = p+1$' and then substitute $p+1$ everywhere before splitting off the last term, producing an algebraic tangle. The fix is to always write $\\sum_{k=0}^{p+1}(\\cdots) = \\sum_{k=0}^{p}(\\cdots) + (\\text{last term})$ first, so the I.H. can be applied to the inner sum cleanly.",
+    "When finishing the inductive step, students verify that the expression 'looks like' the formula but forget to write it in the exact form $f(p+1)$, leaving the proof incomplete. You must explicitly state 'this equals the right-hand side of the identity at $n = p+1$' to close the argument.",
+    "Students apply the inductive hypothesis to the wrong index \u2014 for example, replacing $\\sum_{k=0}^{p+1}$ directly with the $p$-formula instead of first isolating $\\sum_{k=0}^{p}$. The I.H. only gives you information about the sum up to $p$, not up to $p+1$, so you must always peel off the $(p+1)$-th term before invoking it."
+  ],
+  "untested_variants": [
+    "Proving double-sum identities by induction, such as $\\sum_{j=0}^{n}\\sum_{k=0}^{n}\\binom{n}{j}\\binom{n}{k} = 4^n$, where the inductive step requires manipulating nested sums.",
+    "Proving identities involving alternating signs, such as $\\sum_{k=0}^{n}(-1)^k\\binom{n}{k} = 0$ for $n \\geq 1$, where the inductive step requires careful sign-tracking with Pascal's rule.",
+    "Using strong induction (rather than simple induction) to prove a combinatorial identity whose inductive step requires both the $p$-case and the $(p-1)$-case, such as certain Fibonacci\u2013binomial identities.",
+    "Proving the Vandermonde identity $\\sum_{k=0}^{r}\\binom{m}{k}\\binom{n}{r-k} = \\binom{m+n}{r}$ by induction on $m$, which requires a two-variable induction setup not covered in the practice problems above."
+  ]
+}

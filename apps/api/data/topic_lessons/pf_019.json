@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_019",
+  "topic_name": "Proving Cardinality Results",
+  "generated_at": "2026-05-13T20:19:26.823112+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to compare the sizes of finite sets \u2014 just count the elements. But what happens when the sets are infinite? You might think that the set of even integers is 'smaller' than the set of all integers, since it seems to contain only half as many elements. Yet mathematicians claim these two sets are exactly the same size. How can that possibly be true, and what does 'same size' even mean for infinite sets?",
+  "concept": "Two sets have the same cardinality if there exists a bijection (a function that is both injective and surjective) between them. Formally, we write $|A| = |B|$ if there exists a bijection $f: A \\to B$. For infinite sets, this replaces counting with the idea of perfect pairing: every element of $A$ is matched to exactly one element of $B$, and no element of $B$ is left unpaired.",
+  "anatomy": "A cardinality proof has three structural components. First, the candidate bijection $f: A \\to B$, which is the explicit function you propose as the perfect matching. Second, the injectivity proof, where you show $f(a_1) = f(a_2) \\implies a_1 = a_2$, confirming no two elements of $A$ share an image. Third, the surjectivity proof, where you show that for every $b \\in B$ there exists some $a \\in A$ with $f(a) = b$, confirming every element of $B$ is actually hit. Together these three parts establish that $f$ is a bijection and therefore $|A| = |B|$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: } |\\mathbb{Z}| = |\\mathbb{N}|",
+      "description_latex": "We want to show that the integers and the natural numbers have the same cardinality. Even though $\\mathbb{Z}$ contains negative numbers and $\\mathbb{N}$ does not, the definition of equal cardinality only requires us to find a bijection \u2014 so our entire job is to construct and verify one explicit function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f: \\mathbb{N} \\to \\mathbb{Z}, \\quad f(n) = \\begin{cases} \\frac{n}{2} & \\text{if } n \\text{ is even} \\\\ -\\frac{n+1}{2} & \\text{if } n \\text{ is odd} \\end{cases}",
+      "description_latex": "We define $f$ by interleaving the non-negative integers and the negative integers: the even natural numbers map to $0, 1, 2, 3, \\ldots$ and the odd natural numbers map to $-1, -2, -3, \\ldots$. Writing down the formula explicitly is essential \u2014 a vague description like 'pair them up somehow' is not a proof.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Injectivity: Suppose } f(m) = f(n). \\text{ If both are even, } \\frac{m}{2} = \\frac{n}{2} \\implies m = n. \\text{ If both are odd, } -\\frac{m+1}{2} = -\\frac{n+1}{2} \\implies m = n.",
+      "description_latex": "We prove injectivity by cases: if $m$ and $n$ have the same parity, simple algebra gives $m = n$. The mixed case (one even, one odd) is impossible because $f$ maps even inputs to non-negative integers and odd inputs to negative integers, so $f(m) = f(n)$ would require a non-negative integer to equal a negative one, a contradiction. All cases yield $m = n$, confirming injectivity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Surjectivity: Let } z \\in \\mathbb{Z}. \\text{ If } z \\geq 0, \\text{ take } n = 2z \\in \\mathbb{N}; \\text{ then } f(2z) = z. \\text{ If } z < 0, \\text{ take } n = -2z - 1 \\in \\mathbb{N}; \\text{ then } f(-2z-1) = -\\frac{(-2z-1)+1}{2} = z.",
+      "description_latex": "For surjectivity we must exhibit a preimage for every integer $z$, not just claim one exists. By explicitly constructing $n$ in each case and checking that $f(n) = z$, we have a complete argument. Notice that $n = -2z - 1$ is a natural number when $z < 0$ because $-2z - 1 \\geq 1 > 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore |\\mathbb{N}| = |\\mathbb{Z}|",
+      "description_latex": "Since $f$ is both injective and surjective, it is a bijection, and by definition the two sets have equal cardinality. Both are called countably infinite, meaning their elements can be listed in a sequence indexed by $\\mathbb{N}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } |\\mathbb{N}| = |E|, \\text{ where } E = \\{2, 4, 6, 8, \\ldots\\} \\text{ is the set of positive even integers.}",
+      "description_latex": "We want to show the positive even integers are equinumerous with all natural numbers. This might feel paradoxical since $E \\subset \\mathbb{N}$, but the definition of cardinality does not care about subset relationships \u2014 it only cares about bijections.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f: \\mathbb{N} \\to E, \\quad f(n) = 2n",
+      "description_latex": "A natural candidate is $f(n) = 2n$, which doubles every natural number to land in $E$. Before we can conclude anything, we need to verify both injectivity and surjectivity of this function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now prove that $f$ is injective AND surjective. For injectivity, suppose $f(m) = f(n)$ and deduce $m = n$. For surjectivity, let $e \\in E$ be arbitrary (so $e = 2k$ for some $k \\in \\mathbb{N}$) and find an explicit $n \\in \\mathbb{N}$ with $f(n) = e$. Write out both arguments in full.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore |\\mathbb{N}| = |E|",
+      "description_latex": "Once you have verified injectivity and surjectivity, you may conclude that $f$ is a bijection and write the cardinality equality as your conclusion. Notice this shows that a proper subset of an infinite set can have the same cardinality as the whole set \u2014 a phenomenon that never occurs for finite sets.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Show that $|\\{1, 2, 3, \\ldots\\}| = |\\{0, 1, 2, 3, \\ldots\\}|$ by explicitly defining a bijection and verifying it.",
+      "answer_latex": "Define $f: \\mathbb{N} \\to \\mathbb{N} \\cup \\{0\\}$ by $f(n) = n - 1$. Injectivity: $f(m)=f(n) \\implies m-1=n-1 \\implies m=n$. Surjectivity: given $k \\geq 0$, take $n = k+1 \\in \\mathbb{N}$ and $f(n)=k$. Hence $f$ is a bijection."
+    },
+    {
+      "prompt_latex": "Prove that the set of odd positive integers $O = \\{1, 3, 5, 7, \\ldots\\}$ satisfies $|O| = |\\mathbb{N}|$.",
+      "answer_latex": "Define $f: \\mathbb{N} \\to O$ by $f(n) = 2n - 1$. Injectivity: $2m-1 = 2n-1 \\implies m = n$. Surjectivity: any odd positive integer $k$ equals $2\\left(\\frac{k+1}{2}\\right)-1$ where $\\frac{k+1}{2} \\in \\mathbb{N}$. Hence $f$ is a bijection."
+    },
+    {
+      "prompt_latex": "Let $A = \\{n \\in \\mathbb{Z} : n \\geq 5\\}$. Prove $|A| = |\\mathbb{N}|$.",
+      "answer_latex": "Define $f: \\mathbb{N} \\to A$ by $f(n) = n + 4$. Injectivity: $m+4 = n+4 \\implies m = n$. Surjectivity: for $a \\in A$ (so $a \\geq 5$), take $n = a - 4 \\geq 1$ so $n \\in \\mathbb{N}$ and $f(n)=a$. Hence $f$ is a bijection."
+    },
+    {
+      "prompt_latex": "Use the Schroeder-Bernstein idea indirectly: prove $|\\mathbb{N} \\times \\{0,1\\}| = |\\mathbb{N}|$ by constructing an explicit bijection $f: \\mathbb{N} \\times \\{0,1\\} \\to \\mathbb{N}$.",
+      "answer_latex": "Define $f(n, 0) = 2n - 1$ and $f(n, 1) = 2n$. Every positive integer is either odd (hit by the first case) or even (hit by the second), so $f$ is surjective. If $f(m,a) = f(n,b)$ then both outputs have the same parity, forcing $a = b$, and then $m = n$ by algebra. Hence $f$ is a bijection and $|\\mathbb{N} \\times \\{0,1\\}| = |\\mathbb{N}|$."
+    },
+    {
+      "prompt_latex": "A library claims it has 'just as many' books as chapters across all its books combined. Formally, let $B = \\mathbb{N}$ index the books and suppose each book $n$ has exactly $n$ chapters, so the set of all (book, chapter) pairs is $C = \\{(n, k) : n \\in \\mathbb{N},\\, 1 \\leq k \\leq n\\}$. Prove or disprove: $|C| = |\\mathbb{N}|$.",
+      "answer_latex": "$|C| = |\\mathbb{N}|$. Define $f: C \\to \\mathbb{N}$ by the Cantor pairing-style map $f(n,k) = \\frac{(n-1)n}{2} + k$. The values $\\frac{(n-1)n}{2}+1$ through $\\frac{n(n+1)}{2}$ are exactly the $n$ positive integers in the $n$-th block, and these blocks partition $\\mathbb{N}$. Hence $f$ is a bijection and $C$ is countably infinite."
+    }
+  ],
+  "common_mistakes": [
+    "Defining a function by a verbal description such as 'match each even number to a natural number' without writing an explicit formula. This fails as a proof because injectivity and surjectivity cannot be verified without a precise definition of $f$.",
+    "Proving only one of injectivity or surjectivity and declaring the function a bijection. A function can be injective but not surjective (e.g., $f: \\mathbb{N} \\to \\mathbb{N}$, $f(n)=2n$ omits odd numbers), so both conditions must be checked every time.",
+    "Concluding that $|A| < |B|$ simply because $A \\subsetneq B$ for infinite sets. For infinite sets a proper subset can be equinumerous with the whole set; the only valid way to compare cardinalities is through the existence or non-existence of bijections."
+  ],
+  "untested_variants": [
+    "Proving that $|\\mathbb{Q}| = |\\mathbb{N}|$ using the Cantor diagonal enumeration of the rationals, which requires a two-dimensional zigzag argument not covered in the practice problems.",
+    "Using the Schroeder-Bernstein theorem to prove $|A| = |B|$ by constructing two injections $f: A \\to B$ and $g: B \\to A$ separately, without exhibiting an explicit bijection.",
+    "Proving that $|\\mathbb{R}| > |\\mathbb{N}|$ via Cantor's diagonalization argument, which establishes that no bijection from $\\mathbb{N}$ to $\\mathbb{R}$ can exist.",
+    "Proving cardinality results involving power sets, such as $|\\mathcal{P}(\\mathbb{N})| = |\\mathbb{R}|$, which combines Cantor's theorem with binary representations."
+  ]
+}

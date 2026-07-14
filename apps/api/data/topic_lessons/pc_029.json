@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_029",
+  "topic_name": "Fundamental Trigonometric Identities",
+  "generated_at": "2026-05-12T23:47:21.923591+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know that $\\sin^2\\theta + \\cos^2\\theta = 1$ from the unit circle, and you can evaluate trig functions at specific angles. But what if you're asked to simplify a messy expression like $\\frac{\\sin^2\\theta}{1 - \\cos\\theta}$ without knowing $\\theta$ at all? You can't plug in a number \u2014 you need a way to rewrite trig expressions symbolically, using relationships that are always true. How can you transform one trig expression into an equivalent, simpler form using nothing but identities?",
+  "concept": "A trigonometric identity is an equation involving trig functions that is true for every value of the variable where the expressions are defined. Unlike a conditional equation (true only for specific angles), an identity holds universally. The fundamental identities are organized into three families: the Pythagorean identities (e.g., $\\sin^2\\theta + \\cos^2\\theta = 1$), the reciprocal identities (e.g., $\\csc\\theta = \\frac{1}{\\sin\\theta}$), and the quotient identities ($\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}$, $\\cot\\theta = \\frac{\\cos\\theta}{\\sin\\theta}$).",
+  "anatomy": "The three Pythagorean identities form the most important family: $\\sin^2\\theta + \\cos^2\\theta = 1$, $1 + \\tan^2\\theta = \\sec^2\\theta$, and $1 + \\cot^2\\theta = \\csc^2\\theta$. The second and third are derived by dividing the first by $\\cos^2\\theta$ and $\\sin^2\\theta$ respectively. The six reciprocal identities pair each trig function with its reciprocal: $\\sin\\theta \\cdot \\csc\\theta = 1$, $\\cos\\theta \\cdot \\sec\\theta = 1$, and $\\tan\\theta \\cdot \\cot\\theta = 1$. The quotient identities express $\\tan$ and $\\cot$ as ratios of $\\sin$ and $\\cos$, which is the bridge that connects all six functions.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Simplify: } \\frac{\\sin^2\\theta}{1 - \\cos\\theta}",
+      "description_latex": "Our goal is to simplify this expression by rewriting the numerator using a Pythagorean identity. Notice that the numerator contains $\\sin^2\\theta$, and the Pythagorean identity $\\sin^2\\theta + \\cos^2\\theta = 1$ tells us we can replace $\\sin^2\\theta$ with $1 - \\cos^2\\theta$, which factors nicely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{1 - \\cos^2\\theta}{1 - \\cos\\theta}",
+      "description_latex": "We've substituted $\\sin^2\\theta = 1 - \\cos^2\\theta$ in the numerator. The reason this is useful is that $1 - \\cos^2\\theta$ is a difference of squares, which factors into $(1 - \\cos\\theta)(1 + \\cos\\theta)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{(1 - \\cos\\theta)(1 + \\cos\\theta)}{1 - \\cos\\theta}",
+      "description_latex": "We've factored the numerator as a difference of squares. Now the factor $(1 - \\cos\\theta)$ appears in both the numerator and denominator, so as long as $\\cos\\theta \\neq 1$ (which would make the original expression undefined anyway), we can cancel it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 1 + \\cos\\theta",
+      "description_latex": "After canceling the common factor, the expression reduces to the clean result $1 + \\cos\\theta$. This is a fully simplified form \u2014 it contains no fractions and uses only a single trig function, which is the hallmark of a successful simplification.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Simplify: } \\tan\\theta \\cdot \\csc\\theta",
+      "description_latex": "We want to simplify this product of two trig functions. The best strategy is to convert everything into sines and cosines using the quotient and reciprocal identities, since $\\sin$ and $\\cos$ are the most fundamental functions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{\\sin\\theta}{\\cos\\theta} \\cdot \\frac{1}{\\sin\\theta}",
+      "description_latex": "We've rewritten $\\tan\\theta = \\frac{\\sin\\theta}{\\cos\\theta}$ and $\\csc\\theta = \\frac{1}{\\sin\\theta}$ using the quotient and reciprocal identities. Now look at the resulting product \u2014 do you see a factor that cancels?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Cancel the common $\\sin\\theta$ factor from the numerator and denominator, then write the simplified result as a single familiar trig function. What does $\\frac{1}{\\cos\\theta}$ equal according to the reciprocal identities?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Use a reciprocal identity to simplify: } \\sin\\theta \\cdot \\csc\\theta",
+      "answer_latex": "1"
+    },
+    {
+      "prompt_latex": "\\text{Simplify by converting to sines and cosines: } \\cot\\theta \\cdot \\sec\\theta",
+      "answer_latex": "\\csc\\theta"
+    },
+    {
+      "prompt_latex": "\\text{Simplify using a Pythagorean identity: } \\sec^2\\theta - \\tan^2\\theta",
+      "answer_latex": "1"
+    },
+    {
+      "prompt_latex": "\\text{Simplify: } \\frac{\\cos^2\\theta}{1 - \\sin\\theta}",
+      "answer_latex": "1 + \\sin\\theta"
+    },
+    {
+      "prompt_latex": "\\text{A student claims } \\tan^2\\theta + 1 = \\sec^2\\theta \\text{ only holds for } 0 < \\theta < \\frac{\\pi}{2}. \\text{ Show by using the Pythagorean identity } \\sin^2\\theta + \\cos^2\\theta = 1 \\text{ that this identity holds wherever } \\cos\\theta \\neq 0, \\text{ and state one value of } \\theta \\text{ where it fails.}",
+      "answer_latex": "\\text{Divide both sides of } \\sin^2\\theta + \\cos^2\\theta = 1 \\text{ by } \\cos^2\\theta: \\tan^2\\theta + 1 = \\sec^2\\theta \\text{ for all } \\theta \\text{ with } \\cos\\theta \\neq 0. \\text{ It fails at } \\theta = \\frac{\\pi}{2}."
+    }
+  ],
+  "common_mistakes": [
+    "Students treat a trig identity as if it were a conditional equation and try to 'solve for $\\theta$' rather than rewriting one side \u2014 the fix is to remember you are transforming an expression, not solving for a variable, so only one side should be manipulated at a time.",
+    "When applying the Pythagorean identity $\\sin^2\\theta + \\cos^2\\theta = 1$, students write $\\sin\\theta + \\cos\\theta = 1$ by incorrectly taking a square root \u2014 the fix is to remember the identity involves squared functions, and $\\sqrt{a^2 + b^2} \\neq a + b$.",
+    "Students cancel a trig function across addition, for example simplifying $\\frac{\\sin^2\\theta + \\cos\\theta}{\\sin\\theta}$ to $\\sin\\theta + \\cos\\theta$ by canceling the $\\sin$ \u2014 the fix is to only cancel factors that multiply the entire numerator or denominator, not individual terms."
+  ],
+  "untested_variants": [
+    "Verifying a given identity (proving both sides are equal) rather than simplifying a single expression \u2014 this requires a different strategy of working each side independently.",
+    "Simplifying expressions involving the co-function identities such as $\\sin\\left(\\frac{\\pi}{2} - \\theta\\right) = \\cos\\theta$, which are part of the fundamental identity family but not covered in the practice problems above.",
+    "Using identities to find the exact value of one trig function given another, for example finding $\\tan\\theta$ given that $\\sin\\theta = \\frac{3}{5}$ and $\\theta$ is in a specific quadrant.",
+    "Simplifying or verifying identities that require multiplying by a conjugate expression, such as multiplying numerator and denominator by $1 + \\sin\\theta$ to simplify $\\frac{1}{1 - \\sin\\theta}$."
+  ]
+}

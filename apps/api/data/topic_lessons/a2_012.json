@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_012",
+  "topic_name": "Modeling with Quadratic Functions",
+  "generated_at": "2026-05-12T23:19:51.665536+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to graph and factor quadratic functions like $f(x) = x^2 - 5x + 6$. But what happens when a real-world situation \u2014 a ball launched from a rooftop, a farmer fencing a field, or a company setting a ticket price \u2014 gives you scattered data or a verbal description instead of a ready-made equation? The gap is going from a situation to a quadratic model you can actually use. How do you build the equation, and once you have it, how do you extract the answer the problem is really asking for?",
+  "concept": "Modeling with quadratic functions means writing a quadratic equation that captures a real-world relationship, then using it to answer questions. Formally, the model takes the form $f(x) = ax^2 + bx + c$ (standard form) or $f(x) = a(x-h)^2 + k$ (vertex form), where the vertex represents a maximum or minimum value and the roots represent where the output equals zero.",
+  "anatomy": "Every quadratic model has four key components you must identify: the independent variable $x$ (the quantity you control, such as time, price, or width), the dependent variable $f(x)$ (the quantity you want to optimize or predict, such as height, revenue, or area), the leading coefficient $a$ (which tells you whether the parabola opens up, giving a minimum, or opens down, giving a maximum), and the vertex $(h, k)$ (the single most important point, since $k$ is the maximum or minimum output value and $h$ is the input that produces it).",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{A ball is thrown upward from a 48-ft cliff with initial velocity 32 ft/s.} \\\\ h(t) = -16t^2 + 32t + 48",
+      "description_latex": "We start by recognizing the standard projectile-motion template $h(t) = -16t^2 + v_0 t + h_0$, where $v_0 = 32$ ft/s is the initial velocity and $h_0 = 48$ ft is the starting height. The leading coefficient is $-16$ because gravity pulls the ball down, so the parabola opens downward and the vertex will be a maximum height.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t_{\\text{vertex}} = -\\frac{b}{2a} = -\\frac{32}{2(-16)} = -\\frac{32}{-32} = 1 \\text{ second}",
+      "description_latex": "To find when the ball reaches its highest point, we use the vertex formula $t = -\\frac{b}{2a}$. We substitute $b = 32$ and $a = -16$, giving $t = 1$ second \u2014 this is the moment the ball stops rising and starts falling.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "h(1) = -16(1)^2 + 32(1) + 48 = -16 + 32 + 48 = 64 \\text{ ft}",
+      "description_latex": "Now we substitute $t = 1$ back into the height function to find the maximum height. The ball reaches a peak of 64 feet above the ground, which is the $k$-value of the vertex $(1, 64)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-16t^2 + 32t + 48 = 0 \\;\\Rightarrow\\; t^2 - 2t - 3 = 0 \\;\\Rightarrow\\; (t-3)(t+1) = 0",
+      "description_latex": "To find when the ball hits the ground, we set $h(t) = 0$ and solve. Dividing through by $-16$ simplifies the arithmetic, and factoring gives $t = 3$ and $t = -1$. We discard $t = -1$ because negative time has no physical meaning in this context.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "t = 3 \\text{ seconds} \\quad (\\text{ball hits ground})",
+      "description_latex": "The ball lands at $t = 3$ seconds after being thrown. Notice how each answer \u2014 maximum height and landing time \u2014 came from a different algebraic technique applied to the same model, which is exactly the power of building a quadratic function first.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A farmer has 200 ft of fencing to enclose a rectangular pen against a barn wall.} \\\\ \\text{One side needs no fencing (the barn). Maximize the area.}",
+      "description_latex": "Let $x$ be the length of each side perpendicular to the barn. Because only three sides need fencing, the side parallel to the barn has length $200 - 2x$. The area function is $A(x) = x(200 - 2x) = -2x^2 + 200x$. Notice this is a downward-opening parabola, so it has a maximum \u2014 exactly what we want.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x_{\\text{vertex}} = -\\frac{b}{2a} = -\\frac{200}{2(-2)} = \\, ?",
+      "description_latex": "Use the vertex formula $x = -\\frac{b}{2a}$ with $b = 200$ and $a = -2$ to find the value of $x$ that maximizes the area. What is $x$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "A(50) = -2(50)^2 + 200(50) = \\, ?",
+      "description_latex": "Once you have $x = 50$ ft, substitute it back into $A(x)$ to compute the maximum area. Carry out the arithmetic \u2014 what is the largest area the farmer can enclose?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = 50 \\text{ ft}, \\quad \\text{parallel side} = 100 \\text{ ft}, \\quad A_{\\text{max}} = 2500 \\text{ ft}^2",
+      "description_latex": "The optimal pen is 50 ft deep and 100 ft wide along the barn, giving a maximum area of 2500 square feet. Always report both the optimal input and the maximum output so your answer is complete.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A quadratic model for a ball's height is $h(t) = -16t^2 + 64t + 80$. What is the maximum height?",
+      "answer_latex": "144 \\text{ ft, at } t = 2 \\text{ s}"
+    },
+    {
+      "prompt_latex": "A company's profit model is $P(x) = -2x^2 + 120x - 400$, where $x$ is the number of units sold. How many units maximize profit, and what is the maximum profit?",
+      "answer_latex": "x = 30 \\text{ units}, \\quad P_{\\text{max}} = \\$1400"
+    },
+    {
+      "prompt_latex": "A rectangular garden has a perimeter of 160 ft. Write an area function $A(x)$ in terms of one side length $x$, then find the dimensions that maximize the area.",
+      "answer_latex": "A(x) = x(80-x); \\text{ maximum at } x = 40 \\text{ ft} \\times 40 \\text{ ft}, \\; A_{\\text{max}} = 1600 \\text{ ft}^2"
+    },
+    {
+      "prompt_latex": "A ball is launched from the ground with height function $h(t) = -16t^2 + 48t$. At what two times is the ball exactly 32 ft high? (Hint: set $h(t) = 32$ and solve.)",
+      "answer_latex": "t = 1 \\text{ s and } t = 2 \\text{ s}"
+    },
+    {
+      "prompt_latex": "A theater currently charges \\$10 per ticket and sells 300 tickets per show. For every \\$1 increase in price, attendance drops by 20 people. Write a revenue function $R(x)$ where $x$ is the number of \\$1 price increases, then find the ticket price that maximizes revenue.",
+      "answer_latex": "R(x) = (10+x)(300-20x) = -20x^2 + 100x + 3000; \\text{ maximum at } x = 2.5, \\text{ so price} = \\$12.50"
+    }
+  ],
+  "common_mistakes": [
+    "Students often ignore the physical constraints of the variable (like $t \\geq 0$ or $0 < x < 100$) and report both roots of the quadratic as answers, including negative or nonsensical values. Always check whether each solution makes sense in the context of the problem before reporting it.",
+    "When setting up the area or revenue function, students multiply the two expressions together correctly but then forget that the vertex formula gives the INPUT that maximizes the output \u2014 they report the $x$-value of the vertex as the maximum area or profit instead of substituting it back to find $f(x)$. The vertex x-coordinate is what to do, and $f(\\text{vertex})$ is the actual maximum value.",
+    "Students confuse vertex form and standard form when reading off the vertex: for $f(x) = a(x-h)^2 + k$ the vertex is $(h, k)$, but for standard form $f(x) = ax^2 + bx + c$ they must compute $h = -\\frac{b}{2a}$ \u2014 skipping this step and treating $b$ or $c$ directly as the vertex coordinate is a very common error."
+  ],
+  "untested_variants": [
+    "Finding the quadratic model by fitting it to three given data points (setting up and solving a 3\u00d73 system for $a$, $b$, and $c$), which requires knowledge of systems of equations beyond what the practice problems above address.",
+    "Quadratic regression on a calculator or spreadsheet given a table of data \u2014 identifying that a data set has a quadratic trend and using technology to produce the best-fit equation.",
+    "Projectile problems in metric units (using $-4.9t^2$ instead of $-16t^2$) or problems where the initial velocity has both horizontal and vertical components, introducing parametric reasoning.",
+    "Interpreting the discriminant of the quadratic model to determine whether a physical scenario (e.g., a thrown ball reaching a target height) is possible, impossible, or happens at exactly one moment."
+  ]
+}

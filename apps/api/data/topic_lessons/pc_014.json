@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_014",
+  "topic_name": "Power Functions and Regression Models",
+  "generated_at": "2026-05-12T23:43:01.094561+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to work with polynomial functions like $f(x) = 3x^2$ and $g(x) = 5x^3$. But what if a biologist tells you that the metabolic rate of an animal scales with its body mass raised to the power $0.75$, giving a model like $M = 70w^{0.75}$? That exponent isn't a whole number \u2014 it's a fraction \u2014 and suddenly your familiar toolkit needs an upgrade. How do we analyze, interpret, and even find these kinds of models from real data?",
+  "concept": "A power function is any function of the form $f(x) = ax^b$, where $a$ and $b$ are real number constants. In plain English, the output is a constant multiple of the input raised to some fixed power \u2014 and that power can be any real number, including fractions, negatives, or decimals. When $b$ is a positive integer you recover familiar polynomials, but the real power of this family lies in how it models natural phenomena where the exponent is determined by data rather than prescribed in advance.",
+  "anatomy": "In the power function $f(x) = ax^b$, there are three distinct components worth naming carefully. The coefficient $a$ is a vertical scaling factor: it stretches or compresses the graph and can reflect it across the x-axis if negative. The base variable $x$ is the independent input. The exponent $b$ \u2014 also called the power \u2014 is the most structurally important piece; it controls the shape, curvature, and end behavior of the function. When $b > 1$ the function is concave up and grows faster than linear; when $0 < b < 1$ it is concave down and grows slower than linear; when $b < 0$ the function decreases and has a vertical asymptote at $x = 0$.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = ax^b, \\quad \\ln f = \\ln a + b \\ln x",
+      "description_latex": "We begin by taking the natural logarithm of both sides of a power function. This is the key algebraic move: because $\\ln(ax^b) = \\ln a + b\\ln x$, a power function becomes a linear relationship between $\\ln x$ and $\\ln f$, which is something we can fit with linear regression tools.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Y = \\ln f, \\quad X = \\ln x, \\quad A = \\ln a, \\quad \\Rightarrow \\quad Y = A + bX",
+      "description_latex": "We substitute $Y = \\ln f$, $X = \\ln x$, and $A = \\ln a$ to rewrite the relationship as a simple linear equation $Y = A + bX$. This substitution shows that if we plot $\\ln f$ against $\\ln x$ and the points fall roughly on a line, the underlying relationship really is a power function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Data: } (x,y) = (1, 3),\\,(2, 8.49),\\,(4, 24),\\,(8, 67.88)",
+      "description_latex": "Suppose we are given these four data points and want to find the best-fitting power function. The first step is to transform the data by computing $\\ln x$ and $\\ln y$ for each point, so that we can apply linear regression to the transformed coordinates.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(\\ln x,\\, \\ln y): (0,\\,1.099),\\,(0.693,\\,2.139),\\,(1.386,\\,3.178),\\,(2.079,\\,4.218)",
+      "description_latex": "After computing the logarithms, we apply linear regression to the transformed data. The slope of the best-fit line through these points equals $b$, the unknown power, and the y-intercept equals $A = \\ln a$. Using the two extreme points as a quick check: slope $\\approx \\frac{4.218 - 1.099}{2.079 - 0} \\approx 1.5$, so $b \\approx 1.5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = 1.099 \\Rightarrow a = e^{1.099} \\approx 3.00, \\quad \\therefore f(x) \\approx 3x^{1.5}",
+      "description_latex": "To recover $a$ we exponentiate the y-intercept: $a = e^A = e^{1.099} \\approx 3$. The final power function model is $f(x) \\approx 3x^{1.5}$, which you can verify by checking that $f(2) = 3(2^{1.5}) = 3(2.828) \\approx 8.49$, matching the original data.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data: } (1,\\,5),\\,(2,\\,20),\\,(3,\\,45),\\,(4,\\,80)",
+      "description_latex": "We want to fit a power function $f(x) = ax^b$ to this data. The first step is always to take the natural log of both $x$ and $y$ values so we can use linear regression on the transformed data.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(\\ln x,\\,\\ln y): (0,\\,1.609),\\,(0.693,\\,2.996),\\,(1.099,\\,3.807),\\,(1.386,\\,4.382)",
+      "description_latex": "The transformed data is provided above. Now you need to find the slope $b$ of the best-fit line. Use the first and last transformed points $(0,\\,1.609)$ and $(1.386,\\,4.382)$ to estimate the slope, and identify what that slope tells you about the power function.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "b \\approx 2, \\quad A = 1.609, \\quad a = e^{1.609} \\approx 5, \\quad f(x) \\approx 5x^2",
+      "description_latex": "The slope gives $b \\approx 2$ and the y-intercept gives $\\ln a \\approx 1.609$. Exponentiate to find $a = e^{1.609} \\approx 5$, so the final model is $f(x) \\approx 5x^2$. Notice how the log-log linearization turned a regression problem into something you can handle with slope and intercept.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $f(8)$ for the power function $f(x) = 4x^{2/3}$.",
+      "answer_latex": "f(8) = 4(8)^{2/3} = 4 \\cdot 4 = 16"
+    },
+    {
+      "prompt_latex": "The power function $f(x) = ax^b$ passes through the points $(1, 6)$ and $(4, 48)$. Find $a$ and $b$.",
+      "answer_latex": "a = 6,\\; b = \\log_4(8) = \\tfrac{3}{2}, \\text{ so } f(x) = 6x^{3/2}"
+    },
+    {
+      "prompt_latex": "A power regression on log-transformed data yields a best-fit line $\\ln y = 0.5\\ln x + 2.303$. Write the corresponding power function.",
+      "answer_latex": "a = e^{2.303} \\approx 10,\\; b = 0.5, \\text{ so } f(x) \\approx 10x^{0.5} = 10\\sqrt{x}"
+    },
+    {
+      "prompt_latex": "The graph of a power function $f(x) = ax^b$ has a vertical asymptote at $x = 0$, passes through $(2, 3)$, and has exponent $b = -1$. Find $a$, then determine whether $f$ is even, odd, or neither.",
+      "answer_latex": "3 = a(2)^{-1} \\Rightarrow a = 6; \\; f(x) = 6x^{-1}. \\text{ Since } f(-x) = -f(x), \\text{ it is odd.}"
+    },
+    {
+      "prompt_latex": "A researcher finds that the wingspan $W$ (in cm) of a species of bird scales with body mass $m$ (in grams) according to the model $W = 2.1m^{0.4}$. Estimate the wingspan of a bird with body mass $625$ g, and interpret what the exponent $0.4$ tells you about how wingspan grows relative to mass.",
+      "answer_latex": "W = 2.1(625)^{0.4} = 2.1(625^{0.4}). \\; 625^{0.4} = (5^4)^{0.4} = 5^{1.6} \\approx 9.52, \\text{ so } W \\approx 19.99 \\text{ cm}. \\text{ Since } 0.4 < 1, \\text{ wingspan grows slower than body mass.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to exponentiate the y-intercept when recovering $a$. After linear regression on log-transformed data gives an intercept $A$, students write $a = A$ instead of $a = e^A$, producing a completely wrong coefficient.",
+    "When computing the slope of the log-log regression line to find $b$, students accidentally use the original $(x, y)$ coordinates instead of the transformed $(\\ln x, \\ln y)$ coordinates. The slope must be computed on the transformed data; using raw data gives a meaningless number that is not the power exponent.",
+    "Students confuse the behavior of power functions with negative exponents and think $f(x) = ax^{-b}$ looks like a polynomial with a negative leading coefficient. In reality, $f(x) = ax^{-b}$ has a vertical asymptote at $x = 0$ and approaches zero as $x \\to \\infty$, which is fundamentally different from any polynomial."
+  ],
+  "untested_variants": [
+    "Determining the domain and range restrictions of power functions with rational exponents $x^{p/q}$ where $q$ is even, which requires excluding negative inputs.",
+    "Comparing the end behavior of two power functions with different exponents to decide which dominates as $x \\to \\infty$, a skill needed in limit problems.",
+    "Using a graphing calculator's built-in power regression (PwrReg) feature directly on untransformed data and interpreting the $r^2$ goodness-of-fit value to assess model quality.",
+    "Fitting a power function to data that does not pass through or near the origin, which requires understanding why standard power regression assumes the model $y = ax^b$ with no additive constant."
+  ]
+}

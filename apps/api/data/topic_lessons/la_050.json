@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_050",
+  "topic_name": "QR Decomposition (H)",
+  "generated_at": "2026-05-13T20:09:40.212567+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to apply the Gram-Schmidt process to turn a basis into an orthonormal set, and you know how to multiply matrices. But here is something you may not have noticed: every time you run Gram-Schmidt on the columns of a matrix $A$, you are secretly building a factorization of $A$ itself. Can you see how those orthonormal vectors and the projection coefficients you computed along the way combine to write $A = QR$, and why anyone would want to do that?",
+  "concept": "QR decomposition is a way of factoring any matrix with linearly independent columns into two pieces: an orthogonal matrix and an upper triangular matrix. Formally, given an $m \\times n$ matrix $A$ with linearly independent columns ($m \\geq n$), there exist a matrix $Q$ whose columns are orthonormal and an upper triangular matrix $R$ with positive diagonal entries such that $A = QR$. The factorization is unique under those sign conventions and is produced directly by the Gram-Schmidt process.",
+  "anatomy": "The decomposition $A = QR$ has three named components. First, the original matrix $A$ is the $m \\times n$ matrix whose columns $\\mathbf{a}_1, \\ldots, \\mathbf{a}_n$ form a linearly independent set. Second, $Q$ is the $m \\times n$ matrix whose columns $\\mathbf{q}_1, \\ldots, \\mathbf{q}_n$ are the orthonormal vectors produced by Gram-Schmidt applied to the columns of $A$; it satisfies $Q^T Q = I_n$. Third, $R$ is an $n \\times n$ upper triangular matrix whose entry $r_{ij}$ in row $i$, column $j$ records the inner product $\\langle \\mathbf{a}_j, \\mathbf{q}_i \\rangle$ (the projection coefficient), which is zero whenever $i > j$ precisely because $\\mathbf{q}_i$ is orthogonal to all subsequent $\\mathbf{a}_j$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{bmatrix} 1 & 1 \\\\ 1 & 0 \\\\ 0 & 1 \\end{bmatrix}",
+      "description_latex": "We start with the matrix $A$ whose two columns we will call $\\mathbf{a}_1 = (1,1,0)^T$ and $\\mathbf{a}_2 = (1,0,1)^T$. Our goal is to write $A = QR$ by applying Gram-Schmidt to these columns and carefully recording every coefficient we compute along the way.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{q}_1 = \\frac{\\mathbf{a}_1}{\\|\\mathbf{a}_1\\|} = \\frac{1}{\\sqrt{2}}\\begin{bmatrix}1\\\\1\\\\0\\end{bmatrix}, \\quad r_{11} = \\|\\mathbf{a}_1\\| = \\sqrt{2}",
+      "description_latex": "The first step of Gram-Schmidt simply normalizes $\\mathbf{a}_1$, giving the first orthonormal vector $\\mathbf{q}_1$. The coefficient $r_{11}$ is the norm of $\\mathbf{a}_1$ because when we write $\\mathbf{a}_1 = r_{11}\\mathbf{q}_1$, the diagonal entry of $R$ captures exactly how long $\\mathbf{a}_1$ is in the direction it already points.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r_{12} = \\langle \\mathbf{a}_2, \\mathbf{q}_1 \\rangle = \\frac{1}{\\sqrt{2}}(1 \\cdot 1 + 0 \\cdot 1 + 1 \\cdot 0) = \\frac{1}{\\sqrt{2}}, \\quad \\mathbf{a}_2 - r_{12}\\mathbf{q}_1 = \\begin{bmatrix}1\\\\0\\\\1\\end{bmatrix} - \\frac{1}{2}\\begin{bmatrix}1\\\\1\\\\0\\end{bmatrix} = \\begin{bmatrix}1/2\\\\-1/2\\\\1\\end{bmatrix}",
+      "description_latex": "The off-diagonal entry $r_{12}$ is the projection of $\\mathbf{a}_2$ onto $\\mathbf{q}_1$, and we subtract this component from $\\mathbf{a}_2$ to get a vector orthogonal to $\\mathbf{q}_1$. This subtraction is the heart of Gram-Schmidt, and notice that $r_{12}$ lands in row 1, column 2 of $R$ \u2014 above the diagonal \u2014 which is exactly where upper triangular matrices have their non-zero off-diagonal entries.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r_{22} = \\left\\|\\mathbf{a}_2 - r_{12}\\mathbf{q}_1\\right\\| = \\left\\|\\begin{bmatrix}1/2\\\\-1/2\\\\1\\end{bmatrix}\\right\\| = \\sqrt{\\tfrac{1}{4}+\\tfrac{1}{4}+1} = \\sqrt{\\tfrac{3}{2}}, \\quad \\mathbf{q}_2 = \\frac{1}{\\sqrt{3/2}}\\begin{bmatrix}1/2\\\\-1/2\\\\1\\end{bmatrix} = \\frac{1}{\\sqrt{6}}\\begin{bmatrix}1\\\\-1\\\\2\\end{bmatrix}",
+      "description_latex": "We normalize the residual vector to get $\\mathbf{q}_2$, and the norm becomes the second diagonal entry $r_{22}$ of $R$. You can verify that $\\langle \\mathbf{q}_1, \\mathbf{q}_2 \\rangle = 0$, confirming the columns of $Q$ are orthonormal.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q = \\begin{bmatrix} \\frac{1}{\\sqrt{2}} & \\frac{1}{\\sqrt{6}} \\\\ \\frac{1}{\\sqrt{2}} & \\frac{-1}{\\sqrt{6}} \\\\ 0 & \\frac{2}{\\sqrt{6}} \\end{bmatrix}, \\quad R = \\begin{bmatrix} \\sqrt{2} & \\frac{1}{\\sqrt{2}} \\\\ 0 & \\sqrt{\\frac{3}{2}} \\end{bmatrix}, \\quad A = QR",
+      "description_latex": "We assemble $Q$ from the orthonormal columns and $R$ from the coefficients we recorded: the diagonal holds the norms $r_{11}, r_{22}$ and the upper entry holds the projection coefficient $r_{12}$. You should multiply $QR$ explicitly to verify you recover $A$ \u2014 this check is always worth doing and it builds intuition for why the triangular structure of $R$ works out perfectly.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "A = \\begin{bmatrix} 1 & 2 \\\\ 0 & 1 \\\\ 0 & 0 \\end{bmatrix}",
+      "description_latex": "We want the QR decomposition of this matrix. Notice that $\\mathbf{a}_1 = (1,0,0)^T$ is already a unit vector, so the first step of Gram-Schmidt is trivial: we set $\\mathbf{q}_1 = \\mathbf{a}_1$ and record $r_{11} = \\|\\mathbf{a}_1\\| = 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r_{12} = \\langle \\mathbf{a}_2, \\mathbf{q}_1 \\rangle = 2, \\quad \\mathbf{a}_2 - r_{12}\\mathbf{q}_1 = \\begin{bmatrix}0\\\\1\\\\0\\end{bmatrix}",
+      "description_latex": "We project $\\mathbf{a}_2 = (2,1,0)^T$ onto $\\mathbf{q}_1$ to get the off-diagonal coefficient $r_{12} = 2$, and subtracting gives the orthogonal residual $(0,1,0)^T$, which is already a unit vector.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now assemble the full factorization: write down the matrix $Q$ using the two orthonormal columns you have found, and write down $R$ using the four coefficients $r_{11}, r_{12}, r_{21}, r_{22}$ you have computed (remember $r_{21} = 0$ because $R$ is upper triangular). What are $Q$ and $R$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the QR decomposition of $A = \\begin{bmatrix} 3 \\\\ 4 \\end{bmatrix}$ (a single-column matrix).",
+      "answer_latex": "Q = \\begin{bmatrix} 3/5 \\\\ 4/5 \\end{bmatrix},\\quad R = \\begin{bmatrix} 5 \\end{bmatrix}"
+    },
+    {
+      "prompt_latex": "Find the QR decomposition of $A = \\begin{bmatrix} 1 & 0 \\\\ 0 & 1 \\\\ 0 & 0 \\end{bmatrix}$.",
+      "answer_latex": "Q = \\begin{bmatrix} 1 & 0 \\\\ 0 & 1 \\\\ 0 & 0 \\end{bmatrix},\\quad R = \\begin{bmatrix} 1 & 0 \\\\ 0 & 1 \\end{bmatrix}"
+    },
+    {
+      "prompt_latex": "Apply Gram-Schmidt to find the QR decomposition of $A = \\begin{bmatrix} 1 & 1 \\\\ 0 & 1 \\end{bmatrix}$.",
+      "answer_latex": "Q = \\begin{bmatrix} 1 & 0 \\\\ 0 & 1 \\end{bmatrix},\\quad R = \\begin{bmatrix} 1 & 1 \\\\ 0 & 1 \\end{bmatrix}"
+    },
+    {
+      "prompt_latex": "Find the QR decomposition of $A = \\begin{bmatrix} 1 & 1 & 0 \\\\ 1 & 0 & 1 \\\\ 0 & 1 & 1 \\end{bmatrix}$ and use it to solve $A\\mathbf{x} = \\mathbf{b}$ with $\\mathbf{b} = (2, 2, 2)^T$ by back-substitution on $R\\mathbf{x} = Q^T\\mathbf{b}$.",
+      "answer_latex": "\\mathbf{x} = (1, 1, 1)^T"
+    },
+    {
+      "prompt_latex": "A data scientist represents three document vectors as columns of $A = \\begin{bmatrix} 2 & 1 \\\\ 1 & 2 \\end{bmatrix}$. Compute $Q$ and $R$ so that $A = QR$, and interpret what the columns of $Q$ represent geometrically in $\\mathbb{R}^2$.",
+      "answer_latex": "Q = \\begin{bmatrix} 2/\\sqrt{5} & -1/\\sqrt{5} \\\\ 1/\\sqrt{5} & 2/\\sqrt{5} \\end{bmatrix},\\quad R = \\begin{bmatrix} \\sqrt{5} & 4/\\sqrt{5} \\\\ 0 & 3/\\sqrt{5} \\end{bmatrix};\\text{ columns of }Q\\text{ form an orthonormal basis for }\\mathbb{R}^2"
+    }
+  ],
+  "common_mistakes": [
+    "Students often record $r_{ij} = \\langle \\mathbf{a}_j, \\mathbf{q}_i \\rangle$ correctly but then place it in position $(j, i)$ instead of $(i, j)$ when assembling $R$, producing a lower triangular matrix instead of an upper triangular one. Always remember that the column index of $R$ matches the column of $A$ being processed, so $r_{ij}$ sits in row $i$, column $j$ with $i \\leq j$.",
+    "After subtracting projection components to form the residual, students frequently forget to normalize the residual before using it as the next column of $Q$, which means $Q^T Q \\neq I$ and the factorization $A = QR$ fails. The diagonal entry $r_{kk}$ is precisely the norm of the residual, so if you skip normalization you are also losing the correct value for $r_{kk}$.",
+    "When solving $A\\mathbf{x} = \\mathbf{b}$ via QR, students sometimes compute $Q^T\\mathbf{b}$ but then try to invert $Q$ again instead of proceeding directly to back-substitution on $R\\mathbf{x} = Q^T\\mathbf{b}$. Since $Q^TQ = I$, multiplying both sides by $Q^T$ already isolates $R\\mathbf{x}$, and the only remaining work is triangular back-substitution."
+  ],
+  "untested_variants": [
+    "QR decomposition of a matrix with more columns than rows (the wide/fat matrix case where full column rank fails), which requires a different treatment or a rank-revealing variant.",
+    "Using the Householder reflection or Givens rotation algorithms to compute QR, as opposed to Gram-Schmidt \u2014 these are numerically stable alternatives tested in numerical linear algebra courses.",
+    "The full (square) QR decomposition where $Q$ is extended to a full $m \\times m$ orthogonal matrix by appending $m - n$ additional orthonormal columns, as opposed to the thin/reduced QR used in this lesson.",
+    "Applying QR decomposition to compute eigenvalues via the QR algorithm (iterating $A_{k+1} = R_k Q_k$), which combines QR factorization with spectral theory in a way not addressed here."
+  ]
+}

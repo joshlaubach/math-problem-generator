@@ -1,0 +1,81 @@
+{
+  "topic_id": "a2_019",
+  "topic_name": "Graphing Polynomial Functions and End Behavior",
+  "generated_at": "2026-05-12T23:22:47.173074+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to graph lines and parabolas \u2014 a line always goes in one direction forever, and a parabola opens up or down with arms that both point the same way. But what happens when you graph something like $f(x) = -2x^5 + 3x^2 - 7$? This function has degree 5, so it isn't a parabola, and its arms don't have to match. How do you even begin to sketch it, and can you predict what happens to the graph as $x$ runs off to $+\\infty$ or $-\\infty$ without plotting hundreds of points?",
+  "concept": "A polynomial function's **end behavior** describes what the output $f(x)$ does as $x \\to +\\infty$ and as $x \\to -\\infty$. In plain English: it tells you whether the far-left and far-right tails of the graph rise or fall. Formally, the end behavior of any polynomial $f(x) = a_n x^n + \\cdots + a_0$ is determined entirely by its **leading term** $a_n x^n$ \u2014 the degree $n$ and the sign of the leading coefficient $a_n$.",
+  "anatomy": "Every polynomial has four structural features that drive its graph. The **degree** $n$ tells you the overall shape: even-degree polynomials have both tails going the same direction, while odd-degree polynomials have tails going in opposite directions. The **leading coefficient** $a_n$ controls whether the right tail rises ($a_n > 0$) or falls ($a_n < 0$). The **zeros** (x-intercepts) are the $x$-values where $f(x)=0$, and the **multiplicity** of each zero tells you whether the graph crosses through the x-axis (odd multiplicity) or just touches and bounces back (even multiplicity). Together these four features let you sketch a rough but accurate graph.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 2x^3 - 5x^2 - 4x + 3",
+      "description_latex": "We start by identifying the leading term, which is $2x^3$. The degree is 3 (odd) and the leading coefficient is $2$ (positive), so we immediately know the end behavior: as $x \\to -\\infty$, $f(x) \\to -\\infty$, and as $x \\to +\\infty$, $f(x) \\to +\\infty$ \u2014 the graph falls to the left and rises to the right.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x) = 2x^3 - 5x^2 - 4x + 3 = (x-3)(2x+1)(x-1)",
+      "description_latex": "Next we factor the polynomial to find the zeros. Setting each factor equal to zero gives $x = 3$, $x = -\\tfrac{1}{2}$, and $x = 1$. Each factor appears exactly once, so every zero has multiplicity 1 (odd), which means the graph will cross through the x-axis at each of these three points.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(0) = 2(0)^3 - 5(0)^2 - 4(0) + 3 = 3",
+      "description_latex": "We find the y-intercept by plugging in $x = 0$. This gives $f(0) = 3$, so the graph passes through $(0, 3)$. The y-intercept is always a quick anchor point that helps you orient the sketch correctly between the zeros.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Plot: } (-\\tfrac{1}{2},\\,0),\\;(0,\\,3),\\;(1,\\,0),\\;(3,\\,0) \\text{ and apply end behavior}",
+      "description_latex": "Now we combine all the information: plot the zeros and the y-intercept, then draw the tails according to the end behavior \u2014 falling on the left, rising on the right. Between consecutive zeros the graph is either entirely above or entirely below the x-axis, so test one value in each interval (for example, $f(2) = -9 < 0$ tells us the graph dips below the axis between $x=1$ and $x=3$) to confirm which side it's on.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x) = -x^4 + 4x^2",
+      "description_latex": "We are going to sketch a rough graph of $g(x) = -x^4 + 4x^2$. The first task is always to read the leading term and state the end behavior. The leading term here is $-x^4$: the degree is 4 (even) and the leading coefficient is $-1$ (negative), so both tails fall \u2014 as $x \\to \\pm\\infty$, $g(x) \\to -\\infty$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(x) = -x^4 + 4x^2 = x^2(-x^2 + 4) = -x^2(x-2)(x+2)",
+      "description_latex": "Here we factor the polynomial completely to find the zeros and their multiplicities. After factoring we can see that $x = 0$ is a zero of multiplicity 2 (even), so the graph will touch but not cross the x-axis there, while $x = 2$ and $x = -2$ each have multiplicity 1 (odd), so the graph crosses through those points.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the zeros $x = -2,\\; x = 0,\\; x = 2$, the y-intercept, the behavior at each zero (bounce vs. cross), and the end behavior you identified, sketch the graph of $g(x)$. Describe in words or draw the shape: where does the graph cross the x-axis, where does it bounce, and which way do the tails point?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the end behavior of $h(x) = 5x^6 - 3x + 1$.",
+      "answer_latex": "\\text{As } x \\to +\\infty,\\; h(x) \\to +\\infty \\text{ and as } x \\to -\\infty,\\; h(x) \\to +\\infty"
+    },
+    {
+      "prompt_latex": "State the end behavior of $p(x) = -4x^3 + 7x^2 - 2$.",
+      "answer_latex": "\\text{As } x \\to -\\infty,\\; p(x) \\to +\\infty \\text{ and as } x \\to +\\infty,\\; p(x) \\to -\\infty"
+    },
+    {
+      "prompt_latex": "For $f(x) = (x+1)^2(x-3)$, identify all zeros with their multiplicities and state whether the graph crosses or bounces at each. Then state the end behavior.",
+      "answer_latex": "x = -1 \\text{ (mult. 2, bounces)},\\; x = 3 \\text{ (mult. 1, crosses)};\\; \\text{degree 3, positive leading coeff: falls left, rises right}"
+    },
+    {
+      "prompt_latex": "Given that $q(x) = -2x^4 + 3x^3 + 8x^2 - 12x$ factors as $q(x) = -x(x-2)(2x^2+x-6)$, completely factor and sketch a rough graph labeling all x-intercepts, the y-intercept, and end behavior.",
+      "answer_latex": "q(x) = -x(x-2)(2x-3)(x+2);\\; \\text{zeros: } x=0,\\,2,\\,\\tfrac{3}{2},\\,-2;\\; y\\text{-int: }(0,0);\\; \\text{both tails} \\to -\\infty"
+    },
+    {
+      "prompt_latex": "A roller coaster's height (in feet) over a horizontal distance $x$ (in hundreds of feet) is modeled by $H(x) = -0.5x^3 + 3x^2 + 1$, valid for $0 \\le x \\le 6$. What does the end behavior of the cubic tell you about the ride's height as $x$ increases beyond the valid domain, and what does the leading coefficient's sign tell you about the overall trend?",
+      "answer_latex": "\\text{Leading term } -0.5x^3 \\text{: as } x \\to +\\infty,\\, H \\to -\\infty,\\text{ so the coaster would descend without bound; the negative leading coefficient indicates a net downward trend at large } x."
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse even and odd degree rules when the leading coefficient is negative, thinking a negative leading coefficient always means the graph falls on both sides \u2014 but that is only true for even degree. For an odd-degree polynomial with a negative leading coefficient, the right tail falls AND the left tail rises, which is the opposite of the positive-leading-coefficient odd-degree case. Always determine degree and sign separately before stating end behavior.",
+    "When reading the leading term, students sometimes choose the term with the largest coefficient value instead of the term with the highest exponent \u2014 for example, treating $7x^2$ as the leading term of $2x^5 + 7x^2 - 1$ because 7 > 2. Remember that the leading term is defined by the highest power of $x$, not the largest number in front of it.",
+    "At zeros with even multiplicity, students frequently draw the graph crossing through the x-axis like a regular intercept instead of bouncing off it. The graph of a factor like $(x-a)^2$ is tangent to the x-axis at $x = a$, meaning it touches zero and turns back the way it came \u2014 it does not pass through. A quick check is to evaluate the polynomial on both sides of the zero: if the sign does not change, the graph bounces."
+  ],
+  "untested_variants": [
+    "Determining end behavior and zeros for a polynomial given in completely factored form where one factor is an irreducible quadratic, such as $f(x) = (x-1)(x^2+4)(x+3)$.",
+    "Using end behavior and sign analysis to determine the number of local maxima and minima a polynomial can have based on its degree (connecting the Intermediate Value Theorem to graphs).",
+    "Writing a possible polynomial equation from a given graph \u2014 identifying degree, leading coefficient sign, zeros, and multiplicities by reading the picture and working backwards.",
+    "Graphing a polynomial that has been given in standard form requiring synthetic division or the Rational Root Theorem to find its zeros before sketching."
+  ]
+}

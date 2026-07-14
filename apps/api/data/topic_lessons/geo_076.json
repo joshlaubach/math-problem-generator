@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_076",
+  "topic_name": "Sample Spaces and Basic Probability",
+  "generated_at": "2026-05-12T23:15:11.353272+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to find the area of shapes and count combinations of objects. Now imagine you spin a spinner with four equal sections \u2014 red, blue, green, yellow \u2014 and want to know how likely it is to land on blue. You might guess '1 out of 4,' but how do you write that mathematically, and what if the sections weren't equal? What is the precise rule that turns counting into probability?",
+  "concept": "Probability measures how likely an event is to occur, expressed as a number between 0 and 1. Informally, you count the outcomes you want and divide by the total outcomes possible. Formally, if every outcome is equally likely, the probability of event $A$ is $P(A) = \\dfrac{\\text{number of outcomes in } A}{\\text{total number of outcomes in the sample space}}$, where $0 \\le P(A) \\le 1$.",
+  "anatomy": "There are three essential components to every basic probability problem. The sample space $S$ is the complete set of all possible outcomes \u2014 for a standard die, $S = \\{1, 2, 3, 4, 5, 6\\}$ with $|S| = 6$. An event $A$ is any subset of the sample space you care about \u2014 for example, rolling an even number gives $A = \\{2, 4, 6\\}$ with $|A| = 3$. The probability ratio $P(A) = \\dfrac{|A|}{|S|}$ combines these two counts into a value that lives on the number line between 0 (impossible) and 1 (certain).",
+  "worked_example": [
+    {
+      "expression_latex": "S = \\{1, 2, 3, 4, 5, 6\\}, \\quad |S| = 6",
+      "description_latex": "We begin by writing out the sample space, which lists every possible outcome when rolling a standard six-sided die. Identifying the sample space first is critical because it forms the denominator of our probability fraction \u2014 without it, we have nothing to compare against.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\{\\text{rolling a number greater than 4}\\} = \\{5, 6\\}, \\quad |A| = 2",
+      "description_latex": "Next we define the event $A$ as the specific outcomes we want, then count them. We scan through the sample space and pick only the values that satisfy the condition 'greater than 4,' which gives us 5 and 6, so $|A| = 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A) = \\frac{|A|}{|S|} = \\frac{2}{6}",
+      "description_latex": "Now we apply the basic probability formula by placing the number of favorable outcomes over the total number of outcomes. This ratio tells us that 2 out of every 6 equally-likely outcomes satisfy our condition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A) = \\frac{2}{6} = \\frac{1}{3} \\approx 0.\\overline{3}",
+      "description_latex": "Finally, we simplify the fraction by dividing numerator and denominator by their greatest common factor, 2. Expressing the answer as $\\frac{1}{3}$ (or approximately 33.3%) is the cleanest form and makes it easy to compare with other probabilities.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "S = \\{A\\heartsuit, 2\\heartsuit, 3\\heartsuit, \\ldots, K\\heartsuit, A\\diamondsuit, \\ldots, K\\spadesuit\\}, \\quad |S| = 52",
+      "description_latex": "A card is drawn at random from a standard 52-card deck. We start by establishing the sample space: there are 52 equally-likely cards, so $|S| = 52$. This number will be the denominator of our probability.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\{\\text{drawing a King}\\} = \\{K\\heartsuit, K\\diamondsuit, K\\clubsuit, K\\spadesuit\\}",
+      "description_latex": "Now define event $A$ as drawing any King. List every King in the deck \u2014 one per suit \u2014 and count them to find $|A|$. How many Kings are there, and what is $|A|$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(A) = \\frac{|A|}{|S|} = \\frac{4}{52} = \\frac{1}{13}",
+      "description_latex": "Using your count of $|A| = 4$ and the known $|S| = 52$, write the probability ratio and simplify it fully. What is $P(\\text{King})$ in simplest form?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A bag contains 5 red marbles and 5 blue marbles. You pick one marble at random. What is $P(\\text{red})$?",
+      "answer_latex": "P(\\text{red}) = \\dfrac{5}{10} = \\dfrac{1}{2}"
+    },
+    {
+      "prompt_latex": "A six-sided die is rolled once. What is the probability of rolling a prime number? (Recall: 2, 3, 5 are prime.)",
+      "answer_latex": "P(\\text{prime}) = \\dfrac{3}{6} = \\dfrac{1}{2}"
+    },
+    {
+      "prompt_latex": "A spinner is divided into 8 equal sections numbered 1 through 8. What is the probability of landing on a multiple of 3?",
+      "answer_latex": "P(\\text{multiple of 3}) = \\dfrac{2}{8} = \\dfrac{1}{4}"
+    },
+    {
+      "prompt_latex": "A box contains 4 green, 3 yellow, and 5 purple tiles. A tile is chosen at random. What is the probability that it is NOT green?",
+      "answer_latex": "P(\\text{not green}) = 1 - \\dfrac{4}{12} = \\dfrac{8}{12} = \\dfrac{2}{3}"
+    },
+    {
+      "prompt_latex": "A classroom has 12 boys and 18 girls. The teacher randomly selects one student to answer a question. What is $P(\\text{girl})$? If the teacher then picks a second student at random from the remaining 29 students (the first girl was not replaced), what is the probability that this second student is also a girl?",
+      "answer_latex": "P(\\text{1st is girl}) = \\dfrac{18}{30} = \\dfrac{3}{5};\\quad P(\\text{2nd is girl} \\mid \\text{1st was girl}) = \\dfrac{17}{29}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write the probability as a ratio greater than 1, placing the total number of outcomes in the numerator and the favorable outcomes in the denominator \u2014 for example, writing $\\frac{6}{2}$ instead of $\\frac{2}{6}$. Remember: the sample space size always goes in the denominator because it represents the whole.",
+    "Students forget to check that the sample space includes ALL outcomes, especially when a problem involves multiple categories \u2014 for example, listing only red marbles in a bag that also contains blue and green ones. Always count every possible outcome before computing any probability.",
+    "After setting up $\\frac{|A|}{|S|}$ correctly, students skip simplifying the fraction or leave it as a decimal rounded incorrectly. Probability answers should be expressed as fully reduced fractions (or exact decimals) unless the problem specifies otherwise, because an unsimplified fraction can hide the true relationship."
+  ],
+  "untested_variants": [
+    "Geometric probability, where the sample space is a continuous region (such as a circle inside a square) and probability equals the ratio of areas rather than counts of discrete outcomes.",
+    "Probability using combinations or permutations, where the sample space is too large to list and must be calculated using $\\binom{n}{k}$ \u2014 for example, finding the probability of being dealt exactly two aces in a 5-card hand.",
+    "Theoretical versus experimental probability comparisons, where students run or interpret a simulation and must explain why observed relative frequencies differ from the theoretical value.",
+    "Probability of compound events using the Addition Rule $P(A \\cup B) = P(A) + P(B) - P(A \\cap B)$, which requires handling overlapping events rather than a single simple event."
+  ]
+}

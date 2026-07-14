@@ -1,0 +1,86 @@
+{
+  "topic_id": "pc_009",
+  "topic_name": "Dividing Polynomials and the Remainder Theorem",
+  "generated_at": "2026-05-13T20:47:19.370139+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to divide integers \u2014 for example, $17 \\div 5 = 3$ remainder $2$, which you can write as $17 = 5 \\cdot 3 + 2$. Polynomials follow the exact same structure: dividing $p(x)$ by $d(x)$ produces a quotient and possibly a remainder. But here's the gap \u2014 when someone asks you to find the value of $p(3)$ for a complicated polynomial without a calculator, is there a shortcut that bypasses plugging in and grinding through arithmetic? That shortcut exists, and it's called the Remainder Theorem \u2014 but can you use it correctly?",
+  "concept": "Polynomial long division is the process of dividing one polynomial $p(x)$ by a divisor $d(x)$ to obtain a quotient $q(x)$ and a remainder $r(x)$, satisfying $p(x) = d(x) \\cdot q(x) + r(x)$, where the degree of $r(x)$ is strictly less than the degree of $d(x)$. The Remainder Theorem is the elegant special case: when $d(x) = x - c$, the remainder is exactly the constant $p(c)$, so evaluating the remainder tells you the function's value at $x = c$.",
+  "anatomy": "In the division statement $p(x) = (x - c) \\cdot q(x) + r$, each piece has a specific role. The dividend $p(x)$ is the polynomial being divided. The divisor $(x - c)$ is the linear factor you divide by, where $c$ is the value you substitute in the Remainder Theorem. The quotient $q(x)$ is the resulting polynomial whose degree is one less than $p(x)$. The remainder $r$ is a single constant (since $r$ must have degree less than 1), and by the Remainder Theorem this constant equals $p(c)$. In synthetic division, the number $c$ goes in the box, the coefficients of $p(x)$ fill the row, and the final entry in the bottom row is both the remainder and $p(c)$.",
+  "worked_example": [
+    {
+      "expression_latex": "p(x) = 2x^3 - 3x^2 + x - 5, \\quad \\text{divide by } (x - 2)",
+      "description_latex": "We want to divide $p(x) = 2x^3 - 3x^2 + x - 5$ by $(x-2)$ using synthetic division, and then use the Remainder Theorem to confirm our answer. Since the divisor is $(x - 2)$, we identify $c = 2$ and write the coefficients of $p(x)$ in order: $2, -3, 1, -5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{r|rrrr} 2 & 2 & -3 & 1 & -5 \\\\ & & 4 & 2 & 6 \\\\ \\hline & 2 & 1 & 3 & 1 \\end{array}",
+      "description_latex": "We set up the synthetic division table with $c = 2$ in the box. We bring down the leading coefficient $2$, multiply by $2$ to get $4$, add to $-3$ to get $1$, multiply by $2$ to get $2$, add to $1$ to get $3$, multiply by $2$ to get $6$, and add to $-5$ to get $1$. The bottom row gives the coefficients of the quotient and the remainder.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "q(x) = 2x^2 + x + 3, \\quad r = 1",
+      "description_latex": "Reading the bottom row, the first three numbers $2, 1, 3$ are the coefficients of the quotient polynomial $q(x) = 2x^2 + x + 3$ (one degree lower than $p(x)$), and the last number $1$ is the remainder. This means $p(x) = (x-2)(2x^2 + x + 3) + 1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(2) = 2(2)^3 - 3(2)^2 + (2) - 5 = 16 - 12 + 2 - 5 = 1",
+      "description_latex": "The Remainder Theorem states that the remainder when dividing by $(x - c)$ equals $p(c)$. We verify by computing $p(2)$ directly: $2(8) - 3(4) + 2 - 5 = 16 - 12 + 2 - 5 = 1$. This matches our remainder of $1$, confirming the theorem and our synthetic division are both correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "p(x) = x^3 + 4x^2 - 2x + 6, \\quad \\text{divide by } (x + 3)",
+      "description_latex": "We want to divide $p(x) = x^3 + 4x^2 - 2x + 6$ by $(x+3)$. The first thing to do is rewrite the divisor as $(x - c)$ to identify $c$. Since $x + 3 = x - (-3)$, we have $c = -3$. The coefficients of $p(x)$ in order are $1, 4, -2, 6$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{r|rrrr} -3 & 1 & 4 & -2 & 6 \\\\ & & \\square & \\square & \\square \\\\ \\hline & 1 & \\square & \\square & \\square \\end{array}",
+      "description_latex": "Set up the synthetic division with $c = -3$ in the box and the coefficients $1, 4, -2, 6$ across the top. Carry out each multiply-and-add step to fill in the bottom row. What are the entries in the bottom row?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "q(x) = x^2 + x - 5, \\quad r = 21",
+      "description_latex": "The completed bottom row is $1, 1, -5, 21$, giving quotient $q(x) = x^2 + x - 5$ and remainder $21$. Now use the Remainder Theorem to verify: compute $p(-3)$ directly and confirm it equals $21$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(-3) = ?",
+      "description_latex": "Substitute $x = -3$ into $p(x) = x^3 + 4x^2 - 2x + 6$ and simplify. What value do you get, and does it match the remainder from synthetic division?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use the Remainder Theorem to find $p(3)$ if $p(x) = x^3 - 2x + 4$.",
+      "answer_latex": "p(3) = 25"
+    },
+    {
+      "prompt_latex": "Divide $p(x) = 2x^3 + x^2 - 5x + 2$ by $(x - 1)$ using synthetic division. State the quotient and remainder.",
+      "answer_latex": "q(x) = 2x^2 + 3x - 2, \\quad r = 0"
+    },
+    {
+      "prompt_latex": "Divide $p(x) = x^4 - 3x^3 + 0x^2 + 2x - 7$ by $(x + 2)$ using synthetic division. State the quotient and remainder.",
+      "answer_latex": "q(x) = x^3 - 5x^2 + 10x - 18, \\quad r = 29"
+    },
+    {
+      "prompt_latex": "Given that $p(x) = x^3 - 4x^2 + kx - 6$ leaves a remainder of $-2$ when divided by $(x - 3)$, find the value of $k$.",
+      "answer_latex": "k = 5"
+    },
+    {
+      "prompt_latex": "A box's volume is modeled by $V(x) = x^3 + 6x^2 + 11x + 6$ cubic inches. If one dimension of the box is $(x+2)$ inches, use polynomial division to find the expression for the area of the remaining two dimensions combined as a product, and determine whether $(x+2)$ divides $V(x)$ evenly.",
+      "answer_latex": "V(x) \\div (x+2) = x^2 + 4x + 3 = (x+1)(x+3), \\text{ remainder } 0, \\text{ so } (x+2) \\text{ divides evenly}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use $c = 3$ in the synthetic division box when the divisor is written as $(x + 3)$, forgetting that the divisor must be in the form $(x - c)$, which means $c = -3$; always rewrite the divisor as $(x - c)$ and read off $c$ carefully before setting up the table.",
+    "When the dividend is missing a power of $x$ \u2014 for example $p(x) = x^4 - 2x^2 + 5$ has no $x^3$ or $x^1$ term \u2014 students omit those coefficients entirely instead of writing a $0$ placeholder, which shifts every column and produces a completely wrong quotient; always write out all coefficients, inserting $0$ for any missing degree.",
+    "After completing synthetic division, students assign the bottom-row numbers to degrees that are too high, forgetting that the quotient has degree one less than the dividend; for example, if $p(x)$ is degree 3 and the bottom row reads $2, 1, -4, 7$, the quotient is $2x^2 + x - 4$, not $2x^3 + x^2 - 4x$, and $7$ is the remainder."
+  ],
+  "untested_variants": [
+    "Using polynomial long division (not synthetic division) to divide by a non-linear divisor such as $(x^2 + 2x - 1)$, where synthetic division does not apply.",
+    "Applying the Factor Theorem as a direct consequence of the Remainder Theorem \u2014 that is, proving $(x - c)$ is a factor of $p(x)$ if and only if $p(c) = 0$ \u2014 and using it to fully factor a polynomial.",
+    "Dividing a polynomial by a divisor of the form $(ax - b)$ where $a \\neq 1$, such as $(2x - 3)$, which requires using $c = \\frac{b}{a}$ in synthetic division and then adjusting the result.",
+    "Using the Remainder Theorem in reverse to reconstruct an unknown polynomial given information about multiple remainders at different values of $c$."
+  ]
+}

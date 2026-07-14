@@ -1,0 +1,76 @@
+{
+  "topic_id": "pf_003",
+  "topic_name": "Negation of Statements and Quantifiers",
+  "generated_at": "2026-05-13T20:17:39.570815+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to work with statements like 'All prime numbers are odd' \u2014 you can check examples, find counterexamples, and decide if something is true or false. But what happens when you need to formally *deny* a statement? If someone claims 'Every student passed the exam,' you instinctively know the negation involves *at least one* student who did not pass \u2014 yet writing that precisely using logic symbols trips most students up. How do you correctly negate a statement that contains the quantifiers $\\forall$ or $\\exists$?",
+  "concept": "Negation flips the truth value of a statement: if $P$ is true, $\\neg P$ is false, and vice versa. For simple statements this is straightforward, but quantified statements require a rule: the negation of $\\forall x,\\, P(x)$ is $\\exists x,\\, \\neg P(x)$, and the negation of $\\exists x,\\, P(x)$ is $\\forall x,\\, \\neg P(x)$. In plain English, saying 'not all things satisfy $P$' means 'some thing fails $P$,' and saying 'nothing satisfies $P$' means 'everything fails $P$.'",
+  "anatomy": "A quantified statement has three distinct parts: the **quantifier** ($\\forall$, meaning 'for all,' or $\\exists$, meaning 'there exists'), the **variable** (such as $x$) ranging over some **domain** (the set from which $x$ is drawn, e.g., the integers $\\mathbb{Z}$ or the real numbers $\\mathbb{R}$), and the **predicate** $P(x)$, a property that may or may not hold for each element. When negating, the quantifier flips ($\\forall \\leftrightarrow \\exists$), the variable and domain stay the same, and the predicate itself gets negated ($P(x)$ becomes $\\neg P(x)$).",
+  "worked_example": [
+    {
+      "expression_latex": "S:\\; \\forall x \\in \\mathbb{R},\\; x^2 \\geq 0",
+      "description_latex": "We start by identifying the three components of statement $S$: the quantifier is $\\forall$, the domain is $\\mathbb{R}$, and the predicate is $P(x): x^2 \\geq 0$. Before writing any negation, always name these parts explicitly \u2014 it prevents the very common error of forgetting to negate the predicate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\neg S:\\; \\exists x \\in \\mathbb{R},\\; \\neg(x^2 \\geq 0)",
+      "description_latex": "Applying the negation rule for universal quantifiers, we swap $\\forall$ to $\\exists$ and place $\\neg$ in front of the predicate. Notice that the domain $\\mathbb{R}$ is completely unchanged \u2014 the negation only affects the quantifier and the predicate, never the domain.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\neg S:\\; \\exists x \\in \\mathbb{R},\\; x^2 < 0",
+      "description_latex": "Now we simplify $\\neg(x^2 \\geq 0)$ to $x^2 < 0$ by applying the standard inequality negation rule ($\\neg(a \\geq b)$ becomes $a < b$). This gives us the fully simplified negation, which says 'there exists a real number whose square is negative' \u2014 a statement that is, in fact, false, confirming that the original $S$ is true.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "S:\\; \\exists n \\in \\mathbb{Z},\\; n^2 = 2",
+      "description_latex": "We are given statement $S$ and asked to write its negation in fully simplified form. Start by identifying the quantifier ($\\exists$), the domain ($\\mathbb{Z}$), and the predicate ($n^2 = 2$) before touching anything else.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\neg S:\\; \\forall n \\in \\mathbb{Z},\\; \\neg(n^2 = 2)",
+      "description_latex": "Applying the negation rule for existential quantifiers flips $\\exists$ to $\\forall$ and places $\\neg$ in front of the predicate. The domain $\\mathbb{Z}$ remains exactly as it was \u2014 write this intermediate step out explicitly so you don't accidentally skip the predicate negation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now simplify $\\neg(n^2 = 2)$ to its standard inequality form and write the fully simplified negation $\\neg S$. What does this statement say in plain English, and is it true or false?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Write the negation of the statement $P: \\; 7 > 5$.",
+      "answer_latex": "\\neg P: \\; 7 \\leq 5"
+    },
+    {
+      "prompt_latex": "Write the fully simplified negation of $S: \\; \\forall x \\in \\mathbb{N},\\; x > 0$.",
+      "answer_latex": "\\neg S: \\; \\exists x \\in \\mathbb{N},\\; x \\leq 0"
+    },
+    {
+      "prompt_latex": "Write the fully simplified negation of $S: \\; \\exists x \\in \\mathbb{R},\\; x + 3 = 7$.",
+      "answer_latex": "\\neg S: \\; \\forall x \\in \\mathbb{R},\\; x + 3 \\neq 7"
+    },
+    {
+      "prompt_latex": "Negate the following statement and determine whether the negation is true or false: $S: \\; \\forall x \\in \\mathbb{R},\\; x^2 > x$.",
+      "answer_latex": "\\neg S: \\; \\exists x \\in \\mathbb{R},\\; x^2 \\leq x. \\text{ This is TRUE (e.g., } x = 0 \\text{ gives } 0 \\leq 0\\text{).}"
+    },
+    {
+      "prompt_latex": "A biologist claims: 'Every cell in this sample contains a nucleus.' Write this claim in logical notation using an appropriate domain, then write its fully simplified negation in both logical notation and a plain English sentence.",
+      "answer_latex": "S: \\; \\forall c \\in \\text{Sample},\\; \\text{HasNucleus}(c). \\quad \\neg S: \\; \\exists c \\in \\text{Sample},\\; \\neg\\,\\text{HasNucleus}(c). \\text{ In English: There is at least one cell in the sample that does not contain a nucleus.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to negate the predicate and write only the flipped quantifier, producing $\\exists x \\in \\mathbb{R},\\; P(x)$ instead of $\\exists x \\in \\mathbb{R},\\; \\neg P(x)$. Fix: always treat the negation as two separate jobs \u2014 flip the quantifier AND negate the predicate.",
+    "Students change the domain when negating, for example writing $\\neg(\\forall x \\in \\mathbb{R},\\; P(x))$ as $\\exists x \\notin \\mathbb{R},\\; \\neg P(x)$. The domain never changes under negation; only the quantifier and predicate are affected.",
+    "When the predicate involves a compound condition, students only partially negate it \u2014 for instance, negating $x > 0 \\text{ and } x < 10$ as $x \\leq 0 \\text{ and } x \\geq 10$ instead of correctly applying De Morgan's Law to get $x \\leq 0 \\text{ or } x \\geq 10$. Fix: after flipping the quantifier, apply all relevant negation rules (De Morgan, inequality reversal) carefully to the full predicate."
+  ],
+  "untested_variants": [
+    "Negating statements with two nested quantifiers, such as $\\forall x \\in \\mathbb{R},\\; \\exists y \\in \\mathbb{R},\\; x + y = 0$, where both quantifiers must be flipped in sequence.",
+    "Negating a conditional (implication) statement of the form $\\forall x,\\; P(x) \\Rightarrow Q(x)$, which requires recognizing that the negation is $\\exists x,\\; P(x) \\wedge \\neg Q(x)$.",
+    "Negating compound quantified statements joined by logical connectives, such as $(\\forall x,\\; P(x)) \\wedge (\\exists y,\\; Q(y))$, requiring De Morgan's Law at the statement level.",
+    "Determining the truth value of a negated statement in a specific finite domain by checking all elements, rather than simply writing the symbolic negation."
+  ]
+}

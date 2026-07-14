@@ -1,0 +1,86 @@
+{
+  "topic_id": "pt_003",
+  "topic_name": "Conditional Probability and Bayes' Theorem",
+  "generated_at": "2026-05-14T00:59:59.842049+00:00",
+  "course_name": "Probability Theory",
+  "hook": "You already know how to compute the probability of events using sample spaces and basic axioms. But what happens when you learn that something has already occurred \u2014 does that change the probability of another event? Imagine you know a randomly chosen person tested positive for a rare disease. Should you update your belief about whether they actually have it? This is the question conditional probability and Bayes' theorem are designed to answer, and right now you don't yet have the tools to do it rigorously.",
+  "concept": "Conditional probability captures how the probability of an event changes once we know another event has occurred. Formally, the conditional probability of event $A$ given event $B$ is defined as $P(A \\mid B) = \\dfrac{P(A \\cap B)}{P(B)}$, provided $P(B) > 0$. Bayes' theorem then inverts this relationship: $P(A \\mid B) = \\dfrac{P(B \\mid A)\\, P(A)}{P(B)}$, allowing us to update our beliefs about $A$ after observing $B$.",
+  "anatomy": "In the formula $P(A \\mid B) = \\dfrac{P(A \\cap B)}{P(B)}$, the vertical bar '$\\mid$' is read 'given' and signals that we are restricting our universe to outcomes where $B$ occurred. The numerator $P(A \\cap B)$ is the joint probability \u2014 the chance both $A$ and $B$ happen simultaneously. The denominator $P(B)$ is the conditioning event's probability, which re-normalizes the sample space so all probabilities in the new restricted universe still sum to one. In Bayes' theorem, $P(A)$ is called the prior (our belief before seeing data), $P(B \\mid A)$ is the likelihood (how probable the evidence is if $A$ is true), and $P(A \\mid B)$ is the posterior (our updated belief after seeing the evidence). The denominator $P(B)$ is often expanded using the law of total probability: $P(B) = P(B \\mid A)P(A) + P(B \\mid A^c)P(A^c)$.",
+  "worked_example": [
+    {
+      "expression_latex": "P(\\text{Disease}) = 0.01,\\quad P(+\\mid \\text{Disease}) = 0.95,\\quad P(+\\mid \\text{No Disease}) = 0.05",
+      "description_latex": "We start by laying out all the given information clearly. We know the disease is rare (1% prevalence), the test catches 95% of true cases, and it falsely flags 5% of healthy people \u2014 these three numbers are everything we need to apply Bayes' theorem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(+) = P(+\\mid \\text{Disease})\\,P(\\text{Disease}) + P(+\\mid \\text{No Disease})\\,P(\\text{No Disease})",
+      "description_latex": "Before we can apply Bayes' theorem we need the total probability of a positive test, $P(+)$. We use the law of total probability, which breaks $P(+)$ into contributions from both possible 'causes' \u2014 having the disease and not having it \u2014 weighted by their respective probabilities.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(+) = (0.95)(0.01) + (0.05)(0.99) = 0.0095 + 0.0495 = 0.0590",
+      "description_latex": "Plugging in the numbers, we find that about 5.9% of people tested will receive a positive result. Notice that the false positives from the large healthy population (0.0495) actually dominate over the true positives from the small sick population (0.0095) \u2014 this is why rare-disease testing can be counterintuitive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Disease}\\mid +) = \\frac{P(+\\mid \\text{Disease})\\,P(\\text{Disease})}{P(+)} = \\frac{(0.95)(0.01)}{0.0590}",
+      "description_latex": "Now we apply Bayes' theorem directly. The numerator is the joint probability that a person has the disease AND tests positive, and the denominator is the total probability of a positive result that we just computed \u2014 this division rescales everything to the world where the test was positive.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(\\text{Disease}\\mid +) = \\frac{0.0095}{0.0590} \\approx 0.161",
+      "description_latex": "The posterior probability is only about 16%, even though the test is 95% accurate \u2014 a genuinely surprising result that comes from the disease being so rare. This illustrates why Bayes' theorem is powerful: it correctly accounts for the prior probability, preventing us from dramatically overestimating the chance of a rare condition.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P(A) = 0.30,\\quad P(B) = 0.50,\\quad P(A \\cap B) = 0.15",
+      "description_latex": "Here are the given probabilities for two events $A$ and $B$. We want to find $P(A \\mid B)$, the probability of $A$ given that $B$ has already occurred. Read through the definition of conditional probability and identify which numbers belong in the numerator and which in the denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A \\mid B) = \\frac{P(A \\cap B)}{P(B)} = \\frac{0.15}{0.50}",
+      "description_latex": "We substitute into the definition $P(A \\mid B) = \\dfrac{P(A \\cap B)}{P(B)}$. The joint probability goes in the numerator and the conditioning event's probability goes in the denominator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now simplify the fraction $\\dfrac{0.15}{0.50}$ to obtain $P(A \\mid B)$. What does this value tell you compared to the unconditional probability $P(A) = 0.30$? Are $A$ and $B$ independent?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $P(A \\cap B) = 0.12$ and $P(B) = 0.40$, find $P(A \\mid B)$.",
+      "answer_latex": "P(A \\mid B) = \\dfrac{0.12}{0.40} = 0.30"
+    },
+    {
+      "prompt_latex": "A fair six-sided die is rolled. Let $B$ = \\{the result is even\\} and $A$ = \\{the result is greater than 3\\}. Find $P(A \\mid B)$.",
+      "answer_latex": "P(A \\mid B) = \\dfrac{P(A \\cap B)}{P(B)} = \\dfrac{2/6}{3/6} = \\dfrac{2}{3}"
+    },
+    {
+      "prompt_latex": "Given $P(A) = 0.4$, $P(B \\mid A) = 0.6$, and $P(B \\mid A^c) = 0.2$, use Bayes' theorem to find $P(A \\mid B)$.",
+      "answer_latex": "P(B) = (0.6)(0.4)+(0.2)(0.6)=0.36,\\quad P(A\\mid B)=\\dfrac{(0.6)(0.4)}{0.36}=\\dfrac{0.24}{0.36}=\\dfrac{2}{3}"
+    },
+    {
+      "prompt_latex": "Events $A$ and $B$ satisfy $P(A) = 0.5$, $P(B) = 0.4$, and $P(A \\mid B) = 0.6$. Determine whether $A$ and $B$ are independent, and find $P(A \\cup B)$ using the inclusion-exclusion principle.",
+      "answer_latex": "P(A\\cap B)=P(A\\mid B)\\cdot P(B)=(0.6)(0.4)=0.24 \\neq P(A)P(B)=0.20,\\text{ so not independent};\\quad P(A\\cup B)=0.5+0.4-0.24=0.66"
+    },
+    {
+      "prompt_latex": "A factory has two machines. Machine 1 produces 60\\% of items and has a 3\\% defect rate; Machine 2 produces 40\\% of items and has a 5\\% defect rate. An item is chosen at random and found to be defective. What is the probability it came from Machine 2?",
+      "answer_latex": "P(D)=(0.03)(0.6)+(0.05)(0.4)=0.018+0.020=0.038;\\quad P(M_2\\mid D)=\\dfrac{(0.05)(0.40)}{0.038}=\\dfrac{0.020}{0.038}\\approx 0.526"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $P(A \\mid B) = P(B \\mid A)$ and treat conditional probability as symmetric. This is almost never true \u2014 $P(\\text{Disease}\\mid +)$ and $P(+\\mid \\text{Disease})$ are completely different quantities. Always identify which event is the condition (after the bar) and which is the query (before the bar).",
+    "When applying Bayes' theorem, students forget to compute $P(B)$ via the law of total probability and instead plug in an incorrect or circular value for the denominator. Remember that $P(B) = P(B\\mid A)P(A) + P(B\\mid A^c)P(A^c)$ must be calculated explicitly before the final division.",
+    "Students confuse $P(A \\cap B)$ with $P(A) \\cdot P(B)$ in the numerator of the conditional probability formula, applying the multiplication rule for independent events even when independence has not been established. The correct numerator is always $P(A \\cap B)$; you may only factor it as $P(A)P(B)$ after you have verified independence."
+  ],
+  "untested_variants": [
+    "Conditional probability problems involving continuous random variables and conditional density functions $f_{X\\mid Y}(x\\mid y)$, which require integration rather than discrete summation.",
+    "Sequential updating (iterative Bayes), where Bayes' theorem is applied multiple times as new pieces of evidence arrive one after another, making the posterior of one step the prior of the next.",
+    "Problems using a partition of three or more mutually exclusive, exhaustive events in the law of total probability (e.g., three machines or three disease subtypes), rather than the two-event complement form used in the practice problems.",
+    "Conditional independence \u2014 determining whether $A$ and $B$ are independent given $C$, i.e., whether $P(A \\cap B \\mid C) = P(A \\mid C)\\,P(B \\mid C)$ \u2014 which is distinct from ordinary (marginal) independence."
+  ]
+}

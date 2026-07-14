@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_017",
+  "topic_name": "Solving Quadratics with Complex Solutions",
+  "generated_at": "2026-05-12T23:21:15.389085+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to solve quadratics like $x^2 - 5x + 6 = 0$ by factoring or using the quadratic formula, and you know the discriminant $b^2 - 4ac$ tells you how many real solutions exist. But what happens when you try to solve $x^2 + 4 = 0$? Subtracting 4 gives $x^2 = -4$, and no real number squared equals a negative. Does this equation simply have no solutions, or is there something beyond the real numbers that can save us?",
+  "concept": "When the discriminant $b^2 - 4ac$ is negative, a quadratic has no real solutions \u2014 but it does have two complex solutions. A complex number has the form $a + bi$, where $a$ and $b$ are real numbers and $i$ is the imaginary unit defined by $i = \\sqrt{-1}$, so $i^2 = -1$. We use this definition to rewrite square roots of negative numbers and express solutions in standard complex form $a + bi$.",
+  "anatomy": "Every complex solution to a quadratic has two distinct parts: the real part $a$ and the imaginary part $b$, combined as $a + bi$. The imaginary unit $i = \\sqrt{-1}$ is the engine that converts $\\sqrt{-n}$ into a real multiple of $i$: specifically $\\sqrt{-n} = i\\sqrt{n}$ for $n > 0$. In the quadratic formula $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$, the negative discriminant lives inside the square root, and extracting $i$ from it produces a conjugate pair of solutions $a + bi$ and $a - bi$, which always come together when coefficients are real.",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 + 2x + 5 = 0",
+      "description_latex": "We start by identifying $a = 1$, $b = 2$, $c = 5$ and checking the discriminant: $b^2 - 4ac = 4 - 20 = -16$. Because the discriminant is negative, we know right away that the solutions will be complex numbers, not real \u2014 so we continue confidently using the quadratic formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\frac{-2 \\pm \\sqrt{-16}}{2(1)}",
+      "description_latex": "Substituting into the quadratic formula $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$ gives us this expression. Notice that $\\sqrt{-16}$ sits under the radical \u2014 our next job is to simplify it using $i$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{-16} = \\sqrt{16 \\cdot (-1)} = 4i",
+      "description_latex": "We factor the negative out of the radical by writing $-16 = 16 \\cdot (-1)$, then use $\\sqrt{-1} = i$ to get $\\sqrt{-16} = 4i$. This step is the heart of the problem: converting a square root of a negative number into a real multiple of $i$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\frac{-2 \\pm 4i}{2}",
+      "description_latex": "We substitute $4i$ back in place of $\\sqrt{-16}$, giving us $x = \\frac{-2 \\pm 4i}{2}$. Now we simplify by dividing both the real part and the imaginary part of the numerator by $2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = -1 + 2i \\quad \\text{or} \\quad x = -1 - 2i",
+      "description_latex": "Dividing each term in the numerator by $2$ gives $x = -1 \\pm 2i$, which we write as two separate solutions. Notice they are complex conjugates of each other \u2014 they share the same real part $-1$ and have imaginary parts that are opposite in sign, a pattern that always occurs when the original equation has real coefficients.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^2 - 4x + 13 = 0",
+      "description_latex": "We have $a = 1$, $b = -4$, $c = 13$. Let's compute the discriminant first: $b^2 - 4ac = 16 - 52 = -36$. Because the discriminant is $-36$, the solutions will be complex, and we plug into the quadratic formula to get $x = \\frac{4 \\pm \\sqrt{-36}}{2}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{-36} = \\ ?",
+      "description_latex": "This is the key conversion step. Rewrite $\\sqrt{-36}$ as a real multiple of $i$ by factoring out $-1$ from under the radical. What does $\\sqrt{-36}$ simplify to?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = \\frac{4 \\pm 6i}{2} = 2 \\pm 3i",
+      "description_latex": "After replacing $\\sqrt{-36}$ with $6i$, we divide both parts of the numerator by $2$ to arrive at the final answers $x = 2 + 3i$ and $x = 2 - 3i$. As expected, these are complex conjugates with real part $2$ and imaginary parts $\\pm 3$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve: $x^2 = -9$",
+      "answer_latex": "x = 3i \\text{ or } x = -3i"
+    },
+    {
+      "prompt_latex": "Solve: $x^2 + 6x + 13 = 0$",
+      "answer_latex": "x = -3 + 2i \\text{ or } x = -3 - 2i"
+    },
+    {
+      "prompt_latex": "Solve: $2x^2 - 4x + 10 = 0$",
+      "answer_latex": "x = 1 + 2i \\text{ or } x = 1 - 2i"
+    },
+    {
+      "prompt_latex": "A quadratic equation has solutions $x = 3 + 5i$ and $x = 3 - 5i$. Write the equation in standard form $ax^2 + bx + c = 0$ with integer coefficients.",
+      "answer_latex": "x^2 - 6x + 34 = 0"
+    },
+    {
+      "prompt_latex": "A physicist models the displacement of a system with $t^2 + 4t + 8 = 0$, where $t$ represents time in seconds. Solve for $t$ and explain in one sentence what the complex solutions tell us about the physical system.",
+      "answer_latex": "t = -2 + 2i \\text{ or } t = -2 - 2i; \\text{ the complex solutions indicate the system never reaches zero displacement in real time (it oscillates with decay rather than crossing zero)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $\\sqrt{-36} = -6$ instead of $6i$, confusing the negative sign inside the radical with a negative output. Remember: $\\sqrt{-36} = \\sqrt{36}\\cdot\\sqrt{-1} = 6i$, which is an imaginary number, not a negative real number.",
+    "After finding $x = \\frac{-2 \\pm 4i}{2}$, students only divide the real part and write $x = -1 \\pm 4i$ instead of $x = -1 \\pm 2i$. The entire numerator \u2014 both the real part and the imaginary part \u2014 must be divided by the denominator, so treat $\\frac{4i}{2} = 2i$ just like any fraction.",
+    "Students forget to include both solutions and write only $x = a + bi$, omitting the conjugate $x = a - bi$. The $\\pm$ in the quadratic formula always produces two distinct answers, and both must be reported as solutions to the equation."
+  ],
+  "untested_variants": [
+    "Solving a quadratic where the leading coefficient is not 1 or 2 (e.g., $3x^2 + x + 2 = 0$), which requires careful division of a non-trivial denominator and produces non-integer real and imaginary parts.",
+    "Completing the square to obtain complex solutions rather than using the quadratic formula, such as solving $x^2 + 6x + 11 = 0$ by writing $(x+3)^2 = -2$ and then taking the square root of both sides.",
+    "Simplifying powers of $i$ beyond $i^2$ (e.g., $i^3 = -i$ and $i^4 = 1$) as part of verifying a complex solution by substituting back into the original equation.",
+    "Finding a quadratic equation whose solutions are a given pair of non-integer complex conjugates, such as constructing the equation with solutions $x = \\frac{1}{2} \\pm \\frac{3}{2}i$."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "prob_021",
+  "topic_name": "The Poisson Distribution (H)",
+  "generated_at": "2026-05-13T20:26:56.636656+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to model the number of successes in a fixed number of trials using the Binomial distribution. But what happens when events occur randomly over a continuous interval \u2014 like the number of cars passing a junction per minute, or the number of emails arriving per hour \u2014 where there is no clear 'number of trials'? The Binomial model breaks down here because $n$ is either unknown or effectively infinite. How can we model the probability of observing exactly $k$ events when we only know the average rate at which they occur?",
+  "concept": "The Poisson distribution models the number of events occurring in a fixed interval of time or space when events happen independently and at a constant average rate. If $X$ is the number of events and $\\lambda$ is the mean number of events in the interval, then $X \\sim \\text{Po}(\\lambda)$ and the probability mass function is $P(X = k) = \\frac{e^{-\\lambda} \\lambda^k}{k!}$ for $k = 0, 1, 2, \\ldots$ where $e \\approx 2.71828$.",
+  "anatomy": "The Poisson formula $P(X = k) = \\frac{e^{-\\lambda} \\lambda^k}{k!}$ has three distinct components. The parameter $\\lambda$ (lambda) is the mean \u2014 it is the average number of events expected in the given interval, and it completely determines the distribution (both the mean and variance equal $\\lambda$). The value $k$ is the specific count you are finding the probability for, which must be a non-negative integer. The factor $e^{-\\lambda}$ acts as a normalising constant ensuring all probabilities sum to 1, and $k!$ (k factorial) accounts for the number of ways $k$ indistinct events can be arranged, preventing over-counting.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Po}(3)",
+      "description_latex": "A call centre receives an average of 3 calls per minute. We model this as $X \\sim \\text{Po}(3)$ because calls arrive independently at a constant average rate of 3 per minute. Our goal is to find $P(X = 2)$, the probability of receiving exactly 2 calls in a given minute.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = k) = \\frac{e^{-\\lambda} \\lambda^k}{k!}",
+      "description_latex": "We write down the Poisson probability mass function with $\\lambda = 3$ and $k = 2$. Substituting these values is the key mechanical step \u2014 always identify $\\lambda$ and $k$ explicitly before plugging in to avoid errors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 2) = \\frac{e^{-3} \\cdot 3^2}{2!}",
+      "description_latex": "Substituting $\\lambda = 3$ and $k = 2$ into the formula gives us this expression. Notice that $3^2 = 9$ and $2! = 2$, so we now just need to evaluate the numerical expression.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 2) = \\frac{e^{-3} \\times 9}{2} = \\frac{9}{2} e^{-3} \\approx 0.2240",
+      "description_latex": "Evaluating numerically: $e^{-3} \\approx 0.049787$, so $P(X=2) = 4.5 \\times 0.049787 \\approx 0.2240$. This tells us there is roughly a 22.4% chance of receiving exactly 2 calls in a randomly chosen minute.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Po}(5)",
+      "description_latex": "On average, 5 flaws occur per metre of fabric produced in a factory. We model flaws per metre as $X \\sim \\text{Po}(5)$ and want to find $P(X = 4)$, the probability of exactly 4 flaws in a randomly chosen metre.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X = 4) = \\frac{e^{-5} \\cdot 5^4}{4!}",
+      "description_latex": "We substitute $\\lambda = 5$ and $k = 4$ into the Poisson formula. Before moving on, make sure you can identify why $\\lambda = 5$ here (it is the given mean rate) and why $k = 4$ (it is the specific value we are asked about).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate this expression fully. Compute $5^4$, compute $4!$, and combine with $e^{-5} \\approx 0.006738$ to give a decimal answer rounded to 4 significant figures. What is $P(X = 4)$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Given $X \\sim \\text{Po}(2)$, find $P(X = 0)$.",
+      "answer_latex": "P(X = 0) = e^{-2} \\approx 0.1353"
+    },
+    {
+      "prompt_latex": "Given $X \\sim \\text{Po}(4)$, find $P(X = 3)$.",
+      "answer_latex": "P(X = 3) = \\frac{e^{-4} \\cdot 4^3}{3!} = \\frac{64 e^{-4}}{6} \\approx 0.1954"
+    },
+    {
+      "prompt_latex": "A radioactive source emits on average 6 particles per second. Find the probability that exactly 8 particles are emitted in a given second.",
+      "answer_latex": "P(X = 8) = \\frac{e^{-6} \\cdot 6^8}{8!} \\approx 0.1033"
+    },
+    {
+      "prompt_latex": "Given $X \\sim \\text{Po}(3)$, find $P(X \\geq 2)$. Hint: use the complement.",
+      "answer_latex": "P(X \\geq 2) = 1 - P(X=0) - P(X=1) = 1 - e^{-3} - 3e^{-3} = 1 - 4e^{-3} \\approx 0.8009"
+    },
+    {
+      "prompt_latex": "Customers arrive at a checkout at an average rate of 2 per minute. Find the probability that at most 1 customer arrives in a given minute, and explain whether this Poisson model is appropriate here.",
+      "answer_latex": "P(X \\leq 1) = P(X=0) + P(X=1) = e^{-2} + 2e^{-2} = 3e^{-2} \\approx 0.4060. \\text{ The model is appropriate if arrivals are independent and the rate is constant.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes use the wrong value of $\\lambda$ when the interval changes \u2014 for example, if the rate is 4 events per hour but the question asks about a 30-minute window, $\\lambda$ must be rescaled to 2, not left as 4. Always match $\\lambda$ to the specific interval in the question.",
+    "A common error is writing $P(X = k) = \\frac{e^{\\lambda} \\lambda^k}{k!}$ with a positive exponent instead of $e^{-\\lambda}$. Remember that $e^{-\\lambda}$ must be less than 1, so if your answer is greater than 1 you have almost certainly made this sign error.",
+    "Students forget that $P(X \\geq k)$ is not the same as $1 - P(X = k)$; it equals $1 - P(X \\leq k-1)$, meaning you must subtract the cumulative probability of all values strictly below $k$. Writing out $P(X \\geq k) = 1 - \\sum_{x=0}^{k-1} P(X=x)$ explicitly prevents this mistake."
+  ],
+  "untested_variants": [
+    "Using the Poisson distribution as an approximation to the Binomial distribution when $n$ is large and $p$ is small (i.e., $n > 50$, $p < 0.1$), including justifying when this approximation is valid.",
+    "Finding the value of $\\lambda$ given a stated probability, which requires solving $\\frac{e^{-\\lambda} \\lambda^k}{k!} = c$ \u2014 this often involves trial and error or logarithms.",
+    "Combining two independent Poisson random variables: if $X \\sim \\text{Po}(\\lambda_1)$ and $Y \\sim \\text{Po}(\\lambda_2)$ independently, then $X + Y \\sim \\text{Po}(\\lambda_1 + \\lambda_2)$.",
+    "Cumulative Poisson probabilities of the form $P(a \\leq X \\leq b)$ requiring the summation of multiple individual probabilities or use of Poisson cumulative distribution tables."
+  ]
+}

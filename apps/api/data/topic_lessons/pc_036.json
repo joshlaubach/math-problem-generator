@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_036",
+  "topic_name": "Law of Cosines",
+  "generated_at": "2026-05-12T23:50:38.989359+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to use the Law of Sines to find missing sides and angles in a triangle, but that tool requires knowing at least one angle paired with its opposite side. Now imagine you're given a triangle where you know all three sides but no angles \u2014 or two sides and the angle squeezed between them \u2014 and no such pair exists. How do you even begin? The Law of Cosines is the key that unlocks these cases, but what makes it work when the Law of Sines can't?",
+  "concept": "The Law of Cosines is a generalization of the Pythagorean theorem that works for any triangle, not just right triangles. For a triangle with sides $a$, $b$, $c$ and the angle $C$ opposite side $c$, the law states $c^2 = a^2 + b^2 - 2ab\\cos C$. Notice that when $C = 90\u00b0$, $\\cos C = 0$ and the formula collapses back to $c^2 = a^2 + b^2$, confirming it as a true generalization.",
+  "anatomy": "The Law of Cosines has four distinct components working together. The side being solved for, $c$, is always the side opposite the angle $C$ used in the formula \u2014 this matching between a side and its opposite angle is essential. The terms $a^2 + b^2$ are the squares of the two sides that form angle $C$ (called the included angle). The correction term $-2ab\\cos C$ adjusts for the fact that the triangle is not a right triangle: when $C$ is obtuse, $\\cos C$ is negative, making the correction term positive and $c$ longer, which matches geometric intuition. The formula can be written in three symmetric versions \u2014 $a^2 = b^2 + c^2 - 2bc\\cos A$ and $b^2 = a^2 + c^2 - 2ac\\cos B$ \u2014 by cycling through the three angle-side pairs.",
+  "worked_example": [
+    {
+      "expression_latex": "a = 8,\\quad b = 5,\\quad C = 60\u00b0,\\quad \\text{find } c",
+      "description_latex": "We are given two sides and the included angle between them, which is the SAS (Side-Angle-Side) case \u2014 exactly when the Law of Cosines applies. We identify $a = 8$, $b = 5$, and $C = 60\u00b0$, so we will use the version $c^2 = a^2 + b^2 - 2ab\\cos C$ because $c$ is the side opposite the known angle $C$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c^2 = 8^2 + 5^2 - 2(8)(5)\\cos 60\u00b0",
+      "description_latex": "We substitute the known values directly into the Law of Cosines formula. It is important to place $a = 8$ and $b = 5$ as the two sides that form the angle, and $C = 60\u00b0$ inside the cosine \u2014 no rearranging is needed yet.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c^2 = 64 + 25 - 80\\left(\\tfrac{1}{2}\\right) = 89 - 40 = 49",
+      "description_latex": "We evaluate each piece: $8^2 = 64$, $5^2 = 25$, and $\\cos 60\u00b0 = \\frac{1}{2}$, so the correction term becomes $2(8)(5)(\\frac{1}{2}) = 40$. Combining gives $c^2 = 49$, which is a clean result because we chose a convenient angle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "c = \\sqrt{49} = 7",
+      "description_latex": "Taking the positive square root (since a side length must be positive) gives $c = 7$. It is always worth double-checking that your answer is a reasonable side length \u2014 here, $7$ is between $|8 - 5| = 3$ and $8 + 5 = 13$, satisfying the triangle inequality.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "a = 7,\\quad b = 10,\\quad c = 13,\\quad \\text{find angle } C",
+      "description_latex": "We are given all three sides of a triangle (the SSS case) and need to find an angle. We will use the Law of Cosines rearranged to solve for $\\cos C$: starting from $c^2 = a^2 + b^2 - 2ab\\cos C$, we isolate $\\cos C$ to get $\\cos C = \\frac{a^2 + b^2 - c^2}{2ab}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\cos C = \\frac{7^2 + 10^2 - 13^2}{2(7)(10)} = \\frac{49 + 100 - 169}{140} = \\frac{-20}{140}",
+      "description_latex": "We substitute $a = 7$, $b = 10$, $c = 13$ into the rearranged formula. Notice that the numerator is negative, which tells us right away that angle $C$ is obtuse \u2014 this is consistent with $c = 13$ being the longest side.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Simplify $\\frac{-20}{140}$ and then apply the inverse cosine to find angle $C$ in degrees. Remember that because the cosine is negative, your calculator will give you an obtuse angle, which is correct here \u2014 what is $C$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find side } c \\text{ if } a = 6,\\ b = 8,\\ C = 90\u00b0.",
+      "answer_latex": "c = 10"
+    },
+    {
+      "prompt_latex": "\\text{Find side } c \\text{ if } a = 5,\\ b = 7,\\ C = 45\u00b0. \\text{ Round to two decimal places.}",
+      "answer_latex": "c \\approx 4.95"
+    },
+    {
+      "prompt_latex": "\\text{Find angle } A \\text{ if } a = 9,\\ b = 6,\\ c = 5. \\text{ Round to the nearest degree.}",
+      "answer_latex": "A \\approx 108\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{In } \\triangle ABC,\\ a = 4,\\ b = 6,\\ C = 120\u00b0. \\text{ Find } c \\text{ and then use the Law of Sines to find angle } A. \\text{ Round to the nearest degree.}",
+      "answer_latex": "c = 2\\sqrt{19} \\approx 8.72,\\quad A \\approx 18\u00b0"
+    },
+    {
+      "prompt_latex": "\\text{Two ships leave port at the same time. Ship A travels } 15 \\text{ km on a bearing of } N\\,30\u00b0E \\text{ and Ship B travels } 20 \\text{ km on a bearing of } N\\,70\u00b0E. \\text{ Find the distance between the two ships.}",
+      "answer_latex": "d = \\sqrt{15^2 + 20^2 - 2(15)(20)\\cos 40\u00b0} \\approx 13.05 \\text{ km}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often match the wrong angle to the formula by using an angle that is not opposite to side $c$ \u2014 for example, writing $c^2 = a^2 + b^2 - 2ab\\cos A$ instead of $\\cos C$. Always confirm that the angle inside the cosine is the one directly across from the side you are solving for.",
+    "When rearranging the Law of Cosines to solve for an angle, students frequently forget to divide the entire expression $a^2 + b^2 - c^2$ by $2ab$ and instead only divide part of the numerator, giving an incorrect value of $\\cos C$. Write the full fraction $\\frac{a^2 + b^2 - c^2}{2ab}$ before computing anything.",
+    "Students sometimes drop the negative sign when $\\cos C$ evaluates to a negative number, concluding the angle is acute when it is actually obtuse. A negative cosine value always means the angle is between $90\u00b0$ and $180\u00b0$, and a calculator's $\\cos^{-1}$ of a negative number correctly returns an obtuse angle \u2014 trust the sign."
+  ],
+  "untested_variants": [
+    "Finding all three angles of a triangle given all three sides (SSS) when none of the angles is obtuse \u2014 practice problem 3 covers an obtuse case, but an all-acute SSS triangle is not tested.",
+    "Using the Law of Cosines in a triangle embedded in a coordinate geometry problem, where the sides are computed as distances between given points before the formula is applied.",
+    "Applying the Law of Cosines to find a side in an ambiguous-looking setup where the student must first decide whether the Law of Cosines or the Law of Sines is the more efficient tool.",
+    "Using the generalized form to find the diagonal of a parallelogram given its two side lengths and one interior angle, a classic applied geometry variant not covered by the word problem above."
+  ]
+}

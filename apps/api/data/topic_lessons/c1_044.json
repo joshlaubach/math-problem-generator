@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_044",
+  "topic_name": "Logistic Growth Models (H)",
+  "generated_at": "2026-05-13T00:15:46.366497+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to model unconstrained population growth with exponential functions, where a population grows at a rate proportional to its current size. But real populations don't grow forever \u2014 a petri dish runs out of nutrients, a forest has a finite number of trees it can support, and a town has a maximum number of residents. What happens when we modify our differential equation to account for this natural ceiling, and what does the resulting solution look like?",
+  "concept": "Logistic growth models the fact that a population grows quickly when small but slows down as it approaches a maximum sustainable size called the carrying capacity. Formally, the logistic differential equation is $\\frac{dP}{dt} = kP\\left(1 - \\frac{P}{M}\\right)$, where $P(t)$ is the population at time $t$, $k > 0$ is the intrinsic growth rate, and $M$ is the carrying capacity. The factor $\\left(1 - \\frac{P}{M}\\right)$ acts as a brake that slows growth as $P$ approaches $M$.",
+  "anatomy": "The logistic equation $\\frac{dP}{dt} = kP\\left(1 - \\frac{P}{M}\\right)$ has four distinct parts worth naming. The term $kP$ is the pure exponential growth engine \u2014 it would drive unlimited growth on its own. The inhibition factor $\\left(1 - \\frac{P}{M}\\right)$ shrinks toward zero as $P$ approaches $M$, throttling growth; when $P = M$ this factor is exactly zero, making $\\frac{dP}{dt} = 0$ and freezing the population. The carrying capacity $M$ is the horizontal asymptote of the solution curve. The initial condition $P(0) = P_0$ determines where on the S-shaped (sigmoidal) solution curve we begin.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dP}{dt} = 0.4P\\left(1 - \\frac{P}{500}\\right), \\quad P(0) = 50",
+      "description_latex": "We are given a logistic differential equation with growth rate $k = 0.4$, carrying capacity $M = 500$, and initial population $P_0 = 50$. Our goal is to find the explicit solution $P(t)$ by separating variables and integrating both sides.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{dP}{P\\left(1 - \\frac{P}{500}\\right)} = 0.4\\, dt",
+      "description_latex": "We separate variables by multiplying both sides by $dt$ and dividing by $P\\left(1 - P/500\\right)$. The left side contains all the $P$ terms and the right side contains only the time variable, which sets us up to integrate each side independently.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int \\left(\\frac{1}{P} + \\frac{1}{500 - P}\\right)dP = \\int 0.4\\, dt",
+      "description_latex": "We use partial fractions to decompose $\\frac{1}{P(1 - P/500)} = \\frac{1}{P} + \\frac{1}{500 - P}$ (you can verify by multiplying through). This decomposition lets us integrate the left side using the natural logarithm formula $\\int \\frac{1}{u}du = \\ln|u| + C$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ln|P| - \\ln|500 - P| = 0.4t + C \\implies \\ln\\left|\\frac{P}{500 - P}\\right| = 0.4t + C",
+      "description_latex": "After integrating both sides we combine the logarithms using the quotient rule $\\ln a - \\ln b = \\ln(a/b)$. Exponentiating both sides and applying the initial condition $P(0) = 50$ gives us the constant: $\\frac{50}{450} = e^C$, so $e^C = \\frac{1}{9}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(t) = \\frac{500}{1 + 9e^{-0.4t}}",
+      "description_latex": "Solving algebraically for $P$ yields the standard logistic formula $P(t) = \\frac{M}{1 + Ae^{-kt}}$ where $A = \\frac{M - P_0}{P_0} = \\frac{500 - 50}{50} = 9$. Notice that as $t \\to \\infty$, the term $9e^{-0.4t} \\to 0$ and $P(t) \\to 500 = M$, confirming the carrying capacity is the long-run equilibrium.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dP}{dt} = 0.2P\\left(1 - \\frac{P}{200}\\right), \\quad P(0) = 40",
+      "description_latex": "We have a logistic equation with $k = 0.2$, $M = 200$, and $P_0 = 40$. The general solution will have the form $P(t) = \\frac{M}{1 + Ae^{-kt}}$, so we need to identify the constant $A$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\frac{M - P_0}{P_0} = \\frac{200 - 40}{40} = 4",
+      "description_latex": "We compute the constant $A$ using the initial condition formula $A = \\frac{M - P_0}{P_0}$. This constant tells us how many times the initial population fits into the 'unfilled' portion of the carrying capacity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the values $M = 200$, $k = 0.2$, and $A = 4$ that we have identified, write the complete explicit solution $P(t)$. Then evaluate your answer at $t = 0$ to verify it gives $P(0) = 40$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A logistic equation has $k = 0.5$, $M = 1000$, and $P(0) = 1000$. What is $\\frac{dP}{dt}$ at $t = 0$?",
+      "answer_latex": "\\frac{dP}{dt}\\big|_{t=0} = 0"
+    },
+    {
+      "prompt_latex": "Write the explicit solution to $\\frac{dP}{dt} = 0.3P\\left(1 - \\frac{P}{600}\\right)$ with $P(0) = 100$.",
+      "answer_latex": "P(t) = \\frac{600}{1 + 5e^{-0.3t}}"
+    },
+    {
+      "prompt_latex": "For the logistic model $P(t) = \\frac{800}{1 + 7e^{-0.5t}}$, find the time $t$ at which $P = 400$ (i.e., when the population reaches half the carrying capacity).",
+      "answer_latex": "t = \\frac{\\ln 7}{0.5} = 2\\ln 7 \\approx 3.89"
+    },
+    {
+      "prompt_latex": "A logistic population satisfies $\\frac{dP}{dt} = kP\\left(1 - \\frac{P}{M}\\right)$. Show that the growth rate $\\frac{dP}{dt}$ is maximized when $P = \\frac{M}{2}$, and find the maximum growth rate in terms of $k$ and $M$.",
+      "answer_latex": "\\text{Max growth rate} = \\frac{kM}{4}, \\text{ occurring at } P = \\frac{M}{2}"
+    },
+    {
+      "prompt_latex": "A bacterial culture in a lab dish has a carrying capacity of 5000 bacteria. Initially there are 200 bacteria, and the growth rate constant is $k = 0.6$ per hour. How many bacteria are present after 3 hours?",
+      "answer_latex": "P(3) = \\frac{5000}{1 + 24e^{-1.8}} \\approx \\frac{5000}{1 + 24(0.1653)} \\approx \\frac{5000}{4.967} \\approx 1007"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse the formula for the constant $A$ and write $A = P_0$ instead of $A = \\frac{M - P_0}{P_0}$; remember that $A$ measures how far the initial population is below the carrying capacity relative to $P_0$, not the initial population itself.",
+    "When reading off parameters from a logistic equation written as $\\frac{dP}{dt} = rP(M - P)$, students sometimes treat $r$ as the growth rate $k$; however, this form has already factored out $M$, so the intrinsic growth rate is $k = rM$, not $r$ alone.",
+    "Students sometimes conclude that a population governed by the logistic equation never reaches $M$, which is correct in finite time, but then forget that $M$ is still the carrying capacity and the limiting value \u2014 stating $\\lim_{t\\to\\infty} P(t) = M$ is mathematically valid even though $P(t) < M$ for all finite $t$."
+  ],
+  "untested_variants": [
+    "Logistic equations given in the factored form $\\frac{dP}{dt} = r P(M - P)$ requiring students to first rewrite them in standard form before identifying $k$ and $M$.",
+    "Finding the inflection point of $P(t)$ and interpreting it as the moment of fastest growth, requiring a second derivative analysis of the logistic solution curve.",
+    "Logistic models where the initial population exceeds the carrying capacity ($P_0 > M$), producing a decreasing solution that approaches $M$ from above rather than the familiar S-curve.",
+    "Phase line analysis of the logistic equation \u2014 sketching $\\frac{dP}{dt}$ vs. $P$, identifying equilibria at $P = 0$ and $P = M$, and classifying their stability without finding the explicit solution."
+  ]
+}

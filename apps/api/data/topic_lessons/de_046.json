@@ -1,0 +1,91 @@
+{
+  "topic_id": "de_046",
+  "topic_name": "Nonhomogeneous Linear Systems",
+  "generated_at": "2026-05-13T20:54:48.330599+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve homogeneous linear systems $\\mathbf{x}' = A\\mathbf{x}$ by finding eigenvalues and building a fundamental matrix $\\Phi(t)$. But what happens when an external force or input is present, turning the system into $\\mathbf{x}' = A\\mathbf{x} + \\mathbf{g}(t)$? The homogeneous solution alone no longer satisfies the equation, and we need a way to find a particular solution that accounts for the forcing term $\\mathbf{g}(t)$. How do we systematically find the complete solution to a nonhomogeneous linear system?",
+  "concept": "A nonhomogeneous linear system is one of the form $\\mathbf{x}' = A\\mathbf{x} + \\mathbf{g}(t)$, where $\\mathbf{g}(t) \\not\\equiv \\mathbf{0}$ is a forcing vector. The complete (general) solution is $\\mathbf{x}(t) = \\mathbf{x}_h(t) + \\mathbf{x}_p(t)$, where $\\mathbf{x}_h = \\Phi(t)\\mathbf{c}$ is the general homogeneous solution and $\\mathbf{x}_p$ is any particular solution. The method of variation of parameters finds $\\mathbf{x}_p = \\Phi(t)\\int \\Phi^{-1}(t)\\mathbf{g}(t)\\,dt$.",
+  "anatomy": "The key components of the nonhomogeneous system $\\mathbf{x}' = A\\mathbf{x} + \\mathbf{g}(t)$ are: the coefficient matrix $A$ (a constant $n \\times n$ matrix driving the dynamics), the forcing vector $\\mathbf{g}(t)$ (the nonhomogeneous input that makes the system non-trivial), the fundamental matrix $\\Phi(t)$ (whose columns are $n$ linearly independent solutions of $\\mathbf{x}' = A\\mathbf{x}$), the inverse $\\Phi^{-1}(t)$ (used to 'undo' $\\Phi$ inside the variation-of-parameters integral), and the constant vector $\\mathbf{c}$ (absorbing all initial condition information after adding $\\mathbf{x}_p$).",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{x}' = \\begin{pmatrix} 1 & 1 \\\\ 0 & 2 \\end{pmatrix}\\mathbf{x} + \\begin{pmatrix} e^{3t} \\\\ 0 \\end{pmatrix}",
+      "description_latex": "We start by clearly identifying the system: the coefficient matrix is $A = \\begin{pmatrix} 1 & 1 \\\\ 0 & 2 \\end{pmatrix}$ and the forcing vector is $\\mathbf{g}(t) = \\begin{pmatrix} e^{3t} \\\\ 0 \\end{pmatrix}$. Before we can apply variation of parameters, we need the fundamental matrix $\\Phi(t)$ from the homogeneous system $\\mathbf{x}' = A\\mathbf{x}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Phi(t) = \\begin{pmatrix} e^{t} & e^{2t} \\\\ 0 & e^{2t} \\end{pmatrix}",
+      "description_latex": "The eigenvalues of $A$ are $\\lambda_1 = 1$ and $\\lambda_2 = 2$, giving eigenvectors $\\mathbf{v}_1 = \\begin{pmatrix}1\\\\0\\end{pmatrix}$ and $\\mathbf{v}_2 = \\begin{pmatrix}1\\\\1\\end{pmatrix}$, so the two homogeneous solutions are $e^t\\begin{pmatrix}1\\\\0\\end{pmatrix}$ and $e^{2t}\\begin{pmatrix}1\\\\1\\end{pmatrix}$. We place these as columns of $\\Phi(t)$, which will serve as the backbone of our variation-of-parameters formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Phi^{-1}(t) = \\begin{pmatrix} e^{-t} & -e^{-t} \\\\ 0 & e^{-2t} \\end{pmatrix}",
+      "description_latex": "We compute $\\Phi^{-1}(t)$ by inverting the $2\\times 2$ matrix: $\\det(\\Phi) = e^{3t}$, so we use the standard formula to get $\\Phi^{-1}(t) = \\frac{1}{e^{3t}}\\begin{pmatrix} e^{2t} & -e^{2t} \\\\ 0 & e^{t} \\end{pmatrix} = \\begin{pmatrix} e^{-t} & -e^{-t} \\\\ 0 & e^{-2t} \\end{pmatrix}$. This inverse is essential because the variation-of-parameters formula requires us to multiply $\\mathbf{g}(t)$ on the left by $\\Phi^{-1}(t)$ before integrating.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Phi^{-1}(t)\\mathbf{g}(t) = \\begin{pmatrix} e^{-t} & -e^{-t} \\\\ 0 & e^{-2t} \\end{pmatrix}\\begin{pmatrix} e^{3t} \\\\ 0 \\end{pmatrix} = \\begin{pmatrix} e^{2t} \\\\ 0 \\end{pmatrix}, \\quad \\int \\Phi^{-1}\\mathbf{g}\\,dt = \\begin{pmatrix} \\tfrac{1}{2}e^{2t} \\\\ 0 \\end{pmatrix}",
+      "description_latex": "Now we form the product $\\Phi^{-1}(t)\\mathbf{g}(t)$ and integrate component-by-component, omitting the constant of integration because any constants will be absorbed into the $\\mathbf{c}$ vector of the homogeneous solution. This integral vector is the 'weight' that tells us how to mix the columns of $\\Phi$ to build the particular solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{x}(t) = \\Phi(t)\\mathbf{c} + \\Phi(t)\\int\\Phi^{-1}\\mathbf{g}\\,dt = c_1\\begin{pmatrix}e^t\\\\0\\end{pmatrix} + c_2\\begin{pmatrix}e^{2t}\\\\e^{2t}\\end{pmatrix} + \\begin{pmatrix}\\tfrac{1}{2}e^{3t}\\\\0\\end{pmatrix}",
+      "description_latex": "We finish by multiplying $\\Phi(t)$ times the integral vector to obtain $\\mathbf{x}_p = \\begin{pmatrix}\\tfrac{1}{2}e^{3t}\\\\0\\end{pmatrix}$, then add the homogeneous solution $\\Phi(t)\\mathbf{c}$ to write the complete general solution. The constants $c_1$ and $c_2$ would be determined by any initial conditions given in a specific problem.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{x}' = \\begin{pmatrix} 2 & 0 \\\\ 0 & 3 \\end{pmatrix}\\mathbf{x} + \\begin{pmatrix} e^{t} \\\\ e^{t} \\end{pmatrix}",
+      "description_latex": "We have a diagonal coefficient matrix, so the eigenvalues are $\\lambda_1 = 2$ and $\\lambda_2 = 3$ with standard basis eigenvectors, giving fundamental matrix $\\Phi(t) = \\begin{pmatrix} e^{2t} & 0 \\\\ 0 & e^{3t} \\end{pmatrix}$. Because $A$ is diagonal, its inverse is especially easy: $\\Phi^{-1}(t) = \\begin{pmatrix} e^{-2t} & 0 \\\\ 0 & e^{-3t} \\end{pmatrix}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\Phi^{-1}(t)\\mathbf{g}(t) = \\begin{pmatrix} e^{-2t} & 0 \\\\ 0 & e^{-3t} \\end{pmatrix}\\begin{pmatrix} e^{t} \\\\ e^{t} \\end{pmatrix} = \\begin{pmatrix} e^{-t} \\\\ e^{-2t} \\end{pmatrix}",
+      "description_latex": "We multiply $\\Phi^{-1}(t)$ by $\\mathbf{g}(t)$ to get the integrand. Now integrate each component to find $\\int \\Phi^{-1}\\mathbf{g}\\,dt$ \u2014 remember to integrate component-by-component and omit constants of integration here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $\\int \\Phi^{-1}(t)\\mathbf{g}(t)\\,dt$ by integrating each component of $\\begin{pmatrix} e^{-t} \\\\ e^{-2t} \\end{pmatrix}$, then multiply on the left by $\\Phi(t)$ to find the particular solution $\\mathbf{x}_p(t)$. What is $\\mathbf{x}_p$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathbf{x}(t) = c_1\\begin{pmatrix}e^{2t}\\\\0\\end{pmatrix} + c_2\\begin{pmatrix}0\\\\e^{3t}\\end{pmatrix} + \\mathbf{x}_p(t)",
+      "description_latex": "Using your particular solution from the previous step, write the complete general solution by adding $\\mathbf{x}_h = \\Phi(t)\\mathbf{c}$ to $\\mathbf{x}_p$. The final answer should be $\\mathbf{x}(t) = c_1\\begin{pmatrix}e^{2t}\\\\0\\end{pmatrix} + c_2\\begin{pmatrix}0\\\\e^{3t}\\end{pmatrix} + \\begin{pmatrix}-e^{t}\\\\-\\tfrac{1}{2}e^{t}\\end{pmatrix}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $\\mathbf{x}_p(t)$ using variation of parameters for $\\mathbf{x}' = \\begin{pmatrix}1 & 0 \\\\ 0 & -1\\end{pmatrix}\\mathbf{x} + \\begin{pmatrix}e^{2t}\\\\e^{2t}\\end{pmatrix}$.",
+      "answer_latex": "\\mathbf{x}_p(t) = \\begin{pmatrix}e^{2t}\\\\-\\tfrac{1}{3}e^{2t}\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Find the general solution to $\\mathbf{x}' = \\begin{pmatrix}0 & 1 \\\\ -2 & 3\\end{pmatrix}\\mathbf{x} + \\begin{pmatrix}0\\\\e^{t}\\end{pmatrix}$. The eigenvalues of $A$ are $\\lambda = 1, 2$.",
+      "answer_latex": "\\mathbf{x}(t) = c_1 e^{t}\\begin{pmatrix}1\\\\1\\end{pmatrix} + c_2 e^{2t}\\begin{pmatrix}1\\\\2\\end{pmatrix} + \\begin{pmatrix}-te^t\\\\-(t+1)e^t\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Use variation of parameters to find the general solution to $\\mathbf{x}' = \\begin{pmatrix}2 & 1 \\\\ 0 & 2\\end{pmatrix}\\mathbf{x} + \\begin{pmatrix}e^{2t}\\\\0\\end{pmatrix}$. Note that $A$ has a repeated eigenvalue $\\lambda = 2$.",
+      "answer_latex": "\\mathbf{x}(t) = c_1 e^{2t}\\begin{pmatrix}1\\\\0\\end{pmatrix} + c_2 e^{2t}\\begin{pmatrix}t\\\\1\\end{pmatrix} + \\begin{pmatrix}t^2 e^{2t}/2\\\\0\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Solve the initial value problem $\\mathbf{x}' = \\begin{pmatrix}1 & 1 \\\\ 0 & 2\\end{pmatrix}\\mathbf{x} + \\begin{pmatrix}e^{3t}\\\\0\\end{pmatrix}$, $\\mathbf{x}(0) = \\begin{pmatrix}1\\\\1\\end{pmatrix}$, using the general solution derived in the worked example.",
+      "answer_latex": "\\mathbf{x}(t) = \\frac{1}{2}e^{t}\\begin{pmatrix}1\\\\0\\end{pmatrix} + e^{2t}\\begin{pmatrix}1\\\\1\\end{pmatrix} + \\frac{1}{2}e^{3t}\\begin{pmatrix}1\\\\0\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A mixing tank model leads to the system $\\mathbf{x}' = \\begin{pmatrix}-2 & 0 \\\\ 2 & -3\\end{pmatrix}\\mathbf{x} + \\begin{pmatrix}4\\\\0\\end{pmatrix}$ where $x_1, x_2$ are salt amounts in two tanks. Find the general solution and interpret the constant particular solution as the long-run equilibrium amounts.",
+      "answer_latex": "\\mathbf{x}_p = \\begin{pmatrix}2\\\\\\tfrac{4}{3}\\end{pmatrix} \\text{ (equilibrium)};\\quad \\mathbf{x}(t) = c_1 e^{-2t}\\begin{pmatrix}1\\\\2\\end{pmatrix} + c_2 e^{-3t}\\begin{pmatrix}0\\\\1\\end{pmatrix} + \\begin{pmatrix}2\\\\\\tfrac{4}{3}\\end{pmatrix}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to omit the constant of integration when computing $\\int \\Phi^{-1}(t)\\mathbf{g}(t)\\,dt$ inside the variation-of-parameters formula \u2014 any additive constant vector there just replicates the homogeneous solution and leads to a redundant term; always drop constants at this stage and include them only in $\\mathbf{c}$.",
+    "When computing the particular solution, students multiply the integral by $\\Phi^{-1}(t)$ instead of $\\Phi(t)$, reversing the formula \u2014 the correct formula is $\\mathbf{x}_p = \\Phi(t)\\int\\Phi^{-1}(t)\\mathbf{g}(t)\\,dt$, so $\\Phi$ (not its inverse) appears on the outside.",
+    "Students apply initial conditions to only the homogeneous part $\\mathbf{x}_h$, ignoring the contribution of $\\mathbf{x}_p(t_0)$ \u2014 the full initial condition equation is $\\mathbf{x}(t_0) = \\Phi(t_0)\\mathbf{c} + \\mathbf{x}_p(t_0) = \\mathbf{x}_0$, so you must evaluate and subtract $\\mathbf{x}_p$ at $t_0$ before solving for $\\mathbf{c}$."
+  ],
+  "untested_variants": [
+    "Nonhomogeneous systems where $A$ has complex conjugate eigenvalues, requiring the use of real-valued fundamental matrices built from real and imaginary parts of complex solutions.",
+    "Using undetermined coefficients (rather than variation of parameters) to find $\\mathbf{x}_p$ when $\\mathbf{g}(t)$ is a polynomial or a simple exponential not matching any eigenvalue.",
+    "Nonhomogeneous systems with a $3 \\times 3$ coefficient matrix, where computing $\\Phi^{-1}(t)$ requires a full $3 \\times 3$ matrix inversion or row reduction.",
+    "Using the matrix exponential $e^{At}$ as the fundamental matrix and applying the variation-of-parameters formula in the form $\\mathbf{x}(t) = e^{At}\\mathbf{c} + \\int_0^t e^{A(t-s)}\\mathbf{g}(s)\\,ds$ (Duhamel's principle / convolution form)."
+  ]
+}

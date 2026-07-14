@@ -1,0 +1,91 @@
+{
+  "topic_id": "geo_003",
+  "topic_name": "Measuring Segments and Angles",
+  "generated_at": "2026-05-12T22:53:13.326760+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to measure a line segment with a ruler and read an angle with a protractor. But what happens when a point sits between two others on a segment, or when two angles share a ray and together form a larger angle? Suddenly one measurement splits into two unknowns, and you need algebra to find them. If $B$ is between $A$ and $C$, and $AC = 20$ while $AB = 3x - 1$ and $BC = x + 7$, can you find the exact length of each piece?",
+  "concept": "Measuring segments and angles means assigning a numerical value to a length or a rotation. A segment's length is always a positive number (written $AB$ without the bar), and the Segment Addition Postulate states that if $B$ is between $A$ and $C$ then $AB + BC = AC$. Likewise, the Angle Addition Postulate states that if ray $BD$ lies inside $\\angle ABC$ then $m\\angle ABD + m\\angle DBC = m\\angle ABC$.",
+  "anatomy": "In the Segment Addition Postulate, the three key parts are: the two partial lengths ($AB$ and $BC$), the total length ($AC$), and the condition that the middle point $B$ lies between $A$ and $C$ \u2014 without that 'between' condition the postulate does not apply. In the Angle Addition Postulate, the parts are: the two partial angle measures ($m\\angle ABD$ and $m\\angle DBC$), the total angle measure ($m\\angle ABC$), and the interior ray $BD$ \u2014 which must lie strictly inside the larger angle, not on its boundary.",
+  "worked_example": [
+    {
+      "expression_latex": "AB + BC = AC",
+      "description_latex": "We start by writing the Segment Addition Postulate because we are told $B$ is between $A$ and $C$. This postulate is our foundation: it tells us the two pieces must add up exactly to the whole, so we can translate the diagram into an equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(3x - 1) + (x + 7) = 20",
+      "description_latex": "We substitute the given expressions for $AB = 3x - 1$, $BC = x + 7$, and $AC = 20$ into the postulate. Notice we place each expression in parentheses to keep track of the signs before we combine like terms.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4x + 6 = 20",
+      "description_latex": "We combine the like terms on the left side: $3x + x = 4x$ and $-1 + 7 = 6$. Simplifying first makes the equation cleaner and reduces arithmetic errors in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\dfrac{14}{4} = 3.5",
+      "description_latex": "We subtract 6 from both sides to get $4x = 14$, then divide by 4. Solving for $x$ is the bridge that lets us find the actual segment lengths.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "AB = 3(3.5) - 1 = 9.5, \\quad BC = 3.5 + 7 = 10.5",
+      "description_latex": "Finally, we substitute $x = 3.5$ back into each expression to find the actual lengths. As a check, $9.5 + 10.5 = 20 = AC$, which confirms our answer is correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "m\\angle ABD + m\\angle DBC = m\\angle ABC",
+      "description_latex": "We are told ray $BD$ lies inside $\\angle ABC$, so we apply the Angle Addition Postulate. This sets up the equation that relates the two smaller angles to the whole angle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(2x + 5) + (x - 2) = 94",
+      "description_latex": "We substitute $m\\angle ABD = 2x + 5$, $m\\angle DBC = x - 2$, and $m\\angle ABC = 94^\\circ$ into the postulate. The equation now contains only one variable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Combine like terms on the left side, then solve for $x$. What is the value of $x$, and what are the two individual angle measures?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using your value of $x$, substitute back to verify: do the two angle measures add up to $94^\\circ$? Write the check and state the final measures of $\\angle ABD$ and $\\angle DBC$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Point $M$ is between $L$ and $N$. If $LM = 8$ and $MN = 13$, find $LN$.",
+      "answer_latex": "LN = 21"
+    },
+    {
+      "prompt_latex": "Point $P$ is between $Q$ and $R$. If $QP = 2x + 3$, $PR = x + 6$, and $QR = 24$, find $x$ and the length of each segment.",
+      "answer_latex": "x = 5, \\quad QP = 13, \\quad PR = 11"
+    },
+    {
+      "prompt_latex": "Ray $EG$ lies inside $\\angle DEF$. If $m\\angle DEG = 3x + 4$, $m\\angle GEF = x + 10$, and $m\\angle DEF = 58^\\circ$, find $m\\angle DEG$ and $m\\angle GEF$.",
+      "answer_latex": "x = 11, \\quad m\\angle DEG = 37^\\circ, \\quad m\\angle GEF = 21^\\circ"
+    },
+    {
+      "prompt_latex": "Point $B$ is between $A$ and $C$. $AB = 5x - 2$, $BC = 2x + 9$, and $AC = 4x + 23$. Find $AC$.",
+      "answer_latex": "x = 4, \\quad AC = 39"
+    },
+    {
+      "prompt_latex": "A city planner marks three checkpoints $X$, $Y$, and $Z$ along a straight road so that $Y$ is between $X$ and $Z$. The distance from $X$ to $Z$ is $5.4$ miles. The distance from $X$ to $Y$ is $\\frac{2}{3}$ of the total distance. How far is it from $Y$ to $Z$?",
+      "answer_latex": "YZ = 1.8 \\text{ miles}"
+    }
+  ],
+  "common_mistakes": [
+    "Students set up $AB + AC = BC$ instead of $AB + BC = AC$, misidentifying which segment is the whole. Always check that the two partial segments share endpoints with the total segment and that the middle point truly lies between the outer two.",
+    "When substituting expressions like $-(x - 2)$ into the Angle Addition Postulate, students forget to distribute the sign, writing $m\\angle ABD - x - 2$ instead of $m\\angle ABD - x + 2$. Use parentheses around each expression before combining like terms to avoid dropping a sign.",
+    "After solving for $x$, students report $x$ as the final answer instead of substituting back to find the actual length or angle measure. The problem asks for a geometric measurement, not the variable \u2014 always substitute $x$ back into the original expressions and verify the answer by checking that the parts sum to the whole."
+  ],
+  "untested_variants": [
+    "Problems involving the midpoint definition, where students must set $AB = BC$ because $B$ is the midpoint of $AC$, then solve for an unknown variable.",
+    "Multi-step angle problems where an angle is described as a complement (summing to $90^\\circ$) or supplement (summing to $180^\\circ$) and the Angle Addition Postulate must be combined with those definitions simultaneously.",
+    "Segment or angle problems presented on a number line or coordinate axis, where students must compute the absolute difference of coordinates to find a length rather than adding algebraic expressions.",
+    "Problems where three or more rays divide a larger angle into three or more smaller angles, requiring students to add multiple partial angle measures to equal the total."
+  ]
+}

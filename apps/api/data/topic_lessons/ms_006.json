@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_006",
+  "topic_name": "Fisher Information and the Score Function",
+  "generated_at": "2026-05-14T01:00:59.603034+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to write down a likelihood function and find the MLE by taking a derivative. But here is a question that might stop you cold: how do you measure how much *information* a single observation carries about an unknown parameter? Two different models might both have a unique MLE, yet one estimator is far more precise than the other \u2014 and you currently have no tool to quantify that difference. What is it about a likelihood function's shape that tells us how reliably we can estimate $\\theta$?",
+  "concept": "Fisher Information measures how much a random sample 'knows' about an unknown parameter $\\theta$ by looking at how sensitive the log-likelihood is to changes in $\\theta$. Formally, if $f(x;\\theta)$ is a pdf satisfying regularity conditions, the score function is $s(x;\\theta) = \\frac{\\partial}{\\partial\\theta}\\ln f(x;\\theta)$, and the Fisher Information is $I(\\theta) = E\\left[\\left(\\frac{\\partial}{\\partial\\theta}\\ln f(X;\\theta)\\right)^2\\right] = -E\\left[\\frac{\\partial^2}{\\partial\\theta^2}\\ln f(X;\\theta)\\right]$.",
+  "anatomy": "The key components are: (1) the log-likelihood $\\ln f(x;\\theta)$, which converts the product structure of likelihoods into a sum that is far easier to differentiate; (2) the score function $s(x;\\theta) = \\frac{\\partial}{\\partial\\theta}\\ln f(x;\\theta)$, which is a random variable (since $X$ is random) that has the critical property $E[s(X;\\theta)] = 0$ under regularity conditions, meaning it is centered at zero; (3) Fisher Information $I(\\theta)$, which equals the variance of the score, $\\text{Var}(s(X;\\theta))$, capturing how spread out the score is \u2014 a sharply peaked log-likelihood produces large score variance and large $I(\\theta)$; and (4) the negative expected second derivative form, which is often easier to compute and equals $I(\\theta)$ by the regularity interchange of differentiation and integration.",
+  "worked_example": [
+    {
+      "expression_latex": "X \\sim \\text{Bernoulli}(\\theta), \\quad f(x;\\theta) = \\theta^x(1-\\theta)^{1-x}, \\quad x \\in \\{0,1\\}",
+      "description_latex": "We start by writing down the probability mass function for a single Bernoulli observation. This is our model, and $\\theta \\in (0,1)$ is the unknown success probability we want to estimate \u2014 keeping the parametric form explicit is essential before we differentiate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ln f(x;\\theta) = x\\ln\\theta + (1-x)\\ln(1-\\theta)",
+      "description_latex": "Taking the natural log converts the product of powers into a sum, which is the whole reason we work with the log-likelihood. Every subsequent derivative is now a clean rational expression rather than a product rule nightmare.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "s(x;\\theta) = \\frac{\\partial}{\\partial\\theta}\\ln f(x;\\theta) = \\frac{x}{\\theta} - \\frac{1-x}{1-\\theta}",
+      "description_latex": "Differentiating with respect to $\\theta$ gives the score function. Notice this is a function of the observed value $x$, so when we treat $X$ as random, the score $s(X;\\theta)$ is itself a random variable whose variability we are about to measure.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial^2}{\\partial\\theta^2}\\ln f(x;\\theta) = -\\frac{x}{\\theta^2} - \\frac{1-x}{(1-\\theta)^2}",
+      "description_latex": "We differentiate the score a second time to get the curvature of the log-likelihood. We will use the negative expected value formula $I(\\theta) = -E[\\cdot]$ because it is often more direct than squaring the score and computing a variance.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "I(\\theta) = -E\\!\\left[-\\frac{X}{\\theta^2} - \\frac{1-X}{(1-\\theta)^2}\\right] = \\frac{E[X]}{\\theta^2} + \\frac{1-E[X]}{(1-\\theta)^2} = \\frac{\\theta}{\\theta^2} + \\frac{1-\\theta}{(1-\\theta)^2} = \\frac{1}{\\theta(1-\\theta)}",
+      "description_latex": "Taking the expectation uses $E[X] = \\theta$ for a Bernoulli variable, and after simplification we obtain the Fisher Information $I(\\theta) = \\frac{1}{\\theta(1-\\theta)}$. Notice that $I(\\theta)$ is largest when $\\theta$ is near 0 or 1, reflecting that extreme success probabilities are actually easier to estimate precisely because the data are more decisive.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X \\sim \\text{Exponential}(\\theta), \\quad f(x;\\theta) = \\theta e^{-\\theta x}, \\quad x > 0",
+      "description_latex": "We want to find the Fisher Information $I(\\theta)$ for a single Exponential observation with rate parameter $\\theta$. Start by writing the log-likelihood, just as we did in the worked example.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ln f(x;\\theta) = \\ln\\theta - \\theta x",
+      "description_latex": "Here is the log-likelihood already simplified. Now differentiate with respect to $\\theta$ to find the score function $s(x;\\theta)$, then differentiate again to get the second derivative \u2014 both steps are yours to carry out.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\frac{\\partial^2}{\\partial\\theta^2}\\ln f(x;\\theta) = -\\frac{1}{\\theta^2}",
+      "description_latex": "The second derivative turns out to be the constant $-1/\\theta^2$, independent of $x$. Now apply the formula $I(\\theta) = -E\\left[\\frac{\\partial^2}{\\partial\\theta^2}\\ln f(X;\\theta)\\right]$ to obtain the final answer \u2014 this expectation is trivial once you see that the second derivative does not involve $X$ at all.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "I(\\theta) = \\frac{1}{\\theta^2}",
+      "description_latex": "Because the second derivative $-1/\\theta^2$ is a constant with respect to $X$, taking the expectation leaves it unchanged, and negating gives $I(\\theta) = 1/\\theta^2$. This result means the Cram\u00e9r\u2013Rao lower bound for any unbiased estimator of $\\theta$ based on $n$ observations is $\\theta^2/n$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim \\text{Poisson}(\\theta)$. Write down the score function $s(x;\\theta) = \\frac{\\partial}{\\partial\\theta}\\ln f(x;\\theta)$.",
+      "answer_latex": "s(x;\\theta) = \\frac{x}{\\theta} - 1"
+    },
+    {
+      "prompt_latex": "Let $X \\sim \\text{Poisson}(\\theta)$ with pmf $f(x;\\theta) = e^{-\\theta}\\theta^x / x!$. Compute $I(\\theta)$ using the negative expected second derivative formula.",
+      "answer_latex": "I(\\theta) = \\frac{1}{\\theta}"
+    },
+    {
+      "prompt_latex": "Let $X \\sim N(\\mu, \\sigma^2)$ with $\\sigma^2$ known. Compute the Fisher Information $I(\\mu)$ for the location parameter $\\mu$.",
+      "answer_latex": "I(\\mu) = \\frac{1}{\\sigma^2}"
+    },
+    {
+      "prompt_latex": "Suppose $X_1, \\ldots, X_n$ are i.i.d.\\ $\\text{Bernoulli}(\\theta)$. Using the fact that Fisher Information adds over independent observations, state the Cram\u00e9r\u2013Rao lower bound for the variance of any unbiased estimator $\\hat{\\theta}$ of $\\theta$.",
+      "answer_latex": "\\text{Var}(\\hat{\\theta}) \\geq \\frac{1}{n \\, I(\\theta)} = \\frac{\\theta(1-\\theta)}{n}"
+    },
+    {
+      "prompt_latex": "A sensor records a single reading $X$ from the model $f(x;\\theta) = \\frac{1}{2\\theta}$ for $x \\in [0, 2\\theta]$ (uniform on $[0,2\\theta]$). Explain why the standard Fisher Information formula $I(\\theta) = -E\\left[\\frac{\\partial^2}{\\partial\\theta^2}\\ln f(X;\\theta)\\right]$ cannot be applied here, and state what regularity condition is violated.",
+      "answer_latex": "\\text{The support } [0,2\\theta] \\text{ depends on } \\theta, \\text{ violating the regularity condition that the support be independent of } \\theta. \\text{ Differentiation under the integral sign is not valid, so the formula } I(\\theta)=\\text{Var}(s) \\text{ does not hold.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to verify $E[s(X;\\theta)] = 0$ and instead compute $I(\\theta) = E[s(X;\\theta)^2]$ while accidentally leaving a nonzero mean term, getting a wrong answer; the fix is to remember that $I(\\theta) = \\text{Var}(s(X;\\theta))$ only equals $E[s^2]$ because the mean of the score is exactly zero under regularity conditions.",
+    "When using the negative expected second-derivative formula, students frequently take $-\\frac{\\partial^2}{\\partial\\theta^2}\\ln f(x;\\theta)$ and evaluate it at a specific value of $x$ instead of taking the expectation over $X$, producing a function of $x$ rather than a constant or function of $\\theta$ alone; always remember the final step requires $E[\\cdot]$ with respect to the distribution of $X$.",
+    "Students confuse the Fisher Information for one observation, $I(\\theta)$, with the Fisher Information for a sample of size $n$, $I_n(\\theta) = n\\,I(\\theta)$, and incorrectly apply the Cram\u00e9r\u2013Rao bound using the single-observation information even when $n > 1$; always check whether the problem specifies one observation or $n$ i.i.d. observations before writing down the bound."
+  ],
+  "untested_variants": [
+    "Reparametrization: computing Fisher Information for a transformed parameter $\\phi = g(\\theta)$ using the formula $I_\\phi(\\phi) = I_\\theta(\\theta) / [g'(\\theta)]^2$, which tests the chain-rule connection between different parametrizations.",
+    "Multiparameter Fisher Information: computing the full $k \\times k$ Fisher Information matrix $\\mathcal{I}(\\boldsymbol{\\theta})$ for a model with two or more unknown parameters, such as $N(\\mu,\\sigma^2)$ with both $\\mu$ and $\\sigma^2$ unknown.",
+    "Observed Fisher Information: evaluating the negative second derivative of the log-likelihood at the MLE $\\hat{\\theta}$ rather than taking an expectation, and using it as a plug-in estimate of $I(\\theta)$ for large-sample inference.",
+    "Exponential family shortcut: recognizing when $f(x;\\theta)$ belongs to a one-parameter exponential family and extracting Fisher Information directly from the variance of the sufficient statistic, bypassing explicit differentiation."
+  ]
+}

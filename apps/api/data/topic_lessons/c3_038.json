@@ -1,0 +1,81 @@
+{
+  "topic_id": "c3_038",
+  "topic_name": "Characteristic Equations with Complex Roots",
+  "generated_at": "2026-05-13T19:58:59.028798+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to solve second-order linear ODEs when the characteristic equation has two distinct real roots \u2014 you get a nice exponential solution and move on. But what happens when you try to solve something like $y'' + 4y = 0$ and the characteristic equation $r^2 + 4 = 0$ gives you $r = \\pm 2i$? You can't write $e^{2i\\,t}$ in your final answer and call it a day, because your solution needs to be real-valued. So how do you turn complex roots into a real, usable general solution?",
+  "concept": "When the characteristic equation of a second-order ODE has complex roots, they always come in conjugate pairs of the form $r = \\alpha \\pm \\beta i$. Using Euler's formula $e^{i\\theta} = \\cos\\theta + i\\sin\\theta$, we convert the complex exponentials into real sinusoidal functions, giving the general solution $y = e^{\\alpha t}(C_1 \\cos(\\beta t) + C_2 \\sin(\\beta t))$, where $C_1$ and $C_2$ are arbitrary real constants.",
+  "anatomy": "In the general solution $y = e^{\\alpha t}(C_1 \\cos(\\beta t) + C_2 \\sin(\\beta t))$, the real part $\\alpha$ of the complex root controls the exponential envelope \u2014 it determines whether solutions grow, decay, or stay bounded. The imaginary part $\\beta$ (always taken as positive) is the angular frequency that sets how fast the sinusoidal oscillations cycle. The factor $e^{\\alpha t}$ is the amplitude envelope, $\\cos(\\beta t)$ and $\\sin(\\beta t)$ are the oscillatory components, and $C_1$, $C_2$ are the two free constants required by the second-order ODE. When $\\alpha = 0$ (purely imaginary roots), the envelope is 1 and the solution is pure oscillation.",
+  "worked_example": [
+    {
+      "expression_latex": "y'' - 4y' + 13y = 0",
+      "description_latex": "We begin with the ODE itself. Our goal is to find all real-valued functions $y(t)$ that satisfy this equation, and the standard strategy for constant-coefficient linear ODEs is to assume a solution of the form $y = e^{rt}$ and figure out what $r$ must be.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 - 4r + 13 = 0",
+      "description_latex": "Substituting $y = e^{rt}$ into the ODE and dividing through by $e^{rt}$ (which is never zero) produces the characteristic equation. Every coefficient in the ODE transfers directly to a power of $r$, so this step is purely mechanical.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = \\frac{4 \\pm \\sqrt{16 - 52}}{2} = \\frac{4 \\pm \\sqrt{-36}}{2} = \\frac{4 \\pm 6i}{2} = 2 \\pm 3i",
+      "description_latex": "Applying the quadratic formula reveals that the discriminant is negative, confirming complex roots. We simplify $\\sqrt{-36} = 6i$ and divide to identify $\\alpha = 2$ (the real part) and $\\beta = 3$ (the imaginary part, taken positive).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = e^{2t}(C_1 \\cos(3t) + C_2 \\sin(3t))",
+      "description_latex": "Now we apply the template for complex roots: replace $e^{(\\alpha + \\beta i)t}$ and its conjugate with the real combination $e^{\\alpha t}(C_1\\cos(\\beta t) + C_2\\sin(\\beta t))$. Here $\\alpha = 2$ goes into the exponential envelope and $\\beta = 3$ becomes the argument of both trig functions, giving us a complete real-valued general solution.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y'' + 6y' + 25y = 0",
+      "description_latex": "We are given this ODE and need its general solution. The first move is always to write the characteristic equation by replacing $y''$ with $r^2$, $y'$ with $r$, and $y$ with $1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 + 6r + 25 = 0 \\implies r = \\frac{-6 \\pm \\sqrt{36 - 100}}{2} = \\frac{-6 \\pm \\sqrt{-64}}{2} = -3 \\pm 4i",
+      "description_latex": "Solve the characteristic equation using the quadratic formula. You need to correctly compute the discriminant $b^2 - 4ac = 36 - 100 = -64$ and simplify $\\sqrt{-64} = 8i$, then divide to read off $\\alpha = -3$ and $\\beta = 4$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the roots $r = -3 \\pm 4i$, write the complete real-valued general solution. Remember: $\\alpha$ belongs in the exponent of $e$, and $\\beta$ belongs inside both trig functions. What is $y(t)$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the general solution to $y'' + 9y = 0$.",
+      "answer_latex": "y = C_1 \\cos(3t) + C_2 \\sin(3t)"
+    },
+    {
+      "prompt_latex": "Find the general solution to $y'' + 4y' + 13y = 0$.",
+      "answer_latex": "y = e^{-2t}(C_1 \\cos(3t) + C_2 \\sin(3t))"
+    },
+    {
+      "prompt_latex": "Find the general solution to $y'' - 2y' + 10y = 0$.",
+      "answer_latex": "y = e^{t}(C_1 \\cos(3t) + C_2 \\sin(3t))"
+    },
+    {
+      "prompt_latex": "Solve the initial value problem $y'' + 2y' + 5y = 0$, $y(0) = 3$, $y'(0) = 1$.",
+      "answer_latex": "y = e^{-t}(3\\cos(2t) + 4\\sin(2t))"
+    },
+    {
+      "prompt_latex": "A mass-spring-damper system satisfies $x'' + 2x' + 26x = 0$ with $x(0) = 0$ and $x'(0) = 10$. Find $x(t)$ and identify the frequency of oscillation.",
+      "answer_latex": "x = 2e^{-t}\\sin(5t); \\text{ angular frequency } \\beta = 5 \\text{ rad/unit time}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write the imaginary part $\\beta$ as negative when roots are $\\alpha - \\beta i$, placing a minus sign inside the trig functions (e.g., $\\cos(-3t)$) instead of recognizing that $\\beta$ is defined as the positive imaginary part; since $\\cos(-\\theta) = \\cos\\theta$ this can cause sign errors in $\\sin$, so always extract $\\beta > 0$ as the magnitude of the imaginary part.",
+    "A frequent error is putting $\\alpha$ inside the trig functions and $\\beta$ in the exponent \u2014 swapping the two parts of the root \u2014 which produces a completely wrong solution; always remember: real part $\\alpha$ goes to $e^{\\alpha t}$, imaginary part $\\beta$ goes to $\\cos(\\beta t)$ and $\\sin(\\beta t)$.",
+    "When applying initial conditions, students often forget to differentiate $e^{\\alpha t}$ using the product rule before evaluating $y'(0)$, dropping the $\\alpha e^{\\alpha t}$ term; always compute $y' = \\alpha e^{\\alpha t}(C_1\\cos\\beta t + C_2\\sin\\beta t) + e^{\\alpha t}(-C_1\\beta\\sin\\beta t + C_2\\beta\\cos\\beta t)$ in full before substituting $t = 0$."
+  ],
+  "untested_variants": [
+    "Third- or fourth-order ODEs whose characteristic equations yield multiple pairs of complex conjugate roots, requiring students to combine several sinusoidal terms.",
+    "Non-homogeneous ODEs with complex-root homogeneous part (method of undetermined coefficients or variation of parameters on top of a complex-root complementary solution).",
+    "Complex roots arising from an Euler\u2013Cauchy equation $at^2y'' + bty' + cy = 0$, where the substitution $t = e^x$ must be used before applying the complex-root template.",
+    "Systems of first-order ODEs that reduce to a second-order equation with complex characteristic roots, requiring interpretation in terms of phase-plane spirals."
+  ]
+}

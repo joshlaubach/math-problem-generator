@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_041",
+  "topic_name": "Two-Way Tables and Expected Counts",
+  "generated_at": "2026-05-13T20:32:47.598758+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to summarize data using frequency tables, and you've learned that sample proportions can vary just by chance. But what happens when you want to ask whether two categorical variables \u2014 like political party and opinion on a policy \u2014 are actually related, or whether any pattern you see is just random noise? You need a way to figure out what counts you would *expect* to see if the two variables had absolutely nothing to do with each other. How do you calculate those expected counts from a two-way table?",
+  "concept": "A two-way table (also called a contingency table) displays the frequencies of two categorical variables simultaneously, with one variable's categories forming the rows and the other's forming the columns. The key idea is that if the two variables are truly independent, the expected count in any cell can be found by asking: what proportion of the whole sample falls in this row, and what proportion falls in this column \u2014 and if those are unrelated, we multiply those proportions by the total. Formally, the expected count for a cell in row $i$ and column $j$ is $E_{ij} = \\dfrac{(\\text{row } i \\text{ total})(\\text{column } j \\text{ total})}{n}$, where $n$ is the grand total.",
+  "anatomy": "A two-way table has several named components you must identify before computing anything. The observed count $O_{ij}$ is the actual frequency recorded in row $i$, column $j$. Each row total (sometimes called a marginal total) sums all observed counts across that row, and each column total sums all observed counts down that column. The grand total $n$ is the sum of all row totals (equivalently, all column totals). The expected count $E_{ij}$ is computed from these marginals under the assumption of independence \u2014 it is NOT the observed count, and it can be a decimal even though observed counts are whole numbers.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Two-way table: } \\begin{array}{|c|c|c|c|}\\hline & \\text{Support} & \\text{Oppose} & \\text{Row Total} \\\\ \\hline \\text{Party A} & 120 & 80 & 200 \\\\ \\hline \\text{Party B} & 90 & 110 & 200 \\\\ \\hline \\text{Col Total} & 210 & 190 & 400 \\\\ \\hline \\end{array}",
+      "description_latex": "We start by reading the table carefully and identifying all marginal totals. Notice that the row totals are 200 and 200, the column totals are 210 and 190, and the grand total $n = 400$. These marginal totals are the only inputs you need to compute every expected count.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_{\\text{A, Support}} = \\frac{(\\text{Row A total})(\\text{Support column total})}{n} = \\frac{200 \\times 210}{400}",
+      "description_latex": "To find the expected count for the cell in row 'Party A' and column 'Support', we plug into the formula $E_{ij} = \\frac{(\\text{row total})(\\text{column total})}{n}$. We are asking: if party affiliation and opinion are completely independent, how many of the 400 people would we expect to be both Party A and in Support?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_{\\text{A, Support}} = \\frac{42000}{400} = 105",
+      "description_latex": "Carrying out the arithmetic gives us an expected count of 105, which we compare mentally to the observed count of 120 \u2014 they differ, which is exactly why we're building toward a chi-square test. Note that 105 is a whole number here by coincidence; expected counts are often decimals.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_{\\text{A, Oppose}} = \\frac{200 \\times 190}{400} = \\frac{38000}{400} = 95",
+      "description_latex": "We repeat the process for the 'Party A, Oppose' cell using the same row total (200) but now the Oppose column total (190). A useful check: the expected counts in each row must sum to that row's total, so $105 + 95 = 200$ \u2713. Always verify this after each row to catch arithmetic errors early.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_{\\text{B, Support}} = \\frac{200 \\times 210}{400} = 105, \\quad E_{\\text{B, Oppose}} = \\frac{200 \\times 190}{400} = 95",
+      "description_latex": "We complete the table by computing the remaining two expected counts for Party B. Notice that because both row totals are equal here, the expected counts mirror the first row \u2014 this won't always happen. A final check: column sums of expected counts must equal column totals ($105+105=210$ \u2713 and $95+95=190$ \u2713), confirming all four expected counts are correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{array}{|c|c|c|c|}\\hline & \\text{Yes} & \\text{No} & \\text{Row Total} \\\\ \\hline \\text{Male} & 60 & 40 & 100 \\\\ \\hline \\text{Female} & 30 & 70 & 100 \\\\ \\hline \\text{Col Total} & 90 & 110 & 200 \\\\ \\hline \\end{array}",
+      "description_latex": "Here is a two-way table showing responses by gender. Before computing anything, identify and label every marginal total and the grand total $n = 200$. These are the only numbers that go into the expected count formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E_{\\text{Male, Yes}} = \\frac{(\\text{Row: Male})(\\text{Col: Yes})}{n} = \\frac{100 \\times 90}{200} = 45",
+      "description_latex": "We compute the first expected count together. The Male row total is 100, the Yes column total is 90, and the grand total is 200, giving $E = 45$. The observed count here was 60, so there's a notable difference.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now it's your turn: compute the expected count for the cell 'Female, No'. Identify the correct row total, the correct column total, divide by $n = 200$, and simplify. What is $E_{\\text{Female, No}}$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "E_{\\text{Male, Yes}} + E_{\\text{Male, No}} = 45 + 55 = 100 \\checkmark",
+      "description_latex": "As a verification step, check that the expected counts in each row sum to the row total. If any row or column sum of expected counts doesn't match its marginal total, you know you've made an error somewhere and should recheck your arithmetic.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A two-way table has a row total of 50, a column total of 40, and a grand total of 200. Compute the expected count for that cell.",
+      "answer_latex": "E = \\dfrac{50 \\times 40}{200} = 10"
+    },
+    {
+      "prompt_latex": "Use the table below to find ALL four expected counts.\\\\ \\begin{array}{|c|c|c|c|}\\hline & \\text{Cat A} & \\text{Cat B} & \\text{Row Total} \\\\ \\hline \\text{Group 1} & 30 & 20 & 50 \\\\ \\hline \\text{Group 2} & 18 & 32 & 50 \\\\ \\hline \\text{Col Total} & 48 & 52 & 100 \\\\ \\hline \\end{array}",
+      "answer_latex": "E_{1A}=24,\\; E_{1B}=26,\\; E_{2A}=24,\\; E_{2B}=26"
+    },
+    {
+      "prompt_latex": "A survey of 300 people cross-tabulates age group (Young, Old) and preference (Brand X, Brand Y, Brand Z). The row totals are 180 (Young) and 120 (Old). The column totals are 90, 120, and 90 respectively. Find the expected count for the cell (Old, Brand Y).",
+      "answer_latex": "E = \\dfrac{120 \\times 120}{300} = 48"
+    },
+    {
+      "prompt_latex": "In a $2 \\times 2$ table with grand total $n = 500$, the expected count for one cell is $E = 75$. The row total for that cell's row is 150. What is the column total for that cell's column? (Hint: use the expected count formula and solve for the missing value.)",
+      "answer_latex": "\\dfrac{150 \\times c}{500} = 75 \\implies c = 250"
+    },
+    {
+      "prompt_latex": "A school records whether students passed or failed an exam (Pass/Fail) and whether they attended a study session (Attended/Did Not Attend). Of 400 students, 280 passed, 200 attended, and the cell (Attended, Pass) had an observed count of 170. Compute the expected count for (Attended, Pass) and determine whether the observed count is higher or lower than expected.",
+      "answer_latex": "E_{\\text{Att, Pass}} = \\dfrac{200 \\times 280}{400} = 140; \\text{ observed } 170 > 140, \\text{ so higher than expected}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often use the observed cell count itself \u2014 or the overall sample proportion \u2014 instead of the marginal row and column totals in the formula. The fix is to remember that $E_{ij}$ uses ONLY row total, column total, and grand total; the observed cell value plays no role in computing expected counts.",
+    "Students sometimes divide by the row total or column total instead of the grand total $n$, yielding a number that doesn't match the correct marginal. Always divide by the single grand total $n$, which appears in the denominator of $E_{ij} = \\frac{(\\text{row total})(\\text{col total})}{n}$.",
+    "Students assume expected counts must be whole numbers and round them to integers before using them in further calculations. Expected counts are allowed to be \u2014 and often are \u2014 non-integers (decimals), and rounding them prematurely introduces error into any chi-square statistic computed afterward."
+  ],
+  "untested_variants": [
+    "Three-or-more category tables (e.g., a $3 \\times 4$ contingency table) where students must compute all 12 expected counts and verify both row and column marginals simultaneously.",
+    "Working backwards from a given expected count and one marginal total to recover the other marginal total or the grand total, as in a missing-value algebraic setup beyond what practice problem 4 covers.",
+    "Checking the conditions for a chi-square test of independence \u2014 specifically verifying that all expected counts are at least 5, and deciding whether those conditions are met before proceeding with inference.",
+    "Interpreting what it means when an observed count is much larger or smaller than its expected count in context, including connecting the direction of the deviation to a real-world conclusion about association."
+  ]
+}

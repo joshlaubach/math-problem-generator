@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_030",
+  "topic_name": "Cauchy-Euler Equations (H)",
+  "generated_at": "2026-05-13T20:02:12.452306+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve constant-coefficient linear equations like $y'' + 3y' + 2y = 0$ by guessing $y = e^{rx}$. But what happens when the coefficients aren't constants \u2014 specifically, when they scale with powers of $x$, like $x^2 y'' + 3x y' + y = 0$? The exponential guess fails immediately because the $x^2$ in front of $y''$ and the $x$ in front of $y'$ create a mismatch in degrees. So how do we find solutions to these variable-coefficient equations?",
+  "concept": "A Cauchy-Euler equation (also called an Euler-Cauchy or equidimensional equation) is a linear ODE where each term has the form $x^k y^{(k)}$ \u2014 the power of $x$ matches the order of the derivative. The standard second-order form is $x^2 y'' + px y' + qy = 0$, where $p$ and $q$ are constants. The key insight is that a power function $y = x^m$ is the natural guess, because each differentiation of $x^m$ reduces the power by one while the matching $x^k$ factor restores it, keeping every term proportional.",
+  "anatomy": "In $x^2 y'' + px y' + qy = 0$, there are four structural components worth naming. The equidimensional structure is the defining feature: the coefficient of $y^{(k)}$ is always $x^k$, so every term has the same overall degree in $x$. The constants $p$ and $q$ are the equation's parameters, playing the same role that constant coefficients play in simpler equations. The trial solution $y = x^m$ introduces the indicial exponent $m$, the unknown we solve for. Substituting $y = x^m$ produces the characteristic (indicial) equation, a quadratic in $m$ whose roots \u2014 real distinct, repeated, or complex \u2014 determine which of three solution families applies.",
+  "worked_example": [
+    {
+      "expression_latex": "x^2 y'' - 3x y' + 4y = 0",
+      "description_latex": "This is our Cauchy-Euler equation. Notice that the coefficient of $y''$ is $x^2$, the coefficient of $y'$ is $-3x$, and the coefficient of $y$ is $4$ \u2014 the exponents of $x$ match the order of each derivative, confirming the equidimensional structure. We will use the trial solution $y = x^m$ to convert this into an algebraic equation for $m$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = x^m, \\quad y' = mx^{m-1}, \\quad y'' = m(m-1)x^{m-2}",
+      "description_latex": "We differentiate $y = x^m$ twice using the power rule. These three expressions are substituted into the ODE, and the reason this works so neatly is that $x^2 \\cdot x^{m-2} = x^m$, $x \\cdot x^{m-1} = x^m$, and $x^0 \\cdot x^m = x^m$, so every term ends up with the same factor $x^m$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^2 \\cdot m(m-1)x^{m-2} - 3x \\cdot mx^{m-1} + 4x^m = 0 \\implies x^m\\bigl[m(m-1) - 3m + 4\\bigr] = 0",
+      "description_latex": "After substituting and factoring out $x^m$ (which is never zero for $x > 0$), we are left with the indicial equation inside the brackets. This is the central algebraic step: the ODE has been completely reduced to a polynomial equation in $m$, and we must solve $m(m-1) - 3m + 4 = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m^2 - m - 3m + 4 = 0 \\implies m^2 - 4m + 4 = 0 \\implies (m-2)^2 = 0 \\implies m = 2 \\text{ (repeated)}",
+      "description_latex": "Expanding and simplifying the indicial equation gives a perfect square, so we have a repeated root $m = 2$. Repeated roots in Cauchy-Euler equations are analogous to repeated roots in constant-coefficient equations, and they require a logarithmic second solution of the form $y_2 = x^m \\ln x$ for the same reason: we need a linearly independent partner for $y_1 = x^m$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = c_1 x^2 + c_2 x^2 \\ln x",
+      "description_latex": "The general solution combines the two linearly independent solutions. You can verify that $y_2 = x^2 \\ln x$ satisfies the original ODE by direct differentiation. This completes the problem: the family of solutions is parametrized by the arbitrary constants $c_1$ and $c_2$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "x^2 y'' + 2x y' - 6y = 0",
+      "description_latex": "This is a Cauchy-Euler equation with $p = 2$ and $q = -6$. We begin by substituting $y = x^m$, $y' = mx^{m-1}$, and $y'' = m(m-1)x^{m-2}$ into the equation and factoring out $x^m$ to obtain the indicial equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "m(m-1) + 2m - 6 = 0 \\implies m^2 + m - 6 = 0",
+      "description_latex": "After substituting and canceling $x^m$, we arrive at the indicial equation $m^2 + m - 6 = 0$. Your job now is to solve this quadratic: factor it, find the two roots $m_1$ and $m_2$, and identify what type of roots they are (real distinct, repeated, or complex).",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y = c_1 x^{m_1} + c_2 x^{m_2}",
+      "description_latex": "Because the roots are real and distinct, the general solution takes the form $y = c_1 x^{m_1} + c_2 x^{m_2}$. Using your roots from the previous step, write out the explicit general solution. The correct answer is $y = c_1 x^2 + c_2 x^{-3}$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Solve: $x^2 y'' + xy' - y = 0$",
+      "answer_latex": "y = c_1 x + c_2 x^{-1}"
+    },
+    {
+      "prompt_latex": "Solve: $x^2 y'' - xy' - 3y = 0$",
+      "answer_latex": "y = c_1 x^3 + c_2 x^{-1}"
+    },
+    {
+      "prompt_latex": "Solve: $x^2 y'' + 5xy' + 4y = 0$",
+      "answer_latex": "y = c_1 x^{-2} + c_2 x^{-2}\\ln x"
+    },
+    {
+      "prompt_latex": "Solve the initial value problem: $x^2 y'' - xy' + y = 0$, $y(1) = 3$, $y'(1) = 1$",
+      "answer_latex": "y = 3x + (-2)x\\ln x = x(3 - 2\\ln x)"
+    },
+    {
+      "prompt_latex": "Solve: $x^2 y'' + xy' + y = 0$ (Hint: the indicial roots are complex)",
+      "answer_latex": "y = c_1 \\cos(\\ln x) + c_2 \\sin(\\ln x)"
+    }
+  ],
+  "common_mistakes": [
+    "Students often substitute $y = e^{rx}$ instead of $y = x^m$, carrying over the habit from constant-coefficient equations. The exponential guess does not produce consistent powers of $x$, so the equation does not reduce cleanly; always use $y = x^m$ for Cauchy-Euler equations.",
+    "When forming the indicial equation, students forget to expand $m(m-1)$ and instead write $m^2$ alone, dropping the $-m$ term. Remember that $y'' = m(m-1)x^{m-2}$, so the contribution from the $x^2 y''$ term is $m(m-1)$, not $m^2$; always expand the product before collecting terms.",
+    "For complex conjugate roots $m = \\alpha \\pm \\beta i$ of the indicial equation, students incorrectly write $y = c_1 e^{\\alpha x}\\cos(\\beta x) + c_2 e^{\\alpha x}\\sin(\\beta x)$, importing the constant-coefficient formula. The correct form for Cauchy-Euler equations is $y = x^{\\alpha}\\bigl[c_1 \\cos(\\beta \\ln x) + c_2 \\sin(\\beta \\ln x)\\bigr]$, because the independent variable inside the trigonometric functions is $\\ln x$, not $x$."
+  ],
+  "untested_variants": [
+    "Third-order Cauchy-Euler equations of the form $x^3 y''' + ax^2 y'' + bxy' + cy = 0$, which require finding three roots of a cubic indicial equation.",
+    "Non-homogeneous Cauchy-Euler equations such as $x^2 y'' + xy' - y = x^2 \\ln x$, which require the method of variation of parameters (after the homogeneous solution is found) or the substitution $x = e^t$ to convert to a constant-coefficient forced equation.",
+    "Cauchy-Euler equations defined on $x < 0$, where the trial solution must be $y = |x|^m$ and the domain requires careful handling of the logarithm in repeated or complex root cases.",
+    "Using the substitution $x = e^t$ (i.e., $t = \\ln x$) to convert a Cauchy-Euler equation into a constant-coefficient equation and then solving it with characteristic roots \u2014 an alternative solution method not demonstrated in this lesson."
+  ]
+}

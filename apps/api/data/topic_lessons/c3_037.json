@@ -1,0 +1,81 @@
+{
+  "topic_id": "c3_037",
+  "topic_name": "Second Order Linear Homogeneous Equations",
+  "generated_at": "2026-05-13T20:37:54.748010+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to solve first-order linear differential equations like $y' + py = 0$ by separating variables or using an integrating factor. But what happens when acceleration enters the picture \u2014 equations like $y'' + 5y' + 6y = 0$ that govern oscillating springs, electrical circuits, and vibrating beams? The techniques you learned before don't directly extend, because you now have two derivatives tangled together. How do we systematically find all solutions to these second-order equations?",
+  "concept": "A second-order linear homogeneous differential equation is one where the highest derivative is $y''$, the equation is linear in $y$, $y'$, and $y''$, and the right-hand side is zero. Formally, it has the form $ay'' + by' + cy = 0$, where $a$, $b$, $c$ are constants with $a \neq 0$. The key insight is that we guess solutions of the form $y = e^{rx}$, substitute in, and reduce the problem to solving a quadratic called the characteristic equation.",
+  "anatomy": "The equation $ay'' + by' + cy = 0$ has four named components worth distinguishing. The coefficients $a$, $b$, $c$ are the constant coefficients that determine the behavior of solutions. The characteristic equation $ar^2 + br + c = 0$ is the algebraic equation obtained by substituting $y = e^{rx}$; its roots $r_1$ and $r_2$ are called the characteristic roots (or eigenvalues). The discriminant $b^2 - 4ac$ determines which of the three solution cases applies: two distinct real roots, one repeated real root, or two complex conjugate roots. The general solution is a linear combination $y = C_1 y_1 + C_2 y_2$ of two linearly independent solutions $y_1$ and $y_2$, where $C_1$ and $C_2$ are arbitrary constants set by initial conditions.",
+  "worked_example": [
+    {
+      "expression_latex": "y'' - 5y' + 6y = 0",
+      "description_latex": "We start by identifying this as a second-order linear homogeneous equation with constant coefficients $a=1$, $b=-5$, $c=6$. Our strategy is to guess $y = e^{rx}$ and find which values of $r$ actually work, because exponentials have the special property that differentiation just multiplies by $r$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = e^{rx} \\Rightarrow y' = re^{rx},\\quad y'' = r^2 e^{rx}",
+      "description_latex": "We substitute $y = e^{rx}$ into the differential equation, using the fact that each differentiation brings down a factor of $r$. Plugging in gives $r^2 e^{rx} - 5re^{rx} + 6e^{rx} = 0$, and since $e^{rx}$ is never zero, we can divide it out entirely.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 - 5r + 6 = 0",
+      "description_latex": "This is the characteristic equation \u2014 a plain quadratic in $r$ that encodes all the behavior of our differential equation. Solving it by factoring gives $(r-2)(r-3) = 0$, so the characteristic roots are $r_1 = 2$ and $r_2 = 3$, which are two distinct real roots.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = C_1 e^{2x} + C_2 e^{3x}",
+      "description_latex": "Because we have two distinct real roots, the two linearly independent solutions are $y_1 = e^{2x}$ and $y_2 = e^{3x}$, and the general solution is their arbitrary linear combination. The constants $C_1$ and $C_2$ remain free until initial conditions are specified \u2014 this general solution contains every possible solution to the equation.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y'' + 6y' + 9y = 0",
+      "description_latex": "We want to solve this second-order linear homogeneous equation. First, let's write the characteristic equation by replacing $y''$ with $r^2$, $y'$ with $r$, and $y$ with $1$, giving us $r^2 + 6r + 9 = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 + 6r + 9 = (r+3)^2 = 0 \\Rightarrow r = -3 \\text{ (repeated)}",
+      "description_latex": "We factor the characteristic equation and find a repeated root $r = -3$. When the discriminant $b^2 - 4ac = 36 - 36 = 0$, we get exactly one root, which means the two linearly independent solutions are not both plain exponentials \u2014 one of them picks up a factor of $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now write the general solution for a repeated root $r = -3$. Remember: when a root repeats, the two independent solutions are $e^{rx}$ and $xe^{rx}$. Write the full general solution $y = $?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find the general solution: } y'' - y' - 6y = 0",
+      "answer_latex": "y = C_1 e^{3x} + C_2 e^{-2x}"
+    },
+    {
+      "prompt_latex": "\\text{Find the general solution: } y'' + 4y' + 4y = 0",
+      "answer_latex": "y = C_1 e^{-2x} + C_2 x e^{-2x}"
+    },
+    {
+      "prompt_latex": "\\text{Find the general solution: } y'' + 9y = 0",
+      "answer_latex": "y = C_1 \\cos(3x) + C_2 \\sin(3x)"
+    },
+    {
+      "prompt_latex": "\\text{Solve the initial value problem: } y'' - 4y' + 3y = 0,\\quad y(0) = 1,\\quad y'(0) = 5",
+      "answer_latex": "y = -e^{x} + 2e^{3x}"
+    },
+    {
+      "prompt_latex": "\\text{A mass-spring system satisfies } y'' + 2y' + 5y = 0 \\text{ where } y(t) \\text{ is displacement. Find the general solution and describe the long-term behavior.}",
+      "answer_latex": "y = e^{-t}(C_1\\cos(2t) + C_2\\sin(2t));\\text{ displacement decays to zero (underdamped)}."
+    }
+  ],
+  "common_mistakes": [
+    "Students write the repeated-root general solution as $y = C_1 e^{rx} + C_2 e^{rx}$ instead of $y = C_1 e^{rx} + C_2 x e^{rx}$; without the factor of $x$, you only have one independent solution and cannot satisfy two initial conditions \u2014 always check whether the discriminant is zero before writing the solution.",
+    "When the characteristic roots are complex, $r = \\alpha \\pm \\beta i$, students incorrectly write $y = C_1 e^{\\alpha x + \\beta i x} + C_2 e^{\\alpha x - \\beta i x}$ and leave it in complex exponential form instead of converting via Euler's formula to the real form $y = e^{\\alpha x}(C_1 \\cos(\\beta x) + C_2 \\sin(\\beta x))$; always apply Euler's formula to express real-valued solutions.",
+    "Students form the characteristic equation by substituting $r$ for $y$ directly, writing $r^2 - 5r + 6 = 0$ but then confuse the sign on $b$ when reading off the coefficient of $y'$; a reliable fix is to always write out each term separately as $a \\cdot r^2 + b \\cdot r + c = 0$, matching coefficients carefully from the original equation."
+  ],
+  "untested_variants": [
+    "Equations with non-constant coefficients such as the Cauchy-Euler equation $ax^2 y'' + bxy' + cy = 0$, which requires a substitution $y = x^r$ rather than $y = e^{rx}$.",
+    "Finding a particular solution when the equation is non-homogeneous (right-hand side $\neq 0$) using the method of undetermined coefficients or variation of parameters.",
+    "Reduction of order: given one known solution $y_1$, finding a second linearly independent solution $y_2$ when the characteristic equation approach does not directly apply.",
+    "Systems interpretation: converting the single second-order equation into a system of two first-order equations and solving via matrix methods."
+  ]
+}

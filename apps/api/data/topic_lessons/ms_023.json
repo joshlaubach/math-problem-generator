@@ -1,0 +1,86 @@
+{
+  "topic_id": "ms_023",
+  "topic_name": "The Gauss-Markov Theorem",
+  "generated_at": "2026-05-14T01:03:21.979765+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to fit a linear model $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$ using ordinary least squares, and you know the OLS estimator $\\hat{\\boldsymbol{\\beta}} = (\\mathbf{X}^\\top \\mathbf{X})^{-1}\\mathbf{X}^\\top \\mathbf{y}$ is unbiased. But there are infinitely many other linear unbiased estimators \u2014 why should you trust OLS specifically? The Gauss-Markov theorem answers this, but to apply it you need to know exactly which conditions guarantee OLS is the *best* choice, and what 'best' even means in this context. Can you state precisely why no other linear unbiased estimator can outperform OLS?",
+  "concept": "The Gauss-Markov theorem says that, under a specific set of assumptions about the error terms, OLS gives you the most efficient linear unbiased estimator \u2014 meaning it has the smallest variance among all competitors. Formally: if $\\mathbb{E}[\\boldsymbol{\\varepsilon}] = \\mathbf{0}$, $\\mathrm{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{I}$, and $\\mathbf{X}$ is fixed and full column rank, then the OLS estimator $\\hat{\\boldsymbol{\\beta}}_{OLS}$ is BLUE \u2014 the Best Linear Unbiased Estimator.",
+  "anatomy": "The acronym BLUE has four components, each doing real work. **Best** means minimum variance: for any linear combination $\\mathbf{c}^\\top \\boldsymbol{\\beta}$, the variance of $\\mathbf{c}^\\top \\hat{\\boldsymbol{\\beta}}_{OLS}$ is no larger than the variance of $\\mathbf{c}^\\top \\tilde{\\boldsymbol{\\beta}}$ for any other estimator $\\tilde{\\boldsymbol{\\beta}}$ in the class. **Linear** restricts attention to estimators of the form $\\tilde{\\boldsymbol{\\beta}} = \\mathbf{A}\\mathbf{y}$ where $\\mathbf{A}$ is a non-random matrix. **Unbiased** requires $\\mathbb{E}[\\tilde{\\boldsymbol{\\beta}}] = \\boldsymbol{\\beta}$ for all $\\boldsymbol{\\beta}$, which forces the constraint $\\mathbf{A}\\mathbf{X} = \\mathbf{I}$. The three **Gauss-Markov assumptions** are the conditions that make the theorem hold: zero-mean errors ($\\mathbb{E}[\\boldsymbol{\\varepsilon}]=\\mathbf{0}$), homoscedastic uncorrelated errors ($\\mathrm{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{I}$), and a fixed full-rank design matrix $\\mathbf{X}$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\tilde{\\boldsymbol{\\beta}} = \\mathbf{A}\\mathbf{y}, \\quad \\mathbf{A} = (\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top + \\mathbf{D}",
+      "description_latex": "We want to consider every possible linear unbiased estimator, so we write a general linear estimator $\\tilde{\\boldsymbol{\\beta}} = \\mathbf{A}\\mathbf{y}$ and decompose $\\mathbf{A}$ as the OLS matrix plus an arbitrary perturbation matrix $\\mathbf{D}$. This is a standard proof technique: rather than guessing the form of a competitor, we parameterize *all* linear estimators at once so we can compare them to OLS systematically.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbb{E}[\\tilde{\\boldsymbol{\\beta}}] = \\mathbf{A}\\mathbf{X}\\boldsymbol{\\beta} = \\left[(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top + \\mathbf{D}\\right]\\mathbf{X}\\boldsymbol{\\beta} = \\boldsymbol{\\beta} + \\mathbf{D}\\mathbf{X}\\boldsymbol{\\beta}",
+      "description_latex": "We apply the unbiasedness condition $\\mathbb{E}[\\tilde{\\boldsymbol{\\beta}}] = \\boldsymbol{\\beta}$, which must hold for *every* value of $\\boldsymbol{\\beta}$. The only way $\\boldsymbol{\\beta} + \\mathbf{D}\\mathbf{X}\\boldsymbol{\\beta} = \\boldsymbol{\\beta}$ for all $\\boldsymbol{\\beta}$ is if $\\mathbf{D}\\mathbf{X} = \\mathbf{0}$, so this constraint pins down which perturbations $\\mathbf{D}$ are even allowed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathrm{Var}(\\tilde{\\boldsymbol{\\beta}}) = \\mathbf{A}\\,\\mathrm{Var}(\\mathbf{y})\\,\\mathbf{A}^\\top = \\sigma^2 \\mathbf{A}\\mathbf{A}^\\top",
+      "description_latex": "Using the Gauss-Markov assumption $\\mathrm{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{I}$ and the fact that $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$ has $\\mathrm{Var}(\\mathbf{y}) = \\sigma^2 \\mathbf{I}$, we compute the variance of our general estimator. This step is where the homoscedasticity and uncorrelatedness assumptions do their work \u2014 without $\\mathrm{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{I}$, the simplification would not go through.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sigma^2 \\mathbf{A}\\mathbf{A}^\\top = \\sigma^2 (\\mathbf{X}^\\top\\mathbf{X})^{-1} + \\sigma^2 \\mathbf{D}\\mathbf{D}^\\top",
+      "description_latex": "Substituting $\\mathbf{A} = (\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top + \\mathbf{D}$ and expanding, the cross terms vanish because $\\mathbf{D}\\mathbf{X} = \\mathbf{0}$ (the unbiasedness constraint we derived), leaving us with the OLS variance plus an extra non-negative definite term $\\sigma^2 \\mathbf{D}\\mathbf{D}^\\top$. This is the key algebraic step: the extra term can only make the variance larger, never smaller.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathrm{Var}(\\tilde{\\boldsymbol{\\beta}}) - \\mathrm{Var}(\\hat{\\boldsymbol{\\beta}}_{OLS}) = \\sigma^2 \\mathbf{D}\\mathbf{D}^\\top \\succeq \\mathbf{0}",
+      "description_latex": "Since $\\mathbf{D}\\mathbf{D}^\\top$ is always positive semi-definite, the variance of any linear unbiased estimator exceeds or equals the OLS variance in the positive semi-definite sense, with equality only when $\\mathbf{D} = \\mathbf{0}$ (i.e., when $\\tilde{\\boldsymbol{\\beta}} = \\hat{\\boldsymbol{\\beta}}_{OLS}$). This completes the proof: OLS is BLUE.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\tilde{\\beta}_1 = \\mathbf{a}^\\top \\mathbf{y}, \\quad \\text{where } \\mathbf{a} = \\mathbf{e}_1^\\top(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top + \\mathbf{d}^\\top",
+      "description_latex": "Suppose we want to estimate just the first coefficient $\\beta_1$ with a linear estimator $\\tilde{\\beta}_1 = \\mathbf{a}^\\top \\mathbf{y}$. We write $\\mathbf{a}^\\top$ as the OLS row for $\\beta_1$ plus an arbitrary perturbation vector $\\mathbf{d}^\\top$, exactly mirroring the matrix proof but now in scalar/vector form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbb{E}[\\tilde{\\beta}_1] = \\mathbf{a}^\\top \\mathbf{X} \\boldsymbol{\\beta} = \\beta_1 \\iff \\mathbf{d}^\\top \\mathbf{X} = \\mathbf{0}^\\top",
+      "description_latex": "For $\\tilde{\\beta}_1$ to be unbiased, the expectation must equal $\\beta_1$ for every $\\boldsymbol{\\beta}$. Derive the necessary constraint on $\\mathbf{d}$ by expanding $\\mathbf{a}^\\top \\mathbf{X}$ and requiring the result to equal $\\mathbf{e}_1^\\top$ \u2014 what condition must $\\mathbf{d}^\\top$ satisfy?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathrm{Var}(\\tilde{\\beta}_1) = \\sigma^2 \\|\\mathbf{a}\\|^2 = \\sigma^2 \\left[\\mathbf{e}_1^\\top(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{e}_1 + \\|\\mathbf{d}\\|^2\\right]",
+      "description_latex": "Expanding $\\|\\mathbf{a}\\|^2 = \\mathbf{a}^\\top\\mathbf{a}$ using the constraint $\\mathbf{d}^\\top\\mathbf{X} = \\mathbf{0}^\\top$ eliminates the cross term, and you are left with the OLS variance for $\\hat{\\beta}_1$ plus $\\|\\mathbf{d}\\|^2 \\geq 0$. Now explain in one sentence why this proves $\\hat{\\beta}_1^{OLS}$ has the smallest variance among all linear unbiased estimators of $\\beta_1$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "List the three Gauss-Markov assumptions required for the OLS estimator to be BLUE.",
+      "answer_latex": "(1)\\; \\mathbb{E}[\\boldsymbol{\\varepsilon}] = \\mathbf{0},\\quad (2)\\; \\mathrm{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{I},\\quad (3)\\; \\mathbf{X} \\text{ is fixed and has full column rank}."
+    },
+    {
+      "prompt_latex": "Consider the simple regression model $y_i = \\beta_0 + \\beta_1 x_i + \\varepsilon_i$ satisfying the Gauss-Markov assumptions. A classmate proposes the estimator $\\tilde{\\beta}_1 = \\frac{1}{n}\\sum_{i=1}^n \\frac{y_i - \\bar{y}}{x_i - \\bar{x}}$ (assuming $x_i \\neq \\bar{x}$ for all $i$). Is $\\tilde{\\beta}_1$ linear in $\\mathbf{y}$? Is it unbiased? Does the Gauss-Markov theorem guarantee $\\hat{\\beta}_1^{OLS}$ has smaller variance than $\\tilde{\\beta}_1$?",
+      "answer_latex": "\\tilde{\\beta}_1 \\text{ is linear in } \\mathbf{y}.\\; \\mathbb{E}[\\tilde{\\beta}_1] = \\beta_1 \\text{ (unbiased)}.\\; \\text{Yes, by Gauss-Markov, } \\mathrm{Var}(\\hat{\\beta}_1^{OLS}) \\leq \\mathrm{Var}(\\tilde{\\beta}_1)."
+    },
+    {
+      "prompt_latex": "In the model $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$ with $\\mathrm{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{I}$, verify that the OLS estimator $\\hat{\\boldsymbol{\\beta}} = (\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top\\mathbf{y}$ is linear in $\\mathbf{y}$ and unbiased, confirming it belongs to the class of estimators covered by Gauss-Markov.",
+      "answer_latex": "\\hat{\\boldsymbol{\\beta}} = \\underbrace{(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top}_{\\mathbf{A}}\\mathbf{y} \\Rightarrow \\text{linear};\\quad \\mathbb{E}[\\hat{\\boldsymbol{\\beta}}] = (\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top\\mathbf{X}\\boldsymbol{\\beta} = \\boldsymbol{\\beta} \\Rightarrow \\text{unbiased}."
+    },
+    {
+      "prompt_latex": "Suppose $\\mathrm{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{V}$ where $\\mathbf{V} \\neq \\mathbf{I}$ is known and positive definite. The Gauss-Markov conditions are violated. Show that the Generalized Least Squares estimator $\\hat{\\boldsymbol{\\beta}}_{GLS} = (\\mathbf{X}^\\top \\mathbf{V}^{-1}\\mathbf{X})^{-1}\\mathbf{X}^\\top \\mathbf{V}^{-1}\\mathbf{y}$ is unbiased, and state which theorem now guarantees it is BLUE.",
+      "answer_latex": "\\mathbb{E}[\\hat{\\boldsymbol{\\beta}}_{GLS}] = (\\mathbf{X}^\\top \\mathbf{V}^{-1}\\mathbf{X})^{-1}\\mathbf{X}^\\top \\mathbf{V}^{-1}\\mathbf{X}\\boldsymbol{\\beta} = \\boldsymbol{\\beta}.\\; \\text{The Aitken (generalized Gauss-Markov) theorem guarantees } \\hat{\\boldsymbol{\\beta}}_{GLS} \\text{ is BLUE.}"
+    },
+    {
+      "prompt_latex": "A researcher collects data on $n = 50$ students and fits a simple regression of test score $y_i$ on study hours $x_i$. She later discovers that students from two different schools have different error variances (heteroscedasticity). Explain precisely which Gauss-Markov assumption is violated and what consequence this has for the OLS estimator's status as BLUE.",
+      "answer_latex": "\\text{The assumption } \\mathrm{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{I} \\text{ (homoscedasticity) is violated.}\\; \\text{OLS remains unbiased and linear, but is no longer BLUE \u2014 a weighted/GLS estimator has strictly smaller variance.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often think Gauss-Markov requires normally distributed errors, but normality is never assumed \u2014 the theorem only needs $\\mathbb{E}[\\boldsymbol{\\varepsilon}]=\\mathbf{0}$ and $\\mathrm{Var}(\\boldsymbol{\\varepsilon})=\\sigma^2\\mathbf{I}$; normality is a separate assumption needed for exact finite-sample inference.",
+    "Students confuse 'best among all estimators' with 'best among all linear unbiased estimators': BLUE only beats other linear unbiased competitors, and a biased or nonlinear estimator (like ridge regression or the James-Stein estimator) can have lower mean squared error than OLS in many settings.",
+    "When applying the unbiasedness constraint $\\mathbf{D}\\mathbf{X}=\\mathbf{0}$, students forget to verify the cross-terms vanish in the variance expansion; they expand $\\mathbf{A}\\mathbf{A}^\\top$ without using $\\mathbf{D}\\mathbf{X}=\\mathbf{0}$ to cancel the cross products, leading to an incorrect residual term."
+  ],
+  "untested_variants": [
+    "Proving the BLUE property for a specific estimand $\\mathbf{c}^\\top\\boldsymbol{\\beta}$ (an estimable linear functional) rather than the full coefficient vector $\\boldsymbol{\\beta}$, including what 'estimable' means when $\\mathbf{X}$ is rank-deficient.",
+    "Deriving the Aitken theorem (generalized Gauss-Markov) for the case $\\mathrm{Var}(\\boldsymbol{\\varepsilon})=\\sigma^2\\mathbf{V}$ with $\\mathbf{V}\\neq\\mathbf{I}$ known, and showing GLS is BLUE by transforming the model to one with spherical errors.",
+    "Gauss-Markov in the context of random design matrices (i.e., when $\\mathbf{X}$ is stochastic rather than fixed), and how the theorem must be restated conditionally on $\\mathbf{X}$.",
+    "Connecting BLUE to the Cram\u00e9r-Rao lower bound: under normality, showing that the OLS variance achieves the CRLB and OLS is therefore the uniformly minimum variance unbiased estimator (UMVUE), not just BLUE."
+  ]
+}

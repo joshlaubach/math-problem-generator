@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_031",
+  "topic_name": "Sum and Difference Identities",
+  "generated_at": "2026-05-12T23:49:00.930026+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know the exact values of trig functions at common angles like $30\u00b0$, $45\u00b0$, and $60\u00b0$. But what if you need $\\cos(75\u00b0)$ or $\\sin(15\u00b0)$? These angles don't appear in the unit circle, yet they're sums or differences of angles you do know \u2014 $75\u00b0 = 45\u00b0 + 30\u00b0$ and $15\u00b0 = 45\u00b0 - 30\u00b0$. Can we somehow use what we know about those familiar angles to find exact values for unfamiliar ones?",
+  "concept": "Sum and difference identities are formulas that let you expand $\\sin$, $\\cos$, or $\\tan$ of a sum or difference of two angles into expressions involving the trig values of each angle separately. The core identities are: $\\sin(A \\pm B) = \\sin A \\cos B \\pm \\cos A \\sin B$, $\\cos(A \\pm B) = \\cos A \\cos B \\mp \\sin A \\sin B$, and $\\tan(A \\pm B) = \\frac{\\tan A \\pm \\tan B}{1 \\mp \\tan A \\tan B}$.",
+  "anatomy": "Each identity has two angle inputs, $A$ and $B$, which are the individual angles whose sum or difference you're taking. In the cosine identity, notice the symbol flips: a $+$ on the left becomes a $-$ on the right, and vice versa \u2014 this reversal is a critical structural feature that students frequently miss. The sine identity keeps the same sign on both sides. In the tangent identity, the denominator $1 \\mp \\tan A \\tan B$ is a unique element not present in the sine or cosine forms, and the sign in the denominator is also reversed relative to the numerator.",
+  "worked_example": [
+    {
+      "expression_latex": "\\cos(75\u00b0) = \\cos(45\u00b0 + 30\u00b0)",
+      "description_latex": "We start by recognizing that $75\u00b0$ is not a standard unit circle angle, but we can write it as $45\u00b0 + 30\u00b0$, both of which are. This decomposition is the key creative step \u2014 we're choosing $A = 45\u00b0$ and $B = 30\u00b0$ so we can apply the cosine sum identity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\cos(45\u00b0 + 30\u00b0) = \\cos 45\u00b0 \\cos 30\u00b0 - \\sin 45\u00b0 \\sin 30\u00b0",
+      "description_latex": "We apply the cosine sum identity $\\cos(A+B) = \\cos A \\cos B - \\sin A \\sin B$. Pay close attention to the sign: even though we are adding the angles, the identity produces a minus sign between the two products on the right \u2014 this is that critical sign flip in the cosine identity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\left(\\frac{\\sqrt{2}}{2}\\right)\\left(\\frac{\\sqrt{3}}{2}\\right) - \\left(\\frac{\\sqrt{2}}{2}\\right)\\left(\\frac{1}{2}\\right)",
+      "description_latex": "Now we substitute the exact values from the unit circle: $\\cos 45\u00b0 = \\frac{\\sqrt{2}}{2}$, $\\cos 30\u00b0 = \\frac{\\sqrt{3}}{2}$, $\\sin 45\u00b0 = \\frac{\\sqrt{2}}{2}$, and $\\sin 30\u00b0 = \\frac{1}{2}$. Every value here comes directly from memory of the standard angles, which is why knowing those is so important.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{\\sqrt{6}}{4} - \\frac{\\sqrt{2}}{4} = \\frac{\\sqrt{6} - \\sqrt{2}}{4}",
+      "description_latex": "We multiply each pair and simplify: $\\frac{\\sqrt{2}}{2} \\cdot \\frac{\\sqrt{3}}{2} = \\frac{\\sqrt{6}}{4}$ and $\\frac{\\sqrt{2}}{2} \\cdot \\frac{1}{2} = \\frac{\\sqrt{2}}{4}$. Since the fractions share the denominator $4$, we combine them into one fraction to get the exact value $\\frac{\\sqrt{6}-\\sqrt{2}}{4}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\sin(15\u00b0) = \\sin(45\u00b0 - 30\u00b0)",
+      "description_latex": "We want to find the exact value of $\\sin(15\u00b0)$. Since $15\u00b0 = 45\u00b0 - 30\u00b0$, we set $A = 45\u00b0$ and $B = 30\u00b0$ and plan to use the sine difference identity $\\sin(A - B) = \\sin A \\cos B - \\cos A \\sin B$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\sin 45\u00b0 \\cos 30\u00b0 - \\cos 45\u00b0 \\sin 30\u00b0",
+      "description_latex": "We've expanded using the sine difference identity. Now the key step is to substitute the correct exact values for each of the four trig expressions \u2014 take your time and make sure each value matches the right angle and function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Substitute the exact unit circle values for $\\sin 45\u00b0$, $\\cos 30\u00b0$, $\\cos 45\u00b0$, and $\\sin 30\u00b0$, then multiply each product and simplify into a single fraction. What is the exact value of $\\sin(15\u00b0)$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use a sum or difference identity to find the exact value of $\\sin(75\u00b0)$.",
+      "answer_latex": "\\dfrac{\\sqrt{6}+\\sqrt{2}}{4}"
+    },
+    {
+      "prompt_latex": "Use a sum or difference identity to find the exact value of $\\cos(15\u00b0)$.",
+      "answer_latex": "\\dfrac{\\sqrt{6}+\\sqrt{2}}{4}"
+    },
+    {
+      "prompt_latex": "Use a sum or difference identity to find the exact value of $\\tan(105\u00b0)$.",
+      "answer_latex": "-2 - \\sqrt{3}"
+    },
+    {
+      "prompt_latex": "Given that $\\sin \\alpha = \\dfrac{3}{5}$ with $\\alpha$ in Quadrant I and $\\cos \\beta = -\\dfrac{5}{13}$ with $\\beta$ in Quadrant II, find the exact value of $\\sin(\\alpha + \\beta)$.",
+      "answer_latex": "\\dfrac{-33}{65}"
+    },
+    {
+      "prompt_latex": "Prove the co-function identity $\\cos\\!\\left(\\dfrac{\\pi}{2} - x\\right) = \\sin x$ using the cosine difference identity.",
+      "answer_latex": "\\cos\\!\\left(\\frac{\\pi}{2}\\right)\\cos x + \\sin\\!\\left(\\frac{\\pi}{2}\\right)\\sin x = 0 \\cdot \\cos x + 1 \\cdot \\sin x = \\sin x"
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the sign correctly in the sine identity but forget that in $\\cos(A+B)$ the sign flips to a minus \u2014 writing $\\cos A \\cos B + \\sin A \\sin B$ instead of $\\cos A \\cos B - \\sin A \\sin B$. Always pause and recall the mnemonic: cosine sum means the product signs are opposite to the angle operation.",
+    "When finding $\\tan(A \\pm B)$, students sometimes forget the denominator is $1 \\mp \\tan A \\tan B$ and instead write just $1$, losing the interaction term entirely. Remember the denominator is what makes the tangent identity unique \u2014 it is never simply 1 unless one of the tangents is 0.",
+    "Students try to split the angle as $\\sin(A + B) = \\sin A + \\sin B$, essentially distributing the trig function over addition as if it were a linear operation. Trig functions do not distribute over addition \u2014 you must use the full expansion with the cross-product terms $\\cos A \\sin B$ and $\\sin A \\cos B$."
+  ],
+  "untested_variants": [
+    "Using the sum and difference identities in reverse \u2014 given an expanded expression like $\\sin x \\cos 2x + \\cos x \\sin 2x$, recognize and collapse it back into $\\sin(3x)$.",
+    "Applying sum/difference identities to find exact values of inverse trig expressions, such as $\\cos(\\arctan 1 + \\arcsin \\frac{1}{2})$.",
+    "Using sum/difference identities with angles given in radians that are not standard, for example finding $\\cos\\!\\left(\\frac{7\\pi}{12}\\right)$ by writing it as $\\frac{\\pi}{3} + \\frac{\\pi}{4}$.",
+    "Combining sum/difference identities with the Pythagorean identity to simplify or verify more complex trigonometric equations involving multiple angle terms."
+  ]
+}

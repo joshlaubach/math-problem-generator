@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_033",
+  "topic_name": "Parametric Surfaces and Surface Integrals",
+  "generated_at": "2026-05-13T00:39:52.035745+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to integrate over curves using line integrals, parameterizing a path $\\mathbf{r}(t)$ and converting arc length into $|\\mathbf{r}'(t)|\\,dt$. Now imagine you want to find the total mass of a curved shell \u2014 like a soap bubble or a piece of a sphere \u2014 where the density varies from point to point. A line integral lives on a 1D curve, but this shell is a 2D surface sitting in 3D space. How do you set up an integral over something like that?",
+  "concept": "A parametric surface describes a 2D surface in 3D space by mapping two parameters into three coordinates: $\\mathbf{r}(u,v) = \\langle x(u,v),\\, y(u,v),\\, z(u,v) \\rangle$ over a region $D$ in the $uv$-plane. A surface integral of a scalar function $f$ is then $\\iint_S f\\,dS = \\iint_D f(\\mathbf{r}(u,v))\\,|\\mathbf{r}_u \\times \\mathbf{r}_v|\\,dA$, where the cross-product magnitude replaces the arc-length factor from line integrals.",
+  "anatomy": "There are four key components to recognize. First, the parametrization $\\mathbf{r}(u,v)$ maps the flat parameter domain $D$ onto the curved surface \u2014 choosing good parameters (angles, height, etc.) is the first strategic decision. Second, the partial tangent vectors $\\mathbf{r}_u = \\partial\\mathbf{r}/\\partial u$ and $\\mathbf{r}_v = \\partial\\mathbf{r}/\\partial v$ lie in the tangent plane at each point. Third, the cross product $\\mathbf{r}_u \\times \\mathbf{r}_v$ is a normal vector to the surface whose magnitude $|\\mathbf{r}_u \\times \\mathbf{r}_v|$ is the local area-scaling factor, called the surface area element $dS$. Fourth, the integrand $f(\\mathbf{r}(u,v))$ is the scalar function evaluated on the surface, expressed purely in terms of $u$ and $v$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{r}(u,v) = \\langle u\\cos v,\\, u\\sin v,\\, u \\rangle, \\quad 0 \\le u \\le 2,\\; 0 \\le v \\le 2\\pi",
+      "description_latex": "We are asked to compute $\\iint_S z\\,dS$ where $S$ is the cone $z = \\sqrt{x^2+y^2}$ over the disk $x^2+y^2 \\le 4$. We parametrize using polar-style coordinates: $u$ is the radial distance and $v$ is the angle, so $x = u\\cos v$, $y = u\\sin v$, and $z = u$. This is the natural choice because it captures the cone's symmetry and keeps the algebra manageable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}_u = \\langle \\cos v,\\, \\sin v,\\, 1 \\rangle, \\qquad \\mathbf{r}_v = \\langle -u\\sin v,\\, u\\cos v,\\, 0 \\rangle",
+      "description_latex": "We differentiate $\\mathbf{r}$ with respect to each parameter to get the tangent vectors. Notice that $\\mathbf{r}_u$ points in the direction of increasing radius (outward along the cone's surface), while $\\mathbf{r}_v$ points in the direction of increasing angle (around the cone). These two vectors span the tangent plane at every point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}_u \\times \\mathbf{r}_v = \\begin{vmatrix}\\mathbf{i}&\\mathbf{j}&\\mathbf{k}\\\\\\cos v&\\sin v&1\\\\-u\\sin v&u\\cos v&0\\end{vmatrix} = \\langle -u\\cos v,\\,-u\\sin v,\\,u \\rangle",
+      "description_latex": "We compute the cross product by expanding the $3\\times 3$ determinant. This normal vector points away from the cone's axis and its magnitude is what we actually need \u2014 it tells us how much the flat $dA$ element in the $uv$-plane stretches as it maps onto the curved cone. Always compute each component carefully; sign errors here propagate through the whole problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "|\\mathbf{r}_u \\times \\mathbf{r}_v| = \\sqrt{u^2\\cos^2 v + u^2\\sin^2 v + u^2} = \\sqrt{2u^2} = u\\sqrt{2}",
+      "description_latex": "Taking the magnitude simplifies beautifully because $\\cos^2 v + \\sin^2 v = 1$. The factor $u\\sqrt{2}$ is our surface area element $dS$, and importantly it depends only on $u$, not on $v$, which will make the integration straightforward.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\iint_S z\\,dS = \\int_0^{2\\pi}\\int_0^2 u \\cdot u\\sqrt{2}\\,du\\,dv = \\sqrt{2}\\int_0^{2\\pi}dv\\int_0^2 u^2\\,du = \\sqrt{2}\\cdot 2\\pi \\cdot \\frac{8}{3} = \\frac{16\\pi\\sqrt{2}}{3}",
+      "description_latex": "We substitute $z = u$ (from our parametrization) and $dS = u\\sqrt{2}\\,du\\,dv$, then separate the iterated integral because the integrand $u^2\\sqrt{2}$ depends only on $u$ and the $v$-limits are constants. The $v$-integral gives $2\\pi$ and the $u$-integral gives $8/3$, yielding the final answer $\\frac{16\\pi\\sqrt{2}}{3}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{r}(u,v) = \\langle u,\\, v,\\, 1 - u - v \\rangle, \\quad (u,v)\\in D:\\; u\\ge 0,\\,v\\ge 0,\\,u+v\\le 1",
+      "description_latex": "We want $\\iint_S (x+y+z)\\,dS$ where $S$ is the plane $x+y+z=1$ in the first octant. We parametrize by using $x=u$ and $y=v$ as free parameters, so $z = 1-u-v$. The domain $D$ is the triangle in the $uv$-plane with vertices $(0,0)$, $(1,0)$, $(0,1)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}_u = \\langle 1,0,-1\\rangle, \\quad \\mathbf{r}_v = \\langle 0,1,-1\\rangle, \\quad \\mathbf{r}_u\\times\\mathbf{r}_v = \\langle 1,1,1\\rangle, \\quad |\\mathbf{r}_u\\times\\mathbf{r}_v| = \\sqrt{3}",
+      "description_latex": "Computing the tangent vectors and their cross product gives a constant normal vector $\\langle 1,1,1\\rangle$, which makes sense because the surface is a flat plane. The area element is the constant $dS = \\sqrt{3}\\,du\\,dv$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute the parametrization into the integrand and simplify: replace $x$, $y$, $z$ with $u$, $v$, $1-u-v$ respectively. What does $x + y + z$ become in terms of $u$ and $v$, and what is the full integral you need to evaluate over the triangular domain $D$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\iint_D 1\\cdot\\sqrt{3}\\,dA = \\sqrt{3}\\cdot\\text{Area}(D) = \\sqrt{3}\\cdot\\frac{1}{2} = \\frac{\\sqrt{3}}{2}",
+      "description_latex": "Because $x+y+z = u+v+(1-u-v) = 1$ everywhere on the surface, the integrand collapses to $1$ and the integral reduces to $\\sqrt{3}$ times the area of the triangular domain, which is $\\frac{1}{2}$. This elegant simplification is a reward for choosing a good parametrization.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the surface area of the portion of the plane $z = 3$ over the square $0 \\le x \\le 2,\\; 0 \\le y \\le 2$. (Use $\\mathbf{r}(u,v) = \\langle u,v,3\\rangle$.)",
+      "answer_latex": "4"
+    },
+    {
+      "prompt_latex": "Compute $\\iint_S dS$ (the surface area) of the sphere of radius $a$ parametrized by $\\mathbf{r}(\\phi,\\theta) = \\langle a\\sin\\phi\\cos\\theta,\\, a\\sin\\phi\\sin\\theta,\\, a\\cos\\phi\\rangle$, $0\\le\\phi\\le\\pi$, $0\\le\\theta\\le 2\\pi$. You may use the fact that $|\\mathbf{r}_\\phi\\times\\mathbf{r}_\\theta| = a^2\\sin\\phi$.",
+      "answer_latex": "4\\pi a^2"
+    },
+    {
+      "prompt_latex": "Evaluate $\\iint_S y\\,dS$ where $S$ is the surface $\\mathbf{r}(u,v)=\\langle u,\\,v^2,\\,v\\rangle$, $0\\le u\\le 1$, $0\\le v\\le 1$.",
+      "answer_latex": "\\frac{1}{2}\\left(\\frac{5\\sqrt{5}-1}{3}\\cdot\\frac{1}{2}\\right) = \\frac{5\\sqrt{5}-1}{12}"
+    },
+    {
+      "prompt_latex": "Find $\\iint_S z^2\\,dS$ where $S$ is the hemisphere $x^2+y^2+z^2 = 1$, $z\\ge 0$. Use spherical parametrization with $|\\mathbf{r}_\\phi\\times\\mathbf{r}_\\theta|=\\sin\\phi$ and $z = \\cos\\phi$.",
+      "answer_latex": "\\frac{2\\pi}{3}"
+    },
+    {
+      "prompt_latex": "A thin shell has the shape of the portion of the cone $z = \\sqrt{x^2+y^2}$ between $z=1$ and $z=3$. If the density is $\\delta(x,y,z) = z$, find the total mass of the shell.",
+      "answer_latex": "\\frac{80\\pi\\sqrt{2}}{3}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to include the $|\\mathbf{r}_u \\times \\mathbf{r}_v|$ factor entirely, writing $\\iint_D f(\\mathbf{r}(u,v))\\,du\\,dv$ instead of $\\iint_D f(\\mathbf{r}(u,v))\\,|\\mathbf{r}_u\\times\\mathbf{r}_v|\\,du\\,dv$ \u2014 this factor is the surface's stretching factor and omitting it is like computing arc length without $|\\mathbf{r}'(t)|$. Always check that your integrand includes the cross-product magnitude.",
+    "When computing $\\mathbf{r}_u \\times \\mathbf{r}_v$, students confuse the order and compute $\\mathbf{r}_v \\times \\mathbf{r}_u$ instead, which changes the sign of the normal vector; for scalar surface integrals this only matters if you use the normal explicitly, but for vector surface integrals (flux) it reverses the orientation and flips the sign of the answer. Always establish a consistent orientation convention at the start.",
+    "Students substitute the parametrization into only part of the integrand \u2014 for example, correctly replacing $x$ and $y$ but forgetting to replace $z$ with its expression in $u$ and $v$. Every occurrence of $x$, $y$, $z$ in the integrand must be replaced using the parametrization before integrating, otherwise the integral mixes different variable systems."
+  ],
+  "untested_variants": [
+    "Surface integrals of vector fields (flux integrals) $\\iint_S \\mathbf{F}\\cdot d\\mathbf{S}$ where the cross product itself (not just its magnitude) appears in the integrand \u2014 this requires choosing and maintaining a consistent orientation.",
+    "Surfaces given implicitly as $g(x,y,z)=0$ rather than parametrically, requiring the formula $dS = \\frac{|\\nabla g|}{|\\nabla g \\cdot \\mathbf{k}|}\\,dA$ or equivalent to find the area element.",
+    "Piecewise surfaces where the total surface consists of multiple parametric patches (e.g., a closed cylinder including its two end caps), requiring students to split the integral and handle each piece separately.",
+    "Using surface integrals to compute physical quantities like moments of inertia or centers of mass of thin shells, where the integrand involves products of coordinates weighted by a density function."
+  ]
+}

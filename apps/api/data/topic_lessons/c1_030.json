@@ -1,0 +1,81 @@
+{
+  "topic_id": "c1_030",
+  "topic_name": "Integrals of Exponential and Logarithmic Functions",
+  "generated_at": "2026-05-13T00:12:13.711789+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know that the derivative of $e^x$ is $e^x$ itself, and that the derivative of $\\ln(x)$ is $\\frac{1}{x}$. Running these facts in reverse should let you integrate exponential and logarithmic functions \u2014 but when you try to compute $\\int e^{3x}\\,dx$ or $\\int \\frac{5}{x}\\,dx$, you might second-guess yourself on the constants and signs. What exactly happens to that coefficient in the exponent when you integrate, and how does $\\ln$ appear as an antiderivative?",
+  "concept": "Integration of exponentials and logarithms means finding antiderivatives for functions involving $e^x$, $e^{kx}$, and $\\frac{1}{x}$. Because differentiation and integration are inverses, the rule $\\frac{d}{dx}e^x = e^x$ gives $\\int e^x\\,dx = e^x + C$. For a linear exponent, $\\int e^{kx}\\,dx = \\frac{1}{k}e^{kx} + C$, and crucially, $\\int \\frac{1}{x}\\,dx = \\ln|x| + C$ \u2014 the absolute value filling the gap that the power rule left at $n = -1$.",
+  "anatomy": "Each formula has distinct parts worth naming. In $\\int e^{kx}\\,dx = \\frac{1}{k}e^{kx} + C$, the rate constant $k$ appears in the exponent and produces a compensating factor $\\frac{1}{k}$ out front \u2014 this factor comes from undoing the chain rule. In $\\int \\frac{1}{x}\\,dx = \\ln|x| + C$, the absolute value bars are essential: $\\ln$ is only defined for positive inputs, so $|x|$ extends the antiderivative to negative $x$ values as well. The constant of integration $C$ is always present because any constant has derivative zero.",
+  "worked_example": [
+    {
+      "expression_latex": "\\int e^{5x}\\,dx",
+      "description_latex": "We recognize the integrand as an exponential with rate constant $k = 5$. We know the antiderivative of $e^{kx}$ is $\\frac{1}{k}e^{kx} + C$, so we apply this formula directly with $k = 5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{1}{5}e^{5x} + C",
+      "description_latex": "Substituting $k = 5$ gives $\\frac{1}{5}e^{5x} + C$. You can verify this is correct by differentiating: $\\frac{d}{dx}\\left(\\frac{1}{5}e^{5x}\\right) = \\frac{1}{5} \\cdot 5e^{5x} = e^{5x}$, which matches our original integrand perfectly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int \\frac{3}{x}\\,dx",
+      "description_latex": "Here we rewrite $\\frac{3}{x}$ as $3 \\cdot \\frac{1}{x}$ and pull the constant $3$ outside the integral using the constant multiple rule, giving $3\\int \\frac{1}{x}\\,dx$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 3\\ln|x| + C",
+      "description_latex": "We apply $\\int \\frac{1}{x}\\,dx = \\ln|x| + C$ and multiply through by $3$, arriving at $3\\ln|x| + C$. Notice that the absolute value is mandatory here \u2014 without it, the antiderivative would be undefined for negative $x$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\int \\left(4e^{2x} + \\frac{1}{x}\\right)dx",
+      "description_latex": "We start by splitting the integral using the sum rule: $\\int 4e^{2x}\\,dx + \\int \\frac{1}{x}\\,dx$. This lets us handle each term separately using the two key formulas we just learned.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 4 \\cdot \\frac{1}{2}e^{2x} + \\int \\frac{1}{x}\\,dx",
+      "description_latex": "For the first term, we pull out the constant $4$ and apply $\\int e^{kx}\\,dx = \\frac{1}{k}e^{kx}$ with $k = 2$, giving $4 \\cdot \\frac{1}{2}e^{2x} = 2e^{2x}$. Now you need to complete the second term.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Evaluate $\\int \\frac{1}{x}\\,dx$ and combine both terms \u2014 including the absolute value where it belongs \u2014 to write the complete antiderivative with the constant of integration $C$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\int e^x\\,dx",
+      "answer_latex": "e^x + C"
+    },
+    {
+      "prompt_latex": "\\int e^{-4x}\\,dx",
+      "answer_latex": "-\\frac{1}{4}e^{-4x} + C"
+    },
+    {
+      "prompt_latex": "\\int \\frac{7}{x}\\,dx",
+      "answer_latex": "7\\ln|x| + C"
+    },
+    {
+      "prompt_latex": "\\int \\left(3e^{6x} - \\frac{2}{x}\\right)dx",
+      "answer_latex": "\\frac{1}{2}e^{6x} - 2\\ln|x| + C"
+    },
+    {
+      "prompt_latex": "A population grows at rate $r(t) = 500e^{0.1t}$ individuals per year. Find the total population increase from $t = 0$ to $t = 10$.",
+      "answer_latex": "\\int_0^{10} 500e^{0.1t}\\,dt = 5000e^{0.1t}\\Big|_0^{10} = 5000(e^1 - 1) \\approx 8591 \\text{ individuals}"
+    }
+  ],
+  "common_mistakes": [
+    "Forgetting to divide by $k$ when integrating $e^{kx}$: students write $\\int e^{3x}\\,dx = e^{3x} + C$ instead of $\\frac{1}{3}e^{3x} + C$. Always remember the chain rule runs in reverse \u2014 a factor of $k$ in the exponent requires a compensating $\\frac{1}{k}$ out front.",
+    "Omitting the absolute value in $\\int \\frac{1}{x}\\,dx$: writing $\\ln(x) + C$ instead of $\\ln|x| + C$ is technically incorrect because $\\ln(x)$ is undefined for $x < 0$, yet $\\frac{1}{x}$ is perfectly integrable on negative intervals. Always include $|x|$ unless the domain is explicitly restricted to positive numbers.",
+    "Trying to apply the power rule to $\\frac{1}{x} = x^{-1}$: the power rule $\\int x^n\\,dx = \\frac{x^{n+1}}{n+1} + C$ fails at $n = -1$ because it would require dividing by zero. Recognizing $x^{-1}$ as the special case that yields $\\ln|x|$ \u2014 not a power of $x$ \u2014 is essential."
+  ],
+  "untested_variants": [
+    "Integrating exponentials with non-linear exponents using $u$-substitution, such as $\\int x\\,e^{x^2}\\,dx$.",
+    "Definite integrals of exponential functions evaluated between numerical bounds, such as $\\int_1^3 e^{2x}\\,dx$.",
+    "Integrals involving other exponential bases, such as $\\int 3^x\\,dx = \\frac{3^x}{\\ln 3} + C$.",
+    "Integrals of $\\ln(x)$ itself (not $\\frac{1}{x}$), which require integration by parts: $\\int \\ln(x)\\,dx = x\\ln(x) - x + C$."
+  ]
+}

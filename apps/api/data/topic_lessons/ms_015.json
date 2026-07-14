@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_015",
+  "topic_name": "Uniformly Most Powerful Tests",
+  "generated_at": "2026-05-14T01:02:20.595470+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to construct hypothesis tests and compute their power against specific alternatives. But here's a puzzle: given two different tests at the same significance level $\\alpha$, how do you know which one is *best*? For example, when testing $H_0: \\mu = 0$ versus $H_1: \\mu > 0$ for a normal population, there are infinitely many level-$\\alpha$ tests you could write down \u2014 so which one should you use, and why? Can we ever guarantee that a single test beats every competitor simultaneously across all alternatives?",
+  "concept": "A Uniformly Most Powerful (UMP) test is the gold standard of hypothesis testing: it is a level-$\\alpha$ test whose power is at least as large as the power of *every other* level-$\\alpha$ test, for *every* value of the parameter in the alternative hypothesis. Formally, a test with rejection region $C^*$ is UMP of level $\\alpha$ if $\\sup_{\\theta \\in \\Theta_0} \\beta_{C^*}(\\theta) \\leq \\alpha$ and for every other test $C$ with level $\\alpha$, we have $\\beta_{C^*}(\\theta) \\geq \\beta_C(\\theta)$ for all $\\theta \\in \\Theta_1$, where $\\beta(\\theta) = P_\\theta(X \\in C)$ is the power function.",
+  "anatomy": "A UMP test has four key structural components worth naming precisely. First, the *significance level* $\\alpha$ is the maximum Type I error probability the test is allowed, constraining the class of competitors. Second, the *power function* $\\beta_C(\\theta) = P_\\theta(\\mathbf{X} \\in C)$ measures how often the test correctly rejects for each $\\theta$. Third, the *rejection region* $C^*$ is the set of sample outcomes that trigger rejection; in Neyman-Pearson and monotone likelihood ratio settings, this region takes a specific threshold form such as $\\{T(\\mathbf{X}) > k\\}$. Fourth, the *uniformity* condition is what distinguishes UMP from merely 'locally best' \u2014 the power dominance must hold for every single point in $\\Theta_1$, not just on average or at one alternative.",
+  "worked_example": [
+    {
+      "expression_latex": "X_1, \\ldots, X_n \\overset{\\text{iid}}{\\sim} N(\\mu, \\sigma^2),\\ \\sigma^2 \\text{ known},\\ H_0: \\mu = \\mu_0 \\text{ vs. } H_1: \\mu > \\mu_0",
+      "description_latex": "We begin by setting up the one-sided normal testing problem with known variance, because this is the canonical example where a UMP test exists. Our goal is to identify a single rejection region that maximizes power at every $\\mu > \\mu_0$ simultaneously among all level-$\\alpha$ tests.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{f(\\mathbf{x};\\mu_1)}{f(\\mathbf{x};\\mu_0)} = \\exp\\!\\left(\\frac{(\\mu_1-\\mu_0)}{\\sigma^2}\\sum_{i=1}^n x_i - \\frac{n(\\mu_1^2-\\mu_0^2)}{2\\sigma^2}\\right)",
+      "description_latex": "By the Neyman-Pearson Lemma, the most powerful test for a *fixed* simple alternative $\\mu = \\mu_1 > \\mu_0$ rejects when the likelihood ratio exceeds a threshold $k$. We compute this ratio for the normal family; notice that the ratio is an increasing function of $\\bar{X} = \\frac{1}{n}\\sum x_i$, which means the likelihood ratio test is equivalent to rejecting for large values of $\\bar{X}$ regardless of the specific value of $\\mu_1 > \\mu_0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C^* = \\left\\{\\mathbf{x} : \\bar{x} > \\mu_0 + z_\\alpha \\frac{\\sigma}{\\sqrt{n}}\\right\\}",
+      "description_latex": "Because the rejection region 'reject when $\\bar{X}$ is large' does not depend on the particular value of $\\mu_1$ chosen, the *same* test is the most powerful test against every simple alternative $\\mu_1 > \\mu_0$. We calibrate the threshold to achieve exactly level $\\alpha$ using the standard normal critical value $z_\\alpha$, giving us this explicit rejection region.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\beta_{C^*}(\\mu) = P_\\mu\\!\\left(\\bar{X} > \\mu_0 + z_\\alpha\\frac{\\sigma}{\\sqrt{n}}\\right) = 1 - \\Phi\\!\\left(z_\\alpha - \\frac{(\\mu - \\mu_0)\\sqrt{n}}{\\sigma}\\right)",
+      "description_latex": "We can now write the power function explicitly for any $\\mu > \\mu_0$. Since $\\bar{X} \\sim N(\\mu, \\sigma^2/n)$, standardizing converts the event into a tail probability of the standard normal; this power function is strictly increasing in $\\mu$, confirming the test behaves as we want.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "C^* \\text{ is the UMP level-}\\alpha\\text{ test for } H_1: \\mu > \\mu_0",
+      "description_latex": "We conclude that $C^*$ is UMP because it is most powerful against every simple alternative $\\mu_1 > \\mu_0$ (by the argument above), and any test that is most powerful against every point in the alternative is by definition UMP. This argument works whenever the family has a Monotone Likelihood Ratio (MLR) in a sufficient statistic.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} \\text{Exponential}(\\lambda),\\quad H_0: \\lambda = \\lambda_0 \\text{ vs. } H_1: \\lambda > \\lambda_0",
+      "description_latex": "We want to find the UMP level-$\\alpha$ test for the rate parameter of an exponential distribution. The exponential family has density $f(x;\\lambda) = \\lambda e^{-\\lambda x}$, so we begin by computing the likelihood ratio for any fixed alternative $\\lambda_1 > \\lambda_0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{L(\\lambda_1)}{L(\\lambda_0)} = \\left(\\frac{\\lambda_1}{\\lambda_0}\\right)^n \\exp\\!\\bigl(-(\\lambda_1 - \\lambda_0)\\textstyle\\sum x_i\\bigr)",
+      "description_latex": "Here the likelihood ratio is a *decreasing* function of the sufficient statistic $T = \\sum_{i=1}^n X_i$ when $\\lambda_1 > \\lambda_0$, because the exponent has a negative coefficient in front of $\\sum x_i$. This tells us the Neyman-Pearson rejection region takes the form $\\{T < k\\}$. Can you write down the exact rejection region that achieves level $\\alpha$, given that $2\\lambda_0 \\sum X_i \\sim \\chi^2_{2n}$ under $H_0$?",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the UMP rejection region explicitly in terms of the chi-squared critical value $\\chi^2_{\\alpha, 2n}$ (the lower $\\alpha$ critical value of $\\chi^2_{2n}$), and explain in one sentence why this region does not depend on the specific value of $\\lambda_1$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\beta_{C^*}(\\lambda) = P_\\lambda\\!\\left(\\sum X_i < \\frac{\\chi^2_{\\alpha,2n}}{2\\lambda_0}\\right)",
+      "description_latex": "To verify this is genuinely UMP, confirm that the power function $\\beta_{C^*}(\\lambda)$ is increasing in $\\lambda$ for $\\lambda > \\lambda_0$, which follows because a larger $\\lambda$ means smaller $X_i$ values on average, making the event $\\{\\sum X_i < k\\}$ more probable \u2014 exactly what we want from a good test.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X \\sim N(\\mu, 1)$ (single observation, $\\sigma^2=1$). The UMP level-$0.05$ test of $H_0: \\mu=0$ vs. $H_1: \\mu>0$ rejects when $X > c$. Find $c$.",
+      "answer_latex": "c = z_{0.05} \\approx 1.645"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_{16} \\overset{\\text{iid}}{\\sim} N(\\mu, 4)$. Find the power of the UMP level-$0.05$ test of $H_0:\\mu=0$ vs. $H_1:\\mu>0$ evaluated at $\\mu = 1$.",
+      "answer_latex": "\\beta(1) = 1 - \\Phi\\!\\left(1.645 - \\frac{1 \\cdot \\sqrt{16}}{2}\\right) = 1 - \\Phi(-0.355) \\approx 0.639"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} \\text{Bernoulli}(p)$. Show that the family of Bernoulli distributions has a Monotone Likelihood Ratio (MLR) in $T = \\sum X_i$, and state the form of the UMP test of $H_0: p = p_0$ vs. $H_1: p > p_0$.",
+      "answer_latex": "\\text{LR} = \\left(\\frac{p_1(1-p_0)}{p_0(1-p_1)}\\right)^{\\!\\sum x_i}\\text{ is increasing in }\\sum x_i\\text{ for }p_1>p_0;\\ \\text{UMP rejects when }\\sum X_i > k"
+    },
+    {
+      "prompt_latex": "Let $X_1,\\ldots,X_n \\overset{\\text{iid}}{\\sim} N(\\mu,\\sigma^2)$ with $\\sigma^2$ known. Using the Karlin-Rubin theorem (MLR implies UMP for one-sided tests), explain why NO UMP level-$\\alpha$ test exists for the two-sided alternative $H_1: \\mu \\neq \\mu_0$. \\textit{Hint: Compare what the most powerful test looks like against $\\mu_1 > \\mu_0$ versus $\\mu_1 < \\mu_0$.}",
+      "answer_latex": "\\text{Against }\\mu_1>\\mu_0\\text{ the MP test rejects for large }\\bar{X};\\text{ against }\\mu_1<\\mu_0\\text{ it rejects for small }\\bar{X}.\\text{ No single region can be MP for both directions simultaneously, so no UMP exists.}"
+    },
+    {
+      "prompt_latex": "A quality-control engineer observes $n=25$ lifetimes $X_i \\overset{\\text{iid}}{\\sim} \\text{Exponential}(\\lambda)$ and tests $H_0: \\lambda = 0.1$ (mean life 10 hours) vs. $H_1: \\lambda > 0.1$ (shorter mean life) at level $\\alpha = 0.05$. The UMP test rejects when $\\sum X_i < k$. Find $k$ using the fact that $2\\lambda_0 \\sum X_i \\sim \\chi^2_{50}$ under $H_0$, where $\\chi^2_{0.05,50} \\approx 34.76$.",
+      "answer_latex": "k = \\frac{\\chi^2_{0.05,50}}{2\\lambda_0} = \\frac{34.76}{2(0.1)} = 173.8 \\text{ hours}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the direction of the rejection region when using MLR. If the likelihood ratio is a *decreasing* function of the sufficient statistic (as in the exponential rate example), the UMP test rejects for *small* values of the statistic, not large ones \u2014 always check the sign of the exponent or the monotonicity direction before writing down the rejection region.",
+    "Students try to construct a UMP test for a two-sided alternative by symmetry, claiming the two-sided $z$-test is UMP for $H_1: \\mu \\neq \\mu_0$. It is not \u2014 UMP tests for two-sided alternatives generally do not exist because the most powerful direction of rejection flips depending on whether the true parameter is above or below $\\mu_0$; the two-sided test is *unbiased* and *uniformly most powerful unbiased* (UMPU), which is a weaker property.",
+    "Students incorrectly apply the Neyman-Pearson Lemma directly to composite alternatives without invoking the Karlin-Rubin theorem or the MLR condition. The Neyman-Pearson Lemma only guarantees the most powerful test against a *simple* alternative; the leap to UMP requires showing the rejection region is the *same* for every point in the composite alternative, which is exactly what the MLR property provides."
+  ],
+  "untested_variants": [
+    "Finding a UMP test when the parameter space involves a nuisance parameter (e.g., testing on the mean of a normal distribution with *unknown* variance), which requires the concept of a Uniformly Most Powerful Unbiased (UMPU) test rather than UMP.",
+    "Constructing UMP tests for one-parameter exponential families in their canonical form $f(x;\\eta) = h(x)\\exp(\\eta T(x) - A(\\eta))$, and reading off the UMP rejection region directly from the sign of the natural parameter.",
+    "Proving that a given test is *not* UMP by exhibiting a competitor test with strictly higher power at some point in the alternative, requiring explicit power function calculations and comparison.",
+    "UMP tests in the discrete case (e.g., Poisson or Binomial) where exact level $\\alpha$ cannot be achieved and randomized tests must be introduced to attain the level exactly."
+  ]
+}

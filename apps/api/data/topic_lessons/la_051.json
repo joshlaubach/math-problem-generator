@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_051",
+  "topic_name": "Fourier Series as an Inner Product Space Application (H)",
+  "generated_at": "2026-05-13T20:40:51.720384+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that vectors in $\\mathbb{R}^n$ can be decomposed into orthogonal components using dot products, and that an orthonormal basis makes those coordinates especially clean. Now imagine doing the same thing for a function like $f(x) = x^2 - x$ defined on $[-\\pi, \\pi]$ \u2014 treating it as a 'vector' in an infinite-dimensional space of functions. The inner product machinery you built for finite-dimensional spaces carries over almost perfectly, but it produces something surprising: an infinite series of sines and cosines. How do you find the exact coefficients of that series using nothing but inner products?",
+  "concept": "A Fourier series expresses a function as an infinite linear combination of sine and cosine functions by exploiting orthogonality. On the space $L^2[-\\pi,\\pi]$ of square-integrable functions, define the inner product $\\langle f, g \\rangle = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(x)g(x)\\,dx$. The set $\\{\\frac{1}{\\sqrt{2}}, \\cos x, \\sin x, \\cos 2x, \\sin 2x, \\ldots\\}$ is orthonormal under this inner product, so the Fourier coefficients are exactly the inner-product projections of $f$ onto each basis function.",
+  "anatomy": "The Fourier series of $f$ on $[-\\pi,\\pi]$ is $f(x) \\sim \\frac{a_0}{2} + \\sum_{n=1}^{\\infty}(a_n \\cos nx + b_n \\sin nx)$. The coefficient $a_0 = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(x)\\,dx$ is the constant (DC) term capturing the average value; $a_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(x)\\cos nx\\,dx$ are the cosine coefficients encoding even-symmetry content; and $b_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(x)\\sin nx\\,dx$ are the sine coefficients encoding odd-symmetry content. Each formula is literally $\\langle f, \\phi_n \\rangle$ where $\\phi_n$ is the corresponding basis function \u2014 the same orthogonal projection formula you used in $\\mathbb{R}^n$.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = x, \\quad x \\in [-\\pi, \\pi]",
+      "description_latex": "We want to find the Fourier series of $f(x) = x$. Notice that $f$ is an odd function, meaning $f(-x) = -f(x)$, which will let us skip all the cosine coefficients immediately \u2014 the product of an odd function with an even function ($\\cos nx$) is odd, so its integral over a symmetric interval is zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_0 = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} x\\,dx = 0, \\qquad a_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} x\\cos nx\\,dx = 0",
+      "description_latex": "Both $a_0$ and every $a_n$ are zero because the integrand is an odd function integrated over the symmetric interval $[-\\pi,\\pi]$. This is a genuine labor-saving consequence of recognizing symmetry before computing anything \u2014 always check parity first.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_n = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} x \\sin nx\\,dx",
+      "description_latex": "Because $f(x) = x$ is odd and $\\sin nx$ is also odd, their product is even, so we can write $b_n = \\frac{2}{\\pi}\\int_{0}^{\\pi} x \\sin nx\\,dx$. We now need to evaluate this integral using integration by parts, setting $u = x$ and $dv = \\sin nx\\,dx$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "b_n = \\frac{2}{\\pi}\\left[\\left.-\\frac{x\\cos nx}{n}\\right|_0^{\\pi} + \\frac{1}{n}\\int_0^{\\pi}\\cos nx\\,dx\\right] = \\frac{2}{\\pi}\\cdot\\left(-\\frac{\\pi\\cos n\\pi}{n}\\right) = \\frac{-2\\cos n\\pi}{n} = \\frac{2(-1)^{n+1}}{n}",
+      "description_latex": "After applying integration by parts, the boundary term gives $-\\frac{\\pi \\cos n\\pi}{n}$, and the remaining integral $\\int_0^\\pi \\cos nx\\,dx = \\frac{\\sin n\\pi}{n} = 0$ vanishes. Using $\\cos n\\pi = (-1)^n$ tidies the result into the compact closed form $b_n = \\frac{2(-1)^{n+1}}{n}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x) = x \\sim 2\\sum_{n=1}^{\\infty} \\frac{(-1)^{n+1}}{n}\\sin nx = 2\\left(\\sin x - \\frac{\\sin 2x}{2} + \\frac{\\sin 3x}{3} - \\cdots\\right)",
+      "description_latex": "Assembling all nonzero coefficients gives the final Fourier series. This is a beautiful result: a simple ramp function is represented as an infinite superposition of pure sine waves, and the amplitudes $\\frac{2}{n}$ decrease just fast enough to guarantee convergence (to $f(x)$ at every point in $(-\\pi,\\pi)$ and to zero at $x = \\pm\\pi$, where the function has a jump in the periodic extension).",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = |x|, \\quad x \\in [-\\pi, \\pi]",
+      "description_latex": "We want the Fourier series of $f(x) = |x|$. Start by checking parity: $|{-x}| = |x|$, so $f$ is an even function. This means all sine coefficients $b_n$ are zero automatically, and we only need to compute $a_0$ and $a_n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_0 = \\frac{1}{\\pi}\\int_{-\\pi}^{\\pi}|x|\\,dx = \\frac{2}{\\pi}\\int_0^{\\pi} x\\,dx = \\pi",
+      "description_latex": "Because $|x|$ is even, we fold the integral onto $[0,\\pi]$ and double it. Evaluate $\\frac{2}{\\pi}\\cdot\\frac{x^2}{2}\\Big|_0^\\pi$ to confirm $a_0 = \\pi$. This constant will become $\\frac{a_0}{2} = \\frac{\\pi}{2}$ in the series.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_n = \\frac{2}{\\pi}\\int_0^{\\pi} x\\cos nx\\,dx",
+      "description_latex": "Now compute $a_n$ using integration by parts. Set $u = x$ and $dv = \\cos nx\\,dx$, so $du = dx$ and $v = \\frac{\\sin nx}{n}$. Carry out the full integration by parts and simplify using $\\sin n\\pi = 0$ and $\\cos n\\pi = (-1)^n$ to find a closed form for $a_n$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "|x| \\sim \\frac{\\pi}{2} - \\frac{4}{\\pi}\\sum_{k=0}^{\\infty}\\frac{\\cos(2k+1)x}{(2k+1)^2}",
+      "description_latex": "Your result for $a_n$ should be $a_n = \\frac{2((-1)^n - 1)}{\\pi n^2}$, which is $-\\frac{4}{\\pi n^2}$ when $n$ is odd and $0$ when $n$ is even. Assembling only the nonzero terms (odd $n = 2k+1$) produces this final series \u2014 notice how the $\\frac{1}{n^2}$ decay is faster than the $\\frac{1}{n}$ decay for the sawtooth, reflecting the fact that $|x|$ is continuous while $x$ has a periodic jump.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute $a_0$ and the first two cosine coefficients $a_1, a_2$ of $f(x) = 1$ on $[-\\pi,\\pi]$.",
+      "answer_latex": "a_0 = 2,\\ a_n = 0 \\text{ for all } n \\geq 1$; the Fourier series of a constant is just that constant."
+    },
+    {
+      "prompt_latex": "Find all Fourier coefficients of $f(x) = \\sin^2 x$ on $[-\\pi,\\pi]$. (Hint: use the identity $\\sin^2 x = \\frac{1-\\cos 2x}{2}$ before integrating.)",
+      "answer_latex": "a_0 = 1,\\ a_2 = -\\frac{1}{2},\\ \\text{all other } a_n = 0,\\ b_n = 0 \\text{ for all } n"
+    },
+    {
+      "prompt_latex": "Find the Fourier series of $f(x) = x^2$ on $[-\\pi, \\pi]$.",
+      "answer_latex": "\\displaystyle x^2 \\sim \\frac{\\pi^2}{3} + 4\\sum_{n=1}^{\\infty}\\frac{(-1)^n}{n^2}\\cos nx"
+    },
+    {
+      "prompt_latex": "Use Parseval's identity $\\frac{1}{\\pi}\\int_{-\\pi}^{\\pi}|f(x)|^2\\,dx = \\frac{a_0^2}{2} + \\sum_{n=1}^{\\infty}(a_n^2+b_n^2)$ together with the Fourier series of $f(x)=x$ to evaluate $\\displaystyle\\sum_{n=1}^{\\infty}\\frac{1}{n^2}$.",
+      "answer_latex": "\\displaystyle \\sum_{n=1}^{\\infty}\\frac{1}{n^2} = \\frac{\\pi^2}{6}"
+    },
+    {
+      "prompt_latex": "A periodic signal on $[-\\pi,\\pi]$ is defined by $f(x) = \\begin{cases} 0 & -\\pi \\leq x < 0 \\\\ 1 & 0 \\leq x \\leq \\pi \\end{cases}$. Compute its Fourier series and identify why the series converges to $\\frac{1}{2}$ at $x=0$.",
+      "answer_latex": "\\displaystyle f(x) \\sim \\frac{1}{2} + \\frac{2}{\\pi}\\sum_{k=0}^{\\infty}\\frac{\\sin(2k+1)x}{2k+1};\\ \\text{at } x=0 \\text{ (a jump discontinuity) the series converges to the average } \\tfrac{0+1}{2}=\\tfrac{1}{2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to include the factor of $\\frac{1}{\\pi}$ in the coefficient formulas, writing $a_n = \\int_{-\\pi}^{\\pi} f(x)\\cos nx\\,dx$ instead of $\\frac{1}{\\pi}\\int_{-\\pi}^{\\pi} f(x)\\cos nx\\,dx$; remember that this factor comes from the norm $\\|\\cos nx\\|^2 = \\pi$, not $1$, so dividing by it is essential to project correctly.",
+    "When $f$ is even, students sometimes still attempt to compute $b_n$ by integration by parts and get a nonzero answer due to algebra errors, instead of setting $b_n = 0$ immediately by symmetry; always determine whether $f$ is even or odd first, because the product of two functions of the same parity is even and of opposite parity is odd, making many integrals vanish for free.",
+    "Students confuse the constant term in the series: the series uses $\\frac{a_0}{2}$, not $a_0$ itself, but the formula for computing $a_0$ still gives $\\frac{1}{\\pi}\\int_{-\\pi}^{\\pi}f(x)\\,dx$ (the doubled value); writing the series with $a_0$ instead of $\\frac{a_0}{2}$ doubles the constant contribution and produces a wrong answer."
+  ],
+  "untested_variants": [
+    "Fourier series on a non-standard interval $[-L, L]$ with $L \\neq \\pi$, where the basis functions become $\\cos\\frac{n\\pi x}{L}$ and $\\sin\\frac{n\\pi x}{L}$ and all coefficient formulas pick up a factor of $\\frac{1}{L}$.",
+    "Complex exponential form of the Fourier series $f(x) \\sim \\sum_{n=-\\infty}^{\\infty} c_n e^{inx}$ with coefficients $c_n = \\frac{1}{2\\pi}\\int_{-\\pi}^{\\pi}f(x)e^{-inx}\\,dx$, and the connection between $c_n$ and the real coefficients $a_n, b_n$.",
+    "Applying Parseval's identity to the Fourier series of $f(x) = x^2$ to evaluate $\\sum_{n=1}^{\\infty}\\frac{1}{n^4} = \\frac{\\pi^4}{90}$, which combines knowledge of the $x^2$ series with Parseval in a less obvious way.",
+    "Best approximation in the $L^2$ sense: showing that the partial Fourier sum $S_N f$ minimizes $\\|f - T_N\\|^2$ over all trigonometric polynomials $T_N$ of degree $\\leq N$, connecting back to the general least-squares / orthogonal projection theorem in inner product spaces."
+  ]
+}

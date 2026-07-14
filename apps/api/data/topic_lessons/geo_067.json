@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_067",
+  "topic_name": "Arc Length and Sector Area",
+  "generated_at": "2026-05-13T20:36:37.247525+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to find the circumference of a full circle ($C = 2\\pi r$) and the area of a full circle ($A = \\pi r^2$). But what if you only care about a slice of the circle \u2014 like the crust of a pizza slice or the sweep of a clock hand? If a circle has radius 8 cm and a central angle of 135\u00b0, can you find the length of just that curved arc, or the area of just that wedge-shaped region?",
+  "concept": "A circle can be carved into fractional pieces using a central angle. The fraction of the full circle that a central angle $\\theta$ (in degrees) represents is $\\frac{\\theta}{360}$. Multiply that fraction by the full circumference to get arc length: $L = \\frac{\\theta}{360} \\cdot 2\\pi r$. Multiply it by the full area to get sector area: $A = \\frac{\\theta}{360} \\cdot \\pi r^2$. Both formulas scale the whole-circle formula by the same central-angle fraction.",
+  "anatomy": "Every arc length and sector area problem contains four distinct components: the radius $r$, which sets the size of the circle; the central angle $\\theta$, measured in degrees at the center of the circle, which determines what fraction of the circle you are working with; the fraction $\\frac{\\theta}{360}$, which converts that angle into a proportion of the full circle; and the base formula ($2\\pi r$ for circumference or $\\pi r^2$ for area) that gets scaled by that fraction. The arc itself is the curved boundary of the sector, while the sector is the full pie-slice region bounded by two radii and the arc.",
+  "worked_example": [
+    {
+      "expression_latex": "r = 6 \\text{ cm}, \\quad \\theta = 90\u00b0",
+      "description_latex": "We are given a sector with radius 6 cm and a central angle of 90\u00b0. Before writing any formula, it helps to notice that 90\u00b0 is exactly one-quarter of 360\u00b0, so we expect our answers to be one-quarter of the full circumference and area respectively \u2014 this gives us a quick sanity check.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L = \\frac{90}{360} \\cdot 2\\pi(6)",
+      "description_latex": "We substitute into the arc length formula $L = \\frac{\\theta}{360} \\cdot 2\\pi r$. The fraction $\\frac{90}{360}$ captures what portion of the circle's boundary we want, and $2\\pi(6)$ is the full circumference of a circle with radius 6.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L = \\frac{1}{4} \\cdot 12\\pi = 3\\pi \\approx 9.42 \\text{ cm}",
+      "description_latex": "Simplifying, $\\frac{90}{360} = \\frac{1}{4}$ and $2\\pi(6) = 12\\pi$, so $L = \\frac{1}{4} \\cdot 12\\pi = 3\\pi$ cm. This matches our expectation that a 90\u00b0 arc is one-quarter of the full circumference $12\\pi$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\frac{90}{360} \\cdot \\pi(6)^2 = \\frac{1}{4} \\cdot 36\\pi = 9\\pi \\approx 28.27 \\text{ cm}^2",
+      "description_latex": "Now we find the sector area using $A = \\frac{\\theta}{360} \\cdot \\pi r^2$. Substituting gives $\\frac{1}{4} \\cdot 36\\pi = 9\\pi$ cm\u00b2, which is exactly one-quarter of the full circle's area $36\\pi$ \u2014 exactly what we predicted.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "r = 10 \\text{ cm}, \\quad \\theta = 72\u00b0",
+      "description_latex": "We want the arc length and sector area for a sector with radius 10 cm and central angle 72\u00b0. Start by identifying the fraction of the circle: $\\frac{72}{360}$. Notice that this simplifies to $\\frac{1}{5}$, so we expect one-fifth of the full circle.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L = \\frac{72}{360} \\cdot 2\\pi(10) = \\frac{1}{5} \\cdot 20\\pi",
+      "description_latex": "We set up the arc length formula by substituting $\\theta = 72\u00b0$ and $r = 10$ into $L = \\frac{\\theta}{360} \\cdot 2\\pi r$. The full circumference is $20\\pi$, and we take one-fifth of it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Simplify the arc length expression completely and write the exact answer in terms of $\\pi$. Then set up and simplify the sector area formula $A = \\frac{\\theta}{360} \\cdot \\pi r^2$ using the same radius and angle to find the exact sector area.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A sector has radius $r = 5$ cm and central angle $\\theta = 180\u00b0$. Find the arc length.",
+      "answer_latex": "L = 5\\pi \\approx 15.71 \\text{ cm}"
+    },
+    {
+      "prompt_latex": "A sector has radius $r = 9$ cm and central angle $\\theta = 120\u00b0$. Find the arc length and sector area. Leave answers in terms of $\\pi$.",
+      "answer_latex": "L = 6\\pi \\text{ cm}, \\quad A = 27\\pi \\text{ cm}^2"
+    },
+    {
+      "prompt_latex": "A sector has radius $r = 12$ cm and central angle $\\theta = 150\u00b0$. Find the sector area. Leave your answer in terms of $\\pi$.",
+      "answer_latex": "A = 60\\pi \\text{ cm}^2"
+    },
+    {
+      "prompt_latex": "A sector has arc length $L = 8\\pi$ cm and radius $r = 12$ cm. Find the central angle $\\theta$ in degrees.",
+      "answer_latex": "\\theta = 120\u00b0"
+    },
+    {
+      "prompt_latex": "A sprinkler rotates through an angle of $210\u00b0$ and reaches a maximum distance of 15 ft. What is the area of the lawn it waters? Round to the nearest square foot.",
+      "answer_latex": "A = \\frac{210}{360} \\cdot \\pi(15)^2 = \\frac{7}{12} \\cdot 225\\pi \\approx 412 \\text{ ft}^2"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to use the radius in the arc length formula and instead use the diameter, writing $L = \\frac{\\theta}{360} \\cdot 2\\pi d$; always confirm that $r$ is the distance from the center to the edge, not the full width of the circle.",
+    "Students apply the degree fraction to the wrong base formula \u2014 for example, computing $\\frac{\\theta}{360} \\cdot \\pi r^2$ when asked for arc length instead of sector area; remember that arc length uses the circumference formula $2\\pi r$ and sector area uses $\\pi r^2$.",
+    "When working backward (given arc length or area, find $\\theta$ or $r$), students set up the equation correctly but then forget to solve for the unknown variable, leaving the answer as an unsimplified fraction; always isolate the unknown by multiplying both sides by $\\frac{360}{\\theta}$ or dividing as needed."
+  ],
+  "untested_variants": [
+    "Finding the radius given both the sector area and the central angle, which requires solving a quadratic equation $r^2 = \\frac{A \\cdot 360}{\\theta \\cdot \\pi}$.",
+    "Problems where the central angle is given in radians instead of degrees, requiring the radian-based formulas $L = r\\theta$ and $A = \\frac{1}{2}r^2\\theta$.",
+    "Composite figures where a sector is combined with a triangle (e.g., a segment of a circle) and students must subtract the triangular area from the sector area to find the area of the circular segment.",
+    "Problems involving two concentric circles where students must find the arc length or area of an annular sector (the ring-shaped region between two radii at a given angle)."
+  ]
+}

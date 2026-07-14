@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_024",
+  "topic_name": "Distribution Theory in Linear Regression",
+  "generated_at": "2026-05-14T01:03:37.669241+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to fit a linear regression model $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$ and compute the OLS estimator $\\hat{\\boldsymbol{\\beta}} = (\\mathbf{X}^\\top \\mathbf{X})^{-1}\\mathbf{X}^\\top \\mathbf{y}$. You can even show it is unbiased. But to construct confidence intervals, run hypothesis tests, or make predictions with error bounds, you need to know the full probability distribution of $\\hat{\\boldsymbol{\\beta}}$ and the residual sum of squares \u2014 not just their means. Under what distribution does $\\hat{\\boldsymbol{\\beta}}$ live, and how does the distribution of $\\text{RSS}/\\sigma^2$ connect to the $\\chi^2$ distribution?",
+  "concept": "Distribution theory in linear regression pins down the exact probability laws governing the estimators, not just their first and second moments. Formally, if $\\boldsymbol{\\varepsilon} \\sim \\mathcal{N}(\\mathbf{0}, \\sigma^2 \\mathbf{I}_n)$, then $\\hat{\\boldsymbol{\\beta}} \\sim \\mathcal{N}\\!\\left(\\boldsymbol{\\beta},\\, \\sigma^2(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\right)$, the residual sum of squares satisfies $\\text{RSS}/\\sigma^2 \\sim \\chi^2_{n-p}$, and $\\hat{\\boldsymbol{\\beta}}$ and $\\text{RSS}$ are independent \u2014 together enabling exact $t$- and $F$-tests.",
+  "anatomy": "The distribution theory rests on four interlocking components. First, the error vector $\\boldsymbol{\\varepsilon} \\sim \\mathcal{N}(\\mathbf{0}, \\sigma^2 \\mathbf{I}_n)$ is the Gaussian assumption that drives everything downstream. Second, the hat matrix $\\mathbf{H} = \\mathbf{X}(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top$ is the orthogonal projection onto the column space of $\\mathbf{X}$; it maps $\\mathbf{y}$ to fitted values $\\hat{\\mathbf{y}} = \\mathbf{H}\\mathbf{y}$. Third, the residual projection $\\mathbf{I} - \\mathbf{H}$ maps $\\mathbf{y}$ to residuals $\\hat{\\boldsymbol{\\varepsilon}} = (\\mathbf{I}-\\mathbf{H})\\mathbf{y}$, and its rank $n - p$ gives the degrees of freedom of the $\\chi^2$ distribution for RSS. Fourth, the independence of $\\hat{\\boldsymbol{\\beta}}$ and RSS follows from the fact that $\\mathbf{H}$ and $\\mathbf{I}-\\mathbf{H}$ are orthogonal projections whose product is the zero matrix, so the two quadratic forms are independent under normality.",
+  "worked_example": [
+    {
+      "expression_latex": "\\hat{\\boldsymbol{\\beta}} = (\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top\\mathbf{y} = \\boldsymbol{\\beta} + (\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top\\boldsymbol{\\varepsilon}",
+      "description_latex": "We start by substituting $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$ into the OLS formula. This expresses $\\hat{\\boldsymbol{\\beta}}$ as its true value plus a linear function of the error vector, which is the key rewriting that lets us read off the distribution directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\boldsymbol{\\beta}} \\sim \\mathcal{N}\\!\\left(\\boldsymbol{\\beta},\\; \\sigma^2(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\right)",
+      "description_latex": "Because $\\boldsymbol{\\varepsilon} \\sim \\mathcal{N}(\\mathbf{0}, \\sigma^2\\mathbf{I})$ and $\\hat{\\boldsymbol{\\beta}}$ is an affine (linear) transformation of $\\boldsymbol{\\varepsilon}$, it inherits a multivariate normal distribution. The mean is $\\boldsymbol{\\beta}$ (confirming unbiasedness) and the covariance matrix is $(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top (\\sigma^2 \\mathbf{I}) \\mathbf{X}(\\mathbf{X}^\\top\\mathbf{X})^{-1} = \\sigma^2(\\mathbf{X}^\\top\\mathbf{X})^{-1}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{RSS} = \\hat{\\boldsymbol{\\varepsilon}}^\\top\\hat{\\boldsymbol{\\varepsilon}} = \\mathbf{y}^\\top(\\mathbf{I}-\\mathbf{H})\\mathbf{y} = \\boldsymbol{\\varepsilon}^\\top(\\mathbf{I}-\\mathbf{H})\\boldsymbol{\\varepsilon}",
+      "description_latex": "We write the residuals as $\\hat{\\boldsymbol{\\varepsilon}} = (\\mathbf{I}-\\mathbf{H})\\mathbf{y}$ and note that since $\\mathbf{X}\\boldsymbol{\\beta}$ lies in the column space of $\\mathbf{X}$, the projection $(\\mathbf{I}-\\mathbf{H})\\mathbf{X}\\boldsymbol{\\beta} = \\mathbf{0}$, so RSS simplifies to a quadratic form in $\\boldsymbol{\\varepsilon}$ alone. This is essential because it shows RSS depends only on the errors, not on $\\boldsymbol{\\beta}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\text{RSS}}{\\sigma^2} = \\left(\\frac{\\boldsymbol{\\varepsilon}}{\\sigma}\\right)^\\top (\\mathbf{I}-\\mathbf{H})\\left(\\frac{\\boldsymbol{\\varepsilon}}{\\sigma}\\right) \\sim \\chi^2_{n-p}",
+      "description_latex": "Dividing by $\\sigma^2$ standardizes the errors to $\\mathbf{z} = \\boldsymbol{\\varepsilon}/\\sigma \\sim \\mathcal{N}(\\mathbf{0},\\mathbf{I})$. Since $\\mathbf{I}-\\mathbf{H}$ is an idempotent matrix of rank $n-p$ (where $p$ is the number of parameters), the general theorem on quadratic forms in standard normals gives $\\mathbf{z}^\\top(\\mathbf{I}-\\mathbf{H})\\mathbf{z} \\sim \\chi^2_{n-p}$. The degrees of freedom $n-p$ reflects that $p$ parameters were estimated, consuming $p$ degrees of freedom.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T_j = \\frac{\\hat{\\beta}_j - \\beta_j}{\\hat{\\sigma}\\sqrt{[(\\mathbf{X}^\\top\\mathbf{X})^{-1}]_{jj}}} \\sim t_{n-p}",
+      "description_latex": "Now we combine both results: $\\hat{\\beta}_j$ is normal and, independently, $\\text{RSS}/\\sigma^2 \\sim \\chi^2_{n-p}$, so their ratio after standardization follows a $t$-distribution with $n-p$ degrees of freedom. This is exactly the test statistic you use in standard regression output, and its validity depends entirely on the distribution theory we just derived.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{H} = \\mathbf{X}(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top, \\quad \\mathbf{H}^2 = \\mathbf{H}, \\quad \\text{rank}(\\mathbf{H}) = p",
+      "description_latex": "We begin by recording the key properties of the hat matrix. Because $\\mathbf{H}$ is an orthogonal projection, it is idempotent ($\\mathbf{H}^2 = \\mathbf{H}$) and symmetric. These two properties are what allow us to invoke the theorem connecting idempotent quadratic forms to chi-squared distributions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{rank}(\\mathbf{I} - \\mathbf{H}) = n - p, \\quad (\\mathbf{I}-\\mathbf{H})^2 = \\mathbf{I}-\\mathbf{H}",
+      "description_latex": "Now verify that $\\mathbf{I}-\\mathbf{H}$ is also idempotent and has rank $n - p$. Try expanding $(\\mathbf{I}-\\mathbf{H})^2$ yourself and confirm it equals $\\mathbf{I}-\\mathbf{H}$; then argue why the rank must be $n - p$ using the rank-trace identity for idempotent matrices.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\frac{\\text{RSS}}{\\sigma^2} \\sim \\chi^2_{n-p}",
+      "description_latex": "Using the idempotent property and rank you just established, apply the theorem: if $\\mathbf{z} \\sim \\mathcal{N}(\\mathbf{0},\\mathbf{I}_n)$ and $\\mathbf{A}$ is idempotent of rank $r$, then $\\mathbf{z}^\\top \\mathbf{A}\\mathbf{z} \\sim \\chi^2_r$. Write out why $\\text{RSS}/\\sigma^2$ fits this template and state the resulting distribution.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\hat{\\sigma}^2 = \\frac{\\text{RSS}}{n-p} \\text{ is an unbiased estimator of } \\sigma^2",
+      "description_latex": "As a consequence, since $E[\\chi^2_{n-p}] = n-p$, we have $E[\\text{RSS}] = (n-p)\\sigma^2$, which shows that dividing RSS by $n-p$ rather than $n$ produces an unbiased estimate of $\\sigma^2$. This is why statistical software always reports $s^2 = \\text{RSS}/(n-p)$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "In simple linear regression ($p = 2$: intercept and slope) with $n = 20$ observations and $\\boldsymbol{\\varepsilon} \\sim \\mathcal{N}(\\mathbf{0},\\sigma^2\\mathbf{I})$, state the distribution of $\\text{RSS}/\\sigma^2$.",
+      "answer_latex": "\\text{RSS}/\\sigma^2 \\sim \\chi^2_{18}"
+    },
+    {
+      "prompt_latex": "Suppose $\\mathbf{X}$ is $n \\times p$ with full column rank. Show that $(\\mathbf{I}-\\mathbf{H})^2 = \\mathbf{I}-\\mathbf{H}$, where $\\mathbf{H} = \\mathbf{X}(\\mathbf{X}^\\top\\mathbf{X})^{-1}\\mathbf{X}^\\top$.",
+      "answer_latex": "(\\mathbf{I}-\\mathbf{H})^2 = \\mathbf{I} - 2\\mathbf{H} + \\mathbf{H}^2 = \\mathbf{I} - 2\\mathbf{H} + \\mathbf{H} = \\mathbf{I} - \\mathbf{H} \\quad (\\text{using } \\mathbf{H}^2 = \\mathbf{H})"
+    },
+    {
+      "prompt_latex": "A regression model has $p = 4$ predictors (including intercept) and $n = 24$. Given $\\boldsymbol{\\varepsilon} \\sim \\mathcal{N}(\\mathbf{0},\\sigma^2\\mathbf{I})$, find $E[\\hat{\\sigma}^2]$ where $\\hat{\\sigma}^2 = \\text{RSS}/(n-p)$, and find $\\text{Var}(\\text{RSS}/\\sigma^2)$.",
+      "answer_latex": "E[\\hat{\\sigma}^2] = \\sigma^2; \\quad \\text{Var}(\\text{RSS}/\\sigma^2) = 2(n-p) = 2(20) = 40"
+    },
+    {
+      "prompt_latex": "In a regression with $n=30$ and $p=5$, the OLS estimator satisfies $\\hat{\\boldsymbol{\\beta}} \\sim \\mathcal{N}(\\boldsymbol{\\beta}, \\sigma^2 (\\mathbf{X}^\\top\\mathbf{X})^{-1})$. Suppose $[(\\mathbf{X}^\\top\\mathbf{X})^{-1}]_{11} = 0.04$ and $\\sigma^2 = 9$. Construct the pivot statistic $T_1$ for testing $H_0: \\beta_1 = 0$, state its null distribution, and identify the rejection region at level $\\alpha = 0.05$ (two-sided).",
+      "answer_latex": "T_1 = \\frac{\\hat{\\beta}_1}{\\hat{\\sigma}\\sqrt{0.04}} = \\frac{\\hat{\\beta}_1}{0.2\\hat{\\sigma}} \\sim t_{25} \\text{ under } H_0; \\text{ reject if } |T_1| > t_{25,0.025}"
+    },
+    {
+      "prompt_latex": "A quality engineer fits a regression of yield on three process variables ($p=4$ including intercept, $n=25$). Software reports $\\text{RSS} = 180$ and $s^2 = 9$. A colleague claims $\\sigma^2 = 6$. Use the fact that $\\text{RSS}/\\sigma^2 \\sim \\chi^2_{n-p}$ to compute the test statistic for $H_0: \\sigma^2 = 6$ and state the distribution used to find the $p$-value.",
+      "answer_latex": "\\chi^2 = \\frac{\\text{RSS}}{\\sigma^2_0} = \\frac{180}{6} = 30 \\sim \\chi^2_{21} \\text{ under } H_0"
+    }
+  ],
+  "common_mistakes": [
+    "Students use $n$ instead of $n - p$ as the degrees of freedom for the $\\chi^2$ distribution of $\\text{RSS}/\\sigma^2$, forgetting that estimating $p$ parameters consumes $p$ degrees of freedom. Always check: $\\text{rank}(\\mathbf{I}-\\mathbf{H}) = n - p$, not $n$.",
+    "Students claim $\\hat{\\boldsymbol{\\beta}}$ and RSS are independent 'because they are calculated from different formulas,' without invoking the orthogonality $\\mathbf{H}(\\mathbf{I}-\\mathbf{H}) = \\mathbf{0}$. Independence here is a theorem specific to normal errors and does not follow from separate formulas alone \u2014 you must verify the zero product of the projection matrices.",
+    "When forming the $t$-statistic, students use $\\sigma^2$ (the true unknown variance) in the denominator instead of the estimated $\\hat{\\sigma}^2 = \\text{RSS}/(n-p)$. Using the true $\\sigma$ gives a standard normal, not a $t$-distribution; it is replacing $\\sigma$ with $\\hat{\\sigma}$ that introduces the $t_{n-p}$ distribution in place of the standard normal."
+  ],
+  "untested_variants": [
+    "Deriving the distribution of the $F$-statistic for testing a linear hypothesis $\\mathbf{C}\\boldsymbol{\\beta} = \\mathbf{d}$ (where $\\mathbf{C}$ is a $q \\times p$ matrix), including the ratio of two independent chi-squared random variables divided by their degrees of freedom.",
+    "Distribution theory under heteroskedastic errors $\\boldsymbol{\\varepsilon} \\sim \\mathcal{N}(\\mathbf{0}, \\sigma^2\\mathbf{V})$ with known $\\mathbf{V}$, requiring generalized least squares and the modified hat matrix $\\mathbf{H}_V = \\mathbf{X}(\\mathbf{X}^\\top\\mathbf{V}^{-1}\\mathbf{X})^{-1}\\mathbf{X}^\\top\\mathbf{V}^{-1}$.",
+    "Computing the distribution of a predicted response $\\hat{y}_{new} = \\mathbf{x}_{new}^\\top\\hat{\\boldsymbol{\\beta}}$ and constructing prediction intervals versus confidence intervals for the mean response, which requires accounting for both estimation uncertainty and future error variance.",
+    "The non-central chi-squared distribution of $\\text{RSS}/\\sigma^2$ under a misspecified (wrong) mean model, used in power calculations for the $F$-test."
+  ]
+}

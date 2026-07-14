@@ -1,0 +1,91 @@
+{
+  "topic_id": "stat_006",
+  "topic_name": "Outliers and Resistant Measures",
+  "generated_at": "2026-05-13T20:29:41.879787+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to compute the mean and median of a dataset, and you know that both are ways to describe the center. But imagine a small neighborhood where nine houses sell for around $200,000 and one mansion sells for $2,000,000 \u2014 suddenly the mean jumps to nearly $380,000, a number that describes almost nobody's home. The median, though, barely moves. Why do the mean and median behave so differently, and how do we decide which one to trust when something unusual is lurking in the data?",
+  "concept": "An outlier is a data value that falls far outside the overall pattern of a dataset \u2014 it is unusually large or unusually small compared to the rest. A measure is called resistant if outliers have little effect on its value; the median and interquartile range (IQR) are resistant, while the mean $\\bar{x} = \\frac{\\sum x_i}{n}$ and standard deviation $s$ are not, because every value is used directly in their formulas.",
+  "anatomy": "There are four key components in this topic. The outlier itself is the suspect value you identify, often flagged by the 1.5 \u00d7 IQR rule: any value below $Q_1 - 1.5 \\cdot IQR$ or above $Q_3 + 1.5 \\cdot IQR$ is declared an outlier. The fences are those two computed boundary values \u2014 lower fence $Q_1 - 1.5 \\cdot IQR$ and upper fence $Q_3 + 1.5 \\cdot IQR$. The resistant measures \u2014 median and IQR \u2014 are summaries that stay stable when an outlier is present. The non-resistant measures \u2014 mean and standard deviation \u2014 are the summaries that get pulled toward the outlier.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Data: } 12, 14, 15, 16, 17, 18, 19, 20, 65",
+      "description_latex": "We start by writing the data in order so we can find the quartiles accurately. Having the values sorted is essential because $Q_1$, the median, and $Q_3$ all depend on position, not just size.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q_1 = 14.5, \\quad Q_3 = 19.5, \\quad IQR = Q_3 - Q_1 = 5",
+      "description_latex": "With 9 values, the median is the 5th value (17), the lower half is {12, 14, 15, 16} giving $Q_1 = 14.5$, and the upper half is {18, 19, 20, 65} giving $Q_3 = 19.5$. We compute $IQR = 19.5 - 14.5 = 5$ because this spread is exactly what the fence rule needs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Lower fence} = 14.5 - 1.5(5) = 7, \\quad \\text{Upper fence} = 19.5 + 1.5(5) = 27",
+      "description_latex": "Multiplying the IQR by 1.5 and subtracting from $Q_1$ gives the lower fence, while adding to $Q_3$ gives the upper fence. Any data point outside the interval $[7, 27]$ is flagged as an outlier by this rule.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "65 > 27 \\implies 65 \\text{ is an outlier}",
+      "description_latex": "Because 65 exceeds the upper fence of 27, it is officially classified as an outlier \u2014 this confirms what we suspected visually. No value falls below 7, so there are no low outliers in this dataset.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x}_{\\text{with}} \\approx 21.8, \\quad \\bar{x}_{\\text{without}} = 16.4, \\quad \\text{Median}_{\\text{with}} = 17, \\quad \\text{Median}_{\\text{without}} = 16.5",
+      "description_latex": "Comparing summaries with and without the outlier shows resistance in action: the mean drops by more than 5 points when 65 is removed, a dramatic shift, while the median moves only half a point. This demonstrates concretely why we prefer the median when outliers are present.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data: } 3, 7, 8, 9, 10, 11, 12, 13, 40",
+      "description_latex": "We have a sorted dataset and want to check whether 40 is an outlier using the 1.5 \u00d7 IQR rule. First, identify the median (the 5th value), then split the remaining values into a lower half and an upper half to find $Q_1$ and $Q_3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q_1 = \\underline{\\hspace{1cm}}, \\quad Q_3 = \\underline{\\hspace{1cm}}, \\quad IQR = \\underline{\\hspace{1cm}}",
+      "description_latex": "Calculate $Q_1$ from the lower half {3, 7, 8, 9} and $Q_3$ from the upper half {11, 12, 13, 40}, then subtract to find the IQR. This is the core step that determines whether the fences will catch the value 40.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Upper fence} = Q_3 + 1.5 \\cdot IQR = \\underline{\\hspace{2cm}}",
+      "description_latex": "Using your values from the previous step, compute the upper fence. Then compare 40 to this fence and state whether 40 qualifies as an outlier.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Resistant measure to report: Median} = 10",
+      "description_latex": "Because an outlier is present, the median is the appropriate measure of center to report \u2014 it stays close to the bulk of the data. The mean, by contrast, would be inflated by the value 40 and would misrepresent the typical observation.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A dataset has $Q_1 = 20$ and $Q_3 = 30$. Compute the IQR and state the lower and upper fences for the 1.5 \\times IQR outlier rule.",
+      "answer_latex": "IQR = 10; \\text{ Lower fence} = 5, \\text{ Upper fence} = 45"
+    },
+    {
+      "prompt_latex": "The sorted dataset is 2, 5, 6, 7, 8, 9, 10, 11, 38. Use the 1.5 \\times IQR rule to determine whether 2 or 38 are outliers.",
+      "answer_latex": "Q_1=5.5,\\ Q_3=10.5,\\ IQR=5;\\ \\text{Fences: } [-2,\\ 18];\\ 38 \\text{ is an outlier, 2 is not}"
+    },
+    {
+      "prompt_latex": "For the dataset 10, 12, 14, 15, 16, 17, 100, calculate both the mean and the median. Then remove 100 and recalculate. Which measure changed more, and what does this tell you about resistance?",
+      "answer_latex": "\\bar{x}_{\\text{with}} \\approx 26.3,\\ \\bar{x}_{\\text{without}} = 14;\\ \\text{Median}_{\\text{with}} = 15,\\ \\text{Median}_{\\text{without}} = 14;\\ \\text{Mean changed far more \u2014 it is not resistant}"
+    },
+    {
+      "prompt_latex": "A dataset has mean $\\bar{x} = 45$, median $= 38$, and standard deviation $s = 22$. A new value of 200 is added. Without recalculating exactly, predict: (a) which measure of center will increase more, and (b) which measure of spread will increase more. Justify using the concept of resistance.",
+      "answer_latex": "(a)\\ \\text{The mean will increase more because it is non-resistant; the median will shift only slightly.}\\ (b)\\ s \\text{ will increase more than IQR because standard deviation is non-resistant to outliers}"
+    },
+    {
+      "prompt_latex": "A school reports that the average (mean) teacher salary is \\$95{,}000, but a new teacher earns only \\$42{,}000. She checks and finds the median salary is \\$58{,}000. Explain in one or two sentences why the median is a more appropriate measure of center to describe a 'typical' teacher's salary at this school, referencing resistance.",
+      "answer_latex": "\\text{A few very high administrative salaries are likely pulling the mean upward; the median is resistant to those high outliers and better represents the typical teacher's pay}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often apply the fence formula as $Q_1 - 1.5 \\cdot Q_3$ or mix up which quartile gets subtracted versus added \u2014 remember the lower fence always uses $Q_1 - 1.5 \\cdot IQR$ and the upper fence always uses $Q_3 + 1.5 \\cdot IQR$.",
+    "A common error is concluding that a value is an outlier simply because it 'looks big' rather than checking it against the computed fences \u2014 always calculate the fences explicitly, because a value can appear far from most data but still fall within the fences if the IQR is large.",
+    "Students frequently confuse which measures are resistant and which are not, sometimes claiming the standard deviation is resistant because it 'uses spread, not center' \u2014 in fact, $s$ is non-resistant because squaring deviations magnifies the effect of extreme values, while IQR is resistant because it only depends on the middle 50% of the data."
+  ],
+  "untested_variants": [
+    "Modified boxplots that visually display outliers as individual dots beyond the whiskers, and interpreting or sketching such a plot from raw data.",
+    "Datasets with multiple outliers on both the low and high end simultaneously, where students must check both fences and decide whether each suspect value qualifies.",
+    "Using z-scores (z > 2 or z > 3) as an alternative outlier detection method, and comparing conclusions reached by z-scores versus the 1.5 \u00d7 IQR rule on the same dataset.",
+    "Determining the effect of an outlier on regression lines \u2014 how a single extreme point can dramatically change the slope and y-intercept of a least-squares line."
+  ]
+}

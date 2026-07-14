@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_027",
+  "topic_name": "Definition and Examples",
+  "generated_at": "2026-05-13T20:07:34.827319+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how functions map numbers to numbers \u2014 for example, $f(x) = 2x$ doubles every input. But what happens when your inputs and outputs are entire vectors? You might guess that a function like $T(\\mathbf{v}) = 2\\mathbf{v}$ still 'works nicely,' but how do we make that precise, and how do we tell the difference between transformations that respect the vector-space structure and those that don't? Can you determine whether $T(\\mathbf{x}) = A\\mathbf{x}$ and $T(\\mathbf{x}) = \\mathbf{x} + \\mathbf{b}$ should be treated the same way?",
+  "concept": "A linear transformation is a function $T: V \\to W$ between vector spaces that preserves addition and scalar multiplication \u2014 the two operations that define a vector space. Formally, $T$ is linear if for all $\\mathbf{u}, \\mathbf{v} \\in V$ and all scalars $c$: (1) $T(\\mathbf{u} + \\mathbf{v}) = T(\\mathbf{u}) + T(\\mathbf{v})$ (additivity) and (2) $T(c\\mathbf{v}) = cT(\\mathbf{v})$ (homogeneity). These two conditions can be combined: $T(c\\mathbf{u} + d\\mathbf{v}) = cT(\\mathbf{u}) + dT(\\mathbf{v})$.",
+  "anatomy": "A linear transformation $T: V \\to W$ has several named components worth distinguishing. The domain $V$ is the vector space of all valid inputs. The codomain $W$ is the vector space where outputs live. The additivity condition $T(\\mathbf{u} + \\mathbf{v}) = T(\\mathbf{u}) + T(\\mathbf{v})$ says the transformation 'distributes' over vector addition. The homogeneity condition $T(c\\mathbf{v}) = cT(\\mathbf{v})$ says scaling before or after applying $T$ gives the same result. A direct consequence of both conditions together is that $T(\\mathbf{0}) = \\mathbf{0}$, meaning every linear transformation must send the zero vector to the zero vector \u2014 a powerful first check.",
+  "worked_example": [
+    {
+      "expression_latex": "T: \\mathbb{R}^2 \\to \\mathbb{R}^2, \\quad T\\!\\left(\\begin{bmatrix} x \\\\ y \\end{bmatrix}\\right) = \\begin{bmatrix} 2x \\\\ y \\end{bmatrix}",
+      "description_latex": "We want to verify that this horizontal-scaling function is a linear transformation. Our strategy is to check both the additivity and homogeneity conditions using arbitrary vectors, because if both hold for all choices of vectors, we can be certain $T$ is linear.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(\\mathbf{u} + \\mathbf{v}) = T\\!\\left(\\begin{bmatrix} u_1 + v_1 \\\\ u_2 + v_2 \\end{bmatrix}\\right) = \\begin{bmatrix} 2(u_1+v_1) \\\\ u_2+v_2 \\end{bmatrix}",
+      "description_latex": "We apply $T$ to the sum $\\mathbf{u} + \\mathbf{v}$ by substituting the components of the sum directly into the formula for $T$. This gives us the left-hand side of the additivity condition, and now we need to see whether it equals $T(\\mathbf{u}) + T(\\mathbf{v})$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(\\mathbf{u}) + T(\\mathbf{v}) = \\begin{bmatrix} 2u_1 \\\\ u_2 \\end{bmatrix} + \\begin{bmatrix} 2v_1 \\\\ v_2 \\end{bmatrix} = \\begin{bmatrix} 2u_1 + 2v_1 \\\\ u_2 + v_2 \\end{bmatrix} = \\begin{bmatrix} 2(u_1+v_1) \\\\ u_2+v_2 \\end{bmatrix}",
+      "description_latex": "Computing $T(\\mathbf{u}) + T(\\mathbf{v})$ separately and combining, we see this equals exactly what we found in the previous step \u2014 so additivity holds. Notice the key step is that multiplication distributes over addition, $2u_1 + 2v_1 = 2(u_1+v_1)$, which is what makes scalar multiplication play nicely here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T(c\\mathbf{v}) = T\\!\\left(\\begin{bmatrix} cv_1 \\\\ cv_2 \\end{bmatrix}\\right) = \\begin{bmatrix} 2(cv_1) \\\\ cv_2 \\end{bmatrix} = c\\begin{bmatrix} 2v_1 \\\\ v_2 \\end{bmatrix} = cT(\\mathbf{v})",
+      "description_latex": "For homogeneity, we scale the input by $c$ first, apply $T$, and confirm this equals scaling the output by $c$. Since both conditions hold, $T$ is a linear transformation \u2014 it respects the structure of $\\mathbb{R}^2$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T: \\mathbb{R}^2 \\to \\mathbb{R}^2, \\quad T\\!\\left(\\begin{bmatrix} x \\\\ y \\end{bmatrix}\\right) = \\begin{bmatrix} x + 1 \\\\ y \\end{bmatrix}",
+      "description_latex": "We want to determine whether this translation-like function is a linear transformation. A quick first check is to evaluate $T(\\mathbf{0})$ and see whether it equals $\\mathbf{0}$, because every linear transformation must send the zero vector to zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "T\\!\\left(\\begin{bmatrix} 0 \\\\ 0 \\end{bmatrix}\\right) = \\begin{bmatrix} 0+1 \\\\ 0 \\end{bmatrix} = \\begin{bmatrix} 1 \\\\ 0 \\end{bmatrix} \\neq \\begin{bmatrix} 0 \\\\ 0 \\end{bmatrix}",
+      "description_latex": "Since $T(\\mathbf{0}) \\neq \\mathbf{0}$, we can immediately conclude $T$ is not linear \u2014 no further checking is needed. This is why the zero-vector test is always the fastest first check when you suspect a transformation might fail linearity.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now consider $S: \\mathbb{R}^2 \\to \\mathbb{R}$ defined by $S\\!\\left(\\begin{bmatrix} x \\\\ y \\end{bmatrix}\\right) = 3x - 2y$. Verify the additivity condition: compute $S(\\mathbf{u} + \\mathbf{v})$ and $S(\\mathbf{u}) + S(\\mathbf{v})$ for general vectors $\\mathbf{u} = \\begin{bmatrix} u_1 \\\\ u_2 \\end{bmatrix}$ and $\\mathbf{v} = \\begin{bmatrix} v_1 \\\\ v_2 \\end{bmatrix}$, and state whether they are equal.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "S(c\\mathbf{v}) = 3(cv_1) - 2(cv_2) = c(3v_1 - 2v_2) = cS(\\mathbf{v})",
+      "description_latex": "Homogeneity also holds for $S$, since the scalar $c$ factors out cleanly through the linear combination. Together with additivity, this confirms that $S$ is a linear transformation from $\\mathbb{R}^2$ to $\\mathbb{R}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $T(\\mathbf{0})$ for $T: \\mathbb{R}^3 \\to \\mathbb{R}^3$ defined by $T(\\mathbf{x}) = A\\mathbf{x}$ where $A$ is any $3 \\times 3$ matrix. What does your answer tell you?",
+      "answer_latex": "T(\\mathbf{0}) = A\\mathbf{0} = \\mathbf{0}$, confirming the necessary condition $T(\\mathbf{0}) = \\mathbf{0}$ holds for any matrix transformation."
+    },
+    {
+      "prompt_latex": "Determine whether $T: \\mathbb{R}^2 \\to \\mathbb{R}^2$ defined by $T\\!\\left(\\begin{bmatrix} x \\\\ y \\end{bmatrix}\\right) = \\begin{bmatrix} 3x \\\\ -y \\end{bmatrix}$ is a linear transformation. Verify both conditions.",
+      "answer_latex": "Yes, $T$ is linear. Additivity: $T(\\mathbf{u}+\\mathbf{v}) = \\begin{bmatrix} 3(u_1+v_1) \\\\ -(u_2+v_2) \\end{bmatrix} = T(\\mathbf{u})+T(\\mathbf{v})$. Homogeneity: $T(c\\mathbf{v}) = \\begin{bmatrix} 3cv_1 \\\\ -cv_2 \\end{bmatrix} = cT(\\mathbf{v})$."
+    },
+    {
+      "prompt_latex": "Determine whether $T: \\mathbb{R}^2 \\to \\mathbb{R}$ defined by $T\\!\\left(\\begin{bmatrix} x \\\\ y \\end{bmatrix}\\right) = x^2 + y$ is a linear transformation.",
+      "answer_latex": "Not linear. Counterexample for additivity: let $\\mathbf{u} = \\mathbf{v} = \\begin{bmatrix}1\\\\0\\end{bmatrix}$. Then $T(\\mathbf{u}+\\mathbf{v}) = T\\begin{bmatrix}2\\\\0\\end{bmatrix} = 4$, but $T(\\mathbf{u})+T(\\mathbf{v}) = 1+1 = 2 \\neq 4$."
+    },
+    {
+      "prompt_latex": "Let $T: \\mathbb{R}^2 \\to \\mathbb{R}^3$ be defined by $T\\!\\left(\\begin{bmatrix} x \\\\ y \\end{bmatrix}\\right) = \\begin{bmatrix} x - y \\\\ 2x \\\\ y \\end{bmatrix}$. Show $T$ is linear and find the $3 \\times 2$ matrix $A$ such that $T(\\mathbf{x}) = A\\mathbf{x}$.",
+      "answer_latex": "$T$ is linear (verify additivity and homogeneity). The matrix is $A = \\begin{bmatrix} 1 & -1 \\\\ 2 & 0 \\\\ 0 & 1 \\end{bmatrix}$, obtained by writing $T(\\mathbf{e}_1)$ and $T(\\mathbf{e}_2)$ as columns."
+    },
+    {
+      "prompt_latex": "A graphics program applies $T: \\mathbb{R}^2 \\to \\mathbb{R}^2$ to every pixel vector. The programmer defines $T\\!\\left(\\begin{bmatrix} x \\\\ y \\end{bmatrix}\\right) = \\begin{bmatrix} x + y \\\\ x - y \\end{bmatrix}$. Is $T$ linear? If so, what geometric effect does this have on the origin?",
+      "answer_latex": "Yes, $T$ is linear (check: $T(\\mathbf{0}) = \\mathbf{0}$, and both conditions hold). The origin maps to itself: $T(\\mathbf{0}) = \\mathbf{0}$, so the origin is always fixed \u2014 a hallmark of any linear transformation."
+    }
+  ],
+  "common_mistakes": [
+    "Students often test only one of the two conditions \u2014 typically homogeneity \u2014 and declare a function linear without checking additivity. Both conditions must hold independently, or alternatively you must verify the combined condition $T(c\\mathbf{u} + d\\mathbf{v}) = cT(\\mathbf{u}) + dT(\\mathbf{v})$ for all scalars and vectors.",
+    "A frequent error is assuming that because $T(\\mathbf{0}) = \\mathbf{0}$, the transformation must be linear. The zero-vector test is a necessary condition but not sufficient \u2014 for example, $T\\!\\left(\\begin{bmatrix}x\\\\y\\end{bmatrix}\\right) = \\begin{bmatrix}x^2\\\\0\\end{bmatrix}$ sends $\\mathbf{0}$ to $\\mathbf{0}$ yet fails additivity.",
+    "When checking additivity, students often substitute specific numeric vectors instead of arbitrary vectors $\\mathbf{u}$ and $\\mathbf{v}$. A single example can only disprove linearity (via counterexample), never prove it \u2014 you must use general components like $u_1, u_2, v_1, v_2$ to establish the property holds for all inputs."
+  ],
+  "untested_variants": [
+    "Verifying linearity for transformations on function spaces, such as $T: C[0,1] \\to C[0,1]$ defined by $T(f) = f'$ (the derivative operator).",
+    "Finding the matrix representation of a linear transformation by computing $T(\\mathbf{e}_1), T(\\mathbf{e}_2), \\ldots$ and assembling them as columns \u2014 the standard matrix-from-transformation procedure.",
+    "Determining whether the composition of two linear transformations is itself linear, or working with the identity and zero transformations as special cases.",
+    "Transformations involving complex vector spaces, or linear maps between polynomial spaces such as $T: P_2 \\to P_3$ defined by $T(p(x)) = x \\cdot p(x)$."
+  ]
+}

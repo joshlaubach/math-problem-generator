@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_034",
+  "topic_name": "Polynomials as a Vector Space",
+  "generated_at": "2026-05-13T20:08:02.156808+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that $\\mathbb{R}^n$ is a vector space where vectors are lists of numbers you can add and scale. But what if your 'vectors' were polynomials like $3x^2 - 2x + 1$? You can certainly add two polynomials and multiply one by a scalar \u2014 but does that make the set of all polynomials a genuine vector space? The question is: which of the ten vector space axioms actually need to be verified, and how do you check them for objects that look nothing like arrows or coordinate tuples?",
+  "concept": "A vector space is any set equipped with addition and scalar multiplication satisfying ten axioms \u2014 closure, commutativity, associativity, identity, inverses, and distributive laws. The set $\\mathcal{P}_n$ of all polynomials of degree at most $n$ (with real coefficients) forms a vector space under the usual polynomial addition and scalar multiplication, because every one of the ten axioms holds for those operations.",
+  "anatomy": "The key structural parts of $\\mathcal{P}_n$ as a vector space are: the underlying set $\\mathcal{P}_n = \\{a_0 + a_1 x + \\cdots + a_n x^n \\mid a_i \\in \\mathbb{R}\\}$; the addition operation $(p + q)(x) = p(x) + q(x)$, which adds corresponding coefficients; the scalar multiplication operation $(cp)(x) = c \\cdot p(x)$, which scales every coefficient by $c \\in \\mathbb{R}$; the zero vector, which is the zero polynomial $\\mathbf{0}(x) = 0$ (all coefficients zero); and the additive inverse $-p$, which negates every coefficient of $p$.",
+  "worked_example": [
+    {
+      "expression_latex": "p(x) = 2x^2 - 3x + 1, \\quad q(x) = -x^2 + 5x - 4 \\in \\mathcal{P}_2",
+      "description_latex": "We start by identifying two specific elements of $\\mathcal{P}_2$ to use as concrete test cases. Naming $p$ and $q$ explicitly means every axiom check will be grounded in numbers rather than abstract symbols, which makes it much easier to see what is really going on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(p + q)(x) = (2-1)x^2 + (-3+5)x + (1-4) = x^2 + 2x - 3",
+      "description_latex": "We verify closure under addition by computing $p + q$ and checking whether the result is still in $\\mathcal{P}_2$. The result $x^2 + 2x - 3$ has degree at most 2, so yes \u2014 $\\mathcal{P}_2$ is closed under addition, meaning adding two elements never takes you outside the set.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(3p)(x) = 3(2x^2 - 3x + 1) = 6x^2 - 9x + 3",
+      "description_latex": "We verify closure under scalar multiplication by scaling $p$ by the real number $3$. Every coefficient is multiplied by $3$, and the degree stays at most 2, so $3p \\in \\mathcal{P}_2$ \u2014 the set does not 'escape' when we scale a polynomial.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{0}(x) = 0x^2 + 0x + 0 = 0 \\in \\mathcal{P}_2",
+      "description_latex": "We identify the zero vector of this space. It is the polynomial whose every coefficient is zero, and $p(x) + \\mathbf{0}(x) = p(x)$ for any $p$ \u2014 this is the additive identity axiom, and it is satisfied because the zero polynomial clearly belongs to $\\mathcal{P}_2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-p(x) = -2x^2 + 3x - 1 \\in \\mathcal{P}_2, \\quad p(x) + (-p(x)) = 0",
+      "description_latex": "Finally, we confirm the additive inverse axiom: for any $p$, the polynomial $-p$ obtained by negating every coefficient also lies in $\\mathcal{P}_2$ and satisfies $p + (-p) = \\mathbf{0}$. Together with the other checks, this shows $\\mathcal{P}_2$ satisfies all the essential structural requirements of a vector space.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "p(x) = x^3 - 2x + 4, \\quad q(x) = -x^3 + x^2 + 2x - 1 \\in \\mathcal{P}_3",
+      "description_latex": "We are working in $\\mathcal{P}_3$ and we want to verify both closure axioms. Let us first identify $p$ and $q$ as our two polynomials \u2014 notice both have degree at most 3, so they genuinely belong to $\\mathcal{P}_3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(p + q)(x) = ?",
+      "description_latex": "Compute $p(x) + q(x)$ by adding corresponding coefficients for $x^3$, $x^2$, $x^1$, and the constant term. Then state whether or not the result belongs to $\\mathcal{P}_3$ and why.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "(-2p)(x) = -2(x^3 - 2x + 4) = -2x^3 + 4x - 8",
+      "description_latex": "For closure under scalar multiplication we scale $p$ by $-2$. Each coefficient is multiplied by $-2$, and the degree remains 3, so $-2p \\in \\mathcal{P}_3$ \u2014 this confirms the closure axiom holds for this scalar.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Identify the zero vector and the additive inverse } -p(x) \\text{ in } \\mathcal{P}_3.",
+      "description_latex": "Write down the zero vector of $\\mathcal{P}_3$ explicitly, then write down $-p(x)$ and verify that $p(x) + (-p(x)) = \\mathbf{0}$. This step tests whether you understand what the zero vector and additive inverse look like for polynomial spaces specifically.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $p(x) = 4x - 7$ and $q(x) = -4x + 2$ be elements of $\\mathcal{P}_1$. Compute $p(x) + q(x)$ and state whether the result is in $\\mathcal{P}_1$.",
+      "answer_latex": "(p+q)(x) = -5, \\text{ which is in } \\mathcal{P}_1 \\text{ (a degree-0 polynomial, i.e., a constant)}"
+    },
+    {
+      "prompt_latex": "Verify the closure under scalar multiplication axiom for $p(x) = 3x^2 - x + 2 \\in \\mathcal{P}_2$ and scalar $c = -5$.",
+      "answer_latex": "(-5p)(x) = -15x^2 + 5x - 10, \\text{ which has degree } \\leq 2, \\text{ so } -5p \\in \\mathcal{P}_2. \\text{ Closure holds.}"
+    },
+    {
+      "prompt_latex": "What is the zero vector of $\\mathcal{P}_4$? Write it in standard polynomial form and identify all its coefficients.",
+      "answer_latex": "\\mathbf{0}(x) = 0x^4 + 0x^3 + 0x^2 + 0x + 0 = 0; \\text{ all five coefficients are } 0."
+    },
+    {
+      "prompt_latex": "Consider $\\mathcal{P}_2$ and the subset $S = \\{p \\in \\mathcal{P}_2 \\mid p(1) = 0\\}$. Show that $S$ is closed under addition and scalar multiplication, i.e., that $S$ is a subspace of $\\mathcal{P}_2$.",
+      "answer_latex": "\\text{If } p(1)=0 \\text{ and } q(1)=0, \\text{ then } (p+q)(1)=0+0=0 \\text{ and } (cp)(1)=c\\cdot 0=0, \\text{ so } S \\text{ is closed under both operations. Also } \\mathbf{0}(1)=0, \\text{ so } S \\text{ is a subspace.}"
+    },
+    {
+      "prompt_latex": "A student claims that the set $\\mathcal{P}$ of ALL polynomials (no degree restriction) is also a vector space under the usual addition and scalar multiplication. Identify whether the ten axioms still hold, focusing on whether $\\mathcal{P}$ is closed under its operations.",
+      "answer_latex": "\\text{Yes, } \\mathcal{P} \\text{ is a vector space: adding any two polynomials or scaling one always yields a polynomial (still finite degree), so all closure and other axioms hold. The zero polynomial } \\mathbf{0} \\in \\mathcal{P} \\text{, and every } p \\text{ has an inverse } -p \\in \\mathcal{P}."
+    }
+  ],
+  "common_mistakes": [
+    "Students assume that because the degree of $p + q$ could be less than $n$ (e.g., leading terms cancel), the sum is no longer in $\\mathcal{P}_n$ \u2014 but $\\mathcal{P}_n$ contains ALL polynomials of degree AT MOST $n$, including constants and the zero polynomial, so a drop in degree never breaks closure.",
+    "Students treat the zero vector of $\\mathcal{P}_n$ as the number $0$ rather than the zero polynomial function; this matters when checking the additive identity axiom, because the zero vector must be an element of the same space \u2014 a polynomial \u2014 not a scalar from $\\mathbb{R}$.",
+    "When checking whether a subset of $\\mathcal{P}_n$ is a subspace, students verify closure under addition but forget to check that the zero polynomial belongs to the subset, which is a required condition; always confirm the zero vector is in the candidate subspace before claiming it is one."
+  ],
+  "untested_variants": [
+    "Finding a basis and the dimension of $\\mathcal{P}_n$ (e.g., showing $\\{1, x, x^2, \\ldots, x^n\\}$ is a basis), which connects the vector space structure to coordinate representations.",
+    "Determining whether a given set of polynomials (e.g., $\\{x^2+1,\\, x-1,\\, x^2+x\\}$) is linearly independent or spans $\\mathcal{P}_2$.",
+    "Working with $\\mathcal{P}_n$ over the complex numbers $\\mathbb{C}$ rather than $\\mathbb{R}$, where scalar multiplication uses complex scalars.",
+    "Verifying all ten vector space axioms in full formal detail for $\\mathcal{P}_n$, rather than focusing only on the closure, zero vector, and additive inverse axioms as done in this lesson."
+  ]
+}

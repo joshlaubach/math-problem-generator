@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_010",
+  "topic_name": "Existence and Uniqueness Proofs",
+  "generated_at": "2026-05-13T20:18:24.714644+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to solve equations like $x^2 = 4$ and find that $x = 2$ or $x = -2$. But sometimes a problem doesn't just ask you to find a solution \u2014 it asks you to prove that a solution exists at all, or that there is exactly one. What would you even say if someone asked you to prove that the equation $x + 2 = 5$ has a unique solution, without just pointing at $x = 3$?",
+  "concept": "An existence proof shows that at least one object satisfying some property actually exists, while a uniqueness proof shows that at most one such object can exist. Together they confirm exactly one solution. Formally, to prove existence we must either construct a witness $x_0$ such that $P(x_0)$ is true, or use an indirect argument. To prove uniqueness, we typically assume two solutions $x_1$ and $x_2$ both satisfy $P$ and then derive $x_1 = x_2$.",
+  "anatomy": "Every existence-and-uniqueness proof has two distinct structural parts. The existence part requires a witness \u2014 a specific, explicitly named object (or a non-constructive argument) that satisfies the given property; the witness is the concrete value or object you exhibit. The uniqueness part uses the assumption of two arbitrary solutions, call them $a$ and $b$, both satisfying the property, and a chain of logical deductions forcing $a = b$; this 'assume two, show equal' move is the uniqueness engine. Some proofs handle these parts separately in labeled sub-arguments, while others interleave them.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: There exists a unique real number } x \\text{ such that } 3x - 7 = 2.",
+      "description_latex": "We are stating precisely what we need to prove: both that a solution exists and that it is the only one. Splitting the claim into two tasks \u2014 existence and uniqueness \u2014 keeps the argument organized and ensures we don't accidentally skip one half.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Existence: } \\text{Let } x_0 = 3. \\text{ Then } 3(3) - 7 = 9 - 7 = 2. \\checkmark",
+      "description_latex": "To prove existence we simply exhibit a witness: we name a specific value $x_0 = 3$ and verify directly that it satisfies the equation. This direct computation is all that is required \u2014 once the arithmetic checks out, existence is established.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Uniqueness: } \\text{Assume } a, b \\in \\mathbb{R} \\text{ both satisfy } 3x - 7 = 2, \\text{ i.e., } 3a - 7 = 2 \\text{ and } 3b - 7 = 2.",
+      "description_latex": "The standard uniqueness strategy is to suppose two arbitrary solutions exist and then force them to be equal. By letting $a$ and $b$ both satisfy the equation \u2014 without assuming anything about their relationship \u2014 we set up the most general possible scenario for the deduction that follows.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3a - 7 = 3b - 7 \\implies 3a = 3b \\implies a = b.",
+      "description_latex": "Because both $a$ and $b$ equal $2 + 7 = 9$ divided by $3$, we can set the two left-hand sides equal to each other and simplify. The algebra forces $a = b$, completing the uniqueness argument \u2014 no two distinct numbers can both satisfy the equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\text{ There exists a unique real number } x = 3 \\text{ satisfying } 3x - 7 = 2. \\quad \\blacksquare",
+      "description_latex": "We conclude by restating the full claim with both halves verified: the witness $x_0 = 3$ handles existence, and the $a = b$ deduction handles uniqueness. Writing a clear conclusion reminds the reader (and yourself) that both obligations have been met.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: There exists a unique real number } x \\text{ such that } 5x + 1 = 11.",
+      "description_latex": "We need to prove both existence and uniqueness. Let's handle existence first by finding and verifying a witness.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Existence: } x_0 = 2, \\text{ since } 5(2) + 1 = 11. \\checkmark",
+      "description_latex": "The witness $x_0 = 2$ has been exhibited and verified. Now set up the uniqueness argument by assuming two solutions and deriving a contradiction with their distinctness.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write out the full uniqueness argument: assume $a$ and $b$ both satisfy $5x + 1 = 11$, set the two equations equal to each other, and perform the algebra that forces $a = b$. Show each algebraic step clearly.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\therefore \\text{ There is exactly one solution, } x = 2. \\quad \\blacksquare",
+      "description_latex": "With both parts verified we can state the conclusion. Notice how the two-part structure maps directly onto the two words 'existence' and 'uniqueness' in the original claim.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove that there exists a unique real number $x$ such that $x + 9 = 14$.",
+      "answer_latex": "Existence: $x_0 = 5$ since $5 + 9 = 14$. Uniqueness: if $a + 9 = 14$ and $b + 9 = 14$, then $a + 9 = b + 9$, so $a = b$."
+    },
+    {
+      "prompt_latex": "Prove that there exists a unique real number $x$ such that $2x - 3 = 7$.",
+      "answer_latex": "Existence: $x_0 = 5$ since $2(5)-3=7$. Uniqueness: if $2a-3=7$ and $2b-3=7$, then $2a=2b$, so $a=b$."
+    },
+    {
+      "prompt_latex": "Prove that there exists a unique positive real number $x$ such that $x^2 = 9$. (Note: restrict to positive reals.)",
+      "answer_latex": "Existence: $x_0 = 3 > 0$ and $3^2 = 9$. Uniqueness in positive reals: if $a^2 = 9$ and $b^2 = 9$ with $a, b > 0$, then $a^2 - b^2 = 0$, so $(a-b)(a+b)=0$; since $a+b>0$, we get $a=b$."
+    },
+    {
+      "prompt_latex": "Let $f: \\mathbb{R} \\to \\mathbb{R}$ be defined by $f(x) = 4x - 12$. Prove that there exists a unique $x \\in \\mathbb{R}$ such that $f(x) = 0$, and identify it.",
+      "answer_latex": "Existence: $f(3) = 4(3)-12=0$, so $x_0=3$ is a solution. Uniqueness: suppose $f(a)=0$ and $f(b)=0$; then $4a-12=4b-12$, giving $4a=4b$, so $a=b$. The unique zero is $x=3$."
+    },
+    {
+      "prompt_latex": "A store charges a flat fee plus \\$3 per item. A customer pays a total of \\$19 for 4 items. Prove there is a unique flat fee $c$ satisfying $c + 3(4) = 19$, and find it.",
+      "answer_latex": "Existence: $c_0 = 7$ since $7 + 12 = 19$. Uniqueness: if $a + 12 = 19$ and $b + 12 = 19$, then $a = b$. The unique flat fee is $c = \\$7$."
+    }
+  ],
+  "common_mistakes": [
+    "Students prove existence by finding the solution algebraically but never verify it satisfies the original equation \u2014 you must substitute your witness back in and confirm it works, not just assume the algebra is correct.",
+    "Students skip the uniqueness argument entirely, treating 'I found the answer' as sufficient for the whole proof; existence alone does not rule out other solutions, so the assume-two-show-equal argument is a separate, required obligation.",
+    "In the uniqueness step, students assume from the start that $a \\neq b$ and try to derive a contradiction, but then forget to actually use the hypothesis that both satisfy the property \u2014 make sure both equations $P(a)$ and $P(b)$ are written down and actively used in the deduction."
+  ],
+  "untested_variants": [
+    "Existence-only proofs using non-constructive arguments, such as the Intermediate Value Theorem to show a solution exists without naming it explicitly.",
+    "Uniqueness proofs in abstract algebraic structures, for example proving that the identity element of a group is unique or that inverses are unique.",
+    "Existence and uniqueness theorems for differential equations, such as verifying conditions of the Picard\u2013Lindel\u00f6f theorem for an initial value problem.",
+    "Proofs where existence fails or uniqueness fails, and the student must produce a counterexample rather than a proof (e.g., showing $x^2 = -1$ has no real solution, or $x^2 = 4$ has no unique real solution)."
+  ]
+}

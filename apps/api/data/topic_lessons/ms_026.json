@@ -1,0 +1,81 @@
+{
+  "topic_id": "ms_026",
+  "topic_name": "Generalized Linear Models and Link Functions",
+  "generated_at": "2026-05-14T01:03:24.946126+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to fit a linear regression model when your response variable is continuous and roughly normal: you write $\\mu = \\beta_0 + \\beta_1 x$ and minimize squared error. But what happens when your outcome is a count of events, or a binary yes/no indicator? Plugging those into an ordinary linear model can produce predicted probabilities above 1 or negative counts \u2014 mathematically absurd. How can we keep the elegant linear predictor structure while respecting the natural constraints of non-normal outcomes?",
+  "concept": "A Generalized Linear Model (GLM) extends ordinary regression by allowing the response variable to follow any distribution from the exponential family and by connecting the linear predictor to the mean through a link function. Formally, if $Y_i$ has mean $\\mu_i = E[Y_i]$, a GLM specifies a random component (the distribution of $Y_i$), a systematic component $\\eta_i = \\mathbf{x}_i^\\top \\boldsymbol{\\beta}$, and a link function $g$ such that $g(\\mu_i) = \\eta_i$, so $\\mu_i = g^{-1}(\\eta_i)$.",
+  "anatomy": "A GLM has three distinct parts you must always identify. The random component names the distribution of $Y_i$ \u2014 for example Bernoulli, Poisson, or Gaussian \u2014 which determines the variance function $V(\\mu)$ relating variance to the mean. The systematic component is the linear predictor $\\eta_i = \\beta_0 + \\beta_1 x_{i1} + \\cdots + \\beta_p x_{ip}$, a linear combination of covariates and unknown parameters $\\boldsymbol{\\beta}$. The link function $g$ is a monotone, differentiable function that maps the mean $\\mu_i$ (constrained to its natural range) onto the real line so that $g(\\mu_i) = \\eta_i$; the canonical link is the specific choice of $g$ that arises naturally from the exponential family form of the distribution, such as the logit for Bernoulli and the log for Poisson.",
+  "worked_example": [
+    {
+      "expression_latex": "Y_i \\sim \\text{Bernoulli}(\\pi_i), \\quad i = 1, \\ldots, n",
+      "description_latex": "We begin by specifying the random component: each binary outcome $Y_i$ (e.g., disease present or absent) follows a Bernoulli distribution with success probability $\\pi_i$, which must lie in $(0,1)$. This is our motivation \u2014 a raw linear model would let $\\pi_i$ wander outside that interval, which is why we need a GLM.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\eta_i = \\beta_0 + \\beta_1 x_i",
+      "description_latex": "Next we write the systematic component, the linear predictor $\\eta_i$, which lives on the entire real line $(-\\infty, \\infty)$ \u2014 there are no constraints on $\\eta_i$ at all. We want to connect this unconstrained quantity to the bounded mean $\\pi_i$, and that bridge is the link function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(\\pi_i) = \\log\\!\\left(\\frac{\\pi_i}{1-\\pi_i}\\right) = \\eta_i",
+      "description_latex": "We apply the canonical link for the Bernoulli distribution: the logit function $g(\\pi) = \\log(\\pi/(1-\\pi))$. Notice that as $\\pi$ ranges over $(0,1)$, the logit ranges over all of $\\mathbb{R}$, perfectly matching the domain of $\\eta_i$. This is why the logit is such a natural choice \u2014 it is the unique transformation that makes the constrained mean compatible with an unconstrained linear predictor.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi_i = g^{-1}(\\eta_i) = \\frac{e^{\\eta_i}}{1 + e^{\\eta_i}} = \\frac{e^{\\beta_0 + \\beta_1 x_i}}{1 + e^{\\beta_0 + \\beta_1 x_i}}",
+      "description_latex": "Inverting the link function gives us $\\pi_i$ as a function of the covariates: this is the logistic (sigmoid) function, which is always between 0 and 1. Practically speaking, to get a predicted probability you always apply $g^{-1}$ to your linear predictor, not $g$ itself \u2014 keep that direction clear in your mind.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "Y_i \\sim \\text{Poisson}(\\mu_i), \\quad \\mu_i > 0",
+      "description_latex": "We are building a GLM for count data. The random component is Poisson with mean $\\mu_i > 0$. Identify why an ordinary linear model is problematic: the mean must be strictly positive, but a linear predictor is unconstrained.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "g(\\mu_i) = \\log(\\mu_i) = \\eta_i = \\beta_0 + \\beta_1 x_i",
+      "description_latex": "The canonical link for the Poisson distribution is the log link. Write out the full GLM equation connecting $\\mu_i$ to the linear predictor using this link function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now invert the link function to express $\\mu_i$ directly as a function of $\\beta_0$, $\\beta_1$, and $x_i$. What is $\\mu_i = g^{-1}(\\eta_i)$? Write your answer explicitly and verify that it is always positive for any real values of $\\beta_0 + \\beta_1 x_i$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the three components of a GLM and identify each one for logistic regression with a single covariate $x$.",
+      "answer_latex": "Random: $Y_i \\sim \\text{Bernoulli}(\\pi_i)$; Systematic: $\\eta_i = \\beta_0 + \\beta_1 x_i$; Link: $g(\\pi_i) = \\log(\\pi_i/(1-\\pi_i))$, so $\\pi_i = e^{\\eta_i}/(1+e^{\\eta_i})$."
+    },
+    {
+      "prompt_latex": "A Poisson GLM with log link is fit to data. The estimated linear predictor for a new observation is $\\hat{\\eta} = 2.3$. Compute the predicted mean count $\\hat{\\mu}$.",
+      "answer_latex": "\\hat{\\mu} = e^{2.3} \\approx 9.97"
+    },
+    {
+      "prompt_latex": "A logistic regression yields $\\hat{\\beta}_0 = -1$ and $\\hat{\\beta}_1 = 0.5$ for covariate $x = 4$. Compute the fitted probability $\\hat{\\pi}$.",
+      "answer_latex": "\\hat{\\eta} = -1 + 0.5(4) = 1, \\quad \\hat{\\pi} = \\frac{e^1}{1+e^1} = \\frac{e}{1+e} \\approx 0.731"
+    },
+    {
+      "prompt_latex": "For a GLM with response $Y_i \\sim \\text{Gamma}(\\mu_i, \\phi)$, the canonical link is the reciprocal link $g(\\mu) = 1/\\mu$. If the linear predictor is $\\eta_i = \\beta_0 + \\beta_1 x_i$, write $\\mu_i$ as a function of the predictors and state any restriction needed on $\\eta_i$ to keep $\\mu_i > 0$.",
+      "answer_latex": "\\mu_i = 1/\\eta_i = 1/(\\beta_0 + \\beta_1 x_i); \\text{ we require } \\eta_i > 0 \\text{ (or } \\eta_i < 0 \\text{ consistently) to ensure } \\mu_i > 0."
+    },
+    {
+      "prompt_latex": "An epidemiologist models the number of infections $Y_i$ in city $i$ as Poisson with log link, including $\\log(n_i)$ as an offset to model rates: $\\log(\\mu_i) = \\log(n_i) + \\beta_0 + \\beta_1 x_i$. Interpret the meaning of $e^{\\beta_1}$ and write the expression for the infection rate $\\lambda_i = \\mu_i / n_i$.",
+      "answer_latex": "e^{\\beta_1} \\text{ is the multiplicative change in the infection rate per one-unit increase in } x_i; \\quad \\lambda_i = \\mu_i/n_i = e^{\\beta_0 + \\beta_1 x_i}."
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the link function $g$ to the linear predictor $\\eta_i$ to obtain $\\mu_i$, writing $\\mu_i = g(\\eta_i)$ instead of $\\mu_i = g^{-1}(\\eta_i)$. The link function maps the mean TO the linear predictor, so to recover the mean you must use the inverse: $\\mu_i = g^{-1}(\\eta_i)$.",
+    "Students confuse the canonical link with the only valid link, assuming logistic regression must use the logit or Poisson regression must use the log. In fact any monotone differentiable function that maps the mean's domain to $\\mathbb{R}$ is a valid link; the canonical link is simply the one arising naturally from the exponential family log-likelihood.",
+    "When interpreting coefficients, students treat GLM coefficients as additive effects on the mean response (as in OLS), when in fact $\\beta_j$ represents an additive effect on $g(\\mu)$, not on $\\mu$ itself. For a log-link model $e^{\\beta_j}$ is the multiplicative factor on $\\mu$, not $\\beta_j$ directly."
+  ],
+  "untested_variants": [
+    "Deriving the canonical link from the exponential family form by showing that the natural parameter $\\theta$ equals $g(\\mu)$ \u2014 this requires differentiating the log-partition function.",
+    "GLMs with non-canonical links, such as the probit link $g(\\pi) = \\Phi^{-1}(\\pi)$ for binary data or the identity link for Poisson, including when and why a practitioner might prefer them.",
+    "The role of the variance function $V(\\mu)$ in distinguishing distributions within the exponential family (e.g., $V(\\mu)=\\mu$ for Poisson vs. $V(\\mu)=\\mu(1-\\mu)$ for Bernoulli) and how overdispersion is detected and corrected.",
+    "Score equations and the iteratively reweighted least squares (IRLS) algorithm used to estimate $\\boldsymbol{\\beta}$ by maximum likelihood in a GLM, including the working response and weight matrix at each iteration."
+  ]
+}

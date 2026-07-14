@@ -1,0 +1,91 @@
+{
+  "topic_id": "dm_048",
+  "topic_name": "Paths, Cycles, and Connectivity",
+  "generated_at": "2026-05-13T20:15:51.698347+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to draw graphs with vertices and edges, and you can tell whether two vertices are neighbors. But what if you need to know whether there is any route at all from city A to city F through a network of roads, or whether removing one bridge would strand an entire island? Those questions are not about individual edges \u2014 they are about sequences of edges forming paths, loops called cycles, and the deeper property of connectivity. Can you determine, just by looking at a graph, whether every vertex can reach every other vertex?",
+  "concept": "A path is a sequence of distinct vertices where each consecutive pair is connected by an edge \u2014 think of it as a route with no repeated stops. Formally, a path from vertex $u$ to vertex $v$ in graph $G = (V, E)$ is a sequence $v_0, v_1, \\ldots, v_k$ where $v_0 = u$, $v_k = v$, all $v_i$ are distinct, and $\\{v_{i-1}, v_i\\} \\in E$ for each $i$. A cycle is a closed path: $v_0 = v_k$ with $k \\geq 3$ and all intermediate vertices distinct. A graph is connected if a path exists between every pair of vertices.",
+  "anatomy": "Every path has a starting vertex $v_0$ and an ending vertex $v_k$, collectively called its endpoints; when these coincide the structure becomes a cycle. The length of a path or cycle is the number of edges it uses, namely $k$. The interior vertices are all vertices strictly between the endpoints: $v_1, v_2, \\ldots, v_{k-1}$. A connected component is a maximal connected subgraph \u2014 the largest piece of the graph within which every vertex can reach every other; a graph with exactly one component is connected, while a graph with two or more components is disconnected. The vertex connectivity $\\kappa(G)$ and edge connectivity $\\lambda(G)$ measure how many vertices or edges must be removed to disconnect the graph.",
+  "worked_example": [
+    {
+      "expression_latex": "G: \\text{ vertices } \\{A, B, C, D, E\\}, \\text{ edges } \\{AB, BC, CD, DE, AC, BE\\}",
+      "description_latex": "We are given a specific graph and want to find a path from $A$ to $E$, determine if a cycle exists, and decide whether $G$ is connected. Start by listing the adjacency clearly so you can trace routes step by step \u2014 this is always the right first move before any path or connectivity question.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Path from } A \\text{ to } E: A \\to B \\to E \\quad (\\text{length } 2)",
+      "description_latex": "We look for a sequence of vertices where each consecutive pair shares an edge. The edge $AB$ exists and the edge $BE$ exists, so $A, B, E$ is a valid path of length 2. Notice that all three vertices are distinct, which is required \u2014 if any vertex repeated, we would have a walk, not a path.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Cycle: } A \\to B \\to C \\to A \\quad (\\text{length } 3)",
+      "description_latex": "A cycle requires returning to the start using at least 3 distinct vertices. Since $AB$, $BC$, and $AC$ are all edges in $G$, the sequence $A, B, C, A$ forms a triangle \u2014 a cycle of length 3. This is the shortest possible cycle in any simple graph, and finding even one such cycle tells us immediately that $G$ is not a tree.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Check connectivity: from every vertex, can we reach every other vertex?}",
+      "description_latex": "To verify connectivity, we systematically check that no vertex is isolated or stranded. Starting from $A$, we can reach $B$ (direct), $C$ (direct), $D$ via $C$ or $B \\to C \\to D$, and $E$ via $B$. Since every vertex in $\\{A,B,C,D,E\\}$ is reachable from $A$, the graph is connected \u2014 there is exactly one connected component.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\kappa(G) \\geq 1 \\text{ (connected)}, \\quad \\text{removing vertex } B \\text{ leaves } G' \\text{ still connected via } A \\to C \\to D, E \\text{ unreachable from } D",
+      "description_latex": "We probe deeper connectivity by asking what happens when we remove the high-degree vertex $B$: the remaining vertices are $\\{A, C, D, E\\}$ with edges $\\{AC, CD, DE\\}$, which is a path $A-C-D-E$ \u2014 still connected. This shows $G$ survives the removal of $B$, illustrating that connectivity is a spectrum measured by how many deletions the graph can tolerate before falling apart.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "H: \\text{ vertices } \\{1,2,3,4,5\\}, \\text{ edges } \\{12, 23, 34, 15, 24\\}",
+      "description_latex": "We want to find all connected components of $H$ and identify one cycle. Begin by listing the neighbors of each vertex: $N(1)=\\{2,5\\}$, $N(2)=\\{1,3,4\\}$, $N(3)=\\{2,4\\}$, $N(4)=\\{2,3\\}$, $N(5)=\\{1\\}$. Notice that vertex 5 connects only to vertex 1, so the entire graph may still be connected \u2014 you need to trace paths carefully.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Starting from vertex } 1, \\text{ list all reachable vertices using BFS/DFS}",
+      "description_latex": "Trace outward from vertex 1: first reach its neighbors, then their neighbors, continuing until no new vertices are found. Write down the complete set of vertices reachable from 1. How many connected components does $H$ have, and what are they?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Cycle found: } 2 \\to 3 \\to 4 \\to 2 \\quad (\\text{length } 3, \\text{ uses edges } 23, 34, 24)",
+      "description_latex": "Now that we know $H$ is connected (all 5 vertices are reachable from 1), we identify a cycle. Vertices 2, 3, 4 form a triangle since all three pairwise edges $23$, $34$, $24$ exist, confirming $H$ contains a cycle of length 3.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Is the path } 5 \\to 1 \\to 2 \\to 4 \\to 3 \\text{ a valid simple path? Justify.}",
+      "description_latex": "Check the two conditions for a simple path: every consecutive pair must be adjacent in $H$, and no vertex may repeat. Verify each edge exists and confirm no vertex appears twice. State whether this is a valid simple path and give its length.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Graph $G$ has vertices $\\{A,B,C,D\\}$ and edges $\\{AB, BC, CD\\}$. Is $G$ connected? List a path from $A$ to $D$.",
+      "answer_latex": "Yes, $G$ is connected. The path $A \\to B \\to C \\to D$ has length 3."
+    },
+    {
+      "prompt_latex": "Graph $H$ has vertices $\\{1,2,3,4,5\\}$ and edges $\\{12,23,45\\}$. How many connected components does $H$ have, and what are they?",
+      "answer_latex": "$H$ has 3 connected components: $\\{1,2,3\\}$, $\\{4,5\\}$, and $\\{\\}$... wait \u2014 vertices $\\{1,2,3\\}$ form one component (path $1-2-3$), $\\{4,5\\}$ form a second component, and vertex... re-check: all 5 vertices are accounted for. Components: $\\{1,2,3\\}$ and $\\{4,5\\}$, giving $\\mathbf{2}$ connected components."
+    },
+    {
+      "prompt_latex": "For the complete graph $K_4$ on vertices $\\{1,2,3,4\\}$, find a Hamiltonian path (a path visiting every vertex exactly once) and a cycle of length 4.",
+      "answer_latex": "Hamiltonian path: $1 \\to 2 \\to 3 \\to 4$ (length 3). Cycle of length 4: $1 \\to 2 \\to 3 \\to 4 \\to 1$."
+    },
+    {
+      "prompt_latex": "Graph $G$ has 6 vertices and is connected. What is the minimum number of edges $G$ must have? If $G$ has exactly this many edges, does $G$ contain a cycle?",
+      "answer_latex": "A connected graph on $n = 6$ vertices requires at least $n - 1 = 5$ edges. With exactly 5 edges, $G$ is a tree, which contains no cycles."
+    },
+    {
+      "prompt_latex": "A computer network has 7 routers. The network is connected and the IT team wants to guarantee it stays connected even if any single router fails. What is the minimum vertex connectivity $\\kappa(G)$ required, and what is the minimum number of edges needed to achieve $\\kappa(G) \\geq 2$?",
+      "answer_latex": "$\\kappa(G) \\geq 2$ is required (2-connected). A 2-connected graph on $n=7$ vertices needs at least $n = 7$ edges (since every vertex must have degree $\\geq 2$, giving total degree $\\geq 14$, so $|E| \\geq 7$). A cycle $C_7$ achieves this with exactly 7 edges."
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse a walk with a path: a walk allows repeated vertices and edges, but a simple path requires all vertices to be distinct. If you trace a route and revisit vertex $B$ halfway through, you have a walk, not a path \u2014 always check that every vertex in your sequence appears exactly once.",
+    "Students declare a graph disconnected after failing to find a path using only obvious short routes, without checking all possible intermediate vertices. The fix is to use a systematic method like BFS or DFS from one vertex and mark every reachable vertex before concluding anything about connectivity.",
+    "Students count the number of vertices in a cycle as its length instead of counting edges. A triangle visiting vertices $A, B, C, A$ has 3 edges and therefore length 3, not length 4 \u2014 the length of a cycle is always the number of edges traversed, which equals the number of distinct vertices in the cycle."
+  ],
+  "untested_variants": [
+    "Eulerian paths and circuits: determining whether a graph has a path or cycle that uses every edge exactly once (requires checking vertex degrees), which is a separate concept from Hamiltonian paths.",
+    "Directed graphs (digraphs): finding directed paths where edges have orientation, requiring the concepts of strongly connected and weakly connected components rather than the single notion of connectivity covered here.",
+    "Weighted shortest paths: finding the path of minimum total edge weight between two vertices, as opposed to the path of minimum length (fewest edges) in an unweighted graph.",
+    "Cut vertices and bridges: identifying specific vertices or edges whose removal disconnects the graph, which requires deeper analysis using DFS trees and back-edges beyond the basic connectivity check practiced here."
+  ]
+}

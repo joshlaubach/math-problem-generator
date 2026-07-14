@@ -1,0 +1,91 @@
+{
+  "topic_id": "c3_035",
+  "topic_name": "The Divergence Theorem",
+  "generated_at": "2026-05-13T00:39:37.888665+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to use Stokes' Theorem to convert a surface integral of curl into a line integral around a boundary curve. Now imagine you want to find the total flux of a vector field flowing out of a closed surface \u2014 like measuring how much fluid escapes a balloon. Computing the surface integral directly requires parametrizing every face of the surface, which can be brutal. What if there were a way to replace that surface integral with a simpler integral over the interior volume?",
+  "concept": "The Divergence Theorem says that the total outward flux of a vector field through a closed surface equals the integral of the field's divergence over the enclosed volume. Formally, if $E$ is a solid region with outward-oriented boundary surface $\\partial E$, and $\\mathbf{F}$ is a smooth vector field, then $\\iint_{\\partial E} \\mathbf{F} \\cdot d\\mathbf{S} = \\iiint_{E} \\text{div}\\, \\mathbf{F}\\, dV$.",
+  "anatomy": "The theorem has four distinct parts working together. The surface integral $\\iint_{\\partial E} \\mathbf{F} \\cdot d\\mathbf{S}$ represents total outward flux, where $\\partial E$ denotes the closed boundary surface with the outward-pointing unit normal $\\hat{\\mathbf{n}}$. The volume integral $\\iiint_{E} \\text{div}\\, \\mathbf{F}\\, dV$ sweeps over the entire interior region $E$. The divergence $\\text{div}\\, \\mathbf{F} = \\frac{\\partial P}{\\partial x} + \\frac{\\partial Q}{\\partial y} + \\frac{\\partial R}{\\partial z}$ is a scalar measuring local expansion or compression of $\\mathbf{F} = \\langle P, Q, R \\rangle$ at each point. The orientation requirement \u2014 outward-pointing normals \u2014 is what makes the sign of the flux meaningful.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{F} = \\langle x^3, y^3, z^3 \\rangle,\\quad E: x^2 + y^2 + z^2 \\leq 1",
+      "description_latex": "We want the outward flux of $\\mathbf{F} = \\langle x^3, y^3, z^3 \\rangle$ through the unit sphere. Computing this directly would require parametrizing the sphere and evaluating a messy dot product, so instead we recognize that $E$ is a closed, bounded region and $\\mathbf{F}$ is smooth \u2014 the Divergence Theorem applies perfectly here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{div}\\, \\mathbf{F} = \\frac{\\partial}{{\\partial x}}(x^3) + \\frac{\\partial}{\\partial y}(y^3) + \\frac{\\partial}{\\partial z}(z^3) = 3x^2 + 3y^2 + 3z^2",
+      "description_latex": "We compute the divergence by differentiating each component with respect to its own variable and summing the results. Notice that $\\text{div}\\, \\mathbf{F} = 3(x^2 + y^2 + z^2) = 3\\rho^2$ in spherical coordinates, which hints strongly that we should switch to spherical to exploit the sphere's symmetry.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\iiint_{E} 3(x^2+y^2+z^2)\\, dV = \\int_0^{2\\pi}\\int_0^{\\pi}\\int_0^1 3\\rho^2 \\cdot \\rho^2 \\sin\\phi\\, d\\rho\\, d\\phi\\, d\\theta",
+      "description_latex": "Switching to spherical coordinates $x = \\rho\\sin\\phi\\cos\\theta$, $y = \\rho\\sin\\phi\\sin\\theta$, $z = \\rho\\cos\\phi$ with volume element $dV = \\rho^2 \\sin\\phi\\, d\\rho\\, d\\phi\\, d\\theta$, we substitute $x^2+y^2+z^2 = \\rho^2$. The integrand becomes $3\\rho^2 \\cdot \\rho^2 \\sin\\phi = 3\\rho^4 \\sin\\phi$, and the limits cover the full unit ball: $\\rho \\in [0,1]$, $\\phi \\in [0,\\pi]$, $\\theta \\in [0,2\\pi]$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= 3\\int_0^{2\\pi} d\\theta \\int_0^{\\pi} \\sin\\phi\\, d\\phi \\int_0^1 \\rho^4\\, d\\rho = 3 \\cdot 2\\pi \\cdot 2 \\cdot \\frac{1}{5}",
+      "description_latex": "Because the integrand separates into a product of functions of single variables, we factor the triple integral into three independent single integrals. Evaluating each: $\\int_0^{2\\pi} d\\theta = 2\\pi$, $\\int_0^{\\pi} \\sin\\phi\\, d\\phi = 2$, and $\\int_0^1 \\rho^4\\, d\\rho = \\frac{1}{5}$, giving a product of $2\\pi \\cdot 2 \\cdot \\frac{1}{5} = \\frac{4\\pi}{5}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\iint_{\\partial E} \\mathbf{F} \\cdot d\\mathbf{S} = \\frac{12\\pi}{5}",
+      "description_latex": "Multiplying the factor of 3 through, we get $3 \\cdot \\frac{4\\pi}{5} = \\frac{12\\pi}{5}$. By the Divergence Theorem, this is the total outward flux of $\\mathbf{F}$ through the unit sphere \u2014 a result we obtained with clean iterated integrals instead of any surface parametrization.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{F} = \\langle xy, yz, xz \\rangle,\\quad E: [0,1]\\times[0,1]\\times[0,1]",
+      "description_latex": "We want the outward flux of $\\mathbf{F} = \\langle xy, yz, xz \\rangle$ through the surface of the unit cube. Since the cube has six faces that would each need separate parametrization, we apply the Divergence Theorem and convert to a volume integral over $E$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{div}\\, \\mathbf{F} = \\frac{\\partial(xy)}{\\partial x} + \\frac{\\partial(yz)}{\\partial y} + \\frac{\\partial(xz)}{\\partial z} = y + z + x",
+      "description_latex": "We differentiate each component with respect to its own variable: $P = xy$ gives $y$, $Q = yz$ gives $z$, and $R = xz$ gives $x$. So the divergence is $x + y + z$, and by the Divergence Theorem the flux equals $\\iiint_E (x+y+z)\\, dV$ over the unit cube.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now set up and evaluate the triple integral $\\int_0^1\\int_0^1\\int_0^1 (x+y+z)\\, dx\\, dy\\, dz$ over the unit cube. Use the fact that the integral separates by symmetry: each of $\\int_0^1 x\\,dx$, $\\int_0^1 y\\,dy$, $\\int_0^1 z\\,dz$ contributes the same amount. What is the final value of the flux?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\iint_{\\partial E} \\mathbf{F} \\cdot d\\mathbf{S} = \\frac{3}{2}",
+      "description_latex": "Each of the three integrals $\\int_0^1 x\\,dx = \\frac{1}{2}$, and since the cross-terms factor neatly over the unit cube, the full integral equals $3 \\cdot \\frac{1}{2} = \\frac{3}{2}$. This is the total outward flux, obtained without ever touching the six faces of the cube individually.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use the Divergence Theorem to find the outward flux of $\\mathbf{F} = \\langle x, y, z \\rangle$ through the surface of the unit ball $x^2+y^2+z^2 \\leq 1$.",
+      "answer_latex": "4\\pi"
+    },
+    {
+      "prompt_latex": "Let $\\mathbf{F} = \\langle x^2, y^2, z^2 \\rangle$. Use the Divergence Theorem to compute $\\iint_{\\partial E} \\mathbf{F} \\cdot d\\mathbf{S}$ where $E$ is the box $[0,2]\\times[0,2]\\times[0,2]$.",
+      "answer_latex": "48"
+    },
+    {
+      "prompt_latex": "Compute the outward flux of $\\mathbf{F} = \\langle x^3+\\sin z, y^3+\\cos x, z^3+e^y \\rangle$ through the sphere $x^2+y^2+z^2 = 4$.",
+      "answer_latex": "\\frac{384\\pi}{5}"
+    },
+    {
+      "prompt_latex": "Let $\\mathbf{F} = \\langle e^x \\sin y,\\, e^x \\cos y,\\, z^2 \\rangle$. Use the Divergence Theorem to find the flux of $\\mathbf{F}$ outward through the boundary of the region $E$ lying between the paraboloid $z = x^2+y^2$ and the plane $z = 4$.",
+      "answer_latex": "128\\pi"
+    },
+    {
+      "prompt_latex": "A fluid has velocity field $\\mathbf{v} = \\langle x^2 z,\\, y^2 z,\\, z^2(x+y) \\rangle$. Find the net volume of fluid flowing outward per unit time through the closed surface bounding the region $E: x^2+y^2 \\leq 4,\\, 0 \\leq z \\leq 3$.",
+      "answer_latex": "60\\pi"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget the outward orientation requirement and compute the surface integral with inward-pointing normals, flipping the sign of the entire flux. Always check that your normal vectors point away from the enclosed region before applying the theorem.",
+    "When the closed surface is missing a piece (e.g., only the lateral side of a cylinder is given), students apply the Divergence Theorem as if the surface were already closed, ignoring the missing cap. You must first close the surface by adding the missing piece, apply the theorem, then subtract the flux through the added piece.",
+    "Students compute $\\text{div}\\, \\mathbf{F}$ by differentiating each component with respect to $x$ only (or some single variable) instead of differentiating $P$ by $x$, $Q$ by $y$, and $R$ by $z$ separately. Divergence is a sum of three distinct partial derivatives, each pairing a component with its own matching variable."
+  ],
+  "untested_variants": [
+    "Applying the Divergence Theorem to verify a given identity for a specific vector field, such as showing $\\iint_{\\partial E} \\mathbf{r} \\cdot d\\mathbf{S} = 3\\,\\text{Vol}(E)$ where $\\mathbf{r} = \\langle x,y,z\\rangle$.",
+    "Using the Divergence Theorem with a vector field whose divergence is zero (a solenoidal field) to conclude that the flux through any closed surface enclosing the region is zero, and interpreting this physically.",
+    "Problems where the region $E$ is defined by two spheres (a spherical shell), requiring the student to recognize that the boundary $\\partial E$ consists of two surfaces with opposite orientations.",
+    "Applying the Divergence Theorem in two dimensions (Green's Theorem in normal form), where the flux of $\\mathbf{F} = \\langle P, Q\\rangle$ through a closed curve equals $\\iint_D \\left(\\frac{\\partial P}{\\partial x}+\\frac{\\partial Q}{\\partial y}\\right) dA$."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "prob_032",
+  "topic_name": "Covariance and Correlation",
+  "generated_at": "2026-05-13T20:28:13.506039+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to find the expected value and variance of a single random variable, and you've seen that joint distributions describe two variables together. But suppose you want to know whether taller people tend to weigh more, or whether a stock's return tends to move with the market \u2014 in other words, whether two random variables move *together*. Variance only tells you about one variable at a time, so you need a new tool. How can we measure the direction and strength of the linear relationship between two random variables?",
+  "concept": "Covariance measures how two random variables vary together: if large values of $X$ tend to occur with large values of $Y$, the covariance is positive; if large values of $X$ tend to pair with small values of $Y$, it is negative; and if there is no linear tendency, it is near zero. Formally, $\\text{Cov}(X, Y) = E[(X - \\mu_X)(Y - \\mu_Y)] = E[XY] - \\mu_X \\mu_Y$. Correlation standardizes covariance to the unit-free scale $[-1, 1]$: $\\rho_{XY} = \\dfrac{\\text{Cov}(X,Y)}{\\sigma_X \\sigma_Y}$.",
+  "anatomy": "In the covariance formula $\\text{Cov}(X, Y) = E[XY] - \\mu_X \\mu_Y$, the term $E[XY]$ is the expectation of the product of the two variables, computed as $\\sum_{x,y} xy \\, p(x,y)$ for discrete variables or the analogous double integral for continuous ones. The terms $\\mu_X = E[X]$ and $\\mu_Y = E[Y]$ are the individual marginal means. In the correlation $\\rho_{XY} = \\text{Cov}(X,Y) / (\\sigma_X \\sigma_Y)$, the divisor $\\sigma_X \\sigma_Y$ is the product of the two standard deviations, which rescales the covariance so that $-1 \\le \\rho_{XY} \\le 1$ regardless of the units of $X$ and $Y$.",
+  "worked_example": [
+    {
+      "expression_latex": "p(x,y): \\quad p(0,0)=0.1,\\; p(0,1)=0.2,\\; p(1,0)=0.3,\\; p(1,1)=0.4",
+      "description_latex": "We start with the joint probability mass function for two Bernoulli-like random variables $X$ and $Y$. Before computing anything else, we should verify that all probabilities sum to 1: $0.1 + 0.2 + 0.3 + 0.4 = 1.0$, so the table is valid.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[X] = 0(0.1+0.2) + 1(0.3+0.4) = 0.7, \\quad E[Y] = 0(0.1+0.3) + 1(0.2+0.4) = 0.6",
+      "description_latex": "We find the marginal means by summing each variable's values weighted by its marginal probabilities. For $E[X]$ we combine all rows where $X=0$ and where $X=1$; for $E[Y]$ we do the same across columns. These marginal means $\\mu_X = 0.7$ and $\\mu_Y = 0.6$ are the 'centers' we will subtract in the covariance formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[XY] = (0)(0)(0.1) + (0)(1)(0.2) + (1)(0)(0.3) + (1)(1)(0.4) = 0.4",
+      "description_latex": "We compute $E[XY]$ by summing the product $xy$ weighted by the joint probability $p(x,y)$ over every $(x,y)$ pair. Notice that any term with $x=0$ or $y=0$ contributes nothing, so only the $(1,1)$ cell matters here \u2014 this is a useful shortcut when one value is zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Cov}(X,Y) = E[XY] - \\mu_X \\mu_Y = 0.4 - (0.7)(0.6) = 0.4 - 0.42 = -0.02",
+      "description_latex": "Plugging into the computational formula, we subtract the product of the two marginal means from $E[XY]$. The negative result tells us there is a slight tendency for $X$ and $Y$ to move in opposite directions \u2014 though the magnitude is small.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sigma_X = \\sqrt{0.7 \\cdot 0.3} = \\sqrt{0.21}, \\quad \\sigma_Y = \\sqrt{0.6 \\cdot 0.4} = \\sqrt{0.24}, \\quad \\rho_{XY} = \\frac{-0.02}{\\sqrt{0.21}\\sqrt{0.24}} \\approx \\frac{-0.02}{0.2249} \\approx -0.089",
+      "description_latex": "For Bernoulli random variables, $\\text{Var}(X) = \\mu_X(1-\\mu_X)$, so we find $\\sigma_X$ and $\\sigma_Y$ quickly. Dividing the covariance by $\\sigma_X \\sigma_Y$ gives the correlation $\\rho_{XY} \\approx -0.089$, a weak negative linear relationship \u2014 the negative covariance we found was genuine, but small relative to the individual spreads.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "p(x,y): \\quad p(1,1)=0.3,\\; p(1,2)=0.1,\\; p(2,1)=0.2,\\; p(2,2)=0.4",
+      "description_latex": "Here is a new joint PMF for variables $X \\in \\{1,2\\}$ and $Y \\in \\{1,2\\}$. The first step is always to find the marginal means $\\mu_X$ and $\\mu_Y$ by collapsing the joint table into marginal probabilities.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mu_X = 1(0.3+0.1) + 2(0.2+0.4) = 1(0.4)+2(0.6) = 1.6, \\quad \\mu_Y = 1(0.3+0.2)+2(0.1+0.4) = 1(0.5)+2(0.5) = 1.5",
+      "description_latex": "We've computed $\\mu_X = 1.6$ and $\\mu_Y = 1.5$ for you. Now you need to find $E[XY]$ by summing $xy \\cdot p(x,y)$ over all four joint outcomes.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Compute $E[XY] = \\sum_{x,y} xy \\cdot p(x,y)$ using all four $(x,y)$ pairs, then use the computational formula $\\text{Cov}(X,Y) = E[XY] - \\mu_X \\mu_Y$ to find the covariance. What do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find $\\sigma_X$, $\\sigma_Y$, and compute the correlation $\\rho_{XY} = \\text{Cov}(X,Y)/(\\sigma_X \\sigma_Y)$. Is the linear relationship positive or negative, and is it strong or weak?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "If $\\text{Cov}(X,Y) = 6$, $\\sigma_X = 3$, and $\\sigma_Y = 4$, find the correlation $\\rho_{XY}$.",
+      "answer_latex": "\\rho_{XY} = \\dfrac{6}{3 \\cdot 4} = 0.5"
+    },
+    {
+      "prompt_latex": "Let $X$ and $Y$ have joint PMF $p(0,0)=0.2$, $p(0,1)=0.3$, $p(1,0)=0.1$, $p(1,1)=0.4$. Find $\\text{Cov}(X,Y)$.",
+      "answer_latex": "E[XY]=0.4,\\; \\mu_X=0.5,\\; \\mu_Y=0.7,\\; \\text{Cov}(X,Y)=0.4-0.35=0.05"
+    },
+    {
+      "prompt_latex": "For random variables $X$ and $Y$, you are given $E[XY] = 10$, $E[X]=2$, $E[Y]=4$. Find $\\text{Cov}(X,Y)$.",
+      "answer_latex": "\\text{Cov}(X,Y) = 10 - (2)(4) = 2"
+    },
+    {
+      "prompt_latex": "Suppose $X$ and $Y$ are independent with $E[X]=3$, $E[Y]=5$, $\\text{Var}(X)=4$, $\\text{Var}(Y)=9$. Find $\\text{Var}(2X - Y + 1)$ using the fact that independence implies $\\text{Cov}(X,Y)=0$.",
+      "answer_latex": "\\text{Var}(2X-Y+1) = 4\\text{Var}(X)+\\text{Var}(Y) = 4(4)+9 = 25"
+    },
+    {
+      "prompt_latex": "A factory produces two parts. Let $X$ = daily defects in line A and $Y$ = daily defects in line B. You observe: $E[X]=2$, $E[Y]=3$, $E[XY]=7$, $\\text{Var}(X)=1$, $\\text{Var}(Y)=4$. Compute $\\text{Cov}(X,Y)$ and $\\rho_{XY}$, then interpret the sign of the correlation in context.",
+      "answer_latex": "\\text{Cov}(X,Y)=7-6=1,\\; \\rho_{XY}=\\dfrac{1}{\\sqrt{1}\\cdot\\sqrt{4}}=0.5;\\text{ positive: when line A has more defects, line B tends to as well}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $\\text{Cov}(X,Y) = E[X] \\cdot E[Y] - E[XY]$ with the subtraction reversed, getting the wrong sign. Remember the correct formula is $E[XY] - E[X]E[Y]$, so a positive covariance means $E[XY] > E[X]E[Y]$.",
+    "Students sometimes confuse independence with zero correlation, concluding that $\\rho_{XY} = 0$ implies $X$ and $Y$ are independent. Zero correlation only means no *linear* relationship \u2014 two variables can have $\\rho = 0$ and still be strongly dependent in a nonlinear way (for example, $Y = X^2$ with $X$ symmetric around zero).",
+    "When computing $E[XY]$ from a joint table, students often multiply the marginal probabilities $P(X=x) \\cdot P(Y=y)$ instead of using the joint probabilities $p(x,y)$. This substitution is only valid if $X$ and $Y$ are independent; always use the actual joint PMF values from the table."
+  ],
+  "untested_variants": [
+    "Continuous joint distributions: computing $\\text{Cov}(X,Y)$ via a double integral $\\int\\int xy\\, f(x,y)\\,dx\\,dy$ for a given joint PDF (e.g., uniform over a triangle).",
+    "Covariance of linear combinations: using the identity $\\text{Cov}(aX+b, cY+d) = ac\\,\\text{Cov}(X,Y)$ to find covariances of transformed variables without re-computing from scratch.",
+    "Using covariance to find $\\text{Var}(X+Y) = \\text{Var}(X) + \\text{Var}(Y) + 2\\text{Cov}(X,Y)$ when $X$ and $Y$ are not independent \u2014 problems that require combining variance and covariance in one calculation.",
+    "Computing the covariance matrix or correlation for three or more random variables simultaneously, including interpreting a given correlation matrix for consistency (e.g., checking that it is positive semi-definite)."
+  ]
+}

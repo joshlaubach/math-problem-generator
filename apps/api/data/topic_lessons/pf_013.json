@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_013",
+  "topic_name": "Strong Induction",
+  "generated_at": "2026-05-13T20:18:58.128864+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to use standard induction: prove a base case, assume the statement holds for some $n = k$, then prove it for $n = k+1$. But what if proving the $(k+1)$-th case requires knowing that the statement is true not just at $k$, but at several earlier values \u2014 say, at $k-1$ and $k-2$ as well? Standard induction only hands you one previous step, so you're stuck. How can we strengthen our inductive hypothesis to give ourselves enough ammunition to push the proof forward?",
+  "concept": "Strong induction is a variant of mathematical induction where, instead of assuming the statement is true only at $n = k$, you assume it is true for ALL integers from the base case up through $k$. Formally, to prove $P(n)$ for all $n \\geq n_0$, you show: (1) $P(n_0)$ is true, and (2) for every $k \\geq n_0$, if $P(j)$ is true for all $n_0 \\leq j \\leq k$, then $P(k+1)$ is true. The two forms are logically equivalent, but strong induction is more powerful in practice.",
+  "anatomy": "A strong induction proof has four named components. The **base case** establishes $P(n_0)$ (and sometimes several small cases $P(n_0), P(n_0+1), \\ldots$) to get the chain started. The **strong inductive hypothesis** is the assumption that $P(j)$ holds for every integer $j$ satisfying $n_0 \\leq j \\leq k$; this is what makes it 'strong' \u2014 you assume the statement true at every prior step, not just the immediately preceding one. The **inductive step** is the logical argument showing $P(k+1)$ follows from that hypothesis. Finally, the **conclusion** invokes the principle of strong induction to assert $P(n)$ for all $n \\geq n_0$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: Every integer } n \\geq 2 \\text{ is divisible by at least one prime.}",
+      "description_latex": "We state the claim precisely before beginning. Notice that the proof for a composite number $n = a \\cdot b$ will need the fact that $a < n$ is already divisible by a prime, which is exactly why we need the strong hypothesis \u2014 we may need a result from a value much smaller than $k$, not just $k$ itself.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Base case: } n = 2. \\text{ Since 2 is prime, it is divisible by the prime 2.} \\checkmark",
+      "description_latex": "We verify $P(2)$ directly. The number 2 is itself prime, so it trivially satisfies the claim. This anchors the chain at its smallest value.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Strong inductive hypothesis: Assume } P(j) \\text{ holds for all } 2 \\leq j \\leq k, \\text{ for some } k \\geq 2.",
+      "description_latex": "We now assume that every integer from 2 up to $k$ is divisible by at least one prime. This is the key move: by assuming the result for ALL earlier values, we give ourselves freedom to apply $P$ at any point in the range $[2, k]$, not just at $k$ alone.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Inductive step: Consider } n = k+1. \\text{ Case 1: } k+1 \\text{ is prime} \\Rightarrow k+1 \\text{ divides itself.}",
+      "description_latex": "If $k+1$ happens to be prime, the claim is immediate \u2014 a prime is divisible by itself. We split into cases because the argument depends on whether $k+1$ is prime or composite.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Case 2: } k+1 \\text{ is composite} \\Rightarrow k+1 = a \\cdot b,\\ 2 \\leq a \\leq b < k+1. \\text{ By the strong hypothesis, } a \\text{ has a prime divisor } p, \\text{ so } p \\mid a \\mid k+1.",
+      "description_latex": "Since $a < k+1$ and $a \\geq 2$, the value $a$ falls within the range covered by our strong hypothesis, so $a$ is divisible by some prime $p$. Because $a \\mid (k+1)$, transitivity of divisibility gives $p \\mid (k+1)$, completing the inductive step. This is exactly where we needed the strong hypothesis rather than the standard one \u2014 $a$ could be far smaller than $k$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: The Fibonacci sequence defined by } F_1=1,\\ F_2=1,\\ F_n = F_{n-1}+F_{n-2} \\text{ satisfies } F_n < 2^n \\text{ for all } n \\geq 1.",
+      "description_latex": "We want to prove this bound on Fibonacci numbers. The recurrence involves two previous terms, so proving the case $n = k+1$ will require the result at both $k$ and $k-1$ \u2014 a telltale sign that strong induction is needed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Base cases: } F_1 = 1 < 2^1 = 2. \\quad F_2 = 1 < 2^2 = 4. \\checkmark",
+      "description_latex": "We verify the two smallest cases directly. We need two base cases because the recurrence reaches back two steps, so the inductive step will require both $P(k)$ and $P(k-1)$ to already be established.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Write the strong inductive hypothesis: state precisely what you are assuming about $F_j$ for all $j$ in the range from 1 up to $k$, and make sure your hypothesis covers both $j = k$ and $j = k-1$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "F_{k+1} = F_k + F_{k-1} < 2^k + 2^{k-1} < 2^k + 2^k = 2 \\cdot 2^k = 2^{k+1}.",
+      "description_latex": "Using the strong hypothesis at both $j = k$ and $j = k-1$, we substitute the bounds $F_k < 2^k$ and $F_{k-1} < 2^{k-1}$ and then simplify. Notice that $2^{k-1} < 2^k$, so the sum is strictly less than $2 \\cdot 2^k = 2^{k+1}$, exactly what we needed to establish $P(k+1)$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use strong induction to prove that every integer $n \\geq 1$ can be written as a sum of distinct powers of 2 (i.e., every positive integer has a binary representation). Verify the base case $n=1$ and state the strong hypothesis clearly.",
+      "answer_latex": "Base case: $1 = 2^0$. Strong hypothesis: every integer $1 \\leq j \\leq k$ is a sum of distinct powers of 2. If $k+1$ is a power of 2, done. Otherwise write $k+1 = 2^m + r$ where $2^m$ is the largest power of 2 not exceeding $k+1$ and $0 < r < 2^m \\leq k$. By hypothesis $r$ is such a sum, and $2^m$ does not appear in it, giving the representation for $k+1$."
+    },
+    {
+      "prompt_latex": "Prove by strong induction that for all $n \\geq 1$, the $n$-th Fibonacci number satisfies $F_n \\leq \\left(\\frac{5}{3}\\right)^{n-1}$, given $F_1 = F_2 = 1$ and $F_n = F_{n-1} + F_{n-2}$.",
+      "answer_latex": "Base cases: $F_1 = 1 \\leq 1$ and $F_2 = 1 \\leq \\frac{5}{3}$. Hypothesis: $F_j \\leq (5/3)^{j-1}$ for all $1 \\leq j \\leq k$. Then $F_{k+1} = F_k + F_{k-1} \\leq (5/3)^{k-1} + (5/3)^{k-2} = (5/3)^{k-2}(5/3 + 1) = (5/3)^{k-2}(8/3)$. Since $8/3 \\leq (5/3)^2 = 25/9$ is false, one uses the cleaner bound: $F_{k-1}+F_k \\leq (5/3)^{k-2}+(5/3)^{k-1} = (5/3)^{k-2}(1+5/3) = (5/3)^{k-2}\\cdot(8/3) \\leq (5/3)^k$ iff $8/3 \\leq 25/9$, i.e., $24 \\leq 25$. True. So $F_{k+1} \\leq (5/3)^k$. $\\square$"
+    },
+    {
+      "prompt_latex": "A chocolate bar has $n$ squares arranged in a row. You break it by choosing any piece with more than one square and snapping it anywhere. Prove by strong induction that no matter how you break it, you always make exactly $n-1$ breaks to obtain $n$ individual squares.",
+      "answer_latex": "Base case: $n=1$, no breaks needed, $1-1=0$. Strong hypothesis: any bar of $j$ squares requires exactly $j-1$ breaks for $1 \\leq j \\leq k$. For a bar of $k+1$ squares, the first break splits it into pieces of sizes $a$ and $b$ with $a+b=k+1$ and $a,b \\geq 1$, so $a,b \\leq k$. By hypothesis pieces $a$ and $b$ require $a-1$ and $b-1$ additional breaks. Total $= 1 + (a-1)+(b-1) = a+b-1 = k$. $\\square$"
+    },
+    {
+      "prompt_latex": "Prove by strong induction that every integer $n \\geq 8$ can be expressed as $3a + 5b$ for some non-negative integers $a, b$. (Hint: you will need multiple base cases.)",
+      "answer_latex": "Base cases: $8 = 3(1)+5(1)$, $9 = 3(3)+5(0)$, $10 = 3(0)+5(2)$. Strong hypothesis: every integer $8 \\leq j \\leq k$ with $k \\geq 10$ is representable. For $k+1 \\geq 11$, note $k+1-3 = k-2 \\geq 8$, so by the hypothesis (since $k-2 \\leq k$) we have $k-2 = 3a+5b$, thus $k+1 = 3(a+1)+5b$. $\\square$"
+    },
+    {
+      "prompt_latex": "A competition has $n \\geq 2$ players, and every pair of players plays exactly one game (no draws). Prove by strong induction that it is always possible to order the players $p_1, p_2, \\ldots, p_n$ such that $p_i$ beat $p_{i+1}$ for every $i = 1, \\ldots, n-1$ (a Hamiltonian path in the tournament).",
+      "answer_latex": "Base case: $n=2$, one player beat the other; order them accordingly. Strong hypothesis: every tournament on $j$ players has such an ordering for $2 \\leq j \\leq k$. For $k+1$ players, remove one player $q$; by hypothesis the remaining $k$ players have an ordering $p_1, \\ldots, p_k$. If $q$ lost to $p_1$, prepend $q$. If $q$ beat $p_k$, append $q$. Otherwise there exists $i$ with $q$ beating $p_i$ but losing to $p_{i+1}$; insert $q$ between them. In all cases a valid ordering of all $k+1$ players exists. $\\square$"
+    }
+  ],
+  "common_mistakes": [
+    "Students write the strong hypothesis as 'assume $P(k)$ is true' instead of 'assume $P(j)$ is true for all $j$ with $n_0 \\leq j \\leq k$.' This defeats the purpose of strong induction entirely \u2014 fix this by explicitly writing the full range of $j$ in the hypothesis statement before doing anything else.",
+    "Students forget to verify all necessary base cases. If the inductive step for $P(k+1)$ uses $P(k)$ and $P(k-1)$, then you need base cases at the two smallest values; verifying only one leaves the chain unanchored at the second step. Always count how many previous cases your inductive step uses and verify that many base cases.",
+    "Students apply the strong hypothesis to a value outside the established range \u2014 for example, writing 'by the inductive hypothesis, $P(k+1)$ is true' (circular) or applying it to a value that might equal $k+1$ itself. The hypothesis only covers $j \\leq k$, so always check that every value you apply it to is strictly less than $k+1$."
+  ],
+  "untested_variants": [
+    "Proving divisibility results using strong induction, such as showing that a linear recurrence sequence $a_n = 4a_{n-1} - 3a_{n-2}$ satisfies $3 \\mid a_n$ for all $n$.",
+    "Using strong induction on a recursively defined function (e.g., merge sort's runtime $T(n) = 2T(n/2) + n$) to prove a closed-form bound, where the recursive calls do not reduce to $n-1$ but to $\\lfloor n/2 \\rfloor$.",
+    "Proofs requiring strong induction indexed over integers $n \\leq 0$ or over a two-dimensional grid rather than a single linear sequence.",
+    "Using strong induction to prove properties of trees, such as: a full binary tree with $n$ internal nodes has exactly $n+1$ leaves, where the proof recurses on both subtrees whose sizes are unknown but smaller than the whole tree."
+  ]
+}

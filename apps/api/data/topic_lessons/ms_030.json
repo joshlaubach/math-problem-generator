@@ -1,0 +1,91 @@
+{
+  "topic_id": "ms_030",
+  "topic_name": "Panel Data: Fixed and Random Effects (H)",
+  "generated_at": "2026-05-14T01:04:02.843181+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to run OLS regression and understand that omitted variables can bias your estimates. Now imagine you're studying the effect of education on wages across 500 workers observed over 10 years \u2014 you suspect each worker has their own unobserved 'ability' that affects both their education choice and their wages. If you simply pool all observations and run OLS, that unobserved ability will be hiding in your error term, making your coefficient on education biased. So how do you control for something you can never directly measure?",
+  "concept": "Panel data methods let us control for unobserved, time-constant individual characteristics (called unobserved heterogeneity) by exploiting the fact that we observe the same units repeatedly over time. The general panel model is $y_{it} = \\alpha_i + X_{it}\\beta + \\varepsilon_{it}$, where $i$ indexes individuals and $t$ indexes time periods; $\\alpha_i$ is the individual-specific effect. Fixed effects (FE) treats $\\alpha_i$ as parameters to estimate (correlated with $X_{it}$ allowed), while random effects (RE) treats $\\alpha_i$ as random draws uncorrelated with $X_{it}$.",
+  "anatomy": "The panel model $y_{it} = \\alpha_i + X_{it}\\beta + \\varepsilon_{it}$ has five key components: the outcome variable $y_{it}$ (observed for unit $i$ at time $t$); the regressor matrix $X_{it}$ (observed covariates that may vary across $i$ and $t$); the slope vector $\\beta$ (the causal parameters of interest, assumed constant across units); the individual effect $\\alpha_i$ (time-invariant unobserved heterogeneity \u2014 this is what distinguishes panel methods); and the idiosyncratic error $\\varepsilon_{it}$ (random noise that varies across both individuals and time, assumed uncorrelated with $X_{it}$ in both FE and RE). The crucial structural distinction is whether $\\alpha_i$ is correlated with $X_{it}$: FE allows $\\text{Cov}(\\alpha_i, X_{it}) \\neq 0$, while RE requires $\\text{Cov}(\\alpha_i, X_{it}) = 0$.",
+  "worked_example": [
+    {
+      "expression_latex": "y_{it} = \\alpha_i + \\beta x_{it} + \\varepsilon_{it}, \\quad i=1,\\ldots,N,\\; t=1,\\ldots,T",
+      "description_latex": "We start by writing down the panel data model explicitly. The individual effect $\\alpha_i$ captures everything about unit $i$ that is constant over time \u2014 ability, culture, geography \u2014 and our entire goal is to prevent it from contaminating our estimate of $\\beta$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{y}_i = \\alpha_i + \\beta \\bar{x}_i + \\bar{\\varepsilon}_i, \\quad \\text{where } \\bar{y}_i = \\frac{1}{T}\\sum_{t=1}^T y_{it}",
+      "description_latex": "For the fixed effects estimator, we average the model equation over time for each individual $i$. Because $\\alpha_i$ is constant, it appears unchanged in this time-averaged equation, which is the key observation that allows us to eliminate it in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(y_{it} - \\bar{y}_i) = \\beta(x_{it} - \\bar{x}_i) + (\\varepsilon_{it} - \\bar{\\varepsilon}_i)",
+      "description_latex": "Subtracting the time-averaged equation from the original model gives us the 'within' transformation: the individual effect $\\alpha_i$ cancels out completely. Running OLS on this demeaned equation yields the fixed effects (within) estimator $\\hat{\\beta}_{FE}$, which is unbiased even when $\\alpha_i$ is correlated with $x_{it}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{\\beta}_{RE} = \\left(\\sum_i \\sum_t \\tilde{x}_{it}'\\tilde{x}_{it}\\right)^{-1} \\sum_i \\sum_t \\tilde{x}_{it}'\\tilde{y}_{it}, \\quad \\tilde{y}_{it} = y_{it} - \\hat{\\lambda}\\bar{y}_i",
+      "description_latex": "The random effects estimator uses a partial demeaning: instead of subtracting the full time mean, it subtracts a fraction $\\hat{\\lambda} = 1 - \\sqrt{\\sigma_\\varepsilon^2/(\\sigma_\\varepsilon^2 + T\\sigma_\\alpha^2)}$ of it. This GLS approach is more efficient than FE when the RE assumption holds ($\\text{Cov}(\\alpha_i, x_{it})=0$) because it uses both within-individual and between-individual variation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "H = (\\hat{\\beta}_{FE} - \\hat{\\beta}_{RE})'\\left[\\widehat{\\text{Var}}(\\hat{\\beta}_{FE}) - \\widehat{\\text{Var}}(\\hat{\\beta}_{RE})\\right]^{-1}(\\hat{\\beta}_{FE} - \\hat{\\beta}_{RE}) \\xrightarrow{d} \\chi^2_k",
+      "description_latex": "The Hausman test statistic $H$ formally tests whether $\\hat{\\beta}_{FE}$ and $\\hat{\\beta}_{RE}$ differ systematically: under the null hypothesis (RE assumption holds), both estimators are consistent and $H \\sim \\chi^2_k$ where $k$ is the number of time-varying regressors. A large $H$ (rejecting the null) means the individual effects are correlated with the regressors, so you should use fixed effects; a small $H$ (failing to reject) means random effects is consistent and more efficient.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y_{it} = \\alpha_i + \\beta_1 x_{it} + \\varepsilon_{it}",
+      "description_latex": "We have a balanced panel with $N=100$ firms and $T=5$ years, where $y_{it}$ is log profit and $x_{it}$ is log capital. We suspect each firm has a persistent unobserved productivity level $\\alpha_i$. Begin by writing the model and identifying what transformation we need to eliminate $\\alpha_i$ using fixed effects.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\ddot{y}_{it} = y_{it} - \\bar{y}_i, \\quad \\ddot{x}_{it} = x_{it} - \\bar{x}_i",
+      "description_latex": "We define demeaned variables by subtracting each firm's time average. Now apply this demeaning to the original model equation and show that $\\alpha_i$ drops out \u2014 write the resulting estimating equation explicitly.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\ddot{y}_{it} = \\beta_1 \\ddot{x}_{it} + \\ddot{\\varepsilon}_{it}",
+      "description_latex": "Good \u2014 the within-transformed equation has eliminated $\\alpha_i$ entirely. Now suppose the Hausman test yields $H = 2.1$ with $k=1$ degree of freedom ($\\chi^2_1$ critical value at 5% is 3.84). State the conclusion of the test and which estimator you should use, explaining the reasoning in terms of what the test is detecting.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "H = 2.1 < 3.84 \\Rightarrow \\text{fail to reject } H_0: \\text{Cov}(\\alpha_i, x_{it})=0 \\Rightarrow \\text{use Random Effects (more efficient)}",
+      "description_latex": "Since $H = 2.1$ does not exceed the critical value 3.84, we fail to reject the null that $\\alpha_i$ is uncorrelated with $x_{it}$. This means the random effects estimator is both consistent and more efficient than fixed effects, so RE is preferred in this case.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A researcher has panel data with $N=50$ countries and $T=4$ years. Write the two-way fixed effects model that controls for both country-specific and year-specific unobserved effects.",
+      "answer_latex": "y_{it} = \\alpha_i + \\gamma_t + X_{it}\\beta + \\varepsilon_{it}, \\text{ where } \\alpha_i \\text{ are country fixed effects and } \\gamma_t \\text{ are year fixed effects}"
+    },
+    {
+      "prompt_latex": "For a balanced panel with $N$ individuals and $T$ periods, show that the within (demeaning) transformation of $y_{it} = \\alpha_i + \\beta x_{it} + \\varepsilon_{it}$ eliminates $\\alpha_i$. Write out the demeaned equation.",
+      "answer_latex": "(y_{it} - \\bar{y}_i) = \\beta(x_{it} - \\bar{x}_i) + (\\varepsilon_{it} - \\bar{\\varepsilon}_i), \\text{ i.e., } \\ddot{y}_{it} = \\beta\\, \\ddot{x}_{it} + \\ddot{\\varepsilon}_{it}"
+    },
+    {
+      "prompt_latex": "Explain why the fixed effects estimator cannot identify the coefficient on a time-invariant regressor such as gender or race. What happens to such a variable under the within transformation?",
+      "answer_latex": "A time-invariant regressor $z_i$ satisfies $z_i - \\bar{z}_i = 0$ for all $t$, so it is perfectly collinear with $\\alpha_i$ and drops out of the demeaned equation. Fixed effects cannot separately identify $\\beta_z$ from $\\alpha_i$."
+    },
+    {
+      "prompt_latex": "You run FE and RE on the same dataset and obtain $\\hat{\\beta}_{FE} = 0.42$ (SE $= 0.08$) and $\\hat{\\beta}_{RE} = 0.31$ (SE $= 0.05$). Compute the Hausman test statistic $H = (\\hat{\\beta}_{FE}-\\hat{\\beta}_{RE})^2 / (\\text{Var}(\\hat{\\beta}_{FE}) - \\text{Var}(\\hat{\\beta}_{RE}))$ and state the conclusion at the 5\\% level ($\\chi^2_1$ critical value $= 3.84$).",
+      "answer_latex": "H = \\frac{(0.42-0.31)^2}{0.08^2 - 0.05^2} = \\frac{0.0121}{0.0064 - 0.0025} = \\frac{0.0121}{0.0039} \\approx 3.10 < 3.84, \\text{ fail to reject: use RE}"
+    },
+    {
+      "prompt_latex": "A policy analyst studies the effect of a minimum wage increase on employment across 50 US states observed monthly for 5 years. She argues that states differ in long-run economic trends and that national recessions affect all states simultaneously. Which panel model specification is most appropriate, and why?",
+      "answer_latex": "A two-way fixed effects model $y_{it} = \\alpha_i + \\gamma_t + \\beta D_{it} + \\varepsilon_{it}$ is most appropriate: state fixed effects $\\alpha_i$ absorb time-invariant state characteristics (geography, industry mix), and time fixed effects $\\gamma_t$ absorb common shocks like national recessions, so $\\hat{\\beta}$ identifies the within-state effect of the minimum wage change after partialling out both sources of confounding."
+    }
+  ],
+  "common_mistakes": [
+    "Students use fixed effects to estimate the coefficient on a time-invariant variable (e.g., gender, country of birth) and are confused when the output drops it entirely \u2014 remember, within demeaning wipes out anything that does not vary over time for a given unit, making such coefficients unidentifiable under FE.",
+    "Students choose between FE and RE based solely on which gives a larger R-squared or a more significant coefficient, rather than on the economic assumption about whether $\\text{Cov}(\\alpha_i, X_{it})=0$; the correct selection criterion is theoretical (and the Hausman test), not goodness-of-fit.",
+    "When computing the Hausman statistic, students subtract $\\text{Var}(\\hat{\\beta}_{RE})$ from $\\text{Var}(\\hat{\\beta}_{FE})$ and get a negative number, then panic \u2014 this happens because under the null the RE estimator is efficient (smaller variance), so the difference in variances should be positive; a negative result usually signals a small-sample or numerical issue, and the textbook formula assumes the theoretical matrix difference is positive semi-definite."
+  ],
+  "untested_variants": [
+    "First-difference (FD) estimator as an alternative to within demeaning for eliminating fixed effects, including when FD is preferred over FE (e.g., $T=2$ panels or when errors follow a random walk).",
+    "Mundlak\u2013Chamberlain device: augmenting the RE model with group means $\\bar{X}_i$ to allow partial correlation between $\\alpha_i$ and $X_{it}$, effectively bridging FE and RE.",
+    "Dynamic panel models with lagged dependent variables (Arellano\u2013Bond GMM estimator), where the within transformation creates correlation between $\\ddot{y}_{i,t-1}$ and $\\ddot{\\varepsilon}_{it}$.",
+    "Unbalanced panels where $T_i$ varies across units, requiring adjustments to the demeaning formula and the computation of $\\hat{\\lambda}$ in the RE estimator."
+  ]
+}

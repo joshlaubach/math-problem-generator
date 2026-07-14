@@ -1,0 +1,81 @@
+{
+  "topic_id": "cm_001",
+  "topic_name": "Algebraic Manipulation and Clever Substitution",
+  "generated_at": "2026-05-13T20:21:31.871892+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You already know how to solve linear and quadratic equations, and you can expand and factor polynomials with confidence. But what happens when a competition problem hands you something like $x + \\frac{1}{x} = 3$ and asks for $x^3 + \\frac{1}{x^3}$? Direct computation leads to a mess, and guessing $x$ exactly feels hopeless. What if there were a way to treat $x + \\frac{1}{x}$ as a single object and build everything you need from it?",
+  "concept": "Algebraic manipulation is the art of rewriting an expression into an equivalent form that is easier to work with. Clever substitution takes this further: you introduce a new variable, say $u$, to stand for a complicated sub-expression, transforming a hard problem into a simpler one. Formally, if $f(x)$ contains a repeated or structured sub-expression $g(x)$, setting $u = g(x)$ reduces $f$ to a function of $u$ alone, which is often far more tractable.",
+  "anatomy": "Every clever substitution problem has three structural parts. First, the **kernel** is the sub-expression you decide to name \u2014 for example, $u = x + \\frac{1}{x}$ or $u = x^2 + 1$. Second, the **target expression** is what you ultimately want to evaluate or simplify, rewritten entirely in terms of $u$. Third, the **bridge identity** is the algebraic relationship (often a square, cube, or product expansion) that lets you express the target in terms of the kernel \u2014 for instance, $\\left(x + \\frac{1}{x}\\right)^2 = x^2 + 2 + \\frac{1}{x^2}$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Given } x + \\frac{1}{x} = 3, \\text{ find } x^3 + \\frac{1}{x^3}.",
+      "description_latex": "We start by identifying the kernel: the expression $x + \\frac{1}{x}$ appears naturally in the problem, so we set $u = x + \\frac{1}{x} = 3$. Our goal is to express $x^3 + \\frac{1}{x^3}$ purely in terms of $u$, which will let us substitute $u = 3$ at the very end.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left(x + \\frac{1}{x}\\right)^2 = x^2 + 2 + \\frac{1}{x^2} \\implies x^2 + \\frac{1}{x^2} = u^2 - 2",
+      "description_latex": "We square the kernel to build a bridge identity for the next power. Squaring $u = x + \\frac{1}{x}$ gives $u^2 = x^2 + 2 + \\frac{1}{x^2}$, so subtracting 2 from both sides immediately gives us $x^2 + \\frac{1}{x^2} = u^2 - 2$. This is an example of lifting the kernel to a higher power by algebraic manipulation rather than by finding $x$ explicitly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left(x + \\frac{1}{x}\\right)\\left(x^2 + \\frac{1}{x^2}\\right) = x^3 + x + \\frac{1}{x} + \\frac{1}{x^3}",
+      "description_latex": "To reach the cube, we multiply the kernel by the squared expression we just found. Expanding the left side gives $x^3 + \\frac{1}{x^3}$ plus an extra $x + \\frac{1}{x}$, so we can write $x^3 + \\frac{1}{x^3} = u(u^2 - 2) - u = u^3 - 3u$. Notice how every term in this rearrangement is a polynomial in $u$ \u2014 no $x$ remains.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x^3 + \\frac{1}{x^3} = u^3 - 3u = 3^3 - 3(3) = 27 - 9 = 18",
+      "description_latex": "Now we simply substitute $u = 3$ into the bridge identity $u^3 - 3u$. The answer is $18$, obtained without ever solving for $x$ itself \u2014 this is exactly the power of clever substitution in contest mathematics.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Given } x - \\frac{1}{x} = 2, \\text{ find } x^2 + \\frac{1}{x^2}.",
+      "description_latex": "We identify the kernel $u = x - \\frac{1}{x} = 2$ and note that squaring it will produce a bridge identity connecting to $x^2 + \\frac{1}{x^2}$. Squaring both sides gives $u^2 = \\left(x - \\frac{1}{x}\\right)^2$; let's expand the right side carefully.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left(x - \\frac{1}{x}\\right)^2 = x^2 - 2 + \\frac{1}{x^2}",
+      "description_latex": "Expanding the square of a difference gives $x^2 - 2 \\cdot x \\cdot \\frac{1}{x} + \\frac{1}{x^2} = x^2 - 2 + \\frac{1}{x^2}$. So we have the equation $u^2 = x^2 - 2 + \\frac{1}{x^2}$, which means $x^2 + \\frac{1}{x^2} = u^2 + 2$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "You now know that $x^2 + \\frac{1}{x^2} = u^2 + 2$ and that $u = 2$. Substitute $u = 2$ into this formula and compute the final numerical answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{If } x + \\frac{1}{x} = 5, \\text{ find } x^2 + \\frac{1}{x^2}.",
+      "answer_latex": "23"
+    },
+    {
+      "prompt_latex": "\\text{If } x + \\frac{1}{x} = 4, \\text{ find } x^3 + \\frac{1}{x^3}.",
+      "answer_latex": "52"
+    },
+    {
+      "prompt_latex": "\\text{Let } u = x^2 + 1. \\text{ Rewrite } x^4 + 3x^2 + 1 \\text{ in terms of } u.",
+      "answer_latex": "u^2 + u - 1"
+    },
+    {
+      "prompt_latex": "\\text{If } a + b = 6 \\text{ and } ab = 7, \\text{ find } a^3 + b^3.",
+      "answer_latex": "90"
+    },
+    {
+      "prompt_latex": "\\text{A rectangle has perimeter } 20 \\text{ and the sum of the squares of its side lengths is } 52. \\text{ Find the area of the rectangle.}",
+      "answer_latex": "24"
+    }
+  ],
+  "common_mistakes": [
+    "When squaring $x + \\frac{1}{x}$, students often write $x^2 + \\frac{1}{x^2}$ and forget the cross-term $2 \\cdot x \\cdot \\frac{1}{x} = 2$, giving $u^2 = x^2 + \\frac{1}{x^2}$ instead of the correct $u^2 = x^2 + 2 + \\frac{1}{x^2}$. Always expand $(a+b)^2 = a^2 + 2ab + b^2$ in full before simplifying.",
+    "Students sometimes substitute the numerical value of $u$ too early \u2014 for example, replacing $u = 3$ before finishing the algebraic simplification of the bridge identity \u2014 which forces them into messy arithmetic and loses the structural elegance. Keep everything in terms of $u$ until the final step.",
+    "When the kernel is a difference such as $x - \\frac{1}{x}$, students mistakenly use the sum identity $u^2 = x^2 + 2 + \\frac{1}{x^2}$ instead of the correct difference identity $u^2 = x^2 - 2 + \\frac{1}{x^2}$. Pay close attention to whether the kernel uses a plus or minus sign, since this determines the sign of the cross-term."
+  ],
+  "untested_variants": [
+    "Substitution in symmetric systems of two variables, such as finding $x^4 + y^4$ given $x + y$ and $xy$, which requires multiple rounds of Newton's identities.",
+    "Trigonometric substitution, for example setting $x = \\tan\\theta$ to simplify expressions involving $\\sqrt{1+x^2}$ or $1 + x^2$ in the denominator.",
+    "Substitution to reduce a degree-4 polynomial equation (biquadratic), such as $x^4 - 5x^2 + 6 = 0$, by letting $u = x^2$ and solving the resulting quadratic.",
+    "Nested or iterated substitution, where the result of one substitution must itself be substituted into a second identity to reach the final answer, as arises in problems asking for $x^5 + \\frac{1}{x^5}$."
+  ]
+}

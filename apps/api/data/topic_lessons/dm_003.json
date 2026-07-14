@@ -1,0 +1,81 @@
+{
+  "topic_id": "dm_003",
+  "topic_name": "Logical Equivalences and Laws",
+  "generated_at": "2026-05-13T20:11:37.525814+00:00",
+  "course_name": "Discrete Mathematics",
+  "hook": "You already know how to evaluate whether a compound proposition like $p \\land (q \\lor r)$ is true or false for a given assignment of truth values. But what if two completely different-looking formulas always produce the same truth table \u2014 no matter what values you plug in? For instance, is $\\lnot(p \\land q)$ the same thing as $\\lnot p \\lor \\lnot q$, or are they subtly different? Can we rewrite logical expressions the way we simplify algebra \u2014 without building a full truth table every time?",
+  "concept": "Two propositional formulas are logically equivalent when they have identical truth values for every possible assignment of their variables. Formally, $P$ and $Q$ are logically equivalent, written $P \\equiv Q$, if and only if the biconditional $P \\leftrightarrow Q$ is a tautology \u2014 true in every row of its truth table. Logical equivalence laws are named, reusable substitution rules that let us transform expressions into simpler or more useful forms without building full truth tables.",
+  "anatomy": "Every logical equivalence law has three components: the left-hand side (LHS) expression being transformed, the right-hand side (RHS) expression it is equivalent to, and the law name that justifies the step. Key law families include De Morgan's Laws ($\\lnot(p \\land q) \\equiv \\lnot p \\lor \\lnot q$ and $\\lnot(p \\lor q) \\equiv \\lnot p \\land \\lnot q$), the Distributive Laws ($p \\land (q \\lor r) \\equiv (p \\land q) \\lor (p \\land r)$), the Double Negation Law ($\\lnot\\lnot p \\equiv p$), Absorption Laws ($p \\lor (p \\land q) \\equiv p$), Identity Laws ($p \\land \\mathbf{T} \\equiv p$), and the Implication Law ($p \\to q \\equiv \\lnot p \\lor q$). The propositional variables are the placeholders that can be swapped for any formula, not just single letters.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Show that } \\lnot(p \\to q) \\equiv p \\land \\lnot q",
+      "description_latex": "Our goal is to transform the left side step by step using named laws until it matches the right side. We start with $\\lnot(p \\to q)$ and will never touch the right side \u2014 this one-directional rewriting keeps our reasoning airtight.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lnot(p \\to q) \\equiv \\lnot(\\lnot p \\lor q)",
+      "description_latex": "We apply the Implication Law, which says $p \\to q \\equiv \\lnot p \\lor q$, to rewrite the conditional inside the negation. Every conditional can be converted to a disjunction this way, which makes the expression easier to push the negation through.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lnot(\\lnot p \\lor q) \\equiv \\lnot(\\lnot p) \\land \\lnot q",
+      "description_latex": "Now we apply De Morgan's Law for disjunction: $\\lnot(A \\lor B) \\equiv \\lnot A \\land \\lnot B$. Here $A = \\lnot p$ and $B = q$, so the negation distributes over each component and the $\\lor$ flips to $\\land$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lnot(\\lnot p) \\land \\lnot q \\equiv p \\land \\lnot q",
+      "description_latex": "Finally, we apply the Double Negation Law: $\\lnot(\\lnot p) \\equiv p$. The double negation on the left component cancels, giving us exactly $p \\land \\lnot q$, which matches the right-hand side we were trying to reach.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Simplify } (p \\lor q) \\land (p \\lor \\lnot q) \\text{ to an equivalent simpler form.}",
+      "description_latex": "We want to reduce this expression using equivalence laws. Notice that both conjuncts share $p$ as the first disjunct, which suggests the Distributive Law might help us factor it out.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(p \\lor q) \\land (p \\lor \\lnot q) \\equiv p \\lor (q \\land \\lnot q)",
+      "description_latex": "We apply the Distributive Law in its 'factoring' form: $( p \\lor q) \\land (p \\lor r) \\equiv p \\lor (q \\land r)$, with $r = \\lnot q$. This pulls the shared $p$ outside. Can you now simplify $q \\land \\lnot q$ and then the full expression? Apply the Complement Law and then an Identity Law to finish.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "p \\lor \\mathbf{F} \\equiv p",
+      "description_latex": "Since $q \\land \\lnot q \\equiv \\mathbf{F}$ by the Complement Law, the expression becomes $p \\lor \\mathbf{F}$, and by the Identity Law for disjunction this simplifies to just $p$. The original compound expression was equivalent to the single variable $p$ all along.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "State the logical equivalence for $\\lnot(p \\lor q)$ using De Morgan's Law.",
+      "answer_latex": "\\lnot(p \\lor q) \\equiv \\lnot p \\land \\lnot q"
+    },
+    {
+      "prompt_latex": "Use the Implication Law and Double Negation to show that $p \\to q \\equiv \\lnot q \\to \\lnot p$. Justify each step with a law name.",
+      "answer_latex": "p \\to q \\equiv \\lnot p \\lor q \\equiv q \\lor \\lnot p \\equiv \\lnot(\\lnot q) \\lor \\lnot p \\equiv \\lnot q \\to \\lnot p"
+    },
+    {
+      "prompt_latex": "Simplify $\\lnot(\\lnot p \\lor q) \\lor (p \\land \\lnot q)$ to its simplest equivalent form, citing laws at each step.",
+      "answer_latex": "\\lnot(\\lnot p \\lor q) \\lor (p \\land \\lnot q) \\equiv (p \\land \\lnot q) \\lor (p \\land \\lnot q) \\equiv p \\land \\lnot q"
+    },
+    {
+      "prompt_latex": "Starting from $(p \\land q) \\to r$, use the Implication Law, De Morgan's Law, and any other needed equivalences to show this is logically equivalent to $p \\to (q \\to r)$.",
+      "answer_latex": "(p \\land q) \\to r \\equiv \\lnot(p \\land q) \\lor r \\equiv (\\lnot p \\lor \\lnot q) \\lor r \\equiv \\lnot p \\lor (\\lnot q \\lor r) \\equiv \\lnot p \\lor (q \\to r) \\equiv p \\to (q \\to r)"
+    },
+    {
+      "prompt_latex": "A security system fires an alarm whenever 'the door is open and the motion sensor is not triggered' is false. Let $d$ = 'door is open' and $m$ = 'motion sensor is triggered'. The alarm fires when $\\lnot(d \\land \\lnot m)$ is true. Rewrite this condition in simplest equivalent form and interpret it in words.",
+      "answer_latex": "\\lnot(d \\land \\lnot m) \\equiv \\lnot d \\lor m; \\text{ the alarm fires when the door is closed OR the motion sensor is triggered.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often misapply De Morgan's Law by only negating one part \u2014 writing $\\lnot(p \\land q) \\equiv \\lnot p \\land \\lnot q$ instead of flipping the connective to get $\\lnot p \\lor \\lnot q$. Remember: De Morgan's always negates both components AND switches $\\land$ to $\\lor$ (or vice versa).",
+    "When using the Implication Law $p \\to q \\equiv \\lnot p \\lor q$, students frequently negate the wrong variable \u2014 writing $p \\lor \\lnot q$ instead of $\\lnot p \\lor q$. It is always the antecedent (the hypothesis, the left side of the arrow) that gets negated.",
+    "Students treat logical equivalence $\\equiv$ as if it were the biconditional connective $\\leftrightarrow$ and try to evaluate its truth value in mid-proof. The symbol $\\equiv$ is a metalanguage claim that two formulas always match; it is not itself a connective inside the formula being manipulated, so you should never mix it with $\\land$, $\\lor$, or other connectives in the same expression."
+  ],
+  "untested_variants": [
+    "Proving equivalences that require the Consensus Theorem or resolvent laws, such as showing $(p \\lor q) \\land (\\lnot p \\lor r) \\land (q \\lor r) \\equiv (p \\lor q) \\land (\\lnot p \\lor r)$.",
+    "Converting arbitrary formulas into Conjunctive Normal Form (CNF) or Disjunctive Normal Form (DNF) by systematically applying equivalence laws in a prescribed order.",
+    "Using equivalence laws inside predicate logic formulas, for example applying De Morgan's across quantifiers such as $\\lnot \\forall x\\, P(x) \\equiv \\exists x\\, \\lnot P(x)$.",
+    "Verifying or refuting claimed equivalences by constructing a full truth table for three or more variables and checking every row, rather than using named law derivations."
+  ]
+}

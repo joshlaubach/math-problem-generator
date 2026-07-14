@@ -1,0 +1,91 @@
+{
+  "topic_id": "cm_031",
+  "topic_name": "Recurrence Relations",
+  "generated_at": "2026-05-13T20:42:59.753752+00:00",
+  "course_name": "Contest Mathematics",
+  "hook": "You know how to find the $n$th term of an arithmetic or geometric sequence using a closed formula. But what if a sequence is defined by the rule $a_n = a_{n-1} + a_{n-2}$, where each term depends on the two before it? There is no obvious 'plug in $n$' formula staring at you. How do you find $a_{10}$, or better yet, a general formula for $a_n$?",
+  "concept": "A recurrence relation is a rule that defines each term of a sequence in terms of one or more previous terms. Formally, a recurrence relation expresses $a_n$ as a function of $a_{n-1}, a_{n-2}, \\ldots$ together with initial conditions (the starting values). Unlike a closed-form formula, you must know earlier terms to find later ones \u2014 unless you solve the recurrence to find an explicit expression for $a_n$.",
+  "anatomy": "Every recurrence relation has three structural parts: the recurrence equation itself (e.g., $a_n = 5a_{n-1} - 6a_{n-2}$), which links the current term to prior ones; the initial conditions (e.g., $a_1 = 1,\\ a_2 = 2$), which anchor the sequence to specific values and make the solution unique; and the order of the recurrence, which is the number of previous terms referenced \u2014 a relation depending on the previous $k$ terms is called a $k$th-order recurrence. The characteristic equation (e.g., $r^2 = 5r - 6$) is the algebraic tool used to solve linear recurrences.",
+  "worked_example": [
+    {
+      "expression_latex": "a_n = 5a_{n-1} - 6a_{n-2}, \\quad a_1 = 1,\\ a_2 = 2",
+      "description_latex": "We are given a second-order linear recurrence with constant coefficients. Our goal is to find a closed-form formula for $a_n$, so we begin by writing the characteristic equation, which captures the 'growth structure' of the recurrence.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 = 5r - 6 \\implies r^2 - 5r + 6 = 0 \\implies (r-2)(r-3) = 0",
+      "description_latex": "We substitute the guess $a_n = r^n$ into the recurrence \u2014 dividing through by $r^{n-2}$ produces the characteristic equation $r^2 - 5r + 6 = 0$. Factoring gives two distinct roots $r = 2$ and $r = 3$, which will form the basis of our general solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_n = A \\cdot 2^n + B \\cdot 3^n",
+      "description_latex": "Because the characteristic roots are distinct, the general solution is a linear combination of the two exponential functions $2^n$ and $3^n$. Any sequence satisfying the recurrence can be written in this form for some constants $A$ and $B$, which we will now determine using the initial conditions.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_1 = 2A + 3B = 1, \\quad a_2 = 4A + 9B = 2",
+      "description_latex": "Plugging $n=1$ and $n=2$ into the general form gives a system of two equations in two unknowns. We need both initial conditions to pin down the unique sequence described by the problem.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\tfrac{1}{2},\\ B = 0 \\implies a_n = \\frac{2^n}{2} = 2^{n-1}",
+      "description_latex": "Solving the system (subtract twice the first equation from the second) gives $3B = 0$, so $B = 0$ and $A = 1/2$. The closed-form answer is $a_n = 2^{n-1}$, which you can verify: $a_1 = 1$, $a_2 = 2$, $a_3 = 4$, and $5(2) - 6(1) = 4$. \u2713",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "a_n = 6a_{n-1} - 9a_{n-2}, \\quad a_1 = 0,\\ a_2 = 3",
+      "description_latex": "This recurrence looks similar to the worked example, but watch out \u2014 the characteristic equation will have a repeated root, which changes the form of the general solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r^2 - 6r + 9 = 0 \\implies (r-3)^2 = 0 \\implies r = 3 \\text{ (repeated)}",
+      "description_latex": "We form and solve the characteristic equation. The double root $r = 3$ means we cannot simply write $A \\cdot 3^n + B \\cdot 3^n$ (that collapses to one term). Instead, when a root $r$ has multiplicity 2, the general solution becomes $a_n = (A + Bn) \\cdot 3^n$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the general solution $a_n = (A + Bn)\\cdot 3^n$, apply the initial conditions $a_1 = 0$ and $a_2 = 3$ to set up a system of equations and solve for $A$ and $B$. What is the closed-form expression for $a_n$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "a_n = (n-1)\\cdot 3^{n-1}",
+      "description_latex": "From $a_1 = 0$: $3(A+B) = 0$, and from $a_2 = 3$: $9(A+2B) = 3$, giving $A = -B$ and $9B = 3$, so $B = 1/3$ and $A = -1/3$. Thus $a_n = \\frac{n-1}{3}\\cdot 3^n = (n-1)\\cdot 3^{n-1}$. Check: $a_3 = 2\\cdot 9 = 18$ and $6(3) - 9(0) = 18$. \u2713",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A sequence satisfies $a_n = 2a_{n-1}$ with $a_1 = 3$. Find $a_5$.",
+      "answer_latex": "a_5 = 48"
+    },
+    {
+      "prompt_latex": "Find the closed-form formula for the sequence defined by $a_n = 5a_{n-1} - 4a_{n-2}$, with $a_1 = 1$ and $a_2 = 5$.",
+      "answer_latex": "a_n = 4^{n-1}"
+    },
+    {
+      "prompt_latex": "Solve the recurrence $a_n = 4a_{n-1} - 4a_{n-2}$ with $a_1 = 2$ and $a_2 = 8$.",
+      "answer_latex": "a_n = n \\cdot 2^n"
+    },
+    {
+      "prompt_latex": "The sequence $\\{a_n\\}$ satisfies $a_n = a_{n-1} + 2a_{n-2}$ with $a_1 = 1$ and $a_2 = 3$. Find the closed-form formula for $a_n$, then compute $\\displaystyle\\sum_{k=1}^{4} a_k$.",
+      "answer_latex": "a_n = 2^n - (-1)^n; \\quad \\sum_{k=1}^{4} a_k = 3 + 5 + 9 + 17 = 34"
+    },
+    {
+      "prompt_latex": "A staircase has $n$ steps. You can climb 1 or 2 steps at a time. Let $a_n$ be the number of ways to climb $n$ steps. Write the recurrence relation for $a_n$, state the initial conditions, and find $a_7$.",
+      "answer_latex": "a_n = a_{n-1} + a_{n-2},\\ a_1=1,\\ a_2=2;\\ a_7 = 21"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the general solution $a_n = A r_1^n + B r_2^n$ even when the characteristic equation has a repeated root $r_1 = r_2 = r$. In that case the two terms are not independent, so the correct form is $a_n = (A + Bn)r^n$; always check the discriminant before writing the general solution.",
+    "After finding the general solution, students substitute $n = 0$ and $n = 1$ into the system of equations even when the given initial conditions are $a_1$ and $a_2$ (1-indexed). This produces wrong values for $A$ and $B$; carefully match the index you substitute to the index of the given condition.",
+    "Students confuse the order of the recurrence with the number of initial conditions needed: a $k$th-order recurrence requires exactly $k$ initial conditions to have a unique solution. Providing only one condition for a second-order recurrence leaves a family of solutions, not a single sequence."
+  ],
+  "untested_variants": [
+    "Non-homogeneous recurrences of the form $a_n = c\\cdot a_{n-1} + f(n)$, where $f(n)$ is a polynomial or exponential forcing term requiring the method of undetermined coefficients for a particular solution.",
+    "Recurrences with characteristic roots that are complex numbers, requiring expression of the solution in terms of trigonometric functions using Euler's formula.",
+    "Systems of coupled recurrences, where two interleaved sequences each depend on both sequences at the previous step (e.g., $a_n = 2a_{n-1} + b_{n-1}$, $b_n = a_{n-1}$).",
+    "Recurrences that are solved using generating functions rather than the characteristic-root method, including cases where the characteristic-root method is difficult to apply directly."
+  ]
+}

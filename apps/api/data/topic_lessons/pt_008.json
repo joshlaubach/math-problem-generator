@@ -1,0 +1,91 @@
+{
+  "topic_id": "pt_008",
+  "topic_name": "Stationary Distributions and Detailed Balance",
+  "generated_at": "2026-05-14T00:59:57.885071+00:00",
+  "course_name": "Probability Theory",
+  "hook": "You already know how to multiply a state vector by a transition matrix to evolve a Markov chain one step forward. You've also noticed that after many steps, the chain seems to 'settle down' into a pattern that no longer changes. But why does this happen, and how do you find that settled pattern without running the chain for a million steps? The gap is this: you don't yet have a systematic way to find the distribution that a chain converges to \u2014 and that's exactly what stationary distributions give you.",
+  "concept": "A stationary distribution is a probability vector that stays unchanged when you multiply it by the transition matrix. In plain English, if the chain is already 'in' this distribution, it will stay there forever. Formally, a row vector $\\pi$ (with $\\pi_i \\geq 0$ and $\\sum_i \\pi_i = 1$) is a stationary distribution for transition matrix $P$ if $\\pi P = \\pi$. Detailed balance is a stronger sufficient condition: $\\pi_i P_{ij} = \\pi_j P_{ji}$ for all states $i, j$.",
+  "anatomy": "There are four key components to understand here. First, the stationary vector $\\pi$: a row vector of non-negative entries summing to 1, representing a probability distribution over states. Second, the transition matrix $P$: the square matrix whose $(i,j)$ entry $P_{ij}$ gives the probability of moving from state $i$ to state $j$, so each row sums to 1. Third, the stationarity equation $\\pi P = \\pi$: this is a left-eigenvector equation with eigenvalue 1, giving one linear system to solve. Fourth, the detailed balance equations $\\pi_i P_{ij} = \\pi_j P_{ji}$: these say the probability flux from $i$ to $j$ equals the flux from $j$ to $i$, and satisfying them for all pairs guarantees stationarity but is not required for it.",
+  "worked_example": [
+    {
+      "expression_latex": "P = \\begin{pmatrix} 0.7 & 0.3 \\\\ 0.4 & 0.6 \\end{pmatrix}",
+      "description_latex": "We start with this two-state transition matrix and our goal is to find the stationary distribution $\\pi = (\\pi_1, \\pi_2)$. Notice that state 1 stays in state 1 with probability 0.7 and jumps to state 2 with probability 0.3, while state 2 returns to state 1 with probability 0.4 \u2014 this asymmetry means the chain will spend unequal amounts of time in each state.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi P = \\pi \\implies (\\pi_1, \\pi_2)\\begin{pmatrix} 0.7 & 0.3 \\\\ 0.4 & 0.6 \\end{pmatrix} = (\\pi_1, \\pi_2)",
+      "description_latex": "We write the stationarity equation $\\pi P = \\pi$ explicitly by carrying out the matrix-vector multiplication on the left side. This means the first component gives $0.7\\pi_1 + 0.4\\pi_2 = \\pi_1$ and the second gives $0.3\\pi_1 + 0.6\\pi_2 = \\pi_2$. Both equations contain the same information (they are linearly dependent), which is why we'll need to use the normalization condition $\\pi_1 + \\pi_2 = 1$ as our second independent equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "0.7\\pi_1 + 0.4\\pi_2 = \\pi_1 \\implies -0.3\\pi_1 + 0.4\\pi_2 = 0 \\implies \\pi_2 = \\frac{3}{4}\\pi_1",
+      "description_latex": "Rearranging the first stationarity equation, we isolate the ratio between $\\pi_2$ and $\\pi_1$. This ratio tells us that for every unit of probability mass in state 1, there must be $3/4$ of a unit in state 2, reflecting the fact that the chain flows out of state 1 at rate 0.3 and into state 1 from state 2 at rate 0.4.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi_1 + \\pi_2 = 1 \\implies \\pi_1 + \\frac{3}{4}\\pi_1 = 1 \\implies \\frac{7}{4}\\pi_1 = 1 \\implies \\pi_1 = \\frac{4}{7}",
+      "description_latex": "We substitute the ratio $\\pi_2 = \\frac{3}{4}\\pi_1$ into the normalization constraint $\\pi_1 + \\pi_2 = 1$. This is the step that pins down the actual values rather than just the ratio, because without normalization any scalar multiple of the solution would also satisfy the eigenvalue equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\pi = \\left(\\frac{4}{7},\\ \\frac{3}{7}\\right)",
+      "description_latex": "Using $\\pi_1 = \\frac{4}{7}$ and $\\pi_2 = \\frac{3}{4} \\cdot \\frac{4}{7} = \\frac{3}{7}$, the stationary distribution is $\\pi = \\left(\\frac{4}{7}, \\frac{3}{7}\\right)$. You can verify this is correct by checking that $\\pi P = \\pi$: in the long run the chain spends about 57% of its time in state 1 and 43% in state 2.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "P = \\begin{pmatrix} 0.5 & 0.5 \\\\ 0.2 & 0.8 \\end{pmatrix}",
+      "description_latex": "We want to find the stationary distribution $\\pi = (\\pi_1, \\pi_2)$ for this two-state chain. Start by writing out the stationarity condition $\\pi P = \\pi$ as two scalar equations, just as in the worked example.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "0.5\\pi_1 + 0.2\\pi_2 = \\pi_1 \\quad \\Longrightarrow \\quad \\pi_2 = \\frac{5}{2}\\pi_1",
+      "description_latex": "This simplification follows from rearranging the first stationarity equation. Check it yourself: subtract $0.5\\pi_1$ from both sides to get $0.2\\pi_2 = 0.5\\pi_1$, then divide both sides by 0.2.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now use the normalization condition $\\pi_1 + \\pi_2 = 1$ together with the ratio $\\pi_2 = \\frac{5}{2}\\pi_1$ to solve for $\\pi_1$ and $\\pi_2$ explicitly. What is the stationary distribution $\\pi$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\pi = \\left(\\frac{2}{7},\\ \\frac{5}{7}\\right)",
+      "description_latex": "Substituting $\\pi_2 = \\frac{5}{2}\\pi_1$ into $\\pi_1 + \\pi_2 = 1$ gives $\\frac{7}{2}\\pi_1 = 1$, so $\\pi_1 = \\frac{2}{7}$ and $\\pi_2 = \\frac{5}{7}$. This makes intuitive sense: since state 2 is stickier (probability 0.8 of staying), the chain spends much more time there.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Verify that $\\pi = \\left(\\frac{1}{2}, \\frac{1}{2}\\right)$ is a stationary distribution for $P = \\begin{pmatrix} 0.5 & 0.5 \\\\ 0.5 & 0.5 \\end{pmatrix}$.",
+      "answer_latex": "\\pi P = \\left(\\frac{1}{2}\\cdot 0.5 + \\frac{1}{2}\\cdot 0.5,\\ \\frac{1}{2}\\cdot 0.5 + \\frac{1}{2}\\cdot 0.5\\right) = \\left(\\frac{1}{2}, \\frac{1}{2}\\right) = \\pi. \\text{ Verified.}"
+    },
+    {
+      "prompt_latex": "Find the stationary distribution for $P = \\begin{pmatrix} 0.6 & 0.4 \\\\ 0.1 & 0.9 \\end{pmatrix}$.",
+      "answer_latex": "\\pi = \\left(\\frac{1}{5},\\ \\frac{4}{5}\\right)"
+    },
+    {
+      "prompt_latex": "Check whether the distribution $\\pi = \\left(\\frac{1}{4}, \\frac{1}{2}, \\frac{1}{4}\\right)$ and the matrix $P = \\begin{pmatrix} 0 & 1 & 0 \\\\ \\frac{1}{4} & \\frac{1}{2} & \\frac{1}{4} \\\\ 0 & 1 & 0 \\end{pmatrix}$ satisfy detailed balance.",
+      "answer_latex": "\\text{Check } \\pi_1 P_{12} = \\frac{1}{4}\\cdot 1 = \\frac{1}{4} \\text{ but } \\pi_2 P_{21} = \\frac{1}{2}\\cdot\\frac{1}{4} = \\frac{1}{8}.\\text{ Since }\\frac{1}{4}\\neq\\frac{1}{8},\\text{ detailed balance fails.}"
+    },
+    {
+      "prompt_latex": "A three-state chain has transition matrix $P = \\begin{pmatrix} 0 & 1 & 0 \\\\ 0 & 0 & 1 \\\\ 1 & 0 & 0 \\end{pmatrix}$ (a cyclic chain). Find the stationary distribution and determine whether detailed balance holds.",
+      "answer_latex": "\\pi = \\left(\\frac{1}{3}, \\frac{1}{3}, \\frac{1}{3}\\right).\\text{ Detailed balance fails: }\\pi_1 P_{12} = \\frac{1}{3}\\neq 0 = \\pi_2 P_{21}."
+    },
+    {
+      "prompt_latex": "A server toggles between idle (state 1) and busy (state 2). Each minute it transitions from idle to busy with probability $p$ and from busy to idle with probability $q$. In the long run, what fraction of time is the server idle?",
+      "answer_latex": "\\text{The stationary distribution gives }\\pi_1 = \\frac{q}{p+q},\\text{ so the server is idle a fraction }\\frac{q}{p+q}\\text{ of the time.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $P\\pi = \\pi$ (right-multiplying a column vector) instead of the correct $\\pi P = \\pi$ (left-multiplying a row vector). Because $P$ is not symmetric in general, this produces the wrong eigenvector and a wrong answer \u2014 always write $\\pi$ as a row vector on the left.",
+    "Students use only the two equations from $\\pi P = \\pi$ and forget the normalization condition $\\sum_i \\pi_i = 1$, leaving a family of solutions rather than a unique distribution. The fix is to always replace one of the (linearly dependent) stationarity equations with the normalization constraint.",
+    "Students confuse detailed balance with stationarity and assume a distribution that fails detailed balance cannot be stationary. Detailed balance implies stationarity, but the converse is false \u2014 the cyclic three-state chain has a stationary distribution yet violates detailed balance for every pair of states."
+  ],
+  "untested_variants": [
+    "Finding stationary distributions for chains with four or more states, where row-reduction of a larger linear system is required.",
+    "Using the stationary distribution to compute long-run average costs or rewards (e.g., $\\sum_i \\pi_i c_i$), which combines stationarity with expected-value calculations.",
+    "Proving that a given chain is reversible with respect to a proposed $\\pi$ by verifying detailed balance for all pairs and then concluding stationarity as a consequence.",
+    "Determining whether a stationary distribution is unique by checking irreducibility and aperiodicity of the chain (the Perron\u2013Frobenius / ergodic theorem context)."
+  ]
+}

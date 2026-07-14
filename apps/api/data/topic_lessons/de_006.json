@@ -1,0 +1,86 @@
+{
+  "topic_id": "de_006",
+  "topic_name": "Existence and Uniqueness Theorem (H)",
+  "generated_at": "2026-05-13T20:00:06.669049+00:00",
+  "course_name": "Differential Equations",
+  "hook": "You already know how to solve separable and linear first-order ODEs, and you can often find a formula for the solution. But here is a deeper question: before you spend any effort solving $\\frac{dy}{dx} = f(x, y)$, $y(x_0) = y_0$, how do you know a solution even exists? And if it does exist, could there be two different solutions passing through the same point, making your answer non-unique? What conditions on $f$ guarantee that exactly one solution curve passes through $(x_0, y_0)$?",
+  "concept": "The Existence and Uniqueness Theorem gives precise conditions under which an IVP is guaranteed to have a solution and to have only one. Informally: if $f$ is 'nice enough' near the initial point, then the IVP behaves well. Formally, if $f(x,y)$ and $\\frac{\\partial f}{\\partial y}$ are both continuous on an open rectangle $R$ containing $(x_0, y_0)$, then there exists an interval $I$ containing $x_0$ on which the IVP $\\frac{dy}{dx} = f(x,y)$, $y(x_0)=y_0$ has a unique solution.",
+  "anatomy": "The theorem has four key components to identify in any application. First, the function $f(x,y)$ is the right-hand side of the ODE \u2014 the thing you are checking for continuity. Second, the partial derivative $\\frac{\\partial f}{\\partial y}$ is the derivative of $f$ with respect to $y$ alone, treating $x$ as a constant \u2014 this is the extra condition that buys uniqueness, not just existence. Third, the open rectangle $R$ (sometimes written $R: |x-x_0| < a,\\, |y-y_0| < b$) is the neighborhood around the initial point $(x_0, y_0)$ where both continuity conditions must hold. Fourth, the interval $I \\subseteq R$ is the (possibly smaller) interval of $x$-values on which the guaranteed solution actually lives.",
+  "worked_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = \\frac{x^2}{1 - y^2}, \\quad y(0) = 2",
+      "description_latex": "We are given this IVP and asked whether a unique solution is guaranteed near $x=0$, $y=2$. The first step is always to identify $f(x,y)$, which here is $f(x,y) = \\frac{x^2}{1-y^2}$. We need to check whether $f$ and $\\frac{\\partial f}{\\partial y}$ are continuous in some open rectangle around the initial point $(0, 2)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(x,y) = \\frac{x^2}{1-y^2} \\text{ is continuous when } 1 - y^2 \\neq 0, \\text{ i.e., } y \\neq \\pm 1",
+      "description_latex": "We check where $f$ itself is continuous: the only problem occurs when the denominator $1-y^2 = 0$, giving $y = 1$ or $y = -1$. Since our initial value is $y_0 = 2$, which is not equal to $\\pm 1$, the function $f$ is continuous in a rectangle around $(0, 2)$ \u2014 this is encouraging.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial f}{\\partial y} = \\frac{\\partial}{\\partial y}\\left(\\frac{x^2}{1-y^2}\\right) = \\frac{2x^2 y}{(1-y^2)^2}",
+      "description_latex": "Now we compute the partial derivative of $f$ with respect to $y$, using the quotient rule treating $x^2$ as a constant. This partial derivative is also continuous wherever $1 - y^2 \\neq 0$, which is the same condition we already identified, so $\\frac{\\partial f}{\\partial y}$ is continuous near $(0,2)$ as well.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "R: |x - 0| < a, \\; |y - 2| < b \\text{ for any } b < 1 \\quad (\\text{to keep } y \\neq \\pm 1 \\text{ inside } R)",
+      "description_latex": "We can choose any rectangle $R$ centered at $(0,2)$ as long as it stays away from $y = \\pm 1$. Because $y_0 = 2$, we need $b < 1$ to ensure $y = 1$ is not inside the rectangle (the nearest singularity is 1 unit below). Both conditions of the theorem are satisfied on such an $R$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\therefore \\text{ The IVP has a unique solution on some interval } I \\text{ containing } x_0 = 0.",
+      "description_latex": "Since both $f$ and $\\frac{\\partial f}{\\partial y}$ are continuous on the rectangle $R$ around the initial point, the Existence and Uniqueness Theorem guarantees exactly one solution passing through $(0, 2)$. Notice we have not solved the ODE \u2014 we have only confirmed that a unique solution exists.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\frac{dy}{dx} = \\sqrt{y}, \\quad y(1) = 0",
+      "description_latex": "We want to apply the Existence and Uniqueness Theorem to this IVP. The initial point is $(x_0, y_0) = (1, 0)$. Let us identify $f(x,y) = \\sqrt{y} = y^{1/2}$ and check whether $f$ is continuous near $y_0 = 0$. Since $\\sqrt{y}$ requires $y \\geq 0$, the function $f$ is continuous for $y > 0$ and is continuous (from the right) at $y = 0$, so existence is not immediately ruled out.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial f}{\\partial y} = \\frac{1}{2\\sqrt{y}}",
+      "description_latex": "Now compute $\\frac{\\partial f}{\\partial y}$ and evaluate whether it is continuous at $(1, 0)$. You should find that $\\frac{\\partial f}{\\partial y}$ has a problem exactly at $y_0 = 0$. What does this tell you about uniqueness \u2014 can you write your conclusion about whether the theorem applies?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\frac{\\partial f}{\\partial y} = \\frac{1}{2\\sqrt{y}} \\to \\infty \\text{ as } y \\to 0^+, \\text{ so it is NOT continuous at } y_0=0.",
+      "description_latex": "Because $\\frac{\\partial f}{\\partial y}$ blows up at $y = 0$, the second hypothesis of the theorem fails \u2014 we cannot find any open rectangle around $(1,0)$ on which $\\frac{\\partial f}{\\partial y}$ is continuous. The theorem does not guarantee uniqueness here. Indeed, one can verify that both $y = 0$ and $y = \\left(\\frac{x-1}{2}\\right)^2$ satisfy the IVP, confirming non-uniqueness.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Does the IVP $\\frac{dy}{dx} = 3x^2 + y^2,\\ y(0) = 1$ have a unique solution near $x=0$? Identify $f$ and $\\frac{\\partial f}{\\partial y}$ and state your conclusion.",
+      "answer_latex": "f = 3x^2 + y^2$ and $\\frac{\\partial f}{\\partial y} = 2y$ are both continuous everywhere, so a unique solution is guaranteed on some interval containing $x = 0$."
+    },
+    {
+      "prompt_latex": "Determine whether a unique solution to $\\frac{dy}{dx} = \\frac{y}{x},\\ y(1) = 2$ is guaranteed near the initial point.",
+      "answer_latex": "f = \\frac{y}{x}$ and $\\frac{\\partial f}{\\partial y} = \\frac{1}{x}$ are both continuous for $x \\neq 0$. Since $x_0 = 1 \\neq 0$, a unique solution is guaranteed on some interval around $x = 1$."
+    },
+    {
+      "prompt_latex": "Determine whether a unique solution to $\\frac{dy}{dx} = \\frac{y}{x},\\ y(0) = 0$ is guaranteed near the initial point.",
+      "answer_latex": "Both $f = \\frac{y}{x}$ and $\\frac{\\partial f}{\\partial y} = \\frac{1}{x}$ are discontinuous at $x_0 = 0$. The theorem does not apply; existence and uniqueness are not guaranteed at $(0,0)$."
+    },
+    {
+      "prompt_latex": "The IVP $\\frac{dy}{dx} = (x^2 - 4)\\ln y,\\ y(0) = 1$ \u2014 determine where uniqueness is guaranteed, and identify ALL values of $y_0$ at which the theorem would fail.",
+      "answer_latex": "f = (x^2-4)\\ln y$ requires $y > 0$; $\\frac{\\partial f}{\\partial y} = \\frac{x^2-4}{y}$ is undefined at $y = 0$. The theorem guarantees a unique solution whenever $y_0 > 0$. At $y_0 = 0$ (or $y_0 < 0$), the theorem fails because $f$ itself is not defined (or discontinuous) there."
+    },
+    {
+      "prompt_latex": "A population model gives $\\frac{dP}{dt} = kP^{2/3}$, $P(0) = 0$ (population starts at zero). Show that the Existence and Uniqueness Theorem does NOT guarantee a unique solution, and exhibit two distinct solutions satisfying the IVP.",
+      "answer_latex": "\\frac{\\partial f}{\\partial P} = \\frac{2k}{3}P^{-1/3}$ is undefined at $P_0 = 0$, so the theorem fails. Two solutions are $P(t) = 0$ for all $t$, and $P(t) = \\left(\\frac{kt}{3}\\right)^3$, both satisfying $P(0)=0$."
+    }
+  ],
+  "common_mistakes": [
+    "Students often check only that $f$ is continuous and conclude uniqueness follows \u2014 but continuity of $f$ alone guarantees only existence; you must separately verify that $\\frac{\\partial f}{\\partial y}$ is also continuous near $(x_0, y_0)$ to conclude uniqueness.",
+    "When $f$ or $\\frac{\\partial f}{\\partial y}$ is discontinuous somewhere in the plane, students sometimes say 'the theorem fails everywhere' instead of checking whether that discontinuity actually lies inside a rectangle around $(x_0, y_0)$ \u2014 the theorem can still apply if the singularity is far from the initial point.",
+    "Students confuse the theorem's conclusion with a global guarantee: the theorem only promises a unique solution on some (possibly tiny) interval $I$ near $x_0$, not on the entire real line, and the solution may cease to exist or remain unique beyond that interval."
+  ],
+  "untested_variants": [
+    "IVPs where $f$ is piecewise-defined and continuity must be checked at a boundary between pieces (e.g., $f(x,y) = y$ for $x < 0$ and $f(x,y) = x+y$ for $x \\geq 0$).",
+    "Problems asking students to find ALL initial values $y_0$ for which the theorem guarantees a unique solution, resulting in an inequality (e.g., 'for which values of $y_0$ does the IVP $\\frac{dy}{dx} = \\ln(y-3)$, $y(0)=y_0$ have a unique solution?').",
+    "Normal form conversion: ODEs not already in $\\frac{dy}{dx} = f(x,y)$ form that must first be algebraically rearranged before the theorem can be applied (e.g., $x\\,dy - y\\,dx = 0$).",
+    "Systems or higher-order equations rewritten as first-order systems, where students must apply a vector form of the theorem by checking all component functions and their partial derivatives."
+  ]
+}

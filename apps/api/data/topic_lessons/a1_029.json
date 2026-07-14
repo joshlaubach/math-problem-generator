@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_029",
+  "topic_name": "Solving by Substitution",
+  "generated_at": "2026-05-12T22:40:15.980002+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to solve a simple equation like $2x + 3 = 11$ \u2014 you isolate the variable and find $x = 4$. But what happens when you have TWO equations and TWO unknowns, like $y = 2x + 1$ and $3x + y = 16$? You can't just solve one equation by itself because both variables are still floating free. So how do you use the first equation to collapse a two-variable problem into a one-variable problem you already know how to solve?",
+  "concept": "Substitution means replacing one variable with an equivalent expression so you can work with a single equation in one unknown. If one equation tells you exactly what $y$ equals in terms of $x$, you can plug that expression into the other equation everywhere $y$ appears, turning a system of two equations into one equation \u2014 which you already know how to solve. Formally, given a system $\\{y = f(x),\\; g(x, y) = c\\}$, you substitute $f(x)$ for $y$ in the second equation to obtain $g(x, f(x)) = c$.",
+  "anatomy": "A substitution problem has four key parts: the **isolation equation** (the equation that already expresses one variable alone, e.g., $y = 2x + 1$), the **target equation** (the other equation where you will substitute, e.g., $3x + y = 16$), the **substituted equation** (the single-variable equation you get after replacing, e.g., $3x + (2x+1) = 16$), and the **back-substitution step** (once you find the numerical value of $x$, you plug it back into the isolation equation to recover $y$, completing the ordered-pair solution $(x, y)$).",
+  "worked_example": [
+    {
+      "expression_latex": "\\begin{cases} y = 2x + 1 \\\\ 3x + y = 16 \\end{cases}",
+      "description_latex": "We start by identifying which equation is already solved for one variable. The first equation $y = 2x + 1$ is our isolation equation \u2014 it tells us exactly what $y$ equals, so we will use it to eliminate $y$ from the second equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3x + (2x + 1) = 16",
+      "description_latex": "We substitute $2x + 1$ in place of every $y$ in the target equation $3x + y = 16$, because the isolation equation guarantees these two expressions are equal. Now we have a single equation in only one variable, $x$, which we know how to solve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "5x + 1 = 16 \\implies 5x = 15 \\implies x = 3",
+      "description_latex": "We combine like terms to get $5x + 1 = 16$, subtract $1$ from both sides to get $5x = 15$, then divide by $5$ to find $x = 3$. This numerical value is half of our solution \u2014 we still need to find $y$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = 2(3) + 1 = 7",
+      "description_latex": "We back-substitute $x = 3$ into the isolation equation $y = 2x + 1$ because it is the simplest equation to evaluate, giving us $y = 7$. This step is essential \u2014 stopping at $x = 3$ only answers half the question.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Solution: } (3,\\; 7)",
+      "description_latex": "We write the answer as an ordered pair $(3, 7)$ and can verify it by checking both original equations: $7 = 2(3)+1 = 7$ \u2713 and $3(3)+7 = 9+7 = 16$ \u2713. Checking in BOTH equations confirms the solution is correct.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{cases} y = x - 4 \\\\ 2x + 3y = 7 \\end{cases}",
+      "description_latex": "Here the first equation is already solved for $y$, making it the perfect isolation equation. We will substitute $x - 4$ for $y$ in the second equation to eliminate one variable.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2x + 3(x - 4) = 7",
+      "description_latex": "We have replaced $y$ with $x - 4$ in the target equation. Now distribute and combine like terms to solve for $x$ \u2014 write out each algebra step carefully.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Finish solving for $x$: distribute the $3$, combine like terms, then isolate $x$. What value do you get for $x$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now back-substitute your value of $x$ into the isolation equation $y = x - 4$ to find $y$, then write the complete solution as an ordered pair $(x, y)$.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Solve the system: } \\begin{cases} y = x + 2 \\\\ x + y = 10 \\end{cases}",
+      "answer_latex": "(4,\\; 6)"
+    },
+    {
+      "prompt_latex": "\\text{Solve the system: } \\begin{cases} y = 3x - 1 \\\\ 2x + y = 9 \\end{cases}",
+      "answer_latex": "(2,\\; 5)"
+    },
+    {
+      "prompt_latex": "\\text{Solve the system: } \\begin{cases} x = 2y + 3 \\\\ 4x - 3y = 17 \\end{cases}",
+      "answer_latex": "(5,\\; 1)"
+    },
+    {
+      "prompt_latex": "\\text{Solve the system: } \\begin{cases} 2x + y = 8 \\\\ 3x - 2y = 5 \\end{cases} \\text{ (Hint: isolate } y \\text{ from the first equation first.)}",
+      "answer_latex": "(3,\\; 2)"
+    },
+    {
+      "prompt_latex": "\\text{A school store sells pencils for } \\$0.25 \\text{ and pens for } \\$1.00.\\text{ A student buys 10 items total and spends } \\$4.75.\\text{ Write a system of equations and use substitution to find how many pencils and pens were bought.}",
+      "answer_latex": "7 \\text{ pencils and } 3 \\text{ pens}"
+    }
+  ],
+  "common_mistakes": [
+    "Students substitute into the same equation they used to isolate the variable \u2014 for example, if they solved $y = 2x + 1$ from the first equation, they then mistakenly substitute back into that same first equation instead of the second one, producing a trivially true statement like $0 = 0$ with no solution for $x$. Always substitute into the OTHER equation.",
+    "After finding $x$, students forget to back-substitute to find $y$ and write only $x = 3$ as their final answer instead of the ordered pair $(3, 7)$. A system of two variables requires two values \u2014 always complete the back-substitution step and present the answer as $(x, y)$.",
+    "When the isolation equation has a coefficient, like $2y = x + 4$ (so $y = \\frac{x+4}{2}$), students substitute $x + 4$ instead of $\\frac{x+4}{2}$, forgetting to divide by $2$ first. Always fully isolate the variable before substituting, including dividing out any coefficient."
+  ],
+  "untested_variants": [
+    "Systems where both equations must first be rearranged before either one is in isolation form (neither equation starts in $y = mx + b$ form), requiring the student to decide which variable is easiest to isolate.",
+    "Systems with fractional or decimal coefficients, such as $\\begin{cases} y = \\frac{1}{2}x - 3 \\\\ 4x + 6y = 0 \\end{cases}$, where distributing the fraction during substitution is an additional challenge.",
+    "Systems with no solution (parallel lines) or infinitely many solutions (same line), where the substitution process produces a contradiction like $5 = 0$ or an identity like $0 = 0$, and the student must interpret what that means geometrically.",
+    "Three-variable systems where substitution must be applied twice in sequence, or systems embedded in geometry problems (e.g., finding the intersection point of two lines given in standard form)."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "c1_017",
+  "topic_name": "Linear Approximation and Differentials",
+  "generated_at": "2026-05-13T00:07:17.094415+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to find the slope of a tangent line to a curve at a point \u2014 that's just the derivative. But what if someone asks you to quickly estimate $\\sqrt{9.03}$ without a calculator, or approximate $\\cos(0.01)$ by hand? These numbers are annoyingly close to values you know perfectly, yet not quite 'nice' enough to evaluate exactly. The tangent line you can draw at a known point must somehow be useful here \u2014 but how do you turn a line into a number that approximates a function?",
+  "concept": "Linear approximation uses the tangent line at a known point to estimate nearby function values, trading exactness for simplicity. If $f$ is differentiable at $x = a$, then for $x$ close to $a$, $f(x) \\approx L(x)$ where the linearization is $L(x) = f(a) + f'(a)(x - a)$. The related idea of a differential expresses this infinitesimally: $dy = f'(x)\\,dx$, capturing the approximate change in $f$ for a small change $dx$ in $x$.",
+  "anatomy": "The linearization formula $L(x) = f(a) + f'(a)(x - a)$ has three structural pieces working together. The base value $f(a)$ anchors the approximation \u2014 it is the exact output you already know at the chosen center point $a$. The slope factor $f'(a)$ is the derivative evaluated at that same center, giving the tangent line's rate of change. The displacement factor $(x - a)$ measures how far your target input $x$ has strayed from the center, so that $f'(a)(x-a)$ is the correction you add to $f(a)$. In the differential form $dy = f'(x)\\,dx$, the symbol $dx$ represents an arbitrary (small) change in the input, and $dy$ is the corresponding approximate change in the output along the tangent line, not along the curve itself.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Approximate } \\sqrt{9.03} \\text{ using linear approximation.}",
+      "description_latex": "We want to approximate $f(x) = \\sqrt{x}$ near the input $x = 9.03$. The key is to choose a center point $a$ where we know $f(a)$ exactly \u2014 $a = 9$ is perfect because $\\sqrt{9} = 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f'(x) = \\frac{1}{2\\sqrt{x}}, \\quad f'(9) = \\frac{1}{2\\sqrt{9}} = \\frac{1}{6}",
+      "description_latex": "Next we compute the derivative $f'(x)$ and evaluate it at the center $a = 9$. This gives us the slope of the tangent line at $x = 9$, which is $\\frac{1}{6}$ \u2014 this slope is the engine of the whole approximation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L(x) = f(9) + f'(9)(x - 9) = 3 + \\frac{1}{6}(x - 9)",
+      "description_latex": "We write the linearization formula by plugging $f(a) = 3$, $f'(a) = \\frac{1}{6}$, and $a = 9$ into $L(x) = f(a) + f'(a)(x-a)$. This is the equation of the tangent line at $x = 9$, and for $x$ close to $9$ it tracks $\\sqrt{x}$ very faithfully.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "L(9.03) = 3 + \\frac{1}{6}(9.03 - 9) = 3 + \\frac{1}{6}(0.03) = 3 + 0.005 = 3.005",
+      "description_latex": "Finally we substitute $x = 9.03$ into $L(x)$. The displacement is only $0.03$, which is small, so the tangent line is an excellent stand-in for the curve here. The true value is $\\sqrt{9.03} \\approx 3.00499\\ldots$, confirming our estimate of $3.005$ is accurate to four decimal places.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Approximate } \\cos(0.02) \\text{ using linear approximation.}",
+      "description_latex": "We use $f(x) = \\cos x$ with center $a = 0$, since $\\cos(0) = 1$ is an exact value we know and $0.02$ is close to $0$. Begin by writing down $f(a)$ and computing $f'(x)$ and $f'(a)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(0) = 1, \\quad f'(x) = -\\sin x, \\quad f'(0) = 0",
+      "description_latex": "The derivative of cosine is $-\\sin x$, and at $a = 0$ the slope is $-\\sin(0) = 0$. This tells us the tangent line is horizontal at $x = 0$, which makes sense because cosine has a peak there.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now build the linearization $L(x) = f(0) + f'(0)(x - 0)$ and then evaluate it at $x = 0.02$. What is your numerical approximation for $\\cos(0.02)$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "L(0.02) = 1 + 0 \\cdot (0.02) = 1",
+      "description_latex": "Because the slope $f'(0) = 0$, the entire correction term vanishes, and $L(x) = 1$ near $x = 0$. This is actually a very good approximation: the true value is $\\cos(0.02) \\approx 0.9998$, so $L = 1$ has an error of only $0.0002$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the linearization $L(x)$ of $f(x) = x^3$ at $a = 2$.",
+      "answer_latex": "L(x) = 8 + 12(x - 2)"
+    },
+    {
+      "prompt_latex": "Use linear approximation to estimate $\\sqrt[3]{8.06}$. (Hint: use $a = 8$.)",
+      "answer_latex": "L(8.06) = 2 + \\frac{1}{12}(0.06) = 2.005"
+    },
+    {
+      "prompt_latex": "Use the differential $dy = f'(x)\\,dx$ to approximate the change in $f(x) = \\ln x$ when $x$ changes from $1$ to $1.04$.",
+      "answer_latex": "dy = \\frac{1}{1}(0.04) = 0.04"
+    },
+    {
+      "prompt_latex": "The function $f(x) = e^x \\cos x$ is evaluated at $a = 0$. Find $L(x)$ and use it to approximate $f(0.1)$. (You will need both the product rule and your linearization formula.)",
+      "answer_latex": "f(0)=1,\\; f'(x)=e^x\\cos x - e^x \\sin x,\\; f'(0)=1,\\; L(x)=1+x,\\; L(0.1)=1.1"
+    },
+    {
+      "prompt_latex": "A sphere's radius is measured as $r = 5$ cm with a possible measurement error of $dr = 0.08$ cm. Use differentials to estimate the resulting error in the calculated volume $V = \\tfrac{4}{3}\\pi r^3$.",
+      "answer_latex": "dV = 4\\pi r^2\\,dr = 4\\pi(25)(0.08) = 8\\pi \\approx 25.13 \\text{ cm}^3"
+    }
+  ],
+  "common_mistakes": [
+    "Students often evaluate the derivative at the target point $x$ instead of the center point $a$, writing $f'(x)$ in the linearization instead of $f'(a)$. Remember: everything in $L(x) = f(a) + f'(a)(x-a)$ is anchored at $a$ \u2014 only the variable displacement $(x-a)$ involves $x$.",
+    "When setting up a differential problem, students confuse $dx$ (a chosen input change, a specific number) with $dy$ (the approximate output change computed from it), and sometimes solve for the wrong one. Always identify which quantity you are given and which you need: $dy = f'(x)\\,dx$ flows from a known $dx$ to an estimated $dy$.",
+    "Students choose a center $a$ that is not close to the target, such as approximating $\\sqrt{10}$ with center $a = 1$ instead of $a = 9$. The whole reason linear approximation works is that the tangent line only hugs the curve in a small neighborhood of $a$; a distant center gives a wildly inaccurate estimate."
+  ],
+  "untested_variants": [
+    "Implicit differentiation combined with linear approximation, for example finding the linearization of a curve defined by $x^2 + y^2 = 25$ near a specific point.",
+    "Second-order error analysis \u2014 using the second derivative to bound or estimate how large the error $|f(x) - L(x)|$ can be over an interval.",
+    "Linear approximation of inverse trigonometric functions such as $\\arctan(0.97)$ or $\\arcsin(0.5 + \\epsilon)$.",
+    "Multivariable extension: approximating $f(x,y)$ near a point $(a,b)$ using the total differential $dz = f_x\\,dx + f_y\\,dy$ (relevant if students have seen partial derivatives)."
+  ]
+}

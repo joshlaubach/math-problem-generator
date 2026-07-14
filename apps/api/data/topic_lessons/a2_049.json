@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_049",
+  "topic_name": "Geometric Sequences and Series",
+  "generated_at": "2026-05-12T23:31:58.158322+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how arithmetic sequences grow by adding the same number each time \u2014 but what about a sequence like $2, 6, 18, 54, 162, \\ldots$? Each term isn't found by adding something; it's found by multiplying. You can find any term in an arithmetic sequence using a simple formula, but that formula completely breaks down here. So how do you find, say, the 20th term of a sequence that multiplies by 3 each step \u2014 and what's the sum of the first 20 terms?",
+  "concept": "A geometric sequence is a list of numbers where each term is found by multiplying the previous term by a fixed value called the common ratio. Formally, a sequence $a_1, a_2, a_3, \\ldots$ is geometric if $\\frac{a_{n}}{a_{n-1}} = r$ for all $n \\geq 2$, where $r$ is the common ratio. The $n$th term is $a_n = a_1 \\cdot r^{n-1}$, and the sum of the first $n$ terms is $S_n = a_1 \\cdot \\frac{1 - r^n}{1 - r}$ (for $r \\neq 1$).",
+  "anatomy": "Every geometric sequence has four key components: the first term $a_1$, which anchors the entire sequence; the common ratio $r$, found by dividing any term by the term before it ($r = a_2/a_1$); the term index $n$, which tells you the position of the term you want; and the $n$th term formula $a_n = a_1 \\cdot r^{n-1}$, where the exponent is $n-1$ (not $n$) because the first term requires zero multiplications by $r$. For series, there is also $S_n$, the partial sum of the first $n$ terms, computed with the sum formula $S_n = a_1 \\cdot \\frac{1-r^n}{1-r}$.",
+  "worked_example": [
+    {
+      "expression_latex": "a_n = a_1 \\cdot r^{n-1}, \\quad a_1 = 3,\\ r = 2,\\ n = 7",
+      "description_latex": "We want the 7th term of the geometric sequence $3, 6, 12, 24, \\ldots$ We first identify the building blocks: the first term is $a_1 = 3$ and the common ratio is $r = 6/3 = 2$. Plugging into the $n$th term formula sets up the calculation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_7 = 3 \\cdot 2^{7-1} = 3 \\cdot 2^6",
+      "description_latex": "We substitute $n = 7$ and simplify the exponent: $7 - 1 = 6$. Notice that the exponent is always one less than the term number because the first term is multiplied by $r$ zero times \u2014 this is the most common place students make errors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_7 = 3 \\cdot 64 = 192",
+      "description_latex": "We evaluate $2^6 = 64$ and then multiply by $a_1 = 3$ to get $a_7 = 192$. You can verify this by writing out the sequence: $3, 6, 12, 24, 48, 96, 192$ \u2014 the 7th term is indeed 192.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S_7 = 3 \\cdot \\frac{1 - 2^7}{1 - 2}",
+      "description_latex": "Now we find the sum of the first 7 terms using the partial sum formula $S_n = a_1 \\cdot \\frac{1-r^n}{1-r}$. We plug in $a_1 = 3$, $r = 2$, and $n = 7$. It's important to use $r^n$ (not $r^{n-1}$) in the sum formula \u2014 this is different from the term formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S_7 = 3 \\cdot \\frac{1 - 128}{-1} = 3 \\cdot \\frac{-127}{-1} = 3 \\cdot 127 = 381",
+      "description_latex": "We compute $2^7 = 128$, giving a numerator of $1 - 128 = -127$ and a denominator of $1 - 2 = -1$. The two negatives cancel to give $127$, and multiplying by $a_1 = 3$ yields $S_7 = 381$. You can double-check: $3+6+12+24+48+96+192 = 381$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Sequence: } 5, 15, 45, 135, \\ldots \\quad \\text{Find } a_6 \\text{ and } S_6",
+      "description_latex": "We start by identifying the first term and common ratio. The first term is $a_1 = 5$, and we find $r$ by dividing any term by the one before it: $r = 15/5 = 3$. We now have everything we need to use both formulas.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a_6 = 5 \\cdot 3^{6-1} = 5 \\cdot 3^5 = 5 \\cdot 243 = 1215",
+      "description_latex": "Using the $n$th term formula with $n = 6$, $a_1 = 5$, and $r = 3$, we get $a_6 = 1215$. Now try applying the sum formula yourself with these same values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using $a_1 = 5$, $r = 3$, and $n = 6$, write out and evaluate $S_6 = a_1 \\cdot \\frac{1 - r^n}{1 - r}$ completely. Compute $3^6$ first, then simplify the fraction, then multiply by $a_1$. What is $S_6$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "S_6 = 5 \\cdot \\frac{1 - 729}{1 - 3} = 5 \\cdot \\frac{-728}{-2} = 5 \\cdot 364 = 1820",
+      "description_latex": "The correct answer is $S_6 = 1820$. Notice how the two negatives in the fraction cancel \u2014 this always happens when $r > 1$ \u2014 giving a clean positive result, which makes sense because we're summing positive terms.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the 5th term of the geometric sequence with $a_1 = 4$ and $r = 3$.",
+      "answer_latex": "a_5 = 4 \\cdot 3^4 = 324"
+    },
+    {
+      "prompt_latex": "Find the 8th term of the sequence $2, 6, 18, 54, \\ldots$",
+      "answer_latex": "a_8 = 2 \\cdot 3^7 = 4374"
+    },
+    {
+      "prompt_latex": "Find the sum of the first 6 terms of the geometric series with $a_1 = 5$ and $r = 2$.",
+      "answer_latex": "S_6 = 5 \\cdot \\frac{1-64}{1-2} = 315"
+    },
+    {
+      "prompt_latex": "The 3rd term of a geometric sequence is 20 and the 6th term is 160. Find $a_1$ and write the formula for $a_n$.",
+      "answer_latex": "r = 2,\\ a_1 = 5,\\ a_n = 5 \\cdot 2^{n-1}"
+    },
+    {
+      "prompt_latex": "A bacteria culture starts with 200 cells and doubles every hour. Write an expression for the number of cells after $n$ hours, then find how many cells there are after 8 hours and the total number of cells produced over all 8 hours (including the starting count).",
+      "answer_latex": "a_n = 200 \\cdot 2^{n},\\ a_8 = 51200;\\ S = 200 \\cdot \\frac{1-2^9}{1-2} = 102200 \\text{ total cells}"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $a_n = a_1 \\cdot r^n$ instead of $a_n = a_1 \\cdot r^{n-1}$, which shifts every term one position forward and gives answers that are off by one factor of $r$. Always remember: the first term uses $r^0 = 1$, so the exponent must be $n-1$.",
+    "When using the sum formula $S_n = a_1 \\cdot \\frac{1-r^n}{1-r}$, students accidentally use $r^{n-1}$ in the numerator (copying the exponent from the term formula). The sum formula uses $r^n$, not $r^{n-1}$ \u2014 these are two distinct formulas with different exponents.",
+    "Students find $r$ by subtracting consecutive terms (as they would for an arithmetic sequence) instead of dividing. For example, in $2, 6, 18$, a student might write $r = 6 - 2 = 4$. Always divide: $r = 6/2 = 3$, and verify with the next pair: $18/6 = 3$."
+  ],
+  "untested_variants": [
+    "Geometric series with a fractional or negative common ratio, such as $r = -1/2$, where students must handle alternating signs and fractions simultaneously.",
+    "Finding the number of terms $n$ given $a_1$, $r$, and either a specific term value or a specific partial sum, which requires solving an exponential equation.",
+    "Infinite geometric series and their sums using the formula $S = \\frac{a_1}{1-r}$ for $|r| < 1$, which is a separate formula not covered here.",
+    "Geometric sequences where the common ratio must be determined from non-consecutive terms, such as knowing only $a_2$ and $a_5$, requiring students to set up and solve $a_2 \\cdot r^3 = a_5$."
+  ]
+}

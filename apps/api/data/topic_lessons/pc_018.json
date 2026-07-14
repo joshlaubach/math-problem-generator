@@ -1,0 +1,76 @@
+{
+  "topic_id": "pc_018",
+  "topic_name": "Properties of Logarithms",
+  "generated_at": "2026-05-12T23:44:25.085301+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know that $\\log_2(8) = 3$ because $2^3 = 8$, and you can evaluate simple logarithms by thinking about exponents. But what happens when you need to simplify something like $\\log_3(27x^2)$ or $\\log_5\\!\\left(\\frac{125}{y}\\right)$? There's no single exponent to guess here \u2014 the expression is a product, quotient, or power involving unknowns. How do you break a complicated logarithm into smaller, manageable pieces?",
+  "concept": "Logarithms inherit their structure from exponents, and just as exponents have rules for products, quotients, and powers, so do logarithms. The three core properties are: the **Product Rule** $\\log_b(MN) = \\log_b M + \\log_b N$, the **Quotient Rule** $\\log_b\\!\\left(\\frac{M}{N}\\right) = \\log_b M - \\log_b N$, and the **Power Rule** $\\log_b(M^p) = p\\log_b M$. These let you expand, condense, and simplify logarithmic expressions.",
+  "anatomy": "Every application of a logarithm property involves three components working together. The **base** $b$ (where $b > 0, b \\neq 1$) must remain consistent across every term when you split or combine logarithms \u2014 you cannot mix bases. The **arguments** $M$ and $N$ are the expressions inside the logarithm, and they must be strictly positive for the logarithm to be defined. The **exponent or coefficient** $p$ in the power rule migrates: it moves from an exponent inside the log to a multiplier outside (or vice versa), which is the key mechanical move of that rule.",
+  "worked_example": [
+    {
+      "expression_latex": "\\log_2(8x^3)",
+      "description_latex": "We start by recognizing that $8x^3$ is a product of two factors: the constant $8$ and the expression $x^3$. Applying the Product Rule, we can write $\\log_2(8x^3) = \\log_2 8 + \\log_2(x^3)$, separating the single logarithm into a sum of two logarithms with the same base.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\log_2 8 + \\log_2(x^3)",
+      "description_latex": "We evaluate $\\log_2 8$ directly: since $2^3 = 8$, we have $\\log_2 8 = 3$. Now we apply the Power Rule to the second term, pulling the exponent $3$ out front: $\\log_2(x^3) = 3\\log_2 x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3 + 3\\log_2 x",
+      "description_latex": "Combining the results from the previous step gives us the fully expanded form $3 + 3\\log_2 x$. This is completely simplified \u2014 notice how a single logarithm of a complicated expression became a clean sum of a constant and a simple logarithm.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\log_5\\!\\left(\\frac{25}{x^4}\\right)",
+      "description_latex": "We want to fully expand this logarithm. Start by recognizing that the argument is a quotient, so we should apply the Quotient Rule first: $\\log_5\\!\\left(\\frac{25}{x^4}\\right) = \\log_5 25 - \\log_5(x^4)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\log_5 25 - \\log_5(x^4)",
+      "description_latex": "Now evaluate $\\log_5 25$ (ask yourself: what power of 5 gives 25?) and apply the Power Rule to $\\log_5(x^4)$ to move the exponent 4 out front. Write the fully simplified expression.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "2 - 4\\log_5 x",
+      "description_latex": "Since $5^2 = 25$ we get $\\log_5 25 = 2$, and the Power Rule gives $\\log_5(x^4) = 4\\log_5 x$, so the final expanded form is $2 - 4\\log_5 x$. Notice the subtraction sign carries through to the entire second term.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Expand: } \\log_3(9y)",
+      "answer_latex": "2 + \\log_3 y"
+    },
+    {
+      "prompt_latex": "\\text{Expand: } \\log_4\\!\\left(\\frac{x^5}{16}\\right)",
+      "answer_latex": "5\\log_4 x - 2"
+    },
+    {
+      "prompt_latex": "\\text{Condense into a single logarithm: } 3\\ln x + \\ln 5 - \\ln y",
+      "answer_latex": "\\ln\\!\\left(\\frac{5x^3}{y}\\right)"
+    },
+    {
+      "prompt_latex": "\\text{Given } \\log_b 2 = 0.431 \\text{ and } \\log_b 3 = 0.683,\\text{ evaluate } \\log_b 18",
+      "answer_latex": "1.545"
+    },
+    {
+      "prompt_latex": "\\text{The formula for sound intensity in decibels is } dB = 10\\log\\!\\left(\\frac{I}{I_0}\\right). \\text{ If } I = 1000\\,I_0,\\text{ simplify the expression to find the decibel level.}",
+      "answer_latex": "30 \\text{ dB}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often write $\\log_b(M + N) = \\log_b M + \\log_b N$, incorrectly applying the Product Rule to a sum instead of a product \u2014 the Product Rule only applies when the entire argument is a product $M \\cdot N$, not a sum $M + N$.",
+    "When applying the Quotient Rule, students sometimes write $\\log_b M - \\log_b N$ but then accidentally apply a coefficient or rule only to $\\log_b M$ and forget it affects the entire subtracted term $\\log_b N$ \u2014 always treat $\\log_b N$ as a complete unit being subtracted.",
+    "Students forget that the Power Rule requires the exponent to be on the entire argument: $\\log_b(x^3)$ correctly becomes $3\\log_b x$, but $(\\log_b x)^3$ does NOT \u2014 the exponent must be inside the logarithm on the argument, not outside on the whole log expression."
+  ],
+  "untested_variants": [
+    "Expanding logarithms with nested radicals as arguments, such as $\\log_b\\!\\sqrt[3]{x^2y}$, which requires rewriting the radical as a fractional exponent before applying the Power Rule.",
+    "Using the Change-of-Base Formula in combination with the properties, for example evaluating $\\log_6 8$ by writing it as $\\frac{\\ln 8}{\\ln 6}$ and then further simplifying $\\ln 8 = 3\\ln 2$.",
+    "Condensing expressions involving logarithms with fractional coefficients, such as $\\frac{1}{2}\\log x - \\frac{1}{3}\\log y$, where students must correctly reverse the Power Rule before applying the Quotient Rule.",
+    "Solving logarithmic equations that require condensing multiple log terms into one before setting arguments equal, such as $\\log_2 x + \\log_2(x-2) = 3$."
+  ]
+}

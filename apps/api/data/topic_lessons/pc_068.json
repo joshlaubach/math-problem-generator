@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_068",
+  "topic_name": "Evaluating Limits Analytically (H)",
+  "generated_at": "2026-05-13T00:00:55.246890+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to evaluate a function like $f(x) = x^2 + 3x - 2$ by simply plugging in a value \u2014 say, $f(4) = 26$. But what happens when the function has a hole or a break at exactly the point you care about, like $g(x) = \\frac{x^2 - 4}{x - 2}$ at $x = 2$? Plugging in gives $\\frac{0}{0}$, which is meaningless. So how do we figure out what value the function is *approaching* at that point?",
+  "concept": "Evaluating a limit analytically means using algebraic techniques \u2014 not a table or graph \u2014 to find the exact value a function approaches. When direct substitution gives a defined value, we are done: $\\lim_{x \\to a} f(x) = f(a)$. When it produces an indeterminate form like $\\frac{0}{0}$, we must simplify first (by factoring, rationalizing, or using conjugates) and then substitute into the simplified expression.",
+  "anatomy": "Every analytical limit problem has three structural pieces worth naming. First, the *target value* $a$ is the $x$-value the variable is approaching (not reaching). Second, the *expression* $f(x)$ is the function whose behavior we are studying \u2014 this might be a rational function, a radical expression, or a piecewise rule. Third, the *indeterminate form check* is the diagnostic step: you always try direct substitution first; if you get a real number you are finished, but if you get $\\frac{0}{0}$ (or another indeterminate form), that is the signal to apply an algebraic technique before substituting again.",
+  "worked_example": [
+    {
+      "expression_latex": "\\lim_{x \\to 2} \\frac{x^2 - 4}{x - 2}",
+      "description_latex": "We start by attempting direct substitution: plug $x = 2$ into both the numerator and denominator. The numerator gives $4 - 4 = 0$ and the denominator gives $2 - 2 = 0$, so we have the indeterminate form $\\frac{0}{0}$. This tells us we cannot stop here \u2014 we must simplify the expression algebraically before we can determine the limit.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{x^2 - 4}{x - 2} = \\frac{(x-2)(x+2)}{x-2}",
+      "description_latex": "We factor the numerator as a difference of squares: $x^2 - 4 = (x-2)(x+2)$. Factoring is the go-to strategy whenever direct substitution produces $\\frac{0}{0}$ in a rational function, because the factor causing the zero in the denominator usually cancels with a matching factor in the numerator.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= x + 2, \\quad x \\neq 2",
+      "description_latex": "Since $x \\to 2$ but $x \\neq 2$, the factor $(x - 2)$ is never actually zero, so we are allowed to cancel it from numerator and denominator. The result is the simplified expression $x + 2$, which is valid for all $x$ near 2 (just not exactly at 2).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{x \\to 2}(x + 2) = 2 + 2 = 4",
+      "description_latex": "Now we apply direct substitution to the simplified expression. Because $x + 2$ is a polynomial, it is continuous everywhere, so the limit equals the function value at $x = 2$. The answer is $4$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\lim_{x \\to 3} \\frac{x^2 - 9}{x - 3}",
+      "description_latex": "Try direct substitution first: the numerator gives $9 - 9 = 0$ and the denominator gives $3 - 3 = 0$, so we have the indeterminate form $\\frac{0}{0}$. This signals that we need to factor and simplify before substituting.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{(x-3)(x+3)}{x-3} = x + 3, \\quad x \\neq 3",
+      "description_latex": "We factor the numerator as a difference of squares and cancel the common factor $(x - 3)$. This leaves the simplified expression $x + 3$, which we can now safely evaluate at $x = 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $x = 3$ into the simplified expression $x + 3$ to find the limit. What is the final value of $\\lim_{x \\to 3} \\frac{x^2 - 9}{x - 3}$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\lim_{x \\to 5}(3x^2 - 2x + 1)",
+      "answer_latex": "66"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to -1} \\frac{x^2 + 3x + 2}{x + 1}",
+      "answer_latex": "1"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to 4} \\frac{x^2 - 16}{x - 4}",
+      "answer_latex": "8"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to 0} \\frac{\\sqrt{x + 9} - 3}{x}",
+      "answer_latex": "\\dfrac{1}{6}"
+    },
+    {
+      "prompt_latex": "A particle's average velocity over a time interval $[1, t]$ is given by $v_{avg} = \\frac{t^2 - 1}{t - 1}$. Find the instantaneous velocity at $t = 1$ by evaluating $\\lim_{t \\to 1} \\frac{t^2 - 1}{t - 1}$.",
+      "answer_latex": "2"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to check whether direct substitution is valid first, and immediately jump to factoring even when plugging in would give a clean answer immediately \u2014 always try substitution first, because if it gives a real number (not $\\frac{0}{0}$), you are already done.",
+    "After canceling the common factor, students substitute into the *original* fraction instead of the simplified expression, recreating the $\\frac{0}{0}$ problem \u2014 once you cancel, substitute only into the fully simplified form.",
+    "When rationalizing limits involving radicals (like $\\frac{\\sqrt{x+9}-3}{x}$), students multiply only the numerator by the conjugate without multiplying the denominator by the same factor, which changes the value of the expression \u2014 always multiply by $\\frac{\\text{conjugate}}{\\text{conjugate}}$ so you are multiplying by 1."
+  ],
+  "untested_variants": [
+    "Limits involving absolute values, such as $\\lim_{x \\to 0} \\frac{|x|}{x}$, which require analyzing one-sided limits separately.",
+    "Limits at infinity, such as $\\lim_{x \\to \\infty} \\frac{3x^2 - 1}{x^2 + 5}$, which use a different technique of dividing numerator and denominator by the highest power of $x$.",
+    "Piecewise-defined function limits where you must check whether the left-hand and right-hand limits agree at the boundary point.",
+    "Limits involving trigonometric expressions and the special limits $\\lim_{x \\to 0} \\frac{\\sin x}{x} = 1$ or $\\lim_{x \\to 0} \\frac{1 - \\cos x}{x} = 0$."
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "topic_id": "c1_004",
+  "topic_name": "Limits Involving Infinity",
+  "generated_at": "2026-05-13T00:04:02.091977+00:00",
+  "course_name": "Calculus I",
+  "hook": "You already know how to evaluate limits like $\\lim_{x \\to 3} \\frac{x^2 - 9}{x - 3} = 6$ by factoring and substituting. But what happens when we ask: what does $f(x) = \\frac{3x^2 + 1}{x^2 - 5}$ approach as $x$ grows without bound, or what does $\\frac{1}{(x-2)^2}$ do as $x$ gets closer and closer to 2? These questions involve infinity in a fundamentally new way \u2014 the input or the output escapes to infinity \u2014 and our usual algebraic tricks break down. How do we make sense of a limit when 'approaching' means heading toward $\\infty$, or when the function's values blow up?",
+  "concept": "Limits involving infinity come in two flavors. A limit at infinity, $\\lim_{x \\to \\infty} f(x) = L$, asks what value $f(x)$ approaches as $x$ grows without bound \u2014 describing a horizontal asymptote. An infinite limit, $\\lim_{x \\to a} f(x) = \\infty$, asks what happens to $f(x)$ as $x$ approaches a finite number $a$ and the output grows without bound \u2014 describing a vertical asymptote. Formally: $\\lim_{x \\to \\infty} f(x) = L$ means for every $\\varepsilon > 0$ there exists $M$ such that $x > M$ implies $|f(x) - L| < \\varepsilon$.",
+  "anatomy": "Every limit involving infinity has identifiable structural parts. The limit expression $\\lim_{x \\to \\infty} f(x)$ contains: the variable $x$ (the input), the direction of approach ($x \\to \\infty$ means inputs grow without bound, $x \\to -\\infty$ means inputs decrease without bound, $x \\to a^+$ or $x \\to a^-$ means inputs approach a finite value from one side), the function $f(x)$ (the rule we are evaluating), and the limit value $L$ (which may itself be a finite number, $+\\infty$, $-\\infty$, or nonexistent). When the limit value is infinite, the function has a vertical asymptote at $x = a$; when the limit value is finite as $x \\to \\pm\\infty$, the function has a horizontal asymptote $y = L$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\lim_{x \\to \\infty} \\frac{3x^2 + 5x - 1}{2x^2 - 7}",
+      "description_latex": "We want to find what this rational function approaches as $x$ grows without bound. The key technique is to divide every term in the numerator and denominator by the highest power of $x$ present in the denominator \u2014 here that is $x^2$ \u2014 so that we can use the fact that $\\frac{1}{x^k} \\to 0$ as $x \\to \\infty$ for any $k > 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\lim_{x \\to \\infty} \\frac{\\dfrac{3x^2}{x^2} + \\dfrac{5x}{x^2} - \\dfrac{1}{x^2}}{\\dfrac{2x^2}{x^2} - \\dfrac{7}{x^2}} = \\lim_{x \\to \\infty} \\frac{3 + \\dfrac{5}{x} - \\dfrac{1}{x^2}}{2 - \\dfrac{7}{x^2}}",
+      "description_latex": "After dividing through by $x^2$, each fraction with $x$ in the denominator becomes a term that vanishes as $x \\to \\infty$. We have rewritten the expression in a form where we can now take the limit term by term, since every $\\frac{c}{x^k}$ term approaches zero.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "= \\frac{3 + 0 - 0}{2 - 0} = \\frac{3}{2}",
+      "description_latex": "Substituting the limiting values, all the terms involving $\\frac{1}{x}$ and $\\frac{1}{x^2}$ go to zero, leaving only the leading coefficients. The limit equals $\\frac{3}{2}$, which means $y = \\frac{3}{2}$ is a horizontal asymptote of this function.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\lim_{x \\to 3^+} \\frac{1}{x - 3}",
+      "description_latex": "We are approaching $x = 3$ from the right, meaning $x$ is slightly greater than 3. Notice the denominator $x - 3$ is a small positive number when $x > 3$, and the numerator is the constant 1. Think about what happens to $\\frac{1}{\\text{tiny positive number}}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{As } x \\to 3^+,\\quad x - 3 \\to 0^+,\\quad \\text{so } \\frac{1}{x-3} \\to \\ ?",
+      "description_latex": "Determine the sign and behavior of $\\frac{1}{x-3}$ as the denominator shrinks toward zero from the positive side. Does the expression grow toward $+\\infty$ or $-\\infty$? Write the final limit value.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\lim_{x \\to \\infty} \\frac{7}{x^3}",
+      "answer_latex": "0"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to \\infty} \\frac{5x^3 - 2x}{4x^3 + x^2 + 1}",
+      "answer_latex": "\\dfrac{5}{4}"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to 2^-} \\frac{x + 1}{(x - 2)^2}",
+      "answer_latex": "+\\infty"
+    },
+    {
+      "prompt_latex": "\\lim_{x \\to \\infty} \\frac{6x^2 - 1}{3x^3 + 2}",
+      "answer_latex": "0"
+    },
+    {
+      "prompt_latex": "A particle's velocity (in m/s) is modeled by $v(t) = \\dfrac{10t}{t + 5}$ for $t \\geq 0$. What is the particle's terminal velocity, i.e., $\\lim_{t \\to \\infty} v(t)$?",
+      "answer_latex": "10 \\text{ m/s}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often try to substitute $\\infty$ directly into a rational expression and write $\\frac{\\infty}{\\ infty} = 1$, treating infinity like a number. This is an indeterminate form and has no value on its own; you must first divide by the dominant power of $x$ to resolve it.",
+    "When evaluating an infinite limit like $\\lim_{x \\to 2^-} \\frac{1}{x - 2}$, students sometimes drop the sign and write $+\\infty$ without checking whether the denominator is negative or positive from the given side \u2014 from the left, $x - 2 < 0$, so the correct answer is $-\\infty$, not $+\\infty$.",
+    "For limits at infinity of rational functions, students often divide only the numerator (or only the denominator) by $x^n$ instead of every single term in both. Forgetting to divide one term changes the entire expression and leads to an incorrect simplified form."
+  ],
+  "untested_variants": [
+    "Limits at infinity of functions involving radicals or square roots, such as $\\lim_{x \\to \\infty} \\left(\\sqrt{x^2 + x} - x\\right)$, which require multiplying by the conjugate before the dominant-power technique applies.",
+    "Two-sided infinite limits where the left-hand and right-hand limits disagree in sign, so the two-sided limit does not exist (e.g., $\\lim_{x \\to 0} \\frac{1}{x}$), and the student must recognize and state that the limit DNE.",
+    "Limits at negative infinity ($x \\to -\\infty$) of functions with odd powers or absolute values, where sign analysis requires extra care because $\\sqrt{x^2} = |x| = -x$ when $x < 0$.",
+    "Limits involving exponential or trigonometric functions as $x \\to \\infty$, such as $\\lim_{x \\to \\infty} e^{-x}$ or $\\lim_{x \\to \\infty} \\sin(x)$, where the rational-function technique does not apply."
+  ]
+}

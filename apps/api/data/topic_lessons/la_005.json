@@ -1,0 +1,86 @@
+{
+  "topic_id": "la_005",
+  "topic_name": "Solution Sets and Free Variables",
+  "generated_at": "2026-05-13T20:05:06.415651+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to solve a system of two equations and two unknowns \u2014 you get a unique point of intersection. But what happens when you have three unknowns and only two equations, or when two equations secretly say the same thing? Suddenly the 'solution' isn't a single point but an entire line or plane full of valid answers. How do you describe infinitely many solutions in a compact, organized way?",
+  "concept": "A solution set is the complete collection of all vectors that satisfy a linear system. When a system has more unknowns than independent constraints, some variables can take any real value \u2014 these are called free variables \u2014 while the remaining pivot variables are expressed in terms of them. Formally, if $A\\mathbf{x} = \\mathbf{b}$ has infinitely many solutions, the solution set is written parametrically as $\\mathbf{x} = \\mathbf{p} + t_1\\mathbf{v}_1 + t_2\\mathbf{v}_2 + \\cdots$, where $t_i$ are free parameters.",
+  "anatomy": "Every parametric solution set has three distinct structural parts. First, the particular solution $\\mathbf{p}$ is a single specific vector satisfying $A\\mathbf{x} = \\mathbf{b}$; it translates the solution set away from the origin. Second, each free variable \u2014 corresponding to a non-pivot column in the row-echelon form \u2014 generates one direction vector $\\mathbf{v}_i$ that spans part of the null space of $A$. Third, the pivot variables are the basic variables: their values are completely determined once you assign numbers to the free variables, making them the 'dependent' unknowns.",
+  "worked_example": [
+    {
+      "expression_latex": "\\begin{cases} x_1 + 2x_2 - x_3 = 4 \\\\ 2x_1 + 4x_2 + x_3 = 7 \\end{cases}",
+      "description_latex": "We start with a system of two equations in three unknowns, which already signals that we should expect at least one free variable since we have more unknowns than equations. Our goal is to row-reduce the augmented matrix to identify pivot columns and free columns.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left[\\begin{array}{ccc|c} 1 & 2 & -1 & 4 \\\\ 2 & 4 & 1 & 7 \\end{array}\\right] \\xrightarrow{R_2 - 2R_1} \\left[\\begin{array}{ccc|c} 1 & 2 & -1 & 4 \\\\ 0 & 0 & 3 & -1 \\end{array}\\right]",
+      "description_latex": "We form the augmented matrix and subtract twice row 1 from row 2. Notice that the second column becomes all zeros \u2014 this tells us that $x_2$ is a free variable because column 2 has no pivot. Columns 1 and 3 have pivots, so $x_1$ and $x_3$ are the pivot (basic) variables.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left[\\begin{array}{ccc|c} 1 & 2 & -1 & 4 \\\\ 0 & 0 & 1 & -\\tfrac{1}{3} \\end{array}\\right] \\xrightarrow{R_1 + R_2} \\left[\\begin{array}{ccc|c} 1 & 2 & 0 & \\tfrac{11}{3} \\\\ 0 & 0 & 1 & -\\tfrac{1}{3} \\end{array}\\right]",
+      "description_latex": "We scale row 2 by $\\tfrac{1}{3}$ to make the pivot a 1, then eliminate $x_3$ from row 1 by adding row 2 to row 1. This puts the matrix in reduced row echelon form, from which we can read off the expressions for the pivot variables directly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x_1 = \\tfrac{11}{3} - 2x_2, \\quad x_2 = x_2 \\text{ (free)}, \\quad x_3 = -\\tfrac{1}{3}",
+      "description_latex": "From the reduced matrix, we read that $x_1 = \\tfrac{11}{3} - 2x_2$ and $x_3 = -\\tfrac{1}{3}$, while $x_2$ is unconstrained. We let $x_2 = t$ for any real number $t$ to prepare for parametric form \u2014 every different value of $t$ gives a different valid solution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{x} = \\begin{pmatrix} \\tfrac{11}{3} \\\\ 0 \\\\ -\\tfrac{1}{3} \\end{pmatrix} + t\\begin{pmatrix} -2 \\\\ 1 \\\\ 0 \\end{pmatrix}, \\quad t \\in \\mathbb{R}",
+      "description_latex": "We separate the constant part (the particular solution $\\mathbf{p}$, obtained by setting $t=0$) from the direction vector multiplied by the free parameter $t$. The solution set is a line in $\\mathbb{R}^3$ passing through $\\mathbf{p}$ in the direction $(-2, 1, 0)^T$, and every point on that line is a valid solution to the original system.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\begin{cases} x_1 - x_2 + 2x_3 = 3 \\\\ -2x_1 + 2x_2 - 4x_3 = -6 \\end{cases}",
+      "description_latex": "We have two equations in three unknowns. Notice that the second equation is exactly $-2$ times the first \u2014 so after row reduction the second row will become all zeros. Let's row-reduce the augmented matrix to see what we're left with.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\left[\\begin{array}{ccc|c} 1 & -1 & 2 & 3 \\\\ 0 & 0 & 0 & 0 \\end{array}\\right]",
+      "description_latex": "After performing $R_2 + 2R_1$, row 2 becomes all zeros. We now have only one pivot in column 1, which means $x_1$ is the only basic variable, and both $x_2$ and $x_3$ are free. Using parameters $s$ and $t$, write the complete parametric solution $\\mathbf{x}$ as a particular solution plus two direction vectors.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\mathbf{x} = \\begin{pmatrix} 3 \\\\ 0 \\\\ 0 \\end{pmatrix} + s\\begin{pmatrix} 1 \\\\ 1 \\\\ 0 \\end{pmatrix} + t\\begin{pmatrix} -2 \\\\ 0 \\\\ 1 \\end{pmatrix}, \\quad s,t \\in \\mathbb{R}",
+      "description_latex": "This is the correct answer. The solution set is a plane in $\\mathbb{R}^3$ passing through $(3,0,0)^T$ and spanned by the two direction vectors corresponding to the two free variables. Notice how two free variables produce a two-dimensional family of solutions.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "How many free variables does the system $x_1 + x_2 = 5,\\ x_1 - x_2 = 1$ have? State the solution set.",
+      "answer_latex": "No free variables. Unique solution: $x_1 = 3,\\ x_2 = 2$, i.e., $\\mathbf{x} = \\begin{pmatrix}3\\\\2\\end{pmatrix}$."
+    },
+    {
+      "prompt_latex": "Find the parametric solution set of the system $\\begin{cases} x_1 + 3x_2 = 6 \\end{cases}$.",
+      "answer_latex": "$\\mathbf{x} = \\begin{pmatrix}6\\\\0\\end{pmatrix} + t\\begin{pmatrix}-3\\\\1\\end{pmatrix},\\ t\\in\\mathbb{R}$, where $x_2 = t$ is the free variable."
+    },
+    {
+      "prompt_latex": "Row-reduce and write the parametric solution set: $\\begin{cases} x_1 + 2x_2 + 3x_3 = 0 \\\\ 2x_1 + 4x_2 + 6x_3 = 0 \\end{cases}$.",
+      "answer_latex": "$\\mathbf{x} = s\\begin{pmatrix}-2\\\\1\\\\0\\end{pmatrix} + t\\begin{pmatrix}-3\\\\0\\\\1\\end{pmatrix},\\ s,t\\in\\mathbb{R}$. (This is a homogeneous system so the particular solution is $\\mathbf{0}$.)"
+    },
+    {
+      "prompt_latex": "Solve the system, express the solution set parametrically, and identify whether the solution set is a point, line, or plane in $\\mathbb{R}^3$: $\\begin{cases} x_1 - x_3 = 2 \\\\ 2x_1 + x_2 - 2x_3 = 5 \\\\ -x_1 + x_3 = -2 \\end{cases}$.",
+      "answer_latex": "Row reduction gives one free variable $x_3 = t$. Solution: $\\mathbf{x} = \\begin{pmatrix}2\\\\1\\\\0\\end{pmatrix} + t\\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix},\\ t\\in\\mathbb{R}$. The solution set is a line in $\\mathbb{R}^3$."
+    },
+    {
+      "prompt_latex": "A factory produces three items $x_1, x_2, x_3$ (in hundreds of units). The total output is 10 hundred units, and item 1 always equals item 3. Write the constraint system, find all non-negative integer solutions by identifying the free variable, and list solutions where $x_1, x_2, x_3 \\geq 0$ and $x_1 + x_2 + x_3 = 10$, $x_1 = x_3$.",
+      "answer_latex": "Let $x_1 = t$; then $x_3 = t$ and $x_2 = 10 - 2t$. Requiring $x_2 \\geq 0$ gives $t \\leq 5$, so valid solutions are $t \\in \\{0,1,2,3,4,5\\}$, yielding 6 non-negative integer solutions."
+    }
+  ],
+  "common_mistakes": [
+    "Students often assign parameters to pivot variables instead of free variables. Remember: a free variable corresponds to a column in the row-echelon form with NO leading 1 (pivot), and it is the one that gets a parameter like $t$; the pivot variable is then expressed in terms of $t$.",
+    "When writing the parametric form, students forget that the particular solution $\\mathbf{p}$ is found by setting ALL free variables to zero, not by choosing arbitrary convenient values. Choosing any other values for the free variables changes both $\\mathbf{p}$ and the direction vectors, producing a different (and incorrect) representation.",
+    "Students sometimes conclude that a row of all zeros in the augmented matrix $[A|\\mathbf{b}]$ means the system is inconsistent. In fact, a zero row means that equation was redundant and contributes a free variable \u2014 inconsistency only occurs when you get a row of the form $[0\\ 0\\ \\cdots\\ 0\\ |\\ c]$ with $c \\neq 0$."
+  ],
+  "untested_variants": [
+    "Systems where the augmented matrix has a row $[0\\ 0\\ \\cdots\\ 0\\ |\\ c]$ with $c \\neq 0$, requiring the student to recognize inconsistency and conclude the solution set is empty.",
+    "Expressing the solution set of a homogeneous system $A\\mathbf{x} = \\mathbf{0}$ as the null space of $A$ and determining its dimension (nullity) using the Rank-Nullity Theorem.",
+    "Working backwards: given a parametric solution set such as $\\mathbf{x} = \\begin{pmatrix}1\\\\2\\\\0\\end{pmatrix} + t\\begin{pmatrix}3\\\\-1\\\\2\\end{pmatrix}$, reconstructing a system $A\\mathbf{x} = \\mathbf{b}$ that has exactly this solution set.",
+    "Solution sets in four or more variables, where the student must track multiple pivots and multiple free variables simultaneously while keeping the bookkeeping organized."
+  ]
+}

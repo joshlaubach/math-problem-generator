@@ -1,0 +1,81 @@
+{
+  "topic_id": "la_056",
+  "topic_name": "Positive Definite Operators (H)",
+  "generated_at": "2026-05-13T20:10:14.650368+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know that a self-adjoint operator $T$ on an inner product space has only real eigenvalues, and that its eigenvectors span the space. But knowing eigenvalues are real still leaves a lot of room: they could be negative, zero, or positive. Now suppose someone hands you a quadratic form $\\langle Tv, v \\rangle$ and claims it is always strictly positive for every nonzero vector $v$. Can you determine from the matrix of $T$ alone whether this is true \u2014 and what geometric or spectral condition guarantees it?",
+  "concept": "A positive definite operator is a self-adjoint operator whose associated quadratic form is strictly positive on every nonzero vector. Formally, a self-adjoint operator $T: V \\to V$ on a finite-dimensional inner product space is called **positive definite** if $\\langle Tv, v \\rangle > 0$ for all $v \\neq 0$, and **positive semidefinite** if $\\langle Tv, v \\rangle \\geq 0$ for all $v$. The key spectral fact: $T$ is positive definite if and only if every eigenvalue of $T$ is strictly positive.",
+  "anatomy": "The definition has three inseparable components. First, the operator $T$ must be **self-adjoint** ($T = T^*$), which ensures all eigenvalues are real and eigenvectors are orthogonal \u2014 without this, the quadratic form $\\langle Tv, v \\rangle$ need not even be real. Second, the **quadratic form** $Q(v) = \\langle Tv, v \\rangle$ is the scalar function being tested; it packages all directional information about $T$ into a single real number for each input $v$. Third, the **strict positivity condition** $Q(v) > 0$ for all $v \\neq 0$ is what distinguishes positive definite from merely positive semidefinite (where zero is allowed) or indefinite (where $Q$ can be negative). The spectral criterion \u2014 all eigenvalues $\\lambda_i > 0$ \u2014 is the most efficient tool for checking the condition in practice.",
+  "worked_example": [
+    {
+      "expression_latex": "T = \\begin{pmatrix} 3 & 1 \\\\ 1 & 3 \\end{pmatrix}, \\quad \\text{determine whether } T \\text{ is positive definite}",
+      "description_latex": "We start by confirming that $T$ is self-adjoint (symmetric over $\\mathbb{R}$), which is necessary before positive definiteness even makes sense. Since $T^T = T$, the matrix is symmetric, so we may proceed to check the eigenvalues.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(T - \\lambda I) = (3-\\lambda)^2 - 1 = \\lambda^2 - 6\\lambda + 8 = (\\lambda - 2)(\\lambda - 4) = 0",
+      "description_latex": "We compute the characteristic polynomial to find the eigenvalues. Expanding $(3-\\lambda)^2 - 1^2$ gives the quadratic $\\lambda^2 - 6\\lambda + 8$, which factors neatly as $(\\lambda-2)(\\lambda-4)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lambda_1 = 2 > 0, \\quad \\lambda_2 = 4 > 0",
+      "description_latex": "Both eigenvalues are strictly positive, so by the spectral criterion $T$ is positive definite. This is the fastest check: you never need to test every vector $v$ individually once you know the eigenvalues.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\langle Tv, v \\rangle = 3x^2 + 2xy + 3y^2 = 2\\left(\\frac{x+y}{\\sqrt{2}}\\right)^2 + 4\\left(\\frac{x-y}{\\sqrt{2}}\\right)^2 > 0 \\text{ for } (x,y) \\neq (0,0)",
+      "description_latex": "As a verification, we write out the quadratic form explicitly with $v = (x,y)^T$ and diagonalize in the eigenbasis. The form is a sum of squares with positive coefficients equal to the eigenvalues, confirming directly that $Q(v) > 0$ for all nonzero $v$ \u2014 this also illustrates why eigenvalues appear as the coefficients in the diagonal form.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "T = \\begin{pmatrix} 5 & 2 \\\\ 2 & 2 \\end{pmatrix}, \\quad \\text{determine whether } T \\text{ is positive definite}",
+      "description_latex": "We first verify symmetry: $T^T = T$, so $T$ is self-adjoint over $\\mathbb{R}$ and we can apply the spectral criterion. Our strategy is to find the eigenvalues and check their signs.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(T - \\lambda I) = (5-\\lambda)(2-\\lambda) - 4 = \\lambda^2 - 7\\lambda + 6 = (\\lambda - 1)(\\lambda - 6) = 0",
+      "description_latex": "Here we expand the characteristic polynomial. Notice that $(5-\\lambda)(2-\\lambda) = \\lambda^2 - 7\\lambda + 10$, and subtracting $4$ gives $\\lambda^2 - 7\\lambda + 6$, which factors as $(\\lambda-1)(\\lambda-6)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now identify the two eigenvalues from the factored characteristic polynomial and state, with justification using the spectral criterion, whether $T$ is positive definite, positive semidefinite, or neither.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $T = \\begin{pmatrix} 4 & 0 \\\\ 0 & 7 \\end{pmatrix}$. Without computing eigenvalues, explain why $T$ is positive definite.",
+      "answer_latex": "$T$ is diagonal with diagonal entries $4 > 0$ and $7 > 0$; these are the eigenvalues, so all eigenvalues are positive and $T$ is positive definite."
+    },
+    {
+      "prompt_latex": "Determine whether $T = \\begin{pmatrix} 2 & -1 \\\\ -1 & 2 \\end{pmatrix}$ is positive definite by computing its eigenvalues.",
+      "answer_latex": "Eigenvalues satisfy $\\lambda^2 - 4\\lambda + 3 = (\\lambda-1)(\\lambda-3) = 0$, giving $\\lambda_1 = 1 > 0$ and $\\lambda_2 = 3 > 0$. Since all eigenvalues are positive, $T$ is positive definite."
+    },
+    {
+      "prompt_latex": "Let $T = \\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$. Is $T$ positive definite? Justify using the spectral criterion.",
+      "answer_latex": "Eigenvalues: $\\lambda^2 - 2\\lambda - 3 = (\\lambda-3)(\\lambda+1) = 0$, so $\\lambda_1 = 3$ and $\\lambda_2 = -1$. Since $\\lambda_2 = -1 < 0$, $T$ is NOT positive definite (it is indefinite)."
+    },
+    {
+      "prompt_latex": "Suppose $T$ is a positive definite operator on $V$. Prove that $T$ is invertible.",
+      "answer_latex": "Since $T$ is positive definite, all eigenvalues $\\lambda_i > 0$, so in particular no eigenvalue equals zero. Because $\\det(T) = \\prod \\lambda_i > 0 \\neq 0$, the operator $T$ is invertible."
+    },
+    {
+      "prompt_latex": "A symmetric matrix $A$ represents the covariance matrix of a random vector, with $A = \\begin{pmatrix} 9 & 3 \\\\ 3 & 4 \\end{pmatrix}$. The quadratic form $\\langle Av, v \\rangle$ measures variance in direction $v$. Determine whether $A$ is positive definite, and interpret what this means about the variance in any direction.",
+      "answer_latex": "Characteristic polynomial: $\\lambda^2 - 13\\lambda + 27 = 0$, giving $\\lambda = \\frac{13 \\pm \\sqrt{61}}{2}$; both roots are positive (approximately $9.41$ and $3.59$). Since all eigenvalues are positive, $A$ is positive definite, which means the variance $\\langle Av, v \\rangle > 0$ in every nonzero direction \u2014 there is genuine spread in every direction, and no direction has zero variance."
+    }
+  ],
+  "common_mistakes": [
+    "Students apply the positive definite test to a matrix that is NOT self-adjoint, then conclude based on eigenvalues alone. The spectral criterion is only valid for self-adjoint operators; always verify $T = T^*$ first, otherwise the quadratic form $\\langle Tv, v \\rangle$ may not even be real.",
+    "Students confuse positive definite with positive semidefinite by accepting zero as an eigenvalue. If even one eigenvalue equals zero, the operator is only positive semidefinite (not positive definite), because there exists a nonzero vector $v$ with $\\langle Tv, v \\rangle = 0$; the strict inequality $> 0$ requires all eigenvalues to be strictly positive.",
+    "Students check the diagonal entries of the matrix and conclude positivity from those alone. Positive diagonal entries do not guarantee positive definite \u2014 the matrix $\\begin{pmatrix} 1 & 2 \\\\ 2 & 1 \\end{pmatrix}$ has positive diagonal entries but a negative eigenvalue; only the full set of eigenvalues (or Sylvester's criterion) gives a reliable test."
+  ],
+  "untested_variants": [
+    "Showing that the product $T^* T$ is always positive semidefinite for any operator $T$, and determining when it is positive definite.",
+    "Using Sylvester's criterion (checking leading principal minors) as an alternative to eigenvalue computation for verifying positive definiteness of larger matrices.",
+    "Proving that if $T$ is positive definite then $\\sqrt{T}$ exists as a positive definite operator, using the spectral theorem to define it via $\\sqrt{\\lambda_i}$.",
+    "Working with complex inner product spaces where $\\langle Tv, v \\rangle \\in \\mathbb{R}$ must be verified separately before positivity can be stated."
+  ]
+}

@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_015",
+  "topic_name": "Introduction to Fields (Real, Complex, Finite Fields)",
+  "generated_at": "2026-05-13T20:06:16.724395+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to add, subtract, multiply, and divide real numbers, and you've seen how these operations follow reliable rules like commutativity and distributivity. But when we build vector spaces, we need to ask: exactly which number systems are 'good enough' to serve as the scalars? For instance, can we use only the integers, or clock arithmetic modulo 5, or the complex numbers? The question is: what minimal set of rules must a number system satisfy before we can do linear algebra over it?",
+  "concept": "A field is a set equipped with two operations \u2014 addition and multiplication \u2014 that together behave as nicely as the real numbers do. Formally, a field $(F, +, \\cdot)$ is a set $F$ with operations $+$ and $\\cdot$ satisfying: commutativity and associativity of both operations, existence of additive identity $0$ and multiplicative identity $1 \\neq 0$, additive inverses for every element, multiplicative inverses for every nonzero element, and distributivity of $\\cdot$ over $+$.",
+  "anatomy": "Every field has two binary operations: addition $+$ and multiplication $\\cdot$, each mapping $F \\times F \\to F$. The additive identity is $0 \\in F$ (so $a + 0 = a$ for all $a$), and the multiplicative identity is $1 \\in F$ (so $a \\cdot 1 = a$). For every $a \\in F$ there is an additive inverse $-a$ with $a + (-a) = 0$, and for every $a \\neq 0$ there is a multiplicative inverse $a^{-1}$ with $a \\cdot a^{-1} = 1$. The characteristic of a field is the smallest positive integer $p$ such that $1 + 1 + \\cdots + 1$ ($p$ times) $= 0$, or $0$ if no such $p$ exists \u2014 this distinguishes real/complex fields (characteristic $0$) from finite fields like $\\mathbb{F}_p$ (characteristic $p$).",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbb{R} = (\\mathbb{R}, +, \\cdot)",
+      "description_latex": "We start by verifying the most familiar example: the real numbers. Every real number has an additive inverse ($a$ and $-a$), every nonzero real has a multiplicative inverse ($a$ and $1/a$), and all the arithmetic rules you know hold \u2014 so $\\mathbb{R}$ is indeed a field, serving as our benchmark.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbb{C} = \\{a + bi : a, b \\in \\mathbb{R},\\, i^2 = -1\\}",
+      "description_latex": "The complex numbers extend $\\mathbb{R}$ by adjoining $i$. To check it is a field, the key step is finding the multiplicative inverse: for $z = a+bi \\neq 0$, we have $z^{-1} = \\frac{a - bi}{a^2 + b^2}$, which is again a complex number. Because every nonzero element has an inverse and all other field axioms are inherited, $\\mathbb{C}$ is a field.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbb{F}_5 = \\mathbb{Z}/5\\mathbb{Z} = \\{0, 1, 2, 3, 4\\} \\text{ with arithmetic mod } 5",
+      "description_latex": "Now we look at a finite field. In $\\mathbb{F}_5$, addition and multiplication are performed modulo 5 \u2014 for example, $3 + 4 = 2$ and $3 \\cdot 4 = 2$. The crucial check is multiplicative inverses: since $5$ is prime, every nonzero element has one (e.g., $2^{-1} = 3$ because $2 \\cdot 3 = 6 \\equiv 1 \\pmod{5}$), confirming $\\mathbb{F}_5$ is a field.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbb{Z} = (\\mathbb{Z}, +, \\cdot) \\text{ \u2014 is this a field?}",
+      "description_latex": "The integers look promising because they have addition and multiplication, but we must check multiplicative inverses. The element $2 \\in \\mathbb{Z}$ has no multiplicative inverse inside $\\mathbb{Z}$, since $2 \\cdot n = 1$ has no integer solution. This single failure disqualifies $\\mathbb{Z}$ from being a field, illustrating that the inverse axiom is the most restrictive one to satisfy.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbb{F}_4 \\text{ exists, but } \\mathbb{F}_6 \\text{ does not}",
+      "description_latex": "Finite fields exist only when the number of elements is a prime power $p^n$. Because $4 = 2^2$ is a prime power, $\\mathbb{F}_4$ exists (though its multiplication is not simply mod 4). Because $6 = 2 \\cdot 3$ is not a prime power, no field with exactly 6 elements can exist \u2014 this is a deep theorem that shows fields are not as flexible as arbitrary sets.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: } \\mathbb{F}_7 = \\{0,1,2,3,4,5,6\\} \\text{ with arithmetic mod } 7 \\text{ is a field.}",
+      "description_latex": "We need to verify all field axioms. Most follow directly from properties of modular arithmetic; the hardest to check is that every nonzero element has a multiplicative inverse mod 7. We will find the inverse of $3$ as a concrete example.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3 \\cdot x \\equiv 1 \\pmod{7}",
+      "description_latex": "We need to find $x \\in \\{1,2,3,4,5,6\\}$ such that $3x \\equiv 1 \\pmod 7$. Try testing values $x = 1, 2, 3, \\ldots$ and use the fact that $7$ is prime to guarantee a solution exists. What is $3^{-1}$ in $\\mathbb{F}_7$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "3^{-1} = 5 \\in \\mathbb{F}_7 \\text{ since } 3 \\cdot 5 = 15 \\equiv 1 \\pmod{7}",
+      "description_latex": "Since 7 is prime, every nonzero element has an inverse (the same argument works for all elements), and all other axioms hold. Therefore $\\mathbb{F}_7$ is a field with characteristic 7, meaning $\\underbrace{1+1+\\cdots+1}_{7} = 0$ in $\\mathbb{F}_7$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{What is the characteristic of } \\mathbb{F}_7?",
+      "description_latex": "Recall that the characteristic is the smallest positive integer $p$ such that adding $1$ to itself $p$ times gives $0$. Compute $1+1+\\cdots+1$ in $\\mathbb{F}_7$ and state the characteristic.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Is $\\mathbb{Q}$ (the rational numbers) a field? State yes or no and identify whether every nonzero element has a multiplicative inverse.",
+      "answer_latex": "Yes. For any $\\frac{p}{q} \\in \\mathbb{Q}$ with $\\frac{p}{q} \\neq 0$, its inverse is $\\frac{q}{p} \\in \\mathbb{Q}$, so all field axioms are satisfied."
+    },
+    {
+      "prompt_latex": "Find the multiplicative inverse of $4$ in $\\mathbb{F}_{11}$ (integers mod 11).",
+      "answer_latex": "4^{-1} = 3 \\text{ in } \\mathbb{F}_{11}, \\text{ since } 4 \\cdot 3 = 12 \\equiv 1 \\pmod{11}"
+    },
+    {
+      "prompt_latex": "Explain why $\\mathbb{Z}/6\\mathbb{Z}$ is NOT a field by exhibiting a nonzero element with no multiplicative inverse.",
+      "answer_latex": "The element $2 \\in \\mathbb{Z}/6\\mathbb{Z}$ is nonzero but $2 \\cdot 1=2, 2\\cdot 2=4, 2\\cdot 3=0, 2\\cdot 4=2, 2\\cdot 5=4$ \u2014 none equal $1$, so $2$ has no inverse. This fails because $\\gcd(2,6) = 2 \\neq 1$."
+    },
+    {
+      "prompt_latex": "In $\\mathbb{F}_5$, compute $(3 + 4) \\cdot 2^{-1}$ using field arithmetic, then verify your answer satisfies $2x = 3+4$ in $\\mathbb{F}_5$.",
+      "answer_latex": "3+4 = 7 \\equiv 2 \\pmod 5. \\text{ Also } 2^{-1} = 3 \\text{ since } 2\\cdot 3=6\\equiv 1. \\text{ So } 2 \\cdot 3 = 6 \\equiv 1 \\pmod 5, \\text{ but } (3+4)\\cdot 2^{-1} = 2 \\cdot 3 = 6 \\equiv 1 \\pmod 5. \\text{ Check: } 2 \\cdot 1 = 2 \\equiv 3+4 \\pmod 5. \\checkmark"
+    },
+    {
+      "prompt_latex": "A student claims: 'We can build a vector space over $\\mathbb{Z}$ because $\\mathbb{Z}$ has addition and multiplication.' Identify the specific field axiom that $\\mathbb{Z}$ violates and explain what goes wrong if we try to scale vectors by integers without inverses.",
+      "answer_latex": "\\mathbb{Z} \\text{ violates the multiplicative inverse axiom: e.g., } 2 \\text{ has no inverse in } \\mathbb{Z}. \\text{ Without inverses, we cannot solve } 2\\mathbf{v} = \\mathbf{u} \\text{ for } \\mathbf{v}, \\text{ so scalar division fails and the structure is only a } \\mathbb{Z}\\text{-module, not a vector space.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often assume $\\mathbb{Z}/n\\mathbb{Z}$ is always a field for any $n$, but it is a field only when $n$ is prime. When $n$ is composite, some nonzero elements (those sharing a factor with $n$) have no multiplicative inverse \u2014 fix this by checking: $\\mathbb{Z}/n\\mathbb{Z}$ is a field if and only if $n$ is prime.",
+    "Students confuse the additive identity $0$ and multiplicative identity $1$, sometimes claiming $0$ should have a multiplicative inverse. The field axioms explicitly require inverses only for nonzero elements; insisting $0^{-1}$ must exist leads to the contradiction $0 \\cdot 0^{-1} = 0 = 1$, which violates $1 \\neq 0$.",
+    "When working in finite fields like $\\mathbb{F}_4$, students assume the elements are $\\{0,1,2,3\\}$ with arithmetic mod 4, but $\\mathbb{F}_4$ is not $\\mathbb{Z}/4\\mathbb{Z}$ \u2014 it requires a different multiplication table. Remember that $\\mathbb{F}_{p^n}$ for $n > 1$ is constructed using polynomial arithmetic, not simple integer modular reduction."
+  ],
+  "untested_variants": [
+    "Constructing $\\mathbb{F}_4$ explicitly using polynomials over $\\mathbb{F}_2$ modulo an irreducible polynomial, and writing out its full addition and multiplication tables.",
+    "Using the field axioms to prove general consequences, such as showing $(-1)(-1) = 1$ or $0 \\cdot a = 0$ for all $a$ directly from the axioms without appealing to intuition.",
+    "Determining the characteristic of a given field and explaining how characteristic 2 fields differ algebraically (e.g., $a + a = 0$ for all $a$ in $\\mathbb{F}_2$).",
+    "Identifying subfields \u2014 for example, showing that $\\mathbb{Q}$ is a subfield of $\\mathbb{R}$, or that $\\mathbb{F}_2$ sits inside $\\mathbb{F}_4$, and stating the formal definition of a subfield."
+  ]
+}

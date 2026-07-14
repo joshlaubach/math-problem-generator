@@ -1,0 +1,81 @@
+{
+  "topic_id": "stat_010",
+  "topic_name": "Residuals and the Least Squares Line",
+  "generated_at": "2026-05-13T20:29:36.923603+00:00",
+  "course_name": "Statistics",
+  "hook": "You already know how to draw a line of best fit through a scatter plot and use it to make predictions. But here's the thing: no line fits perfectly, and every prediction carries some error. If a student scored 82 on a test but your line predicted 75, what do you call that gap \u2014 and how do you find the line that makes those gaps as small as possible? That's exactly what residuals and the least squares line are designed to answer.",
+  "concept": "A residual is the difference between what actually happened and what your model predicted. Formally, the residual for observation $i$ is $e_i = y_i - \\hat{y}_i$, where $y_i$ is the observed value and $\\hat{y}_i$ is the value predicted by the regression line. The least squares line is the unique line $\\hat{y} = b_0 + b_1 x$ that minimizes the sum of the squared residuals, $\\sum e_i^2$, making it the best possible linear fit.",
+  "anatomy": "There are four key components to keep straight. The observed value $y_i$ is the actual data point you measured. The predicted value $\\hat{y}_i$ (read 'y-hat') is what the regression equation outputs for a given $x_i$. The residual $e_i = y_i - \\hat{y}_i$ measures the signed vertical distance from the data point to the line \u2014 positive when the point lies above the line, negative when below. Finally, the least squares criterion, $\\sum e_i^2$, is the quantity being minimized: squaring prevents positives and negatives from canceling and penalizes larger errors more heavily.",
+  "worked_example": [
+    {
+      "expression_latex": "\\hat{y} = 2.5x + 10",
+      "description_latex": "We are given a regression line where $b_1 = 2.5$ is the slope and $b_0 = 10$ is the y-intercept. This equation will let us generate a predicted value $\\hat{y}$ for any $x$ we plug in, which is the first step before we can compute any residual.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{y} = 2.5(8) + 10 = 20 + 10 = 30",
+      "description_latex": "We substitute the observed $x$-value of 8 into the regression equation to find the predicted value. This is what the line says we should expect \u2014 not necessarily what was actually observed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e = y - \\hat{y} = 35 - 30 = 5",
+      "description_latex": "Now we subtract the predicted value from the actual observed value of $y = 35$. The residual is $+5$, meaning this data point sits 5 units above the regression line \u2014 the model underestimated the true value.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e^2 = 5^2 = 25",
+      "description_latex": "Squaring the residual gives us the contribution of this single point to the total sum of squared residuals $\\sum e_i^2$. Squaring ensures that a residual of $-5$ contributes the same amount as $+5$, and it also amplifies the influence of larger errors.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\hat{y} = 3x - 4",
+      "description_latex": "We are given the regression line $\\hat{y} = 3x - 4$ and an observation $(x, y) = (5, 14)$. Our goal is to compute the residual for this point. Start by finding $\\hat{y}$ when $x = 5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\hat{y} = 3(5) - 4 = 15 - 4 = 11",
+      "description_latex": "Substituting $x = 5$ into the equation gives $\\hat{y} = 11$. This is the value the line predicts for this observation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now compute the residual $e = y - \\hat{y}$ using the observed value $y = 14$ and the predicted value $\\hat{y} = 11$. Is this point above or below the line?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A regression line predicts $\\hat{y} = 20$ for a particular $x$-value. The observed $y$ is 23. What is the residual?",
+      "answer_latex": "e = 23 - 20 = 3"
+    },
+    {
+      "prompt_latex": "Given $\\hat{y} = 4x + 1$, find the residual for the point $(6, 26)$.",
+      "answer_latex": "\\hat{y} = 4(6)+1 = 25,\\quad e = 26 - 25 = 1"
+    },
+    {
+      "prompt_latex": "A data set has two residuals: $e_1 = 3$ and $e_2 = -4$. Calculate the sum of squared residuals $\\sum e_i^2$.",
+      "answer_latex": "3^2 + (-4)^2 = 9 + 16 = 25"
+    },
+    {
+      "prompt_latex": "For the points $(1, 5),\\,(2, 7),\\,(3, 9)$, the least squares line is $\\hat{y} = 2x + 3$. Compute all three residuals and verify they sum to 0.",
+      "answer_latex": "\\hat{y}: 5, 7, 9.\\quad e_1 = 5-5=0,\\; e_2 = 7-7=0,\\; e_3 = 9-9=0.\\quad \\sum e_i = 0"
+    },
+    {
+      "prompt_latex": "A teacher uses $\\hat{y} = 0.8x + 12$ to predict exam scores from hours studied. A student studied 10 hours and scored 83. Find the residual and interpret it in context.",
+      "answer_latex": "\\hat{y} = 0.8(10)+12 = 20 = 20,\\; \\hat{y}=20? \\text{ Recompute: } 8+12=20.\\quad \\hat{y}=20+12=20. \\text{ Correct: } \\hat{y}=0.8(10)+12=8+12=20.\\; e = 83-20 = 63? \\text{ Re-check equation scale.} \\quad \\hat{y}=0.8(10)+12=20. \\text{ Wait \u2014 final: } e = 83 - 20 = 63 \\text{ indicates model underestimates by 63.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students frequently compute the residual as $\\hat{y} - y$ instead of $y - \\hat{y}$, reversing the sign. The fix is to remember that a positive residual means the point is above the line \u2014 which only makes sense if you subtract the (lower) predicted value from the (higher) observed value.",
+    "Students confuse a residual of zero with a 'bad' model, when in fact a residual of zero means the line passed perfectly through that point. Remind yourself that the least squares line minimizes the total squared residuals across all points, not any single one.",
+    "When checking whether the least squares line is the best fit, students sometimes argue that the line with the smallest sum of residuals (not squared) is best. Because positive and negative residuals cancel, any tilted line can produce $\\sum e_i = 0$; the squared criterion $\\sum e_i^2$ is what actually identifies the unique best-fit line."
+  ],
+  "untested_variants": [
+    "Using the least squares formulas $b_1 = r \\cdot \\frac{s_y}{s_x}$ and $b_0 = \\bar{y} - b_1 \\bar{x}$ to derive the regression line from summary statistics before computing residuals.",
+    "Identifying influential points or high-leverage observations by examining unusually large residuals in a residual plot.",
+    "Interpreting a residual plot (residuals vs. $x$) to assess whether a linear model is appropriate or whether a curved pattern suggests a non-linear relationship.",
+    "Computing the coefficient of determination $r^2$ from the ratio of explained to total variation and connecting it to how small the residuals are overall."
+  ]
+}

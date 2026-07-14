@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_063",
+  "topic_name": "Bilinear Forms (H)",
+  "generated_at": "2026-05-13T20:55:48.280813+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to compute dot products like $\\mathbf{u} \\cdot \\mathbf{v} = u_1 v_1 + u_2 v_2$, and you've seen how linear maps send vectors to scalars. But what if you wanted a function that takes *two* vectors and returns a scalar in a way that is linear in each input separately \u2014 and what if the 'weights' in that pairing could be completely general, not just the standard $+1$ entries on the diagonal? The dot product is just one special case of a much richer structure. So: what is the most general way to pair two vectors from a real vector space into a scalar while preserving linearity in each slot?",
+  "concept": "A bilinear form is a function $B: V \\times V \\to \\mathbb{R}$ (or $\\mathbb{F}$) that is linear in each argument separately. In plain English, if you fix one input and vary the other, you get an ordinary linear map each time. Formally, $B$ satisfies $B(\\alpha \\mathbf{u} + \\beta \\mathbf{v}, \\mathbf{w}) = \\alpha B(\\mathbf{u}, \\mathbf{w}) + \\beta B(\\mathbf{v}, \\mathbf{w})$ and $B(\\mathbf{u}, \\alpha \\mathbf{v} + \\beta \\mathbf{w}) = \\alpha B(\\mathbf{u}, \\mathbf{v}) + \\beta B(\\mathbf{u}, \\mathbf{w})$ for all vectors and all scalars.",
+  "anatomy": "A bilinear form $B$ on $V$ has three key structural parts. First, the *domain* is the Cartesian product $V \\times V$, meaning $B$ always consumes an ordered pair of vectors $(\\mathbf{u}, \\mathbf{v})$. Second, after fixing a basis $\\{\\mathbf{e}_1, \\ldots, \\mathbf{e}_n\\}$, the entire form is encoded by its *Gram matrix* $A$ whose $(i,j)$-entry is $A_{ij} = B(\\mathbf{e}_i, \\mathbf{e}_j)$, so that $B(\\mathbf{u}, \\mathbf{v}) = \\mathbf{u}^\\top A \\mathbf{v}$. Third, the form has a *symmetry type*: it is called symmetric if $B(\\mathbf{u},\\mathbf{v}) = B(\\mathbf{v},\\mathbf{u})$ for all pairs (equivalently $A = A^\\top$), skew-symmetric if $B(\\mathbf{u},\\mathbf{v}) = -B(\\mathbf{v},\\mathbf{u})$ (equivalently $A = -A^\\top$), and neither in general.",
+  "worked_example": [
+    {
+      "expression_latex": "B(\\mathbf{u}, \\mathbf{v}) = \\mathbf{u}^\\top A \\mathbf{v}, \\quad A = \\begin{pmatrix} 2 & 1 \\\\ 3 & -1 \\end{pmatrix}",
+      "description_latex": "We start by identifying the Gram matrix $A$ for our bilinear form on $\\mathbb{R}^2$. Every bilinear form on a finite-dimensional space can be written as $B(\\mathbf{u}, \\mathbf{v}) = \\mathbf{u}^\\top A \\mathbf{v}$ for a unique matrix $A$ once a basis is fixed, so reading off $A$ is always the first step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{u} = \\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix}, \\quad \\mathbf{v} = \\begin{pmatrix} -1 \\\\ 3 \\end{pmatrix}",
+      "description_latex": "We choose two specific vectors to evaluate $B$. Plugging concrete vectors in lets us practice the matrix-sandwich computation and check our understanding before working abstractly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A\\mathbf{v} = \\begin{pmatrix} 2 & 1 \\\\ 3 & -1 \\end{pmatrix}\\begin{pmatrix} -1 \\\\ 3 \\end{pmatrix} = \\begin{pmatrix} 2(-1)+1(3) \\\\ 3(-1)+(-1)(3) \\end{pmatrix} = \\begin{pmatrix} 1 \\\\ -6 \\end{pmatrix}",
+      "description_latex": "We first compute the matrix-vector product $A\\mathbf{v}$ because the formula $\\mathbf{u}^\\top A \\mathbf{v}$ is most cleanly evaluated right-to-left. This intermediate vector will be dotted with $\\mathbf{u}$ in the next step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B(\\mathbf{u}, \\mathbf{v}) = \\mathbf{u}^\\top (A\\mathbf{v}) = \\begin{pmatrix} 1 & 2 \\end{pmatrix}\\begin{pmatrix} 1 \\\\ -6 \\end{pmatrix} = 1(1) + 2(-6) = -11",
+      "description_latex": "Now we take the dot product of $\\mathbf{u}$ with the vector $A\\mathbf{v}$ we just found, completing the scalar output. The result $B(\\mathbf{u}, \\mathbf{v}) = -11$ is the value the bilinear form assigns to this ordered pair of vectors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B(\\mathbf{v}, \\mathbf{u}) = \\mathbf{v}^\\top A \\mathbf{u} = \\begin{pmatrix} -1 & 3 \\end{pmatrix}\\begin{pmatrix} 2 & 1 \\\\ 3 & -1 \\end{pmatrix}\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} = \\begin{pmatrix} 7 & -4 \\end{pmatrix}\\begin{pmatrix} 1 \\\\ 2 \\end{pmatrix} = -1 \\neq -11",
+      "description_latex": "We compute $B(\\mathbf{v}, \\mathbf{u})$ to check whether this form is symmetric. Since $B(\\mathbf{v}, \\mathbf{u}) = -1 \\neq -11 = B(\\mathbf{u}, \\mathbf{v})$, the form is not symmetric \u2014 which we could have predicted because $A \\neq A^\\top$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B(\\mathbf{u}, \\mathbf{v}) = \\mathbf{u}^\\top A \\mathbf{v}, \\quad A = \\begin{pmatrix} 1 & 2 \\\\ 2 & -3 \\end{pmatrix}, \\quad \\mathbf{u} = \\begin{pmatrix} 2 \\\\ 1 \\end{pmatrix}, \\quad \\mathbf{v} = \\begin{pmatrix} 1 \\\\ 4 \\end{pmatrix}",
+      "description_latex": "Here is a symmetric bilinear form (note $A = A^\\top$) and two vectors. Our goal is to compute $B(\\mathbf{u}, \\mathbf{v})$ using the matrix-sandwich formula.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A\\mathbf{v} = \\begin{pmatrix} 1 & 2 \\\\ 2 & -3 \\end{pmatrix}\\begin{pmatrix} 1 \\\\ 4 \\end{pmatrix} = \\begin{pmatrix} 9 \\\\ -10 \\end{pmatrix}",
+      "description_latex": "We compute $A\\mathbf{v}$ first. Check this step yourself: entry 1 is $1(1)+2(4)=9$ and entry 2 is $2(1)+(-3)(4)=-10$. Now you need to finish the calculation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the result $A\\mathbf{v} = (9, -10)^\\top$, compute $B(\\mathbf{u}, \\mathbf{v}) = \\mathbf{u}^\\top (A\\mathbf{v})$ by taking the dot product of $\\mathbf{u} = (2,1)^\\top$ with $(9,-10)^\\top$. What scalar do you get?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Because $A$ is symmetric, we should have $B(\\mathbf{u},\\mathbf{v}) = B(\\mathbf{v},\\mathbf{u})$. Verify this by computing $B(\\mathbf{v}, \\mathbf{u}) = \\mathbf{v}^\\top A \\mathbf{u}$ from scratch and confirming you get the same answer.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $B(\\mathbf{u},\\mathbf{v}) = \\mathbf{u}^\\top A \\mathbf{v}$ with $A = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix}$. Compute $B\\!\\left(\\begin{pmatrix}3\\\\4\\end{pmatrix}, \\begin{pmatrix}1\\\\2\\end{pmatrix}\\right)$.",
+      "answer_latex": "B = 3(1) + 4(2) = 11"
+    },
+    {
+      "prompt_latex": "Let $B(\\mathbf{u},\\mathbf{v}) = \\mathbf{u}^\\top A \\mathbf{v}$ with $A = \\begin{pmatrix} 3 & -1 \\\\ 2 & 4 \\end{pmatrix}$. Compute $B\\!\\left(\\begin{pmatrix}1\\\\1\\end{pmatrix}, \\begin{pmatrix}2\\\\-1\\end{pmatrix}\\right)$.",
+      "answer_latex": "A\\mathbf{v} = (7, 0)^\\top, \\text{ so } B = 1(7)+1(0) = 7"
+    },
+    {
+      "prompt_latex": "For the bilinear form with Gram matrix $A = \\begin{pmatrix} 4 & 1 \\\\ 1 & -2 \\end{pmatrix}$, determine whether $B$ is symmetric and compute $B(\\mathbf{e}_1, \\mathbf{e}_2)$ and $B(\\mathbf{e}_2, \\mathbf{e}_1)$, where $\\mathbf{e}_1, \\mathbf{e}_2$ are standard basis vectors.",
+      "answer_latex": "A = A^\\top \\text{ so } B \\text{ is symmetric}; \\; B(\\mathbf{e}_1,\\mathbf{e}_2) = A_{12} = 1 = A_{21} = B(\\mathbf{e}_2,\\mathbf{e}_1)"
+    },
+    {
+      "prompt_latex": "Let $B: \\mathbb{R}^2 \\times \\mathbb{R}^2 \\to \\mathbb{R}$ be the bilinear form $B(\\mathbf{u},\\mathbf{v}) = 2u_1 v_1 - u_1 v_2 - u_2 v_1 + 3 u_2 v_2$. Write down its Gram matrix $A$ and verify that $B(\\mathbf{u},\\mathbf{u}) = \\mathbf{u}^\\top A \\mathbf{u}$ gives a positive value for all $\\mathbf{u} \\neq \\mathbf{0}$ by computing the discriminant of $A$.",
+      "answer_latex": "A = \\begin{pmatrix}2 & -1 \\\\ -1 & 3\\end{pmatrix};\\; \\det(A) = 6-1=5>0 \\text{ and } A_{11}=2>0, \\text{ so } A \\text{ is positive definite.}"
+    },
+    {
+      "prompt_latex": "A manufacturer measures the 'interaction cost' between two production vectors $\\mathbf{x}, \\mathbf{y} \\in \\mathbb{R}^2$ by $C(\\mathbf{x},\\mathbf{y}) = 5x_1 y_1 + 2x_1 y_2 + 2x_2 y_1 + x_2 y_2$. Write $C$ as $\\mathbf{x}^\\top A \\mathbf{y}$ for a matrix $A$. Is $C$ symmetric? Compute $C\\!\\left(\\begin{pmatrix}1\\\\2\\end{pmatrix}, \\begin{pmatrix}3\\\\1\\end{pmatrix}\\right)$.",
+      "answer_latex": "A = \\begin{pmatrix}5 & 2\\\\2 & 1\\end{pmatrix};\\; A=A^\\top \\text{ so } C \\text{ is symmetric};\\; C = 5(3)+2(1)+2(3)(2... = \\mathbf{x}^\\top A\\mathbf{y}: A\\mathbf{y}=(17,7)^\\top,\\; C = 1(17)+2(7) = 31"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget that bilinearity requires linearity in *each* argument separately, and instead try to verify only that $B(\\alpha\\mathbf{u}, \\mathbf{v}) = \\alpha B(\\mathbf{u},\\mathbf{v})$, missing the condition on the second slot entirely. Always check both arguments independently.",
+    "When computing $B(\\mathbf{u},\\mathbf{v}) = \\mathbf{u}^\\top A \\mathbf{v}$, students sometimes write $A\\mathbf{u}$ first and then dot with $\\mathbf{v}$, computing $\\mathbf{v}^\\top A \\mathbf{u}$ instead. This gives $B(\\mathbf{v},\\mathbf{u})$, not $B(\\mathbf{u},\\mathbf{v})$, and the two differ whenever $A$ is not symmetric.",
+    "Students confuse the Gram matrix entry $A_{ij} = B(\\mathbf{e}_i, \\mathbf{e}_j)$ with $A_{ij} = B(\\mathbf{e}_j, \\mathbf{e}_i)$, swapping the row and column index. Remember: the *row* index corresponds to the *first* argument of $B$."
+  ],
+  "untested_variants": [
+    "Changing basis and computing the transformation law for the Gram matrix: $A' = P^\\top A P$ where $P$ is the change-of-basis matrix.",
+    "Classifying a bilinear form by the signature of its Gram matrix (number of positive, negative, and zero eigenvalues) using Sylvester's Law of Inertia.",
+    "Bilinear forms over $\\mathbb{C}$ and the distinction between bilinear forms and sesquilinear (Hermitian) forms, where conjugation appears in one slot.",
+    "Decomposing an arbitrary bilinear form into its symmetric part $\\frac{1}{2}(B(\\mathbf{u},\\mathbf{v})+B(\\mathbf{v},\\mathbf{u}))$ and skew-symmetric part $\\frac{1}{2}(B(\\mathbf{u},\\mathbf{v})-B(\\mathbf{v},\\mathbf{u}))$."
+  ]
+}

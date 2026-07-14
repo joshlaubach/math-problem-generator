@@ -1,0 +1,81 @@
+{
+  "topic_id": "ms_022",
+  "topic_name": "The Linear Model in Matrix Form",
+  "generated_at": "2026-05-14T01:02:58.737803+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to write a simple linear regression equation like $y_i = \\beta_0 + \\beta_1 x_i + \\varepsilon_i$ and work with it observation by observation. But imagine you have 500 data points and 8 predictors \u2014 writing out 500 separate equations would be unwieldy, and deriving least-squares estimators algebraically becomes nearly impossible. Matrix notation packages all of those equations into a single compact expression and opens the door to elegant, general results. How do we encode an entire regression system as a single matrix equation?",
+  "concept": "The linear model in matrix form stacks all $n$ individual regression equations into one expression. Formally, we write $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$, where $\\mathbf{y}$ is an $n \\times 1$ response vector, $\\mathbf{X}$ is an $n \\times p$ design matrix of predictors, $\\boldsymbol{\\beta}$ is a $p \\times 1$ vector of unknown coefficients, and $\\boldsymbol{\\varepsilon}$ is an $n \\times 1$ vector of random errors.",
+  "anatomy": "The four components each play a distinct role. The response vector $\\mathbf{y} = (y_1, \\ldots, y_n)^\\top$ collects every observed outcome. The design matrix $\\mathbf{X}$ has rows $\\mathbf{x}_i^\\top = (1, x_{i1}, \\ldots, x_{i,p-1})$, where the leading column of ones encodes the intercept; its $(i,j)$ entry is the value of the $j$-th predictor for observation $i$. The coefficient vector $\\boldsymbol{\\beta} = (\\beta_0, \\beta_1, \\ldots, \\beta_{p-1})^\\top$ contains every unknown parameter. Finally, the error vector $\\boldsymbol{\\varepsilon} = (\\varepsilon_1, \\ldots, \\varepsilon_n)^\\top$ satisfies the classical assumptions $E[\\boldsymbol{\\varepsilon}] = \\mathbf{0}$ and $\\text{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{I}_n$.",
+  "worked_example": [
+    {
+      "expression_latex": "y_i = \\beta_0 + \\beta_1 x_i + \\varepsilon_i, \\quad i = 1, 2, 3",
+      "description_latex": "We start with three scalar equations for a simple linear regression with $n=3$ observations. Writing them all out explicitly is manageable here, but our goal is to see how this system collapses into one matrix equation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{pmatrix} y_1 \\\\ y_2 \\\\ y_3 \\end{pmatrix} = \\begin{pmatrix} 1 & x_1 \\\\ 1 & x_2 \\\\ 1 & x_3 \\end{pmatrix} \\begin{pmatrix} \\beta_0 \\\\ \\beta_1 \\end{pmatrix} + \\begin{pmatrix} \\varepsilon_1 \\\\ \\varepsilon_2 \\\\ \\varepsilon_3 \\end{pmatrix}",
+      "description_latex": "We identify $\\mathbf{y}$, $\\mathbf{X}$, $\\boldsymbol{\\beta}$, and $\\boldsymbol{\\varepsilon}$ by matching shapes: the design matrix is $3 \\times 2$ (a column of ones for the intercept and a column of $x$-values), and $\\boldsymbol{\\beta}$ is $2 \\times 1$. Notice that the matrix product $\\mathbf{X}\\boldsymbol{\\beta}$ reproduces exactly $\\beta_0 + \\beta_1 x_i$ in row $i$, which is why the column of ones is essential.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}, \\quad \\mathbf{y} \\in \\mathbb{R}^{3}, \\; \\mathbf{X} \\in \\mathbb{R}^{3 \\times 2}, \\; \\boldsymbol{\\beta} \\in \\mathbb{R}^{2}, \\; \\boldsymbol{\\varepsilon} \\in \\mathbb{R}^{3}",
+      "description_latex": "We write the compact matrix form and record the dimensions of every object. Keeping track of dimensions is non-negotiable: the product $\\mathbf{X}\\boldsymbol{\\beta}$ is only defined because the number of columns in $\\mathbf{X}$ equals the number of rows in $\\boldsymbol{\\beta}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[\\mathbf{y}] = \\mathbf{X}\\boldsymbol{\\beta}, \\qquad \\text{Var}(\\mathbf{y}) = \\sigma^2 \\mathbf{I}_3",
+      "description_latex": "Applying expectation and variance to $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$ uses the classical error assumptions $E[\\boldsymbol{\\varepsilon}]=\\mathbf{0}$ and $\\text{Var}(\\boldsymbol{\\varepsilon})=\\sigma^2 \\mathbf{I}$. This tells us that $\\mathbf{X}\\boldsymbol{\\beta}$ is the mean vector of all responses, which is the geometric interpretation of the regression fitting a plane through the data.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y_i = \\beta_0 + \\beta_1 x_{i1} + \\beta_2 x_{i2} + \\varepsilon_i, \\quad i = 1, 2, 3, 4",
+      "description_latex": "We have a multiple regression model with two predictors and $n=4$ observations. Our task is to write this as $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$ and state the dimensions of each matrix.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{y} = \\begin{pmatrix} y_1 \\\\ y_2 \\\\ y_3 \\\\ y_4 \\end{pmatrix}, \\quad \\boldsymbol{\\beta} = \\begin{pmatrix} \\beta_0 \\\\ \\beta_1 \\\\ \\beta_2 \\end{pmatrix}, \\quad \\boldsymbol{\\varepsilon} = \\begin{pmatrix} \\varepsilon_1 \\\\ \\varepsilon_2 \\\\ \\varepsilon_3 \\\\ \\varepsilon_4 \\end{pmatrix}",
+      "description_latex": "We have already identified $\\mathbf{y}$ (size $4 \\times 1$), $\\boldsymbol{\\beta}$ (size $3 \\times 1$), and $\\boldsymbol{\\varepsilon}$ (size $4 \\times 1$). The missing piece is the design matrix $\\mathbf{X}$: write it out explicitly, including the column of ones for the intercept, and state its dimensions.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "E[\\mathbf{y}] = \\mathbf{X}\\boldsymbol{\\beta}, \\quad \\text{Var}(\\mathbf{y}) = \\sigma^2 \\mathbf{I}_4",
+      "description_latex": "Using the classical assumptions on $\\boldsymbol{\\varepsilon}$, we derive the mean and variance of $\\mathbf{y}$. Confirm that the matrix dimensions are consistent throughout: $\\mathbf{X}$ must be $4 \\times 3$ so that $\\mathbf{X}\\boldsymbol{\\beta}$ is $4 \\times 1$, matching $\\mathbf{y}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A simple linear regression has $n=2$ observations: $(x_1, y_1)$ and $(x_2, y_2)$. Write the model $y_i = \\beta_0 + \\beta_1 x_i + \\varepsilon_i$ in matrix form $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$ and state the dimensions of $\\mathbf{X}$.",
+      "answer_latex": "\\mathbf{X} = \\begin{pmatrix} 1 & x_1 \\\\ 1 & x_2 \\end{pmatrix} \\in \\mathbb{R}^{2 \\times 2}, \\quad \\boldsymbol{\\beta} = \\begin{pmatrix} \\beta_0 \\\\ \\beta_1 \\end{pmatrix}, \\quad \\mathbf{y} = \\begin{pmatrix} y_1 \\\\ y_2 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Write the following three-observation, one-predictor model in matrix form and identify the dimensions of every matrix: $y_1 = \\beta_0 + 2\\beta_1 + \\varepsilon_1$, $y_2 = \\beta_0 + 5\\beta_1 + \\varepsilon_2$, $y_3 = \\beta_0 + 7\\beta_1 + \\varepsilon_3$.",
+      "answer_latex": "\\mathbf{X} = \\begin{pmatrix} 1 & 2 \\\\ 1 & 5 \\\\ 1 & 7 \\end{pmatrix}_{3 \\times 2}, \\quad \\boldsymbol{\\beta} = \\begin{pmatrix} \\beta_0 \\\\ \\beta_1 \\end{pmatrix}_{2 \\times 1}, \\quad \\mathbf{y}, \\boldsymbol{\\varepsilon} \\in \\mathbb{R}^{3 \\times 1}"
+    },
+    {
+      "prompt_latex": "A model has no intercept: $y_i = \\beta_1 x_{i1} + \\beta_2 x_{i2} + \\varepsilon_i$ for $i = 1, 2, 3$. Write the design matrix $\\mathbf{X}$ in terms of the $x_{ij}$ values and state its dimensions. How does it differ from the model with an intercept?",
+      "answer_latex": "\\mathbf{X} = \\begin{pmatrix} x_{11} & x_{12} \\\\ x_{21} & x_{22} \\\\ x_{31} & x_{32} \\end{pmatrix} \\in \\mathbb{R}^{3 \\times 2}; \\text{ the column of ones is absent, so } \\mathbf{X} \\text{ has } p=2 \\text{ columns instead of } 3."
+    },
+    {
+      "prompt_latex": "Under the classical assumptions $E[\\boldsymbol{\\varepsilon}] = \\mathbf{0}$ and $\\text{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{I}_n$, derive $E[\\mathbf{y}]$ and $\\text{Var}(\\mathbf{y})$ from $\\mathbf{y} = \\mathbf{X}\\boldsymbol{\\beta} + \\boldsymbol{\\varepsilon}$, treating $\\mathbf{X}$ and $\\boldsymbol{\\beta}$ as fixed.",
+      "answer_latex": "E[\\mathbf{y}] = \\mathbf{X}\\boldsymbol{\\beta} + E[\\boldsymbol{\\varepsilon}] = \\mathbf{X}\\boldsymbol{\\beta}; \\quad \\text{Var}(\\mathbf{y}) = \\text{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{I}_n"
+    },
+    {
+      "prompt_latex": "A researcher models crop yield $y_i$ (in tonnes) using soil nitrogen $x_{i1}$, rainfall $x_{i2}$, and temperature $x_{i3}$ across $n = 50$ fields. Write the matrix form of this model, state the dimensions of every matrix, and explain in one sentence what $\\mathbf{X}\\boldsymbol{\\beta}$ represents physically.",
+      "answer_latex": "\\mathbf{y}_{50 \\times 1} = \\mathbf{X}_{50 \\times 4}\\boldsymbol{\\beta}_{4 \\times 1} + \\boldsymbol{\\varepsilon}_{50 \\times 1}; \\; \\mathbf{X} \\text{ has a leading ones column plus three predictor columns}; \\; \\mathbf{X}\\boldsymbol{\\beta} \\text{ gives the fitted (mean) yield for each field.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students omit the column of ones from the design matrix $\\mathbf{X}$, which means the intercept $\\beta_0$ has no carrier and the model silently becomes a no-intercept model; always include a leading column of 1s whenever the model has an intercept term.",
+    "Students confuse the dimensions of $\\mathbf{X}$ and try to form the product $\\boldsymbol{\\beta}\\mathbf{X}$ instead of $\\mathbf{X}\\boldsymbol{\\beta}$; because $\\mathbf{X}$ is $n \\times p$ and $\\boldsymbol{\\beta}$ is $p \\times 1$, only the order $\\mathbf{X}\\boldsymbol{\\beta}$ is conformable and produces the required $n \\times 1$ mean vector.",
+    "Students write $\\text{Var}(\\mathbf{y}) = \\sigma^2$ (a scalar) instead of $\\sigma^2 \\mathbf{I}_n$ (a matrix), forgetting that the variance of a random vector is an $n \\times n$ covariance matrix; the identity matrix encodes the assumption that errors are uncorrelated and homoskedastic."
+  ],
+  "untested_variants": [
+    "Expressing a polynomial regression model (e.g., $y_i = \\beta_0 + \\beta_1 x_i + \\beta_2 x_i^2 + \\varepsilon_i$) in matrix form, where the design matrix contains powered columns of a single predictor.",
+    "Writing the matrix form when the error covariance is non-spherical, i.e., $\\text{Var}(\\boldsymbol{\\varepsilon}) = \\sigma^2 \\mathbf{V}$ for a known positive-definite matrix $\\mathbf{V}$, as arises in generalized least squares.",
+    "Partitioned design matrices, where $\\mathbf{X} = [\\mathbf{X}_1 \\; \\mathbf{X}_2]$ and $\\boldsymbol{\\beta}^\\top = (\\boldsymbol{\\beta}_1^\\top, \\boldsymbol{\\beta}_2^\\top)$ represent separate blocks of predictors, as used in testing submodels.",
+    "Constructing the design matrix for a one-way ANOVA with indicator (dummy) variables, where the structure of $\\mathbf{X}$ encodes group membership rather than continuous predictors."
+  ]
+}

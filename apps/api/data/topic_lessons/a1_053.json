@@ -1,0 +1,81 @@
+{
+  "topic_id": "a1_053",
+  "topic_name": "Finding the Vertex and Axis of Symmetry",
+  "generated_at": "2026-05-12T22:45:54.424476+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to plot a quadratic equation like $y = x^2 - 4x + 3$ by making a table of values, but that approach takes forever and can miss the most important point on the parabola. The highest or lowest point \u2014 the vertex \u2014 controls the entire shape and position of the graph, and every parabola folds perfectly in half along an invisible vertical line called the axis of symmetry. Can you find these two features without plotting a single point?",
+  "concept": "The vertex is the single turning point of a parabola \u2014 the minimum point when the parabola opens upward and the maximum point when it opens downward. For any quadratic in standard form $y = ax^2 + bx + c$, the x-coordinate of the vertex is given by $x = -\\dfrac{b}{2a}$, and you substitute that value back into the equation to find the y-coordinate. The axis of symmetry is the vertical line $x = -\\dfrac{b}{2a}$ that passes through the vertex.",
+  "anatomy": "In the formula $x = -\\dfrac{b}{2a}$, the coefficient $a$ is the number multiplied by $x^2$ and tells you whether the parabola opens up ($a > 0$) or down ($a < 0$); the coefficient $b$ is the number multiplied by $x$ and, together with $a$, determines where the vertex sits horizontally; the negative sign out front is critical and is a separate operation applied to the whole fraction. The vertex is an ordered pair $(h, k)$ where $h = -\\dfrac{b}{2a}$ and $k$ is found by evaluating $y$ at $x = h$. The axis of symmetry is written as the equation of a vertical line, $x = h$, not just a number.",
+  "worked_example": [
+    {
+      "expression_latex": "y = 2x^2 - 8x + 5",
+      "description_latex": "We start by identifying $a$, $b$, and $c$ from the equation. Here $a = 2$, $b = -8$, and $c = 5$. Getting these values right is the foundation for everything that follows, so take a moment to confirm each one before moving on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = -\\frac{b}{2a} = -\\frac{-8}{2(2)} = -\\frac{-8}{4} = 2",
+      "description_latex": "We plug $a$ and $b$ into the vertex formula $x = -\\dfrac{b}{2a}$. Notice that $b$ is $-8$, so we have a negative of a negative, which gives us a positive result. This x-value, $x = 2$, is the x-coordinate of the vertex AND the equation of the axis of symmetry.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = 2(2)^2 - 8(2) + 5 = 2(4) - 16 + 5 = 8 - 16 + 5 = -3",
+      "description_latex": "To find the y-coordinate of the vertex, we substitute $x = 2$ back into the original equation. We evaluate each term carefully and combine: $8 - 16 + 5 = -3$, so the y-coordinate is $-3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Vertex: } (2,\\, -3) \\qquad \\text{Axis of symmetry: } x = 2",
+      "description_latex": "We write our final answers as an ordered pair for the vertex and as a line equation for the axis of symmetry. Since $a = 2 > 0$, the parabola opens upward, confirming that $(2, -3)$ is the minimum point of the graph.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "y = -x^2 + 6x - 4",
+      "description_latex": "Begin by reading off the coefficients from the equation. Here $a = -1$, $b = 6$, and $c = -4$. Notice that $a$ is negative, which means the parabola opens downward and the vertex will be a maximum.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = -\\frac{b}{2a} = -\\frac{6}{2(-1)} = -\\frac{6}{-2} = 3",
+      "description_latex": "We apply the vertex formula. The x-coordinate of the vertex is $x = 3$, and the axis of symmetry is the line $x = 3$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now substitute $x = 3$ into $y = -x^2 + 6x - 4$ to find the y-coordinate of the vertex. Show each arithmetic step, then write the vertex as an ordered pair and state the axis of symmetry.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find the vertex and axis of symmetry of $y = x^2 - 6x + 8$.",
+      "answer_latex": "\\text{Vertex: } (3,\\,-1);\\quad x = 3"
+    },
+    {
+      "prompt_latex": "Find the vertex and axis of symmetry of $y = -2x^2 + 4x + 1$.",
+      "answer_latex": "\\text{Vertex: } (1,\\,3);\\quad x = 1"
+    },
+    {
+      "prompt_latex": "Find the vertex and axis of symmetry of $y = 3x^2 + 12x - 5$.",
+      "answer_latex": "\\text{Vertex: } (-2,\\,-17);\\quad x = -2"
+    },
+    {
+      "prompt_latex": "A quadratic has vertex at $(-1, 4)$ and passes through the point $(1, -4)$. Write the equation in standard form $y = ax^2 + bx + c$ and identify $a$, $b$, and $c$.",
+      "answer_latex": "y = -2x^2 - 4x + 2;\\quad a=-2,\\, b=-4,\\, c=2"
+    },
+    {
+      "prompt_latex": "A ball is thrown upward and its height in feet is modeled by $h = -16t^2 + 64t + 5$, where $t$ is time in seconds. At what time does the ball reach its maximum height, and what is that maximum height?",
+      "answer_latex": "t = 2\\text{ seconds},\\quad h = 69\\text{ feet}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget the negative sign in front of the formula and compute $x = \\dfrac{b}{2a}$ instead of $x = -\\dfrac{b}{2a}$, which gives an x-coordinate on the wrong side of the y-axis; always write the full formula with the negative before substituting.",
+    "When $b$ is already negative, students double-apply the sign and write $x = -\\dfrac{-b}{2a}$ (effectively using $+b$), making the vertex shift in the wrong direction; remember that the formula already accounts for any sign on $b$, so just substitute the signed value of $b$ directly.",
+    "Students report only the x-coordinate as the vertex (for example, writing 'vertex $= 3$' instead of 'vertex $= (3, -1)$'), forgetting that the vertex is a point requiring both coordinates; always substitute the x-value back into the original equation to compute the y-coordinate."
+  ],
+  "untested_variants": [
+    "Finding the vertex when the quadratic is given in vertex form $y = a(x-h)^2 + k$, where the vertex can be read directly without using the formula.",
+    "Identifying the vertex from a graph or table of values rather than from an equation.",
+    "Quadratics with a fractional leading coefficient such as $y = \\dfrac{1}{2}x^2 - 3x + 4$, where computing $2a$ involves fraction arithmetic.",
+    "Using the vertex to determine the range of the quadratic function, such as stating that $y \\geq -3$ for a parabola with minimum vertex $(2, -3)$."
+  ]
+}

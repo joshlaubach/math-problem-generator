@@ -1,0 +1,81 @@
+{
+  "topic_id": "c3_007",
+  "topic_name": "Vector-Valued Functions and Space Curves",
+  "generated_at": "2026-05-13T00:29:58.789310+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to describe a curve in 2D using parametric equations like $x = \\cos t$, $y = \\sin t$, which traces a circle. But what happens when a particle moves through three-dimensional space \u2014 along a helix, for instance, winding upward like a spiral staircase? A single scalar function can't capture motion in all three directions at once. How do we write one mathematical object that encodes an entire path through 3D space?",
+  "concept": "A vector-valued function assigns a vector to each value of a scalar parameter $t$. Instead of outputting a number, it outputs a position vector whose tip traces a curve in space. Formally, $\\mathbf{r}(t) = \\langle f(t),\\, g(t),\\, h(t) \\rangle = f(t)\\,\\mathbf{i} + g(t)\\,\\mathbf{j} + h(t)\\,\\mathbf{k}$, where $f$, $g$, $h$ are real-valued component functions and $t$ ranges over some interval $I$. The set of all terminal points of $\\mathbf{r}(t)$ as $t$ varies over $I$ is called the space curve $C$.",
+  "anatomy": "A vector-valued function $\\mathbf{r}(t) = \\langle f(t), g(t), h(t) \\rangle$ has four distinct parts worth naming. The parameter $t$ is the independent variable, usually representing time or arc length along the curve. The component functions $f(t)$, $g(t)$, and $h(t)$ are ordinary real-valued functions that independently govern motion in the $x$-, $y$-, and $z$-directions respectively. The output $\\mathbf{r}(t)$ is a position vector whose tail sits at the origin and whose tip is the point $(f(t), g(t), h(t))$ on the space curve. The domain of $\\mathbf{r}$ is the intersection of the natural domains of all three component functions.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mathbf{r}(t) = \\langle \\cos t,\\, \\sin t,\\, t \\rangle, \\quad t \\in [0, 4\\pi]",
+      "description_latex": "We are given a vector-valued function and asked to identify its component functions and describe the resulting space curve. Start by reading off each component: $f(t) = \\cos t$, $g(t) = \\sin t$, $h(t) = t$. Recognizing each piece separately is the first move before doing anything else.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\cos t, \\quad y = \\sin t \\implies x^2 + y^2 = \\cos^2 t + \\sin^2 t = 1",
+      "description_latex": "Notice that the $x$- and $y$-components satisfy $x^2 + y^2 = 1$, so the curve always lies on the cylinder of radius 1 centered on the $z$-axis. This is the key observation that lets us identify the geometric shape \u2014 the curve is constrained to a cylindrical surface.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z = t \\text{ increases linearly as } t \\text{ goes from } 0 \\text{ to } 4\\pi",
+      "description_latex": "While $x$ and $y$ oscillate, the $z$-component climbs steadily upward with $t$. Combining this with the circular behavior in the $xy$-plane tells us the curve spirals upward \u2014 this is a circular helix of radius 1 making exactly two full turns (since $t$ spans $4\\pi$, which is two periods of $2\\pi$).",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mathbf{r}(0) = \\langle 1, 0, 0 \\rangle, \\quad \\mathbf{r}(\\pi/2) = \\langle 0, 1, \\pi/2 \\rangle, \\quad \\mathbf{r}(2\\pi) = \\langle 1, 0, 2\\pi \\rangle",
+      "description_latex": "Evaluating at specific $t$-values gives us concrete points on the helix, which confirms our description. At $t = 0$ the curve starts at $(1, 0, 0)$; after one full revolution ($t = 2\\pi$) it has risen to height $2\\pi$, landing at $(1, 0, 2\\pi)$ \u2014 directly above the starting point.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mathbf{r}(t) = \\langle t^2,\\, e^t,\\, \\ln t \\rangle",
+      "description_latex": "We want to find the domain of this vector-valued function. Remember, the domain is the set of all $t$-values where every component function is simultaneously defined, so we need to find where all three are valid at once.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f(t) = t^2: \\text{ all reals}; \\quad g(t) = e^t: \\text{ all reals}; \\quad h(t) = \\ln t: \\text{ }t > 0",
+      "description_latex": "We list the natural domain of each component separately. The first two components are defined for all real numbers, but $\\ln t$ requires $t > 0$. Now identify what value of $t$ further restricts the domain.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Find the domain of $\\mathbf{r}(t)$ by taking the intersection of the three individual domains you found above. Write your answer using interval notation.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $\\mathbf{r}(t) = \\langle 3t,\\, t^2 - 1,\\, 5 \\rangle$ at $t = 2$.",
+      "answer_latex": "\\mathbf{r}(2) = \\langle 6,\\, 3,\\, 5 \\rangle"
+    },
+    {
+      "prompt_latex": "Find the domain of $\\mathbf{r}(t) = \\langle \\sqrt{4 - t^2},\\, t,\\, \\frac{1}{t-1} \\rangle$.",
+      "answer_latex": "[-2, 1) \\cup (1, 2]"
+    },
+    {
+      "prompt_latex": "Describe the space curve traced by $\\mathbf{r}(t) = \\langle 2\\cos t,\\, 2\\sin t,\\, 3 \\rangle$, $t \\in [0, 2\\pi]$.",
+      "answer_latex": "A circle of radius 2 centered at $(0, 0, 3)$ lying in the plane $z = 3$"
+    },
+    {
+      "prompt_latex": "Find a vector-valued function $\\mathbf{r}(t)$ whose space curve is the intersection of the cylinder $x^2 + y^2 = 9$ and the plane $z = 2x + 1$.",
+      "answer_latex": "\\mathbf{r}(t) = \\langle 3\\cos t,\\, 3\\sin t,\\, 6\\cos t + 1 \\rangle, \\quad t \\in [0, 2\\pi]"
+    },
+    {
+      "prompt_latex": "A particle's position in space is given by $\\mathbf{r}(t) = \\langle t,\\, t^2,\\, t^3 \\rangle$. At what point on the space curve does the particle cross the plane $y = 4$? Give the full position vector at that moment.",
+      "answer_latex": "\\text{Set } t^2 = 4 \\Rightarrow t = 2 \\text{ (taking } t > 0\\text{)}: \\quad \\mathbf{r}(2) = \\langle 2,\\, 4,\\, 8 \\rangle"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the space curve with the vector-valued function itself: the curve is the set of points $(f(t), g(t), h(t))$ in space, while $\\mathbf{r}(t)$ is the function \u2014 different parameter intervals can produce the same curve. Always distinguish between the function and its image.",
+    "When finding the domain, students often find the domain of only the most obviously restricted component and stop there. You must find the domain of every component and then take their intersection \u2014 missing even one restriction gives a wrong domain.",
+    "Students drop the vector notation and treat $\\mathbf{r}(t)$ as a scalar, writing something like $r(t) = \\cos t + \\sin t + t$ instead of $\\mathbf{r}(t) = \\langle \\cos t, \\sin t, t \\rangle$. The angle brackets (or $\\mathbf{i}, \\mathbf{j}, \\mathbf{k}$ notation) are essential \u2014 without them you have lost the directional information that makes the function vector-valued."
+  ],
+  "untested_variants": [
+    "Determining whether two different vector-valued functions trace the same space curve but with different orientations or speeds (reparametrization).",
+    "Finding a vector-valued function for the intersection of two surfaces that are not a cylinder and a plane, such as a sphere and a plane, or two quadric surfaces.",
+    "Sketching or matching the graph of a 2D vector-valued function $\\mathbf{r}(t) = \\langle f(t), g(t) \\rangle$ in the plane from its parametric description.",
+    "Identifying the space curve when the component functions involve hyperbolic functions, such as $\\mathbf{r}(t) = \\langle \\cosh t, \\sinh t, t \\rangle$."
+  ]
+}

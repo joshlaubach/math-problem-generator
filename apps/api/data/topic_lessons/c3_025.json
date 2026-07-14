@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_025",
+  "topic_name": "Triple Integrals",
+  "generated_at": "2026-05-13T00:35:51.367400+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to use double integrals to find areas and volumes over two-dimensional regions. But what happens when the quantity you want to accumulate \u2014 like mass, charge, or temperature \u2014 is spread throughout a three-dimensional solid, not just a flat surface? A double integral gives you a 'flat' total, but it can't capture how a property varies as you move through the interior of a 3D object. How do we integrate a function $f(x, y, z)$ over a solid region in space?",
+  "concept": "A triple integral extends the idea of integration to three dimensions. Just as a double integral sums infinitesimal area elements $dA$ over a 2D region, a triple integral sums infinitesimal volume elements $dV$ over a 3D solid region $E$. Formally, the triple integral of a continuous function $f(x, y, z)$ over a solid region $E$ is written $\\iiint_E f(x, y, z)\\, dV$, and it is evaluated as an iterated integral by integrating one variable at a time, working from the innermost integral outward.",
+  "anatomy": "A triple integral $\\iiint_E f(x, y, z)\\, dV$ has several distinct parts: the integrand $f(x, y, z)$ is the function whose values are being accumulated throughout the solid; the region of integration $E$ is the three-dimensional solid over which we integrate, described by inequalities that bound $x$, $y$, and $z$; the volume element $dV$ is typically written as an ordered product $dz\\, dy\\, dx$ (or another ordering), indicating the sequence of integration; the limits on each integral describe how one variable ranges while the others are held fixed, and crucially the inner limits may depend on the outer variables, reflecting the shape of the solid $E$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\iiint_E 6xy\\, dV, \\quad E = \\{(x,y,z) : 0 \\le x \\le 2,\\; 0 \\le y \\le 1,\\; 0 \\le z \\le 3\\}",
+      "description_latex": "We are asked to integrate $f(x,y,z) = 6xy$ over a rectangular box defined by constant bounds on all three variables. Because the region is a box and the bounds are all constants, this is the simplest type of triple integral \u2014 we can write it directly as an iterated integral in any order we choose.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^2 \\int_0^1 \\int_0^3 6xy\\, dz\\, dy\\, dx",
+      "description_latex": "We peel off the innermost integral first, integrating with respect to $z$ from $0$ to $3$ while treating $x$ and $y$ as constants. Since $6xy$ has no $z$ in it, the inner integral is simply $6xy \\cdot z\\Big|_0^3 = 18xy$, because integrating a constant with respect to $z$ just multiplies by the length of the $z$-interval.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^2 \\int_0^1 18xy\\, dy\\, dx",
+      "description_latex": "Now we integrate $18xy$ with respect to $y$ from $0$ to $1$, treating $x$ as a constant. We get $18x \\cdot \\frac{y^2}{2}\\Big|_0^1 = 9x$, and this result becomes the integrand of the final outer integral.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^2 9x\\, dx = 9 \\cdot \\frac{x^2}{2}\\Big|_0^2 = 9 \\cdot 2 = 18",
+      "description_latex": "Finally, we integrate $9x$ with respect to $x$ from $0$ to $2$. This gives $\\frac{9 \\cdot 4}{2} = 18$, and that is our answer. Notice that the entire process was just three single-variable integrals performed in sequence, one at a time.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\iiint_E z\\, dV, \\quad E = \\{(x,y,z) : 0 \\le x \\le 1,\\; 0 \\le y \\le x,\\; 0 \\le z \\le x+y\\}",
+      "description_latex": "Here the bounds on $y$ depend on $x$, and the bounds on $z$ depend on both $x$ and $y$ \u2014 this is a non-rectangular solid. We should integrate in the order $dz\\, dy\\, dx$, placing the variable-dependent bounds on the inner integrals: $\\int_0^1 \\int_0^x \\int_0^{x+y} z\\, dz\\, dy\\, dx$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\int_0^1 \\int_0^x \\frac{z^2}{2}\\Bigg|_0^{x+y} dy\\, dx = \\int_0^1 \\int_0^x \\frac{(x+y)^2}{2}\\, dy\\, dx",
+      "description_latex": "We evaluate the innermost integral with respect to $z$: $\\int_0^{x+y} z\\, dz = \\frac{z^2}{2}\\Big|_0^{x+y} = \\frac{(x+y)^2}{2}$. Now we need to integrate this result with respect to $y$ from $0$ to $x$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Integrate $\\frac{(x+y)^2}{2}$ with respect to $y$ from $0$ to $x$, treating $x$ as a constant. Expand or use a substitution, then evaluate the limits. What expression in $x$ do you get after this step?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\int_0^1 \\frac{7x^3}{6}\\, dx = \\frac{7x^4}{24}\\Bigg|_0^1 = \\frac{7}{24}",
+      "description_latex": "After integrating with respect to $y$ you should have obtained $\\frac{7x^3}{6}$ (from $\\frac{1}{2}\\left[\\frac{(x+y)^3}{3}\\right]_0^x = \\frac{(2x)^3 - x^3}{6} = \\frac{7x^3}{6}$). Integrating that over $x$ from $0$ to $1$ gives the final answer $\\frac{7}{24}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate $\\int_0^1 \\int_0^2 \\int_0^3 4\\, dz\\, dy\\, dx$.",
+      "answer_latex": "24"
+    },
+    {
+      "prompt_latex": "Evaluate $\\iiint_E x^2 y z\\, dV$ where $E = [0,1]\\times[0,2]\\times[0,3]$.",
+      "answer_latex": "9"
+    },
+    {
+      "prompt_latex": "Evaluate $\\int_0^1 \\int_0^{1-x} \\int_0^{1-x-y} dz\\, dy\\, dx$ (this gives the volume of a tetrahedron).",
+      "answer_latex": "\\dfrac{1}{6}"
+    },
+    {
+      "prompt_latex": "Find the mass of the solid $E = \\{(x,y,z): 0 \\le x \\le 1,\\; 0 \\le y \\le x,\\; 0 \\le z \\le y\\}$ with density function $\\rho(x,y,z) = x + y$.",
+      "answer_latex": "\\dfrac{7}{60}"
+    },
+    {
+      "prompt_latex": "A solid rectangular box occupies $[0,2]\\times[0,3]\\times[0,1]$ and has temperature distribution $T(x,y,z) = 2x + z$. Find $\\iiint_E T\\, dV$, which represents the total 'heat content' of the box.",
+      "answer_latex": "21"
+    }
+  ],
+  "common_mistakes": [
+    "Students often reverse the order of limits when the bounds depend on outer variables \u2014 for example, writing the $z$-limits as the outermost integral when $z$ actually depends on $x$ and $y$. Always identify which variables appear in the bounds of other variables, and place those as the inner integrals so the dependencies resolve correctly from inside out.",
+    "When the integrand does not contain a particular variable (say $z$), students sometimes forget to actually integrate $dz$ over its interval, missing a factor equal to the length of that interval. Even if the integrand is independent of $z$, you must still evaluate $\\int_a^b dz = b - a$ and multiply it through.",
+    "Students frequently apply Fubini's theorem to switch integration order without checking whether the new limits correctly describe the same region $E$. Simply swapping the $dx$ and $dy$ symbols without redrawing and re-describing the solid leads to completely wrong limits \u2014 always re-derive the bounds from a sketch or the inequalities defining $E$."
+  ],
+  "untested_variants": [
+    "Triple integrals in cylindrical coordinates, where $dV = r\\, dz\\, dr\\, d\\theta$ and the region is naturally described using $r$ and $\\theta$, such as integrating over a cylinder or cone.",
+    "Triple integrals in spherical coordinates, where $dV = \\rho^2 \\sin\\phi\\, d\\rho\\, d\\phi\\, d\\theta$ and the region is a sphere or spherical shell.",
+    "Changing the order of integration in a triple integral when given an iterated integral with non-rectangular bounds, requiring the student to re-describe the solid $E$ and set up new limits.",
+    "Using triple integrals to compute moments of inertia or centers of mass of a solid with a non-constant density function that depends on all three variables."
+  ]
+}

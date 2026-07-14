@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_014",
+  "topic_name": "Cofactor Expansion and Cramer's Rule (H)",
+  "generated_at": "2026-05-13T20:06:04.675521+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to compute the determinant of a 2\u00d72 matrix using the simple formula $ad - bc$, and you can even grind through a 3\u00d73 using the diagonal trick. But what happens when you face a 4\u00d74 or larger matrix, or when you need to solve a system $Ax = b$ and inverting $A$ feels impossibly messy? Is there a systematic, formula-driven way to handle both problems without row-reducing every time?",
+  "concept": "Cofactor expansion (also called Laplace expansion) is a recursive method that breaks the determinant of an $n \\times n$ matrix into a sum of determinants of smaller $(n-1) \\times (n-1)$ submatrices. Formally, expanding along row $i$: $\\det(A) = \\sum_{j=1}^{n} a_{ij} C_{ij}$, where the cofactor is $C_{ij} = (-1)^{i+j} M_{ij}$ and $M_{ij}$ is the minor \u2014 the determinant of the submatrix obtained by deleting row $i$ and column $j$.",
+  "anatomy": "The key components are: the entry $a_{ij}$, which is the matrix element in row $i$ and column $j$ along which you expand; the minor $M_{ij}$, which is the determinant of the submatrix formed by deleting row $i$ and column $j$; the sign factor $(-1)^{i+j}$, which creates a checkerboard pattern of $+$ and $-$ signs across the matrix; the cofactor $C_{ij} = (-1)^{i+j} M_{ij}$, which packages the sign and minor together; and in Cramer's Rule, the matrix $A_j(b)$, which is the matrix $A$ with its $j$-th column replaced by the vector $b$, giving $x_j = \\det(A_j(b)) / \\det(A)$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 2 & 1 & 0 \\\\ 3 & -1 & 4 \\\\ 1 & 2 & -2 \\end{pmatrix}",
+      "description_latex": "We want to compute $\\det(A)$ by expanding along row 1. We choose row 1 because it contains a zero entry, which will eliminate one of the three terms entirely and save us computation \u2014 always look for rows or columns with zeros before expanding.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(A) = a_{11}C_{11} + a_{12}C_{12} + a_{13}C_{13} = 2 \\cdot (+1)M_{11} + 1 \\cdot (-1)M_{12} + 0 \\cdot (+1)M_{13}",
+      "description_latex": "We apply the formula $\\det(A) = \\sum_{j=1}^{3} a_{1j}(-1)^{1+j}M_{1j}$. The sign pattern for row 1 is $+, -, +$, so $C_{11} = +M_{11}$, $C_{12} = -M_{12}$, and $C_{13} = +M_{13}$. Because $a_{13} = 0$, the entire third term vanishes and we only need to compute two minors.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_{11} = \\det\\begin{pmatrix} -1 & 4 \\\\ 2 & -2 \\end{pmatrix} = (-1)(-2) - (4)(2) = 2 - 8 = -6",
+      "description_latex": "To find $M_{11}$ we delete row 1 and column 1 from $A$, leaving the 2\u00d72 submatrix shown, and compute its determinant using $ad - bc$. This is exactly the kind of smaller problem that cofactor expansion hands off to us recursively.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "M_{12} = \\det\\begin{pmatrix} 3 & 4 \\\\ 1 & -2 \\end{pmatrix} = (3)(-2) - (4)(1) = -6 - 4 = -10",
+      "description_latex": "For $M_{12}$ we delete row 1 and column 2, leaving the entries in columns 1 and 3 of rows 2 and 3. The determinant is $-10$. Notice that we delete the column corresponding to the entry we expanded on, not a fixed column.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\det(A) = 2(+1)(-6) + 1(-1)(-10) = -12 + 10 = -2",
+      "description_latex": "We substitute back: $2 \\cdot (-6) = -12$ and $1 \\cdot (+10) = 10$ (the negative sign from $C_{12}$ flips the sign of $M_{12}$), giving $\\det(A) = -2$. This final assembly step \u2014 multiply entry by signed minor and sum \u2014 is the heart of cofactor expansion.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Solve } 2x + y = 5,\\quad x - y = 1 \\text{ using Cramer's Rule.}",
+      "description_latex": "We identify $A = \\begin{pmatrix}2 & 1 \\\\ 1 & -1\\end{pmatrix}$ and $b = \\begin{pmatrix}5 \\\\ 1\\end{pmatrix}$. First we compute $\\det(A) = (2)(-1)-(1)(1) = -3$. Cramer's Rule requires this denominator to be nonzero, which it is, so a unique solution exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A_1(b) = \\begin{pmatrix} 5 & 1 \\\\ 1 & -1 \\end{pmatrix}, \\quad \\det(A_1(b)) = (5)(-1)-(1)(1) = -6",
+      "description_latex": "To find $x_1 = x$, we replace the first column of $A$ with $b$ to form $A_1(b)$, then compute its determinant. Walk through this carefully: you are substituting the right-hand side vector into the column corresponding to the variable you want to solve for.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now form $A_2(b)$ by replacing the SECOND column of $A$ with $b$, compute $\\det(A_2(b))$, and use Cramer's Rule to find $x_2 = y = \\det(A_2(b))/\\det(A)$. Write out $A_2(b)$, compute its determinant, and state the value of $y$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "x = \\frac{\\det(A_1(b))}{\\det(A)} = \\frac{-6}{-3} = 2, \\quad y = \\frac{\\det(A_2(b))}{\\det(A)} = \\frac{-3}{-3} = 1",
+      "description_latex": "Bringing it together: $x = 2$ and $y = 1$. You can verify by substituting back: $2(2)+1=5$ \u2713 and $2-1=1$ \u2713. Cramer's Rule gives us each variable independently without back-substitution.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute $\\det\\begin{pmatrix}4 & 2 \\\\ 1 & 3\\end{pmatrix}$ using cofactor expansion along row 1.",
+      "answer_latex": "10"
+    },
+    {
+      "prompt_latex": "Compute $\\det\\begin{pmatrix}1 & 0 & 2 \\\\ 3 & 1 & -1 \\\\ 0 & 4 & 2\\end{pmatrix}$ by expanding along any row or column of your choice.",
+      "answer_latex": "-22"
+    },
+    {
+      "prompt_latex": "Use Cramer's Rule to solve $3x + 2y = 8$ and $x - y = 1$.",
+      "answer_latex": "x = 2, \\quad y = 1"
+    },
+    {
+      "prompt_latex": "Let $A = \\begin{pmatrix}2 & 0 & 1 \\\\ 0 & 3 & 0 \\\\ 4 & 1 & -1\\end{pmatrix}$. Use Cramer's Rule to find $x_1$ in the system $Ax = \\begin{pmatrix}1\\\\0\\\\2\\end{pmatrix}$, and also verify $\\det(A)$ by cofactor expansion.",
+      "answer_latex": "\\det(A) = -18, \\quad x_1 = \\frac{-6}{-18} = \\frac{1}{3}"
+    },
+    {
+      "prompt_latex": "The area of a triangle with vertices $(x_1,y_1)$, $(x_2,y_2)$, $(x_3,y_3)$ is $\\frac{1}{2}\\left|\\det\\begin{pmatrix}x_1 & y_1 & 1\\\\ x_2 & y_2 & 1\\\\ x_3 & y_3 & 1\\end{pmatrix}\\right|$. Find the area of the triangle with vertices $(0,0)$, $(4,1)$, $(1,3)$.",
+      "answer_latex": "\\frac{11}{2}"
+    }
+  ],
+  "common_mistakes": [
+    "Students use the wrong sign pattern for the cofactor, forgetting that $(-1)^{i+j}$ depends on BOTH the row and column index \u2014 for example, treating $C_{12}$ as positive instead of negative. Memorize the checkerboard: top-left is $+$, then alternates, and always compute $(-1)^{i+j}$ explicitly rather than guessing.",
+    "When forming $A_j(b)$ for Cramer's Rule, students replace the wrong column \u2014 often column 1 regardless of which variable they're solving for. Remember that to find $x_j$ you replace column $j$ (the $j$-th column) of $A$ with $b$, so the column you replace tracks which variable you want.",
+    "After deleting row $i$ and column $j$ to form the submatrix for minor $M_{ij}$, students accidentally include the deleted row or column in their 2\u00d72 or 3\u00d73 computation. Always physically write out the remaining entries in their original relative positions before computing the smaller determinant."
+  ],
+  "untested_variants": [
+    "Cofactor expansion applied to a 4\u00d74 matrix, where the student must recursively expand each resulting 3\u00d73 minor using a second round of cofactor expansion.",
+    "Computing the inverse of a matrix using the adjugate (classical adjoint) formula $A^{-1} = \\frac{1}{\\det(A)}\\text{adj}(A)$, where the student must fill the entire matrix of cofactors and then transpose.",
+    "Using Cramer's Rule on a 3\u00d73 system with three unknowns, requiring the student to compute four 3\u00d73 determinants (one for $\\det(A)$ and one each for $x_1, x_2, x_3$).",
+    "Determining whether a system has no solution or infinitely many solutions via Cramer's Rule by recognizing that $\\det(A) = 0$, and interpreting what that means geometrically and algebraically."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "geo_051",
+  "topic_name": "Dilations and Similarity",
+  "generated_at": "2026-05-12T23:08:12.353714+00:00",
+  "course_name": "Geometry",
+  "hook": "You already know how to find missing sides of congruent figures \u2014 if two triangles are congruent, corresponding sides are equal. But what happens when a shape is the same shape but a different size, like a photo enlarged on a copier? You can scale a triangle up or down and it keeps all the same angle measures, yet every side length changes by the same factor. How would you find a missing side length, or prove two figures are actually the same shape, when the sizes don't match?",
+  "concept": "A dilation is a transformation that resizes a figure from a fixed center point by multiplying every distance from that center by a constant called the scale factor $k$. Two figures are similar ($\\sim$) if one can be obtained from the other by a dilation (and possibly rigid motions); formally, $\\triangle ABC \\sim \\triangle DEF$ means all corresponding angles are congruent and all corresponding sides are proportional with ratio $k = \\dfrac{DE}{AB} = \\dfrac{EF}{BC} = \\dfrac{FD}{CA}$.",
+  "anatomy": "A dilation has three structural parts: the center of dilation (a fixed point, often labeled $O$, from which all distances are measured), the scale factor $k$ (a positive number by which every distance from the center is multiplied \u2014 $k > 1$ produces an enlargement, $0 < k < 1$ a reduction, and $k = 1$ maps the figure to itself), and the image (the resulting figure, whose vertices are often written with prime notation such as $A'$). In a similarity statement like $\\triangle ABC \\sim \\triangle DEF$, the order of the letters encodes the correspondence: vertex $A$ pairs with $D$, $B$ with $E$, and $C$ with $F$, so the ratio $\\dfrac{DE}{AB}$ always gives the scale factor.",
+  "worked_example": [
+    {
+      "expression_latex": "\\triangle ABC \\sim \\triangle DEF, \\quad AB = 6,\\; BC = 9,\\; DE = 10",
+      "description_latex": "We are given that the two triangles are similar and we know three of the four relevant side lengths. Because the triangles are similar, corresponding sides must be proportional, so our first job is to identify which sides correspond to each other using the order of letters in the similarity statement: $AB$ corresponds to $DE$ and $BC$ corresponds to $EF$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "k = \\frac{DE}{AB} = \\frac{10}{6} = \\frac{5}{3}",
+      "description_latex": "We compute the scale factor $k$ by dividing the known side of the image triangle by the known corresponding side of the original triangle. This ratio $\\tfrac{5}{3}$ tells us every side of $\\triangle DEF$ is $\\tfrac{5}{3}$ times the corresponding side of $\\triangle ABC$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{EF}{BC} = k \\implies EF = BC \\cdot k = 9 \\cdot \\frac{5}{3}",
+      "description_latex": "Now we apply the same scale factor to the side we need. We multiply $BC = 9$ by $k = \\tfrac{5}{3}$ because the definition of similarity guarantees every pair of corresponding sides shares the same ratio $k$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "EF = 9 \\cdot \\frac{5}{3} = 15",
+      "description_latex": "Carrying out the multiplication gives $EF = 15$. It is always worth doing a quick sanity check: $15$ is larger than $9$, which is consistent with $k = \\tfrac{5}{3} > 1$ meaning $\\triangle DEF$ is an enlargement of $\\triangle ABC$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\triangle PQR \\sim \\triangle XYZ, \\quad PQ = 8,\\; QR = 12,\\; PR = 10,\\; XY = 6",
+      "description_latex": "We have two similar triangles and need to find $YZ$ and $XZ$. Start by identifying the correspondence from the similarity statement: $PQ \\leftrightarrow XY$, $QR \\leftrightarrow YZ$, and $PR \\leftrightarrow XZ$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "k = \\frac{XY}{PQ} = \\frac{6}{8} = \\frac{3}{4}",
+      "description_latex": "We compute the scale factor using the one pair of corresponding sides where both values are known. This $k = \\tfrac{3}{4}$ means $\\triangle XYZ$ is a reduction of $\\triangle PQR$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the scale factor $k = \\tfrac{3}{4}$, find $YZ$ and $XZ$ by multiplying each corresponding side of $\\triangle PQR$ by $k$. Write the two equations and solve for both missing side lengths.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\triangle ABC \\sim \\triangle DEF.\\; AB = 4,\\; DE = 8.\\text{ What is the scale factor } k?",
+      "answer_latex": "k = 2"
+    },
+    {
+      "prompt_latex": "\\triangle ABC \\sim \\triangle DEF,\\; k = \\tfrac{3}{2}.\\; BC = 10.\\text{ Find } EF.",
+      "answer_latex": "EF = 15"
+    },
+    {
+      "prompt_latex": "\\triangle PQR \\sim \\triangle STU.\\; PQ = 15,\\; QR = 20,\\; ST = 9.\\text{ Find } TU.",
+      "answer_latex": "TU = 12"
+    },
+    {
+      "prompt_latex": "Point $O$ is the center of dilation. $A$ is 5 \\text{ units from } O \\text{ and its image } A' \\text{ is 8 units from } O.\\text{ A quadrilateral with perimeter 30 is dilated by this same factor. Find the perimeter of the image.}",
+      "answer_latex": "\\text{Perimeter} = 48"
+    },
+    {
+      "prompt_latex": "A 4 \\text{ ft} \\times 6 \\text{ ft} photograph is enlarged so that the shorter side becomes 10 \\text{ ft}.\\text{ What is the length of the longer side of the enlargement, and what is the area of the enlarged photo?}",
+      "answer_latex": "\\text{Longer side} = 15 \\text{ ft},\\; \\text{Area} = 150 \\text{ ft}^2"
+    }
+  ],
+  "common_mistakes": [
+    "Students set up the ratio with sides from different correspondences \u2014 for example, writing $\\tfrac{DE}{BC}$ instead of $\\tfrac{DE}{AB}$ \u2014 because they ignore the letter order in the similarity statement. Fix: always read the similarity statement letter by letter and pair the first letter of each triangle, then the second, then the third, before writing any ratios.",
+    "When computing the scale factor, students write $k = \\tfrac{AB}{DE}$ (original over image) and then multiply instead of divide \u2014 or vice versa \u2014 getting a reciprocal answer. Fix: decide at the start which triangle is the original and which is the image, write $k = \\tfrac{\\text{image side}}{\\text{original side}}$ consistently, and check that $k > 1$ for enlargements and $k < 1$ for reductions.",
+    "Students assume that because two triangles look similar in a diagram, all sides are proportional \u2014 but the diagram is not the same as a proven similarity statement. Fix: similarity must be established by AA, SAS~, or SSS~ before writing any proportions; never assume similarity from appearance alone."
+  ],
+  "untested_variants": [
+    "Dilations on the coordinate plane where students must apply the rule $(x, y) \\to (kx, ky)$ for a center at the origin and find the coordinates of image vertices.",
+    "Dilations with a center of dilation that is NOT the origin, requiring the formula $P' = O + k(P - O)$ or a coordinate-based approach with a non-zero center point.",
+    "Using similarity to find a missing side when the scale factor is not given directly but must be inferred from two sides that are NOT the first-listed pair of corresponding sides.",
+    "Comparing areas and perimeters of similar figures using the relationships that perimeters scale by $k$ and areas scale by $k^2$, then working backwards from a given area ratio to find a side length."
+  ]
+}

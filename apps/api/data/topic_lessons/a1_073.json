@@ -1,0 +1,86 @@
+{
+  "topic_id": "a1_073",
+  "topic_name": "Two-Way Tables",
+  "generated_at": "2026-05-12T22:51:48.719114+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to organize data in a list or a single row of a table. But what happens when you need to track two different categories at once \u2014 like whether students prefer cats or dogs AND whether those students are in 7th or 8th grade? A regular list gets messy fast, and a single row can't show you both categories simultaneously. How can we build one table that lets us see all the combinations and totals at a glance?",
+  "concept": "A two-way table (also called a contingency table) organizes data about two categorical variables at the same time, showing how the categories of one variable relate to the categories of another. The rows represent one category, the columns represent a second category, and each cell inside the table holds the count (frequency) of data points that belong to both of those categories simultaneously. For example, if one variable is 'grade level' and the other is 'pet preference,' the cell in row '8th grade' and column 'cats' tells you exactly how many 8th-graders prefer cats.",
+  "anatomy": "Every two-way table has the same key parts. The row variable is the categorical label running down the left side \u2014 each row represents one group of that variable. The column variable is the categorical label running across the top \u2014 each column represents one group of that second variable. The joint frequency cells are the interior cells of the table, each showing the count for one specific combination of a row category and a column category. The marginal frequencies (or marginal totals) are the row totals on the far right and the column totals along the bottom, summarizing each category independently. Finally, the grand total appears in the bottom-right corner and equals the sum of all data values.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Survey: 60 students \u2014 Grade 7 or 8, prefer Cats or Dogs}",
+      "description_latex": "We start by identifying our two categorical variables \u2014 Grade (7th or 8th) and Pet Preference (Cats or Dogs) \u2014 so we know what the rows and columns of our table will be. Setting up the structure before filling in any numbers is the most important first step, because it prevents us from misplacing data later.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{|l|c|c|c|}\\hline & \\text{Cats} & \\text{Dogs} & \\text{Total} \\\\ \\hline \\text{7th Grade} & & & \\\\ \\hline \\text{8th Grade} & & & \\\\ \\hline \\text{Total} & & & \\\\ \\hline \\end{array}",
+      "description_latex": "We draw the blank table with a row for each grade level and a column for each pet preference, plus an extra 'Total' row and 'Total' column along the margins. Notice that the table has four interior cells \u2014 one for each combination of grade and preference \u2014 and these interior cells are exactly where our survey data will go.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{|l|c|c|c|}\\hline & \\text{Cats} & \\text{Dogs} & \\text{Total} \\\\ \\hline \\text{7th Grade} & 18 & 12 & \\\\ \\hline \\text{8th Grade} & 14 & 16 & \\\\ \\hline \\text{Total} & & & \\\\ \\hline \\end{array}",
+      "description_latex": "We place the four joint frequencies into their correct interior cells: 18 seventh-graders prefer cats, 12 prefer dogs, 14 eighth-graders prefer cats, and 16 prefer dogs. Each number belongs in exactly one cell because it describes one specific combination of the two variables \u2014 if you mix up a row or column, the entire table gives wrong information.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{|l|c|c|c|}\\hline & \\text{Cats} & \\text{Dogs} & \\text{Total} \\\\ \\hline \\text{7th Grade} & 18 & 12 & 30 \\\\ \\hline \\text{8th Grade} & 14 & 16 & 30 \\\\ \\hline \\text{Total} & 32 & 28 & 60 \\\\ \\hline \\end{array}",
+      "description_latex": "We compute the marginal totals by adding across each row and down each column: $18 + 12 = 30$ for 7th grade, $14 + 16 = 30$ for 8th grade, $18 + 14 = 32$ for Cats overall, and $12 + 16 = 28$ for Dogs overall. As a built-in check, both ways of summing to the grand total must agree: $30 + 30 = 60$ and $32 + 28 = 60$, which they do, confirming our arithmetic is correct.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Joint frequency (8th, Dogs)} = 16 \\qquad \\text{Marginal frequency (Cats total)} = 32",
+      "description_latex": "Now we can read specific values directly from the completed table \u2014 for instance, 16 is the joint frequency for 8th-graders who prefer dogs, while 32 is the marginal frequency for all students who prefer cats regardless of grade. Being able to distinguish joint frequencies (interior cells) from marginal frequencies (totals) is the core reading skill for two-way tables.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Survey: 50 students \u2014 Sport (Soccer or Basketball), School (North or South)}",
+      "description_latex": "We are building a two-way table from scratch. Our two variables are Favorite Sport (Soccer or Basketball) and School (North or South), so we set up rows for each school and columns for each sport, plus a Total row and Total column along the margins.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{|l|c|c|c|}\\hline & \\text{Soccer} & \\text{Basketball} & \\text{Total} \\\\ \\hline \\text{North} & 15 & 10 & \\\\ \\hline \\text{South} & 12 & 13 & \\\\ \\hline \\text{Total} & & & \\\\ \\hline \\end{array}",
+      "description_latex": "The four joint frequencies have been placed in the interior cells. Your job now is to compute all the marginal totals \u2014 the row totals on the right and the column totals on the bottom \u2014 and confirm that both row totals and both column totals add up to the same grand total of 50.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\begin{array}{|l|c|c|c|}\\hline & \\text{Soccer} & \\text{Basketball} & \\text{Total} \\\\ \\hline \\text{North} & 15 & 10 & 25 \\\\ \\hline \\text{South} & 12 & 13 & 25 \\\\ \\hline \\text{Total} & 27 & 23 & 50 \\\\ \\hline \\end{array}",
+      "description_latex": "The completed table shows all marginal totals and the grand total of 50. Using this finished table, identify: (a) the joint frequency for South-school students who prefer Soccer, and (b) the marginal frequency for all Basketball fans across both schools.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{A two-way table shows: Row 'Morning' has cells 20 (Tea) and 15 (Coffee). What is the marginal total for the Morning row?}",
+      "answer_latex": "35"
+    },
+    {
+      "prompt_latex": "\\begin{array}{|l|c|c|c|}\\hline & \\text{Fiction} & \\text{Non-Fiction} & \\text{Total} \\\\ \\hline \\text{6th} & 11 & 9 & \\\\ \\hline \\text{7th} & 13 & 7 & \\\\ \\hline \\text{Total} & & & \\\\ \\hline \\end{array} \\quad \\text{Complete the table and state the grand total.}",
+      "answer_latex": "\\text{Row totals: } 20, 20; \\text{ Column totals: } 24, 16; \\text{ Grand total: } 40"
+    },
+    {
+      "prompt_latex": "\\text{Using the completed table from problem 2, what is the joint frequency for 7th-grade students who prefer Fiction? What is the marginal frequency for all Non-Fiction readers?}",
+      "answer_latex": "\\text{Joint frequency (7th, Fiction)} = 13; \\quad \\text{Marginal frequency (Non-Fiction)} = 16"
+    },
+    {
+      "prompt_latex": "\\begin{array}{|l|c|c|c|}\\hline & \\text{Walk} & \\text{Bus} & \\text{Total} \\\\ \\hline \\text{Boys} & 22 & x & 35 \\\\ \\hline \\text{Girls} & 18 & 17 & \\\\ \\hline \\text{Total} & & & 70 \\\\ \\hline \\end{array} \\quad \\text{Find } x \\text{ and complete all remaining cells.}",
+      "answer_latex": "x = 13; \\text{ Girls Total} = 35; \\text{ Walk Total} = 40; \\text{ Bus Total} = 30"
+    },
+    {
+      "prompt_latex": "\\text{A school surveyed 80 students about their lunch choice (Hot Lunch or Packed Lunch) and grade (9th or 10th). Of the 80 students, 45 are in 9th grade. Among 9th graders, 28 choose Hot Lunch. Among 10th graders, 19 choose Hot Lunch. Build the complete two-way table and find how many 10th-grade students bring a Packed Lunch.}",
+      "answer_latex": "\\text{10th-grade Packed Lunch} = 16; \\quad \\begin{array}{|l|c|c|c|}\\hline & \\text{Hot} & \\text{Packed} & \\text{Total} \\\\ \\hline \\text{9th} & 28 & 17 & 45 \\\\ \\hline \\text{10th} & 19 & 16 & 35 \\\\ \\hline \\text{Total} & 47 & 33 & 80 \\\\ \\hline \\end{array}"
+    }
+  ],
+  "common_mistakes": [
+    "Students add all interior cells together for a row total instead of only the cells in that row \u2014 for example, summing all four interior values instead of just the two in the 'North' row. Fix: always add only the cells that share the same row label when computing a row marginal total.",
+    "Students confuse joint frequencies with marginal frequencies, reporting a row or column total when asked for a specific combination. For instance, when asked 'How many 8th-graders prefer Dogs?' a student might report the total Dogs column (28) instead of the interior cell value (16). Fix: joint frequencies live inside the table; marginal frequencies live on the edges in the Total row or column.",
+    "When a missing interior cell must be found using a known row or column total, students forget to subtract and instead leave the cell blank or guess. For example, if the Boys row total is 35 and the Walk cell is 22, the Bus cell must be $35 - 22 = 13$, not an unknown. Fix: treat the row or column total as an equation and solve for the missing piece by subtraction."
+  ],
+  "untested_variants": [
+    "Relative frequency tables, where each cell is converted to a fraction or percentage of the grand total, the row total, or the column total (conditional relative frequencies).",
+    "Three-category variables \u2014 for example, a table with three sport choices (Soccer, Basketball, Swimming) across three grade levels \u2014 requiring students to manage a larger grid with more than four interior cells.",
+    "Using a two-way table to determine whether two categorical variables appear to be associated or independent by comparing row percentages across columns.",
+    "Reading two-way tables embedded in a bar graph or segmented bar chart and translating the visual back into the numeric table format."
+  ]
+}

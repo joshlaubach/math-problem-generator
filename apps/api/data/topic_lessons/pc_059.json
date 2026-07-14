@@ -1,0 +1,81 @@
+{
+  "topic_id": "pc_059",
+  "topic_name": "Polar Coordinates and Graphs",
+  "generated_at": "2026-05-12T23:57:29.123833+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to plot points using $(x, y)$ coordinates on a rectangular grid, and you can write equations like $x^2 + y^2 = 9$ for a circle. But what if the shape you want to describe is naturally built around a central point \u2014 like a spiral, a four-petaled flower, or a cardioid? Rectangular coordinates force you to write messy, complicated equations for these curves. Is there a coordinate system that makes rotation and distance from a center point feel natural?",
+  "concept": "Polar coordinates describe a point's location using a distance and an angle instead of horizontal and vertical offsets. Formally, a point $P$ is written as $(r, \\theta)$, where $r$ is the radial distance from the origin (called the pole) and $\\theta$ is the angle measured counterclockwise from the positive $x$-axis (called the polar axis). The conversion to rectangular coordinates is $x = r\\cos\\theta$ and $y = r\\sin\\theta$, with $r^2 = x^2 + y^2$ and $\\tan\\theta = y/x$.",
+  "anatomy": "In the polar coordinate pair $(r, \\theta)$, the value $r$ is the radius \u2014 the signed distance from the pole to the point, which can be negative (meaning the point is plotted in the direction opposite to $\\theta$). The angle $\\theta$ is measured in radians or degrees from the polar axis counterclockwise; clockwise motion gives negative angles. The pole itself is the origin of the system. A polar equation expresses $r$ as a function of $\\theta$, written $r = f(\\theta)$, and its graph is the set of all points $(r, \\theta)$ satisfying that equation. Unlike rectangular graphs, the same point can be represented by infinitely many polar coordinate pairs because adding $2\\pi$ to $\\theta$ or negating both $r$ and shifting $\\theta$ by $\\pi$ returns to the same location.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Plot the point } \\left(3, \\frac{\\pi}{3}\\right) \\text{ in polar coordinates.}",
+      "description_latex": "We start by identifying the two components: $r = 3$ means we will move 3 units from the pole, and $\\theta = \\pi/3$ (which is $60\u00b0$) tells us the direction. We rotate $60\u00b0$ counterclockwise from the polar axis, then travel 3 units outward along that ray to place the point.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 3\\cos\\frac{\\pi}{3} = 3 \\cdot \\frac{1}{2} = \\frac{3}{2}, \\quad y = 3\\sin\\frac{\\pi}{3} = 3 \\cdot \\frac{\\sqrt{3}}{2} = \\frac{3\\sqrt{3}}{2}",
+      "description_latex": "To verify using rectangular coordinates, we apply the conversion formulas $x = r\\cos\\theta$ and $y = r\\sin\\theta$. This confirms the point lands at $\\left(\\frac{3}{2},\\ \\frac{3\\sqrt{3}}{2}\\right)$ in the $xy$-plane, which is indeed in the first quadrant at a $60\u00b0$ angle \u2014 exactly what we expected.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Convert } (x, y) = (-2, 2) \\text{ to polar form.}",
+      "description_latex": "Given rectangular coordinates, we use $r = \\sqrt{x^2 + y^2}$ and $\\tan\\theta = y/x$ to find the polar pair. We must be careful to choose the correct quadrant for $\\theta$ based on where the point actually lies, not just the raw arctangent output.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "r = \\sqrt{(-2)^2 + 2^2} = \\sqrt{8} = 2\\sqrt{2}, \\quad \\theta = \\arctan\\left(\\frac{2}{-2}\\right) = \\arctan(-1) \\Rightarrow \\theta = \\frac{3\\pi}{4}",
+      "description_latex": "Since $x < 0$ and $y > 0$, the point is in the second quadrant, so we adjust the arctangent result to $\\theta = \\pi - \\pi/4 = 3\\pi/4$. The polar form is $\\left(2\\sqrt{2},\\ \\frac{3\\pi}{4}\\right)$, and this makes sense because a $135\u00b0$ angle points into the second quadrant, matching our original point.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Identify key points on the graph of } r = 2 + 2\\cos\\theta \\text{ (a cardioid).}",
+      "description_latex": "A cardioid of the form $r = a + a\\cos\\theta$ passes through the pole and has a characteristic heart shape. Our strategy is to evaluate $r$ at the four key angles $\\theta = 0,\\ \\pi/2,\\ \\pi,\\ 3\\pi/2$ to find the outermost, leftmost, and rightmost extents of the curve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\theta = 0: r = 4; \\quad \\theta = \\frac{\\pi}{2}: r = 2; \\quad \\theta = \\pi: r = 0; \\quad \\theta = \\frac{3\\pi}{2}: r = 2",
+      "description_latex": "Substituting each angle gives us these four anchor points. Notice that $r = 0$ at $\\theta = \\pi$ means the curve passes through the pole, which is the defining feature of a cardioid \u2014 it pinches to a cusp at the origin.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the conversion formulas, convert the anchor point $\\left(4, 0\\right)$ and the point at $\\theta = \\pi/2$ into rectangular $(x, y)$ coordinates to confirm their positions in the plane. Show your full substitution.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Plot and name the rectangular coordinates of the polar point $\\left(4, \\frac{\\pi}{6}\\right)$.",
+      "answer_latex": "x = 4\\cos\\frac{\\pi}{6} = 2\\sqrt{3},\\ y = 4\\sin\\frac{\\pi}{6} = 2;\\ \\text{ rectangular point: } \\left(2\\sqrt{3},\\ 2\\right)"
+    },
+    {
+      "prompt_latex": "Convert the rectangular point $(0, -5)$ to polar coordinates with $r > 0$ and $0 \\le \\theta < 2\\pi$.",
+      "answer_latex": "r = 5,\\ \\theta = \\frac{3\\pi}{2};\\ \\text{ polar form: } \\left(5,\\ \\frac{3\\pi}{2}\\right)"
+    },
+    {
+      "prompt_latex": "Find all polar coordinates of the point $\\left(2, \\frac{\\pi}{4}\\right)$ that use a negative value of $r$.",
+      "answer_latex": "\\left(-2,\\ \\frac{\\pi}{4} + \\pi\\right) = \\left(-2,\\ \\frac{5\\pi}{4}\\right)"
+    },
+    {
+      "prompt_latex": "Convert the polar equation $r = 4\\sin\\theta$ to a rectangular equation and identify the curve.",
+      "answer_latex": "x^2 + (y-2)^2 = 4;\\ \\text{ a circle centered at } (0, 2) \\text{ with radius } 2"
+    },
+    {
+      "prompt_latex": "A radar dish sweeps outward so that the leading edge follows the spiral $r = \\theta$ for $0 \\le \\theta \\le 2\\pi$. What is the distance from the pole to the tip of the spiral when $\\theta = \\frac{3\\pi}{2}$, and what are the rectangular coordinates of that tip?",
+      "answer_latex": "r = \\frac{3\\pi}{2};\\ x = \\frac{3\\pi}{2}\\cos\\frac{3\\pi}{2} = 0,\\ y = \\frac{3\\pi}{2}\\sin\\frac{3\\pi}{2} = -\\frac{3\\pi}{2};\\ \\text{ rectangular: } \\left(0,\\ -\\frac{3\\pi}{2}\\right)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that a negative $r$ value means the point is plotted in the direction OPPOSITE to $\\theta$, not simply reflected over the origin; for example, $(-3, \\pi/4)$ lands in the third quadrant, not the first. Always flip the direction by adding $\\pi$ to $\\theta$ when $r < 0$ to find the equivalent positive-$r$ representation.",
+    "When converting from rectangular to polar using $\\tan\\theta = y/x$, students apply $\\theta = \\arctan(y/x)$ blindly without checking which quadrant the point is in, often landing in the wrong quadrant because arctangent only returns values in $(-\\pi/2, \\pi/2)$. Always verify the quadrant using the signs of $x$ and $y$, and add $\\pi$ if $x < 0$.",
+    "When multiplying both sides of $r = 4\\sin\\theta$ by $r$ to convert to rectangular form, students sometimes forget to substitute $r^2 = x^2 + y^2$ and $r\\sin\\theta = y$, leaving the equation in a mixed polar-rectangular state that cannot be simplified. The fix is to always complete both substitutions in the same step and then complete the square to identify the conic."
+  ],
+  "untested_variants": [
+    "Graphing rose curves of the form $r = a\\cos(n\\theta)$ or $r = a\\sin(n\\theta)$ and determining the number of petals based on whether $n$ is odd or even.",
+    "Converting a rectangular equation of a line (e.g., $y = mx + b$) into polar form and simplifying.",
+    "Finding all intersection points of two polar curves, including the hidden intersections that occur at the pole and are not detected by setting $r_1 = r_2$ directly.",
+    "Graphing lima\u00e7ons with an inner loop, such as $r = 1 + 2\\cos\\theta$, and identifying the inner-loop region."
+  ]
+}

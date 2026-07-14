@@ -1,0 +1,86 @@
+{
+  "topic_id": "c3_015",
+  "topic_name": "Partial Derivatives",
+  "generated_at": "2026-05-13T00:32:01.651884+00:00",
+  "course_name": "Calculus III",
+  "hook": "You already know how to differentiate a function of one variable \u2014 given $f(x) = x^3 + 2x$, finding $f'(x) = 3x^2 + 2$ is routine. But what happens when a function depends on two or more variables, like the temperature of a metal plate $T(x, y) = x^2 y + y^3$? Changing $x$ while holding $y$ fixed produces a different rate of change than changing $y$ while holding $x$ fixed, and ordinary single-variable differentiation gives you no way to separate these effects. How do we measure the rate of change of a multivariable function in just one direction at a time?",
+  "concept": "A partial derivative measures how a multivariable function changes as exactly one input variable changes, while all other variables are treated as constants. Formally, for $f(x, y)$, the partial derivative with respect to $x$ is $\\frac{\\partial f}{\\partial x} = \\lim_{h \\to 0} \\frac{f(x+h, y) - f(x, y)}{h}$, and similarly $\\frac{\\partial f}{\\partial y} = \\lim_{h \\to 0} \\frac{f(x, y+h) - f(x, y)}{h}$. In practice, you apply all standard single-variable differentiation rules while freezing the other variables.",
+  "anatomy": "Every partial derivative has four key parts worth naming. The dependent variable is the output function, such as $f(x,y)$ or $z$, whose rate of change we are measuring. The differentiation variable is the single input \u2014 $x$, $y$, or another \u2014 with respect to which we differentiate, indicated by the symbol in the denominator of the Leibniz notation $\\frac{\\partial f}{\\partial x}$. The frozen variables are all remaining inputs held constant during differentiation; they behave exactly like numbers. Finally, the $\\partial$ symbol (called 'del' or 'partial') distinguishes this operation from ordinary total differentiation $\\frac{d}{dx}$, signaling that other variables exist but are being held fixed.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x, y) = x^3 y^2 + 5x - 2y + 7",
+      "description_latex": "We are given a function of two variables and want to find both partial derivatives. Before differentiating, it helps to identify which terms actually contain the differentiation variable, because any term with only the frozen variable will differentiate to zero just like a constant would.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial f}{\\partial x} = \\frac{\\partial}{\\partial x}\\left(x^3 y^2\\right) + \\frac{\\partial}{\\partial x}(5x) - \\frac{\\partial}{\\partial x}(2y) + \\frac{\\partial}{\\partial x}(7)",
+      "description_latex": "We apply the sum rule and differentiate term by term with respect to $x$, treating $y$ as a constant throughout. Breaking the derivative across each term makes it easier to handle each piece carefully without mixing up which variable is active.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial f}{\\partial x} = 3x^2 y^2 + 5 - 0 + 0 = 3x^2 y^2 + 5",
+      "description_latex": "For the first term, $y^2$ is just a constant coefficient, so the power rule gives $\\frac{\\partial}{\\partial x}(x^3 y^2) = 3x^2 y^2$. The term $-2y$ contains no $x$ at all, so it vanishes just like any constant would \u2014 this is a critical point where students often forget to drop it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial f}{\\partial y} = x^3 \\cdot 2y + 0 - 2 + 0 = 2x^3 y - 2",
+      "description_latex": "Now we switch roles: $x$ is frozen and $y$ is the differentiation variable. The term $x^3 y^2$ has $x^3$ as a constant coefficient, so the power rule on $y^2$ gives $2x^3 y$. The term $5x$ has no $y$, so it disappears, while $-2y$ differentiates to $-2$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "g(x, y) = x^2 \\sin(y) + e^x y^3",
+      "description_latex": "We want to find $\\frac{\\partial g}{\\partial x}$. Start by identifying which terms depend on $x$: both terms do, but $\\sin(y)$ in the first term and $y^3$ in the second term are constants as far as $x$ is concerned.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{\\partial g}{\\partial x} = \\sin(y) \\cdot \\frac{\\partial}{\\partial x}(x^2) + y^3 \\cdot \\frac{\\partial}{\\partial x}(e^x)",
+      "description_latex": "We factor out the frozen-variable parts as constant coefficients and prepare to apply the power rule and the exponential rule separately to each term. Notice that $\\sin(y)$ and $y^3$ simply ride along as multipliers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Complete this step: apply the appropriate differentiation rules to finish computing $\\frac{\\partial g}{\\partial x}$, keeping $\\sin(y)$ and $y^3$ as constant coefficients in your answer.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now find $\\frac{\\partial g}{\\partial y}$ from scratch. Remember to switch roles entirely \u2014 $x$ is now frozen, so $x^2$ and $e^x$ become constant coefficients. What rule applies to $\\sin(y)$ and what rule applies to $y^3$?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $\\frac{\\partial f}{\\partial x}$ and $\\frac{\\partial f}{\\partial y}$ for $f(x,y) = 4x^2 + 3y^3 - 7$",
+      "answer_latex": "\\frac{\\partial f}{\\partial x} = 8x, \\quad \\frac{\\partial f}{\\partial y} = 9y^2"
+    },
+    {
+      "prompt_latex": "Find $\\frac{\\partial f}{\\partial x}$ and $\\frac{\\partial f}{\\partial y}$ for $f(x,y) = x^4 y^2 - 3x y^5 + 2x$",
+      "answer_latex": "\\frac{\\partial f}{\\partial x} = 4x^3 y^2 - 3y^5 + 2, \\quad \\frac{\\partial f}{\\partial y} = 2x^4 y - 15x y^4"
+    },
+    {
+      "prompt_latex": "Find $\\frac{\\partial f}{\\partial x}$ and $\\frac{\\partial f}{\\partial y}$ for $f(x,y) = x^2 e^{3y} + \\ln(x) y$",
+      "answer_latex": "\\frac{\\partial f}{\\partial x} = 2x e^{3y} + \\frac{y}{x}, \\quad \\frac{\\partial f}{\\partial y} = 3x^2 e^{3y} + \\ln(x)"
+    },
+    {
+      "prompt_latex": "For $f(x,y) = \\frac{x^2 - y^2}{x + y}$, simplify first and then find $\\frac{\\partial f}{\\partial x}$ and $\\frac{\\partial f}{\\partial y}$",
+      "answer_latex": "f(x,y) = x - y, \\text{ so } \\frac{\\partial f}{\\partial x} = 1, \\quad \\frac{\\partial f}{\\partial y} = -1"
+    },
+    {
+      "prompt_latex": "The pressure of an ideal gas is given by $P(V, T) = \\frac{nRT}{V}$ where $n$ and $R$ are constants. Find $\\frac{\\partial P}{\\partial T}$ and $\\frac{\\partial P}{\\partial V}$, and interpret each sign physically.",
+      "answer_latex": "\\frac{\\partial P}{\\partial T} = \\frac{nR}{V} > 0 \\text{ (pressure increases with temperature at fixed volume)}, \\quad \\frac{\\partial P}{\\partial V} = -\\frac{nRT}{V^2} < 0 \\text{ (pressure decreases as volume increases at fixed temperature)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to treat terms that contain only the frozen variable as constants, and instead try to differentiate them with respect to the active variable \u2014 for example, writing $\\frac{\\partial}{\\partial x}(3y^2) = 6y$ instead of $0$. Fix: ask yourself 'does this term contain any $x$?' before differentiating; if not, it vanishes.",
+    "When differentiating a product like $x^2 y^3$ with respect to $x$, students sometimes apply the product rule as if $y^3$ were a function of $x$, writing $2x \\cdot y^3 + x^2 \\cdot 3y^2$ instead of simply $2x y^3$. Fix: $y^3$ is a constant with respect to $x$, so it is just a coefficient \u2014 the product rule is not needed.",
+    "Students apply the chain rule to the frozen variable when it appears inside a composite function, for instance computing $\\frac{\\partial}{\\partial x}(\\sin(y)) = \\cos(y) \\cdot \\frac{dy}{dx}$ instead of $0$. Fix: when $y$ is frozen, $\\sin(y)$ is a fixed number, not a composition involving $x$, so its partial derivative with respect to $x$ is exactly zero."
+  ],
+  "untested_variants": [
+    "Partial derivatives of functions of three or more variables, such as $f(x, y, z) = x^2 yz + z^3$, where students must freeze two variables simultaneously.",
+    "Using the limit definition of the partial derivative directly to compute $\\frac{\\partial f}{\\partial x}$ from scratch, rather than applying differentiation rules.",
+    "Finding partial derivatives of implicitly defined surfaces $F(x, y, z) = 0$ using the implicit differentiation formula $\\frac{\\partial z}{\\partial x} = -\\frac{F_x}{F_z}$.",
+    "Evaluating partial derivatives at a specific point, such as finding $f_x(1, 2)$, and interpreting the numerical result as a slope of a tangent line on a surface."
+  ]
+}

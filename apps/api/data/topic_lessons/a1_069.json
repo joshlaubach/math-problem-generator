@@ -1,0 +1,91 @@
+{
+  "topic_id": "a1_069",
+  "topic_name": "Measures of Variation (Range, IQR)",
+  "generated_at": "2026-05-12T22:51:34.870767+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to find the mean and median of a data set, which tell you where the center of the data sits. But two classes could have the same average test score while one class has everyone clustered near 75 and the other has scores scattered from 40 to 100 \u2014 the center alone doesn't capture that difference. How can we measure how spread out, or how variable, a data set actually is?",
+  "concept": "Measures of variation describe how spread out the values in a data set are. The two most common are the range and the interquartile range (IQR). The range is the simplest: $\\text{Range} = \\text{Maximum} - \\text{Minimum}$. The IQR focuses on the middle 50% of the data: $\\text{IQR} = Q_3 - Q_1$, where $Q_1$ is the first quartile (25th percentile) and $Q_3$ is the third quartile (75th percentile).",
+  "anatomy": "Every measure of variation in this topic has distinct named parts. For the range, you need the maximum (the largest value in the data set) and the minimum (the smallest value). For the IQR, you need three quartiles: $Q_1$ (the median of the lower half of the data), $Q_2$ (the overall median, which splits the data in half), and $Q_3$ (the median of the upper half of the data). The IQR is then computed as $Q_3 - Q_1$, and it deliberately ignores the lowest 25% and highest 25% of values, making it resistant to outliers in a way the range is not.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Data set: } 4, 7, 9, 12, 15, 18, 22",
+      "description_latex": "We start by confirming the data is already in order from least to greatest \u2014 this is essential before finding any quartiles or the range. Our data set has 7 values, so we can identify the minimum as 4 and the maximum as 22 right away.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Range} = 22 - 4 = 18",
+      "description_latex": "The range is simply the maximum minus the minimum, giving us a single number that captures the full spread from end to end. A range of 18 tells us the data spans 18 units, but it only uses two values and can be heavily influenced by a single extreme outlier.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q_2 = 12, \\quad \\text{Lower half: } 4, 7, 9 \\quad \\text{Upper half: } 15, 18, 22",
+      "description_latex": "Since there are 7 values, the median $Q_2$ is the 4th value, which is 12. We then split the remaining data into a lower half (the three values below 12) and an upper half (the three values above 12), not including $Q_2$ itself in either half.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q_1 = 7, \\quad Q_3 = 18",
+      "description_latex": "$Q_1$ is the median of the lower half $\\{4, 7, 9\\}$, which is the middle value 7. $Q_3$ is the median of the upper half $\\{15, 18, 22\\}$, which is the middle value 18. These two quartiles mark the boundaries of the middle 50% of the data.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{IQR} = Q_3 - Q_1 = 18 - 7 = 11",
+      "description_latex": "Subtracting $Q_1$ from $Q_3$ gives us the IQR of 11, meaning the middle 50% of our data spans 11 units. Because the IQR ignores the top and bottom 25% of values, it is a more reliable measure of spread when the data contains outliers.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Data set: } 3, 8, 10, 14, 17, 21, 25, 30",
+      "description_latex": "Here we have 8 values already listed in order. Notice that with an even number of data points, finding the quartiles requires a slightly different approach \u2014 we will split the data evenly into a lower half and an upper half, each containing 4 values.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Range} = 30 - 3 = 27",
+      "description_latex": "The range is straightforward: subtract the minimum (3) from the maximum (30) to get 27. This tells us the full spread of the data from end to end.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Lower half: } 3, 8, 10, 14 \\quad \\text{Upper half: } 17, 21, 25, 30",
+      "description_latex": "With 8 data points and no single middle value, we split the list exactly in half: the lower half is $\\{3, 8, 10, 14\\}$ and the upper half is $\\{17, 21, 25, 30\\}$. Now find $Q_1$ as the median of the lower half and $Q_3$ as the median of the upper half \u2014 what is the IQR?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "Q_1 = \\frac{8+10}{2} = 9, \\quad Q_3 = \\frac{21+25}{2} = 23, \\quad \\text{IQR} = 23 - 9 = 14",
+      "description_latex": "Because each half has an even number of values, $Q_1$ and $Q_3$ are each the average of the two middle values in their respective halves. The IQR of 14 means the middle 50% of this data spans 14 units.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Find the range of: } 5, 11, 3, 19, 7",
+      "answer_latex": "\\text{Range} = 19 - 3 = 16"
+    },
+    {
+      "prompt_latex": "\\text{Find the IQR of: } 2, 5, 8, 11, 14",
+      "answer_latex": "Q_1 = 5, \\quad Q_3 = 11, \\quad \\text{IQR} = 11 - 5 = 6"
+    },
+    {
+      "prompt_latex": "\\text{Find the range and IQR of: } 6, 9, 13, 17, 20, 24",
+      "answer_latex": "\\text{Range} = 24 - 6 = 18; \\quad Q_1 = \\frac{9+13}{2} = 11, \\; Q_3 = \\frac{17+20}{2} = 18.5, \\; \\text{IQR} = 7.5"
+    },
+    {
+      "prompt_latex": "\\text{Two data sets have the same mean of 50. Set A: } 48, 49, 50, 51, 52. \\text{ Set B: } 20, 35, 50, 65, 80. \\text{ Find the IQR of each. Which set is more variable?}",
+      "answer_latex": "\\text{Set A IQR} = 51 - 49 = 2; \\quad \\text{Set B IQR} = 65 - 35 = 30; \\quad \\text{Set B is more variable.}"
+    },
+    {
+      "prompt_latex": "\\text{A teacher records quiz scores: } 72, 85, 90, 68, 95, 88, 76, 82. \\text{ A student scores 40 on the next quiz. How does adding this outlier change the range and IQR?}",
+      "answer_latex": "\\text{Original: Range} = 95-68=27, \\; \\text{IQR}=88-76=12. \\text{ With 40: Range}=95-40=55\\text{ (increases by 28)}, \\; Q_1=72, Q_3=88, \\text{IQR}=16 \\text{ (changes slightly, much less affected than range).}"
+    }
+  ],
+  "common_mistakes": [
+    "Students sometimes include the median $Q_2$ in both the lower and upper halves when computing quartiles, which shifts $Q_1$ and $Q_3$ and produces a wrong IQR \u2014 the fix is to always exclude $Q_2$ from both halves when the data set has an odd number of values.",
+    "When the data set has an even number of values, students sometimes pick one of the two middle values as $Q_1$ or $Q_3$ instead of averaging them, giving a quartile that doesn't match the true 25th or 75th percentile \u2014 always average the two middle values of each half when there is no single middle value.",
+    "Students frequently forget to sort the data in ascending order before identifying the minimum, maximum, or quartiles, which leads to an incorrect range or IQR \u2014 the very first step with any data set should always be to rewrite the values from least to greatest."
+  ],
+  "untested_variants": [
+    "Finding the IQR from a box-and-whisker plot (reading $Q_1$ and $Q_3$ directly off a graph rather than computing them from a list).",
+    "Identifying potential outliers using the IQR fence rule: a value is an outlier if it is below $Q_1 - 1.5 \\times \\text{IQR}$ or above $Q_3 + 1.5 \\times \\text{IQR}$.",
+    "Computing the range or IQR from a frequency table or dot plot rather than a raw list of values.",
+    "Comparing the IQR of two data sets displayed as parallel box plots and making inferences about which population is more consistent."
+  ]
+}

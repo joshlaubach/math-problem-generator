@@ -1,0 +1,86 @@
+{
+  "topic_id": "pf_009",
+  "topic_name": "Proof by Cases and Without Loss of Generality",
+  "generated_at": "2026-05-13T20:20:50.382781+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know how to prove statements by direct argument or contradiction, but some claims resist a single unified approach \u2014 they depend on which situation you're in. For example, you might want to prove that for any integer $n$, the expression $n^2 + n$ is always even, but the argument for even $n$ feels completely different from the argument for odd $n$. What do you do when a single proof thread won't hold together the whole story?",
+  "concept": "Proof by cases means you partition the universe of possibilities into a finite collection of exhaustive, non-overlapping situations and prove the statement independently in each one. Formally, if you want to show $P(x)$ for all $x$ in set $S$, you find cases $C_1, C_2, \\ldots, C_k$ such that $C_1 \\cup C_2 \\cup \\cdots \\cup C_k = S$, then prove $C_i \\Rightarrow P(x)$ for each $i$. 'Without loss of generality' (WLOG) lets you reduce the number of cases by invoking symmetry.",
+  "anatomy": "A proof by cases has four structural parts: the case partition, which is the explicit list of exhaustive, mutually exclusive sub-scenarios that together cover every possibility; the case hypotheses, which are the extra assumptions you get to use inside each individual case; the sub-proofs, which are the independent arguments you run within each case; and the conclusion, where you assert that since every case yields the desired result, the statement holds universally. When WLOG is invoked, there is also a symmetry argument \u2014 a brief justification explaining why the omitted cases are genuinely equivalent to the one being proved, so no information is actually lost.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Claim: For every integer } n, \\; n^2 + n \\text{ is even.}",
+      "description_latex": "We begin by identifying the natural case split for integers: every integer is either even or odd, and these two categories are exhaustive and mutually exclusive, so they form a perfect case partition. Setting up this partition explicitly is the first move \u2014 it tells the reader exactly how many sub-proofs are coming.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Case 1: } n = 2k \\text{ for some integer } k. \\quad n^2 + n = (2k)^2 + 2k = 4k^2 + 2k = 2(2k^2 + k).",
+      "description_latex": "In Case 1 we substitute the definition of an even integer and factor out a 2. Because $2k^2 + k$ is an integer, the expression $n^2 + n$ equals $2$ times an integer, which is exactly the definition of even \u2014 so the statement holds when $n$ is even.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Case 2: } n = 2k + 1 \\text{ for some integer } k. \\quad n^2 + n = (2k+1)^2 + (2k+1) = 4k^2 + 4k + 1 + 2k + 1 = 4k^2 + 6k + 2 = 2(2k^2 + 3k + 1).",
+      "description_latex": "In Case 2 we substitute the definition of an odd integer, expand carefully, and again factor out a 2. Notice that $2k^2 + 3k + 1$ is an integer for any integer $k$, so $n^2 + n$ is again a multiple of 2, confirming the statement holds when $n$ is odd.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Since every integer is even or odd, both cases are covered, so } n^2 + n \\text{ is even for all } n \\in \\mathbb{Z}. \\quad \\blacksquare",
+      "description_latex": "We close the proof by invoking the exhaustiveness of our partition: the two cases together account for every integer on the number line, so there is no remaining scenario to check. Writing this closing sentence is not optional \u2014 it is what converts two separate mini-proofs into a single coherent argument.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Claim: For all real numbers } x, \\; |x| \\geq 0.",
+      "description_latex": "We need to prove this for every real number $x$. Because absolute value is defined differently depending on the sign of $x$, we split into cases: $x \\geq 0$ and $x < 0$. This is an exhaustive partition of $\\mathbb{R}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\textbf{Case 1: } x \\geq 0. \\quad |x| = x \\geq 0. \\quad \\checkmark",
+      "description_latex": "When $x$ is non-negative, the definition of absolute value gives $|x| = x$, and since $x \\geq 0$ by assumption, the inequality holds immediately. This case is straightforward \u2014 we are just unfolding the definition.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now handle Case 2 where $x < 0$. Write out what $|x|$ equals by definition in this case, then show algebraically that this quantity is still $\\geq 0$. Why does the sign flip here actually help you?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\text{Since } x \\geq 0 \\text{ and } x < 0 \\text{ are exhaustive, } |x| \\geq 0 \\text{ for all } x \\in \\mathbb{R}. \\quad \\blacksquare",
+      "description_latex": "We conclude by noting the two cases partition all real numbers, so the proof is complete. Always state this explicitly so the reader knows the argument is airtight.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Prove that for every integer $n$, the product $n(n+1)$ is even.",
+      "answer_latex": "Case 1: $n = 2k$, then $n(n+1) = 2k(2k+1) = 2[k(2k+1)]$, which is even. Case 2: $n = 2k+1$, then $n(n+1) = (2k+1)(2k+2) = 2(2k+1)(k+1)$, which is even. Both cases exhausted. $\\blacksquare$"
+    },
+    {
+      "prompt_latex": "Prove that for all integers $n$, $n^2$ is either divisible by 4 or leaves remainder 1 when divided by 4. (Hint: use cases based on $n \\bmod 2$.)",
+      "answer_latex": "Case 1: $n = 2k$, so $n^2 = 4k^2 \\equiv 0 \\pmod{4}$. Case 2: $n = 2k+1$, so $n^2 = 4k^2+4k+1 = 4(k^2+k)+1 \\equiv 1 \\pmod{4}$. Thus $n^2 \\bmod 4 \\in \\{0,1\\}$ for all integers $n$. $\\blacksquare$"
+    },
+    {
+      "prompt_latex": "Prove: For all real numbers $x$ and $y$, $\\max(x,y) = \\dfrac{x + y + |x - y|}{2}$.",
+      "answer_latex": "Case 1: $x \\geq y$. Then $|x-y| = x-y$, so $\\frac{x+y+(x-y)}{2} = \\frac{2x}{2} = x = \\max(x,y)$. Case 2: $x < y$. Then $|x-y| = y-x$, so $\\frac{x+y+(y-x)}{2} = \\frac{2y}{2} = y = \\max(x,y)$. Both cases confirmed. $\\blacksquare$"
+    },
+    {
+      "prompt_latex": "Let $a$ and $b$ be integers. Prove that if $ab$ is odd, then both $a$ and $b$ are odd. (Use proof by cases on the parity of $a$ and $b$, combined with proof by contrapositive or contradiction.)",
+      "answer_latex": "We prove the contrapositive: if $a$ or $b$ is even, then $ab$ is even. WLOG assume $a = 2k$. Then $ab = 2kb = 2(kb)$, which is even. Since the contrapositive holds, the original statement follows. $\\blacksquare$"
+    },
+    {
+      "prompt_latex": "A manager notices that whenever she has $n$ employees scheduled, the total number of possible handshake pairs $\\binom{n}{2}$ plus $n$ itself is always even. Prove this is true for every positive integer $n \\geq 1$ using proof by cases.",
+      "answer_latex": "Note $\\binom{n}{2} + n = \\frac{n(n-1)}{2} + n = \\frac{n(n-1) + 2n}{2} = \\frac{n^2+n}{2} = \\frac{n(n+1)}{2}$. We must show $n(n+1)$ is always even (so the quotient by 2 is an integer and the whole expression is an integer, but to show the original sum is even we need $\\frac{n(n+1)}{2}$ to be an integer times 2, i.e., $4 \\mid n(n+1)$... Re-reading: we show $\\binom{n}{2}+n$ is even. Case 1: $n=2k$, $\\binom{n}{2}+n = k(2k-1)+2k = 2k^2+k$, which is even iff $k$ is even \u2014 actually use the original: $n^2+n$ approach. We have $\\binom{n}{2}+n = \\frac{n(n-1)}{2}+n = \\frac{n^2-n+2n}{2}=\\frac{n^2+n}{2}$. Case 1 $n=2k$: $\\frac{4k^2+2k}{2}=2k^2+k$. For this to be even, $k$ must be even \u2014 not always true. So the claim as stated is false for $n=2$ ($\\binom{2}{2}+2=1+2=3$, odd). The answer is: the statement is false; a counterexample is $n=2$: $\\binom{2}{2}+2=3$, which is odd."
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to verify that their cases are exhaustive \u2014 for instance, splitting integers into 'positive' and 'negative' and forgetting $n = 0$. Every element of the domain must fall into at least one case, or the proof has a gap.",
+    "When invoking WLOG, students sometimes drop it in without any justification, simply writing 'WLOG assume $x \\leq y$' without explaining why the other ordering leads to an identical argument by symmetry. WLOG must always be accompanied by a brief sentence explaining the symmetry that makes it valid.",
+    "Students treat cases as overlapping rather than working carefully with the boundaries: for example, using $x > 0$ and $x < 0$ as their two cases and never handling $x = 0$, or using $x \\geq 0$ and $x > 0$ (which overlap and still miss nothing, but waste effort). Cases should be mutually exclusive and together exhaustive \u2014 check both conditions before writing the proof."
+  ],
+  "untested_variants": [
+    "Proof by cases with more than two cases, such as splitting integers modulo 3 into residues 0, 1, and 2 to prove divisibility results.",
+    "Using WLOG to reduce a two-variable symmetric statement to a single case and writing the formal symmetry justification in full.",
+    "Nested case analysis, where each top-level case is itself split into sub-cases (for example, proving a result about integers by first splitting on parity and then, within the odd case, splitting on divisibility by 3).",
+    "Proof by cases applied to a geometric argument, such as proving a property of triangles by considering acute, right, and obtuse cases separately."
+  ]
+}

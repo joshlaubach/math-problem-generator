@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_024",
+  "topic_name": "Finding Rational Zeros",
+  "generated_at": "2026-05-12T23:24:25.573529+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to factor simple polynomials like $x^2 - 5x + 6 = (x-2)(x-3)$, and you can find zeros by inspection or the quadratic formula. But what do you do when you're handed something like $6x^3 - 11x^2 - 3x + 2 = 0$ \u2014 a cubic with messy coefficients and no obvious factoring pattern? The quadratic formula won't help here, and guessing feels hopeless. Is there a systematic way to figure out which rational numbers could possibly be zeros of this polynomial?",
+  "concept": "The Rational Zero Theorem gives you a finite list of candidates to test before doing any heavy algebra. Formally, if a polynomial $f(x) = a_n x^n + \\cdots + a_0$ has integer coefficients, then every rational zero has the form $\\frac{p}{q}$ where $p$ is a factor of the constant term $a_0$ and $q$ is a factor of the leading coefficient $a_n$. You test each candidate by substitution or synthetic division until you find actual zeros.",
+  "anatomy": "The Rational Zero Theorem has four key components you must identify before building your list. The constant term $a_0$ is the term with no $x$; its integer factors give you all possible values of $p$, the numerator. The leading coefficient $a_n$ is the coefficient of the highest-degree term; its integer factors give you all possible values of $q$, the denominator. The candidate list $\\frac{p}{q}$ is formed by writing every combination of $\\pm\\frac{p}{q}$ in lowest terms \u2014 you must include both positive and negative versions. Finally, synthetic division is the efficient tool for testing each candidate: a remainder of zero confirms an actual rational zero.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 6x^3 - 11x^2 - 3x + 2",
+      "description_latex": "We start by identifying the two key numbers from the polynomial. The constant term is $a_0 = 2$ and the leading coefficient is $a_n = 6$. These two values control the entire candidate list, so getting them right is the most important first step.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p \\in \\{\\pm1, \\pm2\\}, \\quad q \\in \\{\\pm1, \\pm2, \\pm3, \\pm6\\}",
+      "description_latex": "Next, we list all integer factors of $a_0 = 2$ to get the possible numerators $p$, and all integer factors of $a_n = 6$ to get the possible denominators $q$. We include both positive and negative factors because zeros can be negative \u2014 every sign matters here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{p}{q} \\in \\left\\{\\pm1,\\ \\pm2,\\ \\pm\\frac{1}{2},\\ \\pm\\frac{1}{3},\\ \\pm\\frac{1}{6},\\ \\pm\\frac{2}{3}\\right\\}",
+      "description_latex": "We now form every distinct ratio $\\frac{p}{q}$ in lowest terms, combining each $p$ with each $q$ and eliminating duplicates (for example, $\\frac{2}{2} = 1$ is already listed). This list of 12 values is our complete set of rational zero candidates \u2014 the actual zeros, if rational, must appear here.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\begin{array}{r|rrrr} \\frac{1}{3} & 6 & -11 & -3 & 2 \\\\ & & 2 & -3 & -2 \\\\ \\hline & 6 & -9 & -6 & 0 \\end{array}",
+      "description_latex": "We test candidates using synthetic division, starting with simpler ones like $x = 1$ or $x = -1$ first, then fractions. Testing $x = \\frac{1}{3}$ gives a remainder of $0$, which confirms that $\\frac{1}{3}$ is a zero and $(3x - 1)$ is a factor. The bottom row gives the depressed quotient $6x^2 - 9x - 6$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "6x^2 - 9x - 6 = 3(2x^2 - 3x - 2) = 3(2x+1)(x-2)",
+      "description_latex": "Because the depressed polynomial is quadratic, we can factor it directly without the Rational Zero Theorem again. Factoring $6x^2 - 9x - 6$ gives the remaining zeros $x = -\\frac{1}{2}$ and $x = 2$, so the complete solution set is $x \\in \\left\\{\\frac{1}{3},\\ -\\frac{1}{2},\\ 2\\right\\}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = 2x^3 + x^2 - 13x + 6",
+      "description_latex": "We want to find all rational zeros of this cubic. Begin by identifying the constant term $a_0 = 6$ and the leading coefficient $a_n = 2$, which together control all possible rational zeros.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\frac{p}{q} \\in \\left\\{\\pm1,\\ \\pm2,\\ \\pm3,\\ \\pm6,\\ \\pm\\frac{1}{2},\\ \\pm\\frac{3}{2}\\right\\}",
+      "description_latex": "Here is the complete candidate list from $p \\mid 6$ and $q \\mid 2$. Your job now is to test these candidates using synthetic division to find the first confirmed rational zero \u2014 try the integers first since they are quickest to check.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f(x) = (x - 2)(2x^2 + 5x - 3) = (x-2)(2x-1)(x+3)",
+      "description_latex": "Once you find that $x = 2$ is a zero (remainder $0$ in synthetic division), the depressed quadratic $2x^2 + 5x - 3$ factors as $(2x - 1)(x + 3)$, giving all three zeros. Write the complete solution set $x \\in \\left\\{2,\\ \\frac{1}{2},\\ -3\\right\\}$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "List all possible rational zeros of $f(x) = x^3 - 4x^2 + x + 6$ using the Rational Zero Theorem.",
+      "answer_latex": "\\pm1,\\ \\pm2,\\ \\pm3,\\ \\pm6"
+    },
+    {
+      "prompt_latex": "Find all rational zeros of $f(x) = x^3 - 6x^2 + 11x - 6$.",
+      "answer_latex": "x = 1,\\ x = 2,\\ x = 3"
+    },
+    {
+      "prompt_latex": "Find all rational zeros of $f(x) = 2x^3 - 3x^2 - 11x + 6$.",
+      "answer_latex": "x = -2,\\ x = \\dfrac{1}{2},\\ x = 3"
+    },
+    {
+      "prompt_latex": "Find all zeros (rational and irrational) of $f(x) = x^4 - x^3 - 7x^2 + x + 6$. (Hint: use the Rational Zero Theorem to factor out rational zeros first, then solve the remaining factor.)",
+      "answer_latex": "x = -2,\\ x = -1,\\ x = 1,\\ x = 3"
+    },
+    {
+      "prompt_latex": "A rectangular box has a volume given by $V(x) = 3x^3 - 10x^2 + 9x - 2$ cubic inches. If $x$ must be a rational number greater than 1, find the value of $x$ that corresponds to a zero of $V$.",
+      "answer_latex": "x = 2"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to include negative candidates in $\\frac{p}{q}$, listing only positive ratios. This is wrong because negative values of $x$ can absolutely be zeros \u2014 always write $\\pm$ in front of every entry on your list.",
+    "Students confuse which number plays the role of $p$ and which plays $q$, writing $\\frac{\\text{factors of leading coefficient}}{\\text{factors of constant term}}$ instead of the correct $\\frac{\\text{factors of constant term}}{\\text{factors of leading coefficient}}$. A quick memory check: the constant term 'stays constant' (goes on top), and the leading coefficient 'leads' (goes on bottom).",
+    "After finding one rational zero and writing a depressed quotient, students forget to fully factor or solve the remaining polynomial, stopping too early and missing one or more zeros. Always check the degree of the depressed polynomial \u2014 if it's quadratic or higher, you must continue factoring or applying the quadratic formula."
+  ],
+  "untested_variants": [
+    "Polynomials of degree 4 or higher where more than one round of synthetic division is needed before reaching a quadratic depressed polynomial.",
+    "Cases where the Rational Zero Theorem produces candidates but none of them are actual zeros, meaning the polynomial has no rational zeros at all.",
+    "Polynomials with a leading coefficient of 1 (monic polynomials) where $q$ is always $\\pm1$, so the candidate list simplifies to just the integer factors of the constant term.",
+    "Problems that require using the Rational Zero Theorem alongside the conjugate root theorem to find complex or irrational zeros after all rational zeros have been extracted."
+  ]
+}

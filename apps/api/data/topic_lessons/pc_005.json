@@ -1,0 +1,91 @@
+{
+  "topic_id": "pc_005",
+  "topic_name": "Inverse Functions",
+  "generated_at": "2026-05-12T23:39:40.104331+00:00",
+  "course_name": "Pre-Calculus and Trigonometry",
+  "hook": "You already know how to evaluate a function like $f(x) = 2x + 3$: plug in an $x$, get an output. But what if someone hands you the output and asks you to find the original input? For example, if $f(x) = 2x + 3$ and you know the output is $11$, you can solve $2x + 3 = 11$ to get $x = 4$ \u2014 but is there a function that does this reversal automatically, for any output? That's exactly what an inverse function does, and knowing how to find one is a skill you don't have yet.",
+  "concept": "An inverse function reverses the input-output relationship of the original function. If $f$ takes $x$ to $y$, then the inverse takes $y$ back to $x$. Formally, $f^{-1}$ is the inverse of $f$ if $f^{-1}(f(x)) = x$ for all $x$ in the domain of $f$, and $f(f^{-1}(y)) = y$ for all $y$ in the range of $f$. A function has an inverse exactly when it is one-to-one (passes the horizontal line test).",
+  "anatomy": "An inverse function has several key components worth naming precisely. The original function $f(x)$ maps inputs from its domain to outputs in its range. The inverse function $f^{-1}(x)$ swaps those roles: its domain is the range of $f$ and its range is the domain of $f$. The notation $f^{-1}$ is not an exponent \u2014 it does not mean $\\frac{1}{f(x)}$. The composition condition $f^{-1}(f(x)) = x$ is the defining verification test. The graph of $f^{-1}$ is the reflection of the graph of $f$ across the line $y = x$, which is the geometric signature of the input-output swap.",
+  "worked_example": [
+    {
+      "expression_latex": "f(x) = 2x + 3",
+      "description_latex": "We start with the function $f(x) = 2x + 3$ and our goal is to find $f^{-1}(x)$. Before doing any algebra, it's worth noting this is a linear function with a nonzero slope, so it is one-to-one and an inverse is guaranteed to exist.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = 2x + 3",
+      "description_latex": "We replace $f(x)$ with $y$ to make the algebra cleaner. This is just a notational swap \u2014 the equation still describes the same relationship between input and output.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = 2y + 3",
+      "description_latex": "Now we swap $x$ and $y$, because finding the inverse means reversing the roles of input and output. Every point $(a, b)$ on $f$ corresponds to a point $(b, a)$ on $f^{-1}$, and swapping variables is how we encode that algebraically.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x - 3 = 2y \\quad \\Rightarrow \\quad y = \\frac{x-3}{2}",
+      "description_latex": "We solve for $y$ by subtracting $3$ from both sides and then dividing by $2$. This isolates the new output in terms of the new input, giving us the rule for the inverse function.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "f^{-1}(x) = \\frac{x-3}{2}",
+      "description_latex": "We write the final answer using inverse function notation. As a quick check: $f(f^{-1}(x)) = 2 \\cdot \\frac{x-3}{2} + 3 = (x-3) + 3 = x$ \u2713. Always verify with composition when you have time.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "f(x) = \\frac{x+1}{3}",
+      "description_latex": "We want to find $f^{-1}(x)$ for $f(x) = \\frac{x+1}{3}$. First, confirm this is one-to-one (it's linear with nonzero slope, so yes), then rewrite as $y = \\frac{x+1}{3}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "x = \\frac{y+1}{3}",
+      "description_latex": "We swap $x$ and $y$ to reflect the reversal of inputs and outputs. This is the key conceptual step \u2014 try writing the swapped equation yourself before moving on.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now solve for $y$: multiply both sides by $3$, then subtract $1$. What is $y$ in terms of $x$? Write your expression for $f^{-1}(x)$ here.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "f^{-1}(x) = 3x - 1",
+      "description_latex": "The inverse is $f^{-1}(x) = 3x - 1$. Verify by checking $f(f^{-1}(x)) = \\frac{(3x-1)+1}{3} = \\frac{3x}{3} = x$ \u2713. Composing the function and its inverse should always return $x$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Find $f^{-1}(x)$ if $f(x) = x - 5$.",
+      "answer_latex": "f^{-1}(x) = x + 5"
+    },
+    {
+      "prompt_latex": "Find $f^{-1}(x)$ if $f(x) = 4x - 7$.",
+      "answer_latex": "f^{-1}(x) = \\frac{x+7}{4}"
+    },
+    {
+      "prompt_latex": "Find $f^{-1}(x)$ if $f(x) = \\frac{2x+5}{3}$.",
+      "answer_latex": "f^{-1}(x) = \\frac{3x-5}{2}"
+    },
+    {
+      "prompt_latex": "Given $f(x) = x^3 + 2$, find $f^{-1}(x)$ and state the domain of $f^{-1}$.",
+      "answer_latex": "f^{-1}(x) = \\sqrt[3]{x-2}, \\text{ domain: all real numbers } (-\\infty, \\infty)"
+    },
+    {
+      "prompt_latex": "A store marks up the wholesale cost $c$ of an item by $\\$15$ and then doubles the result to get the selling price $p$, so $p = f(c) = 2(c + 15)$. Find $f^{-1}(p)$ and use it to find the wholesale cost of an item selling for $\\$90$.",
+      "answer_latex": "f^{-1}(p) = \\frac{p}{2} - 15; \\text{ wholesale cost} = f^{-1}(90) = \\$30"
+    }
+  ],
+  "common_mistakes": [
+    "Students write $f^{-1}(x) = \\frac{1}{f(x)}$, confusing the inverse-function notation with a negative exponent. The superscript $-1$ in $f^{-1}$ means 'the inverse function,' not the reciprocal; if you want the reciprocal you must write $[f(x)]^{-1}$ or $\\frac{1}{f(x)}$ explicitly.",
+    "Students forget to swap $x$ and $y$ before solving, so they simply solve $y = f(x)$ for $x$ and then call the result $f^{-1}(x)$ without relabeling \u2014 this produces the right rule but with $x$ and $y$ in the wrong roles, leading to errors in domain/range. Always write the swapped equation $x = f(y)$ as an explicit step before solving.",
+    "Students attempt to find an inverse for a function that is not one-to-one, such as $f(x) = x^2$ over all real numbers, without restricting the domain first. Since a non-one-to-one function fails the horizontal line test, its inverse is not itself a function; you must restrict the domain (e.g., $x \\geq 0$) before finding the inverse."
+  ],
+  "untested_variants": [
+    "Finding the inverse of a rational function such as $f(x) = \\frac{2x}{x-1}$, which requires solving a linear equation in $y$ after cross-multiplying.",
+    "Using the reflection property graphically: given the graph of $f$, sketching $f^{-1}$ by reflecting across $y = x$ without any algebraic formula.",
+    "Verifying that two explicitly given functions are inverses of each other using both compositions $f(g(x)) = x$ and $g(f(x)) = x$, without being asked to find the inverse from scratch.",
+    "Restricting the domain of a non-one-to-one function like $f(x) = x^2$ or $f(x) = \\sin x$ so that an inverse can be defined, then finding the inverse on that restricted domain."
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "topic_id": "prob_001",
+  "topic_name": "Sample Spaces and Events",
+  "generated_at": "2026-05-13T20:25:24.757534+00:00",
+  "course_name": "Probability",
+  "hook": "You already know how to calculate the chance of something happening in simple situations \u2014 like flipping a coin and saying the probability of heads is one half. But what happens when you roll two dice and want to know the probability of getting a sum of seven? Suddenly you need a systematic way to list every possible outcome and identify which ones count. How do you even begin to organize all those possibilities?",
+  "concept": "A sample space is the complete set of all possible outcomes of a random experiment \u2014 nothing missing, nothing repeated. Formally, we write it as $S$ (or sometimes $\\Omega$), and each individual outcome is called a sample point. An event is any subset of the sample space, meaning it is any collection of outcomes we care about. If $A \\subseteq S$, then $A$ is an event, and we say $A$ occurs whenever the actual outcome lands inside $A$.",
+  "anatomy": "Every probability setup has three structural pieces worth naming precisely. First, the experiment: the repeatable process with uncertain outcomes, such as rolling a die or drawing a card. Second, the sample space $S$: the exhaustive, mutually exclusive list of every outcome the experiment can produce \u2014 exhaustive means nothing is left out, mutually exclusive means no two entries in $S$ are the same outcome. Third, the event $A$: a subset of $S$ chosen because it answers a specific question; the event can be a single outcome (a simple event, like $\\{3\\}$), several outcomes (a compound event, like $\\{2, 4, 6\\}$), the entire space $S$ itself (the certain event), or the empty set $\\emptyset$ (the impossible event).",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Experiment: Roll one fair six-sided die.}",
+      "description_latex": "We start by clearly identifying the experiment so we know exactly what one trial looks like. Naming the experiment precisely prevents confusion later about what counts as an outcome \u2014 here, one roll produces exactly one face.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\{1, 2, 3, 4, 5, 6\\}",
+      "description_latex": "We list every possible result in a set with curly braces, making sure no outcome is missing and no outcome appears twice. This set has $|S| = 6$ elements, one for each face of the die.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A = \\{\\text{roll an even number}\\} = \\{2, 4, 6\\}",
+      "description_latex": "To define the event, we go through each element of $S$ and ask whether it satisfies our condition \u2014 being even. Only $2$, $4$, and $6$ pass, so $A = \\{2, 4, 6\\}$, which is indeed a subset of $S$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(A) = \\frac{|A|}{|S|} = \\frac{3}{6} = \\frac{1}{2}",
+      "description_latex": "Because the die is fair, every sample point is equally likely, so the probability of event $A$ equals the number of outcomes in $A$ divided by the total number of outcomes in $S$. This is the classical probability formula, and it only works once we have a properly constructed sample space.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Experiment: Flip a fair coin twice.}",
+      "description_latex": "We are flipping a coin twice, so each outcome must record what happened on the first flip AND the second flip. We will write outcomes as ordered pairs like HT, meaning heads first then tails.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "S = \\{HH,\\ HT,\\ TH,\\ TT\\}",
+      "description_latex": "We need to list every combination of two flips. Notice that HT and TH are different outcomes because the order (first flip, second flip) matters \u2014 getting heads then tails is not the same trial result as tails then heads.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B = \\{\\text{exactly one head}\\} = ?",
+      "description_latex": "Now identify which outcomes in $S$ have exactly one head. Go through each element of $S$ one by one and check: does it contain exactly one H? Write the event $B$ as a set of those outcomes.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "P(B) = \\frac{|B|}{|S|} = \\frac{2}{4} = \\frac{1}{2}",
+      "description_latex": "Once $B = \\{HT, TH\\}$ is correctly identified, the probability follows directly from the classical formula \u2014 two favourable outcomes out of four equally likely ones.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{Write the sample space } S \\text{ for rolling a single fair four-sided die (faces 1, 2, 3, 4).}",
+      "answer_latex": "S = \\{1, 2, 3, 4\\}"
+    },
+    {
+      "prompt_latex": "\\text{A bag contains one red (R), one blue (B), and one green (G) marble. One marble is drawn. Write the sample space and the event } A = \\{\\text{a primary colour is drawn}\\}\\text{, given that all three are primary colours.}",
+      "answer_latex": "S = \\{R, B, G\\},\\quad A = \\{R, B, G\\} = S"
+    },
+    {
+      "prompt_latex": "\\text{A fair coin is flipped and a fair four-sided die is rolled simultaneously. How many outcomes are in the sample space } S\\text{?}",
+      "answer_latex": "|S| = 2 \\times 4 = 8"
+    },
+    {
+      "prompt_latex": "\\text{Two fair six-sided dice are rolled. Let } B = \\{\\text{sum equals 7}\\}\\text{. List every outcome in } B \\text{ and find } P(B)\\text{.}",
+      "answer_latex": "B = \\{(1,6),(2,5),(3,4),(4,3),(5,2),(6,1)\\},\\quad P(B) = \\frac{6}{36} = \\frac{1}{6}"
+    },
+    {
+      "prompt_latex": "\\text{A student randomly picks one letter from the word MATH. Event } C = \\{\\text{the letter is a vowel}\\}\\text{. Find } P(C)\\text{.}",
+      "answer_latex": "S = \\{M, A, T, H\\},\\quad C = \\{A\\},\\quad P(C) = \\frac{1}{4}"
+    }
+  ],
+  "common_mistakes": [
+    "Students list outcomes in the sample space more than once (for example, writing $\\{1,1,2,3,4,5,6\\}$ for a die), which inflates $|S|$ and makes every probability wrong. Remember that each outcome in $S$ must appear exactly once \u2014 it is a set, not a list that can repeat.",
+    "When the experiment has two stages (like flipping a coin twice), students treat HT and TH as the same outcome because both have one head and one tail, forgetting that order matters. Always record the outcome of each stage separately so that different sequences count as different sample points.",
+    "Students define an event using a description but then forget to verify that every outcome they included actually belongs to $S$. For example, defining the event 'roll greater than 4' on a four-sided die and writing $\\{5, 6\\}$ \u2014 those outcomes don't exist in $S$, so the event should be $\\emptyset$ or the problem has the wrong die. Always cross-check your event against $S$."
+  ],
+  "untested_variants": [
+    "Sample spaces for experiments with replacement versus without replacement (e.g., drawing two cards from a deck with vs. without putting the first card back), which changes the total number of outcomes.",
+    "Continuous sample spaces, such as spinning a spinner that lands on any real number in $[0, 1]$, where outcomes cannot be listed and probability requires measuring lengths rather than counting.",
+    "Using tree diagrams or systematic multiplication to construct large sample spaces (e.g., three coin flips giving $2^3 = 8$ outcomes) without listing every element explicitly.",
+    "Complementary events and the rule $P(A^c) = 1 - P(A)$, which uses the sample space structure but requires the additional concept of event complement."
+  ]
+}

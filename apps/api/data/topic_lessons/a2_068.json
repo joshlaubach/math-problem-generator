@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_068",
+  "topic_name": "Data Displays and Interpreting Graphs",
+  "generated_at": "2026-05-12T23:38:10.898262+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to read a single data value from a bar graph or a scatter plot. But what happens when someone hands you a histogram, a box plot, and a cumulative frequency graph \u2014 all describing the same dataset \u2014 and asks you which display best reveals whether the data is skewed? You can read individual points, but you can't yet connect the shape of a distribution shown in one display to the statistics shown in another. Which graph would you choose to identify an outlier, and how would the median look different from the mean in a left-skewed histogram?",
+  "concept": "A data display is a visual representation that organizes numerical or categorical information so that patterns, trends, and distributions become easier to interpret. Formally, given a dataset $\\{x_1, x_2, \\ldots, x_n\\}$, different displays \u2014 histograms, box plots, dot plots, stem-and-leaf plots, cumulative frequency graphs \u2014 each encode the same underlying data differently, emphasizing features like spread, center, shape, or individual values in distinct ways.",
+  "anatomy": "Every statistical graph shares several structural components worth naming precisely. The distribution shape describes whether data is symmetric, skewed left (tail extends toward smaller values), or skewed right (tail extends toward larger values). The center refers to where data clusters, typically the mean $\\bar{x} = \\frac{\\sum x_i}{n}$ or median $M$. The spread describes variability, captured by range $= x_{\\max} - x_{\\min}$ or interquartile range $IQR = Q_3 - Q_1$. In a box plot specifically, the five-number summary $(\\min,\\ Q_1,\\ M,\\ Q_3,\\ \\max)$ marks the box boundaries and whiskers. In a histogram, the horizontal axis shows class intervals (bins) and the vertical axis shows frequency or relative frequency. Outliers are isolated points beyond the fence values $Q_1 - 1.5 \\cdot IQR$ and $Q_3 + 1.5 \\cdot IQR$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Dataset: } 12,\\ 15,\\ 15,\\ 18,\\ 20,\\ 22,\\ 25,\\ 28,\\ 30,\\ 55",
+      "description_latex": "We start by writing out the full dataset in order so we can identify its structure. Notice that most values cluster between 12 and 30, but 55 sits far apart \u2014 this immediately suggests a potential outlier worth investigating, and it will affect which measure of center best represents the data.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q_1 = 15,\\quad M = 21,\\quad Q_3 = 28,\\quad IQR = Q_3 - Q_1 = 13",
+      "description_latex": "We compute the five-number summary because it forms the skeleton of a box plot and lets us apply the outlier test. The median $M = 21$ is the average of the 5th and 6th values $(20 + 22)/2$, and the $IQR = 28 - 15 = 13$ measures how spread out the middle 50% of the data is.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Upper fence} = Q_3 + 1.5 \\cdot IQR = 28 + 1.5(13) = 28 + 19.5 = 47.5",
+      "description_latex": "We apply the standard outlier rule: any value above $47.5$ or below $Q_1 - 1.5 \\cdot IQR = 15 - 19.5 = -4.5$ is classified as an outlier. Since $55 > 47.5$, the value 55 is confirmed as an outlier and would be plotted as an isolated point beyond the whisker in a box plot.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = \\frac{12+15+15+18+20+22+25+28+30+55}{10} = \\frac{240}{10} = 24",
+      "description_latex": "We compute the mean to compare it with the median of 21. Because the outlier 55 pulls the mean upward to 24 while the median stays at 21, the distribution is skewed right \u2014 a histogram of this data would show a longer tail stretching toward larger values, which is exactly what the gap between $\\bar{x}$ and $M$ signals.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\bar{x} = 24 > M = 21 \\implies \\text{right (positive) skew}",
+      "description_latex": "The key interpretive rule is: when $\\bar{x} > M$, the distribution is right-skewed because high outliers inflate the mean more than the median. Conversely, $\\bar{x} < M$ signals left skew. This relationship lets you connect the algebraic summary statistics directly to the visual shape of a histogram or dot plot.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{Dataset: } 4,\\ 7,\\ 8,\\ 9,\\ 10,\\ 12,\\ 13,\\ 15,\\ 16,\\ 2",
+      "description_latex": "We are given a dataset and asked to build a box plot and determine skewness. Start by sorting the data in ascending order: $2, 4, 7, 8, 9, 10, 12, 13, 15, 16$. We need the five-number summary, so our first task is to find $Q_1$, $M$, and $Q_3$ from the sorted list.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "Q_1 = ?,\\quad M = \\frac{9+10}{2} = 9.5,\\quad Q_3 = ?",
+      "description_latex": "The median $M = 9.5$ is provided as the average of the 5th and 6th values. Now you need to find $Q_1$ (the median of the lower half: $2, 4, 7, 8, 9$) and $Q_3$ (the median of the upper half: $10, 12, 13, 15, 16$). What are $Q_1$ and $Q_3$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "IQR = Q_3 - Q_1,\\quad \\bar{x} = \\frac{2+4+7+8+9+10+12+13+15+16}{10} = 9.6",
+      "description_latex": "Use the $Q_1$ and $Q_3$ values you found to calculate the $IQR$. The mean $\\bar{x} = 9.6$ is given. Compare $\\bar{x}$ and $M$: since $9.6 > 9.5$, the distribution is very slightly right-skewed, but nearly symmetric \u2014 a box plot would show roughly equal whisker lengths on both sides.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\text{Outlier check: values beyond } [Q_1 - 1.5 \\cdot IQR,\\ Q_3 + 1.5 \\cdot IQR]",
+      "description_latex": "Using your $IQR$, compute the lower and upper fence values and determine whether any data points qualify as outliers. Are there any outliers in this dataset, and how would they appear on a box plot?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "\\text{A box plot has } Q_1 = 10,\\ M = 18,\\ Q_3 = 26. \\text{ Calculate the IQR.}",
+      "answer_latex": "IQR = Q_3 - Q_1 = 26 - 10 = 16"
+    },
+    {
+      "prompt_latex": "\\text{For the dataset } 5, 8, 10, 12, 14, 16, 40, \\text{ determine whether 40 is an outlier using the } 1.5 \\cdot IQR \\text{ rule.}",
+      "answer_latex": "Q_1 = 8,\\ Q_3 = 16,\\ IQR = 8;\\ \\text{Upper fence} = 16 + 12 = 28;\\ 40 > 28, \\text{ so 40 is an outlier.}"
+    },
+    {
+      "prompt_latex": "\\text{A histogram of exam scores is skewed left. Which is larger, the mean or the median? Explain.}",
+      "answer_latex": "\\text{The mean is less than the median: } \\bar{x} < M, \\text{ because low outliers in the left tail pull the mean downward.}"
+    },
+    {
+      "prompt_latex": "\\text{Dataset: } 3, 6, 7, 8, 9, 11, 13.\\ \\text{Compute } \\bar{x} \\text{ and } M, \\text{ then determine skewness. If a value of 30 replaces 13, how does skewness change and why?}",
+      "answer_latex": "\\text{Original: } \\bar{x} = \\frac{57}{7} \\approx 8.14,\\ M = 8,\\ \\text{roughly symmetric.}\\ \\text{With 30: } \\bar{x} = \\frac{74}{7} \\approx 10.57 > M = 8, \\text{ now right-skewed because the large value inflates the mean.}"
+    },
+    {
+      "prompt_latex": "\\text{A teacher displays student wait times (minutes) in a cumulative frequency graph. At 5 min the cumulative frequency is 20\\%, at 10 min it is 60\\%, and at 15 min it is 90\\%. Estimate the median wait time and describe the shape of the underlying distribution.}",
+      "answer_latex": "\\text{The median occurs at 50\\% cumulative frequency, which falls between 5 and 10 min; interpolating: } M \\approx 5 + \\frac{0.50 - 0.20}{0.60 - 0.20} \\cdot 5 = 5 + 3.75 = 8.75 \\text{ min. The steep rise before 10 min and slow rise after suggests right skew.}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often confuse skew direction with the side where most data is clustered: right skew means the tail (not the bulk) points right, so the long tail is on the right even though most data sits on the left. Remember that skew is named for the direction of the tail, not the peak.",
+    "When computing $Q_1$ and $Q_3$, students frequently include the median in both halves instead of splitting the dataset into two separate halves that exclude the median. If $n$ is odd, drop the median value before finding $Q_1$ and $Q_3$; otherwise your quartiles and IQR will be incorrect.",
+    "Students apply the outlier fence formula as $Q_1 + 1.5 \\cdot IQR$ for both bounds, using addition for both instead of subtraction for the lower fence and addition for the upper fence. The lower fence is $Q_1 - 1.5 \\cdot IQR$ and the upper fence is $Q_3 + 1.5 \\cdot IQR$ \u2014 mixing these up causes valid data points to be labeled as outliers or real outliers to be missed."
+  ],
+  "untested_variants": [
+    "Constructing and interpreting a stem-and-leaf plot (back-to-back or single) and comparing two datasets side by side using that display.",
+    "Reading relative frequency histograms where the vertical axis is expressed as a proportion or percentage rather than raw count, and converting between the two.",
+    "Using a cumulative frequency (ogive) graph to estimate percentiles beyond the median, such as the 25th or 75th percentile, or reading off the percentage of data below a given value.",
+    "Comparing two box plots on the same scale to draw conclusions about which dataset has greater variability or a higher median, especially when the boxes overlap."
+  ]
+}

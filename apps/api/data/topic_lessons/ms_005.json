@@ -1,0 +1,86 @@
+{
+  "topic_id": "ms_005",
+  "topic_name": "Consistency and Asymptotic Properties",
+  "generated_at": "2026-05-14T01:01:06.530388+00:00",
+  "course_name": "Mathematical Statistics",
+  "hook": "You already know how to compute estimators like the sample mean $\\bar{X}_n$ or the MLE $\\hat{\\theta}_n$, and you can check whether they are unbiased. But unbiasedness is a finite-sample property \u2014 it tells you about performance at a fixed $n$. What happens as you collect more and more data? Does your estimator ever reliably zero in on the true parameter, or could it stay scattered no matter how large $n$ grows? The gap you cannot yet close is: how do we rigorously define and verify that an estimator 'converges' to the truth as $n \\to \\infty$?",
+  "concept": "Consistency is the large-sample guarantee that an estimator gets arbitrarily close to the true parameter as sample size grows. Formally, $\\hat{\\theta}_n$ is a consistent estimator of $\\theta$ if $\\hat{\\theta}_n \\xrightarrow{p} \\theta$, meaning for every $\\varepsilon > 0$, $\\lim_{n \\to \\infty} P(|\\hat{\\theta}_n - \\theta| > \\varepsilon) = 0$. Asymptotic normality strengthens this: $\\sqrt{n}(\\hat{\\theta}_n - \\theta) \\xrightarrow{d} N(0, \\sigma^2)$ for some asymptotic variance $\\sigma^2$.",
+  "anatomy": "Consistency has several named components worth distinguishing. The sequence $\\hat{\\theta}_n$ is the estimator indexed by sample size $n$, which is the object that moves. The quantity $\\theta$ is the fixed true parameter, the target. The tolerance $\\varepsilon > 0$ is an arbitrarily small threshold defining 'close enough.' The probability $P(|\\hat{\\theta}_n - \\theta| > \\varepsilon)$ is the exceedance probability, measuring how often the estimator strays beyond $\\varepsilon$ of truth; consistency demands this go to zero. For asymptotic normality, the scaling factor $\\sqrt{n}$ normalises the error, and $\\sigma^2$ is the asymptotic variance (not the finite-sample variance), which governs the limiting spread.",
+  "worked_example": [
+    {
+      "expression_latex": "\\hat{\\mu}_n = \\bar{X}_n = \\frac{1}{n}\\sum_{i=1}^n X_i, \\quad X_i \\stackrel{\\text{iid}}{\\sim} (\\mu, \\sigma^2)",
+      "description_latex": "We set up the goal: verify that the sample mean $\\bar{X}_n$ is a consistent estimator of the population mean $\\mu$ when the $X_i$ are i.i.d. with finite mean $\\mu$ and variance $\\sigma^2$. Identifying the estimator and the true parameter explicitly is always the first step before any convergence argument.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "E[\\bar{X}_n] = \\mu, \\qquad \\operatorname{Var}(\\bar{X}_n) = \\frac{\\sigma^2}{n}",
+      "description_latex": "We compute the mean and variance of $\\bar{X}_n$. The key observation is that $\\operatorname{Var}(\\bar{X}_n) = \\sigma^2/n \\to 0$ as $n \\to \\infty$, which tells us the estimator is concentrating \u2014 this is the engine of the consistency proof via Chebyshev's inequality.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(|\\bar{X}_n - \\mu| > \\varepsilon) \\leq \\frac{\\operatorname{Var}(\\bar{X}_n)}{\\varepsilon^2} = \\frac{\\sigma^2}{n\\varepsilon^2}",
+      "description_latex": "We apply Chebyshev's inequality, which states $P(|Y - E[Y]| > \\varepsilon) \\leq \\operatorname{Var}(Y)/\\varepsilon^2$ for any random variable $Y$ with finite variance. This gives an explicit upper bound on the exceedance probability in terms of $n$, making the limit calculation immediate.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\lim_{n \\to \\infty} P(|\\bar{X}_n - \\mu| > \\varepsilon) \\leq \\lim_{n \\to \\infty} \\frac{\\sigma^2}{n\\varepsilon^2} = 0",
+      "description_latex": "Since probabilities are non-negative and the upper bound tends to zero, the squeeze theorem forces $P(|\\bar{X}_n - \\mu| > \\varepsilon) \\to 0$ for every fixed $\\varepsilon > 0$. This is exactly the definition of convergence in probability, so we conclude $\\bar{X}_n \\xrightarrow{p} \\mu$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\sqrt{n}(\\bar{X}_n - \\mu) \\xrightarrow{d} N(0, \\sigma^2)",
+      "description_latex": "Finally, the Central Limit Theorem gives us asymptotic normality of $\\bar{X}_n$: the standardised error $\\sqrt{n}(\\bar{X}_n - \\mu)$ converges in distribution to a normal with mean $0$ and variance $\\sigma^2$. This asymptotic normality result is stronger than consistency \u2014 it tells us not just that the error shrinks, but the precise probabilistic shape of the error at large $n$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\hat{\\theta}_n = \\frac{1}{n}\\sum_{i=1}^n X_i^2, \\quad X_i \\stackrel{\\text{iid}}{\\sim} (\\mu, \\sigma^2), \\quad E[X_i^2] = \\mu^2 + \\sigma^2",
+      "description_latex": "We want to show that $\\hat{\\theta}_n$ is a consistent estimator of $\\theta = \\mu^2 + \\sigma^2$. Notice that $\\hat{\\theta}_n$ is the sample mean of the transformed variables $Y_i = X_i^2$, and we are told $E[Y_i] = \\mu^2 + \\sigma^2 = \\theta$, so the estimator is unbiased for $\\theta$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\operatorname{Var}(\\hat{\\theta}_n) = \\frac{\\operatorname{Var}(X_i^2)}{n}",
+      "description_latex": "We compute the variance of $\\hat{\\theta}_n$ by recognising it as a sample mean of i.i.d. variables $Y_i = X_i^2$. As long as $\\operatorname{Var}(X_i^2)$ is finite, this variance goes to zero as $n \\to \\infty$, which is the key condition for the Chebyshev argument.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now apply Chebyshev's inequality to write an explicit upper bound for $P(|\\hat{\\theta}_n - \\theta| > \\varepsilon)$ in terms of $n$, $\\varepsilon$, and $\\operatorname{Var}(X_i^2)$. Then take the limit as $n \\to \\infty$ and state the conclusion about consistency.",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Let $X_1, \\ldots, X_n \\stackrel{\\text{iid}}{\\sim} \\text{Bernoulli}(p)$. State whether $\\hat{p}_n = \\bar{X}_n$ is consistent for $p$ and identify the result that immediately implies it.",
+      "answer_latex": "Yes, $\\hat{p}_n \\xrightarrow{p} p$ by the Law of Large Numbers (or by Chebyshev, since $E[\\bar{X}_n]=p$ and $\\operatorname{Var}(\\bar{X}_n)=p(1-p)/n \\to 0$)."
+    },
+    {
+      "prompt_latex": "Let $X_i \\stackrel{\\text{iid}}{\\sim} \\text{Uniform}(0,\\theta)$. The MLE is $\\hat{\\theta}_n = X_{(n)}$, the sample maximum. Show that $\\hat{\\theta}_n \\xrightarrow{p} \\theta$ by computing $P(|\\hat{\\theta}_n - \\theta| > \\varepsilon) = P(\\theta - \\hat{\\theta}_n > \\varepsilon)$ for $0 < \\varepsilon < \\theta$.",
+      "answer_latex": "$P(X_{(n)} < \\theta - \\varepsilon) = \\left(\\frac{\\theta-\\varepsilon}{\\theta}\\right)^n \\to 0$ as $n\\to\\infty$, so $\\hat{\\theta}_n \\xrightarrow{p} \\theta$."
+    },
+    {
+      "prompt_latex": "Suppose $\\hat{\\theta}_n$ satisfies $E[\\hat{\\theta}_n] = \\theta + \\frac{c}{n}$ and $\\operatorname{Var}(\\hat{\\theta}_n) = \\frac{d}{n}$ for constants $c, d > 0$. Show that $\\hat{\\theta}_n$ is consistent for $\\theta$ using the mean squared error decomposition $\\text{MSE}(\\hat{\\theta}_n) = \\text{Bias}^2 + \\operatorname{Var}$.",
+      "answer_latex": "$\\text{MSE}(\\hat{\\theta}_n) = \\frac{c^2}{n^2} + \\frac{d}{n} \\to 0$, so $E[(\\hat{\\theta}_n - \\theta)^2]\\to 0$, which implies $\\hat{\\theta}_n \\xrightarrow{p} \\theta$ (MSE consistency implies consistency in probability)."
+    },
+    {
+      "prompt_latex": "Let $X_i \\stackrel{\\text{iid}}{\\sim} N(\\mu, \\sigma^2)$ with both parameters unknown. Using the asymptotic normality of the MLE and the fact that the Fisher information for $\\mu$ alone (with $\\sigma^2$ known) is $I(\\mu) = 1/\\sigma^2$, write the asymptotic distribution of $\\sqrt{n}(\\bar{X}_n - \\mu)$ and use it to construct an approximate 95% confidence interval for $\\mu$.",
+      "answer_latex": "$\\sqrt{n}(\\bar{X}_n - \\mu) \\xrightarrow{d} N(0, \\sigma^2)$; approximate 95% CI: $\\bar{X}_n \\pm 1.96\\,\\sigma/\\sqrt{n}$ (replace $\\sigma$ with $S$ in practice)."
+    },
+    {
+      "prompt_latex": "A sensor records $n$ independent measurements $X_i$ of an unknown quantity $\\theta$, each with $E[X_i]=\\theta$ and $\\operatorname{Var}(X_i)=\\theta^2$ (so the noise scales with the signal). An engineer proposes the estimator $\\hat{\\theta}_n = \\bar{X}_n$. Is this estimator consistent? What is the asymptotic distribution of $\\sqrt{n}(\\hat{\\theta}_n-\\theta)/\\theta$?",
+      "answer_latex": "Yes, consistent since $\\operatorname{Var}(\\bar{X}_n)=\\theta^2/n\\to 0$. By CLT: $\\sqrt{n}(\\bar{X}_n-\\theta)/\\theta \\xrightarrow{d} N(0,1)$, i.e., the relative error is asymptotically standard normal."
+    }
+  ],
+  "common_mistakes": [
+    "Confusing consistency with unbiasedness: a student might think that because $E[\\hat{\\theta}_n] = \\theta$ for all $n$ (unbiasedness) this automatically implies consistency \u2014 but an unbiased estimator whose variance does not go to zero as $n\\to\\infty$ is NOT consistent. Always check that $\\operatorname{Var}(\\hat{\\theta}_n)\\to 0$ (or use MSE) separately.",
+    "Forgetting that convergence in probability is a statement about every fixed $\\varepsilon > 0$: students sometimes evaluate $P(|\\hat{\\theta}_n - \\theta| > \\varepsilon)$ for one particular $\\varepsilon$ and conclude consistency, when the definition requires the limit to hold for ALL $\\varepsilon > 0$. Make sure your argument is valid for an arbitrary $\\varepsilon$, not just a convenient choice like $\\varepsilon = 1$.",
+    "Treating the asymptotic variance $\\sigma^2$ in $\\sqrt{n}(\\hat{\\theta}_n-\\theta)\\xrightarrow{d}N(0,\\sigma^2)$ as the exact finite-sample variance $\\operatorname{Var}(\\hat{\\theta}_n)$: they can differ in magnitude and are only equal in the limit after the $\\sqrt{n}$ scaling. Specifically, the asymptotic variance is $\\lim_{n\\to\\infty} n\\operatorname{Var}(\\hat{\\theta}_n)$, not simply $\\operatorname{Var}(\\hat{\\theta}_n)$."
+  ],
+  "untested_variants": [
+    "Proving consistency of the sample variance $S^2_n$ as an estimator of $\\sigma^2$ using the continuous mapping theorem or direct MSE computation \u2014 this requires handling fourth moments and is not covered in the practice problems.",
+    "Delta method applications: if $\\hat{\\theta}_n$ is asymptotically normal, deriving the asymptotic distribution of a nonlinear transformation $g(\\hat{\\theta}_n)$ using $\\sqrt{n}(g(\\hat{\\theta}_n)-g(\\theta))\\xrightarrow{d}N(0,[g'(\\theta)]^2\\sigma^2)$.",
+    "Establishing consistency of the MLE in a general parametric family via likelihood ratio arguments or the asymptotic theory of $M$-estimators, rather than the Chebyshev/LLN approach used in this lesson.",
+    "Comparing rates of convergence: showing that one consistent estimator converges faster than another by comparing their asymptotic variances, and connecting this to the Cram\u00e9r\u2013Rao lower bound and asymptotic efficiency."
+  ]
+}

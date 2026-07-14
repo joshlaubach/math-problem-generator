@@ -1,0 +1,91 @@
+{
+  "topic_id": "pf_032",
+  "topic_name": "Subgroups and Cosets",
+  "generated_at": "2026-05-13T20:20:55.155261+00:00",
+  "course_name": "Proofs and Mathematical Reasoning",
+  "hook": "You already know that a group $(G, *)$ is a set with an associative binary operation, an identity element, and inverses for every element. Now suppose someone hands you a smaller subset $H \\subseteq G$ and asks: does $H$ inherit the group structure from $G$? You might guess that any subset of a group is itself a group, but that turns out to be false \u2014 the subset $\\{0, 2, 4\\}$ inside $(\\mathbb{Z}_6, +)$ is not a group because it lacks the identity $0$... wait, it does have $0$, but does every element have an inverse inside the subset? How do we systematically decide when a subset is a group in its own right, and once we find one, how do we use it to partition the whole group?",
+  "concept": "A subgroup is a subset of a group that is itself a group under the same operation. Formally, $H$ is a subgroup of $(G, *)$, written $H \\leq G$, if (1) $H$ is nonempty, (2) $H$ is closed under $*$, (3) the identity $e \\in H$, and (4) for every $a \\in H$, the inverse $a^{-1} \\in H$. A coset of $H$ in $G$ is a 'shifted copy' of $H$: the left coset of $a$ is $aH = \\{a*h : h \\in H\\}$.",
+  "anatomy": "Every subgroup argument involves four structural ingredients: the ambient group $G$ with its operation $*$ and identity $e$; the candidate subset $H \\subseteq G$; the subgroup criteria \u2014 closure ($a, b \\in H \\Rightarrow a*b \\in H$), identity ($e \\in H$), and inverse closure ($a \\in H \\Rightarrow a^{-1} \\in H$); and, once $H \\leq G$ is confirmed, the left cosets $aH$ and right cosets $Ha$ for each representative $a \\in G$, whose disjoint union partitions $G$ by Lagrange's theorem.",
+  "worked_example": [
+    {
+      "expression_latex": "G = (\\mathbb{Z}, +),\\quad H = 3\\mathbb{Z} = \\{\\ldots, -6, -3, 0, 3, 6, \\ldots\\}",
+      "description_latex": "We set up the problem: we want to verify that the set of all multiples of 3 forms a subgroup of the integers under addition. Notice that $H$ is the set $\\{3k : k \\in \\mathbb{Z}\\}$, which is clearly nonempty since $0 \\in H$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e = 0 \\in H \\text{ because } 0 = 3 \\cdot 0",
+      "description_latex": "We check that the identity element of $G$ lives inside $H$. The identity of $(\\mathbb{Z}, +)$ is $0$, and since $0 = 3 \\cdot 0$ is a multiple of 3, this criterion is satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = 3m,\\; b = 3n \\in H \\Rightarrow a + b = 3m + 3n = 3(m+n) \\in H",
+      "description_latex": "We verify closure: if $a$ and $b$ are both multiples of 3, their sum $a + b = 3(m+n)$ is again a multiple of 3, so $a + b \\in H$. This confirms that $H$ does not 'escape' outside itself when we apply the group operation.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "a = 3m \\in H \\Rightarrow -a = -3m = 3(-m) \\in H",
+      "description_latex": "We check inverse closure: the inverse of $a = 3m$ under addition is $-a = -3m = 3(-m)$, which is again a multiple of 3. Since $-m \\in \\mathbb{Z}$, the inverse stays inside $H$, completing the proof that $H \\leq G$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "0 + H = H,\\quad 1 + H = \\{\\ldots,-5,-2,1,4,7,\\ldots\\},\\quad 2 + H = \\{\\ldots,-4,-1,2,5,8,\\ldots\\}",
+      "description_latex": "Now we list the distinct cosets of $H$ in $G$. Each coset $a + H$ is the set obtained by adding a fixed integer $a$ to every element of $H$; we get exactly three cosets (the residue classes mod 3), and together they partition all of $\\mathbb{Z}$ with no overlaps. This is the geometric heart of Lagrange's theorem: $[G : H] = 3$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "G = (\\mathbb{Z}_{12}, +),\\quad H = \\{0, 4, 8\\}",
+      "description_latex": "We want to determine whether $H = \\{0, 4, 8\\}$ is a subgroup of $\\mathbb{Z}_{12}$ and, if so, list all of its distinct left cosets. First, notice that $H$ is nonempty and that $0$ (the identity of $\\mathbb{Z}_{12}$) is in $H$, so the identity criterion is already satisfied.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "4 + 4 = 8 \\in H,\\quad 4 + 8 = 12 \\equiv 0 \\in H,\\quad 8 + 8 = 16 \\equiv 4 \\in H",
+      "description_latex": "We check closure by testing every pair of non-identity elements. Each sum lands back inside $H$ after reducing mod 12, confirming closure. We also need inverse closure: in $\\mathbb{Z}_{12}$, the inverse of $4$ is $8$ (since $4 + 8 = 0$) and the inverse of $8$ is $4$ \u2014 both are in $H$, so $H \\leq \\mathbb{Z}_{12}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now list ALL distinct left cosets of $H$ in $\\mathbb{Z}_{12}$. Write each coset in the form $a + H = \\{a, a+4, a+8\\} \\pmod{12}$, and identify how many distinct cosets there are. (Hint: the index $[G:H] = |G|/|H|$ tells you the answer before you list them.)",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "[\\mathbb{Z}_{12} : H] = 12/3 = 4 \\text{ cosets}",
+      "description_latex": "As a final check, Lagrange's theorem guarantees that the number of distinct cosets equals $|G|/|H| = 12/3 = 4$, so you should have found exactly four cosets that together cover every element of $\\mathbb{Z}_{12}$ with no repetition.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Is $H = \\{0, 6\\}$ a subgroup of $(\\mathbb{Z}_{12}, +)$? Justify briefly.",
+      "answer_latex": "Yes: $0 \\in H$; $6 + 6 = 12 \\equiv 0 \\in H$ (closure); inverse of $6$ is $6$ itself. All criteria satisfied, so $H \\leq \\mathbb{Z}_{12}$."
+    },
+    {
+      "prompt_latex": "Find all subgroups of $(\\mathbb{Z}_6, +)$.",
+      "answer_latex": "The subgroups are $\\{0\\}$, $\\{0,2,4\\}$, $\\{0,3\\}$, and $\\mathbb{Z}_6$ itself, corresponding to the divisors $1, 2, 3, 6$ of $6$."
+    },
+    {
+      "prompt_latex": "Let $G = S_3$ (the symmetric group on 3 elements) and $H = \\{e, (12)\\}$. List the distinct left cosets of $H$ in $S_3$.",
+      "answer_latex": "The three left cosets are $eH = \\{e,(12)\\}$, $(13)H = \\{(13),(132)\\}$, and $(23)H = \\{(23),(123)\\}$."
+    },
+    {
+      "prompt_latex": "Let $H = \\{1, -1, i, -i\\}$ be a subset of the group $(\\mathbb{C}^\\times, \\cdot)$ of nonzero complex numbers under multiplication. Prove that $H$ is a subgroup, and determine the index $[\\mathbb{C}^\\times : H]$.",
+      "answer_latex": "$H$ is closed (products of 4th roots of unity are 4th roots of unity), contains identity $1$, and each element is its own inverse or pairs with another element in $H$. Since $|\\mathbb{C}^\\times|$ is infinite and $|H|=4$, the index is infinite: $[\\mathbb{C}^\\times : H] = \\infty$."
+    },
+    {
+      "prompt_latex": "A music theorist notices that the 12 chromatic pitches form a group $\\mathbb{Z}_{12}$ under semitone addition. The 'whole-tone scale' is the subset $W = \\{0,2,4,6,8,10\\}$. Show $W \\leq \\mathbb{Z}_{12}$, list its cosets, and explain what the other coset represents musically.",
+      "answer_latex": "$W = 2\\mathbb{Z}_{12}$ is closed under mod-12 addition, contains $0$, and every element $2k$ has inverse $2(6-k) \\in W$, so $W \\leq \\mathbb{Z}_{12}$. The two cosets are $W = \\{0,2,4,6,8,10\\}$ and $1+W = \\{1,3,5,7,9,11\\}$; the second coset is the other whole-tone scale, the one starting on $C\\sharp$."
+    }
+  ],
+  "common_mistakes": [
+    "Students often verify closure but forget to check that the identity of $G$ actually lives inside $H$; for example, they confirm $\\{2,4\\} \\subseteq \\mathbb{Z}_6$ is closed under addition mod 6 without noticing $0 \\notin H$, so $H$ cannot be a subgroup. Always check the identity criterion explicitly.",
+    "When listing cosets, students sometimes write the same coset twice under different representatives \u2014 for instance listing both $2 + H$ and $5 + H$ as distinct cosets when they are actually equal. The fix is to stop adding new cosets once you have accounted for all $|G|$ elements, using the fact that cosets are either identical or disjoint.",
+    "Students frequently conflate 'left coset equals right coset' with 'the subgroup is normal,' assuming all cosets they compute are automatically two-sided. In non-abelian groups like $S_3$, left coset $aH$ and right coset $Ha$ can differ; always specify which type of coset you are computing unless the group is abelian or $H$ is known to be normal."
+  ],
+  "untested_variants": [
+    "Proving that the intersection of two subgroups is always a subgroup, and determining whether their union is ever a subgroup.",
+    "Using the one-step subgroup test ($H \\leq G$ iff $H \\neq \\emptyset$ and $ab^{-1} \\in H$ for all $a,b \\in H$) as an alternative proof technique instead of the three-condition approach.",
+    "Computing cosets of matrix subgroups inside $GL_2(\\mathbb{R})$ or $SL_2(\\mathbb{R})$, where the operation is matrix multiplication and representatives are $2 \\times 2$ matrices.",
+    "Applying Lagrange's theorem to prove impossibility results, such as showing that a group of order 7 can have no proper nontrivial subgroups because no integer strictly between 1 and 7 divides 7."
+  ]
+}

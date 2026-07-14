@@ -1,0 +1,91 @@
+{
+  "topic_id": "la_048",
+  "topic_name": "The Gram-Schmidt Process",
+  "generated_at": "2026-05-13T20:55:47.777909+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to find a basis for a subspace, and you understand the power of orthogonal vectors \u2014 they make projections clean, coordinates easy, and computations stable. But what if someone hands you a perfectly valid basis that just happens to be a tangled mess of non-orthogonal vectors? You can't simply declare them orthogonal by wishing. So here is the real question: given any basis, can we always construct an orthogonal (or even orthonormal) basis that spans the exact same subspace?",
+  "concept": "The Gram-Schmidt process is an algorithm that transforms any linearly independent set of vectors into an orthogonal set spanning the same subspace, by repeatedly subtracting off the 'shadow' each new vector casts onto the ones already processed. Formally, given vectors $\\{v_1, v_2, \\ldots, v_k\\}$, we define $u_1 = v_1$ and for each $j \\geq 2$, $u_j = v_j - \\sum_{i=1}^{j-1} \\frac{\\langle v_j, u_i \\rangle}{\\langle u_i, u_i \\rangle} u_i$, producing an orthogonal set $\\{u_1, \\ldots, u_k\\}$; dividing each by its norm gives an orthonormal basis.",
+  "anatomy": "The process has three key structural pieces. First, the projection term $\\frac{\\langle v_j, u_i \\rangle}{\\langle u_i, u_i \\rangle} u_i$ is the orthogonal projection of the incoming vector $v_j$ onto the already-constructed direction $u_i$; it measures exactly how much of $u_i$ lives inside $v_j$. Second, the subtraction step $v_j - \\sum_{i=1}^{j-1}(\\cdots)$ strips away every component of $v_j$ that points along any previously found direction, leaving only the part that is genuinely new and orthogonal to all prior $u_i$. Third, the optional normalization step $e_j = u_j / \\|u_j\\|$ rescales each orthogonal vector to unit length, converting the orthogonal basis into an orthonormal one.",
+  "worked_example": [
+    {
+      "expression_latex": "v_1 = \\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix}, \\quad v_2 = \\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix}, \\quad v_3 = \\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix}",
+      "description_latex": "We start with these three vectors in $\\mathbb{R}^3$ and want to produce an orthonormal basis for their span using Gram-Schmidt. Notice that none of these vectors are orthogonal to each other, so we cannot use them directly \u2014 we need to process them one at a time.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_1 = v_1 = \\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix}, \\quad e_1 = \\frac{u_1}{\\|u_1\\|} = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix}",
+      "description_latex": "The first step is always the easiest: we simply take $u_1 = v_1$ because there is nothing to subtract yet. Then we normalize by dividing by the length $\\|u_1\\| = \\sqrt{1^2+1^2+0^2} = \\sqrt{2}$ to get the first unit vector $e_1$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_2 = v_2 - \\frac{\\langle v_2, u_1 \\rangle}{\\langle u_1, u_1 \\rangle}\\,u_1 = \\begin{pmatrix}1\\\\0\\\\1\\end{pmatrix} - \\frac{1}{2}\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix} = \\begin{pmatrix}1/2\\\\-1/2\\\\1\\end{pmatrix}",
+      "description_latex": "For the second vector, we compute $\\langle v_2, u_1 \\rangle = 1\\cdot1 + 0\\cdot1 + 1\\cdot0 = 1$ and $\\langle u_1, u_1\\rangle = 2$, giving projection coefficient $1/2$. Subtracting $\\frac{1}{2}u_1$ from $v_2$ removes the component of $v_2$ along $u_1$, so the remainder $u_2$ is guaranteed to be orthogonal to $u_1$ \u2014 you can verify: $\\langle u_2, u_1\\rangle = \\frac{1}{2}(1) + (-\\frac{1}{2})(1) + 1(0) = 0$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_3 = v_3 - \\frac{\\langle v_3,u_1\\rangle}{\\langle u_1,u_1\\rangle}u_1 - \\frac{\\langle v_3,u_2\\rangle}{\\langle u_2,u_2\\rangle}u_2 = \\begin{pmatrix}0\\\\1\\\\1\\end{pmatrix} - \\frac{1}{2}\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix} - \\frac{2/3}{1}\\begin{pmatrix}1/2\\\\-1/2\\\\1\\end{pmatrix} = \\begin{pmatrix}-2/3\\\\2/3\\\\1/3\\end{pmatrix}",
+      "description_latex": "For $v_3$ we must subtract its projections onto both $u_1$ and $u_2$: we get $\\langle v_3, u_1\\rangle = 1$, $\\langle u_1,u_1\\rangle = 2$, and $\\langle v_3, u_2\\rangle = 0\\cdot\\frac{1}{2} + 1\\cdot(-\\frac{1}{2}) + 1\\cdot1 = \\frac{1}{2}$, while $\\langle u_2,u_2\\rangle = \\frac{1}{4}+\\frac{1}{4}+1 = \\frac{3}{2}$, giving coefficient $\\frac{1/2}{3/2} = \\frac{1}{3}$. This double subtraction ensures $u_3$ is orthogonal to both previous directions simultaneously.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "e_1 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix},\\quad e_2 = \\frac{1}{\\sqrt{3/2}}\\begin{pmatrix}1/2\\\\-1/2\\\\1\\end{pmatrix},\\quad e_3 = \\frac{1}{\\sqrt{1}}\\begin{pmatrix}-2/3\\\\2/3\\\\1/3\\end{pmatrix}\\cdot\\frac{3}{\\sqrt{2}}",
+      "description_latex": "Finally, we normalize each $u_j$ to unit length: $\\|u_2\\| = \\sqrt{3/2}$ and $\\|u_3\\| = \\sqrt{4/9+4/9+1/9} = \\sqrt{1} = 1$ (after simplifying), giving three mutually orthogonal unit vectors that form an orthonormal basis for exactly the same subspace as the original $\\{v_1,v_2,v_3\\}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "v_1 = \\begin{pmatrix}3\\\\0\\end{pmatrix}, \\quad v_2 = \\begin{pmatrix}1\\\\1\\end{pmatrix}",
+      "description_latex": "We want to apply Gram-Schmidt to these two vectors in $\\mathbb{R}^2$ and produce an orthonormal basis. As always, the first orthogonal vector is simply $u_1 = v_1 = \\begin{pmatrix}3\\\\0\\end{pmatrix}$, and we normalize to get $e_1 = \\begin{pmatrix}1\\\\0\\end{pmatrix}$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "u_2 = v_2 - \\frac{\\langle v_2, u_1 \\rangle}{\\langle u_1, u_1 \\rangle}\\,u_1",
+      "description_latex": "Now compute $u_2$ by subtracting the projection of $v_2$ onto $u_1$. You need to evaluate the two inner products and simplify \u2014 what do you get for $u_2$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "e_2 = \\frac{u_2}{\\|u_2\\|}",
+      "description_latex": "Once you have $u_2$, normalize it to find the second orthonormal basis vector $e_2$. What is $\\|u_2\\|$ and what is $e_2$?",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "\\langle e_1, e_2 \\rangle = 0 \\quad \\text{and} \\quad \\|e_1\\| = \\|e_2\\| = 1",
+      "description_latex": "Always verify your answer: check that $e_1$ and $e_2$ are orthogonal and each has unit length. The correct answer is $u_2 = \\begin{pmatrix}0\\\\1\\end{pmatrix}$ and $e_2 = \\begin{pmatrix}0\\\\1\\end{pmatrix}$, which clearly satisfies both checks.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Apply one step of Gram-Schmidt: given $v_1 = \\begin{pmatrix}4\\\\0\\end{pmatrix}$ and $v_2 = \\begin{pmatrix}3\\\\5\\end{pmatrix}$, find $u_2$ orthogonal to $v_1$.",
+      "answer_latex": "u_2 = \\begin{pmatrix}0\\\\5\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Apply Gram-Schmidt to $v_1 = \\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix}$, $v_2 = \\begin{pmatrix}1\\\\1\\\\0\\end{pmatrix}$ and find an orthonormal basis $\\{e_1, e_2\\}$ for their span.",
+      "answer_latex": "e_1 = \\begin{pmatrix}1\\\\0\\\\0\\end{pmatrix}, \\quad e_2 = \\begin{pmatrix}0\\\\1\\\\0\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Use Gram-Schmidt to find an orthonormal basis for the span of $v_1 = \\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}$ and $v_2 = \\begin{pmatrix}0\\\\1\\\\2\\end{pmatrix}$.",
+      "answer_latex": "e_1 = \\frac{1}{\\sqrt{3}}\\begin{pmatrix}1\\\\1\\\\1\\end{pmatrix}, \\quad e_2 = \\frac{1}{\\sqrt{2}}\\begin{pmatrix}-1\\\\0\\\\1\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Suppose $A = \\begin{pmatrix}1 & 1 \\\\ 0 & 1 \\\\ 1 & 0\\end{pmatrix}$. Apply Gram-Schmidt to the columns of $A$ to find the $Q$ factor in the QR decomposition, then determine $R = Q^T A$.",
+      "answer_latex": "Q = \\begin{pmatrix}1/\\sqrt{2} & 1/\\sqrt{6}\\\\ 0 & 2/\\sqrt{6}\\\\ 1/\\sqrt{2} & -1/\\sqrt{6}\\end{pmatrix}, \\quad R = \\begin{pmatrix}\\sqrt{2} & 1/\\sqrt{2}\\\\ 0 & \\sqrt{6}/2\\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "The functions $f_1(x)=1$ and $f_2(x)=x$ lie in $C[0,1]$ with inner product $\\langle f,g\\rangle = \\int_0^1 f(x)g(x)\\,dx$. Apply Gram-Schmidt to $\\{f_1, f_2\\}$ to find an orthonormal basis $\\{\\phi_1, \\phi_2\\}$ for their span.",
+      "answer_latex": "\\phi_1 = 1, \\quad \\phi_2 = \\sqrt{3}\\left(2x - 1\\right)"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to subtract ALL previous projections when computing $u_j$ for $j \\geq 3$, subtracting only the projection onto $u_{j-1}$ instead of projecting onto every prior $u_i$. The fix is to write out the full sum $\\sum_{i=1}^{j-1}$ before plugging in any numbers.",
+    "Students divide by $\\|u_i\\|$ instead of $\\langle u_i, u_i \\rangle = \\|u_i\\|^2$ in the projection formula, writing $\\frac{\\langle v_j, u_i\\rangle}{\\|u_i\\|}u_i$ instead of $\\frac{\\langle v_j, u_i\\rangle}{\\langle u_i, u_i\\rangle}u_i$. Always confirm the denominator is an inner product of $u_i$ with itself, not its norm.",
+    "Students apply the normalization step too early \u2014 normalizing $u_1$ to $e_1$ and then projecting $v_2$ onto $e_1$ is valid, but they incorrectly mix normalized and unnormalized vectors by using $e_1$ in the numerator but $u_1$ in the denominator (or vice versa). To avoid confusion, either work entirely with unnormalized $u_i$ throughout and normalize only at the end, or consistently replace every $u_i$ with $e_i$ once it is normalized."
+  ],
+  "untested_variants": [
+    "Gram-Schmidt applied to a set of polynomials with a weighted inner product $\\langle p,q\\rangle = \\int_{-1}^{1} p(x)q(x)\\,dx$ (leading to Legendre-type polynomials beyond degree 1).",
+    "Starting from a linearly dependent set and recognizing that the process breaks down (a computed $u_j = 0$), then discarding the zero vector and identifying the true dimension of the span.",
+    "Using the Gram-Schmidt result to solve a least-squares problem via the QR decomposition, i.e., computing $\\hat{x} = R^{-1}Q^T b$ for an overdetermined system.",
+    "Applying Gram-Schmidt in a complex inner product space (e.g., $\\mathbb{C}^n$) where the inner product is conjugate-linear and careful handling of $\\overline{\\langle v_j, u_i\\rangle}$ is required."
+  ]
+}

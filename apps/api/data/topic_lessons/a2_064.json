@@ -1,0 +1,91 @@
+{
+  "topic_id": "a2_064",
+  "topic_name": "Normal Distributions",
+  "generated_at": "2026-05-12T23:36:30.842389+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to find the mean and standard deviation of a data set, and you've seen histograms that show how data is spread out. But what if someone told you that 68% of students scored within one standard deviation of the mean on a national exam \u2014 could you figure out exactly which scores that includes, or what percentage scored above a particular value? The normal distribution gives us a powerful mathematical model to answer those questions precisely, but only if you know how its structure works.",
+  "concept": "A normal distribution is a symmetric, bell-shaped probability distribution completely determined by its mean and standard deviation. Every normal distribution follows the empirical rule: approximately 68% of data falls within one standard deviation of the mean $\\mu$, about 95% within two, and about 99.7% within three. Formally, the distribution is centered at $\\mu$ with spread controlled by $\\sigma$, and the total area under the curve equals 1.",
+  "anatomy": "A normal distribution has four essential components worth naming precisely. The mean $\\mu$ is the center of symmetry \u2014 the peak of the bell curve \u2014 and it equals both the median and the mode. The standard deviation $\\sigma$ controls the width: a smaller $\\sigma$ produces a tall, narrow bell, while a larger $\\sigma$ produces a wide, flat one. The empirical rule (68-95-99.7 rule) describes the fixed percentage of data within $1\\sigma$, $2\\sigma$, and $3\\sigma$ of the mean. Finally, the z-score $z = \\frac{x - \\mu}{\\sigma}$ is the standardized value that tells you how many standard deviations a data point $x$ sits above or below $\\mu$.",
+  "worked_example": [
+    {
+      "expression_latex": "\\mu = 500, \\quad \\sigma = 100",
+      "description_latex": "We are told that SAT Math scores are normally distributed with mean $\\mu = 500$ and standard deviation $\\sigma = 100$. Before doing any calculations, writing down these two parameters is the essential first step because every normal distribution question reduces to reasoning about how far values sit from the mean.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "\\mu - \\sigma = 400, \\quad \\mu + \\sigma = 600",
+      "description_latex": "We want to find the range of scores within one standard deviation of the mean, so we subtract and add $\\sigma = 100$ to $\\mu = 500$. This tells us that the interval $[400, 600]$ captures one standard deviation on each side of the center.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(400 < X < 600) \\approx 68\\%",
+      "description_latex": "By the empirical rule, approximately 68% of all scores fall within one standard deviation of the mean, so about 68% of test-takers scored between 400 and 600. This is a direct application of the 68-95-99.7 rule \u2014 no further computation is needed once you've identified the one-sigma interval.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "P(X > 600) = \\frac{100\\% - 68\\%}{2} = \\frac{32\\%}{2} = 16\\%",
+      "description_latex": "Now we want the percentage of scores above 600. Because the normal curve is perfectly symmetric, the 32% of data outside the interval $[400, 600]$ is split equally between the two tails, giving us 16% above 600. Dividing by 2 only works because the distribution is symmetric about $\\mu$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "z = \\frac{600 - 500}{100} = \\frac{100}{100} = 1",
+      "description_latex": "As a check, we compute the z-score for a score of 600 using $z = \\frac{x - \\mu}{\\sigma}$, and we get $z = 1$, confirming that 600 is exactly one standard deviation above the mean. A z-score of 1 is consistent with everything we found using the empirical rule, so our answer is verified.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\mu = 70, \\quad \\sigma = 8",
+      "description_latex": "Heights of plants in a greenhouse are normally distributed with mean $\\mu = 70$ cm and standard deviation $\\sigma = 8$ cm. We start by recording the two parameters that define this particular normal distribution.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "[\\mu - 2\\sigma,\\; \\mu + 2\\sigma] = [70 - 16,\\; 70 + 16] = [54,\\; 86]",
+      "description_latex": "We want to find what percentage of plants are between 54 cm and 86 cm tall. Notice that $54 = 70 - 16 = \\mu - 2\\sigma$ and $86 = \\mu + 2\\sigma$, so this interval spans exactly two standard deviations on each side of the mean.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Using the empirical rule, what percentage of plants fall between 54 cm and 86 cm? State the rule you are applying and write the final percentage.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "z = \\frac{86 - 70}{8} = \\frac{16}{8} = 2",
+      "description_latex": "We verify by computing the z-score for 86 cm: $z = \\frac{86 - 70}{8} = 2$, confirming that 86 is exactly two standard deviations above the mean, which is consistent with the 95% answer from the empirical rule.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "A normal distribution has mean $\\mu = 50$ and standard deviation $\\sigma = 5$. What interval contains approximately 68\\% of the data?",
+      "answer_latex": "[45,\\; 55]"
+    },
+    {
+      "prompt_latex": "Scores on a quiz are normally distributed with $\\mu = 80$ and $\\sigma = 6$. Using the empirical rule, approximately what percentage of students scored between 68 and 92?",
+      "answer_latex": "95\\%"
+    },
+    {
+      "prompt_latex": "A data set is normally distributed with $\\mu = 200$ and $\\sigma = 25$. What percentage of values are greater than 250?",
+      "answer_latex": "2.5\\%"
+    },
+    {
+      "prompt_latex": "Lifetimes of light bulbs are normally distributed with $\\mu = 1200$ hours and $\\sigma = 50$ hours. Compute the z-score for a bulb that lasts 1325 hours, and use the empirical rule to determine the percentage of bulbs that last fewer than 1325 hours.",
+      "answer_latex": "z = 2.5; \\text{ approximately } 99.85\\% \\text{ (between 99.7\\% and 100\\%, using 3-sigma reasoning)}"
+    },
+    {
+      "prompt_latex": "A teacher reports that in a normally distributed set of test scores with $\\mu = 75$ and $\\sigma = 10$, the top 16\\% of students will earn an A. What is the minimum score needed to earn an A? Explain your reasoning using the empirical rule.",
+      "answer_latex": "85 \\text{ (one standard deviation above the mean, since 16\\% lies above } \\mu + \\sigma\\text{)}"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget that the empirical rule percentages (68%, 95%, 99.7%) refer to the total area between symmetric bounds on both sides of the mean \u2014 so when asked for just one tail, they report 68% instead of the correct 16%. Always split the remaining percentage equally between the two tails when the distribution is symmetric.",
+    "When computing a z-score, students subtract $\\sigma$ from $x$ instead of $\\mu$, writing $z = \\frac{x - \\sigma}{\\mu}$. Remember that the formula is always $z = \\frac{x - \\mu}{\\sigma}$: the numerator measures how far the data point is from the center, and the denominator scales that distance in units of standard deviations.",
+    "Students assume that a larger standard deviation means a higher mean, confusing spread with center. In reality, $\\mu$ and $\\sigma$ are completely independent: you can have $\\mu = 500$ with $\\sigma = 5$ (very tight) or $\\mu = 10$ with $\\sigma = 100$ (very spread out), and changing one does not change the other."
+  ],
+  "untested_variants": [
+    "Using a z-score table (standard normal table) to find probabilities for non-integer z-scores, such as $P(X < 572)$ when $\\mu = 500$ and $\\sigma = 100$, which requires table lookup beyond the empirical rule.",
+    "Finding the original data value $x$ given a z-score and the distribution parameters by solving $x = \\mu + z\\sigma$, the inverse z-score calculation.",
+    "Comparing two different normal distributions to determine which is more spread out or which has a higher probability in a given range, requiring simultaneous reasoning about both $\\mu$ and $\\sigma$.",
+    "Problems involving the normal approximation to the binomial distribution, where a discrete binomial is modeled by a continuous normal curve using the continuity correction."
+  ]
+}

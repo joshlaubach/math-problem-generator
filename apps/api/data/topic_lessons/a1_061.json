@@ -1,0 +1,86 @@
+{
+  "topic_id": "a1_061",
+  "topic_name": "Applications of Quadratic Equations",
+  "generated_at": "2026-05-12T22:48:50.630218+00:00",
+  "course_name": "Algebra I",
+  "hook": "You already know how to solve quadratic equations using factoring, the quadratic formula, and completing the square. But math becomes truly powerful when it describes the real world \u2014 a ball thrown into the air, a garden being fenced, a profit function for a business. The gap is this: how do you translate a word problem into a quadratic equation, solve it, and then decide which solution actually makes sense in context? Can you figure out the dimensions of a rectangular pool whose area is 60 square feet if its length is 7 feet more than its width?",
+  "concept": "Applications of quadratic equations involve setting up and solving a $ax^2 + bx + c = 0$ equation from a real-world situation. In plain English, you model a scenario with a quadratic expression, solve for the unknown, and then interpret the solutions. Formally, if a quantity $x$ satisfies a relationship that produces a degree-2 polynomial equation, the solutions $x = \\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$ represent the possible values of that quantity \u2014 and context determines which are valid.",
+  "anatomy": "Every applied quadratic problem has four key components: the unknown variable (usually a length, time, or count, which you define explicitly with a 'let' statement), the equation setup (translating the word problem into a mathematical relationship that simplifies to standard form $ax^2 + bx + c = 0$), the solution step (factoring or the quadratic formula to find candidate values of $x$), and the interpretation step (checking each solution against real-world constraints, such as discarding negative lengths or times, to select only the physically meaningful answer).",
+  "worked_example": [
+    {
+      "expression_latex": "\\text{Let } w = \\text{width (ft). Then length} = w + 7.",
+      "description_latex": "We start by defining our unknown. Because the problem gives us a relationship between length and width, we express both dimensions in terms of a single variable $w$. This 'let' statement is the foundation \u2014 without it, we have no equation to write.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "w(w + 7) = 60",
+      "description_latex": "Area of a rectangle is length times width, and we're told the area is 60 square feet. We substitute our expressions for width and length to write one equation in one unknown. At this point the equation is not yet in standard form, so we need to expand and rearrange.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "w^2 + 7w - 60 = 0",
+      "description_latex": "Expanding $w(w+7)$ gives $w^2 + 7w$, and then subtracting 60 from both sides puts the equation in standard form $ax^2 + bx + c = 0$. We need standard form because factoring and the quadratic formula both require it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "(w + 12)(w - 5) = 0 \\implies w = -12 \\text{ or } w = 5",
+      "description_latex": "We factor the left side by finding two numbers that multiply to $-60$ and add to $7$, which are $12$ and $-5$. Setting each factor equal to zero gives two candidate solutions, $w = -12$ and $w = 5$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "w = 5 \\text{ ft}, \\quad \\text{length} = 5 + 7 = 12 \\text{ ft}",
+      "description_latex": "A width of $-12$ feet is impossible in the real world, so we discard it. The only valid solution is $w = 5$, giving a length of $12$ feet. Always state your final answer in words with units, confirming it satisfies the original condition: $5 \\times 12 = 60$ \u2713.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\text{A ball is launched upward. Its height (ft) after } t \\text{ seconds is } h = -16t^2 + 48t. \\text{ Find when } h = 0.",
+      "description_latex": "We want to know when the ball hits the ground, meaning its height equals zero. We set the height expression equal to zero to create an equation we can solve.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "-16t^2 + 48t = 0",
+      "description_latex": "The equation is already in a useful form. Notice there is no constant term, which means we can factor out a common factor from both terms. Go ahead and factor the left side completely and write the two solutions for $t$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "t = 0 \\text{ s (launch) and } t = 3 \\text{ s (lands)}",
+      "description_latex": "Both solutions are mathematically valid, but now you must interpret them. Explain in one sentence why both $t = 0$ and $t = 3$ are meaningful here, and state which one answers the question 'when does the ball land?'",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "The product of two consecutive positive integers is 42. Write and solve a quadratic equation to find the integers.",
+      "answer_latex": "6 \\text{ and } 7"
+    },
+    {
+      "prompt_latex": "A rectangle has a length that is 3 ft more than its width. Its area is 40 \\text{ ft}^2. Find the dimensions.",
+      "answer_latex": "\\text{Width} = 5 \\text{ ft}, \\; \\text{Length} = 8 \\text{ ft}"
+    },
+    {
+      "prompt_latex": "A ball is dropped from a height of 64 ft. Its height in feet after $t$ seconds is $h = -16t^2 + 64$. Find when the ball hits the ground.",
+      "answer_latex": "t = 2 \\text{ seconds}"
+    },
+    {
+      "prompt_latex": "A company's weekly profit is modeled by $P = -2x^2 + 20x - 32$, where $x$ is the number of units sold (in hundreds). For what values of $x$ does the company break even ($P = 0$)? Then find the $x$-value that maximizes profit using the vertex formula $x = -\\frac{b}{2a}$.",
+      "answer_latex": "\\text{Break even at } x = 2 \\text{ and } x = 8; \\text{ max profit at } x = 5"
+    },
+    {
+      "prompt_latex": "A right triangle has legs of length $x$ and $x + 2$, and a hypotenuse of length 10. Use the Pythagorean theorem to find $x$.",
+      "answer_latex": "x = 6"
+    }
+  ],
+  "common_mistakes": [
+    "Students forget to check solutions against real-world constraints and report both roots as answers \u2014 for example, keeping a negative length or a negative time. The fix is to always ask yourself after solving: 'Can this value exist in the physical situation described?' and discard any answer that cannot.",
+    "When setting up area or product problems, students write the equation incorrectly by not accounting for both dimensions in terms of one variable \u2014 for instance, writing $w + (w + 3) = 40$ (a sum) instead of $w(w + 3) = 40$ (a product). Re-read the problem to identify whether the given quantity requires multiplication (area, product) or addition (perimeter, sum) before writing the equation.",
+    "Students move terms to one side but then try to solve the equation before it equals zero \u2014 for example, factoring $w^2 + 7w = 60$ as if the right side were zero. The zero-product property only works when one side is exactly zero, so always rearrange to $ax^2 + bx + c = 0$ before factoring or applying the quadratic formula."
+  ],
+  "untested_variants": [
+    "Projectile problems where you must find the maximum height (vertex) rather than when the object lands \u2014 this requires using $t = -\\frac{b}{2a}$ and substituting back.",
+    "Number problems involving consecutive even or odd integers (e.g., 'two consecutive even integers whose product is 80'), which require setting up $x(x+2) = 80$ rather than $x(x+1)$.",
+    "Geometry problems involving circles or triangles where the quadratic arises from the area formula $A = \\pi r^2$ or the Pythagorean theorem with non-integer hypotenuse answers requiring the quadratic formula.",
+    "Business applications where the revenue function $R = p \\cdot q$ is given as a product of two linear expressions and you must find the price $p$ that yields a target revenue \u2014 combining system-of-equations thinking with quadratic solving."
+  ]
+}

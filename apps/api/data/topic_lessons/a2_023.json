@@ -1,0 +1,86 @@
+{
+  "topic_id": "a2_023",
+  "topic_name": "The Remainder and Factor Theorems",
+  "generated_at": "2026-05-12T23:24:23.674004+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to divide polynomials using long division or synthetic division, and you know how to evaluate a polynomial by plugging in a number. But what if I told you those two operations are secretly connected \u2014 and that you never have to do full polynomial long division again just to find a remainder? Here's the mystery: if you divide $p(x) = x^3 - 4x^2 + x + 6$ by $(x - 3)$, the remainder turns out to be exactly $p(3)$. Is that a coincidence, or is something deeper going on?",
+  "concept": "The Remainder Theorem says that when a polynomial $p(x)$ is divided by a linear divisor $(x - c)$, the remainder is always equal to $p(c)$ \u2014 the value of the polynomial at $x = c$. The Factor Theorem is a direct consequence: $(x - c)$ is a factor of $p(x)$ if and only if $p(c) = 0$, meaning $c$ is a root of the polynomial. These two theorems turn root-finding and divisibility into simple substitution problems.",
+  "anatomy": "There are three key components to keep track of when applying these theorems. First, the polynomial $p(x)$ is the expression being divided \u2014 it can have any degree. Second, the linear divisor $(x - c)$ must be in the form $x$ minus a constant; the value $c$ is what you substitute into $p(x)$ to find the remainder. Third, the remainder $r = p(c)$ is a single number (not a polynomial) that tells you everything: if $r = 0$, then $(x - c)$ is a factor and $c$ is a zero of $p(x)$; if $r \neq 0$, it is not a factor.",
+  "worked_example": [
+    {
+      "expression_latex": "p(x) = 2x^3 - 3x^2 + x - 5, \\quad \\text{divided by } (x - 2)",
+      "description_latex": "We want to find the remainder when $p(x) = 2x^3 - 3x^2 + x - 5$ is divided by $(x - 2)$. By the Remainder Theorem, instead of doing polynomial long division, we simply identify $c = 2$ and evaluate $p(2)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(2) = 2(2)^3 - 3(2)^2 + (2) - 5",
+      "description_latex": "We substitute $x = 2$ into every term of $p(x)$. It is important to substitute into the original polynomial carefully, respecting the exponents before multiplying by the coefficients.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(2) = 2(8) - 3(4) + 2 - 5 = 16 - 12 + 2 - 5 = 1",
+      "description_latex": "Evaluating each term gives us $p(2) = 1$, so the remainder when $p(x)$ is divided by $(x - 2)$ is $\\mathbf{1}$. Because the remainder is not zero, $(x - 2)$ is not a factor of $p(x)$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(x) = x^3 - 6x^2 + 11x - 6, \\quad \\text{Is } (x-1) \\text{ a factor?}",
+      "description_latex": "Now we use the Factor Theorem. To test whether $(x - 1)$ is a factor, we evaluate $p(1)$ \u2014 if the result is $0$, the theorem guarantees $(x-1)$ divides $p(x)$ evenly.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(1) = (1)^3 - 6(1)^2 + 11(1) - 6 = 1 - 6 + 11 - 6 = 0",
+      "description_latex": "Since $p(1) = 0$, the Factor Theorem tells us that $(x - 1)$ is indeed a factor of $p(x)$, and $x = 1$ is a root. This means we could now use synthetic division with $c = 1$ to factor out $(x-1)$ and find the remaining quadratic factor.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "p(x) = 3x^3 + x^2 - 8x + 4, \\quad \\text{Is } (x + 2) \\text{ a factor?}",
+      "description_latex": "We want to use the Factor Theorem to test whether $(x + 2)$ is a factor of $p(x)$. Notice that $(x + 2) = (x - (-2))$, so the value we need to substitute is $c = -2$, not $c = 2$. This sign recognition is the most common place students slip up.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "p(-2) = 3(-2)^3 + (-2)^2 - 8(-2) + 4",
+      "description_latex": "We set up the substitution $x = -2$ into every term of the polynomial. Each term is written out so that no sign errors sneak in \u2014 make sure to keep track of negative signs raised to odd powers versus even powers.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "",
+      "description_latex": "Now evaluate $p(-2)$ completely by computing each term and summing them. Show all arithmetic clearly. Is the result $0$? State your conclusion: is $(x + 2)$ a factor of $p(x)$, and why does your numerical answer prove this?",
+      "student_completes": true
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Use the Remainder Theorem to find the remainder when $p(x) = x^2 + 3x - 10$ is divided by $(x - 2)$.",
+      "answer_latex": "p(2) = 4 + 6 - 10 = 0"
+    },
+    {
+      "prompt_latex": "Use the Remainder Theorem to find the remainder when $p(x) = 2x^3 - x^2 + 4x - 7$ is divided by $(x - 3)$.",
+      "answer_latex": "p(3) = 54 - 9 + 12 - 7 = 50"
+    },
+    {
+      "prompt_latex": "Use the Factor Theorem to determine whether $(x + 3)$ is a factor of $p(x) = x^3 + 2x^2 - 5x - 6$.",
+      "answer_latex": "p(-3) = -27 + 18 + 15 - 6 = 0, \\text{ so } (x+3) \\text{ is a factor}"
+    },
+    {
+      "prompt_latex": "Given that $(x - 2)$ is a factor of $p(x) = x^3 - kx^2 + 3x - 2$, find the value of $k$.",
+      "answer_latex": "p(2) = 0 \\Rightarrow 8 - 4k + 6 - 2 = 0 \\Rightarrow k = 3"
+    },
+    {
+      "prompt_latex": "A storage company models its weekly profit (in hundreds of dollars) by $P(x) = x^3 - 5x^2 + 2x + 8$, where $x$ is the number of weeks since opening. A manager claims that after exactly $4$ weeks the profit hits zero (a break-even point). Use the Factor Theorem to verify or refute this claim, and if correct, factor out $(x - 4)$ to find the remaining quadratic factor.",
+      "answer_latex": "P(4) = 64 - 80 + 8 + 8 = 0, \\text{ so } (x-4) \\text{ is a factor}; \\quad P(x) = (x-4)(x^2 - x - 2) = (x-4)(x-2)(x+1)"
+    }
+  ],
+  "common_mistakes": [
+    "When the divisor is $(x + c)$ \u2014 for example $(x + 3)$ \u2014 students often substitute $c = +3$ instead of $c = -3$. Remember that the theorem applies to $(x - c)$, so you must rewrite $(x + 3)$ as $(x - (-3))$ and substitute $-3$.",
+    "Students sometimes confuse the direction of the Factor Theorem: they think a non-zero remainder means $(x - c)$ IS a factor, or they apply the theorem backwards. The rule is unambiguous \u2014 $(x - c)$ is a factor if and only if $p(c) = 0$; any non-zero value for $p(c)$ means it is not a factor.",
+    "When using the Remainder Theorem with a leading coefficient other than 1 in the divisor \u2014 for instance dividing by $(2x - 1)$ \u2014 students incorrectly substitute $c = 1$ instead of the correct value $c = \\frac{1}{2}$. Always set the divisor equal to zero and solve for $x$ to find the correct substitution value."
+  ],
+  "untested_variants": [
+    "Using the Remainder Theorem when the divisor has a fractional root, such as $(2x - 3)$, requiring substitution of $c = \\frac{3}{2}$ into a polynomial.",
+    "Finding all rational zeros of a degree-4 polynomial by combining the Rational Zero Theorem with the Factor Theorem to systematically test candidates.",
+    "Problems where two or more unknown coefficients must be determined simultaneously using the Remainder Theorem with two different divisors, setting up a system of equations.",
+    "Using the Factor Theorem in reverse to construct a polynomial with specified roots, such as building a cubic with zeros at $x = -1, 2, 5$."
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "topic_id": "la_011",
+  "topic_name": "Invertible Matrices and the Inverse",
+  "generated_at": "2026-05-13T20:39:51.535169+00:00",
+  "course_name": "Linear Algebra",
+  "hook": "You already know how to solve a simple equation like $3x = 6$ by dividing both sides by 3, which is the same as multiplying by $3^{-1} = \\frac{1}{3}$. But what happens when numbers are replaced by matrices \u2014 can you 'divide' by a matrix? The operation of scalar division has no direct matrix equivalent, yet solving systems like $A\\mathbf{x} = \\mathbf{b}$ demands something just as powerful. Is there a matrix that 'undoes' multiplication by $A$, and when does it exist?",
+  "concept": "An invertible matrix is a square matrix $A$ for which there exists another matrix $A^{-1}$ such that multiplying them in either order returns the identity: $A A^{-1} = A^{-1} A = I$. In plain English, $A^{-1}$ is the matrix that perfectly 'undoes' what $A$ does. Formally, an $n \\times n$ matrix $A$ is invertible (also called nonsingular) if there exists an $n \\times n$ matrix $A^{-1}$ satisfying $A A^{-1} = A^{-1} A = I_n$.",
+  "anatomy": "The key components of matrix inversion are: (1) the original matrix $A$, which must be square ($n \\times n$) \u2014 non-square matrices cannot be invertible in this sense; (2) the inverse $A^{-1}$, a uniquely determined matrix of the same size; (3) the identity matrix $I_n$, the matrix analog of the number 1, with ones on the diagonal and zeros elsewhere; (4) the determinant $\\det(A)$, a scalar that acts as the gatekeeper \u2014 $A$ is invertible if and only if $\\det(A) \\neq 0$; and (5) for $2 \\times 2$ matrices, the explicit formula $A^{-1} = \\frac{1}{\\det(A)} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$ when $A = \\begin{pmatrix} a & b \\\\ c & d \\end{pmatrix}$.",
+  "worked_example": [
+    {
+      "expression_latex": "A = \\begin{pmatrix} 3 & 1 \\\\ 5 & 2 \\end{pmatrix}",
+      "description_latex": "We start by identifying the matrix we want to invert. Before doing any computation, we always check whether the inverse exists by computing the determinant: $\\det(A) = (3)(2) - (1)(5) = 6 - 5 = 1$. Since $\\det(A) = 1 \\neq 0$, the matrix is invertible and we can proceed.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A^{-1} = \\frac{1}{\\det(A)} \\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix} = \\frac{1}{1} \\begin{pmatrix} 2 & -1 \\\\ -5 & 3 \\end{pmatrix}",
+      "description_latex": "We apply the $2 \\times 2$ inverse formula: swap the diagonal entries $a$ and $d$, negate the off-diagonal entries $b$ and $c$, then divide everything by the determinant. Here $a=3, b=1, c=5, d=2$, so we swap 3 and 2 to get $\\begin{pmatrix} 2 & -1 \\\\ -5 & 3 \\end{pmatrix}$ and divide by 1.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A^{-1} = \\begin{pmatrix} 2 & -1 \\\\ -5 & 3 \\end{pmatrix}",
+      "description_latex": "Dividing by 1 leaves the matrix unchanged, so our candidate inverse is $\\begin{pmatrix} 2 & -1 \\\\ -5 & 3 \\end{pmatrix}$. It is always wise to verify the result before trusting it.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "A A^{-1} = \\begin{pmatrix} 3 & 1 \\\\ 5 & 2 \\end{pmatrix} \\begin{pmatrix} 2 & -1 \\\\ -5 & 3 \\end{pmatrix} = \\begin{pmatrix} (6-5) & (-3+3) \\\\ (10-10) & (-5+6) \\end{pmatrix} = \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix} = I",
+      "description_latex": "To verify, we multiply $A$ by our proposed $A^{-1}$ and check that the result is the identity matrix $I$. Every entry lands exactly where it should: ones on the diagonal and zeros off it, confirming that $\\begin{pmatrix} 2 & -1 \\\\ -5 & 3 \\end{pmatrix}$ is indeed $A^{-1}$.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "B = \\begin{pmatrix} 4 & 7 \\\\ 2 & 3 \\end{pmatrix}",
+      "description_latex": "We want to find $B^{-1}$. The very first thing we must do is check invertibility by computing the determinant. For this matrix, $\\det(B) = (4)(3) - (7)(2) = 12 - 14 = -2$. Since $\\det(B) = -2 \\neq 0$, the inverse exists.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "B^{-1} = \\frac{1}{-2} \\begin{pmatrix} 3 & -7 \\\\ -2 & 4 \\end{pmatrix}",
+      "description_latex": "We apply the $2 \\times 2$ formula: swap the diagonal entries (4 and 3 become 3 and 4), negate the off-diagonals (7 becomes $-7$, 2 becomes $-2$), and place the whole thing over $\\det(B) = -2$. Now simplify this expression to get the final entries of $B^{-1}$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "B^{-1} = \\begin{pmatrix} -3/2 & 7/2 \\\\ 1 & -2 \\end{pmatrix}",
+      "description_latex": "After distributing the scalar $\\frac{1}{-2}$ across every entry, we arrive at the inverse. You should verify your answer by computing $B B^{-1}$ and confirming you get $I$.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Compute $\\det(A)$ for $A = \\begin{pmatrix} 6 & 2 \\\\ 3 & 1 \\end{pmatrix}$ and determine whether $A$ is invertible.",
+      "answer_latex": "\\det(A) = (6)(1)-(2)(3) = 0, \\text{ so } A \\text{ is NOT invertible.}"
+    },
+    {
+      "prompt_latex": "Find $A^{-1}$ for $A = \\begin{pmatrix} 5 & 3 \\\\ 2 & 1 \\end{pmatrix}$.",
+      "answer_latex": "A^{-1} = \\frac{1}{-1}\\begin{pmatrix} 1 & -3 \\\\ -2 & 5 \\end{pmatrix} = \\begin{pmatrix} -1 & 3 \\\\ 2 & -5 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Find $B^{-1}$ for $B = \\begin{pmatrix} 2 & 5 \\\\ 1 & 3 \\end{pmatrix}$.",
+      "answer_latex": "B^{-1} = \\frac{1}{1}\\begin{pmatrix} 3 & -5 \\\\ -1 & 2 \\end{pmatrix} = \\begin{pmatrix} 3 & -5 \\\\ -1 & 2 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "Use the inverse to solve $A\\mathbf{x} = \\mathbf{b}$ where $A = \\begin{pmatrix} 3 & 1 \\\\ 5 & 2 \\end{pmatrix}$ and $\\mathbf{b} = \\begin{pmatrix} 7 \\\\ 11 \\end{pmatrix}$. (Recall $A^{-1} = \\begin{pmatrix} 2 & -1 \\\\ -5 & 3 \\end{pmatrix}$.)",
+      "answer_latex": "\\mathbf{x} = A^{-1}\\mathbf{b} = \\begin{pmatrix} 2 & -1 \\\\ -5 & 3 \\end{pmatrix}\\begin{pmatrix} 7 \\\\ 11 \\end{pmatrix} = \\begin{pmatrix} 3 \\\\ 2 \\end{pmatrix}"
+    },
+    {
+      "prompt_latex": "A $2\\times 2$ matrix $M$ satisfies $M \\begin{pmatrix} 1 & 0 \\\\ 0 & 1 \\end{pmatrix} = \\begin{pmatrix} 4 & 3 \\\\ 2 & 2 \\end{pmatrix}$. Find $M^{-1}$.",
+      "answer_latex": "M = \\begin{pmatrix} 4 & 3 \\\\ 2 & 2 \\end{pmatrix}, \\; \\det(M)=2, \\; M^{-1} = \\frac{1}{2}\\begin{pmatrix} 2 & -3 \\\\ -2 & 4 \\end{pmatrix} = \\begin{pmatrix} 1 & -3/2 \\\\ -1 & 2 \\end{pmatrix}"
+    }
+  ],
+  "common_mistakes": [
+    "Students often forget to swap the diagonal entries and instead negate them: the correct $2 \\times 2$ formula swaps $a$ and $d$ while negating $b$ and $c$, so writing $\\begin{pmatrix} -a & -b \\\\ -c & -d \\end{pmatrix}$ instead of $\\begin{pmatrix} d & -b \\\\ -c & a \\end{pmatrix}$ produces a completely wrong inverse. Always double-check by verifying $AA^{-1}=I$.",
+    "Students divide by $\\det(A)$ but forget to apply it to every entry of the rearranged matrix, partially scaling only some rows or columns. Remember that $\\frac{1}{\\det(A)}$ is a scalar multiplied across the entire $2\\times 2$ matrix, so every entry must be divided by the determinant.",
+    "Students assume that $A^{-1}B^{-1} = (AB)^{-1}$, ignoring the order reversal. The correct identity is $(AB)^{-1} = B^{-1}A^{-1}$, because matrix multiplication is not commutative; confusing these identities leads to incorrect answers whenever two or more matrices are involved."
+  ],
+  "untested_variants": [
+    "Finding the inverse of a $3 \\times 3$ matrix using row reduction (Gauss-Jordan elimination on the augmented matrix $[A \\mid I]$).",
+    "Proving algebraically that the inverse of a matrix is unique, using the property $B = BI = B(AC) = (BA)C = IC = C$.",
+    "Using the property $(A^T)^{-1} = (A^{-1})^T$ to find the inverse of a transposed matrix.",
+    "Determining invertibility and computing the inverse for a matrix whose entries contain an unknown parameter, such as $A = \\begin{pmatrix} k & 2 \\\\ 3 & k \\end{pmatrix}$, by finding which values of $k$ make $\\det(A) = 0$."
+  ]
+}

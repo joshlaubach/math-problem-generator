@@ -1,0 +1,76 @@
+{
+  "topic_id": "a2_036",
+  "topic_name": "Introduction to Logarithms",
+  "generated_at": "2026-05-12T23:27:08.091504+00:00",
+  "course_name": "Algebra II",
+  "hook": "You already know how to work with exponents: you can compute $2^3 = 8$ or solve something like $2^x = 8$ by inspection. But what if someone asked you to solve $2^x = 50$? There's no whole-number answer, and guessing won't get you far. How do we \"undo\" an exponent when the answer isn't obvious?",
+  "concept": "A logarithm is the inverse operation of exponentiation \u2014 it answers the question \"what exponent do I need?\" In plain English, $\\log_b(x)$ asks: \"to what power must I raise $b$ to get $x$?\" Formally, $\\log_b(x) = y$ if and only if $b^y = x$, where $b > 0$, $b \\neq 1$, and $x > 0$.",
+  "anatomy": "In the expression $\\log_b(x) = y$, there are three distinct parts: the **base** $b$ is the number being raised to a power (it must be positive and not equal to 1, for the same reasons exponential bases have these restrictions); the **argument** $x$ is the result of the exponentiation \u2014 the number whose logarithm you are finding (it must be positive); and the **logarithm value** $y$ is the exponent itself, the output of the logarithm. The relationship mirrors the exponential form $b^y = x$, so the base of the logarithm is always the base of the corresponding power.",
+  "worked_example": [
+    {
+      "expression_latex": "\\log_2(8) = ?",
+      "description_latex": "We start by asking: 'To what power must I raise 2 to get 8?' This is exactly what the logarithm is asking. We are looking for the exponent $y$ such that $2^y = 8$.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "2^y = 8 \\implies 2^y = 2^3",
+      "description_latex": "We rewrite 8 as a power of 2, which gives us $2^3$. Since the bases are equal, we can directly compare exponents \u2014 this translation from logarithmic form to exponential form is the core move.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "y = 3, \\text{ so } \\log_2(8) = 3",
+      "description_latex": "The exponents must match, so $y = 3$. We can verify: $2^3 = 8$ \u2713. The answer 3 is the logarithm \u2014 it is the exponent, not the result of an exponent.",
+      "student_completes": false
+    }
+  ],
+  "partial_example": [
+    {
+      "expression_latex": "\\log_3(81) = ?",
+      "description_latex": "We want to find the exponent $y$ such that $3^y = 81$. Our first move is always to rewrite the equation in exponential form.",
+      "student_completes": false
+    },
+    {
+      "expression_latex": "3^y = 81",
+      "description_latex": "Good \u2014 now express 81 as a power of 3. Ask yourself: what is $3^1$? $3^2$? $3^3$? $3^4$? Rewrite 81 as $3^{?}$ and identify the exponent $y$.",
+      "student_completes": true
+    },
+    {
+      "expression_latex": "y = 4, \\text{ so } \\log_3(81) = 4",
+      "description_latex": "Since $3^4 = 81$, the logarithm equals 4. Notice that the logarithm IS the exponent \u2014 it lives in the exponent's position in the exponential equation.",
+      "student_completes": false
+    }
+  ],
+  "practice_problems": [
+    {
+      "prompt_latex": "Evaluate: $\\log_5(25)$",
+      "answer_latex": "2"
+    },
+    {
+      "prompt_latex": "Evaluate: $\\log_4(64)$",
+      "answer_latex": "3"
+    },
+    {
+      "prompt_latex": "Rewrite in exponential form: $\\log_7(49) = 2$",
+      "answer_latex": "7^2 = 49"
+    },
+    {
+      "prompt_latex": "Evaluate: $\\log_2\\!\\left(\\dfrac{1}{16}\\right)$",
+      "answer_latex": "-4"
+    },
+    {
+      "prompt_latex": "A population of bacteria doubles every hour. After $t$ hours, the population is $P = 500 \\cdot 2^t$. If the population has reached 16{,}000, write and evaluate the logarithm that gives the number of hours elapsed.",
+      "answer_latex": "t = \\log_2(32) = 5 \\text{ hours}"
+    }
+  ],
+  "common_mistakes": [
+    "Students confuse the base and the argument, writing $\\log_8(2)$ when they mean $\\log_2(8)$. Remember: the base of the logarithm is the small subscript number, and it must match the base of the exponential equation $b^y = x$.",
+    "When evaluating $\\log_b(1)$, students often say the answer is 1, but $\\log_b(1) = 0$ for any valid base because $b^0 = 1$. Any number raised to the zero power is 1, not the base itself.",
+    "Students treat a negative argument like $\\log_2(-8)$ as if it equals $-3$, reasoning that $(-1) \\times 2^3 = -8$. However, logarithms are undefined for non-positive arguments because no real exponent on a positive base can produce a negative result \u2014 $\\log_2(-8)$ does not exist in the real numbers."
+  ],
+  "untested_variants": [
+    "Evaluating common logarithms (base 10) written as $\\log(x)$ without an explicit base, and natural logarithms written as $\\ln(x)$.",
+    "Solving logarithmic equations where the argument contains a variable, such as $\\log_3(2x + 1) = 4$.",
+    "Evaluating logarithms with fractional bases, such as $\\log_{1/2}(8)$, where the result is negative.",
+    "Using the change-of-base formula $\\log_b(x) = \\dfrac{\\log(x)}{\\log(b)}$ to evaluate logarithms on a calculator."
+  ]
+}
