@@ -266,7 +266,15 @@ function QuizMeBanner({ onAccept, onDecline }: { onAccept: () => void; onDecline
 export default function TutorSessionPage() {
   const { sessionId } = useParams<{ sessionId: string }>()
   const searchParams = useSearchParams()
-  const guestToken = searchParams.get('guest_token')
+  // Guest token arrives via sessionStorage (demo page hand-off); the query
+  // param is a legacy fallback only — tokens in URLs leak into history/logs.
+  const guestToken = (() => {
+    try {
+      const stored = sessionStorage.getItem(`guest_token:${sessionId}`)
+      if (stored) return stored
+    } catch { /* SSR or storage blocked */ }
+    return searchParams.get('guest_token')
+  })()
   const { getToken } = useAuth()
   const wbRef = useRef<WhiteboardHandle>(null)
   const leftPanelRef = useRef<HTMLDivElement>(null)

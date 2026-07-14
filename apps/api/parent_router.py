@@ -178,7 +178,7 @@ async def redeem_parent_link(
         )
 
     # Codes are now full-entropy and case-sensitive; do NOT upper-case.
-    from db_models import ParentLinkRecord
+    from db_models import ParentLinkRecord, ConsentLogRecord
     db = _get_db()
     try:
         record = (
@@ -192,9 +192,14 @@ async def redeem_parent_link(
         if not record:
             raise HTTPException(status_code=404, detail="Invalid or expired link code.")
 
-        # Expired → delete and reject
+        # Expired → delete and reject. The DateTime column is tz-naive, so a
+        # value read back loses tzinfo — normalize to UTC before comparing
+        # (naive-vs-aware comparison raises TypeError and 500s the redeem).
         now = datetime.now(timezone.utc)
-        if record.expires_at is not None and record.expires_at < now:
+        expires_at = record.expires_at
+        if expires_at is not None and expires_at.tzinfo is None:
+            expires_at = expires_at.replace(tzinfo=timezone.utc)
+        if expires_at is not None and expires_at < now:
             db.delete(record)
             db.commit()
             raise HTTPException(status_code=404, detail="Invalid or expired link code.")
@@ -210,14 +215,19 @@ async def redeem_parent_link(
         record.parent_id = user.id
         record.confirmed = True
 
-        # Unlock the minor's account now that a parent has consented
-        from users_repository import DBUserRepository
-        user_repo = DBUserRepository(lambda: db)
-        student = user_repo.get_user_by_id(record.student_id)
+        # Unlock the minor's account now that a parent has consented.
+        # Same session, single transaction: routing this through
+        # DBUserRepository(lambda: db) closed the session mid-flight and
+        # rolled back the confirmed/parent_id changes above.
+        from db_models import UserRecord
+        student = (
+            db.query(UserRecord)
+            .filter(UserRecord.id == record.student_id)
+            .first()
+        )
         if student and not student.age_confirmed:
             student.age_confirmed = True
             student.date_of_birth = None  # DOB no longer needed after parent consent
-            user_repo.update_user(student)
             db.add(ConsentLogRecord(
                 id=str(uuid4()), user_id=student.id,
                 event="parent_consent_granted",

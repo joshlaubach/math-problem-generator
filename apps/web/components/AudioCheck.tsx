@@ -272,6 +272,15 @@ export function AudioCheck({ token, apiBase, theme = 'light', onComplete }: Audi
           {step === 'error' ? 'Continue without voice →' : 'Skip — I\'ll type my answers'}
         </button>
       )}
+
+      {/* Voice-data disclosure (COPPA/vendor transparency) */}
+      <div style={{
+        fontSize: 10.5, lineHeight: 1.5, textAlign: 'center',
+        color: c.muted, maxWidth: 300, margin: '0 auto',
+      }}>
+        Voice mode streams your audio to Deepgram for transcription. Your voice
+        is not stored. See our Privacy Policy.
+      </div>
     </div>
   )
 }

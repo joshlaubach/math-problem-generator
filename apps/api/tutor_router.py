@@ -218,12 +218,14 @@ async def create_guest_session(
         raise HTTPException(status_code=409, detail=str(exc))
 
     # ── Mint guest JWT ────────────────────────────────────────────────────────
+    # Data minimization: the age gate already ran server-side above — the
+    # minor's date of birth must NOT ride in the token (it ends up in URLs,
+    # browser history, and access logs).
     guest_token = create_access_token(
         data={
             "guest": True,
             "guest_id": guest_id,
             "session_id": session_id,
-            "dob": body.date_of_birth,
         },
         secret_key=JWT_SECRET_KEY,
         algorithm=JWT_ALGORITHM,

@@ -23,29 +23,14 @@ _TRANSFORMATIONS = standard_transformations + (implicit_multiplication_applicati
 
 
 def _safe_parse(expr_str: str) -> sp.Expr | None:
-    """Parse a LaTeX-style or plain math string into a SymPy expression."""
-    # Normalise common LaTeX → SymPy substitutions
-    cleaned = (
-        expr_str
-        .replace("\\frac{", "(")
-        .replace("}{", ")/(")
-        .replace("}", ")")
-        .replace("\\cdot", "*")
-        .replace("^", "**")
-        .replace("\\ln", "log")
-        .replace("\\log", "log")
-        .replace("\\sin", "sin")
-        .replace("\\cos", "cos")
-        .replace("\\tan", "tan")
-        .replace("\\sqrt{", "sqrt(")
-        .replace("\\pi", "pi")
-        .replace("\\infty", "oo")
-        .strip()
-    )
-    try:
-        return parse_expr(cleaned, transformations=_TRANSFORMATIONS)
-    except Exception:
-        return None
+    """Parse a LaTeX-style or plain math string into a SymPy expression.
+
+    Delegates to latex_parse.latex_to_expr (shared with the answer checker),
+    which handles \\frac, \\sqrt, \\left/\\right, ^{...} and plain math.
+    """
+    from latex_parse import latex_to_expr
+
+    return latex_to_expr(expr_str)
 
 
 async def verify(
